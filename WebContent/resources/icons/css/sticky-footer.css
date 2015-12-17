@@ -1,0 +1,18 @@
+html {
+	height: 100%;
+}
+body {
+	height: 100%;
+}
+#wrap {
+	margin: 0px auto -60px; padding: 0px 0px 60px; height: auto !important; min-height: 92%;
+}
+#footer {
+	height: 60px; background-color: #AAA8A7;
+}
+.container {
+	padding: 0px 15px; width: auto; max-width: 1170px;
+}
+.container .credit {
+	margin: 20px 0px;
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+    <tlib-version>1.0</tlib-version>
+    <short-name>e</short-name>
+    <uri>http://java.sun.com/jsp/jstl/sql</uri>
+    <function>
+        <name>encrypt</name>
+        <function-class>com.finvendor.util.CommonUtils</function-class>
+        <function-signature>java.lang.String encrypt(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>decrypt</name>
+        <function-class>com.finvendor.util.CommonUtils</function-class>
+        <function-signature>java.lang.String decrypt(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>resolveContextPath</name>
+        <function-class>com.finvendor.util.CommonUtils</function-class>
+        <function-signature>java.lang.String resolveContextPath(java.lang.String)</function-signature>
+    </function>
+ </taglib>
