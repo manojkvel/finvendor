@@ -418,7 +418,8 @@ public class RegistrationController {
 	@RequestMapping(value="resendRegistrationLink", method=RequestMethod.GET)
 	public ModelAndView resendRegistrationLink(HttpServletRequest request,
 			@RequestParam(value = "username", required = true) String username,
-			@RequestParam(value = "email", required = true) String email){
+			@RequestParam(value = "email", required = true) String email) {
+		
 		logger.debug("Entering RegistrationController:resendRegistrationLink for {}", username);
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.USER_VERIFICATION_PAGE);
 		try{			

@@ -322,6 +322,28 @@ function userRegisteration() {
 	var companytype = $("#signup-companytype").val();
 	var tags = $("#sigup-tags").val();
 	var termsAndCondition = document.getElementById('accept-terms').value;
+	
+	consumerSelected = false;
+	$('#signup-companytype :selected').each(function(i, selectedElement) {
+		selectedCompanyType = $(selectedElement).val();
+		selectedCompanyType = selectedCompanyType + "";
+		if (selectedCompanyType.substr(0, 14) == 'Financial Firm' || 
+				selectedCompanyType.substr(0, 10) == 'University') {
+			consumerSelected = true;
+			return false;
+	    }
+	});
+	vendorSelected = false;
+	if(consumerSelected) {
+		$('#sigup-tags :selected').each(function(i, selectedElement) {
+			vendorSelected = true;
+			return false;
+		});
+		if(!vendorSelected) {
+			alert("Please select Vendor Area of Interest");
+			return false;
+		}
+	}
 		
 	if(termsAndCondition != null && termsAndCondition != '' && 
 			document.getElementById('accept-terms').checked == true && 

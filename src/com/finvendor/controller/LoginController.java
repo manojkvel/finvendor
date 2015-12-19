@@ -1,15 +1,14 @@
-/**
- * 
- */
 package com.finvendor.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
+import com.finvendor.model.Consumer;
 import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
@@ -34,71 +34,58 @@ import com.finvendor.model.Vendor;
 import com.finvendor.service.LoginService;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.UserService;
-import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
 
-/**
- * @author rayulu vemula
- *
- */
 @Controller
 public class LoginController {
 	
-	private static Logger logger = Logger.getLogger(LoginController.class);
+	private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
-	@Autowired
+	@Resource(name="loginService")
 	private LoginService loginService;
 	
-	@Autowired
+	@Resource(name="userService")
 	private UserService userService;
 	
 	@Autowired
-	private VendorService vendorService;
-	
-	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
-	
-	
+		
 	@RequestMapping(value=RequestConstans.Home.HOME_PAGE, method=RequestMethod.GET)
-	public ModelAndView homePageLand(ModelMap modelMap,HttpServletRequest request){
-		logger.info("Method to load home page 1---:");
-		ModelAndView modelAndView=new ModelAndView(RequestConstans.Home.HOME_PAGE);
+	public ModelAndView homePageLand(ModelMap modelMap, HttpServletRequest request) {
+		logger.debug("Entering LoginController : homePageLand");
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Home.HOME_PAGE);
+		logger.debug("Leaving LoginController : homePageLand");
 		return modelAndView;
 	}
 
 	@RequestMapping(value=RequestConstans.Login.LOGIN, method=RequestMethod.GET)
-	public ModelAndView loginInfo(ModelMap modelMap,HttpServletRequest request){
-		logger.info("Method to login page 2---:");
+	public ModelAndView loginInfo(ModelMap modelMap, HttpServletRequest request) {
+		logger.debug("Entering LoginController : loginInfo");
 		ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.LOGIN);
+		logger.debug("Leaving LoginController : loginInfo");
 		return modelAndView;
 	}
 
-	/**
-	 * method for spring security checking through role
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
 	@RequestMapping(value=RequestConstans.Login.LOGINVALIDATION, method=RequestMethod.POST)
 	public ModelAndView loginValidation(ModelMap modelMap,HttpServletRequest request,
 			@RequestParam(value = "VEuMlA", required = false) String username,
-			@RequestParam(value = "RaYulU", required = false) String password){
-		logger.info("Method to login page 3---:");
+			@RequestParam(value = "RaYulU", required = false) String password) {
+		
+		logger.debug("Entering LoginController : loginValidation");
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
 		String status = "false";
 		try{
-			username=CommonUtils.decrypt(username.getBytes());
-			password=CommonUtils.decrypt(password.getBytes());
+			username = CommonUtils.decrypt(username.getBytes());
+			password = CommonUtils.decrypt(password.getBytes());
 			FinVendorUser user = userService.getUserDetailsByUsername(username);			
 			if(user == null){
-				logger.error("No User record available for : " + username);
+				logger.error("No User record available for : {}", username);
 				status = status + ":" + RequestConstans.INVALID_USER;
 			}else{
-				logger.info("User enbabled : " + user.getEnabled());
+				logger.info("User {} enbabled : {}", username, user.getEnabled());
 				if (!user.getEnabled()){
-					logger.error("User record is disabled for : " + username);
+					logger.error("User record is disabled for : {}", username);
 					status = status + ":" + RequestConstans.ACCOUNT_DISABLED;
 				}else{
 					BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
@@ -106,7 +93,7 @@ public class LoginController {
 						userService.updateUnsuccessfulLoginAttempts(username, true);
 						status = "true";
 					}else{
-						logger.error("Incorrect password enterd for : " + username);
+						logger.error("Incorrect password enterd for : {}", username);
 						if(user.getLoginAttempts() >= RequestConstans.MAX_UNSUCCESSFUL_ATTEMPTS){
 							userService.updateUserAccountStatus(username, false);
 						}else{
@@ -116,77 +103,71 @@ public class LoginController {
 					}
 				}
 			}
-			/*
-			List<Users> users = userService.getUserInfoByNamewithPassword(username,password);
-			if(users.size() > 0){
-				status = false;
-			}else{
-				status = true;
-			}*/
 			modelAndView.addObject("status", status);
-		}catch (Exception e) {
+		}catch (Exception exp) {
 			modelAndView.addObject("status", "false:Error during login");
-			e.printStackTrace();
-			logger.error("Error to check user validation--- :" + e);
+			logger.error("Error validating User login : ", exp);
 		}
+		logger.debug("Leaving LoginController : loginValidation");
 		return modelAndView;
 	}
-
 	
-	/**
-	 * method for spring security checking through role
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value=RequestConstans.Login.WELCOME, method=RequestMethod.GET)
-	public ModelAndView welcomeInfo(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
-			@ModelAttribute("userRole") UserRole userRole,@ModelAttribute("vendor") Vendor vendor){
-		logger.info("Method to load all home pages 4---:");
-		logger.info("redirectLink == " + (String)request.getSession().getAttribute("redirectLink"));
-		ModelAndView modelAndView=null;
-		if(SecurityContextHolder.getContext().
-				getAuthentication().getPrincipal() != null &&  SecurityContextHolder.getContext().
-				getAuthentication().getPrincipal().equals(RequestConstans.Anonymous.ANONYMOUS_USER)){
-			modelAndView=new ModelAndView(RequestConstans.Login.HOME);
-		}else{
-			List<AssetClass> assetClasses = null;
-			List<Region> regions = null;
-			List<Country> countries = null;
-			List<Exchange> exchanges = null;
-			List<Support> supports = null;
-			List<Cost> costs = null;
-			List<Awards> awards = null;
+	public ModelAndView welcomeInfo(HttpServletRequest request,
+			@ModelAttribute("users") FinVendorUser users,
+			@ModelAttribute("userRole") UserRole userRole,
+			@ModelAttribute("vendor") Vendor vendor,
+			@ModelAttribute("consumer") Consumer consumer) {
+		
+		logger.debug("Entering LoginController : welcomeInfo");		
+		List<AssetClass> assetClasses = null;
+		List<Region> regions = null;
+		List<Country> countries = null;
+		List<Exchange> exchanges = null;
+		List<Support> supports = null;
+		List<Cost> costs = null;
+		List<Awards> awards = null;
+		String username = null;
+		ModelAndView modelAndView = null;
+		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null 
+			&&  SecurityContextHolder.getContext().getAuthentication().getPrincipal().
+				equals(RequestConstans.Anonymous.ANONYMOUS_USER)) {
+			modelAndView = new ModelAndView(RequestConstans.Login.HOME);
+		}else {			
+			
  			User appUser = (User)SecurityContextHolder.getContext().
 					getAuthentication().getPrincipal();
-			try{
-			if(appUser.getAuthorities().contains(new GrantedAuthorityImpl(RequestConstans.Roles.ROLE_ADMIN))){
-				logger.info("ROLE = " + RequestConstans.Roles.ROLE_ADMIN);
-				modelAndView=new ModelAndView(RequestConstans.Login.ADMIN_INFO);
-	       		modelAndView.addObject("username", appUser.getUsername());
-	       	} else if(appUser.getAuthorities().contains(new GrantedAuthorityImpl(RequestConstans.Roles.ROLE_VENDOR))){
-	       		logger.info("ROLE = " + RequestConstans.Roles.ROLE_VENDOR);
-	       		modelAndView=new ModelAndView(RequestConstans.Login.VENDOR_INFO);
-	       		assetClasses = marketDataAggregatorsService.getAllAssetClass();
-				regions = marketDataAggregatorsService.getAllRegionClass();
-				countries = marketDataAggregatorsService.getAllCountries();
-				exchanges = marketDataAggregatorsService.getAllExchanges();
-				supports =  marketDataAggregatorsService.getAllVendorSupports();
-				costs  = marketDataAggregatorsService.getAllCostInfo();
-				awards = marketDataAggregatorsService.getAllAwards();
-				
-				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				logger.info(vendor.getId());
-				logger.info(vendor.getCompany());
-				logger.info(vendor.getCompanyAddress());
-				logger.info(vendor.getCompanyInfo());
-				logger.info(vendor.getFirstName());
-				logger.info(vendor.getDesignation());
-				
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
-				
+ 			username = appUser.getUsername();
+ 			logger.debug("redirectLink for User - {} is {}", username, (String)request.getSession().getAttribute("redirectLink"));
+ 			
+ 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
+			regions = marketDataAggregatorsService.getAllRegionClass();
+			countries = marketDataAggregatorsService.getAllCountries();
+			exchanges = marketDataAggregatorsService.getAllExchanges();
+			supports =  marketDataAggregatorsService.getAllVendorSupports();
+			costs  = marketDataAggregatorsService.getAllCostInfo();
+			awards = marketDataAggregatorsService.getAllAwards();
+			
+			try {
+				if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_ADMIN))) {
+					logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_ADMIN);
+					modelAndView = new ModelAndView(RequestConstans.Login.ADMIN_INFO);
+		       		modelAndView.addObject("username", username);
+		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_VENDOR))) {
+		       		logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_VENDOR);
+		       		modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);					
+					vendor = userService.getUserDetailsByUsername(username).getVendor();
+					modelAndView.addObject("myprofiletab", "myprofile");	       		
+		       		modelAndView.addObject("vendortabdetails", "vendortabdetails");	       		
+		       		modelAndView.addObject("vendor", vendor);		       		
+		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_CONSUMER))) {
+		       		logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_CONSUMER);
+		       		modelAndView = new ModelAndView(RequestConstans.Login.CONSUMER_INFO);
+		       		consumer = userService.getUserDetailsByUsername(username).getConsumer();
+		       		consumer.setVendorPreference();
+		       		modelAndView.addObject("consumerMyProfiletab", "consumermyprofile");
+		       		modelAndView.addObject("consumer", consumer);
+		       	}
 				modelAndView.addObject("assetClasses", assetClasses);
 				modelAndView.addObject("regions", regions);
 				modelAndView.addObject("regionslist", regions);
@@ -195,60 +176,25 @@ public class LoginController {
 				modelAndView.addObject("supports", supports);
 				modelAndView.addObject("costs", costs);
 				modelAndView.addObject("awards", awards);
-	       		modelAndView.addObject("username", appUser.getUsername());
-	       		modelAndView.addObject("myprofiletab", "myprofile");
-	       		
-	       		modelAndView.addObject("vendortabdetails", "vendortabdetails");
-	       		
-	       		modelAndView.addObject("vendor", vendor);
-	       		
-	       	} else if(appUser.getAuthorities().contains(new GrantedAuthorityImpl(RequestConstans.Roles.ROLE_CONSUMER))){
-	       		modelAndView=new ModelAndView(RequestConstans.Login.CONSUMER_INFO);
-	       		logger.info("ROLE = " + RequestConstans.Roles.ROLE_CONSUMER);
-	       		assetClasses = marketDataAggregatorsService.getAllAssetClass();
-				regions = marketDataAggregatorsService.getAllRegionClass();
-				countries = marketDataAggregatorsService.getAllCountries();
-				exchanges = marketDataAggregatorsService.getAllExchanges();
-				supports =  marketDataAggregatorsService.getAllVendorSupports();
-				costs  = marketDataAggregatorsService.getAllCostInfo();
-				awards = marketDataAggregatorsService.getAllAwards();
-				
-				modelAndView.addObject("assetClasses", assetClasses);
-				modelAndView.addObject("regions", regions);
-				modelAndView.addObject("regionslist", regions);
-				modelAndView.addObject("countries", countries);
-				modelAndView.addObject("exchanges", exchanges);
-				modelAndView.addObject("supports", supports);
-				modelAndView.addObject("costs", costs);
-				modelAndView.addObject("awards", awards);
-	       		modelAndView.addObject("username", appUser.getUsername());
-	       		modelAndView.addObject("consumerMyProfiletab", "consumermyprofile");
-	       	}
-			}catch (Exception e) {
-				e.printStackTrace();
-				logger.error("Error to load all home pages---:" + e);
+		   		modelAndView.addObject("username", username);		
+			}catch (Exception exp) {
+				logger.error("Error reading Details for {}", username, exp);
 			}
-		}
+		}		
+		logger.debug("Leaving LoginController : welcomeInfo");	
 		return modelAndView;
 	}
-	
-	/**
-	 * method for bad login info
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
 	
 	@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
 	public ModelAndView loginError() {
-		logger.info("Method for login failed 5---:");
+		logger.debug("Entering LoginController : loginfailed");
 		SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.SIGNIN_FAILED);
+        ModelAndView modelAndView = new ModelAndView(RequestConstans.Login.SIGNIN_FAILED);
         modelAndView.addObject("error", "true");
-		return modelAndView;
- 
+        logger.debug("Leaving LoginController : loginfailed");
+		return modelAndView; 
 	}
+	
 	/**
 	 * method for access denied
 	 * 

@@ -58,7 +58,8 @@
 						<div class="home-slider-wrap">
 							<div class="content">
 								<h2>
-									<span>Helps Increasing</span><span>Your Sales</span>
+									<%--<span>Helps Increasing</span><span>Your Sales</span>--%>
+									<span>See Your</span><span>Revenue</span><span>Growing</span>
 								</h2>
 								<h3>Send Your Response to<br>End-User's RFP</h3>
 								<div class="para">

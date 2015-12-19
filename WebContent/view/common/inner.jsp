@@ -400,8 +400,8 @@
 			        </div>
 			        <div class="content">
 			          <ul class="contact">
-			            <li class="phone">+91 000 000 0000</li>
-			            <li class="message"><a href="mailto:info@finvendor.com">info@finvendor.com</a></li>
+			            <li class="phone">+65 869 633 21</li>
+			            <li class="message"><a href="mailto:enquiry@finvendor.com">enquiry@finvendor.com</a></li>
 			            <li class="location"><span>Tech Park Bangalore</span> <span>Whitefield Road Bangalore </span><span>560 066. Karnataka, India.</span> </li>
 			          </ul>
 			        </div>

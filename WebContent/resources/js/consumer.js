@@ -905,21 +905,75 @@ function setValue(value) {
 function consumerMyProfileActiveMode(tabmode){
 	
 	if(tabmode != '' && tabmode.length > 0 && tabmode.match("companydetails")){
+		
+		$('#columnconsumer1').css('background-color', '#5CE5E5');
+		$('#headerconsumer1').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer1').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '#5CE5E5';
 		document.getElementById('headerconsumer1').style.backgroundColor = '#5CE5E5';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = '#5CE5E5'; 
+		
 		
 		document.getElementById('columnconsumer2').style.backgroundColor = '';
 		document.getElementById('headerconsumer2').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer2').style.backgroundColor = '';
 		
+		
 		document.getElementById('columnconsumer3').style.backgroundColor = '';
 		document.getElementById('headerconsumer3').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer3').style.backgroundColor = ''; 
 		
+		
 		document.getElementById('columnconsumer4').style.backgroundColor = '';
 		document.getElementById('headerconsumer4').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer4').style.backgroundColor = '';
+		
 		
 		document.getElementById('columnmarketmybusiness1').style.backgroundColor = '';
 		document.getElementById('headermarketmybusiness1').style.backgroundColor = '';  
@@ -936,7 +990,7 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmybusiness4').style.backgroundColor = '';
 		document.getElementById('headermarketmybusiness4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmybusiness4').style.backgroundColor = '';
-		
+				
 		document.getElementById('columnmarketmyvendorpreference1').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference1').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference1').style.backgroundColor = ''; 
@@ -951,11 +1005,59 @@ function consumerMyProfileActiveMode(tabmode){
 		
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
-		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
+		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';		
+		*/		
+	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("mybusinessneeds")) {
 		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
 		
+		$('#columnconsumer2').css('background-color', '#5CE5E5');
+		$('#headerconsumer2').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer2').css('background-color', '#5CE5E5');
 		
-	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("mybusinessneeds")){
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = '';
@@ -1003,10 +1105,61 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
+		*/
 		  
 	}
 	//My business needs sub tabs
 	if(tabmode != '' && tabmode.length > 0 && tabmode.match("marketdataneeds") && !tabmode.match("mypreferencemarketdataneeds") && !tabmode.match("costpreferencemarketdataneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '#5CE5E5');
+		$('#headerconsumer2').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer2').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '#5CE5E5');
+		$('#headermarketmybusiness1').css('background-color', '#5CE5E5');
+		$('#anchortagmarketmybusiness1').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = '';
@@ -1054,8 +1207,59 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
+		*/
 		
 	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("tradingapplicationneeds") && !tabmode.match("mypreferencetradingapplicationneeds") && !tabmode.match("costpreferenceapplicationneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '#5CE5E5');
+		$('#headerconsumer2').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer2').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '#5CE5E5');
+		$('#headermarketmybusiness2').css('background-color', '#5CE5E5');
+		$('#anchortagmarketmybusiness2').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = '';
@@ -1103,9 +1307,60 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
+		*/
 		  
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("analyticsapplicationneeds") && !tabmode.match("mypreferenceanalyticsapplicationneeds") && !tabmode.match("costpreferenceanalyticsapplicationneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '#5CE5E5');
+		$('#headerconsumer2').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer2').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '#5CE5E5');
+		$('#headermarketmybusiness3').css('background-color', '#5CE5E5');
+		$('#anchortagmarketmybusiness3').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = '';
@@ -1153,9 +1408,59 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
-		  
+		*/  
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("researchreportneeds") && !tabmode.match("mypreferenceresearchreportneeds")  && !tabmode.match("costpreferencesearchreportneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '#5CE5E5');
+		$('#headerconsumer2').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer2').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '#5CE5E5');
+		$('#headermarketmybusiness4').css('background-color', '#5CE5E5');
+		$('#anchortagmarketmybusiness4').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = '';
@@ -1203,9 +1508,60 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
+		*/
 		  
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("myvendorpreference")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '#5CE5E5');
+		$('#headerconsumer3').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer3').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '#5CE5E5');
+		$('#headermarketmyvendorpreference1').css('background-color', '#5CE5E5');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1254,11 +1610,60 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
-		  
+		 */ 
 	}
 	// My Vendor Preference sub tabs---: 
 	 else if(tabmode != '' && tabmode.length > 0 && tabmode.match("mypreferencemarketdataneeds")){
 		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '#5CE5E5');
+		$('#headerconsumer3').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer3').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '#5CE5E5');
+		$('#headermarketmyvendorpreference1').css('background-color', '#5CE5E5');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+			
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1307,8 +1712,59 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
+		*/
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("mypreferencetradingapplicationneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '#5CE5E5');
+		$('#headerconsumer3').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer3').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '#5CE5E5');
+		$('#headermarketmyvendorpreference2').css('background-color', '#5CE5E5');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1357,8 +1813,59 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
+		*/
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("mypreferenceanalyticsapplicationneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '#5CE5E5');
+		$('#headerconsumer3').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer3').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '#5CE5E5');
+		$('#headermarketmyvendorpreference3').css('background-color', '#5CE5E5');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1407,10 +1914,60 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '';
+		*/
 		  
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("mypreferenceresearchreportneeds")){
 
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '#5CE5E5');
+		$('#headerconsumer3').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer3').css('background-color', '#5CE5E5');
+		
+		$('#columnconsumer4').css('background-color', '');
+		$('#headerconsumer4').css('background-color', '');
+		$('#anchortagconsumer4').css('background-color', '');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '#5CE5E5');
+		$('#headermarketmyvendorpreference4').css('background-color', '#5CE5E5');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '#5CE5E5');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1459,9 +2016,75 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmarketmyvendorpreference4').style.backgroundColor = '#5CE5E5';
 		document.getElementById('headermarketmyvendorpreference4').style.backgroundColor = '#5CE5E5';  
 		document.getElementById('anchortagmarketmyvendorpreference4').style.backgroundColor = '#5CE5E5';
-		  
+		 */ 
 	} 
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("datadeliverycostpreference")){
+				
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '#5CE5E5');
+		$('#headerconsumer4').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer4').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		$('#columnmyvencostpreference1').css('background-color', '#5CE5E5');
+		$('#headermyvencostpreference1').css('background-color', '#5CE5E5');
+		$('#anchortagcostpreference1').css('background-color', '#5CE5E5');
+		
+		$('#columnmyvencostpreference2').css('background-color', '');
+		$('#headermyvencostpreference2').css('background-color', '');
+		$('#anchortagcostpreference2').css('background-color', '');
+		
+		$('#columnmyvencostpreference3').css('background-color', '');
+		$('#headermyvencostpreference3').css('background-color', '');
+		$('#anchortagcostpreference3').css('background-color', '');
+		
+		$('#columnmyvencostpreference4').css('background-color', '');
+		$('#headermyvencostpreference4').css('background-color', '');
+		$('#anchortagcostpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1525,9 +2148,76 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmyvencostpreference4').style.backgroundColor = '';
 		document.getElementById('headermyvencostpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagcostpreference4').style.backgroundColor = '';
+		*/
 		  
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("costpreferencemarketdataneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '#5CE5E5');
+		$('#headerconsumer4').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer4').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		$('#columnmyvencostpreference1').css('background-color', '#5CE5E5');
+		$('#headermyvencostpreference1').css('background-color', '#5CE5E5');
+		$('#anchortagcostpreference1').css('background-color', '#5CE5E5');
+		
+		$('#columnmyvencostpreference2').css('background-color', '');
+		$('#headermyvencostpreference2').css('background-color', '');
+		$('#anchortagcostpreference2').css('background-color', '');
+		
+		$('#columnmyvencostpreference3').css('background-color', '');
+		$('#headermyvencostpreference3').css('background-color', '');
+		$('#anchortagcostpreference3').css('background-color', '');
+		
+		$('#columnmyvencostpreference4').css('background-color', '');
+		$('#headermyvencostpreference4').css('background-color', '');
+		$('#anchortagcostpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1591,9 +2281,75 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmyvencostpreference4').style.backgroundColor = '';
 		document.getElementById('headermyvencostpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagcostpreference4').style.backgroundColor = '';
-		  
+		*/  
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("costpreferenceapplicationneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '#5CE5E5');
+		$('#headerconsumer4').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer4').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		$('#columnmyvencostpreference1').css('background-color', '');
+		$('#headermyvencostpreference1').css('background-color', '');
+		$('#anchortagcostpreference1').css('background-color', '');
+		
+		$('#columnmyvencostpreference2').css('background-color', '#5CE5E5');
+		$('#headermyvencostpreference2').css('background-color', '#5CE5E5');
+		$('#anchortagcostpreference2').css('background-color', '#5CE5E5');
+		
+		$('#columnmyvencostpreference3').css('background-color', '');
+		$('#headermyvencostpreference3').css('background-color', '');
+		$('#anchortagcostpreference3').css('background-color', '');
+		
+		$('#columnmyvencostpreference4').css('background-color', '');
+		$('#headermyvencostpreference4').css('background-color', '');
+		$('#anchortagcostpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1657,9 +2413,75 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmyvencostpreference4').style.backgroundColor = '';
 		document.getElementById('headermyvencostpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagcostpreference4').style.backgroundColor = '';
-		  
+		*/  
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("costpreferenceanalyticsapplicationneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '#5CE5E5');
+		$('#headerconsumer4').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer4').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		$('#columnmyvencostpreference1').css('background-color', '');
+		$('#headermyvencostpreference1').css('background-color', '');
+		$('#anchortagcostpreference1').css('background-color', '');
+		
+		$('#columnmyvencostpreference2').css('background-color', '');
+		$('#headermyvencostpreference2').css('background-color', '');
+		$('#anchortagcostpreference2').css('background-color', '');
+		
+		$('#columnmyvencostpreference3').css('background-color', '#5CE5E5');
+		$('#headermyvencostpreference3').css('background-color', '#5CE5E5');
+		$('#anchortagcostpreference3').css('background-color', '#5CE5E5');
+		
+		$('#columnmyvencostpreference4').css('background-color', '');
+		$('#headermyvencostpreference4').css('background-color', '');
+		$('#anchortagcostpreference4').css('background-color', '');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1723,9 +2545,75 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmyvencostpreference4').style.backgroundColor = '';
 		document.getElementById('headermyvencostpreference4').style.backgroundColor = '';  
 		document.getElementById('anchortagcostpreference4').style.backgroundColor = '';
-		  
+		*/  
 	}
 	else if(tabmode != '' && tabmode.length > 0 && tabmode.match("costpreferencesearchreportneeds")){
+		
+		$('#columnconsumer1').css('background-color', '');
+		$('#headerconsumer1').css('background-color', '');
+		$('#anchortagconsumer1').css('background-color', '');
+		
+		$('#columnconsumer2').css('background-color', '');
+		$('#headerconsumer2').css('background-color', '');
+		$('#anchortagconsumer2').css('background-color', '');
+		
+		$('#columnconsumer3').css('background-color', '');
+		$('#headerconsumer3').css('background-color', '');
+		$('#anchortagconsumer3').css('background-color', '');
+		
+		$('#columnconsumer4').css('background-color', '#5CE5E5');
+		$('#headerconsumer4').css('background-color', '#5CE5E5');
+		$('#anchortagconsumer4').css('background-color', '#5CE5E5');
+		
+		$('#columnmarketmybusiness1').css('background-color', '');
+		$('#headermarketmybusiness1').css('background-color', '');
+		$('#anchortagmarketmybusiness1').css('background-color', '');
+		
+		$('#columnmarketmybusiness2').css('background-color', '');
+		$('#headermarketmybusiness2').css('background-color', '');
+		$('#anchortagmarketmybusiness2').css('background-color', '');
+		
+		$('#columnmarketmybusiness3').css('background-color', '');
+		$('#headermarketmybusiness3').css('background-color', '');
+		$('#anchortagmarketmybusiness3').css('background-color', '');
+		
+		$('#columnmarketmybusiness4').css('background-color', '');
+		$('#headermarketmybusiness4').css('background-color', '');
+		$('#anchortagmarketmybusiness4').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference1').css('background-color', '');
+		$('#headermarketmyvendorpreference1').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference1').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference2').css('background-color', '');
+		$('#headermarketmyvendorpreference2').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference2').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference3').css('background-color', '');
+		$('#headermarketmyvendorpreference3').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference3').css('background-color', '');
+		
+		$('#columnmarketmyvendorpreference4').css('background-color', '');
+		$('#headermarketmyvendorpreference4').css('background-color', '');
+		$('#anchortagmarketmyvendorpreference4').css('background-color', '');
+		
+		$('#columnmyvencostpreference1').css('background-color', '');
+		$('#headermyvencostpreference1').css('background-color', '');
+		$('#anchortagcostpreference1').css('background-color', '');
+		
+		$('#columnmyvencostpreference2').css('background-color', '');
+		$('#headermyvencostpreference2').css('background-color', '');
+		$('#anchortagcostpreference2').css('background-color', '');
+		
+		$('#columnmyvencostpreference3').css('background-color', '');
+		$('#headermyvencostpreference3').css('background-color', '');
+		$('#anchortagcostpreference3').css('background-color', '');
+		
+		$('#columnmyvencostpreference4').css('background-color', '#5CE5E5');
+		$('#headermyvencostpreference4').css('background-color', '#5CE5E5');
+		$('#anchortagcostpreference4').css('background-color', '#5CE5E5');
+		
+		/*
 		document.getElementById('columnconsumer1').style.backgroundColor = '';
 		document.getElementById('headerconsumer1').style.backgroundColor = '';  
 		document.getElementById('anchortagconsumer1').style.backgroundColor = ''; 
@@ -1789,6 +2677,7 @@ function consumerMyProfileActiveMode(tabmode){
 		document.getElementById('columnmyvencostpreference4').style.backgroundColor = '#5CE5E5';
 		document.getElementById('headermyvencostpreference4').style.backgroundColor = '#5CE5E5';  
 		document.getElementById('anchortagcostpreference4').style.backgroundColor = '#5CE5E5';
+		*/
 		  
 	}
 	

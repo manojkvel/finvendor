@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.finvendor.controller;
 
 import java.util.List;
@@ -60,19 +57,12 @@ public class VendorController {
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
 	
-	/**
-	 * method for navigate vendor profile
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_MY_PROFILE, method=RequestMethod.GET)
-	public ModelAndView vendorMyProfile(HttpServletRequest request,@ModelAttribute("users") User users,
+	public ModelAndView vendorMyProfile(HttpServletRequest request,
 			@RequestParam(value = "RaYUnA", required = false) String username,
-			@ModelAttribute("vendor") Vendor vendor){
-		logger.info("Mehtod for vendorNavigation--:");
+			@ModelAttribute("vendor") Vendor vendor) {
+		
+		logger.debug("Entering VendorController : vendorMyProfile");
 		List<AssetClass> assetClasses = null;
 		List<Region> regions = null;
 		List<Country> countries = null;
@@ -80,7 +70,8 @@ public class VendorController {
 		List<Support> supports = null;
 		List<Cost> costs = null;
 		List<Awards> awards = null;
-		ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.VENDOR_INFO);
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);
+		
 		try{
 			if(request.getSession().getAttribute("loggedInUser") == null){
 				return new ModelAndView(RequestConstans.Login.HOME);
@@ -91,13 +82,9 @@ public class VendorController {
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
 			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
-			
-			username = CommonUtils.decrypt(username.getBytes());
-			
+			awards = marketDataAggregatorsService.getAllAwards();			
+			username = CommonUtils.decrypt(username.getBytes());			
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
-			
-			//vendor = vendorService.getVendorDetails(username);
 			modelAndView.addObject("assetClasses", assetClasses);
 			modelAndView.addObject("regions", regions);
 			modelAndView.addObject("regionslist", regions);
@@ -190,7 +177,7 @@ public class VendorController {
 	 */
 	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_RFP_INBOX, method=RequestMethod.GET)
-	public ModelAndView vendorRFPInbox(HttpServletRequest request,@ModelAttribute("users") User users,
+	public ModelAndView vendorRFPInbox(HttpServletRequest request,
 			@RequestParam(value = "RaYUnA", required = false) String username){
 		logger.info("Mehtod for vendorNavigation--:");
 		List<AssetClass> assetClasses = null;
@@ -242,7 +229,7 @@ public class VendorController {
 	 */
 	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER, method=RequestMethod.GET)
-	public ModelAndView vendorSearchDataBuyers(HttpServletRequest request,@ModelAttribute("users") User users,
+	public ModelAndView vendorSearchDataBuyers(HttpServletRequest request,
 			@RequestParam(value = "RaYUnA", required = false) String username){
 		logger.info("Mehtod for vendorsearch data buyers--:");
 		@SuppressWarnings("unused")

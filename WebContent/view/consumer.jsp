@@ -194,10 +194,42 @@
 								
 								 <div><br/></div>
 										<div class="Rowtable">
-											<div class="ColumnCommonmyprofile" id="columnmarketmybusiness1"> <div class="lable_header_consumer" id="headermarketmybusiness1"> <a id="anchortagmarketmybusiness1" href="#tab5" class="lable_header_consumer" data-toggle="tab"  onclick="consumerMyProfileActiveMode('${marketdataneeds}');">Market Data Needs</a> </div></div>
-											<div class="ColumnCommonmyprofile" id="columnmarketmybusiness2"> <div class="lable_header_consumer" id="headermarketmybusiness2">  <a id="anchortagmarketmybusiness2" href="#tab6" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${tradingapplicationneeds}');">Trading Application Needs</a> </div> </div>
-											<div class="ColumnCommonmyprofile" id="columnmarketmybusiness3"> <div class="lable_header_consumer" id="headermarketmybusiness3">  <a id="anchortagmarketmybusiness3" href="#tab7" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${analyticsapplicationneeds}');">Analytics Application Needs</a> </div> </div>
-											 <div class="ColumnCommonmyprofile" id="columnmarketmybusiness4"> <div class="lable_header_consumer" id="headermarketmybusiness4"> <a id="anchortagmarketmybusiness4" href="#tab8" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${researchreportneeds}');">Research Report Needs</a> </div> </div>
+											<c:if test="${consumer.marketDataPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmarketmybusiness1"> 
+													<div class="lable_header_consumer" id="headermarketmybusiness1"> 
+														<a id="anchortagmarketmybusiness1" href="#tab5" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${marketdataneeds}')">
+															Market Data Needs
+														</a>
+													</div>
+												</div>
+											</c:if>
+											<c:if test="${consumer.tradingAppPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmarketmybusiness2"> 
+													<div class="lable_header_consumer" id="headermarketmybusiness2">  
+														<a id="anchortagmarketmybusiness2" href="#tab6" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${tradingapplicationneeds}')">
+															Trading Application Needs
+														</a> 
+													</div> 
+												</div>
+											</c:if>
+											<c:if test="${consumer.analyticsAppPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmarketmybusiness3"> 
+													<div class="lable_header_consumer" id="headermarketmybusiness3">  
+														<a id="anchortagmarketmybusiness3" href="#tab7" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${analyticsapplicationneeds}')">
+															Analytics Application Needs
+														</a> 
+													</div> 
+												</div>
+											</c:if>
+											<c:if test="${consumer.researchReportPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmarketmybusiness4"> 
+													<div class="lable_header_consumer" id="headermarketmybusiness4"> 
+														<a id="anchortagmarketmybusiness4" href="#tab8" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${researchreportneeds}')">
+															Research Report Needs
+														</a> 
+													</div> 
+												</div>
+											</c:if>
 										</div>
 										<div><br/></div>
 									<div class="tab-content">
@@ -819,10 +851,42 @@
 									<div class="tab-pane" id="tab3">
 									 <div><br/></div>
 										<div class="Rowtable">
-											<div class="ColumnCommonmyprofile" id="columnmarketmyvendorpreference1"> <div class="lable_header_consumer" id="headermarketmyvendorpreference1"> <a id="anchortagmarketmyvendorpreference1" href="#tab9" class="lable_header_consumer" data-toggle="tab"  onclick="consumerMyProfileActiveMode('${mypreferencemarketdataneeds}');">Market Data Needs</a> </div></div>
-											<div class="ColumnCommonmyprofile" id="columnmarketmyvendorpreference2"> <div class="lable_header_consumer" id="headermarketmyvendorpreference2">  <a id="anchortagmarketmyvendorpreference2" href="#tab10" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${mypreferencetradingapplicationneeds}');">Trading Application Needs</a> </div> </div>
-											<div class="ColumnCommonmyprofile" id="columnmarketmyvendorpreference3"> <div class="lable_header_consumer" id="headermarketmyvendorpreference3">  <a id="anchortagmarketmyvendorpreference3" href="#tab11" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${mypreferenceanalyticsapplicationneeds}');">Analytics Application Needs</a> </div> </div>
-											 <div class="ColumnCommonmyprofile" id="columnmarketmyvendorpreference4"> <div class="lable_header_consumer" id="headermarketmyvendorpreference4"> <a id="anchortagmarketmyvendorpreference4" href="#tab12" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${mypreferenceresearchreportneeds}');">Research Report Needs</a> </div> </div>
+											<c:if test="${consumer.marketDataPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmarketmyvendorpreference1"> 
+													<div class="lable_header_consumer" id="headermarketmyvendorpreference1"> 
+														<a id="anchortagmarketmyvendorpreference1" href="#tab9" class="lable_header_consumer" data-toggle="tab"  onclick="consumerMyProfileActiveMode('${mypreferencemarketdataneeds}')">
+															Market Data Needs
+														</a> 
+													</div>
+												</div>
+											</c:if>
+											<c:if test="${consumer.tradingAppPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmarketmyvendorpreference2"> 
+													<div class="lable_header_consumer" id="headermarketmyvendorpreference2">  
+														<a id="anchortagmarketmyvendorpreference2" href="#tab10" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${mypreferencetradingapplicationneeds}')">
+															Trading Application Needs
+														</a> 
+													</div> 
+												</div>
+											</c:if>
+											<c:if test="${consumer.analyticsAppPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmarketmyvendorpreference3"> 
+													<div class="lable_header_consumer" id="headermarketmyvendorpreference3">  
+														<a id="anchortagmarketmyvendorpreference3" href="#tab11" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${mypreferenceanalyticsapplicationneeds}')">
+															Analytics Application Needs
+														</a> 
+													</div> 
+												</div>
+											</c:if>
+											<c:if test="${consumer.researchReportPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmarketmyvendorpreference4"> 
+													<div class="lable_header_consumer" id="headermarketmyvendorpreference4"> 
+														<a id="anchortagmarketmyvendorpreference4" href="#tab12" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${mypreferenceresearchreportneeds}')">
+															Research Report Needs
+														</a> 
+													</div> 
+												</div>
+											</c:if>
 										</div>
 										<div><br/></div>
 									<div class="tab-content">
@@ -1480,10 +1544,42 @@
 									
 									<div><br/></div>
 										<div class="Rowtable">
-											<div class="ColumnCommonmyprofile" id="columnmyvencostpreference1"> <div class="lable_header_consumer" id="headermyvencostpreference1"> <a id="anchortagcostpreference1" href="#tab13" class="lable_header_consumer" data-toggle="tab"  onclick="consumerMyProfileActiveMode('${costpreferencemarketdataneeds}');">Market Data Needs</a> </div></div>
-											<div class="ColumnCommonmyprofile" id="columnmyvencostpreference2"> <div class="lable_header_consumer" id="headermyvencostpreference2">  <a id="anchortagcostpreference2" href="#tab14" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${costpreferenceapplicationneeds}');">Trading Application Needs</a> </div> </div>
-											<div class="ColumnCommonmyprofile" id="columnmyvencostpreference3"> <div class="lable_header_consumer" id="headermyvencostpreference3">  <a id="anchortagcostpreference3" href="#tab15" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${costpreferenceanalyticsapplicationneeds}');">Analytics Application Needs</a> </div> </div>
-											 <div class="ColumnCommonmyprofile" id="columnmyvencostpreference4"> <div class="lable_header_consumer" id="headermyvencostpreference4"> <a id="anchortagcostpreference4" href="#tab16" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${costpreferencesearchreportneeds}');">Research Report Needs</a> </div> </div>
+											<c:if test="${consumer.marketDataPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmyvencostpreference1"> 
+													<div class="lable_header_consumer" id="headermyvencostpreference1"> 
+														<a id="anchortagcostpreference1" href="#tab13" class="lable_header_consumer" data-toggle="tab"  onclick="consumerMyProfileActiveMode('${costpreferencemarketdataneeds}')">
+															Market Data Needs
+														</a> 
+													</div>
+												</div>
+											</c:if>
+											<c:if test="${consumer.tradingAppPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmyvencostpreference2"> 
+													<div class="lable_header_consumer" id="headermyvencostpreference2">  
+														<a id="anchortagcostpreference2" href="#tab14" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${costpreferenceapplicationneeds}')">
+															Trading Application Needs
+														</a> 
+													</div> 
+												</div>
+											</c:if>
+											<c:if test="${consumer.analyticsAppPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmyvencostpreference3"> 
+													<div class="lable_header_consumer" id="headermyvencostpreference3">  
+														<a id="anchortagcostpreference3" href="#tab15" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${costpreferenceanalyticsapplicationneeds}')">
+															Analytics Application Needs
+														</a> 
+													</div> 
+												</div>
+											</c:if>
+											<c:if test="${consumer.researchReportPreference == true}">
+												<div class="ColumnCommonmyprofile" id="columnmyvencostpreference4"> 
+													<div class="lable_header_consumer" id="headermyvencostpreference4"> 
+														<a id="anchortagcostpreference4" href="#tab16" class="lable_header_consumer" data-toggle="tab" onclick="consumerMyProfileActiveMode('${costpreferencesearchreportneeds}')">
+															Research Report Needs
+														</a> 
+													</div> 
+												</div>
+											</c:if>
 										</div>
 										<div><br/></div>
 									<div class="tab-content">
