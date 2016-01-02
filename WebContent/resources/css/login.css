@@ -215,7 +215,7 @@ xsigin/signup popup
   width: 90%;
   max-width: 695px;
   background: #FFF;
-  margin: 3em auto 4em;
+  margin: 3em auto 0;
   cursor: auto;
   border-radius: 0.25em;
   -webkit-transform: translateY(-30px);
@@ -260,7 +260,7 @@ xsigin/signup popup
 }
 @media only screen and (min-width: 600px) {
   .cd-user-modal-container {
-    margin: 4em auto;
+    margin: 4em auto 0;
   }
   .cd-user-modal-container .cd-switcher a {
     height: 45px;
@@ -268,35 +268,18 @@ xsigin/signup popup
   }
 }
 
-.cd-form {
-  padding: 1.4em;
-}
-.cd-form .fieldset {
-  position: relative;
-  margin: 1.4em 0;
-}
-.cd-form .fieldset:first-child {
-  margin-top: 0;
-}
-.cd-form .fieldset:last-child {
-  margin-bottom: 0;
-}
-.cd-form label {
-  font-size: 12px;
-}
 .logmod__close {
-  display: block;
-  position: absolute;
-  right: 50%;
-  background: url("http://imgh.us/close_white.svg") no-repeat scroll 0% 0% transparent;
-  text-indent: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  cursor: pointer;
-  top: -72px;
-  margin-right: -24px;
-  width: 48px;
-  height: 48px;
+     position: absolute;
+    right: -30px;
+    background: url("http://imgh.us/close_white.svg") no-repeat scroll center transparent;
+    text-indent: 100%;
+    cursor: pointer;
+    top: -30px;
+    width: 48px;
+    height: 48px;
+    background-color: #222;
+    background-size: 80%;
+    border-radius: 5px;
 }
 .cd-form label.image-replace {
   /* replace text with an icon */
@@ -328,12 +311,6 @@ xsigin/signup popup
 }
 .cd-form label.cd-password {
   background-image: url("../images/cd-icon-password.svg");
-}
-.cd-form input {
-  margin: 0;
-  padding: 0;
-  border-radius: 0.1em;
-  font-size: 12px;
 }
 .cd-form input.full-width {
   width: 99%;
@@ -372,34 +349,13 @@ xsigin/signup popup
   padding-right: 65px;
   font-size: 12px;
 }
-.cd-form input[type=submit] {
-  padding: 16px 0;
-  cursor: pointer;
-  background: #41BFDA;
-  color: #FFF;
-  font-weight: bold;
-  border: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  font-size: 12px;
-}
-.no-touch .cd-form input[type=submit]:hover, .no-touch .cd-form input[type=submit]:focus {
-  background: #3599ae;
-  outline: none;
-  font-size: 12px;
-}
 .cd-form .hide-password {
   display: inline-block;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 10px;
   padding: 6px 15px;
   border-left: 1px solid #d2d8d8;
-  top: 50%;
-  bottom: auto;
+  bottom: 0px;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
@@ -411,12 +367,10 @@ xsigin/signup popup
 .cd-form .hide-password1 {
   display: inline-block;
   position: absolute;
-  right: 3px;
-  top: 0;
+  right: 10px;
+  bottom: 0;
   padding: 6px 15px;
   border-left: 1px solid #d2d8d8;
-  top: 50%;
-  bottom: auto;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
@@ -465,55 +419,7 @@ xsigin/signup popup
   transition: opacity 0.2s 0, visibility 0 0;
 }
 @media only screen and (min-width: 600px) {
-  .cd-form {
-    padding: 2em;
-  }
-  .cd-form .fieldset {
-    margin: 1em 0;
-  }
-  .cd-form .fieldset:first-child {
-    margin-top: -24px;
-    margin-right: 50px;
-  }
-  .cd-form .fieldset:last-child {
-    margin-bottom: 0;
-  }
-  .cd-form input.has-padding1 {
-    padding: 6px 16px 11px 50px;
-    width: 250px;
-    font-size: 12px;
-    border-radius:6px;
-  }
-  .cd-form input.has-padding2 {
-    padding: 6px 16px 11px 16px;
-    width: 250px;
-    font-size: 12px;
-    border-radius:6px;
-  }
-  .cd-form input.has-padding {
-    padding: 9px 20px 13px 50px;
-    font-size: 12px;
-    border-radius:13px;
-  }
-  .cd-form select.has-padding {
-    padding: 16px 20px 16px 50px;
-     border-radius: -0.9em;
-     font-size: 12px;
-  }
-  .cd-form select.has-padding1 {
-    padding: 16px 20px 16px 16px;
-    width: 250px;
-    margin-top: 45px;
-    border-radius: -0.9em;
-    color: #7f7f7f;
-    font-size: 12px;
-    border-radius:6px;
-  }
-  .cd-form input[type=submit] {
-    padding: 16px 0;
-    font-size: 12px;
-     border-radius:15px;
-  }
+  
 }
 
 .cd-form-message {
@@ -579,12 +485,11 @@ xsigin/signup popup
 
  #cd-signup.is-selected, #cd-reset-password.is-selected, #cd-reg-success-message.is-selected {
   display: block;
-  padding: 12px 3px 3px 1px;
+  padding: 0px 3px 3px 1px;
 }
 #cd-login.is-selected{
 	display: block;
   padding: 0px 3px 3px 1px;
-  margin-top: -25px;
 }
 
 /* login reset css code start here*/

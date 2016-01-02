@@ -4,9 +4,7 @@ Modify bootstrap buttons
 
 /* remove rounds from all elements */
 div, input, select, textarea, span, img, table, td, th, p, a, button, ul, li {
-  -webkit-border-radius: 0 !important;
-     -moz-border-radius: 0 !important;
-          border-radius: 6px !important;
+  
 }
 .captcha_style{width:250px; padding:10px;}
 .pad_5_px{

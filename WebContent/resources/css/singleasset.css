@@ -155,14 +155,6 @@ p,strong {
 	margin: 0px auto;
 }
 
-.top_header {
-	width: 100%;
-	float: left;
-	color: #fff;
-	background: #fff;
-	padding-bottom: -3px;
-}
-
 .menu {
 	width: 100%;
 	float: left;
@@ -868,12 +860,6 @@ nav,ul,li,a {
 
 a {
 	text-decoration: none;
-}
-
-.container {
-	width: 60%;
-	max-width: 60%;
-	margin: 10px auto;
 }
 
 .toggleMenu {

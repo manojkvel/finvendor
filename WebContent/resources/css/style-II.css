@@ -299,14 +299,6 @@ Header and header elements.
 	border: 1px solid red;
 }
 
-.header {
-	padding: 0 !important;
-	margin: 0 !important;
-}
-
-.header.navbar-fixed-top {
-	z-index: 9995 !important;
-}
 
 .header .brand {
 	display: inline-block;

@@ -1,0 +1,227 @@
+/** Header CSS**/
+.header-container{
+	background: #f0f0f0;
+}
+.header-container .header{
+	padding: 10px 0;
+}
+.header .logo{
+	display: inline-block;
+}
+.nav-container{
+	background: #333;
+	border-bottom: 2px solid #ff8000;
+}
+.nav-container .nav-srch{
+	padding: 0px;
+	background: none;
+}
+.nav-container .nav-srch-cnt{
+	background: none;
+	height: auto;
+	border: none;
+}
+.nav-container .sf-menu{
+	float: none;
+	margin-bottom: 0px;
+}
+.nav-srch-cnt>ul>li{
+	display: inline-block;
+	float: none;
+}
+.nav-srch-cnt >ul >li >a{
+	color: #f0f0f0;
+	font-size: 14px;
+    padding: 10px 23px;
+    line-height: 20px;
+}
+.sf-arrows .sf-with-ul:after{
+	border-top-color: #a0a0a0;
+}
+.pull-right{
+	float: right;
+}
+.sf-menu ul {
+    top: 42px;
+    left: -4px;
+	width: 230px;
+}
+.sf-menu ul li {
+    background: #f0f0f0;
+}
+.sf-menu ul li:hover {
+    background: #333;
+}
+.sf-menu li ul li a {
+    border-bottom: 1px solid #FFF;
+    font-size: 14px;
+    line-height: 20px;
+}
+.contact-detail{
+	text-align: right;
+}
+.contact-detail p{
+	font-size: 14px;
+	text-align: right;
+}
+.contact-detail ul{
+	padding: 14px 0 0;
+}
+.contact-detail ul li{
+	display: inline-block;
+	font-size: 14px;
+}
+.contact-detail ul li.block{
+	display: block;
+}
+.contact-detail ul li a{
+	font-size: inherit;
+    display: block;
+    padding: 5px 10px;
+}
+
+/***************************
+	Links Style 
+***************************/
+.link{
+	color: #ff8000;
+}
+
+/***************************
+	Form CSS
+***************************/
+
+.form-group{
+	padding: 3px 0px;
+}
+.form-group.medium{
+	padding: 5px 0px;
+}
+.control-group-row{
+	clear: both;
+	padding-bottom: 10px;
+	overflow: auto;
+}
+.form-group.medium-width{
+	width: 75%;	
+}
+.form-group.half-width{
+	width: 50%;
+	float: left;
+	padding: 5px 20px 5px 0;
+}
+.form-group .form-control {
+    padding: 5px 10px;
+    border-radius: 4px;
+    height: 34px;
+    font-size: 14px;
+    width: 100%;
+	border: 1px solid #a0a0a0;
+	margin: 0;
+}
+.form-group.medium .form-control{
+	padding: 7px 10px;
+	font-size: 16px;
+	height: 40px;
+}
+.form-group textarea.form-control{
+	height: 70px;
+}
+.form-group label{
+	font-size: 16px;
+	display: block;
+	line-height: 30px;
+}
+.form-group select[multiple="multiple"].form-control{
+	height: 90px;
+}
+.form-group select[multiple="multiple"].form-control option{
+	padding: 4px 5px;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.form-group select[multiple="multiple"].form-control option:first-child{
+	color: #529ECC;
+}
+span.help-test{
+	font-size: 12px;
+    display: block;
+    line-height: 20px;
+	color: #333;
+}
+/***************************
+	Button CSS
+***************************/
+
+.btn {
+  display: inline-block;
+  padding: 8px 20px;
+  font-size: 16px;
+  border: none;
+  background: #cccccc;
+  border-radius: 4px;
+}
+.btn.success {
+  background-color: #5cb85c;
+}
+.btn.info {
+  background-color: #5bc0de;
+  color: #FFF;
+}
+.btn.warning {
+  background-color: #f0ad4e;
+}
+.btn.danger {
+  background-color: #d9534f;
+  color: #fff;
+}
+.btn.primary {
+  background-color: #337ab7;
+  color: #fff;
+}
+.btn.iconic {
+  padding: 5px 10px;
+}
+.btn.large {
+  padding: 14px 30px;
+  font-size: 24px;
+}
+.btn.block{
+	display: block;
+}
+
+.btn-group {
+  padding: 20px 0px;
+}
+.btn-group.right {
+  text-align: right;
+}
+
+/***************************
+	Footer CSS
+***************************/
+
+.footer-container{
+	border-top: 2px solid #ff8000;
+	margin-top: 30px;
+}
+.footer{
+	padding: 20px 0;
+}
+
+/***************************
+	Modal
+***************************/
+.modal-wrapper{
+	padding: 20px;
+}
+.cd-user-modal-container .cd-switcher li a{
+	border-radius: 0px !important;
+}
+
+.form-wrapper{
+	padding-top: 40px;
+}
+#cd-login{
+	width: 650px;
+}

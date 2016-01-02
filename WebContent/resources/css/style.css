@@ -123,10 +123,6 @@ body {
 .ic_text a:hover {
 	color: #000;
 }
-.container {
-	margin: 0 auto;
-	width: 1000px;
-}
 
 .header {
 	padding: 20px 0 0 0;
@@ -136,8 +132,7 @@ body {
 	padding: 9px 0 0 0;
 }
 .hd-right {
-	float: right;
-	margin: 55px 0 0 0;
+	
 }
 
 .hd-none {
@@ -257,6 +252,7 @@ body {
 }
 
 .nav-srch-cnt .srch {
+	/*
 	float: right;
 	width: 162px;
 	height: 22px;
@@ -266,12 +262,11 @@ body {
 	color: #333;
 	font-size: 12px;
 	padding: 0 30px 0 10px;
-	margin: 5px 6px 0 0;
+	margin: 5px 6px 0 0;*/
 }
 
 .banner {
 	height: 391px;
-	margin: -31px 0 0 0;
 	float: left;
 	width: 100%;
 }
@@ -354,9 +349,7 @@ body {
 }
 
 .footer {
-	border-top: 1px solid #c4c4c4;
-	margin: 30px 0 0 0;
-	padding: 30px 0 20px 0;
+	
 }
 
 .footer1 {
@@ -427,7 +420,6 @@ body {
 }
 
 .inner-breadcrumb {
-	margin: -31px 0 0 0;
 	padding: 30px 0 0 0;
 }
 
@@ -1283,7 +1275,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 	font-size: 100%;
 	font-family: 'open_sansregular';
 	vertical-align: baseline;
-	border-radius: 4px;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -1330,9 +1321,6 @@ img {
 
 .area {
 	width: auto;
-	float: right;
-	margin-right: -5%;
-	margin-top: -34px;
 }
 
 .Rowtableinfovaluserpng {

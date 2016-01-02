@@ -420,10 +420,6 @@ Portlets
   border-left: 2px solid #ddd;
 }
 
-/*Global classes*/
-.container {
-	padding: 0 10px;
-}
 .greenfont{
 color:#2d2d8f;
 }
