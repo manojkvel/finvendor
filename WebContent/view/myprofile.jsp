@@ -6,19 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>finvendor</title>
-<link href="<%=request.getContextPath() %>/resources/css/singleasset.css" type="text/css" rel="stylesheet" />
-<link href="<%=request.getContextPath() %>/resources/css/style-II.css" type="text/css" rel="stylesheet" />
-
-<link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-<link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
-<link href="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" type="text/css"/>
-<link href="<%=request.getContextPath() %>/resources/css/reset.css" rel="stylesheet" type="text/css"/>
+<jsp:include page="common/head.jsp" ></jsp:include>
 </head>
 <body>
-	<div class="top_header">
-		<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
-	</div>
-	<div class="wrapper">
+	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
+	<div class="container">
 	<div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>">My Profile</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">View</div></div>
 	<div class="row-fluid">
 		<div class="span12">
@@ -209,9 +201,7 @@
         <div class="row-fluid no-space-steps margin-bottom-40"></div>
     </div>
 </div>
-	<div class="footer_area">
-	  <jsp:include page="common/dashboardfooter.jsp" ></jsp:include>
-	</div>
+	<jsp:include page="common/footer.jsp"></jsp:include>
 	<script type="text/javascript">
 	function continuetab(tabname){
 		alert('going tab--:' + tabname);

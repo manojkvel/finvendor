@@ -12,18 +12,14 @@
 	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
 <title>FinVendor</title>
-<link href="<%=request.getContextPath() %>/resources/css/style.css" rel="stylesheet" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery.bxslider.css" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/superfish.css" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery-ui.css" />
+<jsp:include page="common/head.jsp"></jsp:include>
 
 
 </head>
 <body>
 <c:set var="checkingresultpageview" value="${checkingresultpageview}"></c:set>
-	<div class="container">
-		<jsp:include page="common/header.jsp"></jsp:include>
-	</div>
+	
+	<jsp:include page="common/header.jsp"></jsp:include>
 	
 	<div class="container">
 		<jsp:include page="common/banner.jsp"/>
@@ -31,9 +27,8 @@
 	
 	<jsp:include page="login.jsp"></jsp:include>
 	
-	<div class="container">
-		<jsp:include page="common/footer.jsp"></jsp:include>
-	</div>
+	
+	<jsp:include page="common/footer.jsp"></jsp:include>
 	<div class="sideslider" id="sideslider" style="margin-left: -265px;">
     <div class="sideslider-tab">C<br>o<br>n<br>t<br>a<br>c<br>t<br>u<br>s</div>
     <a href="#">
@@ -52,29 +47,29 @@
 	display: none;
 	opacity: 0.6;
 </style>
-                <form action="<%=request.getContextPath() %>/<%=RequestConstans.MAIL.MAIL_SEND%>" method="post" id="contact_us_form"> 
-							<p>
-								<input type="text" name="contact_us_name" id="contact_us_name" placeholder="Name" size="30"/>
-						<span id="contactNameError" style="display: none;">Please enter your Name.</span>
-							</p>
-							<p>
-								<input type="text" name="contact_us_phone" id="contact_us_phone" placeholder="Phone" size="30"/>
-								<span id="contactPhoneError" style="display: none;">Please enter a valid phone number</span>
-							</p>		
-							<p>
-								<input type="text" name="contact_us_email" id="contact_us_email" placeholder="Email" size="30"/>
-								<span id="contactEmailError" style="display: none;">Please enter a valid email address</span>
-							</p>						
-							<p>
-								<textarea name="contact_us_message" id="contact_us_message" cols="32" rows="5" placeholder="Message" value="Sample Message"></textarea>
-							</p>
-							<br>
-							<input type="button" value="Submit" name="Submit" id="call"/>
-							<div id="loadingct" class="contact_loading" ></div>
-    							<div id="output"></div>
+	<form action="<%=request.getContextPath() %>/<%=RequestConstans.MAIL.MAIL_SEND%>" method="post" id="contact_us_form">
+		<div class="form-group">
+			<input type="text" name="contact_us_name" class="form-control" id="contact_us_name" placeholder="Name" size="30"/>
+			<span id="contactNameError" style="display: none;">Please enter your Name.</span>
+		</div>
+		<div class="form-group">
+			<input type="text" name="contact_us_phone" class="form-control" id="contact_us_phone" placeholder="Phone" size="30"/>
+			<span id="contactPhoneError" style="display: none;">Please enter a valid phone number</span>
+		</div>
+		<div class="form-group">
+			<input type="text" name="contact_us_email" class="form-control" id="contact_us_email" placeholder="Email" size="30"/>
+			<span id="contactEmailError" style="display: none;">Please enter a valid email address</span>
+		</div>
+		<div class="form-group">
+			<textarea name="contact_us_message" class="form-control" id="contact_us_message" cols="32" rows="5" placeholder="Message" value="Sample Message"></textarea>
+		</div>
+		<div class="form-group">
+			<input type="button" value="Submit" class="btn info" name="Submit" id="call"/>
+		</div>
+		<div id="loadingct" class="contact_loading" ></div>
+    	<div id="output"></div>
 				  			<!-- <button><a href="javascript:document.getElementById('contact_us_form').submit();">Send</a> </button>  -->	    	
-						
-				</form> 
+	</form> 
 				
 				
             </div>
@@ -82,7 +77,7 @@
         </div>
 
     </a>
-    <div class="sideslider-close sideslider-close_en">Close&nbsp;</div>
+    <div class="sideslider-close sideslider-close_en"><i class="fa fa-close"></i></div>
 </div>
 
 

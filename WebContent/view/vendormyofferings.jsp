@@ -29,25 +29,13 @@
 <head>
     <meta charset="utf-8" />
 	<title>finvendor</title>
-    <link href="<%=request.getContextPath() %>/resources/css/singleasset.css" type="text/css" rel="stylesheet" />
-    <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/css/reset.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/css/style-metro.css" rel="stylesheet" type="text/css"/>
-    <link href="<%=request.getContextPath() %>/resources/css/style-II.css" rel="stylesheet" type="text/css"/>
-    <!-- Date Picker CSS Starts -->
-    <link href="<%=request.getContextPath() %>/resources/datepick/jsDatePick_ltr.min.css" rel="stylesheet" type="text/css"/>
-    <!-- Date Picker CSS Ends -->
+    <jsp:include page="common/head.jsp" ></jsp:include>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body>
-	<div class="top_header">
-			<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
-		</div>
-		<div><br/></div>
-		<div class="wrapper">
+	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
+	<div class="container">
 			<div class="Rowtable"> 
 			     <c:if test="${not empty dataaggregator}"><div class="ColumnCommonmyprofile" id="changeraymyofferings1"> <div class="lable_header" id="interdivraymyofferings1"> <a id="anchoraymyooferings1" href="#tab1" class="lable_header" data-toggle="tab"  onclick="activeTabModeForMyOfferings('${vendormyofferingsasaggregatorvendor}');">As Data Aggregator vendor</a> </div></div></c:if>
 				 <c:if test="${not empty tradingapplication}"> <div class="ColumnCommonmyprofile" id="changeraymyofferings2"> <div class="lable_header" id="interdivraymyofferings2">  <a id="anchoraymyooferings2" href="#tab2" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsastradingapplicationvendor}');">As Trading Application vendor</a> </div> </div></c:if>
@@ -1557,9 +1545,7 @@
     </div>
     </div>
     <!-- END CONTAINER -->
-    <div class="footer_area">
-	  <jsp:include page="common/dashboardfooter.jsp" ></jsp:include>
-	</div>
+    <jsp:include page="common/footer.jsp"></jsp:include>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
 <script type="text/javascript">

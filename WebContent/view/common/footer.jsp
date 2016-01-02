@@ -1,6 +1,8 @@
 <%@taglib uri="/WEB-INF/finvendor.tld" prefix="finVen"%>
 <%@page import="com.finvendor.util.RequestConstans"%>	
-	<div class="footer" id="footer">
+<div class="footer-container">
+	<div class="container">
+		<div class="footer" id="footer">
 			<div class="footer-left-wrap">
 				<ul>
 					<li><a href="${finVen:resolveContextPath(pageContext.request.contextPath)}"><font style="font-weight:bold"><b>HOME</b></font></a></li>
@@ -30,6 +32,8 @@
 			</div>
 			<div class="clearfix"></div>
 		</div>
+	</div>
+</div>
 		<script src="${pageContext.request.contextPath}/resources/js/CreateHTML5Elements.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
@@ -41,6 +45,73 @@
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.bxslider.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/userregister.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/base64.js"></script>
+	<script src="<%=request.getContextPath() %>/resources/js/form-wizard.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/resources/js/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/resources/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath() %>/resources/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.min.js"></script>  
+ 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.validate.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.bootstrap.wizard.min.js"></script>
+	<!-- Basic Jquery plugins end here-->
+	
+	<!-- add to table plugins start-->
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
+	<!-- add to table plugins end here-->
+	
+	<!-- Jquery plugins start-->
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+	<!-- Jquery plugins end here-->
+	
+	<script src="<%=request.getContextPath()%>/resources/js/userregister.js"></script>
+	<script src="<%=request.getContextPath() %>/resources/js/base64.js"></script>
+	<script src="<%=request.getContextPath() %>/resources/js/vendor.js"></script>
+	<script src="<%=request.getContextPath() %>/resources/js/consumer.js"></script>
+	<script src="<%=request.getContextPath() %>/resources/js/consumerinviteanrfp.js"></script>
+	
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/marketaggregators.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/tradingapplicationvendor.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/financialanalyticsvendor.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/researchreportprovidervendor.js"></script>
+	
+	
+	<!-- menu options plugins start-->
+	<script src="<%=request.getContextPath() %>/resources/js/superfish.js"></script>
+	<script>
+		(function($) {
+			$(document).ready(function() {
+				var example = $('#example').superfish({});
+			});
+		})(jQuery);
+		(function($) {
+			$(document).ready(function() {
+				var example1 = $('#example1').superfish({});
+			});
+		})(jQuery);
+	</script>
+	<!-- menu options plugins end here-->
+	
+	<!-- Show loader plugins start-->
+	<script type="text/javascript">
+	function showLoader(){
+		$('#loading').show();
+	}
+
+	function hideLoader(){
+		$('#loading').fadeOut(1000);
+	} 
+	
+	$( document ).ajaxStart(function() {
+        $( "#loading" ).show();
+     });
+
+     $( document ). ajaxComplete(function() {
+        $( "#loading" ).hide();
+     });
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('.slider2').bxSlider({

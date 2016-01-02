@@ -7,12 +7,8 @@
 <html>
 	<head>
 		<title>FinVendor</title>
-		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet">
-		<link href="${pageContext.request.contextPath}/resources/css/jquery.bxslider.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/css/superfish.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/css/tab.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
+		<jsp:include page="head.jsp"></jsp:include>
+		
 		<!-- being referenced - no file found <link href="${pageContext.request.contextPath}/resources/newsingleasset/css/main.css" rel="stylesheet"/> -->
 		<script src="${pageContext.request.contextPath}/resources/js/CreateHTML5Elements.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
@@ -55,9 +51,7 @@
 	</head>
 	<c:set var="username" value="${finVen:decrypt(param.RaYUnA)}"></c:set>
 	<body>
-		<div class="container">
-			<jsp:include page="header.jsp"></jsp:include>
-		</div>
+		<jsp:include page="header.jsp"></jsp:include>
 		<jsp:include page="../login.jsp"></jsp:include>
 			<div class="inner-breadcrumb">
 			  <div class="container" id="breadcrumb_text">
@@ -412,7 +406,7 @@
 				    $('#SERVICES_ul').slideUp();
 				    $('#RESOURCES_ul').slideUp();
 				    <c:choose>
-				      	<c:when test="${param.subNav != null}">
+				    	<c:when test="${param.subNav != null}">
 				      		$('#${param.nav}_${param.subNav}').show();
 				      		$('li').filter(function() { return $.text([this]) === '${requestConstants.reqParamDescriptionMap[requestMapKey]}'; }).addClass('li-ico');
 				      	</c:when>
@@ -427,9 +421,7 @@
 			    <div class="clearfix"></div>
 			  </div>
 			</div>
-		<div class="container">
-			<jsp:include page="footer.jsp"></jsp:include>
-		</div>		
+		<jsp:include page="footer.jsp"></jsp:include>
 	</body>
 	
 	

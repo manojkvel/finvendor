@@ -14,26 +14,7 @@
 <head>
     <meta charset="utf-8" />
 	<title>Fin Vendor | Vendor</title>
-	  <%-- <link href="<%=request.getContextPath() %>/resources/css/style.css" rel="stylesheet" />
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery.bxslider.css" />
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/superfish.css" />
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/tab.css" />
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery-ui.css" />  
-	 <link href="${pageContext.request.contextPath}/resources/css/finvendor.css" rel="stylesheet"/> --%>
-	 
-     <link href="<%=request.getContextPath() %>/resources/singleasset/css/style.css" type="text/css" rel="stylesheet" />
-    <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-    <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"/>
-    <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/css/reset.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/css/style-metro.css" rel="stylesheet" type="text/css"/>
-    <link href="<%=request.getContextPath() %>/resources/css/style-II.css" rel="stylesheet" type="text/css"/>
-       <!-- Date Picker CSS Starts -->
-    <link href="<%=request.getContextPath() %>/resources/datepick/jsDatePick_ltr.min.css" rel="stylesheet" type="text/css"/>   
-    <!-- Date Picker CSS Ends -->
-    <!-- File Upload CSSS -->
+	<jsp:include page="common/head.jsp" ></jsp:include>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -42,7 +23,7 @@
 		<jsp:include page="common/header.jsp" ></jsp:include>
 	</div>
 		<div><br/></div>
-   <div class="wrapper">  
+   <div class="container">  
         <div class="row-fluid">
 					<div class="span12">
           <div class="row-fluid service-box">
@@ -856,9 +837,7 @@
     </div>
     </div> 
     <!-- END CONTAINER -->
-    <div class="footer_area">
-	  <jsp:include page="common/dashboardfooter.jsp" ></jsp:include>
-	</div>
+    <jsp:include page="common/footer.jsp"></jsp:include>
 
 <!-- tab active code starts here-->
 <script type="text/javascript">

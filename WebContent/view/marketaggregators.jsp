@@ -6,27 +6,13 @@
 <head>
     <meta charset="utf-8" />
 	<title>Fin Vendor | Vendor</title>
-    <link href="<%=request.getContextPath() %>/resources/css/singleasset.css" type="text/css" rel="stylesheet" />
-    <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-    <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"/>
-    <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/css/reset.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/css/style-metro.css" rel="stylesheet" type="text/css"/>
-    <link href="<%=request.getContextPath() %>/resources/css/style-II.css" rel="stylesheet" type="text/css"/>
-       <!-- Date Picker CSS Starts -->
-    <link href="<%=request.getContextPath() %>/resources/datepick/jsDatePick_ltr.min.css" rel="stylesheet" type="text/css"/>
-    <!-- Date Picker CSS Ends -->
-    <!-- File Upload CSSS -->
+    <jsp:include page="common/head.jsp" ></jsp:include>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body>
-	<div class="top_header">
-			<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
-		</div>
-    <div class="wrapper">  
+	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
+	<div class="container">  
     <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}"> Market Data Aggregators (MA) Vendor</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
         <div class="control-group">
         	<input type="radio" name="radios"   value="savedsearch" id="savesearch">
@@ -114,9 +100,7 @@
 				</div>
     </div>
     <!-- END CONTAINER -->
-    <div class="footer_area">
-	  <jsp:include page="common/dashboardfooter.jsp" ></jsp:include>
-	</div>
+    <jsp:include page="common/footer.jsp"></jsp:include>
   
 <!-- popup window plugins start-->
 <script src="<%=request.getContextPath() %>/resources/js/popup.js" type="text/javascript"></script>

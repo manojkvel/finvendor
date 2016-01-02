@@ -11,24 +11,14 @@
 <head>
     <meta charset="utf-8" />
 	<title>finvendor</title>
-    <link href="<%=request.getContextPath() %>/resources/css/singleasset.css" type="text/css" rel="stylesheet" />
-    <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/css/reset.css" rel="stylesheet" type="text/css"/>
-	<link href="<%=request.getContextPath() %>/resources/css/style-metro.css" rel="stylesheet" type="text/css"/>
-    <link href="<%=request.getContextPath() %>/resources/css/style-II.css" rel="stylesheet" type="text/css"/>
-    <!-- Date Picker CSS Starts -->
-    <link href="<%=request.getContextPath() %>/resources/datepick/jsDatePick_ltr.min.css" rel="stylesheet" type="text/css"/>
+    <jsp:include page="common/head.jsp" ></jsp:include>
     <!-- Date Picker CSS Ends -->
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body>
-	<div class="top_header">
 	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
-	</div>
-    <div class="wrapper">  
+	<div class="container">  
         <div class="row-fluid">
 					<div class="span12">
           <div class="row-fluid service-box">
@@ -277,9 +267,7 @@
     </div>
     </div>
     <!-- END CONTAINER -->
-    <div class="footer_area">
-	  <jsp:include page="common/dashboardfooter.jsp" ></jsp:include>
-	</div>
+    <jsp:include page="common/footer.jsp"></jsp:include>
 	
 </body>
 </html>
