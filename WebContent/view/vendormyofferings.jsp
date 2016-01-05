@@ -44,7 +44,7 @@
 			</div>
 	   </div>
 		 
-    <div class="wrapper">  
+    <div class="container">  
         <div class="row-fluid">
 					<div class="span12">
           <div class="row-fluid service-box">

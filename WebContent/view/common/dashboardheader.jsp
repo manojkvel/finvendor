@@ -133,8 +133,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 </div>
 <div class="tab-container">
 	<div class="container">
-		<div class="right_nav_area">
-			<div class="right_nav">  
+			<div class="tab-navigation">  
 		 		<ul>
 					<!-- Vendor Dashboard tab's -->
 					<c:if test="${not empty myprofiletab }">
@@ -231,7 +230,6 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 					</c:if>
 				</ul>
 			</div> 
-		</div>
 	</div>
 </div>
 	<script type="text/javascript">
