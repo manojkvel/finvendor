@@ -88,37 +88,6 @@ select:focus {
      -moz-text-shadow: none;
           text-shadow: none;
 }
-.btn {
-	background-color: #6C85A3;
-	background-image: none;
-	filter: none;
-	border: 0;
-	padding: 7px 14px; 
-	font-family: "Raleway",sans-serif;  
-  font-size: 14px;  	
-  color: aliceblue;
-	cursor: pointer;
-	outline: none;
-  -webkit-box-shadow: none !important;
-     -moz-box-shadow: none !important;
-          box-shadow: none !important;
-  -webkit-border-radius: 0 !important;
-     -moz-border-radius: 0 !important;
-          border-radius: 9px !important;
-
-  -webkit-text-shadow: none;
-     -moz-text-shadow: none;
-          text-shadow: none;
-}
-.btn:hover, 
-.btn:focus, 
-.btn:active,
-.btn.active,
-.btn[disabled],
-.btn.disabled {  
-  color: #333333;
-  background-color: #d8d8d8 !important;
-}
 
 .btn.red-stripe
 {

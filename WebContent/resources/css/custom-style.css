@@ -153,7 +153,8 @@ span.help-test{
 	Button CSS
 ***************************/
 
-.btn {
+.btn,
+.tab-navigation a {
   display: inline-block;
   padding: 8px 20px;
   font-size: 16px;
@@ -164,11 +165,13 @@ span.help-test{
 .btn.success {
   background-color: #5cb85c;
 }
-.btn.info {
+.btn.info,
+.tab-navigation a {
   background-color: #5bc0de;
   color: #FFF;
 }
-.btn.warning {
+.btn.warning,
+.tab-navigation a.active {
   background-color: #f0ad4e;
 }
 .btn.danger {
@@ -224,4 +227,35 @@ span.help-test{
 }
 #cd-login{
 	width: 650px;
+}
+a:hover{
+	text-decoration: none;
+}
+.tab-navigation li{
+	display: inline-block;
+}
+.text_area{
+	padding: 20px 0;
+}
+.portlet-title{
+	min-height: 35px;
+}
+.ColumnCommonmyprofile{
+	padding: 0px !important;
+    width: 25% !important;
+	background-color: transparent !important;
+}
+.Rowtable{
+	overflow: auto;
+}
+div.lable_header {
+    margin: 0px 10px !important;
+    padding: 0px !important;
+	background-color: transparent !important;
+}
+div.lable_header a {
+    display: block;
+    font-size: 14px;
+    padding: 7px;
+    line-height: 25px;
 }

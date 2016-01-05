@@ -682,12 +682,6 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 	padding-top: 20px;
 }
 
-.Rowtable {
-	display: table;
-	width: 100%;
-	 
-	padding-top: 5px;
-}
 
 .Rowtableinfoval {
 	display: table;
@@ -1001,17 +995,9 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 }
 
 .lable_header {
-	margin: 7px 0px 0px 15px;
 	font-family: "Raleway", sans-serif;
-	font-size: 13px;
-	font-weight: bold;
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 100px;
 	background-color: #2FBFBF;
-	background: none repeat scroll 0 0 #2FBFBF;
 	color:#FFF;
-	margin: -5px;
-	padding: 4px 0px;
 	text-align: center;
 	border-radius: 7px;
 }
@@ -3965,10 +3951,6 @@ Vertical inline menu
 /***
 Custom tabs
 ***/
-.tab-content {
-	padding: 0px;
-	overflow: hidden;
-}
 
 .tabbable-custom {
 	-webkit-border-radius: 0;
