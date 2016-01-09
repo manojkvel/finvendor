@@ -771,7 +771,7 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 .ColumnCommonmyofferings {
 	width: 23.7%;
 	float: left;
-	padding: 6px;
+	padding: 0px;
 }
 .ColumnCommonmyprofiletabrayu {
 	width: 14%;
@@ -2114,6 +2114,11 @@ Box portlet
 .portlet.box>.portlet-body {
 	background-color: #fff;
 	padding: 10px;
+	display:none;
+}
+
+#asdataaggregatorvendor{
+	display: block;
 }
 
 .portlet.box>.portlet-title {

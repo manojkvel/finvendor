@@ -295,7 +295,9 @@
 														<div class="se" style="padding-left: 177px;">
 															<a class="btn" data-toggle="tab" class="step"
 																onclick="validateSpanElements('vendorProfileSpan');updateVendorPersonalInfo();">Update</a>
-															<input type="reset" value="Reset" class="btn" /> <a
+															<input type="reset" value="Reset" class="btn" /> 
+															
+															<a
 																href="#tab2" class="btn button-next" data-toggle="tab"
 																class="step" onclick="activeMode('${supportcoverage}');"
 																style="margin-left: 5px;">Continue</a>

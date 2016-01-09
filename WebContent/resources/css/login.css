@@ -437,13 +437,10 @@ xsigin/signup popup
 
 .cd-form-bottom-message {
   position: absolute;
-  width: 100%;
-  left: 0;
+  left: 390px;
   bottom: 88px;
-  text-align: center;
   font-size: 12px;
   font-size: 0.875rem;
-  padding-left: 390px;
 }
 .cd-form-bottom-messageforgot {
   position: absolute;

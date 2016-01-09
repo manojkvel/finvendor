@@ -69,14 +69,18 @@
 					<form class="cd-form" action="j_spring_security_check" method="post" id="login-submit">
 					<input type="hidden" id="redirectLink" name="redirectLink"/>
 					<div class="form-wrapper">
-						<div class="form-group medium medium-width">
-							<label>UserName</label>
-							<input class="form-control" id="signin-username" type="email" placeholder="UserName*" name="username">
+						<div class="control-group-row">
+							<div class="form-group medium half-width">
+								<label>UserName</label>
+								<input class="form-control" id="signin-username" type="email" placeholder="UserName*" name="username">
+							</div>
 						</div>
-						<div class="form-group medium medium-width" style="position: relative">
-							<label>Password</label>
-							<input class="form-control" id="signin-password" type="password"  placeholder="Password*" name="password">
-							<a href="#0" class="hide-password">Un-Hide</a>
+						<div class="control-group-row">
+							<div class="form-group medium half-width" style="position: relative">
+								<label>Password</label>
+								<input class="form-control" id="signin-password" type="password"  placeholder="Password*" name="password">
+								<a href="#0" class="hide-password">Un-Hide</a>
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="remember-me"><input type="checkbox" id="remember-me" checked> Remember me</label>

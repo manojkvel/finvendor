@@ -74,6 +74,7 @@
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/tradingapplicationvendor.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/financialanalyticsvendor.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/researchreportprovidervendor.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.bxslider.js"></script>
 	
 	
 	<!-- menu options plugins start-->
@@ -89,11 +90,7 @@
 				var example1 = $('#example1').superfish({});
 			});
 		})(jQuery);
-	</script>
-	<!-- menu options plugins end here-->
 	
-	<!-- Show loader plugins start-->
-	<script type="text/javascript">
 	function showLoader(){
 		$('#loading').show();
 	}
@@ -109,85 +106,19 @@
      $( document ). ajaxComplete(function() {
         $( "#loading" ).hide();
      });
-    
-  // History back button--:
-	 <%--   if (window.history && window.history.pushState) {
-
-	 	    $(window).on('popstate', function() {
-	 	      var hashLocation = location.hash;
-	 	      var hashSplit = hashLocation.split("#!/");
-	 	      var hashName = hashSplit[1];
-
-	 	      if (hashName !== '') {
-	 	        var hash = window.location.hash;
-	 	        if (hash === '') {
-	 	         window.location.href = "<%=request.getServletPath()%>/<%=RequestConstans.Login.HOME%>";
-	 	        }
-	 	      }
-	 	    });
-
-	 	   window.history.pushState('forward', null, './#forward');
-	 	}   
-
-     jQuery(window).bind('beforeunload', function(e) {
-			if (!validNavigation) {
-		    	  window.location.href = "<%=request.getServletPath()%>/<%=RequestConstans.Login.HOME%>";
-		      }
-		}); 
-	  --%>
-		/// F5 disbled---:
-	  <%--  function disableF5(e) { 
-			 if ((e.which || e.keyCode) == 116 ) {
-				 	e.preventDefault();
-				 	window.location.href = "<%=request.getServletPath()%>/<%=RequestConstans.Login.HOME%>"; 
-				 } 
-		 }  
-	  --%>
-		// Ajax session time out------
-			
-			<%-- function ajaxSessionTimeout()
-			{
-			    window.location = "<%=request.getContextPath()%>/<%=RequestConstans.Login.HOME%>";
-			}
-	 
-			!function( $ )
-			{
-			    $.ajaxSetup({
-			        statusCode: 
-			        {
-			            //901: ajaxSessionTimeout
-			        	500: ajaxSessionTimeout
-			        }
-			    });
-			}(window.jQuery); --%>
      
+     alert('daashboard footer');
+     $(document).ready(function() {
+    	 
+		$('.slider2').bxSlider({
+			slideWidth : 740,
+			minSlides : 1,
+			maxSlides : 1,
+			slideMargin : 15,
+			auto : true,
+		});
+	});
+    
 	</script>
 	
 	<div id="loading"></div>
-	
-	<!-- Show loader plugins end here-->
-	
-	<!-- XLSX plugins start-->
-	<!-- <script lang="javascript" src="dist/xlsx.core.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->  
-	<!-- XLSX plugins end here-->
-  
-<!-- Date plugins start-->
-	 <%-- <script type="text/javascript" src="<%=request.getContextPath() %>/resources/datepick/jquery.1.4.2.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/datepick/jsDatePick.jquery.min.1.3.js"></script>  
-   <script type="text/javascript">
-   jQuery(document).ready(function() {
-	   new JsDatePick({
-			useMode:2,
-			target:"inputField",
-			dateFormat:"%d-%M-%Y"
-		});
-	   new JsDatePick({
-			useMode:2,
-			target:"inputField1",
-			dateFormat:"%d-%M-%Y"
-		});
-   });
-</script>   --%>
-<!-- Date plugins end here-->
-	
