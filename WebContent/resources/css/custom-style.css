@@ -30,14 +30,16 @@
 	margin-bottom: 0px;
 }
 .nav-srch-cnt>ul>li{
-	display: inline-block;
-	float: none;
+	
 }
 .nav-srch-cnt >ul >li >a{
 	color: #f0f0f0;
 	font-size: 14px;
     padding: 10px 23px;
     line-height: 20px;
+}
+.nav-srch-cnt >ul >li >a i{
+	font-size: 20px;
 }
 .sf-arrows .sf-with-ul:after{
 	border-top-color: #a0a0a0;
