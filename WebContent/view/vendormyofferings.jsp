@@ -29,7 +29,6 @@
 <head>
     <meta charset="utf-8" />
 	<title>finvendor</title>
-    <jsp:include page="common/head.jsp" ></jsp:include>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

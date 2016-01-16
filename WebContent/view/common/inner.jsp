@@ -314,24 +314,28 @@
 						opacity: 0.6
 					}
 					</style>
-					<form action="<%=request.getContextPath() %>/<%=RequestConstans.MAIL.MAIL_SEND%>" method="post" id="contact_us_form"> 
-							<p>
-								<input type="text" name="contact_us_name" id="contact_us_name" placeholder="Name" size="30"/>
+					<form action="<%=request.getContextPath() %>/<%=RequestConstans.MAIL.MAIL_SEND%>" method="post" id="contact_us_form" style="width: 350px"> 
+							<div class="form-group">
+								<label>Name</label>
+								<input type="text" name="contact_us_name" class="form-control" id="contact_us_name" placeholder="Name" size="30"/>
 							<span id="contactNameError" style="display: none;">Please enter your Name.</span>
-							</p>
-							<p>
-								<input type="text" name="contact_us_phone" id="contact_us_phone" placeholder="Phone" size="30"/>
+							</div>
+							<div class="form-group">
+							<label>Phone</label>
+								<input type="text" name="contact_us_phone" class="form-control" id="contact_us_phone" placeholder="Phone" size="30"/>
 								<span id="contactPhoneError" style="display: none;">Please enter a valid phone number</span>
-							</p>		
-							<p>
-								<input type="text" name="contact_us_email" id="contact_us_email" placeholder="Email" size="30"/>
+							</div>
+							<div class="form-group">
+								<label>Email</label>
+								<input type="text" name="contact_us_email" class="form-control" id="contact_us_email" placeholder="Email" size="30"/>
 								<span id="contactEmailError" style="display: none;">Please enter a valid email address</span>
-							</p>						
-							<p>
-								<textarea name="contact_us_message" id="contact_us_message" cols="32" rows="5" placeholder="Message" value="Sample Message"></textarea>
-							</p>
+							</div>	
+							<div class="form-group">
+								<label>Message</label>
+								<textarea name="contact_us_message" class="form-control" id="contact_us_message" cols="32" rows="5" placeholder="Message" value="Sample Message"></textarea>
+							</div>
 							<br>
-							<input type="button" value="Submit" name="Submit" id="call"/>
+							<input type="button" value="Submit" name="Submit" id="call" class="btn primary"/>
 							<div id="loadingct" class="contact_loading"></div>
     							<div id="output"></div>
 				  			<!-- <button><a href="javascript:document.getElementById('contact_us_form').submit();">Send</a> </button>  -->	    	

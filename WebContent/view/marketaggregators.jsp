@@ -6,7 +6,6 @@
 <head>
     <meta charset="utf-8" />
 	<title>Fin Vendor | Vendor</title>
-    <jsp:include page="common/head.jsp" ></jsp:include>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

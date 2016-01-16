@@ -30,7 +30,6 @@
 <head>
     <meta charset="utf-8" />
 	<title>finvendor</title>
-    <jsp:include page="common/head.jsp" ></jsp:include>
     <!-- Date Picker CSS Ends -->
 </head>
 <!-- END HEAD -->

@@ -18,7 +18,7 @@
 	
 	//open modal
 	$('.hd-right a').on('click', function(event){
-		if($(this).text() == 'CONTACT') 
+		if($(this).find('i').hasClass('fa-envelope')) 
 			return;
 		if( $(event.target).is($main_nav) ) {
 			// on mobile open the submenu

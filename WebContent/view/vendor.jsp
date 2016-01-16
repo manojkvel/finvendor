@@ -27,7 +27,6 @@
 <head>
 <meta charset="utf-8" />
 <title>Fin Vendor | Vendor</title>
-<jsp:include page="common/head.jsp" ></jsp:include>
 <script
 	src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
 </head>

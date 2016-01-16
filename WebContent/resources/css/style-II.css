@@ -2112,15 +2112,13 @@ Box portlet
 
 /* portlet buttons */
 .portlet.box>.portlet-body {
-	background-color: #fff;
-	padding: 10px;
 	display:none;
 }
 
-#asdataaggregatorvendor{
-	display: block;
+#asdataaggregatorvendor,
+.portlet.box > .portlet-title + .portlet-body {
+    display: block;
 }
-
 .portlet.box>.portlet-title {
 	margin-bottom: 0px;
 }

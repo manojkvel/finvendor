@@ -8,7 +8,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>finvendor</title>
-    <jsp:include page="common/head.jsp" ></jsp:include>
     <style type="">
     tbody:before {
 	    content: "-";

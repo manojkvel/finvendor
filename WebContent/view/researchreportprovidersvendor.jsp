@@ -14,12 +14,11 @@
 <head>
     <meta charset="utf-8" />
 	<title>Fin Vendor | Vendor</title>
-    <jsp:include page="common/head.jsp" ></jsp:include>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body>
-	jsp:include page="common/dashboardheader.jsp" ></jsp:include>
+	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
 	<div class="container">  
     <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}"> Research Report (RR) Providers</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
         <div class="control-group">

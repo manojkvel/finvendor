@@ -22,7 +22,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 	<div class="container">
 		<div class="header">
 			<a href="#" onclick="homePage();" class="logo">
-				<img src="${pageContext.request.contextPath}/resources/images/icon-logo.png" alt="FinVendor" title="FinVendor" onclick="homepage();"/>
+				<img src="${pageContext.request.contextPath}/resources/images/icon-logo.jpg" alt="FinVendor" title="FinVendor" onclick="homepage();"/>
 			</a>
 			<div class="pull-right contact-detail">
 				<p>
