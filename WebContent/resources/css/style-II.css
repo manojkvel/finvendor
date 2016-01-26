@@ -780,7 +780,7 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 }
 
 .ColumnCommonmyprofinputsearch {
-	width: 17%;
+	width: 175px;
 	float: left;
 	padding: 3px 1px 4px 6px;
 }
@@ -801,7 +801,6 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 	height: 28px;
 }
 .ColumnCommonmyprofileaction {
-	width: 13%;
 	float: right;
 	padding-right: 3px;
 }
@@ -824,9 +823,9 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 }
 
 .ColumnCommonvendorpage {
-	width: 30%;
+	width: 306px;
 	float: left;
-	margin: 0px 0px 0px 34px;
+	margin: 0px !important;
 }
 
 .ColumnCommonvendorpageTradingApplicationVendor {
@@ -845,9 +844,9 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 	margin: 0px 0px 0px -2px;
 }
 .ColumnCommonvendor {
-	width: 30%;
+	width: 306px;
 	float: left;
-	margin: 0px 0px 0px -54px;
+	margin: 0px 0px 0px 0;
 }
 
 .ColumnCommonvendormarket {
@@ -899,16 +898,16 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 }
 
 .ColumnCommonvendordist {
-	width: 30%;
+	width: 306px;
 	float: left;
-	margin: 0px 0px 0px -63px;
+	margin: 0px;
 }
 
  
 .ColumnCommonvendorpre {
-	width: 30%;
+	width: 306px;
 	float: left;
-	margin: 0px 0px 0px 39px;
+	margin: 0px;
 }
 
 .ColumnCommonvendorpreTradingApplcationVendor {
@@ -939,15 +938,15 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 	margin: 0px 0px 0px 37px;
 }
 .ColumnCommonvendorpagetab3 {
-	width: 30%;
+	width: 306px;
 	float: left;
-	margin: 0px 0px 0px 50px;
+	margin: 0px;
 }
 
 .ColumnCommonvendortab3 {
-	width: 30%;
+	width: 306px;
 	float: left;
-	margin: 0px 0px 0px -35px;
+	margin: 0px;
 }
 
 .ColumnCommonvendortab3tradingapplication {
@@ -967,9 +966,57 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 	margin: 0px 0px 0px 12px;
 }
 .ColumnCommonvendorpretab3 {
-	width: 30%;
+	width: 306px;
 	float: left;
-	margin: 0px 0px 0px 15px;
+	margin: 0px;
+}
+
+
+.ColumnCommonvendor .control-group label,
+.ColumnCommonvendordist .control-group label,
+.ColumnCommonvendorpage .control-group label,
+.ColumnCommonvendorpre .control-group label,
+.ColumnCommonvendortab3 .control-group label,
+.ColumnCommonvendorpagetab3 .control-group label,
+.ColumnCommonvendorpretab3  .control-group label{
+	padding: 0px 20px !important;
+}
+
+
+.ColumnCommonvendor .control-group .controls,
+.ColumnCommonvendordist .control-group .controlsfortradingappsoftware,
+.ColumnCommonvendordist .control-group .controls,
+.ColumnCommonvendorpage .control-group .controls,
+.ColumnCommonvendorpre  .control-group .controls,
+.ColumnCommonvendortab3 .control-group .controls,
+.ColumnCommonvendorpagetab3 .control-group .controls,
+.ColumnCommonvendorpretab3  .control-group .controls{
+	margin: 0px !important;
+	padding: 0px 20px;
+}
+
+
+.ColumnCommonvendor .control-group .controls input[type=text],
+.ColumnCommonvendor .control-group .controls select,
+.ColumnCommonvendordist .control-group .controlsfortradingappsoftware input[type=text],
+.ColumnCommonvendordist .control-group .controlsfortradingappsoftware select,
+.ColumnCommonvendordist .control-group .controls input[type=text],
+.ColumnCommonvendordist .control-group .controls select,
+
+
+.ColumnCommonvendorpage .control-group .controls input[type=text],
+.ColumnCommonvendorpage .control-group .controls select,
+.ColumnCommonvendorpre .control-group .controls input[type=text],
+.ColumnCommonvendorpre .control-group .controls select,
+
+
+.ColumnCommonvendortab3 .control-group .controls input[type=text],
+.ColumnCommonvendortab3 .control-group .controls select,
+.ColumnCommonvendorpagetab3 .control-group .controls input[type=text],
+.ColumnCommonvendorpagetab3 .control-group .controls select,
+.ColumnCommonvendorpretab3  .control-group .controls input[type=text],
+.ColumnCommonvendorpretab3  .control-group .controls select{
+	width: 100% !important;
 }
 
 .ColumnCommonvendorpretab3tradinapp {
@@ -1123,9 +1170,10 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 	background: #6C85A3;
 	color: aliceblue;
 	margin: 1px;
-	padding: 0px 0;
+	padding: 0px 10px;
 	text-align: center;
 	border-radius: 7px;
+	line-height: 25px;
 }
 
 .lable_header_delete {

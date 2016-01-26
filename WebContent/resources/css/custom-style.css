@@ -1,6 +1,7 @@
 /** Header CSS**/
 .header-container{
 	background: #f0f0f0;
+	min-width: 940px;
 }
 .header-container .header{
 	padding: 10px 0;
@@ -15,6 +16,7 @@
 	background: #333;
 	border-bottom: 2px solid #ff8000;
 	margin-bottom: 20px;
+	min-width: 940px;
 }
 .nav-container .nav-srch{
 	padding: 0px;
