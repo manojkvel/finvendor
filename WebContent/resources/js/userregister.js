@@ -123,7 +123,8 @@ var Vendor = function () {
 function validateUsername() {
 	var username= $("#signup-username").val();
 	if(username !=null && username.length > 0){
-		uname = encode64(username);
+		//uname = encode64(username);
+		uname = username;
 		$.ajax({
 			type: 'POST',
 			url:  "checkregisteruservalidation?VEuLA="+uname,
@@ -141,7 +142,7 @@ function validateUsername() {
 function validateEmailId() {
 	var emailId = document.getElementById("signup-email").value;
 	if(emailId !='' && emailId.length > 0){
-		emailId = encode64(emailId);
+		//emailId = encode64(emailId);
 		var url = "emailvalidation?VeM="+emailId;
 		$.ajax({
 			type: 'POST',
@@ -174,7 +175,7 @@ function validateEmailId() {
 function validateVendorPrimaryEmailId() {
 	var emailId = document.getElementById("personalvenprimemail").value;
 	if(emailId !='' && emailId.length > 0){
-		emailId = encode64(emailId);
+		//emailId = encode64(emailId);
 		var url = "emailvalidation?VeM="+emailId;
 		$.ajax({
 			type: 'POST',
@@ -207,7 +208,7 @@ function validateVendorPrimaryEmailId() {
 function validateVendorSecondaryEmailId() {
 	var emailId = document.getElementById("personalvensecemail").value;
 	if(emailId !='' && emailId.length > 0){
-		emailId = encode64(emailId);
+		//emailId = encode64(emailId);
 		var url = "emailvalidation?VeM="+emailId;
 		$.ajax({
 			type: 'POST',
@@ -348,9 +349,9 @@ function userRegisteration() {
 	if(termsAndCondition != null && termsAndCondition != '' && 
 			document.getElementById('accept-terms').checked == true && 
 			termsAndCondition.match('acceptterms')) {
-		username = encode64(username);
-		password = encode64(password);
-		email = encode64(email);
+		//username = encode64(username);
+		//password = encode64(password);
+		//email = encode64(email);
 		document.getElementById("errMessageForTermsAndConditions").innerHTML = '' ;
 		document.getElementById("errorMessage").innerHTML = '' ;
 		$.ajax({

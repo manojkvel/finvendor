@@ -3,6 +3,7 @@
 		$form_login = $form_modal.find('#cd-login'),
 		$form_signup = $form_modal.find('#cd-signup'),
 		$form_forgot_password = $form_modal.find('#cd-reset-password'),
+		$form_change_password = $form_modal.find('#cd-change-password'),
 		$form_modal_tab = $('.cd-switcher'),
 		$tab_login = $form_modal_tab.children('li').eq(0).children('a'),
 		$tab_signup = $form_modal_tab.children('li').eq(1).children('a'),
@@ -18,7 +19,7 @@
 	
 	//open modal
 	$('.hd-right a').on('click', function(event){
-		if($(this).find('i').hasClass('fa-envelope')) 
+		if($(this).find('i').hasClass('fa-envelope'))
 			return;
 		if( $(event.target).is($main_nav) ) {
 			// on mobile open the submenu
@@ -92,6 +93,7 @@
 		$form_login.addClass('is-selected');
 		$form_signup.removeClass('is-selected');
 		$form_forgot_password.removeClass('is-selected');
+		$form_change_password.removeClass('is-selected');
 		$form_reg_success.removeClass('is-selected');
 		$tab_login.addClass('selected');
 		$tab_signup.removeClass('selected');
@@ -101,6 +103,7 @@
 		$form_login.removeClass('is-selected');
 		$form_signup.addClass('is-selected');
 		$form_forgot_password.removeClass('is-selected');
+		$form_change_password.removeClass('is-selected');
 		$form_reg_success.removeClass('is-selected');
 		$tab_login.removeClass('selected');
 		$tab_signup.addClass('selected');
@@ -110,6 +113,7 @@
 		$form_login.removeClass('is-selected');
 		$form_signup.removeClass('is-selected');
 		$form_reg_success.removeClass('is-selected');
+		$form_change_password.removeClass('is-selected');
 		$form_forgot_password.addClass('is-selected');
 	}
 	
@@ -118,6 +122,15 @@
 		$form_signup.removeClass('is-selected');
 		$form_reg_success.addClass('is-selected');
 		$form_forgot_password.removeClass('is-selected');
+		$form_change_password.removeClass('is-selected');
+	}
+	
+	function change_password_selected(){
+		$form_login.removeClass('is-selected');
+		$form_signup.removeClass('is-selected');
+		$form_reg_success.removeClass('is-selected');
+		$form_forgot_password.removeClass('is-selected');
+		$form_change_password.addClass('is-selected');
 	}
 	
 
@@ -157,36 +170,59 @@
 
 //});
 
-function loginSubmit(){
+function loginSubmit(changePassword) {
 	var username= $("#signin-username").val();
 	var password= $("#signin-password").val();
+	var chgUsername = $("#chg-password-username").val();
+	var oldPassword = $("#old_password").val();
+	var newPassword = $("#new_password").val();
+	var confirmNewPassword = $("#confirm_new_password").val();
 	var http = location.protocol;
 	var slashes = http.concat("//");
-	var urlPrefix = slashes.concat(window.location.host).concat("/finvendor/");
-	if(username != '' && username.length > 0 && password != '' && password.length > 0 ){
-		username = encode64(username);
-		password = encode64(password);
-		$.ajax({
-			type: 'POST',
-			url:urlPrefix + "checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password,
-			cache: false,
-			success: function(output) {
-				if (output.match("false")) {	
-					var errorMessage = output.split(":")[1];
-					document.getElementById("errMsgValidate").innerHTML = errorMessage;
-					return false;
-				} else {
-					document.getElementById("errMsgValidate").innerHTML = "";
-					$('.cd-user-modal').removeClass('is-visible');					
-					$('form#login-submit').submit();
-				}
-			}
-		});
-	}else{
-		document.getElementById("errMsgValidate").innerHTML = "Your login attempt was not successful, try again.";
-		$('.cd-user-modal').addClass('is-visible');
-		return false;
+	var urlPrefix = slashes.concat(window.location.host).concat("/");
+	var actionUrl = null;
+	
+	if(changePassword) {		
+		if(newPassword != confirmNewPassword) {
+			alert('New Password and Confirm New Password do not match');
+			return false;
+		}
 	}
+	
+	if(changePassword) {
+		actionUrl = urlPrefix + "checkUserLoginValidation?chgUsername="+chgUsername+"&oldPassword="+oldPassword+"&newPassword="+newPassword+"&passChange="+changePassword;
+	}else{
+		actionUrl = urlPrefix + "checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password+"&passChange="+changePassword;
+	}
+	
+	$.ajax({
+		type: 'POST',
+		url:actionUrl,
+		cache: false,
+		success: function(output) {
+			if (output.match("false")) {	
+				var errorMessage = output.split(":")[1];
+				if(errorMessage.match('Please Change your password')){
+					change_password_selected();
+				}else if(errorMessage.match('Change Password is successful')){
+					alert(errorMessage);
+					login_selected();
+				}else{ 
+					if(changePassword) {
+						document.getElementById("errMsgValidateChangePassword").innerHTML = errorMessage;
+					}else {
+						document.getElementById("errMsgValidate").innerHTML = errorMessage;
+					}
+					return false;
+				}					
+			} else {
+				document.getElementById("errMsgValidate").innerHTML = "";
+				document.getElementById("errMsgValidateChangePassword").innerHTML = "";
+				$('.cd-user-modal').removeClass('is-visible');					
+				$('form#login-submit').submit();
+			}
+		}
+	});
 }
 
 //credits http://css-tricks.com/snippets/jquery/move-cursor-to-end-of-textarea-or-input/
