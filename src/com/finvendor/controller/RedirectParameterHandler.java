@@ -29,7 +29,7 @@ public class RedirectParameterHandler implements AuthenticationSuccessHandler{
         session.setAttribute("loggedInUser", loggedInUser);
         logger.info("onAuthenticationSuccess : redirectLink " + redirectLink);
         if(redirectLink != null && !redirectLink.trim().equals("")){
-        	redirectStrategy.sendRedirect(request, response, "/ " + redirectLink);
+        	redirectStrategy.sendRedirect(request, response, "/" + redirectLink);
         }else{
         	redirectStrategy.sendRedirect(request, response, "/welcometodashboards");
         }

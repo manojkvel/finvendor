@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -44,13 +45,13 @@ public class FinVendorUser implements Serializable {
 	@Column(name="VERIFIED")
 	private String verified;
 		
-	@OneToMany(mappedBy="user", cascade = {CascadeType.ALL})
+	@OneToMany(mappedBy="user", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	private Set<UserRole> userRoles = new HashSet<UserRole>();
 	
-	@OneToOne(mappedBy="user", cascade = {CascadeType.ALL})
+	@OneToOne(mappedBy="user", cascade={CascadeType.ALL})
 	private Vendor vendor;
 	
-	@OneToOne(mappedBy="user", cascade = {CascadeType.ALL})
+	@OneToOne(mappedBy="user", cascade={CascadeType.ALL})
 	private Consumer consumer;
 	
 	public String getUserName() {

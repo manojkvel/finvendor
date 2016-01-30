@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -28,17 +29,11 @@ public class UserDAOImpl implements UserDAO {
 	private static final String DELETE_USER_VERIFICATION_RECORD = "DELETE from user_verification where username = :username";
 	private static final String UPDATE_USER_VERIFICATION_DATE = "UPDATE user_verification set verified_date = CURRENT_TIMESTAMP() where registration_id = :registrationId and username = :username and TIMESTAMPDIFF(HOUR, created_date, CURRENT_TIMESTAMP()) < " + RequestConstans.REGISTRATION_LINK_EXPIRY;
 	private static final String UPDATE_USER_REGISTER_ENABLE_STATUS = "UPDATE users set enabled = :enabled, verified = 'Y' where username = :username";
+	private static final String RESET_USER_PASSWORD = "UPDATE users SET password = :password, enabled = true, login_attempts = -100, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.UserDAOImpl#saveUserInfo(com.finvendor.model.FinVendorUser)
-	 */
 	@Override
 	public void saveUserInfo(FinVendorUser user) {
 		logger.debug("Entering UserDAOImpl : saveUserInfo");
@@ -51,12 +46,6 @@ public class UserDAOImpl implements UserDAO {
 		logger.debug("Leaving UserDAOImpl : saveUserInfo");
 	}
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.UserDAOImpl#saveUserRolesInfo(com.finvendor.model.userRole)
-	 */
 	@Transactional
 	@Override
 	public void saveUserRolesInfo(UserRole userRole) {
@@ -91,12 +80,6 @@ public class UserDAOImpl implements UserDAO {
 		
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.UserDAOImpl#getUserRoleInfobyUsername(com.finvendor.model.UserRole)
-	 */
 	@Transactional
 	@Override
 	public UserRole getUserRoleInfobyUsername(String username) {
@@ -112,12 +95,6 @@ public class UserDAOImpl implements UserDAO {
 		return (UserRole)sqlQuery.uniqueResult();
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.UserDAOImpl#getUsersInfoByNamewithPassword(com.finvendor.model.FinVendorUser)
-	 */
 	@Transactional
 	@Override
 	public List<FinVendorUser> getUserInfoByNamewithPassword(String username,
@@ -150,7 +127,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public int updateUnsuccessfulLoginAttempts(String username, boolean reset){
-		logger.debug("Entering UserDAOImpl:updateUnsucessfulLoginAttempts");
+		logger.debug("Entering UserDAOImpl:updateUnsucessfulLoginAttempts for {} ", username);
 		int updatedRows = 0;
 		SQLQuery sqlQuery = null;
 		if(reset){
@@ -166,7 +143,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override	
 	public int updateUserAccountStatus(String username, boolean status){
-		logger.debug("Entering UserDAOImpl:updateUserAccountStatus");
+		logger.debug("Entering UserDAOImpl:updateUserAccountStatus for {} to update status as {}", username, status);
 		int updatedRows = 0;
 		SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_USER_STATUS);
 		sqlQuery.setParameter("username", username);
@@ -224,6 +201,28 @@ public class UserDAOImpl implements UserDAO {
 			logger.error("Error getUserDetailsByEmailId : " + exp);
 			throw new ApplicationException("Error Reading User Details : " + email);
 		}
+	}
+	
+	@Override
+	public List<FinVendorUser> getUserDetails() {		
+		logger.debug("Entering UserDAOImpl:getUserDetails");
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from FinVendorUser");
+		@SuppressWarnings("unchecked")
+		List<FinVendorUser> userList = query.list();
+		logger.debug("Leaving UserDAOImpl:getUserDetails");
+		return userList;
+	}
+	
+	@Override
+	public int resetPassword(String username, String password) {
+		logger.debug("Entering UserDAOImpl:resetPassword for {}", username);
+		int updatedRows = 0;
+		SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(RESET_USER_PASSWORD);
+		sqlQuery.setParameter("username", username);
+		sqlQuery.setParameter("password", password);
+		updatedRows = sqlQuery.executeUpdate();
+		logger.debug("Leaving UserDAOImpl:resetPassword");
+		return updatedRows;
 	}
 
 }

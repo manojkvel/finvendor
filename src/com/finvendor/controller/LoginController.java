@@ -68,36 +68,62 @@ public class LoginController {
 	}
 
 	@RequestMapping(value=RequestConstans.Login.LOGINVALIDATION, method=RequestMethod.POST)
-	public ModelAndView loginValidation(ModelMap modelMap,HttpServletRequest request,
+	public ModelAndView loginValidation(ModelMap modelMap, HttpServletRequest request,
 			@RequestParam(value = "VEuMlA", required = false) String username,
-			@RequestParam(value = "RaYulU", required = false) String password) {
+			@RequestParam(value = "RaYulU", required = false) String password,
+			@RequestParam(value = "chgUsername", required = false) String chgUsername,
+			@RequestParam(value = "oldPassword", required = false) String oldPassword,
+			@RequestParam(value = "newPassword", required = false) String newPassword,
+			@RequestParam(value = "passChange", required = true) String passChange) {
 		
 		logger.debug("Entering LoginController : loginValidation");
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
 		String status = "false";
 		try{
-			username = CommonUtils.decrypt(username.getBytes());
-			password = CommonUtils.decrypt(password.getBytes());
-			FinVendorUser user = userService.getUserDetailsByUsername(username);			
+			//username = CommonUtils.decrypt(username.getBytes());
+			//password = CommonUtils.decrypt(password.getBytes());
+			
+			String userId = null;
+			String credentials = null;
+			boolean changePassword = Boolean.valueOf(passChange);
+			
+			if (changePassword) {
+				userId = chgUsername;
+				credentials = oldPassword;
+			}else {
+				userId = username;
+				credentials = password;
+			}
+			
+			FinVendorUser user = userService.getUserDetailsByUsername(userId);			
 			if(user == null){
-				logger.error("No User record available for : {}", username);
+				logger.error("No User record available for : {}", userId);
 				status = status + ":" + RequestConstans.INVALID_USER;
 			}else{
-				logger.info("User {} enbabled : {}", username, user.getEnabled());
+				logger.info("User {} enbabled : {}", userId, user.getEnabled());
 				if (!user.getEnabled()){
-					logger.error("User record is disabled for : {}", username);
+					logger.error("User record is disabled for : {}", userId);
 					status = status + ":" + RequestConstans.ACCOUNT_DISABLED;
 				}else{
 					BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-					if(encoder.matches(password, user.getPassword())){
-						userService.updateUnsuccessfulLoginAttempts(username, true);
-						status = "true";
+					if(encoder.matches(credentials, user.getPassword())) {
+						if(changePassword) {
+							userService.changePassword(userId, encoder.encode(newPassword));
+							userService.updateUnsuccessfulLoginAttempts(userId, true);
+							status = status + ":" + RequestConstans.LOGIN_AFTER_CHANGE_PASSWORD;
+						}
+						else if(user.getLoginAttempts() < 0) {
+							status = status + ":" + RequestConstans.CHANGE_PASSWORD;
+						} else {
+							userService.updateUnsuccessfulLoginAttempts(userId, true);
+							status = "true";
+						}						
 					}else{
-						logger.error("Incorrect password enterd for : {}", username);
+						logger.error("Incorrect password enterd for : {}", userId);
 						if(user.getLoginAttempts() >= RequestConstans.MAX_UNSUCCESSFUL_ATTEMPTS){
-							userService.updateUserAccountStatus(username, false);
+							userService.updateUserAccountStatus(userId, false);
 						}else{
-							userService.updateUnsuccessfulLoginAttempts(username, false);
+							userService.updateUnsuccessfulLoginAttempts(userId, false);
 						}
 						status = status + ":" + RequestConstans.INVALID_PASSWORD;
 					}
@@ -331,13 +357,7 @@ public class LoginController {
      }
 	
 
-	/**
-	 * method to navigate privacy
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
+	/*
 	@RequestMapping(value =RequestConstans.Login.PRIVACY, method=RequestMethod.GET)
     public ModelAndView Privacy() {
 		logger.info("Method forget password page 13---:");
@@ -351,11 +371,12 @@ public class LoginController {
 	 * @return modelAndView
 	 * @throws Exception
 	 *             the exception
-	 */ 
+	 
 	@RequestMapping(value =RequestConstans.Login.DISCLAIMER, method=RequestMethod.GET)
     public ModelAndView Disclaimer() {
 		logger.info("Method forget password page 14---:");
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.DISCLAIMER);
          return modelAndView;
      } 
+      */
 }

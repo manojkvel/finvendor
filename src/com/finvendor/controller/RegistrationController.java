@@ -314,10 +314,10 @@ public class RegistrationController {
 		Set<UserRole> userRoles = null;
 		try {
 			
-			uname = CommonUtils.decrypt(uname.getBytes());
-			password = CommonUtils.decrypt(password.getBytes());
+			//uname = CommonUtils.decrypt(uname.getBytes());
+			//password = CommonUtils.decrypt(password.getBytes());
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-			email = CommonUtils.decrypt(email.getBytes());
+			//email = CommonUtils.decrypt(email.getBytes());
 			modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
 			user.setUserName(uname.toLowerCase());
 			user.setPassword(encoder.encode(password));

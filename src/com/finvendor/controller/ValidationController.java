@@ -31,9 +31,9 @@ public class ValidationController {
 				response.getWriter().print("Email is already registered !");
 			}
 		}catch (IOException exp) {
-			logger.info("Error checking Email id : " + exp);
+			logger.error("Error checking Email id : " + exp);
 		}catch (ApplicationException exp) {
-			logger.info("Error checking Email id : " + exp);
+			logger.error("Error checking Email id : " + exp);
 			handleExceptionMessage(response, "Error validating Email id");
 		}
 		return null;
@@ -48,9 +48,9 @@ public class ValidationController {
 				response.getWriter().print("Username is already registered !");
 			}
 		}catch (IOException exp) {
-			logger.info("Error checking Username : " + exp);
+			logger.error("Error checking Username : " + exp);
 		}catch (ApplicationException exp) {
-			logger.info("Error checking Username : " + exp);
+			logger.error("Error checking Username : " + exp);
 			handleExceptionMessage(response, "Error validating Username");
 		}
 		return null;

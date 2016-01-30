@@ -25,8 +25,10 @@ public class Roles implements Serializable{
 	@Column(name="rolename")
 	private String roleName;
    
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="roles")
+	/*
+	@OneToMany(mappedBy="roles", fetch=FetchType.EAGER)
 	private Set<UserRole> userRoles = new HashSet<UserRole>();
+	*/
 	
 	public Integer getId() {
 		return id;
@@ -44,6 +46,7 @@ public class Roles implements Serializable{
 		this.roleName = roleName;
 	}
 
+	/*
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
 	}
@@ -51,4 +54,5 @@ public class Roles implements Serializable{
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
+	*/
 }

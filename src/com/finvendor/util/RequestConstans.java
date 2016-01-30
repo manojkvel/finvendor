@@ -57,6 +57,12 @@ public class RequestConstans {
 		public static final String DISCLAIMER="disclaimer";
 	}
 	
+	public interface Admin {
+		public static final String ADMIN_EDIT_REF_DATA = "adminEditRefData";
+		public static final String ADMIN_ACTION_EDIT_REF_DATA = "adminActionEditRefData";
+		public static final String ADMIN_ACTION_ADD_REF_DATA = "adminActionAddRefData";
+	}
+	
 	public interface Roles{
 		public static final String ROLE_VENDOR="ROLE_VENDOR";
 		public static final String ROLE_CONSUMER="ROLE_CONSUMER";
@@ -314,6 +320,16 @@ public class RequestConstans {
 		reqParamDescriptionMap.put("RESOURCES_blgs", "Blogs");
 		reqParamDescriptionMap.put("RESOURCES_cs", "Case Studies");
 		reqParamDescriptionMap.put("RESOURCES_s", "Spotlights");	
+		
+		/* Admin Menu entries */
+		reqParamDescriptionMap.put("ASSET_ac", "Asset Class");
+		reqParamDescriptionMap.put("ASSET_sec", "Security");
+		reqParamDescriptionMap.put("GEOGRAPHICAL_r", "Region");
+		reqParamDescriptionMap.put("GEOGRAPHICAL_c", "Country");
+		reqParamDescriptionMap.put("GEOGRAPHICAL_e", "Exchange");
+		reqParamDescriptionMap.put("GEOGRAPHICAL_cur", "Currency");
+		reqParamDescriptionMap.put("OTHER_dm", "Distribution Mode");
+		reqParamDescriptionMap.put("OTHER_supp", "Support");
 	}
 	
 	
@@ -324,6 +340,8 @@ public class RequestConstans {
 	public static final String INVALID_USER = "User Account is not registered";
 	public static final String INVALID_PASSWORD = "Invalid Password entered.\nPlease note account will be locked after " + MAX_UNSUCCESSFUL_ATTEMPTS + " unsuccessful attempts.";
 	public static final String ACCOUNT_DISABLED = "User Account is disabled";
+	public static final String CHANGE_PASSWORD = "Please Change your password";
+	public static final String LOGIN_AFTER_CHANGE_PASSWORD = "Change Password is successful. Please login again with new password.";
 	public static final String UNSUCCESSFUL_ATTEMPTS = "" + MAX_UNSUCCESSFUL_ATTEMPTS + " unsuccessfull password attempts. Account is disabled";
 	public static final int REGISTRATION_LINK_EXPIRY = 48;	
 		
