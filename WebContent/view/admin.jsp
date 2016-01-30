@@ -1,42 +1,182 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.finvendor.util.RequestConstans"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="/WEB-INF/finvendor.tld" prefix="finven"%>
+<%@taglib uri="http://jakarta.apache.org/taglibs/unstandard-1.0" prefix="un"%>
+<un:useConstants className="com.finvendor.util.RequestConstans" var="requestConstants"/>
 <html>
-<head>
-<meta charset="utf-8" />
-<!-- [if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
-<meta name="viewport"
-	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
-<title>FinVendor</title>
-<!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-  <![endif]-->
-<link href="<%=request.getContextPath() %>/resources/css/style.css" rel="stylesheet" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery.bxslider.css" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/superfish.css" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/tab.css" />
-<script type="text/javascript">
-	function ons() {
-		window.alert('ccc');
-	}
-</script>
-</head>
-<body class="container">
-	<div class="container">
-	    <jsp:include page="common/header.jsp"></jsp:include>
-	</div>
-	
-	  <div class="container">
-	       <span style="color:red">Welcome to admin dashboard page...!<br /> </span>
-	  </div>
-	
-	 <div class="container">
+	<head>
+		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
+		<link href="${pageContext.request.contextPath}/resources/css/superfish.css" rel="stylesheet"/>
+		<link href="${pageContext.request.contextPath}/resources/css/tab.css" rel="stylesheet"/>
+		<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
+		<link href="${pageContext.request.contextPath}/resources/css/dataTables.jqueryui.min.css" rel="stylesheet"/>
+		<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/superfish.js"></script>		
+		<script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/dataTables.jqueryui.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
+		
+		<script>
+			
+			( function( $ ) {
+								
+				<c:choose>
+					<c:when test="${nav == 'Manage Account'}">
+						$(document).ready(function() {
+						    $('#userAccountDetails').DataTable();
+						} );
+					</c:when>
+					<c:when test="${nav != null && subNav != null}">
+						$(document).ready(function() {
+						    $('#${nav}${subNav}').DataTable();
+						} );
+					</c:when>
+				</c:choose>
+				
+				
+			} )( jQuery );
+			
+			function changeUserAccountStatus(enable) {
+				var atLeastOneIsChecked = $('input:checkbox').is(':checked');
+				if(!atLeastOneIsChecked) {
+					alert("Please select User Account");
+					return false;
+				}
+				var userId = $("input[type='checkbox']:checked").val()
+				document.location.href = '/adminUpdateUserAccountStatus?userId=' + userId + "&enable=" + enable;
+			}
+			
+			function resetPassword() {
+				var atLeastOneIsChecked = $('input:checkbox').is(':checked');
+				if(!atLeastOneIsChecked) {
+					alert("Please select User Account");
+					return false;
+				}
+				var userId = $("input[type='checkbox']:checked").val()
+				document.location.href = '/adminResetPassword?userId=' + userId;
+			}
+			
+			function deleteReferenceDataRow(nav, subNav, tableKeyName, tableKey) {
+				if (confirm('Do you want to delete row with ' + tableKeyName + ' value ' + tableKey)) {
+					document.location.href = '/adminDeleteReferenceDataRow?nav=' + nav + "&subNav=" + subNav + "&tableKeyName=" + tableKeyName + "&tableKey=" + tableKey;
+				}
+			}
+			
+			function editReferenceDataRow(nav, subNav, tableKey) {
+				document.location.href = '/adminEditReferenceDataRow?nav=' + nav + "&subNav=" + subNav + "&tableKey=" + tableKey;
+			}
+			
+			function addReferenceDataRow(nav, subNav) {
+				document.location.href = '/adminAddReferenceDataRow?nav=' + nav + "&subNav=" + subNav;
+			}
+					
+		</script>		
+	</head>
+	<body>
+		<jsp:include page="common/head.jsp"></jsp:include>
+		<jsp:include page="common/header.jsp"></jsp:include>
+		<div class="container">
+		<div class="inner-content">
+		<div class="inner-left-wrap" id="welcomeAdmin"><span style="color:red">Welcome to Admin Dashboard</span></div>
+			<c:choose>
+				<c:when test="${subNav != null}">
+					<div class="inner-left-wrap" id="${finven:replaceCharacter(nav, ' ', '_')}_${finven:replaceCharacter(subNav, ' ', '_')}">					
+				</c:when>
+				<c:otherwise>
+					<div class="inner-left-wrap" id="${finven:replaceCharacter(nav, ' ', '_')}">
+				</c:otherwise>
+			</c:choose>				    
+		    <div><b><label class="errorMessage" style="color:red">${lastActionError}</label></b></div>
+		    <div><b><label class="errorMessage" style="color:green">${lastActionStatus}</label></b></div>
+			<br>
+			<c:choose>
+				<c:when test="${nav == 'Manage Account'}">
+					<table id="userAccountDetails" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th></th>
+								<th>User Id</th>
+								<th>Email</th>
+								<th>Role</th>
+								<th>Active</th>
+								<th>Last Login</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${userList}" var="user">
+								<tr>
+									<td><input name="useridcheck" type="checkbox" value="${user.userName}"/></td>
+									<td>${user.userName}</td>
+									<td>${user.email}</td>
+									<td>${finven:getRole(user.userRoles)}</td>
+									<td>
+										<c:choose>
+											<c:when test="${user.enabled}">Yes</c:when>
+											<c:otherwise>No</c:otherwise>
+										</c:choose>
+									</td>
+									<td>${user.lastLogin}</td>					      		
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					<br>
+					<div align="center">
+						<button onClick="changeUserAccountStatus(true)">Enable</button>&nbsp;&nbsp;
+						<button onClick="changeUserAccountStatus(false)">Disable</button>&nbsp;&nbsp;
+						<button onClick="resetPassword()">Reset Password</button>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div align="right">
+						<c:if test="${refData != null}">
+							<button onClick="addReferenceDataRow('${nav}', '${subNav}')">Add</button>
+						</c:if>
+					</div>
+					<table id="${nav}${subNav}" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<c:forTokens items="${refData.columnNames}" delims="," var="column" varStatus="columnCounter">
+									<c:if test="${columnCounter.count == 1}">
+										<c:set var="tableKeyName" value="${column}" scope="page"/>
+									</c:if>
+									<th>${column}</th>								
+								</c:forTokens>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${referenceTableData}" var="tableDataRow">
+								<tr>
+									<c:forEach items="${tableDataRow}" var="columnRow" varStatus="columnCounter">
+										<c:if test="${columnCounter.count == 1}">
+											<c:set var="tableKey" value="${columnRow}" scope="page"/>
+										</c:if>
+										<c:choose>
+											<c:when test="${columnRow != null}">
+												<td>${columnRow}</td>
+											</c:when>
+											<c:otherwise>
+												<td>&nbsp;</td>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+									<td align="center">
+										<a href="#" onClick="editReferenceDataRow('${nav}', '${subNav}', '${tableKey}')""><img src="${pageContext.request.contextPath}/resources/images/edit.png" alt="Edit" title="Edit"/></a>&nbsp;
+										<a href="#" onClick="deleteReferenceDataRow('${nav}', '${subNav}', '${tableKeyName}', '${tableKey}')"><img src="${pageContext.request.contextPath}/resources/images/delete.png" alt="Delete" title="Delete"/></a>
+									</td>
+								</tr>																
+							</c:forEach>
+						</tbody>
+					</table>
+				</c:otherwise>
+			</c:choose>
+		</div>
+		</div>
+		<jsp:include page="adminMenu.jsp"></jsp:include>
+		</div>
+						
 		<jsp:include page="common/footer.jsp"></jsp:include>
-	</div>
-</body>
+	</body>
 </html>

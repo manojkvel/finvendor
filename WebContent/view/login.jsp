@@ -66,20 +66,25 @@
 				</ul>
 				<%-- login form --%>
 				<div id="cd-login"> 
+				<span id="loginSpan">
 					<form class="cd-form" action="j_spring_security_check" method="post" id="login-submit">
 					<input type="hidden" id="redirectLink" name="redirectLink"/>
 					<div class="form-wrapper">
 						<div class="control-group-row">
 							<div class="form-group medium half-width">
 								<label>UserName</label>
-								<input class="form-control" id="signin-username" type="email" placeholder="UserName*" name="username">
+								<input class="form-control" id="signin-username" type="email" placeholder="UserName*" name="username" data-mandatory="Y"
+								onblur="validateNotNull(this, 'loginUsernameErrorMsg')">
+								<div><label id="loginUsernameErrorMsg" class="errorMessage"></label></div>
 							</div>
 						</div>
 						<div class="control-group-row">
 							<div class="form-group medium half-width" style="position: relative">
 								<label>Password</label>
-								<input class="form-control" id="signin-password" type="password"  placeholder="Password*" name="password">
+								<input class="form-control" id="signin-password" type="password"  placeholder="Password*" name="password" data-mandatory="Y"
+								onblur="validateNotNull(this, 'loginPasswordErrorMsg')">
 								<a href="#0" class="hide-password">Un-Hide</a>
+								<div><label id="loginPasswordErrorMsg" class="errorMessage"></label></div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -88,11 +93,12 @@
 							<div><label id="errMsgValidate" class="errorMessage"></label></div>
 						</div>			
 						<div class="button-group">
-							<input class="btn info" type="submit" value="Login" onclick="loginSubmit()">
+							<input class="btn info" type="submit" value="Login" onclick="document.getElementById('errMsgValidate').innerHTML = ''; if (validateSpanElements('loginSpan')) loginSubmit(false)">
 						</div>
 						<div><br></div>
 						</div>
 					</form>
+				</span>
 					<p class="cd-form-bottom-message" style="margin-bottom: 9px;"><a href="#0" style="color: black;">Forgot Password?</a></p>
 				</div> <%-- cd-login --%>			
 	 			<%-- sign up form --%>
@@ -205,7 +211,49 @@
 						</div>
 					</form>
 					<p class="cd-form-bottom-message"><a href="#0" style="color: black;">Back to log-in</a></p>
-				</div> <%-- cd-reset-password --%>			
+				</div> <%-- cd-reset-password --%>	
+				<div id="cd-change-password"> 
+				<span id="changePasswordSpan">
+					<form class="cd-form" style="padding: 7em;" method="post" id="change-password-form">
+						<div style="border: 1px solid #41BFDA; border-radius:22px; padding: 0px 30px 0px 30px;">
+							<div><br></div>
+							<p class="fieldset">
+								<label class="image-replace cd-username" for="chg-password-username">UserName*</label>
+								<input class="full-width has-padding has-border" id="chg-password-username" type="text" 
+								placeholder="UserName*" name="chg-password-username" data-mandatory="Y"
+								onblur="validateNotNull(this, 'changePasswordUsernameErrorMsg')">
+								<div><label id="changePasswordUsernameErrorMsg" class="errorMessage"></label></div>						
+							</p>
+							<p class="fieldset">
+								<label class="image-replace cd-password" for="signin-password-old-password">Old Password*</label>
+								<input class="full-width has-padding has-border" id="old_password" type="password" 
+								placeholder="Old Password*" name="old_password" data-mandatory="Y"
+								onblur="validateNotNull(this, 'changePasswordOldPasswordErrorMsg')">
+								<div><label id="changePasswordOldPasswordErrorMsg" class="errorMessage"></label></div>							
+							</p>
+							<p class="fieldset">
+								<label class="image-replace cd-password" for="signin-password-new-password">New Password*</label>
+								<input class="full-width has-padding has-border" id="new_password" type="password" 
+								placeholder="New Password*" name="new_password" data-mandatory="Y"
+								onblur="validateNotNull(this, 'changePasswordNewPasswordErrorMsg')">
+								<div><label id="changePasswordNewPasswordErrorMsg" class="errorMessage"></label></div>						
+							</p>
+							<p class="fieldset">
+								<label class="image-replace cd-password" for="signin-password-old-password">Confirm New Password*</label>
+								<input class="full-width has-padding has-border" id="confirm_new_password" type="password"  
+								placeholder="Confrim New Password*" name="confirm_new_password" data-mandatory="Y" 
+								onblur="validateNotNull(this, 'changePasswordConfirmNewPasswordErrorMsg')">	
+								<div><label id="changePasswordConfirmNewPasswordErrorMsg" class="errorMessage"></label></div>	
+								<div><label id="errMsgValidateChangePassword" class="errorMessage"></label></div>				
+							</p>
+							<p class="fieldset">
+								<input class="full-width" type="button" value="Change Password" onclick="document.getElementById('errMsgValidateChangePassword').innerHTML = ''; if (validateSpanElements('changePasswordSpan')) loginSubmit(true)">
+							</p>
+							<div><br></div>
+						</div>
+					</form>
+				</span>
+			</div> <%-- cd-change-password --%>			
 				<div id="cd-reg-success-message">
 					<p class="cd-form-message" style="color:green">
 						You have successfully registered on FinVendor<br>

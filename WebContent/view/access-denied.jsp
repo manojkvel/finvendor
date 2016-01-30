@@ -15,7 +15,7 @@
 			<jsp:include page="common/header.jsp"></jsp:include>
 		</div>	
 		<div class="container">
-			<font color="red">${errorMessage}</font>
+			<font color="red">You are not Authorized to access this page</font>
 		</div>	
 		<jsp:include page="login.jsp"></jsp:include>	
 		<div class="container">
