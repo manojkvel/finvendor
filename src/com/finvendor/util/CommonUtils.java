@@ -1,95 +1,45 @@
-/**
- * 
- */
 package com.finvendor.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.UserRole;
 
-
-
-
-/**
- * @author rayulu vemula
- *
- */
 public class CommonUtils {
 	
 	private static final Logger logger = Logger.getLogger(CommonUtils.class);
 	
-	/**
-	 * Method to Encrypt given data.
-	 * 
-	 * @return String
-	 */
 	public static String encrypt(String str) {
-
-        logger.debug("encrypt method..... ");
-
+        logger.debug("CommonUtils : encrypt");
 		byte[] encodedBytes = Base64.encodeBase64(str.getBytes());
-
 		return new String(encodedBytes);
-
 	}
 
-	/**
-	 * ---------------------------------------------------------------------
-	 */
-	/**
-	 * Method to Decrypt given data.
-	 * 
-	 * @param bytes
-	 * @return String
-	 */
 	public static String decrypt(byte[] bytes) {
-
-      logger.debug("decrypt method..... ");
-
+      logger.debug("CommonUtils : decrypt");
 		byte[] decodedBytes = Base64.decodeBase64(bytes);
-
 		return new String(decodedBytes).replaceAll("%20", " ");
-
 	}
 	
-	/* ---------------------------------------------------------------------- */
-	/**
-	 * Method used for getting the decrypted string for given data. 
-	 * 
-	 * @param data
-	 * @return
-	 */
-	public static String decrypt(String data) {
-		
+	public static String decrypt(String data) {		
 		if (isValidStr(data))
 			return decrypt(data.getBytes());
 		else 
-			return "";
-					
+			return "";					
 	}
-	/**
-	 * Method used for string is valid.
-	 * 
-	 * @param str
-	 * @return
-	 */
+	
 	public static boolean isValidStr(String str) {
 		if (str == null || str.isEmpty())
 			return false;
 		else
-			return true;
-		
+			return true;		
 	}
-	/**
-	 * Method used for object is valid.
-	 * 
-	 * @param obj
-	 * @return
-	 */
+	
 	public static boolean isValidObj(Object obj) {
 		if (obj == null  || obj.toString() == null) 
 			return false;
@@ -97,26 +47,10 @@ public class CommonUtils {
 			return true;
 	}
 	
-	/* ---------------------------------------------------------------------- */
-	/**
-	 * Method used to find the is Number character or not.
-	 * 
-	 * @param str
-	 * @return
-	 */
 	public static boolean isNumeric(String str) {  
 	    return (isValidStr(str)? str.matches("\\d+") : false);  
 	}
 	
-	/**
-	 * ---------------------------------------------------------------------
-	 */
-	/**
-	 * Method to get FileContentType
-	 * 
-	 * @param fileType
-	 * @return String
-	 */
 	public static String getFileContentType(String fileType) {
 		String contentType = "";
 		if (fileType.equalsIgnoreCase("doc")
@@ -147,13 +81,19 @@ public class CommonUtils {
 
 	}
 	
-	public static String resolveContextPath(String contextPath) {
-		
+	public static String resolveContextPath(String contextPath) {	
 		if ((contextPath) == null || "".equals(contextPath))
 			return "/";
 		else 
-			return contextPath;
-					
+			return contextPath;					
+	}
+	
+	public static String replaceCharacter(String originalString, String oldChar, String newChar) {
+		if (originalString != null) {
+			return originalString.replaceAll(oldChar, newChar);
+		}else {
+			return originalString;
+		}
 	}
 	
 	public static String encodeUsingSHA512(String source) throws ApplicationException{
@@ -165,6 +105,21 @@ public class CommonUtils {
 		}
 		sha512.update(source.getBytes());
 		return convertByteToHex(sha512.digest());		
+	}
+	
+	public static String getRole(@SuppressWarnings("rawtypes") Set userRoles) {
+		logger.debug("CommonUtils : getRole");
+		StringBuilder roles = new StringBuilder(8);
+		for (Object roleObject : userRoles) {
+			UserRole role = (UserRole)roleObject;
+			roles.append(role.getRoles().getRoleName().substring(5));
+			roles.append(",");
+		}
+		if (roles.length() > 0) {
+			return roles.substring(0, roles.length() -1);
+		}else {
+			return "";
+		}
 	}
 	
 	private static String convertByteToHex(byte data[]){
