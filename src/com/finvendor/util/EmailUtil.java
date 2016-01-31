@@ -36,7 +36,7 @@ public class EmailUtil {
 		em.sendMail();
 	}
 	
-	public void sendRegistartionEmail(FinVendorUser user, String emailId, String registrationId) throws MessagingException{
+	public static void sendRegistartionEmail(FinVendorUser user, String emailId, String registrationId) throws MessagingException {
 		logger.debug("Entering EmailUtil:sendRegistartionEmail for {}", emailId);
 		Session session = getMailSession();
 		Message message = new MimeMessage(session);
@@ -61,7 +61,28 @@ public class EmailUtil {
 		logger.debug("Leaving EmailUtil:sendRegistartionEmail for {}", emailId);
 	}
 	
-	private Session getMailSession(){
+	public static void sendResetPasswordEmail(FinVendorUser user, String password) throws MessagingException {
+		logger.debug("Entering EmailUtil:sendResetPasswordEmail for {}", user.getUserName());
+		Session session = getMailSession();
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(FROM_EMAIL));
+		message.setRecipients(Message.RecipientType.TO,
+			InternetAddress.parse(user.getEmail()));
+		message.setSubject("FinVendor Reset Password");
+		StringBuilder content = new StringBuilder();
+		content.append("Dear ");
+		content.append(user.getUserName());
+		content.append(", \n");
+		content.append("Please find below new password for your FinVendor Account\n");
+		content.append(password);
+		content.append("\n\n");
+		content.append("Please login to FinVendor and change your password");
+		message.setText(content.toString());
+		Transport.send(message);
+		logger.debug("Leaving EmailUtil:sendResetPasswordEmail for {}", user.getUserName());
+	}
+	
+	private static Session getMailSession(){
 		Session session = Session.getInstance(mailProp,
 		  new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -71,7 +92,7 @@ public class EmailUtil {
 		return session;
 	}
 
-	public void sendMail(){
+	public static void sendMail(){
 		
 		Session session = getMailSession();
 
@@ -80,7 +101,7 @@ public class EmailUtil {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("sales@finvendor.com"));
 			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("gbelanekar@gmail.com"));
+				InternetAddress.parse(""));
 			message.setSubject("Testing Subject");
 			message.setText("Test mail,"
 				+ "\n\n Mochahost registration");
