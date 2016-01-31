@@ -18,4 +18,14 @@
         <function-class>com.finvendor.util.CommonUtils</function-class>
         <function-signature>java.lang.String resolveContextPath(java.lang.String)</function-signature>
     </function>
+     <function>
+        <name>replaceCharacter</name>
+        <function-class>com.finvendor.util.CommonUtils</function-class>
+        <function-signature>java.lang.String replaceCharacter(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>getRole</name>
+        <function-class>com.finvendor.util.CommonUtils</function-class>
+        <function-signature>java.lang.String getRole(java.util.Set)</function-signature>
+    </function>
  </taglib>

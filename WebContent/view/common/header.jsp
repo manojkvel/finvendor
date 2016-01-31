@@ -16,6 +16,11 @@
 			</a> 
 			<div class="pull-right contact-detail">
 				<p>
+					<c:if test="${sessionScope.loggedInUser != null }">
+						<i class="fa fa-pencil"></i> Financial Vendor? 
+						<a class="link" href="#">List your offerings</a>
+					</c:if>
+					<%-- 
 					<c:choose>
 						<c:when test="${not empty username || not empty myusername}"></c:when>
 						<c:otherwise>
@@ -23,11 +28,13 @@
 							<a class="link" href="#">List your offerings</a>
 						</c:otherwise>
 					</c:choose>
+					--%>
 				</p>
 				<ul class="hd-right">
 					<c:choose>
-						<c:when test="${not empty username || not empty myusername}">
-							<li class="block">Welcome <c:out value="${fn:toUpperCase(username)}" /></li>
+						<%--<c:when test="${not empty username || not empty myusername}">--%>
+						<c:when test="${sessionScope.loggedInUser != null }">
+							<li class="block">Welcome <c:out value="${fn:toUpperCase(sessionScope.loggedInUser.username)}" /></li>
 							<li><a href="<%=request.getContextPath() %>/logout">Logout</a></li>														
 						</c:when>
 						<c:otherwise>

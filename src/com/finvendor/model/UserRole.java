@@ -23,11 +23,11 @@ public class UserRole implements Serializable{
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 	
-	@ManyToOne(targetEntity=FinVendorUser.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=FinVendorUser.class)
 	@JoinColumn(name="username", nullable=false)
 	private FinVendorUser user; 
 	
-	@ManyToOne(targetEntity=Roles.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=Roles.class)
 	@JoinColumn(name="role_id", nullable=false) 
 	private Roles roles;
 	

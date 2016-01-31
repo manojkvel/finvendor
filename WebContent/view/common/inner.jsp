@@ -1,14 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.finvendor.util.RequestConstans"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="/WEB-INF/finvendor.tld" prefix="finVen"%>
+<%@taglib uri="/WEB-INF/finvendor.tld" prefix="finven"%>
 <%@taglib uri="http://jakarta.apache.org/taglibs/unstandard-1.0" prefix="un"%>
 <un:useConstants className="com.finvendor.util.RequestConstans" var="requestConstants"/>
 <html>
 	<head>
 		<title>FinVendor</title>
 		<jsp:include page="head.jsp"></jsp:include>
-		
 		<!-- being referenced - no file found <link href="${pageContext.request.contextPath}/resources/newsingleasset/css/main.css" rel="stylesheet"/> -->
 		<script src="${pageContext.request.contextPath}/resources/js/CreateHTML5Elements.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
@@ -33,7 +32,7 @@
 						$(divId).show();
 						$('#sidelinks li').removeClass('li-ico');
 						$(this).closest('li').addClass('li-ico');
-						$('#breadcrumb_text').html('<ul><li><a href="${finVen:resolveContextPath(pageContext.request.contextPath)}">HOME</a></li>' + checkElement);
+						$('#breadcrumb_text').html('<ul><li><a href="${finven:resolveContextPath(pageContext.request.contextPath)}">HOME</a></li>' + checkElement);
 						checkElement = $(this).next();
 						if((checkElement.is('ul')) && (checkElement.is(':visible'))) {
 						  $(this).closest('li').removeClass('active');
@@ -49,14 +48,14 @@
 					
 		</script>	
 	</head>
-	<c:set var="username" value="${finVen:decrypt(param.RaYUnA)}"></c:set>
+	<%--<c:set var="username" value="${finven:decrypt(param.RaYUnA)}"></c:set>--%>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>
 		<jsp:include page="../login.jsp"></jsp:include>
 			<div class="inner-breadcrumb">
 			  <div class="container" id="breadcrumb_text">
 			    <ul>
-			      <li><a href="${finVen:resolveContextPath(pageContext.request.contextPath)}">HOME</a></li>			      
+			      <li><a href="${finven:resolveContextPath(pageContext.request.contextPath)}">HOME</a></li>			      
 			      <c:choose>
 			      	<c:when test="${param.subNav != null}">
 			      		<li class="li-spr">></li>		      
@@ -67,7 +66,7 @@
 			      	</c:when>
 			      	<c:otherwise>
 			      		<li class="li-spr">></li>		      
-			      		<li>${param.nav}</li>
+			      		<li>${finven:replaceCharacter(param.nav, "_", " ")}</li>
 			      	</c:otherwise>
 			      </c:choose>			      				      
 			    </ul>
@@ -295,6 +294,18 @@
 			      <h1>Vision Statement</h1>
 			      <p>FinVendor endeavors assiduously to strengthen the ‘Not-So-Strong’ link between vendors and financial end-users and create a win-win situation for both vendors as well as financial institutions.</p>
 			     </div>
+			     <div class="inner-left-wrap" id="Privacy_Policy">
+			      <h1>Privacy Policy</h1>
+			      <p>(Request-For-Proposal) with their detailed vendor’s product needs. Such RFPs are made available to all FinVendor listed vendors. End-Users can also track their initiated RFPs, review vendor detailed response and finalize the vendor in the least possible time. Financial vendors (Data Aggregators, Trading Application Vendor, Financial Analytics Application Vendor, Financial Research Report Providers) can list their offerings in the well-researched FinVendor format. Data vendors can also participate in all open RFPs (Request-For-Proposal) initiated by data End-Users.</p>
+			     	<h1>Restrictions</h1>
+			      <p>On FinVendor platform, End-Users(I-banks, Portfolio Managers, Hedge Funds, Research Analyst, University Scholars, etc) can search all available vendors for a certain vendor offerings (Market Data Vendor, Trading Application Vendor, Financial Analytics Application Vendor, Financial Research Report Providers). End-Users can see the granular level info about the vendor product offerings. End-Users can also initiate a RFP</p>			      
+			     </div>
+			     <div class="inner-left-wrap" id="Disclaimer">
+			     <h1>Disclaimer of Warranty: Limitation of Liability</h1>
+			      <p>(Request-For-Proposal) with their detailed vendor’s product needs. Such RFPs are made available to all FinVendor listed vendors. End-Users can also track their initiated RFPs, review vendor detailed response and finalize the vendor in the least possible time. Financial vendors (Data Aggregators, Trading Application Vendor, Financial Analytics Application Vendor, Financial Research Report Providers) can list their offerings in the well-researched FinVendor format. Data vendors can also participate in all open RFPs (Request-For-Proposal) initiated by data End-Users.</p>
+			     <h1>Restrictions</h1>
+			      <p>On FinVendor platform, End-Users(I-banks, Portfolio Managers, Hedge Funds, Research Analyst, University Scholars, etc) can search all available vendors for a certain vendor offerings (Market Data Vendor, Trading Application Vendor, Financial Analytics Application Vendor, Financial Research Report Providers). End-Users can see the granular level info about the vendor product offerings. End-Users can also initiate a RFP</p>
+			     </div>
 			     <div class="inner-left-wrap" id="CONTACT">
 			      <h1>Leave us a message...</h1>
 			      	 <br>
@@ -410,7 +421,7 @@
 				    $('#SERVICES_ul').slideUp();
 				    $('#RESOURCES_ul').slideUp();
 				    <c:choose>
-				    	<c:when test="${param.subNav != null}">
+				      	<c:when test="${param.subNav != null}">
 				      		$('#${param.nav}_${param.subNav}').show();
 				      		$('li').filter(function() { return $.text([this]) === '${requestConstants.reqParamDescriptionMap[requestMapKey]}'; }).addClass('li-ico');
 				      	</c:when>
@@ -425,7 +436,7 @@
 			    <div class="clearfix"></div>
 			  </div>
 			</div>
-		<jsp:include page="footer.jsp"></jsp:include>
+		<jsp:include page="footer.jsp"></jsp:include>		
 	</body>
 	
 	

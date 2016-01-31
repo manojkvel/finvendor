@@ -15,9 +15,9 @@
 				<ul class="send-ul">
 					<li><font style="font-weight:bold">© 2015 Fin Vendor. All rights reserved.</font></li>
 					<li><a href="<%=request.getContextPath()%>/sitemap"><font style="font-weight:bold"><b>Sitemap</b></font></a></li>
-					<li><a href="<%=request.getContextPath()%>/privacy"><font style="font-weight:bold"><b>Privacy Policy</b></font></a></li>
+					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Privacy_Policy"><b>Privacy Policy</b></font></a></li>
 					<li><a href="#"><font style="font-weight:bold"><b>Advertise</b></font></a></li>
-					<li><a href="<%=request.getContextPath()%>/disclaimer"><font style="font-weight:bold"><b>Disclaimer</b></font></a></li>
+					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Disclaimer"><b>Disclaimer</b></font></a></li>
 				</ul>
 			</div>
 			<div class="footer-right-wrap" id="footer-right-wrap">
