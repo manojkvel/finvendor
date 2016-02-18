@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
 	// Support Details 
 	$(document).on("click", ".addtotable", function (e){
+		debugger;
 		document.getElementById('jsontable1').value = "";
 		var assetclass = $("#assetclass").val();
 		var securitynames = $("#assetClassVendorSecurityMaps").val();
@@ -21,21 +22,37 @@ jQuery(document).ready(function() {
 				dataattribute != null && dataattribute.length > 0){
 			document.getElementById("supportceoveragevalidationforaddmore").innerHTML = '';
 			
-			$("#sample_1 tbody").append('<tr><td>' + assetclass + '</td><td>' + securitynames + '</td> <td>' + datacoverageregion + '</td>   <td>' + datacoveragecountry + '</td>  <td>' + datacoverageexchange + '</td>  <td>' + dataattribute + '</td>  <td><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-			var table = $('#sample_1').tableToJSON();
-			
-			document.getElementById('jsontable1').value = JSON.stringify(table);
+			var newRow = '<tr><td>' + assetclass + '</td><td>' + securitynames + '</td> <td>' + datacoverageregion + '</td>   <td>' + datacoveragecountry + '</td>  <td>' + datacoverageexchange + '</td>  <td>' + dataattribute + '</td>  <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
+			var tableContain = $("#sample_1 tbody").value;
+			 if (!(tableContain === undefined) && tableContain.indexOf(newRow) > -1 ){
+				 
+						alert("Duplicate Row ");
+				
+			 } else{
+				 $("#sample_1 tbody").append(newRow);
+				 var table = $('#sample_1').tableToJSON();
+				 document.getElementById('jsontable1').value = JSON.stringify(table);
+				 
+			 }
 		}else{
-			document.getElementById("supportceoveragevalidationforaddmore").innerHTML = 'please choose mandatory fields..!';
+			document.getElementById("supportceoveragevalidationforaddmore").innerHTML = 'Please choose mandatory fields..!';
 		}
 		
 		
 	});
 	 $(document).on("click", ".deleteButton", function (e) {
-    	var target = e.target;
-		$(target).closest('tr').remove();
-		var table = $('#sample_1').tableToJSON();
-	    document.getElementById('jsontable1').value = JSON.stringify(table);
+    	
+		
+		  var r = confirm("Are you sure want to delete?");
+		    if (r == true) {
+				 var target = e.target;
+				$(target).closest('tr').remove();
+				var table = $('#sample_1').tableToJSON();
+			    document.getElementById('jsontable1').value = JSON.stringify(table);
+		    } else {
+		        
+		    }
+		 
 	});
 	 
 	 ///CSV File for Support Details Upload Code
@@ -52,7 +69,7 @@ jQuery(document).ready(function() {
 	                  var rows = e.target.result.split("\n");
 	                    for (var i = 1; i < rows.length; i++) {
 	                    	 if(rows[i].split(",")[1]){
-	                    		 $("#sample_1 tbody").append('<tr><td>' + rows[i].split(",")[0] + '</td><td>' + rows[i].split(",")[1] + '</td> <td>' + rows[i].split(",")[2] + '</td>   <td>' + rows[i].split(",")[3] + '</td>  <td>' + rows[i].split(",")[4] + '</td>  <td>' + rows[i].split(",")[5] + '</td>  <td><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td></tr>'); 
+	                    		 $("#sample_1 tbody").append('<tr><td>' + rows[i].split(",")[0] + '</td><td>' + rows[i].split(",")[1] + '</td> <td>' + rows[i].split(",")[2] + '</td>   <td>' + rows[i].split(",")[3] + '</td>  <td>' + rows[i].split(",")[4] + '</td>  <td>' + rows[i].split(",")[5] + '</td>  <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>'); 
 	                    	 }
 	                    }
 	                	document.getElementById('jsontable1').value = JSON.stringify($('#sample_1').tableToJSON()); 
@@ -68,34 +85,9 @@ jQuery(document).ready(function() {
 	        
 	    });
 	 
-	// Award Details 
-		$(document).on("click", ".awardaddtotable", function (e){
-			document.getElementById('awardjsontable1').value = "";
-			var awardassetclass = $("#awardassetclass").val();
-			var assetClassVendorSecurityAwardMaps = $("#assetClassVendorSecurityAwardMaps").val();
-		    var awardname = $("#awardname").val();
-		    var awardsponsor = $("#awardsponsor").val();
-		    var awardedyear = $("#awardedyear").val();
-		    
-			document.getElementById("awardassetclass").value = awardassetclass;
-			document.getElementById("assetClassVendorSecurityAwardMaps").value = assetClassVendorSecurityAwardMaps;
-			document.getElementById("awardname").value = awardname;
-			document.getElementById("awardsponsor").value = awardsponsor;
-			document.getElementById("awardedyear").value = awardedyear;
+	
 			
-			if(awardassetclass != '-SELECT-' && assetClassVendorSecurityAwardMaps != null && assetClassVendorSecurityAwardMaps.length > 0  
-					&& awardname != null && awardname.length >0 
-					&& awardsponsor != null && awardsponsor.length > 0 && awardedyear != null && awardedyear.length >0){
-				document.getElementById("awardvalidationforaddmore").innerHTML = '';
-				$("#awardsample_1 tbody").append('<tr><td>' + awardassetclass + '</td><td>' + assetClassVendorSecurityAwardMaps + '</td> <td>' + awardname + '</td>   <td>' + awardsponsor + '</td>  <td>' + awardedyear + '</td>     <td><a class="awarddeleteButton"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-				var table = $('#awardsample_1').tableToJSON();
-				document.getElementById('awardjsontable1').value = JSON.stringify(table);
-			}else{
-				document.getElementById("awardvalidationforaddmore").innerHTML = 'please choose mandatory fields..!';
-			}
-			
-			
-		});
+		
 		 $(document).on("click", ".awarddeleteButton", function (e) {
 	    	var target = e.target;
 			$(target).closest('tr').remove();
@@ -105,6 +97,7 @@ jQuery(document).ready(function() {
 		 
 		 ///CSV File for Support Details Upload Code
 		 $(document).on("click", ".fileupload", function (e) {
+			 debugger;
 			 var fileId = $("#fileUpload").val();
 			 if(fileId != null && fileId.length > 0){
 				 loadUploadFiles(fileId);	 
@@ -117,7 +110,7 @@ jQuery(document).ready(function() {
 		                  var rows = e.target.result.split("\n");
 		                    for (var i = 1; i < rows.length; i++) {
 		                    	 if(rows[i].split(",")[1]){
-		                    		 $("#awardsample_1 tbody").append('<tr><td>' + rows[i].split(",")[0] + '</td><td>' + rows[i].split(",")[1] + '</td> <td>' + rows[i].split(",")[2] + '</td>   <td>' + rows[i].split(",")[3] + '</td>  <td>' + rows[i].split(",")[4] + '</td>     <td><a class="awarddeleteButton"> <span class="lable_header_delete">Remove</span> </a></td></tr>'); 
+		                    		 $("#awardsample_1 tbody").append('<tr><td>' + rows[i].split(",")[0] + '</td><td>' + rows[i].split(",")[1] + '</td> <td>' + rows[i].split(",")[2] + '</td>   <td>' + rows[i].split(",")[3] + '</td>  <td>' + rows[i].split(",")[4] + '</td>     <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>'); 
 		                    	 }
 		                    }
 		                	document.getElementById('awardjsontable1').value = JSON.stringify($('#awardsample_1').tableToJSON()); 
@@ -135,25 +128,398 @@ jQuery(document).ready(function() {
 	 
 	 // Data Coverage
 	 $(document).on("click", ".addtotablesupport", function (e){
-			document.getElementById('jsontablesupport').value = "";
+		 debugger;
+		 
+		    var solutionDataCoverage = $("#solutionDataCoverage").val();
+		    var offeringsDataCoverage = $("#offeringsDataCoverage").val();
 			var supportcoverageregion = $("#supportcoverageregion").val();
 			var supportcoveragecountry = $("#supportcoveragecountry").val();
-		    var vendorsupporttime = $("#vendorsupporttime").val();
 		    var vendorcostrange = $("#vendorcostrange").val();
 		    var phonenumber = $("#phonenumber").val();
 		    var email = $("#email").val();
-			document.getElementById("supportcoverageregion").value = supportcoverageregion;
-			document.getElementById("supportcoveragecountry").value = supportcoveragecountry;
-			document.getElementById("vendorsupporttime").value = vendorsupporttime;
-			document.getElementById("phonenumber").value = phonenumber;
-			document.getElementById("email").value = email;
-			$("#samplesupport tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-			var table = $('#samplesupport').tableToJSON();
-			document.getElementById('jsontablesupport').value = JSON.stringify(table);
+		
+			
+			$.ajax({
+				type: 'GET',
+				url:  "addVendorDataCoverage?solutionDataCoverage="+solutionDataCoverage+"&offeringsDataCoverage="+offeringsDataCoverage+"&supportcoverageregion="+supportcoverageregion+"&supportcoveragecountry="+supportcoveragecountry+"&vendorcostrange="+vendorcostrange+"&phonenumber="+phonenumber+"&email="+email,
+				cache:false,
+				success : function(response){
+
+				     $("#offeringFilesTable tbody").empty();	 
+			        var tableRecord = "";
+			        for(i =0 ; i < response.length ; i++){                                                                                    
+			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].cost+'</td><td>'+response[i].phonNo+'</td><td>'+response[i].email+'</td><td onclick="deleteRecordDataCoverage(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	                                                                                                                           
+			        }
+			        $("#dataCoverageTable tbody").append(tableRecord);
+	
+					alert('You have updated sucessfully..!');
+				},
+				error : function(errorMsg, textStatus, jqXHR){
+					// alert('Error: '+errorMsg+':'+textStatus);
+				}
+			});
+			
+			
+			
+			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
+				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
+			if(true){	
+				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+				var table = $('#samplesupport').tableToJSON();
+				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
+			}else{
+				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+			}
+			
 		});
 	 
-	///CSV File for Support Coverage Upload Code
+	 
+
+	 
+	 
+	 $(document).on("click", "#tdsSubmit", function (e){
+		 debugger;
+		 
+		    var solution = $("#tsdSolution").val();
+		    var assetClass = $("#tdsAssetClass").val();
+			var appName = $("#tdsAppName").val();
+			var appDesc = $("#tdsAppDesc").val();
+		    var tradableRegions = $("#tdsTradableRegions").val();
+		    var tradableMarkets = $("#tdsTradableMarkets").val();
+		    var accessibility = $("#tdsAccessibility").val();
+		    var suitability = $("#tdsSuitability").val();
+		    var offering = $("#tdsOffering").val();
+			var costType = $("#tdsCostType").val();
+			var platformCCY = $("#tdsPlatformCCY").val();
+		    var platformCost = $("#tdsPlatformCost").val();
+		    var platformType = $("#tdsPlatformType").val();
+		    var exchangeFees = $("#tdsExchangeFees").val();
+		    var streNews = $("#tdsStreNews").val();
+		    var chartsAvai = $("#tdsChartsAvai").val();
+			var orderType = $("#tdsOrderType").val();
+			var priceAlerts = $("#tdsPriceAlerts").val();
+		    var watchlist = $("#tdsWatchlist").val();
+		    var offeringDesc = $("#tdsOfferingDesc").val();
+		    var tradingCap = $("#tdsTradingCap").val();
+		    var tradeExec = $("#tdsTradeExec").val();
+		    var tradeType = $("#tdsTradeType").val();
+			var darkVenues = $("#tdsDarkVenues").val();
+			var addOns = $("#tdsAddOns").val();
+		    var opeSystem = $("#tdsOpeSystem").val();
+		    var launchedYear = $("#tdsLaunchedYear").val();
+			
+			$.ajax({
+				type: 'GET',
+				url:  "addTradingSoftwareDetails?solution="+solution+"&assetClass="+assetClass+"&appName="+appName+"&appDesc="+appDesc+"&tradableRegions="+tradableRegions+
+				"&tradableMarkets="+tradableMarkets+"&accessibility="+accessibility+"&suitability="+suitability+"&offering="+offering+"&costType="+costType
+				+"&platformCCY="+platformCCY+"&platformCost="+platformCost+"&platformType="+platformType+"&exchangeFees="+exchangeFees+"&streNews="+streNews
+				+"&chartsAvai="+chartsAvai+"&orderType="+orderType+"&priceAlerts="+priceAlerts+"&watchlist="+watchlist+"&offeringDesc="+offeringDesc
+				+"&tradingCap="+tradingCap+"&tradeExec="+tradeExec+"&tradeType="+tradeType+"&darkVenues="+darkVenues+"&addOns="+addOns+"&opeSystem="+opeSystem+"&launchedYear="+launchedYear,
+				cache:false,
+				success : function(response){
+
+				     $("#tdsTable tbody").empty();	 
+			        var tableRecord = "";
+			        for(i =0 ; i < response.length ; i++){                                                                                    
+			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].assetClass+'</td>td>Details</td><td onclick="deleteRecord(\''+response[i].id+'\',\'tradingSoftwareDetails\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	                                                                                                                           
+			        }
+			        $("#tdsTable tbody").append(tableRecord);
+	
+					alert('You have updated sucessfully..!');
+				},
+				error : function(errorMsg, textStatus, jqXHR){
+					// alert('Error: '+errorMsg+':'+textStatus);
+				}
+			});
+			
+			
+			
+			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
+				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
+			if(true){	
+				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+				var table = $('#samplesupport').tableToJSON();
+				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
+			}else{
+				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+			}
+			
+		});
+	 
+	 
+	 $(document).on("click", "#rcSubmit", function (e){
+		 debugger;
+		 
+		    var solution = $("#rcSolution").val();
+		    var regionsCovered = $("#rcRegionsCovered").val();
+			var offering = $("#rcOffering").val();
+			var totalResearchAnalyst = $("#rcTotalResearchAnalyst").val();
+		    var researchPreparedbyCFA = $("#rcResearchPreparedbyCFA").val();
+		    var existingClientBase = $("#rcExistingClientBase").val();
+			
+			$.ajax({
+				type: 'GET',
+				url:  "addResearchCoverage?solution="+solution+"&regionsCovered="+regionsCovered+"&offering="+offering+"&totalResearchAnalyst="+totalResearchAnalyst+"&researchPreparedbyCFA="+researchPreparedbyCFA+
+				"&existingClientBase="+existingClientBase,
+				cache:false,
+				success : function(response){
+
+				     $("#rcTable tbody").empty();	 
+			        var tableRecord = "";
+			        for(i =0 ; i < response.length ; i++){                                                                                    
+			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].regionsCovered+'</td><td>'+response[i].totalResearchAnalyst+'</td><td>'+response[i].researchPreparedbyCFA+'</td><td>'+response[i].existingClientBase+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'researchCoverage\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	                                                                                                                           
+			        }
+			        $("#rcTable tbody").append(tableRecord);
+	
+					alert('You have updated sucessfully..!');
+				},
+				error : function(errorMsg, textStatus, jqXHR){
+					// alert('Error: '+errorMsg+':'+textStatus);
+				}
+			});
+			
+			
+			
+			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
+				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
+			if(true){	
+				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+				var table = $('#samplesupport').tableToJSON();
+				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
+			}else{
+				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+			}
+			
+		});
+
+	 $(document).on("click", "#rdSubmit", function (e){
+		 debugger;
+		var solution= $("#rdSolution").val();
+		var offering= $("#rdOffering").val();
+		var researchReportName = $("#rdResearchReportName").val();
+		var researchReportDesc = $("#rdResearchReportDesc").val();
+		var accessibility = $("#rdAccessibility").val();
+		var suitability = $("#rdSuitability").val();
+		var reportCostType = $("#rdReportCostType").val();
+		var reportSubscriptionCCY = $("#rdReportSubscriptionCCY").val();
+		var reportSubscriptionCost = $("#rdReportSubscriptionCost").val();
+		var reportSubscriptionType = $("#rdReportSubscriptionType").val();
+		var reportFormat = $("#rdReportFormat").val();
+		var researchApplicableYear = $("#rdResearchApplicableYear").val();
+		var researchApplicableMonth = $("#rdResearchApplicableMonth").val();
+		var existingUserBase = $("#rdExistingUserBase").val();
+		 	
+		$.ajax({
+				type: 'GET',
+				url:  "addResearchDetails?solution="+solution+"&offering="+offering+"&researchReportName="+researchReportName+"&researchReportDesc="+researchReportDesc+"&accessibility="+accessibility+
+				"&suitability="+suitability+"&reportCostType="+reportCostType+"&reportSubscriptionCCY="+reportSubscriptionCCY+"&reportSubscriptionCost="+reportSubscriptionCost+"&reportSubscriptionType="+reportSubscriptionType
+				+"&reportFormat="+reportFormat+"&researchApplicableYear="+researchApplicableYear+"&researchApplicableMonth="+researchApplicableMonth+"&existingUserBase="+existingUserBase,
+				cache:false,
+				success : function(response){
+
+				     $("#rdTable tbody").empty();	 
+			        var tableRecord = "";
+			        for(i =0 ; i < response.length ; i++){                                                                                    
+			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].researchReportName+'</td><td>'+response[i].researchReportDesc+'</td><td>'+response[i].accessibility+'</td><td>'+
+			       	 response[i].suitability+'</td><td>'+response[i].reportCostType+'</td><td>'+response[i].reportSubscriptionCCY+'</td><td>'+response[i].reportSubscriptionCost+'</td><td>'+
+			       	 response[i].reportSubscriptionType+'</td><td>'+response[i].reportFormat+'</td><td>'+response[i].researchApplicableYear+'</td><td>'+response[i].researchApplicableMonth+'</td><td>'+response[i].existingUserBase+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'researchDetails\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	                                                                                                                           
+			        }
+			        $("#rdTable tbody").append(tableRecord);
+	
+					alert('You have updated sucessfully..!');
+				},
+				error : function(errorMsg, textStatus, jqXHR){
+					// alert('Error: '+errorMsg+':'+textStatus);
+				}
+			});
+			
+			
+			
+			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
+				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
+			if(true){	
+				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+				var table = $('#samplesupport').tableToJSON();
+				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
+			}else{
+				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+			}
+			
+		});
+
+	 $(document).on("click", "#rpSubmit", function (e){
+		 debugger;
+		 
+		    var solution = $("#apSolution").val();
+		    var offering = $("#apOffering").val();
+			var researchArea = $("#apResearchArea").val();
+			var researchSubArea = $("#apResearchSubArea").val();
+		    var analystName = $("#apAnalystName").val();
+		    var researchAnalystWithCFA = $("#apResearchAnalystWithCFA").val();
+		    var offeringDesc = $("#apOfferingDesc").val();
+		    var analystRegionofIncorp = $("#apAnalystRegionofIncorp").val();
+		    var analystCountryofIncorp = $("#apAnalystCountryofIncorp").val();
+			var analystYearofExp = $("#apAnalystYearofExp").val();
+			var analystAwards = $("#apAnalystAwards").val();
+		   
+			$.ajax({
+				type: 'GET',                                                                                                                                                                               
+				url:  "addAnalystProfile?solution="+solution+"&offering="+offering+"&researchArea="+researchArea+"&researchSubArea="+researchSubArea+"&analystName="+analystName+"&researchAnalystWithCFA="+researchAnalystWithCFA+"&offeringDesc="+offeringDesc+"&analystRegionofIncorp="+analystRegionofIncorp+"&analystCountryofIncorp="+analystCountryofIncorp+"&analystYearofExp="+analystYearofExp+"&analystAwards="+analystAwards,
+				cache:false,
+				success : function(response){
+
+				     $("#rpTable tbody").empty();	 
+			        var tableRecord = "";
+			        for(i =0 ; i < response.length ; i++){                                                                                   
+			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].researchArea+'</td><td>'+response[i].researchSubArea+'</td><td>'+response[i].analystName
+			       	 +'</td><td>'+response[i].researchAnalystWithCFA+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].analystRegionofIncorp+'</td><td>'+response[i].analystCountryofIncorp+'</td><td>'+response[i].analystYearofExp+'</td><td>'+response[i].analystAwards+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'analystProfile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	                                                                                                                           
+			        }
+			        $("#rpTable tbody").append(tableRecord);
+	
+					alert('You have updated sucessfully..!');
+				},
+				error : function(errorMsg, textStatus, jqXHR){
+					// alert('Error: '+errorMsg+':'+textStatus);
+				}
+			});
+			
+			
+			
+			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
+				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
+			if(true){	
+				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+				var table = $('#samplesupport').tableToJSON();
+				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
+			}else{
+				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+			}
+			
+		});
+
+	 $(document).on("click", "#asdSubmit", function (e){
+		 debugger;
+		    var solution = $("#asdSolution").val();
+		    var offering = $("#asdOffering").val();
+			var offeringDesc = $("#asdOfferingDesc").val();
+			var applicationName = $("#asdApplicationName").val();
+		    var applicationBriefDesc = $("#asdApplicationBriefDesc").val();
+		    var accessibility = $("#asdAccessibility").val();
+		    var suitability = $("#asdSuitability").val();
+		    var applicationCostType = $("#asdApplicationCostType").val();
+		    var applicationSubscriptionCCY = $("#asdApplicationSubscriptionCCY").val();
+			var applicationSubscriptionCost = $("#asdApplicationSubscriptionCost").val();
+			var applicationSubscriptionType = $("#asdApplicationSubscriptionType").val();
+		    var realtimeMarketData = $("#asdRealtimeMarketData").val();
+		    var customizableCalculationModels = $("#asdCustomizableCalculationModels").val();
+		    var addOns = $("#asdAddOns").val();
+		    var operatingSystem = $("#asdOperatingSystem").val();
+		    var softwareSpecifications = $("#asdSoftwareSpecifications").val();
+			var launchedYear = $("#asdLaunchedYear").val();
+			var existingUserBase = $("#asdExistingUserBase").val();
+		  
+			$.ajax({
+				type: 'GET',
+				url:  "addAnalyticsSoftwareDetails?solution="+solution+"&offering="+offering+"&offeringDesc="+offeringDesc+"&applicationName="+applicationName+"&applicationBriefDesc="+applicationBriefDesc+
+				"&accessibility="+accessibility+"&suitability="+suitability+"&applicationCostType="+applicationCostType+"&applicationSubscriptionCCY="+applicationSubscriptionCCY+"&applicationSubscriptionCost="+applicationSubscriptionCost
+				+"&applicationSubscriptionType="+applicationSubscriptionType+"&realtimeMarketData="+realtimeMarketData+"&customizableCalculationModels="+customizableCalculationModels+"&addOns="+addOns+"&operatingSystem="+operatingSystem
+				+"&softwareSpecifications="+softwareSpecifications+"&launchedYear="+launchedYear+"&existingUserBase="+existingUserBase,
+				cache:false,
+				success : function(response){
+
+				     $("#asdTable tbody").empty();	 
+			        var tableRecord = "";
+			        for(i =0 ; i < response.length ; i++){                                                                                    
+			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].applicationName+'</td><td>'+
+			       	 response[i].accessibility+'</td><td>'+response[i].applicationCostType+'</td><td>'+response[i].applicationSubscriptionCCY+'</td><td>'+response[i].applicationSubscriptionCost+'</td><td>'+
+			       	 response[i].applicationSubscriptionType+'</td><td>'+response[i].realtimeMarketData+'</td><td>'+response[i].operatingSystem+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'analyticsSoftwareDetails\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	/* 
+			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].applicationName+'</td><td>'+response[i].applicationBriefDesc+'</td><td>'+
+			       	 response[i].accessibility+'</td><td>'+response[i].suitability+'</td><td>'+response[i].applicationCostType+'</td><td>'+response[i].applicationSubscriptionCCY+'</td><td>'+response[i].applicationSubscriptionCost+'</td><td>'+
+			       	 response[i].applicationSubscriptionType+'</td><td>'+response[i].realtimeMarketData+'</td><td>'+response[i].customizableCalculationModels+'</td><td>'+response[i].addOns+'</td><td>'+response[i].operatingSystem+'</td><td>'+
+			       	 response[i].softwareSpecifications+'</td><td>'+response[i].launchedYear+'</td><td>'+response[i].existingUserBase+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'analyticsSoftwareDetails\')"><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td>';
+			       	 */
+			       	 
+			        }
+			        $("#asdTable tbody").append(tableRecord);
+	
+					alert('You have updated sucessfully..!');
+				},
+				error : function(errorMsg, textStatus, jqXHR){
+					// alert('Error: '+errorMsg+':'+textStatus);
+				}
+			});
+			
+			
+			
+			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
+				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
+			if(true){	
+				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+				var table = $('#samplesupport').tableToJSON();
+				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
+			}else{
+				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+			}
+			
+		});
+	 
+	 $(document).on("click", "#tcsSubmit", function (e){
+		 debugger;
+		    var solution = $("#tcsSolution").val();
+		    var offering = $("#tcsOffering").val();
+			var tradeCoverageRegion = $("#tcsTradeCoverageRegion").val();
+			var tradeCoverageCountry = $("#tcsTradeCoverageCountry").val();
+		    var tradingCapabilitiesType = $("#tcsTradingCapabilitiesType").val();
+		    var tradeExecutionsType = $("#tcsTradeExecutionsType").val();
+		    var algorithmicTradeType = $("#tcsAlgorithmicTradeType").val();
+		    var darkpoolAccess = $("#tcsDarkpoolAccess").val();
+		    
+			$.ajax({
+				type: 'GET',
+				url:  "addTradingCapabilitiesSupported?solution="+solution+"&offering="+offering+"&tradeCoverageRegion="+tradeCoverageRegion+"&tradeCoverageCountry="+tradeCoverageCountry+"&tradingCapabilitiesType="+tradingCapabilitiesType+
+				"&tradeExecutionsType="+tradeExecutionsType+"&algorithmicTradeType="+algorithmicTradeType+"&darkpoolAccess"+darkpoolAccess,
+				cache:false,
+				success : function(response){
+
+				     $("#tcsTable tbody").empty();	 
+			        var tableRecord = "";
+			        for(i =0 ; i < response.length ; i++){                                                                                    
+			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].tradeCoverageRegion+'</td><td>'+response[i].tradeCoverageCountry+'</td><td>'+response[i].tradingCapabilitiesType+'</td><td>'+response[i].tradeExecutionsType+'</td><td>'+response[i].algorithmicTradeType+'</td><td>'+response[i].darkpoolAccess+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'tradingCapabilitiesSupported\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	                                                                                                                           
+			        }
+			        $("#tcsTable tbody").append(tableRecord);
+	
+					alert('You have updated sucessfully..!');
+				},
+				error : function(errorMsg, textStatus, jqXHR){
+					// alert('Error: '+errorMsg+':'+textStatus);
+				}
+			});
+			
+			
+			
+			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
+				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
+			if(true){	
+				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+				var table = $('#samplesupport').tableToJSON();
+				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
+			}else{
+				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+			}
+			
+		});
+	 
+	 
+	 //CSV File for Support Coverage Upload Code
 	 $(document).on("click", ".fileupmyoffercoverage", function (e) {
+		 debugger;
 		 var fileId = $("#fileUploadmyoffercoverage").val();
 		 if(fileId != null && fileId.length > 0){
 			 loadUploadFiles(fileId);	 
@@ -165,8 +531,22 @@ jQuery(document).ready(function() {
 	                reader.onload = function (e) {
 	                    var rows = e.target.result.split("\n");
 	                    for (var i = 1; i < rows.length; i++) {
-	                    	if(!rows[i].split(",")[1].match('undefined')){
-	                    		$("#samplesupport tbody").append('<tr><td>' + rows[i].split(",")[0] + '</td><td>' + rows[i].split(",")[1] + '</td> <td>' + rows[i].split(",")[2] + '</td>   <td>' + rows[i].split(",")[3] + '</td>  <td>' + rows[i].split(",")[4] + '</td><td>' + rows[i].split(",")[5] + '</td>   <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+	                    	if(!(rows[i].split(",")[1] === 'undefined')){
+	                    		
+	                    		var coverageRegion = rows[i].split(",")[0];
+	                    		var coverageCountry = rows[i].split(",")[1];
+	                    		var supportTimings = rows[i].split(",")[2];
+	                    		var costRange = rows[i].split(",")[3];
+	                    		var phoneNumber = rows[i].split(",")[4];
+	                    		var email = rows[i].split(",")[5];
+	                    		if(checkNullValue(coverageRegion) && checkNullValue(coverageCountry) && checkNullValue(supportTimings) && checkNullValue(costRange) && validatePhoneNoFromFile(phoneNumber) && checkNullValue(email)){
+	                    		     $("#samplesupport tbody").append('<tr><td>' + coverageRegion + '</td><td>' + coverageCountry + '</td> <td>' + supportTimings + '</td>   <td>' + costRange + '</td>  <td>' + phoneNumber + '</td><td>' + email + '</td>   <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>');
+	                    		}else{
+	                    			alert("Mandotry field required at row number: "+i);
+	                    			break;
+	                    		}
+	                    	}else{
+	                    		break;
 	                    	}
 	                    }
 	                	document.getElementById('jsontablesupport').value = JSON.stringify($('#samplesupport').tableToJSON()); 
@@ -189,11 +569,12 @@ jQuery(document).ready(function() {
 		 
 		 // Data Distribution
 		 $(document).on("click", ".addtotabledistribution", function (e){
-				document.getElementById('jsontablevendorofferingdistribution').value = "";
-				var datadistassetclass = $("#datadistassetclass").val();
-				var assetClassVendorSecurityDistriMaps = $("#assetClassVendorSecurityDistriMaps").val();
-			    var filename = $("#filename").val();
-			    var filebriefdesc = $("#filebriefdesc").val();
+			 debugger;
+
+			 
+			   var solutionDataDistribution = $("#solutionDataDistribution").val();
+				var offeringDataDistribution = $("#offeringDataDistribution").val();
+			    var fileDataCoverage = $("#fileDataCoverage").val();
 			    var feedtype = $("#feedtype").val();
 			    var feedsubtype = $("#feedsubtype").val();
 			    var distributionmethod = $("#distributionmethod").val();
@@ -201,25 +582,47 @@ jQuery(document).ready(function() {
 			    var coverageregion = $("#coverageregion").val();
 			    var coveragecountry = $("#coveragecountry").val();
 			    var coverageexchange = $("#coverageexchange").val();
-			    alert('getting all the info--:');
-				document.getElementById("datadistassetclass").value = datadistassetclass;
-				document.getElementById("assetClassVendorSecurityDistriMaps").value = assetClassVendorSecurityDistriMaps;
-				document.getElementById("filename").value = filename;
-				document.getElementById("filebriefdesc").value = filebriefdesc;
-				document.getElementById("feedtype").value = feedtype;
-				document.getElementById("feedsubtype").value = feedsubtype;
-				document.getElementById("distributionmethod").value = distributionmethod;
-				document.getElementById("frequency").value = frequency;
-				document.getElementById("coverageregion").value = coverageregion;
-				document.getElementById("coveragecountry").value = coveragecountry;
-				document.getElementById("coverageexchange").value = coverageexchange;
 				
-				$("#sampledistribution tbody").append('<tr><td>' + datadistassetclass + '</td><td>' + assetClassVendorSecurityDistriMaps + '</td> <td>' + filename + '</td>   <td>' + filebriefdesc + '</td>  <td>' + feedtype + '</td> <td>' + feedsubtype + '</td> <td>' + distributionmethod + '</td> <td>' + frequency + '</td>  <td>' + coverageregion + '</td>  <td>' + coveragecountry + '</td> <td>' + coverageexchange + '</td> <td><a class="deleteButtondistribution"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-				var table = $('#sampledistribution').tableToJSON();
-				document.getElementById('jsontablevendorofferingdistribution').value = JSON.stringify(table);
-				alert('added sucessfully--:');
+                 
+				$.ajax({
+					type: 'GET',
+					url:  "addVendorDataDistribution?solution="+solutionDataDistribution+"&offering="+offeringDataDistribution+"&fileDataCoverage="+fileDataCoverage+"&feedtype="+feedtype+"&feedsubtype="+feedsubtype+"&distributionmethod="+distributionmethod+"&frequency="+frequency+"&coverageregion="+coverageregion+"&coveragecountry="+coveragecountry+"&coverageexchange"+coverageexchange,
+					cache:false,
+					success : function(response){
+						
+
+					     $("#dataDistributionTable tbody").empty();	 
+				        var tableRecord = "";
+				        for(i =0 ; i < response.length ; i++){                                                                                    
+				       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringFiles+'</td><td>'+response[i].feedType+'</td><td>'+response[i].feedSubType+'</td><td>'+response[i].distributionMethod+'</td><td>'+response[i].frequency+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].exchange+'</td><td onclick="deleteRecordDataDistribution(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+				       	                                                                                                                           
+				        }
+				        $("#dataDistributionTable tbody").append(tableRecord);
+						
+						alert('You have updated sucessfully..!');
+					},
+					error : function(errorMsg, textStatus, jqXHR){
+						// alert('Error: '+errorMsg+':'+textStatus);
+					}
+				});
+			    
+				
+				
+				if(checkMandotrySelectValue(coverageexchange) && checkMandotrySelectValue(coveragecountry) && checkMandotrySelectValue(coverageregion) && checkMandotrySelectValue(coverageregion) && checkMandotrySelectValue(frequency) && checkMandotrySelectValue(distributionmethod) && checkMandotrySelectValue(datadistassetclass) && checkMandotrySelectValue(assetClassVendorSecurityDistriMaps) && checkMandotrySelectValue(feedsubtype) && checkMandotrySelectValue(feedtype) && checkNullValue(filebriefdesc) && checkNullValue(filename)){
+					/*document.getElementById("dataDistributionErrorMsg").innerHTML = '';
+					
+					$("#sampledistribution tbody").append('<tr><td>' + datadistassetclass + '</td><td>' + assetClassVendorSecurityDistriMaps + '</td> <td>' + filename + '</td>   <td>' + filebriefdesc + '</td>  <td>' + feedtype + '</td> <td>' + feedsubtype + '</td> <td>' + distributionmethod + '</td> <td>' + frequency + '</td>  <td>' + coverageregion + '</td>  <td>' + coveragecountry + '</td> <td>' + coverageexchange + '</td> <td><a class="deleteButtondistribution"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+					var table = $('#sampledistribution').tableToJSON();
+					document.getElementById('jsontablevendorofferingdistribution').value = JSON.stringify(table);
+*/				
+				}else{
+					document.getElementById("dataDistributionErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+				}
 			});
 			 
+		 
+
+		 
 			///CSV File for Data Distribution Upload Code
 			 $(document).on("click", ".fileupmyofferdistribution", function (e) {
 				 var fileId = $("#fileUploadmyofferdistribution").val();
@@ -233,8 +636,28 @@ jQuery(document).ready(function() {
 			                reader.onload = function (e) {
 			                    var rows = e.target.result.split("\n");
 			                    for (var i = 1; i < rows.length; i++) {
-			                    	if(!rows[i].split(",")[1].match('undefined')){
-			                    	$("#sampledistribution tbody").append('<tr><td>' + rows[i].split(",")[0] + '</td><td>' + rows[i].split(",")[1] + '</td> <td>' + rows[i].split(",")[2] + '</td>   <td>' + rows[i].split(",")[3] + '</td>  <td>' + rows[i].split(",")[4] + '</td> <td>' + rows[i].split(",")[5] + '</td> <td>' + rows[i].split(",")[6] + '</td> <td>' + rows[i].split(",")[7] + '</td>  <td>' + rows[i].split(",")[8] + '</td> <td>' + rows[i].split(",")[9] + '</td> <td>' + rows[i].split(",")[10] + '</td> <td><a class="deleteButtondistribution"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
+			                    	if(!(rows[i].split(",")[1] === 'undefined')){
+			                    		
+			                    		 var assetClass = rows[i].split(",")[0];
+			                    		 var securitytype = rows[i].split(",")[1];
+			                    		 var fileName = rows[i].split(",")[2];
+			                    		 var fileBriefDesc = rows[i].split(",")[3];
+			                    		 var feedType = rows[i].split(",")[4];
+			                    		 var feedSubType = rows[i].split(",")[5];
+			                    		 var distributionMethod = rows[i].split(",")[6];
+			                    		 var frequency = rows[i].split(",")[7];
+			                    		 var dataCoverageRegion = rows[i].split(",")[8];
+			                    		 var dataCoverageCountry = rows[i].split(",")[9];
+			                    		 var dataCoverageExchange = rows[i].split(",")[10];
+			                    		if(checkNullValue(assetClass) && checkNullValue(securitytype) && checkNullValue(fileName) && checkNullValue(fileBriefDesc) && checkNullValue(feedType) && checkNullValue(feedSubType) && checkNullValue(distributionMethod) && checkNullValue(frequency) && checkNullValue(dataCoverageRegion) && checkNullValue(dataCoverageCountry) && checkNullValue(dataCoverageExchange)){
+			                    		  $("#sampledistribution tbody").append('<tr><td>' +assetClass + '</td><td>' + securitytype + '</td> <td>' + fileName + '</td>   <td>' + fileBriefDesc + '</td>  <td>' + feedType + '</td> <td>' + feedSubType + '</td> <td>' + distributionMethod + '</td> <td>' + frequency + '</td>  <td>' + dataCoverageRegion + '</td> <td>' + dataCoverageCountry + '</td> <td>' + dataCoverageExchange + '</td> <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>');
+			                    		}else{
+
+				                    		alert("Mandotry field required at row number: "+i);
+			                    			break;
+			                    		}
+			                    	}else{
+			                    		break;
 			                    	}
 			                    }
 			                	document.getElementById('jsontablevendorofferingdistribution').value = JSON.stringify($('#sampledistribution').tableToJSON());
@@ -248,6 +671,99 @@ jQuery(document).ready(function() {
 			        }
 			    });
 		 
+			 
+			 
+			 
+			// Data Distribution
+			 $(document).on("click", ".tradingCapabilitiesSupported", function (e){
+				 debugger;
+				 
+				 	document.getElementById('jsontablevendorofferingdistribution').value = "";
+					var assetClass = $("#assetClassTcs").val();
+					var subAssetClass = $("#subAssetClassTcs").val();
+				    var tradecoverageRegion = $("#tradecoverageRegionTcs").val();
+				    var tradeCoverageCountry = $("#tradeCoverageCountryTcs").val();
+				    var tradeCoverageExchange = $("#tradeCoverageExchangeTcs").val();
+				    var tradingCapabilitiesType = $("#tradingCapabilitiesTypeTcs").val();
+				    var tradeExecutionsType = $("#tradeExecutionsTypeTcs").val();
+				    var algorithmicTradeType = $("#algorithmicTradeTypeTcs").val();
+				    var darkpoolAccess = $("#darkpoolAccessTcs").val();
+				    
+					document.getElementById("assetClassTcs").value = assetClass;
+					document.getElementById("subAssetClassTcs").value = subAssetClass;
+					document.getElementById("tradecoverageRegionTcs").value = tradecoverageRegion;
+					document.getElementById("tradeCoverageCountryTcs").value = tradeCoverageCountry;
+					document.getElementById("tradeCoverageExchangeTcs").value = tradeCoverageExchange;
+					document.getElementById("tradingCapabilitiesTypeTcs").value = tradingCapabilitiesType;
+					document.getElementById("tradeExecutionsTypeTcs").value = tradeExecutionsType;
+					document.getElementById("algorithmicTradeTypeTcs").value = algorithmicTradeType;
+					document.getElementById("darkpoolAccessTcs").value = darkpoolAccess;
+
+					
+					
+					if(checkMandotrySelectValue(assetClass) && checkMandotrySelectValue(subAssetClass) && checkMandotrySelectValue(tradecoverageRegion) && checkMandotrySelectValue(algorithmicTradeType) && checkMandotrySelectValue(darkpoolAccess) ){
+					
+					document.getElementById("vendortab3tradingappErrorMsg").innerHTML = '';
+						
+						$("#samplesupport tbody").append('<tr><td>' + assetClass + '</td><td>' + subAssetClass + '</td> <td>' + tradecoverageRegion + '</td>   <td>' + tradeCoverageCountry + '</td> <td>' + tradeCoverageExchange + '</td>  <td>' + tradingCapabilitiesType + '</td> <td>' + tradeExecutionsType + '</td> <td>' + algorithmicTradeType + '</td> <td>' + darkpoolAccess + '</td> <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>');
+						var table = $('#samplesupport').tableToJSON();
+						document.getElementById('jsontablevendorofferingdistribution').value = JSON.stringify(table);
+					
+					}else{
+						document.getElementById("vendortab3tradingappErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+					}
+					
+				});
+				 
+				///CSV File for Data Distribution Upload Code
+				 $(document).on("click", ".fileupmyofferdistribution", function (e) {
+					 var fileId = $("#fileUploadmyofferdistribution").val();
+					 if(fileId != null && fileId.length > 0){
+						 loadUploadFiles(fileId);	 
+					 }
+				        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt|.xlsx)$/;
+				        if (regex.test($("#fileUploadmyofferdistribution").val().toLowerCase())) {
+				            if (typeof (FileReader) != "undefined") {
+				                var reader = new FileReader();
+				                reader.onload = function (e) {
+				                    var rows = e.target.result.split("\n");
+				                    for (var i = 1; i < rows.length; i++) {
+				                    	if(!(rows[i].split(",")[1] === 'undefined')){
+				                    		
+				                    		 var assetClass = rows[i].split(",")[0];
+				                    		 var securitytype = rows[i].split(",")[1];
+				                    		 var fileName = rows[i].split(",")[2];
+				                    		 var fileBriefDesc = rows[i].split(",")[3];
+				                    		 var feedType = rows[i].split(",")[4];
+				                    		 var feedSubType = rows[i].split(",")[5];
+				                    		 var distributionMethod = rows[i].split(",")[6];
+				                    		 var frequency = rows[i].split(",")[7];
+				                    		 var dataCoverageRegion = rows[i].split(",")[8];
+				                    		 var dataCoverageCountry = rows[i].split(",")[9];
+				                    		 var dataCoverageExchange = rows[i].split(",")[10];
+				                    		if(checkNullValue(assetClass) && checkNullValue(securitytype) && checkNullValue(fileName) && checkNullValue(fileBriefDesc) && checkNullValue(feedType) && checkNullValue(feedSubType) && checkNullValue(distributionMethod) && checkNullValue(frequency) && checkNullValue(dataCoverageRegion) && checkNullValue(dataCoverageCountry) && checkNullValue(dataCoverageExchange)){
+				                    		  $("#sampledistribution tbody").append('<tr><td>' +assetClass + '</td><td>' + securitytype + '</td> <td>' + fileName + '</td>   <td>' + fileBriefDesc + '</td>  <td>' + feedType + '</td> <td>' + feedSubType + '</td> <td>' + distributionMethod + '</td> <td>' + frequency + '</td>  <td>' + dataCoverageRegion + '</td> <td>' + dataCoverageCountry + '</td> <td>' + dataCoverageExchange + '</td> <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>');
+				                    		}else{
+
+					                    		alert("Mandotry field required at row number: "+i);
+				                    			break;
+				                    		}
+				                    	}else{
+				                    		break;
+				                    	}
+				                    }
+				                	document.getElementById('jsontablevendorofferingdistribution').value = JSON.stringify($('#sampledistribution').tableToJSON());
+				                };
+				                reader.readAsText($("#fileUploadmyofferdistribution")[0].files[0]);
+				            } else {
+				                alert("This browser does not support HTML5.");
+				            }
+				        } else {
+				            alert("Please upload a valid file.");
+				        }
+				    });
+
+			 
 			 $(document).on("click", ".deleteButtondistribution", function (e) {
 		    	var target = e.target;
 				$(target).closest('tr').remove();
@@ -255,6 +771,156 @@ jQuery(document).ready(function() {
 			    document.getElementById('jsontablevendorofferingdistribution').value = JSON.stringify(table);
 			});
 
+			 
+			 
+			 // Analytics Features supported
+			 $(document).on("click", ".analyticsfeaturesSupportedAddMore", function (e){
+				 debugger;
+					document.getElementById('jsontablesupport').value = "";
+					var analyticsSolutionsType = $("#analyticsSolutionsTypeTav").val();
+					var analyticsSolutionsSubType = $("#analyticsSolutionsSubTypeTav").val();
+				 
+					document.getElementById("analyticsSolutionsTypeTav").value = analyticsSolutionsType;
+					document.getElementById("analyticsSolutionsSubTypeTav").value = analyticsSolutionsSubType;
+					
+					if(checkMandotrySelectValue(analyticsSolutionsType) && checkMandotrySelectValue(analyticsSolutionsSubType)){
+						document.getElementById("analyticsfeaturesSupportedErrorMsg").innerHTML = '';
+						
+						$("#analyticsfeaturesSupportedTable tbody").append('<tr><td>' + analyticsSolutionsType + '</td><td>' + analyticsSolutionsSubType + '</td> <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>');
+						var table = $('#analyticsfeaturesSupportedTable').tableToJSON();
+						document.getElementById('analyticsfeaturesSupportedTable').value = JSON.stringify(table);
+					}else{
+						document.getElementById("analyticsfeaturesSupportedErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+					}
+					
+				});
+			 
+			 //CSV File for Support Coverage Upload Code
+			 $(document).on("click", ".fileupmyoffercoverage", function (e) {
+				 debugger;
+				 var fileId = $("#fileUploadmyoffercoverage").val();
+				 if(fileId != null && fileId.length > 0){
+					 loadUploadFiles(fileId);	 
+				 }
+			        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt|.xlsx)$/;
+			        if (regex.test($("#fileUploadmyoffercoverage").val().toLowerCase())) {
+			            if (typeof (FileReader) != "undefined") {
+			                var reader = new FileReader();
+			                reader.onload = function (e) {
+			                    var rows = e.target.result.split("\n");
+			                    for (var i = 1; i < rows.length; i++) {
+			                    	if(!(rows[i].split(",")[1] === 'undefined')){
+			                    		
+			                    		var coverageRegion = rows[i].split(",")[0];
+			                    		var coverageCountry = rows[i].split(",")[1];
+			                    		var supportTimings = rows[i].split(",")[2];
+			                    		var costRange = rows[i].split(",")[3];
+			                    		var phoneNumber = rows[i].split(",")[4];
+			                    		var email = rows[i].split(",")[5];
+			                    		if(checkNullValue(coverageRegion) && checkNullValue(coverageCountry) && checkNullValue(supportTimings) && checkNullValue(costRange) && validatePhoneNoFromFile(phoneNumber) && checkNullValue(email)){
+			                    		     $("#samplesupport tbody").append('<tr><td>' + coverageRegion + '</td><td>' + coverageCountry + '</td> <td>' + supportTimings + '</td>   <td>' + costRange + '</td>  <td>' + phoneNumber + '</td><td>' + email + '</td>   <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>');
+			                    		}else{
+			                    			alert("Mandotry field required at row number: "+i);
+			                    			break;
+			                    		}
+			                    	}else{
+			                    		break;
+			                    	}
+			                    }
+			                	document.getElementById('jsontablesupport').value = JSON.stringify($('#samplesupport').tableToJSON()); 
+			                };
+			                reader.readAsText($("#fileUploadmyoffercoverage")[0].files[0]);
+			            } else {
+			                alert("This browser does not support HTML5.");
+			            }
+			        } else {
+			            alert("Please upload a valid file.");
+			        }
+			    });
+			 
+				 $(document).on("click", ".deleteButtonsupport", function (e) {
+			    	var target = e.target;
+					$(target).closest('tr').remove();
+					var table = $('#samplesupport').tableToJSON();
+				    document.getElementById('jsontablesupport').value = JSON.stringify(table);
+				});
+			
+			 
+			 
+				 // Analytics Features supported
+				 $(document).on("click", ".researchCoverageAddMore", function (e){
+					 debugger;
+						document.getElementById('jsontablesupport').value = "";
+						var researchArea = $("#researchAreaRc").val();
+						var regionsCovered = $("#regionsCoveredRc").val();
+						var researchSubArea = $("#researchSubAreaRc").val();
+						var totalResearchAnalyst = $("#totalResearchAnalystRc").val();
+						var existingClientBase = $("#existingClientBaseRc").val();
+						var researchPreparedbyCfa = document.getElementById("researchPreparedbyCfaRc").checked;
+				
+						if(checkMandotrySelectValue(researchArea) && checkMandotrySelectValue(regionsCovered)&& checkMandotrySelectValue(researchSubArea) && checkMandotrySelectValue(totalResearchAnalyst) && checkMandotrySelectValue(existingClientBase)){
+							document.getElementById("researchCoverageErrorMsg").innerHTML = '';
+							
+							$("#researchCoverageTable tbody").append('<tr><td>' + researchArea + '</td><td>' + regionsCovered + '</td><td>' + researchSubArea + '</td><td>' + totalResearchAnalyst + '</td><td>' + researchPreparedbyCfa + '</td><td>' + existingClientBase + '</td> <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>');
+							var table = $('#researchCoverageTable').tableToJSON();
+							document.getElementById('researchCoverageTable').value = JSON.stringify(table);
+						}else{
+							document.getElementById("researchCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+						}
+						
+					});
+				 
+				 //CSV File for Support Coverage Upload Code
+				 $(document).on("click", ".fileupmyoffercoverage", function (e) {
+					 debugger;
+					 var fileId = $("#fileUploadmyoffercoverage").val();
+					 if(fileId != null && fileId.length > 0){
+						 loadUploadFiles(fileId);	 
+					 }
+				        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt|.xlsx)$/;
+				        if (regex.test($("#fileUploadmyoffercoverage").val().toLowerCase())) {
+				            if (typeof (FileReader) != "undefined") {
+				                var reader = new FileReader();
+				                reader.onload = function (e) {
+				                    var rows = e.target.result.split("\n");
+				                    for (var i = 1; i < rows.length; i++) {
+				                    	if(!(rows[i].split(",")[1] === 'undefined')){
+				                    		
+				                    		var coverageRegion = rows[i].split(",")[0];
+				                    		var coverageCountry = rows[i].split(",")[1];
+				                    		var supportTimings = rows[i].split(",")[2];
+				                    		var costRange = rows[i].split(",")[3];
+				                    		var phoneNumber = rows[i].split(",")[4];
+				                    		var email = rows[i].split(",")[5];
+				                    		if(checkNullValue(coverageRegion) && checkNullValue(coverageCountry) && checkNullValue(supportTimings) && checkNullValue(costRange) && validatePhoneNoFromFile(phoneNumber) && checkNullValue(email)){
+				                    		     $("#samplesupport tbody").append('<tr><td>' + coverageRegion + '</td><td>' + coverageCountry + '</td> <td>' + supportTimings + '</td>   <td>' + costRange + '</td>  <td>' + phoneNumber + '</td><td>' + email + '</td>   <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>');
+				                    		}else{
+				                    			alert("Mandotry field required at row number: "+i);
+				                    			break;
+				                    		}
+				                    	}else{
+				                    		break;
+				                    	}
+				                    }
+				                	document.getElementById('jsontablesupport').value = JSON.stringify($('#samplesupport').tableToJSON()); 
+				                };
+				                reader.readAsText($("#fileUploadmyoffercoverage")[0].files[0]);
+				            } else {
+				                alert("This browser does not support HTML5.");
+				            }
+				        } else {
+				            alert("Please upload a valid file.");
+				        }
+				    });
+				 
+					 $(document).on("click", ".deleteButtonsupport", function (e) {
+				    	var target = e.target;
+						$(target).closest('tr').remove();
+						var table = $('#samplesupport').tableToJSON();
+					    document.getElementById('jsontablesupport').value = JSON.stringify(table);
+					});
+				
+		
 			 /// checkboxes selection and deselect---:
 			 $(".row-selectvendordashboard tr").each(function() {
 			        var id = $(this).attr('id');
@@ -451,15 +1117,11 @@ function activeMode(tabmode){
 		document.getElementById('interdiv').style.backgroundColor = '';  
 		document.getElementById('ancho').style.backgroundColor = '';
 		
-		document.getElementById('change1').style.backgroundColor = '';
-		document.getElementById('interdiv1').style.backgroundColor = '';  
-		document.getElementById('ancho1').style.backgroundColor = ''; 
-		
-	 
-		
 		document.getElementById('change4').style.backgroundColor = '';
 		document.getElementById('interdiv4').style.backgroundColor = '';  
 		document.getElementById('ancho4').style.backgroundColor = ''; 
+		
+		listVendorAward()
 		
 	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("searchdatabuyers")){
 		document.getElementById('change3').style.backgroundColor = '#5CE5E5';
@@ -503,15 +1165,40 @@ function activeMode(tabmode){
 }
 /// My Data Aggregator Vendor tab mode changes
 function activeModeVendorMyofferings(tabmode){
-	if(tabmode != '' && tabmode.length > 0 && tabmode.match("vendormyofferingsdatacoverage")){
-		document.getElementById('changeoffer').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interdivoffer').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('anchooffer').style.backgroundColor = '#5CE5E5'; 
+	
+	if(tabmode != '' && tabmode.length > 0 && tabmode.match("vendorMyOfferingsDataDictionary")){
+		
+		document.getElementById('changeoffer2').style.backgroundColor = '#5CE5E5';
+		document.getElementById('interdivoffer2').style.backgroundColor = '#5CE5E5';  
+		document.getElementById('anchooffer2').style.backgroundColor = '#5CE5E5'; 
+		
+		document.getElementById('changeoffer').style.backgroundColor = '';
+		document.getElementById('interdivoffer').style.backgroundColor = '';  
+		document.getElementById('anchooffer').style.backgroundColor = ''; 
 		
 		document.getElementById('changeoffer1').style.backgroundColor = '';
 		document.getElementById('interdivoffer1').style.backgroundColor = '';  
 		document.getElementById('anchooffer1').style.backgroundColor = ''; 
+
+		$("#solutionDetailList").show();
+		$("#createfileDiv").hide();
+		$("#createOfferingDiv").hide();
+		$("#createFieldsDiv").hide()
 		
+		
+	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("vendormyofferingsdatacoverage")){
+		document.getElementById('changeoffer').style.backgroundColor = '#5CE5E5';
+		document.getElementById('interdivoffer').style.backgroundColor = '#5CE5E5';  
+		document.getElementById('anchooffer').style.backgroundColor = '#5CE5E5'; 
+		
+		document.getElementById('changeoffer2').style.backgroundColor = '';
+		document.getElementById('interdivoffer2').style.backgroundColor = '';  
+		document.getElementById('anchooffer2').style.backgroundColor = '';
+		
+		document.getElementById('changeoffer1').style.backgroundColor = '';
+		document.getElementById('interdivoffer1').style.backgroundColor = '';  
+		document.getElementById('anchooffer1').style.backgroundColor = ''; 
+		listDataCoverageDetails();
 	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("vendormyofferingsdatadistribution")){
 		document.getElementById('changeoffer1').style.backgroundColor = '#5CE5E5';
 		document.getElementById('interdivoffer1').style.backgroundColor = '#5CE5E5';  
@@ -519,13 +1206,18 @@ function activeModeVendorMyofferings(tabmode){
 		
 		document.getElementById('changeoffer').style.backgroundColor = '';
 		document.getElementById('interdivoffer').style.backgroundColor = '';  
-		document.getElementById('anchooffer').style.backgroundColor = ''; 
-		  
+		document.getElementById('anchooffer').style.backgroundColor = '';
+		
+		document.getElementById('changeoffer2').style.backgroundColor = '';
+		document.getElementById('interdivoffer2').style.backgroundColor = '';  
+		document.getElementById('anchooffer2').style.backgroundColor = '';
+		listDataDistribution();  
 	}
 }
 
 /// My Trading Application vendor tab mode changes
 function activeTradingVendorMyofferings(tabmode){
+	debugger
 	if(tabmode != '' && tabmode.length > 0 && tabmode.match("tradingcapabilitiessupported")){
 		document.getElementById('changetradingvendoroffer').style.backgroundColor = '#5CE5E5';
 		document.getElementById('intertradingvendodivoffer').style.backgroundColor = '#5CE5E5';  
@@ -534,7 +1226,7 @@ function activeTradingVendorMyofferings(tabmode){
 		document.getElementById('changetradingvendoroffer1').style.backgroundColor = '';
 		document.getElementById('intertradingvendodivoffer1').style.backgroundColor = '';  
 		document.getElementById('anchootradingvendoffer1').style.backgroundColor = ''; 
-		
+		listTradingCapabilitiesSupported();
 	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("tradingsoftwaredetails")){
 		document.getElementById('changetradingvendoroffer1').style.backgroundColor = '#5CE5E5';
 		document.getElementById('intertradingvendodivoffer1').style.backgroundColor = '#5CE5E5';  
@@ -618,20 +1310,75 @@ function activeVendorAnalyticsResearchMyofferings(tabmode){
 
 ////File validation while uploading image-------------------
 
+
+
+function checkFile(e) {
+
+    var file_list = e.target.files;
+
+    for (var i = 0, file; file = file_list[i]; i++) {
+        var sFileName = file.name;
+        var sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
+        var iFileSize = file.size;
+       // var iConvert = (file.size / 10485760).toFixed(2);
+
+        if (!(logoPath !='' && logoPath.length > 0 && regex.test($("#personalvencompanylogo").val().toLowerCase())) || iFileSize > 2096) {
+            txt = "File type : " + sFileExtension + "\n\n";
+            txt += "Size: " + iConvert + " MB \n\n";
+            txt += "Please make sure your file is in .jpeg,.jpg,.png, .gif format and less than 2 MB.\n\n";
+            alert(txt);
+        }
+    }
+}
+
+function validateYear(year){
+	if(!(year.value.match(/^\d{4}$/))){
+		alert("Please enter valid year");
+		year.value="";
+	}
+}
+
+
+
 function imageValidation() {
+	debugger;
 	var logoPath = $("#personalvencompanylogo").val();
 	var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpeg|.jpg|.png| .gif)$/;
 	if(logoPath !='' && logoPath.length > 0 && regex.test($("#personalvencompanylogo").val().toLowerCase())){
 		document.getElementById("invalidfileformat").innerHTML = '';
 	}else if(logoPath !='' && logoPath.length > 0 && !regex.test($("#personalvencompanylogo").val().toLowerCase())){
 		document.getElementById("invalidfileformat").innerHTML = 'Invalid file format..!';
+		return;
 	}
+	
+	
+	    $('#displayLogo').html('');
+	debugger;
+	  var oMyForm = new FormData();
+	  oMyForm.append("file", personalvencompanylogo.files[0]);
+	  
+	  $.ajax({
+	    url: 'uploadFile',
+	    data: oMyForm,
+	    dataType: 'text',
+	    processData: false,
+	    contentType: false,
+	    type: 'POST',
+	    success: function(data){
+	    //  $('#result').html(data+ " uploaded by FormData!");
+	    
+	    //  $('#displayLogo').html(data);
+
+	    }
+	  });
+	
 	
 }
 
  
 /// Update code to Vendor personal Info--:
 function updateVendorPersonalInfo(){
+	debugger;
 	showLoader();
 	var personalvenfirstname = $("#personalvenfirstname").val();
 	var personalvenlastname = $("#personalvenlastname").val();
@@ -641,11 +1388,20 @@ function updateVendorPersonalInfo(){
 	var personalvencompanyinfo = $("#personalvencompanyinfo").val();
 	var personalvenprimemail = $("#personalvenprimemail").val();
 	var personalvensecemail = $("#personalvensecemail").val();
-	var personalvenphonenumber = $("#personalvenphonenumber").val();
+	var personalvenphonenumber = $("#personalvenphonenumbercode").val()+"-"+$("#personalvenphonenumber").val() ;
+	
 	var personalvenregionofincorp = $("#personalvenregionofincorp").val();
 	var personalvencountryofincorp = $("#personalvencountryofincorp").val();
 	var personalvencompanylogo = $("#personalvencompanylogo").val();
 	
+	var support = "";
+	var selected = $("input[type='radio'][name='support']:checked");
+	if (selected.length > 0) {
+		support = selected.val();
+	}
+
+	var weekend = $('#weekend').is(":checked");
+	var publicHolidays = $('#publicHolidays').is(":checked");
 	
 	if(personalvenfirstname != '' && personalvenfirstname.length > 0 &&
 			personalvendesignation != null && personalvendesignation.length > 0 &&
@@ -653,16 +1409,15 @@ function updateVendorPersonalInfo(){
 			personalvencompanyurl != null && personalvencompanyurl.length > 0 && 
 			personalvencompanyinfo != null && personalvencompanyinfo.length > 0 &&
 			personalvenprimemail != null && personalvenprimemail.length >0 &&
-			personalvenphonenumber != null && personalvenphonenumber.length > 0 &&
-			personalvenregionofincorp != null && personalvenregionofincorp.length > 0 && personalvenregionofincorp != '-SELECT-' &&
-			personalvencountryofincorp != null && personalvencountryofincorp.length >0 && personalvencountryofincorp != '-SELECT-' &&
-			personalvencompanylogo != null && personalvencompanylogo.length > 0){
+			personalvenphonenumber != null && personalvenphonenumber.length > 0){
+		
 		$.ajax({
 			type: 'GET',
 			url:  "updateVendorPersonalTabInfo?venFirstname="+personalvenfirstname+"&venLastname="+personalvenlastname+"&venDesignation="+personalvendesignation
 			                                            +"&venCompany="+personalvencompany+"&venCompanyUrl="+personalvencompanyurl+"&venCompanyInfo="+personalvencompanyinfo
 			                                            +"&venPrimEmail="+personalvenprimemail+"&venSecEmail="+personalvensecemail+"&venPhoneNum="+personalvenphonenumber
-			                                            +"&venRegionOfIncorp="+personalvenregionofincorp+"&venCountryOfIncorp="+personalvencountryofincorp+"&venCompanyLogo="+personalvencompanylogo,
+			                                            +"&venRegionOfIncorp="+personalvenregionofincorp+"&venCountryOfIncorp="+personalvencountryofincorp+"&venCompanyLogo="+personalvencompanylogo
+			                                            +"&support="+support+"&weekend="+weekend+"&publicHolidays="+publicHolidays,
 			cache:false,
 			/*contentType: 'multipart/form-data',*/
 			success : function(output){
@@ -705,30 +1460,7 @@ function updateVendorSupportCoverageInfo(){
 }
 
 /// Update code to Vendor Award tab details --:
-function updateVendorAwardDetails(){
-	var awardassetclass = $("#awardassetclass").val();
-	var assetClassVendorSecurityAwardMaps = $("#assetClassVendorSecurityAwardMaps").val();
-	var awardname = $("#awardname").val();
-	var awardsponsor = $("#awardsponsor").val();
-	var awardedyear = $("#awardedyear").val();
-	if(awardassetclass != '' && awardassetclass.length > 0){
-		$.ajax({
-			type: 'GET',
-			url:  "updateVendorAwardDetails?awardassetclass="+awardassetclass+"&assetClassVendorSecurityAwardMaps="+assetClassVendorSecurityAwardMaps
-			+"&awardname="+awardname+"&awardsponsor="+awardsponsor+"&awardedyear="+awardedyear,
-			cache:false,
-			success : function(output){
-				alert('You have updated sucessfully..!');
-				document.getElementById("awardtabsucessmessage").innerHTML = 'You have updated sucessfully..!';		
-			},
-			error : function(data, textStatus, jqXHR){
-				//alert('Error: '+data+':'+textStatus);
-			}
-		});
-	}
 
-	 
-}
 
 /// Update code to Vendor Search Data Buyers details --:
 function updateVendorSearchDataBuyers(){
@@ -760,6 +1492,7 @@ function updateVendorSearchDataBuyers(){
 
 /// Update code to Vendor Data Coverage Info--:
 function updateVendorOfferingDataCoverageInfo(){
+	debugger;
 	var listOfDataCoveageInfo = $("#jsontablesupport").val();
 	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
 		$.ajax({
@@ -778,10 +1511,212 @@ function updateVendorOfferingDataCoverageInfo(){
 	 
 }
 
+         
+function updateVendorOfferingDataDistributionInfo(){
+	debugger;
+	var listOfDataCoveageInfo = $("#jsontablevendorofferingdistribution").val();
+	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorOfferingDataDistributionInfo?dataCoverageInfo="+listOfDataCoveageInfo,
+			cache:false,
+			success : function(output){
+				document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';	
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}
+	 
+}
+
+/*
+function updateVendorOfferingDataDistribusionInfo(){
+	var listOfDataCoveageInfo = $("#jsontablesupport").val();
+	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorOfferingDataDistribusionInfo?dataCoverageInfo="+listOfDataCoveageInfo,
+			cache:false,
+			success : function(output){
+				document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';	
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}
+	 
+}
+*/
+
+function updateVendorOfferingTradingCapabilitiesSupportedInfo(){
+	debugger;
+	var listOfDataCoveageInfo = $("#jsontablevendorofferingdistribution").val();
+	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorOfferingTradingCapabilitiesSupportedInfo?dataCoverageInfo="+listOfDataCoveageInfo,
+			cache:false,
+			success : function(output){
+				document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';	
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}
+	 
+}
+function updateVendorOfferingTradingSoftwareDetailsInfo(){
+	var listOfDataCoveageInfo = $("#jsontablesupport").val();
+	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorOfferingTradingSoftwareDetailsInfo?dataCoverageInfo="+listOfDataCoveageInfo,
+			cache:false,
+			success : function(output){
+				document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';	
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}
+	 
+}
+function updateVendorOfferingAnalyticsFeaturesSupportedInfo(){
+	var listOfDataCoveageInfo = $("#jsontablesupport").val();
+	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorOfferingAnalyticsFeaturesSupportedInfo?dataCoverageInfo="+listOfDataCoveageInfo,
+			cache:false,
+			success : function(output){
+				document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';	
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}
+	 
+}
+function updateVendorOfferingAnalyticsSoftwareDetailsInfo(){
+	var listOfDataCoveageInfo = $("#jsontablesupport").val();
+	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorOfferingAnalyticsSoftwareDetailsInfo?dataCoverageInfo="+listOfDataCoveageInfo,
+			cache:false,
+			success : function(output){
+				document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';	
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}
+	 
+}
+function updateVendorOfferingResearchCoverageInfo(){
+	var listOfDataCoveageInfo = $("#jsontablesupport").val();
+	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorOfferingResearchCoverageInfo?dataCoverageInfo="+listOfDataCoveageInfo,
+			cache:false,
+			success : function(output){
+				document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';	
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}
+	 
+}
+function updateVendorOfferingResearchDetailsInfo(){
+	var listOfDataCoveageInfo = $("#jsontablesupport").val();
+	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorOfferingResearchDetailsInfo?dataCoverageInfo="+listOfDataCoveageInfo,
+			cache:false,
+			success : function(output){
+				document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';	
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}
+	 
+}
+function updateVendorOfferingAnalystProfileInfo(){
+	var listOfDataCoveageInfo = $("#jsontablesupport").val();
+	if(listOfDataCoveageInfo != '' && listOfDataCoveageInfo.length > 0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorOfferingAnalystProfileInfo?dataCoverageInfo="+listOfDataCoveageInfo,
+			cache:false,
+			success : function(output){
+				document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';	
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}
+}
+
+
+function getFileTreeList(){
+	debugger;
+	var solutionForVendorOffering = $("#solutionForVendorOffering").val();
+	var offeringName = $("#offeringName").val();
+	var descriptionForVendorOffering = $("#descriptionForVendorOffering").val();
+	var assetClassForVenderOffering = $("#assetClassForVenderOffering").val();
+	//if(checkMandotrySelectValue(solutionForVendorOffering) && checkMandotrySelectValue(assetClassForVenderOffering) && checkNullValue(offeringName) && checkNullValue(descriptionForVendorOffering)){
+	var outputVar;
+	if(true){
+		$.ajax({
+			type: 'GET',
+			url:  "createTree?solution="+solutionForVendorOffering+"&offeringName="+offeringName+"&description="+descriptionForVendorOffering+"&assetClass="+assetClassForVenderOffering,
+			cache:false,
+			success : function(output){
+				// document.getElementById("myofferingsdatacoveragetabsucessmessage").innerHTML = 'You have updated sucessfully..!';
+				debugger;
+				outputVar = output;
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}else{
+		alert("Please Enter Mandotry value");
+	}
+	return outputVar; 
+}
+
+
+
 ///Vendor My Offerings information updation ends here-----------------------------------------------------------------------------
 
 var id_insert= 0;
  function loadUploadFiles(fileId){
+	 debugger;
 	var form = document.getElementById("selectedFiles");
     var file = fileId;
     var fileUp= file.split('\\');
@@ -792,6 +1727,7 @@ var id_insert= 0;
 }
 
 function loadCheckBoxes(){
+	debugger;
 	var rmvCheckBoxes = document.getElementsByName('chkboxnames');
 	var spanfile = document.getElementsByName('spanfile');
 	var i = 0;
@@ -808,5 +1744,836 @@ function loadCheckBoxes(){
 function removeElm(elm){
 	 elm.remove();
 	}
+/*function addField() {
+	var divTxt = document.getElementById('filedetails').innerHTML;
+	var txtBox = "&nbsp; <font color='black'> Label name: </font><input type='text' name='fname'><br>";
+	document.getElementById('filedetails').innerHTML = divTxt + txtBox;
+}
+ */
 
+function addVendorSolution(){
+	debugger;
+	var vendorSolutionTypes = $("#vendorSolutionTypes").val();
+	var fieldDescription = $("#vendorSolutionSescription").val();
+	var solutionName = $("#solutionName").val();
+	var errorMsg = $("#signupSolutionErrorMsg").text();
+	
+	if( errorMsg.length == 0 && checkMandotrySelectValue(vendorSolutionTypes) && checkNullValue(fieldDescription) && checkNullValue(solutionName)){
+		$.ajax({
+			type: 'POST',
+			url:  "addVendorSolution?vendorSolutionTypes="+vendorSolutionTypes+"&fieldDescription="+fieldDescription+"&solutionName="+solutionName,
+			cache:false,
+			success : function(response){
+				$("#solutionName").val("");
+				$("#vendorSolutionTable tbody").empty();	 
+		        var tableRecord = "";
+		        for(i =0 ; i < response.length ; i++){                                                                                    
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].solutionType+'</td><td>'+response[i].description+'</td>  <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
+		       	                                                                                                                           
+		        }
+		        $("#vendorSolutionTable tbody").append(tableRecord);
+		        alert("Record is added successfully");
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				 alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}else{
+		alert("Please Enter Mandotry value");
+	}
+}
+
+function listVendorSolution(){
+		$.ajax({
+			type: 'POST',
+			url:  "listVendorSolution",
+			cache:false,
+			success : function(response){
+				debugger;
+		      
+		       $("#vendorSolutionTable tbody").empty();	 
+		        var tableRecord = "";
+		        for(i =0 ; i < response.length ; i++){                                                                                    
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].solutionType+'</td><td>'+response[i].description+'</td>  <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
+		       	                                                                                                                           
+		        }
+		        $("#vendorSolutionTable tbody").append(tableRecord);
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				 alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+}
+
+
+function deleteVendorSolution(objectVar){
+		debugger;
+	    $.ajax({
+	        url: "deleteVendorSolution?objectVar="+objectVar,
+	        type: "POST",
+
+	        beforeSend: function(xhr) {
+	            xhr.setRequestHeader("Accept", "application/json");
+	            xhr.setRequestHeader("Content-Type", "application/json");
+	        },
+	        success: function(response) {
+	        
+	        	$("#vendorSolutionTable tbody").empty();	 
+		        var tableRecord = "";
+		        for(i =0 ; i < response.length ; i++){                                                                                    
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].solutionType+'</td><td>'+response[i].description+'</td>  <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
+		       	                                                                                                                           
+		        }
+		        $("#vendorSolutionTable tbody").append(tableRecord);	
+	        	
+	        alert("Record is deleted successfully");
+	      
+	        },
+	        error: function(err){
+	       	 alert("error msg: "+err);
+	        }
+	    });
+	}
+
+function displayOfferingFile(objectVar){
+	$("#createfileDiv").show();
+     $("#createOfferingDiv").hide();
+     $("#createFieldsDiv").hide();
+     $("#solutionDetailList").hide();
+     $("#selectedId").val(objectVar);
+     var URLVar = "listOfferingData";
+     debugger
+         	   
+     $.ajax({
+         url: "listOfferingData?objectVar="+objectVar,
+         type: "POST",
+
+         beforeSend: function(xhr) {
+             xhr.setRequestHeader("Accept", "application/json");
+             xhr.setRequestHeader("Content-Type", "application/json");
+         },
+         success: function(response) {
+        	 debugger;
+        $("#offeringFilesTable tbody").empty();
+         var tableRecord = "";
+         for(i =0 ; i < response.length ; i++){                                                                                    
+        	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecordOfferingFile(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+        	                                                                                                                           
+         }
+         $("#offeringFilesTable tbody").append(tableRecord);
+         },
+         error: function(err){
+        	 alert("error msg: "+err);
+         }
+     });
+ }
+
+function displayFileFields(objectVar){
+	
+    $("#createfileDiv").hide();
+    $("#createOfferingDiv").hide();
+    $("#createFieldsDiv").show();
+    $("#selectedId").val(objectVar);
+    $("#solutionDetailList").hide();
+    $.ajax({
+        url: "listOfferingFieldData?objectVar="+objectVar,
+        type: "POST",
+
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+        },
+        success: function(response) {
+       	$("#offeringFilesFieldTable tbody").empty();	 
+        var tableRecord = "";
+        for(i =0 ; i < response.length ; i++){                                                                                    
+       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].fieldIndex+'</td><td>'+response[i].fieldMaxLength+'</td><td>'+response[i].fieldFormat+'</td><td>'+response[i].fieldDataType+'</td><td onclick="deleleFileFields(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+       	                                                                                                                        
+        }
+        $("#offeringFilesFieldTable tbody").append(tableRecord);
+        },
+        error: function(err){
+       	 alert("error msg: "+err);
+        }
+    });
+    
+    
+}
+         
+function addVendorOfferingInfo(){
+	debugger;
+	var solutionForVendorOffering = $("#selectedId").val();
+	var offeringName = $("#offeringName").val();
+	var descriptionForVendorOffering = $("#descriptionForVendorOffering").val();
+	var assetClassForVenderOffering = $("#assetClassForVenderOffering").val();
+	if(checkNullValue(offeringName)){
+		$.ajax({
+			type: 'GET',
+			url:  "createOfferings?solution="+solutionForVendorOffering+"&offeringName="+offeringName+"&description="+descriptionForVendorOffering+"&assetClass="+assetClassForVenderOffering,
+			cache:false,
+			success : function(response){
+				
+			     $("#offeringFilesTable tbody").empty();	 
+		        var tableRecord = "";
+		        for(i =0 ; i < response.length ; i++){                                                                                    
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecord(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+		       	                                                                                                                           
+		        }
+		        $("#vendorofferingTable tbody").append(tableRecord);
+
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				 alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}else{
+		alert("Please Enter Mandotry value");
+	}
+	 
+}
+
+
+function deleleFileFields(objectVar){
+	
+    $.ajax({
+        url: "deleteFieldsFile?objectVar="+objectVar,
+        type: "POST",
+
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+        },
+        success: function(response) {
+        	alert("Record deleted successfully.");
+            /*
+           	$("#offeringFilesFieldTable tbody").empty();	 
+            var tableRecord = "";
+            for(i =0 ; i < response.length ; i++){                                                                                    
+           	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].fieldIndex+'</td><td>'+response[i].fieldMaxLength+'</td><td>'+response[i].fieldFormat+'</td><td>'+response[i].fieldDataType+'</td><td onclick="deleleFileFields(\''+response[i].id+'\')"><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td>';
+           	                                                                                                                        
+            }
+            $("#offeringFilesFieldTable tbody").append(tableRecord);*/
+        },
+        error: function(err){
+       	 alert("error msg: "+err);
+        }
+    });
+}
+
+function deleleRecordOfferingFile(objectVar){
+	
+    $.ajax({
+        url: "deleteRecordFile?objectVar="+objectVar,
+        type: "POST",
+
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+        },
+        success: function(response) {
+        	
+        alert("Record is deleted successfully");
+       	 debugger;
+       /*$("#offeringFilesTable tbody").empty();	 
+        var tableRecord = "";
+        for(i =0 ; i < response.length ; i++){                                                                                    
+       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecord(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td>';
+       	                                                                                                                           
+        }
+        $("#offeringFilesTable tbody").append(tableRecord);*/
+        },
+        error: function(err){
+       	 alert("error msg: "+err);
+        }
+    });
+}
+
+
+function deleteRecordOffering(objectVar){
+	debugger;
+    $.ajax({
+        url: "deleteRecordOffering?objectVar="+objectVar,
+        type: "POST",
+
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+        },
+        success: function(response) {
+        	
+        alert("Record is deleted successfully");
+      
+        },
+        error: function(err){
+       	 alert("error msg: "+err);
+        }
+    });
+}
+
+
+
+function createOfferingFile(){
+	debugger;
+	var fileName = $("#fileName").val();
+	var description = $("#description").val();
+	var securityType = $("#securityType").val();
+	var selectedId = $("#selectedId").val();
+	//if(checkMandotrySelectValue(solutionForVendorOffering) && checkMandotrySelectValue(assetClassForVenderOffering) && checkNullValue(offeringName) && checkNullValue(descriptionForVendorOffering)){
+	var outputVar;
+	if(true){
+		$.ajax({
+			type: 'GET',
+			url:  "addOfferingFiles?selectedId="+selectedId+"&fileName="+fileName+"&description="+description+"&securityType="+securityType,
+			cache:false,
+			success : function(response){
+				 $("#offeringFilesTable tbody").empty();
+		         var tableRecord = "";
+		         for(i =0 ; i < response.length ; i++){                                                                                    
+		        	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecordOfferingFile(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+		        	                                                                                                                           
+		         }
+		         $("#offeringFilesTable tbody").append(tableRecord);
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}else{
+		alert("Please Enter Mandotry value");
+	}
+	return outputVar; 
+}
+
+function addFileFields(){
+	debugger;
+	var fieldName = $("#fieldName").val();
+	var fieldDescription = $("#fieldDescription").val();
+	var fieldIndex = $("#fieldIndex").val();
+	var fieldMaxLength = $("#fieldMaxLength").val();
+	var fieldFormat = $("#fieldFormat").val();
+	var fieldDataType = $("#fieldDataType").val();
+	
+	var selectedId = $("#selectedId").val();
+	if(checkNullValue(fieldName)){
+	var outputVar;
+		$.ajax({
+			type: 'GET',
+			url:  "addFieldsToFile?selectedId="+selectedId+"&fieldName="+fieldName+"&description="+fieldDescription+"&fieldIndex="+fieldIndex+"&fieldMaxLength="+fieldMaxLength+"&fieldFormat="+fieldFormat+"&fieldDataType="+fieldDataType,
+			cache:false,
+			success : function(response){
+				
+                debugger;
+		       	$("#offeringFilesFieldTable tbody").empty();	 
+		        var tableRecord = "";
+		        for(i =0 ; i < response.length ; i++){                                                                                    
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].fieldIndex+'</td><td>'+response[i].fieldMaxLength+'</td><td>'+response[i].fieldFormat+'</td><td>'+response[i].fieldDataType+'</td><td onclick="deleleFileFields(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+		       	                                                                                                                        
+		        }
+		        $("#offeringFilesFieldTable tbody").append(tableRecord);
+		        
+				
+				alert('You have updated sucessfully..!');
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	}else{
+		alert("Please Enter Mandotry value");
+	}
+	return outputVar; 
+}
+function createOfferings(objectVar){
+//	  $('#container').jstree();
+	  $("#createfileDiv").hide();
+	  $("#createOfferingDiv").show();
+	  $("#createFieldsDiv").hide();
+	  $("#solutionDetailList").hide();
+	  $("#selectedId").val(objectVar);
+	  
+	  $.ajax({
+			type: 'GET',
+			url:  "createOfferings?solution="+objectVar,
+			cache:false,
+			success : function(response){
+				
+			     $("#offeringFilesTable tbody").empty();	 
+		        var tableRecord = "";
+		        for(i =0 ; i < response.length ; i++){                                                                                    
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecord(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+		       	                                                                                                                           
+		        }
+		        $("#vendorofferingTable tbody").append(tableRecord);
+
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				 alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+	  
+}
+
+function onChangeSolution(){
+	debugger;
+	var objectVar = $('#solutionDataCoverage option:selected').val();
+	
+	$.ajax({
+		type: 'GET',
+		url:  "createOfferings?solution="+objectVar,
+		cache:false,
+		success : function(response){
+			userInfo = "";
+			for(i =0 ; i < response.length ; i++){ 
+    		  	userInfo += "<option value='" + response[i].id+"'>"+ response[i].name+"</option>";
+    	  	}
+    		$('#offeringsDataCoverage').html(userInfo);
+		    
+
+		},
+		error : function(errorMsg, textStatus, jqXHR){
+			 alert('Error: '+errorMsg+':'+textStatus);
+		}
+	});
+}
+
+
+
+
+function vendorTypeSolutions(vendorType){
+	debugger;
+	var result = "";
+	$.ajax({
+		type: 'GET',
+		async: false,
+		url:  "vendorSpecificSolutionList?vendorProvider="+vendorType,
+		cache:false,
+		success : function(response){
+			solutionList = "<option value ='-SELECT-' class='selectvalues'> -SELECT- </option>";
+			for(i =0 ; i < response.length ; i++){ 
+				solutionList += "<option value='" + response[i].id+"'>"+ response[i].name+"</option>";
+    	  	}
+			result =  solutionList;
+			
+			
+		},
+		error : function(errorMsg, textStatus, jqXHR){
+			 alert('Solution is not Created');
+		}
+	});
+	return result;
+}
+
+
+
+function onSolutionDataDistribution(){
+	debugger;
+	var objectVar = $('#solutionDataDistribution option:selected').val();
+	
+	$.ajax({
+		type: 'GET',
+		url:  "createOfferings?solution="+objectVar,
+		cache:false,
+		success : function(response){
+			userInfo = "";
+			for(i =0 ; i < response.length ; i++){ 
+    		  	userInfo += "<option value='" + response[i].id+"'>"+ response[i].name+"</option>";
+    	  	}
+    		$('#offeringDataDistribution').html(userInfo);
+		    
+
+		},
+		error : function(errorMsg, textStatus, jqXHR){
+			 // alert('Error: '+errorMsg+':'+textStatus);
+		}
+	});
+}
+
+function onVendorOfferingChange()
+{
+	debugger;
+	var objectVar = $('#offeringDataDistribution option:selected').val();
+	
+	 $.ajax({
+         url: "listOfferingData?objectVar="+objectVar,
+         type: "POST",
+
+         beforeSend: function(xhr) {
+             xhr.setRequestHeader("Accept", "application/json");
+             xhr.setRequestHeader("Content-Type", "application/json");
+         },
+         success: function(response) {
+        
+        var userInfo = "";
+			for(i =0 ; i < response.length ; i++){ 
+ 		  	userInfo += "<option value='" + response[i].id+"'>"+ response[i].name+"</option>";
+			}
+				$('#fileDataCoverage').html(userInfo);
+		 
+         },
+         error: function(err){
+        	 alert("error msg: "+err);
+         }
+     });
+
+}
+
+
+
+
+function listDataCoverageDetails(){
+
+$.ajax({
+	type: 'GET',
+	url:  "addVendorDataCoverage",
+	cache:false,
+	success : function(response){
+	     $("#offeringFilesTable tbody").empty();	 
+        var tableRecord = "";
+        for(i =0 ; i < response.length ; i++){                                                                                    
+       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].cost+'</td><td>'+response[i].phonNo+'</td><td>'+response[i].email+'</td><td onclick="deleteRecordDataCoverage(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+       	                                                                                                                           
+        }
+        $("#dataCoverageTable tbody").append(tableRecord);
+
+	},
+	error : function(errorMsg, textStatus, jqXHR){
+		// alert('Error: '+errorMsg+':'+textStatus);
+	}
+});
+
+}
+
+function listDataDistribution(){
+	 
+	$.ajax({
+		type: 'GET',
+		url:  "addVendorDataDistribution",
+		cache:false,
+		success : function(response){
+		     $("#dataDistributionTable tbody").empty();	 
+	        var tableRecord = "";
+	        for(i =0 ; i < response.length ; i++){                                                                                    
+	       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringFiles+'</td><td>'+response[i].feedType+'</td><td>'+response[i].feedSubType+'</td><td>'+response[i].distributionMethod+'</td><td>'+response[i].frequency+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].exchange+'</td><td onclick="deleteRecordDataDistribution(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+	       	                                                                                                                           
+	        }
+	        $("#dataDistributionTable tbody").append(tableRecord);
+
+		},
+		error : function(errorMsg, textStatus, jqXHR){
+			// alert('Error: '+errorMsg+':'+textStatus);
+		}
+	});
  
+}
+
+function deleteRecordDataDistribution(objectVar){
+	debugger;
+    $.ajax({
+        url: "deleteVendorDataDistribution?slectedId="+objectVar,
+        type: "POST",
+
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+        },
+        success: function(response) {
+        	
+        alert("Record is deleted successfully");
+      
+        },
+        error: function(err){
+       	 alert("error msg: "+err);
+        }
+    });
+}
+
+
+function deleteRecordDataCoverage(objectVar){
+	debugger;
+    $.ajax({
+        url: "deleteVendorDataCoverage?slectedId="+objectVar,
+        type: "POST",
+
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+        },
+        success: function(response) {
+        	
+        alert("Record is deleted successfully");
+      
+        },
+        error: function(err){
+       	 alert("error msg: "+err);
+        }
+    });
+ }
+
+function listTradingSoftwareDetails(){
+	debugger;
+		$.ajax({
+			type: 'GET',
+			url:  "addTradingSoftwareDetails",
+			cache:false,
+			success : function(response){
+
+			     $("#tdsTable tbody").empty();	 
+		        var tableRecord = "";
+		        for(i =0 ; i < response.length ; i++){                                                                                    
+		       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].assetClass+'</td>td>Details</td><td onclick="deleteRecord(\''+response[i].id+'\',\'tradingSoftwareDetails\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+		       	                                                                                                                           
+		        }
+		        $("#tdsTable tbody").append(tableRecord);
+
+			},
+			error : function(errorMsg, textStatus, jqXHR){
+				// alert('Error: '+errorMsg+':'+textStatus);
+			}
+		});
+		
+}    
+
+
+function tradingCapabilitiesSupportedOffering(){
+	var solutionId = $('#tcsSolution option:selected').val();
+	
+	$.ajax({
+		type: 'GET',
+		url:  "tradingCapabilitiesSupportedOffering?solutionId="+solutionId,
+		cache:false,
+		success : function(response){
+
+	        var offerings = "";
+				for(i =0 ; i < response.length ; i++){ 
+					offerings += "<option value='" + response[i].name+"'>"+ response[i].name+"</option>";
+				}
+					$('#tcsOffering').html(offerings);
+							
+		    },
+		error : function(errorMsg, textStatus, jqXHR){
+			// alert('Error: '+errorMsg+':'+textStatus);
+		}
+	});
+}
+
+function researchReportingVendorOffering(solutionId,offeringId){
+	var solutionId = $('#'+solutionId+' option:selected').val();
+	
+	$.ajax({
+		type: 'GET',
+		url:  "researchReportingVendorOffering?solutionId="+solutionId,
+		cache:false,
+		success : function(response){
+
+	        var offerings = "";
+				for(i =0 ; i < response.length ; i++){ 
+					offerings += "<option value='" + response[i].name+"'>"+ response[i].name+"</option>";
+				}
+					$('#'+offeringId+'').html(offerings);
+							
+		    },
+		error : function(errorMsg, textStatus, jqXHR){
+			// alert('Error: '+errorMsg+':'+textStatus);
+		}
+	});
+}
+
+
+function listTradingCapabilitiesSupported(){
+$.ajax({
+	type: 'GET',
+	url:  "addTradingCapabilitiesSupported",
+	cache:false,
+	success : function(response){
+
+	     $("#tcsTable tbody").empty();	 
+        var tableRecord = "";
+        for(i =0 ; i < response.length ; i++){                                                                                    
+       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].tradeCoverageRegion+'</td><td>'+response[i].tradeCoverageCountry+'</td><td>'+response[i].tradingCapabilitiesType+'</td><td>'+response[i].tradeExecutionsType+'</td><td>'+response[i].algorithmicTradeType+'</td><td>'+response[i].darkpoolAccess+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'tradingCapabilitiesSupported\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+       	                                                                                                                           
+        }
+        $("#tcsTable tbody").append(tableRecord);
+
+	},
+	error : function(errorMsg, textStatus, jqXHR){
+		// alert('Error: '+errorMsg+':'+textStatus);
+	}
+});
+}
+
+function listAnalyticsSoftwareDetails(){
+debugger;
+ 
+	$.ajax({
+		type: 'GET',
+		url:  "addAnalyticsSoftwareDetails",
+		cache:false,
+		success : function(response){
+
+		     $("#asdTable tbody").empty();	 
+	        var tableRecord = "";
+	        for(i =0 ; i < response.length ; i++){                                                                                    
+	       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].applicationName+'</td><td>'+
+	       	 response[i].accessibility+'</td><td>'+response[i].applicationCostType+'</td><td>'+response[i].applicationSubscriptionCCY+'</td><td>'+response[i].applicationSubscriptionCost+'</td><td>'+
+	       	 response[i].applicationSubscriptionType+'</td><td>'+response[i].realtimeMarketData+'</td><td>'+response[i].operatingSystem+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'analyticsSoftwareDetails\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+	       	/* 
+	       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].applicationName+'</td><td>'+response[i].applicationBriefDesc+'</td><td>'+
+	       	 response[i].accessibility+'</td><td>'+response[i].suitability+'</td><td>'+response[i].applicationCostType+'</td><td>'+response[i].applicationSubscriptionCCY+'</td><td>'+response[i].applicationSubscriptionCost+'</td><td>'+
+	       	 response[i].applicationSubscriptionType+'</td><td>'+response[i].realtimeMarketData+'</td><td>'+response[i].customizableCalculationModels+'</td><td>'+response[i].addOns+'</td><td>'+response[i].operatingSystem+'</td><td>'+
+	       	 response[i].softwareSpecifications+'</td><td>'+response[i].launchedYear+'</td><td>'+response[i].existingUserBase+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'analyticsSoftwareDetails\')"><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td>';
+	       	 */
+	       	 
+	        }
+	        $("#asdTable tbody").append(tableRecord);
+
+		},
+		error : function(errorMsg, textStatus, jqXHR){
+			// alert('Error: '+errorMsg+':'+textStatus);
+		}
+	});
+
+}
+
+function listAnalystProfile(){   
+	$.ajax({
+		type: 'GET',                                                                                                                                                                               
+		url:  "addAnalystProfile",
+		cache:false,
+		success : function(response){
+
+		     $("#rpTable tbody").empty();	 
+	        var tableRecord = "";
+	        for(i =0 ; i < response.length ; i++){                                                                                   
+	       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].researchArea+'</td><td>'+response[i].researchSubArea+'</td><td>'+response[i].analystName
+	       	 +'</td><td>'+response[i].researchAnalystWithCFA+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].analystRegionofIncorp+'</td><td>'+response[i].analystCountryofIncorp+'</td><td>'+response[i].analystYearofExp+'</td><td>'+response[i].analystAwards+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'analystProfile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+	       	                                                                                                                           
+	        }
+	        $("#rpTable tbody").append(tableRecord);
+
+		},
+		error : function(errorMsg, textStatus, jqXHR){
+			// alert('Error: '+errorMsg+':'+textStatus);
+		}
+	});
+
+}
+
+function getRegion(countryId,regionId){
+	debugger;
+	
+	var countryId = $('#'+countryId+' option:selected').val();
+	$.ajax({
+		type: 'GET',                                                                                                                                                                               
+		url:  "getRegion?country="+countryId,
+		cache:false,
+		success : function(response){
+			$('#'+regionId+'').val(response);
+		},
+		error : function(errorMsg, textStatus, jqXHR){
+			// alert('Error: '+errorMsg+':'+textStatus);
+		}
+	});
+}
+
+
+function changeTabMode(comp){
+	 debugger; 
+	 comppnentId="";
+	 try {
+		 comppnentId = comp.id;
+		}catch(err) {
+			comppnentId="";
+		}
+	 if(window.location.href.indexOf("vendormyprofile") != -1){
+		 $("#myProfile").attr("class", "active");
+		 $("#solution").attr("class", "#");
+		 $("#myOfferings").attr("class", "#");
+		 $("#myStats").attr("class", "#");
+		 $("#myBlog").attr("class", "#");
+	 }else if(comppnentId === "myStats"){
+		 $("#myStats").attr("class", "active");
+		 $("#solution").attr("class", "#");
+		 $("#myOfferings").attr("class", "#");
+		 $("#myProfile").attr("class", "#");
+		 $("#myBlog").attr("class", "#");
+	 }else if(comppnentId === "myBlog"){
+		 $("#myBlog").attr("class", "active");
+		 $("#solution").attr("class", "#");
+		 $("#myOfferings").attr("class", "#");
+		 $("#myStats").attr("class", "#");
+		 $("#myProfile").attr("class", "#");
+	 }else if(window.location.href.indexOf("vendormyofferings") != -1){
+		 $("#myOfferings").attr("class", "active");
+		 $("#solution").attr("class", "#");
+		 $("#myProfile").attr("class", "#");
+		 $("#myStats").attr("class", "#");
+		 $("#myBlog").attr("class", "#");
+	 }else if(window.location.href.indexOf("vendorsolutions") != -1){
+		 $("#solution").attr("class", "active");
+		 $("#myProfile").attr("class", "#");
+		 $("#myOfferings").attr("class", "#");
+		 $("#myStats").attr("class", "#");
+		 $("#myBlog").attr("class", "#");
+	 }
+}
+
+
+//Award Details 
+function addVendorAward(){
+	debugger;
+	
+    var awardname = $("#awardname").val();
+    var awardsponsor = $("#awardsponsor").val();
+    var awardedyear = $("#awardedyear").val();
+    var errorMsg = $("#awardnameErrorMsg").text();
+    
+    if(errorMsg.length == 0 && awardname != null && awardname.length >0	&& awardsponsor != null && awardsponsor.length > 0 && awardedyear != null && awardedyear.length >0){
+		$.ajax({
+			type: 'GET',
+			url:  "updateVendorAwardDetails?awardname="+awardname+"&awardsponsor="+awardsponsor+"&awardedyear="+awardedyear,
+			cache:false,
+			success : function(response){
+				alert('You have updated sucessfully..!');
+				var awardname = $("#awardname").val("");
+				   $("#awardsample_1 tbody").empty();	 
+			        var tableRecord = "";
+			        for(i =0 ; i < response.length ; i++){                                                                                    
+			       	 	tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a> </a></td>';
+			        }
+			        $("#awardsample_1 tbody").append(tableRecord);
+				   document.getElementById("awardtabsucessmessage").innerHTML = 'You have updated sucessfully..!';		
+			},
+			error : function(data, textStatus, jqXHR){
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+	}else{
+		alert("Please enter mandatory fields");
+	}
+	
+}
+
+
+function listVendorAward(){
+	debugger;
+    
+    	$.ajax({
+			type: 'GET',
+			url:  "updateVendorAwardDetails",
+			cache:false,
+			success : function(response){
+				   $("#awardsample_1 tbody").empty();	 
+			        var tableRecord = "";
+			        for(i =0 ; i < response.length ; i++){                                                                                    
+			       	 	tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			        }
+			        $("#awardsample_1 tbody").append(tableRecord);
+			},
+			error : function(data, textStatus, jqXHR){
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+	}
+	
