@@ -42,9 +42,12 @@ public class FinVendorUser implements Serializable {
 	@Column(name="REGISTRATION_DATE")
 	private Timestamp registrationDate;
 	
+	@Column(name="LAST_MODIFIED")
+	private Timestamp lastModified;
+	
 	@Column(name="VERIFIED")
 	private String verified;
-		
+
 	@OneToMany(mappedBy="user", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	private Set<UserRole> userRoles = new HashSet<UserRole>();
 	
@@ -125,6 +128,14 @@ public class FinVendorUser implements Serializable {
 	public void setRegistrationDate(Timestamp registrationDate) {
 		this.registrationDate = registrationDate;
 	}
+	
+	public Timestamp getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Timestamp lastModified) {
+		this.lastModified = lastModified;
+	}
 
 	public String getVerified() {
 		return verified;
@@ -134,6 +145,7 @@ public class FinVendorUser implements Serializable {
 		this.verified = verified;
 	}
 	
+
 	public Consumer getConsumer() {
 		return consumer;
 	}

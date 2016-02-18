@@ -4,7 +4,10 @@
 package com.finvendor.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -35,21 +39,38 @@ public class VendorOffering  implements Serializable{
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="description")
+	private String description;
+
 	@ManyToOne(targetEntity=Vendor.class,fetch=FetchType.LAZY)
 	@JoinColumn(name="vendor_id", nullable=false)
 	private Vendor vendor;
 	
-	@ManyToOne(targetEntity=AssetClass.class,fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=AssetClass.class,fetch=FetchType.EAGER)
 	@JoinColumn(name="asset_class_id", nullable=false)
 	private AssetClass assetClass;
 	
 	@ManyToOne(targetEntity=SecurityType.class,fetch=FetchType.LAZY)
-	@JoinColumn(name="security_type_id", nullable=false)
+	@JoinColumn(name="security_type_id", nullable=true)
 	private SecurityType securityType;
 	
-	@ManyToOne(targetEntity=Solutions.class,fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=Solutions.class,fetch=FetchType.EAGER)
 	@JoinColumn(name="solution_id", nullable=false)
 	private Solutions solutions;
+	
+	
+	
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="vendorOffering",cascade = CascadeType.ALL)
+	private Set<OfferingFiles> offeringFiles = new HashSet<OfferingFiles>();
+	
+
+	public Set<OfferingFiles> getOfferingFiles() {
+		return offeringFiles;
+	}
+
+	public void setOfferingFiles(Set<OfferingFiles> offeringFiles) {
+		this.offeringFiles = offeringFiles;
+	}
 
 	/**
 	 * @return the name
@@ -78,6 +99,15 @@ public class VendorOffering  implements Serializable{
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 
 	/**
 	 * @return the solutions

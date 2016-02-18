@@ -14,13 +14,24 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.SecurityType;
+import com.finvendor.model.SolutionTypes;
+import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
 import com.finvendor.model.Vendor;
+import com.finvendor.model.VendorAnalystProfile;
+import com.finvendor.model.VendorAnalyticsSoftwareDetails;
+import com.finvendor.model.VendorAnalyticsfeaturesSupported;
 import com.finvendor.model.VendorAwardsMap;
+import com.finvendor.model.VendorDataCoverage;
+import com.finvendor.model.VendorDistribution;
 import com.finvendor.model.VendorOffering;
 import com.finvendor.model.VendorRegionCountryExchangeMap;
+import com.finvendor.model.VendorResearchCoverage;
+import com.finvendor.model.VendorResearchDetails;
 import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
+import com.finvendor.model.VendorTradingCapabilitiesSupported;
+import com.finvendor.model.VendorTradingSoftwareDetails;
 
 /**
  * @author rayulu vemula
@@ -46,6 +57,7 @@ public interface VendorService {
 	 * @return 
 	 */
 	Vendor getVendorInfoByEmail(String email);
+	Vendor getVendorInfoByUserName(String userName);
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -110,6 +122,7 @@ public interface VendorService {
 	 * @return 
 	 */
 	Country getCountryByName(String countryName);
+	Country getCountryById(String countryId);
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -166,6 +179,9 @@ public interface VendorService {
 	 */
 	VendorSolution updateVendorSolutionDetails(VendorSolution vendorSolution);
 
+	List<Solutions> listVednorSolution(String id);
+	List<Solutions> deleteVendorSolution(String id);
+	
 	/** --------------------------------------------------------------------- */
 	/**
 	 * Method to get support details
@@ -191,6 +207,61 @@ public interface VendorService {
 	 * @param id
 	 * @return 
 	 */
+	
 	List<VendorOffering> getVendorOfferingDetails(String id);
+	public Solutions getSolutionsInfo(String solutionId);
+	public Solutions addSolutionsInfo(Solutions solutions);
+	
+	public SolutionTypes getSolutionTypes(String solutionName);
+	
+	public List<Solutions> getSolutionsBasedOnOfferingTypes(String offeringName);
 
+	void addVendorDataCoverage(VendorDataCoverage vendorDataCoverage);
+	
+	void addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported);
+	void addTradingSoftwareDetails(VendorTradingSoftwareDetails tradingSoftwareDetails);
+	void addAnalyticsfeaturesSupported(VendorAnalyticsfeaturesSupported analyticsfeaturesSupported);
+	void addAnalyticsSoftwareDetails(VendorAnalyticsSoftwareDetails analyticsSoftwareDetails);
+	void addResearchCoverage(VendorResearchCoverage researchCoverage);
+	void addResearchDetails(VendorResearchDetails researchDetails);
+	void addAnalystProfile(VendorAnalystProfile analystProfile);
+	
+	public List<VendorTradingCapabilitiesSupported> listTradingCapabilitiesSupported(String objectId);
+	public List<VendorTradingSoftwareDetails> listTradingSoftwareDetails(String objectId);
+	public List<VendorAnalyticsfeaturesSupported> listAnalyticsfeaturesSupported(String objectId);
+	public List<VendorAnalyticsSoftwareDetails> listAnalyticsSoftwareDetails(String objectId);
+	public List<VendorResearchCoverage> listResearchCoverage(String objectId);
+	public List<VendorResearchDetails> listResearchDetails(String objectId);
+	public List<VendorAnalystProfile> listAnalystProfile(String objectId);
+	
+	void deleteTradingCapabilitiesSupported(String objectId);
+	void deleteTradingSoftwareDetails(String objectId);
+	void deleteAnalyticsfeaturesSupported(String objectId);
+	void deleteAnalyticsSoftwareDetails(String objectId);
+	void deleteResearchCoverage(String objectId);
+	void deleteResearchDetails(String objectId);
+	void deleteAnalystProfile(String objectId);
+	
+	List<VendorDataCoverage> listVendorDataCoverage(String id);
+
+	void addVendorDistribution(VendorDistribution vendorDistribution);
+	List<VendorDistribution> listVendorDistribution(String id);
+
+	void deleteVendorDataCoverage(String selectedId);
+
+	void detletVendorDistribution(String selectedId);
+
+	List<VendorTradingSoftwareDetails> listTradingSoftwareDetailsBasedOnSolutionId(String solutionId);
+
+	List<VendorAnalystProfile> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId);
+
+	String getRegion(String country);
+
+	List<VendorAwardsMap> listVendorAwardDetails(String id);
+
+	Boolean isAwardAlreadyExist(String value);
+
+	Boolean isSolutionAlreadyExist(String value);
+	
+	
 }

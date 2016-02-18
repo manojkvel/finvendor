@@ -184,7 +184,17 @@ public class LoginController {
 		       		modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);					
 					vendor = userService.getUserDetailsByUsername(username).getVendor();
 					modelAndView.addObject("myprofiletab", "myprofile");	       		
-		       		modelAndView.addObject("vendortabdetails", "vendortabdetails");	       		
+		       		modelAndView.addObject("vendortabdetails", "vendortabdetails");	       	
+		       	//	System.out.println("Get Solution----"+vendor.getVendorSupport().getcWeekend());
+		       		
+		       		String telephone = vendor.getTelephone();
+		       	if(telephone != null){
+		       		String[] split = telephone.split("-");
+		       		if(split != null && split.length == 2){
+			       		vendor.setTelephoneCode("+"+split[0]);
+			       		vendor.setTelephone(split[1]);
+		       		}
+		       	}
 		       		modelAndView.addObject("vendor", vendor);		       		
 		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_CONSUMER))) {
 		       		logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_CONSUMER);

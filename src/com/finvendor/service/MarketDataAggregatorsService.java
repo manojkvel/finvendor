@@ -4,6 +4,7 @@
 package com.finvendor.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassDataDetails;
@@ -13,9 +14,13 @@ import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.CountryExchangeMap;
 import com.finvendor.model.Exchange;
+import com.finvendor.model.FileFields;
+import com.finvendor.model.OfferingFiles;
 import com.finvendor.model.Region;
 import com.finvendor.model.RegionCountryMap;
+import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
+import com.finvendor.model.VendorOffering;
 
 /**
  * @author rayulu vemula
@@ -128,6 +133,10 @@ public interface MarketDataAggregatorsService {
 	 * @param 
 	 * @return 
 	 */
+	Region getRegionById(String Id);
+	Country getCountryById(String Id);
+	Cost getCostById(String Id);
+	
 	List<AssetClassDataDetails> getSingleAssetClassSearchResultInfo(String assetclassId,
 			List<String> securitytypeId, String dataattribute,
 			List<String> regionList, List<String> countryList,
@@ -184,7 +193,22 @@ public interface MarketDataAggregatorsService {
 	 * @return 
 	 */
 	AssetClass getAssetClassByName(String assetType);
+	
+	VendorOffering createOfferings(String id, VendorOffering vendorOffering);
+	OfferingFiles addOfferingFiles(String id, OfferingFiles OfferingFiles);
+	FileFields addFieldsToFile(String id, FileFields fileFields);
+	
+	Set<VendorOffering> listOfferings(String id);
+	Set<OfferingFiles> listOfferingFiles(String id);
+	Set<FileFields> listFieldsToFile(String id);
+	
+	VendorOffering deleteOfferings(String id);
+	OfferingFiles deleteOfferingFiles(String id);
+	FileFields deleteFieldsToFile(String id);
+	List<SecurityType> listSecurityType();
+	
+	VendorOffering getVendorOfferingById(String Id);
 
-
+	Exchange getExchangeById(String exchange);
 
 }

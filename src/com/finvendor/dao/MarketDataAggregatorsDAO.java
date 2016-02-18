@@ -4,6 +4,7 @@
 package com.finvendor.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassDataDetails;
@@ -13,9 +14,13 @@ import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.CountryExchangeMap;
 import com.finvendor.model.Exchange;
+import com.finvendor.model.FileFields;
+import com.finvendor.model.OfferingFiles;
 import com.finvendor.model.Region;
 import com.finvendor.model.RegionCountryMap;
+import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
+import com.finvendor.model.VendorOffering;
 
 /**
  * @author rayulu vemula
@@ -188,5 +193,24 @@ public interface MarketDataAggregatorsDAO {
 
 
 	
+	VendorOffering createOfferings(String id, VendorOffering vendorOffering );
+	OfferingFiles addOfferingFiles(String id, OfferingFiles offeringFiles);
+	FileFields addFieldsToFile(String id,FileFields fileFields);
+	
+	Set<VendorOffering> listOfferings(String id);
+	Set<OfferingFiles> listOfferingFiles(String id);
+	Set<FileFields> listFieldsToFile(String id);
+	
+	VendorOffering deleteOfferings(String id);
+	OfferingFiles deleteOfferingFiles(String id);
+	FileFields deleteFieldsToFile(String id);
+	
+	public List<SecurityType> listSecurityType();
+	VendorOffering getVendorOfferingById(String Id);
+	
+	Region getRegionById(String Id);
+	Country getCountryById(String Id);
+	Cost getCostById(String Id);
+	Exchange getExchangeById(String exchange);
 
 }

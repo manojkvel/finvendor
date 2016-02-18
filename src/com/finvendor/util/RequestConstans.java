@@ -169,19 +169,51 @@ public class RequestConstans {
 	public interface Vendor{
 		//My profile
 		public static final String VENDOR_RFP_INBOX="rfpinbox";
-		
+		public static final String VENDOR_GET_REGION="getRegion";
 		public static final String VENDOR_SEARCH_DATABUYER="vendorsearchdatabuyer";
+		public static final String ADD_VENDOR_DATACOVERAGE = "addVendorDataCoverage";
+		public static final String ADD_VENDOR_DATADISTRIBUTION = "addVendorDataDistribution";
+		public static final String ADD_VENDOR_ANALYSTPROFILE = "addAnalystProfile";
+		
+		public static final String ADD_VENDOR_TRADINGCAPABILITIESSUPPORTED = "addTradingCapabilitiesSupported";
+		public static final String ADD_VENDOR_TRADINGSOFTWAREDETAILS = "addTradingSoftwareDetails";
+		public static final String ADD_VENDOR_ANALYTICSFEATURESSUPPORTED = "addAnalyticsfeaturesSupported";
+		public static final String ADD_VENDOR_ANALYTICSSOFTWAREDETAILS = "addAnalyticsSoftwareDetails";
+		public static final String ADD_VENDOR_RESEARCHCOVERAGE = "addResearchCoverage";
+		public static final String ADD_VENDOR_RESEARCHDETAILS = "addResearchDetails";
+		
+		public static final String DELETE_VENDOR_DATACOVERAGE = "deleteVendorDataCoverage";
+		public static final String DELETE_VENDOR_DATADISTRIBUTION = "deleteVendorDataDistribution";
 		
 		public static final String VENDOR_MY_PROFILE="vendormyprofile";
 		public static final String VENDOR_MY_OFFERINGS="vendormyofferings";
+		public static final String VENDOR_SOLUTION="vendorsolutions";
+		public static final String MY_OFFERTINGS_FILE="vendormyofferingfiles";
+		public static final String VENDOR_SPECIFIC_SOLUTION_LIST="vendorSpecificSolutionList";
+		
 		public static final String LOAD_VENDOR_SECURITY_TYPES = "loadVendorSecurityTypes";
 		public static final String LOAD_VENDOR_SECURITY_AWARD_TYPES = "loadSecurityAwardTypes";
 		public static final String LOAD_VENDOR_SECURITY_DISTRI_TYPES = "loadSecurityDistriTypes";
 		public static final String LOAD_VENDOR_FOCUS_SECURITY_DISTRI_TYPES = "loadFocusSecurityTypes";
+		public static final String LOAD_VENDOR_FOCUS_CREATE_OFFERINGS = "createOfferings";
+		public static final String LOAD_VENDOR_FOCUS_ADD_OFFERING_FILES = "addOfferingFiles";
+		public static final String LOAD_VENDOR_FOCUS_ADD_FIELD_TO_FILE = "addFieldsToFile";
+		
+		
+		public static final String DELETE_OFFERING = "deleteOffering";
+		public static final String DELETE_OFFERING_FILE = "deleteRecordFile";
+		public static final String DELETE_FIELDS_FILE = "deleteFieldsFile";
+		public static final String LIST_OFFERING_FIELD_DATA = "listOfferingFieldData";
+		public static final String LIST_OFFERING_DATA = "listOfferingData";
+		public static final String DELETE_RECORD_OFFERING = "deleteRecordOffering";
+		
 		
 		public static final String UPDATE_VENDOR_PERSONAL_INFO_TAB = "updateVendorPersonalTabInfo";
 		public static final String UPDATE_VENDOR_SUPPORT_COVEAGE_TAB = "updateVendorSupportCoverageInfo";
 		
+		public static final String DELETE_VENDOR_SOLUTION = "deleteVendorSolution";
+		public static final String ADD_VENDOR_SOLUTION = "addVendorSolution";
+		public static final String LIST_VENDOR_SOLUTION = "listVendorSolution";
 		
 		public static final String PERSONALDETAILS = "personaldetails";
 		public static final String SUPPORTCOVERAGE = "supportcoverage";
@@ -196,7 +228,8 @@ public class RequestConstans {
 		public static final String TRADING_APPLICATION = "Trading Application";
 		public static final String ANALYTICS_APPLICATION = "Analytics Application";
 		public static final String RESEARCH_REPORT = "Research Report";
-		
+		public static final String TRADING_CAPABILITIES_SUPPORTED_OFFERING = "tradingCapabilitiesSupportedOffering";
+		public static final String RESEARCH_REPORTING_VENDOR_OFFERING = "researchReportingVendorOffering";
 		//My Offerings
 		public static final String VENDOR_MYOFFERINGS_AS_DATA_AGGREGATOR_VENDOR="vendormyofferingsasaggregatorvendor";
 		public static final String VENDOR_MYOFFERINGS_AS_TRADING_APPLICATION_VENDOR="vendormyofferingsastradingapplicationvendor";
@@ -205,10 +238,21 @@ public class RequestConstans {
 		
 		//Market Data Aggregator my Offerings
 		public static final String VENDOR_MYOFFERINGS_DATACOVERAGE="vendormyofferingsdatacoverage";
+		public static final String VENDOR_MYOFFERINGS_DATADICTIONARY="vendorMyOfferingsDataDictionary";
 		public static final String VENDOR_MYOFFERINGS_DATA_DISTEIBUTION="vendormyofferingsdatadistribution";
 		public static final String UPDATE_VENDOR_AWARD_DETAILS_TAB = "updateVendorAwardDetails";
 		public static final String UPDATE_VENDOR_DATA_SEARCH_BUYERS = "updateVendorSearchDataBuyers";
 		public static final String UPDATE_VENDOR_MYOFFEINGS_DATA_COVEAGE_TAB = "updateVendorOfferingDataCoverageInfo";
+		public static final String UPDATE_VENDOR_MYOFFEINGS_DATA_DISTRIBUTION_TAB = "updateVendorOfferingDataDistributionInfo";
+		
+		public static final String UPDATE_VENDOR_MYOFFEINGS_TRADING_CAPABILITIES_SUPPORTED_TAB = "updateVendorOfferingTradingCapabilitiesSupportedInfo";
+		public static final String UPDATE_VENDOR_MYOFFEINGS_TRADING_SOFT_WAREDETAILS_TAB = "updateVendorOfferingTradingSoftwareDetailsInfo";
+		public static final String UPDATE_VENDOR_MYOFFEINGS_ANALYTICS_FEATURES_SUPPORTED_TAB = "updateVendorOfferingAnalyticsFeaturesSupportedInfo";
+		public static final String UPDATE_VENDOR_MYOFFEINGS_AnalyticsSoftwareDetails_TAB = "updateVendorOfferingAnalyticsSoftwareDetailsInfo";
+		public static final String UPDATE_VENDOR_MYOFFEINGS_RESEARCH_COVERAGE_TAB = "updateVendorOfferingResearchCoverageInfo";
+		public static final String UPDATE_VENDOR_MYOFFEINGS_RESEARCH_DETAILS_TAB = "updateVendorOfferingResearchDetailsInfo";
+		public static final String UPDATE_VENDOR_MYOFFEINGS_ANALYST_PROFILE_TAB = "updateVendorOfferingAnalystProfileInfo";
+		
 		
 		//Trading Application my Offerings
 		public static final String  TRADING_CAPABILITIES_SUPPORTED="tradingcapabilitiessupported";
@@ -222,6 +266,10 @@ public class RequestConstans {
 		public static final String  RESEARCH_COVERAGE="researchcoverage";
 		public static final String  RESEARCH_DETAILS="researchdetails";
 		public static final String  ANALYTST_PROFILE="analystprofile";
+
+		public static final String CREATE_TREE = "createTree";
+
+		
 
 		
 	}
@@ -302,7 +350,7 @@ public class RequestConstans {
 		
 	}
 		
-	public static final Map<String, String> reqParamDescriptionMap = new HashMap<>();
+	public static final Map<String, String> reqParamDescriptionMap = new HashMap<String, String>();
 	
 	static{
 		reqParamDescriptionMap.put("SOLUTIONS_mdvad", "Market Data Vendors");

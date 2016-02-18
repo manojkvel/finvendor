@@ -33,6 +33,17 @@
         <mapping class="com.finvendor.model.Awards"></mapping>
         <mapping class="com.finvendor.model.VendorAwardsMap"></mapping>
         <mapping class="com.finvendor.model.AssetClassDataDetails"></mapping>
-    </session-factory>
+        <mapping class="com.finvendor.model.FileDetails"></mapping>
+        <mapping class="com.finvendor.model.OfferingFiles"></mapping>
+        <mapping class="com.finvendor.model.FileFields"></mapping>
+        <mapping class="com.finvendor.model.VendorDataCoverage"></mapping>
+        <mapping class="com.finvendor.model.VendorAnalystProfile"></mapping>
+        <mapping class="com.finvendor.model.VendorAnalyticsfeaturesSupported"></mapping>
+        <mapping class="com.finvendor.model.VendorResearchCoverage"></mapping>
+        <mapping class="com.finvendor.model.VendorTradingCapabilitiesSupported"></mapping>
+        <mapping class="com.finvendor.model.VendorTradingSoftwareDetails"></mapping>
+         <mapping class="com.finvendor.model.VendorAnalyticsSoftwareDetails"></mapping>
+         <mapping class="com.finvendor.model.VendorResearchDetails"></mapping>
+      </session-factory>
 	    
 </hibernate-configuration>

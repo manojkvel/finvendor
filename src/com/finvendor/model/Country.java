@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -42,6 +44,11 @@ public class Country implements Serializable{
 	@Column(name="iso_3_cd")
 	private String iso_3_cd;
 	
+	
+	@ManyToOne(targetEntity=Region.class,fetch=FetchType.LAZY)
+	@JoinColumn(name="region_id", nullable=false)
+	private Region region;
+	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="country")
 	private Set<RegionCountryMap> regionCountryMaps=new HashSet<RegionCountryMap>();
 	
@@ -68,8 +75,18 @@ public class Country implements Serializable{
 	/**
 	 * @return the name
 	 */
+	
+	
 	public String getName() {
 		return name;
+	}
+
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
 	}
 
 	/**

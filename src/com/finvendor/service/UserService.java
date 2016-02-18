@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.finvendor.model.UserRole;
-import com.finvendor.model.Vendor;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.FinVendorUser;
+import com.finvendor.model.UserRole;
 
 @Service
 public interface UserService {
@@ -32,4 +31,5 @@ public interface UserService {
 	public List<FinVendorUser> getUserDetails();
 	public String resetPassword(String username) throws ApplicationException;
 	public int changePassword(String username, String password) throws ApplicationException;
+	
 }

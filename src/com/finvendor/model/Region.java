@@ -37,6 +37,10 @@ public class Region implements Serializable{
 	private String name;
 
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="region")
+	private Set<Country> countires=new HashSet<Country>();
+	
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="region")
 	private Set<RegionCountryMap> regionCountryMaps=new HashSet<RegionCountryMap>();
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="region")
@@ -48,6 +52,18 @@ public class Region implements Serializable{
 	public Integer getRegion_id() {
 		return region_id;
 	}
+	
+	public Set<Country> getCountires() {
+		return countires;
+	}
+
+
+
+	public void setCountires(Set<Country> countires) {
+		this.countires = countires;
+	}
+
+
 
 	/**
 	 * @param region_id the region_id to set

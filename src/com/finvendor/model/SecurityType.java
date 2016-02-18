@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,6 +36,10 @@ public class SecurityType implements Serializable{
 	@Column(name="name")
 	private String name;
    
+	@Column(name="asset_class_id")
+    private Integer assetClassId;
+	
+	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="securityType")
 	private Set<AssetClassSecurityMap> assetClassSecurityMaps=new HashSet<AssetClassSecurityMap>();
 	
@@ -101,5 +103,12 @@ public class SecurityType implements Serializable{
 		this.vendorOfferings = vendorOfferings;
 	}
 
-	
+	public Integer getAssetClassId() {
+		return assetClassId;
+	}
+
+	public void setAssetClassId(Integer assetClassId) {
+		this.assetClassId = assetClassId;
+	}
+
 }

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.dao.UserDAO;
+import com.finvendor.daoimpl.UserDAOImpl;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.UserRole;
@@ -56,6 +57,7 @@ public class UserServiceImpl implements UserService{
 	@Transactional(readOnly=true)
 	public FinVendorUser getUserDetailsByUsername(String username) throws ApplicationException {
 		logger.debug("Entering : UserServiceImpl.getUserDetailsByUsername");
+		userDAO = userDAO == null? new UserDAOImpl() : userDAO;
 		FinVendorUser user = userDAO.getUserDetailsByUsername(username);
 		logger.debug("Leaving : UserServiceImpl.getUserDetailsByUsername");
 		return user;
@@ -128,5 +130,7 @@ public class UserServiceImpl implements UserService{
 			throw new ApplicationException("Error in Change Password");
 		}
 	}
+
+
 	
 }

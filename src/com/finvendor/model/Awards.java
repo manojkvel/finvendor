@@ -45,10 +45,10 @@ public class Awards implements Serializable{
     
     @Column(name="logo")
     private String logo;
-    
+    /*
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="awards")
 	private Set<VendorAwardsMap> vendorAwardsMaps=new HashSet<VendorAwardsMap>();
-	 
+	 */
 
     
 	/**
@@ -120,21 +120,5 @@ public class Awards implements Serializable{
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
-
-	/**
-	 * @return the vendorAwardsMaps
-	 */
-	public Set<VendorAwardsMap> getVendorAwardsMaps() {
-		return vendorAwardsMaps;
-	}
-
-	/**
-	 * @param vendorAwardsMaps the vendorAwardsMaps to set
-	 */
-	public void setVendorAwardsMaps(Set<VendorAwardsMap> vendorAwardsMaps) {
-		this.vendorAwardsMaps = vendorAwardsMaps;
-	}
-    
-    
 
 }

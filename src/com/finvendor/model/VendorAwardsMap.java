@@ -19,7 +19,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="vendor_awards_map")
+@Table(name="vendor_awards")
 public class VendorAwardsMap implements Serializable{
 
 	/**
@@ -32,18 +32,14 @@ public class VendorAwardsMap implements Serializable{
     @GeneratedValue
     private Integer va_id;
 	
-	@Column(name="yearofaward")
-	private String yearofaward;
+	@Column(name="Awardname")
+	private String awardname;
    
-	@Column(name="awardedfor")
-	private String awardedfor;
+	@Column(name="Awardsponsor")
+	private String awardsponsor;
 	
-	@Column(name="position")
-	private String position;
-	
-	@ManyToOne(targetEntity=Awards.class,fetch=FetchType.LAZY)
-	@JoinColumn(name="award_id", nullable=false)
-	private Awards awards;
+	@Column(name="Awardedyear")
+	private String awardedyear;
 	
 	@ManyToOne(targetEntity=Vendor.class,fetch=FetchType.LAZY)
 	@JoinColumn(name="vendor_id", nullable=false)
@@ -64,63 +60,6 @@ public class VendorAwardsMap implements Serializable{
 	public void setVa_id(Integer va_id) {
 		this.va_id = va_id;
 	}
-
-	/**
-	 * @return the yearofaward
-	 */
-	public String getYearofaward() {
-		return yearofaward;
-	}
-
-	/**
-	 * @param yearofaward the yearofaward to set
-	 */
-	public void setYearofaward(String yearofaward) {
-		this.yearofaward = yearofaward;
-	}
-
-	/**
-	 * @return the awardedfor
-	 */
-	public String getAwardedfor() {
-		return awardedfor;
-	}
-
-	/**
-	 * @param awardedfor the awardedfor to set
-	 */
-	public void setAwardedfor(String awardedfor) {
-		this.awardedfor = awardedfor;
-	}
-
-	/**
-	 * @return the position
-	 */
-	public String getPosition() {
-		return position;
-	}
-
-	/**
-	 * @param position the position to set
-	 */
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
-	/**
-	 * @return the awards
-	 */
-	public Awards getAwards() {
-		return awards;
-	}
-
-	/**
-	 * @param awards the awards to set
-	 */
-	public void setAwards(Awards awards) {
-		this.awards = awards;
-	}
-
 	/**
 	 * @return the vendor
 	 */
@@ -133,6 +72,30 @@ public class VendorAwardsMap implements Serializable{
 	 */
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
+	}
+
+	public String getAwardname() {
+		return awardname;
+	}
+
+	public void setAwardname(String awardname) {
+		this.awardname = awardname;
+	}
+
+	public String getAwardsponsor() {
+		return awardsponsor;
+	}
+
+	public void setAwardsponsor(String awardsponsor) {
+		this.awardsponsor = awardsponsor;
+	}
+
+	public String getAwardedyear() {
+		return awardedyear;
+	}
+
+	public void setAwardedyear(String awardedyear) {
+		this.awardedyear = awardedyear;
 	}
 	
 	

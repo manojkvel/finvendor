@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,12 +42,94 @@ public class Solutions implements Serializable{
 	@Column(name="description")
 	private String description;
    
-	@ManyToOne(targetEntity=SolutionTypes.class,fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=Vendor.class,fetch=FetchType.LAZY)
+	@JoinColumn(name="vendor_id", nullable=false)
+	private Vendor vendor;
+	
+	@ManyToOne(targetEntity=SolutionTypes.class,fetch=FetchType.EAGER)
 	@JoinColumn(name="solution_type_id", nullable=false)
 	private SolutionTypes solutionTypes;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="solutions")
-	private Set<VendorSolution> vendorSolutions=new HashSet<VendorSolution>();
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="solutions",cascade = CascadeType.ALL)
+	private Set<VendorOffering> vendorOffering = null;
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="solution")
+	private Set<VendorDistribution> vendorDistributions=new HashSet<VendorDistribution>();
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="solution")
+	private Set<VendorDataCoverage> vendorDataCoverage =new HashSet<VendorDataCoverage>();
+	
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="solution")
+	private Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails =new HashSet<VendorTradingSoftwareDetails>();
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="solution")
+	private Set<VendorResearchDetails> vendorResearchDetails =new HashSet<VendorResearchDetails>();
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="solution")
+	private Set<VendorResearchCoverage> vendorResearchCoverage =new HashSet<VendorResearchCoverage>();
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="solution")
+	private Set<VendorAnalystProfile> vendorAnalystProfile =new HashSet<VendorAnalystProfile>();
+	
+	
+	
+	
+	public Vendor getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
+	}
+
+	public Set<VendorAnalystProfile> getVendorAnalystProfile() {
+		return vendorAnalystProfile;
+	}
+
+	public void setVendorAnalystProfile(Set<VendorAnalystProfile> vendorAnalystProfile) {
+		this.vendorAnalystProfile = vendorAnalystProfile;
+	}
+
+	public Set<VendorTradingSoftwareDetails> getVendorTradingSoftwareDetails() {
+		return vendorTradingSoftwareDetails;
+	}
+
+	public void setVendorTradingSoftwareDetails(Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails) {
+		this.vendorTradingSoftwareDetails = vendorTradingSoftwareDetails;
+	}
+
+	public Set<VendorResearchDetails> getVendorResearchDetails() {
+		return vendorResearchDetails;
+	}
+
+	public void setVendorResearchDetails(Set<VendorResearchDetails> vendorResearchDetails) {
+		this.vendorResearchDetails = vendorResearchDetails;
+	}
+
+	public Set<VendorResearchCoverage> getVendorResearchCoverage() {
+		return vendorResearchCoverage;
+	}
+
+	public void setVendorResearchCoverage(Set<VendorResearchCoverage> vendorResearchCoverage) {
+		this.vendorResearchCoverage = vendorResearchCoverage;
+	}
+
+	public Set<VendorDistribution> getVendorDistributions() {
+		return vendorDistributions;
+	}
+
+	public void setVendorDistributions(Set<VendorDistribution> vendorDistributions) {
+		this.vendorDistributions = vendorDistributions;
+	}
+
+	public Set<VendorDataCoverage> getVendorDataCoverage() {
+		return vendorDataCoverage;
+	}
+
+	public void setVendorDataCoverage(Set<VendorDataCoverage> vendorDataCoverage) {
+		this.vendorDataCoverage = vendorDataCoverage;
+	}
 
 	/**
 	 * @return the solution_id
@@ -104,18 +187,11 @@ public class Solutions implements Serializable{
 		this.solutionTypes = solutionTypes;
 	}
 
-	/**
-	 * @return the vendorSolutions
-	 */
-	public Set<VendorSolution> getVendorSolutions() {
-		return vendorSolutions;
+	public Set<VendorOffering> getVendorOffering() {
+		return vendorOffering;
 	}
 
-	/**
-	 * @param vendorSolutions the vendorSolutions to set
-	 */
-	public void setVendorSolutions(Set<VendorSolution> vendorSolutions) {
-		this.vendorSolutions = vendorSolutions;
+	public void setVendorOffering(Set<VendorOffering> vendorOffering) {
+		this.vendorOffering = vendorOffering;
 	}
-	
 }

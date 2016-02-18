@@ -4,8 +4,6 @@
 package com.finvendor.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -39,21 +36,15 @@ public class VendorSolution implements Serializable{
 	@JoinColumn(name="vendor_id", nullable=false)
 	private Vendor vendor;
 	
-	@ManyToOne(targetEntity=Solutions.class,fetch=FetchType.LAZY)
-	@JoinColumn(name="solution_id", nullable=false)
+	@ManyToOne(targetEntity=Solutions.class,fetch=FetchType.EAGER)
+	@JoinColumn(name="solution_id", nullable=true)
 	private Solutions solutions;
 	
 	@ManyToOne(targetEntity=Cost.class,fetch=FetchType.LAZY)
-	@JoinColumn(name="cost_id", nullable=false)
+	@JoinColumn(name="cost_id", nullable=true)
 	private Cost cost;
 
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendorSolution")
-	private Set<VendorDistribution> vendorDistributions=new HashSet<VendorDistribution>();
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendorSolution")
-	private Set<VendorSupport> vendorSupports=new HashSet<VendorSupport>();
-	
-	 
 
 	/**
 	 * @return the vendor
@@ -100,30 +91,7 @@ public class VendorSolution implements Serializable{
 	/**
 	 * @return the vendorDistributions
 	 */
-	public Set<VendorDistribution> getVendorDistributions() {
-		return vendorDistributions;
-	}
 
-	/**
-	 * @param vendorDistributions the vendorDistributions to set
-	 */
-	public void setVendorDistributions(Set<VendorDistribution> vendorDistributions) {
-		this.vendorDistributions = vendorDistributions;
-	}
-
-	/**
-	 * @return the vendorSupports
-	 */
-	public Set<VendorSupport> getVendorSupports() {
-		return vendorSupports;
-	}
-
-	/**
-	 * @param vendorSupports the vendorSupports to set
-	 */
-	public void setVendorSupports(Set<VendorSupport> vendorSupports) {
-		this.vendorSupports = vendorSupports;
-	}
 
 	/**
 	 * @return the vendor_solution_id

@@ -5,8 +5,6 @@ package com.finvendor.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-
 /**
  * @author rayulu vemula
  *

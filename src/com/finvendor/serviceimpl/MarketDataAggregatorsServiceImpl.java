@@ -4,6 +4,7 @@
 package com.finvendor.serviceimpl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.CountryExchangeMap;
 import com.finvendor.model.Exchange;
+import com.finvendor.model.FileFields;
+import com.finvendor.model.OfferingFiles;
 import com.finvendor.model.Region;
 import com.finvendor.model.RegionCountryMap;
 import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
-import com.finvendor.model.Vendor;
+import com.finvendor.model.VendorOffering;
 import com.finvendor.service.MarketDataAggregatorsService;
 
 /**
@@ -250,6 +253,96 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	public AssetClass getAssetClassByName(String assetType) {
 		logger.info("Method for getAssetClassByName---");
 		return marketDataAggregatorsDAO.getAssetClassByName(assetType);
+	}
+
+	@Override
+	public VendorOffering createOfferings(String id,VendorOffering vendorOffering) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.createOfferings(id, vendorOffering);
+		
+	}
+
+	@Override
+	public OfferingFiles addOfferingFiles(String id, OfferingFiles OfferingFiles) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.addOfferingFiles(id, OfferingFiles);
+	}
+
+	@Override
+	public FileFields addFieldsToFile(String id,FileFields fileFields) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.addFieldsToFile(id, fileFields);
+	}
+
+	@Override
+	public Set<VendorOffering> listOfferings(String id) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.listOfferings(id);
+	}
+
+	@Override
+	public Set<OfferingFiles> listOfferingFiles(String id) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.listOfferingFiles(id);
+	}
+
+	@Override
+	public Set<FileFields> listFieldsToFile(String id) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.listFieldsToFile(id);
+	}
+
+	@Override
+	public VendorOffering deleteOfferings(String id) {
+		VendorOffering deleteOfferings = marketDataAggregatorsDAO.deleteOfferings(id);
+		return deleteOfferings;
+	}
+
+	@Override
+	public OfferingFiles deleteOfferingFiles(String id) {
+		OfferingFiles deleteOfferingFiles = marketDataAggregatorsDAO.deleteOfferingFiles(id);
+		return deleteOfferingFiles;
+	}
+
+	@Override
+	public FileFields deleteFieldsToFile(String id) {
+		FileFields deleteFieldsToFile = marketDataAggregatorsDAO.deleteFieldsToFile(id);
+		return deleteFieldsToFile;
+	}
+
+	@Override
+	public List<SecurityType> listSecurityType() {
+		
+		return marketDataAggregatorsDAO.listSecurityType();
+	}
+
+	@Override
+	public VendorOffering getVendorOfferingById(String id) {
+		return marketDataAggregatorsDAO.getVendorOfferingById(id);
+	}
+
+	@Override
+	public Region getRegionById(String id) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.getRegionById(id);
+	}
+
+	@Override
+	public Country getCountryById(String id) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.getCountryById(id);
+	}
+
+	@Override
+	public Cost getCostById(String id) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.getCostById(id);
+	}
+
+	@Override
+	public Exchange getExchangeById(String exchangeId) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.getExchangeById(exchangeId);
 	}
 
 

@@ -4,12 +4,16 @@
 package com.finvendor.daoimpl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +27,14 @@ import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.CountryExchangeMap;
 import com.finvendor.model.Exchange;
+import com.finvendor.model.FileFields;
+import com.finvendor.model.OfferingFiles;
 import com.finvendor.model.Region;
 import com.finvendor.model.RegionCountryMap;
+import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
+import com.finvendor.model.Vendor;
+import com.finvendor.model.VendorOffering;
 
 /**
  * @author rayulu vemula
@@ -604,6 +613,169 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		}
 		return assetClassDataDetailslist;
 
+	}
+	@Transactional
+	@Override
+	public OfferingFiles addOfferingFiles(String id, OfferingFiles offeringFiles ) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		VendorOffering vendorOffering = (VendorOffering)currentSession.get(VendorOffering.class, Integer.parseInt(id));
+		//Set<OfferingFiles> hashSet = new HashSet<OfferingFiles>();
+		offeringFiles.setVendorOffering(vendorOffering);
+		//hashSet.add(offeringFiles);
+		//vendorOffering.setOfferingFiles(hashSet);
+		currentSession.save(offeringFiles);
+		return offeringFiles;
+	}
+	
+	@Transactional
+	@Override
+	public VendorOffering createOfferings(String id, VendorOffering vendorOffering) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+	//	currentSession.beginTransaction();
+		currentSession.save(vendorOffering);
+		
+		return vendorOffering;
+	}
+	@Transactional
+	@Override
+	public FileFields addFieldsToFile(String id,FileFields fileFields) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		OfferingFiles offeringFiles = (OfferingFiles)currentSession.get(OfferingFiles.class, Integer.parseInt(id));
+		fileFields.setOfferingFiles(offeringFiles);
+		currentSession.save(fileFields);
+		return fileFields;
+	}
+	@Transactional
+	@Override
+	public Set<VendorOffering> listOfferings(String id) {
+
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Set<VendorOffering> vendorOfferings = null;
+		
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, id);
+		 vendorOfferings = vendor.getVendorOfferings();
+	
+		 vendorOfferings = new HashSet<VendorOffering>(vendorOfferings);
+		
+		// currentSession.close();
+		return vendorOfferings;
+	 
+	}
+	@Transactional
+	@Override
+	public Set<OfferingFiles> listOfferingFiles(String id) {
+
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		VendorOffering vendorOffering = (VendorOffering)currentSession.get(VendorOffering.class, Integer.parseInt(id));
+		Set<OfferingFiles> vendorOfferings =vendorOffering.getOfferingFiles();
+		// currentSession.close();
+		return vendorOfferings;
+	 
+	}
+	@Transactional
+	@Override
+	public Set<FileFields> listFieldsToFile(String id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		OfferingFiles offeringFiles = (OfferingFiles)currentSession.get(OfferingFiles.class, Integer.parseInt(id));
+		Set<FileFields> fileFields = offeringFiles.getFileFields();
+		// currentSession.close();
+		return fileFields;
+	}
+	@Transactional
+	@Override
+	public VendorOffering deleteOfferings(String id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		VendorOffering vendorOffering = (VendorOffering)currentSession.get(VendorOffering.class, Integer.parseInt(id));
+		if(vendorOffering != null)
+		currentSession.delete(vendorOffering);
+		return vendorOffering;
+	}
+	@Transactional
+	@Override
+	public OfferingFiles deleteOfferingFiles(String id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		
+		OfferingFiles offeringFiles = (OfferingFiles)currentSession.get(OfferingFiles.class, Integer.parseInt(id));
+		
+		if(offeringFiles != null)
+			currentSession.delete(offeringFiles);
+		
+		/*String sql = "delete FROM offeringfiles WHERE Offering_Files_id = :id";
+		SQLQuery query = currentSession.createSQLQuery(sql);
+		query.addEntity(FileFields.class);
+		query.setParameter("id", id);*/
+	
+		return new OfferingFiles();
+	}
+	@Transactional
+	@Override
+	public FileFields deleteFieldsToFile(String id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		
+		String sql = "delete FROM FileFields WHERE FileFields_id = :id";
+		SQLQuery query = currentSession.createSQLQuery(sql);
+		query.addEntity(FileFields.class);
+		query.setParameter("id", id);
+		
+		return new FileFields();
+	}
+	@Transactional
+	public List<SecurityType> listSecurityType() {
+
+		logger.info("Method to load all listSecurityType---");
+		List<SecurityType>  assetClasses = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(SecurityType.class);
+			assetClasses = criteria.list();
+ 		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Method to load all listSecurityType---");
+		}
+		return assetClasses;
+	}
+	@Transactional
+	@Override
+	public VendorOffering getVendorOfferingById(String id) {
+		
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		VendorOffering vendorOffering = (VendorOffering)currentSession.get(VendorOffering.class, Integer.parseInt(id));
+		return vendorOffering;
+	}
+
+	@Transactional
+	@Override
+	public Region getRegionById(String id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Region region = (Region)currentSession.get(Region.class, Integer.parseInt(id));
+		
+		return region;
+	}
+
+	@Transactional
+	@Override
+	public Country getCountryById(String id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Country country = (Country)currentSession.get(Country.class, Integer.parseInt(id)); 
+		
+		return country;
+	}
+
+	@Transactional
+	@Override
+	public Cost getCostById(String id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Cost cost = (Cost)currentSession.get(Cost.class, Integer.parseInt(id)); 
+		return cost;
+	}
+    
+	@Transactional
+	@Override
+	public Exchange getExchangeById(String exchangeId) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Exchange exchange = (Exchange)currentSession.get(Exchange.class, Integer.parseInt(exchangeId)); 
+
+				return exchange;
 	}
 
  }

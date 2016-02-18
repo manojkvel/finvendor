@@ -36,7 +36,7 @@ public class SolutionTypes implements Serializable{
 	@Column(name="name")
 	private String name;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="solutionTypes")
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="solutionTypes")
 	private Set<Solutions> solutions=new HashSet<Solutions>();
 
 	/**

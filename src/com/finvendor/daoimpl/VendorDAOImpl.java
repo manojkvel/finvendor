@@ -3,12 +3,16 @@
  */
 package com.finvendor.daoimpl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,13 +25,24 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.SecurityType;
+import com.finvendor.model.SolutionTypes;
+import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
 import com.finvendor.model.Vendor;
+import com.finvendor.model.VendorAnalystProfile;
+import com.finvendor.model.VendorAnalyticsSoftwareDetails;
+import com.finvendor.model.VendorAnalyticsfeaturesSupported;
 import com.finvendor.model.VendorAwardsMap;
+import com.finvendor.model.VendorDataCoverage;
+import com.finvendor.model.VendorDistribution;
 import com.finvendor.model.VendorOffering;
 import com.finvendor.model.VendorRegionCountryExchangeMap;
+import com.finvendor.model.VendorResearchCoverage;
+import com.finvendor.model.VendorResearchDetails;
 import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
+import com.finvendor.model.VendorTradingCapabilitiesSupported;
+import com.finvendor.model.VendorTradingSoftwareDetails;
 
 /**
  * @author rayulu vemula
@@ -79,6 +94,18 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		return vendor;
 	}
+	
+	@Transactional
+	@Override
+	public Vendor getVendorInfoByUserName(String userName) {
+		logger.info("getVendorInfoByEmail method---");
+		String sqlQuery = "select vendor_id from vendor where username='"+userName+"'" ;
+		Query query= sessionFactory.getCurrentSession().createSQLQuery(sqlQuery);
+		Object object = query.uniqueResult();
+		object = (Vendor)sessionFactory.getCurrentSession().get(Vendor.class, (Serializable) object);
+		return (Vendor)object;
+	}
+	
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc)
@@ -92,11 +119,36 @@ public class VendorDAOImpl implements VendorDAO{
 		String sqlQuery = null;
 		Query query = null;
 		try{
-			sqlQuery = " update vendor set fname='"+ vendor.getFirstName() +"', lname='"+vendor.getLastName()+"', designation='"+vendor.getDesignation()+"',company='"+vendor.getCompany()+"', secondary_email='"+vendor.getSecondaryEmail()+"'," +
+			Session currentSession = sessionFactory.getCurrentSession();
+			/*	sqlQuery = " update vendor set fname='"+ vendor.getFirstName() +"', lname='"+vendor.getLastName()+"', designation='"+vendor.getDesignation()+"',company='"+vendor.getCompany()+"', secondary_email='"+vendor.getSecondaryEmail()+"'," +
 					" telephone='"+vendor.getTelephone()+"',company_url='"+vendor.getCompanyUrl()+"',company_info='"+vendor.getCompanyInfo()+"', regionofincorp='"+vendor.getRegionofincorp()+"', " +
-							"countryofincorp='"+vendor.getCountryofincorp()+"' where username= '"+username+"'   " ;
-			query= this.sessionFactory.getCurrentSession().createSQLQuery(sqlQuery);
-			query.executeUpdate();
+							"countryofincorp='"+vendor.getCountryofincorp()+"', logotype='"+vendor.getLogoType()+"', logoname='"+vendor.getLogoName()+"', logolength="+vendor.getLogoLength()+" where username= '"+username+"'" ;
+			query= currentSession.createSQLQuery(sqlQuery);
+			int executeUpdate = query.executeUpdate();
+		*/			
+			// System.out.println("unique... "+executeUpdate);
+			sqlQuery = "select vendor_id from vendor where username='"+username+"'" ;
+			query= currentSession.createSQLQuery(sqlQuery);
+			Object uniqueResult = query.uniqueResult();
+			Vendor vendorFromDB = (Vendor)currentSession.get(Vendor.class, (Serializable) uniqueResult);
+			 //Transaction beginTransaction = currentSession.beginTransaction();
+			 vendorFromDB.setFirstName(vendor.getFirstName());
+			 vendorFromDB.setLastName(vendor.getLastName());
+			 vendorFromDB.setDesignation(vendor.getDesignation());
+			 vendorFromDB.setCompany(vendor.getCompany());
+			 vendorFromDB.setCompanyUrl(vendor.getCompanyUrl());
+			 vendorFromDB.setSecondaryEmail(vendor.getSecondaryEmail());
+			 vendorFromDB.setTelephone(vendor.getTelephone());
+			 vendorFromDB.setCompanyInfo(vendor.getCompanyInfo());
+			 vendorFromDB.setRegionofincorp(vendor.getRegionofincorp());
+			 vendorFromDB.setLogoType(vendor.getLogoType());
+			 vendorFromDB.setLogoName(vendor.getLogoName());
+			 vendorFromDB.setLogoLength(vendor.getLogoLength());
+			 vendorFromDB.setLogoBytes(vendor.getLogoBytes());
+			 vendorFromDB.setVendorSupport(vendor.getVendorSupport());
+			 currentSession.saveOrUpdate(vendorFromDB);
+			// beginTransaction.commit();
+			
 		}catch (Exception ex) {
 			ex.printStackTrace();
 			logger.error("Error in updateVendorPersonalInfoTab---- " + ex);
@@ -333,6 +385,22 @@ public class VendorDAOImpl implements VendorDAO{
 		return cost;
 	}
 	
+	
+	@Transactional
+	@Override
+	public Solutions getSolutionsInfo(String solutionId) {
+		logger.info("getSolutionsInfo method---");
+		Solutions solutions = null;
+		try{
+			 solutions = (Solutions)this.sessionFactory.getCurrentSession().get(Solutions.class, Integer.parseInt(solutionId));
+			
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			logger.error("Error in getSolutionsInfo---- " + ex);
+		}
+		return solutions;
+	}
+	
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc)
@@ -347,7 +415,7 @@ public class VendorDAOImpl implements VendorDAO{
 		logger.info("updateVendorSolutionDetails method---");
 		VendorSolution vendorSolutionDetails= null;
 		try{
-			vendorSolutionDetails= (VendorSolution) this.sessionFactory.getCurrentSession().saveOrUpdateCopy(vendorSolution);
+			this.sessionFactory.getCurrentSession().saveOrUpdate(vendorSolution);
 		}catch (Exception ex) {
 			ex.printStackTrace();
 			logger.error("Error in updateVendorSolutionDetails---- " + ex);
@@ -396,19 +464,363 @@ public class VendorDAOImpl implements VendorDAO{
 	@Override
 	public List<VendorOffering> getVendorOfferingDetails(String id) {
 		logger.info("getVendorOfferingDetails method---");
-		List<VendorOffering> vendorOfferings = null;
-		Criteria criteria = null;
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		Set<VendorOffering> vendorOffering = null;
 		try{
-			 criteria = this.sessionFactory.getCurrentSession().createCriteria(VendorOffering.class);
-			 criteria.add(Restrictions.eq("vendor.id", id));
-			 vendorOfferings = criteria.list();
+			Solutions solutions = (Solutions)currentSession.get(Solutions.class, Integer.parseInt(id));
+			vendorOffering = solutions.getVendorOffering();
+			 
 		}catch (Exception ex) {
 			ex.printStackTrace();
 			logger.error("Error in getVendorOfferingDetails---- " + ex);
 		}
 		
-		return vendorOfferings;
+		return new ArrayList<VendorOffering>(vendorOffering);
 		
+	}
+	@Transactional
+	@Override
+	public List<Solutions> listVednorSolution(String id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, id);
+		Set<Solutions> solution = vendor.getSolution();
+		return new ArrayList<Solutions>(solution);
+	}
+	@Transactional
+	@Override
+	public Solutions deleteVendorSolution(String id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Solutions vendorSolution = (Solutions)currentSession.get(Solutions.class, Integer.parseInt(id));
+		if(vendorSolution != null)
+			currentSession.delete(vendorSolution);
+		
+		return null;
+	}
+	@Transactional
+	@Override
+	public SolutionTypes getSolutionTypes(String name) {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		Criteria criteria = null;
+		criteria = currentSession.createCriteria(SolutionTypes.class);
+		 criteria.add(Restrictions.ilike("name", name+"%"));
+		 SolutionTypes solutionTypes =(SolutionTypes)criteria.uniqueResult();
+		 
+		return solutionTypes;
+	}
+	@Transactional
+	@Override
+	public Solutions addSolutionsInfo(Solutions solutions) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.save(solutions);
+		return solutions;
+	}
+	@Transactional
+	@Override
+	public List<Solutions> getSolutionsBasedOnOfferingTypes(SolutionTypes solutionTypes) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Criteria criteria = null;
+		List<Solutions> list = null;
+		try{
+		criteria = currentSession.createCriteria(Solutions.class);
+		 criteria.add(Restrictions.eq("solutionTypes", solutionTypes));
+		 list = criteria.list();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@Transactional
+	@Override
+	public void addVendorDataCoverage(VendorDataCoverage vendorDataCoverage) {
+		Session currentSession = sessionFactory.getCurrentSession(); 
+		currentSession.save(vendorDataCoverage);
+	}
+	@Transactional
+	@Override
+	public List<VendorDataCoverage> listVendorDataCoverage(String id) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, id);
+		Set<VendorDataCoverage> vendorDataCoverage = vendor.getVendorDataCoverage();
+		
+		return new ArrayList<VendorDataCoverage>(vendorDataCoverage);
+	}
+	@Transactional
+	@Override
+	public void addVendorDistribution(VendorDistribution vendorDistribution) {
+		Session currentSession = sessionFactory.getCurrentSession(); 
+		currentSession.save(vendorDistribution);
+	}
+	@Transactional
+	@Override
+	public List<VendorDistribution> listVendorDistribution(String id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, id);
+		Set<VendorDistribution> vendorDistribution = vendor.getVendorDistribution();
+		return new ArrayList<VendorDistribution>(vendorDistribution);
+	}
+	@Transactional
+	@Override
+	public void deleteVendorDataCoverage(String selectedId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorDataCoverage vendorDataCoverage = (VendorDataCoverage)currentSession.get(VendorDataCoverage.class, Integer.parseInt(selectedId));
+		if(vendorDataCoverage != null)
+			currentSession.delete(vendorDataCoverage);
+	}
+	@Transactional
+	@Override
+	public void deleteVendorDistribution(String selectedId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorDistribution vendorDistribution = (VendorDistribution)currentSession.get(VendorDistribution.class, Integer.parseInt(selectedId));
+		if(vendorDistribution != null)
+			currentSession.delete(vendorDistribution);
+
+		
+	}
+	@Transactional
+	@Override
+	public void addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession(); 
+		currentSession.save(tradingCapabilitiesSupported);
+	}
+	@Transactional
+	@Override
+	public void addTradingSoftwareDetails(VendorTradingSoftwareDetails tradingSoftwareDetails) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession(); 
+		currentSession.save(tradingSoftwareDetails);
+	}
+	@Transactional
+	@Override
+	public void addAnalyticsfeaturesSupported(VendorAnalyticsfeaturesSupported analyticsfeaturesSupported) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession(); 
+		currentSession.save(analyticsfeaturesSupported);
+	}
+	@Transactional
+	@Override
+	public void addAnalyticsSoftwareDetails(VendorAnalyticsSoftwareDetails analyticsSoftwareDetails) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession(); 
+		currentSession.save(analyticsSoftwareDetails);
+	}
+	@Transactional
+	@Override
+	public void addResearchCoverage(VendorResearchCoverage researchCoverage) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession(); 
+		currentSession.save(researchCoverage);
+	}
+	@Transactional
+	@Override
+	public void addResearchDetails(VendorResearchDetails researchDetails) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession(); 
+		currentSession.save(researchDetails);
+	}
+	@Transactional
+	@Override
+	public void addAnalystProfile(VendorAnalystProfile analystProfile) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession(); 
+		currentSession.save(analystProfile);
+	}
+	@Transactional
+	@Override
+	public List<VendorTradingCapabilitiesSupported> listTradingCapabilitiesSupported(String objectId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
+		Set<VendorTradingCapabilitiesSupported> vendorTradingCapabilitiesSupported = vendor.getVendorTradingCapabilitiesSupported();
+		return new ArrayList<VendorTradingCapabilitiesSupported>(vendorTradingCapabilitiesSupported);
+	}
+	@Transactional
+	@Override
+	public List<VendorTradingSoftwareDetails> listTradingSoftwareDetails(String objectId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
+		Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails = vendor.getVendorTradingSoftwareDetails();
+		return new ArrayList<VendorTradingSoftwareDetails>(vendorTradingSoftwareDetails);
+	}
+	@Transactional
+	@Override
+	public List<VendorAnalyticsfeaturesSupported> listAnalyticsfeaturesSupported(String objectId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
+		Set<VendorAnalyticsfeaturesSupported> vendorAnalyticsfeaturesSupported = vendor.getVendorAnalyticsfeaturesSupported();
+		return new ArrayList<VendorAnalyticsfeaturesSupported>(vendorAnalyticsfeaturesSupported);
+	}
+	@Transactional
+	@Override
+	public List<VendorAnalyticsSoftwareDetails> listAnalyticsSoftwareDetails(String objectId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
+		Set<VendorAnalyticsSoftwareDetails> vendorAnalyticsSoftwareDetails = vendor.getVendorAnalyticsSoftwareDetails();
+		return new ArrayList<VendorAnalyticsSoftwareDetails>(vendorAnalyticsSoftwareDetails);
+	}
+	@Transactional
+	@Override
+	public List<VendorResearchCoverage> listResearchCoverage(String objectId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
+		Set<VendorResearchCoverage> vendorResearchCoverage = vendor.getVendorResearchCoverage();
+		return new ArrayList<VendorResearchCoverage>(vendorResearchCoverage);
+	}
+	@Transactional
+	@Override
+	public List<VendorResearchDetails> listResearchDetails(String objectId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
+		Set<VendorResearchDetails> vendorResearchDetails = vendor.getVendorResearchDetails();
+		return new ArrayList<VendorResearchDetails>(vendorResearchDetails);
+	}
+	@Transactional
+	@Override
+	public List<VendorAnalystProfile> listAnalystProfile(String objectId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
+		Set<VendorAnalystProfile> vendorAnalystProfile = vendor.getVendorAnalystProfile();
+		return new ArrayList<VendorAnalystProfile>(vendorAnalystProfile);
+	}
+	@Transactional
+	@Override
+	public void deleteTradingCapabilitiesSupported(String objectId) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorTradingCapabilitiesSupported vendorTradingCapabilitiesSupported = (VendorTradingCapabilitiesSupported)currentSession.get(VendorTradingCapabilitiesSupported.class, Integer.parseInt(objectId));
+		if(vendorTradingCapabilitiesSupported != null)
+			currentSession.delete(vendorTradingCapabilitiesSupported);
+	}
+	@Transactional
+	@Override
+	public void deleteTradingSoftwareDetails(String objectId) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorTradingSoftwareDetails vendorTradingSoftwareDetails = (VendorTradingSoftwareDetails)currentSession.get(VendorTradingSoftwareDetails.class, Integer.parseInt(objectId));
+		if(vendorTradingSoftwareDetails != null)
+			currentSession.delete(vendorTradingSoftwareDetails);
+
+	}
+	@Transactional
+	@Override
+	public void deleteAnalyticsfeaturesSupported(String objectId) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorAnalyticsfeaturesSupported vendorAnalyticsfeaturesSupported = (VendorAnalyticsfeaturesSupported)currentSession.get(VendorAnalyticsfeaturesSupported.class, Integer.parseInt(objectId));
+		if(vendorAnalyticsfeaturesSupported != null)
+			currentSession.delete(vendorAnalyticsfeaturesSupported);
+
+		
+	}
+	@Transactional
+	@Override
+	public void deleteAnalyticsSoftwareDetails(String objectId) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorAnalyticsSoftwareDetails vendorAnalyticsSoftwareDetails = (VendorAnalyticsSoftwareDetails)currentSession.get(VendorAnalyticsSoftwareDetails.class, Integer.parseInt(objectId));
+		if(vendorAnalyticsSoftwareDetails != null)
+			currentSession.delete(vendorAnalyticsSoftwareDetails);
+
+		
+	}
+	@Transactional
+	@Override
+	public void deleteResearchCoverage(String objectId) {
+		// TODO Auto-generated method stub
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorResearchCoverage vendorResearchCoverage = (VendorResearchCoverage)currentSession.get(VendorResearchCoverage.class, Integer.parseInt(objectId));
+		if(vendorResearchCoverage != null)
+			currentSession.delete(vendorResearchCoverage);
+
+		
+	}
+	@Transactional
+	@Override
+	public void deleteResearchDetails(String objectId) {
+		// TODO Auto-generated method stub
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorResearchDetails vendorResearchDetails = (VendorResearchDetails)currentSession.get(VendorResearchDetails.class, Integer.parseInt(objectId));
+		if(vendorResearchDetails != null)
+			currentSession.delete(vendorResearchDetails);
+
+		
+	}
+	@Transactional
+	@Override
+	public void deleteAnalystProfile(String objectId) {
+		// TODO Auto-generated method stub
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorAnalystProfile vendorAnalystProfile = (VendorAnalystProfile)currentSession.get(VendorAnalystProfile.class, Integer.parseInt(objectId));
+		if(vendorAnalystProfile != null)
+			currentSession.delete(vendorAnalystProfile);
+	
+	}
+	@Transactional
+	@Override
+	public List<VendorTradingSoftwareDetails> listTradingSoftwareDetailsBasedOnSolutionId(String solutionId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Solutions solution = (Solutions)currentSession.get(Solutions.class, Integer.parseInt(solutionId));
+		Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails = solution.getVendorTradingSoftwareDetails();
+		return new ArrayList<VendorTradingSoftwareDetails>(vendorTradingSoftwareDetails);
+	}
+	@Transactional
+	@Override
+	public List<VendorAnalystProfile> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId) {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		Solutions solution = (Solutions)currentSession.get(Solutions.class, Integer.parseInt(solutionId));
+		Set<VendorAnalystProfile> vendorAnalystProfile = solution.getVendorAnalystProfile();
+		return new ArrayList<VendorAnalystProfile>(vendorAnalystProfile);
+	 
+	}
+	@Transactional
+	@Override
+	public String getRegion(String countryId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Country country = (Country)currentSession.get(Country.class, Integer.parseInt(countryId));
+		Region region = country.getRegion();
+		return region.getName();
+	}
+	@Transactional
+	@Override
+	public Country getCountryById(String countryId) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Country country = (Country)currentSession.get(Country.class, Integer.parseInt(countryId));
+		return country;
+	}
+	@Transactional
+	@Override
+	public List<VendorAwardsMap> listVendorAwardDetails(String id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Vendor vendor = (Vendor)currentSession.get(Vendor.class, id);
+		Set<VendorAwardsMap> vendorAwardsMaps = vendor.getVendorAwardsMaps();
+		return new ArrayList<VendorAwardsMap>(vendorAwardsMaps);
+	}
+	@Transactional
+	@Override
+	public Boolean isAwardAlreadyExist(String value) {
+		
+		
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(VendorAwardsMap.class);
+			criteria.add(Restrictions.sqlRestriction("lower(awardname) like '" + value.toLowerCase() + "'"));
+			VendorAwardsMap vendorAwardsMap = (VendorAwardsMap) criteria.uniqueResult();
+		if(vendorAwardsMap != null)
+		     return true;
+		return false;
+	}
+	@Transactional
+	@Override
+	public Boolean isSolutionAlreadyExist(String value) {
+
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from Solutions s where s.name = '"+value+"'");
+		List list = query.list();
+		if(list != null && list.size()>0)
+		       return true;
+		return false;
 	}
     
 }

@@ -1,14 +1,17 @@
 package com.finvendor.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -53,9 +56,125 @@ public class Vendor implements Serializable {
 	@Column(name="company_info")
 	private String companyInfo;
 	
+	@Column(name="logolength")
+	private Integer logoLength;
+	
+	@OneToOne(fetch=FetchType.EAGER,mappedBy="vendor", cascade=CascadeType.ALL)
+	private VendorSupport vendorSupport;
+		
+	public VendorSupport getVendorSupport() {
+		return vendorSupport;
+	}
+
+	public void setVendorSupport(VendorSupport vendorSupport) {
+		this.vendorSupport = vendorSupport;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<VendorDataCoverage> vendorDataCoverage;  
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<VendorDistribution> vendorDistribution;  
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<Solutions> solution;  
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<VendorTradingCapabilitiesSupported> vendorTradingCapabilitiesSupported;  
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails;  
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<VendorAnalyticsfeaturesSupported> vendorAnalyticsfeaturesSupported;  
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<VendorAnalyticsSoftwareDetails> vendorAnalyticsSoftwareDetails;  
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<VendorResearchCoverage> vendorResearchCoverage;  
+
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<VendorResearchDetails> vendorResearchDetails;  
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
+	private Set<VendorAnalystProfile> vendorAnalystProfile;  
+
+	
+	
+	
+	public Set<Solutions> getSolution() {
+		return solution;
+	}
+
+	public void setSolution(Set<Solutions> solution) {
+		this.solution = solution;
+	}
+
+	public Set<VendorDistribution> getVendorDistribution() {
+		return vendorDistribution;
+	}
+
+	public void setVendorDistribution(Set<VendorDistribution> vendorDistribution) {
+		this.vendorDistribution = vendorDistribution;
+	}
+
+	public Set<VendorDataCoverage> getVendorDataCoverage() {
+		return vendorDataCoverage;
+	}
+
+	public void setVendorDataCoverage(Set<VendorDataCoverage> vendorDataCoverage) {
+		this.vendorDataCoverage = vendorDataCoverage;
+	}
+
+	public Integer getLogoLength() {
+		return logoLength;
+	}
+
+	public void setLogoLength(Integer logoLength) {
+		this.logoLength = logoLength;
+	}
+
+
+	public String getLogoName() {
+		return logoName;
+	}
+
+	public void setLogoName(String logoName) {
+		this.logoName = logoName;
+	}
+
+	public String getLogoType() {
+		return logoType;
+	}
+
+	public void setLogoType(String logoType) {
+		this.logoType = logoType;
+	}
+
+	@Column(name="LogoName")
+	public String logoName;
+	@Column(name="logoType")
+	public String logoType;
+	
+	@Column(name="logoBytes")
+	@Lob
+	private Blob logoBytes;
+	
+	
+	public Blob getLogoBytes() {
+		return logoBytes;
+	}
+
+	public void setLogoBytes(Blob logoBytes) {
+		this.logoBytes = logoBytes;
+	}
+
 	@Column(name="tags")
 	private String tags;
 	
+	/*@OneToOne
+	@JoinColumn(name="fileDetails", nullable=false)
+	private FileDetails fileDetails;
+	*/
+
 	@Column(name="companyaddress")
 	private String companyAddress;
 	
@@ -65,11 +184,12 @@ public class Vendor implements Serializable {
 	@Column(name="countryofincorp")
 	private String 	countryofincorp;
 		 
+	
 	@OneToOne
 	@JoinColumn(name="username", nullable=false)
 	private FinVendorUser user;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor")
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
 	private Set<VendorOffering> vendorOfferings=new HashSet<VendorOffering>();
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor")
@@ -82,8 +202,19 @@ public class Vendor implements Serializable {
 	private Set<VendorAwardsMap> vendorAwardsMaps=new HashSet<VendorAwardsMap>();
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor")
-	private Set<VendorDistribution> vendorDistributions=new HashSet<VendorDistribution>();
-	 
+	private Set<VendorDataCoverage> vendorDistributions=new HashSet<VendorDataCoverage>();
+	
+	
+	private String 	telephoneCode;
+	
+	public String getTelephoneCode() {
+		return telephoneCode;
+	}
+
+	public void setTelephoneCode(String telephoneCode) {
+		this.telephoneCode = telephoneCode;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -108,6 +239,7 @@ public class Vendor implements Serializable {
 		this.telephone = telephone;
 	}
 
+	
 	public String getCompany() {
 		return company;
 	}
@@ -212,11 +344,11 @@ public class Vendor implements Serializable {
 		this.vendorAwardsMaps = vendorAwardsMaps;
 	}
 
-	public Set<VendorDistribution> getVendorDistributions() {
+	public Set<VendorDataCoverage> getVendorDistributions() {
 		return vendorDistributions;
 	}
 
-	public void setVendorDistributions(Set<VendorDistribution> vendorDistributions) {
+	public void setVendorDistributions(Set<VendorDataCoverage> vendorDistributions) {
 		this.vendorDistributions = vendorDistributions;
 	}
 
@@ -251,4 +383,63 @@ public class Vendor implements Serializable {
 	public void setDesignation(String designation) {
 		this.designation = designation;
 	}
+
+	public Set<VendorTradingCapabilitiesSupported> getVendorTradingCapabilitiesSupported() {
+		return vendorTradingCapabilitiesSupported;
+	}
+
+	public void setVendorTradingCapabilitiesSupported(Set<VendorTradingCapabilitiesSupported> vendorTradingCapabilitiesSupported) {
+		this.vendorTradingCapabilitiesSupported = vendorTradingCapabilitiesSupported;
+	}
+
+	public Set<VendorTradingSoftwareDetails> getVendorTradingSoftwareDetails() {
+		return vendorTradingSoftwareDetails;
+	}
+
+	public void setVendorTradingSoftwareDetails(Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails) {
+		this.vendorTradingSoftwareDetails = vendorTradingSoftwareDetails;
+	}
+
+	public Set<VendorAnalyticsfeaturesSupported> getVendorAnalyticsfeaturesSupported() {
+		return vendorAnalyticsfeaturesSupported;
+	}
+
+	public void setVendorAnalyticsfeaturesSupported(Set<VendorAnalyticsfeaturesSupported> vendorAnalyticsfeaturesSupported) {
+		this.vendorAnalyticsfeaturesSupported = vendorAnalyticsfeaturesSupported;
+	}
+
+	public Set<VendorAnalyticsSoftwareDetails> getVendorAnalyticsSoftwareDetails() {
+		return vendorAnalyticsSoftwareDetails;
+	}
+
+	public void setVendorAnalyticsSoftwareDetails(Set<VendorAnalyticsSoftwareDetails> vendorAnalyticsSoftwareDetails) {
+		this.vendorAnalyticsSoftwareDetails = vendorAnalyticsSoftwareDetails;
+	}
+
+	public Set<VendorResearchCoverage> getVendorResearchCoverage() {
+		return vendorResearchCoverage;
+	}
+
+	public void setVendorResearchCoverage(Set<VendorResearchCoverage> vendorResearchCoverage) {
+		this.vendorResearchCoverage = vendorResearchCoverage;
+	}
+
+	public Set<VendorResearchDetails> getVendorResearchDetails() {
+		return vendorResearchDetails;
+	}
+
+	public void setVendorResearchDetails(Set<VendorResearchDetails> vendorResearchDetails) {
+		this.vendorResearchDetails = vendorResearchDetails;
+	}
+
+	public Set<VendorAnalystProfile> getVendorAnalystProfile() {
+		return vendorAnalystProfile;
+	}
+
+	public void setVendorAnalystProfile(Set<VendorAnalystProfile> vendorAnalystProfile) {
+		this.vendorAnalystProfile = vendorAnalystProfile;
+	}
+	
+
+	
 }
