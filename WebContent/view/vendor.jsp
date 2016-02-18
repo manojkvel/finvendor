@@ -51,31 +51,29 @@
 													<div class="lable_header" id="interdiv">
 														<a id="ancho" href="#tab1" class="lable_header"
 															data-toggle="tab"
-															onclick="activeMode('${personaldetails}');">Personal
-															Details</a>
+															onclick="activeMode('${personaldetails}');">Personal Details</a>
 													</div>
 												</div>
+												<!-- 
 												<div class="ColumnCommonmyprofile" id="change1">
 													<div class="lable_header" id="interdiv1">
 														<a id="ancho1" href="#tab2" class="lable_header"
 															data-toggle="tab"
 															onclick="activeMode('${supportcoverage}');">SupportCoverage</a>
 													</div>
-												</div>
+												</div>  -->
 												<div class="ColumnCommonmyprofile" id="change2">
 													<div class="lable_header" id="interdiv2">
 														<a id="ancho2" href="#tab3" class="lable_header"
 															data-toggle="tab"
-															onclick="activeMode('${awarddetails}');">Award
-															Details</a>
+															onclick="activeMode('${awarddetails}');">Award Details</a>
 													</div>
 												</div>
 												<%-- <div class="ColumnCommonmyprofile" id="change3"> <div class="lable_header" id="interdiv3"> <a id="ancho3" href="#tab4" class="lable_header" data-toggle="tab" onclick="activeMode('${databuyers}');">Search Data-Buyers</a> </div> </div> --%>
 												<div class="ColumnCommonmyprofile" id="change4">
 													<div class="lable_header" id="interdiv4">
 														<a id="ancho4" href="#tab5" class="lable_header"
-															data-toggle="tab" onclick="activeMode('${myrfp}');">My
-															RFP</a>
+															data-toggle="tab" onclick="activeMode('${myrfp}');">My RFP</a>
 													</div>
 												</div>
 											</div>
@@ -162,8 +160,7 @@
 																	</div>
 																</div>
 																<div class="control-group">
-																	<label class="control-labelalign">Company
-																		Information<span class="required">*</span>
+																	<label class="control-labelalign">Company Information<span class="required">*</span>
 																	</label>
 																	<div class="controls">
 																		<textarea id="personalvencompanyinfo"
@@ -176,6 +173,25 @@
 																				class="errorMessage"></label>
 																		</div>
 																	</div>
+																</div>
+																<div class="control-group">
+																
+																<label class="control-labelalign">Support Coverage</label>
+																
+															<div style="padding-left: 175px;">	
+																
+																 <label class="control-labelalign"><input type="radio" name="support" value="24X7" <c:if test="${vendor.vendorSupport.c24by7=='true'}"> checked </c:if>>&nbsp;24x7</label>  
+															    <label class="control-labelalign"><input type="radio" name="support" value="24by6" <c:if test="${vendor.vendorSupport.c24by6=='true'}"> checked </c:if>>&nbsp;24x6</label> 
+															    <label class="control-labelalign"> <input type="radio" name="support" value="16by7" <c:if test="${vendor.vendorSupport.c16by7=='true'}"> checked </c:if>>16x7&nbsp;</label> 
+														    	 <label class="control-labelalign"> <input type="radio" name="support" value="16by6" <c:if test="${vendor.vendorSupport.c16by6=='true'}"> checked </c:if>>&nbsp;16x6</label>
+															     <label class="control-labelalign"> <input type="radio" name="support" value="16by5" <c:if test="${vendor.vendorSupport.c16by5=='true'}"> checked </c:if>>16x5&nbsp;</label>
+														    	 <label class="control-labelalign"> <input type="radio" name="support" value="8by7" <c:if test="${vendor.vendorSupport.c8by7=='true'}"> checked </c:if>> 8x7&nbsp;</label>
+															     <label class="control-labelalign">&nbsp;<input type="radio" name="support" value="8by6" <c:if test="${vendor.vendorSupport.c8by6=='true'}"> checked </c:if>>8x6&nbsp;</label>
+														    	 <label class="control-labelalign">&nbsp;&nbsp;<input type="radio" name="support" value="8by5" <c:if test="${vendor.vendorSupport.c8by5=='true'}"> checked </c:if> >&nbsp;8x5</label>
+															    
+																<label class="control-labelalign"><input type="checkbox" name="weekend" id="weekend" value="weekend" <c:if test="${vendor.vendorSupport.weekend=='true'}"> checked </c:if>>Weekend</label>
+																<label class="control-labelalign">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="publicHolidays" id="publicHolidays" value="publicholidays" <c:if test="${vendor.vendorSupport.publicholidays=='true'}"> checked </c:if>>Public Holidays</label> 
+																</div>
 																</div>
 															</div>
 															<div class="ColumnCommonSingletwopersonalinfo">
@@ -213,10 +229,11 @@
 																	<label class="control-labelalign">Phone Number<span
 																		class="required">*</span></label>
 																	<div class="controls">
-																		<input type="text" id="personalvenphonenumbervalue"
+																		<input type="text" id="personalvenphonenumbercode"
 																			data-mandatory="Y" placeholder="Code"
 																			name="phonenumber" class="m-wrap smallic"
-																			onblur="validateWithRegularExpression(this, 'vendorProfilePhoneNumberCodeErrorMsg', regularExpressionMap['PHONE_CODE'], 'PHONE_CODE', true)" />
+																			onblur="validateWithRegularExpression(this, 'vendorProfilePhoneNumberCodeErrorMsg', regularExpressionMap['PHONE_CODE'], 'PHONE_CODE', true)" 
+																			value="${vendor.telephoneCode}" />
 																		<input type="text" id="personalvenphonenumber"
 																			data-mandatory="Y" placeholder="Phone Number"
 																			name="phonenumber" class="m-wrap largephonenumber"
@@ -234,35 +251,22 @@
 																	</div>
 																</div>
 																<div class="control-group">
-																	<label class="control-labelalign">Region of
-																		Incorporation<span class="required">*</span>
-																	</label>
-																	<div class="controls">
-																		<select name="personalvenregionofincorp"
-																			id="personalvenregionofincorp" data-mandatory="Y"
-																			style="width: 200px">
-																			<option value="-SELECT-" class="selectvalues">-SELECT-</option>
-																			<c:forEach var="regions" items="${regions}">
-																				<option value="${regions.name}">${regions.name}</option>
-																			</c:forEach>
-																		</select>
-																		<div>
-																			<label id="vendorProfileRegionOfIncorpErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																<div class="control-group">
 																	<label class="control-labelalign">Country of
 																		Incorporation<span class="required">*</span>
 																	</label>
 																	<div class="controls">
-																		<select name="personalvencountryofincorp"
+																		<select name="personalvencountryofincorp" 
 																			id="personalvencountryofincorp" data-mandatory="Y"
-																			style="width: 200px">
-																			<option value="-SELECT-" class="selectvalues">-SELECT-</option>
+																			style="width: 200px" onchange="getRegion('personalvencountryofincorp','personalvenregionofincorp')">
 																			<c:forEach var="countries" items="${countries}">
-																				<option value="${countries.name}">${countries.name}</option>
+																				<c:choose>
+																					   <c:when test="${vendor.countryofincorp eq countries.country_id}">
+																						        <option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
+																						    </c:when>    
+																						    <c:otherwise>
+																						    	<option value="${countries.country_id}">${countries.name}</option>
+																						    </c:otherwise>
+																				 </c:choose>
 																			</c:forEach>
 																		</select>
 																		<div>
@@ -271,6 +275,18 @@
 																		</div>
 																	</div>
 																</div>
+																
+																<div class="control-group">
+																	<label class="control-labelalign">Region of	Incorporation<span class="required">*</span>
+																	</label>
+																<div class="controls">
+																		
+																	<input type="text" id="personalvenregionofincorp"
+																			name="personalvenregionofincorp" class="m-wrap large" readonly="readonly" value="Asia Pacific"
+																	 />
+																</div>															
+																</div>
+												
 																<div class="control-group">
 																	<label class="control-labelalign">Company Logo<span
 																		class="required">*</span></label> <font id="invalidfileformat"
@@ -279,11 +295,16 @@
 																		<input type="file" id="personalvencompanylogo"
 																			placeholder="Company Logo" name="companylogo"
 																			class="m-wrap largefileuploadcons"
-																			onblur="imageValidation();" />
+																			onblur="imageValidation();" value="${vendor.logoName}" />
 																		<div class="selectOptions">e.g. .jpeg, .jpg,
 																			.png, .gif</div>
+																			<div id="displayLogo">
+																					<img src="<%=request.getContextPath() %>/getfile/logo"  style="height: 61px; width: 115px; margin-top: 10px" />
+																					
+																			</div>
 																	</div>
 																</div>
+																
 															</div>
 														</span>
 													</div>
@@ -297,245 +318,13 @@
 															<input type="reset" value="Reset" class="btn" /> 
 															
 															<a
-																href="#tab2" class="btn button-next" data-toggle="tab"
-																class="step" onclick="activeMode('${supportcoverage}');"
+																href="#tab3" class="btn button-next" data-toggle="tab"
+																class="step" onclick="activeMode('${awarddetails}');"
 																style="margin-left: 5px;">Continue</a>
 														</div>
 													</div>
 												</div>
 
-												<!-- Support coverage start -->
-
-												<div class="tab-pane" id="tab2">
-													<div>
-														<br />
-													</div>
-													<div class="Rowtableinfoval">
-														<font id="supportcoveragetabsucessmessage"
-															style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; font-weight: bold; color: #2AABAB; padding-left: 191px; margin-top: -21px;"></font>
-														<div class="image-upload" style="margin-left: 252px;">
-															<label class="control-label-fileupload">Bulk
-																Insert Option (using .CSV or .Xls)<span class="required">*</span>
-																<a
-																href="<%=request.getContextPath()%>/<%=RequestConstans.Document.DOCUMENT_DOWNLOAD%>?RaYuL=${'/files/SupportDetails_insurance_sample.csv'}&VeMu=${path}"
-																target="_blank"> <img
-																	src="<%=request.getContextPath()%>/resources/images/csv.png"
-																	style="padding: 0px 0px 4px 0px;" /></a>&nbsp; OR &nbsp;<a
-																href="<%=request.getContextPath()%>/<%=RequestConstans.Document.DOCUMENT_DOWNLOAD%>?RaYuL=${'/files/SupportDetails_insurance_sample.csv'}&VeMu=${path}"
-																target="_blank"><img
-																	src="<%=request.getContextPath()%>/resources/images/xls.png"
-																	style="padding: 0px 0px 4px 0px;" /></a>
-																&nbsp;&nbsp;&nbsp;&nbsp;
-															</label>
-														</div>
-														<div class="ColumnCommonray">
-															<a class="#" data-toggle="modal" href="#normalModal"><span
-																class="lable_headeractions"><img
-																	src="<%=request.getContextPath()%>/resources/images/attachment.png" />Bulk
-																	Upload here</span></a>
-														</div>
-														<div id="normalModal" class="modal fade">
-															<div class="modal-dialog">
-																<div class="modal-content">
-																	<div class="modal-header">
-																		<button type="button" class="close"
-																			data-dismiss="modal">&times;</button>
-																		<h4 class="modal-title btpopup">Upload Your File</h4>
-																	</div>
-																	<div class="modal-body">
-																		<input type="file" name="fileUpload"
-																			class="m-wrap largefileuploadconspopup"
-																			id="fileUpload">&nbsp;&nbsp;&nbsp;&nbsp;<a
-																			class="fileupload btnpopup btn-default">Upload</a>
-																		<div id="selectedFiles"></div>
-																		<div>
-																			<br>
-																		</div>
-																		<a class="btnpopup btn-default"
-																			onclick="loadCheckBoxes();">Remove</a>
-																	</div>
-																	<div class="modal-footer">
-																		<button type="button" class="btn btn-default"
-																			data-dismiss="modal">Close</button>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<span class="lable_header_add_actionitem_upload">Action
-														item for upload data into table</span>
-													<div class="Row">
-														<div class="ColumnCommonvendor">
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage"
-																	style="padding-left: 73px;">Asset Class<span
-																	class="required">*</span></label>
-																<div class="controls" style="margin-left: 175px;">
-																	<select name="assetclass"
-																		onchange="loadSecurityTypes(this.value);"
-																		id="assetclass">
-																		<option value="-SELECT-" class="selectvalues">
-																			-SELECT-</option>
-																		<c:forEach var="assetClasses" items="${assetClasses}">
-																			<option value="${assetClasses.description}">${assetClasses.description}</option>
-																		</c:forEach>
-																	</select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage"
-																	style="padding-left: 71px;">Security type<span
-																	class="required">*</span></label>
-																<div class="controls" style="margin-left: 175px;">
-																	<select name="securitytype"
-																		id="assetClassVendorSecurityMaps" multiple="multiple">
-																		<option value="-SELECT-" class="selectvalues">
-																			-SELECT-</option>
-																		<c:forEach var="assetClassVendorSecurityMaps"
-																			items="${assetClassVendorSecurityMaps}">
-																			<option
-																				value="${assetClassVendorSecurityMaps.securityType.name}">${assetClassVendorSecurityMaps.securityType.name}</option>
-																		</c:forEach>
-																	</select>
-																	<div class="selectOptions">Choose one or more
-																		options</div>
-																</div>
-															</div>
-														</div>
-														<div class="ColumnCommonvendorpage">
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage"
-																	style="padding-left: 47px;">Coverage Region<span
-																	class="required">*</span></label>
-																<div class="controls" style="margin-left: 175px;">
-																	<select name="datacoverageregion" multiple="multiple"
-																		id="datacoverageregion">
-																		<option value="-SELECT-" class="selectvalues">
-																			-SELECT-</option>
-																		<c:forEach var="regions" items="${regions}">
-																			<option value="${regions.name}">${regions.name}</option>
-																		</c:forEach>
-																	</select>
-																	<div class="selectOptions">Choose one or more
-																		options</div>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage"
-																	style="padding-left: 45px;">Coverage Country<span
-																	class="required">*</span></label>
-																<div class="controls" style="margin-left: 175px;">
-																	<select name="datacoveragecountry" multiple="multiple"
-																		id="datacoveragecountry">
-																		<option value="-SELECT-" class="selectvalues">
-																			-SELECT-</option>
-																		<c:forEach var="countries" items="${countries}">
-																			<option value="${countries.name}">${countries.name}</option>
-																		</c:forEach>
-																	</select>
-																	<div class="selectOptions">Choose one or more
-																		options</div>
-																</div>
-															</div>
-														</div>
-														<div class="ColumnCommonvendorpre">
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage"
-																	style="padding-left: 36px;"> Coverage Exchange<span
-																	class="required">*</span></label>
-																<div class="controls" style="margin-left: 175px;">
-																	<select name="datacoverageexchange" multiple="multiple"
-																		id="datacoverageexchange">
-																		<option value="-SELECT-" class="selectvalues">
-																			-SELECT-</option>
-																		<c:forEach var="exchanges" items="${exchanges}">
-																			<option value="${exchanges.name}">${exchanges.name}</option>
-																		</c:forEach>
-																	</select>
-																	<div class="selectOptions">Choose one or more
-																		options</div>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage"
-																	style="padding-left: 50px;">Data Attribute<span
-																	class="required">*</span></label>
-																<div class="controls" style="margin-left: 175px;">
-																	<input type="text" id="dataattribute"
-																		placeholder="Data Attribute" name="dataattribute"
-																		class="m-wrap largeval" />
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="control-group">
-														<div class="controls" style="margin-left: 175px;">
-															<div class="se" style="margin: 0px 0px 0px 232px;">
-																<a class="addtotable"> <span
-																	class="lable_header_add">Add More </span></a> <span
-																	class="lable_header_add_ActionItem">Action item
-																	for pulling data into table</span> <font
-																	id="supportceoveragevalidationforaddmore"
-																	style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; font-weight: bold; color: #B94A48; padding-left: 0px; margin-top: -21px;"></font>
-															</div>
-														</div>
-													</div>
-													<div class="portlet-body">
-
-														<table
-															class="table table-striped table-bordered table-hover table-full-width"
-															id="sample_1">
-															<thead style="background-color: #7BCCA5;">
-																<tr>
-																	<th>Asset Class</th>
-																	<th>Security type</th>
-																	<th>Data Coverage Region</th>
-																	<th>Data Coverage Country</th>
-																	<th>Data Coverage Exchange</th>
-																	<th>Data Attribute</th>
-																	<th>Actions</th>
-																</tr>
-															</thead>
-															<tbody>
-																<%-- <c:forEach var="vendorSupportCoverageDetailsList" items="${vendorSupportCoverageDetailsList}">
-														<tr>
-													   		<td>${vendorSupportCoverageDetailsList.assetClass}</td>
-															<td>${vendorSupportCoverageDetailsList.securityType}</td>
-															<td>${vendorSupportCoverageDetailsList.supportRegion}</td>
-															<td>${vendorSupportCoverageDetailsList.supportCountry}</td>
-											                <td>${vendorSupportCoverageDetailsList.supportExchange}</td>
-															<td>${vendorSupportCoverageDetailsList.dataattribute}</td>
-															<td><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td>
-														</tr>
-														</c:forEach> --%>
-															</tbody>
-														</table>
-														<input type="hidden" id="jsontable1" name="jsontable1" />
-													</div>
-
-
-													<div>
-														<br />
-													</div>
-													<div class="form-actions clearfix">
-														<div class="se" style="padding-left: 150px;">
-															<a href="#tab1" class="btn button-previous"
-																data-toggle="tab" class="step"
-																onclick="activeMode('${personaldetails}');"
-																style="margin-left: -310px;">Back</a> <a class="btn"
-																data-toggle="tab" class="step"
-																onclick="updateVendorSupportCoverageInfo();"
-																style="margin-left: 315px;">Update</a> <input
-																type="reset" value="Reset" class="btn" /> <a
-																href="#tab3" class="btn button-next" data-toggle="tab"
-																class="step" onclick="activeMode('${awarddetails}');"
-																style="margin-left: 335px;">Continue</a>
-														</div>
-													</div>
-												</div>
-
-												<!-- Support coverage End -->
-												<!-- Award Detail Start -->
 												<div class="tab-pane" id="tab3">
 													<div class="Rowtableinfoval">
 														<font id="awardtabsucessmessage"
@@ -546,44 +335,7 @@
 														<br />
 													</div>
 													<div class="Row">
-														<div class="ColumnCommonSingletwo">
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage">Asset
-																	Class<span class="required">*</span>
-																</label>
-																<div class="controls">
-																	<select name="awardassetclass"
-																		onchange="loadSecurityAwardTypes(this.value);"
-																		id="awardassetclass" style="width: 220px;">
-																		<option value="-SELECT-" class="selectvalues">
-																			-SELECT-</option>
-																		<c:forEach var="assetClasses" items="${assetClasses}">
-																			<option value="${assetClasses.description}">${assetClasses.description}</option>
-																		</c:forEach>
-																	</select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage">Security
-																	type<span class="required">*</span>
-																</label>
-																<div class="controls">
-																	<select name="awardsecuritytype"
-																		id="assetClassVendorSecurityAwardMaps"
-																		multiple="multiple" style="width: 220px;">
-																		<option value="-SELECT-" class="selectvalues">
-																			-SELECT-</option>
-																		<c:forEach var="assetClassVendorSecurityMaps"
-																			items="${assetClassVendorSecurityAwardMaps}">
-																			<option
-																				value="${assetClassVendorSecurityMaps.securityType.name}">${assetClassVendorSecurityMaps.securityType.name}</option>
-																		</c:forEach>
-																	</select>
-																	<div class="selectOptions">Choose one or more
-																		options</div>
-																</div>
-															</div>
-														</div>
+											
 														<div class="ColumnCommonSingletwo">
 															<div class="control-group">
 																<label class="control-labelaligndatacoverage">Award
@@ -592,8 +344,15 @@
 																<div class="controls">
 																	<input type="text" id="awardname"
 																		placeholder="Award Name" name="awardname"
-																		class="m-wrap large" />
+																		class="m-wrap large" onblur="validateAjax(this,'checkExistingValue', 'awardnameErrorMsg', 'awarddetails')"/>
+																<div>
+																
+																<label id="awardnameErrorMsg" class="errorMessage"></label>
 																</div>
+																
+																</div>
+																
+																
 															</div>
 															<div class="control-group">
 																<label class="control-labelaligndatacoverage">Award-Main
@@ -612,7 +371,7 @@
 																<div class="controls">
 																	<input type="text" id="awardedyear"
 																		placeholder="Awarded year" name="awardedyear"
-																		class="m-wrap large" />
+																		class="m-wrap large" onblur="validateYear(this)"/>
 																</div>
 															</div>
 														</div>
@@ -621,11 +380,7 @@
 														<div class="controls">
 															<div class="se" style="margin: 0px 0px 0px 232px;">
 																<a class="awardaddtotable"> <span
-																	class="lable_header_add">Add More </span></a> <span
-																	class="lable_header_add_ActionItem">Action item
-																	for pulling data into table</span> <font
-																	id="awardvalidationforaddmore"
-																	style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; font-weight: bold; color: #B94A48; padding-left: 191px; margin-top: -21px;"></font>
+																	class="lable_header_add" onclick="addVendorAward()">Add More </span></a> 
 															</div>
 														</div>
 													</div>
@@ -636,12 +391,10 @@
 															id="awardsample_1">
 															<thead style="background-color: #7BCCA5;">
 																<tr>
-																	<th>Asset Class</th>
-																	<th>Security type</th>
 																	<th>Award Name</th>
 																	<th>Award-Main Sponsor</th>
 																	<th>Awarded year</th>
-																	<th>Actions</th>
+																	<th>#</th>
 																</tr>
 															</thead>
 															<tbody>
@@ -653,21 +406,7 @@
 													<div>
 														<br />
 													</div>
-													<div class="form-actions clearfix">
-														<div class="se" style="padding-left: 150px;">
-															<a href="#tab2" class="btn button-previous"
-																data-toggle="tab" class="step"
-																onclick="activeMode('${supportcoverage}');"
-																style="margin-left: -310px;">Back</a> <a class="btn"
-																data-toggle="tab" class="step"
-																onclick="updateVendorAwardDetails();"
-																style="margin-left: 315px;">Update</a> <input
-																type="reset" value="Reset" class="btn" /> <a
-																href="#tab5" class="btn button-next" data-toggle="tab"
-																class="step" onclick="activeMode('${myrfp}');"
-																style="margin-left: 335px;">Continue</a>
-														</div>
-													</div>
+													
 												</div>
 												<!-- Award Details ENDs -->
 

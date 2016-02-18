@@ -169,8 +169,9 @@
 									<div><label id="signupVendorAreaOfInterestErrorMsg" class="errorMessage"></label></div>
 								</div>	
 							</div>								
-							</div>				
-								<input type="checkbox" id="accept-terms" name="acceptterms" value="acceptterms" onChange="clearErrMessageForTermsAndConditions(this)"/> 
+							</div>
+							<div>				
+								<input type="checkbox" id="accept-terms" name="acceptterms" value="acceptterms" style="float:left;" onChange="clearErrMessageForTermsAndConditions(this)"/> 
 								<label for="accept-terms">
 									I agree to the 
 									<a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/termsAndConditions.jsp', 'termsAndConditions', 800, 600)">
@@ -178,13 +179,14 @@
 									</a>
 								</label>
 								<br>
-								<input type="checkbox" id="newslettersAndAlerts" name="newslettersAndAlerts" value="newslettersAndAlerts"/> 
+								<input type="checkbox" id="newslettersAndAlerts" name="newslettersAndAlerts" value="newslettersAndAlerts" style="float:left;"/> 
 								<label for="newslettersAndAlerts">
 									I wish to get regular 
 									<a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/newslettersAndAlerts.jsp', 'newslettersAndAlerts', 800, 600)">
 										Newsletters & Alerts
 									</a>
 								</label>				
+						</div>		
 								<div><label id="errMessageForTermsAndConditions" class="errorMessage"></label></div>
 								<div><label id="sucessMessage" class="errorMessage" style="color:green"></label></div>
 								<div><label id="errorMessage" class="errorMessage"></label></div>
