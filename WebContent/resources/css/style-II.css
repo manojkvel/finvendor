@@ -1,5 +1,5 @@
 /* load open sans font from local */
-@import url(../fonts/font.css);
+/* @import url(../fonts/font.css); */
 
 /***
 Reset and overrides  
@@ -1189,20 +1189,22 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 	border-radius: 7px;
 }
 
-.lable_header_add {
-	margin: 7px 0px 0px 15px;
-	font-family: "Raleway", sans-serif;
-	font-size: 12px;
-	font-weight: bolder;
-	padding: 0px 0px 0px 100px;
-	background-color: #5CE5E5;
-	background: none repeat scroll 0 0 #6C85A3;
-	color: aliceblue;
-	margin: 1px;
-	padding: 5px 10px;
-	text-align: center;
-	border-radius: 7px;
+.lable_header_add{
+    background-color: #08c;
+    color: aliceblue;
+    border-radius: 15px;
+    font-weight: bold;
+    font-family: "Raleway", sans-serif;
+    font-size: 12px;
+    padding: 5px 10px!important;
+    border: solid 1px #08c!important;
 }
+.lable_header_add:active{
+	background-color:#FFFFFF!important; 
+	color:#FF863B!important; 
+	border:solid 1px #FF863B
+	}
+
 
 .lable_header_add_ActionItem {
 	margin: 7px 0px 0px 15px;
