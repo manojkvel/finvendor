@@ -17,9 +17,13 @@ $(document).ready(function() {
 			document.getElementsByClassName('outer')[0].style.backgroundColor = '#5CE5E5';
 		});
 		$("#savesearch").click(function() {
-			$("#searchsingleform").hide();
-			$("#searchmultiform").hide();
-			$("#savedsearchform").slideDown("slow");
+			debugger;
+			if($("#savesearch").is(':checked')){
+				document.getElementById("saveSearchList").style.visibility = "visible";
+			}else{
+				document.getElementById("saveSearchList").style.visibility = "hidden";
+			}
+			
 		});
 	});
 	

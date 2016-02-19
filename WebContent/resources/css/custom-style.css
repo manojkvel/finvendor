@@ -140,7 +140,7 @@
 	line-height: 30px;
 }
 .form-group select[multiple="multiple"].form-control{
-	height: 115px;
+	height: 226px;
 }
 .form-group select[multiple="multiple"].form-control option{
 	padding: 3px 5px;

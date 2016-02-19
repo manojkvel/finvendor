@@ -123,10 +123,11 @@
 						</c:otherwise>
 					</c:choose>
 						<img src="${pageContext.request.contextPath}/resources/images/main-img-1.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
-					</a>
+					
 					<h2>
 						Market Data <span>Vendors</span>
 					</h2>
+					</a>
 					<p> FinvVendor provides an intuitive interface to search and select the market data vendors
 					 best suited for you needs, and a platform to interact and collaborate with them.
 					
@@ -147,10 +148,11 @@
 						</c:otherwise>
 					</c:choose>	
 						<img src="${pageContext.request.contextPath}/resources/images/main-img-2.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
-					</a>
+					
 					<h2>
 						Trading Application <span>Vendors</span>
 					</h2>
+					</a>
 					<p>Finding the right application for your trading needs is no easy feat. FinVendor provides you a platform to 
 					filter various vendor solutions by specialities listed to a granular level. </p>
 					<a href="#"><img
@@ -173,10 +175,11 @@
 							</c:otherwise>
 						</c:choose>
 							<img src="${pageContext.request.contextPath}/resources/images/main-img-3.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
-						</a>
+						
 						<h2>
 							Financial Analytics <span>Vendors</span>
 						</h2>
+						</a>
 						<p>In this competitive industry Analytics is the most sought after service for business and risk insights.
 						FinVendor helps you choose the right analytics vendor befitting your business.</p>
 						<a href="#"><img
@@ -195,10 +198,11 @@
 							</c:otherwise>
 						</c:choose>
 							<img src="${pageContext.request.contextPath}/resources/images/main-img-4.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
-						</a>
+						
 						<h2>
 							Financial Research <span>Report Vendors</span>
 						</h2>
+						</a>
 						<p>Be it macro economic analysis, Sector analysis or Analysis on Market pulse,a good research report is the key to a successful business.
 						And FinVendor can help you find the best research vendors. </p>
 						<a href="#"><img

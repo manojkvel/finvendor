@@ -133,18 +133,24 @@ jQuery(document).ready(function() {
 		    var solutionDataCoverage = $("#solutionDataCoverage").val();
 		    var offeringsDataCoverage = $("#offeringsDataCoverage").val();
 			var supportcoverageregion = $("#supportcoverageregion").val();
-			var supportcoveragecountry = $("#supportcoveragecountry").val();
+			var supportcoveragecountry = $("#supportcoveragecountry :selected").text();
 		    var vendorcostrange = $("#vendorcostrange").val();
 		    var phonenumber = $("#phonenumber").val();
 		    var email = $("#email").val();
-		
-			
+
+		 if(checkMandotrySelectValue(solutionDataCoverage) && checkMandotrySelectValue(offeringsDataCoverage) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
+			 
 			$.ajax({
 				type: 'GET',
 				url:  "addVendorDataCoverage?solutionDataCoverage="+solutionDataCoverage+"&offeringsDataCoverage="+offeringsDataCoverage+"&supportcoverageregion="+supportcoverageregion+"&supportcoveragecountry="+supportcoveragecountry+"&vendorcostrange="+vendorcostrange+"&phonenumber="+phonenumber+"&email="+email,
 				cache:false,
 				success : function(response){
 
+					if(checkNullValue(response[0].recordExist))
+					{
+						alert(response[0].recordExist);
+					}else{
+					 
 				     $("#offeringFilesTable tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
@@ -154,22 +160,15 @@ jQuery(document).ready(function() {
 			        $("#dataCoverageTable tbody").append(tableRecord);
 	
 					alert('You have updated sucessfully..!');
+					}	
 				},
 				error : function(errorMsg, textStatus, jqXHR){
 					// alert('Error: '+errorMsg+':'+textStatus);
 				}
 			});
 			
-			
-			
-			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
-				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
-			if(true){	
-				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-				var table = $('#samplesupport').tableToJSON();
-				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
 			}else{
-				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+				alert('Please choose mandatory fields..!');
 			}
 			
 		});
@@ -580,43 +579,38 @@ jQuery(document).ready(function() {
 			    var distributionmethod = $("#distributionmethod").val();
 			    var frequency = $("#frequency").val();
 			    var coverageregion = $("#coverageregion").val();
-			    var coveragecountry = $("#coveragecountry").val();
+			    var coveragecountry =  $("#coveragecountry :selected").text();
 			    var coverageexchange = $("#coverageexchange").val();
-				
-                 
+			    
+			    if(checkMandotrySelectValue(coverageexchange) && checkMandotrySelectValue(coveragecountry) && checkMandotrySelectValue(solutionDataDistribution) && checkMandotrySelectValue(offeringDataDistribution) && checkMandotrySelectValue(frequency) && checkMandotrySelectValue(distributionmethod) && checkMandotrySelectValue(fileDataCoverage) &&  checkMandotrySelectValue(feedsubtype) && checkMandotrySelectValue(feedtype)){
+		         
 				$.ajax({
 					type: 'GET',
 					url:  "addVendorDataDistribution?solution="+solutionDataDistribution+"&offering="+offeringDataDistribution+"&fileDataCoverage="+fileDataCoverage+"&feedtype="+feedtype+"&feedsubtype="+feedsubtype+"&distributionmethod="+distributionmethod+"&frequency="+frequency+"&coverageregion="+coverageregion+"&coveragecountry="+coveragecountry+"&coverageexchange"+coverageexchange,
 					cache:false,
 					success : function(response){
-						
-
-					     $("#dataDistributionTable tbody").empty();	 
-				        var tableRecord = "";
-				        for(i =0 ; i < response.length ; i++){                                                                                    
-				       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringFiles+'</td><td>'+response[i].feedType+'</td><td>'+response[i].feedSubType+'</td><td>'+response[i].distributionMethod+'</td><td>'+response[i].frequency+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].exchange+'</td><td onclick="deleteRecordDataDistribution(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
-				       	                                                                                                                           
-				        }
-				        $("#dataDistributionTable tbody").append(tableRecord);
-						
-						alert('You have updated sucessfully..!');
+						if(checkNullValue(response[0].recordExist))
+						{
+							alert(response[0].recordExist);
+						}else{
+						    $("#dataDistributionTable tbody").empty();	 
+					        var tableRecord = "";
+					        for(i =0 ; i < response.length ; i++){                                                                                    
+					       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringFiles+'</td><td>'+response[i].feedType+'</td><td>'+response[i].feedSubType+'</td><td>'+response[i].distributionMethod+'</td><td>'+response[i].frequency+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].exchange+'</td><td onclick="deleteRecordDataDistribution(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+					       	                                                                                                                           
+					        }
+					        $("#dataDistributionTable tbody").append(tableRecord);
+							
+							alert('You have updated sucessfully..!');
+						}
 					},
 					error : function(errorMsg, textStatus, jqXHR){
 						// alert('Error: '+errorMsg+':'+textStatus);
 					}
 				});
 			    
-				
-				
-				if(checkMandotrySelectValue(coverageexchange) && checkMandotrySelectValue(coveragecountry) && checkMandotrySelectValue(coverageregion) && checkMandotrySelectValue(coverageregion) && checkMandotrySelectValue(frequency) && checkMandotrySelectValue(distributionmethod) && checkMandotrySelectValue(datadistassetclass) && checkMandotrySelectValue(assetClassVendorSecurityDistriMaps) && checkMandotrySelectValue(feedsubtype) && checkMandotrySelectValue(feedtype) && checkNullValue(filebriefdesc) && checkNullValue(filename)){
-					/*document.getElementById("dataDistributionErrorMsg").innerHTML = '';
-					
-					$("#sampledistribution tbody").append('<tr><td>' + datadistassetclass + '</td><td>' + assetClassVendorSecurityDistriMaps + '</td> <td>' + filename + '</td>   <td>' + filebriefdesc + '</td>  <td>' + feedtype + '</td> <td>' + feedsubtype + '</td> <td>' + distributionmethod + '</td> <td>' + frequency + '</td>  <td>' + coverageregion + '</td>  <td>' + coveragecountry + '</td> <td>' + coverageexchange + '</td> <td><a class="deleteButtondistribution"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-					var table = $('#sampledistribution').tableToJSON();
-					document.getElementById('jsontablevendorofferingdistribution').value = JSON.stringify(table);
-*/				
 				}else{
-					document.getElementById("dataDistributionErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+					alert("Please enter mandory fields");
 				}
 			});
 			 
@@ -1076,10 +1070,6 @@ function activeMode(tabmode){
 		document.getElementById('interdiv').style.backgroundColor = '#5CE5E5';  
 		document.getElementById('ancho').style.backgroundColor = '#5CE5E5'; 
 		
-		document.getElementById('change1').style.backgroundColor = '';
-		document.getElementById('interdiv1').style.backgroundColor = '';  
-		document.getElementById('ancho1').style.backgroundColor = ''; 
-		
 		document.getElementById('change2').style.backgroundColor = '';
 		document.getElementById('interdiv2').style.backgroundColor = '';  
 		document.getElementById('ancho2').style.backgroundColor = '';  
@@ -1088,6 +1078,8 @@ function activeMode(tabmode){
 		document.getElementById('change4').style.backgroundColor = '';
 		document.getElementById('interdiv4').style.backgroundColor = '';  
 		document.getElementById('ancho4').style.backgroundColor = ''; 
+		
+		
 		
 	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("supportcoverage")){
 		document.getElementById('change1').style.backgroundColor = '#5CE5E5';
@@ -1151,10 +1143,6 @@ function activeMode(tabmode){
 		document.getElementById('change').style.backgroundColor = '';
 		document.getElementById('interdiv').style.backgroundColor = '';  
 		document.getElementById('ancho').style.backgroundColor = '';
-		
-		document.getElementById('change1').style.backgroundColor = '';
-		document.getElementById('interdiv1').style.backgroundColor = '';  
-		document.getElementById('ancho1').style.backgroundColor = ''; 
 		
 		document.getElementById('change2').style.backgroundColor = '';
 		document.getElementById('interdiv2').style.backgroundColor = '';  
@@ -1310,35 +1298,12 @@ function activeVendorAnalyticsResearchMyofferings(tabmode){
 
 ////File validation while uploading image-------------------
 
-
-
-function checkFile(e) {
-
-    var file_list = e.target.files;
-
-    for (var i = 0, file; file = file_list[i]; i++) {
-        var sFileName = file.name;
-        var sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
-        var iFileSize = file.size;
-       // var iConvert = (file.size / 10485760).toFixed(2);
-
-        if (!(logoPath !='' && logoPath.length > 0 && regex.test($("#personalvencompanylogo").val().toLowerCase())) || iFileSize > 2096) {
-            txt = "File type : " + sFileExtension + "\n\n";
-            txt += "Size: " + iConvert + " MB \n\n";
-            txt += "Please make sure your file is in .jpeg,.jpg,.png, .gif format and less than 2 MB.\n\n";
-            alert(txt);
-        }
-    }
-}
-
 function validateYear(year){
 	if(!(year.value.match(/^\d{4}$/))){
 		alert("Please enter valid year");
 		year.value="";
 	}
 }
-
-
 
 function imageValidation() {
 	debugger;
@@ -1351,12 +1316,13 @@ function imageValidation() {
 		return;
 	}
 	
-	
-	    $('#displayLogo').html('');
-	debugger;
+	  $('#displayLogo').html('');
 	  var oMyForm = new FormData();
 	  oMyForm.append("file", personalvencompanylogo.files[0]);
-	  
+	  if(personalvencompanylogo.size> 2048){
+		  alert("File size is more than 2MB ");
+		  return;
+	  }
 	  $.ajax({
 	    url: 'uploadFile',
 	    data: oMyForm,
@@ -1906,17 +1872,18 @@ function addVendorOfferingInfo(){
 	var offeringName = $("#offeringName").val();
 	var descriptionForVendorOffering = $("#descriptionForVendorOffering").val();
 	var assetClassForVenderOffering = $("#assetClassForVenderOffering").val();
+	var launchedYear = $("#launchedYear").val();
 	if(checkNullValue(offeringName)){
 		$.ajax({
 			type: 'GET',
-			url:  "createOfferings?solution="+solutionForVendorOffering+"&offeringName="+offeringName+"&description="+descriptionForVendorOffering+"&assetClass="+assetClassForVenderOffering,
+			url:  "createOfferings?solution="+solutionForVendorOffering+"&offeringName="+offeringName+"&description="+descriptionForVendorOffering+"&assetClass="+assetClassForVenderOffering+"&launchedYear="+launchedYear,
 			cache:false,
 			success : function(response){
 				
 			     $("#offeringFilesTable tbody").empty();	 
 		        var tableRecord = "";
 		        for(i =0 ; i < response.length ; i++){                                                                                    
-		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecord(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td>'+response[i].launchedYear+'</td><td onclick="deleleRecord(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
 		       	                                                                                                                           
 		        }
 		        $("#vendorofferingTable tbody").append(tableRecord);
@@ -2102,8 +2069,7 @@ function createOfferings(objectVar){
 			     $("#offeringFilesTable tbody").empty();	 
 		        var tableRecord = "";
 		        for(i =0 ; i < response.length ; i++){                                                                                    
-		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecord(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
-		       	                                                                                                                           
+		        	tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td>'+response[i].launchedYear+'</td><td onclick="deleleRecord(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';                                                                                                                          
 		        }
 		        $("#vendorofferingTable tbody").append(tableRecord);
 
@@ -2229,7 +2195,7 @@ $.ajax({
 	url:  "addVendorDataCoverage",
 	cache:false,
 	success : function(response){
-	     $("#offeringFilesTable tbody").empty();	 
+	     $("#dataCoverageTable tbody").empty();	 
         var tableRecord = "";
         for(i =0 ; i < response.length ; i++){                                                                                    
        	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].cost+'</td><td>'+response[i].phonNo+'</td><td>'+response[i].email+'</td><td onclick="deleteRecordDataCoverage(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';

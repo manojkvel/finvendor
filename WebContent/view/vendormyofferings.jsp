@@ -157,6 +157,12 @@
 												  <div class="col-md-3">                     
 												    <textarea class="form-control" id="descriptionForVendorOffering" name="descriptionForVendorOffering">Description</textarea>
 												  </div>
+												  
+												  <label class="col-md-3 control-label" for="launchedYear">Launched Year</label>  
+												  <div class="col-md-3">
+												  	<input id="launchedYear" name="launchedYear" type="text" placeholder="Launched Year" class="form-control input-md" onblur="validateYear(this)">
+												  </div>
+												  
 												 </div> 
 											
 												
@@ -176,6 +182,8 @@
 															<th>Offering Name</th>
 															<th>Description</th>
 															<th>Asset Class</th>
+															<th>Launched Year</th>
+															
 															<th>#</th>
 									
 														</tr>
@@ -391,25 +399,21 @@
 													
 														<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Coverage Region<span class="required">*</span></label>
 														<div class="controls">
-															<select name="supportcoverageregion" multiple="multiple" id="supportcoverageregion">
-														     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-															     <c:forEach var="regions" items="${regions}">
-															    	<option value="${regions.name}">${regions.name}</option>
-															 	 </c:forEach>
-														 	</select> 
-														 	<div class="selectOptions">Choose one or more options</div>
+														 		<input type="text" id="supportcoverageregion"	name="supportcoverageregion" class="m-wrap large" readonly="readonly" value="Asia Pacific"/>		
 														</div>
 													</div>
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" class="selectvalues" style="padding-left: 45px;">Coverage Country<span class="required">*</span></label>
 														<div class="controls">
-															<select name="supportcoveragecountry" multiple="multiple" id="supportcoveragecountry">
-															     <option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-															     <c:forEach var="countries" items="${countries}">
-																    <option value="${countries.name}">${countries.name}</option>
-																  </c:forEach>
-													   		</select>
-													   		<div class="selectOptions">Choose one or more options</div>
+													   		
+													          <select name="supportcoveragecountry" 
+																			id="supportcoveragecountry" data-mandatory="Y"
+																			style="width: 200px" onchange="getRegion('supportcoveragecountry','supportcoverageregion')">
+																			<c:forEach var="countries" items="${countries}">
+																		        <option value="${countries.country_id}" >${countries.name}</option>
+																			</c:forEach>
+																		</select>
+													   		
 														</div>
 													</div>
 													</div>
@@ -544,12 +548,26 @@
 												  </div>
 													</div>
 												
+												<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Frequency<span class="required">*</span></label>
+														<div class="controls">
+															<select name="frequency" multiple="multiple" id="frequency">
+															     <option value ="intra-day"> intra-day </option>
+															     <option value ="Daily"> Daily </option>
+															     <option value ="Weekly"> Weekly </option>
+															     <option value ="Semi-Monthly"> Semi-Monthly </option>
+															     <option value ="Monthly"> Monthly </option>
+															     <option value ="Yearly"> Yearly </option>
+														</select>
+														</div>
+													</div>
+												
 													</div>
 													<div class="ColumnCommonvendorpage">
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 51px;">Feed Type<span class="required">*</span></label>
 														<div class="controls">
-															<select name="feedtype"  id="feedtype">
+														<select name="feedtype" multiple="multiple" id="feedtype">
 															<option value ="-SELECT-"> -SELECT- </option>
 															     <option value ="EOD"> EOD </option>
 															     <option value ="REAL-TIME"> REAL-TIME </option>
@@ -560,7 +578,7 @@
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 50px;">Feed Sub-type<span class="required">*</span></label>
 														<div class="controls">
-															<select name="feedsubtype"  id="feedsubtype">
+															<select name="feedsubtype" multiple="multiple" id="feedsubtype">
 																<option value ="-SELECT-"> -SELECT- </option>
 															     <option value ="Full Universe Data Feed"> Full Universe Data Feed </option>
 															     <option value ="Delta Data Feed"> Delta Data Feed </option>
@@ -570,7 +588,7 @@
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 45px;">Distribution Method<span class="required">*</span></label>
 														<div class="controls">
-															<select name="distributionmethod"  id="distributionmethod">
+															<select name="distributionmethod" multiple="multiple" id="distributionmethod">
 															     <option value ="Web"> Web </option>
 															     <option value ="FTP"> FTP </option>
 															     <option value ="FTP"> Email </option>
@@ -578,44 +596,29 @@
 														</select>
 														</div>
 													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Frequency<span class="required">*</span></label>
-														<div class="controls">
-															<select name="frequency"  id="frequency">
-															     <option value ="intra-day"> intra-day </option>
-															     <option value ="Daily"> Daily </option>
-															     <option value ="Weekly"> Weekly </option>
-															     <option value ="Semi-Monthly"> Semi-Monthly </option>
-															     <option value ="Monthly"> Monthly </option>
-															     <option value ="Yearly"> Yearly </option>
-														</select>
-														</div>
-													</div>
+													
 													</div>
 													 <div class="ColumnCommonvendorpre">
 													 <div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 44px;">Coverage Region<span class="required">*</span></label>
 														<div class="controls">
-															<select name="coverageregion" multiple="multiple" id="coverageregion">
-														     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-															     <c:forEach var="regions" items="${regions}">
-															    	<option value="${regions.name}">${regions.name}</option>
-															 	 </c:forEach>
-														 	</select> 
-														 	<div class="selectOptions">Choose one or more options</div>
+															
+														 	<input type="text" id="coverageregion"	name="coverageregion" class="m-wrap large" readonly="readonly" value="Asia Pacific"/>
 														</div>
 													</div>
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Coverage Country<span class="required">*</span></label>
 														<div class="controls">
-															<select name="coveragecountry" multiple="multiple" id="coveragecountry">
-															     <option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-															     <c:forEach var="countries" items="${countries}">
-																    <option value="${countries.name}">${countries.name}</option>
-																  </c:forEach>
-													   		</select>
-													   		<div class="selectOptions">Choose one or more options</div>
-														</div>
+															
+													   		<select name="coveragecountry" 
+																			id="coveragecountry" data-mandatory="Y"
+																			style="width: 200px" onchange="getRegion('coveragecountry','coverageregion')">
+																			<c:forEach var="countries" items="${countries}">
+																						    	<option value="${countries.country_id}">${countries.name}</option>
+																				
+																			</c:forEach>
+																		</select>
+													   	</div>
 													</div>
 													 <div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 41px;">Coverage Exchange<span class="required">*</span></label>

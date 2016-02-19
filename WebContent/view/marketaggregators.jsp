@@ -13,15 +13,28 @@
 	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
 	<div class="container">  
     <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}"> Market Data Aggregators (MA) Vendor</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
+    <br>
         <div class="control-group">
-        	<input type="radio" name="radios"   value="savedsearch" id="savesearch">
-			<label class="control-label" style="margin-left: 21px; margin-top: -15px;">Search Using Saved Searches<span class="required">*</span></label>
+        	
+			<label class="control-labelappstra" ><input type="checkbox" name="savesearch" id="savesearch" value="savesearch" >Search Using Saved Searches
+			
+			
+			<select name="assetclass" style="visibility: hidden;" onchange="loadSecurityTypes(this.value);" id="saveSearchList">
+																     <option value ="-SELECT-" selected="selected"> -SELECT- </option>
+				     	 											 <option>Saved Searches1</option>
+															     	 <option>Saved Searches2</option>
+																     <option>Saved Searches3</option>
+																     <option>Saved Searches4</option>
+																     <option>Saved Searches5</option>
+																 </select>
+			</label>
+			
 		</div>
         <div class="control-groupcheckingforradiobuttons">
-        	<input  type="radio" id="singleform" name="radios">
+        	<input  type="radio" id="singleform" name="radios" checked="checked">
 			<label class="control-label" style="margin-left: 21px; margin-top: -15px;">Search Vendor for Single MA Type<span class="required">*</span></label>
-			<input  type="radio" name="radios" id="multiform" style="margin-left: 371px; margin-top: -49px;">
-			<label class="control-label" style="margin-left: 393px; margin-top: -45px;">Search Vendor for Multiple MA Type<span class="required">*</span></label>
+			<input  type="radio" name="radios" id="multiform" style="margin-left: 371px; margin-top: -40px;" >
+			<label class="control-label" style="margin-left: 393px; margin-top: -35px;">Search Vendor for Multiple MA Type<span class="required">*</span></label>
 		</div>
         <div class="row-fluid">
 	   <div class="span12">
@@ -34,42 +47,7 @@
 							  <div class="portlet-body form">
 							  
 							  <!-- Search using saved search starts here -->
-							  <div id="savedsearchform">
-								<form action="#" class="form-horizontal" id="submit_form" method="post" enctype="multipart/form-data">
-									<div class="form-wizard">
-										<div class="tab-content" style="background-color: white;">
-											<!-- Support coverage start --> 
-												<div class="tab-pane active">
-												<div><br/></div>
-												 <div class="Row">
-													<div class="ColumnCommonvendormarket">
-														<div class="control-group">
-															<label class="control-label">Trade Asset Class<span class="required">*</span></label>
-															<div class="controls" style="margin-left: 175px;">
-																<select name="assetclass" onchange="loadSecurityTypes(this.value);" id="assetclass">
-																     <option value ="-SELECT-" selected="selected"> -SELECT- </option>
-				     	 											 <option>Saved Searches1</option>
-															     	 <option>Saved Searches2</option>
-																     <option>Saved Searches3</option>
-																     <option>Saved Searches4</option>
-																     <option>Saved Searches5</option>
-																 </select>
-															</div>
-														</div>
-													</div>
-												</div>
-									<div><br/></div>
-									<div class="form-actions clearfix">
-										<div class="se" style="padding-left: 150px;">
-										<input type="reset" value="Search" class="btn" />
-										<input type="reset" value="Reset" class="btn" />
-									</div>
-									</div>
-									</div>
-										</div>
-								</div>
-								</form>
-								</div>
+				
 								<!-- Search using saved search end here -->
 								
 								<!-- Single Marketing Aggregator Vendor Start here -->
