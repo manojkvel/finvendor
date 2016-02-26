@@ -242,8 +242,7 @@
 										   	<div class="form-group">
 											  <label class="col-md-3 control-label" for="button1id"></label>
 											  <div class="col-md-8">
-											    <a class="addMoreSolution"> <span
-																		class="lable_header_add" onclick="createOfferingFile()">Submit </span></a>
+											    <a class="addMoreSolution"> <span class="lable_header_add" onclick="createOfferingFile()">Submit </span></a>
 											  </div>
 											</div>
 									 
@@ -525,6 +524,7 @@
 														<label class="control-labelaligndatacoverage" style="padding-left: 76px;">Solution<span class="required">*</span></label>
 														<div class="controls">
 															 <select id="solutionDataDistribution" name="solutionDataDistribution" onchange="onSolutionDataDistribution()">
+															 <option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
 															      <c:forEach var="solution" items="${solutions}">
 																	  	<option value="${solution.solution_id}">${solution.name}</option>
 																  </c:forEach>
@@ -624,7 +624,6 @@
 														<label class="control-labelaligndatacoverage" style="padding-left: 41px;">Coverage Exchange<span class="required">*</span></label>
 														<div class="controls">
 															<select name="coverageexchange"  multiple="multiple" id="coverageexchange">
-														     <option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
 														     <c:forEach var="exchanges" items="${exchanges}">
 															    <option value="${exchanges.name}">${exchanges.name}</option>
 															  </c:forEach>
@@ -688,43 +687,13 @@
 										<!-- vendor Trading Capabilities Supported start here -->
 										<div class="tab-pane" id="tab7">
 												<div><br/> </div>
-												<div class="Rowtableinfoval"><font id="myofferingsdatacoveragetabsucessmessage" style="font-size: 14px;font-family:Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;margin: -19px 0px 0px 15px;"></font>
-													<div class="image-upload" style="margin-left: 252px;">
-												    <label class="control-label-fileupload" >Bulk Insert Option (using .CSV or .Xls)<span class="required">*</span> 
-												        <a href="<%=request.getContextPath()%>/<%=RequestConstans.Document.DOCUMENT_DOWNLOAD%>?RaYuL=${'/files/SupportDetails_insurance_sample.csv'}&VeMu=${path}" target="_blank"> <img src="<%=request.getContextPath() %>/resources/images/csv.png" style="padding:0px 0px 4px 0px;"/></a>&nbsp;
-												         OR &nbsp;<a href="<%=request.getContextPath()%>/<%=RequestConstans.Document.DOCUMENT_DOWNLOAD%>?RaYuL=${'/files/SupportDetails_insurance_sample.csv'}&VeMu=${path}" target="_blank"><img src="<%=request.getContextPath() %>/resources/images/xls.png" style="padding:0px 0px 4px 0px;" /></a> &nbsp;&nbsp;&nbsp;&nbsp; 
-												    </label>
-												</div>
-												<div class="ColumnCommonray">
-												<a class="#" data-toggle="modal" href="#normalModal"><span class="lable_headeractions"><img src="<%=request.getContextPath() %>/resources/images/attachment.png"/>Bulk Upload here</span></a>
-												</div>
-												<div id="normalModal" class="modal fade">
-													  <div class="modal-dialog">
-													    <div class="modal-content">
-													      <div class="modal-header">
-													        <button type="button" class="close" data-dismiss="modal">&times;</button>
-													        <h4 class="modal-title btpopup">Upload Your File</h4>
-													      </div>
-													      <div class="modal-body">
-													         <input type="file" name="fileUpload" class="m-wrap largefileuploadconspopup" id="fileUploadmyoffercoverage">&nbsp;&nbsp;&nbsp;&nbsp;<a class="fileupmyoffercoverage btnpopup btn-default">Upload</a>
-													         <div id="selectedFiles"></div>
-													         <div><br></div>
-													         <a class="btnpopup btn-default" onclick="loadCheckBoxes();">Remove</a> 
-													      </div>
-													      <div class="modal-footer">
-													        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-													      </div>
-													    </div> 
-													  </div> 
-												</div> 
-												</div>
-												<div><br/> </div>
+												
 												 <div class="Row">
 													<div class="ColumnCommonvendortab3tradingapplication">
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Solution<span class="required">*</span></label>
 														<div class="controlsfortradingapp">
-															 <select id="tcsSolution" name="tcsSolution" onchange="tradingCapabilitiesSupportedOffering()">
+															 <select id="tcsSolution" name="tcsSolution" onchange="tradingCapabilitiesSupportedOffering()" style="width: 252px;">
 															     
 														    </select>
 														</div>
@@ -733,15 +702,14 @@
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage"  style="padding-left: 35px;">Offerings<span class="required">*</span></label>
 														<div class="controlsfortradingapp">
-															     <select id="tcsOffering" name="tcsOffering" >
+															     <select id="tcsOffering" name="tcsOffering" style="width: 252px;">
 													   		</select>
-													   		<div class="selectOptions">Choose one or more options</div>
 														</div>
 													</div>
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" class="selectvalues" style="padding-left: 35px;">Trade coverage region<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" class="selectvalues" style="padding-left: 35px;">Tradable region<span class="required">*</span></label>
 														<div class="controlsfortradingapp">
-															<select name="tcsTradeCoverageRegion" multiple="multiple" id="tcsTradeCoverageRegion" style="width: 252px;">
+															<select name="tcsTradeCoverageRegion" id="tcsTradeCoverageRegion" style="width: 252px;">
 																<c:forEach var="regions" items="${regions}">
 														    	<option value="${regions.name}">${regions.name}</option>
 														 	 	</c:forEach>
@@ -750,7 +718,7 @@
 														</div>
 													</div>
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Trade Coverage country<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Tradable exchange<span class="required">*</span></label>
 														<div class="controlsfortradingapp">
 															<select name="tcsTradeCoverageCountry" multiple="multiple" id="tcsTradeCoverageCountry" style="width: 252px;">
 																<c:forEach var="countries" items="${countries}">
@@ -761,15 +729,50 @@
 														</div>
 													</div>
 													
+													
+													
+													<div class="control-group">
+	
+													<label class="control-labelaligndatacoverage" style="padding-left: 32px;">Tradable Markets</label>
+													<div class="controlsfortradingapp">
+													<select name="tcsTradableMarkets"  multiple="multiple" id="tcsTradableMarkets" style="width: 252px;">
+														     <c:forEach var="exchanges" items="${exchanges}">
+															    <option value="${exchanges.name}">${exchanges.name}</option>
+															  </c:forEach>
+														  </select>
+													    </div>
+													</div>
 													</div>
 													 <div class="ColumnCommonvendorpretab3tradinapp">
 													    <div class="control-group">
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Trading Capabilities Type<span class="required">*</span></label>
 															<div class="controlsfortradingapp">
 																<select name="tcsTradingCapabilitiesType" multiple="multiple" id="tcsTradingCapabilitiesType" style="width: 252px;">
-															       <option value ="Order placement/execution" > -Order placement/execution- </option>
-															       <option value ="Order allocation" > -Order allocation- </option>
-															       <option value ="Trade settlement" > -Trade settlement- </option>
+															       <option value ="Order placement/execution" > Order placement/execution </option>
+															       <option value ="Order allocation" > Order allocation </option>
+															       <option value ="Trade settlement" > Trade settlement </option>
+																	<option value ="Trade Clearance" > Trade Clearance</option>
+																	<option value ="Real Time Quotes" > Real Time Quotes</option>
+																	<option value ="Real Time Financial News" > Real Time Financial News</option>
+																	<option value ="Trade Analytics" > Trade Analytics</option>
+																	<option value ="Collateral Management" > Collateral Management</option>
+																	<option value ="Listed stocks/contracts" > Listed stocks/contracts</option>
+																	<option value ="Electronic Trading for OTC" > Electronic Trading for OTC</option>
+																	<option value ="Order Management" > Order Management</option>
+																	<option value ="Trade Confirmation" > Trade Confirmation</option>
+																	<option value ="Trade Reporting" > Trade Reporting</option>
+																	<option value ="Trading Strategy Builder" > Trading Strategy Builder</option>
+																	<option value ="Liquidity Aggregation" > Liquidity Aggregation</option>
+																	<option value ="Market Surveillance & Compliance" > Market Surveillance & Compliance</option>
+																	<option value ="Ability to connect to liquidity providers" > Ability to connect to liquidity providers</option>
+																	<option value ="Algorithmic Signal Generation" > Algorithmic Signal Generation</option>
+																	<option value ="Algorithmic Order Execution& Mgmt" > Algorithmic Order Execution& Mgmt</option>
+																	<option value ="Auto Hedging & Risk Mgmt" > Auto Hedging & Risk Mgmt</option>
+																	<option value ="Time Series Modelling" > Time Series Modelling</option>
+																	<option value ="Market Data Distribution" > Market Data Distribution</option>
+																	<option value ="Pricing and Rates Engine" > Pricing and Rates Engine</option>
+																	<option value ="Quoting & Price Distribution" > Quoting & Price Distribution</option>
+															       
 															</select>
 															<div class="selectOptions">Choose one or more options</div>
 															</div>
@@ -778,18 +781,25 @@
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Trade Executions Type<span class="required">*</span></label>
 															<div class="controlsfortradingapp">
 																<select name="tcsTradeExecutionsType" multiple="multiple" id="tcsTradeExecutionsType" style="width: 252px;">
-																	<option value ="Algorithmic & Program Trading" > -Algorithmic & Program Trading- </option>
-															       <option value ="Direct Market Access (DMA)" > -Direct Market Access (DMA)- </option>
-															       <option value ="FX -DMA"> -FX -DMA- </option>
-															       <option value ="Smart Order Routing (Sequential SOR)"> -Smart Order Routing (Sequential SOR)- </option>
+																	<option value ="Algorithmic & Program Trading" > Algorithmic & Program Trading </option>
+															       <option value ="Direct Market Access (DMA)" > Direct Market Access (DMA) </option>
+															       <option value ="FX -DMA"> FX -DMA </option>
+															       <option value ="Smart Order Routing (Sequential SOR)"> Smart Order Routing (Sequential SOR) </option>
+															       
+															       <option value ="Smart Order Routing (Multi-Posting SOR)"> Smart Order Routing (Multi-Posting SOR) </option>
+															       <option value ="Swap Execution Facility"> Swap Execution Facility </option>
+															      							       
+															       
+															       
+			       
 															</select>
 															<div class="selectOptions">Choose one or more options</div>
 															</div>
 													 </div>
 													 <div class="control-group">
-															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Algorithmic Trade Type<span class="required">*</span></label>
+															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Algorithmic Trade Type</label>
 															<div class="controlsfortradingapp">
-																<select name="tcsAlgorithmicTradeType" multiple="multiple" id="tcsAlgorithmicTradeType" style="width: 252px;">
+																<select name="tcsAlgorithmicTradeType" multiple="multiple" disabled="disabled" id="tcsAlgorithmicTradeType" style="width: 252px;" >
 																	<option value ="VWAP - (Volume Weighted Average Price)" > -VWAP - (Volume Weighted Average Price) - </option>
 															       <option value ="TWAP - (Time Weighted Average Price)" > -TWAP - (Time Weighted Average Price) - </option>
 															       <option value ="PVOL - (Percentage Of Volume)"> -PVOL - (Percentage Of Volume) - </option>
@@ -807,10 +817,71 @@
 																	  <option value ="Access to Consortium-owned darkpools"> Access to Consortium-owned darkpools (?) </option>
 																	  <option value ="Access to Exchange-owned darkpools"> Access to Exchange-owned darkpools (?) </option>
 																	  <option value ="Access to Darkpool Aggregators"> Access to Darkpool Aggregators(?) </option>
+																	  <option value ="No Darkpool Access">No Darkpool Access </option>
+																	  
 														   		</select>
 														   		<div class="selectOptions">Choose one or more options</div>
 															</div>
 														 </div>
+														 
+														 <div class="control-group">
+															<label class="control-labelaligndatacoverage" style="padding-left: 32px;">Supported Darkpool Venues</label>
+															<div class="controlsfortradingapp" style="margin-left: 219px;">
+																<select name="tcsSupportedDarkpoolVenues" disabled="disabled" id="tcsSupportedDarkpoolVenues" style="width: 252px;">
+																	  <option value ="-Select-"> -Select-  </option>
+																		<option value ="Instinet"> Instinet  </option>
+																		<option value ="Liquidnet"> Liquidnet </option>
+																		<option value ="NYFIX"> NYFIX </option>
+																		<option value ="Posit/MatchNow"> Posit/MatchNow </option>
+																		<option value ="BlockCross"> BlockCross  </option>
+																		<option value ="RiverCross"> RiverCross </option>
+																		<option value ="TORA Crosspoint"> TORA Crosspoint </option> 
+																		<option value =" Codestreet Dealer Pool for Corporate Bonds"> Codestreet Dealer Pool for Corporate Bonds </option>
+																		<option value ="JPMorgan Chase Bank - JPMX"> JPMorgan Chase Bank - JPMX </option>
+																		<option value ="Barclays Capital - LX Liquidity Cross"> Barclays Capital - LX Liquidity Cross </option>
+																		<option value ="BNP Paribas - BNP Paribas Internal eXchange (BIX)"> BNP Paribas - BNP Paribas Internal eXchange (BIX) </option>
+																		<option value ="BNY ConvergEx Group (an affiliate of Bank of New York Mellon)"> BNY ConvergEx Group (an affiliate of Bank of New York Mellon) </option>
+																		<option value ="Cantor Fitzgerald - Aqua Securities"> Cantor Fitzgerald - Aqua Securities </option>
+																		<option value ="Citi - Citi Match, Citi Cross"> Citi - Citi Match, Citi Cross </option>
+																		<option value ="Credit Agricole Cheuvreux - BLINK"> Credit Agricole Cheuvreux - BLINK </option>
+																		<option value ="Credit Suisse - CrossFinder"> Credit Suisse - CrossFinder </option>
+																		<option value ="Deutsche Bank Global Markets - DBA (Europe), SuperX ATS (U.S.)"> Deutsche Bank Global Markets - DBA (Europe), SuperX ATS (U.S.) </option>
+																		<option value ="Fidelity Capital Markets"> Fidelity Capital Markets </option>
+																		<option value ="GETCO - GETMatched"> GETCO - GETMatched </option>
+																		<option value ="Goldman Sachs SIGMA X"> Goldman Sachs SIGMA X </option>
+																		<option value ="Knight Capital Group - Knight Link, Knight Match"> Knight Capital Group - Knight Link, Knight Match </option>
+																		<option value ="Merrill Lynch - Instinct-X"> Merrill Lynch - Instinct-X </option>
+																		<option value ="Morgan Stanley - NightVision"> Morgan Stanley - NightVision </option>
+																		<option value ="Nomura - Nomura NX, CHI-X"> Nomura - Nomura NX, CHI-X </option>
+																		<option value ="UBS Investment Bank - UBS ATS, UBS MTF, UBS PIN"> UBS Investment Bank - UBS ATS, UBS MTF, UBS PIN </option>
+																		<option value ="Societe Generale - ALPHA Y"> Societe Generale - ALPHA Y </option>
+																		<option value ="Daiwa - DRECT"> Daiwa - DRECT </option>
+																		<option value ="Wells Fargo Securities LLC - WELX"> Wells Fargo Securities LLC - WELX </option> 
+																		<option value ="BIDS Trading - BIDS ATS"> BIDS Trading - BIDS ATS </option>
+																		<option value ="LeveL ATS"> LeveL ATS </option>
+																		<option value ="International Securities Exchange"> International Securities Exchange </option>
+																		<option value ="NYSE Euronext"> NYSE Euronext </option>
+																		<option value ="BATS Trading"> BATS Trading </option>
+																		<option value ="Turquoise"> Turquoise </option>
+																		<option value ="Swiss Block"> Swiss Block </option>
+																		<option value ="Nordic@Mid"> Nordic@Mid </option>
+																		<option value ="Fidessa - Spotlight"> Fidessa - Spotlight </option>
+																		<option value ="Bloomberg Tradebook"> Bloomberg Tradebook </option>
+																		<option value ="Liquidnet LN Dark"> Liquidnet LN Dark </option>
+																		<option value ="Credit Suisse Crossfinder Plus"> Credit Suisse Crossfinder Plus </option>
+																		<option value ="SuperX+ - Deutsche Bank"> SuperX+ - Deutsche Bank </option>
+																		<option value ="ASOR - Quod Financial"> ASOR - Quod Financial </option>
+																		<option value ="Progress Apama"> Progress Apama </option>
+																		<option value ="ONEPIPE - Weeden & Co. & Pragma Financial"> ONEPIPE - Weeden & Co. & Pragma Financial </option>
+																		<option value ="Xasax Corporation"> Xasax Corporation </option>
+																		<option value ="Crossfire - Credit Agricole Cheuvreux"> Crossfire - Credit Agricole Cheuvreux </option>
+																		<option value ="Instinet - Nighthawk"> Instinet - Nighthawk </option>
+																	  
+														   		</select>
+															</div>
+														 </div>
+														 
+														 
 														 </div> 
 												</div>
 												<div class="control-group">
@@ -826,8 +897,9 @@
 														<tr>
 															<th>Solution</th>
 															<th>Offering</th>
-															<th>Trade coverage region</th>
-															<th>Trade Coverage country</th>
+															<th>Tradable Region</th>
+															<th>Tradable country</th>
+															<th>Tradable Markets</th>
 															<th>Trading Capabilities Type</th>
 															<th>Trade Executions Type</th>
 											                <th>Algorithmic Trade Type</th>
@@ -848,6 +920,39 @@
 											 <!-- Vendor Trading Software Details starts here -->
 												<div class="tab-pane active" id="tab8">
 												<div><br/> </div>
+												<div class="Rowtableinfoval"><font id="myofferingsdatacoveragetabsucessmessage" style="font-size: 14px;font-family:Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;margin: -19px 0px 0px 15px;"></font>
+													<div class="image-upload" style="margin-left: 252px;">
+												    <label class="control-label-fileupload">Bulk Insert Option (using .CSV or .Xls)<span class="required">*</span> 
+												        <a href="/finvendor/downloaddocument?RaYuL=/files/SupportDetails_insurance_sample.csv&amp;VeMu=" target="_blank"> <img src="/finvendor/resources/images/csv.png" style="padding:0px 0px 4px 0px;"></a>&nbsp;
+												         OR &nbsp;<a href="/finvendor/downloaddocument?RaYuL=/files/SupportDetails_insurance_sample.csv&amp;VeMu=" target="_blank"><img src="/finvendor/resources/images/xls.png" style="padding:0px 0px 4px 0px;"></a> &nbsp;&nbsp;&nbsp;&nbsp; 
+												    </label>
+												</div>
+												<div class="ColumnCommonray">
+												<a class="#" data-toggle="modal" href="#normalModal"><span class="lable_headeractions"><img src="/finvendor/resources/images/attachment.png">Bulk Upload here</span></a>
+												</div>
+												<div id="normalModal" class="modal fade">
+													  <div class="modal-dialog">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <button type="button" class="close" data-dismiss="modal">×</button>
+													        <h4 class="modal-title btpopup">Upload Your File</h4>
+													      </div>
+													      <div class="modal-body">
+													         <input type="file" name="fileUpload" class="m-wrap largefileuploadconspopup" id="fileUploadmyoffercoverage">&nbsp;&nbsp;&nbsp;&nbsp;<a class="fileupmyoffercoverage btnpopup btn-default">Upload</a>
+													         <div id="selectedFiles"></div>
+													         <div><br></div>
+													         <a class="btnpopup btn-default" onclick="loadCheckBoxes();">Remove</a> 
+													      </div>
+													      <div class="modal-footer">
+													        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													      </div>
+													    </div> 
+													  </div> 
+												</div> 
+												</div>
+												
+												<br>
+												
 												 <div class="Row">
 													<div class="ColumnCommonvendordist">
 													
@@ -863,9 +968,23 @@
 														</div>
 													</div>
 													
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Application Name<span class="required">*</span></label>
+														<div class="controlsfortradingappsoftware">
+															<input type="text" id="tdsAppName" placeholder="Application Details" name="filename" class="m-wrap largeval"/>
+														</div>
+													</div>
+													
 													
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Asset Class<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Application Details<span class="required">*</span></label>
+														<div class="controlsfortradingappsoftware">
+															<input type="text" id="tdsAppDesc" placeholder="Application Details" name="tdsAppDesc" class="m-wrap largeval"/>
+														</div>
+													</div>
+													
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Asset Class Supported<span class="required">*</span></label>
 														<div class="controlsfortradingappsoftware">
 															<select name="tdsAssetClass"  id="tdsAssetClass" style="width: 163px;">
 														     	    <c:forEach var="assetClasses" items="${assetClasses}">
@@ -875,63 +994,56 @@
 														</div>
 													</div>
 													
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">App.. Name<span class="required">*</span></label>
-														<div class="controlsfortradingappsoftware">
-															<input type="text" id="tdsAppName" placeholder="App.. Name" name="filename" class="m-wrap largeval"/>
-														</div>
-													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">App. Desc<span class="required">*</span></label>
-														<div class="controlsfortradingappsoftware">
-															<input type="text" id="tdsAppDesc" placeholder="App. Desc" name="tdsAppDesc" class="m-wrap largeval"/>
-														</div>
-													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" class="selectvalues" style="padding-left: 71px;">Tradable regions<span class="required">*</span></label>
-														<div class="controlsfortradingappsoftware">
-															<select name="tdsTradableRegions" multiple="multiple" id="tdsTradableRegions" style="width: 163px;">
-														     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-																<c:forEach var="regions" items="${regions}">
-														    	<option value="${regions.name}">${regions.name}</option>
-														 	 	</c:forEach>
-														   </select>
-														<div class="selectOptions">Choose one or more options</div>
-														</div>
-													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Tradable Markets<span class="required">*</span></label>
-														<div class="controlsfortradingappsoftware">
-															<input type="text" id="tdsTradableMarkets" placeholder="Tradable Markets" name="tdsTradableMarkets" class="m-wrap largeval"/>
-														</div>
-													</div>
+													
+													
+												
 													 <div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Accessibility (?)<span class="required">*</span></label>
 														<div class="controlsfortradingappsoftware">
-															<select name="tdsAccessibility"  id="tdsAccessibility" style="width: 163px;">
+															<select name="tdsAccessibility"  multiple="multiple" id="tdsAccessibility" style="width: 163px;">
 															     <option value ="Web/Browser Based"> Web/Browser Based </option>
 															     <option value ="Binaries(Executable) Based"> Binaries(Executable) Based </option>
 															     <option value ="Dedicated Desktop">Dedicated Desktop</option>
+															      <option value ="Mobile/Tablet Apps">Mobile/Tablet Apps</option>
+		
 														</select>
 														</div>
 													</div>
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Suitability<span class="required">*</span></label>
 														<div class="controlsfortradingappsoftware">
-															<select name="tdsSuitability"  id="tdsSuitability" style="width: 163px;">
+															<select name="tdsSuitability"  multiple="multiple" id="tdsSuitability" style="width: 163px;">
 															     <option value ="All Users"> All Users </option>
 															     <option value ="Advanced shares traders"> Advanced shares traders </option>
 															     <option value ="Technical chart users"> Technical chart users </option>
 															     <option value ="Forex specialists"> Forex specialists </option>
+															     <option value ="Other"> Other </option>
 														</select>
 														</div>
+														<div class="controlsfortradingappsoftware">
+														<input type="text" id="tdsSuitabilityOther"  placeholder="Suitability Other" name="tdsSuitabilityOther" style="visibility: hidden;" />
+														</div>
 													</div>
+													
+													  <div class="control-group">
+														<label class="control-labelalign" >Streaming news available? &nbsp;&nbsp;&nbsp; <input type="checkbox" id="tdsStreNews"  name="tdsStreNews" /></label>
+														
+													</div>
+													<div class="control-group">
+														<label class="control-labelalign" >Trade using charts available? <input type="checkbox" id="tdsChartsAvai" name="tdsChartsAvai" /></label>
+														
+													</div>
+													
+													
 													</div>
 													<div class="ColumnCommonvendorpage" style="margin: 0px 0px 0px 56px;">
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Offering<span class="required">*</span></label>
 														<div class="controls">
-															<input type="text" id="tdsOffering" placeholder="Offering" name="tdsOffering" class="m-wrap largeval"/>
+															<input type="text" id="tdsOffering" placeholder="Offering" name="tdsOffering" class="m-wrap largeval" onblur="validateAjax(this, 'checkExistingValue','addTradingSoftwareDetailsErrorMsg','addTradingSoftwareDetails')"/>
+														</div>
+														<div>
+															<label id="addTradingSoftwareDetailsErrorMsg" class="errorMessage"></label>
 														</div>
 													</div>
 													
@@ -942,6 +1054,7 @@
 															<select name="tdsCostType"  id="tdsCostType" style="width: 163px;">
 															     <option value ="Free and Min Balance Not required"> Free and Min Balance Not required </option>
 															     <option value ="Min Balance Required"> Min Balance Required </option>
+															     <option value ="Subscription based"> Subscription based </option>
 														</select>
 														</div>
 													</div>
@@ -962,41 +1075,20 @@
 														</div>
 													</div>
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Platform  Cost<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Platform cost (USD ; per month)</label>
 														<div class="controls">
-															<input type="text" id="tdsPlatformCost" placeholder="Platform  Cost" name="tdsPlatformCost" class="m-wrap largeval"/>
+															<input type="text" id="tdsPlatformCost" placeholder="Platform cost (USD ; per month)" name="tdsPlatformCost" readonly="readonly" class="m-wrap largeval"/>
 														</div>
 													</div>
 													  <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Platform type<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Platform cost (USD ; per annum)</label>
 														<div class="controls">
-															<select name="tdsPlatformType"  id="tdsPlatformType" style="width: 163px;">
-															     <option value ="Per Month "> Per Month  </option>
-															     <option value ="Per week"> Per week </option>
-															     <option value ="Per Yea"> Per Yea </option>
-															     <option value ="Per 6 months"> Per 6 months </option>
-															     <option value ="Others"> Others </option>
-														</select>
+														<input type="text" id="tdsPlatformType" placeholder="Platform cost (USD ; per annum)" name="tdsPlatformType" readonly="readonly" class="m-wrap largeval"/>
+															
 														</div>
 													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Exchange fees<span class="required">*</span></label>
-														<div class="controls">
-															<input type="text" id="tdsExchangeFees" placeholder="Exchange fees" name="tdsExchangeFees" class="m-wrap largeval"/>
-														</div>
-													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Stre.. news?<span class="required">*</span></label>
-														<div class="controls">
-															<input type="checkbox" id="tdsStreNews" placeholder="Stre.. news?" name="tdsStreNews" class="m-wrap largeval"/>
-														</div>
-													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">charts avai?<span class="required">*</span></label>
-														<div class="controls">
-															<input type="checkbox" id="tdsChartsAvai" placeholder="charts avai?" name="tdsChartsAvai" class="m-wrap largeval"/>
-														</div>
-													</div>
+												
+													
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Order Type <span class="required">*</span></label>
 														<div class="controls">
@@ -1009,22 +1101,41 @@
 															     <option value ="date"> date  </option>
 															     <option value ="day"> day  </option>
 															     <option value ="good for auction"> good for auction  </option>
+															     <option value ="Good till cancel"> Good till cancel  </option>
+															     <option value ="Good till cancel"> Good till cancel </option>
+															     <option value ="At the auction"> At the auction </option>
+															     <option value ="At the open"> At the open </option>
+															     <option value ="At the close"> At the close </option>
+															     <option value ="At best"> At best  </option>
+															     <option value ="Trailing stops"> Trailing stops  </option>
+															     <option value ="Market if touched">Market if touched  </option>
+   	      													    <option value ="One cancels the other"> One cancels the other </option>
+															     <option value ="One enables the others"> One enables the others  </option>
+															     <option value ="Stop-loss"> Stop-loss  </option>
+															     <option value ="Take profit">Take profit </option> 
+	
 														</select>
-														<div class="selectOptions">Choose one or more options</div>
+														</div>
+													</div>
+											
+											     
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Price Alerts?</label>
+														<div class="controls">
+															<input type="checkbox" id="tdsPriceAlerts"  name="tdsPriceAlerts" class="m-wrap largeval"/>
 														</div>
 													</div>
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Price Alerts?<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Watchlist?</label>
 														<div class="controls">
-															<input type="checkbox" id="tdsPriceAlerts" placeholder="Price Alerts?" name="tdsPriceAlerts" class="m-wrap largeval"/>
+															&nbsp;&nbsp;&nbsp;<input type="checkbox" id="tdsWatchlist"  name="tdsWatchlist" class="m-wrap largeval"/>
 														</div>
 													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Watchlist?<span class="required">*</span></label>
-														<div class="controls">
-															<input type="checkbox" id="tdsWatchlist" placeholder="Watchlist" name="tdsWatchlist" class="m-wrap largeval"/>
-														</div>
-													</div>
+											
+											
+											
+											
+											
 													</div>
 													
 													 <div class="ColumnCommonvendorpre">
@@ -1045,25 +1156,8 @@
 																</div>
 													 
 													 
-													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Trading Cap..<span class="required">*</span></label>
-														<div class="controls">
-															<select name="tdsTradingCap"  id="tdsTradingCap" style="width: 163px;">
-															     <c:forEach var="countries" items="${countries}">
-																    <option value="${countries.name}">${countries.name}</option>
-																  </c:forEach>
-													   		</select>
-														</div>
-													</div>
-													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Trade Exec..<span class="required">*</span></label>
-														<div class="controls">
-															<select name="tdsTradeExec"  id="tdsTradeExec" style="width: 163px;">
-															    <option value ="Trade Executions Supported" > -Trade Executions Supported- </option> 
-															    <option value ="Trade Executions Supported" > -Trade Executions Supported- </option>
-														 	</select> 
-														</div>
-													</div>
+													 
+													 
 													 <div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Trade Type<span class="required">*</span></label>
 														<div class="controls">
@@ -1073,19 +1167,18 @@
 														  </select>
 														</div>
 													</div>
-													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Dark venues<span class="required">*</span></label>
+												    <div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Software specifications</label>
 														<div class="controls">
-															<select name="tdsDarkVenues"  id="tdsDarkVenues" style="width: 163px;">
-														      <option value ="Supported Darkpool venues" > -Supported Darkpool venues- </option>
-														      <option value ="Supported Darkpool venues" > -Supported Darkpool venues- </option>
-														  </select>
+															<input type="text" id="tdsAddSoftwareSpecifications" placeholder="Software specifications" name="tdsAddOns" class="m-wrap largeval"/>
 														</div>
 													</div>
+												    
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Add-Ons<span class="required">*</span></label>
 														<div class="controls">
 															<input type="text" id="tdsAddOns" placeholder="Add-Ons" name="tdsAddOns" class="m-wrap largeval"/>
+															<div class="selectOptions">Separate 2 items by comma</div>
 														</div>
 													</div>
 													<div class="control-group">
@@ -1104,6 +1197,7 @@
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Client Base<span class="required">*</span></label>
 														<div class="controls">
 															<input type="text" id="tdsClientBase" placeholder="Client Base" name="tdsClientBase" class="m-wrap largeval"/>
+															<div class="selectOptions">No. of Different Banks Already Using this Product</div>
 														</div>
 													</div>
 													</div> 
@@ -1298,9 +1392,12 @@
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" class="selectvalues" style="padding-left: 35px;">Accessibility (?)<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
-															<select name="asdAccessibility" id="asdAccessibility" style="width: 223px;">
-														     	<option value ="Web Browser Based" >-Web Browser Based-</option>
-														     	<option value ="Binaries(Executable) Based" > -Binaries(Executable) Based- </option>
+															<select name="asdAccessibility" multiple="multiple" id="asdAccessibility" style="width: 223px;">
+														     	<option value ="Web Browser Based" >Web Browser Based</option>
+														     	<option value ="Binaries(Executable) Based" > Binaries(Executable) Based </option>
+														     	<option value ="Dedicated Desktop" >Dedicated Desktop</option>
+														     	<option value ="Mobile/Tablet Apps" >Mobile/Tablet Apps</option>
+					
 														   </select>
 														</div>
 													</div>
@@ -1308,9 +1405,17 @@
 														<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Suitability<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
 															<select name="asdSuitability" id="asdSuitability" style="width: 223px;">
-															   <option value ="All Users" >-All Users-</option>
-														       <option value ="Risk Managers" > -Risk Managers- </option>
+															   <option value ="All Users" >All Users</option>
+														       <option value ="Risk Managers" >Risk Managers</option>
+																<option value ="Backoffice & Middle Office Users" >Backoffice & Middle Office Users</option>
+																<option value ="Portfolio Managers" >Portfolio Managers</option>
+																<option value ="Retail/Corporat Banking Users" >Retail/Corporat Banking Users</option>
+																<option value ="Regulation & Compliance Users" >Regulation & Compliance Users</option>
+																<option value ="Research Analysts" >Research Analysts</option>
+																<option value ="Others" >Others</option>
+														       
 														</select>
+														<input type="text" id="asdSuitabilityOthers" placeholder="Others Suitability" name="asdSuitabilityOthers" class="m-wrap largevalforanalytics" style="visibility: hidden;"/>
 														</div>
 													</div>
 													<div class="control-group">
@@ -1318,52 +1423,31 @@
 															<div class="controlsforanalyticsapplcation">
 																<select name="asdApplicationCostType"  id="asdApplicationCostType" style="width: 223px;">
 																	<option value ="Free and Min Balance Not required" >-Free and Min Balance Not required-</option>
-														            <option value ="Min Balance Required" > -Min Balance Required- </option>
+														            <option value ="Min Balance Required" > Min Balance Required </option>
+														            <option value ="Subscription based" > Subscription based </option>
+														            
 																</select>
 															</div>
 													</div>
-													<div class="control-group">
-															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Application Subscription CCY<span class="required">*</span></label>
-															<div class="controlsforanalyticsapplcation">
-																<select name="asdApplicationSubscriptionCCY" id="asdApplicationSubscriptionCCY" style="width: 223px;">
-																	<option value ="GBP" >-GBP-</option>
-														            <option value ="USD" > -USD- </option>
-														            <option value ="EUR" > -EUR- </option>
-															</select>
-															</div>
-													</div>
+												
 													</div>
 													 <div class="ColumnCommonvendorpretab3analyticsapp">
 													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Application Subscription Cost<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Subsription cost (USD ; per month)<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
-															<input type="text" id="asdApplicationSubscriptionCost" placeholder="Application Subscription Cost" name="asdApplicationSubscriptionCost" class="m-wrap largevalforanalytics"/>
+															<input type="text" id="asdApplicationSubscriptionCost" readonly="readonly" placeholder="Subsription cost (USD ; per month)" name="asdApplicationSubscriptionCost" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div>
-													    <div class="control-group">
-															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Application Subscription type <span class="required">*</span></label>
-															<div class="controlsforanalyticsapplcation">
-																<select name="asdApplicationSubscriptionType" id="asdApplicationSubscriptionType" style="width: 223px;">
-															        <option value ="Per Month "> Per Month  </option>
-																     <option value ="Per week"> Per week </option>
-																     <option value ="Per Yea"> Per Yea </option>
-																     <option value ="Per 6 months"> Per 6 months </option>
-																     <option value ="Others"> Others </option>
-															</select>
-															</div>
-													  </div>
-													  <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Real time Market Data?<span class="required">*</span></label>
+													
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Subsription cost (USD ; per annum)<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
-															<input type="checkbox" id="asdRealtimeMarketData" placeholder="Real time Market Data?" name="asdRealtimeMarketData" class="m-wrap largevalforanalytics"/>
+															<input type="text" id="asdApplicationSubscriptionAnnum" readonly="readonly" placeholder="Subsription cost (USD ; per annum)" name="asdApplicationSubscriptionAnnum" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div>
-													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Customizable Calculation Models(?)<span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<input type="checkbox" id="asdCustomizableCalculationModels" placeholder="Customizable Calculation Models" name="asdCustomizableCalculationModels" class="m-wrap largevalforanalytics"/>
-														</div>
-													</div>
+											
+											
+											
 													 <div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Add-Ons<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
@@ -1393,7 +1477,21 @@
 														<div class="controlsforanalyticsapplcation">
 															<input type="text" id="asdExistingUserBase" placeholder="Existing User Base" name="asdExistingUserBase" class="m-wrap largevalforanalytics"/>
 														</div>
-													</div>    
+													</div>
+													
+															  <div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Real time Market Data?</label>
+														<div class="controlsforanalyticsapplcation">
+															<input type="checkbox" id="asdRealtimeMarketData" placeholder="Real time Market Data?" name="asdRealtimeMarketData" class="m-wrap largevalforanalytics"/>
+														</div>
+													</div>
+													 <div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Customizable Calculation Models(?)</label>
+														<div class="controlsforanalyticsapplcation">
+															<input type="checkbox" id="asdCustomizableCalculationModels" placeholder="Customizable Calculation Models" name="asdCustomizableCalculationModels" class="m-wrap largevalforanalytics"/>
+														</div>
+													</div>
+													    
 													</div>
 													
 												</div>
@@ -1416,9 +1514,7 @@
 															<th>Application Name</th>
 															<th>Accessibility</th>
 															<th>Application Cost Type</th>
-															<th>Application Subscription CCY</th>
 															<th>Application Subscription Cost</th>
-															<th>Application Subscription Type</th>
 															<th>Realtime Market Data</th>
 															<th>Operating System</th>
 															<th>Actions</th>
@@ -1438,14 +1534,14 @@
 								<form action="#" class="form-horizontal" id="submit_form" method="post">
 									<div class="form-wizard">
 										<div class="Rowtable">
-											<div class="ColumnCommonmyofferings" id="changeresearchreportvendoroffer2"> <div class="lable_header" id="interresearchreportvendodivoffer2">  <a id="anchooresearchreportvendoffer2" href="#tab13" class="lable_header" data-toggle="tab" onclick="activeVendorAnalyticsResearchMyofferings('${analystprofile}');">Analyst Profile</a> </div> </div>
 											<div class="ColumnCommonmyofferings" id="changeresearchreportvendoroffer"> <div class="lable_header" id="interresearchreportvendodivoffer"> <a id="anchooresearchreportvendoffer" href="#tab11" class="lable_header" data-toggle="tab"  onclick="activeVendorAnalyticsResearchMyofferings('${researchcoverage}');">Research  Coverage</a> </div></div>
 											<div class="ColumnCommonmyofferings" id="changeresearchreportvendoroffer1"> <div class="lable_header" id="interresearchreportvendodivoffer1">  <a id="anchooresearchreportvendoffer1" href="#tab12" class="lable_header" data-toggle="tab" onclick="activeVendorAnalyticsResearchMyofferings('${researchdetails}');">Research Details</a> </div> </div>
+											<div class="ColumnCommonmyofferings" id="changeresearchreportvendoroffer2"> <div class="lable_header" id="interresearchreportvendodivoffer2">  <a id="anchooresearchreportvendoffer2" href="#tab13" class="lable_header" data-toggle="tab" onclick="activeVendorAnalyticsResearchMyofferings('${analystprofile}');">Analyst Profile</a> </div> </div>
 										</div>
 										<div class="tab-content" style="background-color: white;">
 									
 										<!-- vendor Research Coverage start here -->
-										<div class="tab-pane" id="tab11">
+										<div class="tab-pane  active" id="tab11">
 												<div><br/> </div>
 												<div class="Rowtableinfoval"><font id="myofferingsdatacoveragetabsucessmessage" style="font-size: 14px;font-family:Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;margin: -19px 0px 0px 15px;"></font>
 													<div class="image-upload" style="margin-left: 252px;">
@@ -1484,7 +1580,7 @@
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Solution<span class="required">*</span></label>
 														<div class="controlsfortradingapp">
-															<select name="rcSolution"  id="rcSolution" style="width: 252px;" onchange="researchReportingVendorOffering('rcSolution','rcOffering')">
+															<select name="rcSolution"  id="rcSolution" style="width: 252px;" >
 															<option value ="-SELECT-"> -SELECT- </option>
 															    <c:forEach var="solution" items="${solutions}">
 																	<option value="${solution.solution_id}">${solution.name}</option>
@@ -1492,6 +1588,23 @@
 														</select>
 														</div>
 													</div>
+													
+														 	<div class="control-group">
+																	<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Offering Desc<span class="required">*</span>
+																	</label>
+																	<div class="controlsfortradingapp">
+																		<textarea id="rcOfferingDesc"
+																			data-mandatory="Y" placeholder="Offering Desc"
+																			name="rcOfferingDesc"  cols="50" style="width: 223px;"
+																			rows="3"></textarea>
+																		<div>
+																			<label id="tdsOfferingDescErrorMsg"
+																				class="errorMessage"></label>
+																		</div>
+																	</div>
+																</div>
+													
+													
 													
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Regions Covered<span class="required">*</span></label>
@@ -1503,15 +1616,105 @@
 														 	</select> 
 														</div>
 													</div>
+													
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Research Area<span class="required">*</span></label>
+														<div class="controlsfortradingapp">
+															<select name="apResearchArea"  id="apResearchArea" style="width: 252px;">
+															     
+																<option value ="Commodity Analysis" >Commodity Analysis</option>
+																<option value ="Exchange Rate Analysis" >Exchange Rate Analysis</option>
+																<option value ="Interest Rate Analysis" >Interest Rate Analysis</option>
+																<option value ="Equity research" >Equity research</option>
+																<option value ="Debt Market research" >Debt Market research</option>
+																<option value ="Index research" >Index research</option>
+																<option value ="Fund/ETF research" >Fund/ETF research</option>
+															     
+														 	</select> 
+														</div>
+													</div>
+													
+													
+													
+													
+													
 													</div>
 													<div class="ColumnCommonvendortab3analyticssolutiontab2">
 													
-														<div class="control-group">
+													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Offering<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
-																<select name="rcOffering"  id="rcOffering" style="width: 200px;">
+															     <input type="text" id="rcOffering" placeholder="Offering" name="rcOffering" class="m-wrap largevalforanalytics"/>
+														</div>
+													</div>
+													
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage"  style="padding-left: 35px;">Research Sub Area<span class="required">*</span></label>
+														<div class="controlsforanalyticsapplcation">
+															<select name="apResearchSubArea" multiple="multiple" id="apResearchSubArea" style="width: 223px;">
 															     
-														 	</select> 
+																	<option value ="Economic Data analysis" >Economic Data analysis</option>
+																	<option value ="Country Economy Analysis" >Country Economy Analysis</option>
+																	<option value ="World economy Analysis" >World economy Analysis</option>
+																	<option value ="Oil & Gas" >Oil & Gas</option>
+																	<option value ="Basic Materials" >Basic Materials</option>
+																	<option value ="Industrials" >Industrials</option>
+																	<option value ="Consumer Goods" >Consumer Goods</option>
+																	<option value ="Health Care" >Health Care</option>
+																	<option value ="Consumer Services" >Consumer Services</option>
+																	<option value ="Telecommunications" >Telecommunications</option>
+																	<option value ="Utilities" >Utilities</option>
+																	<option value ="Financials" >Financials</option>
+																	<option value ="Technology" >Technology</option>
+																	<option value ="Agriculture and allied" >Agriculture and allied</option> 
+																	<option value ="Mining" >Mining</option>
+																	<option value ="Utilities" >Utilities</option>
+																	<option value ="Construction" >Construction</option>
+																	<option value ="Manufacturing" >Manufacturing</option>
+																	<option value ="Wholesale Trade" >Wholesale Trade</option>
+																	<option value ="Retail Trade" >Retail Trade</option>
+																	<option value ="Transportation and warehousing" >Transportation and warehousing</option>
+																	<option value ="Information" >Information</option>
+																	<option value ="Finance and Insurance" >Finance and Insurance</option>
+																	<option value ="Real Estate and Rental/Leasing" >Real Estate and Rental/Leasing</option>
+																	<option value ="Professional, Scientific & Technical Services" >Professional, Scientific & Technical Services</option>
+																	<option value ="Education Services" >Education Services</option>
+																	<option value ="Healthcare & Social Assistance" >Healthcare & Social Assistance</option>
+																	<option value ="Arts, Entertainment & Recreation" >Arts, Entertainment & Recreation</option>
+																	<option value ="Accomodation & Food services" >Accomodation & Food services</option>
+																	<option value ="Other Services" >Other Services</option>
+																	<option value ="Energy" >Energy</option>
+																	<option value ="Industrial Metals" >Industrial Metals</option>
+																	<option value ="Precious Metals" >Precious Metals</option>
+																	<option value ="Agricultural Commodities" >Agricultural Commodities</option>
+																	<option value ="European Euro to US Dollar EUR/USD" >European Euro to US Dollar EUR/USD</option>
+																	<option value ="British Pound to US Dollar GBP/USD" >British Pound to US Dollar GBP/USD</option>
+																	<option value ="Swiss Franc to US Dollar USD/CHF" >Swiss Franc to US Dollar USD/CHF</option>
+																	<option value ="Japanese Yen to US Dollar USD/JPY" >Japanese Yen to US Dollar USD/JPY</option>
+																	<option value ="Chinese Yuan to US Dollar USD/CNY" >Chinese Yuan to US Dollar USD/CNY</option>
+																	<option value ="Taiwan Dollar to US Dollar USD/TWD" >Taiwan Dollar to US Dollar USD/TWD</option>
+																	<option value ="South Korean Won to US Dollar USD/KRW" >South Korean Won to US Dollar USD/KRW</option>
+																	<option value ="Australian Dollar to US Dollar AUD/USD" >Australian Dollar to US Dollar AUD/USD</option>
+																	<option value ="Singapore Dollar to US Dollar USD/SGD" >Singapore Dollar to US Dollar USD/SGD</option>
+																	<option value ="India Rupee to US Dollar USD/INR" >India Rupee to US Dollar USD/INR</option>
+																	<option value ="New Zealand Dollar to US Dollar NZD/USD" >New Zealand Dollar to US Dollar NZD/USD</option>
+																	<option value ="Canadian Dollar to US Dollar USD/CAD" >Canadian Dollar to US Dollar USD/CAD</option>
+																	<option value ="Mexican Peso to US Dollar USD/MXN" >Mexican Peso to US Dollar USD/MXN</option>
+																	<option value ="Govt Bond rate" >Govt Bond rate</option>
+																	<option value ="Prime Lending Rate" >Prime Lending Rate</option>
+																	<option value ="Investment Grade Spread" >Investment Grade Spread</option>
+																	<option value ="High Yield Spread" >High Yield Spread</option>
+																	<option value ="Govt Bond rate" >Govt Bond rate</option>
+																	<option value ="Prime Lending Rate" >Prime Lending Rate</option>
+																	<option value ="Investment Grade Spread" >Investment Grade Spread</option>
+																	<option value ="High Yield Spread" >High Yield Spread</option>
+																	<option value ="Govt Bond rate" >Govt Bond rate</option>
+																	<option value ="Prime Lending Rate" >Prime Lending Rate</option>
+																	<option value ="Investment Grade Spread" >Investment Grade Spread</option>
+																	<option value ="High Yield Spread" >High Yield Spread</option>
+																	<option value ="LIBOR Rate" >LIBOR Rate</option>
+													   		</select>
+													   		<div class="selectOptions">Choose one or more options</div>
 														</div>
 													</div>
 													
@@ -1522,18 +1725,21 @@
 															<input type="text" id="rcTotalResearchAnalyst" placeholder="Total Research Analyst" name="rcTotalResearchAnalyst" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div> 
+													
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Existing Client Base<span class="required">*</span></label>
+														<div class="controlsforanalyticsapplcation">
+															<input type="text" id="rcExistingClientBase" placeholder="Existing Client Base" name="rcExistingClientBase" class="m-wrap largevalforanalytics"/>
+														</div>
+													</div>
+													
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Research Prepared by CFA?<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
 															<input type="checkbox" id="rcResearchPreparedbyCFA" placeholder="Research Prepared by CFA" name="rcResearchPreparedbyCFA" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div> 
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Existing Client Base<span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<input type="text" id="rcExistingClientBase" placeholder="Existing Client Base" name="rcExistingClientBase" class="m-wrap largevalforanalytics"/>
-														</div>
-													</div>   
+													   
 													</div>
 												</div>
 												<div class="control-group">
@@ -1574,7 +1780,7 @@
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Solution<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
-														<select name="rdSolution"  id="rdSolution" style="width: 163px;" onchange="researchReportingVendorOffering('rdSolution','rdOffering')">
+														<select name="rdSolution"  id="rdSolution" style="width: 223px;" onchange="researchReportingVendorOffering('rdSolution','rdOffering')">
 															
 														</select>
 															
@@ -1613,55 +1819,57 @@
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Suitability<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
-															<select name="rdSuitability" id="rdSuitability" style="width: 223px;">
-															   <option value ="All Users" >-All Users-</option>
-														       <option value ="Risk Managers" > -Risk Managers- </option>
+															<select name="rdSuitability" id="rdSuitability" multiple="multiple"  style="width: 223px;">
+															  		<option value ="All Users" >All Users</option>
+														       		<option value ="Equity Fund Manager" >Equity Fund Manager</option>
+																	<option value ="Fixed Income Fund Manager" >Fixed Income Fund Manager</option>
+																	<option value ="Hedge Fund" >Hedge Fund</option>
+																	<option value ="Private Equity Fund" >Private Equity Fund</option>
+																	<option value ="Advanced shares traders" >Advanced shares traders</option>
+																	<option value ="Corporate Creditors (Banks, Lending Institutions, etc)" >Corporate Creditors (Banks, Lending Institutions, etc)</option>
+																	<option value ="Technical chart users" >Technical chart users</option>
+																	<option value ="Forex specialists" >Forex specialists</option>
+																	<option value ="Others" >Others</option>     
+														       
 														</select>
+														<input type="text" id="rdSuitabilityOthers" placeholder="Others Suitability" name="rdSuitabilityOthers" class="m-wrap largevalforanalytics" style="visibility: hidden;"/>
 														</div>
 													</div>
-													<div class="control-group">
+													
+												
+													</div>
+													 <div class="ColumnCommonvendorpretab3analyticsapp">
+														<div class="control-group">
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Report Cost Type<span class="required">*</span></label>
 															<div class="controlsforanalyticsapplcation">
 																<select name="rdReportCostType"  id="rdReportCostType" style="width: 223px;">
-																	<option value ="Free and Min Balance Not required" >-Free and Min Balance Not required-</option>
-														            <option value ="Min Balance Required" > -Min Balance Required- </option>
+																	<option value ="Free and Min Balance Not required" >Free and Min Balance Not required</option>
+														            <option value ="Min Balance Required" > Min Balance Required </option>
+														            <option value ="Subscription based" > Subscription based </option>
+														            
 																</select>
 															</div>
-													</div>
-													</div>
-													 <div class="ColumnCommonvendorpretab3analyticsapp">
+													</div> 
 													 <div class="control-group">
-															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Report Subscription CCY<span class="required">*</span></label>
-															<div class="controlsforanalyticsapplcation">
-																<select name="rdReportSubscriptionCCY" id="rdReportSubscriptionCCY" style="width: 223px;">
-																	<option value ="GBP" >-GBP-</option>
-														            <option value ="USD" > -USD- </option>
-														            <option value ="EUR" > -EUR- </option>
-															</select>
-															</div>
-													</div>
-													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Report Subscription Cost <span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<input type="text" id="rdReportSubscriptionCost" placeholder="Report Subscription Cost" name="rdReportSubscriptionCost" class="m-wrap largevalforanalytics"/>
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Subsription cost (USD ; per month) </label>
+														<br>
+														<div >
+															<input type="text" id="rdReportSubscriptionCost" readonly="readonly" placeholder="Subsription cost (USD ; per month)" name="rdReportSubscriptionCost" />
 														</div>
 													</div>
-													    <div class="control-group">
-															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Report Subscription type<span class="required">*</span></label>
-															<div class="controlsforanalyticsapplcation">
-																<select name="rdReportSubscriptionType" id="rdReportSubscriptionType" style="width: 223px;">
-															        <option value ="Per Month "> Per Month  </option>
-																     <option value ="Per week"> Per week </option>
-																     <option value ="Per Yea"> Per Yea </option>
-																     <option value ="Per 6 months"> Per 6 months </option>
-																     <option value ="Others"> Others </option>
-															</select>
-															</div>
-													  </div>
+													
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Subsription cost (USD ; per annum) </label>
+														<br>
+														<div class="controlsforanalyticsapplcation">
+															<input type="text" id="rdReportSubscriptionCostAnnum" readonly="readonly" placeholder="Subsription cost (USD ; per annum)" name="rdReportSubscriptionCostAnnum" class="m-wrap largevalforanalytics"/>
+														</div>
+													</div>
+													   
 													  <div class="control-group">
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Report Format<span class="required">*</span></label>
 															<div class="controlsforanalyticsapplcation">
-																<select name="rdReportFormat" id="rdReportFormat" style="width: 223px;">
+																<select name="rdReportFormat" id="rdReportFormat" multiple="multiple" style="width: 223px;">
 															        <option value ="PDF"> PDF  </option>
 																     <option value ="DOC"> DOC </option>
 																     <option value ="EXCEL"> EXCEL </option>
@@ -1669,23 +1877,41 @@
 															</div>
 													  </div>
 													  <div class="control-group">
-															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Research Applicable Year<span class="required">*</span></label>
+															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Research Period<span class="required">*</span></label>
 															<div class="controlsforanalyticsapplcation">
-																<select name="rdResearchApplicableYear" id="rdResearchApplicableYear" style="width: 223px;">
-															        <option value ="Research Applicable Year"> Research Applicable Year  </option>
-																     
+															<select name="rdResearchApplicableMonth" id="rdResearchApplicableMonth" style="width: 123px;">
+															        		<option value ="January">January</option>
+																			<option value ="February">February</option>
+																			<option value ="March">March</option>
+																			<option value ="April">April</option>
+																			<option value ="May">May</option>
+																			<option value ="June">June</option>
+																			<option value ="July">July</option>
+																			<option value ="August">August</option>
+																			<option value ="September">September</option>
+																			<option value ="October">October</option>
+																			<option value ="November">November</option>
+																			<option value ="December">December</option>
+																																			     
 															</select>
+																<select name="rdResearchApplicableYear" id="rdResearchApplicableYear" style="width: 100px;">
+															        		<option value ="2006">2006</option>
+																			<option value ="2007">2007</option>
+																			<option value ="2008">2008</option>
+																			<option value ="2009">2009</option>
+																			<option value ="2010">2010</option>
+																			<option value ="2011">2011</option>
+																			<option value ="2012">2012</option>
+																			<option value ="2013">2013</option>
+																			<option value ="2014">2014</option>
+																			<option value ="2015">2015</option>
+																			<option value ="2016">2016</option>
+																																			     
+															</select>
+															
 															</div>
 													  </div>
-													  <div class="control-group">
-															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Research Applicable Month<span class="required">*</span></label>
-															<div class="controlsforanalyticsapplcation">
-																<select name="rdResearchApplicableMonth" id="rdResearchApplicableMonth" style="width: 223px;">
-															        <option value ="Research Applicable Month"> Research Applicable Month  </option>
-																     
-															</select>
-															</div>
-													  </div>
+													
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Existing User Base<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
@@ -1735,81 +1961,19 @@
 									<!-- Vendor Research Details ends here -->
 									
 									<!-- Vendor Analyst Profile starts here -->
-									<div class="tab-pane active" id="tab13">
+									<div class="tab-pane" id="tab13">
 												<div><br/> </div>
 												 <div class="Row">
 													<div class="ColumnCommonvendortab3analyticssolution">
-													
-													
-													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Solution<span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<select name="apSolution"  id="apSolution" style="width: 223px;">
-														</select>
-														</div>
-													</div>
-
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Offering<span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<input type="text" id="apOffering" placeholder="Offering" name="apOffering" class="m-wrap largeval" style="width: 223px;"/>
-														</div>
-													</div>
-													
-													
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Research Area<span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<select name="apResearchArea"  id="apResearchArea" style="width: 223px;">
-															     <option value ="Research Area1" > -Research Area1- </option>
-															     <option value ="Research Area2" > -Research Area2- </option>
-														 	</select> 
-														</div>
-													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage"  style="padding-left: 35px;">Research Sub Area<span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<select name="apResearchSubArea" multiple="multiple" id="apResearchSubArea" style="width: 223px;">
-															     <option value ="Research Sub Area1" > -Research Sub Area1- </option>
-															     <option value ="Research Sub Area2" > -Research Sub Area2- </option>
-													   		</select>
-													   		<div class="selectOptions">Choose one or more options</div>
-														</div>
-													</div>
+																								
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Analyst Name<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
 															<input type="text" id="apAnalystName" placeholder="Analyst Name" name="apAnalystName" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Research Analyst with CFA?<span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<input type="checkbox" id="apResearchAnalystWithCFA" placeholder="Research Analyst with CFA" name="apResearchAnalystWithCFA" class="m-wrap largevalforanalytics"/>
-														</div>
-													</div>
-													</div>
 													
-													 <div class="ColumnCommonvendorpretab3analyticsapp">
-													 
-													 	<div class="control-group">
-																	<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Offering Desc<span class="required">*</span>
-																	</label>
-																	<div class="controls">
-																		<textarea id="apOfferingDesc"
-																			data-mandatory="Y" placeholder="Offering Desc"
-																			name="companyinfo"  cols="50" style="width: 223px;"
-																			rows="3"></textarea>
-																		<div>
-																			<label id="tdsOfferingDescErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-
-
-													 
-													    <div class="control-group">
+													<div class="control-group">
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Analyst Region of Incorp<span class="required">*</span></label>
 															<div class="controlsforanalyticsapplcation">
 																<select name="apAnalystRegionofIncorp" id="apAnalystRegionofIncorp" style="width: 223px;">
@@ -1819,6 +1983,15 @@
 															</select>
 															</div>
 													  </div>
+													
+													<div class="control-group">
+														<label class="control-labelalign" style="padding-left: 35px;">Research Analyst with CFA Charter?&nbsp;&nbsp;<input type="checkbox" id="apResearchAnalystWithCFA" placeholder="Research Analyst with CFA" name="apResearchAnalystWithCFA" /></label>
+														
+													</div>
+													</div>
+													
+													 <div class="ColumnCommonvendorpretab3analyticsapp">
+													    
 													  <div class="control-group">
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Analyst Country of Incorp<span class="required">*</span></label>
 															<div class="controlsforanalyticsapplcation">
@@ -1843,11 +2016,14 @@
 													  <div class="control-group">
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Analyst Awards<span class="required">*</span></label>
 															<div class="controlsforanalyticsapplcation">
-																<select name="apAnalystAwards" id="apAnalystAwards" style="width: 223px;">
+																<select name="apAnalystAwards" multiple="multiple" id="apAnalystAwards" style="width: 223px;">
 															        <c:forEach var="awards" items="${awards}">
 																     <option value="${awards.name}">${awards.name}</option>
 																 </c:forEach>
+																 <option value="Other">Other</option>
 															</select>
+															<input type="text" id="apAnalystAwardsOthers" placeholder="Other" name="apAnalystAwardsOthers" class="m-wrap largevalforanalytics" style="visibility: hidden;"/>
+															
 															</div>
 													  </div>
 													</div>
@@ -1866,14 +2042,8 @@
 												<table class="table table-striped table-bordered table-hover table-full-width" id="rpTable">
 													<thead style="background-color: #7BCCA5;">
 														<tr>
-														<th>Solution</th>
-															<th>Offering</th>
-															<th>Research Area</th>
-															<th>Asset Class</th>
-															<th>Research Sub Area</th>
 															<th>Analyst Name</th>
 															<th>Research Analyst With CFA</th>
-															<th>Offering Desc</th>
 															<th>Analyst Region of Incorp</th>
 															<th>Analyst Year of Exp</th>
 														    <th>Analyst Awards</th>
@@ -1901,7 +2071,8 @@
     <!-- END CONTAINER -->
     <jsp:include page="common/footer.jsp"></jsp:include>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.min.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
+  	<script type="text/javascript" 	src="<%=request.getContextPath() %>/resources/js/finvendorValidation.js"></script>
 
 	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css" />
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
@@ -2072,9 +2243,9 @@ function activeTabModeForMyOfferings(tabname){
 			document.getElementById('interdivraymyofferings4').style.backgroundColor = '#5CE5E5';  
 			document.getElementById('anchoraymyooferings4').style.backgroundColor = '#5CE5E5';	
 		}
-		document.getElementById('changeresearchreportvendoroffer2').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interresearchreportvendodivoffer2').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('anchooresearchreportvendoffer2').style.backgroundColor = '#5CE5E5';
+		document.getElementById('changeresearchreportvendoroffer').style.backgroundColor = '#5CE5E5';
+		document.getElementById('interresearchreportvendodivoffer').style.backgroundColor = '#5CE5E5';  
+		document.getElementById('anchooresearchreportvendoffer').style.backgroundColor = '#5CE5E5';
 		var result = vendorTypeSolutions('<%=RequestConstans.Vendor.RESEARCH_REPORT %>');
 		$('#apSolution').html(result);
 		$('#rcSolution').html(result);
