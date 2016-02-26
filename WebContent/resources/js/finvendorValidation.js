@@ -42,8 +42,8 @@ function validateWithRegularExpression(element, errorLabelId, regularExpression,
 	 }
 }
 
-function validateAjax(element, ajaxUrl, errorLabelId) {
-	var url = ajaxUrl + "?param="+ $.trim(element.value);
+function validateAjax(element, ajaxUrl, errorLabelId,actionComponent) {
+	var url = ajaxUrl + "?param="+ $.trim(element.value)+"&actionComponent="+actionComponent ;
 	$.ajax({
 		type: 'POST',
 		url: url,

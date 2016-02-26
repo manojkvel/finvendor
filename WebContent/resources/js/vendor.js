@@ -46,14 +46,30 @@ jQuery(document).ready(function() {
 		  var r = confirm("Are you sure want to delete?");
 		    if (r == true) {
 				 var target = e.target;
-				$(target).closest('tr').remove();
-				var table = $('#sample_1').tableToJSON();
-			    document.getElementById('jsontable1').value = JSON.stringify(table);
+				 var trid = $(this).closest('tr').attr('id');
+				 var trids = trid.split("_");
+				 var url = "deleteRecord?recordId="+trids[0]+"&recordName="+trids[1];
+					$.ajax({
+				 		type: 'GET',
+				 		url:  url,
+				 		cache:false,
+				 		success : function(response){
+				 			$(target).closest('tr').remove();
+				 			alert("Record deleted successfully.");
+				 		},
+				 		error : function(data, textStatus, jqXHR){
+				 			//alert('Error: '+data+':'+textStatus);
+				 		}
+				 	});
+				 	
+				// var table = $('#sample_1').tableToJSON();
+			    // document.getElementById('jsontable1').value = JSON.stringify(table);
 		    } else {
 		        
 		    }
 		 
 	});
+	 
 	 
 	 ///CSV File for Support Details Upload Code
 	 $(document).on("click", ".fileupload", function (e) {
@@ -86,7 +102,7 @@ jQuery(document).ready(function() {
 	    });
 	 
 	
-			
+		/*/	
 		
 		 $(document).on("click", ".awarddeleteButton", function (e) {
 	    	var target = e.target;
@@ -94,7 +110,7 @@ jQuery(document).ready(function() {
 			var table = $('#awardsample_1').tableToJSON();
 		    document.getElementById('awardjsontable1').value = JSON.stringify(table);
 		});
-		 
+		 */
 		 ///CSV File for Support Details Upload Code
 		 $(document).on("click", ".fileupload", function (e) {
 			 debugger;
@@ -145,17 +161,14 @@ jQuery(document).ready(function() {
 				url:  "addVendorDataCoverage?solutionDataCoverage="+solutionDataCoverage+"&offeringsDataCoverage="+offeringsDataCoverage+"&supportcoverageregion="+supportcoverageregion+"&supportcoveragecountry="+supportcoveragecountry+"&vendorcostrange="+vendorcostrange+"&phonenumber="+phonenumber+"&email="+email,
 				cache:false,
 				success : function(response){
-
 					if(checkNullValue(response[0].recordExist))
 					{
 						alert(response[0].recordExist);
 					}else{
-					 
-				     $("#offeringFilesTable tbody").empty();	 
+				     $("#dataCoverageTable tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].cost+'</td><td>'+response[i].phonNo+'</td><td>'+response[i].email+'</td><td onclick="deleteRecordDataCoverage(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
-			       	                                                                                                                           
+			       	 tableRecord += '<tr id="'+response[i].id+'_deleteVendorDataCoverage"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].cost+'</td><td>'+response[i].phonNo+'</td><td>'+response[i].email+'</td><td onclick="deleteRecordDataCoverage(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
 			        }
 			        $("#dataCoverageTable tbody").append(tableRecord);
 	
@@ -207,7 +220,10 @@ jQuery(document).ready(function() {
 			var addOns = $("#tdsAddOns").val();
 		    var opeSystem = $("#tdsOpeSystem").val();
 		    var launchedYear = $("#tdsLaunchedYear").val();
+		    var errorMsg = $("#addTradingSoftwareDetailsErrorMsg").text();
 			
+			if(errorMsg.length == 0 && checkMandotrySelectValue(solution) && checkMandotrySelectValue(assetClass) && checkNullValue(offering)){
+		    
 			$.ajax({
 				type: 'GET',
 				url:  "addTradingSoftwareDetails?solution="+solution+"&assetClass="+assetClass+"&appName="+appName+"&appDesc="+appDesc+"&tradableRegions="+tradableRegions+
@@ -217,11 +233,11 @@ jQuery(document).ready(function() {
 				+"&tradingCap="+tradingCap+"&tradeExec="+tradeExec+"&tradeType="+tradeType+"&darkVenues="+darkVenues+"&addOns="+addOns+"&opeSystem="+opeSystem+"&launchedYear="+launchedYear,
 				cache:false,
 				success : function(response){
-
+					$("#tdsOffering").val("");
 				     $("#tdsTable tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].assetClass+'</td>td>Details</td><td onclick="deleteRecord(\''+response[i].id+'\',\'tradingSoftwareDetails\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	 tableRecord += '<tr id="'+response[i].id+'_addTradingSoftwareDetails"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].assetClass+'</td>td>Details</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
 			       	                                                                                                                           
 			        }
 			        $("#tdsTable tbody").append(tableRecord);
@@ -232,17 +248,9 @@ jQuery(document).ready(function() {
 					// alert('Error: '+errorMsg+':'+textStatus);
 				}
 			});
-			
-			
-			
-			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
-				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
-			if(true){	
-				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-				var table = $('#samplesupport').tableToJSON();
-				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
+					
 			}else{
-				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+				alert("Please enter mandotry field");
 			}
 			
 		});
@@ -257,7 +265,7 @@ jQuery(document).ready(function() {
 			var totalResearchAnalyst = $("#rcTotalResearchAnalyst").val();
 		    var researchPreparedbyCFA = $("#rcResearchPreparedbyCFA").val();
 		    var existingClientBase = $("#rcExistingClientBase").val();
-			
+			if(checkMandotrySelectValue(solution) && checkMandotrySelectValue(offering)){			
 			$.ajax({
 				type: 'GET',
 				url:  "addResearchCoverage?solution="+solution+"&regionsCovered="+regionsCovered+"&offering="+offering+"&totalResearchAnalyst="+totalResearchAnalyst+"&researchPreparedbyCFA="+researchPreparedbyCFA+
@@ -268,7 +276,7 @@ jQuery(document).ready(function() {
 				     $("#rcTable tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].regionsCovered+'</td><td>'+response[i].totalResearchAnalyst+'</td><td>'+response[i].researchPreparedbyCFA+'</td><td>'+response[i].existingClientBase+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'researchCoverage\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	 tableRecord += '<tr id="'+response[i].id+'_addResearchCoverage"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].regionsCovered+'</td><td>'+response[i].totalResearchAnalyst+'</td><td>'+response[i].researchPreparedbyCFA+'</td><td>'+response[i].existingClientBase+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
 			       	                                                                                                                           
 			        }
 			        $("#rcTable tbody").append(tableRecord);
@@ -279,17 +287,9 @@ jQuery(document).ready(function() {
 					// alert('Error: '+errorMsg+':'+textStatus);
 				}
 			});
-			
-			
-			
-			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
-				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
-			if(true){	
-				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-				var table = $('#samplesupport').tableToJSON();
-				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
+		
 			}else{
-				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+				alert("Please enter mandoatory field")
 			}
 			
 		});
@@ -310,7 +310,7 @@ jQuery(document).ready(function() {
 		var researchApplicableYear = $("#rdResearchApplicableYear").val();
 		var researchApplicableMonth = $("#rdResearchApplicableMonth").val();
 		var existingUserBase = $("#rdExistingUserBase").val();
-		 	
+	 if(checkMandotrySelectValue(solution) && checkMandotrySelectValue(offering) && checkMandotrySelectValue(accessibility) && checkMandotrySelectValue(reportCostType)){
 		$.ajax({
 				type: 'GET',
 				url:  "addResearchDetails?solution="+solution+"&offering="+offering+"&researchReportName="+researchReportName+"&researchReportDesc="+researchReportDesc+"&accessibility="+accessibility+
@@ -322,9 +322,9 @@ jQuery(document).ready(function() {
 				     $("#rdTable tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].researchReportName+'</td><td>'+response[i].researchReportDesc+'</td><td>'+response[i].accessibility+'</td><td>'+
+			       	 tableRecord += '<tr id="'+response[i].id+'_addResearchDetails"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].researchReportName+'</td><td>'+response[i].researchReportDesc+'</td><td>'+response[i].accessibility+'</td><td>'+
 			       	 response[i].suitability+'</td><td>'+response[i].reportCostType+'</td><td>'+response[i].reportSubscriptionCCY+'</td><td>'+response[i].reportSubscriptionCost+'</td><td>'+
-			       	 response[i].reportSubscriptionType+'</td><td>'+response[i].reportFormat+'</td><td>'+response[i].researchApplicableYear+'</td><td>'+response[i].researchApplicableMonth+'</td><td>'+response[i].existingUserBase+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'researchDetails\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	 response[i].reportSubscriptionType+'</td><td>'+response[i].reportFormat+'</td><td>'+response[i].researchApplicableYear+'</td><td>'+response[i].researchApplicableMonth+'</td><td>'+response[i].existingUserBase+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
 			       	                                                                                                                           
 			        }
 			        $("#rdTable tbody").append(tableRecord);
@@ -336,16 +336,8 @@ jQuery(document).ready(function() {
 				}
 			});
 			
-			
-			
-			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
-				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
-			if(true){	
-				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-				var table = $('#samplesupport').tableToJSON();
-				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
 			}else{
-				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+				alert("Please choose mandatory fields");
 			}
 			
 		});
@@ -434,9 +426,9 @@ jQuery(document).ready(function() {
 				     $("#asdTable tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].applicationName+'</td><td>'+
+			       	 tableRecord += '<tr id="'+response[i].id+'_addAnalyticsSoftwareDetails"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].applicationName+'</td><td>'+
 			       	 response[i].accessibility+'</td><td>'+response[i].applicationCostType+'</td><td>'+response[i].applicationSubscriptionCCY+'</td><td>'+response[i].applicationSubscriptionCost+'</td><td>'+
-			       	 response[i].applicationSubscriptionType+'</td><td>'+response[i].realtimeMarketData+'</td><td>'+response[i].operatingSystem+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'analyticsSoftwareDetails\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	 response[i].applicationSubscriptionType+'</td><td>'+response[i].realtimeMarketData+'</td><td>'+response[i].operatingSystem+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
 			       	/* 
 			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].applicationName+'</td><td>'+response[i].applicationBriefDesc+'</td><td>'+
 			       	 response[i].accessibility+'</td><td>'+response[i].suitability+'</td><td>'+response[i].applicationCostType+'</td><td>'+response[i].applicationSubscriptionCCY+'</td><td>'+response[i].applicationSubscriptionCost+'</td><td>'+
@@ -478,6 +470,8 @@ jQuery(document).ready(function() {
 		    var tradeExecutionsType = $("#tcsTradeExecutionsType").val();
 		    var algorithmicTradeType = $("#tcsAlgorithmicTradeType").val();
 		    var darkpoolAccess = $("#tcsDarkpoolAccess").val();
+
+			 if(checkMandotrySelectValue(solution) && checkMandotrySelectValue(offering) && checkMandotrySelectValue(tradeCoverageRegion) && checkMandotrySelectValue(tradeCoverageCountry)){
 		    
 			$.ajax({
 				type: 'GET',
@@ -485,32 +479,29 @@ jQuery(document).ready(function() {
 				"&tradeExecutionsType="+tradeExecutionsType+"&algorithmicTradeType="+algorithmicTradeType+"&darkpoolAccess"+darkpoolAccess,
 				cache:false,
 				success : function(response){
-
+					if(checkNullValue(response[0].recordExist))
+					{
+						alert(response[0].recordExist);
+					}else{
+					
 				     $("#tcsTable tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].tradeCoverageRegion+'</td><td>'+response[i].tradeCoverageCountry+'</td><td>'+response[i].tradingCapabilitiesType+'</td><td>'+response[i].tradeExecutionsType+'</td><td>'+response[i].algorithmicTradeType+'</td><td>'+response[i].darkpoolAccess+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'tradingCapabilitiesSupported\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	 tableRecord += '<tr id="'+response[i].id+'_VendorTradingSoftwareDetails"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].tradeCoverageRegion+'</td><td>'+response[i].tradeCoverageCountry+'</td><td>'+response[i].tradingCapabilitiesType+'</td><td>'+response[i].tradeExecutionsType+'</td><td>'+response[i].algorithmicTradeType+'</td><td>'+response[i].darkpoolAccess+'</td><td> <img src="resources/images/delete.png"></a></td>';
 			       	                                                                                                                           
 			        }
 			        $("#tcsTable tbody").append(tableRecord);
 	
 					alert('You have updated sucessfully..!');
+					}	
 				},
 				error : function(errorMsg, textStatus, jqXHR){
 					// alert('Error: '+errorMsg+':'+textStatus);
 				}
 			});
 			
-			
-			
-			// if(checkMandotrySelectValue(supportcoverageregion) && checkMandotrySelectValue(supportcoveragecountry) && checkMandotrySelectValue(vendorsupporttime) && checkMandotrySelectValue(vendorcostrange) && checkNullValue(phonenumber) && checkNullValue(email)){
-				// document.getElementById("dataCoverageErrorMsg").innerHTML = '';
-			if(true){	
-				/*	$("#dataCoverageTable tbody").append('<tr><td>' + supportcoverageregion + '</td><td>' + supportcoveragecountry + '</td> <td>' + vendorsupporttime + '</td> <td>' + vendorcostrange + '</td>   <td>' + phonenumber + '</td>  <td>' + email + '</td>  <td><a class="deleteButtonsupport"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-				var table = $('#samplesupport').tableToJSON();
-				document.getElementById('jsontablesupport').value = JSON.stringify(table);*/
 			}else{
-				document.getElementById("dataCoverageErrorMsg").innerHTML = 'Please choose mandatory fields..!';
+				alert("Please enter mandatory field");
 			}
 			
 		});
@@ -586,7 +577,7 @@ jQuery(document).ready(function() {
 		         
 				$.ajax({
 					type: 'GET',
-					url:  "addVendorDataDistribution?solution="+solutionDataDistribution+"&offering="+offeringDataDistribution+"&fileDataCoverage="+fileDataCoverage+"&feedtype="+feedtype+"&feedsubtype="+feedsubtype+"&distributionmethod="+distributionmethod+"&frequency="+frequency+"&coverageregion="+coverageregion+"&coveragecountry="+coveragecountry+"&coverageexchange"+coverageexchange,
+					url:  "addVendorDataDistribution?solution="+solutionDataDistribution+"&offering="+offeringDataDistribution+"&fileDataCoverage="+fileDataCoverage+"&feedtype="+feedtype+"&feedsubtype="+feedsubtype+"&distributionmethod="+distributionmethod+"&frequency="+frequency+"&coverageregion="+coverageregion+"&coveragecountry="+coveragecountry+"&coverageexchange="+coverageexchange,
 					cache:false,
 					success : function(response){
 						if(checkNullValue(response[0].recordExist))
@@ -596,7 +587,7 @@ jQuery(document).ready(function() {
 						    $("#dataDistributionTable tbody").empty();	 
 					        var tableRecord = "";
 					        for(i =0 ; i < response.length ; i++){                                                                                    
-					       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringFiles+'</td><td>'+response[i].feedType+'</td><td>'+response[i].feedSubType+'</td><td>'+response[i].distributionMethod+'</td><td>'+response[i].frequency+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].exchange+'</td><td onclick="deleteRecordDataDistribution(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+					       	 tableRecord += '<tr id="'+response[i].id+'_deleteVendorDataDistribution"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringFiles+'</td><td>'+response[i].feedType+'</td><td>'+response[i].feedSubType+'</td><td>'+response[i].distributionMethod+'</td><td>'+response[i].frequency+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].exchange+'</td><td> <img src="resources/images/delete.png"></a></td>';
 					       	                                                                                                                           
 					        }
 					        $("#dataDistributionTable tbody").append(tableRecord);
@@ -1734,7 +1725,7 @@ function addVendorSolution(){
 				$("#vendorSolutionTable tbody").empty();	 
 		        var tableRecord = "";
 		        for(i =0 ; i < response.length ; i++){                                                                                    
-		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].solutionType+'</td><td>'+response[i].description+'</td>  <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].solutionType+'</td><td>'+response[i].description+'</td>  <td onclick="deleteVendorSolution(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
 		       	                                                                                                                           
 		        }
 		        $("#vendorSolutionTable tbody").append(tableRecord);
@@ -1760,7 +1751,7 @@ function listVendorSolution(){
 		       $("#vendorSolutionTable tbody").empty();	 
 		        var tableRecord = "";
 		        for(i =0 ; i < response.length ; i++){                                                                                    
-		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].solutionType+'</td><td>'+response[i].description+'</td>  <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].solutionType+'</td><td>'+response[i].description+'</td>  <td onclick="deleteVendorSolution(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
 		       	                                                                                                                           
 		        }
 		        $("#vendorSolutionTable tbody").append(tableRecord);
@@ -1787,7 +1778,7 @@ function deleteVendorSolution(objectVar){
 	        	$("#vendorSolutionTable tbody").empty();	 
 		        var tableRecord = "";
 		        for(i =0 ; i < response.length ; i++){                                                                                    
-		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].solutionType+'</td><td>'+response[i].description+'</td>  <td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
+		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].solutionType+'</td><td>'+response[i].description+'</td>  <td onclick="deleteVendorSolution(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
 		       	                                                                                                                           
 		        }
 		        $("#vendorSolutionTable tbody").append(tableRecord);	
@@ -1796,7 +1787,7 @@ function deleteVendorSolution(objectVar){
 	      
 	        },
 	        error: function(err){
-	       	 alert("error msg: "+err);
+	       	 alert("This solution is associated with offerings. Please delete offering first ");
 	        }
 	    });
 	}
@@ -1823,7 +1814,7 @@ function displayOfferingFile(objectVar){
         $("#offeringFilesTable tbody").empty();
          var tableRecord = "";
          for(i =0 ; i < response.length ; i++){                                                                                    
-        	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecordOfferingFile(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+        	 tableRecord += '<tr id="'+response[i].id+'_deleteRecordFile"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
         	                                                                                                                           
          }
          $("#offeringFilesTable tbody").append(tableRecord);
@@ -1853,7 +1844,7 @@ function displayFileFields(objectVar){
        	$("#offeringFilesFieldTable tbody").empty();	 
         var tableRecord = "";
         for(i =0 ; i < response.length ; i++){                                                                                    
-       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].fieldIndex+'</td><td>'+response[i].fieldMaxLength+'</td><td>'+response[i].fieldFormat+'</td><td>'+response[i].fieldDataType+'</td><td onclick="deleleFileFields(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+       	 tableRecord += '<tr id="'+response[i].id+'_deleteFieldsFile"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].fieldIndex+'</td><td>'+response[i].fieldMaxLength+'</td><td>'+response[i].fieldFormat+'</td><td>'+response[i].fieldDataType+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
        	                                                                                                                        
         }
         $("#offeringFilesFieldTable tbody").append(tableRecord);
@@ -1900,95 +1891,14 @@ function addVendorOfferingInfo(){
 	 
 }
 
-
-function deleleFileFields(objectVar){
-	
-    $.ajax({
-        url: "deleteFieldsFile?objectVar="+objectVar,
-        type: "POST",
-
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("Accept", "application/json");
-            xhr.setRequestHeader("Content-Type", "application/json");
-        },
-        success: function(response) {
-        	alert("Record deleted successfully.");
-            /*
-           	$("#offeringFilesFieldTable tbody").empty();	 
-            var tableRecord = "";
-            for(i =0 ; i < response.length ; i++){                                                                                    
-           	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].fieldIndex+'</td><td>'+response[i].fieldMaxLength+'</td><td>'+response[i].fieldFormat+'</td><td>'+response[i].fieldDataType+'</td><td onclick="deleleFileFields(\''+response[i].id+'\')"><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td>';
-           	                                                                                                                        
-            }
-            $("#offeringFilesFieldTable tbody").append(tableRecord);*/
-        },
-        error: function(err){
-       	 alert("error msg: "+err);
-        }
-    });
-}
-
-function deleleRecordOfferingFile(objectVar){
-	
-    $.ajax({
-        url: "deleteRecordFile?objectVar="+objectVar,
-        type: "POST",
-
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("Accept", "application/json");
-            xhr.setRequestHeader("Content-Type", "application/json");
-        },
-        success: function(response) {
-        	
-        alert("Record is deleted successfully");
-       	 debugger;
-       /*$("#offeringFilesTable tbody").empty();	 
-        var tableRecord = "";
-        for(i =0 ; i < response.length ; i++){                                                                                    
-       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecord(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <span class="lable_header_delete">Remove</span> </a></td>';
-       	                                                                                                                           
-        }
-        $("#offeringFilesTable tbody").append(tableRecord);*/
-        },
-        error: function(err){
-       	 alert("error msg: "+err);
-        }
-    });
-}
-
-
-function deleteRecordOffering(objectVar){
-	debugger;
-    $.ajax({
-        url: "deleteRecordOffering?objectVar="+objectVar,
-        type: "POST",
-
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("Accept", "application/json");
-            xhr.setRequestHeader("Content-Type", "application/json");
-        },
-        success: function(response) {
-        	
-        alert("Record is deleted successfully");
-      
-        },
-        error: function(err){
-       	 alert("error msg: "+err);
-        }
-    });
-}
-
-
-
 function createOfferingFile(){
 	debugger;
 	var fileName = $("#fileName").val();
 	var description = $("#description").val();
 	var securityType = $("#securityType").val();
 	var selectedId = $("#selectedId").val();
-	//if(checkMandotrySelectValue(solutionForVendorOffering) && checkMandotrySelectValue(assetClassForVenderOffering) && checkNullValue(offeringName) && checkNullValue(descriptionForVendorOffering)){
 	var outputVar;
-	if(true){
+	if(checkNullValue(fileName)){
 		$.ajax({
 			type: 'GET',
 			url:  "addOfferingFiles?selectedId="+selectedId+"&fileName="+fileName+"&description="+description+"&securityType="+securityType,
@@ -1997,7 +1907,7 @@ function createOfferingFile(){
 				 $("#offeringFilesTable tbody").empty();
 		         var tableRecord = "";
 		         for(i =0 ; i < response.length ; i++){                                                                                    
-		        	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td onclick="deleleRecordOfferingFile(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+		        	 tableRecord += '<tr id="'+response[i].id+'_deleteRecordFile"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td> <img src="resources/images/delete.png"></a></td>';
 		        	                                                                                                                           
 		         }
 		         $("#offeringFilesTable tbody").append(tableRecord);
@@ -2035,7 +1945,7 @@ function addFileFields(){
 		       	$("#offeringFilesFieldTable tbody").empty();	 
 		        var tableRecord = "";
 		        for(i =0 ; i < response.length ; i++){                                                                                    
-		       	 tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].fieldIndex+'</td><td>'+response[i].fieldMaxLength+'</td><td>'+response[i].fieldFormat+'</td><td>'+response[i].fieldDataType+'</td><td onclick="deleleFileFields(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+		       	 tableRecord += '<tr id="'+response[i].id+'_deleteFieldsFile"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].fieldIndex+'</td><td>'+response[i].fieldMaxLength+'</td><td>'+response[i].fieldFormat+'</td><td>'+response[i].fieldDataType+'</td><td> <img src="resources/images/delete.png"></a></td>';
 		       	                                                                                                                        
 		        }
 		        $("#offeringFilesFieldTable tbody").append(tableRecord);
@@ -2069,7 +1979,7 @@ function createOfferings(objectVar){
 			     $("#offeringFilesTable tbody").empty();	 
 		        var tableRecord = "";
 		        for(i =0 ; i < response.length ; i++){                                                                                    
-		        	tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td>'+response[i].launchedYear+'</td><td onclick="deleleRecord(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';                                                                                                                          
+		        	tableRecord += '<tr id="'+response[i].id+'_deleteRecordOffering"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].securityType+'</td><td>'+response[i].launchedYear+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';                                                                                                                          
 		        }
 		        $("#vendorofferingTable tbody").append(tableRecord);
 
@@ -2090,7 +2000,7 @@ function onChangeSolution(){
 		url:  "createOfferings?solution="+objectVar,
 		cache:false,
 		success : function(response){
-			userInfo = "";
+			userInfo = "<option value ='-SELECT-' class='selectvalues'> -SELECT- </option>";
 			for(i =0 ; i < response.length ; i++){ 
     		  	userInfo += "<option value='" + response[i].id+"'>"+ response[i].name+"</option>";
     	  	}
@@ -2142,7 +2052,7 @@ function onSolutionDataDistribution(){
 		url:  "createOfferings?solution="+objectVar,
 		cache:false,
 		success : function(response){
-			userInfo = "";
+			userInfo = "<option value ='-SELECT-' class='selectvalues'> -SELECT- </option>";
 			for(i =0 ; i < response.length ; i++){ 
     		  	userInfo += "<option value='" + response[i].id+"'>"+ response[i].name+"</option>";
     	  	}
@@ -2170,8 +2080,7 @@ function onVendorOfferingChange()
              xhr.setRequestHeader("Content-Type", "application/json");
          },
          success: function(response) {
-        
-        var userInfo = "";
+        var userInfo = "<option value ='-SELECT-' class='selectvalues'> -SELECT- </option>";
 			for(i =0 ; i < response.length ; i++){ 
  		  	userInfo += "<option value='" + response[i].id+"'>"+ response[i].name+"</option>";
 			}
@@ -2198,7 +2107,7 @@ $.ajax({
 	     $("#dataCoverageTable tbody").empty();	 
         var tableRecord = "";
         for(i =0 ; i < response.length ; i++){                                                                                    
-       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].cost+'</td><td>'+response[i].phonNo+'</td><td>'+response[i].email+'</td><td onclick="deleteRecordDataCoverage(\''+response[i].id+'\',\'offeringFile\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+       	 tableRecord += '<tr id="'+response[i].id+'_deleteVendorDataCoverage"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].cost+'</td><td>'+response[i].phonNo+'</td><td>'+response[i].email+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
        	                                                                                                                           
         }
         $("#dataCoverageTable tbody").append(tableRecord);
@@ -2221,7 +2130,7 @@ function listDataDistribution(){
 		     $("#dataDistributionTable tbody").empty();	 
 	        var tableRecord = "";
 	        for(i =0 ; i < response.length ; i++){                                                                                    
-	       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringFiles+'</td><td>'+response[i].feedType+'</td><td>'+response[i].feedSubType+'</td><td>'+response[i].distributionMethod+'</td><td>'+response[i].frequency+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].exchange+'</td><td onclick="deleteRecordDataDistribution(\''+response[i].id+'\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+	       	 tableRecord += '<tr id="'+response[i].id+'_deleteVendorDataDistribution"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].offeringFiles+'</td><td>'+response[i].feedType+'</td><td>'+response[i].feedSubType+'</td><td>'+response[i].distributionMethod+'</td><td>'+response[i].frequency+'</td><td>'+response[i].region+'</td><td>'+response[i].country+'</td><td>'+response[i].exchange+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
 	       	                                                                                                                           
 	        }
 	        $("#dataDistributionTable tbody").append(tableRecord);
@@ -2233,49 +2142,6 @@ function listDataDistribution(){
 	});
  
 }
-
-function deleteRecordDataDistribution(objectVar){
-	debugger;
-    $.ajax({
-        url: "deleteVendorDataDistribution?slectedId="+objectVar,
-        type: "POST",
-
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("Accept", "application/json");
-            xhr.setRequestHeader("Content-Type", "application/json");
-        },
-        success: function(response) {
-        	
-        alert("Record is deleted successfully");
-      
-        },
-        error: function(err){
-       	 alert("error msg: "+err);
-        }
-    });
-}
-
-
-function deleteRecordDataCoverage(objectVar){
-	debugger;
-    $.ajax({
-        url: "deleteVendorDataCoverage?slectedId="+objectVar,
-        type: "POST",
-
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("Accept", "application/json");
-            xhr.setRequestHeader("Content-Type", "application/json");
-        },
-        success: function(response) {
-        	
-        alert("Record is deleted successfully");
-      
-        },
-        error: function(err){
-       	 alert("error msg: "+err);
-        }
-    });
- }
 
 function listTradingSoftwareDetails(){
 	debugger;
@@ -2311,7 +2177,7 @@ function tradingCapabilitiesSupportedOffering(){
 		cache:false,
 		success : function(response){
 
-	        var offerings = "";
+	        var offerings = "<option value ='-SELECT-' class='selectvalues'> -SELECT- </option>";
 				for(i =0 ; i < response.length ; i++){ 
 					offerings += "<option value='" + response[i].name+"'>"+ response[i].name+"</option>";
 				}
@@ -2357,8 +2223,8 @@ $.ajax({
 	     $("#tcsTable tbody").empty();	 
         var tableRecord = "";
         for(i =0 ; i < response.length ; i++){                                                                                    
-       	 tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].tradeCoverageRegion+'</td><td>'+response[i].tradeCoverageCountry+'</td><td>'+response[i].tradingCapabilitiesType+'</td><td>'+response[i].tradeExecutionsType+'</td><td>'+response[i].algorithmicTradeType+'</td><td>'+response[i].darkpoolAccess+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'tradingCapabilitiesSupported\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
-       	                                                                                                                           
+       	 // tableRecord += '<tr><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].tradeCoverageRegion+'</td><td>'+response[i].tradeCoverageCountry+'</td><td>'+response[i].tradingCapabilitiesType+'</td><td>'+response[i].tradeExecutionsType+'</td><td>'+response[i].algorithmicTradeType+'</td><td>'+response[i].darkpoolAccess+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'tradingCapabilitiesSupported\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+     	 tableRecord += '<tr id="'+response[i].id+'_VendorTradingSoftwareDetails"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].tradeCoverageRegion+'</td><td>'+response[i].tradeCoverageCountry+'</td><td>'+response[i].tradingCapabilitiesType+'</td><td>'+response[i].tradeExecutionsType+'</td><td>'+response[i].algorithmicTradeType+'</td><td>'+response[i].darkpoolAccess+'</td><td> <img src="resources/images/delete.png"></a></td></tr>';                                                                                                                         
         }
         $("#tcsTable tbody").append(tableRecord);
 
@@ -2506,7 +2372,7 @@ function addVendorAward(){
 				   $("#awardsample_1 tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 	tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a> </a></td>';
+			       	 	tableRecord += '<tr id="'+response[i].id+'_awarddetails"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a> </a></td>';
 			        }
 			        $("#awardsample_1 tbody").append(tableRecord);
 				   document.getElementById("awardtabsucessmessage").innerHTML = 'You have updated sucessfully..!';		
@@ -2533,7 +2399,7 @@ function listVendorAward(){
 				   $("#awardsample_1 tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 	tableRecord += '<tr><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	 	tableRecord += '<tr id="'+response[i].id+'_awarddetails"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
 			        }
 			        $("#awardsample_1 tbody").append(tableRecord);
 			},
@@ -2543,3 +2409,86 @@ function listVendorAward(){
 		});
 	}
 	
+
+$("#tdsSuitability").change(function() {
+			 if ($("#tdsSuitability option[value=Other]:selected").length > 0){
+				 document.getElementById("tdsSuitabilityOther").style.visibility = "visible";
+			 }else{
+				 document.getElementById("tdsSuitabilityOther").style.visibility = "hidden";
+			 }
+	});
+
+
+$("#asdSuitability").change(function() {
+	 if ($("#asdSuitability option[value=Others]:selected").length > 0){
+		 document.getElementById("asdSuitabilityOthers").style.visibility = "visible";
+	 }else{
+		 document.getElementById("asdSuitabilityOthers").style.visibility = "hidden";
+	 }
+});
+
+
+
+$("#tdsCostType").change(function() {
+	 if ($("#tdsCostType option[value='Subscription based']:selected").length > 0){
+		 document.getElementById("tdsPlatformCost").readOnly  = false;
+		 document.getElementById("tdsPlatformType").readOnly  = false;
+	 }else{
+		 document.getElementById("tdsPlatformCost").readOnly  = true;
+		 document.getElementById("tdsPlatformType").readOnly  = true;
+	 }
+});
+
+$("#asdApplicationCostType").change(function() {
+	 if ($("#asdApplicationCostType option[value='Subscription based']:selected").length > 0){
+		 document.getElementById("asdApplicationSubscriptionCost").readOnly = false;
+		 document.getElementById("asdApplicationSubscriptionAnnum").readOnly = false;
+	 }else{
+		 document.getElementById("asdApplicationSubscriptionCost").readOnly = true;
+		 document.getElementById("asdApplicationSubscriptionAnnum").readOnly = true;
+	 }
+});
+
+$("#rdReportCostType").change(function() {
+	 if ($("#rdReportCostType option[value='Subscription based']:selected").length > 0){
+		 document.getElementById("rdReportSubscriptionCost").readOnly = false;
+		 document.getElementById("rdReportSubscriptionCostAnnum").readOnly  = false;
+	 }else{
+		 document.getElementById("rdReportSubscriptionCost").readOnly =true;
+		 document.getElementById("rdReportSubscriptionCostAnnum").readOnly =true;
+	 }
+});
+
+
+$("#tcsTradeExecutionsType").change(function() {
+	 if ($("#tcsTradeExecutionsType option[value='Algorithmic & Program Trading']:selected").length > 0){
+		 document.getElementById("tcsAlgorithmicTradeType").disabled = false;
+	 }else{
+		 document.getElementById("tcsAlgorithmicTradeType").disabled = true;
+	 }
+});
+
+$("#tcsDarkpoolAccess").change(function() {
+	 if ($("#tcsDarkpoolAccess option[value='No Darkpool Access']:selected").length > 0){
+		 document.getElementById("tcsSupportedDarkpoolVenues").disabled = false;
+	 }else{
+		 document.getElementById("tcsSupportedDarkpoolVenues").disabled = true;
+	 }
+});
+
+
+$("#apAnalystAwards").change(function() {
+	 if ($("#apAnalystAwards option[value=Other]:selected").length > 0){
+		 document.getElementById("apAnalystAwardsOthers").style.visibility = "visible";
+	 }else{
+		 document.getElementById("apAnalystAwardsOthers").style.visibility = "hidden";
+	 }
+});
+
+$("#rdSuitability").change(function() {
+	 if ($("#rdSuitability option[value=Others]:selected").length > 0){
+		 document.getElementById("rdSuitabilityOthers").style.visibility = "visible";
+	 }else{
+		 document.getElementById("rdSuitabilityOthers").style.visibility = "hidden";
+	 }
+});
