@@ -3,14 +3,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<div class="form-wizard">
-	<div class="tab-content" style="background-color: white;">
+<div class="form-wizard" style="background-color: #ECF0F1;">
+	<div class="tab-content" >
 			<div class="tab-pane active" >
-			<div class="Rowtableinfoval">
-				<div class="ColumnCommonmyprofiletradingapplication" id="change"> <div class="lable_header" id="interdiv"> <a id="ancho" href="#tab1" class="lable_header" data-toggle="tab"  onclick="activeMode('${personaldetails}');">Search Vendor for Single TA Type</a> </div></div>
-			</div>
+			
 			<div><br/></div>
-			 <div class="Row">
+			 <div class="Row" style="width: 90%;">
 				<div class="ColumnCommonvendorTradingApplicationVendor">
 					<div class="control-group">
 						<label class="control-labelappstra">Asset Class<span class="required">*</span></label>
@@ -172,6 +170,11 @@
 		<div class="se" style="padding-left: 150px;">
 			<input type="submit" value="Search" class="btn" />
 			<input type="reset" value="Reset" class="btn" />
+		</div>
+		<br>
+		<div class="se" style="padding-left: 150px;">
+			<input type="submit" value="Save Search" class="btn" />
+			<input type="text" value="Search Name" name="saveSearchName" id="saveSearchName" />
 		</div>
 		</div>
 		</div>
