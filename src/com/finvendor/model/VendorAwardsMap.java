@@ -39,7 +39,7 @@ public class VendorAwardsMap implements Serializable{
 	private String awardsponsor;
 	
 	@Column(name="Awardedyear")
-	private String awardedyear;
+	private Integer awardedyear;
 	
 	@ManyToOne(targetEntity=Vendor.class,fetch=FetchType.LAZY)
 	@JoinColumn(name="vendor_id", nullable=false)
@@ -90,13 +90,14 @@ public class VendorAwardsMap implements Serializable{
 		this.awardsponsor = awardsponsor;
 	}
 
-	public String getAwardedyear() {
+	public Integer getAwardedyear() {
 		return awardedyear;
 	}
 
-	public void setAwardedyear(String awardedyear) {
+	public void setAwardedyear(Integer awardedyear) {
 		this.awardedyear = awardedyear;
 	}
-	
+
+
 	
 }

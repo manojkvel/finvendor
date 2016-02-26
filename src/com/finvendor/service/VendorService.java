@@ -216,9 +216,9 @@ public interface VendorService {
 	
 	public List<Solutions> getSolutionsBasedOnOfferingTypes(String offeringName);
 
-	void addVendorDataCoverage(VendorDataCoverage vendorDataCoverage);
+	String addVendorDataCoverage(VendorDataCoverage vendorDataCoverage);
 	
-	void addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported);
+	String addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported);
 	void addTradingSoftwareDetails(VendorTradingSoftwareDetails tradingSoftwareDetails);
 	void addAnalyticsfeaturesSupported(VendorAnalyticsfeaturesSupported analyticsfeaturesSupported);
 	void addAnalyticsSoftwareDetails(VendorAnalyticsSoftwareDetails analyticsSoftwareDetails);
@@ -244,12 +244,12 @@ public interface VendorService {
 	
 	List<VendorDataCoverage> listVendorDataCoverage(String id);
 
-	void addVendorDistribution(VendorDistribution vendorDistribution);
+	String addVendorDistribution(VendorDistribution vendorDistribution);
 	List<VendorDistribution> listVendorDistribution(String id);
 
 	void deleteVendorDataCoverage(String selectedId);
 
-	void detletVendorDistribution(String selectedId);
+	void deleteVendorDistribution(String selectedId);
 
 	List<VendorTradingSoftwareDetails> listTradingSoftwareDetailsBasedOnSolutionId(String solutionId);
 
@@ -262,6 +262,12 @@ public interface VendorService {
 	Boolean isAwardAlreadyExist(String value);
 
 	Boolean isSolutionAlreadyExist(String value);
+
+	void deleteAwardDetails(String objectVar);
+
+	Boolean isTradingSoftwareDetailsOfferingExist(String value);
+
+	
 	
 	
 }

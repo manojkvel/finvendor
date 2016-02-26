@@ -52,6 +52,9 @@ public class VendorDAOImpl implements VendorDAO{
 	
 	private static Logger logger = Logger.getLogger(VendorDAOImpl.class);
 	
+	private static String recordExist = "Record Already Exist";
+	
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -533,9 +536,23 @@ public class VendorDAOImpl implements VendorDAO{
 	
 	@Transactional
 	@Override
-	public void addVendorDataCoverage(VendorDataCoverage vendorDataCoverage) {
-		Session currentSession = sessionFactory.getCurrentSession(); 
-		currentSession.save(vendorDataCoverage);
+	public String addVendorDataCoverage(VendorDataCoverage vendorDataCoverage) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		try{
+		String hql = "Select vdc.dataCoverageId from VendorDataCoverage vdc join vdc.solution sln join vdc.vendorOffering vo where sln.solution_id=:solutionId and vo.vendor_offering_id=:vendorOfferingId and vdc.region=:regionId";      
+
+		       Query query = currentSession.createQuery(hql);
+	            query.setParameter("solutionId", vendorDataCoverage.getSolution().getSolution_id());
+	            query.setParameter("vendorOfferingId", vendorDataCoverage.getVendorOffering().getVendor_offering_id());
+	            query.setParameter("regionId", vendorDataCoverage.getRegion());
+	            List result = query.list();
+	            if(result != null && result.size() > 0)
+	            	return recordExist;
+	           currentSession.save(vendorDataCoverage);
+		}catch(Exception e){
+			e.printStackTrace();
+		}   
+	         return null;  
 	}
 	@Transactional
 	@Override
@@ -549,9 +566,26 @@ public class VendorDAOImpl implements VendorDAO{
 	}
 	@Transactional
 	@Override
-	public void addVendorDistribution(VendorDistribution vendorDistribution) {
+	public String addVendorDistribution(VendorDistribution vendorDistribution) {
 		Session currentSession = sessionFactory.getCurrentSession(); 
-		currentSession.save(vendorDistribution);
+		
+		try{
+		String hql = "Select vdc.vendorDistributionId from VendorDistribution vdc join vdc.solution sln join vdc.vendorOffering vo  join vdc.offeringFiles ofile where sln.solution_id=:solutionId and vo.vendor_offering_id=:vendorOfferingId and ofile.offeringFilesId=:fieldId";      
+
+		       Query query = currentSession.createQuery(hql);
+	            query.setParameter("solutionId", vendorDistribution.getSolution().getSolution_id());
+	            query.setParameter("vendorOfferingId", vendorDistribution.getVendorOffering().getVendor_offering_id());
+	            query.setParameter("fieldId", vendorDistribution.getOfferingFiles().getOfferingFilesId());
+	            List result = query.list();
+	            if(result != null && result.size() > 0)
+	            	return recordExist;
+	            currentSession.save(vendorDistribution);
+		}catch(Exception e){
+			e.printStackTrace();
+		} 
+		
+		return null;
+		
 	}
 	@Transactional
 	@Override
@@ -581,10 +615,20 @@ public class VendorDAOImpl implements VendorDAO{
 	}
 	@Transactional
 	@Override
-	public void addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported) {
+	public String addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession(); 
+		
+	/*	String hql = "Select vdc.vendorDistributionId from VendorDistribution vdc join vdc.solution sln join vdc.vendorOffering vo  join vdc.offeringFiles ofile where sln.solution_id=:solutionId and vo.vendor_offering_id=:vendorOfferingId and ofile.offeringFilesId=:fieldId";      
+	       Query query = currentSession.createQuery(hql);
+         query.setParameter("solutionId", tradingCapabilitiesSupported.getSolution().getSolution_id());
+         query.setParameter("vendorOfferingId", tradingCapabilitiesSupported.getOffering().getVendor_offering_id());
+         //query.setParameter("fieldId", vendorDistribution.getOfferingFiles().getOfferingFilesId());
+         List result = query.list();
+         if(result != null && result.size() > 0)
+         	return recordExist;*/
 		currentSession.save(tradingCapabilitiesSupported);
+		return null;
 	}
 	@Transactional
 	@Override
@@ -807,8 +851,8 @@ public class VendorDAOImpl implements VendorDAO{
 		
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(VendorAwardsMap.class);
 			criteria.add(Restrictions.sqlRestriction("lower(awardname) like '" + value.toLowerCase() + "'"));
-			VendorAwardsMap vendorAwardsMap = (VendorAwardsMap) criteria.uniqueResult();
-		if(vendorAwardsMap != null)
+			 List list = criteria.list();
+		if(list != null && list.size()>0)
 		     return true;
 		return false;
 	}
@@ -822,5 +866,22 @@ public class VendorDAOImpl implements VendorDAO{
 		       return true;
 		return false;
 	}
-    
+	@Transactional
+	@Override
+	public void deleteAwardDetails(String objectVar) {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		VendorAwardsMap vendorAwardsMap = (VendorAwardsMap)currentSession.get(VendorAwardsMap.class, Integer.parseInt(objectVar));
+		if(vendorAwardsMap != null)
+			currentSession.delete(vendorAwardsMap);
+	}
+	@Transactional
+	@Override
+	public Boolean isTradingSoftwareDetailsOfferingExist(String value) {
+		Query query = this.sessionFactory.getCurrentSession().createQuery("from VendorTradingSoftwareDetails s where s.offering = '"+value+"'");
+		List list = query.list();
+		if(list != null && list.size()>0)
+		       return true;
+		return false;
+	}
 }

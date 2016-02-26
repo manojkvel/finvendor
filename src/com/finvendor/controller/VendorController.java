@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.form.JsonResponseData;
 import com.finvendor.form.VendorAnalystProfileForm;
 import com.finvendor.form.VendorAnalyticsSoftwareDetailsForm;
 import com.finvendor.form.VendorResearchCoverageForm;
@@ -647,68 +648,6 @@ public class VendorController {
 		return JsonResponseData;
 	}
 	
-	@RequestMapping(value =RequestConstans.Vendor.DELETE_RECORD_OFFERING, method = RequestMethod.POST )
-	public @ResponseBody Set<JsonResponseData>  deleteRecordOffering(@RequestParam(value = "objectVar", required = false) String objectVar) {
-		marketDataAggregatorsService.deleteOfferings(objectVar);
-		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-		/*Set<OfferingFiles> listOfferingFiles = marketDataAggregatorsService.listOfferingFiles(objectVar);
-		for(OfferingFiles OfferingFile : listOfferingFiles){
-			JsonResponseData addResponseData = new JsonResponseData();
-			addResponseData.setId(OfferingFile.getId().toString());
-			addResponseData.setName(OfferingFile.getFileName());
-			addResponseData.setDescription(OfferingFile.getDescription());
-			addResponseData.setSecurityType(OfferingFile.getSecurityType().getName());
-			JsonResponseData.add(addResponseData);
-		}
-		*/
-		return JsonResponseData;
-		
-	}
-	
-	
-	
-	@RequestMapping(value =RequestConstans.Vendor.DELETE_OFFERING_FILE, method = RequestMethod.POST)
-	public @ResponseBody Set<JsonResponseData>  deleteOfferingFile(@RequestParam(value = "objectVar", required = false) String objectVar) {
-		
-		
-		 marketDataAggregatorsService.deleteOfferingFiles(objectVar);
-		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-		
-		/*Set<OfferingFiles> listOfferingFiles = marketDataAggregatorsService.listOfferingFiles(deleteOfferingFiles.getVendorOffering().getVendor_offering_id().toString());
-		for(OfferingFiles OfferingFile : listOfferingFiles){
-			JsonResponseData addResponseData = new JsonResponseData();
-			addResponseData.setId(OfferingFile.getId().toString());
-			addResponseData.setName(OfferingFile.getFileName());
-			addResponseData.setDescription(OfferingFile.getDescription());
-			addResponseData.setSecurityType(OfferingFile.getSecurityType().getName());
-			JsonResponseData.add(addResponseData);
-		}*/
-		
-		return JsonResponseData;
-	}
-	
-	@RequestMapping(value =RequestConstans.Vendor.DELETE_FIELDS_FILE, method = RequestMethod.POST)
-	public @ResponseBody Set<JsonResponseData>  deleteFieldsFile(@RequestParam(value = "objectVar", required = false) String objectVar) {
-		marketDataAggregatorsService.deleteFieldsToFile(objectVar);
-		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-		
-/*		Set<FileFields> listFieldsToFile = marketDataAggregatorsService.listFieldsToFile(objectVar);
-		for(FileFields fileFields : listFieldsToFile){
-			JsonResponseData addResponseData = new JsonResponseData();
-			addResponseData.setId(fileFields.getId().toString());
-			addResponseData.setName(fileFields.getFieldName());
-			addResponseData.setDescription(fileFields.getDescription());
-			addResponseData.setFieldDataType(fileFields.getFieldDataType());
-			addResponseData.setFieldFormat(fileFields.getFieldFormat());
-			addResponseData.setFieldIndex(fileFields.getFieldIndex());
-			addResponseData.setFieldMaxLength(fileFields.getFieldMaxLength());
-			addResponseData.setOfferingFiles( fileFields.getOfferingFiles().getFileName());
-			JsonResponseData.add(addResponseData);
-		}
-*/		
-		
-		return JsonResponseData;
-	}
 	
 
 	@RequestMapping(value =RequestConstans.Vendor.DELETE_VENDOR_SOLUTION, method = (RequestMethod.POST))
@@ -738,6 +677,42 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	}
 	
 
+	@RequestMapping(value =RequestConstans.Vendor.DELETE_RECORD, method = (RequestMethod.GET))
+	public @ResponseBody Set<JsonResponseData>  deleteRecord(@RequestParam(value = "recordId", required = false) String objectVar,
+			@RequestParam(value = "recordName", required = false) String recordName) {
+		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
+		
+		if(RequestConstans.Vendor.DELETE_RECORD_OFFERING.equals(recordName)){
+			marketDataAggregatorsService.deleteOfferings(objectVar);
+		}else if(RequestConstans.Vendor.AWARDDETAILS.equals(recordName)){
+			vendorService.deleteAwardDetails(objectVar);
+		}else if(RequestConstans.Vendor.DELETE_VENDOR_DATACOVERAGE.equals(recordName)){
+			vendorService.deleteVendorDataCoverage(objectVar);
+		}else if(RequestConstans.Vendor.DELETE_FIELDS_FILE.equals(recordName)){
+			marketDataAggregatorsService.deleteFieldsToFile(objectVar);
+		}else if(RequestConstans.Vendor.DELETE_OFFERING_FILE.equals(recordName)){
+			 marketDataAggregatorsService.deleteOfferingFiles(objectVar);
+		}else if(RequestConstans.Vendor.DELETE_VENDOR_DATADISTRIBUTION.equals(recordName)){
+			vendorService.deleteVendorDistribution(objectVar);
+		}else if(RequestConstans.Vendor.ADD_VENDOR_TRADINGSOFTWAREDETAILS.equals(recordName)){
+			vendorService.deleteTradingSoftwareDetails(objectVar);
+		}else if(RequestConstans.Vendor.ADD_VENDOR_TRADINGCAPABILITIESSUPPORTED.equals(recordName)){
+			vendorService.deleteTradingCapabilitiesSupported(objectVar);
+		}else if(RequestConstans.Vendor.ADD_VENDOR_ANALYTICSSOFTWAREDETAILS.equals(recordName)){
+			vendorService.deleteAnalyticsSoftwareDetails(objectVar);
+		}else if(RequestConstans.Vendor.ADD_VENDOR_RESEARCHDETAILS.equals(recordName)){
+			vendorService.deleteResearchDetails(objectVar);
+		}else if(RequestConstans.Vendor.ADD_VENDOR_RESEARCHCOVERAGE.equals(recordName)){
+			vendorService.deleteResearchCoverage(objectVar);
+		}
+		
+		
+		return JsonResponseData;
+	}
+
+	
+	
+	
 	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_SOLUTION, method = RequestMethod.POST)
 	public @ResponseBody Set<JsonResponseData>  addVendorSolution(@RequestParam(value = "vendorSolutionTypes", required = false) String vendorSolutionTypes,
 	@RequestParam(value = "fieldDescription", required = false) String fieldDescription,
@@ -799,6 +774,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	public @ResponseBody Set<JsonResponseData>  updateOfferings(@RequestParam(value = "solution", required = false) String solution,
 			@RequestParam(value = "offeringName", required = false) String offeringName,
 			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "launchedYear", required = false) String launchedYear,
 			@RequestParam(value = "assetClass", required = false) String assetClass) {
 		if(offeringName != null && !(offeringName.isEmpty())){
         try {
@@ -813,6 +789,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setName(offeringName);
 				vendorOffering.setDescription(description);
 				vendorOffering.setAssetClass(assetClassDetails);
+				vendorOffering.setLaunchedYear(Integer.parseInt(launchedYear));
+				
 				vendorOffering.setVendor(vendor);
 				marketDataAggregatorsService.createOfferings(vendor.getId(), vendorOffering);
 			}
@@ -831,6 +809,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			addResponseData.setName(endorOffering.getName());
 			addResponseData.setDescription(endorOffering.getDescription());
 			addResponseData.setSecurityType(endorOffering.getAssetClass().getDescription());
+			addResponseData.setLaunchedYear(endorOffering.getLaunchedYear()+"");
 			JsonResponseData.add(addResponseData);
 		}
 				
@@ -1156,7 +1135,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				VendorAwardsMap vendorAwardsMap = new VendorAwardsMap();
 				vendorAwardsMap.setAwardname(awardname);
 				vendorAwardsMap.setAwardsponsor(awardsponsor);
-				vendorAwardsMap.setAwardedyear(awardedyear);
+				vendorAwardsMap.setAwardedyear(Integer.parseInt(awardedyear));
 				vendorAwardsMap.setVendor(vendor);
 				// Update vendor award details
 				vendorService.updateVendorAwardDetails(vendorAwardsMap);
@@ -1168,7 +1147,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				addResponseData.setId(vendorAwardsMap.getVa_id().toString());
 				addResponseData.setName(vendorAwardsMap.getAwardname());
 				addResponseData.setDescription(vendorAwardsMap.getAwardsponsor());
-				addResponseData.setFrequency(vendorAwardsMap.getAwardedyear());
+				addResponseData.setFrequency(vendorAwardsMap.getAwardedyear()+"");
 				JsonResponseData.add(addResponseData);
 			}
 					
@@ -1328,7 +1307,19 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			
 			insertIntoModel.setVendor(vendor);
 			insertIntoModel.setSolution(solutionsInfo);
-			vendorService.addTradingCapabilitiesSupported(insertIntoModel);
+			String isRecordExist = vendorService.addTradingCapabilitiesSupported(insertIntoModel);
+			
+
+			if(isRecordExist != null){
+				jsonResponseData = new HashSet<VendorTradingCapabilitiesSupportedForm>();
+				VendorTradingCapabilitiesSupportedForm addResponseData = new VendorTradingCapabilitiesSupportedForm();
+				addResponseData.setRecordExist(isRecordExist);
+				jsonResponseData.add(addResponseData);
+				return jsonResponseData;
+			}
+
+			
+			
 			}
 			List<VendorTradingCapabilitiesSupported> listVendorTradingCapabilitiesSupported = vendorService.listTradingCapabilitiesSupported(vendor.getId());
 
@@ -1633,13 +1624,22 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			vendorDistribution.setFeedsubtype(feedsubtype);
 			vendorDistribution.setFrequency(frequency);
 			vendorDistribution.setDistributionmethod(distributionmethod);
-			vendorService.addVendorDistribution(vendorDistribution);
+			String addVendorDistribution = vendorService.addVendorDistribution(vendorDistribution);
+			if(addVendorDistribution != null){
+				jsonResponseData = new HashSet<JsonResponseData>();
+				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setRecordExist(addVendorDistribution);
+				jsonResponseData.add(addResponseData);
+				return jsonResponseData;
+			}
+
 			}
 			List<VendorDistribution> listVendorDistribution = vendorService.listVendorDistribution(vendor.getId());
 
 			 jsonResponseData = new HashSet<JsonResponseData>();
 			for(VendorDistribution vendorDistribution1 : listVendorDistribution){
 				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setId(vendorDistribution1.getVendorDistributionId().toString());
 				addResponseData.setSolution(vendorDistribution1.getSolution().getName());
 				addResponseData.setOffering(vendorDistribution1.getVendorOffering().getName());
 				addResponseData.setOfferingFiles(vendorDistribution1.getOfferingFiles().getFileName());
@@ -1735,47 +1735,6 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		
 	}
 
-
-	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.DELETE_VENDOR_DATADISTRIBUTION, method = RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData> deleteVendorDataDistribution(
-			@RequestParam(value = "slectedId", required = false) String slectedId
-			) {
-		logger.info("Mehtod to delete data distribution--:");
-		User appUser = null;
-		
-		Set<JsonResponseData> jsonResponseData = null;
-		try {
-			
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			vendorService.detletVendorDistribution(slectedId);
-			List<VendorDistribution> listVendorDistribution = vendorService.listVendorDistribution(vendor.getId());
-
-			 jsonResponseData = new HashSet<JsonResponseData>();
-			for(VendorDistribution vendorDistribution1 : listVendorDistribution){
-				JsonResponseData addResponseData = new JsonResponseData();
-				addResponseData.setSolution(vendorDistribution1.getSolution().getName());
-				addResponseData.setOffering(vendorDistribution1.getVendorOffering().getName());
-				addResponseData.setOfferingFiles(vendorDistribution1.getOfferingFiles().getFileName());
-				addResponseData.setRegion(vendorDistribution1.getRegion());
-				addResponseData.setCountry(vendorDistribution1.getCountry());
-				addResponseData.setExchange(vendorDistribution1.getExchange());
-				addResponseData.setFeedType(vendorDistribution1.getFeedtype());
-				addResponseData.setFeedSubType(vendorDistribution1.getFeedsubtype());
-				addResponseData.setFrequency(vendorDistribution1.getFrequency());
-				addResponseData.setDistributionMethod(vendorDistribution1.getDistributionmethod());
-				
-				jsonResponseData.add(addResponseData);
-			}
-			
-		} catch (Exception ex) {
-			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-		}
-		return jsonResponseData;
-	}
-	
-	
 	
 	@SuppressWarnings("unused")
 	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_DATACOVERAGE, method = RequestMethod.GET)
@@ -1811,20 +1770,28 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			vendorDataCoverage.setCost(vendorcostrange);
 			vendorDataCoverage.setPhoneNo(phonenumber);
 			vendorDataCoverage.setEmail(email);
-			vendorService.addVendorDataCoverage(vendorDataCoverage);
+			String addVendorDataCoverage = vendorService.addVendorDataCoverage(vendorDataCoverage);
+			if(addVendorDataCoverage != null){
+				jsonResponseData = new HashSet<JsonResponseData>();
+				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setRecordExist(addVendorDataCoverage);
+				jsonResponseData.add(addResponseData);
+				return jsonResponseData;
+			}
 			}
 			List<VendorDataCoverage> listVendorDataCoverage = vendorService.listVendorDataCoverage(vendor.getId());
 			
 			 jsonResponseData = new HashSet<JsonResponseData>();
 				for(VendorDataCoverage dataCoverage : listVendorDataCoverage){
 					JsonResponseData addResponseData = new JsonResponseData();
+					addResponseData.setId(dataCoverage.getDataCoverageId().toString());
 					addResponseData.setSolution(dataCoverage.getSolution().getName());
 					addResponseData.setOffering(dataCoverage.getVendorOffering().getName());
 					addResponseData.setRegion(dataCoverage.getRegion());
 					addResponseData.setCountry(dataCoverage.getCountry());
 					addResponseData.setCost(dataCoverage.getCost());
 					addResponseData.setPhonNo(dataCoverage.getPhoneNo());
-					addResponseData.setEmail(dataCoverage.getCost());
+					addResponseData.setEmail(dataCoverage.getEmail());
 					jsonResponseData.add(addResponseData);
 				}
 		} catch (Exception ex) {
@@ -1832,41 +1799,6 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		}
 		return jsonResponseData;
 	}
-
-	
-	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.DELETE_VENDOR_DATACOVERAGE, method = RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData>  deleteVendorDataCoverage(
-			@RequestParam(value = "selectedId", required = false) String selectedId
-			
-			) {
-		logger.info("Mehtod for update Vendor my offerings data coverage info tab--:");
-		User appUser = null;
-		Set<JsonResponseData> jsonResponseData = null;
-		try {
-			vendorService.deleteVendorDataCoverage(selectedId);
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			List<VendorDataCoverage> listVendorDataCoverage = vendorService.listVendorDataCoverage(vendor.getId());
-			
-			 jsonResponseData = new HashSet<JsonResponseData>();
-				for(VendorDataCoverage dataCoverage : listVendorDataCoverage){
-					JsonResponseData addResponseData = new JsonResponseData();
-					addResponseData.setSolution(dataCoverage.getSolution().getName());
-					addResponseData.setOffering(dataCoverage.getVendorOffering().getName());
-					addResponseData.setRegion(dataCoverage.getRegion());
-					addResponseData.setCountry(dataCoverage.getCountry());
-					addResponseData.setCost(dataCoverage.getCost());
-					addResponseData.setPhonNo(dataCoverage.getPhoneNo());
-					addResponseData.setEmail(dataCoverage.getCost());
-					jsonResponseData.add(addResponseData);
-				}
-		} catch (Exception ex) {
-			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-		}
-		return jsonResponseData;
-	}
-
 	
 
 	@SuppressWarnings("unused")
@@ -2435,7 +2367,10 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				 isExist = vendorService.isAwardAlreadyExist(value);
 			}else if(RequestConstans.Vendor.VENDOR_SOLUTION.equals(actionComponent)){
 				 isExist = vendorService.isSolutionAlreadyExist(value);
+			}else if(RequestConstans.Vendor.ADD_VENDOR_TRADINGSOFTWAREDETAILS.equals(actionComponent)){
+				 isExist = vendorService.isTradingSoftwareDetailsOfferingExist(value);
 			}
+			
 		if(isExist){
 			response.getWriter().print("Name already exists");	
 		}
@@ -2456,168 +2391,3 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 }
 
 
-class JsonResponseData {
-	private String id;
-	private String Name; 
-	private String description;
-	private String solution;
-	private String offering;
-	private String country;
-	private String region;
-	private String cost;
-	private String exchange;
-	private String phonNo;
-	private String email;
-	private String feedType;
-	private String feedSubType;
-	private String distributionMethod;
-	private String frequency;
-
-	private String securityType;
-	private String solutionType;
-	private String fieldIndex;
-	private String fieldFormat;
-	private String fieldDataType;
-	private String fieldMaxLength;
-	private String offeringFiles;
-
-	
-	
-	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	
-	public String getCost() {
-		return cost;
-	}
-	public void setCost(String cost) {
-		this.cost = cost;
-	}
-	public String getName() {
-		return Name;
-	}
-	public void setName(String name) {
-		Name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getSecurityType() {
-		return securityType;
-	}
-	public void setSecurityType(String securityType) {
-		this.securityType = securityType;
-	}
-	public String getFieldIndex() {
-		return fieldIndex;
-	}
-	public void setFieldIndex(String fieldIndex) {
-		this.fieldIndex = fieldIndex;
-	}
-	public String getFieldFormat() {
-		return fieldFormat;
-	}
-	public void setFieldFormat(String fieldFormat) {
-		this.fieldFormat = fieldFormat;
-	}
-	public String getFieldDataType() {
-		return fieldDataType;
-	}
-	public void setFieldDataType(String fieldDataType) {
-		this.fieldDataType = fieldDataType;
-	}
-	public String getFieldMaxLength() {
-		return fieldMaxLength;
-	}
-	public void setFieldMaxLength(String fieldMaxLength) {
-		this.fieldMaxLength = fieldMaxLength;
-	}
-	public String getOfferingFiles() {
-		return offeringFiles;
-	}
-	public void setOfferingFiles(String offeringFiles) {
-		this.offeringFiles = offeringFiles;
-	}
-	public String getSolutionType() {
-		return solutionType;
-	}
-	public void setSolutionType(String solutionType) {
-		this.solutionType = solutionType;
-	}
-	public String getSolution() {
-		return solution;
-	}
-	public void setSolution(String solution) {
-		this.solution = solution;
-	}
-	public String getOffering() {
-		return offering;
-	}
-	public void setOffering(String offering) {
-		this.offering = offering;
-	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	public String getRegion() {
-		return region;
-	}
-	public void setRegion(String region) {
-		this.region = region;
-	}
-	public String getExchange() {
-		return exchange;
-	}
-	public void setExchange(String exchange) {
-		this.exchange = exchange;
-	}
-	public String getPhonNo() {
-		return phonNo;
-	}
-	public void setPhonNo(String phonNo) {
-		this.phonNo = phonNo;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getFeedType() {
-		return feedType;
-	}
-	public void setFeedType(String feedType) {
-		this.feedType = feedType;
-	}
-	public String getFeedSubType() {
-		return feedSubType;
-	}
-	public void setFeedSubType(String feedSubType) {
-		this.feedSubType = feedSubType;
-	}
-	public String getDistributionMethod() {
-		return distributionMethod;
-	}
-	public void setDistributionMethod(String distributionMethod) {
-		this.distributionMethod = distributionMethod;
-	}
-	public String getFrequency() {
-		return frequency;
-	}
-	public void setFrequency(String frequency) {
-		this.frequency = frequency;
-	}
-   	
-	
-}

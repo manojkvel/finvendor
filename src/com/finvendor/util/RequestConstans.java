@@ -212,6 +212,7 @@ public class RequestConstans {
 		public static final String UPDATE_VENDOR_SUPPORT_COVEAGE_TAB = "updateVendorSupportCoverageInfo";
 		
 		public static final String DELETE_VENDOR_SOLUTION = "deleteVendorSolution";
+		public static final String DELETE_RECORD = "deleteRecord";
 		public static final String ADD_VENDOR_SOLUTION = "addVendorSolution";
 		public static final String LIST_VENDOR_SOLUTION = "listVendorSolution";
 		

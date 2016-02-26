@@ -313,9 +313,8 @@ public class VendorServiceImpl implements VendorService{
 	}
 
 	@Override
-	public void addVendorDataCoverage(VendorDataCoverage vendorDataCoverage) {
-		vendorDAO.addVendorDataCoverage(vendorDataCoverage);
-		
+	public String addVendorDataCoverage(VendorDataCoverage vendorDataCoverage) {
+		return vendorDAO.addVendorDataCoverage(vendorDataCoverage);
 	}
 
 	@Override
@@ -325,8 +324,8 @@ public class VendorServiceImpl implements VendorService{
 	}
 
 	@Override
-	public void addVendorDistribution(VendorDistribution vendorDistribution) {
-		vendorDAO.addVendorDistribution(vendorDistribution);	
+	public String addVendorDistribution(VendorDistribution vendorDistribution) {
+		return vendorDAO.addVendorDistribution(vendorDistribution);	
 	}
 
 	@Override
@@ -341,14 +340,14 @@ public class VendorServiceImpl implements VendorService{
 	}
 
 	@Override
-	public void detletVendorDistribution(String selectedId) {
+	public void deleteVendorDistribution(String selectedId) {
 		vendorDAO.deleteVendorDistribution(selectedId);
 		
 	}
 
 	@Override
-	public void addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported) {
-		vendorDAO.addTradingCapabilitiesSupported(tradingCapabilitiesSupported);
+	public String addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported) {
+		return vendorDAO.addTradingCapabilitiesSupported(tradingCapabilitiesSupported);
 		
 	}
 
@@ -520,6 +519,18 @@ public class VendorServiceImpl implements VendorService{
 	@Override
 	public Boolean isSolutionAlreadyExist(String value) {
 		return vendorDAO.isSolutionAlreadyExist(value);
+	}
+
+	@Override
+	public void deleteAwardDetails(String objectVar) {
+		vendorDAO.deleteAwardDetails(objectVar);
+		
+	}
+
+	@Override
+	public Boolean isTradingSoftwareDetailsOfferingExist(String value) {
+		// TODO Auto-generated method stub
+		return vendorDAO.isTradingSoftwareDetailsOfferingExist(value);
 	}
 
 	

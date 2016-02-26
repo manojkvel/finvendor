@@ -15,7 +15,7 @@ public class VendorTradingCapabilitiesSupportedForm{
 	private String tradeExecutionsType;
 	private String algorithmicTradeType;
 	private String darkpoolAccess;
-	
+	private String isRecordExist;
 	public String getId() {
 		return id;
 	}
@@ -95,7 +95,8 @@ public class VendorTradingCapabilitiesSupportedForm{
 		vendorTradingCapabilitiesSupportedForm.setSolution(vendorTradingCapabilitiesSupported.getSolution().getName());
 		return vendorTradingCapabilitiesSupportedForm;
 	}
-	
-	
-	
+	public void setRecordExist(String isRecordExist) {
+		this.isRecordExist = isRecordExist;
+		
 	}
+}

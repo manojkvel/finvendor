@@ -208,9 +208,9 @@ public interface VendorDAO {
 	public Solutions addSolutionsInfo(Solutions solutions);
 	SolutionTypes getSolutionTypes(String name);
 	public List<Solutions> getSolutionsBasedOnOfferingTypes(SolutionTypes solutionTypes);
-	void addVendorDataCoverage(VendorDataCoverage vendorDataCoverage);
+	String addVendorDataCoverage(VendorDataCoverage vendorDataCoverage);
 	List<VendorDataCoverage> listVendorDataCoverage(String id);
-	void addVendorDistribution(VendorDistribution vendorDistribution);
+	String addVendorDistribution(VendorDistribution vendorDistribution);
 
 	public List<VendorDistribution> listVendorDistribution(String id);
 	
@@ -218,7 +218,7 @@ public interface VendorDAO {
 
 	void deleteVendorDistribution(String selectedId);
 	
-	void addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported);
+	String addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported);
 	void addTradingSoftwareDetails(VendorTradingSoftwareDetails tradingSoftwareDetails);
 	void addAnalyticsfeaturesSupported(VendorAnalyticsfeaturesSupported analyticsfeaturesSupported);
 	void addAnalyticsSoftwareDetails(VendorAnalyticsSoftwareDetails analyticsSoftwareDetails);
@@ -254,5 +254,9 @@ public interface VendorDAO {
 	Boolean isAwardAlreadyExist(String value);
 
 	Boolean isSolutionAlreadyExist(String value);
+
+	void deleteAwardDetails(String objectVar);
+
+	Boolean isTradingSoftwareDetailsOfferingExist(String value);
 	
  }

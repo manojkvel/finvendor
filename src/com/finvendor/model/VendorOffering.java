@@ -41,7 +41,11 @@ public class VendorOffering  implements Serializable{
 	
 	@Column(name="description")
 	private String description;
-
+	
+	@Column(name="LaunchedYear")
+	private Integer launchedYear;
+	
+	
 	@ManyToOne(targetEntity=Vendor.class,fetch=FetchType.LAZY)
 	@JoinColumn(name="vendor_id", nullable=false)
 	private Vendor vendor;
@@ -70,6 +74,17 @@ public class VendorOffering  implements Serializable{
 
 	public void setOfferingFiles(Set<OfferingFiles> offeringFiles) {
 		this.offeringFiles = offeringFiles;
+	}
+	
+	
+
+
+	public Integer getLaunchedYear() {
+		return launchedYear;
+	}
+
+	public void setLaunchedYear(Integer launchedYear) {
+		this.launchedYear = launchedYear;
 	}
 
 	/**
