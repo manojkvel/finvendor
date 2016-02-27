@@ -277,3 +277,30 @@ div.lable_header a {
     padding: 7px;
     line-height: 25px;
 }
+
+.jstree-default .jstree-anchor label{
+	display: inline;
+}
+
+th{
+    white-space:nowrap;
+}
+.errorMessage {
+	font-size:12px; 
+	font-weight:bold;
+	color:red; 
+}
+
+.controls select,
+.controls input[type=text],
+.control-group select,
+.control-group input[type=text]{
+	box-sizing: border-box;
+	height: 30px !important;
+	padding: 5px 4px;
+}
+.controls select[multiple],
+.control-group select[multiple]{
+	height: 70px !important;
+}
+

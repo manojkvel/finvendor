@@ -97,7 +97,7 @@
 																	<div class="controls">
 																		<input type="text" id="personalvenfirstname"
 																			data-mandatory="Y" placeholder="First Name"
-																			name="firstname" class="m-wrap large"
+																			name="firstname" class="m-wrap"
 																			onblur="validateNotNull(this, 'vendorProfileFirstNameErrorMsg')"
 																			value="${vendor.firstName}" />
 																		<div>
@@ -111,7 +111,7 @@
 																	<div class="controls">
 																		<input type="text" id="personalvenlastname"
 																			placeholder="Last Name" name="lastname"
-																			class="m-wrap large" value="${vendor.lastName}" />
+																			class="m-wrap" value="${vendor.lastName}" />
 																	</div>
 																</div>
 																<div class="control-group">
@@ -120,7 +120,7 @@
 																	<div class="controls">
 																		<input type="text" id="personalvendesignation"
 																			data-mandatory="Y" placeholder="Designation"
-																			name="designation" class="m-wrap large"
+																			name="designation" class="m-wrap"
 																			onblur="validateWithRegularExpression(this, 'vendorProfileDesignationErrorMsg', regularExpressionMap['DESIGNATION'], 'DESIGNATION', true)"
 																			value="${vendor.designation}" />
 																		<div>
@@ -135,7 +135,7 @@
 																	<div class="controls">
 																		<input type="text" id="personalvencompany"
 																			data-mandatory="Y" placeholder="Company"
-																			name="company" class="m-wrap large"
+																			name="company" class="m-wrap"
 																			onblur="validateNotNull(this, 'vendorProfileCompanyErrorMsg')"
 																			value="${vendor.company}" />
 																		<div>
@@ -150,7 +150,7 @@
 																	<div class="controls">
 																		<input type="text" id="personalvencompanyurl"
 																			data-mandatory="Y" placeholder="Company URL"
-																			name="companyurl" class="m-wrap large"
+																			name="companyurl" class="m-wrap"
 																			onblur="validateWithRegularExpression(this, 'vendorProfileCompanyURLErrorMsg', regularExpressionMap['URL'], 'COMPANY_URL', true)"
 																			value="${vendor.companyUrl}" />
 																		<div>
@@ -282,7 +282,7 @@
 																<div class="controls">
 																		
 																	<input type="text" id="personalvenregionofincorp"
-																			name="personalvenregionofincorp" class="m-wrap large" readonly="readonly" value="Asia Pacific"
+																			name="personalvenregionofincorp" class="m-wrap" readonly="readonly" value="Asia Pacific"
 																	 />
 																</div>															
 																</div>

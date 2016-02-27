@@ -83,30 +83,34 @@
 										  <!-- Start Data Dictionary  -->
 										  <div class="tab-pane active" id="tab20" >
 												
-									     	<div id="container" style="float: left; width: 200px;">
-												<ul>
-												<c:forEach var="solution" items="${solutions}">
-												   <li> <label  onclick="createOfferings('${solution.solution_id}')" class=""> ${solution.name}</label>
-												    <ul>
-													<c:forEach var="vendorOffering" items="${solution.vendorOffering}">
-										 				<li> <label  onclick="displayOfferingFile('${vendorOffering.vendor_offering_id}')"> ${vendorOffering.name}</label> 
-															<ul>
-																<c:forEach var="offeringFiles" items="${vendorOffering.offeringFiles}">
-																	
-																	<li> <label onclick="displayFileFields(${offeringFiles.offeringFilesId})" > ${offeringFiles.fileName}</label></li>  
-																	
-																</c:forEach>
-															</ul>
-														</li>
-													</c:forEach>
-												  </ul>
-												</li>
-												</c:forEach>
-												</ul>
-											</div>
+									     	
 											<input type="hidden" name="selectedId" id="selectedId">
-										            <br>
-										 				<div class="col-md-9" id="solutionDetailList">
+										         <div class="row" >
+										         		<div class="span3">
+										         			<div id="container">
+																	<ul>
+																	<c:forEach var="solution" items="${solutions}">
+																	   <li> <label  onclick="createOfferings('${solution.solution_id}')" class=""> ${solution.name}</label>
+																	    <ul>
+																		<c:forEach var="vendorOffering" items="${solution.vendorOffering}">
+															 				<li> <label  onclick="displayOfferingFile('${vendorOffering.vendor_offering_id}')"> ${vendorOffering.name}</label> 
+																				<ul>
+																					<c:forEach var="offeringFiles" items="${vendorOffering.offeringFiles}">
+																						
+																						<li> <label onclick="displayFileFields(${offeringFiles.offeringFilesId})" > ${offeringFiles.fileName}</label></li>  
+																						
+																					</c:forEach>
+																				</ul>
+																			</li>
+																		</c:forEach>
+																	  </ul>
+																	</li>
+																	</c:forEach>
+																	</ul>
+															</div>
+										         		</div>
+										 				<div class="span9" id="solutionDetailList">
+										 				<br>
 															<table class="table table-striped" id="vendorSolutionTable">
 																<thead class="lable_header">
 																	<tr>
@@ -131,51 +135,51 @@
 															
 														</div>	
 										 
-										 
-										<div id="createOfferingDiv"  class="form-group">
-										<fieldset>
-										 <legend>Create Offerings</legend>
-												<div class="form-group">
-																								  
-												  <label class="col-md-3 control-label" for="offeringName"><span class="required">*</span>Offering Name</label>  
-												  <div class="col-md-3">
-												  	<input id="offeringName" name="offeringName" type="text" placeholder="Offering Name" class="form-control input-md">
+										<div id="createOfferingDiv" class="span9">
+										
+										     <div class="container">
+										     <br>
+										     <div class="row">
+												<h2><label>Create Offerings</label></h2>
+											</div>
+											<br>
+											<br>
+												<div class="row">
+												<div class="span4">												  
+												  <label class="col-md-3 "><span class="required">*</span>Offering Name</label>  
+												  	<input id="offeringName" name="offeringName" type="text" placeholder="Offering Name" class="col-md-3">
 												  </div>
-												  <label class="col-md-3 control-label" for="assetClassForVenderOffering">Asset Class</label>
-												  <div class="col-md-3">
-												    <select id="assetClassForVenderOffering" name="assetClassForVenderOffering" class="form-control">
+												  <div class="span4">
+												  <label class="col-md-3" for="assetClassForVenderOffering">Asset Class</label>
+												    <select id="assetClassForVenderOffering" name="assetClassForVenderOffering" class="col-md-3">
 												      <c:forEach var="assetClasses" items="${assetClasses}">
 															    	<option value="${assetClasses.description}">${assetClasses.description}</option>
 													  </c:forEach>
 												    </select>
-												  </div>
+												   </div> 
 												</div>
 												 
-											    <div class="form-group">
-												  
-												   <label class="col-md-3 control-label" for="descriptionForVendorOffering">Description</label>
-												  <div class="col-md-3">                     
-												    <textarea class="form-control" id="descriptionForVendorOffering" name="descriptionForVendorOffering">Description</textarea>
+											    <div class="row">
+												  <div class="span4">
+												   <label class="col-md-3">Description</label>
+												    <textarea class="col-md-3" id="descriptionForVendorOffering" name="descriptionForVendorOffering">Description</textarea>
 												  </div>
-												  
-												  <label class="col-md-3 control-label" for="launchedYear">Launched Year</label>  
-												  <div class="col-md-3">
-												  	<input id="launchedYear" name="launchedYear" type="text" placeholder="Launched Year" class="form-control input-md" onblur="validateYear(this)">
+												  <div class="span4">
+												  <label class="col-md-3" for="launchedYear">Launched Year</label>  
+												  	<input id="launchedYear" name="launchedYear" type="text" placeholder="Launched Year" class="col-md-3" onblur="validateYear(this)">
 												  </div>
-												  
 												 </div> 
 											
 												
-												
-											<div class="form-group">
-											  <label class="col-md-3 control-label" for="button1id"></label>
-											  <div class="col-md-8">
+												<br>
+											<div class="row">
+											  <div class="span8">
 											    <a class="addMoreSolution"> <span class="lable_header_add" onclick="addVendorOfferingInfo()">Submit </span></a>
 											    
 											  </div>
 											</div>
-									
-											<div class="col-md-11">
+										</div>	
+											<div class="span11">
 												<table class="table table-striped" id="vendorofferingTable">
 													<thead class="lable_header">
 														<tr>
@@ -206,20 +210,24 @@
 													</tbody>
 												</table>
 											</div>
-										</fieldset>
 										</div>
-										<div id="createfileDiv">
-										<fieldset>
-										 <legend>Create Files</legend>
-												<div class="form-group">
+										
+										<div id="createfileDiv" class="span9">
+										     <div class="container">
+										     <br>
+										     <div class="row">
+												<h2><label>Create Files</label></h2>
+											</div>
+											<br>
+										<div class="row">
+												<div class="span4">											
+												  <label class="col-md-3" for="fileName"><span class="required">*</span>File Name</label>  
 												  
-												  <label class="col-md-3 control-label" for="fileName"><span class="required">*</span>File Name</label>  
-												  <div class="col-md-3">
 												  	<input id="fileName" name="fileName" type="text" placeholder="File Name">
 												  </div>
+										<div class="span4">		 
+										 <label class="col-md-3" for="securityType">Security Type</label>
 												 
-										 <label class="col-md-3 control-label" for="securityType">Security Type</label>
-												  <div class="col-md-3">
 												    <select id="securityType" name="securityType" class="form-control">
 												      
 												      <c:forEach var="securityType" items="${securityTypes}">
@@ -231,23 +239,22 @@
 											</div>	 
 										
 										     
-										     <div class="form-group">
-												  <label class="col-md-3 control-label" for="description">Description</label>
-												  <div class="col-md-3">                     
+										<div class="row">
+												<div class="span4">											
+										
+												  <label class="col-md-3" for="description">Description</label>
 												    <textarea class="form-control" id="description" name="description">Description</textarea>
-												  </div>
-												
 										     </div>
-										    
-										   	<div class="form-group">
-											  <label class="col-md-3 control-label" for="button1id"></label>
-											  <div class="col-md-8">
+										   </div> 
+										   <br>
+										   <div class="row">
+										
+										   	<div class="span4">
 											    <a class="addMoreSolution"> <span class="lable_header_add" onclick="createOfferingFile()">Submit </span></a>
-											  </div>
 											</div>
-									 
-									 
-											<div class="col-md-11">
+									       </div>
+									    </div>
+											<div class="span11">
 												<table class="table table-striped" id="offeringFilesTable">
 													<thead class="lable_header">
 														<tr>
@@ -261,64 +268,55 @@
 													</tbody>
 												</table>
 											</div>
-									     </fieldset>
-										</div>
+			                          </div>
+			                          						
 										
 									
-										
-									
-									<div id="createFieldsDiv">
-									<fieldset>
-										 <legend>Create Fields</legend>
-												<div class="form-group">
-													<label class="col-md-3 control-label" for="fieldName"><span class="required">*</span>Field Name</label>  
-												  <div class="col-md-3">
+									<div id="createFieldsDiv" class="span9">
+										     <div class="container">
+										     <br>
+										     <div class="row">
+												<h2><label>Create Fields</label></h2>
+											</div>
+											<br>
+										<div class="row">
+												<div class="span4">											
+													<label class="col-md-3" for="fieldName"><span class="required">*</span>Field Name</label>  
 												  	<input id="fieldName" name="fieldName" type="text" placeholder="Field Name" class="form-control input-md">
-												  </div>
-												  
-												  	  <label class="col-md-3 control-label" for="fieldDescription">Description</label>
-												  <div class="col-md-3">                     
+											  </div>
+											  <div class="span4">	  
+												  	  <label class="col-md-3" for="fieldDescription">Description</label>
 												    <textarea class="form-control" id="fieldDescription" name="fieldDescription">Description</textarea>
-												  </div>
-											
-												 </div>
-												 
-												 <div class="form-group">
-													<label class="col-md-3 control-label" for="fieldIndex">Index</label>  
-												  <div class="col-md-3">
+											  </div>
+										</div>
+										<div class="row">
+												<div class="span4">											
+													<label class="col-md-3" for="fieldIndex">Index</label>  
 												  	<input id="fieldIndex" name="fieldIndex" type="text" placeholder="Index" class="form-control input-md">
 												  </div>
-												  
-												  	<label class="col-md-3 control-label" for="fieldMaxLength">Max Length</label>  
-												  <div class="col-md-3">
+												  <div class="span4">
+												  	<label class="col-md-3" for="fieldMaxLength">Max Length</label>  
 												  	<input id="fieldMaxLength" name="fieldMaxLength" type="text" placeholder="Max Length" class="form-control input-md">
 												  </div>
-												  
-												 </div>
-										
-												<div class="form-group">
-													<label class="col-md-3 control-label" for="fieldFormat">Format</label>  
-												  <div class="col-md-3">
+										 </div>
+										<div class="row">
+												<div class="span4">	
+													<label class="col-md-3" for="fieldFormat">Format</label>  
 												  	<input id="fieldFormat" name="fieldFormat" type="text" placeholder="Format" class="form-control input-md">
 												  </div>
-												  
-												  	<label class="col-md-3 control-label" for="fieldDataType">Data Type</label>  
-												  <div class="col-md-3">
+												<div class="span4">  
+												  	<label class="col-md-3" for="fieldDataType">Data Type</label>  
 												  	<input id="fieldDataType" name="fieldDataType" type="text" placeholder="Max Length" class="form-control input-md">
 												  </div>
-												  
-												 </div>
-									
-									
-												<div class="form-group">
-											  <label class="col-md-3 control-label" for="button1id"></label>
-											  <div class="col-md-8">
+										 </div>
+										 <br>
+										<div class="row">
+												<div class="span4">	
 											    <a class="addMoreSolution"> <span class="lable_header_add" onclick="addFileFields()">Submit </span></a>
 											  </div>
-											</div>
-									 
-											<div class="col-md-11">
-									
+										</div>
+									</div>		
+									 <div class="span11">
 											<table class="table table-striped" id="offeringFilesFieldTable">
 									    <thead class="lable_header">
 									      <tr>
@@ -338,8 +336,8 @@
 											
 											
 										</div>
-										</fieldset>									
-									</div>	
+									</div>
+									 </div>	
 							    </div>
 										  
 										<!-- vendor data coverage start here -->
@@ -641,7 +639,7 @@
 													 	</div>
 														</div>
 													</div> 
-												<div class="portlet-body">
+												<div class="portlet-body" style="max-width: 950px;overflow-x: scroll;">
 												<table class="table table-striped table-bordered table-hover table-full-width" id="dataDistributionTable">
 													<thead style="background-color: #7BCCA5;">
 														<tr>
@@ -680,7 +678,7 @@
 								<div class="form-wizard">
 									<div class="Rowtable">
 										<div class="ColumnCommonmyofferings" id="changetradingvendoroffer1"> <div class="lable_header" id="intertradingvendodivoffer1">  <a id="anchootradingvendoffer1" href="#tab8" class="lable_header" data-toggle="tab" onclick="activeTradingVendorMyofferings('${tradingsoftwaredetails}');">Trading Software Details</a> </div> </div>
-										<div class="ColumnCommonmyofferings" id="changetradingvendoroffer"> <div class="lable_header" id="intertradingvendodivoffer"> <a id="anchootradingvendoffer" href="#tab7" class="lable_header" data-toggle="tab"  onclick="activeTradingVendorMyofferings('${tradingcapabilitiessupported}');">Trading Capabilities Supported</a> </div></div>
+										<div class="ColumnCommonmyofferings" id="changetradingvendoroffer"> <div class="lable_header" id="intertradingvendodivoffer"> <a id="anchootradingvendoffer" href="#tab7" class="lable_header" data-toggle="tab"  onclick="activeTradingVendorMyofferings('${tradingcapabilitiessupported}');" style="width:200px">Trading Capabilities Supported</a> </div></div>
 									</div>
 									<div class="tab-content" style="background-color: white;">
 									
@@ -718,7 +716,7 @@
 														</div>
 													</div>
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Tradable exchange<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Tradable Country<span class="required">*</span></label>
 														<div class="controlsfortradingapp">
 															<select name="tcsTradeCoverageCountry" multiple="multiple" id="tcsTradeCoverageCountry" style="width: 252px;">
 																<c:forEach var="countries" items="${countries}">
@@ -733,7 +731,7 @@
 													
 													<div class="control-group">
 	
-													<label class="control-labelaligndatacoverage" style="padding-left: 32px;">Tradable Markets</label>
+													<label class="control-labelaligndatacoverage" style="padding-left: 32px;">Tradable Exchange</label>
 													<div class="controlsfortradingapp">
 													<select name="tcsTradableMarkets"  multiple="multiple" id="tcsTradableMarkets" style="width: 252px;">
 														     <c:forEach var="exchanges" items="${exchanges}">
@@ -891,7 +889,7 @@
 													 	</div>
 														</div>
 													</div> 
-												<div class="portlet-body">
+												<div class="portlet-body" style="max-width: 950px;overflow-x: scroll;">
 												<table class="table table-striped table-bordered table-hover table-full-width" id="tcsTable">
 													<thead style="background-color: #7BCCA5;">
 														<tr>
@@ -899,7 +897,7 @@
 															<th>Offering</th>
 															<th>Tradable Region</th>
 															<th>Tradable country</th>
-															<th>Tradable Markets</th>
+															<th>Tradable Exchange</th>
 															<th>Trading Capabilities Type</th>
 															<th>Trade Executions Type</th>
 											                <th>Algorithmic Trade Type</th>
@@ -994,7 +992,16 @@
 														</div>
 													</div>
 													
-													
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Asset Sub Class <span class="required">*</span></label>
+														<div class="controlsfortradingappsoftware">
+															<select name="tdsAssetSubClass"  id="tdsAssetSubClass" style="width: 163px;">
+														     	     <c:forEach var="securityType" items="${securityTypes}">
+														    			<option value="${securityType.name}">${securityType.name}</option>
+												    				</c:forEach>
+														 	</select> 
+														</div>
+													</div>
 													
 												
 													 <div class="control-group">
@@ -1024,16 +1031,6 @@
 														<input type="text" id="tdsSuitabilityOther"  placeholder="Suitability Other" name="tdsSuitabilityOther" style="visibility: hidden;" />
 														</div>
 													</div>
-													
-													  <div class="control-group">
-														<label class="control-labelalign" >Streaming news available? &nbsp;&nbsp;&nbsp; <input type="checkbox" id="tdsStreNews"  name="tdsStreNews" /></label>
-														
-													</div>
-													<div class="control-group">
-														<label class="control-labelalign" >Trade using charts available? <input type="checkbox" id="tdsChartsAvai" name="tdsChartsAvai" /></label>
-														
-													</div>
-													
 													
 													</div>
 													<div class="ColumnCommonvendorpage" style="margin: 0px 0px 0px 56px;">
@@ -1131,12 +1128,16 @@
 															&nbsp;&nbsp;&nbsp;<input type="checkbox" id="tdsWatchlist"  name="tdsWatchlist" class="m-wrap largeval"/>
 														</div>
 													</div>
-											
-											
-											
-											
-											
+											         <div class="control-group">
+														<label class="control-labelalign" >Streaming news available? &nbsp;&nbsp;&nbsp; <input type="checkbox" id="tdsStreNews"  name="tdsStreNews" /></label>
+														
 													</div>
+													<div class="control-group">
+														<label class="control-labelalign" >Trade using charts available? <input type="checkbox" id="tdsChartsAvai" name="tdsChartsAvai" /></label>
+														
+													</div>
+											          
+	                                               </div>
 													
 													 <div class="ColumnCommonvendorpre">
 													 
@@ -1346,22 +1347,42 @@
 														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Solutions<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
 															<select name="asdSolution"  id="asdSolution" style="width: 223px;">
-															<option value ="-SELECT-"> -SELECT- </option>
 															    <c:forEach var="solution" items="${solutions}">
 																	<option value="${solution.solution_id}">${solution.name}</option>
 													  			</c:forEach>
 														</select>
 														</div>
 													</div>
+													
+																										
 												<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Offering<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Analytics Solutions Type<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
-															<input type="text" id="asdOffering" placeholder="Offering" name="asdOffering" class="m-wrap largevalforanalytics"/>
+															<select name="asdOffering"  id="asdOffering" style="width: 223px;">
+															     <option value ="Banking Solutions" > Banking Solutions </option>
+															     <option value ="Alternative Investment Solutions" > Alternative Investment Solutions </option>
+														 	</select>
 														</div>
 													</div>
 													
+													
 													<div class="control-group">
-																	<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Offering Desc<span class="required">*</span>
+														<label class="control-labelaligndatacoverage"  style="padding-left: 35px;">Analytics Solutions Sub Type</label>
+														<br>
+														<div class="controlsforanalyticsapplcation">
+															<select name="adsAnalyticsSolutionsSubType" multiple="multiple" id="adsAnalyticsSolutionsSubType" style="width: 223px;">
+															     <option value ="Custody management" > Custody management </option>
+															     <option value ="Alternative and institutional investments" > Alternative and institutional investments </option>
+															     <option value ="Commodity trading solutions" > Commodity trading solutions </option>
+															     <option value ="FCP/CCP clearing suite" > FCP/CCP clearing suite </option>
+													   		</select>
+													   		<div class="selectOptions">Choose one or more options</div>
+														</div>
+													</div>
+													
+													
+													<div class="control-group">
+																	<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Desc<span class="required">*</span>
 																	</label>
 																	<div class="controlsforanalyticsapplcation">
 																		<textarea id="asdOfferingDesc"
@@ -1401,7 +1422,19 @@
 														   </select>
 														</div>
 													</div>
-													<div class="control-group">
+													 <div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Customizable Calculation Models(?) <input type="checkbox" id="asdCustomizableCalculationModels"  name="asdCustomizableCalculationModels" /></label>
+														
+													</div>
+												    <div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Real time Market Data? <input type="checkbox" id="asdRealtimeMarketData"  name="asdRealtimeMarketData" /></label>
+													</div>
+												
+												
+													</div>
+													 <div class="ColumnCommonvendorpretab3analyticsapp">
+													 
+													 <div class="control-group">
 														<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Suitability<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
 															<select name="asdSuitability" id="asdSuitability" style="width: 223px;">
@@ -1418,29 +1451,27 @@
 														<input type="text" id="asdSuitabilityOthers" placeholder="Others Suitability" name="asdSuitabilityOthers" class="m-wrap largevalforanalytics" style="visibility: hidden;"/>
 														</div>
 													</div>
-													<div class="control-group">
+													
+													 
+													 <div class="control-group">
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Application Cost Type<span class="required">*</span></label>
 															<div class="controlsforanalyticsapplcation">
 																<select name="asdApplicationCostType"  id="asdApplicationCostType" style="width: 223px;">
-																	<option value ="Free and Min Balance Not required" >-Free and Min Balance Not required-</option>
-														            <option value ="Min Balance Required" > Min Balance Required </option>
+																	<option value ="Min Balance Required" > Min Balance Required </option>
+																	<option value ="Free and Min Balance Not required" >Free and Min Balance Not required</option>
 														            <option value ="Subscription based" > Subscription based </option>
 														            
 																</select>
 															</div>
 													</div>
-												
-													</div>
-													 <div class="ColumnCommonvendorpretab3analyticsapp">
+													 
 													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Subsription cost (USD ; per month)<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
 															<input type="text" id="asdApplicationSubscriptionCost" readonly="readonly" placeholder="Subsription cost (USD ; per month)" name="asdApplicationSubscriptionCost" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div>
 													
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Subsription cost (USD ; per annum)<span class="required">*</span></label>
 														<div class="controlsforanalyticsapplcation">
 															<input type="text" id="asdApplicationSubscriptionAnnum" readonly="readonly" placeholder="Subsription cost (USD ; per annum)" name="asdApplicationSubscriptionAnnum" class="m-wrap largevalforanalytics"/>
 														</div>
@@ -1478,20 +1509,6 @@
 															<input type="text" id="asdExistingUserBase" placeholder="Existing User Base" name="asdExistingUserBase" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div>
-													
-															  <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Real time Market Data?</label>
-														<div class="controlsforanalyticsapplcation">
-															<input type="checkbox" id="asdRealtimeMarketData" placeholder="Real time Market Data?" name="asdRealtimeMarketData" class="m-wrap largevalforanalytics"/>
-														</div>
-													</div>
-													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Customizable Calculation Models(?)</label>
-														<div class="controlsforanalyticsapplcation">
-															<input type="checkbox" id="asdCustomizableCalculationModels" placeholder="Customizable Calculation Models" name="asdCustomizableCalculationModels" class="m-wrap largevalforanalytics"/>
-														</div>
-													</div>
-													    
 													</div>
 													
 												</div>
@@ -1503,14 +1520,14 @@
 													 	</div>
 														</div>
 													</div> 
-												<div class="portlet-body">
+												<div class="portlet-body" style="max-width: 950px;overflow-x: scroll;">
 												<table class="table table-striped table-bordered table-hover table-full-width" id="asdTable">
 													<thead style="background-color: #7BCCA5;">
 														<tr>
 
 															<th>Solution</th>
-															<th>Offering</th>
-															<th>Offering Desc</th>
+															<th>Analytics Solutions Type</th>
+															<th>Desc</th>
 															<th>Application Name</th>
 															<th>Accessibility</th>
 															<th>Application Cost Type</th>
@@ -1851,16 +1868,12 @@
 															</div>
 													</div> 
 													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Subsription cost (USD ; per month) </label>
-														<br>
-														<div >
-															<input type="text" id="rdReportSubscriptionCost" readonly="readonly" placeholder="Subsription cost (USD ; per month)" name="rdReportSubscriptionCost" />
+														<div class="controlsforanalyticsapplcation">
+															<input type="text" id="rdReportSubscriptionCost" readonly="readonly" placeholder="Subsription cost (USD ; per month)" name="rdReportSubscriptionCost"  class="m-wrap largevalforanalytics"/>
 														</div>
 													</div>
 													
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Subsription cost (USD ; per annum) </label>
-														<br>
 														<div class="controlsforanalyticsapplcation">
 															<input type="text" id="rdReportSubscriptionCostAnnum" readonly="readonly" placeholder="Subsription cost (USD ; per annum)" name="rdReportSubscriptionCostAnnum" class="m-wrap largevalforanalytics"/>
 														</div>
@@ -1879,7 +1892,7 @@
 													  <div class="control-group">
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Research Period<span class="required">*</span></label>
 															<div class="controlsforanalyticsapplcation">
-															<select name="rdResearchApplicableMonth" id="rdResearchApplicableMonth" style="width: 123px;">
+															<select name="rdResearchApplicableMonth" id="rdResearchApplicableMonth" style="width: 120px;">
 															        		<option value ="January">January</option>
 																			<option value ="February">February</option>
 																			<option value ="March">March</option>
@@ -1894,7 +1907,7 @@
 																			<option value ="December">December</option>
 																																			     
 															</select>
-																<select name="rdResearchApplicableYear" id="rdResearchApplicableYear" style="width: 100px;">
+																<select name="rdResearchApplicableYear" id="rdResearchApplicableYear" style="width: 90px;">
 															        		<option value ="2006">2006</option>
 																			<option value ="2007">2007</option>
 																			<option value ="2008">2008</option>
@@ -1931,9 +1944,9 @@
 													 	</div>
 														</div>
 													</div> 
-												<div class="portlet-body">
+												<div class="portlet-body" style="max-width: 950px;overflow-x: scroll;">
 												<table class="table table-striped table-bordered table-hover table-full-width" id="rdTable">
-													<thead style="background-color: #7BCCA5;">
+													<thead style="background-color: #7BCCA5;" >
 														<tr>
 															<th>Solution</th>
 															<th>Offering</th>
@@ -1943,11 +1956,8 @@
 															<th>Suitability</th>
 															<th>Report Cost Type</th>
 															<th>Report Subscription CCY</th>
-															<th>Report Subscription Cost</th>
-															<th>Report Subscription Type</th>
 															<th>Report Format</th>
-															<th>Research Applicable Year</th>
-															<th>Research Applicable Month</th>
+															<th>Research Period</th>
 															<th>Existing User Base</th>
 															<th>Actions</th>
 														</tr>
@@ -2069,14 +2079,15 @@
     </div>
     </div>
     <!-- END CONTAINER -->
+ 
     <jsp:include page="common/footer.jsp"></jsp:include>
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css" />
+    
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
   	<script type="text/javascript" 	src="<%=request.getContextPath() %>/resources/js/finvendorValidation.js"></script>
-
-	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css" />
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
+    <link rel="stylesheet" src="<%=request.getContextPath() %>/resources/css/vendor.css"/>
 
 
 <script type="text/javascript">
