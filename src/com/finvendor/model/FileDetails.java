@@ -2,29 +2,14 @@ package com.finvendor.model;
 
 import java.sql.Blob;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-
-
-@Entity
-@Table(name="FileDetails")
 public class FileDetails {
 	
-	@Id
-    @Column(name="FileDetails_id")
     private String id;
-	@Column(name="length")
 	private int length;
-	@Column(name="bytes")
 	private byte[] bytes;
-	@Column(name="name")
 	private String name;
-	@Column(name="type")
 	private String type;
-	// @OneToOne(mappedBy="vendor", cascade = {CascadeType.ALL})
 	private Vendor vendor;
 	private Blob blob;
 	
