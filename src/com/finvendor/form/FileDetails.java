@@ -1,4 +1,4 @@
-package com.finvendor.model;
+package com.finvendor.form;
 
 import java.sql.Blob;
 
@@ -10,7 +10,6 @@ public class FileDetails {
 	private byte[] bytes;
 	private String name;
 	private String type;
-	private Vendor vendor;
 	private Blob blob;
 	
 	
@@ -49,12 +48,6 @@ public class FileDetails {
 	}
 	public void setType(String type) {
 		this.type = type;
-	}
-	public Vendor getVendor() {
-		return vendor;
-	}
-	public void setVendor(Vendor vendor) {
-		this.vendor = vendor;
 	}
 	
 }

@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.form.FileDetails;
 import com.finvendor.form.JsonResponseData;
 import com.finvendor.form.VendorAnalystProfileForm;
 import com.finvendor.form.VendorAnalyticsSoftwareDetailsForm;
@@ -44,7 +45,6 @@ import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
-import com.finvendor.model.FileDetails;
 import com.finvendor.model.FileFields;
 import com.finvendor.model.OfferingFiles;
 import com.finvendor.model.Region;
