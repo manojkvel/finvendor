@@ -61,6 +61,7 @@ public class RequestConstans {
 		public static final String ADMIN_EDIT_REF_DATA = "adminEditRefData";
 		public static final String ADMIN_ACTION_EDIT_REF_DATA = "adminActionEditRefData";
 		public static final String ADMIN_ACTION_ADD_REF_DATA = "adminActionAddRefData";
+		public static final String ADMIN_USER_SUMMARY_PROFILE = "adminUserSummaryProfile";
 	}
 	
 	public interface Roles{

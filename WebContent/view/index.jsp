@@ -13,13 +13,11 @@
 <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
 <title>FinVendor</title>
 <jsp:include page="common/head.jsp"></jsp:include>
-
-
 </head>
 <body>
 <c:set var="checkingresultpageview" value="${checkingresultpageview}"></c:set>
 	
-	<jsp:include page="common/header.jsp"></jsp:include>
+	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 	
 	<div class="container">
 		<jsp:include page="common/banner.jsp"/>

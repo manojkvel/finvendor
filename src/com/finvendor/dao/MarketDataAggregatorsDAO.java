@@ -10,6 +10,7 @@ import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassDataDetails;
 import com.finvendor.model.AssetClassSecurityMap;
 import com.finvendor.model.Awards;
+import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.CountryExchangeMap;
@@ -212,5 +213,6 @@ public interface MarketDataAggregatorsDAO {
 	Country getCountryById(String Id);
 	Cost getCostById(String Id);
 	Exchange getExchangeById(String exchange);
-
+	List<CompanySubType> getCompanySubTypeList();
+	
 }

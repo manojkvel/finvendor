@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
+import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
 import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
@@ -153,6 +157,7 @@ public class LoginController {
 		List<Support> supports = null;
 		List<Cost> costs = null;
 		List<Awards> awards = null;
+		List<CompanySubType> companySubType = null;
 		String username = null;
 		ModelAndView modelAndView = null;
 		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null 
@@ -173,20 +178,20 @@ public class LoginController {
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
 			costs  = marketDataAggregatorsService.getAllCostInfo();
 			awards = marketDataAggregatorsService.getAllAwards();
+			companySubType = marketDataAggregatorsService.getCompanySubTypeList();
 			
 			try {
 				if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_ADMIN))) {
 					logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_ADMIN);
 					modelAndView = new ModelAndView(RequestConstans.Login.ADMIN_INFO);
-		       		modelAndView.addObject("username", username);
+					request.getSession().setAttribute("loggedInRole", RequestConstans.Roles.ROLE_ADMIN);
+		       		//modelAndView.addObject("username", username);
 		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_VENDOR))) {
 		       		logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_VENDOR);
 		       		modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);					
 					vendor = userService.getUserDetailsByUsername(username).getVendor();
 					modelAndView.addObject("myprofiletab", "myprofile");	       		
 		       		modelAndView.addObject("vendortabdetails", "vendortabdetails");	       	
-		       	//	System.out.println("Get Solution----"+vendor.getVendorSupport().getcWeekend());
-		       		
 		       		String telephone = vendor.getTelephone();
 		       	if(telephone != null){
 		       		String[] split = telephone.split("-");
@@ -195,14 +200,17 @@ public class LoginController {
 			       		vendor.setTelephone(split[1]);
 		       		}
 		       	}
-		       		modelAndView.addObject("vendor", vendor);		       		
+		       		modelAndView.addObject("vendor", vendor);	
+		       		request.getSession().setAttribute("loggedInRole", RequestConstans.Roles.ROLE_VENDOR);
 		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_CONSUMER))) {
 		       		logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_CONSUMER);
 		       		modelAndView = new ModelAndView(RequestConstans.Login.CONSUMER_INFO);
 		       		consumer = userService.getUserDetailsByUsername(username).getConsumer();
+		       		CommonUtils.populateConsumerProfileRequest(consumer, modelAndView);
 		       		consumer.setVendorPreference();
 		       		modelAndView.addObject("consumerMyProfiletab", "consumermyprofile");
 		       		modelAndView.addObject("consumer", consumer);
+		       		request.getSession().setAttribute("loggedInRole", RequestConstans.Roles.ROLE_CONSUMER);
 		       	}
 				modelAndView.addObject("assetClasses", assetClasses);
 				modelAndView.addObject("regions", regions);
@@ -212,6 +220,7 @@ public class LoginController {
 				modelAndView.addObject("supports", supports);
 				modelAndView.addObject("costs", costs);
 				modelAndView.addObject("awards", awards);
+				modelAndView.addObject("companySubType", companySubType);
 		   		modelAndView.addObject("username", username);		
 			}catch (Exception exp) {
 				logger.error("Error reading Details for {}", username, exp);
@@ -389,4 +398,24 @@ public class LoginController {
          return modelAndView;
      } 
       */
+	
+	@RequestMapping(value = "displayCompanyLogo/{username}", method = RequestMethod.GET)
+	public void displayCompanyLogo(HttpServletResponse response,
+			@PathVariable String username) {
+		try {
+			logger.debug("LoginController : displayCompanyLogo for {}", username);
+			FinVendorUser user = userService.getUserDetailsByUsername(username);
+			if(user.getVendor() != null) {
+				Vendor vendor = user.getVendor();
+				response.setContentType(vendor.getLogoType());
+				FileCopyUtils.copy(vendor.getLogoBytes().getBinaryStream(), response.getOutputStream());
+			}else {
+				Consumer consumer = user.getConsumer();
+				response.setContentType(consumer.getLogoType());
+				FileCopyUtils.copy(consumer.getLogoBytes().getBinaryStream(), response.getOutputStream());
+			}
+		}catch (Exception exp) {
+			logger.error("Error reading logo files for {}", username, exp);
+		}
+	}
 }

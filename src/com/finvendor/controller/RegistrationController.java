@@ -71,31 +71,6 @@ public class RegistrationController {
 	}
 
 	/**
-	 * method for check user name in database validation
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	/*
-	@RequestMapping(value=RequestConstans.Register.REGISTERUSERCHECK, method=RequestMethod.POST)
-	public ModelAndView checkUserNameValidation(HttpServletRequest request,@ModelAttribute("users") Users users,
-			@RequestParam(value = "VEuLA", required = false) String username){
-		logger.info("Mehtod for check username in database --:");
-		ModelAndView modelAndView=new ModelAndView(RequestConstans.Register.EMPTY);
-		try{
-			username = CommonUtils.decrypt(username.getBytes());
-			boolean isRxist = userService.validateUsername(username);
-			modelAndView.addObject("status", isRxist);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.info("Mehtod for check username validaton --:");
-		}
-		return modelAndView;
-	}
-	*/
-	
-	/**
 	 * method for to check phone number validation
 	 * 
 	 * @return modelAndView
@@ -365,8 +340,7 @@ public class RegistrationController {
 			userService.saveUserInfo(user);
 			String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
 			
-			EmailUtil emailUtil = new EmailUtil();
-			emailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
+			EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
 			modelAndView.addObject("status", true);
 			logger.debug("Leaving RegistrationController : saveUserInfo");
 			
@@ -425,8 +399,7 @@ public class RegistrationController {
 		try{			
 			FinVendorUser user = userService.getUserDetailsByUsername(username);
 			String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), true);
-			EmailUtil emailUtil = new EmailUtil();
-			emailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
+			EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
 			modelAndView.addObject("resendRegistrationLink", "success");	
 		}catch (Exception exp) {
 			logger.error("Error Resending User Registration link", exp);

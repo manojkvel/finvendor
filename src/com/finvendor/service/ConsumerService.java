@@ -1,32 +1,11 @@
-/**
- * 
- */
 package com.finvendor.service;
 
+import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
 
-/**
- * @author rayulu vemula
- *
- */
 public interface ConsumerService {
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to save consumer info 
-	 * 
-	 * @param vendor
-	 * @return 
-	 */
-	void saveConsumerInfo(Consumer consumer);
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get consumer info by emailId 
-	 * 
-	 * @param email
-	 * @return 
-	 */
-	Consumer getConsumerInfoByEmail(String email);
-
+	Consumer updateConsumerDetails(Consumer consumer) throws ApplicationException;
+	Consumer getConsumerInfoByEmail(String email) throws ApplicationException;
+	CompanySubType getCompanySubType(int id) throws ApplicationException;
 }

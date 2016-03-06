@@ -36,7 +36,7 @@
 </head>
 <body>
 	<div class="container">
-		<jsp:include page="common/header.jsp"></jsp:include>
+		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 	</div>
     	<form id="login-submit" method="post" action="<c:url value='j_spring_security_check' />" id="login-submit">
 		<div class="container">

@@ -117,7 +117,7 @@ function validateSpanElements(spanName) {
 }
 
 function validatePersonalEmailId(element, errorLabelId) {
-	var emailId = $.trim(element.value)
+	var emailId = $.trim(element.value);
 	var validationList = ['@yahoo','@aol','@rediff','@hotmail','@in','@msn'];
 	for (i = 0; i < validationList.length; i++) {
 	    if(emailId.indexOf(validationList[i]) != -1) {
@@ -128,12 +128,30 @@ function validatePersonalEmailId(element, errorLabelId) {
 	return true;
 }
 
+function validateImageType(element, errorLabelId) {
+	var fileName = element.value;
+	if(fileName != null) {
+		fileName = $.trim(fileName);
+		if(fileName != '') {
+			if(!regularExpressionMap['IMAGE'].test(fileName)) {
+				 document.getElementById(errorLabelId).innerHTML = validationMessageMap['IMAGE'];
+				 return false;
+			 }else{
+				 document.getElementById(errorLabelId).innerHTML = '';
+				 return true;
+			 }
+		}
+	}
+}
+
 var validationMessageMap = {
 		'DESIGNATION' : 'Please enter valid Designation value',
 		'EMAIL' : 'Please enter valid Email id',
 		'PHONE_CODE' : 'Please enter valid Code value',
 		'PHONE' : 'Please enter valid Phone Number',
-		'COMPANY_URL' : 'Please enter valid URL'
+		'COMPANY_URL' : 'Please enter valid URL',
+		'YEAR' : 'Please enter valid YEAR',
+		'IMAGE' : 'Please upload valid image file'
 	}
 
 var regularExpressionMap = {
@@ -141,5 +159,7 @@ var regularExpressionMap = {
 		'EMAIL' : /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i,
 		'PHONE_CODE' : /^\+(?:[1-9] ?){1,6}/,
 		'PHONE_NUMBER' : /^([0-9]{8,10})$/,
-		'URL' : /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/
+		'URL' : /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/,
+		'YEAR' : /^\d{4}$/,
+		'IMAGE' : /^([a-zA-Z0-9\s_\\.\-:])+(.jpeg|.jpg|.png| .gif)$/
 	}

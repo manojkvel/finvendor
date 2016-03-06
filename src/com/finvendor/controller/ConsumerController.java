@@ -1,103 +1,139 @@
-/**
- * 
- */
 package com.finvendor.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassSecurityMap;
 import com.finvendor.model.Awards;
+import com.finvendor.model.CompanySubType;
+import com.finvendor.model.Consumer;
 import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
 import com.finvendor.model.Support;
+import com.finvendor.service.ConsumerService;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.UserService;
-import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
 
-/**
- * @author rayulu vemula
- *
- */
 @Controller
-public class ConsumerController {
+public class ConsumerController implements HandlerExceptionResolver {
 
-private static Logger logger = Logger.getLogger(ConsumerController.class);
-	
-	String[] vendorTypes = {"Financial Vendor- Data Aggregators", "Financial Vendor- Trading Applications","Financial Vendor- Financial Analytics applications","Financial Vendor- Research report"};
-	String[] consumerTypes = {"Financial Firm - Sell side", "Financial Firm - Buy side","Financial Firm - Others","University/College","Other firm"};
+	private static Logger logger = LoggerFactory.getLogger(
+			ConsumerController.class);
 	
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
-	private VendorService vendorService;
-
+	private ConsumerService consumerService;
+	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
 	
-	/**
-	 * method for navigate consumer my profile
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	
-	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_MY_PROFILE, method=RequestMethod.GET)
-	public ModelAndView consumerMyProfile(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
-			@RequestParam(value = "RaYVeMu", required = false) String username){
-		logger.info("Mehtod for vendorNavigation--:");
-		List<AssetClass> assetClasses = null;
-		List<Region> regions = null;
+	@RequestMapping(value="updateConsumerProfileCompanyDetails", 
+			method=RequestMethod.POST)
+	public ModelAndView updateConsumerProfileCompanyDetails(
+			HttpServletRequest request, 
+			@ModelAttribute("user") FinVendorUser user,
+			@RequestParam(value = "consumerProfileLastName", required = false) String lastName,
+			@RequestParam(value = "consumerProfileDesignation", required = false) String designation,
+			@RequestParam(value = "consumerProfileCompanyUrl", required = false) String companyUrl,
+			@RequestParam(value = "consumerProfileCompanyInfo", required = false) String companyInfo,
+			@RequestParam(value = "consumerProfileSecondaryEmail", required = false) String secondaryEmail,
+			@RequestParam(value = "consumerProfilePhoneNumberCode", required = false) String consumerProfilePhoneNumberCode,
+			@RequestParam(value = "consumerProfilePhoneNumber", required = false) String consumerProfilePhoneNumber,
+			@RequestParam(value = "consumerProfileCity", required = false) String city,
+			@RequestParam(value = "consumerProfileCountryOfIncorporation", required = false) int countryOfIncorporation,
+			@RequestParam(value = "consumerProfileYearOfIncorporation", required = false) int yearOfIncorporation,
+			@RequestParam(value = "consumerProfileCompanySubType", required = false) int companySubType,
+			@RequestParam(value = "consumerProfileCompanyLogo", required = false) MultipartFile companyLogo) {
+		logger.debug("Entering ConsumerController : updateConsumerProfileCompanyDetails");
 		List<Country> countries = null;
-		List<Exchange> exchanges = null;
-		List<Support> supports = null;
-		List<Cost> costs = null;
-		List<Awards> awards = null;
-		ModelAndView modelAndView=new ModelAndView(RequestConstans.Consumer.CONSUMER_MY_PROFILE);
-		try{
-			assetClasses = marketDataAggregatorsService.getAllAssetClass();
-			regions = marketDataAggregatorsService.getAllRegionClass();
+		List<CompanySubType> subType = null;
+		String username = null;
+		ModelAndView modelAndView = new ModelAndView(
+				RequestConstans.Login.CONSUMER_INFO); 
+		try {
+			User appUser = (User)SecurityContextHolder.getContext().
+					getAuthentication().getPrincipal();
+			username = appUser.getUsername();
+			user = userService.getUserDetailsByUsername(username);
+			Consumer consumer = user.getConsumer();
+			if(!companyLogo.isEmpty()) {
+				consumer.setLogoBytes(Hibernate.createBlob(
+						companyLogo.getInputStream()));
+				consumer.setLogoType(companyLogo.getContentType());
+			}
+			String phoneNumber = consumerProfilePhoneNumberCode + "-" 
+					+ consumerProfilePhoneNumber;
+			consumer.setLastName(lastName);
+			consumer.setDesignation(designation);
+			consumer.setCompanyUrl(companyUrl);
+			consumer.setCompanyInfo(companyInfo);
+			consumer.setSecondaryEmail(secondaryEmail);
+			consumer.setTelephone(phoneNumber);
+			consumer.setCity(city);
+			consumer.setCountryOfIncorporation(countryOfIncorporation);
+			consumer.setYearOfIncorporation(yearOfIncorporation);
+			consumer.setCompanySubType(consumerService.
+					getCompanySubType(companySubType));	
+			user.setConsumer(consumer);
+			consumerService.updateConsumerDetails(consumer);
+			CommonUtils.populateConsumerProfileRequest(consumer, modelAndView);
 			countries = marketDataAggregatorsService.getAllCountries();
-			exchanges = marketDataAggregatorsService.getAllExchanges();
-			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
-			
-			username = CommonUtils.decrypt(username.getBytes());
-			
-			modelAndView.addObject("assetClasses", assetClasses);
-			modelAndView.addObject("regions", regions);
-			modelAndView.addObject("regionslist", regions);
+			subType = marketDataAggregatorsService.getCompanySubTypeList();
+			modelAndView.addObject("consumer", consumer);
 			modelAndView.addObject("countries", countries);
-			modelAndView.addObject("exchanges", exchanges);
-			modelAndView.addObject("supports", supports);
-			modelAndView.addObject("costs", costs);
-			modelAndView.addObject("awards", awards);
-			
-			modelAndView.addObject("consumerMyProfiletab", "consumermyprofile");
-			
-			modelAndView.addObject("username", username);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Mehtod for vendorNavigation--:");
+			modelAndView.addObject("companySubType", subType);
+	   		modelAndView.addObject("username", username);
+	   		modelAndView.addObject("lastActionStatus", "Successfully updated Consumer Profile");
+		}catch (Exception exp) {
+			logger.error("Error updating Consumer Profile - Company Details", 
+					exp);
+			modelAndView.addObject("lastActionError",  "Error updating Consumer Profile");
+		}
+		logger.debug("Leaving ConsumerController : updateConsumerProfileCompanyDetails");
+		return modelAndView;
+	}
+		
+	public ModelAndView resolveException(HttpServletRequest request,
+			HttpServletResponse response, Object handler, Exception exp) { 
+		ModelAndView modelAndView = new ModelAndView("errorPage"); 
+		if (exp instanceof MaxUploadSizeExceededException) {
+			logger.error("File upload size exceeds 100KB threshold", exp);
+			modelAndView.addObject("errorMessage", "File upload size exceeds 100KB threshold");
+		} 
+		try {
+			request.getRequestDispatcher("/view/errorPage.jsp").forward(request, response);
+		}catch (IOException exc) {
+			logger.error("Error forwarding to errorpage");
+		}catch (ServletException exc) {
+			logger.error("Error forwarding to errorpage");
 		}
 		return modelAndView;
 	}

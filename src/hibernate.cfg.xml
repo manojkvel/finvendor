@@ -5,8 +5,8 @@
 
  
 <hibernate-configuration>
-    <session-factory>
-      <mapping class="com.finvendor.model.FinVendorUser"></mapping>
+	<session-factory>
+    	<mapping class="com.finvendor.model.FinVendorUser"></mapping>
         <mapping class="com.finvendor.model.Roles"></mapping>
         <mapping class="com.finvendor.model.UserRole"></mapping> 
         <mapping class="com.finvendor.model.Vendor"></mapping>
@@ -44,6 +44,7 @@
         <mapping class="com.finvendor.model.VendorTradingSoftwareDetails"></mapping>
          <mapping class="com.finvendor.model.VendorAnalyticsSoftwareDetails"></mapping>
          <mapping class="com.finvendor.model.VendorResearchDetails"></mapping>
+         <mapping class="com.finvendor.model.CompanySubType"></mapping>
       </session-factory>
 	    
 </hibernate-configuration>

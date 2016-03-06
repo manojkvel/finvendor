@@ -48,9 +48,8 @@
 					
 		</script>	
 	</head>
-	<%--<c:set var="username" value="${finven:decrypt(param.RaYUnA)}"></c:set>--%>
 	<body>
-		<jsp:include page="dashboardheader.jsp"></jsp:include>
+		<jsp:include page="header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 		<jsp:include page="../login.jsp"></jsp:include>
 			<div class="inner-breadcrumb">
 			  <div class="container" id="breadcrumb_text">

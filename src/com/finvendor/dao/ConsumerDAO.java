@@ -1,32 +1,13 @@
-/**
- * 
- */
 package com.finvendor.dao;
 
+import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
 
-/**
- * @author rayulu vemula
- *
- */
 public interface ConsumerDAO {
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc) Method to save consumer info
-	 * 
-	 * @return Object with success or failure messages
-	 * @see com.finvendor.dao.ConsumerDAO#saveConsumerInfo()
-	 */
-	void saveConsumerInfo(Consumer consumer);
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc) Method to get consumer info
-	 * 
-	 * @return Object with success or failure messages
-	 * @see com.finvendor.dao.ConsumerDAO#getConsumerInfoByEmail()
-	 */
-	Consumer getConsumerInfoByEmail(String email);
+	Consumer updateConsumerDetails(Consumer consumer) throws ApplicationException;
+	Consumer getConsumerInfoByEmail(String email) throws ApplicationException;
+	CompanySubType getCompanySubType(int id) throws ApplicationException;
 
 }

@@ -8,7 +8,7 @@
 	(function( $ ) {									
 		$( document ).ready(function() {					
 			$('#sidelinksAdmin a').click(function(e) {						
-				$('.inner-left-wrap-with-padding').hide();
+				$('.inner-left-wrap').hide();
 				var checkElement = $(this).text();
 				var divId = $(this).parent().data("div-id");
 				if(divId.indexOf("_") > 0){

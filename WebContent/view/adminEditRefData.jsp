@@ -45,7 +45,7 @@ th, td {
 	</head>
 	<body>
 		<jsp:include page="common/head.jsp"></jsp:include>
-		<jsp:include page="common/header.jsp"></jsp:include>
+		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 		<div class="container">
 		<div class="inner-content">
 		<div class="inner-left-wrap">Edit Reference Data for Table <b>${refData.tableName}</b></div>	

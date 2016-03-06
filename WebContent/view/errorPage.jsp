@@ -12,7 +12,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<jsp:include page="common/header.jsp"></jsp:include>
+			<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 		</div>	
 		<div class="container">
 			<font color="red">${errorMessage}</font>

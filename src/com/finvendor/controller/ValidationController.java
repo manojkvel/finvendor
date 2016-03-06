@@ -27,7 +27,7 @@ public class ValidationController {
 		String email = request.getParameter("param");
 		logger.info("Validate existing Email : " + email);		
 		try{
-			if(userService.getUserDetailsByEmailId(email) != null){
+			if(email != null && !"".equals(email) && userService.getUserDetailsByEmailId(email) != null){
 				response.getWriter().print("Email is already registered !");
 			}
 		}catch (IOException exp) {

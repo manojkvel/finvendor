@@ -75,7 +75,7 @@
 	</head>
 	<body>
 		<jsp:include page="common/head.jsp"></jsp:include>
-		<jsp:include page="common/header.jsp"></jsp:include>
+		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 		<div class="container">
 		<div class="inner-content">
 		<div class="inner-left-wrap" id="welcomeAdmin"><span style="color:red">Welcome to Admin Dashboard</span></div>
@@ -107,7 +107,7 @@
 							<c:forEach items="${userList}" var="user">
 								<tr>
 									<td><input name="useridcheck" type="checkbox" value="${user.userName}"/></td>
-									<td>${user.userName}</td>
+									<td><a href="/adminUserSummaryProfile?nav=Manage Account&userName=${user.userName}">${user.userName}</a></td>
 									<td>${user.email}</td>
 									<td>${finven:getRole(user.userRoles)}</td>
 									<td>

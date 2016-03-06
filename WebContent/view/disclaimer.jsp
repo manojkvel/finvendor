@@ -56,7 +56,7 @@
 	<%-- <c:set var="username" value="${finVen:decrypt(param.RaYUnA)}"></c:set> --%>
 	<body>
 		<div class="container">
-			<jsp:include page="common/header.jsp"></jsp:include>
+			<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 		</div>
 		<jsp:include page="login.jsp"></jsp:include>
 			<%-- <div class="inner-breadcrumb">

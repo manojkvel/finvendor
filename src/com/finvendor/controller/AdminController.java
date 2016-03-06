@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.Country;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.ReferenceData;
 import com.finvendor.model.TableColumn;
 import com.finvendor.service.AdminService;
 import com.finvendor.service.UserService;
+import com.finvendor.service.VendorService;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 
@@ -37,6 +39,9 @@ public class AdminController {
 	
 	@Resource(name="adminService")
 	private AdminService adminService;
+	
+	@Resource(name="vendorService")
+	private VendorService vendorService;
 	
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;
@@ -232,6 +237,27 @@ public class AdminController {
 		modelAndView.addObject("subNav", subNav);
 		modelAndView.addObject("adminAction", RequestConstans.Admin.ADMIN_ACTION_ADD_REF_DATA);
 		logger.debug("Leaving AdminController : adminAddReferenceDataRow for {}_{}", nav, subNav);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="adminUserSummaryProfile", method=RequestMethod.GET)
+	public ModelAndView adminUserSummaryProfile(HttpServletRequest request,
+			@RequestParam(value = "nav", required = true) String nav,
+			@RequestParam(value = "userName", required = true) String userName) {
+		logger.debug("Entering AdminController : adminUserSummaryProfile");
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Admin.ADMIN_USER_SUMMARY_PROFILE);
+		modelAndView.addObject("requestType", "adminUserSummaryProfile");
+		try {
+			FinVendorUser user = userService.getUserDetailsByUsername(userName);
+			Country country = vendorService.getCountryById(user.getVendor().getCountryofincorp());
+			modelAndView.addObject("user", user);
+			modelAndView.addObject("country", country);
+		} catch(ApplicationException exp){
+			logger.error("Error Reading User Summary Profile", exp);
+			modelAndView.addObject("lastActionError", exp.getMessage());
+		}		
+		modelAndView.addObject("nav", nav);
+		logger.debug("Leaving AdminController : adminUserSummaryProfile");
 		return modelAndView;
 	}
 	
