@@ -6,8 +6,10 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.Consumer;
 import com.finvendor.model.UserRole;
 
 public class CommonUtils {
@@ -120,6 +122,33 @@ public class CommonUtils {
 		}else {
 			return "";
 		}
+	}
+	
+	public static void populateConsumerProfileRequest(Consumer consumer, ModelAndView modelAndView) {
+		String telephone = consumer.getTelephone();
+   		if(telephone != null && !telephone.trim().equals("")) {
+   			String[] phoneWithCode = telephone.split("-");
+   			modelAndView.addObject("telephoneCode", phoneWithCode[0]);
+   			modelAndView.addObject("telephoneNumber", phoneWithCode[1]);
+   		}
+   		String companyType = consumer.getCompanyType();
+   		StringBuilder displayCompanyType = new StringBuilder();
+   		boolean buy = false;
+   		if(companyType != null) {
+       		if(companyType.indexOf("Buy") > 0) {
+       			displayCompanyType.append("Buy Side");
+       			buy = true;
+       		}
+       		if(companyType.indexOf("Sell") > 0) {
+       			if(buy) {
+       				displayCompanyType.append(", Sell Side");
+       			}else {
+       				displayCompanyType.append("Sell Side");
+       			}
+       		}
+   		}
+   		consumer.setVendorPreference();
+   		modelAndView.addObject("displayCompanyType", displayCompanyType.toString());
 	}
 	
 	private static String convertByteToHex(byte data[]){
