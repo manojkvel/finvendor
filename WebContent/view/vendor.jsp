@@ -343,7 +343,7 @@
 																<div class="controls">
 																	<input type="text" id="awardname"
 																		placeholder="Award Name" name="awardname"
-																		class="m-wrap large" onblur="validateAjax(this,'checkExistingValue', 'awardnameErrorMsg', 'awarddetails')"/>
+																		class="m-wrap large" />
 																<div>
 																
 																<label id="awardnameErrorMsg" class="errorMessage"></label>
@@ -374,6 +374,68 @@
 																</div>
 															</div>
 														</div>
+														
+														
+														
+														<div class="ColumnCommonSingletwo">
+															<div class="control-group" >
+																<label class="control-labelaligndatacoverage"
+													style="padding-left: 47px;"><font color="black">Vendor Type</font></label>
+												<div class="controls">
+													<select name="awardVendorType" id="awardVendorType">
+														<option value="Data Aggregator vendor">Data	Aggregator vendor</option>
+														<option value="Trading Application vendor">Trading Application vendor</option>
+														<option value="Analytics Application vendor">Analytics Application vendor</option>
+														<option value="Research Reporting vendor">Research Reporting vendor</option>
+													</select>
+												</div>
+															</div>
+															<div class="control-group">
+															<div id="assetClassDiv" >
+																<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Asset Class</label>
+																<div class="controls">
+																<select name="awardAssetclass" id="awardAssetclass">
+																		<c:forEach var="assetClasses" items="${assetClasses}">
+																			<option value="${assetClasses.asset_class_id}">${assetClasses.description}</option>
+																		</c:forEach>
+																	</select>
+																</div>	
+															</div>
+															<div id="analyticsSolutionsTypeDiv" style="display:none">	
+																<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Analytics Solutions Type</label>
+														<div class="controls" >
+															<select name="awardAnalyticsSolutionsType"  id="awardAnalyticsSolutionsType" >
+															     <option value ="Banking Solutions" > Banking Solutions </option>
+															     <option value ="Alternative Investment Solutions" > Alternative Investment Solutions </option>
+																<option value ="Backoffice Operations" > Backoffice Operations</option>
+																<option value ="Backoffice Operations" > Backoffice Operations </option>
+																<option value ="Margining Solutions" > Margining Solutions</option>
+																<option value ="Portfolio Management Solutions" > Portfolio Management Solutions</option>
+																<option value ="Product Valuation" > Product Valuation</option>
+																<option value ="Regulatory, Compliance & Risk Mgm" > Regulatory, Compliance & Risk Mgm</option>
+														 	</select>
+														</div>	
+														</div>			
+													<div id="researchAreaDiv" style="display:none">				
+														<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Research Area</label>
+														<div class="controls">
+															<select name="awardResearchArea"  id="awardResearchArea">
+															     
+																<option value ="Commodity Analysis" >Commodity Analysis</option>
+																<option value ="Exchange Rate Analysis" >Exchange Rate Analysis</option>
+																<option value ="Interest Rate Analysis" >Interest Rate Analysis</option>
+																<option value ="Equity research" >Equity research</option>
+																<option value ="Debt Market research" >Debt Market research</option>
+																<option value ="Index research" >Index research</option>
+																<option value ="Fund/ETF research" >Fund/ETF research</option>
+															     
+														 	</select> 
+														</div>
+																	
+														</div>			
+															</div>
+														</div>
+														
 													</div>
 													<div class="control-group">
 														<div class="controls">
@@ -393,6 +455,7 @@
 																	<th>Award Name</th>
 																	<th>Award-Main Sponsor</th>
 																	<th>Awarded year</th>
+																	<th>Vendor Type</th>
 																	<th>#</th>
 																</tr>
 															</thead>
