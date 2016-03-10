@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +22,10 @@ import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
 import com.finvendor.model.Support;
-import com.finvendor.model.FinVendorUser;
 import com.finvendor.service.MarketDataAggregatorsService;
-import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
 
 /**
@@ -35,9 +33,9 @@ import com.finvendor.util.RequestConstans;
  *
  */
 @Controller
-public class ResearchReportProvidersVendor {
+public class ResearchReportProvidersVendorController {
 
-	private static Logger logger = LoggerFactory.getLogger(ResearchReportProvidersVendor.class);
+	private static Logger logger = LoggerFactory.getLogger(ResearchReportProvidersVendorController.class);
 	
 	
 	@Autowired

@@ -34,9 +34,9 @@ import com.finvendor.util.RequestConstans;
  *
  */
 @Controller
-public class TradingApplicationVendor {
+public class TradingApplicationVendorController {
 
-	private static Logger logger = LoggerFactory.getLogger(TradingApplicationVendor.class);
+	private static Logger logger = LoggerFactory.getLogger(TradingApplicationVendorController.class);
 	
 	
 	@Autowired

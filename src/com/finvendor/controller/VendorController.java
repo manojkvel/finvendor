@@ -78,7 +78,7 @@ import com.google.gson.Gson;
 public class VendorController {
 	
 	private static Logger logger = LoggerFactory.getLogger(VendorController.class);
-	FileDetails ufile = new FileDetails();
+	
 	@Resource(name="userService")
 	private UserService userService;
 	
@@ -195,7 +195,7 @@ public class VendorController {
 
 			//Set<VendorOffering> listOfferings = marketDataAggregatorsService.listOfferings(vendor.getId());
 			List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
-			List<Solutions> solutions = vendorService.getSolutionsBasedOnOfferingTypes(RequestConstans.Vendor.DATA_AGGREGATOR);
+			List<Solutions> solutions = vendorService.getSolutionsBasedOnOfferingTypes(RequestConstans.Vendor.DATA_AGGREGATOR, vendor);
 			
 			modelAndView.addObject("securityTypes",listSecurityType);
 			modelAndView.addObject("solutions",solutions);
@@ -290,15 +290,22 @@ public class VendorController {
 	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_SPECIFIC_SOLUTION_LIST, method=RequestMethod.GET)
 	public @ResponseBody Set<JsonResponseData> getVendorSpecificSolutionList(@RequestParam(value = "vendorProvider", required = false) String vendorProvider) {
-		List<Solutions> solutions = vendorService.getSolutionsBasedOnOfferingTypes(vendorProvider);
+		
+		User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Vendor vendor;
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
+		try {
+			vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+		List<Solutions> solutions = vendorService.getSolutionsBasedOnOfferingTypes(vendorProvider,vendor);
 		for(Solutions solution : solutions){
 			JsonResponseData addResponseData = new JsonResponseData();
 			addResponseData.setId(solution.getSolution_id().toString());
 			addResponseData.setName(solution.getName());
 			JsonResponseData.add(addResponseData);
 		}
-				
+		} catch (ApplicationException e) {
+			logger.error("VendorController : - Error reading details", e);
+		}		
 		return JsonResponseData;
 		
 	}
@@ -704,6 +711,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			vendorService.deleteResearchDetails(objectVar);
 		}else if(RequestConstans.Vendor.ADD_VENDOR_RESEARCHCOVERAGE.equals(recordName)){
 			vendorService.deleteResearchCoverage(objectVar);
+		}else if(RequestConstans.Vendor.ADD_VENDOR_ANALYSTPROFILE.equals(recordName)){
+			vendorService.deleteAnalystProfile(objectVar);
 		}
 		
 		
@@ -871,9 +880,10 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	   public @ResponseBody String upload(MultipartHttpServletRequest request, HttpServletResponse response,@ModelAttribute("vendor") Vendor vendor) {                 
 	  	 
 	  	 Iterator<String> itr =  request.getFileNames();
-		 
+	  	User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		 MultipartFile mpf = request.getFile(itr.next());
 	  	 System.out.println(mpf.getOriginalFilename() +" uploaded!");
+			FileDetails ufile = new FileDetails();
 
 	  	 try {
 			ufile.setLength(mpf.getBytes().length);
@@ -881,7 +891,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		  	ufile.setType(mpf.getContentType());
 		  	ufile.setName(mpf.getOriginalFilename());
 		  	ufile.setBlob( Hibernate.createBlob(mpf.getInputStream())); 
-		  	
+		  	vendorService.updateVendorLogo(ufile,appUser.getUsername());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -910,10 +920,6 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 				response.setContentLength(vendorInfoByUserName.getLogoLength());
 					if(vendorInfoByUserName.getLogoBytes() != null)
 			 		FileCopyUtils.copy(vendorInfoByUserName.getLogoBytes().getBinaryStream() , response.getOutputStream());
-	 			}else{
-		 		 	response.setContentType(ufile.getType());
-					response.setContentLength(ufile.getLength());
-			 		FileCopyUtils.copy(ufile.getBytes(), response.getOutputStream());
 	 			}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -943,11 +949,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			return modelAndView;
 		}
 
-	  
-	  
-
-	
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_PERSONAL_INFO_TAB, method = RequestMethod.GET)
+	  @RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_PERSONAL_INFO_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorPersonalTabInfo(@ModelAttribute("vendor") Vendor vendor,
 			@RequestParam(value = "venFirstname", required = false) String venFirstname,
 			@RequestParam(value = "venLastname", required = false) String venLastname,
@@ -972,6 +974,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		User appUser = null;
 		
 		try {
+			
 			System.out.println("I'm executing successfully----:");
 			appUser = (User)SecurityContextHolder.getContext().
 					getAuthentication().getPrincipal();
@@ -986,10 +989,6 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendor.setSecondaryEmail(venSecEmail);
 				vendor.setTelephone(venPhoneNum);
 				
-		 		vendor.setLogoType(ufile.getType());
-		 		vendor.setLogoLength(ufile.getLength());
-		 		vendor.setLogoName(ufile.getName());
-		 		vendor.setLogoBytes(ufile.getBlob());
 				region = vendorService.getRegionsByName(venRegionOfIncorp);
 				vendor.setRegionofincorp(region.getRegion_id());
 				country = vendorService.getCountryById(venCountryOfIncorp);
@@ -1117,7 +1116,12 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_AWARD_DETAILS_TAB, method = RequestMethod.GET)
 	public @ResponseBody Set<JsonResponseData> updateVendorAwardDetails(@RequestParam(value = "awardname", required = false) String awardname,
 			@RequestParam(value = "awardsponsor", required = false) String awardsponsor,
-			@RequestParam(value = "awardedyear", required = false) String awardedyear) {
+			@RequestParam(value = "awardedyear", required = false) String awardedyear,
+			@RequestParam(value = "awardResearchArea", required = false) String awardResearchArea,
+			@RequestParam(value = "awardSolutionTypes", required = false) String awardSolutionTypes,
+			@RequestParam(value = "awardVendorType", required = false) String awardVendorType,
+			@RequestParam(value = "awardAnalyticsSolutionsType", required = false) String awardAnalyticsSolutionsType,
+			@RequestParam(value = "awardAssetclass", required = false) String awardAssetclass) {
 		
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
 		User appUser = null;
@@ -1128,15 +1132,18 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 					getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
 			if(awardname != null){
-				
-				
-				
-				
 				VendorAwardsMap vendorAwardsMap = new VendorAwardsMap();
 				vendorAwardsMap.setAwardname(awardname);
 				vendorAwardsMap.setAwardsponsor(awardsponsor);
 				vendorAwardsMap.setAwardedyear(Integer.parseInt(awardedyear));
 				vendorAwardsMap.setVendor(vendor);
+				vendorAwardsMap.setAwardResearchArea(awardResearchArea);
+				vendorAwardsMap.setAwardSolutionTypes(awardSolutionTypes);
+				vendorAwardsMap.setAwardVendorType(awardVendorType);
+				vendorAwardsMap.setAwardAnalyticsSolutionsType(awardAnalyticsSolutionsType);
+				vendorAwardsMap.setAwardAssetclass(awardAssetclass); 
+				
+				
 				// Update vendor award details
 				vendorService.updateVendorAwardDetails(vendorAwardsMap);
 		 	}
@@ -1148,6 +1155,12 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				addResponseData.setName(vendorAwardsMap.getAwardname());
 				addResponseData.setDescription(vendorAwardsMap.getAwardsponsor());
 				addResponseData.setFrequency(vendorAwardsMap.getAwardedyear()+"");
+				addResponseData.setAwardResearchArea(vendorAwardsMap.getAwardResearchArea());
+				addResponseData.setAwardSolutionTypes(vendorAwardsMap.getAwardSolutionTypes());
+				addResponseData.setAwardVendorType(vendorAwardsMap.getAwardVendorType());
+				addResponseData.setAwardAnalyticsSolutionsType(vendorAwardsMap.getAwardAnalyticsSolutionsType());
+				addResponseData.setAwardAssetclass(vendorAwardsMap.getAwardAssetclass()); 
+				
 				JsonResponseData.add(addResponseData);
 			}
 					
@@ -1309,16 +1322,6 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			insertIntoModel.setSolution(solutionsInfo);
 			String isRecordExist = vendorService.addTradingCapabilitiesSupported(insertIntoModel);
 			
-
-			if(isRecordExist != null){
-				jsonResponseData = new HashSet<VendorTradingCapabilitiesSupportedForm>();
-				VendorTradingCapabilitiesSupportedForm addResponseData = new VendorTradingCapabilitiesSupportedForm();
-				addResponseData.setRecordExist(isRecordExist);
-				jsonResponseData.add(addResponseData);
-				return jsonResponseData;
-			}
-
-			
 			
 			}
 			List<VendorTradingCapabilitiesSupported> listVendorTradingCapabilitiesSupported = vendorService.listTradingCapabilitiesSupported(vendor.getId());
@@ -1357,11 +1360,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	@SuppressWarnings("unused")
 	@RequestMapping(value =RequestConstans.Vendor.RESEARCH_REPORTING_VENDOR_OFFERING, method = RequestMethod.GET)
 	public @ResponseBody Set<JsonResponseData> researchReportingVendorOffering(@RequestParam(value = "solutionId", required = false) String solutionId ) {
-		List<VendorAnalystProfile> listVendorAnalystProfile = vendorService.listResearchReportingVendorOfferingBasedOnSolutionId(solutionId);
+		List<VendorResearchCoverage> listVendorAnalystProfile = vendorService.listResearchReportingVendorOfferingBasedOnSolutionId(solutionId);
 		 Set<JsonResponseData> jsonResponseDataSet = new HashSet<JsonResponseData>();
-	     for(VendorAnalystProfile vendorAnalystProfile : listVendorAnalystProfile){
+	     for(VendorResearchCoverage vendorAnalystProfile : listVendorAnalystProfile){
 	    	 JsonResponseData  jsonResponseData = new JsonResponseData();
-	    	 jsonResponseData.setId(vendorAnalystProfile.getAnalystProfileId().toString());
+	    	 jsonResponseData.setId(vendorAnalystProfile.getResearchCoverageId().toString());
 	    	 jsonResponseData.setName(vendorAnalystProfile.getOffering());
 	    	 jsonResponseDataSet.add(jsonResponseData);
 	     }
@@ -1558,10 +1561,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
 		}
 		return jsonResponseData;
-		
-		
-	
 	}
+	
 	@SuppressWarnings("unused")
 	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_DATADISTRIBUTION, method = RequestMethod.GET)
 	public @ResponseBody Set<JsonResponseData> addVendorDataDistribution(
@@ -1743,6 +1744,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "offeringsDataCoverage", required = false) String offeringsDataCoverage,
 			@RequestParam(value = "supportcoverageregion", required = false) String supportcoverageregion,
 			@RequestParam(value = "supportcoveragecountry", required = false) String supportcoveragecountry,
+			@RequestParam(value = "coverageexchange", required = false) String coverageexchange,
 			@RequestParam(value = "vendorcostrange", required = false) String vendorcostrange,
 			@RequestParam(value = "phonenumber", required = false) String phonenumber,
 			@RequestParam(value = "email", required = false) String email
@@ -1767,6 +1769,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			vendorDataCoverage.setVendorOffering(vendorOfferingById);
 			vendorDataCoverage.setRegion(supportcoverageregion);
 			vendorDataCoverage.setCountry(supportcoveragecountry);
+			vendorDataCoverage.setCoverageexchange(coverageexchange);
 			vendorDataCoverage.setCost(vendorcostrange);
 			vendorDataCoverage.setPhoneNo(phonenumber);
 			vendorDataCoverage.setEmail(email);
@@ -1788,6 +1791,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 					addResponseData.setSolution(dataCoverage.getSolution().getName());
 					addResponseData.setOffering(dataCoverage.getVendorOffering().getName());
 					addResponseData.setRegion(dataCoverage.getRegion());
+					addResponseData.setCoverageexchange(dataCoverage.getCoverageexchange());
 					addResponseData.setCountry(dataCoverage.getCountry());
 					addResponseData.setCost(dataCoverage.getCost());
 					addResponseData.setPhonNo(dataCoverage.getPhoneNo());

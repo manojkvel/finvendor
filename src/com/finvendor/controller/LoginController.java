@@ -196,7 +196,7 @@ public class LoginController {
 		       	if(telephone != null){
 		       		String[] split = telephone.split("-");
 		       		if(split != null && split.length == 2){
-			       		vendor.setTelephoneCode("+"+split[0]);
+			       		vendor.setTelephoneCode("+"+split[0].replaceAll("\\s+",""));
 			       		vendor.setTelephone(split[1]);
 		       		}
 		       	}

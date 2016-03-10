@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.finvendor.daoimpl.UserDAOImpl;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassDataDetails;
 import com.finvendor.model.AssetClassSecurityMap;
@@ -32,10 +30,10 @@ import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.CountryExchangeMap;
 import com.finvendor.model.Exchange;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
 import com.finvendor.model.RegionCountryMap;
 import com.finvendor.model.Support;
-import com.finvendor.model.FinVendorUser;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.util.AssetSecurityTypes.Assets;
 import com.finvendor.util.AssetSecurityTypes.SecurityTypes;
@@ -47,9 +45,9 @@ import com.finvendor.util.RequestConstans;
  *
  */
 @Controller
-public class MarketDataAggregatorsVendor {
+public class MarketDataAggregatorsVendorController {
 
-	private static Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsVendor.class);
+	private static Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsVendorController.class);
 	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
@@ -777,4 +775,6 @@ public class MarketDataAggregatorsVendor {
 			
 			return modelAndView;
 	}
+	
+	
 }
