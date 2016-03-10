@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.finvendor.dao.VendorDAO;
+import com.finvendor.form.FileDetails;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
@@ -304,12 +305,17 @@ public class VendorServiceImpl implements VendorService{
 	}
 
 	@Override
-	public List<Solutions> getSolutionsBasedOnOfferingTypes(String offeringName) {
+	public List<Solutions> getSolutionsBasedOnOfferingTypes(String offeringName, Vendor vendor) {
 		
 		SolutionTypes solutionTypes = vendorDAO.getSolutionTypes(offeringName);
 		Set<Solutions> solutions = solutionTypes.getSolutions();
+		ArrayList<Solutions> vendorSolution = new ArrayList<Solutions>();
+		for(Solutions solution : solutions){
+			if(solution.getVendor().getId().equals(vendor.getId())) 
+			vendorSolution.add(solution);
+		}
 		// List<Solutions> solutionsBasedOnOfferingTypes = vendorDAO.getSolutionsBasedOnOfferingTypes(solutionTypes);
-		return new ArrayList<Solutions>(solutions);
+		return new ArrayList<Solutions>(vendorSolution);
 	}
 
 	@Override
@@ -485,8 +491,8 @@ public class VendorServiceImpl implements VendorService{
 	}
 
 	@Override
-	public List<VendorAnalystProfile> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId) {
-		List<VendorAnalystProfile> listResearchReportingVendorOfferingBasedOnSolutionId = vendorDAO.listResearchReportingVendorOfferingBasedOnSolutionId(solutionId);
+	public List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId) {
+		List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId = vendorDAO.listResearchReportingVendorOfferingBasedOnSolutionId(solutionId);
 		return listResearchReportingVendorOfferingBasedOnSolutionId;
 	}
 
@@ -531,6 +537,12 @@ public class VendorServiceImpl implements VendorService{
 	public Boolean isTradingSoftwareDetailsOfferingExist(String value) {
 		// TODO Auto-generated method stub
 		return vendorDAO.isTradingSoftwareDetailsOfferingExist(value);
+	}
+
+	@Override
+	public void updateVendorLogo(FileDetails ufile, String username) {
+		 vendorDAO.updateVendorLogo(ufile,username);
+		
 	}
 
 	

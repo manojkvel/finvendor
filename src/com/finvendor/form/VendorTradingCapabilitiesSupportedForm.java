@@ -10,17 +10,39 @@ public class VendorTradingCapabilitiesSupportedForm{
 	private String solution;
 	private String offering;
 	private String tradeCoverageRegion;
+	private String tradableMarkets;
 	private String tradeCoverageCountry;
 	private String tradingCapabilitiesType;
 	private String tradeExecutionsType;
 	private String algorithmicTradeType;
 	private String darkpoolAccess;
+	private String supportedDarkpoolVenues;
 	private String isRecordExist;
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	
+	public String getSupportedDarkpoolVenues() {
+		return supportedDarkpoolVenues;
+	}
+	public void setSupportedDarkpoolVenues(String supportedDarkpoolVenues) {
+		this.supportedDarkpoolVenues = supportedDarkpoolVenues;
+	}
+	public String getTradableMarkets() {
+		return tradableMarkets;
+	}
+	public void setTradableMarkets(String tradableMarkets) {
+		this.tradableMarkets = tradableMarkets;
+	}
+	public String getIsRecordExist() {
+		return isRecordExist;
+	}
+	public void setIsRecordExist(String isRecordExist) {
+		this.isRecordExist = isRecordExist;
 	}
 	public String getSolution() {
 		return solution;
@@ -76,9 +98,12 @@ public class VendorTradingCapabilitiesSupportedForm{
 		vendorTradingCapabilitiesSupported.setDarkpoolAccess(vendorTradingCapabilitiesSupportedForm.getDarkpoolAccess());
 		vendorTradingCapabilitiesSupported.setTradeCoverageCountry(vendorTradingCapabilitiesSupportedForm.getTradeCoverageCountry());
 		vendorTradingCapabilitiesSupported.setTradeCoverageRegion(vendorTradingCapabilitiesSupportedForm.getTradeCoverageRegion());
+		vendorTradingCapabilitiesSupported.setTradableMarkets(vendorTradingCapabilitiesSupportedForm.getTradableMarkets());
 		vendorTradingCapabilitiesSupported.setTradeExecutionsType(vendorTradingCapabilitiesSupportedForm.getTradeExecutionsType());
 		vendorTradingCapabilitiesSupported.setTradingCapabilitiesType(vendorTradingCapabilitiesSupportedForm.getTradingCapabilitiesType());
 		vendorTradingCapabilitiesSupported.setOffering(vendorTradingCapabilitiesSupportedForm.getOffering());
+		vendorTradingCapabilitiesSupported.setSupportedDarkpoolVenues(vendorTradingCapabilitiesSupportedForm.getSupportedDarkpoolVenues());
+		
 		return vendorTradingCapabilitiesSupported;
 	}
 	
@@ -89,10 +114,13 @@ public class VendorTradingCapabilitiesSupportedForm{
 		vendorTradingCapabilitiesSupportedForm.setDarkpoolAccess(vendorTradingCapabilitiesSupported.getDarkpoolAccess());
 		vendorTradingCapabilitiesSupportedForm.setTradeCoverageCountry(vendorTradingCapabilitiesSupported.getTradeCoverageCountry());
 		vendorTradingCapabilitiesSupportedForm.setTradeCoverageRegion(vendorTradingCapabilitiesSupported.getTradeCoverageRegion());
+		vendorTradingCapabilitiesSupportedForm.setTradableMarkets(vendorTradingCapabilitiesSupported.getTradableMarkets());
 		vendorTradingCapabilitiesSupportedForm.setTradeExecutionsType(vendorTradingCapabilitiesSupported.getTradeExecutionsType());
 		vendorTradingCapabilitiesSupportedForm.setTradingCapabilitiesType(vendorTradingCapabilitiesSupported.getTradingCapabilitiesType());
 		vendorTradingCapabilitiesSupportedForm.setOffering(vendorTradingCapabilitiesSupported.getOffering());
 		vendorTradingCapabilitiesSupportedForm.setSolution(vendorTradingCapabilitiesSupported.getSolution().getName());
+		vendorTradingCapabilitiesSupportedForm.setSupportedDarkpoolVenues(vendorTradingCapabilitiesSupported.getSupportedDarkpoolVenues());
+		
 		return vendorTradingCapabilitiesSupportedForm;
 	}
 	public void setRecordExist(String isRecordExist) {

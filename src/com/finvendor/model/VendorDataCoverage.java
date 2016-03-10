@@ -57,8 +57,16 @@ public class VendorDataCoverage implements Serializable{
 	@Column(name="email")
 	private String email;
 	
+	@Column(name="coverageexchange")
+	private String coverageexchange;
 	
 	
+	public String getCoverageexchange() {
+		return coverageexchange;
+	}
+	public void setCoverageexchange(String coverageexchange) {
+		this.coverageexchange = coverageexchange;
+	}
 	public Integer getDataCoverageId() {
 		return dataCoverageId;
 	}

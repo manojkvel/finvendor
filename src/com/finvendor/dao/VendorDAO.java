@@ -5,6 +5,7 @@ package com.finvendor.dao;
 
 import java.util.List;
 
+import com.finvendor.form.FileDetails;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
@@ -244,7 +245,7 @@ public interface VendorDAO {
 
 	List<VendorTradingSoftwareDetails> listTradingSoftwareDetailsBasedOnSolutionId(String solutionId);
 	
-	List<VendorAnalystProfile> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId);
+	List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId);
 	public String getRegion(String country);
 
 	Country getCountryById(String countryId);
@@ -258,5 +259,7 @@ public interface VendorDAO {
 	void deleteAwardDetails(String objectVar);
 
 	Boolean isTradingSoftwareDetailsOfferingExist(String value);
+
+	Object updateVendorLogo(FileDetails ufile, String username);
 	
  }

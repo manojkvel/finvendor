@@ -13,7 +13,8 @@ public class VendorAnalystProfileForm {
 private String researchArea;
 private String researchSubArea;
 private String analystName;
-private String raesearchAnalystwithCFA;
+private String researchAnalystWithCFA;
+
 private String analystRegionofIncorp;
 private String analystCountryofIncorp;
 private String analystYearofExp;
@@ -56,11 +57,12 @@ public void setOffering(String offering) {
 	public void setAnalystName(String analystName) {
 		this.analystName = analystName;
 	}
-	public String getRaesearchAnalystwithCFA() {
-		return raesearchAnalystwithCFA;
+	
+	public String getResearchAnalystWithCFA() {
+		return researchAnalystWithCFA;
 	}
-	public void setRaesearchAnalystwithCFA(String raesearchAnalystwithCFA) {
-		this.raesearchAnalystwithCFA = raesearchAnalystwithCFA;
+	public void setResearchAnalystWithCFA(String researchAnalystWithCFA) {
+		this.researchAnalystWithCFA = researchAnalystWithCFA;
 	}
 	public String getAnalystRegionofIncorp() {
 		return analystRegionofIncorp;
@@ -104,7 +106,7 @@ public void setOffering(String offering) {
 		vendorAnalystProfileForm.setAnalystName(vendorAnalystProfile.getAnalystName());
 		vendorAnalystProfileForm.setAnalystRegionofIncorp(vendorAnalystProfile.getAnalystRegionofIncorp());
 		vendorAnalystProfileForm.setAnalystYearofExp(vendorAnalystProfile.getAnalystYearofExp());
-		vendorAnalystProfileForm.setRaesearchAnalystwithCFA(vendorAnalystProfile.getRaesearchAnalystwithCFA());
+		vendorAnalystProfileForm.setResearchAnalystWithCFA(vendorAnalystProfile.getResearchAnalystWithCFA().toString());
 		vendorAnalystProfileForm.setResearchArea(vendorAnalystProfile.getResearchArea());
 		vendorAnalystProfileForm.setResearchSubArea(vendorAnalystProfile.getResearchSubArea());
 
@@ -119,7 +121,7 @@ public void setOffering(String offering) {
 		vendorAnalystProfile.setAnalystName(vendorAnalystProfileForm.getAnalystName());
 		vendorAnalystProfile.setAnalystRegionofIncorp(vendorAnalystProfileForm.getAnalystRegionofIncorp());
 		vendorAnalystProfile.setAnalystYearofExp(vendorAnalystProfileForm.getAnalystYearofExp());
-		vendorAnalystProfile.setRaesearchAnalystwithCFA(vendorAnalystProfileForm.getRaesearchAnalystwithCFA());
+		vendorAnalystProfile.setResearchAnalystWithCFA(Boolean.parseBoolean(vendorAnalystProfileForm.getResearchAnalystWithCFA()));
 		vendorAnalystProfile.setResearchArea(vendorAnalystProfileForm.getResearchArea());
 		vendorAnalystProfile.setResearchSubArea(vendorAnalystProfileForm.getResearchSubArea());
 		

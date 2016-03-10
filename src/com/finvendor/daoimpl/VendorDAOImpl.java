@@ -4,6 +4,7 @@
 package com.finvendor.daoimpl;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.dao.VendorDAO;
+import com.finvendor.form.FileDetails;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
@@ -144,10 +146,6 @@ public class VendorDAOImpl implements VendorDAO{
 			 vendorFromDB.setTelephone(vendor.getTelephone());
 			 vendorFromDB.setCompanyInfo(vendor.getCompanyInfo());
 			 vendorFromDB.setRegionofincorp(vendor.getRegionofincorp());
-			 vendorFromDB.setLogoType(vendor.getLogoType());
-			 vendorFromDB.setLogoName(vendor.getLogoName());
-			 vendorFromDB.setLogoLength(vendor.getLogoLength());
-			 vendorFromDB.setLogoBytes(vendor.getLogoBytes());
 			 vendorFromDB.setVendorSupport(vendor.getVendorSupport());
 			 currentSession.saveOrUpdate(vendorFromDB);
 			// beginTransaction.commit();
@@ -619,15 +617,11 @@ public class VendorDAOImpl implements VendorDAO{
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession(); 
 		
-	/*	String hql = "Select vdc.vendorDistributionId from VendorDistribution vdc join vdc.solution sln join vdc.vendorOffering vo  join vdc.offeringFiles ofile where sln.solution_id=:solutionId and vo.vendor_offering_id=:vendorOfferingId and ofile.offeringFilesId=:fieldId";      
-	       Query query = currentSession.createQuery(hql);
-         query.setParameter("solutionId", tradingCapabilitiesSupported.getSolution().getSolution_id());
-         query.setParameter("vendorOfferingId", tradingCapabilitiesSupported.getOffering().getVendor_offering_id());
-         //query.setParameter("fieldId", vendorDistribution.getOfferingFiles().getOfferingFilesId());
-         List result = query.list();
-         if(result != null && result.size() > 0)
-         	return recordExist;*/
+	try{
 		currentSession.save(tradingCapabilitiesSupported);
+	}catch(Exception e){
+		e.printStackTrace();
+	}
 		return null;
 	}
 	@Transactional
@@ -655,8 +649,12 @@ public class VendorDAOImpl implements VendorDAO{
 	@Override
 	public void addResearchCoverage(VendorResearchCoverage researchCoverage) {
 		// TODO Auto-generated method stub
+		try{
 		Session currentSession = sessionFactory.getCurrentSession(); 
 		currentSession.save(researchCoverage);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	@Transactional
 	@Override
@@ -813,12 +811,12 @@ public class VendorDAOImpl implements VendorDAO{
 	}
 	@Transactional
 	@Override
-	public List<VendorAnalystProfile> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId) {
+	public List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
 		Solutions solution = (Solutions)currentSession.get(Solutions.class, Integer.parseInt(solutionId));
-		Set<VendorAnalystProfile> vendorAnalystProfile = solution.getVendorAnalystProfile();
-		return new ArrayList<VendorAnalystProfile>(vendorAnalystProfile);
+		Set<VendorResearchCoverage> vendorResearchCoverage = solution.getVendorResearchCoverage();
+		return new ArrayList<VendorResearchCoverage>(vendorResearchCoverage);
 	 
 	}
 	@Transactional
@@ -848,9 +846,10 @@ public class VendorDAOImpl implements VendorDAO{
 	@Override
 	public Boolean isAwardAlreadyExist(String value) {
 		
-		
+		String val[] = value != null? value.split(","): null; 
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(VendorAwardsMap.class);
-			criteria.add(Restrictions.sqlRestriction("lower(awardname) like '" + value.toLowerCase() + "'"));
+			criteria.add(Restrictions.sqlRestriction("lower(awardname) like '" + val[0] + "'"));
+			criteria.add(Restrictions.sqlRestriction(" and awardedyear=" + val[1]));
 			 List list = criteria.list();
 		if(list != null && list.size()>0)
 		     return true;
@@ -883,5 +882,21 @@ public class VendorDAOImpl implements VendorDAO{
 		if(list != null && list.size()>0)
 		       return true;
 		return false;
+	}
+	@Transactional
+	@Override
+	public Object updateVendorLogo(FileDetails ufile, String username) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Criteria criteria = currentSession.createCriteria(Vendor.class);
+		criteria.add(Restrictions.sqlRestriction("firstName like '"+ username+"'"));
+		Vendor vendor =(Vendor)criteria.uniqueResult();
+		if(vendor != null){
+			vendor.setLogoType(vendor.getLogoType());
+			vendor.setLogoName(vendor.getLogoName());
+			vendor.setLogoLength(vendor.getLogoLength());
+			vendor.setLogoBytes(vendor.getLogoBytes());
+			currentSession.update(vendor);
+		}
+		return null;
 	}
 }

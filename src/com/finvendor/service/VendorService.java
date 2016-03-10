@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.finvendor.form.FileDetails;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
@@ -214,7 +215,7 @@ public interface VendorService {
 	
 	public SolutionTypes getSolutionTypes(String solutionName);
 	
-	public List<Solutions> getSolutionsBasedOnOfferingTypes(String offeringName);
+	public List<Solutions> getSolutionsBasedOnOfferingTypes(String offeringName, Vendor vendor);
 
 	String addVendorDataCoverage(VendorDataCoverage vendorDataCoverage);
 	
@@ -253,7 +254,7 @@ public interface VendorService {
 
 	List<VendorTradingSoftwareDetails> listTradingSoftwareDetailsBasedOnSolutionId(String solutionId);
 
-	List<VendorAnalystProfile> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId);
+	List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId);
 
 	String getRegion(String country);
 
@@ -266,6 +267,8 @@ public interface VendorService {
 	void deleteAwardDetails(String objectVar);
 
 	Boolean isTradingSoftwareDetailsOfferingExist(String value);
+
+	void updateVendorLogo(FileDetails ufile, String username);
 
 	
 	

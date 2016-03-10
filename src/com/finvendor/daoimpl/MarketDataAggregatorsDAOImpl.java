@@ -353,12 +353,25 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 			List<String> regionList, List<String> countryList,
 			List<String> exchangeList) {
 		logger.info("Method to find single asset class search---");
+		/*
+		SELECT * 
+		FROM vendor_datacoverage dc 
+		inner join vendor_offering vo on dc.vendor_offering_id = vo.vendor_offering_id
+		inner join offeringfiles of on of.vendor_offering_id = vo.vendor_offering_id 
+		inner join vendor_distribution vd on vd.solution_id = vd.solution_id 
+		where dc.cost_ids like '$200%' 
+		and dc.region_ids = "Asia Pacific" 
+		and dc.country_ids='india' 
+		and vo.asset_class_id = 1
+		and of.security_type_id = 1
+		and vd.exchanges = 'NSE'
+		*/
 		List<AssetClassDataDetails> assetClassDataDetailslist = new ArrayList<AssetClassDataDetails>();
 		String sqlQuery = null;
 		Query query = null;
 		List<Object[]> assetClassDataDetails =null;
 		try{
-			if(assetclassId != null && securitytypes.size() > 0){
+			if(assetclassId != null && securitytypes.size() > 0){/*
 				sqlQuery = "SELECT  * FROM  vendor_asset_class_search_info where asset_class_id = '"+assetclassId+"' and security_type_id in (:securitytypes)  " ;
 			       if(regionList != null && regionList.size() > 0)
 			    	   sqlQuery = sqlQuery +	"or region_id in (:regionlist) " ;  
@@ -403,7 +416,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 							 regionofincorp,countryofincorp,regionId, countryId, exchangeId,
 							 costId, cost_range,cost_name,support_id,support_name,awardId,awar_name,ditributionmodeId,ditributionmodeName));
 				}
-			}
+			*/}
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Method to find single asset class search---");

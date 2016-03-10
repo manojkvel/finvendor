@@ -14,6 +14,7 @@ public class VendorResearchCoverageForm{
 	private String id;
 	private String solution;
 	private String offering;
+	private String offeringDesc;
 	private String researchArea;
 	private String regionsCovered;
 	private String researchSubArea;
@@ -21,12 +22,19 @@ public class VendorResearchCoverageForm{
 	private String researchPreparedbyCFA;
 	private String existingClientBase;
 	
-		
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	
+	public String getOfferingDesc() {
+		return offeringDesc;
+	}
+	public void setOfferingDesc(String offeringDesc) {
+		this.offeringDesc = offeringDesc;
 	}
 	public String getSolution() {
 		return solution;
@@ -83,11 +91,14 @@ public class VendorResearchCoverageForm{
 		
 		vendorResearchCoverage.setResearchArea(vendorResearchCoverageForm.getResearchArea());
 		vendorResearchCoverage.setOffering(vendorResearchCoverageForm.getOffering());
+		vendorResearchCoverage.setOfferingDesc(vendorResearchCoverageForm.getOfferingDesc());
 		vendorResearchCoverage.setRegionsCovered(vendorResearchCoverageForm.getRegionsCovered());
-		vendorResearchCoverage.setResearchSubArea(vendorResearchCoverageForm.getRegionsCovered());
+		vendorResearchCoverage.setResearchArea(vendorResearchCoverageForm.getResearchArea());
+		vendorResearchCoverage.setResearchSubArea(vendorResearchCoverageForm.getResearchSubArea());
 		vendorResearchCoverage.setTotalResearchAnalyst(vendorResearchCoverageForm.getTotalResearchAnalyst());
-		vendorResearchCoverage.setResearchPreparedbyCFA(vendorResearchCoverageForm.getResearchPreparedbyCFA());
+		vendorResearchCoverage.setResearchPreparedbyCFA(vendorResearchCoverageForm.getResearchPreparedbyCFA()!= null?true:false);
 		vendorResearchCoverage.setExistingClientBase(vendorResearchCoverageForm.getExistingClientBase());
+		
 		
 		return vendorResearchCoverage;
 	}
@@ -97,10 +108,11 @@ public class VendorResearchCoverageForm{
 		vendorResearchCoverageForm.setSolution(vendorResearchCoverage.getSolution().getName());
 		vendorResearchCoverageForm.setResearchArea(vendorResearchCoverage.getResearchArea());
 		vendorResearchCoverageForm.setOffering(vendorResearchCoverage.getOffering());
+		vendorResearchCoverageForm.setOfferingDesc(vendorResearchCoverage.getOfferingDesc());
 		vendorResearchCoverageForm.setRegionsCovered(vendorResearchCoverage.getRegionsCovered());
-		vendorResearchCoverageForm.setResearchSubArea(vendorResearchCoverage.getRegionsCovered());
+		vendorResearchCoverageForm.setResearchSubArea(vendorResearchCoverage.getResearchSubArea());
 		vendorResearchCoverageForm.setTotalResearchAnalyst(vendorResearchCoverage.getTotalResearchAnalyst());
-		vendorResearchCoverageForm.setResearchPreparedbyCFA(vendorResearchCoverage.getResearchPreparedbyCFA());
+		vendorResearchCoverageForm.setResearchPreparedbyCFA(vendorResearchCoverage.getResearchPreparedbyCFA().toString());
 		vendorResearchCoverageForm.setExistingClientBase(vendorResearchCoverage.getExistingClientBase());
 		return vendorResearchCoverageForm;
 	}

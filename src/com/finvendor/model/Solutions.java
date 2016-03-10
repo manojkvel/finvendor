@@ -42,7 +42,7 @@ public class Solutions implements Serializable{
 	@Column(name="description")
 	private String description;
    
-	@ManyToOne(targetEntity=Vendor.class,fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=Vendor.class,fetch=FetchType.EAGER)
 	@JoinColumn(name="vendor_id", nullable=false)
 	private Vendor vendor;
 	

@@ -52,8 +52,8 @@ private String researchArea;
 private String researchSubArea;
 	 @Column(name="AnalystName")
 private String analystName;
-	 @Column(name="raesearchAnalystwithCFA")
-private String raesearchAnalystwithCFA;
+	 @Column(name="ResearchAnalystWithCFA")
+private Boolean researchAnalystWithCFA;
 	 @Column(name="AnalystRegionofIncorp")
 private String analystRegionofIncorp;
 	 @Column(name="AnalystCountryofIncorp")
@@ -102,11 +102,13 @@ private String analystAwards;
 	public void setAnalystName(String analystName) {
 		this.analystName = analystName;
 	}
-	public String getRaesearchAnalystwithCFA() {
-		return raesearchAnalystwithCFA;
+	
+	
+	public Boolean getResearchAnalystWithCFA() {
+		return researchAnalystWithCFA;
 	}
-	public void setRaesearchAnalystwithCFA(String raesearchAnalystwithCFA) {
-		this.raesearchAnalystwithCFA = raesearchAnalystwithCFA;
+	public void setResearchAnalystWithCFA(Boolean researchAnalystWithCFA) {
+		this.researchAnalystWithCFA = researchAnalystWithCFA;
 	}
 	public String getAnalystRegionofIncorp() {
 		return analystRegionofIncorp;

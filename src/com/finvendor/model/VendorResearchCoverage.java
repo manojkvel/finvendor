@@ -44,7 +44,8 @@ public class VendorResearchCoverage implements Serializable{
 	
 	@Column(name="Offering")
 	private String offering;
-	
+	@Column(name="OfferingDesc")
+	private String offeringDesc;
 	@Column(name="ResearchArea")
 	private String researchArea;
 	@Column(name="RegionsCovered")
@@ -54,7 +55,7 @@ public class VendorResearchCoverage implements Serializable{
 	@Column(name="TotalResearchAnalyst")
 	private String totalResearchAnalyst;
 	@Column(name="ResearchPreparedbyCFA")
-	private String researchPreparedbyCFA;
+	private Boolean researchPreparedbyCFA;
 	@Column(name="ExistingClientBase")
 	private String existingClientBase;
 	
@@ -78,6 +79,12 @@ public class VendorResearchCoverage implements Serializable{
 		this.solution = solution;
 	}
 	
+	public String getOfferingDesc() {
+		return offeringDesc;
+	}
+	public void setOfferingDesc(String offeringDesc) {
+		this.offeringDesc = offeringDesc;
+	}
 	public String getOffering() {
 		return offering;
 	}
@@ -108,10 +115,11 @@ public class VendorResearchCoverage implements Serializable{
 	public void setTotalResearchAnalyst(String totalResearchAnalyst) {
 		this.totalResearchAnalyst = totalResearchAnalyst;
 	}
-	public String getResearchPreparedbyCFA() {
+	
+	public Boolean getResearchPreparedbyCFA() {
 		return researchPreparedbyCFA;
 	}
-	public void setResearchPreparedbyCFA(String researchPreparedbyCFA) {
+	public void setResearchPreparedbyCFA(Boolean researchPreparedbyCFA) {
 		this.researchPreparedbyCFA = researchPreparedbyCFA;
 	}
 	public String getExistingClientBase() {

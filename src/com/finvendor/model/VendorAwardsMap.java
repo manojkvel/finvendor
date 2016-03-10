@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 /**
  * @author rayulu vemula
  *
@@ -45,7 +47,12 @@ public class VendorAwardsMap implements Serializable{
 	@JoinColumn(name="vendor_id", nullable=false)
 	private Vendor vendor;
 
-	
+	private String awardResearchArea;
+	private String awardSolutionTypes;
+	private String awardVendorType;
+	private String awardAnalyticsSolutionsType;
+	private String awardAssetclass; 
+
 	
 	/**
 	 * @return the va_id
@@ -96,6 +103,46 @@ public class VendorAwardsMap implements Serializable{
 
 	public void setAwardedyear(Integer awardedyear) {
 		this.awardedyear = awardedyear;
+	}
+
+	public String getAwardResearchArea() {
+		return awardResearchArea;
+	}
+
+	public void setAwardResearchArea(String awardResearchArea) {
+		this.awardResearchArea = awardResearchArea;
+	}
+
+	public String getAwardSolutionTypes() {
+		return awardSolutionTypes;
+	}
+
+	public void setAwardSolutionTypes(String awardSolutionTypes) {
+		this.awardSolutionTypes = awardSolutionTypes;
+	}
+
+	public String getAwardVendorType() {
+		return awardVendorType;
+	}
+
+	public void setAwardVendorType(String awardVendorType) {
+		this.awardVendorType = awardVendorType;
+	}
+
+	public String getAwardAnalyticsSolutionsType() {
+		return awardAnalyticsSolutionsType;
+	}
+
+	public void setAwardAnalyticsSolutionsType(String awardAnalyticsSolutionsType) {
+		this.awardAnalyticsSolutionsType = awardAnalyticsSolutionsType;
+	}
+
+	public String getAwardAssetclass() {
+		return awardAssetclass;
+	}
+
+	public void setAwardAssetclass(String awardAssetclass) {
+		this.awardAssetclass = awardAssetclass;
 	}
 
 

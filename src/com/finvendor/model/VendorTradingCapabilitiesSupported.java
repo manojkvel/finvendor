@@ -56,7 +56,26 @@ public class VendorTradingCapabilitiesSupported implements Serializable{
 	@Column(name="DarkpoolAccess")
 	private String darkpoolAccess;
 	
+	@Column(name="SupportedDarkpoolVenues")
+	private String supportedDarkpoolVenues;
 	
+	@Column(name="TradableMarkets")
+	private String tradableMarkets;
+	
+	
+	
+	public String getSupportedDarkpoolVenues() {
+		return supportedDarkpoolVenues;
+	}
+	public void setSupportedDarkpoolVenues(String supportedDarkpoolVenues) {
+		this.supportedDarkpoolVenues = supportedDarkpoolVenues;
+	}
+	public String getTradableMarkets() {
+		return tradableMarkets;
+	}
+	public void setTradableMarkets(String tradableMarkets) {
+		this.tradableMarkets = tradableMarkets;
+	}
 	public String getOffering() {
 		return offering;
 	}

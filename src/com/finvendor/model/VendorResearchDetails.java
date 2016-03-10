@@ -43,37 +43,30 @@ public class VendorResearchDetails implements Serializable{
 	
 	@Column(name="Offering")
 	private String offering;
-	@Column(name="ResearchArea")
-	private String researchArea;
-	@Column(name="ResearchSubArea")
-	private String researchSubArea;
+	
 	@Column(name="ResearchReportName")
 	private String researchReportName;
 	@Column(name="ResearchReportDesc")
 	private String researchReportDesc;
-	@Column(name="RegionsCovered")
-	private String regionsCovered;
+	
 	@Column(name="Accessibility")
 	private String accessibility;
-	@Column(name="Auitability")
-	private String auitability;
-	@Column(name="ReportCostType")
-	private String reportCostType;
-	@Column(name="ReportSubscriptionCCY")
-	private String reportSubscriptionCCY;
-	@Column(name="ReportSubscriptionCost")
-	private String reportSubscriptionCost;
-	@Column(name="ReportSubscriptionType")
-	private String reportSubscriptionType;
+	@Column(name="Suitability")
+	private String suitability;
 	@Column(name="ReportFormat")
 	private String reportFormat;
 	@Column(name="ResearchApplicableYear")
 	private String researchApplicableYear;
 	@Column(name="ResearchApplicableMonth")
 	private String researchApplicableMonth;
+	@Column(name="ReportCostType")
+	private String reportCostType;
+	@Column(name="SubsriptionCostUSDpermonth")
+	private String subsriptionCostUSDpermonth;
+	@Column(name="subsriptionCostUSDperannum")
+	private String subsriptionCostUSDperannum;
 	@Column(name="ExistingUserBase")
-	private String existingUserBase;
-	
+	private Boolean existingUserBase;
 	
 	
 	public Integer getResearchDetailsId() {
@@ -101,18 +94,6 @@ public class VendorResearchDetails implements Serializable{
 	public void setOffering(String offering) {
 		this.offering = offering;
 	}
-	public String getResearchArea() {
-		return researchArea;
-	}
-	public void setResearchArea(String researchArea) {
-		this.researchArea = researchArea;
-	}
-	public String getResearchSubArea() {
-		return researchSubArea;
-	}
-	public void setResearchSubArea(String researchSubArea) {
-		this.researchSubArea = researchSubArea;
-	}
 	public String getResearchReportName() {
 		return researchReportName;
 	}
@@ -125,47 +106,18 @@ public class VendorResearchDetails implements Serializable{
 	public void setResearchReportDesc(String researchReportDesc) {
 		this.researchReportDesc = researchReportDesc;
 	}
-	public String getRegionsCovered() {
-		return regionsCovered;
-	}
-	public void setRegionsCovered(String regionsCovered) {
-		this.regionsCovered = regionsCovered;
-	}
 	public String getAccessibility() {
 		return accessibility;
 	}
 	public void setAccessibility(String accessibility) {
 		this.accessibility = accessibility;
 	}
-	public String getAuitability() {
-		return auitability;
+	
+	public String getSuitability() {
+		return suitability;
 	}
-	public void setAuitability(String auitability) {
-		this.auitability = auitability;
-	}
-	public String getReportCostType() {
-		return reportCostType;
-	}
-	public void setReportCostType(String reportCostType) {
-		this.reportCostType = reportCostType;
-	}
-	public String getReportSubscriptionCCY() {
-		return reportSubscriptionCCY;
-	}
-	public void setReportSubscriptionCCY(String reportSubscriptionCCY) {
-		this.reportSubscriptionCCY = reportSubscriptionCCY;
-	}
-	public String getReportSubscriptionCost() {
-		return reportSubscriptionCost;
-	}
-	public void setReportSubscriptionCost(String reportSubscriptionCost) {
-		this.reportSubscriptionCost = reportSubscriptionCost;
-	}
-	public String getReportSubscriptionType() {
-		return reportSubscriptionType;
-	}
-	public void setReportSubscriptionType(String reportSubscriptionType) {
-		this.reportSubscriptionType = reportSubscriptionType;
+	public void setSuitability(String suitability) {
+		this.suitability = suitability;
 	}
 	public String getReportFormat() {
 		return reportFormat;
@@ -185,12 +137,31 @@ public class VendorResearchDetails implements Serializable{
 	public void setResearchApplicableMonth(String researchApplicableMonth) {
 		this.researchApplicableMonth = researchApplicableMonth;
 	}
-	public String getExistingUserBase() {
+	public String getSubsriptionCostUSDpermonth() {
+		return subsriptionCostUSDpermonth;
+	}
+	public void setSubsriptionCostUSDpermonth(String subsriptionCostUSDpermonth) {
+		this.subsriptionCostUSDpermonth = subsriptionCostUSDpermonth;
+	}
+	public String getSubsriptionCostUSDperannum() {
+		return subsriptionCostUSDperannum;
+	}
+	public void setSubsriptionCostUSDperannum(String subsriptionCostUSDperannum) {
+		this.subsriptionCostUSDperannum = subsriptionCostUSDperannum;
+	}
+	
+	public String getReportCostType() {
+		return reportCostType;
+	}
+	public void setReportCostType(String reportCostType) {
+		this.reportCostType = reportCostType;
+	}
+	public Boolean getExistingUserBase() {
 		return existingUserBase;
 	}
-	public void setExistingUserBase(String existingUserBase) {
+	public void setExistingUserBase(Boolean existingUserBase) {
 		this.existingUserBase = existingUserBase;
 	}
 	
 	
-	}
+}

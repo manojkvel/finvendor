@@ -25,11 +25,20 @@ public class JsonResponseData {
 	private String fieldMaxLength;
 	private String offeringFiles;
 	private String launchedYear;
-	
+	private String coverageexchange;
 	private String recordExist;
+	private String awardResearchArea;
+	private String awardSolutionTypes;
+	private String awardVendorType;
+	private String awardAnalyticsSolutionsType;
+	private String awardAssetclass; 
 	
-	
-	
+	public String getCoverageexchange() {
+		return coverageexchange;
+	}
+	public void setCoverageexchange(String coverageexchange) {
+		this.coverageexchange = coverageexchange;
+	}
 	public String getLaunchedYear() {
 		return launchedYear;
 	}
@@ -176,7 +185,35 @@ public class JsonResponseData {
 	public void setFrequency(String frequency) {
 		this.frequency = frequency;
 	}
-   	
-	
+	public String getAwardResearchArea() {
+		return awardResearchArea;
+	}
+	public void setAwardResearchArea(String awardResearchArea) {
+		this.awardResearchArea = awardResearchArea;
+	}
+	public String getAwardSolutionTypes() {
+		return awardSolutionTypes;
+	}
+	public void setAwardSolutionTypes(String awardSolutionTypes) {
+		this.awardSolutionTypes = awardSolutionTypes;
+	}
+	public String getAwardVendorType() {
+		return awardVendorType;
+	}
+	public void setAwardVendorType(String awardVendorType) {
+		this.awardVendorType = awardVendorType;
+	}
+	public String getAwardAnalyticsSolutionsType() {
+		return awardAnalyticsSolutionsType;
+	}
+	public void setAwardAnalyticsSolutionsType(String awardAnalyticsSolutionsType) {
+		this.awardAnalyticsSolutionsType = awardAnalyticsSolutionsType;
+	}
+	public String getAwardAssetclass() {
+		return awardAssetclass;
+	}
+	public void setAwardAssetclass(String awardAssetclass) {
+		this.awardAssetclass = awardAssetclass;
+	}
 
 }
