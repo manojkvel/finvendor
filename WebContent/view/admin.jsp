@@ -101,6 +101,7 @@
 								<th>Role</th>
 								<th>Active</th>
 								<th>Last Login</th>
+								<th>Registration Date</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -108,7 +109,7 @@
 								<tr>
 									<td><input name="useridcheck" type="checkbox" value="${user.userName}"/></td>
 									<td><a href="/adminUserSummaryProfile?nav=Manage Account&userName=${user.userName}">${user.userName}</a></td>
-									<td>${user.email}</td>
+									<td><a href="/adminUserLogin?userName=${user.userName}">${user.email}</a></td>
 									<td>${finven:getRole(user.userRoles)}</td>
 									<td>
 										<c:choose>
@@ -116,7 +117,8 @@
 											<c:otherwise>No</c:otherwise>
 										</c:choose>
 									</td>
-									<td>${user.lastLogin}</td>					      		
+									<td>${user.lastLogin}</td>	
+									<td>${user.registrationDate}</td>				      		
 								</tr>
 							</c:forEach>
 						</tbody>

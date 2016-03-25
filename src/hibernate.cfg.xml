@@ -33,7 +33,6 @@
         <mapping class="com.finvendor.model.Awards"></mapping>
         <mapping class="com.finvendor.model.VendorAwardsMap"></mapping>
         <mapping class="com.finvendor.model.AssetClassDataDetails"></mapping>
-        <mapping class="com.finvendor.model.FileDetails"></mapping>
         <mapping class="com.finvendor.model.OfferingFiles"></mapping>
         <mapping class="com.finvendor.model.FileFields"></mapping>
         <mapping class="com.finvendor.model.VendorDataCoverage"></mapping>

@@ -32,11 +32,13 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
+import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
 import com.finvendor.model.UserRole;
 import com.finvendor.model.Vendor;
 import com.finvendor.service.LoginService;
 import com.finvendor.service.MarketDataAggregatorsService;
+import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
@@ -54,6 +56,9 @@ public class LoginController {
 	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
+	
+	@Resource(name="referenceDataService")
+	private ReferenceDataService referenceDataService;
 		
 	@RequestMapping(value=RequestConstans.Home.HOME_PAGE, method=RequestMethod.GET)
 	public ModelAndView homePageLand(ModelMap modelMap, HttpServletRequest request) {
@@ -145,9 +150,7 @@ public class LoginController {
 	@RequestMapping(value=RequestConstans.Login.WELCOME, method=RequestMethod.GET)
 	public ModelAndView welcomeInfo(HttpServletRequest request,
 			@ModelAttribute("users") FinVendorUser users,
-			@ModelAttribute("userRole") UserRole userRole,
-			@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("consumer") Consumer consumer) {
+			@ModelAttribute("userRole") UserRole userRole) {		
 		
 		logger.debug("Entering LoginController : welcomeInfo");		
 		List<AssetClass> assetClasses = null;
@@ -158,18 +161,23 @@ public class LoginController {
 		List<Cost> costs = null;
 		List<Awards> awards = null;
 		List<CompanySubType> companySubType = null;
+		List<SecurityType> securityTypeList = null;
 		String username = null;
 		ModelAndView modelAndView = null;
+		Vendor vendor = null;
+		Consumer consumer = null;
+		
 		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null 
 			&&  SecurityContextHolder.getContext().getAuthentication().getPrincipal().
 				equals(RequestConstans.Anonymous.ANONYMOUS_USER)) {
+			logger.error("No User Principal !!");
 			modelAndView = new ModelAndView(RequestConstans.Login.HOME);
 		}else {			
 			
  			User appUser = (User)SecurityContextHolder.getContext().
 					getAuthentication().getPrincipal();
  			username = appUser.getUsername();
- 			logger.debug("redirectLink for User - {} is {}", username, (String)request.getSession().getAttribute("redirectLink"));
+ 			logger.info("redirectLink for User - {} is {}", username, (String)request.getSession().getAttribute("redirectLink"));
  			
  			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
@@ -185,7 +193,6 @@ public class LoginController {
 					logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_ADMIN);
 					modelAndView = new ModelAndView(RequestConstans.Login.ADMIN_INFO);
 					request.getSession().setAttribute("loggedInRole", RequestConstans.Roles.ROLE_ADMIN);
-		       		//modelAndView.addObject("username", username);
 		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_VENDOR))) {
 		       		logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_VENDOR);
 		       		modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);					
@@ -200,15 +207,16 @@ public class LoginController {
 			       		vendor.setTelephone(split[1]);
 		       		}
 		       	}
-		       		modelAndView.addObject("vendor", vendor);	
+		       		modelAndView.addObject("vendor", vendor);
 		       		request.getSession().setAttribute("loggedInRole", RequestConstans.Roles.ROLE_VENDOR);
 		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_CONSUMER))) {
 		       		logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_CONSUMER);
 		       		modelAndView = new ModelAndView(RequestConstans.Login.CONSUMER_INFO);
 		       		consumer = userService.getUserDetailsByUsername(username).getConsumer();
+		       		securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(1);
 		       		CommonUtils.populateConsumerProfileRequest(consumer, modelAndView);
 		       		consumer.setVendorPreference();
-		       		modelAndView.addObject("consumerMyProfiletab", "consumermyprofile");
+		       		modelAndView.addObject("securityTypeList", securityTypeList);
 		       		modelAndView.addObject("consumer", consumer);
 		       		request.getSession().setAttribute("loggedInRole", RequestConstans.Roles.ROLE_CONSUMER);
 		       	}
@@ -221,7 +229,7 @@ public class LoginController {
 				modelAndView.addObject("costs", costs);
 				modelAndView.addObject("awards", awards);
 				modelAndView.addObject("companySubType", companySubType);
-		   		modelAndView.addObject("username", username);		
+		   		modelAndView.addObject("username", username);
 			}catch (Exception exp) {
 				logger.error("Error reading Details for {}", username, exp);
 			}

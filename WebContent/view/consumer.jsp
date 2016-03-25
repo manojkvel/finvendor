@@ -2,8 +2,9 @@
 <%@page import="com.finvendor.util.RequestConstans"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <head>
-   	<title>Consumer Dashboard</title>
+   	<title>FinVendor - Consumer Dashboard</title>
    	<script src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
+   	<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
 </head>
 <%--
 <c:set var="companydetails" value="<%=RequestConstans.Consumer.COMPANYDETAILS %>"></c:set>
@@ -33,44 +34,20 @@
 						<div class="span12">
 							<div class="portlet box blue" id="form_wizard_1">
 								<div class="portlet-title"></div>
-								<div class="portlet-body form">
-									<form action="${pageContext.request.contextPath}/updateConsumerProfileCompanyDetails" class="form-horizontal" id="submit_form" method="post"
-										enctype="multipart/form-data">
-										<div class="form-wizard">
-											<ul class="nav nav-tabs">
-											  <li class="active"><a data-toggle="tab" href="#consumerProfileCompanyDetailsTab">Company Details</a></li>
-											  <li><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsTab">My Business Needs</a></li>
-											  <%--
-											  <li><a data-toggle="tab" href="#consumerProfileMyVendorPreferenceTab">My Vendor Preference</a></li>
-											  <li><a data-toggle="tab" href="#consumerProfileDeliveryAndCostPreferenceTab">Delivery & Cost Preference</a></li>
-											  --%>
-											</ul>
-											<%--  
-											<div class="Rowtable">
-												<div class="ColumnCommonmyprofile" id="columnconsumer1"> 
-													<div class="lable_header" id="headerconsumer1"> 
-														<a id="anchortagconsumer1" href="#tab1" class="lable_header" data-toggle="tab" onclick="consumerMyProfileActiveMode('consumerProfileCompanyDetailsTab');">Company Details</a> 
-													</div>
-												</div>
-												<div class="ColumnCommonmyprofile" id="columnconsumer2"> 
-													<div class="lable_header" id="headerconsumer2">  
-														<a id="anchortagconsumer2" href="#tab2" class="lable_header" data-toggle="tab" onclick="consumerMyProfileActiveMode('${mybusinessneeds}');">My Business Needs</a> 
-													</div> 
-												</div>
-												<div class="ColumnCommonmyprofile" id="columnconsumer3"> 
-													<div class="lable_header" id="headerconsumer3">  
-														<a id="anchortagconsumer3" href="#tab3" class="lable_header" data-toggle="tab" onclick="consumerMyProfileActiveMode('${myvendorpreference}');">My Vendor Preference</a> 
-													</div> 
-												</div>
-												<div class="ColumnCommonmyprofile" id="columnconsumer4"> 
-													<div class="lable_header" id="headerconsumer4"> 
-														<a id="anchortagconsumer4" href="#tab4" class="lable_header" data-toggle="tab" onclick="consumerMyProfileActiveMode('${costpreference}');">Delivery & Cost Preference</a> 
-													</div> 
-												</div>
-											</div>
-											--%>
+								<div class="portlet-body form">									
+									<div class="form-wizard">
+										<ul class="nav nav-tabs">
+										  <li class="active"><a data-toggle="tab" href="#consumerProfileCompanyDetailsTab">Company Details</a></li>
+										  <li><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsTab">My Business Needs</a></li>
+										  <%--
+										  <li><a data-toggle="tab" href="#consumerProfileMyVendorPreferenceTab">My Vendor Preference</a></li>
+										  <li><a data-toggle="tab" href="#consumerProfileDeliveryAndCostPreferenceTab">Delivery & Cost Preference</a></li>
+										  --%>
+										</ul>	
+										<form action="${pageContext.request.contextPath}/updateConsumerProfileCompanyDetails" class="form-horizontal" 
+												id="submit_form" method="post" enctype="multipart/form-data">									
 											<div class="tab-content" style="background-color:white">
-												<%-- My Profile - Company Details --%>
+												<%-- My Profile - Company Details --%>										
 												<div class="tab-pane active" id="consumerProfileCompanyDetailsTab">
 													<span id="consumerProfileCompanyDetailsSpan">	
 														<div class="Row">
@@ -208,11 +185,11 @@
 																			<c:forEach var="countries" items="${countries}">
 																				<c:choose>
 																					   <c:when test="${consumer.countryOfIncorporation eq countries.country_id}">
-																						        <option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
-																						    </c:when>    
-																						    <c:otherwise>
-																						    	<option value="${countries.country_id}">${countries.name}</option>
-																						    </c:otherwise>
+																					        <option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
+																					    </c:when>    
+																					    <c:otherwise>
+																					    	<option value="${countries.country_id}">${countries.name}</option>
+																					    </c:otherwise>
 																				 </c:choose>
 																			</c:forEach>
 																		</select>
@@ -288,405 +265,428 @@
 														</div>
 													</span>
 												</div>
-												<%-- My Profile - My Business Needs --%>
-												<div class="tab-pane" id="consumerProfileMyBusinessNeedsTab">								
-										 				<div class="Rowtable">
-															<ul class="nav nav-tabs">
-																<c:set var="consumerProfileMyBusinessNeedsTabActive" value="false"/>
-																<c:if test="${consumer.marketDataPreference == true}">
-																	<c:set var="consumerProfileMyBusinessNeedsTabActive" value="true"/>
-																	<c:set var="consumerProfileMyBusinessNeedsMarketDataTabActive" value="true"/>
-																	<li class="active"><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsMarketDataTab">Market Data</a></li>
-																</c:if>
-																<c:if test="${consumer.tradingAppPreference == true}">
-																	<c:choose>
-																		<c:when test="${consumerProfileMyBusinessNeedsTabActive == true}">
-																			<li><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsTradingPlatformTab">Trading Platform</a></li>
-																		</c:when>
-																		<c:otherwise>
-																			<c:set var="consumerProfileMyBusinessNeedsTabActive" value="true"/>
-																			<c:set var="consumerProfileMyBusinessNeedsTradingPlatformTabActive" value="true"/>
-																			<li class="active"><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsTradingPlatformTab">Trading Platform</a></li>
-																		</c:otherwise>
-																	</c:choose>						
-																</c:if>
-																<c:if test="${consumer.analyticsAppPreference == true}">
-																	<c:choose>
-																		<c:when test="${consumerProfileMyBusinessNeedsTabActive == true}">
-																			<li><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsAnalyticsSoftwareTab">Analytics Software</a></li>
-																		</c:when>
-																		<c:otherwise>
-																			<c:set var="consumerProfileMyBusinessNeedsTabActive" value="true"/>
-																			<c:set var="consumerProfileMyBusinessNeedsAnalyticsSoftwareTabActive" value="true"/>
-																			<li class="active"><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsAnalyticsSoftwareTab">Analytics Software</a></li>
-																		</c:otherwise>
-																	</c:choose>																	
-																</c:if>
-																<c:if test="${consumer.researchReportPreference == true}">
-																	<c:choose>
-																		<c:when test="${consumerProfileMyBusinessNeedsTabActive == true}">
-																			<li><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsResearchReportTab">Research Report</a></li>
-																		</c:when>
-																		<c:otherwise>
-																			<c:set var="consumerProfileMyBusinessNeedsTabActive" value="true"/>
-																			<c:set var="consumerProfileMyBusinessNeedsResearchReportTabActive" value="true"/>
-																			<li class="active"><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsResearchReportTab">Research Report</a></li>
-																		</c:otherwise>
-																	</c:choose>
-																</c:if>
-															</ul>
-														</div>
-														<div class="tab-content">
+											
+											<%-- My Profile - My Business Needs --%>
+											<div class="tab-pane" id="consumerProfileMyBusinessNeedsTab">								
+								 				<div class="Rowtable">
+													<ul class="nav nav-tabs">
+														<c:set var="consumerProfileMyBusinessNeedsTabActive" value="false"/>
+														<c:if test="${consumer.marketDataPreference == true}">
+															<c:set var="consumerProfileMyBusinessNeedsTabActive" value="true"/>
+															<c:set var="consumerProfileMyBusinessNeedsMarketDataTabActive" value="true"/>
+															<li class="active"><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsMarketDataTab">Market Data</a></li>
+														</c:if>
+														<c:if test="${consumer.tradingAppPreference == true}">
 															<c:choose>
-																<c:when test="${consumerProfileMyBusinessNeedsMarketDataTabActive == true}">
-																	<div class="tab-pane active" id="consumerProfileMyBusinessNeedsMarketDataTab">
+																<c:when test="${consumerProfileMyBusinessNeedsTabActive == true}">
+																	<li><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsTradingPlatformTab">Trading Platform</a></li>
 																</c:when>
 																<c:otherwise>
-																	<div class="tab-pane" id="consumerProfileMyBusinessNeedsMarketDataTab">
+																	<c:set var="consumerProfileMyBusinessNeedsTabActive" value="true"/>
+																	<c:set var="consumerProfileMyBusinessNeedsTradingPlatformTabActive" value="true"/>
+																	<li class="active"><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsTradingPlatformTab">Trading Platform</a></li>
 																</c:otherwise>
-															</c:choose>														
-																<div class="Rowtableinfoval">
-																	<div class="ColumnCommon"> 
-																		<label class="control-label-fileupload">File Upload consumerProfileMyBusinessNeedsMarketDataTab(excel or csv)<span class="required">*</span></label>
-																		<div class="controlsfileupload">
-																			 <input type="text" id="orgname" value="C:\ConsumerUpload\MyDatapreference_FV.CSV" class="m-wrap largefileuploadreadonly" readonly="readonly"  /> 
-																		</div>
-																		<div class="controlsfileuploadreadonly">
-																			 <input type="file" id="consumerfileUpload" placeholder="Company Logo" name="fileUpload" class="m-wrap largefileupload" style="margin: -47px 0px 3px 503px;"/>
-																		</div>
-																	</div>
-																	<div class="ColumnCommonray">
-																		<a class="consumerfileupload"> <span class="lable_header_add">Upload</span></a>
-																	</div>
-																</div>
-														<div><br/> </div>
+															</c:choose>						
+														</c:if>
+														<c:if test="${consumer.analyticsAppPreference == true}">
+															<c:choose>
+																<c:when test="${consumerProfileMyBusinessNeedsTabActive == true}">
+																	<li><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsAnalyticsSoftwareTab">Analytics Software</a></li>
+																</c:when>
+																<c:otherwise>
+																	<c:set var="consumerProfileMyBusinessNeedsTabActive" value="true"/>
+																	<c:set var="consumerProfileMyBusinessNeedsAnalyticsSoftwareTabActive" value="true"/>
+																	<li class="active"><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsAnalyticsSoftwareTab">Analytics Software</a></li>
+																</c:otherwise>
+															</c:choose>																	
+														</c:if>
+														<c:if test="${consumer.researchReportPreference == true}">
+															<c:choose>
+																<c:when test="${consumerProfileMyBusinessNeedsTabActive == true}">
+																	<li><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsResearchReportTab">Research Report</a></li>
+																</c:when>
+																<c:otherwise>
+																	<c:set var="consumerProfileMyBusinessNeedsTabActive" value="true"/>
+																	<c:set var="consumerProfileMyBusinessNeedsResearchReportTabActive" value="true"/>
+																	<li class="active"><a data-toggle="tab" href="#consumerProfileMyBusinessNeedsResearchReportTab">Research Report</a></li>
+																</c:otherwise>
+															</c:choose>
+														</c:if>
+													</ul>
+												</div>
+												<div class="tab-content">
+													<%-- My Profile - My Business Needs - Market Data --%>
+													<c:choose>
+														<c:when test="${consumerProfileMyBusinessNeedsMarketDataTabActive == true}">
+															<div class="tab-pane active" id="consumerProfileMyBusinessNeedsMarketDataTab">
+														</c:when>
+														<c:otherwise>
+															<div class="tab-pane" id="consumerProfileMyBusinessNeedsMarketDataTab">
+														</c:otherwise>
+													</c:choose>														
+														<div class="Rowtableinfoval" align="right">
+															<label class="control-label">Bulk Upload(excel or csv)<span class="required">*</span></label>
+															<input type="file" id="consumerProfileMyBusinessNeedsMarketDataBulkUploadFile" name="consumerProfileMyBusinessNeedsMarketDataBulkUploadFile" 
+																class="m-wrap largefileuploadcons"/>
+															<button>Upload</button>
+														</div>
+													<div><br/></div>
+													<span id="consumerProfileMyBusinessNeedsMarketDataSpan">
 														<div class="Row">
 															<div class="ColumnCommonvendor">
 																<div class="control-group">
-																	<label class="control-label">Asset Class<span class="required">*</span></label>
+																	<label class="control-labelalign">Asset Class<span class="required">*</span></label>
 																	<div class="controls">
-																		<select name="assetclass" onchange="loadConsumerSecurityTypes(this.value);" id="consumerassetclass">
-																		     <option value ="-SELECT-"> -SELECT- </option>
-																		     <c:forEach var="assetClasses" items="${assetClasses}">
-																		    	<option value="${assetClasses.asset_class_id}">${assetClasses.description}</option>
+																		<select name="consumerProfileMyBusinessNeedsMarketDataAssetClass" 
+																				onchange="loadSecurityTypesForAssetClass(this.value, 'consumerProfileMyBusinessNeedsMarketDataSecurityType', 
+																					'consumerProfileMyBusinessNeedsMarketDataSecurityTypeErrorMsg', this.options[this.selectedIndex].text)" 
+																				data-mandatory="Y" id="consumerProfileMyBusinessNeedsMarketDataAssetClass">
+																		    <c:forEach var="assetClass" items="${assetClasses}">
+																		    	<option value="${assetClass.asset_class_id}">${assetClass.description}</option>
 																		 	 </c:forEach>
 																		 </select>
+																		 <div>
+																			<label id="consumerProfileMyBusinessNeedsMarketDataAssetClassErrorMsg" class="errorMessage"></label>
+																		</div>
 																	</div>
 																</div>
 																<div class="control-group">
-																	<label class="control-label">Security type<span class="required">*</span></label>
+																	<label class="control-labelalign">Security type<span class="required">*</span></label>
 																	<div class="controls">
-																		<select name="securitytype"  id="assetClassConsumerSecurityMaps" multiple="multiple">
-																		  	 <option value ="-SELECT-"> -SELECT- </option>
-																		     <c:forEach var="assetClassConsumerSecurityMaps" items="${assetClassConsumerSecurityMaps}">
-																			    <option value="${assetClassConsumerSecurityMaps.securityType.name}">${assetClassConsumerSecurityMaps.securityType.name}</option>
+																		<select name="consumerProfileMyBusinessNeedsMarketDataSecurityType" 
+																				data-mandatory="Y" id="consumerProfileMyBusinessNeedsMarketDataSecurityType">
+																		  	 <c:forEach var="securityType" items="${securityTypeList}">
+																			    <option value="${securityType.securityTypeId}">${securityType.name}</option>
 																			  </c:forEach>
 																		 </select>
+																		 <div>
+																			<label id="consumerProfileMyBusinessNeedsMarketDataSecurityTypeErrorMsg" class="errorMessage"></label>
+																		</div>
 																	</div>
 																</div>
 															</div>
 															<div class="ColumnCommonvendorpage">
 																<div class="control-group">
-																	<label class="control-label">Data Coverage Region<span class="required">*</span></label>
+																	<label class="control-labelalign">Data Coverage Region<span class="required">*</span></label>
 																	<div class="controls">
-																		<select name="datacoverageregion" multiple="multiple" id="consumerdatacoverageregion">
-																	     	<option value ="-SELECT-"> -SELECT- </option>
-																		     <c:forEach var="regions" items="${regions}">
+																		<select name="consumerProfileMyBusinessNeedsMarketDataDataCoverageRegion" 
+																				data-mandatory="Y" id="consumerProfileMyBusinessNeedsMarketDataDataCoverageRegion">
+																	     	 <c:forEach var="regions" items="${regions}">
 																		    	<option value="${regions.name}">${regions.name}</option>
 																		 	 </c:forEach>
-																	 	</select> 
+																	 	</select>
+																	 	 <div>
+																			<label id="consumerProfileMyBusinessNeedsMarketDataDataCoverageRegionErrorMsg" class="errorMessage"></label>
+																		</div> 
 																	</div>
 																</div>
 																<div class="control-group">
-																	<label class="control-label">Data Coverage Country<span class="required">*</span></label>
+																	<label class="control-labelalign">Data Coverage Country<span class="required">*</span></label>
 																	<div class="controls">
-																		<select name="datacoveragecountry" multiple="multiple" id="consumerdatacoveragecountry">
-																		     <option value ="-SELECT-"> -SELECT- </option>
-																		     <c:forEach var="countries" items="${countries}">
+																		<select name="consumerProfileMyBusinessNeedsMarketDataDataCoverageCountry" 
+																				data-mandatory="Y" id="consumerProfileMyBusinessNeedsMarketDataDataCoverageCountry">
+																		    <c:forEach var="countries" items="${countries}">
 																			    <option value="${countries.name}">${countries.name}</option>
 																			  </c:forEach>
 																   		</select>
+																   		<div>
+																			<label id="consumerProfileMyBusinessNeedsMarketDataDataCoverageCountryErrorMsg" class="errorMessage"></label>
+																		</div>
 																	</div>
 																</div>
 															</div>
 															<div class="ColumnCommonvendorpre">
 																<div class="control-group">
-																	<label class="control-label">Data Coverage Exchange<span class="required">*</span></label>
+																	<label class="control-labelalign">Data Coverage Exchange<span class="required">*</span></label>
 																	<div class="controls">
-																		<select name="datacoverageexchange"  multiple="multiple" id="consumerdatacoverageexchange">
-																	     <option value ="-SELECT-"> -SELECT- </option>
-																	     <c:forEach var="exchanges" items="${exchanges}">
-																		    <option value="${exchanges.name}">${exchanges.name}</option>
-																		  </c:forEach>
-																	  </select>
+																		<select name="consumerProfileMyBusinessNeedsMarketDataDataCoverageExchange" 
+																			data-mandatory="Y" id="consumerProfileMyBusinessNeedsMarketDataDataCoverageExchange">
+																		    <c:forEach var="exchanges" items="${exchanges}">
+																			    <option value="${exchanges.name}">${exchanges.name}</option>
+																			  </c:forEach>
+																		  </select>
+																	  	<div>
+																			<label id="consumerProfileMyBusinessNeedsMarketDataDataCoverageExchangeErrorMsg" class="errorMessage"></label>
+																		</div>
 																	</div>
 																</div>
 																<div class="control-group">
-																	<label class="control-label">Data Attribute<span class="required">*</span></label>
+																	<label class="control-labelalign">Data Attribute<span class="required">*</span></label>
 																	<div class="controls">
-																		<input type="text" id="consumerdataattribute" placeholder="Data Attribute" name="dataattribute" class="m-wrap largeval"/>
+																		<input type="text" id="consumerProfileMyBusinessNeedsMarketDataDataAttribute" placeholder="Data Attribute" 
+																			data-mandatory="Y" name="consumerProfileMyBusinessNeedsMarketDataDataAttribute" class="m-wrap largeval"/>
+																	</div>
+																	<div>
+																		<label id="consumerProfileMyBusinessNeedsMarketDataDataAttributeErrorMsg" class="errorMessage"></label>
 																	</div>
 																</div>
 															</div> 
 														</div>
-														<div class="control-group">
-															<div class="controls">
-																<div class="se" style="  margin: 0px 0px 0px 232px;">
-															 	  <a class="consumeraddtotable"> <span class="lable_header_add">Add More </span></a> 
-															 	</div>
-															</div>
-														</div> 
-														<div class="portlet-body">												
-															<table class="table table-striped table-bordered table-hover table-full-width" id="sample_1">
-																<thead style="background-color:#7BCCA5;">
-																	<tr>
-																		<th>Asset Class</th>
-																		<th>Security type</th>
-																		<th>Data Coverage Region</th>
-																		<th>Data Coverage Country</th>
-														                <th>Data Coverage Exchange</th>
-																		<th>Data Attribute</th>
-																		<th>Actions</th>
-																	</tr>
-																</thead>
-																<tbody>
-																</tbody>
-															</table>
-															<input type="hidden" id="consumerjsontable1" name="consumerjsontable1"/>
-														</div>
-														<div><br/></div>
-														<div class="form-actions clearfix">
-															<div class="se">
-															<%-- 
-															<a  href="#tab1" class="btn button-previous" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${companydetails}');">Back</a>					
-															<input type="reset" value="Reset" class="btn" />
-															<a  href="#tab6" class="btn button-next" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${tradingapplicationneeds}');">Continue</a>
-															--%>
-															<input type="submit" value="Update" class="btn"/>
-														</div>
-													</div>									
-												</div>								
-												<c:choose>
-													<c:when test="${consumerProfileMyBusinessNeedsTradingPlatformTabActive == true}">
-														<div class="tab-pane active" id="consumerProfileMyBusinessNeedsTradingPlatformTab">
-													</c:when>
-													<c:otherwise>
-														<div class="tab-pane" id="consumerProfileMyBusinessNeedsTradingPlatformTab">
-													</c:otherwise>
-												</c:choose>
-													<div class="Rowtableinfoval">
-														<div class="ColumnCommon"> 
-															<label class="control-label-fileupload">File Upload consumerProfileMyBusinessNeedsTradingPlatformTab(excel or csv)<span class="required">*</span></label>
-															<div class="controlsfileupload">
-																 <input type="text" id="orgname" value="C:\ConsumerUpload\MyDatapreference_FV.CSV" class="m-wrap largefileuploadreadonly" readonly="readonly"  /> 
-															</div>
-															<div class="controlsfileuploadreadonly">
-																 <input type="file" id="consumerfileUpload" placeholder="Company Logo" name="fileUpload" class="m-wrap largefileupload" style="margin: -47px 0px 3px 503px;"/>
-															</div>
-														</div>
-														<div class="ColumnCommonray">
-															<a class="consumerfileupload"> <span class="lable_header_add">Upload</span></a>
-														</div>
-													</div>
-													<div><br/> </div>												
-													<div class="Row">
-														<div class="ColumnCommonvenconsapplication">
-															<div class="control-group">
-																<label class="control-label">Trade Asset Class<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradeassetclass"  id="tradeassetclass">
-																	     <option value ="-SELECT-"> -SELECT- </option>
-																	     <c:forEach var="assetClasses" items="${assetClasses}">
-																	    	<option value="${assetClasses.description}">${assetClasses.description}</option>
-																	 	 </c:forEach>
-																	 </select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">Trade Sub Asset Class<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradesubassetclass"  multiple="multiple" id="tradesubassetclass">
-																	  	 <option value ="-SELECT-"> -SELECT- </option>
-																	      <option value ="Sub1"> Sub1 </option>
-																	      <option value ="Sub2"> Sub2 </option>
-																	 </select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">Trading Capability Type<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradecapabilitytype"  multiple="multiple" id="tradecapabilitytype">
-																	  	 <option value ="-SELECT-"> -SELECT- </option>
-																	      <option value ="Capabil1"> Capabil1 </option>
-																	      <option value ="Capabil2"> Capabil2 </option>
-																	 </select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">Trade Execution Type<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradeexecutiontype"  multiple="multiple" id="tradeexecutiontype">
-																	  	 <option value ="-SELECT-"> -SELECT- </option>
-																	      <option value ="Trade1"> Trade1 </option>
-																	      <option value ="Trade2"> Trade2 </option>
-																	 </select>
-																</div>
-															</div>
-														</div>
-														<div class="ColumnCommonvendorpage">
-															<div class="control-group">
-																<label class="control-label">Data Coverage Region<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradedatacoverageregion" multiple="multiple" id="tradedatacoverageregion">
-																     	<option value ="-SELECT-"> -SELECT- </option>
-																	     <c:forEach var="regions" items="${regions}">
-																	    	<option value="${regions.name}">${regions.name}</option>
-																	 	 </c:forEach>
-																 	</select> 
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">Data Coverage Country<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradedatacoveragecountry" multiple="multiple" id="tradedatacoveragecountry">
-																	     <option value ="-SELECT-"> -SELECT- </option>
-																	     <c:forEach var="countries" items="${countries}">
-																		    <option value="${countries.name}">${countries.name}</option>
-																		  </c:forEach>
-															   		</select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">Data Coverage Exchange<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradedatacoverageexchange"  multiple="multiple" id="tradedatacoverageexchange">
-																     <option value ="-SELECT-"> -SELECT- </option>
-																     <c:forEach var="exchanges" items="${exchanges}">
-																	    <option value="${exchanges.name}">${exchanges.name}</option>
-																	  </c:forEach>
-																  </select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">My Darkpool venues<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="trademydarkpoolvenues"  multiple="multiple" id="trademydarkpoolvenues">
-																     <option value ="-SELECT-"> -SELECT- </option>
-																     <option value ="Darkpool1"> Darkpool1 </option>
-																     <option value ="-Darkpool2"> Darkpool2 </option>
-																  </select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">Order Type<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradeordertype"  id="tradeordertype">
-																	     <option value ="-SELECT-"> -SELECT- </option>
-																	      <option value ="Order1"> Order1 </option>
-																	      <option value ="Order2"> Order2 </option>
-																	 </select>
-																</div>
-															</div>
-														</div>
-														<div class="ColumnCommonvendorpredatampodelapplication">
-															<div class="control-group">
-																<label class="control-label">Accessibility<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradeaccessibility"  id="tradeaccessibility">
-																	     <option value ="-SELECT-"> -SELECT- </option>
-																	      <option value ="Access1"> Access1 </option>
-																	      <option value ="Access2"> Access2- </option>
-																	 </select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">Suitability<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradesuitability"  id="tradesuitability">
-																	     <option value ="-SELECT-"> -SELECT- </option>
-																	     <option value ="Subility2">Suitabi1 </option>
-																		<option value ="Subility1"> Suitabi2 </option>
-																	 </select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">Software type<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradesoftwaretype"  id="tradesoftwaretype">
-																	     <option value ="-SELECT-"> -SELECT- </option>
-																	      <option value ="Software1"> Software1 </option>
-																	      <option value ="Software2"> Software2 </option>
-																	 </select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label"> User Base<span class="required">*</span></label>
-																<div class="controls">
-																	<select name="tradeexistinguserbase"  id="tradeexistinguserbase">
-																	     <option value ="-SELECT-"> -SELECT- </option>
-																	      <option value ="ExiUse1"> ExisUse1 </option>
-																	      <option value ="ExiUse2"> ExisUse2 </option>
-																	 </select>
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-label">Cost Range<span class="required">*</span></label>
-																<div class="controls">
-																<select name="tradecostrange" id="tradecostrange">
-																     <option selected="selected" value ="-SELECT-" > -SELECT- </option>
-																	 <c:forEach var="costs" items="${costs}">
-																	     <option value="${costs.cost_id}">${costs.range}</option>
-																	 </c:forEach>
-																</select>
-																</div>
-															</div>
-														</div> 
-													</div>
+													</span>
 													<div class="control-group">
 														<div class="controls">
-															<div class="se" style="  margin: 0px 0px 0px 232px;">
-														 	  <a class="tradeapplicationconsumeraddmore"> <span class="lable_header_add">Add More </span></a> 
+															<div class="se" style="float:right">
+														 	  <span class="consumeraddtotable">
+														 	  	<input type="button" id="consumerProfileMyBusinessNeedsMarketDataAddMore" value="Add More"/>
+														 	  </span> 
 														 	</div>
 														</div>
 													</div> 
-													<div class="portlet-body">
-														<table class="table table-striped table-bordered table-hover table-full-width" id="sample_1tradeapplicationconsu">
+													<div class="portlet-body">												
+														<table class="table table-striped table-bordered table-hover table-full-width" 
+															id="consumerProfileMyBusinessNeedsMarketDataTable">
 															<thead style="background-color:#7BCCA5;">
 																<tr>
-																	<th>Asset</th>
-																	<th>Sub Asset</th>
-																	<th>Ca-bility</th>
-																	<th>Execution</th>
-													                <th>Region</th>
+																	<th>Asset Class</th>
+																	<th>Security type</th>
+																	<th>Region</th>
 																	<th>Country</th>
-																	<th>Exchange</th>
-																	<th>Darkpool</th>
-																	<th>Order</th>
-																	<th>Ac-bility</th>
-																	<th>Su-bility</th>
-																	<th>Software</th>
-																	<th>User</th>
-																	<th>Cost</th>
-																	<th>Actions</th>
+													                <th>Exchange</th>
+																	<th>Data Attribute</th>
+																	<th></th>
 																</tr>
 															</thead>
 															<tbody>
 															</tbody>
 														</table>
-														<input type="hidden" id="tradeapplicationconsujsontable" name="tradeapplicationconsujsontable"/>
+														<input type="hidden" id="consumerProfileMyBusinessNeedsMarketDataTableJson" name="consumerProfileMyBusinessNeedsMarketDataTableJson"/>
+														<input type="hidden" id="consumerProfileMyBusinessNeedsMarketDataTableKey" name="consumerProfileMyBusinessNeedsMarketDataTableKey" 
+															value="consumerProfileMyBusinessNeedsMarketDataTable"/>
 													</div>
 													<div><br/></div>
 													<div class="form-actions clearfix">
 														<div class="se">
-															<%-- 
-															<a  href="#tab5" class="btn button-previous" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${marketdataneeds}');">Back</a>		
-															<input type="reset" value="Reset" class="btn" />
-															<a  href="#tab7" class="btn button-next" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${analyticsapplicationneeds}');">Continue</a>
-															--%>
-															<input type="submit" value="Update" class="btn"/>
+														<%-- 
+														<a  href="#tab1" class="btn button-previous" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${companydetails}');">Back</a>					
+														<input type="reset" value="Reset" class="btn" />
+														<a  href="#tab6" class="btn button-next" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${tradingapplicationneeds}');">Continue</a>
+														--%>
+														<input type="button" value="Update" class="btn" onClick="updateConsumerProfileMyBusinessNeedsMarketData()"/>
+													</div>
+												</div>									
+											</div>								
+											<c:choose>
+												<c:when test="${consumerProfileMyBusinessNeedsTradingPlatformTabActive == true}">
+													<div class="tab-pane active" id="consumerProfileMyBusinessNeedsTradingPlatformTab">
+												</c:when>
+												<c:otherwise>
+													<div class="tab-pane" id="consumerProfileMyBusinessNeedsTradingPlatformTab">
+												</c:otherwise>
+											</c:choose>
+												<div class="Rowtableinfoval">
+													<div class="ColumnCommon"> 
+														<label class="control-label-fileupload">File Upload consumerProfileMyBusinessNeedsTradingPlatformTab(excel or csv)<span class="required">*</span></label>
+														<div class="controlsfileupload">
+															 <input type="text" id="orgname" value="C:\ConsumerUpload\MyDatapreference_FV.CSV" class="m-wrap largefileuploadreadonly" readonly="readonly"  /> 
 														</div>
-													</div>									
+														<div class="controlsfileuploadreadonly">
+															 <input type="file" id="consumerfileUpload" placeholder="Company Logo" name="fileUpload" class="m-wrap largefileupload" style="margin: -47px 0px 3px 503px;"/>
+														</div>
+													</div>
+													<div class="ColumnCommonray">
+														<a class="consumerfileupload"> <span class="lable_header_add">Upload</span></a>
+													</div>
 												</div>
+												<div><br/> </div>												
+												<div class="Row">
+													<div class="ColumnCommonvenconsapplication">
+														<div class="control-group">
+															<label class="control-label">Trade Asset Class<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradeassetclass"  id="tradeassetclass">
+																     <option value ="-SELECT-"> -SELECT- </option>
+																     <c:forEach var="assetClasses" items="${assetClasses}">
+																    	<option value="${assetClasses.description}">${assetClasses.description}</option>
+																 	 </c:forEach>
+																 </select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Trade Sub Asset Class<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradesubassetclass"  multiple="multiple" id="tradesubassetclass">
+																  	 <option value ="-SELECT-"> -SELECT- </option>
+																      <option value ="Sub1"> Sub1 </option>
+																      <option value ="Sub2"> Sub2 </option>
+																 </select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Trading Capability Type<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradecapabilitytype"  multiple="multiple" id="tradecapabilitytype">
+																  	 <option value ="-SELECT-"> -SELECT- </option>
+																      <option value ="Capabil1"> Capabil1 </option>
+																      <option value ="Capabil2"> Capabil2 </option>
+																 </select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Trade Execution Type<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradeexecutiontype"  multiple="multiple" id="tradeexecutiontype">
+																  	 <option value ="-SELECT-"> -SELECT- </option>
+																      <option value ="Trade1"> Trade1 </option>
+																      <option value ="Trade2"> Trade2 </option>
+																 </select>
+															</div>
+														</div>
+													</div>
+													<div class="ColumnCommonvendorpage">
+														<div class="control-group">
+															<label class="control-label">Data Coverage Region<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradedatacoverageregion" multiple="multiple" id="tradedatacoverageregion">
+															     	<option value ="-SELECT-"> -SELECT- </option>
+																     <c:forEach var="regions" items="${regions}">
+																    	<option value="${regions.name}">${regions.name}</option>
+																 	 </c:forEach>
+															 	</select> 
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Data Coverage Country<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradedatacoveragecountry" multiple="multiple" id="tradedatacoveragecountry">
+																     <option value ="-SELECT-"> -SELECT- </option>
+																     <c:forEach var="countries" items="${countries}">
+																	    <option value="${countries.name}">${countries.name}</option>
+																	  </c:forEach>
+														   		</select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Data Coverage Exchange<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradedatacoverageexchange"  multiple="multiple" id="tradedatacoverageexchange">
+															     <option value ="-SELECT-"> -SELECT- </option>
+															     <c:forEach var="exchanges" items="${exchanges}">
+																    <option value="${exchanges.name}">${exchanges.name}</option>
+																  </c:forEach>
+															  </select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">My Darkpool venues<span class="required">*</span></label>
+															<div class="controls">
+																<select name="trademydarkpoolvenues"  multiple="multiple" id="trademydarkpoolvenues">
+															     <option value ="-SELECT-"> -SELECT- </option>
+															     <option value ="Darkpool1"> Darkpool1 </option>
+															     <option value ="-Darkpool2"> Darkpool2 </option>
+															  </select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Order Type<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradeordertype"  id="tradeordertype">
+																     <option value ="-SELECT-"> -SELECT- </option>
+																      <option value ="Order1"> Order1 </option>
+																      <option value ="Order2"> Order2 </option>
+																 </select>
+															</div>
+														</div>
+													</div>
+													<div class="ColumnCommonvendorpredatampodelapplication">
+														<div class="control-group">
+															<label class="control-label">Accessibility<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradeaccessibility"  id="tradeaccessibility">
+																     <option value ="-SELECT-"> -SELECT- </option>
+																      <option value ="Access1"> Access1 </option>
+																      <option value ="Access2"> Access2- </option>
+																 </select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Suitability<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradesuitability"  id="tradesuitability">
+																     <option value ="-SELECT-"> -SELECT- </option>
+																     <option value ="Subility2">Suitabi1 </option>
+																	<option value ="Subility1"> Suitabi2 </option>
+																 </select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Software type<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradesoftwaretype"  id="tradesoftwaretype">
+																     <option value ="-SELECT-"> -SELECT- </option>
+																      <option value ="Software1"> Software1 </option>
+																      <option value ="Software2"> Software2 </option>
+																 </select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label"> User Base<span class="required">*</span></label>
+															<div class="controls">
+																<select name="tradeexistinguserbase"  id="tradeexistinguserbase">
+																     <option value ="-SELECT-"> -SELECT- </option>
+																      <option value ="ExiUse1"> ExisUse1 </option>
+																      <option value ="ExiUse2"> ExisUse2 </option>
+																 </select>
+															</div>
+														</div>
+														<div class="control-group">
+															<label class="control-label">Cost Range<span class="required">*</span></label>
+															<div class="controls">
+															<select name="tradecostrange" id="tradecostrange">
+															     <option selected="selected" value ="-SELECT-" > -SELECT- </option>
+																 <c:forEach var="costs" items="${costs}">
+																     <option value="${costs.cost_id}">${costs.range}</option>
+																 </c:forEach>
+															</select>
+															</div>
+														</div>
+													</div> 
+												</div>
+												<div class="control-group">
+													<div class="controls">
+														<div class="se" style="  margin: 0px 0px 0px 232px;">
+													 	  <a class="tradeapplicationconsumeraddmore"> <span class="lable_header_add">Add More </span></a> 
+													 	</div>
+													</div>
+												</div> 
+												<div class="portlet-body">
+													<table class="table table-striped table-bordered table-hover table-full-width" id="sample_1tradeapplicationconsu">
+														<thead style="background-color:#7BCCA5;">
+															<tr>
+																<th>Asset</th>
+																<th>Sub Asset</th>
+																<th>Ca-bility</th>
+																<th>Execution</th>
+												                <th>Region</th>
+																<th>Country</th>
+																<th>Exchange</th>
+																<th>Darkpool</th>
+																<th>Order</th>
+																<th>Ac-bility</th>
+																<th>Su-bility</th>
+																<th>Software</th>
+																<th>User</th>
+																<th>Cost</th>
+																<th>Actions</th>
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
+													<input type="hidden" id="tradeapplicationconsujsontable" name="tradeapplicationconsujsontable"/>
+												</div>
+												<div><br/></div>
+												<div class="form-actions clearfix">
+													<div class="se">
+														<%-- 
+														<a  href="#tab5" class="btn button-previous" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${marketdataneeds}');">Back</a>		
+														<input type="reset" value="Reset" class="btn" />
+														<a  href="#tab7" class="btn button-next" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${analyticsapplicationneeds}');">Continue</a>
+														--%>
+														<input type="submit" value="Update" class="btn"/>
+													</div>
+												</div>									
+											</div>
+												<%-- My Profile - My Business Needs - Analytics Software--%>
 												<c:choose>
 													<c:when test="${consumerProfileMyBusinessNeedsAnalyticsSoftwareTabActive == true}">
 														<div class="tab-pane active" id="consumerProfileMyBusinessNeedsAnalyticsSoftwareTab">
@@ -1619,7 +1619,7 @@
 											</div>
 											</div>
 										</div>
-									</form>			
+									</form>																					
 								</div>
 							</div>
 						</div>

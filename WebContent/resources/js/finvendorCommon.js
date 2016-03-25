@@ -15,3 +15,21 @@ function updateAjax(element, ajaxUrl, errorLabelId) {
 		}
 	});
 }
+
+function loadSecurityTypesForAssetClass(assetClassId, securityTypeElementId, errorLabelId, selectedValue) {
+	var url = "loadSecurityTypesForAssetClass";
+	$.ajax({
+		type: 'POST',
+		url:  url,
+		data:{
+			assetClassId: assetClassId
+		},	
+		cache:false,
+		success : function(output){
+			document.getElementById(securityTypeElementId).innerHTML = output;		
+		},
+		error : function(data, textStatus, jqXHR){
+			document.getElementById(errorLabelId).innerHTML = 'Error loading Security Types';	
+		}
+	});
+}

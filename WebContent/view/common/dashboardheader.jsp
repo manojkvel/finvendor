@@ -18,6 +18,34 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 }else{
 }
 %> --%>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+<script>	
+	$(document).ready(function() {		
+		$(".account").click(function() {
+			var X=$(this).attr('id');
+			if(X==1) {
+				$(".profilepicsubmenu").hide();
+				$(this).attr('id', '0');
+			}else {
+				$(".profilepicsubmenu").show();
+				$(this).attr('id', '1');
+			}
+		});
+			
+		$(".profilepicsubmenu").mouseup(function() {
+				return false
+		});
+			
+		$(".account").mouseup(function() {
+			return false
+		});
+			
+		$(document).mouseup(function() {
+			$(".profilepicsubmenu").hide();
+			$(".account").attr('id', '');
+		});
+	});
+</script>
 <div class="header-container">
 	<div class="container">
 		<div class="header">
@@ -26,27 +54,40 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 			</a>
 			<div class="pull-right contact-detail">
 				<p>
+					<c:if test="${sessionScope.loggedInUser == null }">
+						<i class="fa fa-pencil"></i> Financial Vendor? 
+						<a class="link" href="#">List your offerings</a>
+					</c:if>
+				</p>
+				<c:choose>
+					<c:when test="${sessionScope.loggedInUser != null }">
+						<ul>
+					</c:when>
+					<c:otherwise>
+						<ul class="hd-right">
+					</c:otherwise>
+				</c:choose>
 					<c:choose>
-						<c:when test="${not empty username || not empty myusername}"></c:when>
+						<c:when test="${sessionScope.loggedInUser != null }">
+							<div class="dropdown">
+								<a href="#" class="account">
+									<img src="${pageContext.request.contextPath}/displayCompanyLogo/${sessionScope.loggedInUser.username}" class="profile-circle" border="0"/>
+								</a>
+								<div class="profilepicsubmenu" style="display:none">
+									<ul class="root">
+										<li><a href="#">Profile</a></li>
+										<li><a href="#">Settings</a></li>
+										<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>	
+									</ul>
+								</div>
+							</div>												
+						</c:when>
 						<c:otherwise>
-						  	<i class="fa fa-pencil"></i> Financial Vendor? 
-							<a class="link" href="#">List your offerings</a>
+							<li><a class="cd-signin" href="#"><i class="fa fa-user"></i> Login</a></li>
+							<li><a class="cd-signup" href="#"><i class="fa fa-user-plus"></i> Register</a></li>
+							<li><span><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=CONTACT"><i class="fa fa-envelope"></i> Contact</a></span></li> 
 						</c:otherwise>
 					</c:choose>
-				</p>
-				<ul class="hd-right">
-					<c:choose>
-							<c:when test="${not empty username || not empty myusername}">
-								<li class="block">Welcome <c:out value="${fn:toUpperCase(username)}" /></li>
-								<li><a href="<%=request.getContextPath() %>/logout">Logout</a></li>														
-							</c:when>
-							<c:otherwise>
-								<li><a class="cd-signin" href="#"><i class="fa fa-user"></i> Login</a></li>
-								<li><a class="cd-signup" href="#"><i class="fa fa-user-plus"></i> Register</a></li>
-								<li><span><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=CONTACT"><i class="fa fa-envelope"></i> Contact</a></span></li> 
-							</c:otherwise>
-						</c:choose>													
-						
 				</ul>
 			</div>
 		</div>

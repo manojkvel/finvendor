@@ -14,6 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -261,6 +268,32 @@ public class AdminController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value="adminUserLogin", method=RequestMethod.GET)
+	public String adminUserLogin(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "userName", required = true) String userName) {
+		logger.debug("Entering AdminController : adminUserLogin for {}", userName);
+		try {
+			FinVendorUser user = userService.getUserDetailsByUsername(userName);
+			String userRole = null;
+			if(user.getVendor() != null) {
+				userRole = RequestConstans.Roles.ROLE_VENDOR;
+			}else {
+				userRole = RequestConstans.Roles.ROLE_CONSUMER;
+			}
+			User appUser = new User(userName, user.getPassword(), AuthorityUtils.createAuthorityList(userRole));					
+			Authentication authentication = new UsernamePasswordAuthenticationToken(appUser, null,
+				    AuthorityUtils.createAuthorityList(userRole));
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+				request.getSession(true).setAttribute("loggedInUser", appUser);
+				logger.info("REDIRECTING for {}, {}", userName, userRole);
+		} catch(Exception exp){
+			logger.error("Error Reading User Summary Profile", exp);
+		}		
+		logger.debug("Leaving AdminController : adminUserLogin");
+		return "redirect:/welcometodashboards";
+	}
+		
 	private ReferenceData getReferenceDataFromMapping(String dataMapping) {
 		ReferenceData refData = new ReferenceData();
 		String[] dataDetails = dataMapping.split(";");

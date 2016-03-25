@@ -4,6 +4,35 @@
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@taglib uri="/WEB-INF/finvendor.tld" prefix="finVen"%>
 <jsp:include page="head.jsp"></jsp:include>
+<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+<script>	
+	$(document).ready(function() {		
+		$(".account").click(function() {
+			var X=$(this).attr('id');
+			if(X==1) {
+				$(".profilepicsubmenu").hide();
+				$(this).attr('id', '0');
+			}else {
+				$(".profilepicsubmenu").show();
+				$(this).attr('id', '1');
+			}
+		});
+			
+		$(".profilepicsubmenu").mouseup(function() {
+				return false
+		});
+			
+		$(".account").mouseup(function() {
+			return false
+		});
+			
+		$(document).mouseup(function() {
+			$(".profilepicsubmenu").hide();
+			$(".account").attr('id', '');
+		});
+	});
+</script>
 <c:set var="username" value="${finVen:decrypt(param.RaYUnA)}"></c:set>
 <c:set var="myusername" value="${myusername}"></c:set>
 <div class="header-container">
@@ -14,16 +43,33 @@
 			</a>
 			<div class="pull-right contact-detail">
 				<p>
-					<c:if test="${sessionScope.loggedInUser != null }">
+					<c:if test="${sessionScope.loggedInUser == null }">
 						<i class="fa fa-pencil"></i> Financial Vendor? 
 						<a class="link" href="#">List your offerings</a>
 					</c:if>
 				</p>
-				<ul class="hd-right">
+				<c:choose>
+					<c:when test="${sessionScope.loggedInUser != null }">
+						<ul>
+					</c:when>
+					<c:otherwise>
+						<ul class="hd-right">
+					</c:otherwise>
+				</c:choose>
 					<c:choose>
 						<c:when test="${sessionScope.loggedInUser != null }">
-							<li class="block">Welcome <c:out value="${fn:toUpperCase(sessionScope.loggedInUser.username)}" /></li>
-							<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>														
+							<div class="dropdown">
+								<a href="#" class="account">
+									<img src="${pageContext.request.contextPath}/displayCompanyLogo/${sessionScope.loggedInUser.username}" class="profile-circle" border="0"/>
+								</a>
+								<div class="profilepicsubmenu" style="display:none">
+									<ul class="root">
+										<li><a href="#">Profile</a></li>
+										<li><a href="#">Settings</a></li>
+										<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>	
+									</ul>
+								</div>
+							</div>												
 						</c:when>
 						<c:otherwise>
 							<li><a class="cd-signin" href="#"><i class="fa fa-user"></i> Login</a></li>

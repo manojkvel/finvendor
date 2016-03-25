@@ -30,13 +30,10 @@ public class EmailUtil {
 	public static final String REGISTRATION_LINK = "http://www.finvendor.com/validateRegistrationEmail";
 	//public static final String REGISTRATION_LINK = "http://localhost:8080/validateRegistrationEmail";
 	public static final String FROM_EMAIL = "support@finvendor.com";
+	public static final String SALES_EMAIL = "sales@finvendor.com";
 	
-	public static void main(){
-		EmailUtil em = new EmailUtil();
-		em.sendMail();
-	}
-	
-	public static void sendRegistartionEmail(FinVendorUser user, String emailId, String registrationId) throws MessagingException {
+	public static void sendRegistartionEmail(FinVendorUser user, String emailId, 
+			String registrationId) throws MessagingException {
 		logger.debug("Entering EmailUtil:sendRegistartionEmail for {}", emailId);
 		Session session = getMailSession();
 		Message message = new MimeMessage(session);
@@ -59,6 +56,23 @@ public class EmailUtil {
 		message.setText(content.toString());
 		Transport.send(message);
 		logger.debug("Leaving EmailUtil:sendRegistartionEmail for {}", emailId);
+	}
+	
+	public static void sendNotificationEmail(String notificationType, String notificationMessage, FinVendorUser user) 
+			throws MessagingException {
+		logger.debug("Entering EmailUtil:sendNotificationEmail for {}", notificationType);
+		Session session = getMailSession();
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(FROM_EMAIL));
+		message.setRecipients(Message.RecipientType.TO,
+			InternetAddress.parse(SALES_EMAIL));
+		message.setSubject(notificationType);
+		StringBuilder content = new StringBuilder();
+		content.append("FinVendor Sales Team, \n");
+		content.append("Please note that " + user.getUserName() + " (" +  user.getEmail()+ ") " + notificationMessage);
+		message.setText(content.toString());
+		Transport.send(message);
+		logger.debug("Leaving EmailUtil:sendNotificationEmail for {}", notificationType);
 	}
 	
 	public static void sendResetPasswordEmail(FinVendorUser user, String password) throws MessagingException {

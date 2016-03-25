@@ -36,37 +36,62 @@ function updateConsumerProfileCompanyDetails() {
 	});
 }
 
+function updateConsumerProfileMyBusinessNeedsMarketData() {
+	var jsonTable = $('#consumerProfileMyBusinessNeedsMarketDataTable').tableToJSON();
+	document.getElementById('consumerProfileMyBusinessNeedsMarketDataTable').value = JSON.stringify(jsonTable);
+	var jsonTableData = $("#consumerProfileMyBusinessNeedsMarketDataTable").val();
+	var tableKey = $("#consumerProfileMyBusinessNeedsMarketDataTableKey").val();
+	
+	$.ajax({
+		type:'POST',
+		url:'updateConsumerProfileMyBusinessNeedsMarketData', 
+		data:{
+			tableKey: tableKey, jsonTableData: jsonTableData
+		},	
+		cache:false,
+		success : function(output){
+			alert('Market Data details updated successfully');
+		},
+		error : function(data, textStatus, jqXHR){
+			alert('Error updating Market Data details');
+		}
+	});
+}
 
+function deleteConsumerProfileMyBusinessNeedsMarketDataRow(object) {
+	var row = object.parentNode.parentNode.parentNode;
+	document.getElementById("consumerProfileMyBusinessNeedsMarketDataTable").deleteRow(row.rowIndex);
+}
 
 jQuery(document).ready(function() {
-	// Consumer My Business Needs  -----> 1 tab (Market Data Needs)
-	$(document).on("click", ".consumeraddtotable", function (e){
-		document.getElementById('consumerjsontable1').value = "";
-		var assetclass = $("#consumerassetclass").val();
-		var securitynames = $("#assetClassConsumerSecurityMaps").val();
-	    var datacoverageregion = $("#consumerdatacoverageregion").val();
-	    var datacoveragecountry = $("#consumerdatacoveragecountry").val();
-	    var datacoverageexchange = $("#consumerdatacoverageexchange").val();
-	    var dataattribute = $("#consumerdataattribute").val();
-		document.getElementById("consumerassetclass").value = assetclass;
-		document.getElementById("assetClassConsumerSecurityMaps").value = securitynames;
-		document.getElementById("consumerdatacoverageregion").value = datacoverageregion;
-		document.getElementById("consumerdatacoveragecountry").value = datacoveragecountry;
-		document.getElementById("consumerdatacoverageexchange").value = datacoverageexchange;
-		document.getElementById("consumerdataattribute").value = dataattribute;
+	
+	//Consumer -> My Profile -> My Business Needs -> Market Data
+	$(document).on("click", "#consumerProfileMyBusinessNeedsMarketDataAddMore", function (e){
 		
-		$("#sample_1 tbody").append('<tr><td>' + assetclass + '</td><td>' + securitynames + '</td> <td>' + datacoverageregion + '</td>   <td>' + datacoveragecountry + '</td>  <td>' + datacoverageexchange + '</td>  <td>' + dataattribute + '</td>  <td><a class="consumerdeleteButton"> <span class="lable_header_delete">Remove</span> </a></td></tr>');
-		var table = $('#sample_1').tableToJSON();
-		document.getElementById('consumerjsontable1').value = JSON.stringify(table);
+		var validationSucess = validateSpanElements('consumerProfileMyBusinessNeedsMarketDataSpan');
+		if(!validationSucess) {
+			return false;
+		}
+		
+		var assetclass = $("#consumerProfileMyBusinessNeedsMarketDataAssetClass option:selected").text();
+		var securityType = $("#consumerProfileMyBusinessNeedsMarketDataSecurityType option:selected").text();
+	    var dataCoverageRegion = $("#consumerProfileMyBusinessNeedsMarketDataDataCoverageRegion").val();
+	    var dataCoverageCountry = $("#consumerProfileMyBusinessNeedsMarketDataDataCoverageCountry").val();
+	    var dataCoverageExchange = $("#consumerProfileMyBusinessNeedsMarketDataDataCoverageExchange").val();
+	    var dataAttribute = $("#consumerProfileMyBusinessNeedsMarketDataDataAttribute").val();
+	    
+	    $("#consumerProfileMyBusinessNeedsMarketDataTable tbody").append(
+			'<tr><td>' + assetclass + '</td>' +
+			'<td>' + securityType + '</td>' +
+			'<td>' + dataCoverageRegion + '</td>' +
+			'<td>' + dataCoverageCountry + '</td>' +
+			'<td>' + dataCoverageExchange + '</td>' +
+			'<td>' + dataAttribute + '</td>' +
+			'<td><a href="#"><img src="../resources/images/delete.png" alt="Delete" title="Delete" onClick="deleteConsumerProfileMyBusinessNeedsMarketDataRow(this)"/></a></td></tr>');
 	});
-	 $(document).on("click", ".consumerdeleteButton", function (e) {
-    	var target = e.target;
-		$(target).closest('tr').remove();
-		var table = $('#sample_1').tableToJSON();
-	    document.getElementById('consumerjsontable1').value = JSON.stringify(table);
-	});
-	 ///CSV File for Consumer My Business Needs Upload Code   -----> 1 tab (Market Data Needs)
-	 $(document).on("click", ".consumerfileupload", function (e) {
+	 
+	
+	$(document).on("click", ".consumerfileupload", function (e) {
 	        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt|.xlsx)$/;
 	        if (regex.test($("#consumerfileUpload").val().toLowerCase())) {
 	            if (typeof (FileReader) != "undefined") {
@@ -837,22 +862,6 @@ jQuery(document).ready(function() {
 			    });
 });
 
-function loadConsumerSecurityTypes(assettypeId) {
-		if(assettypeId != '' && assettypeId.length > 0 && !assettypeId.match("-SELECT-")){
-			assettypeId = encode64(assettypeId);
-			$.ajax({
-				type: 'GET',
-				url:  "loadConsumerSecurityTypes?RAyuL="+assettypeId,
-				cache:false,
-				success : function(output){
-					document.getElementById("assetClassConsumerSecurityMaps").innerHTML = output;		
-				},
-				error : function(data, textStatus, jqXHR){
-					//alert('Error: '+data+':'+textStatus);
-				}
-			});
-		}
-	}
 function loadConsumerDataDeliverySecurityTypes(assettypeId) {
 	if(assettypeId != '' && assettypeId.length > 0 && !assettypeId.match("-SELECT-")){
 		assettypeId = encode64(assettypeId);
@@ -946,6 +955,7 @@ function consumerDashboardNavigationControl(tabName) {
 	
 }
 
+/*
 function consumerMyProfileActiveMode(tabmode){
 		
 	if(tabmode != '' && tabmode.length > 0 && tabmode.match("companydetails")){
@@ -1908,7 +1918,7 @@ function consumerMyProfileActiveMode(tabmode){
 	}
 	
 }
-
+*/
 /// Consumer My Offer tab mode changes
 function activeCosumerModeMyOffer(tabmode){
 	if(tabmode != '' && tabmode.length > 0 && tabmode.match("consumermyoffermarketdataneeds")){

@@ -65,6 +65,9 @@
    <bean id="adminService" class="com.finvendor.serviceimpl.AdminServiceImpl" />
    <bean id="adminDao" class="com.finvendor.daoimpl.AdminDaoImpl"></bean>
    
+   <bean id="referenceDataService" class="com.finvendor.serviceimpl.ReferenceDataServiceImpl" />
+   <bean id="referenceDataDao" class="com.finvendor.daoimpl.ReferenceDataDaoImpl"></bean>
+   
    <!-- Mail Service -->
    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">  
   <property name="host" value="mail.finvendor.com" />  

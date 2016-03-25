@@ -341,6 +341,7 @@ public class RegistrationController {
 			String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
 			
 			EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
+			EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user); 
 			modelAndView.addObject("status", true);
 			logger.debug("Leaving RegistrationController : saveUserInfo");
 			
@@ -367,9 +368,9 @@ public class RegistrationController {
 			logger.debug("RegistrationController:validateRegistrationEmail : username = {}", username);
 			modelAndView.addObject("username", username);
 			userVerified = userService.updateUserVerificationStatus(username, registrationId);
+			FinVendorUser user = userService.getUserDetailsByUsername(username);
 			if(!userVerified){
 				logger.error("Error validating registrationId {}", registrationId);
-				FinVendorUser user = userService.getUserDetailsByUsername(username);
 				if(user != null){
 					modelAndView.addObject("errorMessage", "Error validating registration Id.<br>Validation link may have been expired");
 					modelAndView.addObject("linkExpired", true);
@@ -379,6 +380,8 @@ public class RegistrationController {
 				}else{
 					modelAndView.addObject("errorMessage", "Error validating registration Id.<br>User Id " + username + " is not available.");	
 				}
+			}else {
+				EmailUtil.sendNotificationEmail("FinVendor Registration Verification", "has verified registration on FinVendor.", user); 
 			}
 			
 		}catch (Exception exp) {

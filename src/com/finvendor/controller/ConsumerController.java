@@ -3,6 +3,7 @@ package com.finvendor.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,9 +34,11 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
+import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
 import com.finvendor.service.ConsumerService;
 import com.finvendor.service.MarketDataAggregatorsService;
+import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
@@ -46,11 +49,14 @@ public class ConsumerController implements HandlerExceptionResolver {
 	private static Logger logger = LoggerFactory.getLogger(
 			ConsumerController.class);
 	
-	@Autowired
+	@Resource(name="userService")
 	private UserService userService;
 	
-	@Autowired
+	@Resource(name="consumerService")
 	private ConsumerService consumerService;
+	
+	@Resource(name="referenceDataService")
+	private ReferenceDataService referenceDataService;
 	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
@@ -74,7 +80,8 @@ public class ConsumerController implements HandlerExceptionResolver {
 			@RequestParam(value = "consumerProfileCompanyLogo", required = false) MultipartFile companyLogo) {
 		logger.debug("Entering ConsumerController : updateConsumerProfileCompanyDetails");
 		List<Country> countries = null;
-		List<CompanySubType> subType = null;
+		List<CompanySubType> companySubTypeList = null;
+		List<SecurityType> securityTypeList = null;
 		String username = null;
 		ModelAndView modelAndView = new ModelAndView(
 				RequestConstans.Login.CONSUMER_INFO); 
@@ -106,11 +113,13 @@ public class ConsumerController implements HandlerExceptionResolver {
 			consumerService.updateConsumerDetails(consumer);
 			CommonUtils.populateConsumerProfileRequest(consumer, modelAndView);
 			countries = marketDataAggregatorsService.getAllCountries();
-			subType = marketDataAggregatorsService.getCompanySubTypeList();
+			companySubTypeList = marketDataAggregatorsService.getCompanySubTypeList();
+			securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(1);
 			modelAndView.addObject("consumer", consumer);
 			modelAndView.addObject("countries", countries);
-			modelAndView.addObject("companySubType", subType);
+			modelAndView.addObject("companySubType", companySubTypeList);
 	   		modelAndView.addObject("username", username);
+	   		modelAndView.addObject("securityTypeList", securityTypeList);
 	   		modelAndView.addObject("lastActionStatus", "Successfully updated Consumer Profile");
 		}catch (Exception exp) {
 			logger.error("Error updating Consumer Profile - Company Details", 
@@ -136,6 +145,35 @@ public class ConsumerController implements HandlerExceptionResolver {
 			logger.error("Error forwarding to errorpage");
 		}
 		return modelAndView;
+	}
+	
+	
+	@RequestMapping(value="updateConsumerProfileMyBusinessNeedsMarketData", 
+			method=RequestMethod.POST)
+	public String updateConsumerProfileMyBusinessNeedsMarketData(
+			HttpServletRequest request, HttpServletResponse response,
+			@ModelAttribute("user") FinVendorUser user,
+			@RequestParam(value = "tableKey", required = true) String tableKey,
+			@RequestParam(value = "jsonTableData", required = true) String jsonTableData) {
+		logger.debug("Entering ConsumerController : updateConsumerProfileMyBusinessNeeds");
+		User appUser = (User)SecurityContextHolder.getContext().
+				getAuthentication().getPrincipal();
+		String username = appUser.getUsername();		
+		try{
+			user = userService.getUserDetailsByUsername(username);
+			Consumer consumer = user.getConsumer();
+			consumerService.updateConsumerProfileDetails(consumer.getId(), tableKey, jsonTableData);
+			response.getWriter().print("Consumer profile updated successfully");
+		}catch (Exception exp) {
+			logger.error("Error updating Consumer Profile" + exp);
+			try{
+				response.getWriter().print("Error Updating Consumer profile");
+			}catch (Exception exc) {
+				logger.error("Error updating Consumer Profile status message" + exc);
+			}
+		}
+		logger.debug("Leaving ConsumerController : updateConsumerProfileMyBusinessNeeds");
+		return null;
 	}
 
 	/**
@@ -447,30 +485,7 @@ public class ConsumerController implements HandlerExceptionResolver {
 	
 	
 	
-	/**
-	 * method to load consumer Security types
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	@RequestMapping(value =RequestConstans.Consumer.LOAD_CONSUMER_SECURITY_TYPES, method = RequestMethod.GET)
-	public ModelAndView loadConsumerSecurityType(@RequestParam(value = "RAyuL", required = false) String assetType) {
-		ModelAndView modelAndView = new ModelAndView("consumerpage/consumersecuritylist");
-		List<AssetClassSecurityMap> assetClassSecurityMaps = null;
-		try {
-			assetType = CommonUtils.decrypt(assetType.getBytes());
-			if(!assetType.equals("") && !assetType.equals("-SELECT-")){
-				AssetClass assetClass = marketDataAggregatorsService.getAssetClassByName(assetType);
-				assetClassSecurityMaps = marketDataAggregatorsService.getSecurityTypeByAssetClassId(assetClass.getAsset_class_id());
-		 	}
-			modelAndView.addObject("assetClassConsumerSecurityMaps", assetClassSecurityMaps);
-		} catch (Exception ex) {
-			logger.error("Exception in loadSecurityType -- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to load Security type details, Please contact administrator");
-		}
-		return modelAndView;
-	}
+	
 	
 	/**
 	 * method to load consumer Security types

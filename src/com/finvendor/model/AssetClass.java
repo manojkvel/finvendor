@@ -1,10 +1,8 @@
-/**
- * 
- */
 package com.finvendor.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -15,18 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- * @author rayulu vemula
- *
- */
 @Entity
 @Table(name="asset_class")
 public class AssetClass implements Serializable{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 201603062007L;
 	
 	@Id
     @Column(name="asset_class_id")
@@ -66,6 +57,7 @@ public class AssetClass implements Serializable{
 	public String getAsset_class_cd() {
 		return asset_class_cd;
 	}
+	
 
 	/**
 	 * @param asset_class_cd the asset_class_cd to set
@@ -73,6 +65,7 @@ public class AssetClass implements Serializable{
 	public void setAsset_class_cd(String asset_class_cd) {
 		this.asset_class_cd = asset_class_cd;
 	}
+	
 
 	/**
 	 * @return the asset_class_id
