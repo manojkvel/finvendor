@@ -7,9 +7,11 @@
 		<div class="tab-content" style="background-color: white;">
 			<!-- Support coverage start --> 
 				<div class="tab-pane active" >
+				<!-- 
 				<div class="Rowtableinfovaltradingapp">
 					<div class="ColumnCommonmyprofiletradingapplication" id="change"> <div class="lable_header" id="interdiv"> <a id="ancho" href="#tab1" class="lable_header" data-toggle="tab"  onclick="activeMode('${personaldetails}');">Search Vendor for Multiple TA Type</a> </div></div>
 				</div>
+				 -->
 				<div><br/></div>
 				 <div class="Row">
 					  <div class="ColumnCommonvendor">
@@ -19,44 +21,44 @@
 					</div> 
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
-							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Equities<span class="required">*</span></label>&nbsp;
-							  <input type="checkbox" name="equities" value="Equities"  id="Equities">
+							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Equities</label>&nbsp;
+							  <input type="checkbox" name="assetClassChk" value="Equities"  id="Equities"/>
 						</div>
 					</div>
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
-							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">FI<span class="required">*</span></label>&nbsp;
-							  <input type="checkbox" name="fi" value="FI"  id="FI">
+							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">FI</label>&nbsp;
+							  <input type="checkbox" name="assetClassChk" value="FI"  id="FI"/>
 						</div>
 					</div>
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
-							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Indices<span class="required">*</span></label>&nbsp;
-							  <input type="checkbox" name="indices" value="Indices" id="Indices">
+							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Indices</label>&nbsp;
+							  <input type="checkbox" name="assetClassChk" value="Indices" id="Indices"/>
 						</div>
 					</div>
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
-							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Derivatives<span class="required">*</span></label>&nbsp;
-							  <input type="checkbox" name="derivatives" value="Derivatives" id="Derivatives">
+							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Derivatives</label>&nbsp;
+							  <input type="checkbox" name="assetClassChk" value="Derivatives" id="Derivatives"/>
 						</div>
 					</div>
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
-							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">FX<span class="required">*</span></label>&nbsp;
-							  <input type="checkbox" name="fx" value="FX"  id="FX">
+							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">FX</label>&nbsp;
+							  <input type="checkbox" name="assetClassChk" value="FX"  id="FX"/>
 						</div>
 					</div>  
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
-							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">AI<span class="required">*</span></label>&nbsp;
-							  <input type="checkbox" name="ai" value="AI"  id="AI">
+							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">AI</label>&nbsp;
+							  <input type="checkbox" name="assetClassChk" value="AI"  id="AI"/>
 						</div>
 					</div> 
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
-							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">MISC<span class="required">*</span></label>&nbsp;
-							  <input type="checkbox" name="misc" value="MISC"  id="MISC">
+							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">MISC</label>&nbsp;
+							  <input type="checkbox" name="assetClassChk" value="MISC"  id="MISC"/>
 						</div>
 					</div>    
 				</div>
@@ -67,10 +69,10 @@
 				<div class="Row">
 					<div class="ColumnCommonvendorTradingApplicationVendor">
 						<div class="control-group">
-							<label class="control-labelappstra">Vendor Region of Incorp<span class="required">*</span></label>
+							<label class="control-labelappstra">Vendor Region of Incorp</label>
 							<div class="controls" style="margin-left: 175px;">
 								<select name="vendorregionofincorp"  id="vendorregionofincorp" style="width: 227px;">
-								     <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								     <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regionslist" items="${regionslist}">
 								    	<option value="${regionslist.region_id}">${regionslist.name}</option>
 								 	 </c:forEach>
@@ -79,41 +81,26 @@
 							</div>
 						</div>
 							<div class="control-grouptrading">
-							<label class="control-labelappstra">Vendor Country of Incorp<span class="required">*</span></label>
+							<label class="control-labelappstra">Vendor Country of Incorp</label>
 							<div class="controls" style="margin-left: 175px;">
 								<select name="vendorcountryofincorp" multiple="multiple" id="vendorcountryofincorp" style="height: 53px; width: 227px;">
-						     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-							     <c:forEach var="regions" items="${regions}">
-							    	<option value="${regions.name}">${regions.name}</option>
-							 	 </c:forEach>
+						     	<option value ="" class="selectvalues"> -SELECT- </option>
+							     <c:forEach var="countries" items="${countries}">
+								    <option value="${countries.country_id}">${countries.name}</option>
+								  </c:forEach>
 						 		</select> 
 						 		<div class="selectOptions">Choose one or more options</div>
 							</div>
 						</div>
-						<div class="control-grouptrading">
-							<label class="control-labelappstra">Search Keywords</label>
-							<div class="controls" style="margin-left: 178px; width: 227px;">
-								<input type="text" id="searchkeywordname" placeholder="Data Attribute" name="searchkeywordname" class="m-wrap largevaltradingapp" />
-							</div>
-						</div>
+				
 					</div>
 					<div class="ColumnCommonvendorpreTradingApplcationVendormultiasset">
-					  <div class="control-grouptrading">
-							<label class="control-labelappstra">Vendor Support Coverage Region<span class="required">*</span></label>
-							<div class="controls" style="margin-left: 175px;">
-								<select name="vendorsupportregion"  id="vendorsupportregion" style="height: 53px; width: 227px;">
-						     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-							     <c:forEach var="regions" items="${regions}">
-							    	<option value="${regions.name}">${regions.name}</option>
-							 	 </c:forEach>
-						 		</select> 
-							</div>
-						</div>
+					  
 						<div class="control-grouptrading">
-							<label class="control-labelappstra">Vendor Profile Freshness<span class="required">*</span></label>
+							<label class="control-labelappstra">Vendor Profile Freshness</label>
 							<div class="controls" style="margin-left: 175px;">
 								<select name="vendorprofilefreshness"  id="vendorprofilefreshness" style="height: 53px; width: 227px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <option>today</option>
 								     <option>Last one week</option>
 								     <option>Last one month</option>
@@ -122,10 +109,10 @@
 							</div>
 						</div>
 						<div class="control-grouptrading">
-							<label class="control-labelappstra">Vendor Support Coverage Time<span class="required">*</span></label>
+							<label class="control-labelappstra">Vendor Support Coverage Time</label>
 							<div class="controls" style="margin-left: 175px;">
 								<select name="vendorsupporttime"  id="vendorsupporttime" style="height: 53px; width: 227px;">
-						     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+						     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								<c:forEach var="supports" items="${supports}">
 							    	<option value="${supports.support_id}">${supports.name}</option>
 							 	</c:forEach>
@@ -136,78 +123,78 @@
 					
 					</div>
 					<div><br/></div>
-					<div class="Row">
+					<div class="Row multisearch">
 					  <div class="ColumnCommontradingapp" id="commonarea">
 					  <div class="lable_header_tradingapp"  style="margin: -9px -12px -9px -1px;">Common labels</div>
 					  <div><br/></div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Security Types<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Security Types</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Region<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Region</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Country<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Country</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Exchange<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Exchange</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Attribute<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Attribute</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Vendor Year of Operation<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Vendor Year of Operation</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Awards<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Awards</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Acquisition Cost Range<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Acquisition Cost Range</label>
 						</div>
 						</div>
 						<div class="ColumnCommontradingappinterestratemarket" id="equities" >
 						<div class="lable_header" style="margin: -9px -11px -8px 14px;">Equities</div>
 						<div><br/></div>
 						   <div class="control-group">
-								<select name="eqsecuritytype" multiple="multiple" id="assetClassEquiSecurityMaps" style="height: 53px;">
-						     	    <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-								     <c:forEach var="assetClassEquiSecurityMaps" items="${assetClassEquiSecurityMaps}">
-									    <option value="${assetClassEquiSecurityMaps.securityType.security_type_id}">${assetClassEquiSecurityMaps.securityType.name}</option>
+								<select name="equitiessecuritytype" multiple="multiple" id="equitiessecuritytype" style="height: 53px;">
+						     	    <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
+								     <c:forEach var="securityType" items="${assetClassEquiSecurityMaps}">
+									    <option value="${securityType.security_type_id}">${securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
 							<div class="control-group">
-								<select name="eqdatacoverageregion" multiple="multiple" id="eqdatacoverageregion" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="equitiesdatacoverageregion" multiple="multiple" id="equitiesdatacoverageregion" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
-								    	<option value="${regions.region_id}">${regions.name}</option>
+								    	<option value="${regions.name}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
 						 	 <div class="control-group">
-								<select name="eqdatacoveragecountry" multiple="multiple" id="eqdatacoveragecountry" style="height: 53px;">
-						     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="equitiesdatacoveragecountry" multiple="multiple" id="equitiesdatacoveragecountry" style="height: 53px;">
+						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
-								    <option value="${countries.country_id}">${countries.name}</option>
+								    <option value="${countries.name}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
 						    <div class="control-group">
-								<select name="eqdatacoverageexchange" multiple="multiple" id="eqdatacoverageexchange" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="equitiesdatacoverageexchange" multiple="multiple" id="equitiesdatacoverageexchange" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
-									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
+									    <option value="${exchanges.name}">${exchanges.name}</option>
 									  </c:forEach>
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
 								<div class="controls" style="margin-left: -2px; width: 227px;">
-									<input type="text" id="eqdataattribute" placeholder="Data Attribute" name="eqdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
+									<input type="text" id="equitiesdataattribute" placeholder="Data Attribute" name="equitiesdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
 								</div>
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqvendoryearoperation" multiple="multiple" id="eqvendoryearoperation" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="equitiesvendoryearoperation" multiple="multiple" id="equitiesvendoryearoperation" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <option>Date (1970)</option>
 								     <option>Last one week</option>
 								     <option>Last one month</option>
@@ -215,18 +202,18 @@
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqawards" multiple="multiple" id="eqawards" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="equitiesawards" multiple="multiple" id="equitiesawards" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="awards" items="${awards}">
 									     <option value="${awards.award_id}">${awards.name}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqacquisitioncostrange" multiple="multiple" id="eqacquisitioncostrange" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="equitiesacquisitioncostrange" multiple="multiple" id="equitiesacquisitioncostrange" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
-									     <option value="${costs.cost_id}">${costs.range}</option>
+									     <option value="${costs.range}">${costs.range}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
@@ -236,31 +223,31 @@
 						<div><br/></div>
 						   <div class="control-group">
 								<select name="fisecuritytype" multiple="multiple" id="assetClassFISecurityMaps" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" > -SELECT- </option>
+							     	<option selected="selected" value ="" > -SELECT- </option>
 								     <c:forEach var="assetClassFISecurityMaps" items="${assetClassFISecurityMaps}">
 									    <option value="${assetClassFISecurityMaps.securityType.security_type_id}">${assetClassFISecurityMaps.securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
 							<div class="control-group">
-								<select name="eqdatacoverageregion" multiple="multiple" id="eqdatacoverageregion" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fidatacoverageregion" multiple="multiple" id="fidatacoverageregion" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
 								    	<option value="${regions.region_id}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
 						 	 <div class="control-group">
-								<select name="eqdatacoveragecountry" multiple="multiple" id="eqdatacoveragecountry" style="height: 53px;">
-						     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fidatacoveragecountry" multiple="multiple" id="fidatacoveragecountry" style="height: 53px;">
+						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
 								    <option value="${countries.country_id}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
 						    <div class="control-group">
-								<select name="eqdatacoverageexchange" multiple="multiple" id="eqdatacoverageexchange" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fidatacoverageexchange" multiple="multiple" id="fidatacoverageexchange" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
 									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
 									  </c:forEach>
@@ -268,12 +255,12 @@
 						 	</div>
 						 	<div class="control-group">
 								<div class="controls" style="margin-left: -2px; width: 227px;">
-									<input type="text" id="eqdataattribute" placeholder="Data Attribute" name="eqdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
+									<input type="text" id="fidataattribute" placeholder="Data Attribute" name="fidataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
 								</div>
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqvendoryearoperation" multiple="multiple" id="eqvendoryearoperation" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fivendoryearoperation" multiple="multiple" id="fivendoryearoperation" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <option>Date (1970)</option>
 								     <option>Last one week</option>
 								     <option>Last one month</option>
@@ -281,16 +268,16 @@
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqawards" multiple="multiple" id="eqawards" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fiawards" multiple="multiple" id="fiawards" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="awards" items="${awards}">
 									     <option value="${awards.award_id}">${awards.name}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqacquisitioncostrange" multiple="multiple" id="eqacquisitioncostrange" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fiacquisitioncostrange" multiple="multiple" id="fiacquisitioncostrange" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
 									     <option value="${costs.cost_id}">${costs.range}</option>
 									 </c:forEach>
@@ -301,32 +288,32 @@
 						<div class="lable_header"  style="margin: -9px -11px -8px 14px;">Indices</div>
 						<div><br/></div>
 						   <div class="control-group">
-								<select name="indicessecuritytype" multiple="multiple" id="assetClassIndicesSecurityMaps" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" > -SELECT- </option>
+								<select name="indicesindicessecuritytype" multiple="multiple" id="indicesassetClassIndicesSecurityMaps" style="height: 53px;">
+							     	<option selected="selected" value ="" > -SELECT- </option>
 								     <c:forEach var="assetClassIndicesSecurityMaps" items="${assetClassIndicesSecurityMaps}">
 									    <option value="${assetClassIndicesSecurityMaps.securityType.security_type_id}">${assetClassIndicesSecurityMaps.securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
 							<div class="control-group">
-								<select name="eqdatacoverageregion" multiple="multiple" id="eqdatacoverageregion" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="indicesdatacoverageregion" multiple="multiple" id="indicesdatacoverageregion" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
 								    	<option value="${regions.region_id}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
 						 	 <div class="control-group">
-								<select name="eqdatacoveragecountry" multiple="multiple" id="eqdatacoveragecountry" style="height: 53px;">
-						     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="indicesdatacoveragecountry" multiple="multiple" id="indicesdatacoveragecountry" style="height: 53px;">
+						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
 								    <option value="${countries.country_id}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
 						    <div class="control-group">
-								<select name="eqdatacoverageexchange" multiple="multiple" id="eqdatacoverageexchange" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="indicesdatacoverageexchange" multiple="multiple" id="indicesdatacoverageexchange" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
 									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
 									  </c:forEach>
@@ -334,12 +321,12 @@
 						 	</div>
 						 	<div class="control-group">
 								<div class="controls" style="margin-left: -2px; width: 227px;">
-									<input type="text" id="eqdataattribute" placeholder="Data Attribute" name="eqdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
+									<input type="text" id="indicesdataattribute" placeholder="Data Attribute" name="indicesdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
 								</div>
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqvendoryearoperation" multiple="multiple" id="eqvendoryearoperation" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="indicesvendoryearoperation" multiple="multiple" id="indicesvendoryearoperation" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <option>Date (1970)</option>
 								     <option>Last one week</option>
 								     <option>Last one month</option>
@@ -347,16 +334,16 @@
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqawards" multiple="multiple" id="eqawards" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="indicesawards" multiple="multiple" id="indicesawards" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="awards" items="${awards}">
 									     <option value="${awards.award_id}">${awards.name}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqacquisitioncostrange" multiple="multiple" id="eqacquisitioncostrange" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="indicesacquisitioncostrange" multiple="multiple" id="indicesacquisitioncostrange" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
 									     <option value="${costs.cost_id}">${costs.range}</option>
 									 </c:forEach>
@@ -367,33 +354,33 @@
 						<div class="lable_header"  style="margin: -9px -11px -8px 14px;">Derivatives</div>
 						<div><br/></div>
 						   <div class="control-group">
-								<select name="datacoverageregion" multiple="multiple" id="datacoverageregion" style="height: 53px;">
-								     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-						     			<option value ="-SELECT-"> Common-Stocks </option>
-						     			<option value ="-SELECT-"> Preferreds</option>
-						     			<option value ="-SELECT-"> Warrants/Rights </option>
-						     			<option value ="-SELECT-"> CFDs </option>
+								<select name="derivativesdatacoverageregion" multiple="multiple" id="derivativesdatacoverageregion" style="height: 53px;">
+								     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
+						     			<option value =""> Common-Stocks </option>
+						     			<option value =""> Preferreds</option>
+						     			<option value =""> Warrants/Rights </option>
+						     			<option value =""> CFDs </option>
 						 		</select> 
 							</div>
 							<div class="control-group">
-								<select name="eqdatacoverageregion" multiple="multiple" id="eqdatacoverageregion" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="derivativesdatacoverageregion" multiple="multiple" id="derivativesdatacoverageregion" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
 								    	<option value="${regions.region_id}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
 						 	 <div class="control-group">
-								<select name="eqdatacoveragecountry" multiple="multiple" id="eqdatacoveragecountry" style="height: 53px;">
-						     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="derivativesdatacoveragecountry" multiple="multiple" id="derivativesdatacoveragecountry" style="height: 53px;">
+						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
 								    <option value="${countries.country_id}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
 						    <div class="control-group">
-								<select name="eqdatacoverageexchange" multiple="multiple" id="eqdatacoverageexchange" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="derivativesdatacoverageexchange" multiple="multiple" id="derivativesdatacoverageexchange" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
 									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
 									  </c:forEach>
@@ -401,12 +388,12 @@
 						 	</div>
 						 	<div class="control-group">
 								<div class="controls" style="margin-left: -2px; width: 227px;">
-									<input type="text" id="eqdataattribute" placeholder="Data Attribute" name="eqdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
+									<input type="text" id="derivativesdataattribute" placeholder="Data Attribute" name="derivativesdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
 								</div>
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqvendoryearoperation" multiple="multiple" id="eqvendoryearoperation" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="derivativesvendoryearoperation" multiple="multiple" id="derivativesvendoryearoperation" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <option>Date (1970)</option>
 								     <option>Last one week</option>
 								     <option>Last one month</option>
@@ -414,16 +401,16 @@
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqawards" multiple="multiple" id="eqawards" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="derivativesawards" multiple="multiple" id="derivativesawards" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="awards" items="${awards}">
 									     <option value="${awards.award_id}">${awards.name}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqacquisitioncostrange" multiple="multiple" id="eqacquisitioncostrange" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="derivativesacquisitioncostrange" multiple="multiple" id="derivativesacquisitioncostrange" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
 									     <option value="${costs.cost_id}">${costs.range}</option>
 									 </c:forEach>
@@ -433,65 +420,65 @@
 						 </div>
 					</div>
 					<div><br/></div>
-					<div class="Row">
+					<div class="Row  multisearch">
 					  <div class="ColumnCommontradingapp" id="commonareainfo">
 					  <div class="lable_header_tradingapp"  style="margin: -9px -12px -9px -1px;">Common labels</div>
 					  <div><br/></div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Security Types<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Security Types</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Region<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Region</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Country<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Country</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Exchange<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Coverage Exchange</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Attribute<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Attribute</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Vendor Year of Operation<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Vendor Year of Operation</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Awards<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Awards</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Acquisition Cost Range<span class="required">*</span></label>
+							<label class="control-labeltradingapp" style="font-family: Raleway, sans-serif; font-size: 13px;">Data Acquisition Cost Range</label>
 						</div>
 						</div>
 						<div class="ColumnCommontradingappinterestratemarket" id="fx" >
 						<div class="lable_header" style="margin: -9px -11px -8px 14px;">FX</div>
 						<div><br/></div>
 						   <div class="control-group">
-								<select name="eqsecuritytype" multiple="multiple" id="assetClassEquiSecurityMaps" style="height: 53px;">
-						     	    <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-								     <c:forEach var="assetClassEquiSecurityMaps" items="${assetClassEquiSecurityMaps}">
-									    <option value="${assetClassEquiSecurityMaps.securityType.security_type_id}">${assetClassEquiSecurityMaps.securityType.name}</option>
+								<select name="fxsecuritytype" multiple="multiple" id="fxsecuritytype" style="height: 53px;">
+						     	    <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
+								     <c:forEach var="securityType" items="${assetClassEquiSecurityMaps}">
+									    <option value="${securityType.security_type_id}">${securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
 							<div class="control-group">
-								<select name="eqdatacoverageregion" multiple="multiple" id="eqdatacoverageregion" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fxdatacoverageregion" multiple="multiple" id="fxdatacoverageregion" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
 								    	<option value="${regions.region_id}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
 						 	 <div class="control-group">
-								<select name="eqdatacoveragecountry" multiple="multiple" id="eqdatacoveragecountry" style="height: 53px;">
-						     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fxdatacoveragecountry" multiple="multiple" id="fxdatacoveragecountry" style="height: 53px;">
+						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
 								    <option value="${countries.country_id}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
 						    <div class="control-group">
-								<select name="eqdatacoverageexchange" multiple="multiple" id="eqdatacoverageexchange" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fxdatacoverageexchange" multiple="multiple" id="fxdatacoverageexchange" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
 									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
 									  </c:forEach>
@@ -499,12 +486,12 @@
 						 	</div>
 						 	<div class="control-group">
 								<div class="controls" style="margin-left: -2px; width: 227px;">
-									<input type="text" id="eqdataattribute" placeholder="Data Attribute" name="eqdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
+									<input type="text" id="fxdataattribute" placeholder="Data Attribute" name="fxdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
 								</div>
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqvendoryearoperation" multiple="multiple" id="eqvendoryearoperation" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fxvendoryearoperation" multiple="multiple" id="fxvendoryearoperation" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <option>Date (1970)</option>
 								     <option>Last one week</option>
 								     <option>Last one month</option>
@@ -512,16 +499,16 @@
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqawards" multiple="multiple" id="eqawards" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fxawards" multiple="multiple" id="fxawards" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="awards" items="${awards}">
 									     <option value="${awards.award_id}">${awards.name}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqacquisitioncostrange" multiple="multiple" id="eqacquisitioncostrange" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="fxacquisitioncostrange" multiple="multiple" id="fxacquisitioncostrange" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
 									     <option value="${costs.cost_id}">${costs.range}</option>
 									 </c:forEach>
@@ -532,32 +519,32 @@
 						<div class="lable_header"  style="margin: -9px -11px -8px 14px;">AI</div>
 						<div><br/></div>
 						   <div class="control-group">
-								<select name="fisecuritytype" multiple="multiple" id="assetClassFISecurityMaps" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" > -SELECT- </option>
+								<select name="aisecuritytype" multiple="multiple" id="aisecuritytype" style="height: 53px;">
+							     	<option selected="selected" value ="" > -SELECT- </option>
 								     <c:forEach var="assetClassFISecurityMaps" items="${assetClassFISecurityMaps}">
 									    <option value="${assetClassFISecurityMaps.securityType.security_type_id}">${assetClassFISecurityMaps.securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
 							<div class="control-group">
-								<select name="eqdatacoverageregion" multiple="multiple" id="eqdatacoverageregion" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="aidatacoverageregion" multiple="multiple" id="aidatacoverageregion" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
 								    	<option value="${regions.region_id}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
 						 	 <div class="control-group">
-								<select name="eqdatacoveragecountry" multiple="multiple" id="eqdatacoveragecountry" style="height: 53px;">
-						     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="aidatacoveragecountry" multiple="multiple" id="aidatacoveragecountry" style="height: 53px;">
+						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
 								    <option value="${countries.country_id}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
 						    <div class="control-group">
-								<select name="eqdatacoverageexchange" multiple="multiple" id="eqdatacoverageexchange" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="aidatacoverageexchange" multiple="multiple" id="aidatacoverageexchange" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
 									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
 									  </c:forEach>
@@ -565,12 +552,12 @@
 						 	</div>
 						 	<div class="control-group">
 								<div class="controls" style="margin-left: -2px; width: 227px;">
-									<input type="text" id="eqdataattribute" placeholder="Data Attribute" name="eqdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
+									<input type="text" id="aidataattribute" placeholder="Data Attribute" name="aidataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
 								</div>
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqvendoryearoperation" multiple="multiple" id="eqvendoryearoperation" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="aivendoryearoperation" multiple="multiple" id="aivendoryearoperation" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <option>Date (1970)</option>
 								     <option>Last one week</option>
 								     <option>Last one month</option>
@@ -578,16 +565,16 @@
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqawards" multiple="multiple" id="eqawards" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="aiawards" multiple="multiple" id="aiawards" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="awards" items="${awards}">
 									     <option value="${awards.award_id}">${awards.name}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqacquisitioncostrange" multiple="multiple" id="eqacquisitioncostrange" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="aiacquisitioncostrange" multiple="multiple" id="aiacquisitioncostrange" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
 									     <option value="${costs.cost_id}">${costs.range}</option>
 									 </c:forEach>
@@ -598,32 +585,32 @@
 						<div class="lable_header"  style="margin: -9px -11px -8px 14px;">MISC</div>
 						<div><br/></div>
 						   <div class="control-group">
-								<select name="indicessecuritytype" multiple="multiple" id="assetClassIndicesSecurityMaps" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" > -SELECT- </option>
+								<select name="miscsecuritytype" multiple="multiple" id="miscsecuritytype" style="height: 53px;">
+							     	<option selected="selected" value ="" > -SELECT- </option>
 								     <c:forEach var="assetClassIndicesSecurityMaps" items="${assetClassIndicesSecurityMaps}">
 									    <option value="${assetClassIndicesSecurityMaps.securityType.security_type_id}">${assetClassIndicesSecurityMaps.securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
 							<div class="control-group">
-								<select name="eqdatacoverageregion" multiple="multiple" id="eqdatacoverageregion" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="miscdatacoverageregion" multiple="multiple" id="miscdatacoverageregion" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
 								    	<option value="${regions.region_id}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
 						 	 <div class="control-group">
-								<select name="eqdatacoveragecountry" multiple="multiple" id="eqdatacoveragecountry" style="height: 53px;">
-						     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="miscdatacoveragecountry" multiple="multiple" id="miscdatacoveragecountry" style="height: 53px;">
+						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
 								    <option value="${countries.country_id}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
 						    <div class="control-group">
-								<select name="eqdatacoverageexchange" multiple="multiple" id="eqdatacoverageexchange" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="miscdatacoverageexchange" multiple="multiple" id="miscdatacoverageexchange" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
 									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
 									  </c:forEach>
@@ -631,12 +618,12 @@
 						 	</div>
 						 	<div class="control-group">
 								<div class="controls" style="margin-left: -2px; width: 227px;">
-									<input type="text" id="eqdataattribute" placeholder="Data Attribute" name="eqdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
+									<input type="text" id="miscdataattribute" placeholder="Data Attribute" name="miscdataattribute" class="m-wrap largevaltradingappmarketingaggregator" />
 								</div>
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqvendoryearoperation" multiple="multiple" id="eqvendoryearoperation" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="miscvendoryearoperation" multiple="multiple" id="miscvendoryearoperation" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <option>Date (1970)</option>
 								     <option>Last one week</option>
 								     <option>Last one month</option>
@@ -644,16 +631,16 @@
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqawards" multiple="multiple" id="eqawards" style="height: 53px;">
-							     	 <option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="miscawards" multiple="multiple" id="miscawards" style="height: 53px;">
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="awards" items="${awards}">
 									     <option value="${awards.award_id}">${awards.name}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
 						 	<div class="control-group">
-								<select name="eqacquisitioncostrange" multiple="multiple" id="eqacquisitioncostrange" style="height: 53px;">
-							     	<option selected="selected" value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+								<select name="miscacquisitioncostrange" multiple="multiple" id="miscacquisitioncostrange" style="height: 53px;">
+							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
 									     <option value="${costs.cost_id}">${costs.range}</option>
 									 </c:forEach>
