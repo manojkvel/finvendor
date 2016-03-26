@@ -5,6 +5,7 @@ package com.finvendor.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,10 +31,10 @@ public class VendorSupport implements Serializable{
 	@GeneratedValue
     private Integer vs_id;
 
-	@OneToOne
-	@JoinColumn(name="id")
+	//@OneToOne(mappedBy="vendorSupport", cascade={CascadeType.ALL})
 	private Vendor vendor;
-
+	
+	
 	@ManyToOne(targetEntity=VendorSolution.class,fetch=FetchType.LAZY)
 	@JoinColumn(name="vendor_solution_id")
 	private VendorSolution vendorSolution;

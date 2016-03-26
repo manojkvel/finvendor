@@ -59,7 +59,8 @@ public class Vendor implements Serializable {
 	@Column(name="logolength")
 	private Integer logoLength;
 	
-	@OneToOne(fetch=FetchType.EAGER,mappedBy="vendor", cascade=CascadeType.ALL)
+	@OneToOne
+	@JoinColumn(name="VendorSupport")
 	private VendorSupport vendorSupport;
 		
 	public VendorSupport getVendorSupport() {
