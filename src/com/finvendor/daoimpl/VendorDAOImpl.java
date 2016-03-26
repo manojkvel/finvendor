@@ -5,6 +5,7 @@ package com.finvendor.daoimpl;
 
 import java.io.Serializable;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -146,6 +147,7 @@ public class VendorDAOImpl implements VendorDAO{
 			 vendorFromDB.setTelephone(vendor.getTelephone());
 			 vendorFromDB.setCompanyInfo(vendor.getCompanyInfo());
 			 vendorFromDB.setRegionofincorp(vendor.getRegionofincorp());
+			 vendorFromDB.setCountryofincorp(vendor.getCountryofincorp());
 			 vendorFromDB.setVendorSupport(vendor.getVendorSupport());
 			 currentSession.saveOrUpdate(vendorFromDB);
 			// beginTransaction.commit();
