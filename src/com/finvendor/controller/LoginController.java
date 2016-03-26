@@ -1,5 +1,6 @@
 package com.finvendor.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -418,19 +419,42 @@ public class LoginController {
       */
 	
 	@RequestMapping(value = "displayCompanyLogo/{username}", method = RequestMethod.GET)
-	public void displayCompanyLogo(HttpServletResponse response,
+	public void displayCompanyLogo(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable String username) {
 		try {
 			logger.debug("LoginController : displayCompanyLogo for {}", username);
 			FinVendorUser user = userService.getUserDetailsByUsername(username);
+			String relativeWebPath = "/resources/images/user.png";
+			String absoluteDiskPath = request.getRealPath(relativeWebPath);
 			if(user.getVendor() != null) {
 				Vendor vendor = user.getVendor();
-				response.setContentType(vendor.getLogoType());
-				FileCopyUtils.copy(vendor.getLogoBytes().getBinaryStream(), response.getOutputStream());
-			}else {
+				if(vendor.getLogoType() != null) {
+					response.setContentType(vendor.getLogoType());
+					FileCopyUtils.copy(vendor.getLogoBytes().getBinaryStream(), 
+							response.getOutputStream());
+				}else {
+					response.setContentType("image/png");
+					FileCopyUtils.copy(FileCopyUtils.copyToByteArray(
+							new File(absoluteDiskPath)), 
+							response.getOutputStream());
+				}
+			}else if (user.getConsumer() != null) {
 				Consumer consumer = user.getConsumer();
-				response.setContentType(consumer.getLogoType());
-				FileCopyUtils.copy(consumer.getLogoBytes().getBinaryStream(), response.getOutputStream());
+				if(consumer.getLogoType() != null) {
+					response.setContentType(consumer.getLogoType());
+					FileCopyUtils.copy(consumer.getLogoBytes().getBinaryStream(), 
+							response.getOutputStream());
+				}else {
+					response.setContentType("image/png");
+					FileCopyUtils.copy(FileCopyUtils.copyToByteArray(
+							new File(absoluteDiskPath)), 
+							response.getOutputStream());
+				}
+			}else {
+				response.setContentType("image/png");
+				FileCopyUtils.copy(FileCopyUtils.copyToByteArray(
+						new File(absoluteDiskPath)), 
+						response.getOutputStream());
 			}
 		}catch (Exception exp) {
 			logger.error("Error reading logo files for {}", username, exp);
