@@ -111,7 +111,7 @@ public class RequestConstans {
 		public static final String TRADING_APPLICATION_INDEX_PAGE="tradingapplicationvendor";
 		
 		public static final String SINGLE_ASSET_CLASS_SEARCH_RESULT = "singleassetsearchresult";
-		public static final String MULTI_ASSET_CLASS_SEARCH_RESULT = "multiassetsearchresult";
+		public static final String MULTI_ASSET_CLASS_SEARCH_RESULT = "tradingmultiassetsearchresult";
 		public static final String LOAD_REGION_NAME_TYPES = "loadRegionNameTypes";
 		public static final String LOAD_SECURITY_TYPES = "loadSecurityTypes";
 		public static final String LOAD_EQUITIES_SECURITY_TYPES = "loadEquitiesSecurityTypes";
@@ -131,7 +131,7 @@ public class RequestConstans {
 		public static final String FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE="financialanalyticsapplicationvendor";
 		
 		public static final String SINGLE_ASSET_CLASS_SEARCH_RESULT = "singleassetsearchresult";
-		public static final String MULTI_ASSET_CLASS_SEARCH_RESULT = "multiassetsearchresult";
+		public static final String MULTI_ASSET_CLASS_SEARCH_RESULT = "financialmultiassetsearchresult";
 		public static final String LOAD_REGION_NAME_TYPES = "loadRegionNameTypes";
 		public static final String LOAD_SECURITY_TYPES = "loadSecurityTypes";
 		public static final String LOAD_EQUITIES_SECURITY_TYPES = "loadEquitiesSecurityTypes";
@@ -151,7 +151,7 @@ public class RequestConstans {
 		public static final String RESEARCH_REPORT_PROVIDERS_INDEX_PAGE="researchreportprovidersvendor";
 		
 		public static final String SINGLE_ASSET_CLASS_SEARCH_RESULT = "singleassetsearchresult";
-		public static final String MULTI_ASSET_CLASS_SEARCH_RESULT = "multiassetsearchresult";
+		public static final String MULTI_ASSET_CLASS_SEARCH_RESULT = "researchReportmultiassetsearchresult";
 		public static final String LOAD_REGION_NAME_TYPES = "loadRegionNameTypes";
 		public static final String LOAD_SECURITY_TYPES = "loadSecurityTypes";
 		public static final String LOAD_EQUITIES_SECURITY_TYPES = "loadEquitiesSecurityTypes";
