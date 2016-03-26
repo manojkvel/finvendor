@@ -1426,3 +1426,12 @@ img {
         }
            
 /* tabs css ends here */
+
+.multisearch .control-group{height:70px;}
+.multisearch .control-group label{padding-top:10px;}
+
+.childasset{
+  float: left;
+  width: 185px;
+}
+

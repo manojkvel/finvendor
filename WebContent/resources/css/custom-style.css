@@ -267,7 +267,6 @@ a:hover{
 	overflow: auto;
 }
 div.lable_header {
-    margin: 0px 10px !important;
     padding: 0px !important;
 	background-color: transparent !important;
 }
@@ -302,5 +301,14 @@ th{
 .controls select[multiple],
 .control-group select[multiple]{
 	height: 70px !important;
+}
+
+
+.form-horizontal .control-labelalign-checkbox {
+    float: left;
+    padding-top: 5px;
+    text-align: left;
+    font-size: 12px;
+    font-family: "Raleway", sans-serif;
 }
 
