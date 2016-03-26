@@ -165,7 +165,7 @@ public class VendorAnalyticsSoftwareDetailsForm{
 		vendorAnalyticsSoftwareDetails.setAnalyticsSolutionsSubType(analyticsSoftwareDetailsForm.getAnalyticsSolutionsSubType());
 		vendorAnalyticsSoftwareDetails.setOffering(analyticsSoftwareDetailsForm.getOffering());
 		vendorAnalyticsSoftwareDetails.setOfferingDesc(analyticsSoftwareDetailsForm.getOfferingDesc());
-		vendorAnalyticsSoftwareDetails.setAnalyticsSolutionsType(analyticsSoftwareDetailsForm.getAnalyticsSolutionsType());
+		vendorAnalyticsSoftwareDetails.setAnalyticsSolutionsType(analyticsSoftwareDetailsForm.getOffering());
 		vendorAnalyticsSoftwareDetails.setApplicationBriefDesc(analyticsSoftwareDetailsForm.getApplicationBriefDesc());
 		vendorAnalyticsSoftwareDetails.setApplicationCostType(analyticsSoftwareDetailsForm.getApplicationCostType());
 		vendorAnalyticsSoftwareDetails.setApplicationName(analyticsSoftwareDetailsForm.getApplicationName());
