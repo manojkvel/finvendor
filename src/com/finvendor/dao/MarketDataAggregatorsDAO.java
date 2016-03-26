@@ -4,8 +4,14 @@
 package com.finvendor.dao;
 
 import java.util.List;
+
+import java.util.Map;
 import java.util.Set;
 
+import com.finvendor.form.FinancialAnalyticsApplicationVendorSearchForm;
+import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
+import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
+import com.finvendor.form.TradingApplicationVendorSearchForm;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassDataDetails;
 import com.finvendor.model.AssetClassSecurityMap;
@@ -201,8 +207,8 @@ public interface MarketDataAggregatorsDAO {
 	Set<VendorOffering> listOfferings(String id);
 	Set<OfferingFiles> listOfferingFiles(String id);
 	Set<FileFields> listFieldsToFile(String id);
-	
-	VendorOffering deleteOfferings(String id);
+	VendorOffering findOfferingById(String id);
+	VendorOffering deleteOfferings(VendorOffering vendorOffering);
 	OfferingFiles deleteOfferingFiles(String id);
 	FileFields deleteFieldsToFile(String id);
 	
@@ -214,5 +220,10 @@ public interface MarketDataAggregatorsDAO {
 	Cost getCostById(String Id);
 	Exchange getExchangeById(String exchange);
 	List<CompanySubType> getCompanySubTypeList();
-	
+
+	List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(Map<Object, Object> searchData,FinancialAnalyticsApplicationVendorSearchForm dataForm);
+	List<ResearchReportProvidersVendorSearchForm> getRRMultiAssetClassSearchResult(Map<Object, Object> searchData,ResearchReportProvidersVendorSearchForm dataForm);
+	List<TradingApplicationVendorSearchForm> getTAMultiAssetClassSearchResult(Map<Object, Object> searchData,TradingApplicationVendorSearchForm dataForm);
+	List<MarketDataAggregatorsVendorSearchForm> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm);
+
 }
