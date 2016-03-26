@@ -207,10 +207,12 @@
 			src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
 		<script type="text/javascript">
  $(document).ready(function() {
-	 $("#asdataaggregatorvendor").slideDown("slow");
+	 debugger;
+	/*  $("#asdataaggregatorvendor").slideDown("slow");
 	$("#astradingapplicationvendor").hide();
 	$("#asanalyticsapplicationvendor").hide();
 	$("#asresearchreportingvendor").hide();
+	 */
 	changeTabMode();
 	listVendorSolution();
 	 
