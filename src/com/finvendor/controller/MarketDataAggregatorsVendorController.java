@@ -6,7 +6,10 @@ package com.finvendor.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassDataDetails;
 import com.finvendor.model.AssetClassSecurityMap;
@@ -33,6 +37,7 @@ import com.finvendor.model.Exchange;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
 import com.finvendor.model.RegionCountryMap;
+import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.util.AssetSecurityTypes.Assets;
@@ -85,7 +90,10 @@ public class MarketDataAggregatorsVendorController {
 				supports =  marketDataAggregatorsService.getAllVendorSupports();
 				costs  = marketDataAggregatorsService.getAllCostInfo();
 				awards = marketDataAggregatorsService.getAllAwards();
+				List<SecurityType> listSecurityType2 = marketDataAggregatorsService.listSecurityType();
+				List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
 				
+				modelAndView.addObject("securityTypes",listSecurityType);
 				modelAndView.addObject("assetClasses", assetClasses);
 				modelAndView.addObject("regions", regions);
 				modelAndView.addObject("regionslist", regions);
@@ -93,7 +101,8 @@ public class MarketDataAggregatorsVendorController {
 				modelAndView.addObject("exchanges", exchanges);
 				modelAndView.addObject("supports", supports);
 				modelAndView.addObject("costs", costs);
-				modelAndView.addObject("awards", awards);	
+				modelAndView.addObject("awards", awards);
+				modelAndView.addObject("assetClassEquiSecurityMaps", listSecurityType2);
 				
 				modelAndView.addObject("username", username);
 				 
@@ -668,106 +677,37 @@ public class MarketDataAggregatorsVendorController {
 	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value=RequestConstans.MarketAggregators.MULTI_ASSET_CLASS_SEARCH_RESULT, method=RequestMethod.POST)
-	public ModelAndView multiSearchAssetClass(HttpServletRequest request,
-			@RequestParam(value = "equities", required = false) String equities,
-			@RequestParam(value = "fi", required = false) String fi,
-			@RequestParam(value = "indices", required = false) String indices,
-			@RequestParam(value = "derivatives", required = false) String derivatives,
-			@RequestParam(value = "fx", required = false) String fx,
-			@RequestParam(value = "ai", required = false) String ai,
-			@RequestParam(value = "misc", required = false) String misc,
-			@RequestParam(value = "dataattribute", required = false) String dataattribute,
-			@RequestParam(value = "datacoverageregion", required = false) String datacoverageregionId,
-			@RequestParam(value = "datacoveragecountry", required = false) String datacoveragecountryId,
-			@RequestParam(value = "datacoverageexchange", required = false) String datacoverageexchangeId,
-			
-			@RequestParam(value = "vendorregionofincorp", required = false) String vendorregionofincorp,
-			@RequestParam(value = "vendorcountryofincorp", required = false) String vendorcountryofincorp,
-			@RequestParam(value = "searchkeywordname", required = false) String searchkeywordname,
-			@RequestParam(value = "vendorsupportregion", required = false) String vendorsupportregion,
-			@RequestParam(value = "vendorprofilefreshness", required = false) String vendorprofilefreshness,
-			@RequestParam(value = "vendorsupporttime", required = false) String vendorsupporttime,
-			
-			@RequestParam(value = "eqsecuritytype", required = false) String eqsecuritytype,
-			@RequestParam(value = "eqdatacoverageregion", required = false) String eqdatacoverageregion,
-			@RequestParam(value = "eqdatacoveragecountry", required = false) String eqdatacoveragecountry,
-			@RequestParam(value = "eqdatacoverageexchange", required = false) String eqdatacoverageexchange,
-			@RequestParam(value = "eqdataattribute", required = false) String eqdataattribute,
-			@RequestParam(value = "eqvendoryearoperation", required = false) String eqvendoryearoperation,
-			@RequestParam(value = "eqawards", required = false) String eqawards,
-			@RequestParam(value = "eqacquisitioncostrange", required = false) String eqacquisitioncostrange,
-			
-			@RequestParam(value = "fisecuritytype", required = false) String fisecuritytype,
-			@RequestParam(value = "indicessecuritytype", required = false) String indicessecuritytype,
-			@RequestParam(value = "RaYvEmUl", required = false) String username){
-			logger.info("Mehtod to navigate market data aggregators toregisterNavigation--:");
-			ModelAndView modelAndView=new ModelAndView("multiassetsearchresult");
-
-			
-			List<AssetClassDataDetails> assetClassDataInfoList = new ArrayList<AssetClassDataDetails>();
-			AssetClassDataDetails assetClassDatainfo = null;
-			List<AssetClassDataDetails> assetClassDataDetails = null;
-			try{
-				username = CommonUtils.decrypt(username.getBytes());
-			if( equities !=null || fi !=null || indices != null && fx == null ){
-				
-				@SuppressWarnings("rawtypes")
-				List<String> assetClassList = new ArrayList();
-				 assetClassList.add("1");
-				 assetClassList.add("2");
-				 assetClassList.add("3");
-				 assetClassList.add("4");
-				 assetClassList.add("5");
-				 
-				List<String> securityList = new ArrayList();
-				if(eqsecuritytype != null)
-					securityList.addAll(Arrays.asList(eqsecuritytype.split(",")));
-				if(fisecuritytype != null)
-					securityList.addAll(Arrays.asList(fisecuritytype.split(",")));
-				if(eqsecuritytype != null)
-					securityList.addAll(Arrays.asList(eqsecuritytype.split(",")));
-	
-				assetClassDataDetails = marketDataAggregatorsService.getMultiAssetClassSearchResultInfo(assetClassList,securityList);
-				
-				 Set<AssetClassDataDetails> assetClassDataDetailsSet = new TreeSet<AssetClassDataDetails>(new Comparator<AssetClassDataDetails>() {
-					@Override
-					public int compare(AssetClassDataDetails assetClassDatainfo1,
-							AssetClassDataDetails assetClassDatainfo2) {
-						 if(assetClassDatainfo1.getCompany().equals(assetClassDatainfo2.getCompany())){
-							 return 0; 
-						 }
-						return 1;
-					}
-				});
-				assetClassDataDetailsSet.addAll(assetClassDataDetails);
-				List<AssetClassDataDetails> assetClassDataDetailslist = new ArrayList<AssetClassDataDetails>(assetClassDataDetailsSet);
-				for (AssetClassDataDetails assetClassDatalist1 : assetClassDataDetailslist) {
-					assetClassDatainfo = new AssetClassDataDetails(null,null, null, null, null, null, null, null,
-							null, null, null, null, null, null, null,null,null,null,null,null,null);
-					for (AssetClassDataDetails assetClassDatalist2 : assetClassDataDetailslist) {
-						if(assetClassDatalist1.getCompany().equals(assetClassDatalist2.getCompany())){
-							assetClassDatainfo.setCompany(assetClassDatalist1.getCompany());
-						} 
-						if(assetClassDatalist1.getUsername().equals(assetClassDatalist2.getUsername())){
-							assetClassDatainfo.setUsername(assetClassDatalist1.getUsername());
+	public ModelAndView multiSearchAssetClass(HttpServletRequest request, @ModelAttribute("marketDataAggregatorsVendorSearchForm") MarketDataAggregatorsVendorSearchForm dataForm,
+			@RequestParam(value = "RaYUnA", required = false) String username
+			){
+					ModelAndView modelAndView=new ModelAndView("multiassetsearchresult");
+					try{
+					
+						Map parameterMap = request.getParameterMap();
+						Map<Object, Object> searchData = new LinkedHashMap<Object, Object>();
+						Iterator entries = parameterMap.entrySet().iterator();
+						int counter=0;
+						while (entries.hasNext()) {
+						    Map.Entry entry = (Map.Entry) entries.next();
+						    try{
+						    String []s =(String[])entry.getValue();
+						    String tempStr = "";
+						    for(String str: s){
+						    	tempStr =str != null && tempStr.length()>1? str+","+tempStr:str;
+						    }
+						    searchData.put(entry.getKey(), tempStr);
+						    System.out.println((++counter)+" : Key = " + entry.getKey() + ", Value = " + tempStr);
+						    		
+						    }catch(Exception e){
+						    	
+						    }
 						}
-						if(assetClassDatalist1.getCountry_id().equals(assetClassDatalist2.getCountry_id())){
-							assetClassDatainfo.setCountry_id(assetClassDatalist1.getCountry_id());
-						} 
-						if(assetClassDatalist1.getExchange_id().equals(assetClassDatalist2.getExchange_id())){
-							assetClassDatainfo.setExchange_id(assetClassDatalist1.getExchange_id());
-						} 
-						if(assetClassDatalist1.getCost_range().equals(assetClassDatalist2.getCost_range())){
-							assetClassDatainfo.setCost_range(assetClassDatalist1.getCost_range());
-						} 
-						if(assetClassDatalist1.getDistribution_mode_name().equals(assetClassDatalist2.getDistribution_mode_name())){
-							assetClassDatainfo.setDistribution_mode_name(assetClassDatalist1.getDistribution_mode_name());
-						}
-						assetClassDataInfoList.add(assetClassDatainfo);
-					}
-				}   
-				modelAndView.addObject("assetClassDataInfoList", assetClassDataDetailslist);
-			}
+						
+						//for(Map.Entry<Object,Object> t: parameterMap.entrySet())
+					 List<MarketDataAggregatorsVendorSearchForm> marketDataAggregatorsVendorSearchs = marketDataAggregatorsService.getMultiAssetClassSearchResult(searchData,dataForm);
+					
+			modelAndView.addObject("marketDataAggregatorsVendorSearchs", marketDataAggregatorsVendorSearchs);
+			modelAndView.addObject("result", RequestConstans.MarketAggregators.MULTI_ASSET_CLASS_SEARCH_RESULT);
 			modelAndView.addObject("username", username);			 
  			}catch (Exception e) {
 				e.printStackTrace();

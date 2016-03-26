@@ -3,7 +3,10 @@
  */
 package com.finvendor.controller;
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
+import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
@@ -119,5 +124,50 @@ public class ResearchReportProvidersVendorController {
 			logger.debug("Leaving ResearchReportProvidersVendor : researchReportProviderIndex");
 			return modelAndView;
 	}
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value=RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT, method=RequestMethod.POST)
+	public ModelAndView multiSearchAssetClass(HttpServletRequest request, @ModelAttribute("researchReportProvidersVendorSearchForm") ResearchReportProvidersVendorSearchForm dataForm,
+			@RequestParam(value = "RaYUnA", required = false) String username
+			){
+					ModelAndView modelAndView=new ModelAndView("multiassetsearchresult");
+					try{
+					
+						Map parameterMap = request.getParameterMap();
+						Map<Object, Object> searchData = new LinkedHashMap<Object, Object>();
+						Iterator entries = parameterMap.entrySet().iterator();
+						int counter=0;
+						while (entries.hasNext()) {
+						    Map.Entry entry = (Map.Entry) entries.next();
+						    try{
+						    String []s =(String[])entry.getValue();
+						    String tempStr = "";
+						    for(String str: s){
+						    	tempStr =str != null && tempStr.length()>1? str+","+tempStr:str;
+						    }
+						    searchData.put(entry.getKey(), tempStr);
+						    System.out.println((++counter)+" : Key = " + entry.getKey() + ", Value = " + tempStr);
+						    		
+						    }catch(Exception e){
+						    	
+						    }
+						}
+						
+						//for(Map.Entry<Object,Object> t: parameterMap.entrySet())
+					 List<ResearchReportProvidersVendorSearchForm> rrMultiAssetClassSearchResult = marketDataAggregatorsService.getRRMultiAssetClassSearchResult(searchData, dataForm);
+					
+			modelAndView.addObject("marketDataAggregatorsVendorSearchs", rrMultiAssetClassSearchResult);
+			modelAndView.addObject("result", RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT);
+			modelAndView.addObject("username", username);			 
+ 			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return modelAndView;
+	}
+	
+
+	
+	
 	
 }

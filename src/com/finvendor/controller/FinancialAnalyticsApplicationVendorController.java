@@ -3,14 +3,16 @@
  */
 package com.finvendor.controller;
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,16 +20,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finvendor.form.FinancialAnalyticsApplicationVendorSearchForm;
+import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
 import com.finvendor.model.Support;
-import com.finvendor.model.FinVendorUser;
 import com.finvendor.service.MarketDataAggregatorsService;
-import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
 
 /**
@@ -35,9 +38,9 @@ import com.finvendor.util.RequestConstans;
  *
  */
 @Controller
-public class FinancialAnalyticsApplicationVendor {
+public class FinancialAnalyticsApplicationVendorController {
 	
-	private static Logger logger = LoggerFactory.getLogger(FinancialAnalyticsApplicationVendor.class);
+	private static Logger logger = LoggerFactory.getLogger(FinancialAnalyticsApplicationVendorController.class);
 	
 	
 	@Autowired
@@ -121,5 +124,49 @@ public class FinancialAnalyticsApplicationVendor {
 			logger.debug("Leaving FinancialAnalyticsApplication : financialAnalyticsApplicationIndex");
 			return modelAndView;
 	}
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value=RequestConstans.FinancialAnalyticsApplication.MULTI_ASSET_CLASS_SEARCH_RESULT, method=RequestMethod.POST)
+	public ModelAndView multiSearchAssetClass(HttpServletRequest request, @ModelAttribute("financialAnalyticsApplicationVendorSearchForm") FinancialAnalyticsApplicationVendorSearchForm dataForm,
+			@RequestParam(value = "RaYUnA", required = false) String username
+			){
+					ModelAndView modelAndView=new ModelAndView("multiassetsearchresult");
+					try{
+					
+						Map parameterMap = request.getParameterMap();
+						Map<Object, Object> searchData = new LinkedHashMap<Object, Object>();
+						Iterator entries = parameterMap.entrySet().iterator();
+						int counter=0;
+						while (entries.hasNext()) {
+						    Map.Entry entry = (Map.Entry) entries.next();
+						    try{
+						    String []s =(String[])entry.getValue();
+						    String tempStr = "";
+						    for(String str: s){
+						    	tempStr =str != null && tempStr.length()>1? str+","+tempStr:str;
+						    }
+						    searchData.put(entry.getKey(), tempStr);
+						    System.out.println((++counter)+" : Key = " + entry.getKey() + ", Value = " + tempStr);
+						    		
+						    }catch(Exception e){
+						    	
+						    }
+						}
+						
+						//for(Map.Entry<Object,Object> t: parameterMap.entrySet())
+					 List<FinancialAnalyticsApplicationVendorSearchForm> faMultiAssetClassSearchResult = marketDataAggregatorsService.getFAMultiAssetClassSearchResult(searchData, dataForm);
+					
+			modelAndView.addObject("marketDataAggregatorsVendorSearchs", faMultiAssetClassSearchResult);
+			modelAndView.addObject("result", RequestConstans.FinancialAnalyticsApplication.MULTI_ASSET_CLASS_SEARCH_RESULT);
+			modelAndView.addObject("username", username);			 
+ 			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return modelAndView;
+	}
+	
+	
+	
+	
 
 }
