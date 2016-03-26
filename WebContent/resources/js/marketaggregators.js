@@ -1,6 +1,7 @@
 $(document).ready(function() {
-		$("#searchsingleform").slideDown("slow");
-		$("#searchmultiform").hide();
+		
+		$("#searchmultiform").slideDown("slow");
+		$("#searchsingleform").hide();
 		$("#savedsearchform").hide();
 		$("#singleform").click(function() {
 			$("#searchsingleform").slideDown("slow");
@@ -207,6 +208,7 @@ function loadExchangeAssetList(countryId) {
 }
 
 $(document).ready(function() {
+	debugger;
 	$("#equities").hide();
 	$("#fi").hide();
 	$("#indices").hide();
