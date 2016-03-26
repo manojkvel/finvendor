@@ -4,12 +4,17 @@
 package com.finvendor.serviceimpl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.finvendor.dao.MarketDataAggregatorsDAO;
+import com.finvendor.form.FinancialAnalyticsApplicationVendorSearchForm;
+import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
+import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
+import com.finvendor.form.TradingApplicationVendorSearchForm;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassDataDetails;
 import com.finvendor.model.AssetClassSecurityMap;
@@ -295,7 +300,9 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 
 	@Override
 	public VendorOffering deleteOfferings(String id) {
-		VendorOffering deleteOfferings = marketDataAggregatorsDAO.deleteOfferings(id);
+		VendorOffering deleteOfferings = null;
+		deleteOfferings = marketDataAggregatorsDAO.findOfferingById(id);
+		marketDataAggregatorsDAO.deleteOfferings(deleteOfferings);
 		return deleteOfferings;
 	}
 
@@ -349,6 +356,29 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<CompanySubType> getCompanySubTypeList() {
 		return marketDataAggregatorsDAO.getCompanySubTypeList();
+	}
+
+	@Override
+	public List<MarketDataAggregatorsVendorSearchForm> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
+		return marketDataAggregatorsDAO.getMultiAssetClassSearchResult(searchData,dataForm);
+	}
+	
+	@Override
+	public List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(Map<Object, Object> searchData, FinancialAnalyticsApplicationVendorSearchForm dataForm) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.getFAMultiAssetClassSearchResult(searchData,dataForm);
+	}
+
+	@Override
+	public List<ResearchReportProvidersVendorSearchForm> getRRMultiAssetClassSearchResult(Map<Object, Object> searchData, ResearchReportProvidersVendorSearchForm dataForm) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.getRRMultiAssetClassSearchResult(searchData,dataForm);
+	}
+
+	@Override
+	public List<TradingApplicationVendorSearchForm> getTAMultiAssetClassSearchResult(Map<Object, Object> searchData, TradingApplicationVendorSearchForm dataForm) {
+		// TODO Auto-generated method stub
+		return marketDataAggregatorsDAO.getTAMultiAssetClassSearchResult(searchData,dataForm);
 	}
 
 }
