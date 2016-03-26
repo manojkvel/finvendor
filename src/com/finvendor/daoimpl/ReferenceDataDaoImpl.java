@@ -30,7 +30,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 			criteria = this.sessionFactory.openSession().createCriteria(SecurityType.class);
 			criteria.add(Restrictions.eq("assetClassId", assetClassId));
 			securityTypesList = criteria.list();
-			logger.info("securityTypesList = " + securityTypesList.size());
+			logger.debug("securityTypesList = " + securityTypesList.size());
 		}catch (Exception exp) {
 			logger.error("Error reding SecurityTypes for asset class id : {}", assetClassId, exp);
 			throw new ApplicationException("Error reding SecurityTypes for asset class id : " + assetClassId);

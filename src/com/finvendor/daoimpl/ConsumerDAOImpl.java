@@ -84,10 +84,26 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 	}
 	
 	@Override
-	public List<Object[]> loadConsumerProfileDetails(String consumerId, String tableKey) 
+	public List<Object[]> loadConsumerMyProfile(String consumerId, String tableKey) 
 			throws ApplicationException {
-		
-		return null;
+		logger.debug("Entering : ConsumerDaoImpl - loadConsumerMyProfile for {}", consumerId);
+		String tableMetadata = finvendorProperties.getProperty(tableKey);
+		String [] tableDetails = tableMetadata.split(":");
+		String tableName = tableDetails[0];
+		String columnNames = tableDetails[1];
+		StringBuilder query = new StringBuilder(50);
+		query.append("select ");
+		query.append(columnNames);
+		query.append(" from ");
+		query.append(tableName);
+		query.append(" where consumer_id = '");
+		query.append(consumerId);
+		query.append("'");
+		SQLQuery hibQuery = this.sessionFactory.getCurrentSession().createSQLQuery(query.toString());
+		@SuppressWarnings("unchecked")
+		List<Object[]> tableData = hibQuery.list();
+		logger.debug("Leaving : ConsumerDaoImpl - loadConsumerMyProfile for {}", consumerId);
+		return tableData;
 	}
 	
 	@Override

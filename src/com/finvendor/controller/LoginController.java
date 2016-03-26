@@ -36,6 +36,7 @@ import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
 import com.finvendor.model.UserRole;
 import com.finvendor.model.Vendor;
+import com.finvendor.service.ConsumerService;
 import com.finvendor.service.LoginService;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
@@ -59,6 +60,9 @@ public class LoginController {
 	
 	@Resource(name="referenceDataService")
 	private ReferenceDataService referenceDataService;
+	
+	@Resource(name="consumerService")
+	private ConsumerService consumerService;
 		
 	@RequestMapping(value=RequestConstans.Home.HOME_PAGE, method=RequestMethod.GET)
 	public ModelAndView homePageLand(ModelMap modelMap, HttpServletRequest request) {
@@ -89,9 +93,6 @@ public class LoginController {
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
 		String status = "false";
 		try{
-			//username = CommonUtils.decrypt(username.getBytes());
-			//password = CommonUtils.decrypt(password.getBytes());
-			
 			String userId = null;
 			String credentials = null;
 			boolean changePassword = Boolean.valueOf(passChange);
@@ -177,8 +178,8 @@ public class LoginController {
  			User appUser = (User)SecurityContextHolder.getContext().
 					getAuthentication().getPrincipal();
  			username = appUser.getUsername();
- 			logger.info("redirectLink for User - {} is {}", username, (String)request.getSession().getAttribute("redirectLink"));
- 			
+ 			logger.info("redirectLink for User - {} is {}", 
+ 					username, (String)request.getSession().getAttribute("redirectLink"));			
  			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
 			countries = marketDataAggregatorsService.getAllCountries();
@@ -189,12 +190,17 @@ public class LoginController {
 			companySubType = marketDataAggregatorsService.getCompanySubTypeList();
 			
 			try {
-				if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_ADMIN))) {
-					logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_ADMIN);
+				if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(
+						RequestConstans.Roles.ROLE_ADMIN))) {
+					logger.debug("Role for User - {} is {}", 
+							username, RequestConstans.Roles.ROLE_ADMIN);
 					modelAndView = new ModelAndView(RequestConstans.Login.ADMIN_INFO);
-					request.getSession().setAttribute("loggedInRole", RequestConstans.Roles.ROLE_ADMIN);
-		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_VENDOR))) {
-		       		logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_VENDOR);
+					request.getSession().setAttribute("loggedInRole", 
+							RequestConstans.Roles.ROLE_ADMIN);
+		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(
+		       			RequestConstans.Roles.ROLE_VENDOR))) {
+		       		logger.debug("Role for User - {} is {}", 
+		       				username, RequestConstans.Roles.ROLE_VENDOR);
 		       		modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);					
 					vendor = userService.getUserDetailsByUsername(username).getVendor();
 					modelAndView.addObject("myprofiletab", "myprofile");	       		
@@ -208,17 +214,21 @@ public class LoginController {
 		       		}
 		       	}
 		       		modelAndView.addObject("vendor", vendor);
-		       		request.getSession().setAttribute("loggedInRole", RequestConstans.Roles.ROLE_VENDOR);
-		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(RequestConstans.Roles.ROLE_CONSUMER))) {
-		       		logger.debug("Role for User - {} is {}", username, RequestConstans.Roles.ROLE_CONSUMER);
+		       		request.getSession().setAttribute("loggedInRole", 
+		       				RequestConstans.Roles.ROLE_VENDOR);
+		       	} else if(appUser.getAuthorities().contains(new SimpleGrantedAuthority(
+		       			RequestConstans.Roles.ROLE_CONSUMER))) {
+		       		logger.debug("Role for User - {} is {}", 
+		       				username, RequestConstans.Roles.ROLE_CONSUMER);
 		       		modelAndView = new ModelAndView(RequestConstans.Login.CONSUMER_INFO);
 		       		consumer = userService.getUserDetailsByUsername(username).getConsumer();
 		       		securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(1);
-		       		CommonUtils.populateConsumerProfileRequest(consumer, modelAndView);
+		       		CommonUtils.populateConsumerProfileRequest(consumer, consumerService, modelAndView);
 		       		consumer.setVendorPreference();
 		       		modelAndView.addObject("securityTypeList", securityTypeList);
 		       		modelAndView.addObject("consumer", consumer);
-		       		request.getSession().setAttribute("loggedInRole", RequestConstans.Roles.ROLE_CONSUMER);
+		       		request.getSession().setAttribute("loggedInRole", 
+		       				RequestConstans.Roles.ROLE_CONSUMER);
 		       	}
 				modelAndView.addObject("assetClasses", assetClasses);
 				modelAndView.addObject("regions", regions);

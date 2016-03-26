@@ -447,6 +447,17 @@
 																</tr>
 															</thead>
 															<tbody>
+																<c:forEach items="${consumerMyProfileMyBusinessNeedsMarketData}" var="tableRowData">
+																	<tr>
+																		<td>${tableRowData[0]}</td>
+																		<td>${tableRowData[1]}</td>
+																		<td>${tableRowData[2]}</td>
+																		<td>${tableRowData[3]}</td>
+														                <td>${tableRowData[4]}</td>
+																		<td>${tableRowData[5]}</td>
+																		<td><a href="#"><img src="../resources/images/delete.png" alt="Delete" title="Delete" onClick="deleteConsumerProfileMyBusinessNeedsMarketDataRow(this)"/></a></td>
+																	</tr>
+																</c:forEach>
 															</tbody>
 														</table>
 														<input type="hidden" id="consumerProfileMyBusinessNeedsMarketDataTableJson" name="consumerProfileMyBusinessNeedsMarketDataTableJson"/>

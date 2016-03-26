@@ -55,24 +55,27 @@ public class ConsumerServiceImpl implements ConsumerService {
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<Object[]> loadConsumerProfileDetails(String consumerId, String tableKey) {
-		
-		
-		return null;
+	public List<Object[]> loadConsumerMyProfile(String consumerId, 
+			String tableKey) throws ApplicationException {
+		List<Object[]> tableRowList = consumerDAO.loadConsumerMyProfile(
+				consumerId, tableKey);		
+		return tableRowList;
 	}
 	
 	@Override
 	@Transactional
-	public List<Object[]> updateConsumerProfileDetails(String consumerId, 
-			String tableKey, String jsonTableData) throws ApplicationException {
+	public Set<ConsumerMyProfileBusinessNeedMarketData> 
+			updateConsumerMyProfileBusinessNeedMarketData(String consumerId, 
+					String tableKey, String jsonTableData) throws ApplicationException {
 		logger.debug("Entering ConsumerServiceImpl : updateConsumerProfileDetails for Consumer {}", 
 				consumerId);
 		List<Object[]> tableRowList = new ArrayList<Object[]>();
+		Set<ConsumerMyProfileBusinessNeedMarketData> tableData = null;
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			jsonTableData = jsonTableData.replace(",\"\":\"\"", "");
-			Set<ConsumerMyProfileBusinessNeedMarketData> tableData = mapper.readValue(jsonTableData, new TypeReference<Set<ConsumerMyProfileBusinessNeedMarketData>>(){});
-			logger.info("ConsumerServiceImpl : updateConsumerProfileDetails - tableData size" + tableData.size());
+			tableData = mapper.readValue(jsonTableData, 
+					new TypeReference<Set<ConsumerMyProfileBusinessNeedMarketData>>(){});
 			for(ConsumerMyProfileBusinessNeedMarketData record : tableData) {
 				Object[] tableRow = new Object[6];
 				tableRow[0] = record.getAssetClass();
@@ -88,6 +91,6 @@ public class ConsumerServiceImpl implements ConsumerService {
 			logger.error("Error updating Profile Details for Consumer : {}", consumerId, exp);
 			throw new ApplicationException("Error updating Profile Details");
 		}		
-		return tableRowList;		
+		return tableData;		
 	}
 }

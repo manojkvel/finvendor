@@ -49,8 +49,21 @@ function updateConsumerProfileMyBusinessNeedsMarketData() {
 			tableKey: tableKey, jsonTableData: jsonTableData
 		},	
 		cache:false,
-		success : function(output){
-			alert('Market Data details updated successfully');
+		success : function(output){			
+			var jsonData = $.parseJSON(output);
+			var columns= ["Asset Class", "Security type", "Region", "Country", "Exchange", "Data Attribute"];
+			$("#consumerProfileMyBusinessNeedsMarketDataTable").find("tr:gt(0)").remove();
+			for (var i = 0 ; i < jsonData.length ; i++) {
+		         var row$ = $('<tr/>');
+		         for (var colIndex = 0 ; colIndex < columns.length ; colIndex++) {
+		             var cellValue = jsonData[i][columns[colIndex]];	 
+		             if (cellValue == null) { cellValue = ""; }		 
+		             row$.append($('<td/>').html(cellValue));
+		         }
+		         row$.append($('<td/>').html('<a href="#"><img src="../resources/images/delete.png" alt="Delete" title="Delete" onClick="deleteConsumerProfileMyBusinessNeedsMarketDataRow(this)"/></a>'));
+		         $("#consumerProfileMyBusinessNeedsMarketDataTable").append(row$);
+		     }
+			alert('Consumer Market data needs updated successfully')
 		},
 		error : function(data, textStatus, jqXHR){
 			alert('Error updating Market Data details');

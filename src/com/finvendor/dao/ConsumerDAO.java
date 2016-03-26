@@ -11,7 +11,9 @@ public interface ConsumerDAO {
 	Consumer updateConsumerDetails(Consumer consumer) throws ApplicationException;
 	Consumer getConsumerInfoByEmail(String email) throws ApplicationException;
 	CompanySubType getCompanySubType(int id) throws ApplicationException;
-	List<Object[]> loadConsumerProfileDetails(String consumerId, String tableKey) throws ApplicationException;
-	List<Object[]> updateConsumerProfileDetails(String consumerId, String tableKey, List<Object[]> tableData) throws ApplicationException;
+	List<Object[]> loadConsumerMyProfile(String consumerId, String tableKey) 
+			throws ApplicationException;
+	List<Object[]> updateConsumerProfileDetails(String consumerId, String tableKey, 
+			List<Object[]> tableData) throws ApplicationException;
 
 }

@@ -2,12 +2,14 @@ package com.finvendor.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finvendor.bean.ConsumerMyProfileBusinessNeedMarketData;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassSecurityMap;
 import com.finvendor.model.Awards;
@@ -111,7 +114,7 @@ public class ConsumerController implements HandlerExceptionResolver {
 					getCompanySubType(companySubType));	
 			user.setConsumer(consumer);
 			consumerService.updateConsumerDetails(consumer);
-			CommonUtils.populateConsumerProfileRequest(consumer, modelAndView);
+			CommonUtils.populateConsumerProfileRequest(consumer, consumerService, modelAndView);
 			countries = marketDataAggregatorsService.getAllCountries();
 			companySubTypeList = marketDataAggregatorsService.getCompanySubTypeList();
 			securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(1);
@@ -158,12 +161,15 @@ public class ConsumerController implements HandlerExceptionResolver {
 		logger.debug("Entering ConsumerController : updateConsumerProfileMyBusinessNeeds");
 		User appUser = (User)SecurityContextHolder.getContext().
 				getAuthentication().getPrincipal();
-		String username = appUser.getUsername();		
+		String username = appUser.getUsername();
+		Set<ConsumerMyProfileBusinessNeedMarketData> tableData = null;
 		try{
 			user = userService.getUserDetailsByUsername(username);
 			Consumer consumer = user.getConsumer();
-			consumerService.updateConsumerProfileDetails(consumer.getId(), tableKey, jsonTableData);
-			response.getWriter().print("Consumer profile updated successfully");
+			tableData = consumerService.updateConsumerMyProfileBusinessNeedMarketData(consumer.getId(), tableKey, jsonTableData);
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonTableString = mapper.writeValueAsString(tableData);
+			response.getWriter().print(jsonTableString);
 		}catch (Exception exp) {
 			logger.error("Error updating Consumer Profile" + exp);
 			try{
