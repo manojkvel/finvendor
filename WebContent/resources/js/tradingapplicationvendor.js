@@ -1,7 +1,7 @@
 $(document).ready(function() {
-	
-		$("#searchsingletradingapplicationform").slideDown("slow");
-		$("#searchmultitradingapplicationform").hide();
+	debugger;
+		$("#searchsingletradingapplicationform").hide("slow");
+		$("#searchmultitradingapplicationform").slideDown("slow");
 		$("#savedsearchtradingapplicationform").hide();
 		$("#singletradingapplicationbutton").click(function() {
 			$("#searchsingletradingapplicationform").slideDown("slow");
@@ -21,6 +21,7 @@ $(document).ready(function() {
 	});
 	
 $(document).ready(function() {
+	debugger;
 	$("#creditratemarket").hide();
 	$("#etfmarket").hide();
 	$("#derivativemarket").hide();
@@ -29,8 +30,7 @@ $(document).ready(function() {
 	
 	
 	$("#CreditRateMarket").click(function() {
-		if(document.getElementById('CreditRateMarket').value != '' && document.getElementById('CreditRateMarket').value.length > 0
-				&&  document.getElementById('CreditRateMarket').value == 'CreditRateMarket' && document.getElementById('CreditRateMarket').checked == true){
+		if(document.getElementById('CreditRateMarket').checked == true){
 			$("#tradingmulticommonarea").slideDown("slow");
 			$("#creditratemarket").slideDown("slow");
 		}else{
@@ -40,8 +40,7 @@ $(document).ready(function() {
 	});
 		
 	$("#ETFMarket").click(function() {
-		if(document.getElementById('ETFMarket').value != '' && document.getElementById('ETFMarket').value.length > 0
-				&&  document.getElementById('ETFMarket').value == 'ETFMarket' && document.getElementById('ETFMarket').checked == true){
+		if(document.getElementById('ETFMarket').checked == true){
 			$("#etfmarket").slideDown("slow");
 			$("#tradingmulticommonarea").slideDown("slow");
 		}else{
@@ -51,8 +50,7 @@ $(document).ready(function() {
 	});
 	
 	$("#DerivativeMarket").click(function() {
-		if(document.getElementById('DerivativeMarket').value != '' && document.getElementById('DerivativeMarket').value.length > 0
-				&&  document.getElementById('DerivativeMarket').value == 'DerivativeMarket' && document.getElementById('DerivativeMarket').checked == true){
+		if(document.getElementById('DerivativeMarket').checked == true){
 			$("#derivativemarket").slideDown("slow");
 			$("#tradingmulticommonarea").slideDown("slow");
 		}else{
@@ -62,8 +60,7 @@ $(document).ready(function() {
 	});
 	
 	$("#FXMarket").click(function() {
-		if(document.getElementById('FXMarket').value != '' && document.getElementById('FXMarket').value.length > 0
-				&&  document.getElementById('FXMarket').value == 'FXMarket' && document.getElementById('FXMarket').checked == true){
+		if(document.getElementById('FXMarket').checked == true){
 			$("#fxmarket").slideDown("slow");
 			$("#tradingmulticommonarea").slideDown("slow");
 		}else{
@@ -72,7 +69,7 @@ $(document).ready(function() {
 				
 	});
 	
-	});
+});
 	
 
 

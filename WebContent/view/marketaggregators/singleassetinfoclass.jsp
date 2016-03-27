@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <div class="form-wizard" style="background-color: #ECF0F1;">
 	<div class="tab-content" >
-			<div class="tab-pane active" >
+			<div class="tab-pane" >
 			
 			<div><br/></div>
 			 <div class="Row" style="width: 90%;">

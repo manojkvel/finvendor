@@ -180,17 +180,17 @@
 																
 															<div style="padding-left: 175px;">	
 																
-																 <label class="control-labelalign"><input type="radio" name="support" value="24X7" <c:if test="${vendor.vendorSupport.c24by7=='true'}"> checked </c:if>>&nbsp;24x7</label>  
-															    <label class="control-labelalign"><input type="radio" name="support" value="24by6" <c:if test="${vendor.vendorSupport.c24by6=='true'}"> checked </c:if>>&nbsp;24x6</label> 
-															    <label class="control-labelalign"> <input type="radio" name="support" value="16by7" <c:if test="${vendor.vendorSupport.c16by7=='true'}"> checked </c:if>>16x7&nbsp;</label> 
-														    	 <label class="control-labelalign"> <input type="radio" name="support" value="16by6" <c:if test="${vendor.vendorSupport.c16by6=='true'}"> checked </c:if>>&nbsp;16x6</label>
-															     <label class="control-labelalign"> <input type="radio" name="support" value="16by5" <c:if test="${vendor.vendorSupport.c16by5=='true'}"> checked </c:if>>16x5&nbsp;</label>
-														    	 <label class="control-labelalign"> <input type="radio" name="support" value="8by7" <c:if test="${vendor.vendorSupport.c8by7=='true'}"> checked </c:if>> 8x7&nbsp;</label>
-															     <label class="control-labelalign">&nbsp;<input type="radio" name="support" value="8by6" <c:if test="${vendor.vendorSupport.c8by6=='true'}"> checked </c:if>>8x6&nbsp;</label>
-														    	 <label class="control-labelalign">&nbsp;&nbsp;<input type="radio" name="support" value="8by5" <c:if test="${vendor.vendorSupport.c8by5=='true'}"> checked </c:if> >&nbsp;8x5</label>
+																 <label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="radio" name="support" value="24X7" <c:if test="${vendor.vendorSupport.c24by7=='true'}"> checked </c:if>>&nbsp;24x7</label>  
+															    <label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="radio" name="support" value="24by6" <c:if test="${vendor.vendorSupport.c24by6=='true'}"> checked </c:if>>&nbsp;24x6</label> 
+															    <label class="control-labelalign-checkbox">&nbsp;&nbsp; <input type="radio" name="support" value="16by7" <c:if test="${vendor.vendorSupport.c16by7=='true'}"> checked </c:if>>16x7&nbsp;</label> 
+														    	 <label class="control-labelalign-checkbox"> <input type="radio" name="support" value="16by6" <c:if test="${vendor.vendorSupport.c16by6=='true'}"> checked </c:if>>&nbsp;16x6</label>
+															     <label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="radio" name="support" value="16by5" <c:if test="${vendor.vendorSupport.c16by5=='true'}"> checked </c:if>>16x5&nbsp;</label>
+														    	 <label class="control-labelalign-checkbox"> <input type="radio" name="support" value="8by7" <c:if test="${vendor.vendorSupport.c8by7=='true'}"> checked </c:if>> 8x7&nbsp;</label>
+															     <label class="control-labelalign-checkbox">&nbsp;<input type="radio" name="support" value="8by6" <c:if test="${vendor.vendorSupport.c8by6=='true'}"> checked </c:if>>8x6&nbsp;</label>
+														    	 <label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="radio" name="support" value="8by5" <c:if test="${vendor.vendorSupport.c8by5=='true'}"> checked </c:if> >&nbsp;8x5</label>
 															    
-																<label class="control-labelalign"><input type="checkbox" name="weekend" id="weekend" value="weekend" <c:if test="${vendor.vendorSupport.weekend=='true'}"> checked </c:if>>Weekend</label>
-																<label class="control-labelalign">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="publicHolidays" id="publicHolidays" value="publicholidays" <c:if test="${vendor.vendorSupport.publicholidays=='true'}"> checked </c:if>>Public Holidays</label> 
+																<label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="checkbox" name="weekend" id="weekend" value="weekend" <c:if test="${vendor.vendorSupport.weekend=='true'}"> checked </c:if>>Weekend</label>
+																<label class="control-labelalign-checkbox">&nbsp;<input type="checkbox" name="publicHolidays" id="publicHolidays" value="publicholidays" <c:if test="${vendor.vendorSupport.publicholidays=='true'}"> checked </c:if>>Public Holidays</label> 
 																</div>
 																</div>
 															</div>

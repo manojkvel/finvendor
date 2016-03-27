@@ -24,8 +24,12 @@
 	<div class="right_nav_area_1">
 	<div class="right_nav_1">
 	 <ul>
+	 <!-- 
 	 <li><a href="#">INDEX</a></li>
 	 <li style="padding-left: 880px;"><a class="#" data-toggle="modal" href="#normalModal">Modify Search</a></li>
+	  -->
+	 <li style="padding-left: 880px;"><a class="#" onclick="window.history.back()">Modify Search</a></li>
+	 
 	 </ul>
 	</div>
 	<div id="normalModal" class="modal fade">

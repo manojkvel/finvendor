@@ -114,6 +114,9 @@
 										 				<br>
 										 				<div>This screen will allow you to create offerings, files and fields.<br>Please click on solution name of tree to create offering. </div>
 										 				<br>
+										 				<br>
+										 				<br>
+										 				<br>
 															<table class="table table-striped" id="vendorSolutionTable">
 																<thead class="lable_header">
 																	<tr>
@@ -224,7 +227,7 @@
 											<br>
 										<div class="row">
 												<div class="span4">											
-												  <label class="col-md-3" for="fileName"><span class="required">*</span>File Name</label>  
+												  <label class="col-md-3" for="fileName"><span class="required">*</span>Data File Name</label>  
 												  
 												  	<input id="fileName" name="fileName" type="text" placeholder="File Name">
 												  </div>
@@ -566,7 +569,7 @@
 														</div>
 													</div>
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 76px;">Files</label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 76px;">Data File</label>
 												  <div class="controls">
 												    <select id="fileDataCoverage" name="fileDataCoverage" >
 												      
@@ -969,17 +972,54 @@
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Application Details<span class="required">*</span></label>
 														<div class="controlsfortradingappsoftware">
-															<input type="text" id="tdsAppDesc" placeholder="Application Details" name="tdsAppDesc" class="m-wrap largeval"/>
+															<textarea id="tdsAppDesc" data-mandatory="Y" placeholder="Application Details" name="tdsAppDesc" cols="50" rows="3" style="width: 250px;"></textarea>
 														</div>
 													</div>
 													
 													<div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Asset Class Supported<span class="required">*</span></label>
 														<div class="controlsfortradingappsoftware">
-															<select name="tdsAssetClass" multiple="multiple" id="tdsAssetClass" style="width: 163px;">
-														     	    <c:forEach var="assetClasses" items="${assetClasses}">
-															    		<option value="${assetClasses.description}">${assetClasses.description}</option>
-													  				</c:forEach>
+															<select name="tdsAssetClass" id="tdsAssetClass" style="width: 163px;">
+													  				
+													  				
+																	<option value="Equity-Common Stocks">Equity-Common Stocks</option>
+																	<option value="Equity-Preferreds">Equity-Preferreds</option>
+																	<option value="Equity-Warrants/Rights">Equity-Warrants/Rights</option>
+																	<option value="Equity-CFDs">Equity-CFDs</option>
+																	<option value="Equity-REITs">Equity-REITs</option>
+																	<option value="Equity-Depository Receipts">Equity-Depository Receipts</option>
+																	<option value="FI-Govt. LT Bonds">FI-Govt. LT Bonds</option>
+																	<option value="FI-Money Markets">FI-Money Markets</option>
+																	<option value="FI-Corp. Bonds/Convertibles">FI-Corp. Bonds/Convertibles</option>
+																	<option value="FI-Munis">FI-Munis</option>
+																	<option value="FI-Securitized Products">FI-Securitized Products</option>
+																	<option value="Indices-Equity Index/ETFs">Indices-Equity Index/ETFs</option>
+																	<option value="Indices-FI Index/ETFs">Indices-FI Index/ETFs</option>
+																	<option value="Indices-Hedge Fund Indices/ETFs">Indices-Hedge Fund Indices/ETFs</option>
+																	<option value="Indices-Mutual Funds">Indices-Mutual Funds</option>
+																	<option value="Indices-PE Indices">Indices-PE Indices</option>
+																	<option value="Indices-Cross Assets ETFs">Indices-Cross Assets ETFs</option>
+																	<option value="Indices-Sharia Compliant/ETFs/MFs">Indices-Sharia Compliant/ETFs/MFs</option>
+																	<option value="Indices-Derivative Index/ETFs">Indices-Derivative Index/ETFs</option>
+																	<option value="Indices-FX or Currency Index/ETFs">Indices-FX or Currency Index/ETFs</option>
+																	<option value="Indices-Commodity Index/ETFs">Indices-Commodity Index/ETFs</option>
+																	<option value="Derivatives-Exchange Options">Derivatives-Exchange Options</option>
+																	<option value="Derivatives-Exchange Future Outrights(Stock)">Derivatives-Exchange Future Outrights(Stock)</option>
+																	<option value="Derivatives-Exchange Future Outrights(Metal)">Derivatives-Exchange Future Outrights(Metal)</option>
+																	<option value="Derivatives-Exchange Future Outrights(Agriculture)">Derivatives-Exchange Future Outrights(Agriculture)</option>
+																	<option value="Derivatives-Exchange Future Outrights(Energy)">Derivatives-Exchange Future Outrights(Energy)</option>
+																	<option value="Derivatives-Exchange Future Outrights(IR)">Derivatives-Exchange Future Outrights(IR)</option>
+																	<option value="Derivatives-Exchange Future Outrights(Others)">Derivatives-Exchange Future Outrights(Others)</option>
+																	<option value="Derivatives-Exchange Future Spreads">Derivatives-Exchange Future Spreads</option>
+																	<option value="Derivatives-OTC Products">Derivatives-OTC Products</option>
+																	<option value="Derivatives-Commodity Spots">Derivatives-Commodity Spots</option>
+																	<option value="FX-Plain Vanila Options (G-7 Pairs)">FX-Plain Vanila Options (G-7 Pairs)</option>
+																	<option value="FX-Plain Vanila Options (Non G-7 Pairs)">FX-Plain Vanila Options (Non G-7 Pairs)</option>
+																	<option value="FX-Futures/Forwards (Non G-7 Pairs)">FX-Futures/Forwards (Non G-7 Pairs)</option>
+																	<option value="FX-Exotic Options(G-7 Pairs)">FX-Exotic Options(G-7 Pairs)</option>
+																	<option value="FX-Exotic Options(Non G-7 Pairs)">FX-Exotic Options(Non G-7 Pairs)</option>
+																	<option value="FX-Accumulators/Decumulators">FX-Accumulators/Decumulators</option>
+													  				
 														 	</select> 
 														</div>
 													</div>
@@ -1012,6 +1052,12 @@
 														<input type="text" id="tdsSuitabilityOther"  placeholder="Suitability Other" name="tdsSuitabilityOther" style="visibility: hidden;" />
 														</div>
 													</div>
+													<div class="control-group">
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Launched Year<span class="required">*</span></label>
+														<div class="controls">
+															<input type="text" id="tdsLaunchedYear" placeholder="Launched Year" name="tdsLaunchedYear" class="m-wrap largeval"  onblur="validateYear(this)" />
+														</div>
+													</div>
 													
 													</div>
 													<div class="ColumnCommonvendorpage" style="margin: 0px 0px 0px 56px;">
@@ -1033,6 +1079,7 @@
 															     <option value ="Free and Min Balance Not required"> Free and Min Balance Not required </option>
 															     <option value ="Min Balance Required"> Min Balance Required </option>
 															     <option value ="Subscription based"> Subscription based </option>
+															     <option value ="Any"> Any </option>
 														</select>
 														</div>
 													</div>
@@ -1049,6 +1096,7 @@
 															     <option value ="CHF"> CHF </option>
 															     <option value ="CAD"> CAD </option>
 															     <option value ="JPY"> JPY </option>
+															     <option value ="Any"> Any </option>
 														</select>
 														</div>
 													</div>
@@ -1068,9 +1116,10 @@
 												
 													
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Order Type <span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Order Type </label>
 														<div class="controls">
 															<select name="tdsOrderType"  id="tdsOrderType" multiple="multiple" style="width: 163px;">
+															     <option value =""> -Select-  </option>
 															     <option value ="Limits"> Limits  </option>
 															     <option value ="market orders"> market orders </option>
 															     <option value ="tranche (iceberg) orders"> tranche (iceberg) orders </option>
@@ -1095,29 +1144,14 @@
 														</select>
 														</div>
 													</div>
-											
-											     
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Price Alerts?</label>
-														<div class="controls">
-															<input type="checkbox" id="tdsPriceAlerts"  name="tdsPriceAlerts" class="m-wrap largeval"/>
-														</div>
-													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Watchlist?</label>
-														<div class="controls">
-															&nbsp;&nbsp;&nbsp;<input type="checkbox" id="tdsWatchlist"  name="tdsWatchlist" class="m-wrap largeval"/>
-														</div>
-													</div>
+													
 											         <div class="control-group">
-														<label class="control-labelalign" >Streaming news available? &nbsp;&nbsp;&nbsp; <input type="checkbox" id="tdsStreNews"  name="tdsStreNews" /></label>
-														
+												         <label class="control-labelalign-checkbox" >Price Alerts?<input type="checkbox" id="tdsPriceAlerts"  name="tdsPriceAlerts" class="m-wrap largeval"/></label>
+												         <label class="control-labelalign-checkbox" >Watchlist?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="tdsWatchlist"  name="tdsWatchlist" class="m-wrap largeval"/></label>
+														 <label class="control-labelalign-checkbox" >Streaming news available? &nbsp;&nbsp;&nbsp; <input type="checkbox" id="tdsStreNews"  name="tdsStreNews" /></label>
+														 <label class="control-labelalign-checkbox" >Trade using charts available? <input type="checkbox" id="tdsChartsAvai" name="tdsChartsAvai" /></label>
 													</div>
-													<div class="control-group">
-														<label class="control-labelalign" >Trade using charts available? <input type="checkbox" id="tdsChartsAvai" name="tdsChartsAvai" /></label>
-														
-													</div>
-											          
+													  
 	                                               </div>
 													
 													 <div class="ColumnCommonvendorpre">
@@ -1129,7 +1163,7 @@
 																		<textarea id="tdsOfferingDesc"
 																			data-mandatory="Y" placeholder="Offering Desc"
 																			name="companyinfo"  cols="50"
-																			rows="3"></textarea>
+																			rows="3"  style="width: 250px;"></textarea>
 																		<div>
 																			<label id="tdsOfferingDescErrorMsg"
 																				class="errorMessage"></label>
@@ -1143,9 +1177,14 @@
 													 <div class="control-group">
 														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Trade Type<span class="required">*</span></label>
 														<div class="controls">
-															<select name="tdsTradeType"  id="tdsTradeType" style="width: 163px;">
-														      <option value ="Algorithmic Trade Type" > -Algorithmic Trade Type- </option>
-														      <option value ="Algorithmic Trade Type" > -Algorithmic Trade Type- </option>
+															<select name="tdsTradeType" multiple="multiple" id="tdsTradeType" style="width: 163px;">
+																<option value ="Algorithmic & Program Trading" >Algorithmic & Program Trading </option>
+																<option value ="Direct Market Access (DMA)" > Direct Market Access (DMA) </option>
+																<option value ="FX -DMA" >FX -DMA </option>
+																<option value ="Smart Order Routing (Sequential SOR)" > Smart Order Routing (Sequential SOR) </option>
+																<option value ="Smart Order Routing (Multi-Posting SOR)" > Smart Order Routing (Multi-Posting SOR) </option>
+																<option value ="Swap Execution Facility" > Swap Execution Facility </option>
+														      
 														  </select>
 														</div>
 													</div>
@@ -1155,32 +1194,28 @@
 																		<textarea id="tdsAddSoftwareSpecifications"
 																			data-mandatory="Y" placeholder="Software specifications"
 																			name="tdsAddSoftwareSpecifications"  cols="50"
-																			rows="3"></textarea>
+																			rows="3" style="width: 250px;"></textarea>
 															
 														</div>
 													</div>
 												    
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Add-Ons<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Add-Ons</label>
 														<div class="controls">
-															<input type="text" id="tdsAddOns" placeholder="Add-Ons" name="tdsAddOns" class="m-wrap largeval"/>
+															
+															<textarea id="tdsAddOns" placeholder="Add-Ons" name="tdsAddOns" cols="50" rows="3" style="width: 250px;"></textarea>
+															
 															<div class="selectOptions">Separate 2 items by comma</div>
 														</div>
 													</div>
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Ope.. system<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Operating system</label>
 														<div class="controls">
-															<input type="text" id="tdsOpeSystem" placeholder="Ope.. system" name="tdsOpeSystem" class="m-wrap largeval"/>
+															<textarea id="tdsOpeSystem" placeholder="Operating system" name="tdsOpeSystem" cols="50" rows="3" style="width: 250px;"></textarea>
 														</div>
 													</div>
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Launched Year<span class="required">*</span></label>
-														<div class="controls">
-															<input type="text" id="tdsLaunchedYear" placeholder="Launched Year" name="tdsLaunchedYear" class="m-wrap largeval"  onblur="validateYear(this)" />
-														</div>
-													</div>
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Client Base<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 71px;">Client Base</label>
 														<div class="controls">
 															<input type="text" id="tdsClientBase" placeholder="Client Base" name="tdsClientBase" class="m-wrap largeval"/>
 															<div class="selectOptions">No. of Different Banks Already Using this Product</div>
@@ -1432,13 +1467,9 @@
 														</div>
 													</div>
 													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Customizable Calculation Models(?) <input type="checkbox" id="asdCustomizableCalculationModels"  name="asdCustomizableCalculationModels" /></label>
-														
+														<label class="control-labelalign-checkbox" style="padding-left: 35px;">Customizable Calculation Models(?) <input type="checkbox" id="asdCustomizableCalculationModels"  name="asdCustomizableCalculationModels" /></label>
+														<label class="control-labelalign-checkbox" style="padding-left: 35px;">Real time Market Data?&nbsp; <input type="checkbox" id="asdRealtimeMarketData"  name="asdRealtimeMarketData" /></label>
 													</div>
-												    <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Real time Market Data? <input type="checkbox" id="asdRealtimeMarketData"  name="asdRealtimeMarketData" /></label>
-													</div>
-												
 												
 													</div>
 													 <div class="ColumnCommonvendorpretab3analyticsapp">
@@ -1489,19 +1520,19 @@
 											
 											
 													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Add-Ons<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Add-Ons</label>
 														<div class="controlsforanalyticsapplcation">
-															<input type="text" id="asdAddOns" placeholder="Add-Ons" name="asdAddOns" class="m-wrap largevalforanalytics"/>
+															<textarea id="asdAddOns" placeholder="Add-Ons" name="asdAddOns" cols="50" rows="3" ></textarea>
 														</div>
 													</div>
 													 <div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Operating system<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Operating system</label>
 														<div class="controlsforanalyticsapplcation">
 															<input type="text" id="asdOperatingSystem" placeholder="Operating system" name="asdOperatingSystem" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div>
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Software specifications<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Software specifications</label>
 														<div class="controlsforanalyticsapplcation">
 																		<textarea id="asdSoftwareSpecifications"
 																			data-mandatory="Y" placeholder="Software specifications"
@@ -1517,7 +1548,7 @@
 														</div>
 													</div> 
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Existing User Base<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Existing User Base</label>
 														<div class="controlsforanalyticsapplcation">
 															<input type="text" id="asdExistingUserBase" placeholder="Existing User Base" name="asdExistingUserBase" class="m-wrap largevalforanalytics"/>
 														</div>
@@ -1750,25 +1781,18 @@
 													
 													
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Total Research Analyst<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Total Research Analyst</label>
 														<div class="controlsforanalyticsapplcation">
 															<input type="text" id="rcTotalResearchAnalyst" placeholder="Total Research Analyst" name="rcTotalResearchAnalyst" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div> 
 													
 													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Existing Client Base<span class="required">*</span></label>
+														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Existing Client Base</label>
 														<div class="controlsforanalyticsapplcation">
 															<input type="text" id="rcExistingClientBase" placeholder="Existing Client Base" name="rcExistingClientBase" class="m-wrap largevalforanalytics"/>
 														</div>
 													</div>
-													
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Research Prepared by CFA?<span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<input type="checkbox" id="rcResearchPreparedbyCFA" placeholder="Research Prepared by CFA" name="rcResearchPreparedbyCFA" class="m-wrap largevalforanalytics"/>
-														</div>
-													</div> 
 													   
 													</div>
 												</div>
@@ -1787,9 +1811,7 @@
 															<th>Offering</th>
 															<th>Regions Covered</th>
 															<th>Total Research Analyst</th>
-															<th>Research Prepared by CFA?</th>
 															<th>Existing Client Base</th>
-													
 															<th>Offering Desc</th>
 															<th>Research Area</th>
 															<th>Research Sub Area</th>
@@ -1951,13 +1973,7 @@
 															
 															</div>
 													  </div>
-													
-													<div class="control-group">
-														<label class="control-labelaligndatacoverage" style="padding-left: 35px;">Existing User Base<span class="required">*</span></label>
-														<div class="controlsforanalyticsapplcation">
-															<input type="checkbox" id="rdExistingUserBase" placeholder="Existing User Base" name="rdExistingUserBase" class="m-wrap largevalforanalytics"/>
-														</div>
-													</div>    
+													   
 													</div>
 													
 												</div>
@@ -1984,7 +2000,6 @@
 															<th>Report Cost Type</th>
 															<th>Report Format</th>
 															<th>Research Period</th>
-															<th>Existing User Base</th>
 															<th>Subsription cost (USD ; per month)</th>
 															<th>Subsription cost (USD ; per annum)</th>
 															<th>&nbsp; # &nbsp;</th>
@@ -2062,10 +2077,15 @@
 															<label class="control-labelaligndatacoverage"  style="padding-left: 32px;">Analyst Year of Exp<span class="required">*</span></label>
 															<div class="controlsforanalyticsapplcation">
 																<select name="apAnalystYearofExp" id="apAnalystYearofExp" style="width: 223px;">
-															         <option value="Date (1970)">Date (1970)</option>
-																     <option value="Last one week">Last one week</option>
-																     <option value="Last one month">Last one month</option>
-																     <option value="Last one year">Last one year</option>
+															         <option value="Less than 1">Less than 1</option>
+																     <option value="1-3">1-3</option>
+																     <option value="3-5">3-5</option>
+																     <option value="5-10">5-10</option>
+																     <option value="10-15">10-15</option>
+																     <option value="15-25">15-25</option>
+																     <option value="25-35">25-35</option>
+																     <option value="35-50">35-50</option>
+																     <option value="More than 50">More than 50</option>
 															</select>
 															</div>
 													  </div>

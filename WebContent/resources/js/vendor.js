@@ -227,15 +227,16 @@ jQuery(document).ready(function() {
 			
 			     $("#tdsOffering").val("");
 
-				
+			  var uri ="addTradingSoftwareDetails?solution="+solution+"&assetClass="+assetClass+"&appName="+appName+"&appDesc="+appDesc+"&tradableRegions="+tradableRegions+
+					"&tradableMarkets="+tradableMarkets+"&accessibility="+accessibility+"&suitability="+suitability+"&offering="+offering+"&costType="+costType
+					+"&platformCCY="+platformCCY+"&platformCost="+platformCost+"&platformType="+platformType+"&exchangeFees="+exchangeFees+"&streNews="+streNews
+					+"&chartsAvai="+chartsAvai+"&orderType="+orderType+"&priceAlerts="+priceAlerts+"&watchlist="+watchlist+"&offeringDesc="+offeringDesc
+					+"&tradingCap="+tradingCap+"&tradeExec="+tradeExec+"&tradeType="+tradeType+"&darkVenues="+darkVenues+"&addOns="+addOns+"&opeSystem="+opeSystem+"&launchedYear="+launchedYear;
+			    
 				
 			$.ajax({
 				type: 'GET',
-				url:  "addTradingSoftwareDetails?solution="+solution+"&assetClass="+assetClass+"&appName="+appName+"&appDesc="+appDesc+"&tradableRegions="+tradableRegions+
-				"&tradableMarkets="+tradableMarkets+"&accessibility="+accessibility+"&suitability="+suitability+"&offering="+offering+"&costType="+costType
-				+"&platformCCY="+platformCCY+"&platformCost="+platformCost+"&platformType="+platformType+"&exchangeFees="+exchangeFees+"&streNews="+streNews
-				+"&chartsAvai="+chartsAvai+"&orderType="+orderType+"&priceAlerts="+priceAlerts+"&watchlist="+watchlist+"&offeringDesc="+offeringDesc
-				+"&tradingCap="+tradingCap+"&tradeExec="+tradeExec+"&tradeType="+tradeType+"&darkVenues="+darkVenues+"&addOns="+addOns+"&opeSystem="+opeSystem+"&launchedYear="+launchedYear,
+				url: encodeURI(uri),
 				cache:false,
 				success : function(response){
 					$("#tdsOffering").val("");
@@ -267,7 +268,7 @@ jQuery(document).ready(function() {
 		    var regionsCovered = $("#rcRegionsCovered").val();
 			var offering = $("#rcOffering").val();
 			var totalResearchAnalyst = $("#rcTotalResearchAnalyst").val();
-		    var researchPreparedbyCFA = $("#rcResearchPreparedbyCFA").val();
+		   
 		    var existingClientBase = $("#rcExistingClientBase").val();
 			var totalResearchAnalyst = $("#rcTotalResearchAnalyst").val();
 		    var researchPreparedbyCFA = $("#rcResearchPreparedbyCFA").val();
@@ -277,7 +278,7 @@ jQuery(document).ready(function() {
 		    var researchArea = $("#rcResearchArea").val();
 		    var researchSubArea = $("#rcResearchSubArea").val();
 		    
-			if(checkMandotrySelectValue(solution) && checkNullValue(offering) && checkMandotrySelectValue(researchSubArea) && checkNullValue(totalResearchAnalyst)){
+			if(checkMandotrySelectValue(solution) && checkNullValue(offering) && checkMandotrySelectValue(researchSubArea)){
 				var solnText = $("#rcSolution option:selected").text();
 				if(checkExistingRecordVendors('rcTable',0,1,solnText,offering))
       				   return;
@@ -285,7 +286,7 @@ jQuery(document).ready(function() {
 			$("#rcOffering").val("");
 			$.ajax({
 				type: 'GET',
-				url:  "addResearchCoverage?solution="+solution+"&regionsCovered="+regionsCovered+"&offering="+offering+"&totalResearchAnalyst="+totalResearchAnalyst+"&researchPreparedbyCFA="+researchPreparedbyCFA+
+				url:  "addResearchCoverage?solution="+solution+"&regionsCovered="+regionsCovered+"&offering="+offering+"&totalResearchAnalyst="+totalResearchAnalyst+
 				"&existingClientBase="+existingClientBase+"&offeringDesc="+offeringDesc+"&researchArea="+researchArea+"&researchSubArea="+researchSubArea,
 				cache:false,
 				success : function(response){
@@ -293,7 +294,7 @@ jQuery(document).ready(function() {
 				     $("#rcTable tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			        	tableRecord += '<tr id="'+response[i].id+'_addResearchCoverage"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].regionsCovered+'</td><td>'+response[i].totalResearchAnalyst+'</td><td>'+response[i].researchPreparedbyCFA+'</td><td>'+response[i].existingClientBase+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].researchArea+'</td><td>'+response[i].researchSubArea+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>'; 
+			        	tableRecord += '<tr id="'+response[i].id+'_addResearchCoverage"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].regionsCovered+'</td><td>'+response[i].totalResearchAnalyst+'</td><td>'+response[i].existingClientBase+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].researchArea+'</td><td>'+response[i].researchSubArea+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>'; 
 			       	                                                                                                                           
 			        }
 			        $("#rcTable tbody").append(tableRecord);
@@ -326,10 +327,6 @@ jQuery(document).ready(function() {
 		var researchApplicableYear = $("#rdResearchApplicableYear").val();
 		var researchApplicableMonth = $("#rdResearchApplicableMonth").val();
 		var existingUserBase = false;
-		if ($('#rdExistingUserBase').is(":checked"))
-		{
-			existingUserBase=true;
-		}
 
 		
 		var subsriptionCostUSDpermonth = $("#rdSubsriptionCostUSDpermonth").val();
@@ -348,7 +345,7 @@ jQuery(document).ready(function() {
 				type: 'GET',
 				url:  "addResearchDetails?solution="+solution+"&offering="+offering+"&researchReportName="+researchReportName+"&researchReportDesc="+researchReportDesc+"&accessibility="+accessibility+
 				"&suitability="+suitability+"&reportCostType="+reportCostType+"&subsriptionCostUSDperannum="+subsriptionCostUSDperannum+"&reportSubscriptionCost="+reportSubscriptionCost+"&subsriptionCostUSDpermonth="+subsriptionCostUSDpermonth
-				+"&reportFormat="+reportFormat+"&researchApplicableYear="+researchApplicableYear+"&researchApplicableMonth="+researchApplicableMonth+"&existingUserBase="+existingUserBase,
+				+"&reportFormat="+reportFormat+"&researchApplicableYear="+researchApplicableYear+"&researchApplicableMonth="+researchApplicableMonth,
 				cache:false,
 				success : function(response){
 
@@ -356,7 +353,7 @@ jQuery(document).ready(function() {
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
 			        	tableRecord += '<tr id="'+response[i].id+'_addResearchDetails"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].researchReportName+'</td><td>'+response[i].researchReportDesc+'</td><td>'+response[i].accessibility+'</td><td>'+
-				       	 response[i].suitability+'</td><td>'+response[i].reportCostType+'</td><td>'+response[i].reportFormat+'</td><td>'+response[i].researchApplicableMonth+','+response[i].researchApplicableYear+'</td><td>'+response[i].existingUserBase+'</td><td>'+response[i].subsriptionCostUSDpermonth+'</td><td>'+response[i].subsriptionCostUSDperannum+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+				       	 response[i].suitability+'</td><td>'+response[i].reportCostType+'</td><td>'+response[i].reportFormat+'</td><td>'+response[i].researchApplicableMonth+','+response[i].researchApplicableYear+'</td><td>'+response[i].subsriptionCostUSDpermonth+'</td><td>'+response[i].subsriptionCostUSDperannum+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
 			       	    
 			        }
 			        $("#rdTable tbody").append(tableRecord);
@@ -435,7 +432,8 @@ jQuery(document).ready(function() {
 		 debugger;
 		    var solution = $("#asdSolution").val();
 		    var offering = $("#asdOffering").val();
-			var offeringDesc = $("#asdOfferingDesc").val();
+		    var analyticsSolutionsSubType = $("#adsAnalyticsSolutionsSubType").val();
+		 	var offeringDesc = $("#asdOfferingDesc").val();
 			var applicationName = $("#asdApplicationName").val();
 		    var applicationBriefDesc = $("#asdApplicationBriefDesc").val();
 		    var accessibility = $("#asdAccessibility").val();
@@ -477,7 +475,8 @@ jQuery(document).ready(function() {
 				url:  "addAnalyticsSoftwareDetails?solution="+solution+"&offering="+offering+"&offeringDesc="+offeringDesc+"&applicationName="+applicationName+"&applicationBriefDesc="+applicationBriefDesc+
 				"&accessibility="+accessibility+"&suitability="+suitability+"&applicationCostType="+applicationCostType+"&applicationSubscriptionCCY="+applicationSubscriptionCCY+"&applicationSubscriptionCost="+applicationSubscriptionCost
 				+"&applicationSubscriptionType="+applicationSubscriptionType+"&realtimeMarketData="+realtimeMarketData+"&customizableCalculationModels="+customizableCalculationModels+"&addOns="+addOns+"&operatingSystem="+operatingSystem
-				+"&softwareSpecifications="+softwareSpecifications+"&launchedYear="+launchedYear+"&existingUserBase="+existingUserBase,
+				+"&softwareSpecifications="+softwareSpecifications+"&analyticsSolutionsSubType="+analyticsSolutionsSubType+"&launchedYear="+launchedYear+"&existingUserBase="+existingUserBase,
+				
 				cache:false,
 				success : function(response){
 
@@ -1029,7 +1028,7 @@ function listResearchDetails(){
 		        var tableRecord = "";
 		        for(i =0 ; i < response.length ; i++){                                                                                    
 		        	tableRecord += '<tr id="'+response[i].id+'_addResearchDetails"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].researchReportName+'</td><td>'+response[i].researchReportDesc+'</td><td>'+response[i].accessibility+'</td><td>'+
-			       	 response[i].suitability+'</td><td>'+response[i].reportCostType+'</td><td>'+response[i].reportFormat+'</td><td>'+response[i].researchApplicableMonth+','+response[i].researchApplicableYear+'</td><td>'+response[i].existingUserBase+'</td><td>'+response[i].subsriptionCostUSDpermonth+'</td><td>'+response[i].subsriptionCostUSDperannum+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
+			       	 response[i].suitability+'</td><td>'+response[i].reportCostType+'</td><td>'+response[i].reportFormat+'</td><td>'+response[i].researchApplicableMonth+','+response[i].researchApplicableYear+'</td><td>'+response[i].subsriptionCostUSDpermonth+'</td><td>'+response[i].subsriptionCostUSDperannum+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td>';
 		       	                                                                                                                           
 		        }
 		        $("#rdTable tbody").append(tableRecord);
@@ -1444,7 +1443,7 @@ function updateVendorPersonalInfo(){
 			personalvencompanyurl != null && personalvencompanyurl.length > 0 && 
 			personalvencompanyinfo != null && personalvencompanyinfo.length > 0 &&
 			personalvenprimemail != null && personalvenprimemail.length >0 &&
-			personalvenphonenumber != null && personalvenphonenumber.length > 0){
+			personalvenphonenumber != null && personalvenphonenumber.length > 10){
 		
 		$.ajax({
 			type: 'GET',
@@ -1958,6 +1957,7 @@ function addVendorOfferingInfo(){
 		        $("#vendorofferingTable tbody").append(tableRecord);
 
 				alert('You have updated sucessfully..!');
+				location.reload();
 			},
 			error : function(errorMsg, textStatus, jqXHR){
 				 alert('Error: '+errorMsg+':'+textStatus);
@@ -1983,8 +1983,6 @@ function createOfferingFile(){
 	
 	$("#fileName").val("");
 		
-		
-		
 		$.ajax({
 			type: 'GET',
 			url:  "addOfferingFiles?selectedId="+selectedId+"&fileName="+fileName+"&description="+description+"&securityType="+securityType,
@@ -1998,6 +1996,7 @@ function createOfferingFile(){
 		         }
 		         $("#offeringFilesTable tbody").append(tableRecord);
 				alert('You have updated sucessfully..!');
+				location.reload();
 			},
 			error : function(errorMsg, textStatus, jqXHR){
 				// alert('Error: '+errorMsg+':'+textStatus);
@@ -2041,8 +2040,6 @@ function addFileFields(){
 		       	                                                                                                                        
 		        }
 		        $("#offeringFilesFieldTable tbody").append(tableRecord);
-		        
-				
 				alert('You have updated sucessfully..!');
 			},
 			error : function(errorMsg, textStatus, jqXHR){
@@ -2397,6 +2394,7 @@ function getRegion(countryId,regionId){
 
 function changeTabMode(comp){
 	 debugger; 
+	 var contextPath = "/finvendor/";
 	 comppnentId="";
 	 try {
 		 comppnentId = comp.id;
@@ -2409,6 +2407,12 @@ function changeTabMode(comp){
 		 $("#myOfferings").attr("class", "#");
 		 $("#myStats").attr("class", "#");
 		 $("#myBlog").attr("class", "#");
+		 
+		 document.getElementById("vd_breadcrumb").innerHTML ="<ul> <li><a href='"+contextPath+"'<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}'>My Profile</a></li>"+
+		 "<li class='li-spr'>></li>"+
+		 "<li>Personal Details</li>";
+		
+		 
 	 }else if(comppnentId === "myStats"){
 		 $("#myStats").attr("class", "active");
 		 $("#solution").attr("class", "#");
@@ -2427,6 +2431,11 @@ function changeTabMode(comp){
 		 $("#myProfile").attr("class", "#");
 		 $("#myStats").attr("class", "#");
 		 $("#myBlog").attr("class", "#");
+		 document.getElementById("vd_breadcrumb").innerHTML ="<ul> <li><a href='<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}'>My Profile</a></li>"+
+		 "<li class='li-spr'>></li>"+
+		 "<li>Personal Details</li>";
+		
+		 
 	 }else if(window.location.href.indexOf("vendorsolutions") != -1){
 		 $("#solution").attr("class", "active");
 		 $("#myProfile").attr("class", "#");
@@ -2450,7 +2459,7 @@ function listResearchCoverage(){
 				$("#rcTable tbody").empty();	 
 			    var tableRecord = "";
 			    for(i =0 ; i < response.length ; i++){                                                                                    
-		        	 tableRecord += '<tr id="'+response[i].id+'_addResearchCoverage"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].regionsCovered+'</td><td>'+response[i].totalResearchAnalyst+'</td><td>'+response[i].researchPreparedbyCFA+'</td><td>'+response[i].existingClientBase+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].researchArea+'</td><td>'+response[i].researchSubArea+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
+		        	 tableRecord += '<tr id="'+response[i].id+'_addResearchCoverage"><td>'+response[i].solution+'</td><td>'+response[i].offering+'</td><td>'+response[i].regionsCovered+'</td><td>'+response[i].totalResearchAnalyst+'</td><td>'+response[i].existingClientBase+'</td><td>'+response[i].offeringDesc+'</td><td>'+response[i].researchArea+'</td><td>'+response[i].researchSubArea+'</td><td><a class="deleteButton"> <img src="resources/images/delete.png"></a></td></tr>';
 		        }
 		        $("#rcTable tbody").append(tableRecord);
 			},
@@ -2492,7 +2501,7 @@ function addVendorAward(){
 				   $("#awardsample_1 tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 	tableRecord += '<tr id="'+response[i].id+'_awarddetails"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td>'+response[i].awardSolutionTypes+'</td><td>'+response[i].awardVendorType+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a> </a></td>';
+			       	 	tableRecord += '<tr id="'+response[i].id+'_awarddetails"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td>'+response[i].awardVendorType+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a> </a></td>';
 			        }
 			        $("#awardsample_1 tbody").append(tableRecord);
 				   document.getElementById("awardtabsucessmessage").innerHTML = 'You have updated sucessfully..!';		
@@ -2539,7 +2548,7 @@ function listVendorAward(){
 				   $("#awardsample_1 tbody").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			        	tableRecord += '<tr id="'+response[i].id+'_awarddetails"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td>'+response[i].awardSolutionTypes+'</td><td>'+response[i].awardVendorType+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a> </a></td>';
+			        	tableRecord += '<tr id="'+response[i].id+'_awarddetails"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td>'+response[i].awardVendorType+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a> </a></td>';
 			        }
 			        $("#awardsample_1 tbody").append(tableRecord);
 			},

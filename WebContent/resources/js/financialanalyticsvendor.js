@@ -1,7 +1,7 @@
 $(document).ready(function() {
-	
-		$("#searchsingleanalyticsapplicationform").slideDown("slow");
-		$("#searchmultianaylticsapplicationform").hide();
+	debugger;
+		$("#searchsingleanalyticsapplicationform").hide();
+		$("#searchmultianaylticsapplicationform").slideDown("slow");
 		$("#savedsearchanalyticsapplicationform").hide();
 		$("#singleanalytcsapplicationbutton").click(function() {
 			$("#searchsingleanalyticsapplicationform").slideDown("slow");
@@ -21,6 +21,7 @@ $(document).ready(function() {
 	});
 	
 $(document).ready(function() {
+	debugger;
 	$("#alternativeinvestment").hide();
 	$("#backofficeoperations").hide();
 	$("#productvaluation").hide();
@@ -35,8 +36,7 @@ $(document).ready(function() {
 	$("#financialanalyticsmulticommonareainformation").hide();
 	
 	$("#AlternativeInvestmentSolu").click(function() {
-		if(document.getElementById('AlternativeInvestmentSolu').value != '' && document.getElementById('AlternativeInvestmentSolu').value.length > 0
-				&&  document.getElementById('AlternativeInvestmentSolu').value == 'AlternativeInvestmentSolu' && document.getElementById('AlternativeInvestmentSolu').checked == true){
+		if(document.getElementById('AlternativeInvestmentSolu').checked == true){
 			$("#financialanalyticsmulticommonarea").slideDown("slow");
 			$("#alternativeinvestment").slideDown("slow");
 		}else{
@@ -46,8 +46,7 @@ $(document).ready(function() {
 	});
 		
 	$("#BackofficeOperations").click(function() {
-		if(document.getElementById('BackofficeOperations').value != '' && document.getElementById('BackofficeOperations').value.length > 0
-				&&  document.getElementById('BackofficeOperations').value == 'BackofficeOperations' && document.getElementById('BackofficeOperations').checked == true){
+		if(document.getElementById('BackofficeOperations').checked == true){
 			$("#backofficeoperations").slideDown("slow");
 			$("#financialanalyticsmulticommonarea").slideDown("slow");
 		}else{
@@ -57,8 +56,7 @@ $(document).ready(function() {
 	});
 	
 	$("#ProductValuation").click(function() {
-		if(document.getElementById('ProductValuation').value != '' && document.getElementById('ProductValuation').value.length > 0
-				&&  document.getElementById('ProductValuation').value == 'ProductValuation' && document.getElementById('ProductValuation').checked == true){
+		if(document.getElementById('ProductValuation').checked == true){
 			$("#productvaluation").slideDown("slow");
 			$("#financialanalyticsmulticommonarea").slideDown("slow");
 		}else{
@@ -68,8 +66,7 @@ $(document).ready(function() {
 	});
 	
 	$("#BankingSolution").click(function() {
-		if(document.getElementById('BankingSolution').value != '' && document.getElementById('BankingSolution').value.length > 0
-				&&  document.getElementById('BankingSolution').value == 'BankingSolution' && document.getElementById('BankingSolution').checked == true){
+		if(document.getElementById('BankingSolution').checked == true){
 			$("#bankingsolution").slideDown("slow");
 			$("#financialanalyticsmulticommonarea").slideDown("slow");
 		}else{
@@ -79,8 +76,7 @@ $(document).ready(function() {
 	});
 	
 	$("#RegulatoryComplianceRiskMGT").click(function() {
-		if(document.getElementById('RegulatoryComplianceRiskMGT').value != '' && document.getElementById('RegulatoryComplianceRiskMGT').value.length > 0
-				&&  document.getElementById('RegulatoryComplianceRiskMGT').value == 'RegulatoryComplianceRiskMGT' && document.getElementById('RegulatoryComplianceRiskMGT').checked == true){
+		if(document.getElementById('RegulatoryComplianceRiskMGT').checked == true){
 			$("#regulatorycomplianceriskmgt").slideDown("slow");
 			$("#financialanalyticsmulticommonareainformation").slideDown("slow");
 		}else{
@@ -91,8 +87,7 @@ $(document).ready(function() {
 	
 	
 	$("#MarginingSolutions").click(function() {
-		if(document.getElementById('MarginingSolutions').value != '' && document.getElementById('MarginingSolutions').value.length > 0
-				&&  document.getElementById('MarginingSolutions').value == 'MarginingSolutions' && document.getElementById('MarginingSolutions').checked == true){
+		if(document.getElementById('MarginingSolutions').checked == true){
 			$("#marginingsolutions").slideDown("slow");
 			$("#financialanalyticsmulticommonareainformation").slideDown("slow");
 		}else{
@@ -103,8 +98,7 @@ $(document).ready(function() {
 	
 	
 	$("#PortfolioManagement").click(function() {
-		if(document.getElementById('PortfolioManagement').value != '' && document.getElementById('PortfolioManagement').value.length > 0
-				&&  document.getElementById('PortfolioManagement').value == 'PortfolioManagement' && document.getElementById('PortfolioManagement').checked == true){
+		if(document.getElementById('PortfolioManagement').checked == true){
 			$("#portfoliomgtsolutions").slideDown("slow");
 			$("#financialanalyticsmulticommonareainformation").slideDown("slow");
 		}else{

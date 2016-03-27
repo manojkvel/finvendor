@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
-		$("#searchsingleresearchreportprovidersform").slideDown("slow");
-		$("#searchmultiresearchreportprovidersform").hide();
+		$("#searchsingleresearchreportprovidersform").hide();
+		$("#searchmultiresearchreportprovidersform").slideDown("slow");
 		$("#savedresearchreportproviderform").hide();
 		
 		$("#singlesearchreportprovidersbutton").click(function() {
@@ -37,9 +37,11 @@ $(document).ready(function() {
 	
 	$("#researchreportprovidermulticommonareainformation").hide();
 	
+	
+		
+	
 	$("#MacroEconomicAnalysis").click(function() {
-		if(document.getElementById('MacroEconomicAnalysis').value != '' && document.getElementById('MacroEconomicAnalysis').value.length > 0
-				&&  document.getElementById('MacroEconomicAnalysis').value == 'MacroEconomicAnalysis' && document.getElementById('MacroEconomicAnalysis').checked == true){
+		if(document.getElementById('MacroEconomicAnalysis').checked == true){
 			$("#researchreportprovidermulticommonarea").slideDown("slow");
 			$("#macroeconomicanalysis").slideDown("slow");
 		}else{
@@ -49,30 +51,25 @@ $(document).ready(function() {
 	});
 		
 	$("#SectorIndustryAnalysis").click(function() {
-		if(document.getElementById('SectorIndustryAnalysis').value != '' && document.getElementById('SectorIndustryAnalysis').value.length > 0
-				&&  document.getElementById('SectorIndustryAnalysis').value == 'SectorIndustryAnalysis' && document.getElementById('SectorIndustryAnalysis').checked == true){
+		if(document.getElementById('SectorIndustryAnalysis').checked == true){
 			$("#sectorindustryanalysis").slideDown("slow");
 			$("#researchreportprovidermulticommonarea").slideDown("slow");
 		}else{
 			$("#sectorindustryanalysis").hide();
 		}
-				
 	});
 	
-	$("#CommodityAnalysis").click(function() {
-		if(document.getElementById('CommodityAnalysis').value != '' && document.getElementById('CommodityAnalysis').value.length > 0
-				&&  document.getElementById('CommodityAnalysis').value == 'CommodityAnalysis' && document.getElementById('CommodityAnalysis').checked == true){
+	$("#Commodity Analysis").click(function() {
+		if(document.getElementById('CommodityAnalysis').checked == true){
 			$("#commodityanalysis").slideDown("slow");
 			$("#researchreportprovidermulticommonarea").slideDown("slow");
 		}else{
 			$("#commodityanalysis").hide();
 		}
-				
 	});
 	
 	$("#ExchangeRateAnalysis").click(function() {
-		if(document.getElementById('ExchangeRateAnalysis').value != '' && document.getElementById('ExchangeRateAnalysis').value.length > 0
-				&&  document.getElementById('ExchangeRateAnalysis').value == 'ExchangeRateAnalysis' && document.getElementById('ExchangeRateAnalysis').checked == true){
+		if(document.getElementById('ExchangeRateAnalysis').checked == true){
 			$("#exchangerateanalysis").slideDown("slow");
 			$("#researchreportprovidermulticommonarea").slideDown("slow");
 		}else{
@@ -82,8 +79,7 @@ $(document).ready(function() {
 	});
 	
 	$("#InterestRateAnalysis").click(function() {
-		if(document.getElementById('InterestRateAnalysis').value != '' && document.getElementById('InterestRateAnalysis').value.length > 0
-				&&  document.getElementById('InterestRateAnalysis').value == 'InterestRateAnalysis' && document.getElementById('InterestRateAnalysis').checked == true){
+		if(document.getElementById('InterestRateAnalysis').checked == true){
 			$("#interestrateanalysis").slideDown("slow");
 			$("#researchreportprovidermulticommonareainformation").slideDown("slow");
 		}else{
@@ -92,10 +88,8 @@ $(document).ready(function() {
 				
 	});
 	
-	
 	$("#IndexETFFundResearch").click(function() {
-		if(document.getElementById('IndexETFFundResearch').value != '' && document.getElementById('IndexETFFundResearch').value.length > 0
-				&&  document.getElementById('IndexETFFundResearch').value == 'IndexETFFundResearch' && document.getElementById('IndexETFFundResearch').checked == true){
+		if(document.getElementById('IndexETFFundResearch').checked == true){
 			$("#indexETFfundresearch").slideDown("slow");
 			$("#researchreportprovidermulticommonareainformation").slideDown("slow");
 		}else{
@@ -104,19 +98,13 @@ $(document).ready(function() {
 				
 	});
 	
-	
 	$("#EquityDebtResearch").click(function() {
-		if(document.getElementById('EquityDebtResearch').value != '' && document.getElementById('EquityDebtResearch').value.length > 0
-				&&  document.getElementById('EquityDebtResearch').value == 'EquityDebtResearch' && document.getElementById('EquityDebtResearch').checked == true){
+		if(document.getElementById('EquityDebtResearch').checked == true){
 			$("#equitydebtresearch").slideDown("slow");
 			$("#researchreportprovidermulticommonareainformation").slideDown("slow");
 		}else{
 			$("#equitydebtresearch").hide();
 		}
-				
 	});
+});
 	
-	});
-	
-
-

@@ -64,7 +64,7 @@ public class VendorOffering  implements Serializable{
 	
 	
 	
-	@OneToMany(fetch=FetchType.EAGER,mappedBy="vendorOffering",orphanRemoval=true,cascade = CascadeType.DETACH)
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="vendorOffering",orphanRemoval=true,cascade = CascadeType.ALL)
 	private Set<OfferingFiles> offeringFiles = new HashSet<OfferingFiles>();
 	
 

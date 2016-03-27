@@ -1003,6 +1003,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			    method.invoke(vendorSupport, true);
 				vendorSupport.setcWeekend(new Boolean(weekend));
 				vendorSupport.setcWeekend(new Boolean(publicHolidays));
+				
 				vendor.setVendorSupport(vendorSupport);
 				}catch(NoSuchMethodException e){
 					logger.error("Mehtod not found -- ", e);
