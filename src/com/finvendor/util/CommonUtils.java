@@ -2,19 +2,22 @@ package com.finvendor.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.Consumer;
 import com.finvendor.model.UserRole;
+import com.finvendor.service.ConsumerService;
 
 public class CommonUtils {
 	
-	private static final Logger logger = Logger.getLogger(CommonUtils.class);
+	private static Logger logger = LoggerFactory.getLogger(CommonUtils.class);
 	
 	public static String encrypt(String str) {
         logger.debug("CommonUtils : encrypt");
@@ -124,7 +127,8 @@ public class CommonUtils {
 		}
 	}
 	
-	public static void populateConsumerProfileRequest(Consumer consumer, ModelAndView modelAndView) {
+	public static void populateConsumerProfileRequest(Consumer consumer, ConsumerService consumerService, 
+			ModelAndView modelAndView) throws ApplicationException {
 		String telephone = consumer.getTelephone();
    		if(telephone != null && !telephone.trim().equals("")) {
    			String[] phoneWithCode = telephone.split("-");
@@ -149,6 +153,13 @@ public class CommonUtils {
    		}
    		consumer.setVendorPreference();
    		modelAndView.addObject("displayCompanyType", displayCompanyType.toString());
+   		List<Object[]> consumerMyProfileMyBusinessNeedsMarketData = 
+   				consumerService.loadConsumerMyProfile(consumer.getId(), 
+   						"consumerProfileMyBusinessNeedsMarketDataTable");
+   		logger.debug("consumerMyProfileMyBusinessNeedsMarketData size for {} is {}", 
+   				consumer.getId(), consumerMyProfileMyBusinessNeedsMarketData.size());
+   		modelAndView.addObject("consumerMyProfileMyBusinessNeedsMarketData", 
+   				consumerMyProfileMyBusinessNeedsMarketData);
 	}
 	
 	private static String convertByteToHex(byte data[]){
