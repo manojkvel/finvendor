@@ -286,7 +286,6 @@ public class AdminController {
 				    AuthorityUtils.createAuthorityList(userRole));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 				request.getSession(true).setAttribute("loggedInUser", appUser);
-				logger.info("REDIRECTING for {}, {}", userName, userRole);
 		} catch(Exception exp){
 			logger.error("Error Reading User Summary Profile", exp);
 		}		
