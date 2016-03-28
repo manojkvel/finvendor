@@ -52,6 +52,7 @@
     <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.validate.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/additional-methods.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.bootstrap.wizard.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/WebUtil.js"></script>
 	<!-- Basic Jquery plugins end here-->
 	
 	<!-- add to table plugins start-->
@@ -61,6 +62,7 @@
 	
 	<script src="<%=request.getContextPath()%>/resources/js/userregister.js"></script>
 	<script src="<%=request.getContextPath() %>/resources/js/base64.js"></script>
+	<script src="<%=request.getContextPath() %>/resources/js/loadingpanel-min.js"></script>
 	<script src="<%=request.getContextPath() %>/resources/js/vendor.js"></script>
 	<script src="<%=request.getContextPath() %>/resources/js/consumer.js"></script>
 	<script src="<%=request.getContextPath() %>/resources/js/consumerinviteanrfp.js"></script>
@@ -160,9 +162,14 @@
 									$DisableDrag : true
 								}
 							};
+							try{
 							var jssor_slider2 = new $JssorSlider$(
 									"slider2_container", options);
+							}catch(err){
+								
+							}
 							function ScaleSlider() {
+							try{	
 								var parentWidth = jssor_slider2.$Elmt.parentNode.clientWidth;
 								if (parentWidth) {
 									var sliderWidth = parentWidth;
@@ -170,6 +177,10 @@
 									jssor_slider2.$ScaleWidth(sliderWidth);
 								} else
 									window.setTimeout(ScaleSlider, 30);
+								
+							}catch(err){
+							}
+								
 							}
 							ScaleSlider();
 							$(window).bind("load", ScaleSlider);
