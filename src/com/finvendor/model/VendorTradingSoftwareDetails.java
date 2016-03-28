@@ -95,9 +95,16 @@ public class VendorTradingSoftwareDetails implements Serializable{
 	private String launchedYear;
 	@Column(name="ClientBase")
 	private String clientBase;
+	@Column(name="SecurityName")
+	private String SecurityName;
 	
 	
-	
+	public String getSecurityName() {
+		return SecurityName;
+	}
+	public void setSecurityName(String securityName) {
+		SecurityName = securityName;
+	}
 	public Integer getTradingSoftwareDetailsId() {
 		return TradingSoftwareDetailsId;
 	}
