@@ -248,7 +248,7 @@ public class VendorTradingSoftwareDetailsForm{
 		VendorTradingSoftwareDetailsForm vendorTradingSoftwareDetailsForm = new VendorTradingSoftwareDetailsForm();
 		vendorTradingSoftwareDetailsForm.setId(vendorTradingSoftwareDetails.getTradingSoftwareDetailsId().toString());
 		vendorTradingSoftwareDetailsForm.setSolution(vendorTradingSoftwareDetails.getSolution().getName());
-		vendorTradingSoftwareDetailsForm.setAssetClass(vendorTradingSoftwareDetails.getAssetClass().getDescription());
+		vendorTradingSoftwareDetailsForm.setAssetClass(vendorTradingSoftwareDetails.getAssetClass().getDescription()+"-"+vendorTradingSoftwareDetails.getSecurityName());
 		vendorTradingSoftwareDetailsForm.setAccessibility(vendorTradingSoftwareDetails.getAccessibility());
 		vendorTradingSoftwareDetailsForm.setAddOns(vendorTradingSoftwareDetails.getAddOns());
 		vendorTradingSoftwareDetailsForm.setAppDesc(vendorTradingSoftwareDetails.getAppDesc());
