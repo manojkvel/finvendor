@@ -7,6 +7,8 @@
 <%@page import="org.springframework.security.core.authority.SimpleGrantedAuthority"%>
 <%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
 <c:set var="consumerinviteanrfpmarketdataneeds" value="<%=RequestConstans.Consumer.CONSUMER_INVITE_RFP_MARKET_DATA_NEEDS %>"> </c:set>
+<c:set var="myoffering" value="<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>"> </c:set>
+<c:set var="solution" value="<%=RequestConstans.Vendor.VENDOR_SOLUTION%>"> </c:set>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <jsp:include page="head.jsp"></jsp:include>
@@ -144,6 +146,38 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 	</div>
 </div>
 	<!--  Vendor Dashboard Tabs--- -->
+	
+<div class="inner-breadcrumb">
+		  <div class="container" id="vd_breadcrumb">
+			  <c:choose>
+				  <c:when test="${breadcrum eq solution}">
+				    <ul>
+					   <li><a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SOLUTION%>?RaYUnA=${l:encrypt(username)}">Solution</a></li>			      
+					</ul>
+				  </c:when>
+				  <c:when test="${breadcrum eq myoffering}">
+				    		    <ul>
+							      <li><a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>	
+							      <li class="li-spr">></li>		      
+							      <li>As Data Aggregator vendor</li>
+							      <li class="li-spr">></li>		      
+							      <li>Data Dictionary</li>		      
+							    </ul>
+					
+				  </c:when>
+				  <c:otherwise>
+				    		    <ul>
+							      <li><a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>			      
+							      		<li class="li-spr">></li>		      
+							      		<li>Personal Details</li>
+							    </ul>
+					
+				  </c:otherwise>
+			</c:choose>
+	  </div>
+</div>
+	
+<!-- 	
 <div class="bread-crumb-contatiner">
 	<div class="container">
 		<c:if test="${not empty myprofiletab }">
@@ -158,7 +192,6 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 		<c:if test="${not empty searchDataBuyers}">
 		 <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER%>?RaYUnA=${l:encrypt(username)}">Search Data-Buyers</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
 		</c:if>
-		<!-- Consumer Dashboard info--- -->
 		
 		<c:if test="${not empty consumerMyProfiletab }">
 		 <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>?RaYVeMu=${l:encrypt(username)}">My Profile</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
@@ -172,16 +205,19 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 		</c:if>
 	</div>
 </div>
+ -->
+
 <div class="tab-container">
 	<div class="container">
 			<div class="tab-navigation">  
 		 		<ul>
 					<!-- Vendor Dashboard tab's -->
 					<c:if test="${not empty myprofiletab }">
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>
-						<li><a class="#" href="#">My Stats</a></li>
-						<li><a class="#" href="#">My Blog</a></li>
+						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}" id="myProfile" onclick="changeTabMode(this)" >My Profile</a></li>
+						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SOLUTION%>?RaYUnA=${l:encrypt(username)}" id="solution" onclick="changeTabMode(this)" >Solution</a></li>
+						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}" id="myOfferings" onclick="changeTabMode(this)">My Offerings</a></li>
+						<li><a class="#" href="#" id="myStats" onclick="changeTabMode(this)" >My Stats</a></li>
+						<li><a class="#" href="#" id="myBlog" onclick="changeTabMode(this)">My Blog</a></li>
 					</c:if>
 					<c:if test="${not empty myofferingstab }">
 						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>
@@ -284,6 +320,9 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
   function homePage(){
 	  window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.MY_HOME_PAGE%>?RaYUnA=${l:encrypt(username)}";
   }
+
+  
+  
 	</script>
 </body>
 </html>
