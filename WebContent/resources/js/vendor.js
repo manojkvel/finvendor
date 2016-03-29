@@ -2394,7 +2394,6 @@ function getRegion(countryId,regionId){
 
 function changeTabMode(comp){
 	 debugger; 
-	 var contextPath = "/finvendor/";
 	 comppnentId="";
 	 try {
 		 comppnentId = comp.id;
@@ -2407,11 +2406,6 @@ function changeTabMode(comp){
 		 $("#myOfferings").attr("class", "#");
 		 $("#myStats").attr("class", "#");
 		 $("#myBlog").attr("class", "#");
-		 
-		 document.getElementById("vd_breadcrumb").innerHTML ="<ul> <li><a href='"+contextPath+"'<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}'>My Profile</a></li>"+
-		 "<li class='li-spr'>></li>"+
-		 "<li>Personal Details</li>";
-		
 		 
 	 }else if(comppnentId === "myStats"){
 		 $("#myStats").attr("class", "active");
@@ -2431,10 +2425,6 @@ function changeTabMode(comp){
 		 $("#myProfile").attr("class", "#");
 		 $("#myStats").attr("class", "#");
 		 $("#myBlog").attr("class", "#");
-		 document.getElementById("vd_breadcrumb").innerHTML ="<ul> <li><a href='<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}'>My Profile</a></li>"+
-		 "<li class='li-spr'>></li>"+
-		 "<li>Personal Details</li>";
-		
 		 
 	 }else if(window.location.href.indexOf("vendorsolutions") != -1){
 		 $("#solution").attr("class", "active");

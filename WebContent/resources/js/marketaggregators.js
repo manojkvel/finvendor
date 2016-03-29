@@ -1,5 +1,5 @@
 $(document).ready(function() {
-		
+		debugger
 		$("#searchmultiform").slideDown("slow");
 		$("#searchsingleform").hide();
 		$("#savedsearchform").hide();
@@ -223,6 +223,8 @@ $(document).ready(function() {
 		if(document.getElementById('Equities').value != '' && document.getElementById('Equities').value.length > 0
 				&&  document.getElementById('Equities').value == 'Equities' && document.getElementById('Equities').checked == true){
 			var assettypeId = '1';
+			
+			/*
 			if(assettypeId != '' && assettypeId.length > 0){
 				assettypeId = encode64(assettypeId);
 				$.ajax({
@@ -237,6 +239,7 @@ $(document).ready(function() {
 					}
 				});
 			}
+			*/
 			$("#commonarea").slideDown("slow");
 			$("#equities").slideDown("slow");
 		}else{
@@ -249,6 +252,7 @@ $(document).ready(function() {
 		if(document.getElementById('FI').value != '' && document.getElementById('FI').value.length > 0
 				&&  document.getElementById('FI').value == 'FI' && document.getElementById('FI').checked == true){
 			var assettypeId = '2';
+			/*
 			if(assettypeId != '' && assettypeId.length > 0){
 				assettypeId = encode64(assettypeId);
 				$.ajax({
@@ -263,6 +267,7 @@ $(document).ready(function() {
 					}
 				});
 			}
+			*/
 			$("#fi").slideDown("slow");
 			$("#commonarea").slideDown("slow");
 		}else{
