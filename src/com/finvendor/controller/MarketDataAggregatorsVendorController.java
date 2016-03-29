@@ -90,7 +90,6 @@ public class MarketDataAggregatorsVendorController {
 				supports =  marketDataAggregatorsService.getAllVendorSupports();
 				costs  = marketDataAggregatorsService.getAllCostInfo();
 				awards = marketDataAggregatorsService.getAllAwards();
-				List<SecurityType> listSecurityType2 = marketDataAggregatorsService.listSecurityType();
 				List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
 				
 				modelAndView.addObject("securityTypes",listSecurityType);
@@ -102,7 +101,6 @@ public class MarketDataAggregatorsVendorController {
 				modelAndView.addObject("supports", supports);
 				modelAndView.addObject("costs", costs);
 				modelAndView.addObject("awards", awards);
-				modelAndView.addObject("assetClassEquiSecurityMaps", listSecurityType2);
 				
 				modelAndView.addObject("username", username);
 				 
