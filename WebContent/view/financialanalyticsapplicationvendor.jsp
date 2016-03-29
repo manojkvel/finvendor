@@ -297,38 +297,40 @@
 												 <label class="control-label" style="margin-left: 30px;">Analytics Solution Type<span class="required">*</span></label>
 												 </div>
 												 <div>
+												 
+												 
 												 <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Alternative Invest.. Soln&nbsp;
-															  <input type="checkbox" name="assetClassChk" value="AlternativeInvestmentSolu"  id="AlternativeInvestmentSolu">
+															  <input type="checkbox" name="assetClassChk" value="Alternative Investment Solutions"  id="AlternativeInvestmentSolu">
 													</label>		  
 												 </div>
 												 
 												 <div>
 												  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Backoffice Operations&nbsp;
-															  <input type="checkbox" name="assetClassChk" value="BackofficeOperations"  id="BackofficeOperations">
+															  <input type="checkbox" name="assetClassChk" value="Backoffice Operations"  id="BackofficeOperations">
 														</label>	  
 												 </div>
 												 
 												  <div>
 												 	  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Product Valuation&nbsp;
-															  <input type="checkbox" name="assetClassChk" value="ProductValuation"  id="ProductValuation">
+															  <input type="checkbox" name="assetClassChk" value="Product Valuation"  id="Product Valuation">
 															  </label>
 												 </div>
 												 
 												 <div>
 												  		<label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Banking Solutions&nbsp;
-															  <input type="checkbox" name="assetClassChk" value="BankingSolution"  id="BankingSolution">
+															  <input type="checkbox" name="assetClassChk" value="Banking Solution"  id="BankingSolution">
 															  </label>
 												 </div>
 												 
 												  <div>
 												 	  <label class="control-labelcheckboxanalytics" style="font-family: Raleway, sans-serif; font-size: 13px;">Regulatory Compliance &amp; Risk Mgmt
-															  <input type="checkbox" name="assetClassChk" value="RegulatoryComplianceRiskMGT"  id="RegulatoryComplianceRiskMGT">
+															  <input type="checkbox" name="assetClassChk" value="Regulatory Compliance & Risk Mgmt"  id="RegulatoryComplianceRiskMGT">
 															  </label>
 												 </div>
 												 
 												 	<div>
 															  <label class="control-labelcheckboxanalytics" style="font-family: Raleway, sans-serif; font-size: 13px;">Portfolio Management Solutions&nbsp;
-															  <input type="checkbox" name="assetClassChk" value="PortfolioManagement"  id="PortfolioManagement">
+															  <input type="checkbox" name="assetClassChk" value="Portfolio Management Solutions"  id="PortfolioManagement">
 															  </label>
 														</div>
 												 
@@ -373,7 +375,7 @@
 															<label class="control-labelappstra">Suitability</label>
 															<div class="controls" style="margin-left: 175px;">
 																<select name="suitability" multiple="multiple" id="suitability" style="height: 53px; width: 227px;">
-														     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+														     	<option value ="" class="selectvalues"> -SELECT- </option>
 															      <option value ="All Users" >All Users</option>
 														       <option value ="Risk Managers" >Risk Managers</option>
 																<option value ="Backoffice & Middle Office Users" >Backoffice & Middle Office Users</option>

@@ -148,6 +148,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 	<!--  Vendor Dashboard Tabs--- -->
 	
 <div class="inner-breadcrumb">
+<c:if test="${not empty myprofiletab }">
 		  <div class="container" id="vd_breadcrumb">
 			  <c:choose>
 				  <c:when test="${breadcrum eq solution}">
@@ -175,6 +176,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 				  </c:otherwise>
 			</c:choose>
 	  </div>
+	</c:if> 
 </div>
 	
 <!-- 	

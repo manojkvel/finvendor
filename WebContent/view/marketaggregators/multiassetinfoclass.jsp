@@ -157,9 +157,9 @@
 						<div><br/></div>
 						   <div class="control-group">
 								<select name="equitiessecuritytype" multiple="multiple" id="equitiessecuritytype" style="height: 53px;">
-						     	    <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
-								     <c:forEach var="securityType" items="${assetClassEquiSecurityMaps}">
-									    <option value="${securityType.security_type_id}">${securityType.name}</option>
+						     	    <option value =""> -SELECT- </option>
+								    <c:forEach var="securityType" items="${securityTypes}">
+									    <option value="${securityType.securityTypeId}">${securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
@@ -173,7 +173,7 @@
 						 	 </div>
 						 	 <div class="control-group">
 								<select name="equitiesdatacoveragecountry" multiple="multiple" id="equitiesdatacoveragecountry" style="height: 53px;">
-						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
+						     	 <option value =""> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
 								    <option value="${countries.name}">${countries.name}</option>
 								  </c:forEach>
@@ -181,7 +181,7 @@
 						    </div>
 						    <div class="control-group">
 								<select name="equitiesdatacoverageexchange" multiple="multiple" id="equitiesdatacoverageexchange" style="height: 53px;">
-							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
+							     	 <option value ="" > -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
 									    <option value="${exchanges.name}">${exchanges.name}</option>
 									  </c:forEach>
@@ -224,8 +224,8 @@
 						   <div class="control-group">
 								<select name="fisecuritytype" multiple="multiple" id="assetClassFISecurityMaps" style="height: 53px;">
 							     	<option selected="selected" value ="" > -SELECT- </option>
-								     <c:forEach var="assetClassFISecurityMaps" items="${assetClassFISecurityMaps}">
-									    <option value="${assetClassFISecurityMaps.securityType.security_type_id}">${assetClassFISecurityMaps.securityType.name}</option>
+								     <c:forEach var="securityType" items="${securityTypes}">
+									    <option value="${securityType.securityTypeId}">${securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
@@ -290,8 +290,8 @@
 						   <div class="control-group">
 								<select name="indicesindicessecuritytype" multiple="multiple" id="indicesassetClassIndicesSecurityMaps" style="height: 53px;">
 							     	<option selected="selected" value ="" > -SELECT- </option>
-								     <c:forEach var="assetClassIndicesSecurityMaps" items="${assetClassIndicesSecurityMaps}">
-									    <option value="${assetClassIndicesSecurityMaps.securityType.security_type_id}">${assetClassIndicesSecurityMaps.securityType.name}</option>
+								     <c:forEach var="securityType" items="${securityTypes}">
+									    <option value="${securityType.securityTypeId}">${securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
@@ -455,8 +455,8 @@
 						   <div class="control-group">
 								<select name="fxsecuritytype" multiple="multiple" id="fxsecuritytype" style="height: 53px;">
 						     	    <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
-								     <c:forEach var="securityType" items="${assetClassEquiSecurityMaps}">
-									    <option value="${securityType.security_type_id}">${securityType.name}</option>
+								     <c:forEach var="securityType" items="${securityTypes}">
+									    <option value="${securityType.securityTypeId}">${securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
@@ -521,8 +521,8 @@
 						   <div class="control-group">
 								<select name="aisecuritytype" multiple="multiple" id="aisecuritytype" style="height: 53px;">
 							     	<option selected="selected" value ="" > -SELECT- </option>
-								     <c:forEach var="assetClassFISecurityMaps" items="${assetClassFISecurityMaps}">
-									    <option value="${assetClassFISecurityMaps.securityType.security_type_id}">${assetClassFISecurityMaps.securityType.name}</option>
+								    <c:forEach var="securityType" items="${securityTypes}">
+									    <option value="${securityType.securityTypeId}">${securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>
@@ -587,8 +587,8 @@
 						   <div class="control-group">
 								<select name="miscsecuritytype" multiple="multiple" id="miscsecuritytype" style="height: 53px;">
 							     	<option selected="selected" value ="" > -SELECT- </option>
-								     <c:forEach var="assetClassIndicesSecurityMaps" items="${assetClassIndicesSecurityMaps}">
-									    <option value="${assetClassIndicesSecurityMaps.securityType.security_type_id}">${assetClassIndicesSecurityMaps.securityType.name}</option>
+								    <c:forEach var="securityType" items="${securityTypes}">
+									    <option value="${securityType.securityTypeId}">${securityType.name}</option>
 									  </c:forEach>
 						 		</select> 
 							</div>

@@ -334,23 +334,23 @@
 												 <label style="font-family: Raleway, sans-serif; font-size: 13px;">&nbsp;Asset Class<span style="color: #e02222;">*</span></label>
 												 </div>    
 												 <div class="childasset">
-												   <label  style="font-family: Raleway, sans-serif; font-size: 13px;">Credit/Interest Rate Market&nbsp;
-															  <input type="checkbox" name="assetClassChk" value="Credit/Interest Rate Market"  id="CreditRateMarket">
+												   <label  style="font-family: Raleway, sans-serif; font-size: 13px;">Equities&nbsp;
+															  <input type="checkbox" name="assetClassChk" value="Equities"  id="CreditRateMarket">
 															  </label>
 											        </div>
 												<div class="childasset">			  
-												  <label style="font-family: Raleway, sans-serif; font-size: 13px;">Equity/ETF Market&nbsp;
-															  <input type="checkbox" name="assetClassChk" value="Equity/ETF Market"  id="ETFMarket">
+												  <label style="font-family: Raleway, sans-serif; font-size: 13px;">FI&nbsp;
+															  <input type="checkbox" name="assetClassChk" value="FI"  id="ETFMarket">
 															  </label>
 												 </div>
 												<div class="childasset">			  
-												  <label style="font-family: Raleway, sans-serif; font-size: 13px;">Derivative Market&nbsp;
-															  <input type="checkbox" name="assetClassChk" value="Derivative Market"  id="DerivativeMarket">
+												  <label style="font-family: Raleway, sans-serif; font-size: 13px;">Derivatives&nbsp;
+															  <input type="checkbox" name="assetClassChk" value="Derivatives"  id="DerivativeMarket">
 															  </label>
 												 </div>
 												<div class="childasset">			  
-													<label style="font-family: Raleway, sans-serif; font-size: 13px;">FX Market&nbsp;
-															  <input type="checkbox" name="assetClassChk" value="FX Market"  id="FXMarket">		  		  
+													<label style="font-family: Raleway, sans-serif; font-size: 13px;">FX&nbsp;
+															  <input type="checkbox" name="assetClassChk" value="FX"  id="FXMarket">		  		  
 															  </label>
 												 </div>			  
 												 </div>
@@ -397,16 +397,7 @@
 														
 															</div>
 														</div>
-															<div class="control-grouptrading">
-															<label class="control-labelappstra">Dropdown as Multi select option available</label>
-															<div class="controls" style="margin-left: 175px;">
-																<select name="datacoverageregion" multiple="multiple" id="datacoverageregion" style="height: 53px; width: 227px;">
-														     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-															    
-														 		</select> 
-														 		<div class="selectOptions">Choose one or more options</div>
-															</div>
-														</div>
+															
 														<div class="control-grouptrading">
 															<label class="control-labelappstra">Order Type</label>
 															<div class="controls" style="margin-left: 175px;">
@@ -490,25 +481,24 @@
 														<div class="control-grouptrading">
 															<label class="control-labelappstra">Vendor Profile Freshness</label>
 															<div class="controls" style="margin-left: 175px;">
-																<select name="datacoverageregion" multiple="multiple" id="datacoverageregion" style="height: 53px; width: 227px;">
-														     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
-															     <c:forEach var="regions" items="${regions}">
-															    	<option value="${regions.name}">${regions.name}</option>
-															 	 </c:forEach>
+																<select name="vendorProfileFreshness" id="vendorProfileFreshness" style="height: 53px; width: 227px;">
+														     	<option value ="" class="selectvalues"> -SELECT- </option>
+															     		<option>today</option>
+																	     <option>Last one week</option>
+																	     <option>Last one month</option>
+																	     <option>Last one year</option>
 														 		</select> 
-														 		<div class="selectOptions">Choose one or more options</div>
 															</div>
 														</div>
 														<div class="control-grouptrading">
 															<label class="control-labelappstra">Coverage Region</label>
 														<div class="controls" style="margin-left: 175px;">
-															<select name="datacoverageregion" multiple="multiple" id="datacoverageregion" style="height: 53px; width: 227px;">
-														     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+															<select name="datacoverageregion" id="datacoverageregion" style="height: 53px; width: 227px;">
+														     	<option value ="" class="selectvalues"> -SELECT- </option>
 															     <c:forEach var="regions" items="${regions}">
 															    	<option value="${regions.name}">${regions.name}</option>
 															 	 </c:forEach>
 														 	</select> 
-														 	<div class="selectOptions">Choose one or more options</div>
 														</div>
 													</div>
 													<div class="control-grouptrading">
@@ -527,8 +517,12 @@
 														<div class="control-grouptrading">
 															<label class="control-labelappstra">Vendor Support Coverage Time</label>
 															<div class="controls" style="margin-left: 175px;">
-																<select name="datacoverageregion" multiple="multiple" id="datacoverageregion" style="height: 53px; width: 227px;">
-														     	<option value ="-SELECT-" class="selectvalues"> -SELECT- </option>
+																<select name="datacoverageregion" id="datacoverageregion" style="height: 53px; width: 227px;">
+														     	<option value ="" class="selectvalues"> -SELECT- </option>
+														     	<c:forEach var="supports" items="${supports}">
+							    								<option value="${supports.support_id}">${supports.name}</option>
+							 									</c:forEach>
+														     	
 															     </select> 
 														 		<div class="selectOptions">Choose one or more options</div>
 															</div>
