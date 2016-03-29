@@ -210,6 +210,7 @@ public class VendorController {
 			modelAndView.addObject("awards", awards);
 			//modelAndView.addObject("myofferingstab", "myofferings");
 			modelAndView.addObject("myprofiletab", "myprofile");
+			modelAndView.addObject("breadcrum", RequestConstans.Vendor.VENDOR_MY_OFFERINGS);
 			modelAndView.addObject("username", username);
 		}catch (Exception exp) {
 			exp.printStackTrace();
@@ -278,6 +279,7 @@ public class VendorController {
 			modelAndView.addObject("awards", awards);
 			//modelAndView.addObject("myofferingstab", "myofferings");
 			modelAndView.addObject("myprofiletab", "myprofile");
+			modelAndView.addObject("breadcrum", RequestConstans.Vendor.VENDOR_SOLUTION);
 			modelAndView.addObject("username", username);
 		}catch (Exception exp) {
 			logger.error("VendorController : vendorMyOfferings - Error reading details", exp);
@@ -880,7 +882,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	   public @ResponseBody String upload(MultipartHttpServletRequest request, HttpServletResponse response,@ModelAttribute("vendor") Vendor vendor) {                 
 	  	 
 	  	 Iterator<String> itr =  request.getFileNames();
-	  	User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	  	 User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		 MultipartFile mpf = request.getFile(itr.next());
 	  	 System.out.println(mpf.getOriginalFilename() +" uploaded!");
 			FileDetails ufile = new FileDetails();
@@ -928,27 +930,6 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	  }
 	  		
   
-	  
-	  @RequestMapping(value ="testFile", method = RequestMethod.GET)
-		public ModelAndView testFile() {
-			ModelAndView modelAndView = new ModelAndView("testFile");
-			
-           try{
-        	User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        	
-			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			  Set<VendorOffering> listOfferings = marketDataAggregatorsService.listOfferings(vendor.getId());
-			modelAndView.addObject("listOfferings",listOfferings);
-			
-           }catch(Exception e){
-        	   e.printStackTrace();
-        	   
-           }
-			
-			System.out.println("test file.... ");
-			return modelAndView;
-		}
-
 	  @RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_PERSONAL_INFO_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorPersonalTabInfo(@ModelAttribute("vendor") Vendor vendor,
 			@RequestParam(value = "venFirstname", required = false) String venFirstname,
@@ -1372,8 +1353,6 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	     return jsonResponseDataSet;
 	}
 	
-	
-	
 	@SuppressWarnings("unused")
 	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_TRADINGSOFTWAREDETAILS, method = RequestMethod.GET)
 	public @ResponseBody Set<VendorTradingSoftwareDetailsForm> addTradingSoftwareDetails(@ModelAttribute("vendorTradingSoftwareDetailsForm") VendorTradingSoftwareDetailsForm vendorTradingSoftwareDetailsForm ) {
@@ -1388,10 +1367,16 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			if(vendorTradingSoftwareDetailsForm.getSolution() != null){
 				VendorTradingSoftwareDetails insertDataToModel = vendorTradingSoftwareDetailsForm.insertDataToModel(vendorTradingSoftwareDetailsForm);
 				insertDataToModel.setVendor(vendor);
-				AssetClass assetClass = marketDataAggregatorsService.getAssetClassByName(vendorTradingSoftwareDetailsForm.getAssetClass());
-				insertDataToModel.setAssetClass(assetClass);
+				String assetClass2 = vendorTradingSoftwareDetailsForm.getAssetClass();
+				if(vendorTradingSoftwareDetailsForm.getAssetClass() != null){
+					String[] split = assetClass2.split("-");
+					AssetClass assetClass = marketDataAggregatorsService.getAssetClassByName(split[0]);
+					insertDataToModel.setAssetClass(assetClass);
+					insertDataToModel.setSecurityName(split[1]);
+				}
 			Solutions solutionsInfo = vendorService.getSolutionsInfo(vendorTradingSoftwareDetailsForm.getSolution());
 			insertDataToModel.setSolution(solutionsInfo);
+			
 			vendorService.addTradingSoftwareDetails(insertDataToModel);
 			}
 			List<VendorTradingSoftwareDetails> listTradingSoftwareDetails = vendorService.listTradingSoftwareDetails(vendor.getId());
