@@ -31,10 +31,10 @@ public class VendorSupport implements Serializable{
 	@GeneratedValue
     private Integer vs_id;
 
-	//@OneToOne(mappedBy="vendorSupport", cascade={CascadeType.ALL})
+	@OneToOne
+	@JoinColumn(name="id")
 	private Vendor vendor;
-	
-	
+
 	@ManyToOne(targetEntity=VendorSolution.class,fetch=FetchType.LAZY)
 	@JoinColumn(name="vendor_solution_id")
 	private VendorSolution vendorSolution;
