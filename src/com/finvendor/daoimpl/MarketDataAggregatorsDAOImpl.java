@@ -854,7 +854,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 			query.append(" FROM vendor_datacoverage dc");
 			query.append(" inner join vendor v on dc.vendor_id = v.vendor_id");
 			query.append(" inner join vendor_offering vo on dc.vendor_offering_id = vo.vendor_offering_id");
-			query.append(" inner join offeringfiles of on of.vendor_offering_id = vo.vendor_offering_id");
+			query.append(" inner join OfferingFiles of on of.vendor_offering_id = vo.vendor_offering_id");
 			query.append(" inner join vendor_distribution vd on vd.solution_id = vd.solution_id");
 			query.append(" inner join asset_class ac on ac.asset_class_id = vo.asset_class_id");
 			query.append(" where ac.description in ('"+assetClass+"')");
@@ -994,7 +994,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 			StringBuffer query = new StringBuffer();
 			query.append("SELECT v.fname,va.analyticssolutionsType,va.suitability,va.accessibility,c.name,r.name");
 			query.append(" FROM vendor v");
-			query.append(" inner join vendor_analyticssoftwaredetails va on va.vendor_id = v.vendor_id");
+			query.append(" inner join vendor_AnalyticsSoftwareDetails va on va.vendor_id = v.vendor_id");
 			query.append(" inner join country c on c.country_id = v.countryofincorp");
 			query.append(" inner join region r on r.region_id = v.regionofincorp");
 			
@@ -1083,22 +1083,14 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		String assetClasses = (String)searchData.get("assetClassChk");
 		String[] assetClassList = assetClasses.split(",");
 		LinkedHashMap<String, List<ResearchReportProvidersVendorSearchForm>> searchResults = new LinkedHashMap<String,List<ResearchReportProvidersVendorSearchForm>>();
-		/*
-		SELECT v.fname,c.name,r.name
-		FROM vendor v
-		inner join vendor_researchcoverage vr on vr.vendor_id = v.vendor_id
-		inner join vendor_researchdetails vrd on vrd.vendor_id = v.vendor_id
-		inner join vendor_analystprofile va on va.vendor_id = v.vendor_id
-		inner join country c on c.country_id = v.countryofincorp
-		inner join region r on r.region_id = v.regionofincorp
-		*/
+
 		for(String assetClass : assetClassList){
 			StringBuffer query = new StringBuffer();
 			query.append("SELECT v.fname,vr.ResearchArea,va.AnalystAwards,va.AnalystName, c.name,r.name as region");
 			query.append(" FROM vendor v");
-			query.append(" inner join vendor_researchcoverage vr on vr.vendor_id = v.vendor_id");
-			query.append(" inner join vendor_researchdetails vrd on vrd.vendor_id = v.vendor_id");
-			query.append(" inner join vendor_analystprofile va on va.vendor_id = v.vendor_id");
+			query.append(" inner join vendor_ResearchCoverage vr on vr.vendor_id = v.vendor_id");
+			query.append(" inner join vendor_ResearchDetails vrd on vrd.vendor_id = v.vendor_id");
+			query.append(" inner join vendor_AnalystProfile va on va.vendor_id = v.vendor_id");
 			query.append(" inner join country c on c.country_id = v.countryofincorp");
 			query.append(" inner join region r on r.region_id = v.regionofincorp");
 			query.append(" where vr.ResearchArea in ('"+assetClass+"')");
@@ -1186,20 +1178,13 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	String assetClasses = (String)searchData.get("assetClassChk");
 	String[] assetClassList = assetClasses.split(",");
 	LinkedHashMap<String, List<TradingApplicationVendorSearchForm>> searchResults = new LinkedHashMap<String,List<TradingApplicationVendorSearchForm>>();
-	/*
-	SELECT v.fname,c.name,r.name
-	FROM vendor v
-	inner join vendor_tradingsoftwaredetails vtsd on vtsd.vendor_id = v.vendor_id
-	inner join vendor_tradingcapabilitiesupported vtcs on vtcs.vendor_id = v.vendor_id
-	inner join country c on c.country_id = v.countryofincorp
-	inner join region r on r.region_id = v.regionofincorp
-	*/
+	
 	for(String assetClass : assetClassList){
 		StringBuffer query = new StringBuffer();
 		query.append("SELECT v.fname,a.description,vtsd.accessibility,vtsd.suitability,vtsd.orderType,c.name,r.name as region");
 		query.append(" FROM vendor v");
-		query.append(" inner join vendor_tradingsoftwaredetails vtsd on vtsd.vendor_id = v.vendor_id");
-		query.append(" inner join vendor_tradingcapabilitiesupported vtcs on vtcs.vendor_id = v.vendor_id");
+		query.append(" inner join vendor_TradingSoftwareDetails vtsd on vtsd.vendor_id = v.vendor_id");
+		query.append(" inner join vendor_TradingCapabilitieSupported vtcs on vtcs.vendor_id = v.vendor_id");
 		query.append(" inner join country c on c.country_id = v.countryofincorp");
 		query.append(" inner join region r on r.region_id = v.regionofincorp");
 		query.append(" inner join asset_class a on a.asset_class_id = vtsd.asset_class_id");

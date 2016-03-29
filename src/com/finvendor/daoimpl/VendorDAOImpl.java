@@ -4,8 +4,6 @@
 package com.finvendor.daoimpl;
 
 import java.io.Serializable;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -888,16 +886,20 @@ public class VendorDAOImpl implements VendorDAO{
 	@Transactional
 	@Override
 	public Object updateVendorLogo(FileDetails ufile, String username) {
+		try{
 		Session currentSession = sessionFactory.getCurrentSession();
-		Criteria criteria = currentSession.createCriteria(Vendor.class);
-		criteria.add(Restrictions.sqlRestriction("firstName like '"+ username+"'"));
+		Criteria criteria = currentSession.createCriteria(Vendor.class,"v");
+		criteria.add(Restrictions.sqlRestriction("{alias}.username = '"+ username+"'"));
 		Vendor vendor =(Vendor)criteria.uniqueResult();
 		if(vendor != null){
-			vendor.setLogoType(vendor.getLogoType());
-			vendor.setLogoName(vendor.getLogoName());
-			vendor.setLogoLength(vendor.getLogoLength());
-			vendor.setLogoBytes(vendor.getLogoBytes());
+			vendor.setLogoType(ufile.getType());
+			vendor.setLogoName(ufile.getName());
+			vendor.setLogoLength(ufile.getLength());
+			vendor.setLogoBytes(ufile.getBlob());
 			currentSession.update(vendor);
+		}
+		}catch(Exception e){
+			
 		}
 		return null;
 	}
