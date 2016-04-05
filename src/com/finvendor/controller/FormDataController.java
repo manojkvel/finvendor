@@ -25,6 +25,7 @@ public class FormDataController {
 	@Resource(name="referenceDataService")
 	private ReferenceDataService referenceDataService;
 	
+	/*
 	@RequestMapping(value="loadSecurityTypesForAssetClass", method = RequestMethod.POST)
 	public String loadSecurityTypesForAssetClass(
 			HttpServletRequest request, HttpServletResponse response,
@@ -52,6 +53,46 @@ public class FormDataController {
 		}
 		logger.debug("Leaving - FormDataController : loadSecurityTypesForAssetClass for assetClass Id {}", 
 				assetClassId);
+		return null;
+	}
+	*/
+	
+	@RequestMapping(value="loadFormReferenceDataForSelect", method = RequestMethod.POST)
+	public String loadFormReferenceDataForSelect(
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "selectedElement", required = true) int selectedElement,
+			@RequestParam(value = "selectedValue", required = false) String selectedValue,
+			@RequestParam(value = "methodName", required = true) String methodName) {
+		logger.info("Entering - FormDataController : loadFormReferenceDataForSelect for method {}", 
+				methodName);
+		StringBuilder refrerenceDataOptions = new StringBuilder(50);
+		try{
+			switch(methodName) {
+				case "loadSecurityTypesForAssetClass" :
+					List<SecurityType> securityTypeList = null;
+					securityTypeList = referenceDataService.
+							getSecurityTypesForAssetClassId(selectedElement);
+					for(SecurityType secType : securityTypeList) {
+						refrerenceDataOptions.append("<option value='");
+						refrerenceDataOptions.append(secType.getSecurityTypeId());
+						refrerenceDataOptions.append("'>");
+						refrerenceDataOptions.append(secType.getName());
+						refrerenceDataOptions.append("</option>");
+					}
+					break;
+				default :
+					logger.error("Wrong methodName in loadFormReferenceDataForSelect : {}", 
+							methodName);
+			}
+			response.getWriter().print(refrerenceDataOptions.toString());
+		}catch (Exception exp) {
+			logger.error("Error loading Reference data for {}",
+					methodName, exp);
+			return null;
+			
+		}		
+		logger.debug("Leaving - FormDataController : loadFormReferenceDataForSelect for method {}", 
+				methodName);
 		return null;
 	}
 }

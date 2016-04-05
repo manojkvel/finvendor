@@ -16,6 +16,7 @@ function updateAjax(element, ajaxUrl, errorLabelId) {
 	});
 }
 
+/*
 function loadSecurityTypesForAssetClass(assetClassId, securityTypeElementId, errorLabelId, selectedValue) {
 	var url = "loadSecurityTypesForAssetClass";
 	$.ajax({
@@ -30,6 +31,27 @@ function loadSecurityTypesForAssetClass(assetClassId, securityTypeElementId, err
 		},
 		error : function(data, textStatus, jqXHR){
 			document.getElementById(errorLabelId).innerHTML = 'Error loading Security Types';	
+		}
+	});
+}
+*/
+
+function loadFormReferenceDataForSelect(methodName, selectedElement, targetElementId, errorLabelId, selectedValue) {
+	var url = 'loadFormReferenceDataForSelect';
+	$.ajax({
+		type: 'POST',
+		url:  url,
+		data:{
+			methodName: methodName,
+			selectedElement:selectedElement,
+			selectedValue:selectedValue
+		},	
+		cache:false,
+		success : function(output){
+			document.getElementById(targetElementId).innerHTML = output;		
+		},
+		error : function(data, textStatus, jqXHR){
+			document.getElementById(errorLabelId).innerHTML = 'Error loading Reference Data';	
 		}
 	});
 }

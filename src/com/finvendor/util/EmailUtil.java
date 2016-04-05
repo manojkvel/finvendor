@@ -70,6 +70,9 @@ public class EmailUtil {
 		StringBuilder content = new StringBuilder();
 		content.append("FinVendor Sales Team, \n");
 		content.append("Please note that " + user.getUserName() + " (" +  user.getEmail()+ ") " + notificationMessage);
+		content.append("\n Account Details :\n");
+		content.append("Account Type :" + user.getUserRoles());
+		content.append("\nCompany Name :" + ((user.getVendor() != null) ? user.getVendor().getCompany() : user.getConsumer().getCompany()));
 		message.setText(content.toString());
 		Transport.send(message);
 		logger.debug("Leaving EmailUtil:sendNotificationEmail for {}", notificationType);

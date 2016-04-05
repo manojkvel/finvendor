@@ -35,6 +35,7 @@ import com.finvendor.model.TableColumn;
 import com.finvendor.service.AdminService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
+import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 
@@ -255,8 +256,14 @@ public class AdminController {
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Admin.ADMIN_USER_SUMMARY_PROFILE);
 		modelAndView.addObject("requestType", "adminUserSummaryProfile");
 		try {
+			Country country = null;
 			FinVendorUser user = userService.getUserDetailsByUsername(userName);
-			Country country = vendorService.getCountryById(user.getVendor().getCountryofincorp());
+			if(user.getVendor() != null) {
+				country = vendorService.getCountryById(user.getVendor().getCountryofincorp());
+				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
+			}else {
+				country = vendorService.getCountryById(user.getConsumer().getCountryOfIncorporation() + "");
+			}
 			modelAndView.addObject("user", user);
 			modelAndView.addObject("country", country);
 		} catch(ApplicationException exp){

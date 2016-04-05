@@ -1,29 +1,10 @@
 <!DOCTYPE html>
-<%@page import="com.finvendor.util.RequestConstans"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <head>
    	<title>FinVendor - Consumer Dashboard</title>
    	<script src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
    	<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
 </head>
-<%--
-<c:set var="companydetails" value="<%=RequestConstans.Consumer.COMPANYDETAILS %>"></c:set>
-<c:set var="mybusinessneeds" value="<%=RequestConstans.Consumer.MY_BUSINESS_NEEDS %>"></c:set>
-<c:set var="marketdataneeds" value="<%=RequestConstans.Consumer.MARKET_DATA_NEEDS %>"></c:set>
-<c:set var="tradingapplicationneeds" value="<%=RequestConstans.Consumer.TRADING_APPLICATION_NEEDS %>"></c:set>
-<c:set var="analyticsapplicationneeds" value="<%=RequestConstans.Consumer.ANALYTICS_APPLICATION_NEEDS %>"></c:set>
-<c:set var="researchreportneeds" value="<%=RequestConstans.Consumer.RESEARCH_REPORT_NEEDS %>"></c:set>
-<c:set var="myvendorpreference" value="<%=RequestConstans.Consumer.MYVENDORPREFERENCE %>"></c:set>
-<c:set var="mypreferencemarketdataneeds" value="<%=RequestConstans.Consumer.MY_PREFERENCE_MARKET_DATA_NEEDS %>"></c:set>
-<c:set var="mypreferencetradingapplicationneeds" value="<%=RequestConstans.Consumer.MY_PREFERENCE_TRADING_APPLICATION_NEEDS %>"></c:set>
-<c:set var="mypreferenceanalyticsapplicationneeds" value="<%=RequestConstans.Consumer.MY_PREFERENCE_ANALYTICS_APPLICATION_NEEDS %>"></c:set>
-<c:set var="mypreferenceresearchreportneeds" value="<%=RequestConstans.Consumer.MY_PREFERENCE_RESEARCH_REPORT_NEEDS %>"></c:set>
-<c:set var="costpreference" value="<%=RequestConstans.Consumer.DATADELIVERY_COSTPREFERENCE %>"></c:set>
-<c:set var="costpreferencemarketdataneeds" value="<%=RequestConstans.Consumer.COST_PREFERENCE_MARKET_DATA_NEEDS %>"></c:set>
-<c:set var="costpreferenceapplicationneeds" value="<%=RequestConstans.Consumer.COST_PREFERENCE_TRADING_APPLICATION_NEEDS %>"></c:set>
-<c:set var="costpreferenceanalyticsapplicationneeds" value="<%=RequestConstans.Consumer.COST_PREFERENCE_ANALYTICS_APPLICATION_NEEDS %>"></c:set>
-<c:set var="costpreferencesearchreportneeds" value="<%=RequestConstans.Consumer.COST_PREFERENCE_RESEARCH_REPORT_NEEDS %>"></c:set>
---%>
 <body>
 	<jsp:include page="common/header.jsp"></jsp:include>	
 	<div class="container">  
@@ -256,7 +237,7 @@
 														</div>
 														<div><br/></div>
 														<div class="form-actions clearfix">
-															<div class="se">
+															<div class="se" align="center">
 																<input type="submit" value="Update" class="btn" onclick="if(!validateSpanElements('consumerProfileCompanyDetailsSpan')) return false"/>
 																<%--<input type="reset" value="Reset" class="btn"/>
 																<a href="#consumerProfileMyBusinessNeedsTab" class="btn button-next" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${mybusinessneeds}');">Continue</a>
@@ -338,8 +319,11 @@
 																	<label class="control-labelalign">Asset Class<span class="required">*</span></label>
 																	<div class="controls">
 																		<select name="consumerProfileMyBusinessNeedsMarketDataAssetClass" 
-																				onchange="loadSecurityTypesForAssetClass(this.value, 'consumerProfileMyBusinessNeedsMarketDataSecurityType', 
-																					'consumerProfileMyBusinessNeedsMarketDataSecurityTypeErrorMsg', this.options[this.selectedIndex].text)" 
+																				<%--onchange="loadSecurityTypesForAssetClass(this.value, 'consumerProfileMyBusinessNeedsMarketDataSecurityType', 
+																					'consumerProfileMyBusinessNeedsMarketDataSecurityTypeErrorMsg', this.options[this.selectedIndex].text)"
+																				--%>
+																				onchange="loadFormReferenceDataForSelect('loadSecurityTypesForAssetClass', this.value, 'consumerProfileMyBusinessNeedsMarketDataSecurityType', 
+																					'consumerProfileMyBusinessNeedsMarketDataSecurityTypeErrorMsg', this.options[this.selectedIndex].text)"	 
 																				data-mandatory="Y" id="consumerProfileMyBusinessNeedsMarketDataAssetClass">
 																		    <c:forEach var="assetClass" items="${assetClasses}">
 																		    	<option value="${assetClass.asset_class_id}">${assetClass.description}</option>
@@ -369,7 +353,9 @@
 																<div class="control-group">
 																	<label class="control-labelalign">Data Coverage Region<span class="required">*</span></label>
 																	<div class="controls">
-																		<select name="consumerProfileMyBusinessNeedsMarketDataDataCoverageRegion" 
+																		<select name="consumerProfileMyBusinessNeedsMarketDataDataCoverageRegion"
+																				onchange="loadCountryForRegion(this.value, 'consumerProfileMyBusinessNeedsMarketDataDataCoverageCountry', 
+																					'consumerProfileMyBusinessNeedsMarketDataDataCoverageCountryErrorMsg', this.options[this.selectedIndex].text)" 
 																				data-mandatory="Y" id="consumerProfileMyBusinessNeedsMarketDataDataCoverageRegion">
 																	     	 <c:forEach var="regions" items="${regions}">
 																		    	<option value="${regions.name}">${regions.name}</option>
@@ -466,7 +452,7 @@
 													</div>
 													<div><br/></div>
 													<div class="form-actions clearfix">
-														<div class="se">
+														<div class="se" align="center">
 														<%-- 
 														<a  href="#tab1" class="btn button-previous" data-toggle="tab" class="step" onclick="consumerMyProfileActiveMode('${companydetails}');">Back</a>					
 														<input type="reset" value="Reset" class="btn" />
@@ -484,32 +470,29 @@
 													<div class="tab-pane" id="consumerProfileMyBusinessNeedsTradingPlatformTab">
 												</c:otherwise>
 											</c:choose>
-												<div class="Rowtableinfoval">
-													<div class="ColumnCommon"> 
-														<label class="control-label-fileupload">File Upload consumerProfileMyBusinessNeedsTradingPlatformTab(excel or csv)<span class="required">*</span></label>
-														<div class="controlsfileupload">
-															 <input type="text" id="orgname" value="C:\ConsumerUpload\MyDatapreference_FV.CSV" class="m-wrap largefileuploadreadonly" readonly="readonly"  /> 
-														</div>
-														<div class="controlsfileuploadreadonly">
-															 <input type="file" id="consumerfileUpload" placeholder="Company Logo" name="fileUpload" class="m-wrap largefileupload" style="margin: -47px 0px 3px 503px;"/>
-														</div>
-													</div>
-													<div class="ColumnCommonray">
-														<a class="consumerfileupload"> <span class="lable_header_add">Upload</span></a>
-													</div>
+												<div class="Rowtableinfoval" align="right">
+													<label class="control-label">Bulk Upload(excel or csv)<span class="required">*</span></label>
+													<input type="file" id="consumerProfileMyBusinessNeedsTradingPlatformBulkUploadFile" name="consumerProfileMyBusinessNeedsTradingPlatformBulkUploadFile" 
+														class="m-wrap largefileuploadcons"/>
+													<button>Upload</button>
 												</div>
-												<div><br/> </div>												
+												<div><br/></div>												
 												<div class="Row">
 													<div class="ColumnCommonvenconsapplication">
 														<div class="control-group">
-															<label class="control-label">Trade Asset Class<span class="required">*</span></label>
+															<label class="control-labelalign">Asset Class Supported<span class="required">*</span></label>
 															<div class="controls">
-																<select name="tradeassetclass"  id="tradeassetclass">
-																     <option value ="-SELECT-"> -SELECT- </option>
-																     <c:forEach var="assetClasses" items="${assetClasses}">
-																    	<option value="${assetClasses.description}">${assetClasses.description}</option>
+																<select name="consumerProfileMyBusinessNeedsTradingPlatformAssetClass" 
+																		onchange="loadSecurityTypesForAssetClass(this.value, 'consumerProfileMyBusinessNeedsTradingPlatformSecurityType', 
+																			'consumerProfileMyBusinessNeedsTradingPlatformSecurityTypeErrorMsg', this.options[this.selectedIndex].text)" 
+																		data-mandatory="Y" id="consumerProfileMyBusinessNeedsTradingPlatformAssetClass">
+																    <c:forEach var="assetClass" items="${assetClasses}">
+																    	<option value="${assetClass.asset_class_id}">${assetClass.description}</option>
 																 	 </c:forEach>
 																 </select>
+																 <div>
+																	<label id="consumerProfileMyBusinessNeedsTradingPlatformAssetClassErrorMsg" class="errorMessage"></label>
+																</div>
 															</div>
 														</div>
 														<div class="control-group">
@@ -1640,18 +1623,6 @@
 		</div>
 	</div>
 	<jsp:include page="common/footer.jsp"></jsp:include>
-	<%--
-	<script type="text/javascript">
-		window.onload = function(){
-			var companyDetails= '<%=RequestConstans.Consumer.COMPANYDETAILS %>';
-			if(companyDetails != null && companyDetails.length > 0 && companyDetails.match("companydetails")){
-				document.getElementById('columnconsumer1').style.backgroundColor = '#5CE5E5';
-				document.getElementById('headerconsumer1').style.backgroundColor = '#5CE5E5';  
-				document.getElementById('anchortagconsumer1').style.backgroundColor = '#5CE5E5';
-			}
-		};
-	</script>
-	--%>	
 	<c:if test="${lastActionStatus != null}">
 		<script>alert('${lastActionStatus}')</script>
 	</c:if>

@@ -85,6 +85,9 @@ public class ConsumerController implements HandlerExceptionResolver {
 		List<Country> countries = null;
 		List<CompanySubType> companySubTypeList = null;
 		List<SecurityType> securityTypeList = null;
+		List<AssetClass> assetClasses = null;
+		List<Region> regions = null;
+		List<Exchange> exchanges = null;
 		String username = null;
 		ModelAndView modelAndView = new ModelAndView(
 				RequestConstans.Login.CONSUMER_INFO); 
@@ -115,9 +118,15 @@ public class ConsumerController implements HandlerExceptionResolver {
 			user.setConsumer(consumer);
 			consumerService.updateConsumerDetails(consumer);
 			CommonUtils.populateConsumerProfileRequest(consumer, consumerService, modelAndView);
+			assetClasses = marketDataAggregatorsService.getAllAssetClass();
+			regions = marketDataAggregatorsService.getAllRegionClass();
+			exchanges = marketDataAggregatorsService.getAllExchanges();
 			countries = marketDataAggregatorsService.getAllCountries();
 			companySubTypeList = marketDataAggregatorsService.getCompanySubTypeList();
 			securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(1);
+			modelAndView.addObject("assetClasses", assetClasses);
+			modelAndView.addObject("regions", regions);
+			modelAndView.addObject("exchanges", exchanges);
 			modelAndView.addObject("consumer", consumer);
 			modelAndView.addObject("countries", countries);
 			modelAndView.addObject("companySubType", companySubTypeList);
