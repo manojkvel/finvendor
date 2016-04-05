@@ -475,7 +475,9 @@
 												<!-- My RFP start -->
 
 												<div class="tab-pane" id="tab5">
-												Coming Soon
+												<div class="clearfix">
+													<h1>Coming Soon..<h1>
+												</div>
 												<%--
 													<div class="tab-content">
 
