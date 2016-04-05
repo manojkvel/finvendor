@@ -475,7 +475,8 @@
 												<!-- My RFP start -->
 
 												<div class="tab-pane" id="tab5">
-
+												Coming Soon
+												<%--
 													<div class="tab-content">
 
 														<div class="tab-pane active" id="tab8">
@@ -1153,7 +1154,7 @@
 
 													</div>
 
-
+												--%>
 
 												</div>
 												<!-- My RFP  ENds-->
