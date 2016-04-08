@@ -95,7 +95,7 @@
 				</form>
 				--%>
 				<ul class="sf-menu" id="example">
-					<li><a href="#" onclick="homePage();"><i class="fa fa-home"></i></a></li>
+					<li><a href="#" onclick="homePage();"><img src="${pageContext.request.contextPath}/resources/images/hm.png" class="fa fa-home"></img></a></li>
 					<c:if test="${sessionScope.loggedInUser != null}">
 						<li><a href="${pageContext.request.contextPath}/welcometodashboards">My Home</a></li>
 					</c:if>

@@ -101,7 +101,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 		<div class="container">
 			<div class="nav-srch-cnt">
 				<ul class="sf-menu" id="example">
-					<li><a href="#" onclick="homePage();"><i class="fa fa-home"></i></a></li>
+					<li><a href="#" onclick="homePage();"><img src="${pageContext.request.contextPath}/resources/images/hm.png" class="fa fa-home"></img></a></li>
 					<%-- <li><a href="${pageContext.request.contextPath}/view/index.jsp?RaYUnA=${l:encrypt(username)}" style="padding: 6px 2px; font-size: 11px;">My Home</a></li> --%>
 					<li><a href="#">SOLUTIONS</a>
 						<ul>
