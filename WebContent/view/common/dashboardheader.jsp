@@ -218,8 +218,8 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}" id="myProfile" onclick="changeTabMode(this)" >My Profile</a></li>
 						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SOLUTION%>?RaYUnA=${l:encrypt(username)}" id="solution" onclick="changeTabMode(this)" >Solution</a></li>
 						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}" id="myOfferings" onclick="changeTabMode(this)">My Offerings</a></li>
-						<li><a class="#" href="#" id="myStats" onclick="changeTabMode(this)" >My Stats</a></li>
-						<li><a class="#" href="#" id="myBlog" onclick="changeTabMode(this)">My Blog</a></li>
+						<li><a class="#" href="${pageContext.request.contextPath}/vendorMyStats" id="myStats" onclick="changeTabMode(this)" >My Stats</a></li>
+						<li><a class="#" href="${pageContext.request.contextPath}/vendorMyBlogs" id="myBlog" onclick="changeTabMode(this)">My Blog</a></li>
 					</c:if>
 					<c:if test="${not empty myofferingstab }">
 						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>

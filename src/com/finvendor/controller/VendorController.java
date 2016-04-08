@@ -88,6 +88,98 @@ public class VendorController {
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
 	
+	@RequestMapping(value="vendorMyStats", method=RequestMethod.GET)
+	public ModelAndView vendorMyStats(HttpServletRequest request) {		
+		logger.debug("Entering VendorController : vendorMyStats");
+		ModelAndView modelAndView = new ModelAndView("vendorMyStats");
+		List<AssetClass> assetClasses = null;
+		List<Region> regions = null;
+		List<Country> countries = null;
+		List<Exchange> exchanges = null;
+		List<Support> supports = null;
+		List<Cost> costs = null;
+		List<Awards> awards = null;
+		Vendor vendor = null;
+		logger.debug("Entering VendorController : vendorMyStats");
+		try{
+			assetClasses = marketDataAggregatorsService.getAllAssetClass();
+			regions = marketDataAggregatorsService.getAllRegionClass();
+			countries = marketDataAggregatorsService.getAllCountries();
+			exchanges = marketDataAggregatorsService.getAllExchanges();
+			supports =  marketDataAggregatorsService.getAllVendorSupports();
+			costs  = marketDataAggregatorsService.getAllCostInfo();
+			awards = marketDataAggregatorsService.getAllAwards();
+			User appUser = (User)SecurityContextHolder.getContext().
+					getAuthentication().getPrincipal();
+			String username = appUser.getUsername();
+			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
+			modelAndView.addObject("securityTypes",listSecurityType);
+			modelAndView.addObject("assetClasses", assetClasses);
+			modelAndView.addObject("regions", regions);
+			modelAndView.addObject("regionslist", regions);
+			modelAndView.addObject("countries", countries);
+			modelAndView.addObject("exchanges", exchanges);
+			modelAndView.addObject("supports", supports);
+			modelAndView.addObject("costs", costs);
+			modelAndView.addObject("awards", awards);
+			modelAndView.addObject("myprofiletab", "myprofile");
+			modelAndView.addObject("username", username);
+			modelAndView.addObject("vendor", vendor);
+			modelAndView.addObject("breadcrum", "My Stats");
+		}catch (Exception exp) {
+			exp.printStackTrace();
+			logger.error("VendorController : vendorMyStats - Error reading details", exp);
+		}
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="vendorMyBlogs", method=RequestMethod.GET)
+	public ModelAndView vendorMyBlogs(HttpServletRequest request) {		
+		logger.debug("Entering VendorController : vendorMyStats");
+		ModelAndView modelAndView = new ModelAndView("vendorMyBlog");
+		List<AssetClass> assetClasses = null;
+		List<Region> regions = null;
+		List<Country> countries = null;
+		List<Exchange> exchanges = null;
+		List<Support> supports = null;
+		List<Cost> costs = null;
+		List<Awards> awards = null;
+		Vendor vendor = null;
+		logger.debug("Entering VendorController : vendorMyBlogs");
+		try{
+			assetClasses = marketDataAggregatorsService.getAllAssetClass();
+			regions = marketDataAggregatorsService.getAllRegionClass();
+			countries = marketDataAggregatorsService.getAllCountries();
+			exchanges = marketDataAggregatorsService.getAllExchanges();
+			supports =  marketDataAggregatorsService.getAllVendorSupports();
+			costs  = marketDataAggregatorsService.getAllCostInfo();
+			awards = marketDataAggregatorsService.getAllAwards();
+			User appUser = (User)SecurityContextHolder.getContext().
+					getAuthentication().getPrincipal();
+			String username = appUser.getUsername();
+			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
+			modelAndView.addObject("securityTypes",listSecurityType);
+			modelAndView.addObject("assetClasses", assetClasses);
+			modelAndView.addObject("regions", regions);
+			modelAndView.addObject("regionslist", regions);
+			modelAndView.addObject("countries", countries);
+			modelAndView.addObject("exchanges", exchanges);
+			modelAndView.addObject("supports", supports);
+			modelAndView.addObject("costs", costs);
+			modelAndView.addObject("awards", awards);
+			modelAndView.addObject("myprofiletab", "myprofile");
+			modelAndView.addObject("username", username);
+			modelAndView.addObject("vendor", vendor);
+			modelAndView.addObject("breadcrum", "My Blogs");
+		}catch (Exception exp) {
+			exp.printStackTrace();
+			logger.error("VendorController : vendorMyBlogs - Error reading details", exp);
+		}
+		return modelAndView;
+	}
+	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_MY_PROFILE, method=RequestMethod.GET)
 	public ModelAndView vendorMyProfile(HttpServletRequest request,
 			@RequestParam(value = "RaYUnA", required = false) String username,

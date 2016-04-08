@@ -2407,13 +2407,13 @@ function changeTabMode(comp){
 		 $("#myStats").attr("class", "#");
 		 $("#myBlog").attr("class", "#");
 		 
-	 }else if(comppnentId === "myStats"){
+	 }else if(window.location.href.indexOf("vendorMyStats") != -1){
 		 $("#myStats").attr("class", "active");
 		 $("#solution").attr("class", "#");
 		 $("#myOfferings").attr("class", "#");
 		 $("#myProfile").attr("class", "#");
 		 $("#myBlog").attr("class", "#");
-	 }else if(comppnentId === "myBlog"){
+	 }else if(window.location.href.indexOf("vendorMyBlogs") != -1){
 		 $("#myBlog").attr("class", "active");
 		 $("#solution").attr("class", "#");
 		 $("#myOfferings").attr("class", "#");
