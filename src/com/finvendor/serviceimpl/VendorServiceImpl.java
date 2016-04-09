@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.dao.VendorDAO;
 import com.finvendor.form.FileDetails;
@@ -441,6 +442,7 @@ public class VendorServiceImpl implements VendorService{
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<Object[]> getMarketDataVendorOfferingsForProfile(String vendorId) {
 		return vendorDAO.getMarketDataVendorOfferingsForProfile(vendorId);
 	}
