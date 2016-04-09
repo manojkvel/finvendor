@@ -4,7 +4,7 @@
 <%@page import="com.finvendor.util.RequestConstans"%>
 <html>
 	<head>
-		<title>Authorization Error</title>
+		<title>Error</title>
 		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.bxslider.css"/>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/superfish.css"/>
@@ -16,6 +16,7 @@
 		</div>	
 		<div class="container">
 			<font color="red">${errorMessage}</font>
+			Exception is: <%= exception %>
 		</div>	
 		<jsp:include page="login.jsp"></jsp:include>	
 		<div class="container">
