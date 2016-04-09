@@ -82,7 +82,7 @@ public interface VendorDAO {
 	 * @return  
 	 * @see com.finvendor.dao.VendorDAO#getAssetClassDetails()
 	 */
-	AssetClass getAssetClassDetails(String asset_class);
+	//AssetClass getAssetClassDetails(String asset_class);
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -91,7 +91,7 @@ public interface VendorDAO {
 	 * @return  
 	 * @see com.finvendor.dao.VendorDAO#getSecurityTypes()
 	 */
-	SecurityType getSecurityTypes(String securities);
+	//SecurityType getSecurityTypes(String securities);
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -108,7 +108,7 @@ public interface VendorDAO {
 	 * @return  
 	 * @see com.finvendor.dao.VendorDAO#getRegionsByName()
 	 */
-	Region getRegionsByName(String regionsName);
+	//Region getRegionsByName(String regionsName);
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -117,7 +117,7 @@ public interface VendorDAO {
 	 * @return  
 	 * @see com.finvendor.dao.VendorDAO#getCountryByName()
 	 */
-	Country getCountryByName(String countryName);
+	//Country getCountryByName(String countryName);
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -126,7 +126,7 @@ public interface VendorDAO {
 	 * @return  
 	 * @see com.finvendor.dao.VendorDAO#getExchangesByName()
 	 */
-	Exchange getExchangesByName(String exchangeName);
+	//Exchange getExchangesByName(String exchangeName);
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -246,9 +246,9 @@ public interface VendorDAO {
 	List<VendorTradingSoftwareDetails> listTradingSoftwareDetailsBasedOnSolutionId(String solutionId);
 	
 	List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId);
-	public String getRegion(String country);
+	//public String getRegion(String country);
 
-	Country getCountryById(String countryId);
+	//Country getCountryById(String countryId);
 
 	List<VendorAwardsMap> listVendorAwardDetails(String id);
 
@@ -261,5 +261,7 @@ public interface VendorDAO {
 	Boolean isTradingSoftwareDetailsOfferingExist(String value);
 
 	Object updateVendorLogo(FileDetails ufile, String username);
+	
+	List<Object[]> getMarketDataVendorOfferingsForProfile(String vendorId);
 	
  }

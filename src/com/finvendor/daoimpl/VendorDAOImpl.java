@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.finvendor.daoimpl;
 
 import java.io.Serializable;
@@ -11,6 +8,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
@@ -45,26 +43,14 @@ import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 
-/**
- * @author rayulu vemula
- *
- */
 public class VendorDAOImpl implements VendorDAO{
 	
-	private static Logger logger = Logger.getLogger(VendorDAOImpl.class);
-	
+	private static Logger logger = Logger.getLogger(VendorDAOImpl.class);	
 	private static String recordExist = "Record Already Exist";
-	
-	
+		
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#saveVendorInfo(com.finvendor.model.Vendor)
-	 */
 	@Transactional
 	@Override
 	public void saveVendorInfo(Vendor vendor) {
@@ -77,12 +63,7 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		
 	}
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#getVendorInfoByEmail(com.finvendor.model.Vendor)
-	 */
+	
 	@Transactional
 	@Override
 	public Vendor getVendorInfoByEmail(String email) {
@@ -110,12 +91,6 @@ public class VendorDAOImpl implements VendorDAO{
 		return (Vendor)object;
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#updateVendorPersonalInfoTab(com.finvendor.model.Vendor)
-	 */
 	@Transactional
 	@Override
 	public void updateVendorPersonalInfoTab(Vendor vendor, String username) {
@@ -156,36 +131,7 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#getVendorDetails(com.finvendor.model.Vendor)
-	 */
-	/*
-	@Transactional
-	@Override
-	public Vendor getVendorDetails(String appUser) {
-		logger.info("getVendorDetails method---");
-		Vendor vendor=null; Criteria criteria=null;
-		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(Vendor.class);
-			criteria.add(Restrictions.sqlRestriction("lower(username) like '" + appUser.toLowerCase() + "'"));
-			vendor = (Vendor) criteria.uniqueResult();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			logger.error("Error in getVendorDetails---- " + ex);
-		}
-		return vendor;
-	}
-	*/
-	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#getVendorDetails(com.finvendor.model.AssetClass)
-	 */
+	/*-------------------------------------------------------------------
 	@Transactional
 	@Override
 	public AssetClass getAssetClassDetails(String asset_class) {
@@ -201,13 +147,9 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		return assetClass;
 	}
+	*/
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#getSecurityTypes(com.finvendor.model.SecurityType)
-	 */
+	/*---------------------------------------------------------------------------
 	@Transactional
 	@Override
 	public SecurityType getSecurityTypes(String securities) {
@@ -223,13 +165,8 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		return securityType;
 	}
+	*/
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#updateVendorOfferingDetails(com.finvendor.model.VendorOffering)
-	 */
 	@Transactional
 	@Override
 	public void updateVendorOfferingDetails(VendorOffering vendorOffering) {
@@ -242,12 +179,7 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#getRegionsByName(com.finvendor.model.Region)
-	 */
+	/*------------------------------------------------------------
 	@Transactional
 	@Override
 	public Region getRegionsByName(String regionsName) {
@@ -263,13 +195,9 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		return region;
 	}
+	*/
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#getCountryByName(com.finvendor.model.Country)
-	 */
+	/*--------------------------------------------------------------
 	@Transactional
 	@Override
 	public Country getCountryByName(String countryName) {
@@ -285,13 +213,9 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		return country;
 	}
+	*/
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#updateVendorOfferingDetails(com.finvendor.model.Exchange)
-	 */
+	/*-------------------------------------------------------------
 	@Transactional
 	@Override
 	public Exchange getExchangesByName(String exchangeName) {
@@ -307,12 +231,9 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		return exchange;
 	}
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#updateVendorRegionCountryExchangeInfos(com.finvendor.model.VendorRegionCountryExchangeMap)
-	 */
+	*/
+	
+	
 	@Transactional
 	@Override
 	public void updateVendorRegionCountryExchangeInfos(
@@ -325,12 +246,8 @@ public class VendorDAOImpl implements VendorDAO{
 			logger.error("Error in updateVendorRegionCountryExchangeInfos---- " + ex);
 		}
 	}
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#saveAwardDetails(com.finvendor.model.Awards)
-	 */
+	
+	
 	@SuppressWarnings("deprecation")
 	@Transactional
 	@Override
@@ -347,12 +264,6 @@ public class VendorDAOImpl implements VendorDAO{
 		return awardsDetails;
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#updateVendorAwardDetails(com.finvendor.model.VendorAwardsMap)
-	 */
 	@Transactional
 	@Override
 	public void updateVendorAwardDetails(VendorAwardsMap vendorAwardsMap) {
@@ -364,12 +275,8 @@ public class VendorDAOImpl implements VendorDAO{
 			logger.error("Error in updateVendorAwardDetails---- " + ex);
 		}
 	}
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#getCostInfo(com.finvendor.model.Cost)
-	 */
+	
+	
 	@Transactional
 	@Override
 	public Cost getCostInfo(String costNames) {
@@ -402,12 +309,6 @@ public class VendorDAOImpl implements VendorDAO{
 		return solutions;
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#updateVendorSolutionDetails(com.finvendor.model.VendorSolution)
-	 */
 	@SuppressWarnings("deprecation")
 	@Transactional
 	@Override
@@ -423,12 +324,7 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		return vendorSolutionDetails;
 	}
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#getSupportInfo(com.finvendor.model.Support)
-	 */
+	
 	@Transactional
 	@Override
 	public Support getSupportInfo(String supportname) {
@@ -444,12 +340,7 @@ public class VendorDAOImpl implements VendorDAO{
 		}
 		return support;
 	}
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.VendorDAOImpl#updateVendorSupportInfo(com.finvendor.model.VendorSupport)
-	 */
+	
 	@Transactional
 	@Override
 	public void updateVendorSupportInfo(VendorSupport vendorSupport) {
@@ -461,6 +352,7 @@ public class VendorDAOImpl implements VendorDAO{
 			logger.error("Error in updateVendorSupportInfo---- " + ex);
 		}	
 	}
+	
 	@Transactional
 	@Override
 	public List<VendorOffering> getVendorOfferingDetails(String id) {
@@ -479,6 +371,7 @@ public class VendorDAOImpl implements VendorDAO{
 		return new ArrayList<VendorOffering>(vendorOffering);
 		
 	}
+	
 	@Transactional
 	@Override
 	public List<Solutions> listVednorSolution(String id) {
@@ -487,6 +380,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Set<Solutions> solution = vendor.getSolution();
 		return new ArrayList<Solutions>(solution);
 	}
+	
 	@Transactional
 	@Override
 	public Solutions deleteVendorSolution(String id) {
@@ -497,6 +391,7 @@ public class VendorDAOImpl implements VendorDAO{
 		
 		return null;
 	}
+	
 	@Transactional
 	@Override
 	public SolutionTypes getSolutionTypes(String name) {
@@ -509,6 +404,7 @@ public class VendorDAOImpl implements VendorDAO{
 		 
 		return solutionTypes;
 	}
+	
 	@Transactional
 	@Override
 	public Solutions addSolutionsInfo(Solutions solutions) {
@@ -516,6 +412,7 @@ public class VendorDAOImpl implements VendorDAO{
 		currentSession.save(solutions);
 		return solutions;
 	}
+	
 	@Transactional
 	@Override
 	public List<Solutions> getSolutionsBasedOnOfferingTypes(SolutionTypes solutionTypes) {
@@ -552,6 +449,7 @@ public class VendorDAOImpl implements VendorDAO{
 		}   
 	         return null;  
 	}
+	
 	@Transactional
 	@Override
 	public List<VendorDataCoverage> listVendorDataCoverage(String id) {
@@ -562,6 +460,7 @@ public class VendorDAOImpl implements VendorDAO{
 		
 		return new ArrayList<VendorDataCoverage>(vendorDataCoverage);
 	}
+	
 	@Transactional
 	@Override
 	public String addVendorDistribution(VendorDistribution vendorDistribution) {
@@ -593,6 +492,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Set<VendorDistribution> vendorDistribution = vendor.getVendorDistribution();
 		return new ArrayList<VendorDistribution>(vendorDistribution);
 	}
+	
 	@Transactional
 	@Override
 	public void deleteVendorDataCoverage(String selectedId) {
@@ -601,6 +501,7 @@ public class VendorDAOImpl implements VendorDAO{
 		if(vendorDataCoverage != null)
 			currentSession.delete(vendorDataCoverage);
 	}
+	
 	@Transactional
 	@Override
 	public void deleteVendorDistribution(String selectedId) {
@@ -611,6 +512,7 @@ public class VendorDAOImpl implements VendorDAO{
 
 		
 	}
+	
 	@Transactional
 	@Override
 	public String addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported) {
@@ -624,6 +526,7 @@ public class VendorDAOImpl implements VendorDAO{
 	}
 		return null;
 	}
+	
 	@Transactional
 	@Override
 	public void addTradingSoftwareDetails(VendorTradingSoftwareDetails tradingSoftwareDetails) {
@@ -631,6 +534,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Session currentSession = sessionFactory.getCurrentSession(); 
 		currentSession.save(tradingSoftwareDetails);
 	}
+	
 	@Transactional
 	@Override
 	public void addAnalyticsfeaturesSupported(VendorAnalyticsfeaturesSupported analyticsfeaturesSupported) {
@@ -638,6 +542,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Session currentSession = sessionFactory.getCurrentSession(); 
 		currentSession.save(analyticsfeaturesSupported);
 	}
+	
 	@Transactional
 	@Override
 	public void addAnalyticsSoftwareDetails(VendorAnalyticsSoftwareDetails analyticsSoftwareDetails) {
@@ -645,6 +550,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Session currentSession = sessionFactory.getCurrentSession(); 
 		currentSession.save(analyticsSoftwareDetails);
 	}
+	
 	@Transactional
 	@Override
 	public void addResearchCoverage(VendorResearchCoverage researchCoverage) {
@@ -663,6 +569,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Session currentSession = sessionFactory.getCurrentSession(); 
 		currentSession.save(researchDetails);
 	}
+	
 	@Transactional
 	@Override
 	public void addAnalystProfile(VendorAnalystProfile analystProfile) {
@@ -670,6 +577,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Session currentSession = sessionFactory.getCurrentSession(); 
 		currentSession.save(analystProfile);
 	}
+	
 	@Transactional
 	@Override
 	public List<VendorTradingCapabilitiesSupported> listTradingCapabilitiesSupported(String objectId) {
@@ -678,6 +586,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Set<VendorTradingCapabilitiesSupported> vendorTradingCapabilitiesSupported = vendor.getVendorTradingCapabilitiesSupported();
 		return new ArrayList<VendorTradingCapabilitiesSupported>(vendorTradingCapabilitiesSupported);
 	}
+	
 	@Transactional
 	@Override
 	public List<VendorTradingSoftwareDetails> listTradingSoftwareDetails(String objectId) {
@@ -686,6 +595,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails = vendor.getVendorTradingSoftwareDetails();
 		return new ArrayList<VendorTradingSoftwareDetails>(vendorTradingSoftwareDetails);
 	}
+	
 	@Transactional
 	@Override
 	public List<VendorAnalyticsfeaturesSupported> listAnalyticsfeaturesSupported(String objectId) {
@@ -694,6 +604,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Set<VendorAnalyticsfeaturesSupported> vendorAnalyticsfeaturesSupported = vendor.getVendorAnalyticsfeaturesSupported();
 		return new ArrayList<VendorAnalyticsfeaturesSupported>(vendorAnalyticsfeaturesSupported);
 	}
+	
 	@Transactional
 	@Override
 	public List<VendorAnalyticsSoftwareDetails> listAnalyticsSoftwareDetails(String objectId) {
@@ -702,6 +613,7 @@ public class VendorDAOImpl implements VendorDAO{
 		Set<VendorAnalyticsSoftwareDetails> vendorAnalyticsSoftwareDetails = vendor.getVendorAnalyticsSoftwareDetails();
 		return new ArrayList<VendorAnalyticsSoftwareDetails>(vendorAnalyticsSoftwareDetails);
 	}
+	
 	@Transactional
 	@Override
 	public List<VendorResearchCoverage> listResearchCoverage(String objectId) {
@@ -819,6 +731,9 @@ public class VendorDAOImpl implements VendorDAO{
 		return new ArrayList<VendorResearchCoverage>(vendorResearchCoverage);
 	 
 	}
+	
+	
+	/*-------------------------------------------------------------------------
 	@Transactional
 	@Override
 	public String getRegion(String countryId) {
@@ -827,6 +742,9 @@ public class VendorDAOImpl implements VendorDAO{
 		Region region = country.getRegion();
 		return region.getName();
 	}
+	*/
+	
+	/*---------------------------------------------------------------------------------------------
 	@Transactional
 	@Override
 	public Country getCountryById(String countryId) {
@@ -834,6 +752,8 @@ public class VendorDAOImpl implements VendorDAO{
 		Country country = (Country)currentSession.get(Country.class, Integer.parseInt(countryId));
 		return country;
 	}
+	*/
+	
 	@Transactional
 	@Override
 	public List<VendorAwardsMap> listVendorAwardDetails(String id) {
@@ -902,5 +822,16 @@ public class VendorDAOImpl implements VendorDAO{
 			
 		}
 		return null;
+	}
+	
+	private final static String MARKET_DATA_VENDOR_OFFERINGS = "select asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR from vendor_offering off, vendor_datacoverage cov, asset_class asset where off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and off.vendor_id = :vendorId";
+	
+	@Override
+	public List<Object[]> getMarketDataVendorOfferingsForProfile(String vendorId) {
+		SQLQuery hibQuery = this.sessionFactory.getCurrentSession().createSQLQuery(MARKET_DATA_VENDOR_OFFERINGS);
+		hibQuery.setParameter("vendorId", vendorId);
+		@SuppressWarnings("unchecked")
+		List<Object[]> tableData = hibQuery.list();
+		return tableData;
 	}
 }

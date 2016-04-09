@@ -19,8 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +31,7 @@ import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.ReferenceData;
 import com.finvendor.model.TableColumn;
 import com.finvendor.service.AdminService;
+import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
@@ -50,6 +49,9 @@ public class AdminController {
 	
 	@Resource(name="vendorService")
 	private VendorService vendorService;
+	
+	@Resource(name="referenceDataService")
+	private ReferenceDataService referenceDataService;
 	
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;
@@ -255,17 +257,20 @@ public class AdminController {
 		logger.debug("Entering AdminController : adminUserSummaryProfile");
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Admin.ADMIN_USER_SUMMARY_PROFILE);
 		modelAndView.addObject("requestType", "adminUserSummaryProfile");
+		List<Object[]> marketDataOfferings = null;
 		try {
 			Country country = null;
 			FinVendorUser user = userService.getUserDetailsByUsername(userName);
 			if(user.getVendor() != null) {
-				country = vendorService.getCountryById(user.getVendor().getCountryofincorp());
+				country = referenceDataService.getCountryById(user.getVendor().getCountryofincorp());
 				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
+				marketDataOfferings = vendorService.getMarketDataVendorOfferingsForProfile(user.getVendor().getId());
+				modelAndView.addObject("marketDataOfferings", marketDataOfferings);
 			}else {
-				country = vendorService.getCountryById(user.getConsumer().getCountryOfIncorporation() + "");
+				country = referenceDataService.getCountryById(user.getConsumer().getCountryOfIncorporation() + "");
 			}
 			modelAndView.addObject("user", user);
-			modelAndView.addObject("country", country);
+			modelAndView.addObject("country", country);			
 		} catch(ApplicationException exp){
 			logger.error("Error Reading User Summary Profile", exp);
 			modelAndView.addObject("lastActionError", exp.getMessage());

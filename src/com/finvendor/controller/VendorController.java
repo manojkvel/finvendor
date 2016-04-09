@@ -67,6 +67,7 @@ import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 import com.finvendor.service.MarketDataAggregatorsService;
+import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
@@ -84,6 +85,9 @@ public class VendorController {
 	
 	@Resource(name="vendorService")
 	private VendorService vendorService;
+	
+	@Resource(name="referenceDataService")
+	private ReferenceDataService referenceDataService;
 	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
@@ -690,25 +694,29 @@ public class VendorController {
 			@RequestParam(value = "description", required = false) String description,
 			@RequestParam(value = "securityType", required = false) String securityType) {
 		
-		OfferingFiles offeringFiles = new OfferingFiles();
-		offeringFiles.setFileName(fileName);
-		offeringFiles.setDescription(description);
-		SecurityType securityTypes = vendorService.getSecurityTypes(securityType);
-		offeringFiles.setSecurityType(securityTypes);
-		marketDataAggregatorsService.addOfferingFiles(selectedId, offeringFiles);
-		
-		
-		Set<OfferingFiles> listOfferingFiles = marketDataAggregatorsService.listOfferingFiles(selectedId);
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-		for(OfferingFiles OfferingFile : listOfferingFiles){
-			JsonResponseData addResponseData = new JsonResponseData();
-			addResponseData.setId(OfferingFile.getOfferingFilesId().toString());
-			addResponseData.setName(OfferingFile.getFileName());
-			addResponseData.setDescription(OfferingFile.getDescription());
-			addResponseData.setSecurityType(OfferingFile.getSecurityType().getName());
-			JsonResponseData.add(addResponseData);
+		try{
+			OfferingFiles offeringFiles = new OfferingFiles();
+			offeringFiles.setFileName(fileName);
+			offeringFiles.setDescription(description);
+			SecurityType securityTypes = referenceDataService.getSecurityTypes(securityType);
+			offeringFiles.setSecurityType(securityTypes);
+			marketDataAggregatorsService.addOfferingFiles(selectedId, offeringFiles);
+			
+			
+			Set<OfferingFiles> listOfferingFiles = marketDataAggregatorsService.listOfferingFiles(selectedId);
+			
+			for(OfferingFiles OfferingFile : listOfferingFiles){
+				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setId(OfferingFile.getOfferingFilesId().toString());
+				addResponseData.setName(OfferingFile.getFileName());
+				addResponseData.setDescription(OfferingFile.getDescription());
+				addResponseData.setSecurityType(OfferingFile.getSecurityType().getName());
+				JsonResponseData.add(addResponseData);
+			}
+		}catch(Exception exp) {
+			
 		}
-				
 		return JsonResponseData;
 	}
 	
@@ -886,7 +894,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
 			if(solution != null && !("null".equals(solution)) && assetClass != null){
 				Solutions solutionsInfo = vendorService.getSolutionsInfo(solution);
-				AssetClass assetClassDetails = vendorService.getAssetClassDetails(assetClass);
+				AssetClass assetClassDetails = referenceDataService.getAssetClassDetails(assetClass);
 				VendorOffering vendorOffering = new VendorOffering();
 				vendorOffering.setSolutions(solutionsInfo);
 				vendorOffering.setName(offeringName);
@@ -1062,9 +1070,9 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendor.setSecondaryEmail(venSecEmail);
 				vendor.setTelephone(venPhoneNum);
 				
-				region = vendorService.getRegionsByName(venRegionOfIncorp);
+				region = referenceDataService.getRegionsByName(venRegionOfIncorp);
 				vendor.setRegionofincorp(region.getRegion_id());
-				country = vendorService.getCountryById(venCountryOfIncorp);
+				country = referenceDataService.getCountryById(venCountryOfIncorp);
 				vendor.setCountryofincorp(country.getCountry_id().toString());
 				
 				VendorSupport vendorSupport = new VendorSupport();
@@ -1886,8 +1894,13 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	@SuppressWarnings("unused")
 	@RequestMapping(value =RequestConstans.Vendor.VENDOR_GET_REGION, method = RequestMethod.GET)
 	public @ResponseBody String getRegion(@RequestParam(value = "country", required = false) String country){
-	String region = vendorService.getRegion(country);
-		return region;
+		try{
+			String region = referenceDataService.getRegion(country);
+			return region;
+		}catch(Exception exp){
+			logger.error("Error getRegion", exp);
+			return null;
+		}
 	}
 	
 	/**

@@ -47,6 +47,27 @@
 							<p>${user.vendor.companyInfo}</p>
 							<c:if test="${not empty dataaggregator}">	
 								<p><b><h3>Market Data Coverage</h3></b></p>
+								<table class="table table-striped table-bordered table-hover table-full-width" 
+									id="vendorMarketDataOfferingsTable">
+									<thead style="background-color:#7BCCA5;">
+										<tr>
+											<th>Offering Name</th>
+											<th>Offering Description</th>
+											<th>Coverage Region</th>
+											<th>Coverage Countries</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${marketDataOfferings}" var="tableRowData">
+											<tr>
+												<td>${tableRowData[1]}</td>
+												<td>${tableRowData[2]}</td>
+												<td>${tableRowData[3]}</td>
+								                <td>${tableRowData[4]}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
 							</c:if>
 							<c:if test="${not empty tradingapplication}">	
 								<p><b><h3>Trading Application Coverage</h3></b></p>
