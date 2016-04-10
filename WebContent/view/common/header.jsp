@@ -64,8 +64,10 @@
 								</a>
 								<div class="profilepicsubmenu" style="display:none">
 									<ul class="root">
+										<%-- 
 										<li><a href="#">Profile</a></li>
 										<li><a href="#">Settings</a></li>
+										--%>
 										<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>	
 									</ul>
 								</div>
