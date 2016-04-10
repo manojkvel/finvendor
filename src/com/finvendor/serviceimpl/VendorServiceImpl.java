@@ -446,4 +446,10 @@ public class VendorServiceImpl implements VendorService{
 	public List<Object[]> getMarketDataVendorOfferingsForProfile(String vendorId) {
 		return vendorDAO.getMarketDataVendorOfferingsForProfile(vendorId);
 	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<Object[]> getVendorAwardDetailsForProfile(String vendorId) {
+		return vendorDAO.getVendorAwardDetailsForProfile(vendorId);
+	}
 }

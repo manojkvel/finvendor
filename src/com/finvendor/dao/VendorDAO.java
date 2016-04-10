@@ -263,5 +263,6 @@ public interface VendorDAO {
 	Object updateVendorLogo(FileDetails ufile, String username);
 	
 	List<Object[]> getMarketDataVendorOfferingsForProfile(String vendorId);
+	public List<Object[]> getVendorAwardDetailsForProfile(String vendorId);
 	
  }

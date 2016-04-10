@@ -825,10 +825,20 @@ public class VendorDAOImpl implements VendorDAO{
 	}
 	
 	private final static String MARKET_DATA_VENDOR_OFFERINGS = "select asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR from vendor_offering off, vendor_datacoverage cov, asset_class asset where off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and off.vendor_id = :vendorId";
+	private final static String VENDOR_AWARD_DETAILS = "select Awardname AWARD_NAME, Awardsponsor AWARD_SPONSER, Awardedyear AWARD_YEAR, awardVendorType VENDOR_TYPE, case when awardVendorType = 'Data Aggregator vendor' then awardAssetclass when awardVendorType = 'Trading Application vendor' then awardAssetclass when awardVendorType = 'Analytics Application vendor' then awardAnalyticsSolutionsType when awardVendorType = 'Research Reporting vendor' then awardResearchArea end ASSET_CLASS, case when awardVendorType = 'Data Aggregator vendor' then 1 when awardVendorType = 'Trading Application vendor' then 2 when awardVendorType = 'Analytics Application vendor' then 3 when awardVendorType = 'Research Reporting vendor' then 4 end VENDOR_ORDER from vendor_awards where vendor_id = :vendorId order by VENDOR_ORDER, awardAssetclass";
 	
 	@Override
 	public List<Object[]> getMarketDataVendorOfferingsForProfile(String vendorId) {
 		SQLQuery hibQuery = this.sessionFactory.getCurrentSession().createSQLQuery(MARKET_DATA_VENDOR_OFFERINGS);
+		hibQuery.setParameter("vendorId", vendorId);
+		@SuppressWarnings("unchecked")
+		List<Object[]> tableData = hibQuery.list();
+		return tableData;
+	}
+	
+	@Override
+	public List<Object[]> getVendorAwardDetailsForProfile(String vendorId) {
+		SQLQuery hibQuery = this.sessionFactory.getCurrentSession().createSQLQuery(VENDOR_AWARD_DETAILS);
 		hibQuery.setParameter("vendorId", vendorId);
 		@SuppressWarnings("unchecked")
 		List<Object[]> tableData = hibQuery.list();

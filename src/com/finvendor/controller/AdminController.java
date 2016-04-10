@@ -258,6 +258,7 @@ public class AdminController {
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Admin.ADMIN_USER_SUMMARY_PROFILE);
 		modelAndView.addObject("requestType", "adminUserSummaryProfile");
 		List<Object[]> marketDataOfferings = null;
+		List<Object[]> vendorAwardDetails = null;
 		try {
 			Country country = null;
 			FinVendorUser user = userService.getUserDetailsByUsername(userName);
@@ -265,7 +266,9 @@ public class AdminController {
 				country = referenceDataService.getCountryById(user.getVendor().getCountryofincorp());
 				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
 				marketDataOfferings = vendorService.getMarketDataVendorOfferingsForProfile(user.getVendor().getId());
+				vendorAwardDetails = vendorService.getVendorAwardDetailsForProfile(user.getVendor().getId());
 				modelAndView.addObject("marketDataOfferings", marketDataOfferings);
+				modelAndView.addObject("vendorAwardDetails", vendorAwardDetails);
 			}else {
 				country = referenceDataService.getCountryById(user.getConsumer().getCountryOfIncorporation() + "");
 			}

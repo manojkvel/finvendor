@@ -79,18 +79,103 @@
 								<p><b><h3>Research Report Coverage</h3></b></p>
 							</c:if>
 							<p><b><h3>Award Details</h3></b></p>
-							<c:if test="${not empty dataaggregator}">	
-								<p><b><h3>Market Data Awards</h3></b></p>
-							</c:if>
-							<c:if test="${not empty tradingapplication}">	
-								<p><b><h3>Trading Application Awards</h3></b></p>
-							</c:if>
-							<c:if test="${not empty analyticsapplication}">	
-								<p><b><h3>Analytics Application Awards</h3></b></p>
-							</c:if>
-							<c:if test="${not empty researchreport}">	
-								<p><b><h3>Research Report Awards</h3></b></p>
-							</c:if>
+							
+							<c:set var="firstAssetTable">false</c:set>
+							<c:set var="firstVendor">false</c:set>
+							<c:set var="awardTableCreated">false</c:set>
+							<c:forEach items="${vendorAwardDetails}" var="tableRowData">								
+								<c:set var="awardTableCreated">true</c:set>
+								<c:set var="currentVendorType">${tableRowData[5]}</c:set>
+								<c:set var="currentAssetType">${tableRowData[4]}</c:set>
+								<c:if test="${lastVendorType != currentVendorType}">
+									<c:choose>
+										<c:when test="${firstVendor == false}">
+											<c:set var="firstVendor">true</c:set>
+											<c:choose>
+												<c:when test="${tableRowData[5] == 1}">
+													<p><b><h4>Market Data Awards</h4></b></p>																							
+												</c:when>
+												<c:when test="${tableRowData[5] == 2}">
+													<p><b><h4>Trading Application Awards</h4></b></p>																							
+												</c:when>
+												<c:when test="${tableRowData[5] == 3}">
+													<p><b><h4>Analytics Application Awards</h4></b></p>																							
+												</c:when>
+												<c:when test="${tableRowData[5] == 4}">
+													<p><b><h4>Research Report Awards</h4></b></p>																							
+												</c:when>
+											</c:choose>	
+										</c:when>
+										<c:otherwise>
+											</tbody>
+											</table>
+											<c:choose>
+												<c:when test="${tableRowData[5] == 1}">
+													<p><b><h4>Market Data Awards</h4></b></p>																							
+												</c:when>
+												<c:when test="${tableRowData[5] == 2}">
+													<p><b><h4>Trading Application Awards</h4></b></p>																							
+												</c:when>
+												<c:when test="${tableRowData[5] == 3}">
+													<p><b><h4>Analytics Application Awards</h4></b></p>																							
+												</c:when>
+												<c:when test="${tableRowData[5] == 4}">
+													<p><b><h4>Research Report Awards</h4></b></p>																							
+												</c:when>
+											</c:choose>	
+										</c:otherwise>
+									</c:choose>															
+								</c:if>
+								<c:if test="${lastAssetType != currentAssetType}">
+									<c:choose>
+										<c:when test="${firstAssetTable == false}">
+											<c:set var="firstAssetTable">true</c:set>
+											<p><b><h4>${tableRowData[4]}</h4></b></p>
+											<table class="table table-striped table-bordered table-hover table-full-width">
+												<thead style="background-color:#7BCCA5">
+													<tr>
+														<th>Award Name</th>
+														<th>Award Main Sponsor</th>
+														<th>Awarded Year</th>
+													</tr>
+												</thead>
+												<tbody>
+										</c:when>
+										<c:otherwise>
+											</tbody>
+											</table>
+											<p><b><h4>${tableRowData[4]}</h4></b></p>
+											<table class="table table-striped table-bordered table-hover table-full-width">
+												<thead style="background-color:#7BCCA5">
+													<tr>
+														<th>Award Name</th>
+														<th>Award Main Sponsor</th>
+														<th>Awarded Year</th>
+													</tr>
+												</thead>
+												<tbody>
+										</c:otherwise>
+									</c:choose>									
+									<tr>
+										<td>${tableRowData[0]}</td>
+										<td>${tableRowData[1]}</td>
+										<td>${tableRowData[2]}</td>
+									</tr>
+								</c:if>
+								<c:if test="${lastAssetType == currentAssetType}">
+									<tr>
+										<td>${tableRowData[0]}</td>
+										<td>${tableRowData[1]}</td>
+										<td>${tableRowData[2]}</td>
+									</tr>
+								</c:if>
+								<c:set var="lastAssetType">${currentAssetType}</c:set>
+								<c:set var="lastVendorType">${currentVendorType}</c:set>
+							</c:forEach>
+							<c:if test="${awardTableCreated == true}">
+								</tbody>
+								</table>
+							</c:if>						
 						</c:when>
 						<c:when test="${user.consumer != null}">
 							<p>

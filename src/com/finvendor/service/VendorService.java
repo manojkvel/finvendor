@@ -117,5 +117,6 @@ public interface VendorService {
 
 	
 	List<Object[]> getMarketDataVendorOfferingsForProfile(String vendorId);
+	public List<Object[]> getVendorAwardDetailsForProfile(String vendorId);
 	
 }
