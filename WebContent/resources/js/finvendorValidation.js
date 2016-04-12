@@ -118,7 +118,7 @@ function validateSpanElements(spanName) {
 
 function validatePersonalEmailId(element, errorLabelId) {
 	var emailId = $.trim(element.value);
-	var validationList = ['@yahoo','@aol','@rediff','@hotmail','@in','@msn'];
+	var validationList = ['@yahoo','@aol','@rediff','@hotmail','@in','@msn','@gmail'];
 	for (i = 0; i < validationList.length; i++) {
 	    if(emailId.indexOf(validationList[i]) != -1) {
 	    	document.getElementById(errorLabelId).innerHTML = 'Please enter valid Company Email id';
