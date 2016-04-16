@@ -14,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.finvendor.model.FinVendorUser;
+import com.finvendor.model.Roles;
+import com.finvendor.model.UserRole;
 
 public class EmailUtil {
 	
@@ -67,11 +69,17 @@ public class EmailUtil {
 		message.setRecipients(Message.RecipientType.TO,
 			InternetAddress.parse(SALES_EMAIL));
 		message.setSubject(notificationType);
+		StringBuilder userType = new StringBuilder(10);
+		for(UserRole role : user.getUserRoles()) {
+			Roles userRoles = role.getRoles();
+			userType.append(userRoles.getRoleName());
+			userType.append(",");
+		}
 		StringBuilder content = new StringBuilder();
 		content.append("FinVendor Sales Team, \n");
 		content.append("Please note that " + user.getUserName() + " (" +  user.getEmail()+ ") " + notificationMessage);
 		content.append("\n Account Details :\n");
-		content.append("Account Type :" + user.getUserRoles());
+		content.append("Account Type :" + userType.substring(0, userType.length()));
 		content.append("\nCompany Name :" + ((user.getVendor() != null) ? user.getVendor().getCompany() : user.getConsumer().getCompany()));
 		message.setText(content.toString());
 		Transport.send(message);
