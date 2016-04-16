@@ -176,6 +176,8 @@
 																</div>
 																<div class="control-group">
 																
+																<%-- 
+																
 																<label class="control-labelalign">Support Coverage</label>
 																
 															<div style="padding-left: 175px;">	
@@ -192,6 +194,8 @@
 																<label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="checkbox" name="weekend" id="weekend" value="weekend" <c:if test="${vendor.vendorSupport.weekend=='true'}"> checked </c:if>>Weekend</label>
 																<label class="control-labelalign-checkbox">&nbsp;<input type="checkbox" name="publicHolidays" id="publicHolidays" value="publicholidays" <c:if test="${vendor.vendorSupport.publicholidays=='true'}"> checked </c:if>>Public Holidays</label> 
 																</div>
+																
+																--%>
 																</div>
 															</div>
 															<div class="ColumnCommonSingletwopersonalinfo">

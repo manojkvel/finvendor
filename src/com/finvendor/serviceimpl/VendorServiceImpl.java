@@ -449,6 +449,24 @@ public class VendorServiceImpl implements VendorService{
 	
 	@Override
 	@Transactional(readOnly=true)
+	public List<Object[]> getTradingApplicationOfferingsForProfile(String vendorId) {
+		return vendorDAO.getTradingApplicationOfferingsForProfile(vendorId);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<Object[]> getAnalyticsApplicationOfferingsForProfile(String vendorId) {
+		return vendorDAO.getAnalyticsApplicationOfferingsForProfile(vendorId);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<Object[]> getResearchReportOfferingsForProfile(String vendorId) {
+		return vendorDAO.getResearchReportOfferingsForProfile(vendorId);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
 	public List<Object[]> getVendorAwardDetailsForProfile(String vendorId) {
 		return vendorDAO.getVendorAwardDetailsForProfile(vendorId);
 	}

@@ -258,19 +258,29 @@ public class AdminController {
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Admin.ADMIN_USER_SUMMARY_PROFILE);
 		modelAndView.addObject("requestType", "adminUserSummaryProfile");
 		List<Object[]> marketDataOfferings = null;
+		List<Object[]> tradingApplicationOfferings = null;
+		List<Object[]> analyticsApplicationOfferings = null;
+		List<Object[]> researchReportOfferings = null;
 		List<Object[]> vendorAwardDetails = null;
 		try {
 			Country country = null;
 			FinVendorUser user = userService.getUserDetailsByUsername(userName);
 			if(user.getVendor() != null) {
-				country = referenceDataService.getCountryById(user.getVendor().getCountryofincorp());
+				if(user.getVendor().getCountryofincorp() != null && !user.getVendor().getCountryofincorp().equals("")) {
+					country = referenceDataService.getCountryById(user.getVendor().getCountryofincorp());
+				}
 				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
 				marketDataOfferings = vendorService.getMarketDataVendorOfferingsForProfile(user.getVendor().getId());
 				vendorAwardDetails = vendorService.getVendorAwardDetailsForProfile(user.getVendor().getId());
 				modelAndView.addObject("marketDataOfferings", marketDataOfferings);
+				modelAndView.addObject("tradingApplicationOfferings", tradingApplicationOfferings);
+				modelAndView.addObject("analyticsApplicationOfferings", analyticsApplicationOfferings);
+				modelAndView.addObject("researchReportOfferings", researchReportOfferings);
 				modelAndView.addObject("vendorAwardDetails", vendorAwardDetails);
 			}else {
-				country = referenceDataService.getCountryById(user.getConsumer().getCountryOfIncorporation() + "");
+				if(user.getConsumer().getCountryOfIncorporation() != 0) {
+					country = referenceDataService.getCountryById(user.getConsumer().getCountryOfIncorporation() + "");
+				}
 			}
 			modelAndView.addObject("user", user);
 			modelAndView.addObject("country", country);			
