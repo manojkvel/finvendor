@@ -92,18 +92,11 @@
 									<c:set var="currentMarketDataOfferingAssetType">${tableRowData[0]}</c:set>
 									<c:set var="currentMarketDataOfferingYear">${tableRowData[5]}</c:set>
 									<c:if test="${lastMarketDataOfferingAssetType != currentMarketDataOfferingAssetType}">
-										<c:choose>
-											<c:when test="${firstMarketDataOfferingTable == false}">
-												<c:set var="firstMarketDataOfferingTable">true</c:set>
-												<p><b><h3>Market Data Coverage</h3></b></p>
-												<p><b><h4>${currentMarketDataOfferingAssetType} (Launch Year: ${currentMarketDataOfferingYear})</h4></b></p>
-											</c:when>
-											<c:otherwise>
-												</tbody>
-												</table>
-												<p><b><h4>${currentMarketDataOfferingAssetType} (Launch Year: ${currentMarketDataOfferingYear})</h4></b></p>
-											</c:otherwise>
-										</c:choose>															
+										<c:set var="lastMarketDataOfferingYear"></c:set>
+										<c:if test="${firstMarketDataOfferingTable == false}">
+											<c:set var="firstMarketDataOfferingTable">true</c:set>
+											<p><b><h3>Market Data Coverage</h3></b></p>
+										</c:if>														
 									</c:if>
 									<c:if test="${lastMarketDataOfferingYear != currentMarketDataOfferingYear}">
 										<c:choose>
@@ -175,20 +168,13 @@
 								<c:forEach items="${tradingApplicationOfferings}" var="tableRowData">								
 									<c:set var="tradingApplicationOfferingTableCreated">true</c:set>
 									<c:set var="currentTradingApplicationOfferingAssetType">${tableRowData[0]}</c:set>
-									<c:set var="currentTradingApplicationOfferingYear">${tableRowData[5]}</c:set>
+									<c:set var="currentTradingApplicationOfferingYear">${tableRowData[1]}</c:set>
 									<c:if test="${lastTradingApplicationOfferingAssetType != currentTradingApplicationOfferingAssetType}">
-										<c:choose>
-											<c:when test="${firstTradingApplicationOfferingTable == false}">
-												<c:set var="firstTradingApplicationOfferingTable">true</c:set>
-												<p><b><h3>Trading Application Coverage</h3></b></p>
-												<p><b><h4>${currentTradingApplicationOfferingAssetType} (Launch Year: ${currentTradingApplicationOfferingYear})</h4></b></p>
-											</c:when>
-											<c:otherwise>
-												</tbody>
-												</table>
-												<p><b><h4>${currentTradingApplicationOfferingAssetType} (Launch Year: ${currentTradingApplicationOfferingYear})</h4></b></p>
-											</c:otherwise>
-										</c:choose>															
+										<c:set var="lastTradingApplicationOfferingYear"></c:set>
+										<c:if test="${firstTradingApplicationOfferingTable == false}">
+											<c:set var="firstTradingApplicationOfferingTable">true</c:set>
+											<p><b><h3>Trading Application Coverage</h3></b></p>
+										</c:if>															
 									</c:if>
 									<c:if test="${lastTradingApplicationOfferingYear != currentTradingApplicationOfferingYear}">
 										<c:choose>
@@ -227,18 +213,22 @@
 											</c:otherwise>
 										</c:choose>									
 										<tr>
-											<td>${tableRowData[1]}</td>
 											<td>${tableRowData[2]}</td>
 											<td>${tableRowData[3]}</td>
 											<td>${tableRowData[4]}</td>
+											<td>${tableRowData[5]}</td>
+											<td>${tableRowData[6]}</td>
+											<td>${tableRowData[7]}</td>
 										</tr>
 									</c:if>
 									<c:if test="${lastTradingApplicationOfferingYear == currentTradingApplicationOfferingYear}">
 										<tr>
-											<td>${tableRowData[1]}</td>
 											<td>${tableRowData[2]}</td>
 											<td>${tableRowData[3]}</td>
 											<td>${tableRowData[4]}</td>
+											<td>${tableRowData[5]}</td>
+											<td>${tableRowData[6]}</td>
+											<td>${tableRowData[7]}</td>
 										</tr>
 									</c:if>
 									<c:set var="lastTradingApplicationOfferingAssetType">${currentTradingApplicationOfferingAssetType}</c:set>
@@ -370,7 +360,7 @@
 											<td>${tableRowData[6]}</td>
 										</tr>															
 									</c:if>								
-									<c:if test="${lastResearchReportOfferingType == currenttResearchReportOfferingType}">
+									<c:if test="${lastResearchReportOfferingType == currentResearchReportOfferingType}">
 										<tr>
 											<td>${tableRowData[1]}</td>
 											<td>${tableRowData[2]}</td>
@@ -380,7 +370,7 @@
 											<td>${tableRowData[6]}</td>
 										</tr>
 									</c:if>
-									<c:set var="lastResearchReportOfferingType">${currenttResearchReportOfferingType}</c:set>
+									<c:set var="lastResearchReportOfferingType">${currentResearchReportOfferingType}</c:set>
 								</c:forEach>
 								<c:if test="${researchReportOfferingTableCreated == true}">
 									</tbody>
@@ -451,7 +441,7 @@
 									<c:choose>
 										<c:when test="${firstAssetTable == false}">
 											<c:set var="firstAssetTable">true</c:set>
-											<p><b><h4>${tableRowData[4]}</h4></b></p>
+											<p><b><h4>${currentAssetType}</h4></b></p>
 											<table class="table table-striped table-bordered table-hover table-full-width">
 												<thead style="background-color:#7BCCA5">
 													<tr>
@@ -465,7 +455,7 @@
 										<c:otherwise>
 											</tbody>
 											</table>
-											<p><b><h4>${tableRowData[4]}</h4></b></p>
+											<p><b><h4>${currentAssetType}</h4></b></p>
 											<table class="table table-striped table-bordered table-hover table-full-width">
 												<thead style="background-color:#7BCCA5">
 													<tr>
