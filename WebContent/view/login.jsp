@@ -7,7 +7,23 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/finvendor.css">		
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/finvendor.css">	
+	
+	 <style type="text/css">
+.login_loading {
+	min-height: 50px;
+	background:  url(<%=request.getContextPath() %>/resources/images/bx_loader.gif) center center no-repeat #fff;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2000;
+	display: none;
+	opacity: 0.6;
+	}
+	</style>
+		
 	<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
@@ -95,6 +111,7 @@
 						<div class="button-group">
 							<input class="btn info" type="submit" value="Login" onclick="document.getElementById('errMsgValidate').innerHTML = ''; if (validateSpanElements('loginSpan')) loginSubmit(false)">
 						</div>
+						<div id="loadinglg" class="login_loading" ></div>
 						<div><br></div>
 						</div>
 					</form>
@@ -193,6 +210,7 @@
 								<div class="btn-group">
 									<input class="btn info block" type="submit" value="Create account" onclick="if (validateSpanElements('userRegisterSpan')) userRegisteration()">
 								</div>
+								<div id="loadingrg" class="login_loading" ></div>
 							</div>
 						</form>
 					</span>
