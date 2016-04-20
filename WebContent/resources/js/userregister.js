@@ -324,6 +324,8 @@ function userRegisteration() {
 	var tags = $("#sigup-tags").val();
 	var termsAndCondition = document.getElementById('accept-terms').value;
 	
+	$('#loadingrg').show();
+	
 	consumerSelected = false;
 	$('#signup-companytype :selected').each(function(i, selectedElement) {
 		selectedCompanyType = $(selectedElement).val();
@@ -359,6 +361,8 @@ function userRegisteration() {
 			url:  "registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype+"&NoR="+tags,
 			cache: false,
 			success: function(output) {
+				$('#loadingrg').hide();
+				
 				if (output.match("true")) {
 					document.getElementById("sucessMessage").innerHTML = "You've registered successfully..!";
 					reg_success_message_selected();
@@ -370,5 +374,7 @@ function userRegisteration() {
 		});
 	}else {
 		document.getElementById("errMessageForTermsAndConditions").innerHTML = "Please accept the terms and conditions";
+		$('#loadinglg').hide();
+		
 	}	
 }

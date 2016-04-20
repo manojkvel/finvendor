@@ -188,19 +188,24 @@ function loginSubmit(changePassword) {
 			return false;
 		}
 	}
+	$('#loadinglg').show();
 	
 	if(changePassword) {
 		actionUrl = urlPrefix + "checkUserLoginValidation?chgUsername="+chgUsername+"&oldPassword="+oldPassword+"&newPassword="+newPassword+"&passChange="+changePassword;
 	}else{
 		actionUrl = urlPrefix + "checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password+"&passChange="+changePassword;
+		
 	}
+	
 	
 	$.ajax({
 		type: 'POST',
 		url:actionUrl,
 		cache: false,
 		success: function(output) {
-			if (output.match("false")) {	
+			if (output.match("false")) {
+				$('#loadinglg').hide();
+				
 				var errorMessage = output.split(":")[1];
 				if(errorMessage.match('Please Change your password')){
 					change_password_selected();
@@ -216,11 +221,14 @@ function loginSubmit(changePassword) {
 					return false;
 				}					
 			} else {
+				$('#loadinglg').hide();
+				
 				document.getElementById("errMsgValidate").innerHTML = "";
 				document.getElementById("errMsgValidateChangePassword").innerHTML = "";
 				$('.cd-user-modal').removeClass('is-visible');					
 				$('form#login-submit').submit();
 			}
+			
 		}
 	});
 }
