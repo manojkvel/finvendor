@@ -31,7 +31,7 @@
 									<img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="175" height="400" 
 										style="float:left;margin-right:10px" alt="${user.vendor.company}" title="${user.vendor.company}"/>										
 								</div>
-								<b><h1>${user.vendor.company}</h1></b>								
+								<b><h1><a href="${user.vendor.companyUrl}" target="_blank">${user.vendor.company}</a></h1></b>								
 								<h5>
 									<c:if test="${country != null}">
 										${country.name}&nbsp;|&nbsp;
@@ -39,50 +39,22 @@
 									${user.vendor.companyType}
 								</h5>
 							</p>					
-								Since<br>
+								<%--Since<br> --%>
 								${user.vendor.firstName}&nbsp;${user.vendor.lastName}<br>
 								${user.vendor.designation}<br>
+								<a href="mailto:${user.email}" target="_top">${user.email}</a><br>
+								<a href="mailto:${user.vendor.secondaryEmail}" target="_top">${user.vendor.secondaryEmail}</a><br>
+								<%--
 								${user.email}<br>
 								${user.vendor.secondaryEmail}<br>
-								${user.vendor.telephone}<br>
-								${user.vendor.companyUrl}
+								--%>
+								${user.vendor.telephone}
+								<%--${user.vendor.companyUrl}--%>
 							</p>
 							<br>
 							<p><b><h3>Summary</h3></b></p>
 							<p>${user.vendor.companyInfo}</p>
 							<c:if test="${not empty dataaggregator}">	
-								
-								<%-- 
-								<c:set var="marketDataOfferingsTableHeader">false</c:set>								
-								<c:forEach items="${marketDataOfferings}" var="tableRowData">
-									<c:if test="${marketDataOfferingsTableHeader == false}">
-										<c:set var="marketDataOfferingsTableHeader">true</c:set>
-										<p><b><h3>Market Data Coverage</h3></b></p>
-										<table class="table table-striped table-bordered table-hover table-full-width" 
-											id="vendorMarketDataOfferingsTable">
-											<thead style="background-color:#7BCCA5;">
-												<tr>
-													<th>Offering Name</th>
-													<th>Offering Description</th>
-													<th>Coverage Region</th>
-													<th>Coverage Countries</th>
-												</tr>
-											</thead>
-											<tbody>
-									</c:if>
-									<tr>
-										<td>${tableRowData[1]}</td>
-										<td>${tableRowData[2]}</td>
-										<td>${tableRowData[3]}</td>
-						                <td>${tableRowData[4]}</td>
-									</tr>
-								</c:forEach>
-								<c:if test="${marketDataOfferingsTableHeader == true}">
-									</tbody>
-									</table>
-								</c:if>	
-								--%>
-								
 								
 								<c:set var="firstMarketDataOfferingTable">false</c:set>
 								<c:set var="firstMarketDataOfferingYearTable">false</c:set>
@@ -389,13 +361,16 @@
 							
 							
 							
-							<p><b><h3>Award Details</h3></b></p>
+							
 							
 							<c:set var="firstAssetTable">false</c:set>
 							<c:set var="firstVendor">false</c:set>
 							<c:set var="awardTableCreated">false</c:set>
 							<c:forEach items="${vendorAwardDetails}" var="tableRowData">								
-								<c:set var="awardTableCreated">true</c:set>
+								<c:if test="${awardTableCreated == false}">
+									<c:set var="awardTableCreated">true</c:set>
+									<p><b><h3>Award Details</h3></b></p>
+								</c:if>								
 								<c:set var="currentVendorType">${tableRowData[5]}</c:set>
 								<c:set var="currentAssetType">${tableRowData[4]}</c:set>
 								<c:if test="${lastVendorType != currentVendorType}">
@@ -494,7 +469,7 @@
 									<img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="175" height="400" 
 										style="float:left;margin-right:10px" alt="${user.consumer.company}" title="${user.consumer.company}"/>										
 								</div>
-								<b><h1>${user.consumer.company}</h1></b>								
+								<b><h1><a href="${user.consumer.companyUrl}" target="_blank">${user.consumer.company}</a></h1></b>
 								<h5>
 									<c:if test="${country != null}">
 										${country.name}&nbsp;|&nbsp;
@@ -502,13 +477,17 @@
 									${user.consumer.companyType}
 								</h5>
 							</p>					
-								Since<br>
+								<%--Since<br>--%>
 								${user.consumer.firstName}&nbsp;${user.consumer.lastName}<br>
 								${user.consumer.designation}<br>
+								<a href="mailto:${user.email}" target="_top">${user.email}</a><br>
+								<a href="mailto:${user.consumer.secondaryEmail}" target="_top">${user.consumer.secondaryEmail}</a><br>
+								<%-- 
 								${user.email}<br>
 								${user.consumer.secondaryEmail}<br>
+								--%>
 								${user.consumer.telephone}<br>
-								${user.consumer.companyUrl}
+								<%--${user.consumer.companyUrl}--%>
 							</p>
 							<br>
 							<p><b><h3>Summary</h3></b></p>
