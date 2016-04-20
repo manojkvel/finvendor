@@ -39,7 +39,8 @@
 	<div class="container">
 		<div class="header"> 
 			<a href="#" onclick="homePage()" class="logo">
-				<img src="${pageContext.request.contextPath}/resources/images/icon-logo.jpg" alt="FinVendor" title="FinVendor" onclick="homepage()"/>
+				<img src="${pageContext.request.contextPath}/resources/images/icon-logo.jpg" alt="FinVendor" title="FinVendor" onclick="homepage()" align="center"/>
+			Democratizing The World Of FInancial Data Commerce.
 			</a>
 			<div class="pull-right contact-detail">
 				<p>
