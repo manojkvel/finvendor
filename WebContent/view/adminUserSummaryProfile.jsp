@@ -31,7 +31,7 @@
 									<img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="175" height="400" 
 										style="float:left;margin-right:10px" alt="${user.vendor.company}" title="${user.vendor.company}"/>										
 								</div>
-								<b><h1><a href="${user.vendor.companyUrl}" target="_blank">${user.vendor.company}</a></h1></b>								
+								<b><h1><a href="${finven:rectifyCompanyUrl(user.vendor.companyUrl)}" target="_blank">${user.vendor.company}</a></h1></b>								
 								<h5>
 									<c:if test="${country != null}">
 										${country.name}&nbsp;|&nbsp;
@@ -469,7 +469,7 @@
 									<img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="175" height="400" 
 										style="float:left;margin-right:10px" alt="${user.consumer.company}" title="${user.consumer.company}"/>										
 								</div>
-								<b><h1><a href="${user.consumer.companyUrl}" target="_blank">${user.consumer.company}</a></h1></b>
+								<b><h1><a href="${finven:rectifyCompanyUrl(user.consumer.companyUrl)}" target="_blank">${user.consumer.company}</a></h1></b>
 								<h5>
 									<c:if test="${country != null}">
 										${country.name}&nbsp;|&nbsp;
