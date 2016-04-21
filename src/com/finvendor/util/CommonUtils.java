@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.Consumer;
 import com.finvendor.model.UserRole;
+import com.finvendor.model.Vendor;
 import com.finvendor.service.ConsumerService;
+import com.finvendor.service.VendorService;
 
 public class CommonUtils {
 	
@@ -98,6 +100,14 @@ public class CommonUtils {
 			return originalString.replaceAll(oldChar, newChar);
 		}else {
 			return originalString;
+		} 
+	}
+	
+	public static String rectifyCompanyUrl(String companyUrl) {
+		if (companyUrl != null && (!companyUrl.startsWith("http:\\") || !companyUrl.startsWith("http://"))) {			
+			return "http:\\\\" + companyUrl;
+		}else {
+			return companyUrl;
 		}
 	}
 	
@@ -160,6 +170,33 @@ public class CommonUtils {
    				consumer.getId(), consumerMyProfileMyBusinessNeedsMarketData.size());
    		modelAndView.addObject("consumerMyProfileMyBusinessNeedsMarketData", 
    				consumerMyProfileMyBusinessNeedsMarketData);
+	}
+	
+	public static void populateVendorProfileRequest(Vendor vendor, VendorService vendorService, 
+			ModelAndView modelAndView) {
+		String vendorCompanyTypes = vendor.getCompanyType();
+		logger.debug("Company type for Vendor {} are {}", vendor.getUser().getUserName(), vendorCompanyTypes);
+		String[] vendorOfferings = vendorCompanyTypes.split(",");
+		for (String vendorOfferingType : vendorOfferings) {
+			switch (vendorOfferingType) {
+				case RequestConstans.Vendor.DATA_AGGREGATOR : {
+					modelAndView.addObject("dataaggregator", vendorOfferingType);
+					break;
+				}
+				case RequestConstans.Vendor.TRADING_APPLICATION : {
+					modelAndView.addObject("tradingapplication", vendorOfferingType);
+					break;
+				}
+				case RequestConstans.Vendor.ANALYTICS_APPLICATION : {
+					modelAndView.addObject("analyticsapplication", vendorOfferingType);
+					break;
+				}
+				case RequestConstans.Vendor.RESEARCH_REPORT : {
+					modelAndView.addObject("researchreport", vendorOfferingType);
+					break;
+				}
+			}
+		} 
 	}
 	
 	private static String convertByteToHex(byte data[]){
