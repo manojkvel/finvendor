@@ -2149,32 +2149,33 @@
 <script type="text/javascript">
 
 window.onload = function ()
-{
-	
-	<c:if test="${not empty dataaggregator}">
-		$("#asdataaggregatorvendor").slideDown("slow");
-		$("#astradingapplicationvendor").hide();
-		$("#asanalyticsapplicationvendor").hide();
-		$("#asresearchreportingvendor").hide();
-	</c:if>
-	<c:if test="${not empty tradingapplication}">
-		$("#asdataaggregatorvendor").hide();
-		$("#astradingapplicationvendor").slideDown("slow");
-		$("#asanalyticsapplicationvendor").hide();
-		$("#asresearchreportingvendor").hide();
-	</c:if>
-	<c:if test="${not empty analyticsapplication}">
-		$("#asdataaggregatorvendor").hide();
-		$("#astradingapplicationvendor").hide();
-		$("#asanalyticsapplicationvendor").slideDown("slow");
-		$("#asresearchreportingvendor").hide();
-	</c:if>
-	<c:if test="${not empty researchreport}">
-		$("#asdataaggregatorvendor").hide();
-		$("#astradingapplicationvendor").hide();
-		$("#asanalyticsapplicationvendor").hide();
-		$("#asresearchreportingvendor").slideDown("slow");
-	</c:if>
+{	
+	<c:choose>
+		<c:when test="${not empty dataaggregator}">
+			$("#asdataaggregatorvendor").slideDown("slow");
+			$("#astradingapplicationvendor").hide();
+			$("#asanalyticsapplicationvendor").hide();
+			$("#asresearchreportingvendor").hide();
+		</c:when>
+		<c:when test="${not empty tradingapplication}">
+			$("#asdataaggregatorvendor").hide();
+			$("#astradingapplicationvendor").slideDown("slow");
+			$("#asanalyticsapplicationvendor").hide();
+			$("#asresearchreportingvendor").hide();
+		</c:when>
+		<c:when test="${not empty analyticsapplication}">
+			$("#asdataaggregatorvendor").hide();
+			$("#astradingapplicationvendor").hide();
+			$("#asanalyticsapplicationvendor").slideDown("slow");
+			$("#asresearchreportingvendor").hide();
+		</c:when>
+		<c:when test="${not empty researchreport}">
+			$("#asdataaggregatorvendor").hide();
+			$("#astradingapplicationvendor").hide();
+			$("#asanalyticsapplicationvendor").hide();
+			$("#asresearchreportingvendor").slideDown("slow");
+		</c:when>
+	</c:choose>	
 	changeTabMode();
 	var vendormyofferingsdatadictionary= '<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_DATADICTIONARY %>';
 	

@@ -496,7 +496,9 @@
 					</c:choose>						
 				</div>	
 			</div>
-			<jsp:include page="adminMenu.jsp"></jsp:include>
+			<c:if test="${sessionScope.loggedInRole == 'ROLE_ADMIN'}">
+				<jsp:include page="adminMenu.jsp"></jsp:include>
+			</c:if>
 		</div>
 		<jsp:include page="common/footer.jsp"></jsp:include>
 	</body>
