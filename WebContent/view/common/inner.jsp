@@ -83,14 +83,16 @@
 					<h1>Market Data Vendors (Aggregators)</h1>
 					<p>
 						<c:choose>
-							<c:when test="${sessionScope.loggedInUser != null}">
+							<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 								<a href="${pageContext.request.contextPath}/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>">
+								<img src="${pageContext.request.contextPath}/resources/images/main-img-1.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
 							</c:when>
 							<c:otherwise>
-								<a href="javascript:inner_login('<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>')">
+								<!-- <a href="javascript:inner_login('<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>')"> -->
+								<img src="${pageContext.request.contextPath}/resources/images/main-img-1-no-search.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
 							</c:otherwise>
 						</c:choose>						
-							<img src="${pageContext.request.contextPath}/resources/images/main-img-1.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
+							
 						</a>
 						In this ever changing and vast financial market data world, one could be a smaller sized player or a medium sized player or a bigger sized player. But all are here with a common goal -
 						<br>
@@ -110,14 +112,16 @@
 			      <h1>Trading Application Vendors</h1>
 			      <p>
 			      	<c:choose>
-						<c:when test="${sessionScope.loggedInUser != null}">
+						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 							<a href="${pageContext.request.contextPath}/<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>">
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-2.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
 						</c:when>
 						<c:otherwise>
-							<a href="javascript:inner_login('<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>')">
+							<!-- <a href="javascript:inner_login('<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>')"> -->
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-2-no-search.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
 						</c:otherwise>
 					</c:choose>	
-			      		<img src="${pageContext.request.contextPath}/resources/images/main-img-2.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
+			      		
 					</a>
 			      	There are multitudes of trading application vendors across the world. One could be a smaller sized player or a medium sized player or a bigger sized player. But all are here with a common goal -
 			      	<br>
@@ -137,14 +141,16 @@
 			      <h1>Analytics Application Vendors</h1>
 			      <p>
 			      	<c:choose>
-						<c:when test="${sessionScope.loggedInUser != null}">
+						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 							<a href="${pageContext.request.contextPath}/<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>">
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-3.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
 						</c:when>
 						<c:otherwise>
-							<a href="javascript:inner_login('<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>')">
+							<!-- <a href="javascript:inner_login('<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>')"> -->
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-3-no-search.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
 						</c:otherwise>
 					</c:choose>
-			      		<img src="${pageContext.request.contextPath}/resources/images/main-img-3.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
+			      		
 					</a>
 			      	Each new financial regulation is proving to be an opportunity as well as huge challenge for Financial Analytics (such as, Risk Analytics or Trade analytics) application vendors. One could be a smaller sized player or a medium sized player or a bigger sized player. But all are here with a common goal -
 			      	<br>
@@ -163,14 +169,16 @@
 			      <h1>Research Report Providers</h1>
 			      <p>
 			      	<c:choose>
-						<c:when test="${sessionScope.loggedInUser != null}">
+						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 							<a href="${pageContext.request.contextPath}/<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>">
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-4.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
 						</c:when>
 						<c:otherwise>
-							<a href="javascript:inner_login('<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>')">
+							<!-- <a href="javascript:inner_login('<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>')"> -->
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-4-no-search.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
 						</c:otherwise>
 					</c:choose>
-			      		<img src="${pageContext.request.contextPath}/resources/images/main-img-4.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
+			      		
 					</a>
 			      	The presence of multitudes of research analysts creates a conundrum of some sorts- which analyst’s research report is better than others. One could be a smaller sized player or a medium sized player or a bigger sized player. But all are here with a common goal -
 				    <br>
@@ -266,6 +274,7 @@
 		    	<div class="inner-left-wrap" id="RESOURCES_blgs">
 			      <h1>Blogs</h1>
 			      <h2>To Be Available soon</h2>
+			      <div><script type="text/javascript" src="http://output44.rssinclude.com/output?type=js&amp;id=1074829&amp;hash=90399e3e339b82e23f89699456e75505"></script></div>
 		    	</div>
 		    	<div class="inner-left-wrap" id="RESOURCES_cs">
 			      <h1>Case Studies</h1>
