@@ -199,9 +199,12 @@
 								<input type="checkbox" id="newslettersAndAlerts" name="newslettersAndAlerts" value="newslettersAndAlerts" style="float:left;"/> 
 								<label for="newslettersAndAlerts">
 									I wish to get regular 
+									Newsletters & Alerts
+									<%-- 
 									<a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/newslettersAndAlerts.jsp', 'newslettersAndAlerts', 800, 600)">
 										Newsletters & Alerts
 									</a>
+									--%>
 								</label>				
 						</div>		
 								<div><label id="errMessageForTermsAndConditions" class="errorMessage"></label></div>

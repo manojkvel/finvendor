@@ -24,9 +24,13 @@
 							</div>
 							<div class="portlet-body form">
 								<form action="#" class="form-horizontal" id="submit_form" method="post" enctype="multipart/form-data">
+									
+									
 									<div class="form-wizard">
+									Coming Soon!
+									<%-- 
+									
 									<div class="Rowtable">
-										 <%-- <div class="ColumnCommonmyprofile" id="change3"> <div class="lable_header" id="interdiv3"> <a id="ancho3" href="#tab4" class="lable_header" data-toggle="tab" onclick="activeMode('${databuyers}');">Search Data-Buyers</a> </div> </div> --%>
 										</div>
 										<div class="tab-content" style="background-color: white;">
 								 		<div class="tab-pane active" id="tab4">
@@ -124,7 +128,14 @@
 									 
 									
 										</div>
+								
+								
+								--%>
+								
 								</div>
+								
+								
+								
 								</form>
 							</div>
 						</div>
