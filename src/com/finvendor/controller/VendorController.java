@@ -292,26 +292,27 @@ public class VendorController {
 			//Set<VendorOffering> listOfferings = marketDataAggregatorsService.listOfferings(vendor.getId());
 			List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
 			List<Solutions> solutions = vendorService.getSolutionsBasedOnOfferingTypes(RequestConstans.Vendor.DATA_AGGREGATOR, vendor);
-			
 			modelAndView.addObject("securityTypes",listSecurityType);
 			modelAndView.addObject("solutions",solutions);
-			//modelAndView.addObject("listOfferings",listOfferings);
-			modelAndView.addObject("assetClasses", assetClasses);
-			modelAndView.addObject("regions", regions);
-			modelAndView.addObject("regionslist", regions);
-			modelAndView.addObject("countries", countries);
-			modelAndView.addObject("exchanges", exchanges);
-			modelAndView.addObject("supports", supports);
-			modelAndView.addObject("costs", costs);
-			modelAndView.addObject("awards", awards);
-			//modelAndView.addObject("myofferingstab", "myofferings");
-			modelAndView.addObject("myprofiletab", "myprofile");
-			modelAndView.addObject("breadcrum", RequestConstans.Vendor.VENDOR_MY_OFFERINGS);
-			modelAndView.addObject("username", username);
+			
 		}catch (Exception exp) {
 			exp.printStackTrace();
 			logger.error("VendorController : vendorMyOfferings - Error reading details", exp);
 		}
+		
+		//modelAndView.addObject("listOfferings",listOfferings);
+		modelAndView.addObject("assetClasses", assetClasses);
+		modelAndView.addObject("regions", regions);
+		modelAndView.addObject("regionslist", regions);
+		modelAndView.addObject("countries", countries);
+		modelAndView.addObject("exchanges", exchanges);
+		modelAndView.addObject("supports", supports);
+		modelAndView.addObject("costs", costs);
+		modelAndView.addObject("awards", awards);
+		//modelAndView.addObject("myofferingstab", "myofferings");
+		modelAndView.addObject("myprofiletab", "myprofile");
+		modelAndView.addObject("breadcrum", RequestConstans.Vendor.VENDOR_MY_OFFERINGS);
+		modelAndView.addObject("username", username);
 		logger.debug("Leaving VendorController : vendorMyOfferings");
 		return modelAndView;
 	}

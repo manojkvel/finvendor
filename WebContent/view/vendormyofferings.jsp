@@ -1,122 +1,105 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@page import="com.finvendor.util.RequestConstans"%>
-
 <c:set var="vendormyofferingsdatacoverage" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_DATACOVERAGE %>"> </c:set>
 <c:set var="vendormyofferingsdatadictionary" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_DATADICTIONARY %>"> </c:set>
-
 <c:set var="vendormyofferingsdatadistribution" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_DATA_DISTEIBUTION %>"> </c:set>
-
 <c:set var="tradingcapabilitiessupported" value="<%=RequestConstans.Vendor.TRADING_CAPABILITIES_SUPPORTED %>"> </c:set>
 <c:set var="tradingsoftwaredetails" value="<%=RequestConstans.Vendor.TRADING_SOFTWARE_DETAILS %>"></c:set>
-
 <c:set var="analyticsfeaturessupported" value="<%=RequestConstans.Vendor.ANALYTICS_FEATURES_SUPPORTED %>"> </c:set>
 <c:set var="analyticssoftwaredetails" value="<%=RequestConstans.Vendor.ANALYTICS_SOFTWARE_DETAILS %>"></c:set>
-
 <c:set var="researchcoverage" value="<%=RequestConstans.Vendor.RESEARCH_COVERAGE %>"> </c:set>
 <c:set var="researchdetails" value="<%=RequestConstans.Vendor.RESEARCH_DETAILS %>"></c:set>
 <c:set var="analystprofile" value="<%=RequestConstans.Vendor.ANALYTST_PROFILE %>"> </c:set>
-
 <c:set var="vendormyofferingsasaggregatorvendor" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_AS_DATA_AGGREGATOR_VENDOR %>"> </c:set>
 <c:set var="vendormyofferingsastradingapplicationvendor" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_AS_TRADING_APPLICATION_VENDOR %>"> </c:set>
 <c:set var="vendormyofferingsasanalyticsapplicationvendor" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_AS_ANALYTICS_APPLICATION_VENDOR %>"> </c:set>
 <c:set var="vendormyofferingsasresearchreportingvendor" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_AS_RESEARCH_REPORTING_VENDOR %>"> </c:set>
-
 <c:set var="dataaggregator" value="${dataaggregator}" ></c:set>
 <c:set var="tradingapplication" value="${tradingapplication}"></c:set>
 <c:set var="analyticsapplication" value="${analyticsapplication}"></c:set>
 <c:set var="researchreport" value="${researchreport}"></c:set>
-
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8" />
-	<title>finvendor</title>
-
+	<title>My Offerings</title>
     <link href="<%=request.getContextPath() %>/resources/css/singleasset.css" type="text/css" rel="stylesheet" />
     <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 	<link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
 	<link href="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" type="text/css"/>
 	<link href="<%=request.getContextPath() %>/resources/css/reset.css" rel="stylesheet" type="text/css"/>
 	<link href="<%=request.getContextPath() %>/resources/css/style-metro.css" rel="stylesheet" type="text/css"/>
-    <link href="<%=request.getContextPath() %>/resources/css/style-II.css" rel="stylesheet" type="text/css"/>
-   
+    <link href="<%=request.getContextPath() %>/resources/css/style-II.css" rel="stylesheet" type="text/css"/>  
     <!-- Date Picker CSS Starts -->
     <link href="<%=request.getContextPath() %>/resources/datepick/jsDatePick_ltr.min.css" rel="stylesheet" type="text/css"/>
     <!-- Date Picker CSS Ends -->
 </head>
-<!-- END HEAD -->
-<!-- BEGIN BODY -->
 <body>
 	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
 	<div class="container">
-			<div class="Rowtable"> 
-			     <c:if test="${not empty dataaggregator}"><div class="ColumnCommonmyprofile" id="changeraymyofferings1"> <div class="lable_header" id="interdivraymyofferings1"> <a id="anchoraymyooferings1" href="#tab1" class="lable_header" data-toggle="tab"  onclick="activeTabModeForMyOfferings('${vendormyofferingsasaggregatorvendor}');">As Data Aggregator vendor</a> </div></div></c:if>
-				 <c:if test="${not empty tradingapplication}"> <div class="ColumnCommonmyprofile" id="changeraymyofferings2"> <div class="lable_header" id="interdivraymyofferings2">  <a id="anchoraymyooferings2" href="#tab2" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsastradingapplicationvendor}');">As Trading Application vendor</a> </div> </div></c:if>
-				 <c:if test="${not empty analyticsapplication}"><div class="ColumnCommonmyprofile" id="changeraymyofferings3"> <div class="lable_header" id="interdivraymyofferings3">  <a id="anchoraymyooferings3" href="#tab3" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsasanalyticsapplicationvendor}');">As Analytics Application vendor</a> </div> </div></c:if>
-				 <c:if test="${not empty researchreport}"><div class="ColumnCommonmyprofile" id="changeraymyofferings4"> <div class="lable_header" id="interdivraymyofferings4">  <a id="anchoraymyooferings4" href="#tab4" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsasresearchreportingvendor}');">As Research Reporting vendor</a> </div> </div></c:if>
-			</div>
-	   </div>
+		<div class="Rowtable"> 
+		     <c:if test="${not empty dataaggregator}"><div class="ColumnCommonmyprofile" id="changeraymyofferings1"> <div class="lable_header" id="interdivraymyofferings1"> <a id="anchoraymyooferings1" href="#tab1" class="lable_header" data-toggle="tab"  onclick="activeTabModeForMyOfferings('${vendormyofferingsasaggregatorvendor}');">As Data Aggregator vendor</a> </div></div></c:if>
+			 <c:if test="${not empty tradingapplication}"> <div class="ColumnCommonmyprofile" id="changeraymyofferings2"> <div class="lable_header" id="interdivraymyofferings2">  <a id="anchoraymyooferings2" href="#tab2" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsastradingapplicationvendor}');">As Trading Application vendor</a> </div> </div></c:if>
+			 <c:if test="${not empty analyticsapplication}"><div class="ColumnCommonmyprofile" id="changeraymyofferings3"> <div class="lable_header" id="interdivraymyofferings3">  <a id="anchoraymyooferings3" href="#tab3" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsasanalyticsapplicationvendor}');">As Analytics Application vendor</a> </div> </div></c:if>
+			 <c:if test="${not empty researchreport}"><div class="ColumnCommonmyprofile" id="changeraymyofferings4"> <div class="lable_header" id="interdivraymyofferings4">  <a id="anchoraymyooferings4" href="#tab4" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsasresearchreportingvendor}');">As Research Reporting vendor</a> </div> </div></c:if>
+		</div>
+	</div>
 		 
     <div class="container">  
         <div class="row-fluid">
-					<div class="span12">
-          <div class="row-fluid service-box">
-			<div class="row-fluid">
+			<div class="span12">
+          		<div class="row-fluid service-box">
+					<div class="row-fluid">
 						<div class="span12">
-						<div class="portlet box blue" id="form_wizard_1">
-						
-							<input type="hidden" name="dataaggregator" id="dataaggregator" value="${dataaggregator}">
-							<input type="hidden" name="tradingapplication" id="tradingapplication" value="${tradingapplication}">
-							<input type="hidden" name="analyticsapplication" id="analyticsapplication" value="${analyticsapplication}">
-							<input type="hidden" name="researchreport" id="researchreport" value="${researchreport}">
-							<div class="portlet-body form" id="asdataaggregatorvendor">
-								<form action="#" class="form-horizontal" id="submit_form" method="post">
-									<div class="form-wizard">
-										<div class="Rowtable">
-											<div class="ColumnCommonmyofferings" id="changeoffer2"> <div class="lable_header" id="interdivoffer2"> <a id="anchooffer2" href="#tab20" class="lable_header" data-toggle="tab"  onclick="activeModeVendorMyofferings('${vendormyofferingsdatadictionary}');">Data Dictionary</a> </div></div>
-											<div class="ColumnCommonmyofferings" id="changeoffer"> <div class="lable_header" id="interdivoffer"> <a id="anchooffer" href="#tab5" class="lable_header" data-toggle="tab"  onclick="activeModeVendorMyofferings('${vendormyofferingsdatacoverage}');">Data Coverage</a> </div></div>
-											<div class="ColumnCommonmyofferings" id="changeoffer1"> <div class="lable_header" id="interdivoffer1">  <a id="anchooffer1" href="#tab6" class="lable_header" data-toggle="tab" onclick="activeModeVendorMyofferings('${vendormyofferingsdatadistribution}');">Data Distribution</a> </div> </div>
-										</div>
-										  <div class="tab-content" style="background-color: white;">
-										  
-										  
-										  <!-- Start Data Dictionary  -->
-										  <div class="tab-pane active" id="tab20" >
-												
-									     	
-											<input type="hidden" name="selectedId" id="selectedId">
-										         <div class="row" >
+							<div class="portlet box blue" id="form_wizard_1">						
+								<input type="hidden" name="dataaggregator" id="dataaggregator" value="${dataaggregator}">
+								<input type="hidden" name="tradingapplication" id="tradingapplication" value="${tradingapplication}">
+								<input type="hidden" name="analyticsapplication" id="analyticsapplication" value="${analyticsapplication}">
+								<input type="hidden" name="researchreport" id="researchreport" value="${researchreport}">
+								<%-- MARKET DATA VENDOR --%>
+								<c:if test="${not empty dataaggregator}">
+								<div class="portlet-body form" id="asdataaggregatorvendor">
+									<form action="#" class="form-horizontal" id="submit_form" method="post">
+										<div class="form-wizard">
+											<div class="Rowtable">
+												<div class="ColumnCommonmyofferings" id="changeoffer2"> <div class="lable_header" id="interdivoffer2"> <a id="anchooffer2" href="#tab20" class="lable_header" data-toggle="tab"  onclick="activeModeVendorMyofferings('${vendormyofferingsdatadictionary}');">Data Dictionary</a> </div></div>
+												<div class="ColumnCommonmyofferings" id="changeoffer"> <div class="lable_header" id="interdivoffer"> <a id="anchooffer" href="#tab5" class="lable_header" data-toggle="tab"  onclick="activeModeVendorMyofferings('${vendormyofferingsdatacoverage}');">Data Coverage</a> </div></div>
+												<div class="ColumnCommonmyofferings" id="changeoffer1"> <div class="lable_header" id="interdivoffer1">  <a id="anchooffer1" href="#tab6" class="lable_header" data-toggle="tab" onclick="activeModeVendorMyofferings('${vendormyofferingsdatadistribution}');">Data Distribution</a> </div> </div>
+											</div>
+										  	<div class="tab-content" style="background-color:white">										  
+												<!-- Start Data Dictionary  -->
+												<div class="tab-pane active" id="tab20">									     	
+													<input type="hidden" name="selectedId" id="selectedId">
+										         	<div class="row" >
 										         		<div class="span3">
 										         			<div id="container">
-																	<ul>
+																<ul>
 																	<c:forEach var="solution" items="${solutions}">
-																	   <li> <label  onclick="createOfferings('${solution.solution_id}')" class=""> ${solution.name}</label>
-																	    <ul>
-																		<c:forEach var="vendorOffering" items="${solution.vendorOffering}">
-															 				<li> <label  onclick="displayOfferingFile('${vendorOffering.vendor_offering_id}')"> ${vendorOffering.name}</label> 
-																				<ul>
-																					<c:forEach var="offeringFiles" items="${vendorOffering.offeringFiles}">
-																						
-																						<li> <label onclick="displayFileFields(${offeringFiles.offeringFilesId})" > ${offeringFiles.fileName}</label></li>  
-																						
-																					</c:forEach>
-																				</ul>
-																			</li>
-																		</c:forEach>
-																	  </ul>
-																	</li>
+																	   <li><label onclick="createOfferings('${solution.solution_id}')" class=""> ${solution.name}</label>
+																	    	<ul>
+																				<c:forEach var="vendorOffering" items="${solution.vendorOffering}">
+															 						<li><label onclick="displayOfferingFile('${vendorOffering.vendor_offering_id}')"> ${vendorOffering.name}</label> 
+																						<ul>
+																							<c:forEach var="offeringFiles" items="${vendorOffering.offeringFiles}">																						
+																								<li><label onclick="displayFileFields(${offeringFiles.offeringFilesId})">${offeringFiles.fileName}</label></li>  																						
+																							</c:forEach>
+																						</ul>
+																					</li>
+																				</c:forEach>
+																	  		</ul>
+																		</li>
 																	</c:forEach>
-																	</ul>
+																</ul>
 															</div>
 										         		</div>
 										 				<div class="span9" id="solutionDetailList">
-										 				<br>
-										 				<br>
-										 				<div>This screen will allow you to create offerings, files and fields.<br>Please click on solution name of tree to create offering. </div>
-										 				<br>
-										 				<br>
-										 				<br>
-										 				<br>
+											 				<br>
+											 				<br>
+											 				<div>This screen will allow you to create offerings, files and fields.<br>Please click on solution name of tree to create offering.</div>
+											 				<br>
+											 				<br>
+											 				<br>
+											 				<br>
 															<table class="table table-striped" id="vendorSolutionTable">
 																<thead class="lable_header">
 																	<tr>
@@ -126,43 +109,38 @@
 																	</tr>
 																</thead>
 																<tbody>
-															<c:forEach var="solution" items="${solutions}">
-												   
-															<tr>
-																<td>${solution.name}</td>
-																<td>${solution.solutionTypes.name}</td>
-																<td>${solution.description}</td>
-																
-															</tr>
-														</c:forEach>
-																
+																	<c:forEach var="solution" items="${solutions}">												   
+																		<tr>
+																			<td>${solution.name}</td>
+																			<td>${solution.solutionTypes.name}</td>
+																			<td>${solution.description}</td>
+																			
+																		</tr>
+																	</c:forEach>																
 																</tbody>
-															</table>
-															
-														</div>	
-										 
-										<div id="createOfferingDiv" class="span9">
-										
-										     <div class="container">
-										     <br>
-										     <div class="row">
-												<h2><label>Create Offerings</label></h2>
-											</div>
-											<br>
-											<br>
-												<div class="row">
-												<div class="span4">												  
-												  <label class="col-md-3 "><span class="required">*</span>Offering Name</label>  
-												  	<input id="offeringName" name="offeringName" type="text" placeholder="Offering Name" class="col-md-3">
-												  </div>
-												  <div class="span4">
-												  <label class="col-md-3" for="assetClassForVenderOffering">Asset Class</label>
-												    <select id="assetClassForVenderOffering" name="assetClassForVenderOffering" class="col-md-3">
-												      <c:forEach var="assetClasses" items="${assetClasses}">
-															    	<option value="${assetClasses.description}">${assetClasses.description}</option>
-													  </c:forEach>
-												    </select>
-												   </div> 
+															</table>														
+														</div>											 
+														<div id="createOfferingDiv" class="span9">										
+										     				<div class="container">
+														     <br>
+														     <div class="row">
+																<h2><label>Create Offerings</label></h2>
+															</div>
+															<br>
+															<br>
+															<div class="row">
+															<div class="span4">												  
+															 	<label class="col-md-3 "><span class="required">*</span>Offering Name</label>  
+															  	<input id="offeringName" name="offeringName" type="text" placeholder="Offering Name" class="col-md-3">
+															 </div>
+												  			<div class="span4">
+																<label class="col-md-3" for="assetClassForVenderOffering">Asset Class</label>
+																	<select id="assetClassForVenderOffering" name="assetClassForVenderOffering" class="col-md-3">
+																		<c:forEach var="assetClasses" items="${assetClasses}">
+																			<option value="${assetClasses.description}">${assetClasses.description}</option>
+																		</c:forEach>
+																</select>
+															</div> 
 												</div>
 												 
 											    <div class="row">
@@ -665,9 +643,11 @@
 								</div>
 								
 								
-								</form>
-							</div>
-							
+									</form>
+								</div>
+								</c:if>
+								<%-- TRADING APPLICATION VENDOR --%>
+								<c:if test="${not empty tradingapplication}">								
 							<div class="portlet-body form" id="astradingapplicationvendor">
 							<form action="#" class="form-horizontal" id="submit_form" method="post">
 								<div class="form-wizard">
@@ -1265,6 +1245,9 @@
 								</div>
 							</form>
 							</div>
+								</c:if>
+							<%-- ANALYTICS APPLICATION VENDOR --%>
+							<c:if test="${not empty analyticsapplication}">
 							<div class="portlet-body form" id="asanalyticsapplicationvendor">
 								  <form action="#" class="form-horizontal" id="submit_form" method="post">
 									<div class="form-wizard">
@@ -1591,6 +1574,9 @@
 									</div>
 								</form>
 							</div>
+							</c:if>
+							<%-- RESEARCH REPORT VENDOR --%>
+							<c:if test="${not empty researchreport}">
 							<div class="portlet-body form" id="asresearchreportingvendor">
 								<form action="#" class="form-horizontal" id="submit_form" method="post">
 									<div class="form-wizard">
@@ -2140,6 +2126,7 @@
 									</div>
 								</form>
 							</div>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -2162,17 +2149,38 @@
 <script type="text/javascript">
 
 window.onload = function ()
-{
-	
-	$("#asdataaggregatorvendor").slideDown("slow");
-	$("#astradingapplicationvendor").hide();
-	$("#asanalyticsapplicationvendor").hide();
-	$("#asresearchreportingvendor").hide();
+{	
+	<c:choose>
+		<c:when test="${not empty dataaggregator}">
+			$("#asdataaggregatorvendor").slideDown("slow");
+			$("#astradingapplicationvendor").hide();
+			$("#asanalyticsapplicationvendor").hide();
+			$("#asresearchreportingvendor").hide();
+		</c:when>
+		<c:when test="${not empty tradingapplication}">
+			$("#asdataaggregatorvendor").hide();
+			$("#astradingapplicationvendor").slideDown("slow");
+			$("#asanalyticsapplicationvendor").hide();
+			$("#asresearchreportingvendor").hide();
+		</c:when>
+		<c:when test="${not empty analyticsapplication}">
+			$("#asdataaggregatorvendor").hide();
+			$("#astradingapplicationvendor").hide();
+			$("#asanalyticsapplicationvendor").slideDown("slow");
+			$("#asresearchreportingvendor").hide();
+		</c:when>
+		<c:when test="${not empty researchreport}">
+			$("#asdataaggregatorvendor").hide();
+			$("#astradingapplicationvendor").hide();
+			$("#asanalyticsapplicationvendor").hide();
+			$("#asresearchreportingvendor").slideDown("slow");
+		</c:when>
+	</c:choose>	
 	changeTabMode();
 	var vendormyofferingsdatadictionary= '<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_DATADICTIONARY %>';
 	
 	if(vendormyofferingsdatadictionary != null && vendormyofferingsdatadictionary.length > 0 && vendormyofferingsdatadictionary.match("vendorMyOfferingsDataDictionary")){
-		debugger;
+		//debugger;
 		document.getElementById('changeoffer2').style.backgroundColor = '#5CE5E5';
 		document.getElementById('interdivoffer2').style.backgroundColor = '#5CE5E5';  
 		document.getElementById('anchooffer2').style.backgroundColor = '#5CE5E5';
@@ -2323,7 +2331,6 @@ function activeTabModeForMyOfferings(tabname){
 			document.getElementById('interdivraymyofferings4').style.backgroundColor = '#5CE5E5';  
 			document.getElementById('anchoraymyooferings4').style.backgroundColor = '#5CE5E5';	
 		}
-		debugger;
 		document.getElementById('changeresearchreportvendoroffer').style.backgroundColor = '#5CE5E5';
 		document.getElementById('interresearchreportvendodivoffer').style.backgroundColor = '#5CE5E5';  
 		document.getElementById('anchooresearchreportvendoffer').style.backgroundColor = '#5CE5E5';

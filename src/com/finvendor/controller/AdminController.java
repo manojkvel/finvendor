@@ -252,7 +252,7 @@ public class AdminController {
 	
 	@RequestMapping(value="adminUserSummaryProfile", method=RequestMethod.GET)
 	public ModelAndView adminUserSummaryProfile(HttpServletRequest request,
-			@RequestParam(value = "nav", required = true) String nav,
+			@RequestParam(value = "nav", required = false) String nav,
 			@RequestParam(value = "userName", required = true) String userName) {
 		logger.debug("Entering AdminController : adminUserSummaryProfile");
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Admin.ADMIN_USER_SUMMARY_PROFILE);
