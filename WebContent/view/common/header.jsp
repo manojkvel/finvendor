@@ -38,15 +38,17 @@
 <div class="header-container">
 	<div class="container">
 		<div class="header"> 
-			<a href="#" onclick="homePage()" class="logo">
+		<a href="#" onclick="homePage()" class="logo">
 				<img src="${pageContext.request.contextPath}/resources/images/icon-logo.jpg" alt="FinVendor" title="FinVendor" onclick="homepage()" align="center"/>
-			Democratizing The World Of FInancial Data Commerce.
+			Democratizing The World Of Financial Vendors.
 			</a>
+		
+			
 			<div class="pull-right contact-detail">
 				<p>
 					<c:if test="${sessionScope.loggedInUser == null }">
 						<i class="fa fa-pencil"></i> Financial Vendor? 
-						<a class="link" href="#">List your offerings</a>
+						<a class="link" href="javascript:inner_login('LIY')">List your offerings</a>
 					</c:if>
 				</p>
 				<c:choose>
@@ -66,9 +68,9 @@
 								<div class="profilepicsubmenu" style="display:none">
 									<ul class="root">
 										<%-- 
-										<li><a href="#">Profile</a></li>
 										<li><a href="#">Settings</a></li>
 										--%>
+										<li><a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${sessionScope.loggedInUser.username}">Profile</a></li>
 										<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>	
 									</ul>
 								</div>
