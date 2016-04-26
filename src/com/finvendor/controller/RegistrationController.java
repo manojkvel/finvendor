@@ -287,6 +287,7 @@ public class RegistrationController {
 		ModelAndView modelAndView = null;
 		boolean status = false;
 		Set<UserRole> userRoles = null;
+		String userRoleName = null;
 		try {
 			
 			//uname = CommonUtils.decrypt(uname.getBytes());
@@ -304,6 +305,7 @@ public class RegistrationController {
 			
 			if(isVendor) {
 				role.setId(new Integer(RequestConstans.Roles.ROLE_VENDOR_VALUE));
+				userRoleName = "VENDOR";
 				vendor.setId(UUID.randomUUID().toString());
 				vendor.setFirstName(uname);
 				vendor.setLastName("");
@@ -321,6 +323,7 @@ public class RegistrationController {
 				user.setVendor(vendor);
 			}else {				
 				role.setId(new Integer(RequestConstans.Roles.ROLE_CONSUMER_VALUE));
+				userRoleName = "CONSUMER";
 				consumer.setId(UUID.randomUUID().toString());
 				consumer.setFirstName(uname);
 				consumer.setLastName("");
@@ -341,7 +344,7 @@ public class RegistrationController {
 			String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
 			
 			EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
-			EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user); 
+			EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName); 
 			modelAndView.addObject("status", true);
 			logger.debug("Leaving RegistrationController : saveUserInfo");
 			
@@ -381,7 +384,7 @@ public class RegistrationController {
 					modelAndView.addObject("errorMessage", "Error validating registration Id.<br>User Id " + username + " is not available.");	
 				}
 			}else {
-				EmailUtil.sendNotificationEmail("FinVendor Registration Verification", "has verified registration on FinVendor.", user); 
+				EmailUtil.sendNotificationEmail("FinVendor Registration Verification", "has verified registration on FinVendor.", user, null); 
 			}
 			
 		}catch (Exception exp) {

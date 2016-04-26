@@ -60,7 +60,7 @@ public class EmailUtil {
 		logger.debug("Leaving EmailUtil:sendRegistartionEmail for {}", emailId);
 	}
 	
-	public static void sendNotificationEmail(String notificationType, String notificationMessage, FinVendorUser user) 
+	public static void sendNotificationEmail(String notificationType, String notificationMessage, FinVendorUser user, String userRoleName) 
 			throws MessagingException {
 		logger.debug("Entering EmailUtil:sendNotificationEmail for {}", notificationType);
 		Session session = getMailSession();
@@ -69,25 +69,13 @@ public class EmailUtil {
 		message.setRecipients(Message.RecipientType.TO,
 			InternetAddress.parse(SALES_EMAIL));
 		message.setSubject(notificationType);
-		StringBuilder userType = new StringBuilder(10);
-		String userRolesString = "";
-		/* COULD NOT TEST. ONCE VERIFID REMOVE Try-Catch*/
-		try{
-			for(UserRole role : user.getUserRoles()) {
-				Roles userRoles = role.getRoles();
-				userType.append(userRoles.getRoleName());
-				userType.append(",");
-			}
-			userRolesString = userType.substring(0, userType.length());
-		}catch(Exception exp) {
-			logger.error("Error ", exp);
-			
-		}
 		StringBuilder content = new StringBuilder();
 		content.append("FinVendor Sales Team, \n");
 		content.append("Please note that " + user.getUserName() + " (" +  user.getEmail()+ ") " + notificationMessage);
-		content.append("\n Account Details :\n");
-		content.append("Account Type :" + userRolesString);
+		if(userRoleName != null) {
+			content.append("\n Account Details :\n");
+			content.append("Account Type :" + userRoleName);
+		}
 		content.append("\nCompany Name :" + ((user.getVendor() != null) ? user.getVendor().getCompany() : user.getConsumer().getCompany()));
 		message.setText(content.toString());
 		Transport.send(message);
