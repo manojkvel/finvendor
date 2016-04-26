@@ -116,7 +116,6 @@ public class EmailUtil {
 	public static void sendMail(){
 		
 		Session session = getMailSession();
-
 		try {
 
 			Message message = new MimeMessage(session);
