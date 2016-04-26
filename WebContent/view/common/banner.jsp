@@ -115,14 +115,18 @@
 			<div class="span6">
 				<div class="main-content-wrap">
 					<c:choose>
-						<c:when test="${sessionScope.loggedInUser != null}">
+						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
+						
 							<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>">
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-1.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
+							
 						</c:when>
 						<c:otherwise>
-							<a class="stage" href="javascript:inner_login('<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>')">
+							<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>')"> -->
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-1-no-search.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
 						</c:otherwise>
 					</c:choose>
-						<img src="${pageContext.request.contextPath}/resources/images/main-img-1.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
+						
 					
 					<h2>
 						Market Data <span>Vendors</span>
@@ -140,14 +144,16 @@
 			<div class="span6">
 				<div class="main-content-wrap">
 					<c:choose>
-						<c:when test="${sessionScope.loggedInUser != null}">
+						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 							<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>">
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-2.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
 						</c:when>
 						<c:otherwise>
-							<a class="stage" href="javascript:inner_login('<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>')">
+							<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>')"> -->
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-2-no-search.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
 						</c:otherwise>
 					</c:choose>	
-						<img src="${pageContext.request.contextPath}/resources/images/main-img-2.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
+						
 					
 					<h2>
 						Trading Application <span>Vendors</span>
@@ -167,14 +173,16 @@
 				<div class="span6">
 					<div class="main-content-wrap">
 						<c:choose>
-							<c:when test="${sessionScope.loggedInUser != null}">
+							<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 								<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>">
+								<img src="${pageContext.request.contextPath}/resources/images/main-img-3.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
 							</c:when>
 							<c:otherwise>
-								<a class="stage" href="javascript:inner_login('<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>')">
+								<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>')"> -->
+								<img src="${pageContext.request.contextPath}/resources/images/main-img-3-no-search.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
 							</c:otherwise>
 						</c:choose>
-							<img src="${pageContext.request.contextPath}/resources/images/main-img-3.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
+							
 						
 						<h2>
 							Financial Analytics <span>Vendors</span>
@@ -190,14 +198,16 @@
 				<div class="span6">
 					<div class="main-content-wrap last-child">
 						<c:choose>
-							<c:when test="${sessionScope.loggedInUser != null}">
+							<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 								<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>">
+								<img src="${pageContext.request.contextPath}/resources/images/main-img-4.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
 							</c:when>
 							<c:otherwise>
-								<a class="stage" href="javascript:inner_login('<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>')">
+								<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>')"> -->
+								<img src="${pageContext.request.contextPath}/resources/images/main-img-4-no-search.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
 							</c:otherwise>
 						</c:choose>
-							<img src="${pageContext.request.contextPath}/resources/images/main-img-4.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
+							
 						
 						<h2>
 							Financial Research <span>Report Vendors</span>
