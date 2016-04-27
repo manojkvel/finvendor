@@ -255,6 +255,6 @@ function inner_login(redirectLink){
 	document.getElementsByClassName('nav-srch')[0].style.display="none";
 	$form_modal.addClass('is-visible');	
 	if(redirectLink=='LIY') {signup_selected();} else 	{login_selected();}
-	window.alert(redirectlink);
+	//window.alert(redirectlink);
 	$('#redirectLink').val(redirectLink);
 }
