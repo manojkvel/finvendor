@@ -39,7 +39,7 @@
 	<div class="container">
 		<div class="header"> 
 		<a href="#" onclick="homePage()" class="logo">
-				<img src="${pageContext.request.contextPath}/resources/images/icon-logo.jpg" alt="FinVendor" title="FinVendor" onclick="homepage()" align="center"/>
+				<img src="${pageContext.request.contextPath}/resources/images/icon-logo.jpg" alt="FinVendor" title="FinVendor" onclick="homepage()" align="middle"/>
 			Democratizing The World Of Financial Vendors.
 			</a>
 		
@@ -128,13 +128,13 @@
 							 <li>
 							 <c:choose>
 							<c:when test="${sessionScope.loggedInUser != null}">
-							<a target="_blank" href="http://blog.finvendor.com">Blogs
+							<a target="_blank" href="http://blog.finvendor.com">Blogs</a>
 							</c:when>
 							<c:otherwise>
-							<a href="javascript:inner_login('')">Blogs
+							<a href="javascript:inner_login('BLG')">Blogs</a>
 							</c:otherwise>
 							</c:choose> 
-							</a>
+							
 							</li> 
 							<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES&subNav=cs">Case Studies</a></li>
 							<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES&subNav=s">Spotlights</a></li>							
