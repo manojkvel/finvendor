@@ -72,14 +72,15 @@
 	</script>
 </head>
 <body>
-	<div class="cd-user-modal"> <%-- this is the entire modal form, including the background --%>
-		<div class="cd-user-modal-container"> <%-- this is the container wrapper --%>
-			<div class="modal-wrapper">
+	<div class="cd-user-modal" > <%-- this is the entire modal form, including the background --%>
+		<div class="cd-user-modal-container" style="position: relative;height: 100;"> <%-- this is the container wrapper --%>
+			<div class="modal-wrapper" style="top:0">
 				<span class="logmod__close" id="login-close">Close</span>
-				<ul class="cd-switcher">
-					<li><a href="#0">Login</a></li>
-					<li><a href="#0">Register</a></li>
+				<ul class="cd-switcher" >
+					<li style="height:15px"><a href="#0" style="line-height:30px;height:35px;border: 3px solid #AAAAAA;"><b>Login</b></a></li>
+					<li style="height:15px"><a href="#0" style="line-height:30px;height:35px;border: 3px solid #AAAAAA;"><b>Register</b></a></li>
 				</ul>
+			
 				<%-- login form --%>
 				<div id="cd-login"> 
 				<span id="loginSpan">
@@ -119,10 +120,10 @@
 					<p class="cd-form-bottom-message" style="margin-bottom: 9px;"><a href="#0" style="color: black;">Forgot Password?</a></p>
 				</div> <%-- cd-login --%>			
 	 			<%-- sign up form --%>
-				<div id="cd-signup">
+				<div id="cd-signup" >
 					<span id="userRegisterSpan">
 						<form class="cd-form" action="registration" id="user_submit_form">
-							<div class="form-wrapper">							
+							<div class="form-wrapper" style="line-height: 0;padding-top:30px">							
 								<div class="control-group-row">
 									<div class="form-group medium half-width"> 
 										<label for="signup-username" >UserName</label>
@@ -137,13 +138,14 @@
 											onblur="if (validateWithRegularExpression(this, 'signupEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true) && validatePersonalEmailId(this, 'signupEmailErrorMsg')) validateAjax(this, 'checkExistingEmail','signupEmailErrorMsg')">
 										<div><label id="signupEmailErrorMsg" class="errorMessage"></label></div>
 									</div>
+									
 								</div>
-								<div class="control-group-row">
+								<div class="control-group-row" >
 									<div class="form-group medium half-width" style="position: relative">
 										<label for="signup-password">Password</label>
 										<input type="password" id="signup-password" data-mandatory="Y" placeholder="Password*" name="password"
 											class="form-control" onblur="validateNotNull(this, 'signupPasswordErrorMsg')">
-											<a href="#0" class="hide-password1">Hide</a>
+											<a href="#0" class="hide-password1" style="line-height:1">Hide</a>
 										<div><label id="signupPasswordErrorMsg" class="errorMessage"></label></div>
 									</div>
 									<div class="form-group medium half-width">
@@ -187,17 +189,19 @@
 								</div>	
 							</div>								
 							</div>
-							<div>				
+							<div >				
 								<input type="checkbox" id="accept-terms" name="acceptterms" value="acceptterms" style="float:left;" onChange="clearErrMessageForTermsAndConditions(this)"/> 
-								<label for="accept-terms">
+								
+								<label for="accept-terms" >
 									I agree to the 
 									<a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/termsAndConditions.jsp', 'termsAndConditions', 800, 600)">
 										Terms & Conditions
 									</a>
 								</label>
-								<br>
+								
 								<input type="checkbox" id="newslettersAndAlerts" name="newslettersAndAlerts" value="newslettersAndAlerts" style="float:left;"/> 
-								<label for="newslettersAndAlerts">
+								
+								<label for="newslettersAndAlerts" >
 									I wish to get regular 
 									Newsletters & Alerts
 									<%-- 
@@ -210,7 +214,7 @@
 								<div><label id="errMessageForTermsAndConditions" class="errorMessage"></label></div>
 								<div><label id="sucessMessage" class="errorMessage" style="color:green"></label></div>
 								<div><label id="errorMessage" class="errorMessage"></label></div>
-								<div class="btn-group">
+								<div class="btn-group" style="padding-top:0">
 									<input class="btn info block" type="submit" value="Create account" onclick="if (validateSpanElements('userRegisterSpan')) userRegisteration()">
 								</div>
 								<div id="loadingrg" class="login_loading" ></div>
@@ -286,7 +290,7 @@
 					<div><br></div>
 					<div><br></div>
 				</div>
-				<a href="#0" class="cd-close-form">Close</a>
+				<!-- <a href="#0" class="cd-close-form">Close</a> -->
 			</div>		
 		</div> <%-- cd-user-modal-container --%>
 	</div> <%-- cd-user-modal --%>
