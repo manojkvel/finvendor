@@ -27,7 +27,7 @@
 	
 	
 	<jsp:include page="common/footer.jsp"></jsp:include>
-	<div class="sideslider" id="sideslider" style="margin-left: -265px;">
+	<!-- <div class="sideslider" id="sideslider" style="margin-left: -265px;">
     <div class="sideslider-tab">C<br>o<br>n<br>t<br>a<br>c<br>t<br>u<br>s</div>
     <a href="#">
         <div id="sideslider-smartbutton">
@@ -66,7 +66,7 @@
 		</div>
 		<div id="loadingct" class="contact_loading" ></div>
     	<div id="output"></div>
-				  			<!-- <button><a href="javascript:document.getElementById('contact_us_form').submit();">Send</a> </button>  -->	    	
+				  			<!-- <button><a href="javascript:document.getElementById('contact_us_form').submit();">Send</a> </button>  ->	    	
 	</form> 
 				
 				
@@ -78,7 +78,7 @@
     <div class="sideslider-close sideslider-close_en"><i class="fa fa-close"></i></div>
 </div>
 
-
+ -->
 </body>
 <!--<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery-1.11.0.min.js"></script>-->
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.side-slider.js"></script>
