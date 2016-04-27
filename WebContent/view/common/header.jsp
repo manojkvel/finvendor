@@ -124,7 +124,18 @@
 						<ul>
 							<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES&subNav=b">Brochures</a></li>
 							<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES&subNav=w">Whitepapers</a></li>
-							<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES&subNav=blgs">Blogs</a></li>
+							<!-- ${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES&subNav=blgs -->
+							 <li>
+							 <c:choose>
+							<c:when test="${sessionScope.loggedInUser != null}">
+							<a target="_blank" href="http://blog.finvendor.com">Blogs
+							</c:when>
+							<c:otherwise>
+							<a href="javascript:inner_login('')">Blogs
+							</c:otherwise>
+							</c:choose> 
+							</a>
+							</li> 
 							<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES&subNav=cs">Case Studies</a></li>
 							<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES&subNav=s">Spotlights</a></li>							
 						</ul>							
