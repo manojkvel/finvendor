@@ -272,9 +272,10 @@
 			      <h2>To Be Available soon</h2>
 		    	</div>
 		    	<div class="inner-left-wrap" id="RESOURCES_blgs">
-			      <h1>Blogs</h1>
-			      <h2>To Be Available soon</h2>
-			      <div><script type="text/javascript" src="http://output44.rssinclude.com/output?type=js&amp;id=1074829&amp;hash=90399e3e339b82e23f89699456e75505"></script></div>
+			      <!-- <h1>Blogs</h1>
+			      <h2>To Be Available soon</h2> 
+			      <c:import url="http://blog.finvendor.com" ></c:import>-->
+			      <!-- <script type="text/javascript" src="http://output44.rssinclude.com/output?type=js&amp;id=1074829&amp;hash=90399e3e339b82e23f89699456e75505"></script></div> --><div>
 		    	</div>
 		    	<div class="inner-left-wrap" id="RESOURCES_cs">
 			      <h1>Case Studies</h1>
@@ -390,7 +391,7 @@
 			            	<ul id="RESOURCES_ul">
 			            		<li data-div-id="RESOURCES_b"><a href="#">Brochures</a></li>
 			            		<li data-div-id="RESOURCES_w"><a href="#">Whitepapers</a></li>
-			            		<li data-div-id="RESOURCES_blgs"><a href="#">Blogs</a></li>
+			            		<!-- data-div-id="RESOURCES_blgs" --><li ><a href="i">Blogs</a></li>
 			            		<li data-div-id="RESOURCES_cs"><a href="#">Case Studies</a></li>
 			            		<li data-div-id="RESOURCES_s"><a href="#">Spotlights</a></li>
 			            	</ul>
