@@ -27,7 +27,7 @@
 	
 	
 	<jsp:include page="common/footer.jsp"></jsp:include>
-	<!-- <div class="sideslider" id="sideslider" style="margin-left: -265px;">
+	<!--  <div class="sideslider" id="sideslider" style="margin-left: -265px;">
     <div class="sideslider-tab">C<br>o<br>n<br>t<br>a<br>c<br>t<br>u<br>s</div>
     <a href="#">
         <div id="sideslider-smartbutton">
@@ -77,8 +77,8 @@
     </a>
     <div class="sideslider-close sideslider-close_en"><i class="fa fa-close"></i></div>
 </div>
-
- -->
+-->
+ <!-- -->
 </body>
 <!--<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery-1.11.0.min.js"></script>-->
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.side-slider.js"></script>
