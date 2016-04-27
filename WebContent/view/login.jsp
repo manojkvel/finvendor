@@ -73,8 +73,8 @@
 </head>
 <body>
 	<div class="cd-user-modal" > <%-- this is the entire modal form, including the background --%>
-		<div class="cd-user-modal-container" style="position: relative;height: 100;"> <%-- this is the container wrapper --%>
-			<div class="modal-wrapper" style="top:0">
+		<div class="cd-user-modal-container" > <%-- this is the container wrapper --%>
+			<div class="modal-wrapper" >
 				<span class="logmod__close" id="login-close">Close</span>
 				<ul class="cd-switcher" >
 					<li style="height:15px"><a href="#0" style="line-height:30px;height:35px;border: 3px solid #AAAAAA;"><b>Login</b></a></li>
