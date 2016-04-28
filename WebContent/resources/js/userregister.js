@@ -374,7 +374,7 @@ function userRegisteration() {
 		});
 	}else {
 		document.getElementById("errMessageForTermsAndConditions").innerHTML = "Please accept the terms and conditions";
-		$('#loadinglg').hide();
+		$('#loadingrg').hide();
 		
 	}	
 }

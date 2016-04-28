@@ -247,8 +247,9 @@ xsigin/signup popup
   border-radius: 7px;
 }
 .cd-user-modal-container .cd-switcher a {
-  display: block;
-  width: 100%;
+  display:block;
+ 
+  width: 95%;
   height: 50px;
   line-height: 50px;
   background: #41BFDA;

@@ -12,7 +12,7 @@
 		<script src="${pageContext.request.contextPath}/resources/js/CreateHTML5Elements.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/superfish.js"></script>
-		<!-- being referenced - no file found<script src="${pageContext.request.contextPath}/resources/newlogin/js/superfish.js--></script>
+		<!-- being referenced - no file found<script src="${pageContext.request.contextPath}/resources/newlogin/js/superfish.js </script>-->
 		
 		<script>
 			
@@ -86,14 +86,16 @@
 							<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 								<a href="${pageContext.request.contextPath}/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>">
 								<img src="${pageContext.request.contextPath}/resources/images/main-img-1.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
+								</a>
 							</c:when>
 							<c:otherwise>
 								<!-- <a href="javascript:inner_login('<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>')"> -->
 								<img src="${pageContext.request.contextPath}/resources/images/main-img-1-no-search.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
+								
 							</c:otherwise>
 						</c:choose>						
 							
-						</a>
+						
 						In this ever changing and vast financial market data world, one could be a smaller sized player or a medium sized player or a bigger sized player. But all are here with a common goal -
 						<br>
 						<span style="display: list-item; display:relative; margin-left: 3em">Making one’s presence meaningful in this market.</span>
@@ -115,6 +117,7 @@
 						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 							<a href="${pageContext.request.contextPath}/<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>">
 							<img src="${pageContext.request.contextPath}/resources/images/main-img-2.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
+							</a>
 						</c:when>
 						<c:otherwise>
 							<!-- <a href="javascript:inner_login('<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>')"> -->
@@ -122,7 +125,7 @@
 						</c:otherwise>
 					</c:choose>	
 			      		
-					</a>
+					
 			      	There are multitudes of trading application vendors across the world. One could be a smaller sized player or a medium sized player or a bigger sized player. But all are here with a common goal -
 			      	<br>
 					<span style="display: list-item; display:relative; margin-left: 3em">Making one’s presence meaningful in this market.</span>
@@ -144,6 +147,7 @@
 						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 							<a href="${pageContext.request.contextPath}/<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>">
 							<img src="${pageContext.request.contextPath}/resources/images/main-img-3.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
+							</a>
 						</c:when>
 						<c:otherwise>
 							<!-- <a href="javascript:inner_login('<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>')"> -->
@@ -151,7 +155,7 @@
 						</c:otherwise>
 					</c:choose>
 			      		
-					</a>
+					
 			      	Each new financial regulation is proving to be an opportunity as well as huge challenge for Financial Analytics (such as, Risk Analytics or Trade analytics) application vendors. One could be a smaller sized player or a medium sized player or a bigger sized player. But all are here with a common goal -
 			      	<br>
 					<span style="display: list-item; display:relative; margin-left: 3em">Making one’s presence meaningful in this market.</span>
@@ -172,6 +176,7 @@
 						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 							<a href="${pageContext.request.contextPath}/<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>">
 							<img src="${pageContext.request.contextPath}/resources/images/main-img-4.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
+							</a>
 						</c:when>
 						<c:otherwise>
 							<!-- <a href="javascript:inner_login('<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>')"> -->
@@ -179,7 +184,7 @@
 						</c:otherwise>
 					</c:choose>
 			      		
-					</a>
+					
 			      	The presence of multitudes of research analysts creates a conundrum of some sorts- which analyst’s research report is better than others. One could be a smaller sized player or a medium sized player or a bigger sized player. But all are here with a common goal -
 				    <br>
 					<span style="display: list-item; display:relative; margin-left: 3em">Making one’s presence meaningful in this market.</span>
@@ -272,9 +277,10 @@
 			      <h2>To Be Available soon</h2>
 		    	</div>
 		    	<div class="inner-left-wrap" id="RESOURCES_blgs">
-			      <h1>Blogs</h1>
-			      <h2>To Be Available soon</h2>
-			      <div><script type="text/javascript" src="http://output44.rssinclude.com/output?type=js&amp;id=1074829&amp;hash=90399e3e339b82e23f89699456e75505"></script></div>
+			      <!-- <h1>Blogs</h1>
+			      <h2>To Be Available soon</h2> 
+			      -->
+			      <!-- <script type="text/javascript" src="http://output44.rssinclude.com/output?type=js&amp;id=1074829&amp;hash=90399e3e339b82e23f89699456e75505"></script></div> --><div>
 		    	</div>
 		    	<div class="inner-left-wrap" id="RESOURCES_cs">
 			      <h1>Case Studies</h1>
@@ -426,7 +432,7 @@
 			            	<ul id="RESOURCES_ul">
 			            		<li data-div-id="RESOURCES_b"><a href="#">Brochures</a></li>
 			            		<li data-div-id="RESOURCES_w"><a href="#">Whitepapers</a></li>
-			            		<li data-div-id="RESOURCES_blgs"><a href="#">Blogs</a></li>
+			            		<!-- data-div-id="RESOURCES_blgs" --><li ><a href="i">Blogs</a></li>
 			            		<li data-div-id="RESOURCES_cs"><a href="#">Case Studies</a></li>
 			            		<li data-div-id="RESOURCES_s"><a href="#">Spotlights</a></li>
 			            	</ul>
@@ -459,7 +465,7 @@
 			          </ul>
 			        </div>
 			      </div>
-			      <script>
+			       <script>
 				    $('.inner-left-wrap').hide();
 				    $('#SOLUTIONS_ul').slideUp();
 				    $('#SERVICES_ul').slideUp();
@@ -475,11 +481,12 @@
 				      	</c:otherwise>
 				      </c:choose>
 				      $('#${param.nav}_ul').slideDown();				      
-					</script>
+					</script>  
 			    </div>
 			    <div class="clearfix"></div>
 			  </div>
 			</div>
+		</div>
 		<jsp:include page="footer.jsp"></jsp:include>		
 	</body>
 	
