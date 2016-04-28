@@ -350,6 +350,7 @@
 				  <p>If there are any questions regarding this privacy policy you may contact us using the information below.<br>
 				  <a href="mailto:sales@finvendor.com" target="_top">sales@finvendor.com</a><br></p>
 			     </div>
+			     
 			     <div class="inner-left-wrap" id="Disclaimer">
 			     <h1>Disclaimer of Warranty: Limitation of Liability</h1>
 			      <p>(Request-For-Proposal) with their detailed vendor’s product needs. Such RFPs are made available to all FinVendor listed vendors. End-Users can also track their initiated RFPs, review vendor detailed response and finalize the vendor in the least possible time. Financial vendors (Data Aggregators, Trading Application Vendor, Financial Analytics Application Vendor, Financial Research Report Providers) can list their offerings in the well-researched FinVendor format. Data vendors can also participate in all open RFPs (Request-For-Proposal) initiated by data End-Users.</p>
