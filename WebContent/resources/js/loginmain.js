@@ -86,6 +86,7 @@
 	//back to login from the forgot-password form
 	$back_to_login_link.on('click', function(event){
 		event.preventDefault();
+		document.getElementById('signin-password').value = ''
 		login_selected();
 	});
 
@@ -188,13 +189,13 @@ function loginSubmit(changePassword) {
 			return false;
 		}
 	}
-	$('#loadinglg').show();
-	
+		
 	if(changePassword) {
 		actionUrl = urlPrefix + "checkUserLoginValidation?chgUsername="+chgUsername+"&oldPassword="+oldPassword+"&newPassword="+newPassword+"&passChange="+changePassword;
+		$('#loadingcp').show();
 	}else{
 		actionUrl = urlPrefix + "checkUserLoginValidation?VEuMlA="+username+"&RaYulU="+password+"&passChange="+changePassword;
-		
+		$('#loadinglg').show();
 	}
 	
 	
@@ -204,8 +205,8 @@ function loginSubmit(changePassword) {
 		cache: false,
 		success: function(output) {
 			if (output.match("false")) {
-				$('#loadinglg').hide();
-				
+				$('#loadinglg').hide();	
+				$('#loadingcp').hide();
 				var errorMessage = output.split(":")[1];
 				if(errorMessage.match('Please Change your password')){
 					change_password_selected();
@@ -222,7 +223,7 @@ function loginSubmit(changePassword) {
 				}					
 			} else {
 				$('#loadinglg').hide();
-				
+				$('#loadingcp').hide();
 				document.getElementById("errMsgValidate").innerHTML = "";
 				document.getElementById("errMsgValidateChangePassword").innerHTML = "";
 				$('.cd-user-modal').removeClass('is-visible');					
@@ -232,6 +233,33 @@ function loginSubmit(changePassword) {
 		}
 	});
 }
+
+function forgotPasswordSubmit() {
+	var email= $("#forgot-password-email").val();
+	var http = location.protocol;
+	var slashes = http.concat("//");
+	var urlPrefix = slashes.concat(window.location.host).concat("/");
+	var actionUrl = urlPrefix + "forgotPassword?email="+email;
+	
+	$('#loadingfp').show();
+	
+	$.ajax({
+		type: 'POST',
+		url:actionUrl,
+		cache: false,
+		success: function(output) {
+			if (output.match("false")) {
+				$('#loadingfp').hide();				
+				var errorMessage = output.split(":")[1];
+				alert(errorMessage);				
+			} else {
+				$('#loadingfp').hide();
+				alert("Password reset done sucessfully.\nPlease access your email account for Resetting FinVendor Password");
+			}
+			
+		}
+	});
+};
 
 //credits http://css-tricks.com/snippets/jquery/move-cursor-to-end-of-textarea-or-input/
 jQuery.fn.putCursorAtEnd = function() {

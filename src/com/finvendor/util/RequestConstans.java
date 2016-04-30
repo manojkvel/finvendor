@@ -50,7 +50,7 @@ public class RequestConstans {
 		public static final String CONSUMER_INFO ="consumer";
 		public static final String SIGNIN_FAILED="loginfailed";
 		public static final String HOME = "index";
-		public static final String FORGET="forget";
+		public static final String FORGOT_PASSWORD="forgotPassword";
 		public static final String RESET_PASSWORD="resetPassword";
 		public static final String SITE_MAP="sitemap";
 		public static final String PRIVACY="privacy";

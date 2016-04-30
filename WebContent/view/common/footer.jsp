@@ -6,7 +6,7 @@
 			<div class="footer-left-wrap">
 				<ul>
 					<li><a href="${finVen:resolveContextPath(pageContext.request.contextPath)}"><font style="font-weight:bold"><b>HOME</b></font></a></li>
-					<li><a href="#"><font style="font-weight:bold"><b>ABOUT</b></font></a></li>
+					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=About"><font style="font-weight:bold"><b>About Us</b></font></a></li>
 					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS"><font style="font-weight:bold"><b>SOLUTIONS</b></font></a></li>
 					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES"><font style="font-weight:bold"><b>SERVICES</b></font></a></li>
 					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES"><font style="font-weight:bold"><b>RESOURCES</b></font></a></li>

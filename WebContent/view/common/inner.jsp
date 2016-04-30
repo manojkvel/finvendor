@@ -291,7 +291,7 @@
 			      <h2>To Be Available soon</h2>
 		    	</div>
 		    	<div class="inner-left-wrap" id="About">
-			      <h1>About</h1>
+			      <h1>About Us</h1>
 			      <p>FinVendor acts as a bridge between Financial Vendors and its End Users. Our platform supports 4 different vendor types– Financial Market Data vendors (Aggregators), Financial Trading Application vendors, Financial Analytics application vendors and Financial Research Report providers.</p>
 			      <p>Our goal is to provide a common platform to small, medium and large size vendor to showcase their product offerings in a uniform and comprehensive way. This, in term, creates a win-win situation for both financial vendors as well as for End-Users. Financial vendors are given a level -playing field to compete with other vendors on equal-footing. Financial End users find a hassle-free way to choose a right vendor and perform due-diligence on the financial vendor for their product needs. FinVendor founders saw this gap in the financial industry and thus FinVendor idea took its shape.</p>
 			      <p><b>Our Target users are Financial Vendors and Financial Institutions or University scholars (we address them as End users).</b></p>
@@ -447,7 +447,7 @@
 			        </div>
 			        <div class="content" id="sidelinks">
 			          <ul>
-			            <li data-div-id="About"><a href="#">About You</a></li>
+			            <li data-div-id="About"><a href="#">About Us</a></li>
 			            <li data-div-id="Advisory"><a href="#">Advisory Team</a></li>
 			            <li data-div-id="Management"><a href="#">Management Team</a></li>
 			            <li data-div-id="Vision"><a href="#">Vision Statement</a></li>

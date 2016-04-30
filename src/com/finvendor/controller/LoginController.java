@@ -43,6 +43,7 @@ import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
 import com.finvendor.util.CommonUtils;
+import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 
 @Controller
@@ -343,18 +344,31 @@ public class LoginController {
  
 	}
 	
-	/**
-	 * method to navigate forget password
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	@RequestMapping(value =RequestConstans.Login.FORGET, method=RequestMethod.GET)
-    public ModelAndView forgetPassword() {
-		logger.info("Method forget password page 10---:");
-        ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.FORGET);
-         return modelAndView;
+	@RequestMapping(value=RequestConstans.Login.FORGOT_PASSWORD, method=RequestMethod.POST)
+    public ModelAndView forgotPassword(HttpServletRequest request,
+			@RequestParam(value = "userName", required = false) String userName,
+			@RequestParam(value = "email", required = false) String email) {
+		logger.debug("Entering LoginController : forgotPassword");
+        ModelAndView modelAndView=new ModelAndView(RequestConstans.Register.EMPTY);
+        String status = "false";
+        try{
+	        FinVendorUser user = userService.getUserDetailsByEmailId(email);
+	        if(user == null){
+				logger.error("No User record available for : {}", email);
+				status = status + ":Invalid Email Id";
+			}else{
+				logger.info("LoginController : forgotPassword - Resetting password for : {}", user.getUserName());
+				String password = userService.resetPassword(user.getUserName());
+				EmailUtil.sendResetPasswordEmail(user, password);
+				status = "true";
+			}
+        }catch(Exception exp){
+        	logger.error("No User record available for : {}", email);
+        	status = status + ":Error processing Forgot Password";
+        }
+        modelAndView.addObject("status", status);
+        logger.debug("Leaving LoginController : forgotPassword");
+        return modelAndView;
      }
 	
 	/**
@@ -368,7 +382,7 @@ public class LoginController {
     public ModelAndView resetForgetPassword(@RequestParam("email") String email) {
 		logger.info("Method to reset forget password 11---:");
 		FinVendorUser user=null;
-        ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.FORGET);
+        ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.FORGOT_PASSWORD);
        try{
         if(!email.equals("") && email != null){
         	user=loginService.getUserInfoByEmail(email); 

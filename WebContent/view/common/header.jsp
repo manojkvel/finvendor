@@ -152,7 +152,7 @@
 				 if(checktype.match('logout') && checktype != ''){
 					 window.location.href  = "${pageContext.request.contextPath}/<%=RequestConstans.Login.LOGOUT%>";
 				 }else{
-					 window.location.href  = "${pageContext.request.contextPath}/<%=RequestConstans.Login.FORGET%>"; 
+					 window.location.href  = "${pageContext.request.contextPath}/<%=RequestConstans.Login.FORGOT_PASSWORD%>"; 
 				 }
 			} 
 		  function homePage(){

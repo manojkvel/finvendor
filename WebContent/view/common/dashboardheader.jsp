@@ -318,7 +318,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 		 if(checktype.match('logout') && checktype != ''){
 			 window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.LOGOUT%>";
 		 }else{
-			 window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.FORGET%>"; 
+			 window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.FORGOT_PASSWORD%>"; 
 		 }
 	} 
   function homePage(){

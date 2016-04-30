@@ -224,20 +224,30 @@
 				</div> <%-- cd-signup --%>			
 				<%-- reset password form --%>
 				<div id="cd-reset-password"> 
-					<form class="cd-form" style="padding-top: 2em;">
-						<div class="form-wrapper">
-							<p>Lost your password? Please enter your email address. You will receive a link to create a new password.</p>
-							<div class="form-group medium medium-width">
-								<label for="reset-email">E-mail</label>
-								<input class="form-control" id="reset-email" type="email" placeholder="E-mail">
-								<span class="cd-error-message">Error message here!</span>
+					<span id="forgotPasswordSpan">
+						<form class="cd-form" style="padding-top: 2em;">
+							<div class="form-wrapper">
+								<p>Lost your password?<br>Please enter your email address. You will receive a new Password to login.</p>
+								<div class="form-group medium medium-width">
+									<input class="form-control" id="forgot-password-email" type="text" 
+									placeholder="E-mail" name="forgot-password-email" data-mandatory="Y"
+									onblur="validateWithRegularExpression(this, 'forgotPasswordEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true)">
+									<div><label id="forgotPasswordEmailErrorMsg" class="errorMessage"></label></div>		
+									<%-- 
+									<label for="reset-email">E-mail</label>
+									<input class="form-control" id="reset-email" type="email" placeholder="E-mail">
+									--%>
+									<div><label id="errMsgValidateForgotPassword" class="errorMessage"></label></div>
+								</div>
+								<div class="btn-group">
+									<input class="btn info block" type="button" value="Reset password"
+										onclick="document.getElementById('errMsgValidateForgotPassword').innerHTML = ''; if (validateSpanElements('forgotPasswordSpan')) forgotPasswordSubmit()">
+								</div>
+								<div id="loadingfp" class="login_loading" ></div>
 							</div>
-							<div class="btn-group">
-								<input class="btn info block" type="submit" value="Reset password">
-							</div>
-						</div>
-					</form>
-					<p class="cd-form-bottom-message"><a href="#0" style="color: black;">Back to log-in</a></p>
+						</form>
+					</span>
+						<p class="cd-form-bottom-message"><a href="#0" style="color: black;">Back to log-in</a></p>
 				</div> <%-- cd-reset-password --%>	
 				<div id="cd-change-password"> 
 				<span id="changePasswordSpan">
@@ -277,6 +287,7 @@
 								<input class="full-width" type="button" value="Change Password" onclick="document.getElementById('errMsgValidateChangePassword').innerHTML = ''; if (validateSpanElements('changePasswordSpan')) loginSubmit(true)">
 							</p>
 							<div><br></div>
+							<div id="loadingcp" class="login_loading" ></div>
 						</div>
 					</form>
 				</span>
