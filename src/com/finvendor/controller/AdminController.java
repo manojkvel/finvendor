@@ -26,11 +26,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.Consumer;
 import com.finvendor.model.Country;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.ReferenceData;
 import com.finvendor.model.TableColumn;
 import com.finvendor.service.AdminService;
+import com.finvendor.service.ConsumerService;
 import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
@@ -49,6 +51,9 @@ public class AdminController {
 	
 	@Resource(name="vendorService")
 	private VendorService vendorService;
+	
+	@Resource(name="consumerService")
+	private ConsumerService consumerService;
 	
 	@Resource(name="referenceDataService")
 	private ReferenceDataService referenceDataService;
@@ -271,6 +276,9 @@ public class AdminController {
 				}
 				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
 				marketDataOfferings = vendorService.getMarketDataVendorOfferingsForProfile(user.getVendor().getId());
+				tradingApplicationOfferings = vendorService.getTradingApplicationOfferingsForProfile(user.getVendor().getId());
+				analyticsApplicationOfferings = vendorService.getAnalyticsApplicationOfferingsForProfile(user.getVendor().getId());
+				researchReportOfferings = vendorService.getResearchReportOfferingsForProfile(user.getVendor().getId());
 				vendorAwardDetails = vendorService.getVendorAwardDetailsForProfile(user.getVendor().getId());
 				
 				/*
@@ -508,7 +516,7 @@ public class AdminController {
 				
 				modelAndView.addObject("researchReportOfferings", researchReportOfferings);
 				modelAndView.addObject("vendorAwardDetails", vendorAwardDetails);
-			}else {
+			}else if(user.getConsumer() != null) {
 				if(user.getConsumer().getCountryOfIncorporation() != 0) {
 					country = referenceDataService.getCountryById(user.getConsumer().getCountryOfIncorporation() + "");
 				}

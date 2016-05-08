@@ -166,7 +166,7 @@
 										<option value="Financial Firm - Buy side" id="3" >Financial Firm - Buy side</option>
 										<option value="Financial Firm - Others" id="4">Financial Firm - Others</option>
 										<option value="Data Aggregator" id="5">Financial Vendor - Data Aggregators</option>
-										<option value="Trading Application" id="">Financial Vendor - Trading Applications</option>
+										<option value="Trading Application" id="6">Financial Vendor - Trading Applications</option>
 										<option value="Analytics Application" id="7">Financial Vendor - Analytics Applications</option>
 										<option value="Research Report" id="8">Financial Vendor - Research report Providers</option>
 										<option value="University/College" id="9">University/College</option>

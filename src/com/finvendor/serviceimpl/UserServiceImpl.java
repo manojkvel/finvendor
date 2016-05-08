@@ -129,6 +129,18 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
-
+	@Override
+	@Transactional
+	public void updateVendorAccountSettings(String userName, String companyType) 
+			throws ApplicationException {
+		userDAO.updateVendorAccountSettings(userName, companyType);
+	}
+	
+	@Override
+	@Transactional
+	public void updateConsumerAccountSettings(String userName, String companyType, String tags) 
+			throws ApplicationException {
+		userDAO.updateConsumerAccountSettings(userName, companyType, tags);
+	}
 	
 }

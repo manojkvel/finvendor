@@ -77,10 +77,8 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 								</a>
 								<div class="profilepicsubmenu" style="display:none">
 									<ul class="root">
-										<%-- 
-										<li><a href="#">Settings</a></li>
-										--%>
 										<li><a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${sessionScope.loggedInUser.username}">Profile</a></li>
+										<li><a href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a></li>
 										<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>	
 									</ul>
 								</div>

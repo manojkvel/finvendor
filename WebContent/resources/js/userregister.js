@@ -378,3 +378,53 @@ function userRegisteration() {
 		
 	}	
 }
+
+
+function updateUserRegisteration() {
+	
+	var username = $("#signup-username").val();
+	var companytype = $("#signup-companytype").val();
+	var tags = $("#sigup-tags").val();
+	document.getElementById("sucessMessage").innerHTML = '';
+	document.getElementById("errorMessage").innerHTML = '';
+	
+	$('#loadingrgupdate').show();
+	
+	consumerSelected = false;
+	$('#signup-companytype :selected').each(function(i, selectedElement) {
+		selectedCompanyType = $(selectedElement).val();
+		selectedCompanyType = selectedCompanyType + "";
+		if (selectedCompanyType.substr(0, 14) == 'Financial Firm' || 
+				selectedCompanyType.substr(0, 10) == 'University') {
+			consumerSelected = true;
+			return false;
+	    }
+	});
+	vendorSelected = false;
+	if(consumerSelected) {
+		$('#sigup-tags :selected').each(function(i, selectedElement) {
+			vendorSelected = true;
+			return false;
+		});
+		if(!vendorSelected) {
+			alert("Please select Vendor Area of Interest");
+			return false;
+		}
+	}
+		
+	document.getElementById("errorMessage").innerHTML = '' ;
+	$.ajax({
+		type: 'POST',
+		url:  "updateAccountSettings?userName="+username+"&companyType="+companytype+"&tags="+tags,
+		cache: false,
+		success: function(output) {
+			$('#loadingrgupdate').hide();			
+			if (output.match("true")) {
+				document.getElementById("sucessMessage").innerHTML = "Registration details updated successfully..!Please login again.";
+			}else {
+				document.getElementById("sucessMessage").innerHTML = '';
+				document.getElementById("errorMessage").innerHTML = "Error Updating Registration details. Please contact <a href='mailto:support@finvendor.com'>Fin Vendor support</a>";
+			}
+		}
+	});
+}

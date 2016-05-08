@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.Consumer;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Roles;
@@ -410,6 +411,56 @@ public class RegistrationController {
 			modelAndView.addObject("resendRegistrationLink", "error");
 		}
 		logger.debug("Leaving RegistrationController:resendRegistrationLink for {}", username);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="displayAccountSettings", method=RequestMethod.GET)
+	public ModelAndView displayAccountSettings(HttpServletRequest request,
+			@RequestParam(value = "userName", required = true) String userName) {
+		logger.debug("Entering RegistrationController : displayAccountSettings");
+		ModelAndView modelAndView = new ModelAndView("accountSettings");
+		try {
+			FinVendorUser user = userService.getUserDetailsByUsername(userName);
+			if(user.getVendor() != null) {
+				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);				
+			}else if(user.getConsumer() != null) {
+				CommonUtils.populateConsumerProfileRequest(user.getConsumer(), consumerService, 
+						modelAndView);
+			}
+			modelAndView.addObject("user", user);		
+		} catch(ApplicationException exp){
+			logger.error("Error Reading User Details", exp);
+			modelAndView.addObject("lastActionError", exp.getMessage());
+		}		
+		logger.debug("Leaving RegistrationController : displayAccountSettings");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="updateAccountSettings", method=RequestMethod.POST)
+	public ModelAndView updateAccountSettings(HttpServletRequest request,
+			@ModelAttribute("users") FinVendorUser user,
+			@RequestParam(value = "userName", required = true) String userName,
+			@RequestParam(value = "companyType", required = true) String companyType,
+			@RequestParam(value = "tags", required = true) String tags) {
+		logger.info("Entering RegistrationController : updateAccountSettings");
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
+		try {
+			user = userService.getUserDetailsByUsername(userName);
+			if(user.getVendor() != null) {
+				userService.updateVendorAccountSettings(userName, companyType);
+				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
+			}else if(user.getConsumer() != null) {				
+				userService.updateConsumerAccountSettings(userName, companyType, tags);
+				CommonUtils.populateConsumerProfileRequest(user.getConsumer(), consumerService, 
+						modelAndView);	
+			}
+			modelAndView.addObject("status", "true");
+			modelAndView.addObject("user", user);		
+		} catch(ApplicationException exp){
+			logger.error("Error Updating User Registration Details", exp);
+			modelAndView.addObject("lastActionError", exp.getMessage());
+		}		
+		logger.info("Leaving RegistrationController : updateAccountSettings");
 		return modelAndView;
 	}
 	

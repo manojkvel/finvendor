@@ -71,6 +71,7 @@
 										<li><a href="#">Settings</a></li>
 										--%>
 										<li><a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${sessionScope.loggedInUser.username}">Profile</a></li>
+										<li><a href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a></li>
 										<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>	
 									</ul>
 								</div>
