@@ -441,16 +441,17 @@ public class RegistrationController {
 			@ModelAttribute("users") FinVendorUser user,
 			@RequestParam(value = "userName", required = true) String userName,
 			@RequestParam(value = "companyType", required = true) String companyType,
-			@RequestParam(value = "tags", required = true) String tags) {
+			@RequestParam(value = "tags", required = true) String tags,
+			@RequestParam(value = "email", required = true) String email) {
 		logger.info("Entering RegistrationController : updateAccountSettings");
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
 		try {
 			user = userService.getUserDetailsByUsername(userName);
 			if(user.getVendor() != null) {
-				userService.updateVendorAccountSettings(userName, companyType);
+				userService.updateVendorAccountSettings(userName, companyType, email);
 				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
 			}else if(user.getConsumer() != null) {				
-				userService.updateConsumerAccountSettings(userName, companyType, tags);
+				userService.updateConsumerAccountSettings(userName, companyType, tags, email);
 				CommonUtils.populateConsumerProfileRequest(user.getConsumer(), consumerService, 
 						modelAndView);	
 			}

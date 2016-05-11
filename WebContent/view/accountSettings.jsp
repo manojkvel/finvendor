@@ -20,6 +20,21 @@
 	<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
 	
+	<style type="text/css">
+	.login_loading {
+		min-height: 50px;
+		background:  url(<%=request.getContextPath() %>/resources/images/bx_loader.gif) center center no-repeat #fff;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 2000;
+		display: none;
+		opacity: 0.6;
+		}
+	</style>
+	
 	<script language="javascript">		
 		$( document ).ready(function() {
 			<c:if test="${user.vendor != null}">
@@ -80,7 +95,8 @@
 							<div class="form-group medium half-width">
 								<label for="signup-email">E-mail</label>
 								<input type="text" id="signup-email" data-mandatory="Y" placeholder="E-mail*" name="email"
-									class="form-control" readonly value="${user.email}">
+									class="form-control" value="${user.email}"
+									onblur="if (validateWithRegularExpression(this, 'signupEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true) && validatePersonalEmailId(this, 'signupEmailErrorMsg')) validateAjax(this, 'checkExistingEmail','signupEmailErrorMsg')">
 								<div><label id="signupEmailErrorMsg" class="errorMessage"></label></div>
 							</div>								
 						</div>

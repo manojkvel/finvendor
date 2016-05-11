@@ -131,16 +131,16 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	@Transactional
-	public void updateVendorAccountSettings(String userName, String companyType) 
+	public void updateVendorAccountSettings(String userName, String companyType, String email) 
 			throws ApplicationException {
-		userDAO.updateVendorAccountSettings(userName, companyType);
+		userDAO.updateVendorAccountSettings(userName, companyType, email);
 	}
 	
 	@Override
 	@Transactional
-	public void updateConsumerAccountSettings(String userName, String companyType, String tags) 
+	public void updateConsumerAccountSettings(String userName, String companyType, String tags, String email) 
 			throws ApplicationException {
-		userDAO.updateConsumerAccountSettings(userName, companyType, tags);
+		userDAO.updateConsumerAccountSettings(userName, companyType, tags, email);
 	}
 	
 }

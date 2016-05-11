@@ -385,6 +385,7 @@ function updateUserRegisteration() {
 	var username = $("#signup-username").val();
 	var companytype = $("#signup-companytype").val();
 	var tags = $("#sigup-tags").val();
+	var email = $("#signup-email").val();
 	document.getElementById("sucessMessage").innerHTML = '';
 	document.getElementById("errorMessage").innerHTML = '';
 	
@@ -415,7 +416,7 @@ function updateUserRegisteration() {
 	document.getElementById("errorMessage").innerHTML = '' ;
 	$.ajax({
 		type: 'POST',
-		url:  "updateAccountSettings?userName="+username+"&companyType="+companytype+"&tags="+tags,
+		url:  "updateAccountSettings?userName="+username+"&companyType="+companytype+"&tags="+tags+"&email="+email,
 		cache: false,
 		success: function(output) {
 			$('#loadingrgupdate').hide();			

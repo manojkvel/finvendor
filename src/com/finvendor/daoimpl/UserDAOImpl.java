@@ -32,6 +32,7 @@ public class UserDAOImpl implements UserDAO {
 	private static final String RESET_USER_PASSWORD = "UPDATE users SET password = :password, enabled = true, login_attempts = -100, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
 	private static final String UPDATE_VENDOR_REGISTRATION_DETAILS = "UPDATE vendor set companytype=:companytype  where username = :username";
 	private static final String UPDATE_CONSUMER_REGISTRATION_DETAILS = "UPDATE consumer set companytype=:companytype, tags=:tags where username = :username";
+	private static final String UPDATE_REGISTRATION_EMAIL = "UPDATE users set email = :email where username = :username";
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -228,36 +229,44 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public void updateVendorAccountSettings(String userName, String companyType) 
+	public void updateVendorAccountSettings(String userName, String companyType, String email) 
 			throws ApplicationException {
-		logger.debug("Entering UserDAOImpl:updateVendorAccountSettings for {}", userName);
+		logger.info("Entering UserDAOImpl:updateVendorAccountSettings for {}", userName);
 		try{
 			SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_VENDOR_REGISTRATION_DETAILS);
 			sqlQuery.setParameter("username", userName);
-			sqlQuery.setParameter("companytype", companyType);			
+			sqlQuery.setParameter("companytype", companyType);				
+			sqlQuery.executeUpdate();
+			sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_REGISTRATION_EMAIL);
+			sqlQuery.setParameter("email", email);
+			sqlQuery.setParameter("username", userName);
 			sqlQuery.executeUpdate();
 		}catch (Exception exp) {
 			logger.error("Error updateVendorAccountSettings : " + exp);
 			throw new ApplicationException("Error Updating User Registration Details for : " + userName);
 		}
-		logger.debug("Leaving UserDAOImpl:updateVendorAccountSettings");
+		logger.info("Leaving UserDAOImpl:updateVendorAccountSettings");
 	}
 	
 	@Override
-	public void updateConsumerAccountSettings(String userName, String companyType, String tags) 
+	public void updateConsumerAccountSettings(String userName, String companyType, String tags, String email) 
 			throws ApplicationException {
-		logger.debug("Entering UserDAOImpl:updateConsumerAccountSettings for {}", userName);
+		logger.info("Entering UserDAOImpl:updateConsumerAccountSettings for {}", userName);
 		try{
 			SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_CONSUMER_REGISTRATION_DETAILS);
 			sqlQuery.setParameter("username", userName);
 			sqlQuery.setParameter("companytype", companyType);
 			sqlQuery.setParameter("tags", tags);
 			sqlQuery.executeUpdate();
+			sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_REGISTRATION_EMAIL);
+			sqlQuery.setParameter("email", email);
+			sqlQuery.setParameter("username", userName);
+			sqlQuery.executeUpdate();
 		}catch (Exception exp) {
 			logger.error("Error updateConsumerAccountSettings : " + exp);
 			throw new ApplicationException("Error Updating User Registration Details for : " + userName);
 		}
-		logger.debug("Leaving UserDAOImpl:updateConsumerAccountSettings");
+		logger.info("Leaving UserDAOImpl:updateConsumerAccountSettings");
 	}
 
 }

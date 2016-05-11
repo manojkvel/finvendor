@@ -35,7 +35,7 @@ public interface UserDAO {
 	
 	public int resetPassword(String username, String password);
 	
-	public void updateVendorAccountSettings(String userName, String companyType) throws ApplicationException;
-	public void updateConsumerAccountSettings(String userName, String companyType, String tags) throws ApplicationException;
+	public void updateVendorAccountSettings(String userName, String companyType, String email) throws ApplicationException;
+	public void updateConsumerAccountSettings(String userName, String companyType, String tags, String email) throws ApplicationException;
 	
 }
