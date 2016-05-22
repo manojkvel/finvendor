@@ -280,7 +280,7 @@
 			      <!-- <h1>Blogs</h1>
 			      <h2>To Be Available soon</h2> 
 			      -->
-			      <!-- <script type="text/javascript" src="http://output44.rssinclude.com/output?type=js&amp;id=1074829&amp;hash=90399e3e339b82e23f89699456e75505"></script></div> --><div>
+			      <!-- <script type="text/javascript" src="http://output44.rssinclude.com/output?type=js&amp;id=1074829&amp;hash=90399e3e339b82e23f89699456e75505"></script></div> -->
 		    	</div>
 		    	<div class="inner-left-wrap" id="RESOURCES_cs">
 			      <h1>Case Studies</h1>
