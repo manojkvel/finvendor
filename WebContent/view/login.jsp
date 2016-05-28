@@ -69,6 +69,12 @@
 				document.getElementById('errMessageForTermsAndConditions').innerHTML = '';
 			}
 		}
+		
+		function clearErrMessageForForgotPassword() {
+			document.getElementById('loginUsernameErrorMsg').innerHTML = '';
+			document.getElementById('loginPasswordErrorMsg').innerHTML = '';
+			document.getElementById('errMsgValidate').innerHTML = '';
+		}
 	</script>
 </head>
 <body>
@@ -117,7 +123,7 @@
 						</div>
 					</form>
 				</span>
-					<p class="cd-form-bottom-message" style="margin-bottom: 9px;"><a href="#0" style="color: black;">Forgot Password?</a></p>
+					<p class="cd-form-bottom-message" style="margin-bottom: 9px;"><a href="#0" style="color: black;" onClick="clearErrMessageForForgotPassword()">Forgot Password?</a></p>
 				</div> <%-- cd-login --%>			
 	 			<%-- sign up form --%>
 				<div id="cd-signup" >
