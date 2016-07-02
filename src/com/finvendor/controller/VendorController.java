@@ -837,10 +837,17 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		Solutions solutions = new Solutions();
 		solutions.setName(solutionName);
 		solutions.setDescription(fieldDescription);
+		
+		logger.info("vendorSolutionTypes == " + vendorSolutionTypes);
+		
 		SolutionTypes solutionTypes = vendorService.getSolutionTypes(vendorSolutionTypes);
 		solutions.setSolutionTypes(solutionTypes);
 		solutions.setVendor(vendor);
+		
+		
 		vendorService.addSolutionsInfo(solutions);
+		
+		logger.info("Succeesfully added solution");
 		
 		List<Solutions> listVednorSolution = vendorService.listVednorSolution(vendor.getId());
 		
@@ -852,10 +859,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			addResponseData.setSolutionType(solution.getSolutionTypes().getName());
 			JsonResponseData.add(addResponseData);
 		}
-		 } catch (ApplicationException e) {
+		 } catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		logger.info("Retturn solution response");
 		return JsonResponseData;
 	}
 	

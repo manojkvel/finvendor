@@ -166,4 +166,19 @@ public class MarketDataAggregatorsVendorSearchForm {
 	public void setDataAcquisitionCostRange(String dataAcquisitionCostRange) {
 		this.dataAcquisitionCostRange = dataAcquisitionCostRange;
 	}
+	@Override
+	public String toString() {
+		return "MarketDataAggregatorsVendorSearchForm [fi=" + fi + ", indices=" + indices + ", derivatives="
+				+ derivatives + ", fx=" + fx + ", ai=" + ai + ", misc=" + misc + ", equities=" + equities
+				+ ", vendorregionofincorp=" + vendorregionofincorp + ", vendorcountryofincorp=" + vendorcountryofincorp
+				+ ", securityType=" + securityType + ", dataCoverageRegion=" + dataCoverageRegion
+				+ ", dataCoverageCountry=" + dataCoverageCountry + ", dataCoverageExchange=" + dataCoverageExchange
+				+ ", vendorsupportregion=" + vendorsupportregion + ", vendorprofilefreshness=" + vendorprofilefreshness
+				+ ", vendorsupporttime=" + vendorsupporttime + ", dataAttribute=" + dataAttribute
+				+ ", vendorYearofOperation=" + vendorYearofOperation + ", awards=" + awards
+				+ ", dataAcquisitionCostRange=" + dataAcquisitionCostRange + ", vendor=" + vendor + ", assetClass="
+				+ assetClass + "]";
+	}
+	
+	
 }

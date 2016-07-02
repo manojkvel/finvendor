@@ -39,6 +39,7 @@ import com.finvendor.model.Region;
 import com.finvendor.model.RegionCountryMap;
 import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
+import com.finvendor.model.VendorSearchResult;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.util.AssetSecurityTypes.Assets;
 import com.finvendor.util.AssetSecurityTypes.SecurityTypes;
@@ -701,9 +702,14 @@ public class MarketDataAggregatorsVendorController {
 						    }
 						}
 						
+						System.out.println("dataForm = " + dataForm);
+						
 						//for(Map.Entry<Object,Object> t: parameterMap.entrySet())
-					 List<MarketDataAggregatorsVendorSearchForm> marketDataAggregatorsVendorSearchs = marketDataAggregatorsService.getMultiAssetClassSearchResult(searchData,dataForm);
+						List<VendorSearchResult> marketDataAggregatorsVendorSearchs = marketDataAggregatorsService.getMultiAssetClassSearchResult(searchData,dataForm);
+				
+						
 					
+						
 			modelAndView.addObject("marketDataAggregatorsVendorSearchs", marketDataAggregatorsVendorSearchs);
 			modelAndView.addObject("result", RequestConstans.MarketAggregators.MULTI_ASSET_CLASS_SEARCH_RESULT);
 			modelAndView.addObject("username", username);			 

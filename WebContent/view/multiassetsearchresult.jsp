@@ -62,7 +62,7 @@
 		<c:if test="${result eq marketAggregators}">
 			<thead style="background-color: #7BCCA5; color:#FFF;">
 					<tr>
-						<th>Vendor Name</th>
+						<th></th>
 						<th>Asset Class</th>
 						<th>Coverage Region</th>
 						<th>Coverage Country</th>
@@ -77,13 +77,14 @@
 		          
 		          <c:forEach var="marketDataAggregatorsVendorSearch" items="${marketDataAggregatorsVendorSearchs}">
 		          <tr>
-		          
-						<td><div>${marketDataAggregatorsVendorSearch.vendor}</div></td>
-						<td><div>${marketDataAggregatorsVendorSearch.assetClass}</div></td>
-						<td><div>${marketDataAggregatorsVendorSearch.dataCoverageRegion}</div></td>
-						<td><div>${marketDataAggregatorsVendorSearch.dataCoverageCountry}</div></td>
-						<td><div>${marketDataAggregatorsVendorSearch.dataCoverageExchange}</div></td>
-						<td><div>${marketDataAggregatorsVendorSearch.dataAcquisitionCostRange}</div></td>
+		          		<td><div id="companyLogo">
+								<img src="${pageContext.request.contextPath}/displayCompanyLogo/${marketDataAggregatorsVendorSearch.userName}" width="175" height="400" 
+									style="float:left;margin-right:10px" alt="${marketDataAggregatorsVendorSearch.vendorCompany}" title="${marketDataAggregatorsVendorSearch.vendorCompany}"/>										
+							</div>
+						</td>
+						<td><div>${marketDataAggregatorsVendorSearch.vendorCountry}</div></td>
+						<td><div>${marketDataAggregatorsVendorSearch.vendorCompany}</div></td>
+						<td><div>${marketDataAggregatorsVendorSearch.vendorType}</div></td>
 					</tr>
 					</c:forEach>
 					

@@ -31,6 +31,7 @@ import com.finvendor.model.RegionCountryMap;
 import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
 import com.finvendor.model.VendorOffering;
+import com.finvendor.model.VendorSearchResult;
 import com.finvendor.service.MarketDataAggregatorsService;
 
 /**
@@ -359,7 +360,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	}
 
 	@Override
-	public List<MarketDataAggregatorsVendorSearchForm> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
+	public List<VendorSearchResult> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
 		return marketDataAggregatorsDAO.getMultiAssetClassSearchResult(searchData,dataForm);
 	}
 	

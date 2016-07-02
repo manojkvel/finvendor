@@ -43,7 +43,7 @@ import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
 import com.finvendor.model.Vendor;
 import com.finvendor.model.VendorOffering;
-import com.finvendor.util.RequestConstans;
+import com.finvendor.model.VendorSearchResult;
 
 /**
  * @author rayulu vemula
@@ -825,154 +825,122 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		logger.debug("Leaving MarketDataAggregatorsDAOImpl : getCompanySubTypeList");
 		return compnaySubType;
 	}
+	
 	@Transactional
 	@Override
-	public List<MarketDataAggregatorsVendorSearchForm> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
+	public List<VendorSearchResult> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		
-
-		/*
-		String query="SELECT *"
-				+ "	FROM vendor_datacoverage dc"
-				+ "	inner join vendor_offering vo on dc.vendor_offering_id = vo.vendor_offering_id"
-				+ "	inner join offeringfiles of on of.vendor_offering_id = vo.vendor_offering_id"
-				+ "	inner join vendor_distribution vd on vd.solution_id = vd.solution_id"
-				+ "	where dc.cost_ids like '$200%'"
-				+ "	and dc.region_ids = '"+marketDataAggregatorsVendorSearchForm.getDataCoverageRegion()+"'"
-						+ "	and dc.country_ids='india' "
-						+ "		and vo.asset_class_id = 1"
-						+ "		and of.security_type_id = 1"
-						+ "		and vd.exchanges = 'NSE'";
-		*/
+		String vendorSearchSql = "select ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and ven.regionofincorp in ( ";
+		StringBuilder searchSql = new StringBuilder(2000);
+		searchSql.append(vendorSearchSql);
+		searchSql.append(dataForm.getVendorregionofincorp());
+		
+		searchSql.append(" ) and ven.countryofincorp in ( ");
+		searchSql.append(dataForm.getVendorcountryofincorp());
+		searchSql.append(" )");
 		
 		String assetClasses = (String)searchData.get("assetClassChk");
-		String[] assetClassList = assetClasses.split(",");
-		LinkedHashMap<String, List<MarketDataAggregatorsVendorSearchForm>> searchResults = new LinkedHashMap<String,List<MarketDataAggregatorsVendorSearchForm>>();
-		for(String assetClass : assetClassList){
-			StringBuffer query = new StringBuffer();
-			query.append("SELECT v.fname,ac.description,dc.region_ids,dc.country_ids,vd.exchanges,dc.cost_ids");
-			query.append(" FROM vendor_datacoverage dc");
-			query.append(" inner join vendor v on dc.vendor_id = v.vendor_id");
-			query.append(" inner join vendor_offering vo on dc.vendor_offering_id = vo.vendor_offering_id");
-			query.append(" inner join OfferingFiles of on of.vendor_offering_id = vo.vendor_offering_id");
-			query.append(" inner join vendor_distribution vd on vd.solution_id = vd.solution_id");
-			query.append(" inner join asset_class ac on ac.asset_class_id = vo.asset_class_id");
-			query.append(" where ac.description in ('"+assetClass+"')");
+		String[] assetClassList = new String[0];
+		
+		if(assetClasses != null && !assetClasses.trim().equals("")) {
+			assetClassList = assetClasses.split(",");
+		}
+						
+		boolean firstAssetClass = false;
+		
+		for(String assetClass : assetClassList) {
+			if(!firstAssetClass) {
+				searchSql.append(" and (");
+				firstAssetClass = true;
+			}
+			searchSql.append(" ( ");
+			searchSql.append(" asset.description = '");
+			searchSql.append(assetClass);
+			searchSql.append("'");
 			
-			if(dataForm.getVendorregionofincorp() != null && !dataForm.getVendorregionofincorp().isEmpty() ){
-					query.append(" and v.regionofincorp = "+dataForm.getVendorregionofincorp());
+			Object datacoveragecountry = searchData.get(assetClass.toLowerCase() + "datacoveragecountry");
+			populateFilterCondition(searchSql, datacoveragecountry, "cov.country_ids");
+			Object datacoverageregion = searchData.get(assetClass.toLowerCase() + "datacoverageregion");
+			populateFilterCondition(searchSql, datacoverageregion, "cov.region_ids");
+			Object datacoverageexchange = searchData.get(assetClass.toLowerCase() + "datacoverageexchange");
+			populateFilterCondition(searchSql, datacoverageexchange, "cov.coverageexchange");
+			Object dataacquisitioncostrange = searchData.get(assetClass.toLowerCase() + "dataacquisitioncostrange");
+			populateFilterCondition(searchSql, dataacquisitioncostrange, "cov.cost_ids");
+						
+			/*
+			if(datacoveragecountry != null && !datacoveragecountry.toString().isEmpty() ) {
+				String[] countries = datacoveragecountry.toString().split(",");
+				boolean firstCountry = false;
+				for(String country : countries) {
+					if(!firstCountry) {
+						firstCountry = true;
+						searchSql.append(" and ( ");						
+					}
+					searchSql.append(" cov.country_ids like '%");
+					searchSql.append(country.trim());
+					searchSql.append("%' ");
+					searchSql.append("or");
 				}
-			if(dataForm.getVendorcountryofincorp() != null  && !dataForm.getVendorcountryofincorp().isEmpty() ){
-					query.append(" and v.countryofincorp = "+dataForm.getVendorcountryofincorp());
-				}		
-					
-			Object dataacquisitioncostrange = searchData.get(assetClass.toLowerCase()+"dataacquisitioncostrange");
-			if(dataacquisitioncostrange != null && !dataacquisitioncostrange.toString().isEmpty() ){
-			   query.append(" and dc.cost_ids like '%"+dataacquisitioncostrange+"%'");
-			}
-			Object datacoverageregion = searchData.get(assetClass.toLowerCase()+"datacoverageregion");
-			if(datacoverageregion != null && !datacoverageregion.toString().isEmpty() ){
-			    query.append(" and dc.region_ids = '"+datacoverageregion+"'");
-			}
-			Object datacoveragecountry = searchData.get(assetClass.toLowerCase()+"datacoveragecountry");
-			if(datacoveragecountry != null && !datacoveragecountry.toString().isEmpty() ){
-				query.append(" and dc.country_ids='"+datacoveragecountry+"'");
-			}
-			Object datacoverageexchange = searchData.get(assetClass.toLowerCase()+"datacoverageexchange");
-			if(datacoverageexchange != null  && !datacoverageexchange.toString().isEmpty()){
-			   query.append(" and vd.exchanges='"+datacoverageexchange+"'");
-			}
-			
-			Object securitytype = searchData.get(assetClass.toLowerCase()+"securitytype");
-			if(securitytype != null  && !securitytype.toString().isEmpty()){
-			   query.append(" and of.security_type_id="+securitytype);
-			}
-			SQLQuery createSQLQuery = currentSession.createSQLQuery(query.toString());
-			List list = createSQLQuery != null ? createSQLQuery.list(): null;
-			List<MarketDataAggregatorsVendorSearchForm> mdavsfs= new ArrayList<MarketDataAggregatorsVendorSearchForm>(); 
-			if(list != null && list.size()>0){
-				for(Object object:list){
-					MarketDataAggregatorsVendorSearchForm mdavsf = new MarketDataAggregatorsVendorSearchForm();
-					Object[] obj = (Object[])object;
-					mdavsf.setVendor((String)obj[0]);
-					mdavsf.setAssetClass((String)obj[1]);
-					mdavsf.setDataCoverageRegion((String)obj[2]);
-					mdavsf.setDataCoverageCountry((String)obj[3]);
-					mdavsf.setDataCoverageExchange((String)obj[4]);
-					mdavsf.setDataAcquisitionCostRange((String)obj[5]);
-					mdavsfs.add(mdavsf);
+				if(firstCountry) {
+					searchSql.delete(searchSql.length() - 2, searchSql.length());
+					searchSql.append(")");
 				}
 			}
-			searchResults.put(assetClass, mdavsfs);
-		}
-		List<MarketDataAggregatorsVendorSearchForm> mdavsfsResult= new ArrayList<MarketDataAggregatorsVendorSearchForm>();
-	//	mdavsfsResult.retainAll(mdavsfsResult);
-		
-		if(searchResults.size()>1){
-			for(Map.Entry<String, List<MarketDataAggregatorsVendorSearchForm>> filterResult: searchResults.entrySet()){
-				if(mdavsfsResult.size()>1){
-					Set<MarketDataAggregatorsVendorSearchForm> tempResult= new LinkedHashSet<MarketDataAggregatorsVendorSearchForm>();
-					for(MarketDataAggregatorsVendorSearchForm sfr:mdavsfsResult){
-						for(MarketDataAggregatorsVendorSearchForm sf:filterResult.getValue()){
-							if(sfr.getVendor().equals(sf.getVendor())){
-								tempResult.add(sf);
-								tempResult.add(sfr);
-							}
-						}
-				}
-					mdavsfsResult.clear();
-					mdavsfsResult.addAll(tempResult);
-				}else{
-					mdavsfsResult = filterResult.getValue();
-				}
-			}
-		}else{
-			
-			mdavsfsResult = searchResults.entrySet().iterator().next().getValue();
+			*/			
+			searchSql.append(")");
+			searchSql.append("or");
 		}
 		
-		/*
-		String assetClass = null;
-		assetClass = dataForm.getFi() != null? "'"+dataForm.getFi()+"'":null;
-		if(dataForm.getEquities() != null){
-			assetClass = assetClass != null? assetClass+ ",'"+dataForm.getEquities()+"'":"'"+dataForm.getEquities()+"'";
-		}
-		if(dataForm.getAi() != null){
-			assetClass = assetClass != null? assetClass+ ",'"+dataForm.getAi()+"'":"'"+dataForm.getAi()+"'";
-		}
-		if(dataForm.getIndices() != null){
-			assetClass = assetClass != null? assetClass+ ",'"+dataForm.getIndices()+"'":"'"+dataForm.getIndices()+"'";
-		}
-		if(dataForm.getDerivatives() != null){
-			assetClass = assetClass != null? assetClass+ ",'"+dataForm.getDerivatives()+"'":"'"+dataForm.getDerivatives()+"'";
-		}
-		if(dataForm.getFx() != null){
-			assetClass = assetClass != null? assetClass+ ",'"+dataForm.getFx()+"'":"'"+dataForm.getFx()+"'";
-		}
-		if(dataForm.getMisc() != null){
-			assetClass = assetClass != null? assetClass+ ",'"+dataForm.getMisc()+"'":"'"+dataForm.getMisc()+"'";
+		if(firstAssetClass) {
+			searchSql.delete(searchSql.length() - 2, searchSql.length());
+			searchSql.append(" ) ");
 		}
 		
-		*/
+		searchSql.append(" order by vendor_id, asset.description");
+		logger.info("searchSql ################## QUERY == " + searchSql.toString());
 		
+		SQLQuery sqlQuery = currentSession.createSQLQuery(searchSql.toString());
+		@SuppressWarnings("unchecked")
+		List<Object[]> searchResultList = (List<Object[]>)sqlQuery.list();
+		List<VendorSearchResult> vendorSearchResultList = new ArrayList<VendorSearchResult>();
 		
-		/*String query="SELECT v.fname,ac.description,dc.region_ids,dc.country_ids,vd.exchanges,dc.cost_ids"
-				+ "	FROM vendor_datacoverage dc"
-				+ " inner join vendor v on dc.vendor_id = v.vendor_id"
-				+ "	inner join vendor_offering vo on dc.vendor_offering_id = vo.vendor_offering_id"
-				+ "	inner join vendor_distribution vd on vd.solution_id = vd.solution_id"
-				+ " inner join asset_class ac on ac.asset_class_id = vo.asset_class_id"
-				+ " where dc.cost_ids like '$200%'"
-				+ " and dc.region_ids = 'Asia Pacific'"
-				+ "	and dc.country_ids='india'"
-				+ "	and vo.asset_class_id = 1"
-				+ "	and vd.exchanges='NSE'";
-		*/
+		for(Object[] searchRow : searchResultList) {
+			VendorSearchResult vendorSearchRow = new VendorSearchResult();
+			vendorSearchRow.setVendorId((String)searchRow[0]);
+			vendorSearchRow.setVendorName((String)searchRow[1]);
+			vendorSearchRow.setVendorCompany((String)searchRow[2]);
+			vendorSearchRow.setVendorCountry((String)searchRow[3]);
+			vendorSearchRow.setVendorType((String)searchRow[4]);
+			vendorSearchResultList.add(vendorSearchRow);
+		}
 		
-		
-		
-		return mdavsfsResult;
+		return vendorSearchResultList;
 	}
+	
+	private void populateFilterCondition(StringBuilder searchSql, Object filter, String columnName) {
+		if(filter != null && !filter.toString().isEmpty() ) {
+			String[] filterList = filter.toString().split(",");
+			boolean firstValue = false;
+			for(String filterValue : filterList) {
+				if(!firstValue) {
+					firstValue = true;
+					searchSql.append(" and ( ");						
+				}
+				searchSql.append(" ");
+				searchSql.append(columnName);
+				searchSql.append(" like '%");
+				searchSql.append(filterValue.trim());
+				searchSql.append("%' ");
+				searchSql.append("or");
+			}
+			if(firstValue) {
+				searchSql.delete(searchSql.length() - 2, searchSql.length());
+				searchSql.append(")");
+			}
+		}
+	}
+	
 	@Transactional
 	@Override
 	public List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(Map<Object, Object> searchData, FinancialAnalyticsApplicationVendorSearchForm dataForm) {

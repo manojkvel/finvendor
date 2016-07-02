@@ -401,7 +401,8 @@ public class VendorDAOImpl implements VendorDAO{
 		criteria = currentSession.createCriteria(SolutionTypes.class);
 		 criteria.add(Restrictions.ilike("name", name+"%"));
 		 SolutionTypes solutionTypes =(SolutionTypes)criteria.uniqueResult();
-		 
+		 //logger.info("solutionTypes.getSolution_type_id() == " + solutionTypes.getSolution_type_id());
+		 //logger.info("solutionTypes.getName() == " + solutionTypes.getName());
 		return solutionTypes;
 	}
 	
@@ -409,7 +410,13 @@ public class VendorDAOImpl implements VendorDAO{
 	@Override
 	public Solutions addSolutionsInfo(Solutions solutions) {
 		Session currentSession = sessionFactory.getCurrentSession();
+		logger.info("Adding Solution");
+		//logger.info(solutions.getSolution_id());
+		//logger.info(solutions.getName());
+		//logger.info(solutions.getVendor().getFirstName());
 		currentSession.save(solutions);
+		currentSession.flush();
+		logger.info("Solution added successfully");
 		return solutions;
 	}
 	

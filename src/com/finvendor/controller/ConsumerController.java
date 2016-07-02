@@ -47,7 +47,7 @@ import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
 
 @Controller
-public class ConsumerController implements HandlerExceptionResolver {
+public class ConsumerController {
 
 	private static Logger logger = LoggerFactory.getLogger(
 			ConsumerController.class);
@@ -142,6 +142,7 @@ public class ConsumerController implements HandlerExceptionResolver {
 		return modelAndView;
 	}
 		
+	/*
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception exp) { 
 		ModelAndView modelAndView = new ModelAndView("errorPage"); 
@@ -158,6 +159,7 @@ public class ConsumerController implements HandlerExceptionResolver {
 		}
 		return modelAndView;
 	}
+	*/
 	
 	
 	@RequestMapping(value="updateConsumerProfileMyBusinessNeedsMarketData", 

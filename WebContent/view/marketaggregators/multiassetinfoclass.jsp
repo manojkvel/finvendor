@@ -1,20 +1,12 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <div class="form-wizard">
-		<div class="tab-content" style="background-color: white;">
-			<!-- Support coverage start --> 
-				<div class="tab-pane active" >
-				<!-- 
-				<div class="Rowtableinfovaltradingapp">
-					<div class="ColumnCommonmyprofiletradingapplication" id="change"> <div class="lable_header" id="interdiv"> <a id="ancho" href="#tab1" class="lable_header" data-toggle="tab"  onclick="activeMode('${personaldetails}');">Search Vendor for Multiple TA Type</a> </div></div>
-				</div>
-				 -->
-				<div><br/></div>
-				 <div class="Row">
-					  <div class="ColumnCommonvendor">
+	<div class="tab-content" style="background-color: white;">
+		<div class="tab-pane active" >
+			<div><br/></div>
+				<div class="Row">
+					<div class="ColumnCommonvendor">
 						<div class="control-group">
 							  <label class="control-label">Asset Class<span class="required">*</span></label>
 						</div>
@@ -22,13 +14,13 @@
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
 							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Equities</label>&nbsp;
-							  <input type="checkbox" name="assetClassChk" value="Equities"  id="Equities"/>
+							  <input type="checkbox" name="assetClassChk" value="Equities" id="Equities"/>
 						</div>
 					</div>
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
-							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">FI</label>&nbsp;
-							  <input type="checkbox" name="assetClassChk" value="FI"  id="FI"/>
+							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">Fixed Income</label>&nbsp;
+							  <input type="checkbox" name="assetClassChk" value="FI" id="FI"/>
 						</div>
 					</div>
 					<div class="ColumnCommonvendormarketingdataaggregators">
@@ -46,32 +38,36 @@
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
 							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">FX</label>&nbsp;
-							  <input type="checkbox" name="assetClassChk" value="FX"  id="FX"/>
+							  <input type="checkbox" name="assetClassChk" value="FX" id="FX"/>
 						</div>
 					</div>  
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
 							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">AI</label>&nbsp;
-							  <input type="checkbox" name="assetClassChk" value="AI"  id="AI"/>
+							  <input type="checkbox" name="assetClassChk" value="AI" id="AI"/>
 						</div>
 					</div> 
 					<div class="ColumnCommonvendormarketingdataaggregators">
 						<div class="control-group">
 							  <label class="control-labelcheckbox" style="font-family: Raleway, sans-serif; font-size: 13px;">MISC</label>&nbsp;
-							  <input type="checkbox" name="assetClassChk" value="MISC"  id="MISC"/>
+							  <input type="checkbox" name="assetClassChk" value="MISC" id="MISC"/>
 						</div>
 					</div>    
 				</div>
 				<div><br/></div>
 				<div class="Rowtableinfoval">
-					<div class="ColumnCommonmyprofiletradingapplication" id="change"> <div class="lable_header" id="interdiv"> <a id="ancho" href="#tab1" class="lable_header" data-toggle="tab"  onclick="activeMode('${personaldetails}');">Common fields for all asset class</a> </div></div>
+					<div class="ColumnCommonmyprofiletradingapplication" id="change"> 
+						<div class="lable_header" id="interdiv">
+							<a id="ancho" href="#tab1" class="lable_header" data-toggle="tab" onclick="activeMode('${personaldetails}');">Common fields for all asset class</a> 
+						</div>
+					</div>
 				</div>
 				<div class="Row">
 					<div class="ColumnCommonvendorTradingApplicationVendor">
 						<div class="control-group">
-							<label class="control-labelappstra">Vendor Region of Incorp</label>
+							<label class="control-labelappstra">Vendor Region of Incorporation</label>
 							<div class="controls" style="margin-left: 175px;">
-								<select name="vendorregionofincorp"  id="vendorregionofincorp" style="width: 227px;">
+								<select name="vendorregionofincorp" id="vendorregionofincorp" multiple="multiple" style="width: 227px;">
 								     <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regionslist" items="${regionslist}">
 								    	<option value="${regionslist.region_id}">${regionslist.name}</option>
@@ -81,30 +77,28 @@
 							</div>
 						</div>
 							<div class="control-grouptrading">
-							<label class="control-labelappstra">Vendor Country of Incorp</label>
+							<label class="control-labelappstra">Vendor Country of Incorporation</label>
 							<div class="controls" style="margin-left: 175px;">
 								<select name="vendorcountryofincorp" multiple="multiple" id="vendorcountryofincorp" style="height: 53px; width: 227px;">
-						     	<option value ="" class="selectvalues"> -SELECT- </option>
+						     	<option value ="" selected="selected" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
 								    <option value="${countries.country_id}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						 		<div class="selectOptions">Choose one or more options</div>
 							</div>
-						</div>
-				
+						</div>			
 					</div>
-					<div class="ColumnCommonvendorpreTradingApplcationVendormultiasset">
-					  
+					<div class="ColumnCommonvendorpreTradingApplcationVendormultiasset">					  
 						<div class="control-grouptrading">
 							<label class="control-labelappstra">Vendor Profile Freshness</label>
 							<div class="controls" style="margin-left: 175px;">
 								<select name="vendorprofilefreshness"  id="vendorprofilefreshness" style="height: 53px; width: 227px;">
-							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
-								     <option>today</option>
-								     <option>Last one week</option>
-								     <option>Last one month</option>
-								     <option>Last one year</option>
+							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
+								     <option>Today</option>
+								     <option>Last One Week</option>
+								     <option>Last One Month</option>
+								     <option>Last One Year</option>
 						 		</select> 
 							</div>
 						</div>
@@ -119,8 +113,7 @@
 						 		</select> 
 							</div>
 						</div>
-					</div>
-					
+					</div>					
 					</div>
 					<div><br/></div>
 					<div class="Row multisearch">
@@ -157,7 +150,7 @@
 						<div><br/></div>
 						   <div class="control-group">
 								<select name="equitiessecuritytype" multiple="multiple" id="equitiessecuritytype" style="height: 53px;">
-						     	    <option value =""> -SELECT- </option>
+						     	    <option selected="selected" value =""> -SELECT- </option>
 								    <c:forEach var="securityType" items="${securityTypes}">
 									    <option value="${securityType.securityTypeId}">${securityType.name}</option>
 									  </c:forEach>
@@ -173,7 +166,7 @@
 						 	 </div>
 						 	 <div class="control-group">
 								<select name="equitiesdatacoveragecountry" multiple="multiple" id="equitiesdatacoveragecountry" style="height: 53px;">
-						     	 <option value =""> -SELECT- </option>
+						     	 <option selected="selected" value =""> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
 								    <option value="${countries.name}">${countries.name}</option>
 								  </c:forEach>
@@ -233,7 +226,7 @@
 								<select name="fidatacoverageregion" multiple="multiple" id="fidatacoverageregion" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
-								    	<option value="${regions.region_id}">${regions.name}</option>
+								    	<option value="${regions.name}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
@@ -241,7 +234,7 @@
 								<select name="fidatacoveragecountry" multiple="multiple" id="fidatacoveragecountry" style="height: 53px;">
 						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
-								    <option value="${countries.country_id}">${countries.name}</option>
+								    <option value="${countries.name}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
@@ -249,7 +242,7 @@
 								<select name="fidatacoverageexchange" multiple="multiple" id="fidatacoverageexchange" style="height: 53px;">
 							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
-									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
+									    <option value="${exchanges.name}">${exchanges.name}</option>
 									  </c:forEach>
 						 		</select> 
 						 	</div>
@@ -279,7 +272,7 @@
 								<select name="fiacquisitioncostrange" multiple="multiple" id="fiacquisitioncostrange" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
-									     <option value="${costs.cost_id}">${costs.range}</option>
+									     <option value="${costs.range}">${costs.range}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
@@ -299,7 +292,7 @@
 								<select name="indicesdatacoverageregion" multiple="multiple" id="indicesdatacoverageregion" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
-								    	<option value="${regions.region_id}">${regions.name}</option>
+								    	<option value="${regions.name}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
@@ -307,7 +300,7 @@
 								<select name="indicesdatacoveragecountry" multiple="multiple" id="indicesdatacoveragecountry" style="height: 53px;">
 						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
-								    <option value="${countries.country_id}">${countries.name}</option>
+								    <option value="${countries.name}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
@@ -315,7 +308,7 @@
 								<select name="indicesdatacoverageexchange" multiple="multiple" id="indicesdatacoverageexchange" style="height: 53px;">
 							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
-									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
+									    <option value="${exchanges.name}">${exchanges.name}</option>
 									  </c:forEach>
 						 		</select> 
 						 	</div>
@@ -345,7 +338,7 @@
 								<select name="indicesacquisitioncostrange" multiple="multiple" id="indicesacquisitioncostrange" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
-									     <option value="${costs.cost_id}">${costs.range}</option>
+									     <option value="${costs.range}">${costs.range}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
@@ -366,7 +359,7 @@
 								<select name="derivativesdatacoverageregion" multiple="multiple" id="derivativesdatacoverageregion" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
-								    	<option value="${regions.region_id}">${regions.name}</option>
+								    	<option value="${regions.name}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
@@ -374,7 +367,7 @@
 								<select name="derivativesdatacoveragecountry" multiple="multiple" id="derivativesdatacoveragecountry" style="height: 53px;">
 						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
-								    <option value="${countries.country_id}">${countries.name}</option>
+								    <option value="${countries.name}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
@@ -382,7 +375,7 @@
 								<select name="derivativesdatacoverageexchange" multiple="multiple" id="derivativesdatacoverageexchange" style="height: 53px;">
 							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
-									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
+									    <option value="${exchanges.name}">${exchanges.name}</option>
 									  </c:forEach>
 						 		</select> 
 						 	</div>
@@ -412,7 +405,7 @@
 								<select name="derivativesacquisitioncostrange" multiple="multiple" id="derivativesacquisitioncostrange" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
-									     <option value="${costs.cost_id}">${costs.range}</option>
+									     <option value="${costs.range}">${costs.range}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
@@ -464,7 +457,7 @@
 								<select name="fxdatacoverageregion" multiple="multiple" id="fxdatacoverageregion" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
-								    	<option value="${regions.region_id}">${regions.name}</option>
+								    	<option value="${regions.name}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
@@ -472,7 +465,7 @@
 								<select name="fxdatacoveragecountry" multiple="multiple" id="fxdatacoveragecountry" style="height: 53px;">
 						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
-								    <option value="${countries.country_id}">${countries.name}</option>
+								    <option value="${countries.name}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
@@ -480,7 +473,7 @@
 								<select name="fxdatacoverageexchange" multiple="multiple" id="fxdatacoverageexchange" style="height: 53px;">
 							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
-									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
+									    <option value="${exchanges.name}">${exchanges.name}</option>
 									  </c:forEach>
 						 		</select> 
 						 	</div>
@@ -510,7 +503,7 @@
 								<select name="fxacquisitioncostrange" multiple="multiple" id="fxacquisitioncostrange" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
-									     <option value="${costs.cost_id}">${costs.range}</option>
+									     <option value="${costs.range}">${costs.range}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
@@ -530,7 +523,7 @@
 								<select name="aidatacoverageregion" multiple="multiple" id="aidatacoverageregion" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
-								    	<option value="${regions.region_id}">${regions.name}</option>
+								    	<option value="${regions.name}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
@@ -538,7 +531,7 @@
 								<select name="aidatacoveragecountry" multiple="multiple" id="aidatacoveragecountry" style="height: 53px;">
 						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
-								    <option value="${countries.country_id}">${countries.name}</option>
+								    <option value="${countries.name}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
@@ -546,7 +539,7 @@
 								<select name="aidatacoverageexchange" multiple="multiple" id="aidatacoverageexchange" style="height: 53px;">
 							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
-									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
+									    <option value="${exchanges.name}">${exchanges.name}</option>
 									  </c:forEach>
 						 		</select> 
 						 	</div>
@@ -576,7 +569,7 @@
 								<select name="aiacquisitioncostrange" multiple="multiple" id="aiacquisitioncostrange" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
-									     <option value="${costs.cost_id}">${costs.range}</option>
+									     <option value="${costs.range}">${costs.range}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
@@ -596,7 +589,7 @@
 								<select name="miscdatacoverageregion" multiple="multiple" id="miscdatacoverageregion" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="regions" items="${regions}">
-								    	<option value="${regions.region_id}">${regions.name}</option>
+								    	<option value="${regions.name}">${regions.name}</option>
 								 	 </c:forEach>
 						 	 	</select> 
 						 	 </div>
@@ -604,7 +597,7 @@
 								<select name="miscdatacoveragecountry" multiple="multiple" id="miscdatacoveragecountry" style="height: 53px;">
 						     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 							     <c:forEach var="countries" items="${countries}">
-								    <option value="${countries.country_id}">${countries.name}</option>
+								    <option value="${countries.name}">${countries.name}</option>
 								  </c:forEach>
 						 		</select> 
 						    </div>
@@ -612,7 +605,7 @@
 								<select name="miscdatacoverageexchange" multiple="multiple" id="miscdatacoverageexchange" style="height: 53px;">
 							     	 <option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 								     <c:forEach var="exchanges" items="${exchanges}">
-									    <option value="${exchanges.exchange_id}">${exchanges.name}</option>
+									    <option value="${exchanges.name}">${exchanges.name}</option>
 									  </c:forEach>
 						 		</select> 
 						 	</div>
@@ -642,7 +635,7 @@
 								<select name="miscacquisitioncostrange" multiple="multiple" id="miscacquisitioncostrange" style="height: 53px;">
 							     	<option selected="selected" value ="" class="selectvalues"> -SELECT- </option>
 									 <c:forEach var="costs" items="${costs}">
-									     <option value="${costs.cost_id}">${costs.range}</option>
+									     <option value="${costs.range}">${costs.range}</option>
 									 </c:forEach>
 						 		</select> 
 						 	</div>
