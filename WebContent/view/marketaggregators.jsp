@@ -12,7 +12,7 @@
 <body>
 	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
 	<div class="container">  
-    <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}"> Market Data Aggregators (MA) Vendor</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
+    <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}"> Market Data Aggregators (MA) Vendor</a> </div><div class="arw"> > </div> <div class="text_arw">Search Vendor</div></div>
     <br>
     <!-- 
         <div class="control-group">
@@ -41,7 +41,7 @@
 			<label class="control-label" style="margin-left: 21px; margin-top: -15px;">Search Vendor for Single MA Type</label>
 		 -->
 		 
-			<label class="control-label" style="margin-left: 21px; margin-top: -15px;">	<input  type="radio" id="multiform" name="radios" checked="checked"/>Search Vendor for Multiple MA Type</label>
+			<!--<label class="control-label" style="margin-left: 21px; margin-top: -15px;">	<input  type="radio" id="multiform" name="radios" checked="checked"/>Search Vendor for Multiple MA Type</label>-->
 			
 			
 		</div>

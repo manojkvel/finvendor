@@ -25,7 +25,7 @@
 <body>
 <jsp:include page="common/dashboardheader.jsp"></jsp:include>
 <div class="container">
-	<div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>?RaYUnA=${l:encrypt(username)}">Market Data Vendors (Aggregators) Directory ></a> </div>  <div class="text_arw">Result</div></div>
+	<div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>?RaYUnA=${l:encrypt(username)}">Market Data Vendors (Aggregators) Directory > </a> </div>  <div class="text_arw">Result</div></div>
 	<div class="right_nav_area_1">
 	<div class="right_nav_1">
 	 <ul>

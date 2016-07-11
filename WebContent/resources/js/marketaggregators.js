@@ -207,9 +207,74 @@ function loadExchangeAssetList(countryId) {
 	
 }
 
+/**
+ * @author Maninder Singh Rajpal
+ * @date Jul 01, 2016
+ * @emailId wonderfulmani@gmail.com
+ * Copyrights: All Rights Reserved FinVendor
+ */
+
 $(document).ready(function() {
-	debugger;
-	$("#equities").hide();
+	
+	var assetClassArray = [];
+	
+	var getAssetClassAggregators = function() {
+		if($(this).prop('checked') == true) {
+			assetClassArray.push($(this).attr('id').toLowerCase());
+		} else {
+			assetClassArray.splice($.inArray($(this).attr('id').toLowerCase(), assetClassArray), 1);
+		}
+
+		if(assetClassArray.length > 3) {
+			alert("Sorry, You cannot select more than 3 asset class.");
+			console.log(assetClassArray);
+			assetClassArray.splice($.inArray($(this).attr('id').toLowerCase(), assetClassArray), 1);
+			console.log(assetClassArray);
+			$(this).prop('checked', false);
+			return;
+		} else {
+			$(".error").hide();
+		}
+
+		if(assetClassArray.length == 0) {
+			$("#singleAsset").slideUp('slow');
+		}
+
+		if(assetClassArray.length == 1) {
+			var assetType = assetClassArray[0];
+			singleAssetClass(assetType);
+			$("#singleAsset").slideDown('slow');
+			$("#multipleAsset").slideUp('slow');
+		}
+
+		if(assetClassArray.length > 1) {
+			multipleAssetData = '';
+			for(var i=0;i<assetClassArray.length;i++) {
+				multipleAssetClass(assetClassArray[i]);
+			}
+			$("#singleAsset").slideUp('slow');
+			$("#multipleAsset").slideDown('slow');
+		}
+		console.log(assetClassArray + " : " + assetClassArray.length);
+	};
+	
+	$(".assetClass").click(getAssetClassAggregators);
+	
+	$("#search_vendor").click(function(e) {
+		if(assetClassArray.length == 0) {
+			alert("Please select atleast 1 asset class.");
+			e.preventDefault();
+			return false;
+		}
+	});
+	
+	$("#reset_vendor").click(function() {
+		assetClassArray = [];
+		$("#singleAsset").slideUp('slow');
+		$("#multipleAsset").slideUp('slow')
+	});
+	
+	/*$("#equities").hide();
 	$("#fi").hide();
 	$("#indices").hide();
 	$("#derivatives").hide();
@@ -223,8 +288,6 @@ $(document).ready(function() {
 		if(document.getElementById('Equities').value != '' && document.getElementById('Equities').value.length > 0
 				&&  document.getElementById('Equities').value == 'Equities' && document.getElementById('Equities').checked == true){
 			var assettypeId = '1';
-			
-			/*
 			if(assettypeId != '' && assettypeId.length > 0){
 				assettypeId = encode64(assettypeId);
 				$.ajax({
@@ -239,7 +302,6 @@ $(document).ready(function() {
 					}
 				});
 			}
-			*/
 			$("#commonarea").slideDown("slow");
 			$("#equities").slideDown("slow");
 		}else{
@@ -252,7 +314,6 @@ $(document).ready(function() {
 		if(document.getElementById('FI').value != '' && document.getElementById('FI').value.length > 0
 				&&  document.getElementById('FI').value == 'FI' && document.getElementById('FI').checked == true){
 			var assettypeId = '2';
-			/*
 			if(assettypeId != '' && assettypeId.length > 0){
 				assettypeId = encode64(assettypeId);
 				$.ajax({
@@ -267,7 +328,6 @@ $(document).ready(function() {
 					}
 				});
 			}
-			*/
 			$("#fi").slideDown("slow");
 			$("#commonarea").slideDown("slow");
 		}else{
@@ -345,8 +405,8 @@ $(document).ready(function() {
 			$("#misc").hide();
 		}
 				
-	});
+	});*/
 	
-	});
+});
 	
 

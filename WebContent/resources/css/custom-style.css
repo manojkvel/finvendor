@@ -313,3 +313,122 @@ th{
     font-family: "Raleway", sans-serif;
 }
 
+
+
+/**
+ * @author Maninder Singh Rajpal
+ * @date Jul 01, 2016
+ * @emailId wonderfulmani@gmail.com
+ * Copyrights: All Rights Reserved FinVendor
+ */
+
+.sf-menu ul {
+	display: none;
+}
+.ColumnCommonvendor .control-group .control-label{
+	text-align: left !important;
+	padding: 0 !important;
+}
+.ColumnCommonvendormarketingdataaggregators {
+	margin: 0 !important;
+}
+.control-groupcheckingforradiobuttons {
+	margin : 0 0 10px !important;
+}
+.control-label {
+	margin : 0 !important;
+}
+.control-label input {
+	margin: 0 10px 0 0 !important;
+}
+
+#searchmultiform .Row {
+	padding-top: 10px !important;
+}
+#searchmultiform .control-group {
+	margin-bottom: 10px !important;
+}
+#searchmultiform  .ColumnCommonvendor .control-group {
+	margin-bottom: 0 !important;
+}
+
+.Rowtableinfoval {
+	background: transparent !important;
+}
+.ColumnCommonmyprofiletradingapplication {
+	width: auto !important;
+	margin-left: 0 !important;
+	padding: 0 !important;
+}
+
+#searchmultiform  .lable_header {
+	background: transparent !important;
+	color: #000 !important;
+	padding: 0 !important;
+}
+
+.ColumnCommonvendorTradingApplicationVendor {
+	width: 32% !important;
+}
+
+.selectOptions {
+	padding: 5px !important;
+}
+
+#searchmultiform  .multisearch {
+	display: none;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+#searchmultiform .multisearch .Row {
+	padding-top: 0 !important;
+}
+#searchmultiform  .multisearch .lable_header {
+	text-align: left;
+	margin: 0 0 10px !important;
+}
+#searchmultiform .multisearch .control-group label {
+	float: none !important;
+}
+#searchmultiform .multisearch .control-group select, #searchmultiform .multisearch .control-group input {
+	width: 209px !important;
+	height: 70px !important;
+}
+#searchmultiform #singleAsset .control-group {
+	float: left;
+	margin: 0 10px;
+	height: auto !important;
+}
+#singleAsset .ColumnCommontradingappinterestratemarket {
+	float: none !important;
+	width: auto !important;
+	padding: 0 !important;
+}
+.form-horizontal #singleAsset .control-labeltradingapp {
+	width: 190px !important;
+}
+#searchmultiform #multipleAsset .control-group {
+	height: 70px !important;
+}
+#searchmultiform #multipleAsset .ColumnCommontradingappinterestratemarket {
+	width: 24% !important;
+}
+#searchmultiform #multipleAsset .ColumnCommontradingapp {
+	width: 19%;
+	padding: 22px 0px 0px 11px;
+}
+.form-horizontal #multipleAsset .control-labeltradingapp {
+	width: auto;
+}
+.ColumnCommontradingappinterestratemarket {
+	padding: 10px 0px 0px 22px !important;
+}
+#searchmultiform .form-horizontal .control-labelcheckbox {
+	padding-top: 0;
+}
+.required {
+    color: rgb(224, 34, 34);
+    font-size: 14px;
+    font-family: Raleway, sans-serif;
+    padding-left: 2px;
+}
