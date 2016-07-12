@@ -10,7 +10,7 @@
 						class="required">*</span></label>
 				</div>
 			</div>
-			<div class="Row">
+			<div class="Row" id="asset-class-type">
 				<div class="ColumnCommonvendormarketingdataaggregators">
 					<div class="control-group">
 						<label class="control-labelcheckbox"
@@ -72,86 +72,59 @@
 					</div>
 				</div>
 			</div>
-			<div>
-				<br />
-			</div>
-			<div class="Rowtableinfoval">
-				<div class="ColumnCommonmyprofiletradingapplication" id="change">
-					<div class="lable_header" id="interdiv">
-						<a id="ancho" href="#tab1" class="lable_header" data-toggle="tab"
-							onclick="activeMode('${personaldetails}');">Common fields for
-							all asset class<span class="required">*</span>
-						</a>
-					</div>
+			<div class="ColumnCommonvendor">
+				<div class="control-group">
+					<label class="control-label">Common fields for all asset
+						class<span class="required">*</span>
+					</label>
 				</div>
 			</div>
-			<div class="Row">
-				<div class="ColumnCommonvendorTradingApplicationVendor">
-					<div class="control-group">
-						<label class="control-labelappstra">Vendor Region of
-							Incorporation<span class="required">*</span>
-						</label>
-						<div class="controls" style="margin-left: 175px;">
-							<select name="vendorregionofincorp" id="vendorregionofincorp"
-								multiple="multiple" style="width: 227px;">
-								<option selected="selected" value="" class="selectvalues">
-									-SELECT-</option>
-								<c:forEach var="regionslist" items="${regionslist}">
-									<option value="${regionslist.region_id}">${regionslist.name}</option>
-								</c:forEach>
-							</select>
-							<div class="selectOptions">Choose one or more options</div>
-						</div>
-					</div>
-					<div class="control-grouptrading">
-						<label class="control-labelappstra">Vendor Country of
-							Incorporation<span class="required">*</span>
-						</label>
-						<div class="controls" style="margin-left: 175px;">
-							<select name="vendorcountryofincorp" multiple="multiple"
-								id="vendorcountryofincorp" style="height: 53px; width: 227px;">
-								<option value="" selected="selected" class="selectvalues">
-									-SELECT-</option>
-								<c:forEach var="countries" items="${countries}">
-									<option value="${countries.country_id}">${countries.name}</option>
-								</c:forEach>
-							</select>
-							<div class="selectOptions">Choose one or more options</div>
-						</div>
-					</div>
+			<div class="Row" id="common-vendor-type">
+				<div class="control-group">
+					<label>Vendor Region of Incorporation<span class="required">*</span></label>
+					<select name="vendorregionofincorp" id="vendorregionofincorp"
+						multiple="multiple" style="width: 227px;">
+						<option selected="selected" value="" class="selectvalues">
+							-SELECT-</option>
+						<c:forEach var="regionslist" items="${regionslist}">
+							<option value="${regionslist.region_id}">${regionslist.name}</option>
+						</c:forEach>
+					</select>
 				</div>
-				<div class="ColumnCommonvendorpreTradingApplcationVendormultiasset">
-					<div class="control-grouptrading">
-						<label class="control-labelappstra">Vendor Profile
-							Freshness<span class="required">*</span>
-						</label>
-						<div class="controls" style="margin-left: 175px;">
-							<select name="vendorprofilefreshness" id="vendorprofilefreshness"
-								style="height: 53px; width: 227px;">
-								<option selected="selected" value="" class="selectvalues">
-									-SELECT-</option>
-								<option>Today</option>
-								<option>Last One Week</option>
-								<option>Last One Month</option>
-								<option>Last One Year</option>
-							</select>
-						</div>
-					</div>
-					<div class="control-grouptrading">
-						<label class="control-labelappstra">Vendor Support
-							Coverage Time<span class="required">*</span>
-						</label>
-						<div class="controls" style="margin-left: 175px;">
-							<select name="vendorsupporttime" id="vendorsupporttime"
-								style="height: 53px; width: 227px;">
-								<option selected="selected" value="" class="selectvalues">
-									-SELECT-</option>
-								<c:forEach var="supports" items="${supports}">
-									<option value="${supports.support_id}">${supports.name}</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
+				<div class="control-group">
+					<label>Vendor Country of Incorporation<span
+						class="required">*</span></label> <select name="vendorcountryofincorp"
+						multiple="multiple" id="vendorcountryofincorp"
+						style="height: 53px; width: 227px;">
+						<option value="" selected="selected" class="selectvalues">
+							-SELECT-</option>
+						<c:forEach var="countries" items="${countries}">
+							<option value="${countries.country_id}">${countries.name}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="control-group">
+					<label>Vendor Profile Freshness<span class="required">*</span></label>
+					<select name="vendorprofilefreshness" id="vendorprofilefreshness"
+						style="height: 53px; width: 227px;">
+						<option selected="selected" value="" class="selectvalues">
+							-SELECT-</option>
+						<option>Today</option>
+						<option>Last One Week</option>
+						<option>Last One Month</option>
+						<option>Last One Year</option>
+					</select>
+				</div>
+				<div class="control-group">
+					<label>Vendor Support Coverage Time<span class="required">*</span></label>
+					<select name="vendorsupporttime" id="vendorsupporttime"
+						style="height: 53px; width: 227px;">
+						<option selected="selected" value="" class="selectvalues">
+							-SELECT-</option>
+						<c:forEach var="supports" items="${supports}">
+							<option value="${supports.support_id}">${supports.name}</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 			<div>
@@ -169,7 +142,7 @@
 								+ "<div class='Row'>"
 								+ "<div class='ColumnCommontradingappinterestratemarket'>"
 								+ "<div class='control-group'>"
-								+ "<label class='control-labeltradingapp' style='font-family: Raleway, sans-serif; font-size: 13px;'>Security Types</label>"
+								+ "<label>Security Types</label>"
 								+ "<select name='" + assetType + "securitytype' multiple='multiple' id='" + assetType + "securitytype' style='height: 53px;'>"
 								+ "<option selected='selected' value =''> -SELECT- </option>"
 								+ "<c:forEach var='securityType' items='${securityTypes}'>"
@@ -178,7 +151,7 @@
 								+ "</select>"
 								+ "</div>"
 								+ "<div class='control-group'>"
-								+ "<label class='control-labeltradingapp' style='font-family: Raleway, sans-serif; font-size: 13px;'>Data Coverage Region</label>"
+								+ "<label>Data Coverage Region</label>"
 								+ "<select name='" + assetType + "datacoverageregion' multiple='multiple' id='" + assetType + "datacoverageregion' style='height: 53px;'>"
 								+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
 								+ "<c:forEach var='regions' items='${regions}'>"
@@ -187,7 +160,7 @@
 								+ "</select>"
 								+ "</div>"
 								+ "<div class='control-group'>"
-								+ "<label class='control-labeltradingapp' style='font-family: Raleway, sans-serif; font-size: 13px;'>Data Coverage Country</label>"
+								+ "<label>Data Coverage Country</label>"
 								+ "<select name='" + assetType + "datacoveragecountry' multiple='multiple' id='" + assetType + "datacoveragecountry' style='height: 53px;'>"
 								+ "<option selected='selected' value =''> -SELECT- </option>"
 								+ "<c:forEach var='countries' items='${countries}'>"
@@ -196,7 +169,7 @@
 								+ "</select>"
 								+ "</div>"
 								+ "<div class='control-group'>"
-								+ "<label class='control-labeltradingapp' style='font-family: Raleway, sans-serif; font-size: 13px;'>Data Coverage Exchange</label>"
+								+ "<label>Data Coverage Exchange</label>"
 								+ "<select name='" + assetType + "datacoverageexchange' multiple='multiple' id='" + assetType + "datacoverageexchange' style='height: 53px;'>"
 								+ "<option value =''> -SELECT- </option>"
 								+ "<c:forEach var='exchanges' items='${exchanges}'>"
@@ -205,7 +178,7 @@
 								+ "</select>"
 								+ "</div>"
 								+ "<div class='control-group'>"
-								+ "<label class='control-labeltradingapp' style='font-family: Raleway, sans-serif; font-size: 13px;'>Vendor Year of Operation</label>"
+								+ "<label>Vendor Year of Operation</label>"
 								+ "<select name='" + assetType + "vendoryearoperation' multiple='multiple' id='" + assetType + "vendoryearoperation' style='height: 53px;'>"
 								+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
 								+ "<option>Date (1970)</option>"
@@ -215,7 +188,7 @@
 								+ "</select>"
 								+ "</div>"
 								+ "<div class='control-group'>"
-								+ "<label class='control-labeltradingapp' style='font-family: Raleway, sans-serif; font-size: 13px;'>Awards</label>"
+								+ "<label>Awards</label>"
 								+ "<select name='" + assetType + "awards' multiple='multiple' id='" + assetType + "awards' style='height: 53px;'>"
 								+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
 								+ "<c:forEach var='awards' items='${awards}'>"
@@ -224,7 +197,7 @@
 								+ "</select>"
 								+ "</div>"
 								+ "<div class='control-group'>"
-								+ "<label class='control-labeltradingapp' style='font-family: Raleway, sans-serif; font-size: 13px;'>Data Acquisition Cost Range</label>"
+								+ "<label>Data Acquisition Cost Range</label>"
 								+ "<select name='" + assetType + "acquisitioncostrange' multiple='multiple' id='" + assetType + "acquisitioncostrange' style='height: 53px;'>"
 								+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
 								+ "<c:forEach var='costs' items='${costs}'>"
@@ -233,7 +206,7 @@
 								+ "</select>"
 								+ "</div>"
 								+ "<div class='control-group'>"
-								+ "<label class='control-labeltradingapp' style='font-family: Raleway, sans-serif; font-size: 13px;'>Data Attribute</label>"
+								+ "<label>Data Attribute</label>"
 								+ "<div class='controls' style='margin-left: 0;'>"
 								+ "<input type='text' id='" + assetType + "dataattribute' placeholder='Data Attribute' name='" + assetType + "dataattribute' class='m-wrap largevaltradingappmarketingaggregator' />"
 								+ "</div>" + "</div>" + "</div>" + "</div>";
@@ -246,43 +219,28 @@
 				<div class="Row">
 					<div class="ColumnCommontradingapp" id="commonarea">
 						<div class="control-group">
-							<label class="control-labeltradingapp"
-								style="font-family: Raleway, sans-serif; font-size: 13px;">Security
-								Types</label>
+							<label>Security Types</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp"
-								style="font-family: Raleway, sans-serif; font-size: 13px;">Data
-								Coverage Region</label>
+							<label>Data Coverage Region</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp"
-								style="font-family: Raleway, sans-serif; font-size: 13px;">Data
-								Coverage Country</label>
+							<label>Data Coverage Country</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp"
-								style="font-family: Raleway, sans-serif; font-size: 13px;">Data
-								Coverage Exchange</label>
+							<label>Data Coverage Exchange</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp"
-								style="font-family: Raleway, sans-serif; font-size: 13px;">Data
-								Attribute</label>
+							<label>Vendor Year of Operation</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp"
-								style="font-family: Raleway, sans-serif; font-size: 13px;">Vendor
-								Year of Operation</label>
+							<label>Awards</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp"
-								style="font-family: Raleway, sans-serif; font-size: 13px;">Awards</label>
+							<label>Data Acquisition Cost Range</label>
 						</div>
 						<div class="control-group">
-							<label class="control-labeltradingapp"
-								style="font-family: Raleway, sans-serif; font-size: 13px;">Data
-								Acquisition Cost Range</label>
+							<label>Data Attribute</label>
 						</div>
 					</div>
 					<script type="text/javascript">

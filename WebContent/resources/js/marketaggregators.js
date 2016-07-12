@@ -1,50 +1,50 @@
 $(document).ready(function() {
-		debugger
-		$("#searchmultiform").slideDown("slow");
-		$("#searchsingleform").hide();
+	debugger
+	$("#searchmultiform").slideDown("slow");
+	$("#searchsingleform").hide();
+	$("#savedsearchform").hide();
+	$("#singleform").click(function() {
+		$("#searchsingleform").slideDown("slow");
+		$("#searchmultiform").hide();
 		$("#savedsearchform").hide();
-		$("#singleform").click(function() {
-			$("#searchsingleform").slideDown("slow");
-			$("#searchmultiform").hide();
-			$("#savedsearchform").hide();
-			document.getElementsByClassName('inner')[0].style.backgroundColor = '#5CE5E5';
-			document.getElementsByClassName('outer')[0].style.backgroundColor = '#5CE5E5';
-		});
-		$("#multiform").click(function() {
-			$("#searchsingleform").hide();
-			$("#searchmultiform").slideDown("slow");
-			$("#savedsearchform").hide();
-			document.getElementsByClassName('inner')[0].style.backgroundColor = '#5CE5E5';
-			document.getElementsByClassName('outer')[0].style.backgroundColor = '#5CE5E5';
-		});
-		$("#savesearch").click(function() {
-			debugger;
-			if($("#savesearch").is(':checked')){
-				document.getElementById("saveSearchList").style.visibility = "visible";
-			}else{
-				document.getElementById("saveSearchList").style.visibility = "hidden";
-			}
-			
-		});
+		document.getElementsByClassName('inner')[0].style.backgroundColor = '#5CE5E5';
+		document.getElementsByClassName('outer')[0].style.backgroundColor = '#5CE5E5';
 	});
-	
-function getRegionValues(regionName) {
-		if(regionName != '' && regionName.length > 0 && !regionName.match("-SELECT-")){
-			regionName = encode64(regionName);
-			$.ajax({
-				type: 'GET',
-				url:  "loadRegionNameTypes?SiMhRaYuL="+regionName,
-				cache:false,
-				success : function(output){
-					document.getElementById("regionsNames").innerHTML = output;
-				},
-				error : function(data, textStatus, jqXHR){
-					 alert('Error: '+data+':'+textStatus);
-				}
-			});
+	$("#multiform").click(function() {
+		$("#searchsingleform").hide();
+		$("#searchmultiform").slideDown("slow");
+		$("#savedsearchform").hide();
+		document.getElementsByClassName('inner')[0].style.backgroundColor = '#5CE5E5';
+		document.getElementsByClassName('outer')[0].style.backgroundColor = '#5CE5E5';
+	});
+	$("#savesearch").click(function() {
+		debugger;
+		if($("#savesearch").is(':checked')){
+			document.getElementById("saveSearchList").style.visibility = "visible";
+		}else{
+			document.getElementById("saveSearchList").style.visibility = "hidden";
 		}
+
+	});
+});
+
+function getRegionValues(regionName) {
+	if(regionName != '' && regionName.length > 0 && !regionName.match("-SELECT-")){
+		regionName = encode64(regionName);
+		$.ajax({
+			type: 'GET',
+			url:  "loadRegionNameTypes?SiMhRaYuL="+regionName,
+			cache:false,
+			success : function(output){
+				document.getElementById("regionsNames").innerHTML = output;
+			},
+			error : function(data, textStatus, jqXHR){
+				alert('Error: '+data+':'+textStatus);
+			}
+		});
 	}
-	
+}
+
 function loadSecurityTypes(assettypeId) {
 	if(assettypeId != '' && assettypeId.length > 0 && !assettypeId.match("-SELECT-")){
 		assettypeId = encode64(assettypeId);
@@ -95,7 +95,7 @@ function loadCountryListInfo(regionId) {
 		});
 
 	}
-	
+
 }
 function loadCountryListMultiInfo(regionId) {
 	if(regionId != '' && regionId.length > 0 && !regionId.match("-SELECT-")){
@@ -113,7 +113,7 @@ function loadCountryListMultiInfo(regionId) {
 		});
 
 	}
-	
+
 }
 function loadCountryListAssetInfo(regionId) {
 	if(regionId != '' && regionId.length > 0 && !regionId.match("-SELECT-")){
@@ -131,7 +131,7 @@ function loadCountryListAssetInfo(regionId) {
 		});
 
 	}
-	
+
 }
 function loadCountryListAssetInfoFI(regionId) {
 	if(regionId != '' && regionId.length > 0 && !regionId.match("-SELECT-")){
@@ -149,7 +149,7 @@ function loadCountryListAssetInfoFI(regionId) {
 		});
 
 	}
-	
+
 }
 function loadExchangeAssetListFI(countryId) {
 	if(countryId != '' && countryId.length > 0 && !countryId.match("-SELECT-")){
@@ -167,7 +167,7 @@ function loadExchangeAssetListFI(countryId) {
 		});
 
 	}
-	
+
 }
 function loadExchangeList(countryId) {
 	if(countryId != '' && countryId.length > 0 && !countryId.match("-SELECT-")){
@@ -185,7 +185,7 @@ function loadExchangeList(countryId) {
 		});
 
 	}
-	
+
 }
 
 function loadExchangeAssetList(countryId) {
@@ -204,7 +204,7 @@ function loadExchangeAssetList(countryId) {
 		});
 
 	}
-	
+
 }
 
 /**
@@ -215,9 +215,8 @@ function loadExchangeAssetList(countryId) {
  */
 
 $(document).ready(function() {
-	
+
 	var assetClassArray = [];
-	
 	var getAssetClassAggregators = function() {
 		if($(this).prop('checked') == true) {
 			assetClassArray.push($(this).attr('id').toLowerCase());
@@ -257,23 +256,50 @@ $(document).ready(function() {
 		}
 		console.log(assetClassArray + " : " + assetClassArray.length);
 	};
-	
+
+	if(window.localStorage.getItem('assetClassArray') != undefined) {
+		if($("#searchmultiform").is(':visible')) {
+			assetClassArray = JSON.parse(window.localStorage.assetClassArray);
+			console.log("LocalStorage : " + assetClassArray + " : " + assetClassArray.length);
+			if(assetClassArray.length == 1) {
+				var assetType = assetClassArray[0];
+				singleAssetClass(assetType);
+				$("#singleAsset").slideDown('slow');
+				$("#multipleAsset").slideUp('slow');
+			}
+
+			if(assetClassArray.length > 1) {
+				multipleAssetData = '';
+				for(var i=0;i<assetClassArray.length;i++) {
+					multipleAssetClass(assetClassArray[i]);
+				}
+				$("#singleAsset").slideUp('slow');
+				$("#multipleAsset").slideDown('slow');
+			}
+			window.localStorage.clear();
+		}
+	}
+
 	$(".assetClass").click(getAssetClassAggregators);
-	
+
 	$("#search_vendor").click(function(e) {
 		if(assetClassArray.length == 0) {
 			alert("Please select atleast 1 asset class.");
 			e.preventDefault();
 			return false;
 		}
+		window.localStorage.setItem('assetClassArray', JSON.stringify(assetClassArray));
 	});
-	
+
 	$("#reset_vendor").click(function() {
 		assetClassArray = [];
 		$("#singleAsset").slideUp('slow');
-		$("#multipleAsset").slideUp('slow')
+		$("#multipleAsset").slideUp('slow');
 	});
-	
+
+
+
+
 	/*$("#equities").hide();
 	$("#fi").hide();
 	$("#indices").hide();
@@ -282,12 +308,15 @@ $(document).ready(function() {
 	$("#ai").hide();
 	$("#misc").hide();
 	$("#commonarea").hide();
-	$("#commonareainfo").hide();
-	
-	$("#Equities").click(function() {
+	$("#commonareainfo").hide();*/
+
+	/*$("#Equities").click(function() {
+		$("#equities").slideToggle("slow");
 		if(document.getElementById('Equities').value != '' && document.getElementById('Equities').value.length > 0
 				&&  document.getElementById('Equities').value == 'Equities' && document.getElementById('Equities').checked == true){
 			var assettypeId = '1';
+
+
 			if(assettypeId != '' && assettypeId.length > 0){
 				assettypeId = encode64(assettypeId);
 				$.ajax({
@@ -302,18 +331,16 @@ $(document).ready(function() {
 					}
 				});
 			}
+
 			$("#commonarea").slideDown("slow");
-			$("#equities").slideDown("slow");
-		}else{
-			$("#equities").hide();
-		}
-				
+		}				
 	});
-		
+
 	$("#FI").click(function() {
 		if(document.getElementById('FI').value != '' && document.getElementById('FI').value.length > 0
 				&&  document.getElementById('FI').value == 'FI' && document.getElementById('FI').checked == true){
 			var assettypeId = '2';
+
 			if(assettypeId != '' && assettypeId.length > 0){
 				assettypeId = encode64(assettypeId);
 				$.ajax({
@@ -328,14 +355,15 @@ $(document).ready(function() {
 					}
 				});
 			}
+
 			$("#fi").slideDown("slow");
 			$("#commonarea").slideDown("slow");
 		}else{
 			$("#fi").hide();
 		}
-				
+
 	});
-	
+
 	$("#Indices").click(function() {
 		if(document.getElementById('Indices').value != '' && document.getElementById('Indices').value.length > 0
 				&&  document.getElementById('Indices').value == 'Indices' && document.getElementById('Indices').checked == true){
@@ -359,10 +387,10 @@ $(document).ready(function() {
 		}else{
 			$("#indices").hide();
 		}
-				
+
 	});
-	
-	
+
+
 	$("#Derivatives").click(function() {
 		if(document.getElementById('Derivatives').value != '' && document.getElementById('Derivatives').value.length > 0
 				&&  document.getElementById('Derivatives').value == 'Derivatives' && document.getElementById('Derivatives').checked == true){
@@ -371,7 +399,7 @@ $(document).ready(function() {
 		}else{
 			$("#derivatives").hide();
 		}
-				
+
 	});
 
 	$("#FX").click(function() {
@@ -382,7 +410,7 @@ $(document).ready(function() {
 		}else{
 			$("#fx").hide();
 		}
-				
+
 	});
 
 	$("#AI").click(function() {
@@ -393,7 +421,7 @@ $(document).ready(function() {
 		}else{
 			$("#ai").hide();
 		}
-				
+
 	});
 
 	$("#MISC").click(function() {
@@ -404,9 +432,7 @@ $(document).ready(function() {
 		}else{
 			$("#misc").hide();
 		}
-				
-	});*/
-	
-});
-	
 
+	});*/
+
+});
