@@ -15,7 +15,7 @@
 		<!-- being referenced - no file found<script src="${pageContext.request.contextPath}/resources/newlogin/js/superfish.js </script>-->
 		
 		<script>
-			
+		window.localStorage.clear();
 			( function( $ ) {
 				$( document ).ready(function() {
 					$('#sidelinks a').click(function(e) {						
