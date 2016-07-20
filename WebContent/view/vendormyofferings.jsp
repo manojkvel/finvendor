@@ -411,7 +411,7 @@
 																			id="supportcoveragecountry" multiple="multiple" data-mandatory="Y"
 																			style="width: 200px">
 																			<c:forEach var="countries" items="${countries}">
-																		        <option value="${countries.country_id}" >${countries.name}</option>
+																		        <option value="${countries.name}" >${countries.name}</option>
 																			</c:forEach>
 																		</select>
 													   		

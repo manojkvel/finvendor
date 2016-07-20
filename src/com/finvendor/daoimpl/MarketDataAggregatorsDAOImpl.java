@@ -4,6 +4,8 @@
 package com.finvendor.daoimpl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -828,7 +830,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	
 	@Transactional
 	@Override
-	public List<VendorSearchResult> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
+	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		
 		String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and ven.regionofincorp in ( ";
@@ -903,19 +905,65 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		SQLQuery sqlQuery = currentSession.createSQLQuery(searchSql.toString());
 		@SuppressWarnings("unchecked")
 		List<Object[]> searchResultList = (List<Object[]>)sqlQuery.list();
-		List<VendorSearchResult> vendorSearchResultList = new ArrayList<VendorSearchResult>();
+		Set<VendorSearchResult> vendorSearchResultList = new HashSet<VendorSearchResult>();
+		
+		Map<String, Set<String>> assetCountries = new HashMap<String, Set<String>>();
+		Map<String, Set<String>> assetExchanges = new HashMap<String, Set<String>>();
+		
+		Map<String, Object> searchResultMap = new HashMap <String, Object>();
 		
 		for(Object[] searchRow : searchResultList) {
+			
 			VendorSearchResult vendorSearchRow = new VendorSearchResult();
 			vendorSearchRow.setVendorId((String)searchRow[0]);
 			vendorSearchRow.setVendorName((String)searchRow[1]);
 			vendorSearchRow.setVendorCompany((String)searchRow[2]);
 			vendorSearchRow.setVendorCountry((String)searchRow[3]);
 			vendorSearchRow.setVendorType((String)searchRow[4]);
+			
+			String assetClass = (String)searchRow[5];
+			String countries = (String)searchRow[9];
+			String exchanges = (String)searchRow[11];
+			
+			String mapKey = (String)searchRow[0] + "_" + assetClass;
+			
+			if(countries != null && !countries.trim().equals("")) {
+				String[] countryNames = countries.split(",");
+				for(String countryName : countryNames) {
+					Set<String> assetCountriesSet = assetCountries.get(mapKey);
+					if(assetCountriesSet == null) {
+						assetCountriesSet = new HashSet<String>();
+						assetCountries.put(mapKey, assetCountriesSet);
+						assetCountriesSet.add(countryName);
+					} else {
+						assetCountriesSet.add(countryName);
+					}
+				}
+			}
+			
+			if(exchanges != null && !exchanges.trim().equals("")) {
+				String[] exchangeNames = exchanges.split(",");
+				for(String exchangeName : exchangeNames) {
+					Set<String> assetExchangesSet = assetExchanges.get(mapKey);
+					if(assetExchangesSet == null) {
+						assetExchangesSet = new HashSet<String>();
+						assetExchanges.put(mapKey, assetExchangesSet);
+						assetExchangesSet.add(exchangeName);
+					} else {
+						assetExchangesSet.add(exchangeName);
+					}
+				}
+			}
+			
+			// 5 - Asset class, 9 - Countries, 11 - Exchanges
 			vendorSearchResultList.add(vendorSearchRow);
 		}
 		
-		return vendorSearchResultList;
+		searchResultMap.put("vendorSearchResultList", vendorSearchResultList);
+		searchResultMap.put("assetCountries", assetCountries);
+		searchResultMap.put("assetExchanges", assetExchanges);
+		
+		return searchResultMap;
 	}
 	
 	private void populateFilterCondition(StringBuilder searchSql, Object filter, String columnName) {

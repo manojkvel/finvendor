@@ -33,4 +33,9 @@
         <function-class>com.finvendor.util.CommonUtils</function-class>
         <function-signature>java.lang.String rectifyCompanyUrl(java.lang.String)</function-signature>
     </function>
+    <function>
+        <name>getCount</name>
+        <function-class>com.finvendor.util.CommonUtils</function-class>
+        <function-signature>int getCount(java.lang.String, java.util.Map)</function-signature>
+    </function>
  </taglib>

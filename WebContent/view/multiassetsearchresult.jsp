@@ -108,7 +108,7 @@ tbody:before {
 									<div class="portlet-content">
 										<div class="vendor-logo">
 											<img src="${pageContext.request.contextPath}/displayCompanyLogo/${marketDataAggregatorsVendorSearch.vendorName}" 
-												alt="${marketDataAggregatorsVendorSearch.vendorCompany}"
+												alt="${assetCountries}"
 												title="${marketDataAggregatorsVendorSearch.vendorCompany}" width="60" height="60" />
 										</div>
 										<div class="vendor-overview">
@@ -119,8 +119,10 @@ tbody:before {
 												<label>Coverage Details:</label>
 												<table cellpadding="0" cellspacing="0" border="1">
 													<tr>
-														<td><label>Equity :</label> 20 exchange, 30 countries</td>
-														<td><label>FI :</label> 20 countries</td>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Equities"/>
+														<td><label>Equity :</label> ${l:getCount(functionMapKey, requestScope.assetExchanges)} exchange, ${l:getCount(functionMapKey, requestScope.assetCountries)} countries</td>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FI"/>
+														<td><label>FI :</label> ${l:getCount(functionMapKey, requestScope.assetCountries)} countries</td>
 														<td><label>Indices :</label> 105 equity, 20 FI indices</td>
 														<td><label>Derivatives :</label> 20 F&O exchanges</td>
 														<td>

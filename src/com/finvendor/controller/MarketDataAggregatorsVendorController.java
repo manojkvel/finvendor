@@ -5,6 +5,7 @@ package com.finvendor.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -705,12 +706,14 @@ public class MarketDataAggregatorsVendorController {
 						System.out.println("dataForm = " + dataForm);
 						
 						//for(Map.Entry<Object,Object> t: parameterMap.entrySet())
-						List<VendorSearchResult> marketDataAggregatorsVendorSearchs = marketDataAggregatorsService.getMultiAssetClassSearchResult(searchData,dataForm);
-				
+						Map<String, Object> multiAssetClassSearchResult = marketDataAggregatorsService.getMultiAssetClassSearchResult(searchData,dataForm);
+						Set<VendorSearchResult> marketDataAggregatorsVendorSearchs = (Set<VendorSearchResult>)multiAssetClassSearchResult.get("vendorSearchResultList");
 						
 					
 						
 			modelAndView.addObject("marketDataAggregatorsVendorSearchs", marketDataAggregatorsVendorSearchs);
+			modelAndView.addObject("assetCountries", multiAssetClassSearchResult.get("assetCountries"));
+			modelAndView.addObject("assetExchanges", multiAssetClassSearchResult.get("assetExchanges"));
 			modelAndView.addObject("result", RequestConstans.MarketAggregators.MULTI_ASSET_CLASS_SEARCH_RESULT);
 			modelAndView.addObject("username", username);			 
  			}catch (Exception e) {

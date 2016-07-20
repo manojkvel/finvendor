@@ -150,7 +150,8 @@ jQuery(document).ready(function() {
 		    var offeringsDataCoverage = $("#offeringsDataCoverage").val();
 			var supportcoverageregion = $("#supportcoverageregion").val();
 			var coverageexchange = $("#coverageexchange").val();
-			var supportcoveragecountry = $("#supportcoveragecountry :selected").text();
+			//var supportcoveragecountry = $("#supportcoveragecountry :selected").text();
+			var supportcoveragecountry = $("#supportcoveragecountry").val();
 		    var vendorcostrange = $("#vendorcostrange").val();
 		    var phonenumber = $("#phonenumber").val();
 		    var email = $("#email").val();
