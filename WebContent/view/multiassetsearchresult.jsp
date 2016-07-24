@@ -81,6 +81,100 @@ tbody:before {
 		</div>
 		<div class="portlet-body">
 			<div id="assetResult">
+				<c:choose>
+					<c:when test="${not empty marketDataAggregatorsVendorSearchs && result eq marketAggregators}">
+						<c:forEach var="marketDataAggregatorsVendorSearch"
+							items="${marketDataAggregatorsVendorSearchs}">
+							
+							<%-- 
+							<tr>
+								<td><div id="companyLogo">
+										<img
+											src="${pageContext.request.contextPath}/displayCompanyLogo/${marketDataAggregatorsVendorSearch.userName}"
+											width="175" height="400"
+											style="float: left; margin-right: 10px"
+											alt="${marketDataAggregatorsVendorSearch.vendorCompany}"
+											title="${marketDataAggregatorsVendorSearch.vendorCompany}" />
+									</div></td>
+								<td><div>${marketDataAggregatorsVendorSearch.vendorCountry}</div></td>
+								<td><div>${marketDataAggregatorsVendorSearch.vendorCompany}</div></td>
+								<td><div>${marketDataAggregatorsVendorSearch.vendorType}</div></td>
+							</tr>
+						
+						--%>
+							<div class="portlet box blue">
+								<div class="portlet-title"></div>
+								<div class="portlet-body">
+									<div class="portlet-content">
+										<div class="vendor-logo">
+											<img src="${pageContext.request.contextPath}/displayCompanyLogo/${marketDataAggregatorsVendorSearch.vendorName}" 
+												alt="${assetCountries}"
+												title="${marketDataAggregatorsVendorSearch.vendorCompany}" width="60" height="60" />
+										</div>
+										<div class="vendor-overview">
+											<h2>${marketDataAggregatorsVendorSearch.vendorCompany}</h2>
+											<p>${marketDataAggregatorsVendorSearch.vendorCountry} | ${marketDataAggregatorsVendorSearch.vendorType} | Year Since
+												Operations</p>
+											<div class="vendor-coverage">
+												<label>Coverage Details:</label>
+												<table cellpadding="0" cellspacing="0" border="1">
+													<tr>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Equities"/>
+														<td><label>Equity :</label> ${l:getCount(functionMapKey, requestScope.assetExchanges)} exchange, ${l:getCount(functionMapKey, requestScope.assetCountries)} countries</td>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FI"/>
+														<td><label>FI :</label> ${l:getCount(functionMapKey, requestScope.assetCountries)} countries</td>
+														<td><label>Indices :</label> 105 equity, 20 FI indices</td>
+														<td><label>Derivatives :</label> 20 F&O exchanges</td>
+														<td>
+													</tr>
+													<tr>
+														<td><label>Derivatives :</label> 20 F&O exchanges</td>
+														<td><label>FX :</label> Gro ccv pairs</td>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+													</tr>
+													<tr>
+														<td colspan="4"><label>Award Won :</label> Best Equity
+															Vendor by Bloomberg(2015)</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>						
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<div class="error_section clearfix append_bottom15">
+							<div class="text-center mascot_error">
+								<img src="resources/images/mascot_invld_link.png" alt="mascot" />
+							</div>
+							<div class="error_message_align">
+								<p class="error_txt append_bottom12">Hey! there is no data
+									match.</p>
+								<p class="error_txt_3 append_bottom15">We suggest you to modify
+									your search and try again or use Market Vendor to search across
+									multiple asset class.</p>
+							</div>
+						</div>
+					</c:otherwise>
+				</c:choose>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<%-- 
+				
+				
 				<div class="error_section clearfix append_bottom15">
 					<div class="text-center mascot_error">
 						<img src="resources/images/mascot_invld_link.png" alt="mascot" />
@@ -170,6 +264,11 @@ tbody:before {
 					</div>
 				</div>
 			</div>
+			
+			--%>
+			
+			<%-- 
+			
 			<table
 				class="table table-striped table-borderedsearch table-hover table-full-width"
 				id="sample_1">
@@ -375,6 +474,9 @@ tbody:before {
 				</c:if>
 
 			</table>
+		
+		--%>
+		
 		</div>
 	</div>
 
