@@ -92,8 +92,8 @@
 					</select>
 				</div>
 				<div class="control-group">
-					<label>Vendor Country of Incorporation<span
-						class="required">*</span></label> <select name="vendorcountryofincorp"
+					<label>Vendor Country of Incorporation<span class="required">*</span></label>
+					<select name="vendorcountryofincorp"
 						multiple="multiple" id="vendorcountryofincorp"
 						style="height: 53px; width: 227px;">
 						<option value="" selected="selected" class="selectvalues">

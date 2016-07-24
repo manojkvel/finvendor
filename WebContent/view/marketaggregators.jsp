@@ -22,35 +22,6 @@
 			<div class="text_arw">Search Vendor</div>
 		</div>
 
-		<!-- 
-        <div class="control-group">
-        	
-			<label class="control-labelappstra" ><input type="checkbox" name="savesearch" id="savesearch" value="savesearch" >Search Using Saved Searches
-			
-			
-			<select name="assetclass" style="visibility: hidden;" onchange="loadSecurityTypes(this.value);" id="saveSearchList">
-																     <option value ="-SELECT-" selected="selected"> -SELECT- </option>
-				     	 											 <option>Saved Searches1</option>
-															     	 <option>Saved Searches2</option>
-																     <option>Saved Searches3</option>
-																     <option>Saved Searches4</option>
-																     <option>Saved Searches5</option>
-																 </select>
-			</label>
-			
-		</div>
-	 -->
-		<br> <br> <br>
-		<div class="control-groupcheckingforradiobuttons">
-			<!-- 
-        	<input  type="radio" id="singleform" name="radios" checked="checked">
-			<label class="control-label" style="margin-left: 21px; margin-top: -15px;">Search Vendor for Single MA Type</label>
-		 -->
-
-			<!--<label class="control-label" style="margin-left: 21px; margin-top: -15px;">	<input  type="radio" id="multiform" name="radios" checked="checked"/>Search Vendor for Multiple MA Type</label>-->
-
-
-		</div>
 		<div class="row-fluid">
 			<div class="span12">
 				<div class="row-fluid service-box">

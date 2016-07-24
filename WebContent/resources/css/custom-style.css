@@ -544,3 +544,8 @@ th{
 	text-align: right;
 	display: none;
 }
+
+.text_area{
+	margin-bottom: 10px;
+	overflow: hidden;
+}
