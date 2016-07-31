@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="vendor_TradingSoftwareDetails")
+@Table(name="vendor_tradingsoftwaredetails")
 public class VendorTradingSoftwareDetails implements Serializable{
 
 	/**

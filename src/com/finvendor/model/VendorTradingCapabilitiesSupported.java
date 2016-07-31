@@ -19,7 +19,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="vendor_TradingCapabilitieSupported")
+@Table(name="vendor_tradingcapabilitiesupported")
 public class VendorTradingCapabilitiesSupported implements Serializable{
 
 	/**

@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="FileFields")
+@Table(name="filefields")
 public class FileFields implements Serializable {
 
 	private static final long serialVersionUID = 120920151043L;

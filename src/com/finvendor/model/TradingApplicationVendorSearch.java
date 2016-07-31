@@ -16,7 +16,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="tradingapplicationvendor_Search")
+@Table(name="tradingapplicationvendor_search")
 public class TradingApplicationVendorSearch implements Serializable{
 
 	/**

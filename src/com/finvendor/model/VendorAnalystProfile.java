@@ -19,7 +19,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="vendor_AnalystProfile")
+@Table(name="vendor_analystprofile")
 public class VendorAnalystProfile implements Serializable{
 
 	/**
