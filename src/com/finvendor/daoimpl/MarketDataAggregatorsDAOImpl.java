@@ -4,7 +4,7 @@
 package com.finvendor.daoimpl;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -948,6 +948,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 			String assetClass = (String)searchRow[5];
 			String countries = (String)searchRow[9];
 			String exchanges = (String)searchRow[11];
+			String securityName = (String)searchRow[12];
 			
 			String mapKey = (String)searchRow[0] + "_" + assetClass;
 			
@@ -963,6 +964,18 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 						assetCountriesSet.add(countryName);
 					}
 				}
+			}
+			
+			if("Indices".equals(assetClass)) {
+				if(securityName != null && securityName.indexOf("Equity") != -1) {
+					mapKey = (String)searchRow[0] + "_Equity_" + assetClass;
+				} else if (securityName != null && securityName.indexOf("FI") != -1) {
+					mapKey = (String)searchRow[0] + "_FI_" + assetClass;
+				} else {
+					mapKey = (String)searchRow[0] + "_Other_" + assetClass;
+				}
+			}else if (assetClass.indexOf("Derivative") != -1) {
+				mapKey = (String)searchRow[0] + "_Derivative";
 			}
 			
 			if(exchanges != null && !exchanges.trim().equals("")) {
@@ -986,6 +999,8 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		searchResultMap.put("vendorSearchResultList", vendorSearchResultList);
 		searchResultMap.put("assetCountries", assetCountries);
 		searchResultMap.put("assetExchanges", assetExchanges);
+		
+		//logger.info("MAP == " + Arrays.toString(searchResultMap.entrySet().toArray()));
 		
 		return searchResultMap;
 	}

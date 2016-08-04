@@ -120,15 +120,43 @@ tbody:before {
 												<table cellpadding="0" cellspacing="0" border="1">
 													<tr>
 														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Equities"/>
-														<td><label>Equity :</label> ${l:getCount(functionMapKey, requestScope.assetExchanges)} exchange, ${l:getCount(functionMapKey, requestScope.assetCountries)} countries</td>
+														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${exchangeCount > 0}">
+															<td><label>Equity :</label> ${exchangeCount} exchange, ${countriesCount} countries</td>
+														</c:if>														
 														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FI"/>
-														<td><label>FI :</label> ${l:getCount(functionMapKey, requestScope.assetCountries)} countries</td>
-														<td><label>Indices :</label> 105 equity, 20 FI indices</td>
-														<td><label>Derivatives :</label> 20 F&O exchanges</td>
-														<td>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${countriesCount > 0}">
+															<td><label>FI :</label> ${countriesCount} countries</td>
+														</c:if>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Equity_Indices"/>
+														<c:set var="equityExchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FI_Indices"/>
+														<c:set var="fiExchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Other_Indices"/>
+														<c:set var="otherExchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:if test="${equityExchangeCount > 0 || fiExchangeCount > 0 || otherExchangeCount > 0}">
+															<td>
+																<label>Indices :</label> 
+																<c:if test="${equityExchangeCount > 0}">
+																	${equityExchangeCount} equity
+																</c:if>
+																<c:if test="${fiExchangeCount > 0}">
+																	, ${fiExchangeCount} FI
+																</c:if>
+																<c:if test="${otherExchangeCount > 0}">
+																	, ${otherExchangeCount} Other
+																</c:if>
+															</td>
+														</c:if>
 													</tr>
 													<tr>
-														<td><label>Derivatives :</label> 20 F&O exchanges</td>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Derivative"/>
+														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:if test="${exchangeCount > 0}">
+															<td><label>Derivatives :</label> ${exchangeCount} F&O exchanges</td>
+														</c:if>		
 														<td><label>FX :</label> Gro ccv pairs</td>
 														<td>&nbsp;</td>
 														<td>&nbsp;</td>
