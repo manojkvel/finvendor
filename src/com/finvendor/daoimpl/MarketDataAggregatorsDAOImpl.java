@@ -911,6 +911,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		
 		Map<String, Set<String>> assetCountries = new HashMap<String, Set<String>>();
 		Map<String, Set<String>> assetExchanges = new HashMap<String, Set<String>>();
+		Map<String, List<VendorSearchResult>> awardsMap = new HashMap<String, List<VendorSearchResult>>();
 		
 		Map<String, Object> searchResultMap = new HashMap <String, Object>();
 		
@@ -928,12 +929,16 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 			}
 		}
 		
+		List<Object[]> vendorAwardList = new ArrayList<Object[]>();
 		if(vendorFound) {
 			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange, security.name, security.security_type_id, asset_sec.description sec_asset_description from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country, offeringfiles files, security_types security, asset_class asset_sec where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and files.vendor_offering_id = off.vendor_offering_id and security.security_type_id = files.security_type_id and security.asset_class_id = asset_sec.asset_class_id and ven.vendor_id in (VENDOR_ID_LIST)";
 			vendorSearchSql = vendorSearchSql.replaceAll("VENDOR_ID_LIST", vendorList.toString());
 			sqlQuery = currentSession.createSQLQuery(vendorSearchSql);
 			logger.info("vendorSearchSql ################## VENDOR SEARCH QUERY == " + vendorSearchSql.toString());
 			searchResultList = (List<Object[]>)sqlQuery.list();
+			String vendorAwardSql = "select vendor_id, Awardname, Awardsponsor, Awardedyear from vendor_awards where vendor_id in (" + vendorList.toString()  + ") order by vendor_id";
+			sqlQuery = currentSession.createSQLQuery(vendorAwardSql);
+			vendorAwardList = (List<Object[]>)sqlQuery.list();
 		}
 		
 		for(Object[] searchRow : searchResultList) {
@@ -996,9 +1001,28 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 			vendorSearchResultList.add(vendorSearchRow);
 		}
 		
+		for(Object[] searchRow : vendorAwardList) {
+			VendorSearchResult vendorSearchRow = new VendorSearchResult();
+			vendorSearchRow.setVendorId((String)searchRow[0]);
+			vendorSearchRow.setAwardName((String)searchRow[1]);
+			vendorSearchRow.setAwardSponsor((String)searchRow[2]);
+			vendorSearchRow.setAwardYear(searchRow[3].toString());
+			
+			List<VendorSearchResult> vendorSearchAwardList = awardsMap.get((String)searchRow[0]);
+			
+			if(vendorSearchAwardList == null) {
+				vendorSearchAwardList = new ArrayList<VendorSearchResult>();
+				vendorSearchAwardList.add(vendorSearchRow);
+				awardsMap.put((String)searchRow[0], vendorSearchAwardList);
+			}else {
+				vendorSearchAwardList.add(vendorSearchRow);
+			}
+		}
+		
 		searchResultMap.put("vendorSearchResultList", vendorSearchResultList);
 		searchResultMap.put("assetCountries", assetCountries);
 		searchResultMap.put("assetExchanges", assetExchanges);
+		searchResultMap.put("awardsMap", awardsMap);
 		
 		//logger.info("MAP == " + Arrays.toString(searchResultMap.entrySet().toArray()));
 		

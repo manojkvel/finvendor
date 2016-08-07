@@ -714,6 +714,7 @@ public class MarketDataAggregatorsVendorController {
 			modelAndView.addObject("marketDataAggregatorsVendorSearchs", marketDataAggregatorsVendorSearchs);
 			modelAndView.addObject("assetCountries", multiAssetClassSearchResult.get("assetCountries"));
 			modelAndView.addObject("assetExchanges", multiAssetClassSearchResult.get("assetExchanges"));
+			modelAndView.addObject("awardsMap", multiAssetClassSearchResult.get("awardsMap"));
 			modelAndView.addObject("result", RequestConstans.MarketAggregators.MULTI_ASSET_CLASS_SEARCH_RESULT);
 			modelAndView.addObject("username", username);			 
  			}catch (Exception e) {

@@ -7,6 +7,9 @@ public class VendorSearchResult {
 	private String vendorCompany;
 	private String vendorCountry;
 	private String vendorType;
+	private String awardName;
+	private String awardSponsor;
+	private String awardYear;
 	
 	public String getVendorId() {
 		return vendorId;
@@ -37,6 +40,25 @@ public class VendorSearchResult {
 	}
 	public void setVendorType(String vendorType) {
 		this.vendorType = vendorType;
+	}
+	
+	public String getAwardName() {
+		return awardName;
+	}
+	public void setAwardName(String awardName) {
+		this.awardName = awardName;
+	}
+	public String getAwardSponsor() {
+		return awardSponsor;
+	}
+	public void setAwardSponsor(String awardSponsor) {
+		this.awardSponsor = awardSponsor;
+	}
+	public String getAwardYear() {
+		return awardYear;
+	}
+	public void setAwardYear(String awardYear) {
+		this.awardYear = awardYear;
 	}
 	
 	@Override

@@ -161,10 +161,16 @@ tbody:before {
 														<td>&nbsp;</td>
 														<td>&nbsp;</td>
 													</tr>
-													<tr>
-														<td colspan="4"><label>Award Won :</label> Best Equity
-															Vendor by Bloomberg(2015)</td>
-													</tr>
+													<c:set var="awardsList" value="${awardsMap[marketDataAggregatorsVendorSearch.vendorId]}"/>
+													<c:forEach var="awardRecord" items="${awardsList}" varStatus="counter">
+														<c:if test="${counter.count == 1}">
+															<tr><td colspan="4"><label>Awards Won:</label></td></tr>
+														</c:if>
+														<tr>
+															<td colspan="4">${awardRecord.awardName} by ${awardRecord.awardSponsor} (${awardRecord.awardYear})</td>
+														</tr>
+													</c:forEach>
+													
 												</table>
 											</div>
 										</div>
