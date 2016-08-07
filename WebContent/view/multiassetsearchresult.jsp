@@ -112,9 +112,9 @@ tbody:before {
 												title="${marketDataAggregatorsVendorSearch.vendorCompany}" width="60" height="60" />
 										</div>
 										<div class="vendor-overview">
-											<h2>${marketDataAggregatorsVendorSearch.vendorCompany}</h2>
-											<p>${marketDataAggregatorsVendorSearch.vendorCountry} | ${marketDataAggregatorsVendorSearch.vendorType} | Year Since
-												Operations</p>
+											<h2><a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${marketDataAggregatorsVendorSearch.vendorName}">${marketDataAggregatorsVendorSearch.vendorCompany}</a></h2>
+											<p>${marketDataAggregatorsVendorSearch.vendorCountry} | ${marketDataAggregatorsVendorSearch.vendorType} | <%-- Year Since
+												Operations--%></p>
 											<div class="vendor-coverage">
 												<label>Coverage Details:</label>
 												<table cellpadding="0" cellspacing="0" border="1">
