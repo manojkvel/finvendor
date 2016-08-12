@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/login.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/finvendor.css">	
 	
 	 <style type="text/css">
@@ -27,287 +28,232 @@
 	<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
-		
-	<script language="javascript">		
-		$( document ).ready(function() {
-			$('#register_vendor_area_of_interest').hide();
-			$('#sigup-tags-mandatory-check').hide();
-	         $('select[name="companytype"]').change(function() {
-	            var selectedCompanyType =$(this).val(); 
-	            selectedCompanyType = selectedCompanyType + "";
-	            if (selectedCompanyType.substr(0, 14) == 'Financial Firm' || 
-	            		selectedCompanyType.substr(0, 10) == 'University') {
-	            	$('#register_vendor_area_of_interest').show();
-	            	$("#register_vendor_area_of_interest option:selected").removeAttr("selected");
-	            	$('#sigup-tags-mandatory-check').show();
-	            }else{
-	            	$('#register_vendor_area_of_interest').hide();
-	            	$('#sigup-tags-mandatory-check').hide();
-	            }
-	            vendorSelected = false;
-	            consumerSelected = false;
-	            $('#signup-companytype :selected').each(function(i, selectedElement) {
-	            	 companyType = $(selectedElement).val();
-	            	 companyType = companyType + "";
-	            	 if (companyType.substr(0, 14) == 'Financial Firm' || 
-	            			 companyType.substr(0, 10) == 'University'){
-	            		 consumerSelected = true;
-	 	            }else{
-	 	            	vendorSelected = true;
-	 	            }
-	            });
-	           	if(vendorSelected && consumerSelected){
-	           		document.getElementById('signupCompanyTypeErrorMsg').innerHTML = 'Please select either Vendor or Consumer as Company Type';
-	           	}else{
-	           		document.getElementById('signupCompanyTypeErrorMsg').innerHTML = '';
-	           	}
-	        });
-	    });
-		
-		function clearErrMessageForTermsAndConditions(obj) {
-			if (obj.checked) {
-				document.getElementById('errMessageForTermsAndConditions').innerHTML = '';
-			}
-		}
-		
-		function clearErrMessageForForgotPassword() {
-			document.getElementById('loginUsernameErrorMsg').innerHTML = '';
-			document.getElementById('loginPasswordErrorMsg').innerHTML = '';
-			document.getElementById('errMsgValidate').innerHTML = '';
-		}
-	</script>
 </head>
 <body>
 	<div class="cd-user-modal" > <%-- this is the entire modal form, including the background --%>
 		<div class="cd-user-modal-container" > <%-- this is the container wrapper --%>
 			<div class="modal-wrapper" >
-				<span class="logmod__close" id="login-close">Close</span>
+				<span class="logmod__close" id="login-close">X</span>
 				<ul class="cd-switcher" >
-					<li style="height:15px"><a href="#0" style="line-height:30px;height:35px;border: 3px solid #AAAAAA;"><b>Login</b></a></li>
-					<li style="height:15px"><a href="#0" style="line-height:30px;height:35px;border: 3px solid #AAAAAA;"><b>Register</b></a></li>
+					<li><a href="#0">Login</a></li>
+					<li><a href="#0">Register</a></li>
 				</ul>
-			
+				<ul class="cd-switcher-forgot-password hide">
+					<li><span>Forgot Password</span></li>
+				</ul>
+				<ul class="cd-switcher-change-password hide">
+					<li><span>Change Password</span></li>
+				</ul>
+				<ul class="cd-switcher-success-message hide">
+					<li><span>Thank You</span></li>
+				</ul>
+				
+				<p id="generic-error-message" class="errorMessage"></p>
 				<%-- login form --%>
 				<div id="cd-login"> 
-				<span id="loginSpan">
+				<div id="loginSpan">
 					<form class="cd-form" action="j_spring_security_check" method="post" id="login-submit">
-					<input type="hidden" id="redirectLink" name="redirectLink"/>
-					<div class="form-wrapper">
-						<div class="control-group-row">
-							<div class="form-group medium half-width">
-								<label>UserName</label>
-								<input class="form-control" id="signin-username" type="email" placeholder="UserName*" name="username" data-mandatory="Y"
-								onblur="validateNotNull(this, 'loginUsernameErrorMsg')">
-								<div><label id="loginUsernameErrorMsg" class="errorMessage"></label></div>
-							</div>
-						</div>
-						<div class="control-group-row">
-							<div class="form-group medium half-width" style="position: relative">
-								<label>Password</label>
-								<input class="form-control" id="signin-password" type="password"  placeholder="Password*" name="password" data-mandatory="Y"
-								onblur="validateNotNull(this, 'loginPasswordErrorMsg')">
-								<a href="#0" class="hide-password">Un-Hide</a>
-								<div><label id="loginPasswordErrorMsg" class="errorMessage"></label></div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="remember-me"><input type="checkbox" id="remember-me" checked> Remember me</label>
-							<br>
-							<div><label id="errMsgValidate" class="errorMessage"></label></div>
-						</div>			
-						<div class="button-group">
-							<input class="btn info" type="submit" value="Login" onclick="document.getElementById('errMsgValidate').innerHTML = ''; if (validateSpanElements('loginSpan')) loginSubmit(false)">
-						</div>
-						<div id="loadinglg" class="login_loading" ></div>
-						<div><br></div>
+						<input type="hidden" id="redirectLink" name="redirectLink"/>
+						<div class="form-wrapper">
+							<ul>
+								<li>
+									<label for='username'>UserName</label>
+									<input class="form-control" id="signin-username" data-mandatory="Y" type="email" placeholder="UserName*" name="username" />
+								</li>
+								<li>
+									<label for='password'>Password</label>
+									<div style="position: relative; display: inline;">
+										<input class="form-control" id="signin-password" data-mandatory="Y" type="password"  placeholder="Password*" name="password" />
+										<span class="hide-password fa fa-eye"></span>
+									</div>
+								</li>
+								<li>
+									<label for='password'>&nbsp;</label>
+									<div class="bold" style="width: 50%;float: left;">
+										<p id="checkbox" style="display:block;">
+											<span>
+												<input type="checkbox" id="remember-me" class="user-checkbox" style="top: 0px;" />&nbsp;Remember me
+											</span>
+											<a href="#0" style="float: right;" id="forgot-password-link">Forgot Password?</a>
+										</p>
+									</div>
+								</li>
+								<li>
+									<div class="submit-btn-container">
+										<input class="btn info submit-btn" type="submit" value="Login" />
+									</div>
+								</li>
+								<li>
+									<div class="align-center bold">
+										Not a member as yet? <a id="sign-up-link" href="#0">Register Now</a>
+									</div>
+								</li>
+							</ul>
+							<div id="loadinglg" class="login_loading" ></div>
+							<div><br></div>
 						</div>
 					</form>
-				</span>
-					<p class="cd-form-bottom-message" style="margin-bottom: 9px;"><a href="#0" style="color: black;" onClick="clearErrMessageForForgotPassword()">Forgot Password?</a></p>
+				</div>
 				</div> <%-- cd-login --%>			
 	 			<%-- sign up form --%>
 				<div id="cd-signup" >
-					<span id="userRegisterSpan">
+					<div id="userRegisterSpan">
 						<form class="cd-form" action="registration" id="user_submit_form">
-							<div class="form-wrapper" style="line-height: 0;padding-top:30px">							
-								<div class="control-group-row">
-									<div class="form-group medium half-width"> 
-										<label for="signup-username" >UserName</label>
-										<input type="text" id="signup-username" placeholder="Username*" name="username" 
-											class="form-control" onblur="if (validateNotNull(this, 'signupUserNameErrorMsg')) validateAjax(this, 'checkExistingUser','signupUserNameErrorMsg')"> &nbsp;&nbsp;&nbsp;
-										<div><label id="signupUserNameErrorMsg" class="errorMessage"></label></div>
-									</div>
-									<div class="form-group medium half-width">
-										<label for="signup-email">E-mail</label>
-										<input type="text" id="signup-email" data-mandatory="Y" placeholder="E-mail*" name="email"
-											class="form-control" 
-											onblur="if (validateWithRegularExpression(this, 'signupEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true) && validatePersonalEmailId(this, 'signupEmailErrorMsg')) validateAjax(this, 'checkExistingEmail','signupEmailErrorMsg')">
-										<div><label id="signupEmailErrorMsg" class="errorMessage"></label></div>
-									</div>
-									
-								</div>
-								<div class="control-group-row" >
-									<div class="form-group medium half-width" style="position: relative">
-										<label for="signup-password">Password</label>
-										<input type="password" id="signup-password" data-mandatory="Y" placeholder="Password*" name="password"
-											class="form-control" onblur="validateNotNull(this, 'signupPasswordErrorMsg')">
-											<a href="#0" class="hide-password1" style="line-height:1">Hide</a>
-										<div><label id="signupPasswordErrorMsg" class="errorMessage"></label></div>
-									</div>
-									<div class="form-group medium half-width">
-										<label for="signup-company">Company</label>
-										<input type="text" id="signup-company" data-mandatory="Y" placeholder="Company*" name="company"
-											class="form-control" onblur="validateNotNull(this, 'signupCompanyErrorMsg')">
-										<div><label id="signupCompanyErrorMsg" class="errorMessage"></label></div>
-									</div>
-								</div>
-							<div>
-							<div class="control-group-row">
-								<div class="form-group medium half-width" id="register_company_type">
-									<label for="signup-companytype">Company Type</label>
-									<select id="signup-companytype" multi-data-mandatory="Y" name="companytype" class="form-control"   
-										multiple="multiple" onblur="validateSelectNotNull(this.id, 'signupCompanyTypeErrorMsg', 'Company Type')"> 
-										<option value ="-SELECT-" id="1" selected>-Select Company Type-</option>
-										<option value="Financial Firm - Sell side" id="2">Financial Firm - Sell side</option>
-										<option value="Financial Firm - Buy side" id="3" >Financial Firm - Buy side</option>
-										<option value="Financial Firm - Others" id="4">Financial Firm - Others</option>
-										<option value="Data Aggregator" id="5">Financial Vendor - Data Aggregators</option>
-										<option value="Trading Application" id="6">Financial Vendor - Trading Applications</option>
-										<option value="Analytics Application" id="7">Financial Vendor - Analytics Applications</option>
-										<option value="Research Report" id="8">Financial Vendor - Research report Providers</option>
-										<option value="University/College" id="9">University/College</option>
-										<option value="Other Firm" id="10">Other firm</option>
-									</select>
-									<span class="help-test">Choose one or more options</span>
-									<div><label id="signupCompanyTypeErrorMsg" class="errorMessage"></label></div>
-								</div>
-								<div class="form-group medium half-width" id="register_vendor_area_of_interest">
-									<label for="signup-vendorareaofinterest">Vendor Area of Interest</label>
-									<select id="sigup-tags" name="tags" class="form-control" multiple="multiple">
-										<option value ="-SELECT-" selected>-Select Vendor area of Interest-</option>
-										<option value="Data Aggregator">Data Aggregator</option>
-										<option value="Trading Application">Trading Application</option>
-										<option value="Analytics Application">Analytics Application</option>
-										<option value="Research Report">Research Report</option>
-									</select> 
-									<span class="help-test">Choose one or more options</span>
-									<div><label id="signupVendorAreaOfInterestErrorMsg" class="errorMessage"></label></div>
-								</div>	
-							</div>								
-							</div>
-							<div >				
-								<input type="checkbox" id="accept-terms" name="acceptterms" value="acceptterms" style="float:left;" onChange="clearErrMessageForTermsAndConditions(this)"/> 
-								
-								<label for="accept-terms" >
-									I agree to the 
-									<a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/termsAndConditions.jsp', 'termsAndConditions', 800, 600)">
-										Terms & Conditions
-									</a>
-								</label>
-								
-								<input type="checkbox" id="newslettersAndAlerts" name="newslettersAndAlerts" value="newslettersAndAlerts" style="float:left;"/> 
-								
-								<label for="newslettersAndAlerts" >
-									I wish to get regular 
-									Newsletters & Alerts
-									<%-- 
-									<a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/newslettersAndAlerts.jsp', 'newslettersAndAlerts', 800, 600)">
-										Newsletters & Alerts
-									</a>
-									--%>
-								</label>				
-						</div>		
-								<div><label id="errMessageForTermsAndConditions" class="errorMessage"></label></div>
+							<div class="form-wrapper">
+								<ul>
+									<li>
+										<label for='username'>UserName</label>
+										<input class="form-control" id="signup-username" data-mandatory="Y" type="text" placeholder="UserName*" name="username" />
+									</li>
+									<li>
+										<label for='email'>E-mail</label>
+										<input class="form-control" id="signup-email" data-mandatory="Y" type="email" placeholder="E-mail*" name="email" />
+									</li>
+									<li>
+										<label for='password'>Password</label>
+										<div style="position: relative; display: inline;">
+											<input class="form-control" id="signup-password" data-mandatory="Y" type="password"  placeholder="Password*" name="password" />
+											<span class="hide-password fa fa-eye"></span>
+										</div>
+									</li>
+									<li>
+										<label for='company'>Company</label>
+										<input class="form-control" id="signup-company" data-mandatory="Y" type="text"  placeholder="Company*" name="company" />
+									</li>
+									<li class="normal-line">
+										<label for='companytype'>Company Type</label>
+										<select id="signup-companytype" multi-data-mandatory="Y" name="companytype" class="form-control"   
+										multiple="multiple"> 
+											<option value ="-SELECT-" id="1" selected>-Select Company Type-</option>
+											<option value="Financial Firm - Sell side" id="2" title='Financial Firm - Sell side'>Financial Firm - Sell side</option>
+											<option value="Financial Firm - Buy side" id="3" title='Financial Firm - Buy side'>Financial Firm - Buy side</option>
+											<option value="Financial Firm - Others" id="4" title='Financial Firm - Others'>Financial Firm - Others</option>
+											<option value="Data Aggregator" id="5" title='Financial Vendor - Data Aggregators'>Financial Vendor - Data Aggregators</option>
+											<option value="Trading Application" id="6" title='Financial Vendor - Trading Applications'>Financial Vendor - Trading Applications</option>
+											<option value="Analytics Application" id="7" title='Financial Vendor - Analytics Applications'>Financial Vendor - Analytics Applications</option>
+											<option value="Research Report" id="8" title='Financial Vendor - Research report Providers'>Financial Vendor - Research report Providers</option>
+											<option value="University/College" id="9" title='University/College'>University/College</option>
+											<option value="Other Firm" id="10" title='Other firm'>Other firm</option>
+										</select>
+									</li>
+									<li id="register_vendor_area_of_interest" class="normal-line hide">
+										<label for='vendorareaofinterest'>Vendor Area of Interest</label>
+										<select id="sigup-tags" name="tags" class="form-control" multiple="multiple">
+											<option value ="-SELECT-" selected>-Select Vendor area of Interest-</option>
+											<option value="Data Aggregator" title='Data Aggregator'>Data Aggregator</option>
+											<option value="Trading Application" title='Trading Application'>Trading Application</option>
+											<option value="Analytics Application" title='Analytics Application'>Analytics Application</option>
+											<option value="Research Report" title='Research Report'>Research Report</option>
+										</select>
+									</li>
+									<li style="clear: both;text-align: center; width: 100%;">
+										<div id="checkbox">
+											<p>
+												<input type="checkbox" id="accept-terms" class="user-checkbox" name="acceptterms" value="acceptterms" /> 
+												<label for="accept-terms" >
+													&nbsp;I agree to the 
+													<a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/termsAndConditions.jsp', 'termsAndConditions', 800, 600)">Terms & Conditions</a>
+													governing the use of Finvendors.
+												</label>
+											</p>
+											<p style="clear: both;">
+												<input type="checkbox" id="newslettersAndAlerts" class="user-checkbox" name="newslettersAndAlerts" value="newslettersAndAlerts" /> 
+												<label for="newslettersAndAlerts" >
+													&nbsp;I wish to get regular newsletters & alerts
+												</label>
+											</p>											
+										</div>
+									</li>
+									<li style="width:100%;">
+										<div class="submit-btn-container">
+											<input class="btn info submit-btn" type="submit" value="Create account" />
+										</div>
+									</li>
+								</ul>
 								<div><label id="sucessMessage" class="errorMessage" style="color:green"></label></div>
 								<div><label id="errorMessage" class="errorMessage"></label></div>
-								<div class="btn-group" style="padding-top:0">
-									<input class="btn info block" type="submit" value="Create account" onclick="if (validateSpanElements('userRegisterSpan')) userRegisteration()">
-								</div>
 								<div id="loadingrg" class="login_loading" ></div>
 							</div>
 						</form>
-					</span>
+					</div>
 				</div> <%-- cd-signup --%>			
 				<%-- reset password form --%>
 				<div id="cd-reset-password"> 
 					<span id="forgotPasswordSpan">
-						<form class="cd-form" style="padding-top: 2em;">
+						<form class="cd-form" id="reset-password-form">
 							<div class="form-wrapper">
-								<p>Lost your password?<br>Please enter your email address. You will receive a new Password to login.</p>
-								<div class="form-group medium medium-width">
-									<input class="form-control" id="forgot-password-email" type="text" 
-									placeholder="E-mail" name="forgot-password-email" data-mandatory="Y"
-									onblur="validateWithRegularExpression(this, 'forgotPasswordEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true)">
-									<div><label id="forgotPasswordEmailErrorMsg" class="errorMessage"></label></div>		
-									<%-- 
-									<label for="reset-email">E-mail</label>
-									<input class="form-control" id="reset-email" type="email" placeholder="E-mail">
-									--%>
-									<div><label id="errMsgValidateForgotPassword" class="errorMessage"></label></div>
-								</div>
-								<div class="btn-group">
-									<input class="btn info block" type="button" value="Reset password"
-										onclick="document.getElementById('errMsgValidateForgotPassword').innerHTML = ''; if (validateSpanElements('forgotPasswordSpan')) forgotPasswordSubmit()">
-								</div>
+								<p style="padding: 0 30px; line-height: 30px; padding-bottom: 20px; font-weight: bold;">Lost your password?<br>Please enter your email address. You will receive a new Password to login.</p>
+								<ul>									
+									<li>
+										<label for='email'>E-mail</label>
+										<input class="form-control" id="forgot-password-email" data-mandatory="Y" type="text" placeholder="E-mail*" name="email" />
+									</li>
+									<li>
+										<div class="submit-btn-container">
+											<input class="btn info submit-btn" type="button" value="Reset Password" />
+										</div>
+									</li>
+									<li>
+										<div class="align-center bold">
+											<a id="login-link" href="#0">Back to Login</a>
+										</div>
+									</li>
+								</ul>
 								<div id="loadingfp" class="login_loading" ></div>
+								<div><br></div>
 							</div>
 						</form>
 					</span>
-						<p class="cd-form-bottom-message"><a href="#0" style="color: black;">Back to log-in</a></p>
 				</div> <%-- cd-reset-password --%>	
 				<div id="cd-change-password"> 
-				<span id="changePasswordSpan">
-					<form class="cd-form" style="padding: 7em;" method="post" id="change-password-form">
-						<div style="border: 1px solid #41BFDA; border-radius:22px; padding: 0px 30px 0px 30px;">
-							<div><br></div>
-							<p class="fieldset">
-								<label class="image-replace cd-username" for="chg-password-username">UserName*</label>
-								<input class="full-width has-padding has-border" id="chg-password-username" type="text" 
-								placeholder="UserName*" name="chg-password-username" data-mandatory="Y"
-								onblur="validateNotNull(this, 'changePasswordUsernameErrorMsg')">
-								<div><label id="changePasswordUsernameErrorMsg" class="errorMessage"></label></div>						
-							</p>
-							<p class="fieldset">
-								<label class="image-replace cd-password" for="signin-password-old-password">Old Password*</label>
-								<input class="full-width has-padding has-border" id="old_password" type="password" 
-								placeholder="Old Password*" name="old_password" data-mandatory="Y"
-								onblur="validateNotNull(this, 'changePasswordOldPasswordErrorMsg')">
-								<div><label id="changePasswordOldPasswordErrorMsg" class="errorMessage"></label></div>							
-							</p>
-							<p class="fieldset">
-								<label class="image-replace cd-password" for="signin-password-new-password">New Password*</label>
-								<input class="full-width has-padding has-border" id="new_password" type="password" 
-								placeholder="New Password*" name="new_password" data-mandatory="Y"
-								onblur="validateNotNull(this, 'changePasswordNewPasswordErrorMsg')">
-								<div><label id="changePasswordNewPasswordErrorMsg" class="errorMessage"></label></div>						
-							</p>
-							<p class="fieldset">
-								<label class="image-replace cd-password" for="signin-password-old-password">Confirm New Password*</label>
-								<input class="full-width has-padding has-border" id="confirm_new_password" type="password"  
-								placeholder="Confrim New Password*" name="confirm_new_password" data-mandatory="Y" 
-								onblur="validateNotNull(this, 'changePasswordConfirmNewPasswordErrorMsg')">	
-								<div><label id="changePasswordConfirmNewPasswordErrorMsg" class="errorMessage"></label></div>	
-								<div><label id="errMsgValidateChangePassword" class="errorMessage"></label></div>				
-							</p>
-							<p class="fieldset">
-								<input class="full-width" type="button" value="Change Password" onclick="document.getElementById('errMsgValidateChangePassword').innerHTML = ''; if (validateSpanElements('changePasswordSpan')) loginSubmit(true)">
-							</p>
-							<div><br></div>
+				<div id="changePasswordSpan">
+					<form class="cd-form" id="change-password-form">
+						<div class="form-wrapper">
+							<ul>
+								<li>
+									<label for='username'>UserName</label>
+									<input class="form-control" id="username" data-mandatory="Y" type="text" placeholder="UserName*" name="username" />
+								</li>
+								<li>
+									<label for='password'>Old Password</label>
+									<div style="position: relative; display: inline;">
+										<input class="form-control" id="old-password" data-mandatory="Y" type="password"  placeholder="Password*" name="password" />
+										<span class="hide-password fa fa-eye"></span>
+									</div>
+								</li>
+								<li>
+									<label for='password'>New Password</label>
+									<div style="position: relative; display: inline;">
+										<input class="form-control" id="new-password" data-mandatory="Y" type="password"  placeholder="Password*" name="password" />
+										<span class="hide-password fa fa-eye"></span>
+									</div>
+								</li>
+								<li>
+									<label for='password'>Confirm New Password</label>
+									<div style="position: relative; display: inline;">
+										<input class="form-control" id="confirm-new-password" data-mandatory="Y" type="password"  placeholder="Password*" name="password" />
+										<span class="hide-password fa fa-eye"></span>
+									</div>
+								</li>
+								<li>
+									<div class="submit-btn-container">
+										<input class="btn info submit-btn" type="button" value="Change Password" />
+									</div>
+								</li>
+							</ul>
 							<div id="loadingcp" class="login_loading" ></div>
+							<div><br></div>
 						</div>
 					</form>
-				</span>
+				</div>
 			</div> <%-- cd-change-password --%>			
 				<div id="cd-reg-success-message">
-					<p class="cd-form-message" style="color:green">
+					<p class="cd-form-message">
 						You have successfully registered on FinVendor<br>
 						You will shortly receive a validation link in registered email id.<br>
 						Please verify email account with validation link to activate your account
 					</p>
-					<div><br></div>
-					<div><br></div>
 				</div>
-				<!-- <a href="#0" class="cd-close-form">Close</a> -->
 			</div>		
 		</div> <%-- cd-user-modal-container --%>
 	</div> <%-- cd-user-modal --%>

@@ -1,16 +1,16 @@
 var Vendor = function () {
-    return {
+	return {
 		onSubmit: function(){},
-        //main function to initiate the module
-        init: function () {
-        	alert('vemula--');
-        	$("#vendor_submit_form").validate({
-                doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
-                errorElement: 'span', //default input error message container
-                errorClass: 'validate-inline', // default input error message class
-                focusInvalid: false, // do not focus the last invalid input
-                rules: {
-                	"uname": {
+		//main function to initiate the module
+		init: function () {
+			alert('vemula--');
+			$("#vendor_submit_form").validate({
+				doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+				errorElement: 'span', //default input error message container
+				errorClass: 'validate-inline', // default input error message class
+				focusInvalid: false, // do not focus the last invalid input
+				rules: {
+					"uname": {
 						required : true
 					},
 					"password" : {
@@ -33,19 +33,19 @@ var Vendor = function () {
 					},
 					"companytype" : {
 						required :{depends: function(element) {
-				            if($('#select_field').val() == '' ||  $("#companytype").val() == '-SELECT-'){
-		                        //Set predefined value to blank.
-		                        $('#companytype').val('');
-		                    }
-		                    return true;
-				        }}
+							if($('#select_field').val() == '' ||  $("#companytype").val() == '-SELECT-'){
+								//Set predefined value to blank.
+								$('#companytype').val('');
+							}
+							return true;
+						}}
 					},
 					"tags" : {
 						required : true
 					}
-                },
-                messages: {
-                	"uname": {
+				},
+				messages: {
+					"uname": {
 						required : "This field is required"
 					},
 					"password" : {
@@ -72,9 +72,9 @@ var Vendor = function () {
 					"tags" : {
 						required : "This field is required"
 					}
-                },
+				},
 
-                errorPlacement : function(error, element) {
+				errorPlacement : function(error, element) {
 					$(element).closest('.input').addClass('error');
 					error.insertAfter(element);
 				},
@@ -96,30 +96,30 @@ var Vendor = function () {
 					$(this).find('error').remove();
 					$('.alert-error', $(this)).hide();
 				},
-                submitHandler: function (form) {
-                	alert('rayulu vemula---:');
-                    document.getElementById("vendor_submit_form").submit();
-                    //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
-                }
+				submitHandler: function (form) {
+					alert('rayulu vemula---:');
+					document.getElementById("vendor_submit_form").submit();
+					//add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+				}
 
-            });
- $('#form_wizard_2').find('.button-previous').hide();
-            $('#form_wizard_2 .button-submit').click(function () {
-                alert('Finished! Hope you like it :)');
-            }).hide();
+			});
+			$('#form_wizard_2').find('.button-previous').hide();
+			$('#form_wizard_2 .button-submit').click(function () {
+				alert('Finished! Hope you like it :)');
+			}).hide();
 
-            $('#form_wizard_1').find('.button-previous').hide();
-            $('#form_wizard_1 .button-submit').click(function () {
-             //   alert('Finished! Hope you like it :)');
-            }).hide();
-        return this;
-        }
+			$('#form_wizard_1').find('.button-previous').hide();
+			$('#form_wizard_1 .button-submit').click(function () {
+				//   alert('Finished! Hope you like it :)');
+			}).hide();
+			return this;
+		}
 
-    };
+	};
 
 }();
 
- 
+
 function validateUsername() {
 	var username= $("#signup-username").val();
 	if(username !=null && username.length > 0){
@@ -159,7 +159,7 @@ function validateEmailId() {
 						cache: false,
 						success: function(output) {
 							if (output.match("true")) {	
-								 document.getElementById("emailexistMsg").innerHTML = "Email already registered.";
+								document.getElementById("emailexistMsg").innerHTML = "Email already registered.";
 							} else {
 								document.getElementById("emailexistMsg").innerHTML = "";
 							}
@@ -169,7 +169,7 @@ function validateEmailId() {
 			}
 		});
 	}
-	
+
 }
 
 function validateVendorPrimaryEmailId() {
@@ -192,7 +192,7 @@ function validateVendorPrimaryEmailId() {
 						cache: false,
 						success: function(output) {
 							if (output.match("true")) {	
-								 document.getElementById("emailPrimaryexistMsg").innerHTML = "Email already registered.";
+								document.getElementById("emailPrimaryexistMsg").innerHTML = "Email already registered.";
 							} else {
 								document.getElementById("emailPrimaryexistMsg").innerHTML = "";
 							}
@@ -202,7 +202,7 @@ function validateVendorPrimaryEmailId() {
 			}
 		});
 	}
-	
+
 }
 
 function validateVendorSecondaryEmailId() {
@@ -225,7 +225,7 @@ function validateVendorSecondaryEmailId() {
 						cache: false,
 						success: function(output) {
 							if (output.match("true")) {	
-								 document.getElementById("emailSecondaryexistMsg").innerHTML = "Email already registered.";
+								document.getElementById("emailSecondaryexistMsg").innerHTML = "Email already registered.";
 							} else {
 								document.getElementById("emailSecondaryexistMsg").innerHTML = "";
 							}
@@ -235,19 +235,19 @@ function validateVendorSecondaryEmailId() {
 			}
 		});
 	}
-	
+
 }
 function validateCompanyURL() {
 	var comapnyURL = document.getElementById("personalvencompanyurl").value;
 	var regex = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
 	if(comapnyURL !='' && comapnyURL.length > 0){
-		 if(!regex.test(comapnyURL)){
-			 document.getElementById("companyURLValidMsg").innerHTML = "Please enter valid URL"; 
-		 }else{
-			 document.getElementById("companyURLValidMsg").innerHTML = "";
-		 }
+		if(!regex.test(comapnyURL)){
+			document.getElementById("companyURLValidMsg").innerHTML = "Please enter valid URL"; 
+		}else{
+			document.getElementById("companyURLValidMsg").innerHTML = "";
+		}
 	}
-	
+
 }
 
 /*
@@ -274,7 +274,7 @@ function validatePhoneNumber() {
 			}
 		});
 	}
-	
+
 }
 function validatePhoneNumberCode() {
 	var phoneNum = document.getElementById("personalvenphonenumbervalue").value;
@@ -284,7 +284,7 @@ function validatePhoneNumberCode() {
 		return;
     }
 }
-*/
+ */
 /*
 function validateDesignation() {
 	var designation = document.getElementById("personalvendesignation").value;
@@ -310,22 +310,20 @@ function validateDesignation() {
 			}
 		});*/
 /*	}
-	
+
 }
-*/
+ */
 
 function userRegisteration() {
-	
+
 	var username = $("#signup-username").val();
 	var password = $("#signup-password").val();
 	var email = $("#signup-email").val();
 	var company = $("#signup-company").val();
 	var companytype = $("#signup-companytype").val();
 	var tags = $("#sigup-tags").val();
-	var termsAndCondition = document.getElementById('accept-terms').value;
-	
-	$('#loadingrg').show();
-	
+	var termsAndCondition = $('#accept-terms').val();
+
 	consumerSelected = false;
 	$('#signup-companytype :selected').each(function(i, selectedElement) {
 		selectedCompanyType = $(selectedElement).val();
@@ -334,7 +332,7 @@ function userRegisteration() {
 				selectedCompanyType.substr(0, 10) == 'University') {
 			consumerSelected = true;
 			return false;
-	    }
+		}
 	});
 	vendorSelected = false;
 	if(consumerSelected) {
@@ -343,54 +341,50 @@ function userRegisteration() {
 			return false;
 		});
 		if(!vendorSelected) {
-			alert("Please select Vendor Area of Interest");
+			$('#generic-error-message').html('Please select vendor area of interest');
 			return false;
 		}
 	}
-		
+
 	if(termsAndCondition != null && termsAndCondition != '' && 
-			document.getElementById('accept-terms').checked == true && 
-			termsAndCondition.match('acceptterms')) {
-		//username = encode64(username);
-		//password = encode64(password);
-		//email = encode64(email);
-		document.getElementById("errMessageForTermsAndConditions").innerHTML = '' ;
-		document.getElementById("errorMessage").innerHTML = '' ;
+			$('#accept-terms').prop('checked') && 
+			termsAndCondition.match('acceptterms')) {	
+		$('#loadingrg').show();
 		$.ajax({
 			type: 'POST',
 			url:  "registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype+"&NoR="+tags,
 			cache: false,
 			success: function(output) {
 				$('#loadingrg').hide();
-				
+
 				if (output.match("true")) {
-					document.getElementById("sucessMessage").innerHTML = "You've registered successfully..!";
+					$('#generic-error-message').html(""); //You've registered successfully..!
 					reg_success_message_selected();
+					$("form").trigger("reset");
 				}else {
-					document.getElementById("sucessMessage").innerHTML = '';
-					document.getElementById("errorMessage").innerHTML = "Error registering user. Please contact <a href='mailto:support@finvendor.com'>Fin Vendor support</a>";
+					$('#generic-error-message').html("Error registering user. Please contact <a href='mailto:support@finvendor.com'>Fin Vendor support</a>");
 				}
 			}
 		});
 	}else {
-		document.getElementById("errMessageForTermsAndConditions").innerHTML = "Please accept the terms and conditions";
+		$('#generic-error-message').html('Please accept the terms and conditions');
 		$('#loadingrg').hide();
-		
+
 	}	
 }
 
 
 function updateUserRegisteration() {
-	
+
 	var username = $("#signup-username").val();
 	var companytype = $("#signup-companytype").val();
 	var tags = $("#sigup-tags").val();
 	var email = $("#signup-email").val();
-	document.getElementById("sucessMessage").innerHTML = '';
-	document.getElementById("errorMessage").innerHTML = '';
-	
+	$("#sucessMessage").html('');
+	$("#errorMessage").html('');
+
 	$('#loadingrgupdate').show();
-	
+
 	consumerSelected = false;
 	$('#signup-companytype :selected').each(function(i, selectedElement) {
 		selectedCompanyType = $(selectedElement).val();
@@ -399,7 +393,7 @@ function updateUserRegisteration() {
 				selectedCompanyType.substr(0, 10) == 'University') {
 			consumerSelected = true;
 			return false;
-	    }
+		}
 	});
 	vendorSelected = false;
 	if(consumerSelected) {
@@ -407,13 +401,13 @@ function updateUserRegisteration() {
 			vendorSelected = true;
 			return false;
 		});
-		if(!vendorSelected) {
-			alert("Please select Vendor Area of Interest");
+		if(!vendorSelected) {			
+			$('#generic-error-message').html('Please select vendor area of interest');
 			return false;
 		}
 	}
-		
-	document.getElementById("errorMessage").innerHTML = '' ;
+
+	$("#errorMessage").html('');
 	$.ajax({
 		type: 'POST',
 		url:  "updateAccountSettings?userName="+username+"&companyType="+companytype+"&tags="+tags+"&email="+email,
@@ -421,10 +415,10 @@ function updateUserRegisteration() {
 		success: function(output) {
 			$('#loadingrgupdate').hide();			
 			if (output.match("true")) {
-				document.getElementById("sucessMessage").innerHTML = "Registration details updated successfully..!Please login again.";
+				$("#sucessMessage").html("Registration details updated successfully..!Please login again.");
 			}else {
-				document.getElementById("sucessMessage").innerHTML = '';
-				document.getElementById("errorMessage").innerHTML = "Error Updating Registration details. Please contact <a href='mailto:support@finvendor.com'>Fin Vendor support</a>";
+				$("#sucessMessage").html('');
+				$("#errorMessage").html("Error Updating Registration details. Please contact <a href='mailto:support@finvendor.com'>Fin Vendor support</a>");
 			}
 		}
 	});
