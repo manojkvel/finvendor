@@ -328,8 +328,8 @@
 											<td>${tableRowData[2]}</td>
 											<td>${tableRowData[3]}</td>
 											<td>${tableRowData[4]}</td>
-											<td>${tableRowData[5]}</td>
 											<td>${tableRowData[6]}</td>
+											<td>${tableRowData[7]}</td>
 										</tr>															
 									</c:if>								
 									<c:if test="${lastResearchReportOfferingType == currentResearchReportOfferingType}">
@@ -338,8 +338,8 @@
 											<td>${tableRowData[2]}</td>
 											<td>${tableRowData[3]}</td>
 											<td>${tableRowData[4]}</td>
-											<td>${tableRowData[5]}</td>
 											<td>${tableRowData[6]}</td>
+											<td>${tableRowData[7]}</td>
 										</tr>
 									</c:if>
 									<c:set var="lastResearchReportOfferingType">${currentResearchReportOfferingType}</c:set>

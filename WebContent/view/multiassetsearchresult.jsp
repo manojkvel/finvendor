@@ -156,8 +156,12 @@ tbody:before {
 														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
 														<c:if test="${exchangeCount > 0}">
 															<td><label>Derivatives :</label> ${exchangeCount} F&O exchanges</td>
-														</c:if>		
-														<td><label>FX :</label> Gro ccv pairs</td>
+														</c:if>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FX"/>
+														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>		
+														<c:if test="${exchangeCount > 0}">
+															<td><label>FX :</label> ${exchangeCount} pairs</td>
+														</c:if>
 														<td>&nbsp;</td>
 														<td>&nbsp;</td>
 													</tr>
