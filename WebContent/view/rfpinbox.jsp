@@ -38,11 +38,10 @@
 										 <!-- <div class="ColumnCommonmyprofile"> <div class="lable_header"> <a href="#tab4" class="lable_header" data-toggle="tab">Data Distribution</a> </div> </div> -->
 										 <div class="ColumnCommonmyprofile" id="change3"> <div class="lable_header" id="interdiv3"> <a id="ancho3" href="#tab4" class="lable_header" data-toggle="tab" onclick="activeMode('${databuyers}');">Search Data-Buyers</a> </div> </div>
 										<div class="ColumnCommonmyprofile" id="change4"> <div class="lable_header" id="interdiv4"> <a id="ancho4" href="#tab5" class="lable_header" data-toggle="tab" onclick="activeMode('${myrfp}');">My RFP</a> </div> </div> --%>
-										<div class="ColumnCommonrfpinbox"> <div class="lable_header" > <a href="#tab8" class="lable_header" data-toggle="tab">Coming Soon!</a> </div> </div>
+										<div class="ColumnCommonrfpinbox"> <div class="lable_header" > <a href="#tab8" class="lable_header" data-toggle="tab">RFP Inbox</a> </div> </div>
 										</div>
 										
-								<%-- 		
-										
+											
 								<div class="tab-content">
 									<div class="tab-pane active" id="tab8">
 									<div><br/></div>
@@ -452,7 +451,7 @@
 								
 								
 								
-								--%>
+								
 								</div>
 								</form>
 							</div>

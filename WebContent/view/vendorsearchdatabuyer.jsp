@@ -27,8 +27,7 @@
 									
 									
 									<div class="form-wizard">
-									Coming Soon!
-									<%-- 
+									<%-- Coming Soon! --%>
 									
 									<div class="Rowtable">
 										</div>
@@ -130,7 +129,7 @@
 										</div>
 								
 								
-								--%>
+								
 								
 								</div>
 								
