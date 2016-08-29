@@ -833,14 +833,21 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		
-		String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange, security.name, security.security_type_id, asset_sec.description sec_asset_description from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country, offeringfiles files, security_types security, asset_class asset_sec where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and files.vendor_offering_id = off.vendor_offering_id and security.security_type_id = files.security_type_id and security.asset_class_id = asset_sec.asset_class_id and ven.regionofincorp in ( ";
+		String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange, security.name, security.security_type_id, asset_sec.description sec_asset_description from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country, offeringfiles files, security_types security, asset_class asset_sec where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and files.vendor_offering_id = off.vendor_offering_id and security.security_type_id = files.security_type_id and security.asset_class_id = asset_sec.asset_class_id ";
 		StringBuilder searchSql = new StringBuilder(2000);
 		searchSql.append(vendorSearchSql);
-		searchSql.append(dataForm.getVendorregionofincorp());
 		
-		searchSql.append(" ) and ven.countryofincorp in ( ");
-		searchSql.append(dataForm.getVendorcountryofincorp());
-		searchSql.append(" )");
+		if (dataForm.getVendorregionofincorp() != null && !dataForm.getVendorregionofincorp().toString().trim().equals("")) {
+			searchSql.append("and ven.regionofincorp in ( ");
+			searchSql.append(dataForm.getVendorregionofincorp());
+			searchSql.append(" ) ");
+		}
+		
+		if (dataForm.getVendorcountryofincorp() != null && !dataForm.getVendorcountryofincorp().toString().trim().equals("")) {
+			searchSql.append(" and ven.countryofincorp in ( ");
+			searchSql.append(dataForm.getVendorcountryofincorp());
+			searchSql.append(" ) ");
+		}
 		
 		String assetClasses = (String)searchData.get("assetClassChk");
 		String[] assetClassList = new String[0];
