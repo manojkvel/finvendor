@@ -108,11 +108,13 @@
 					<select name="vendorprofilefreshness" id="vendorprofilefreshness"
 						style="height: 53px; width: 227px;">
 						<option selected="selected" value="" class="selectvalues">
-							-SELECT-</option>
+							ANY</option>
+						<%--
 						<option>Today</option>
 						<option>Last One Week</option>
 						<option>Last One Month</option>
 						<option>Last One Year</option>
+						--%>
 					</select>
 				</div>
 				<div class="control-group">
@@ -120,10 +122,12 @@
 					<select name="vendorsupporttime" id="vendorsupporttime"
 						style="height: 53px; width: 227px;">
 						<option selected="selected" value="" class="selectvalues">
-							-SELECT-</option>
+							ANY</option>
+						<%--
 						<c:forEach var="supports" items="${supports}">
 							<option value="${supports.support_id}">${supports.name}</option>
 						</c:forEach>
+						--%>
 					</select>
 				</div>
 			</div>
@@ -180,20 +184,24 @@
 								+ "<div class='control-group'>"
 								+ "<label>Vendor Year of Operation</label>"
 								+ "<select name='" + assetType + "vendoryearoperation' multiple='multiple' id='" + assetType + "vendoryearoperation' style='height: 53px;'>"
-								+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
+								+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
+								<%--
 								+ "<option>Date (1970)</option>"
 								+ "<option>Last one week</option>"
 								+ "<option>Last one month</option>"
 								+ "<option>Last one year</option>"
+								--%>
 								+ "</select>"
 								+ "</div>"
 								+ "<div class='control-group'>"
 								+ "<label>Awards</label>"
 								+ "<select name='" + assetType + "awards' multiple='multiple' id='" + assetType + "awards' style='height: 53px;'>"
-								+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
+								+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
+								<%--
 								+ "<c:forEach var='awards' items='${awards}'>"
 								+ "<option value='${awards.award_id}'>${awards.name}</option>"
 								+ "</c:forEach>"
+								--%>
 								+ "</select>"
 								+ "</div>"
 								+ "<div class='control-group'>"
@@ -205,11 +213,14 @@
 								+ "</c:forEach>"
 								+ "</select>"
 								+ "</div>"
+								<%--
 								+ "<div class='control-group'>"
 								+ "<label>Data Attribute</label>"
 								+ "<div class='controls' style='margin-left: 0;'>"
 								+ "<input type='text' id='" + assetType + "dataattribute' placeholder='Data Attribute' name='" + assetType + "dataattribute' class='m-wrap largevaltradingappmarketingaggregator' />"
-								+ "</div>" + "</div>" + "</div>" + "</div>";
+								+ "</div>" 
+								--%>
+								+ "</div>" + "</div>" + "</div>";
 						$('#singleAssetFields').append(singleAssetData);
 					}
 				</script>
@@ -239,9 +250,11 @@
 						<div class="control-group">
 							<label>Data Acquisition Cost Range</label>
 						</div>
+						<%--
 						<div class="control-group">
 							<label>Data Attribute</label>
 						</div>
+						--%>
 					</div>
 					<script type="text/javascript">
 						var multipleAssetData = '';
@@ -287,19 +300,23 @@
 									+ "</div>"
 									+ "<div class='control-group'>"
 									+ "<select name='" + assetType + "vendoryearoperation' multiple='multiple' id='" + assetType + "vendoryearoperation' style='height: 53px;'>"
-									+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
+									+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
+									<%--
 									+ "<option>Date (1970)</option>"
 									+ "<option>Last one week</option>"
 									+ "<option>Last one month</option>"
 									+ "<option>Last one year</option>"
+									--%>
 									+ "</select>"
 									+ "</div>"
 									+ "<div class='control-group'>"
 									+ "<select name='" + assetType + "awards' multiple='multiple' id='" + assetType + "awards' style='height: 53px;'>"
-									+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
+									+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
+									<%--
 									+ "<c:forEach var='awards' items='${awards}'>"
 									+ "<option value='${awards.award_id}'>${awards.name}</option>"
 									+ "</c:forEach>"
+									--%>
 									+ "</select>"
 									+ "</div>"
 									+ "<div class='control-group'>"
@@ -310,10 +327,13 @@
 									+ "</c:forEach>"
 									+ "</select>"
 									+ "</div>"
+									<%--
 									+ "<div class='control-group'>"
 									+ "<div class='controls' style='margin-left: 0;'>"
 									+ "<input type='text' id='" + assetType + "dataattribute' placeholder='Data Attribute' name='" + assetType + "dataattribute' class='m-wrap largevaltradingappmarketingaggregator' />"
-									+ "</div>" + "</div>" + "</div>";
+									+ "</div>" 
+									--%>
+									+ "</div>" + "</div>";
 							$('#multipleAssetFields').append(multipleAssetData);
 						}
 					</script>
