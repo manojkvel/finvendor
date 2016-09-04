@@ -675,11 +675,11 @@ ul.page-sidebar-menu>li>ul.sub-menu  li>a>.arrow.open:before {
 	text-shadow: none;
 }
 
-.Row {
+#searchmultiform .Row {
 	display: table;
 	width: 100%;
 	background-color: #ECF0F1;
-	padding-top: 20px;
+	padding-top: 20px;*/
 }
 
 

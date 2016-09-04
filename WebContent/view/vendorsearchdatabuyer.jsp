@@ -13,6 +13,8 @@
 <!-- BEGIN BODY -->
 <body>
 	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
+	<section>
+		<div id="fin_vendor_search_data_buyer" class="section">
 	<div class="container">  
         <div class="row-fluid">
 					<div class="span12">
@@ -144,6 +146,8 @@
 				</div>
     </div>
     </div>
+    </div>
+    </section>
     <!-- END CONTAINER -->
     <jsp:include page="common/footer.jsp"></jsp:include>
 <script type="text/javascript">

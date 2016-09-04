@@ -227,7 +227,6 @@ a:hover,a:focus {
 }
 
 .row {
-	margin-left: -20px;
 	*zoom: 1
 }
 
@@ -249,7 +248,7 @@ a:hover,a:focus {
 
 .container,.navbar-static-top .container,.navbar-fixed-top .container,.navbar-fixed-bottom .container
 	{
-	width: 940px
+	width: 970px
 }
 
 .span12 {
@@ -588,8 +587,6 @@ a:hover,a:focus {
 }
 
 .container-fluid {
-	padding-right: 20px;
-	padding-left: 20px;
 	*zoom: 1
 }
 

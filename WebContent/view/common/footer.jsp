@@ -1,81 +1,205 @@
 <%@taglib uri="/WEB-INF/finvendor.tld" prefix="finVen"%>
-<%@page import="com.finvendor.util.RequestConstans"%>	
-<div class="footer-container">
-	<div class="container">
-		<div class="footer" id="footer">
-			<div class="footer-left-wrap">
-				<ul>
-					<li><a href="${finVen:resolveContextPath(pageContext.request.contextPath)}"><font style="font-weight:bold"><b>HOME</b></font></a></li>
-					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=About"><font style="font-weight:bold"><b>About Us</b></font></a></li>
-					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS"><font style="font-weight:bold"><b>SOLUTIONS</b></font></a></li>
-					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES"><font style="font-weight:bold"><b>SERVICES</b></font></a></li>
-					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES"><font style="font-weight:bold"><b>RESOURCES</b></font></a></li>
-					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=CONTACT"><font style="font-weight:bold"><b>CONTACT</b></font></a></li>
-				</ul>
-				<ul class="send-ul">
-					<li><font style="font-weight:bold">© 2015 Fin Vendor. All rights reserved.</font></li>
-					<li><a href="<%=request.getContextPath()%>/sitemap"><font style="font-weight:bold"><b>Sitemap</b></font></a></li>
-					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Privacy_Policy"><b>Privacy Policy</b></font></a></li>
-					<li><a href="#"><font style="font-weight:bold"><b>Advertise</b></font></a></li>
-					<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Disclaimer"><b>Disclaimer</b></font></a></li>
-				</ul>
+<%@page import="com.finvendor.util.RequestConstans"%>
+<footer>
+	<div id="footer" class="footer_wrapper">
+		<div id="footer_top">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12">
+						<div class="section_one">
+							<h3>About Us</h3>
+							<p>
+								FinVendor acts as a bridge between financial vendors and its end
+								users.<br>
+								<br> Our platform supports 4 different vendor types -
+								Financial Market Data Vendors, Trading Application Vendors,
+								Analytics Application Vendors and Research Report Providers.
+							</p>
+							<ul class="social">
+								<li><a href="https://www.facebook.com/finvendor"
+									target="_blank" class="fa fa-facebook-square" title="Facebook"></a>
+								<li>
+								<li><a href="https://twitter.com/FinVendor" target="_blank"
+									class="fa fa-twitter-square" title="Twitter"></a>
+								<li>
+								<li><a href="https://www.linkedin.com/company/finvendor"
+									target="_blank" class="fa fa-linkedin-square" title="LinkedIn"></a>
+								<li>
+								<li><a
+									href="https://www.youtube.com/channel/UC5vFoU--AH3E8sB5gUkmVqw"
+									target="_blank" class="fa  fa-youtube-square" title="YouTube"></a>
+								<li>
+								<li><a href="#" target="_blank" class="fa fa-rss-square" title="RSS Feed"></a>
+								<li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-5 col-sm-4 col-xs-12">
+						<div class="section_two">
+							<h3>Quick Links</h3>
+							<ul>
+								<li><a
+									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS">
+										<span class="fa fa-chevron-right"></span> Solutions
+								</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES">
+										<span class="fa fa-chevron-right"></span> Services
+								</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES">
+										<span class="fa fa-chevron-right"></span> Resources
+								</a></li>
+								<li><a
+									href="${finVen:resolveContextPath(pageContext.request.contextPath)}">
+										<span class="fa fa-chevron-right"></span> home
+								</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=About">
+										<span class="fa fa-chevron-right"></span> About Us
+								</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=CONTACT">
+										<span class="fa fa-chevron-right"></span> Contact
+								</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-4 col-xs-12">
+						<div class="section_three">
+							<h3>Contact Us</h3>
+							<p>
+								<span class="fa fa-map-marker"></span> Company Address
+							</p>
+							<p>
+								<span class="fa fa-phone"></span> +65 869 633 21
+							</p>
+							<p>
+								<span class="fa fa-fax"></span> +65 869 633 21
+							</p>
+							<p>
+								<span class="fa fa-envelope"></span> enquiry@finvendor.com
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="footer-right-wrap" id="footer-right-wrap">
-				<p><font style="font-weight:bold"><b>CONNECT WITH US:</b></font></p>
-				<ul>
-					<li><a href="https://www.facebook.com/finvendor" target="_blank"><img src="${pageContext.request.contextPath}/resources/images/a1.png" alt="Facebook" title=""/></a></li>
-					<li><a href="https://www.linkedin.com/company/finvendor" target="_blank"><img src="${pageContext.request.contextPath}/resources/images/a2.png" alt="Linkedin" title=""/></a></li>
-					<li><a href="https://twitter.com/FinVendor" target="_blank"><img src="${pageContext.request.contextPath}/resources/images/a3.png" alt="Twitter" title=""/></a></li>
-					<li><a href="https://www.youtube.com/channel/UC5vFoU--AH3E8sB5gUkmVqw" target="_blank"><img src="${pageContext.request.contextPath}/resources/images/a4.png" alt="You Tube" title="" /></a></li>
-					<li><a href="#"><img src="${pageContext.request.contextPath}/resources/images/a5.png" alt="" title="" /></a></li>
-				</ul>
+		</div>
+		<div id="footer_bottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-sm-8">
+						<div class="clearfix">
+							<div class="pull-left">
+								<img class="footer_logo"
+									src="${pageContext.request.contextPath}/resources/images/company-logo-footer.png"
+									alt="Footer logo">
+							</div>
+							<div class="copyright_text">Copyright © 2016 Finvendor</div>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-4">
+						<div class="clearfix">
+							<div class="pull-right xs-pull-left">
+								<!-- Header top bar Socials -->
+								<div class="pull-right">
+									<div class="copyright_socials">
+										<ul class="clearfix">
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="pull-right xs-pull-left hidden-sm hidden-xs">
+								<ul class="footer_menu heading_font clearfix">
+									<li><a
+										href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Privacy_Policy">
+											Privacy Policy </a></li>
+									<li><a href="#"> Advertise </a></li>
+									<li><a
+										href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Disclaimer">
+											Disclaimer </a></li>
+									<li><a href="<%=request.getContextPath()%>/sitemap">Sitemap</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="clearfix"></div>
 		</div>
 	</div>
-</div>
-		<script src="${pageContext.request.contextPath}/resources/js/CreateHTML5Elements.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/jquery.validate.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/additional-methods.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/additional-methods.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.tabs.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/jquery.bxslider.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/userregister.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/base64.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/form-wizard.js" type="text/javascript"></script>
-    <script src="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
-    <script src="<%=request.getContextPath() %>/resources/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-    <script src="<%=request.getContextPath() %>/resources/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.validate.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/additional-methods.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.bootstrap.wizard.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/WebUtil.js"></script>
-	<!-- Basic Jquery plugins end here-->
-	
-	<!-- add to table plugins start-->
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
-	<!-- add to table plugins end here-->
-	
-	<script src="<%=request.getContextPath()%>/resources/js/userregister.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/base64.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/loadingpanel-min.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/vendor.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/consumer.js"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/consumerinviteanrfp.js"></script>
-	
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/marketaggregators.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/tradingapplicationvendor.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/financialanalyticsvendor.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/researchreportprovidervendor.js"></script>
-	
-	
-	<!-- menu options plugins start-->
-	<script src="<%=request.getContextPath() %>/resources/js/superfish.js"></script>
-	<script>
+</footer>
+<script
+	src="${pageContext.request.contextPath}/resources/js/CreateHTML5Elements.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-ui.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/jquery.validate.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/jquery.validate.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/additional-methods.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/additional-methods.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery.tabs.js"></script>
+<script
+	src="<%=request.getContextPath() %>/resources/js/jquery.bxslider.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/userregister.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/base64.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/form-wizard.js"
+	type="text/javascript"></script>
+<script
+	src="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js"
+	type="text/javascript"></script>
+<script
+	src="<%=request.getContextPath() %>/resources/js/jquery-migrate-1.2.1.min.js"
+	type="text/javascript"></script>
+<script
+	src="<%=request.getContextPath() %>/resources/plugins/bootstrap/js/bootstrap.min.js"
+	type="text/javascript"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/jquery.validate.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/additional-methods.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/jquery.bootstrap.wizard.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/WebUtil.js"></script>
+<!-- Basic Jquery plugins end here-->
+
+<!-- add to table plugins start-->
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
+<!-- add to table plugins end here-->
+
+<script src="<%=request.getContextPath()%>/resources/js/userregister.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/base64.js"></script>
+<script
+	src="<%=request.getContextPath() %>/resources/js/loadingpanel-min.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/vendor.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/consumer.js"></script>
+<script
+	src="<%=request.getContextPath() %>/resources/js/consumerinviteanrfp.js"></script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/marketaggregators.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/tradingapplicationvendor.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/financialanalyticsvendor.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/researchreportprovidervendor.js"></script>
+
+
+<!-- menu options plugins start-->
+<script src="<%=request.getContextPath() %>/resources/js/superfish.js"></script>
+<script>
 		(function($) {
 			$(document).ready(function() {
 				var example = $('#example').superfish({});
@@ -112,8 +236,9 @@
 			});
 		});
 	</script>
-	<script src="${pageContext.request.contextPath}/resources/js/superfish.js"></script>
-	<script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/superfish.js"></script>
+<script>
 		(function($) {
 			$(document).ready(function() {
 				var example = $('#example').superfish({});
@@ -125,13 +250,18 @@
 			});
 		})(jQuery);
 	</script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jssor.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jssor.slider.js"></script>
-	
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/marketaggregators.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/loginmain.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/loginmodernizr.js"></script>
-	<script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jssor.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/jssor.slider.js"></script>
+
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/marketaggregators.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/loginmain.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/loginmodernizr.js"></script>
+<script>
 		jQuery(document)
 				.ready(function($) {
 							var options = {

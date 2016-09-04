@@ -12,18 +12,14 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery-ui.css"/>
 	</head>
 	<body>
-		<div class="container">
-			<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
-		</div>	
+		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 		<div class="container">
 			<font color="red">${errorMessage}</font>
 			Exception is: <%= exception %>
 			<% exception.printStackTrace(response.getWriter()); %>
 		</div>	
 		<jsp:include page="login.jsp"></jsp:include>	
-		<div class="container">
-			<jsp:include page="common/footer.jsp"></jsp:include>
-		</div>
+		<jsp:include page="common/footer.jsp"></jsp:include>
 	</body>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.side-slider.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/mail-functions.js"></script>
