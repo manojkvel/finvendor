@@ -64,6 +64,42 @@
 	color: #fff;
 }
 
+.sf-arrows .user_activity .sf-with-ul:after {
+    border-top-color: #34bf98;
+}
+
+.sf-arrows li.user_activity.sfHover .sf-with-ul:after {
+	margin-top: -6px;
+	transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    transition: .5s all ease;
+    -webkit-transition: .5s all ease;
+    -moz-transition: .5s all ease;
+    border-top-color: #34bf98;
+}
+
+.nav-srch-cnt >ul >li.user_activity >a:hover,
+.nav-srch-cnt >ul >li.user_activity.sfHover >a,
+.nav-srch-cnt >ul >li.user_activity.sfHover {
+	background: #414b4f;
+	color: #fff;
+}
+
+
+.nav-srch-cnt >ul >li.user_activity.sfHover ul li a:hover {
+	background: #34bf98;
+}
+
+.nav-srch-cnt >ul >li.user_activity ul li {
+	background: #414b4f;
+}
+
+.nav-srch-cnt >ul >li.user_activity a span {
+	font-size: 11px;
+	font-weight: normal;
+}
+
 .sf-arrows .sf-with-ul:after {
     transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
@@ -663,7 +699,7 @@ th{
 }
 
 
-.header-container .sf-menu #header_user_profile .profile-circle {
+.header-container .sf-menu .profile-circle {
 	border: none;
 	width: 30px;
 	height: 30px;

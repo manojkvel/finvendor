@@ -120,29 +120,33 @@
                                                                         </li>
                                                                     </ul>
                                                                 </li>
+
                                                                 <li class="user_activity">
                                                                     <c:choose>
                                                                         <c:when test="${sessionScope.loggedInUser != null }">
-                                                                            <div id="header_user_profile" class="dropdown">
-                                                                                <a href="#" class="account">
-                                                                                    <img src="${pageContext.request.contextPath}/displayCompanyLogo/${sessionScope.loggedInUser.username}" class="profile-circle" border="0" />
-                                                                                    <span>${sessionScope.loggedInUser.username}</span>
-
-                                                                                    <i class="fa fa-chevron-down"></i>
-                                                                                </a>
-                                                                                <div class="profilepicsubmenu dropdown-menu">
-                                                                                    <h4><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Account</a></h4>
-                                                                                    <h4><a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a></h4>
-                                                                                    <h4><a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a></h4>
-                                                                                </div>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <div class="hd-right">
-                                                                                <a class="cd-signin" href="#">
-                                                                                    <i class="fa fa-user"></i> Login
-                                                                                </a>
-                                                                            </div>
-                                                                        </c:otherwise>
+                                                                    <a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${sessionScope.loggedInUser.username}">
+                                                                        <img src="${pageContext.request.contextPath}/displayCompanyLogo/${sessionScope.loggedInUser.username}" class="profile-circle" border="0" />
+                                                                        <span>${sessionScope.loggedInUser.username}</span>
+                                                                    </a>
+                                                                    <ul>
+                                                                        <li>
+                                                                            <a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                    <div class="hd-right">
+                                                                        <a class="cd-signin" href="#">
+                                                                            <i class="fa fa-user"></i> Login
+                                                                        </a>
+                                                                    </div>
+                                                                    </c:otherwise>
                                                                     </c:choose>
                                                                 </li>
                                                             </ul>
