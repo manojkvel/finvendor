@@ -36,8 +36,8 @@ public class RfpServiceImpl implements RfpService {
 	}
 
 	@Override
-	public void updateRfpMoreInfo(RfpBean rfpBean, String vendorId) {
-		rfpDao.updateRfpMoreInfo(rfpBean, vendorId);
+	public void updateRfpMoreInfo(String id, String rfpId, String moreInfoDetails, String vendorId) {
+		rfpDao.updateRfpMoreInfo(id, rfpId, moreInfoDetails, vendorId);
 	}
 
 }

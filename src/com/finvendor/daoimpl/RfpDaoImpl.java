@@ -1,6 +1,7 @@
 package com.finvendor.daoimpl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
@@ -29,19 +30,31 @@ public class RfpDaoImpl implements RfpDao {
 	private static final String REVOKE_VENDOR_RFP_INTEREST = "update vendor_rfp_interest set interset_revoke_date = CURRENT_TIMESTAMP() where rfp_id = :rfp_id and vendor_id = :vendor_id";
 	private static final String REQUEST_VENDOR_RFP_MORE_INFO = "update vendor_rfp_interest set more_info_requested = 'Y', more_info_requested_date = CURRENT_TIMESTAMP() where rfp_id = :rfp_id and vendor_id = :vendor_id";
 	private static final String INSERT_VENDOR_RFP_MORE_INFO = "insert into rfp_more_info_details (id, rfp_id, vendor_id, more_info, more_info_requested_date) values (:id, :rfp_id, :vendor_id, :more_info, CURRENT_TIMESTAMP())";
+	private static final String UPDATE_CONSUMER_RFP_MORE_INFO = "update vendor_rfp_interest set more_info_provided_date = CURRENT_TIMESTAMP() where rfp_id = :rfp_id and vendor_id = :vendor_id";
+	private static final String UPDATE_CONSUMER_RFP_MORE_INFO_DETAILS = "update rfp_more_info_details set consumer_reply = :consumer_reply, more_info_provided_date = CURRENT_TIMESTAMP() where id = :id";
 	private static final String SELECT_VENDOR_RFP_LIST = "select con_rfp.rfp_id, con_rfp.consumer_id, con_rfp.rfp_title, con_rfp.created_date, con_rfp.rfp_end_date, con.company, con.lname + ', ' + con.fname con_name, ven_rfp.interest_shown_date, ven_rfp.shortlisted, ven_rfp.finalized, ven_rfp.finalized_date from consumer_rfp con_rfp, vendor_rfp_interest ven_rfp, consumer con where con_rfp.rfp_id = ven_rfp.rfp_id and con_rfp.consumer_id = con.consumer_id and ven_rfp.rfp_id = :vendor_id order by con_rfp.created_date desc";
 	
 	
 	@Override
 	public RfpBean createRfp(RfpBean rfpBean, boolean update) {
-		SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(INSERT_CONSUMER_RFP_RECORD);
-		sqlQuery.setParameter("rfp_id", rfpBean.getRfpId());
-		sqlQuery.setParameter("consumer_id", rfpBean.getConsumerId());
-		sqlQuery.setParameter("rfp_title", rfpBean.getRfpTitle());
-		sqlQuery.setParameter("rfp_short_desc", rfpBean.getRfpShortDesc());
-		sqlQuery.setParameter("rfp_detailed_desc", rfpBean.getRfpDetailedDesc());
-		sqlQuery.setParameter("rfp_end_date", rfpBean.getRfpEnddate());
-		sqlQuery.executeUpdate();
+		SQLQuery sqlQuery = null;		
+		if(update) {
+			sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_CONSUMER_RFP_RECORD);
+			sqlQuery.setParameter("rfp_short_desc", rfpBean.getRfpShortDesc());
+			sqlQuery.setParameter("rfp_detailed_desc", rfpBean.getRfpDetailedDesc());
+			sqlQuery.setParameter("rfp_end_date", rfpBean.getRfpEnddate());
+			sqlQuery.setParameter("rfp_id", rfpBean.getRfpId());			
+			sqlQuery.executeUpdate();
+		}else {
+			sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(INSERT_CONSUMER_RFP_RECORD);
+			sqlQuery.setParameter("rfp_id", rfpBean.getRfpId());
+			sqlQuery.setParameter("consumer_id", rfpBean.getConsumerId());
+			sqlQuery.setParameter("rfp_title", rfpBean.getRfpTitle());
+			sqlQuery.setParameter("rfp_short_desc", rfpBean.getRfpShortDesc());
+			sqlQuery.setParameter("rfp_detailed_desc", rfpBean.getRfpDetailedDesc());
+			sqlQuery.setParameter("rfp_end_date", rfpBean.getRfpEnddate());
+			sqlQuery.executeUpdate();
+		}
 		return rfpBean;
 	}
 
@@ -77,14 +90,32 @@ public class RfpDaoImpl implements RfpDao {
 
 	@Override
 	public void requestRfpMoreInfo(String rfpId, String moreInfoDetails, String vendorId) {
-		// TODO Auto-generated method stub
-
+		SQLQuery sqlQuery = null;
+		sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(REQUEST_VENDOR_RFP_MORE_INFO);
+		sqlQuery.setParameter("rfp_id", rfpId);
+		sqlQuery.setParameter("vendor_id", vendorId);
+		sqlQuery.executeUpdate();
+		
+		sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(INSERT_VENDOR_RFP_MORE_INFO);
+		sqlQuery.setParameter("id", UUID.randomUUID());
+		sqlQuery.setParameter("rfp_id", rfpId);
+		sqlQuery.setParameter("vendor_id", vendorId);
+		sqlQuery.setParameter("more_info", vendorId);
+		
+		sqlQuery.executeUpdate();
 	}
 
 	@Override
-	public void updateRfpMoreInfo(RfpBean rfpBean, String vendorId) {
-		// TODO Auto-generated method stub
-
+	public void updateRfpMoreInfo(String id, String rfpId, String moreInfoDetails, String vendorId) {
+		SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_CONSUMER_RFP_MORE_INFO);
+		sqlQuery.setParameter("rfp_id", rfpId);
+		sqlQuery.setParameter("vendor_id", vendorId);
+		sqlQuery.executeUpdate();
+		
+		sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_CONSUMER_RFP_MORE_INFO_DETAILS);
+		sqlQuery.setParameter("consumer_reply", moreInfoDetails);
+		sqlQuery.setParameter("id", id);
+		sqlQuery.executeUpdate();
 	}
 
 }
