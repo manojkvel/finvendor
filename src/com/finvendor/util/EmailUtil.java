@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.finvendor.model.Consumer;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.RfpBean;
+import com.finvendor.model.Vendor;
 
 public class EmailUtil {
 	
@@ -138,7 +139,7 @@ public class EmailUtil {
 	
 	public static void sendRfpNotification(Consumer consumer, RfpBean rfpBean, 
 			List<String> vendorEmailList, boolean closed) throws MessagingException {
-		logger.debug("Entering EmailUtil:sendRfpCreatedNotification for {}", consumer.getUser().getUserName());
+		logger.debug("Entering EmailUtil:sendRfpNotification for {}", consumer.getUser().getUserName());
 		Session session = getMailSession();
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(FROM_EMAIL));
@@ -167,7 +168,111 @@ public class EmailUtil {
 		content.append("Please login to FinVendor(http://www.finvendor.com) for more details");
 		message.setText(content.toString());
 		Transport.send(message);
-		logger.debug("Leaving EmailUtil:sendResetPasswordEmail for {}", consumer.getUser().getUserName());
+		logger.debug("Leaving EmailUtil:sendRfpNotification for {}", consumer.getUser().getUserName());
+	}
+	
+	public static void sendRfpInterestNotification(RfpBean rfpBean, 
+			Vendor vendor, Consumer consumer, boolean revoke) throws MessagingException {
+		logger.debug("Entering EmailUtil:sendRfpInterestNotification for {}", vendor.getUser().getUserName());
+		Session session = getMailSession();
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(FROM_EMAIL));
+		message.setRecipients(Message.RecipientType.TO,
+			InternetAddress.parse(consumer.getUser().getEmail()));
+		if(revoke) {
+			message.setSubject("Vendor RFP Interest Notification");
+		}else {
+			message.setSubject("Vendor RFP Interest Revoke Notification");
+		}
+		StringBuilder content = new StringBuilder();
+		content.append("Dear User, \n");	
+		if(revoke) {
+			content.append("Please note that Vendor " + vendor.getCompany() + 
+					" has revoked interest from RFP " + rfpBean.getRfpTitle() + "\n");
+		}else {
+			content.append("Please note that Vendor " + vendor.getCompany() + 
+				" has expressed interest in " + rfpBean.getRfpTitle() + "\n");
+		}
+		content.append("\n\n");
+		content.append("Please login to FinVendor(http://www.finvendor.com) for more details");
+		message.setText(content.toString());
+		Transport.send(message);
+		logger.debug("Leaving EmailUtil:sendRfpInterestNotification for {}", vendor.getUser().getUserName());
+	}
+	
+	public static void sendRfpVendorSelectionNotification(Consumer consumer, RfpBean rfpBean, 
+			List<Vendor> vendorList, boolean shortlisted, boolean finalized) throws MessagingException {
+		logger.debug("Entering EmailUtil:sendRfpVendorSelectionNotification for {}", consumer.getUser().getUserName());
+		Session session = getMailSession();
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(FROM_EMAIL));
+		StringBuilder vendorEmails = new StringBuilder();
+		for(Vendor v  : vendorList) {
+			vendorEmails.append(v.getUser().getEmail());
+			if(v.getSecondaryEmail() != null && !v.getSecondaryEmail().trim().equals("")) {
+				vendorEmails.append(v.getSecondaryEmail());
+			}
+			vendorEmails.append(",");
+		}
+		message.setRecipients(Message.RecipientType.BCC,
+			InternetAddress.parse(vendorEmails.substring(0, vendorEmails.length() - 1)));
+		if(shortlisted) {
+			message.setSubject("RFP Vendor Shortlisting Notification");
+		}else {
+			message.setSubject("RFP Vendor Finalize Notification");
+		}
+		StringBuilder content = new StringBuilder();
+		content.append("Dear User, \n");	
+		if(shortlisted) {
+			content.append("Please note that " + consumer.getCompanyUrl() + " has shortlisted you for RFP " + 
+					rfpBean.getRfpTitle() + "\n");
+		}else {
+			content.append("Please note that " + consumer.getCompanyUrl() + " has finalized you for RFP " + 
+					rfpBean.getRfpTitle() + "\n");
+		}
+		content.append("\n\n");
+		content.append("Please login to FinVendor(http://www.finvendor.com) for more details");
+		message.setText(content.toString());
+		Transport.send(message);
+		logger.debug("Leaving EmailUtil:sendRfpVendorSelectionNotification for {}", consumer.getUser().getUserName());
+	}
+	
+	public static void sendRfpMoreInfoNotification(RfpBean rfpBean, 
+			Vendor vendor, Consumer consumer, String moreInfo, boolean request) throws MessagingException {
+		logger.debug("Entering EmailUtil:sendRfpMoreInfoNotification for {}, Consumer : {}", 
+				rfpBean.getRfpTitle(), consumer.getCompany());
+		Session session = getMailSession();
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(FROM_EMAIL));
+		if(request) {
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(consumer.getUser().getEmail()));
+		}else {
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(vendor.getUser().getEmail()));
+		}
+		if(request) {
+			message.setSubject("Vendor RFP More Information Request Notification");
+		}else {
+			message.setSubject("Consumer RFP More Information Update Notification");
+		}
+		StringBuilder content = new StringBuilder();
+		content.append("Dear User, \n");	
+		if(request) {
+			content.append("Please note that Vendor " + vendor.getCompany() + 
+					" has requested more information for RFP " + rfpBean.getRfpTitle() + "\n");
+			content.append("Information requested : " + moreInfo);
+		}else {
+			content.append("Please note that Consumer " + consumer.getCompany() + 
+				" has provided more infromation for RFP " + rfpBean.getRfpTitle() + "\n");
+			content.append("Information Provided : " + moreInfo);
+		}
+		content.append("\n\n");
+		content.append("Please login to FinVendor(http://www.finvendor.com) for more details");
+		message.setText(content.toString());
+		Transport.send(message);
+		logger.debug("Leaving EmailUtil:sendRfpMoreInfoNotification for {}, Consumer : {}", 
+				rfpBean.getRfpTitle(), consumer.getCompany());
 	}
 
 }

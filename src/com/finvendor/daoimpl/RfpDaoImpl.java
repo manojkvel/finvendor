@@ -25,9 +25,9 @@ public class RfpDaoImpl implements RfpDao {
 	private static final String UPDATE_CONSUMER_RFP_RECORD = "update consumer_rfp set rfp_short_desc = :rfp_short_desc, rfp_detailed_desc = :rfp_detailed_desc, rfp_end_date = :rfp_end_date, target_vendor_type = :target_vendor_type where rfp_id = :rfp_id";
 	private static final String SHORTLIST_RFP_VENDORS = "update vendor_rfp_interest set shortlisted ='Y', shortlisted_date = CURRENT_TIMESTAMP() where rfp_id = :rfp_id and vendor_id = :vendor_id";
 	private static final String FINALIZED_RFP_VENDORS = "update vendor_rfp_interest set finalized ='Y', finalized_date = CURRENT_TIMESTAMP() where rfp_id = :rfp_id and vendor_id = :vendor_id";
-	private static final String SELECT_MY_RFP_DETAILS = "select con_rfp.rfp_id, con_rfp.consumer_id, con_rfp.rfp_title, con_rfp.rfp_short_desc, con_rfp.rfp_detailed_desc, con_rfp.created_date, con_rfp.rfp_end_date, con_rfp.rfp_closed, con_rfp.rfp_closed_date, ven.company, ven.lname + ',' + ven.fname ven_name, ven.vendor_id, ven_rfp.shortlisted, ven_rfp.shortlisted_date, ven_rfp.finalized, ven_rfp.finalized_date, ven_rfp.interest_shown_date, ven_rfp.interset_revoke_date, ven.company from consumer_rfp con_rfp, vendor_rfp_interest ven_rfp, vendor ven where con_rfp.rfp_id = ven_rfp.rfp_id and ven_rfp.vendor_id = ven.vendor_id and con_rfp.consumer_id = :consumer_id order by con_rfp.created_date desc, con_rfp.rfp_id";
-	private static final String SELECT_RFP_DETAILS = "select con_rfp.rfp_id, con_rfp.consumer_id, con_rfp.rfp_title, con_rfp.rfp_short_desc, con_rfp.rfp_detailed_desc, con_rfp.created_date, con_rfp.rfp_end_date, con_rfp.rfp_closed, con_rfp.rfp_closed_date, ven.company, ven.lname + ',' + ven.fname ven_name, ven.vendor_id, ven_rfp.shortlisted, ven_rfp.shortlisted_date, ven_rfp.finalized, ven_rfp.finalized_date, ven_rfp.interest_shown_date, ven_rfp.interset_revoke_date, ven.company, ven_rfp.rfp_vendor_response from consumer_rfp con_rfp, vendor_rfp_interest ven_rfp, vendor ven where con_rfp.rfp_id = ven_rfp.rfp_id and ven_rfp.vendor_id = ven.vendor_id and con_rfp.rfp_id = :rfp_id";
-	private static final String SELECT_RFP_DETAILS_FOR_VENDOR = "select con_rfp.rfp_id, con_rfp.consumer_id, con_rfp.rfp_title, con_rfp.rfp_short_desc, con_rfp.rfp_detailed_desc, con_rfp.created_date, con_rfp.rfp_end_date, con_rfp.rfp_closed, con_rfp.rfp_closed_date, ven.company, ven.lname + ',' + ven.fname ven_name, ven.vendor_id, ven_rfp.shortlisted, ven_rfp.shortlisted_date, ven_rfp.finalized, ven_rfp.finalized_date, ven_rfp.interest_shown_date, ven_rfp.interset_revoke_date, ven.company, ven_rfp.rfp_vendor_response from consumer_rfp con_rfp, vendor_rfp_interest ven_rfp, vendor ven where con_rfp.rfp_id = ven_rfp.rfp_id and ven_rfp.vendor_id = ven.vendor_id and con_rfp.rfp_id = :rfp_id and ven_rfp.vendor_id = :vendor_id";
+	private static final String SELECT_MY_RFP_DETAILS = "select con_rfp.rfp_id, con_rfp.consumer_id, con_rfp.rfp_title, con_rfp.rfp_short_desc, con_rfp.rfp_detailed_desc, con_rfp.created_date, con_rfp.rfp_end_date, con_rfp.rfp_closed, con_rfp.rfp_closed_date, ven.lname + ',' + ven.fname ven_name, ven.vendor_id, ven_rfp.shortlisted, ven_rfp.shortlisted_date, ven_rfp.finalized, ven_rfp.finalized_date, ven_rfp.interest_shown_date, ven_rfp.interset_revoke_date, ven.company, u.username from consumer_rfp con_rfp left outer join vendor_rfp_interest ven_rfp on (con_rfp.rfp_id = ven_rfp.rfp_id) left outer join vendor ven on (ven_rfp.vendor_id = ven.vendor_id) left outer join users u on (u.username = ven.username) where con_rfp.consumer_id = :consumer_id order by con_rfp.created_date desc, con_rfp.rfp_id";
+	private static final String SELECT_RFP_DETAILS = "select con_rfp.rfp_id, con_rfp.consumer_id, con_rfp.rfp_title, con_rfp.rfp_short_desc, con_rfp.rfp_detailed_desc, con_rfp.created_date, con_rfp.rfp_end_date, con_rfp.rfp_closed, con_rfp.rfp_closed_date, ven.company, ven.lname + ',' + ven.fname ven_name, ven.vendor_id, ven_rfp.shortlisted, ven_rfp.shortlisted_date, ven_rfp.finalized, ven_rfp.finalized_date, ven_rfp.interest_shown_date, ven_rfp.interset_revoke_date, ven.company, ven_rfp.rfp_vendor_response, con.username from consumer_rfp con_rfp, vendor_rfp_interest ven_rfp, vendor ven, consumer con, users u where con_rfp.rfp_id = ven_rfp.rfp_id and ven_rfp.vendor_id = ven.vendor_id and con_rfp.rfp_id = :rfp_id and con.consumer_id = con_rfp.consumer_id and con.username = u.username";
+	private static final String SELECT_RFP_DETAILS_FOR_VENDOR = "select con_rfp.rfp_id, con_rfp.consumer_id, con_rfp.rfp_title, con_rfp.rfp_short_desc, con_rfp.rfp_detailed_desc, con_rfp.created_date, con_rfp.rfp_end_date, con_rfp.rfp_closed, con_rfp.rfp_closed_date, ven.company, ven.lname + ',' + ven.fname ven_name, ven.vendor_id, ven_rfp.shortlisted, ven_rfp.shortlisted_date, ven_rfp.finalized, ven_rfp.finalized_date, ven_rfp.interest_shown_date, ven_rfp.interset_revoke_date, ven.company, ven_rfp.rfp_vendor_response, con.username from consumer_rfp con_rfp, vendor_rfp_interest ven_rfp, vendor ven, consumer con, users u where con_rfp.rfp_id = ven_rfp.rfp_id and ven_rfp.vendor_id = ven.vendor_id and con_rfp.rfp_id = :rfp_id and ven_rfp.vendor_id = :vendor_id and con.consumer_id = con_rfp.consumer_id and con.username = u.username";
 	private static final String CLOSE_RFP = "update consumer_rfp set rfp_closed = 'Y', rfp_closed_date = CURRENT_TIMESTAMP() where rfp_id = :rfp_id";
 		
 	private static final String EXPRESS_VENDOR_RFP_INTEREST = "insert into vendor_rfp_interest (rfp_id, vendor_id, interest_shown_date) values (:rfp_id, :vendor_id, CURRENT_TIMESTAMP())";
@@ -115,6 +115,7 @@ public class RfpDaoImpl implements RfpDao {
 		Timestamp interest_shown_date = null;
 		Timestamp interset_revoke_date = null;
 		String company = null;
+		String venUserName = null;
 		List<String> shortListedVendor = null;
 		List<String> finalizedVendor = null;
 		List<String> interestedVendor = null;
@@ -139,6 +140,7 @@ public class RfpDaoImpl implements RfpDao {
 			interest_shown_date = rfpRow[15] != null ? (Timestamp)rfpRow[15] : null;
 			interset_revoke_date = rfpRow[16] != null ? (Timestamp)rfpRow[16] : null;
 			company = rfpRow[17] != null ? rfpRow[17].toString() : "";
+			venUserName = rfpRow[18] != null ? rfpRow[18].toString() : "";
 			if(!firstTime) {
 				firstTime = true;
 				prevRfpId = currentRfpId;
@@ -158,13 +160,13 @@ public class RfpDaoImpl implements RfpDao {
 			}
 			if(currentRfpId.equals(prevRfpId)) {
 				if("Y".equals(shortlisted)) {
-					shortListedVendor.add(ven_name + "~" + vendor_id + "~" + company);
+					shortListedVendor.add(ven_name + "~" + vendor_id + "~" + company + "~" + venUserName);
 				}
 				if("Y".equals(finalized)) {
-					finalizedVendor.add(ven_name + "~" + vendor_id + "~" + company);
+					finalizedVendor.add(ven_name + "~" + vendor_id + "~" + company + "~" + venUserName);
 				}
 				if(interest_shown_date != null) {
-					interestedVendor.add(ven_name + "~" + vendor_id + "~" + company);
+					interestedVendor.add(ven_name + "~" + vendor_id + "~" + company + "~" + venUserName);
 				}		
 			}else {
 				rfpBean.setInterestedVendor(interestedVendor);
@@ -185,13 +187,13 @@ public class RfpDaoImpl implements RfpDao {
 				rfpBean.setRfpClosed("Y".equals(rfp_closed) ? true : false);
 				rfpBean.setRfpClosedDate(rfp_closed_date);
 				if("Y".equals(shortlisted)) {
-					shortListedVendor.add(ven_name + "~" + vendor_id + "~" + company);
+					shortListedVendor.add(ven_name + "~" + vendor_id + "~" + company + "~" + venUserName);
 				}
 				if("Y".equals(finalized)) {
-					finalizedVendor.add(ven_name + "~" + vendor_id + "~" + company);
+					finalizedVendor.add(ven_name + "~" + vendor_id + "~" + company + "~" + venUserName);
 				}
 				if(interest_shown_date != null) {
-					interestedVendor.add(ven_name + "~" + vendor_id + "~" + company);
+					interestedVendor.add(ven_name + "~" + vendor_id + "~" + company + "~" + venUserName);
 				}	
 			}			
 			prevRfpId = currentRfpId;
@@ -228,6 +230,11 @@ public class RfpDaoImpl implements RfpDao {
 			sqlQuery.setParameter("rfp_id", rfpId);
 			sqlQuery.setParameter("vendor_id", vendorId);
 			sqlQuery.executeUpdate();
+			if(finalize) {
+				sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(FINALIZED_RFP_VENDORS);
+			}else {
+				sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(SHORTLIST_RFP_VENDORS);
+			}
 		}
 
 	}
