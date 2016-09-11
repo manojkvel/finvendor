@@ -1,6 +1,7 @@
 package com.finvendor.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class RfpBean {
 	
@@ -9,10 +10,14 @@ public class RfpBean {
 	private String rfpTitle;
 	private String rfpShortDesc;
 	private String rfpDetailedDesc;
-	private Timestamp rfpCreateddate;
-	private Timestamp rfpEnddate;
+	private Timestamp rfpCreatedDate;
+	private Timestamp rfpEndDate;
 	private boolean rfpClosed;
 	private Timestamp rfpClosedDate;
+	private String targetVendorType;	
+	private List<String> interestedVendor;
+	private List<String> shortListedVendor;
+	private List<String> finalizedVendor;
 	
 	public String getRfpId() {
 		return rfpId;
@@ -44,17 +49,17 @@ public class RfpBean {
 	public void setRfpDetailedDesc(String rfpDetailedDesc) {
 		this.rfpDetailedDesc = rfpDetailedDesc;
 	}
-	public Timestamp getRfpCreateddate() {
-		return rfpCreateddate;
+	public Timestamp getRfpCreatedDate() {
+		return rfpCreatedDate;
 	}
-	public void setRfpCreateddate(Timestamp rfpCreateddate) {
-		this.rfpCreateddate = rfpCreateddate;
+	public void setRfpCreateddate(Timestamp rfpCreatedDate) {
+		this.rfpCreatedDate = rfpCreatedDate;
 	}
-	public Timestamp getRfpEnddate() {
-		return rfpEnddate;
+	public Timestamp getRfpEndDate() {
+		return rfpEndDate;
 	}
-	public void setRfpEnddate(Timestamp rfpEnddate) {
-		this.rfpEnddate = rfpEnddate;
+	public void setRfpEnddate(Timestamp rfpEndDate) {
+		this.rfpEndDate = rfpEndDate;
 	}
 	public boolean isRfpClosed() {
 		return rfpClosed;
@@ -67,5 +72,35 @@ public class RfpBean {
 	}
 	public void setRfpClosedDate(Timestamp rfpClosedDate) {
 		this.rfpClosedDate = rfpClosedDate;
+	}
+	public List<String> getInterestedVendor() {
+		return interestedVendor;
+	}
+	public void setInterestedVendor(List<String> interestedVendor) {
+		this.interestedVendor = interestedVendor;
+	}
+	public List<String> getShortListedVendor() {
+		return shortListedVendor;
+	}
+	public void setShortListedVendor(List<String> shortListedVendor) {
+		this.shortListedVendor = shortListedVendor;
+	}
+	public List<String> getFinalizedVendor() {
+		return finalizedVendor;
+	}
+	public void setFinalizedVendor(List<String> finalizedVendor) {
+		this.finalizedVendor = finalizedVendor;
+	}
+	public String getTargetVendorType() {
+		return targetVendorType;
+	}
+	public void setTargetVendorType(String targetVendorType) {
+		this.targetVendorType = targetVendorType;
+	}
+	public void setRfpCreatedDate(Timestamp rfpCreatedDate) {
+		this.rfpCreatedDate = rfpCreatedDate;
+	}
+	public void setRfpEndDate(Timestamp rfpEndDate) {
+		this.rfpEndDate = rfpEndDate;
 	}
 }

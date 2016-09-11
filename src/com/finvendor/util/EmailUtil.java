@@ -1,5 +1,6 @@
 package com.finvendor.util;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -13,9 +14,9 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.finvendor.model.Consumer;
 import com.finvendor.model.FinVendorUser;
-import com.finvendor.model.Roles;
-import com.finvendor.model.UserRole;
+import com.finvendor.model.RfpBean;
 
 public class EmailUtil {
 	
@@ -133,6 +134,40 @@ public class EmailUtil {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public static void sendRfpNotification(Consumer consumer, RfpBean rfpBean, 
+			List<String> vendorEmailList, boolean closed) throws MessagingException {
+		logger.debug("Entering EmailUtil:sendRfpCreatedNotification for {}", consumer.getUser().getUserName());
+		Session session = getMailSession();
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(FROM_EMAIL));
+		StringBuilder vendorEmails = new StringBuilder();
+		for(String vendorEmail : vendorEmailList) {
+			vendorEmails.append(vendorEmail);
+			vendorEmails.append(",");
+		}
+		message.setRecipients(Message.RecipientType.TO,
+			InternetAddress.parse(vendorEmails.substring(0, vendorEmails.length() - 1)));
+		if(closed) {
+			message.setSubject("RFP Closed Notification");
+		}else {
+			message.setSubject("New RFP Notification");
+		}
+		StringBuilder content = new StringBuilder();
+		content.append("Dear User, \n");	
+		if(closed) {
+			content.append("Please note that RFP " + rfpBean.getRfpTitle() + 
+					" has been closed by " + consumer.getCompanyUrl() + "\n");
+		}else {
+			content.append("Please note that a new RFP " + rfpBean.getRfpTitle() + 
+				" has been created by " + consumer.getCompanyUrl() + "\n");
+		}
+		content.append("\n\n");
+		content.append("Please login to FinVendor(http://www.finvendor.com) for more details");
+		message.setText(content.toString());
+		Transport.send(message);
+		logger.debug("Leaving EmailUtil:sendResetPasswordEmail for {}", consumer.getUser().getUserName());
 	}
 
 }
