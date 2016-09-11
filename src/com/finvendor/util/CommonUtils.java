@@ -3,6 +3,7 @@ package com.finvendor.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
@@ -160,7 +161,32 @@ public class CommonUtils {
        				displayCompanyType.append("Sell Side");
        			}
        		}
-   		}
+       		String[] consumerCompnayType = companyType.split(",");
+       		for (String company : consumerCompnayType) {
+    			switch (company) {
+    				case RequestConstans.Consumer.FIN_CONSUMER_COMPANY_SELL_SIDE : {
+    					modelAndView.addObject("finConsumerCompanySellSide", company);
+    					break;
+    				}
+    				case RequestConstans.Consumer.FIN_CONSUMER_COMPANY_BUY_SIDE : {
+    					modelAndView.addObject("finConsumerCompanyBuySide", company);
+    					break;
+    				}
+    				case RequestConstans.Consumer.FIN_CONSUMER_COMPANY_OTHERS : {
+    					modelAndView.addObject("finConsumerCompanyOther", company);
+    					break;
+    				}
+    				case RequestConstans.Consumer.CONSUMER_UNIVERSITY : {
+    					modelAndView.addObject("consumerCompanyUniversity", company);
+    					break;
+    				}
+    				case RequestConstans.Consumer.CONSUMER_OTHER_FIRM : {
+    					modelAndView.addObject("consumerCompanyOtherFirm", company);
+    					break;
+    				}
+    			}
+    		} 
+   		}   		
    		consumer.setVendorPreference();
    		modelAndView.addObject("displayCompanyType", displayCompanyType.toString());
    		List<Object[]> consumerMyProfileMyBusinessNeedsMarketData = 
@@ -205,5 +231,13 @@ public class CommonUtils {
             hexData.append(Integer.toString((data[byteIndex] & 0xff) + 0x100, 16).substring(1));       
         return hexData.toString();
     }
+	
+	public static int getCount(String mapKey, Map<String, Set<String>> valueMap) {
+		Set<String> mapValue = valueMap.get(mapKey);
+		if (mapValue == null) {
+			return 0;
+		}
+		return mapValue.size();
+	}
 
 }
