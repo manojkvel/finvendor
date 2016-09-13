@@ -64,9 +64,9 @@ public class RfpServiceImpl implements RfpService {
 		rfpDao.shortlistRfpVendors(rfpBean.getRfpId(), vendorIdList, finalize);
 		try {
 			if(finalize) {
-				EmailUtil.sendRfpVendorSelectionNotification(consumer, rfpBean, vendorList, false, true);	
+				EmailUtil.sendRfpVendorSelectionNotification(consumer, rfpBean, vendorList, false);	
 			}else {
-				EmailUtil.sendRfpVendorSelectionNotification(consumer, rfpBean, vendorList, true, false);	
+				EmailUtil.sendRfpVendorSelectionNotification(consumer, rfpBean, vendorList, true);	
 			}					
 		}catch (Exception exp) {
 			logger.error("Error sending RFP notification", exp);

@@ -42,12 +42,14 @@ import com.finvendor.form.VendorTradingSoftwareDetailsForm;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassSecurityMap;
 import com.finvendor.model.Awards;
+import com.finvendor.model.Consumer;
 import com.finvendor.model.Cost;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.FileFields;
 import com.finvendor.model.OfferingFiles;
 import com.finvendor.model.Region;
+import com.finvendor.model.RfpBean;
 import com.finvendor.model.SecurityType;
 import com.finvendor.model.SolutionTypes;
 import com.finvendor.model.Solutions;
@@ -68,6 +70,7 @@ import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
+import com.finvendor.service.RfpService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
@@ -91,6 +94,9 @@ public class VendorController {
 	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
+	
+	@Resource(name="rfpService")
+	private RfpService rfpService;
 	
 	@RequestMapping(value="vendorMyStats", method=RequestMethod.GET)
 	public ModelAndView vendorMyStats(HttpServletRequest request) {		
@@ -527,6 +533,35 @@ public class VendorController {
 			e.printStackTrace();
 			logger.error("Mehtod for vendorNavigation--:");
 		}
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="expressRfpInterest", method=RequestMethod.POST)
+	public ModelAndView expressRfpInterest(HttpServletRequest request,
+			@RequestParam(value = "rfpId", required = true) String rfpId,
+			@RequestParam(value = "consumerName", required = true) String consumerName,
+			@RequestParam(value = "revoke", required = true) boolean revoke){
+		logger.debug("Entering : expressRfpInterest");
+		ModelAndView modelAndView = new ModelAndView("vendorRfpInbox");
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Consumer consumer = userService.getUserDetailsByUsername(consumerName).getConsumer();
+			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			Object[] rfpDetails = rfpService.selectRfpDetails(rfpId, null).get(0);
+			RfpBean rfpBean = new RfpBean();
+			rfpBean.setRfpId(rfpId);
+			rfpBean.setRfpTitle(rfpDetails[2].toString());
+			rfpService.expresssRfpInterest(rfpBean, vendor, consumer, revoke);
+			modelAndView.addObject("statusMessage", "RFP interest successfully updated");
+		}catch (Exception exp) {
+			logger.error("Error : expressRfpInterest", exp);
+			modelAndView.addObject("statusMessage", "Error Updating RFP interest");
+		}
+		logger.debug("Exiting : expressRfpInterest");
 		return modelAndView;
 	}
 	

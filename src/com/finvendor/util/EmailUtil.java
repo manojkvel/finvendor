@@ -201,7 +201,7 @@ public class EmailUtil {
 	}
 	
 	public static void sendRfpVendorSelectionNotification(Consumer consumer, RfpBean rfpBean, 
-			List<Vendor> vendorList, boolean shortlisted, boolean finalized) throws MessagingException {
+			List<Vendor> vendorList, boolean finalized) throws MessagingException {
 		logger.debug("Entering EmailUtil:sendRfpVendorSelectionNotification for {}", consumer.getUser().getUserName());
 		Session session = getMailSession();
 		Message message = new MimeMessage(session);
@@ -216,14 +216,14 @@ public class EmailUtil {
 		}
 		message.setRecipients(Message.RecipientType.BCC,
 			InternetAddress.parse(vendorEmails.substring(0, vendorEmails.length() - 1)));
-		if(shortlisted) {
+		if(!finalized) {
 			message.setSubject("RFP Vendor Shortlisting Notification");
 		}else {
 			message.setSubject("RFP Vendor Finalize Notification");
 		}
 		StringBuilder content = new StringBuilder();
 		content.append("Dear User, \n");	
-		if(shortlisted) {
+		if(!finalized) {
 			content.append("Please note that " + consumer.getCompanyUrl() + " has shortlisted you for RFP " + 
 					rfpBean.getRfpTitle() + "\n");
 		}else {

@@ -1,6 +1,7 @@
 package com.finvendor.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -38,6 +39,7 @@ import com.finvendor.model.Region;
 import com.finvendor.model.RfpBean;
 import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
+import com.finvendor.model.Vendor;
 import com.finvendor.service.ConsumerService;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
@@ -315,6 +317,41 @@ public class ConsumerController {
 			modelAndView.addObject("statusMessage", "Error closing RFP");
 		}
 		logger.debug("Exiting : closeRfp");
+		return modelAndView;
+	}
+	
+	/* Consumer - Shortlist/Finalize RFP Vendors */
+	@RequestMapping(value="closeRfp", method=RequestMethod.POST)
+	public ModelAndView shortListRfpVendors(HttpServletRequest request,
+			@RequestParam(value = "rfpId", required = true) String rfpId,
+			@RequestParam(value = "vendorNames", required = true) String vendorNames,
+			@RequestParam(value = "finalize", required = true) boolean finalize) {
+		logger.debug("Entering : shortListRfpVendors");
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP);
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			List<Vendor> vendorList = new ArrayList<Vendor>();
+			String[] vendorNamesList = vendorNames.split(";");
+			for(String vendorName : vendorNamesList) {
+				Vendor v = userService.getUserDetailsByUsername(vendorName).getVendor();
+				vendorList.add(v);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Consumer consumer = userService.getUserDetailsByUsername(userName).getConsumer();
+			Object[] rfpDetails = rfpService.selectRfpDetails(rfpId, null).get(0);
+			RfpBean rfpBean = new RfpBean();
+			rfpBean.setRfpId(rfpId);
+			rfpBean.setRfpTitle(rfpDetails[2].toString());
+			rfpService.shortlistRfpVendors(rfpBean, consumer, vendorList, finalize);
+			modelAndView.addObject("statusMessage", "RFP Vendors updated successfully");
+		}catch (Exception exp) {
+			logger.error("Error : shortListRfpVendors", exp);
+			modelAndView.addObject("statusMessage", "Error updating RFP Vendors");
+		}
+		logger.debug("Exiting : shortListRfpVendors");
 		return modelAndView;
 	}
 
