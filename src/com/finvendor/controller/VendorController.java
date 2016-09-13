@@ -481,61 +481,49 @@ public class VendorController {
 		return modelAndView;
 	}
 	
-	
-	
-	
-	/**
-	 * method for navigate vendor profile
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	
+	/* Vendor - RFP inbox */
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_RFP_INBOX, method=RequestMethod.GET)
-	public ModelAndView vendorRFPInbox(HttpServletRequest request,
-			@RequestParam(value = "RaYUnA", required = false) String username){
-		logger.info("Mehtod for vendorNavigation--:");
-		List<AssetClass> assetClasses = null;
-		List<Region> regions = null;
-		List<Country> countries = null;
-		List<Exchange> exchanges = null;
-		List<Support> supports = null;
-		List<Cost> costs = null;
-		List<Awards> awards = null;
-		@SuppressWarnings("unused")
-		Vendor vendor=null;
+	public ModelAndView vendorRfpInbox(HttpServletRequest request){
+		logger.debug("Entering : vendorRfpInbox");
 		ModelAndView modelAndView=new ModelAndView(RequestConstans.Vendor.VENDOR_RFP_INBOX);
-		try{
-			assetClasses = marketDataAggregatorsService.getAllAssetClass();
-			regions = marketDataAggregatorsService.getAllRegionClass();
-			countries = marketDataAggregatorsService.getAllCountries();
-			exchanges = marketDataAggregatorsService.getAllExchanges();
-			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
-			username = CommonUtils.decrypt(username.getBytes());
-			
-			vendor = vendorService.getVendorInfoByEmail(username);
-			
-			modelAndView.addObject("assetClasses", assetClasses);
-			modelAndView.addObject("regions", regions);
-			modelAndView.addObject("regionslist", regions);
-			modelAndView.addObject("countries", countries);
-			modelAndView.addObject("exchanges", exchanges);
-			modelAndView.addObject("supports", supports);
-			modelAndView.addObject("costs", costs);
-			modelAndView.addObject("awards", awards);
-			modelAndView.addObject("RFPInbox", "RFPInbox");
-			
-			modelAndView.addObject("username", username);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Mehtod for vendorNavigation--:");
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			List<Object[]> rfpDetails = rfpService.selectMyRfpVendor(vendor.getId());
+			modelAndView.addObject("rfpDetails", rfpDetails);
+		}catch (Exception exp) {
+			logger.error("Error : expressRfpInterest", exp);
+			modelAndView.addObject("statusMessage", "Error selecting RFP details");
 		}
+		logger.debug("Exiting : vendorRfpInbox");
 		return modelAndView;
 	}
 	
+	
+	/* Vendor - Applicable RFP list */
+	@RequestMapping(value="selectVendorApplicableRfp", method=RequestMethod.GET)
+	public ModelAndView expressRfpInterest(HttpServletRequest request){
+		logger.debug("Entering : selectVendorApplicableRfp");
+		ModelAndView modelAndView = new ModelAndView("vendorRfpInbox");
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			List<Object[]> rfpDetails = rfpService.selectMyRfpListVendor();
+			modelAndView.addObject("rfpDetails", rfpDetails);
+		}catch (Exception exp) {
+			logger.error("Error : expressRfpInterest", exp);
+			modelAndView.addObject("statusMessage", "Error selecting RFP details");
+		}
+		logger.debug("Exiting : selectVendorApplicableRfp");
+		return modelAndView;
+	}
+	
+	/* Vendor - express/revoke RFP interest */
 	@RequestMapping(value="expressRfpInterest", method=RequestMethod.POST)
 	public ModelAndView expressRfpInterest(HttpServletRequest request,
 			@RequestParam(value = "rfpId", required = true) String rfpId,
@@ -562,6 +550,29 @@ public class VendorController {
 			modelAndView.addObject("statusMessage", "Error Updating RFP interest");
 		}
 		logger.debug("Exiting : expressRfpInterest");
+		return modelAndView;
+	}
+	
+	/* Vendor - RFP Details */
+	@RequestMapping(value="selectRfpDetailsForVendor", method=RequestMethod.GET)
+	public ModelAndView selectRfpDetailsForVendor(HttpServletRequest request,
+			@RequestParam(value = "rfpId", required = true) String rfpId){
+		logger.debug("Entering : selectRfpDetailsForVendor");
+		ModelAndView modelAndView = new ModelAndView("vendorRfpInbox");
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			Object[] rfpDetails = rfpService.selectRfpDetails(rfpId, vendor.getId()).get(0);
+			modelAndView.addObject("rfpDetails", rfpDetails);
+		}catch (Exception exp) {
+			logger.error("Error : selectRfpDetailsForVendor", exp);
+			modelAndView.addObject("statusMessage", "Error selecting RFP details");
+		}
+		logger.debug("Exiting : selectRfpDetailsForVendor");
 		return modelAndView;
 	}
 	

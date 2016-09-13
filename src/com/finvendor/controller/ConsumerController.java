@@ -293,6 +293,29 @@ public class ConsumerController {
 		return modelAndView;
 	}
 	
+	/* Consumer - Select My RFP */
+	@RequestMapping(value="selectMyRfpConsumer", method=RequestMethod.GET)
+	public ModelAndView selectMyRfpConsumer(HttpServletRequest request) {
+		logger.debug("Entering : selectMyRfpConsumer");
+		ModelAndView modelAndView = new ModelAndView("selectMyRfpConsumer");
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Consumer consumer = userService.getUserDetailsByUsername(userName).getConsumer();
+			List<RfpBean> rfpDetails = rfpService.selectMyRfpConsumer(consumer.getId());
+			modelAndView.addObject("rfpDetails", rfpDetails);
+		}catch (Exception exp) {
+			logger.error("Error : closeRfp", exp);
+			modelAndView.addObject("statusMessage", "Error selecting RFP");
+		}
+		logger.debug("Exiting : selectMyRfpConsumer");
+		return modelAndView;
+	}
+	
+	
 	/* Consumer - Close RFP */
 	@RequestMapping(value="closeRfp", method=RequestMethod.GET)
 	public ModelAndView closeRfp(HttpServletRequest request,
@@ -321,7 +344,7 @@ public class ConsumerController {
 	}
 	
 	/* Consumer - Shortlist/Finalize RFP Vendors */
-	@RequestMapping(value="closeRfp", method=RequestMethod.POST)
+	@RequestMapping(value="shortListRfpVendors", method=RequestMethod.POST)
 	public ModelAndView shortListRfpVendors(HttpServletRequest request,
 			@RequestParam(value = "rfpId", required = true) String rfpId,
 			@RequestParam(value = "vendorNames", required = true) String vendorNames,

@@ -34,6 +34,11 @@ public class RfpServiceImpl implements RfpService {
 	}
 	
 	@Override
+	public List<RfpBean> selectMyRfpConsumer(String consumerId) {
+		return rfpDao.selectMyRfpConsumer(consumerId);
+	}
+	
+	@Override
 	public void closeRfp(Consumer consumer, RfpBean rfpBean) {
 		rfpDao.closeRfp(rfpBean.getRfpId());
 		List<String> vendorEmailList = rfpDao.getVendorsEmail(rfpBean.getTargetVendorType());

@@ -17,5 +17,5 @@ public interface RfpService {
 	public List<Object[]> selectMyRfpVendor(String vendorId);
 	public List<Object[]> selectRfpDetails(String rfpId, String vendorId);
 	public List<Object[]> selectMyRfpListVendor();
-
+	public List<RfpBean> selectMyRfpConsumer(String consumerId);
 }
