@@ -1,11 +1,11 @@
 package com.finvendor.controller;
 
-import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.bean.ConsumerMyProfileBusinessNeedMarketData;
@@ -37,11 +35,13 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
+import com.finvendor.model.RfpBean;
 import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
 import com.finvendor.service.ConsumerService;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
+import com.finvendor.service.RfpService;
 import com.finvendor.service.UserService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
@@ -60,6 +60,9 @@ public class ConsumerController {
 	
 	@Resource(name="referenceDataService")
 	private ReferenceDataService referenceDataService;
+	
+	@Resource(name="rfpService")
+	private RfpService rfpService;
 	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
@@ -243,53 +246,75 @@ public class ConsumerController {
 		return modelAndView;
 	}
 
-	/**
-	 * method for navigate consumer my profile
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	
-	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP, method=RequestMethod.GET)
-	public ModelAndView consumerInViteAnRFP(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
-			@RequestParam(value = "RaYVeMu", required = false) String username){
-		logger.info("Mehtod for vendorNavigation--:");
-		List<AssetClass> assetClasses = null;
-		List<Region> regions = null;
-		List<Country> countries = null;
-		List<Exchange> exchanges = null;
-		List<Support> supports = null;
-		List<Cost> costs = null;
-		List<Awards> awards = null;
-		ModelAndView modelAndView=new ModelAndView(RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP);
+	/* Consumer Dash-board - Invite RFP */
+	@RequestMapping(value=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP, method=RequestMethod.POST)
+	public ModelAndView consumerInviteRfp(HttpServletRequest request,
+			@RequestParam(value = "rfpTitle", required = true) String rfpTitle,
+			@RequestParam(value = "rfpTShortDesc", required = true) String rfpShortDesc,
+			@RequestParam(value = "rfpDetailedDesc", required = true) String rfpDetailedDesc,
+			@RequestParam(value = "rfpEndDate", required = true) String rfpEndDate,
+			@RequestParam(value = "targetVendorType", required = true) String targetVendorType,
+			@RequestParam(value = "updateRfp", required = true) boolean updateRfp){
+		logger.debug("Entering : consumerInViteAnRFP");
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP);
 		try{
-			assetClasses = marketDataAggregatorsService.getAllAssetClass();
-			regions = marketDataAggregatorsService.getAllRegionClass();
-			countries = marketDataAggregatorsService.getAllCountries();
-			exchanges = marketDataAggregatorsService.getAllExchanges();
-			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Consumer consumer = userService.getUserDetailsByUsername(userName).getConsumer();
+			RfpBean rfpBean = new RfpBean();
+			rfpBean.setRfpId(UUID.randomUUID().toString());
+			rfpBean.setRfpTitle(rfpTitle);
+			rfpBean.setRfpShortDesc(rfpShortDesc);
+			rfpBean.setRfpDetailedDesc(rfpDetailedDesc);
+			rfpBean.setTargetVendorType(targetVendorType);
+			/*
+			 	String text = "2011-10-02 18:48:05.123456";
+        		Timestamp ts = Timestamp.valueOf(text);
+			 */
+			Timestamp timestamp = Timestamp.valueOf(rfpEndDate);
+			rfpBean.setRfpEndDate(timestamp);
+			if(updateRfp) {
+				rfpService.createRfp(consumer, rfpBean, true);
+			}else {
+				rfpService.createRfp(consumer, rfpBean, false);
+			}
 			
-			username = CommonUtils.decrypt(username.getBytes());
-			
-			modelAndView.addObject("assetClasses", assetClasses);
-			modelAndView.addObject("regions", regions);
-			modelAndView.addObject("regionslist", regions);
-			modelAndView.addObject("countries", countries);
-			modelAndView.addObject("exchanges", exchanges);
-			modelAndView.addObject("supports", supports);
-			modelAndView.addObject("costs", costs);
-			modelAndView.addObject("awards", awards);
-			
-			modelAndView.addObject("consumerInviteAnRFP", "consumerinviteanrfp");
-			modelAndView.addObject("consumermarketdataneedsInviteAnRFP", "consumermarketdataneedsinviteanrfp");
-			modelAndView.addObject("username", username);
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Mehtod for vendorNavigation--:");
+			modelAndView.addObject("statusMessage", "Successfully reated RFP request");
+		}catch (Exception exp) {
+			logger.error("Error : consumerInviteRfp", exp);
+			modelAndView.addObject("statusMessage", "Error creating RFP request");
 		}
+		logger.debug("Exiting : consumerInViteAnRFP");
+		return modelAndView;
+	}
+	
+	/* Consumer - Close RFP */
+	@RequestMapping(value="closeRfp", method=RequestMethod.GET)
+	public ModelAndView closeRfp(HttpServletRequest request,
+			@RequestParam(value = "rfpId", required = true) String rfpId) {
+		logger.debug("Entering : closeRfp");
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP);
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Consumer consumer = userService.getUserDetailsByUsername(userName).getConsumer();
+			Object[] rfpDetails = rfpService.selectRfpDetails(rfpId, null).get(0);
+			RfpBean rfpBean = new RfpBean();
+			rfpBean.setRfpId(rfpId);
+			rfpBean.setRfpTitle(rfpDetails[2].toString());
+			rfpService.closeRfp(consumer, rfpBean);
+			modelAndView.addObject("statusMessage", "RFP closed successfully");
+		}catch (Exception exp) {
+			logger.error("Error : closeRfp", exp);
+			modelAndView.addObject("statusMessage", "Error closing RFP");
+		}
+		logger.debug("Exiting : closeRfp");
 		return modelAndView;
 	}
 
