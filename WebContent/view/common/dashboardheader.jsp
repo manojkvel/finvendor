@@ -118,7 +118,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                         <li>
                                                                             <c:choose>
                                                                                 <c:when test="${sessionScope.loggedInUser != null}">
-                                                                                    <a target="_blank" href="http://blog.finvendor.com">Blogs</a>
+                                                                                    <a target="_blank" href="https://finvendor.wordpress.com/">Blogs</a>
                                                                                 </c:when>
                                                                                 <c:otherwise>
                                                                                     <a href="javascript:inner_login('BLG')">Blogs</a>
@@ -207,7 +207,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                             <i class="fa fa-chevron-down"></i>
                                         </a>
                                         <ul class="child-main-menu">
-                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Account</a>
+                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
                                             </li>
                                             <li><a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a></h4>
                                             </li>
@@ -278,7 +278,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                         <li>
                                             <c:choose>
                                                 <c:when test="${sessionScope.loggedInUser != null}">
-                                                    <a target="_blank" href="http://blog.finvendor.com">Blogs</a>
+                                                    <a target="_blank" href="https://finvendor.wordpress.com/">Blogs</a>
                                                 </c:when>
                                                 <c:otherwise>
                                                  <a href="javascript:inner_login('BLG')">Blogs</a>
@@ -382,16 +382,20 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
  -->
 
 <div class="tab-container">
-	<div class="container">
 			<div class="tab-navigation">  
 		 		<ul>
 					<!-- Vendor Dashboard tab's -->
 					<c:if test="${not empty myprofiletab }">
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}" id="myProfile" onclick="changeTabMode(this)" >My Profile</a></li>
-						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SOLUTION%>?RaYUnA=${l:encrypt(username)}" id="solution" onclick="changeTabMode(this)" >Solution</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}" id="myOfferings" onclick="changeTabMode(this)">My Offerings</a></li>
-						<li><a class="#" href="${pageContext.request.contextPath}/vendorMyStats" id="myStats" onclick="changeTabMode(this)" >My Stats</a></li>
-						<li><a class="#" href="${pageContext.request.contextPath}/vendorMyBlogs" id="myBlog" onclick="changeTabMode(this)">My Blog</a></li>
+						<li>
+                            <a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}" id="myProfile" onclick="changeTabMode(this)">
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+						 <!-- <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SOLUTION%>?RaYUnA=${l:encrypt(username)}" id="solution" onclick="changeTabMode(this)" >Solution</a></li> -->
+						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}" id="myOfferings" onclick="changeTabMode(this)"><span>My Offerings</span></a></li>
+						<li><a class="#" href="${pageContext.request.contextPath}/vendorMyStats" id="myStats" onclick="changeTabMode(this)" ><span>My Stats</span></a></li>
+						<li><a class="#" href="${pageContext.request.contextPath}/vendorMyBlogs" id="myBlog" onclick="changeTabMode(this)"><span>My Blog</span></a></li>
+                        <li><a class="#" href="${pageContext.request.contextPath}/vendorMyBlogs" id="myBlog" onclick="changeTabMode(this)"><span>My RFP</span></a></li>
 					</c:if>
 					<c:if test="${not empty myofferingstab }">
 						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>
@@ -481,7 +485,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 					</c:if>
 				</ul>
 			</div> 
-	</div>
+
 </div>
 	<script type="text/javascript">
   function userCheck(checktype){

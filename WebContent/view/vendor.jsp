@@ -25,15 +25,22 @@
 
 <!DOCTYPE html>
 <head>
-<meta charset="utf-8" />
 <title>Fin Vendor | Vendor</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+<meta name="description" content="" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="author" content="" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
 <script
 	src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body>
+<body id="vendor_profile">
 	<jsp:include page="common/dashboardheader.jsp"></jsp:include>
+
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
 	<div class="container">
 		<div class="row-fluid">
 			<div class="span12">
@@ -46,432 +53,224 @@
 									<form action="#" class="form-horizontal" id="submit_form"
 										method="post" enctype="multipart/form-data">
 										<div class="form-wizard">
-											<div class="Rowtable">
-												<div class="ColumnCommonmyprofile" id="change">
-													<div class="lable_header" id="interdiv">
-														<a id="ancho" href="#tab1" class="lable_header"
-															data-toggle="tab"
-															onclick="activeMode('${personaldetails}');">Personal Details</a>
-													</div>
-												</div>
-												<!-- 
-												<div class="ColumnCommonmyprofile" id="change1">
-													<div class="lable_header" id="interdiv1">
-														<a id="ancho1" href="#tab2" class="lable_header"
-															data-toggle="tab"
-															onclick="activeMode('${supportcoverage}');">SupportCoverage</a>
-													</div>
-												</div>  -->
-												<div class="ColumnCommonmyprofile" id="change2">
-													<div class="lable_header" id="interdiv2">
-														<a id="ancho2" href="#tab3" class="lable_header"
-															data-toggle="tab"
-															onclick="activeMode('${awarddetails}');">Award Details</a>
-													</div>
-												</div>
-												<%-- <div class="ColumnCommonmyprofile" id="change3"> <div class="lable_header" id="interdiv3"> <a id="ancho3" href="#tab4" class="lable_header" data-toggle="tab" onclick="activeMode('${databuyers}');">Search Data-Buyers</a> </div> </div> --%>
-												<div class="ColumnCommonmyprofile" id="change4">
-													<div class="lable_header" id="interdiv4">
-														<a id="ancho4" href="#tab5" class="lable_header"
-															data-toggle="tab" onclick="activeMode('${myrfp}');">My RFP</a>
-													</div>
-												</div>
-											</div>
+											<ul class="nav nav-tabs">
+												<li class="active">
+													<a class="personal_details" data-toggle="tab" href="#tab1" onclick="activeMode('${personaldetails}')">
+														Profile
+													</a>
+												</li>
+												<li>
+													<a class="awards_details" data-toggle="tab" href="#tab3">
+														Awards
+													</a>
+												</li>
+											</ul>
+											
 											<div class="tab-content" style="background-color: white;">
-												<div class="tab-pane active" id="tab1">
-													<div class="Rowtableinfoval">
-														<font id="personaltabsucessmessage"
-															style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;"></font>
-														<font id="personaltabfailuremessage"
-															style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #B94A48; font-weight: bold;"></font>
-													</div>
-													<div>
-														<br />
-													</div>
-													<div class="Row">
-														<span id="vendorProfileSpan">
-															<div class="ColumnCommonSingletwo">
-																<div class="control-group">
-																	<label class="control-labelalign">First Name<span
-																		class="required">*</span></label>
-																	<div class="controls">
-																		<input type="text" id="personalvenfirstname"
-																			data-mandatory="Y" placeholder="First Name"
-																			name="firstname" class="m-wrap"
-																			onblur="validateNotNull(this, 'vendorProfileFirstNameErrorMsg')"
-																			value="${vendor.firstName}" />
-																		<div>
-																			<label id="vendorProfileFirstNameErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-labelalign">Last Name</label>
-																	<div class="controls">
-																		<input type="text" id="personalvenlastname"
-																			placeholder="Last Name" name="lastname"
-																			class="m-wrap" value="${vendor.lastName}" />
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-labelalign">Designation<span
-																		class="required">*</span></label>
-																	<div class="controls">
-																		<input type="text" id="personalvendesignation"
-																			data-mandatory="Y" placeholder="Designation"
-																			name="designation" class="m-wrap"
-																			onblur="validateWithRegularExpression(this, 'vendorProfileDesignationErrorMsg', regularExpressionMap['DESIGNATION'], 'DESIGNATION', true)"
-																			value="${vendor.designation}" />
-																		<div>
-																			<label id="vendorProfileDesignationErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-labelalign">Company<span
-																		class="required">*</span></label>
-																	<div class="controls">
-																		<input type="text" id="personalvencompany"
-																			data-mandatory="Y" placeholder="Company"
-																			name="company" class="m-wrap"
-																			onblur="validateNotNull(this, 'vendorProfileCompanyErrorMsg')"
-																			value="${vendor.company}" />
-																		<div>
-																			<label id="vendorProfileCompanyErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-labelalign">Company URL<span
-																		class="required">*</span></label>
-																	<div class="controls">
-																		<input type="text" id="personalvencompanyurl"
-																			data-mandatory="Y" placeholder="Company URL"
-																			name="companyurl" class="m-wrap"
-																			onblur="validateWithRegularExpression(this, 'vendorProfileCompanyURLErrorMsg', regularExpressionMap['URL'], 'COMPANY_URL', true)"
-																			value="${vendor.companyUrl}" />
-																		<div>
-																			<label id="vendorProfileCompanyURLErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-labelalign">Company Information<span class="required">*</span>
-																	</label>
-																	<div class="controls">
-																		<textarea id="personalvencompanyinfo"
-																			data-mandatory="Y" placeholder="Company Information"
-																			name="companyinfo" class="m-wrap large" cols="30"
-																			rows="5"
-																			onblur="validateNotNull(this, 'vendorProfileCompanyInfoErrorMsg')">${vendor.companyInfo}</textarea>
-																		<div>
-																			<label id="vendorProfileCompanyInfoErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																<div class="control-group">
-																
-																<%-- 
-																
-																<label class="control-labelalign">Support Coverage</label>
-																
-															<div style="padding-left: 175px;">	
-																
-																 <label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="radio" name="support" value="24X7" <c:if test="${vendor.vendorSupport.c24by7=='true'}"> checked </c:if>>&nbsp;24x7</label>  
-															    <label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="radio" name="support" value="24by6" <c:if test="${vendor.vendorSupport.c24by6=='true'}"> checked </c:if>>&nbsp;24x6</label> 
-															    <label class="control-labelalign-checkbox">&nbsp;&nbsp; <input type="radio" name="support" value="16by7" <c:if test="${vendor.vendorSupport.c16by7=='true'}"> checked </c:if>>16x7&nbsp;</label> 
-														    	 <label class="control-labelalign-checkbox"> <input type="radio" name="support" value="16by6" <c:if test="${vendor.vendorSupport.c16by6=='true'}"> checked </c:if>>&nbsp;16x6</label>
-															     <label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="radio" name="support" value="16by5" <c:if test="${vendor.vendorSupport.c16by5=='true'}"> checked </c:if>>16x5&nbsp;</label>
-														    	 <label class="control-labelalign-checkbox"> <input type="radio" name="support" value="8by7" <c:if test="${vendor.vendorSupport.c8by7=='true'}"> checked </c:if>> 8x7&nbsp;</label>
-															     <label class="control-labelalign-checkbox">&nbsp;<input type="radio" name="support" value="8by6" <c:if test="${vendor.vendorSupport.c8by6=='true'}"> checked </c:if>>8x6&nbsp;</label>
-														    	 <label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="radio" name="support" value="8by5" <c:if test="${vendor.vendorSupport.c8by5=='true'}"> checked </c:if> >&nbsp;8x5</label>
-															    
-																<label class="control-labelalign-checkbox">&nbsp;&nbsp;<input type="checkbox" name="weekend" id="weekend" value="weekend" <c:if test="${vendor.vendorSupport.weekend=='true'}"> checked </c:if>>Weekend</label>
-																<label class="control-labelalign-checkbox">&nbsp;<input type="checkbox" name="publicHolidays" id="publicHolidays" value="publicholidays" <c:if test="${vendor.vendorSupport.publicholidays=='true'}"> checked </c:if>>Public Holidays</label> 
-																</div>
-																
-																--%>
-																</div>
-															</div>
-															<div class="ColumnCommonSingletwopersonalinfo">
-																<div class="control-group">
-																	<label class="control-labelalign">Primary Email<span
-																		class="required">*</span></label>
-																	<div class="controls">
-																		<input type="text" id="personalvenprimemail"
-																			data-mandatory="Y" placeholder="Primary Email"
-																			name="primaryemail" class="m-wrap large"
-																			<%--onblur="if (validateWithRegularExpression(this, 'vendorProfilePrimaryEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true)) validateAjax(this, 'checkExistingEmail','vendorProfilePrimaryEmailErrorMsg')"--%>
-																			readonly value="${vendor.user.email}" />
-																		<div>
-																			<label id="vendorProfilePrimaryEmailErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-labelalign">Secondary
-																		Email</label>
-																	<div class="controls">
-																		<input type="text" id="personalvensecemail"
-																			placeholder="Secondary Email" name="secondaryemail"
-																			class="m-wrap large"
-																			onblur="if (validateWithRegularExpression(this, 'vendorProfileSecondaryEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', false)) validateAjax(this, 'checkExistingEmail','vendorProfileSecondaryEmailErrorMsg')"
-																			value="${vendor.secondaryEmail}" />
-																		<div>
-																			<label id="vendorProfileSecondaryEmailErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-labelalign">Phone Number<span
-																		class="required">*</span></label>
-																	<div class="controls">
-																		<input type="text" id="personalvenphonenumbercode"
-																			data-mandatory="Y" placeholder="Code"
-																			name="phonenumber" class="m-wrap smallic"
-																			onblur="validateWithRegularExpression(this, 'vendorProfilePhoneNumberCodeErrorMsg', regularExpressionMap['PHONE_CODE'], 'PHONE_CODE', true)" 
-																			value="${vendor.telephoneCode}" />
-																		<input type="text" id="personalvenphonenumber"
-																			data-mandatory="Y" placeholder="Phone Number"
-																			name="phonenumber" class="m-wrap largephonenumber"
-																			onblur="validateWithRegularExpression(this, 'vendorProfilePhoneNumberErrorMsg', regularExpressionMap['PHONE_NUMBER'], 'PHONE', true)"
-																			value="${vendor.telephone}" />
-																		<div class="selectOptions">e.g. +91 9869190000</div>
-																		<div>
-																			<label id="vendorProfilePhoneNumberCodeErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																		<div>
-																			<label id="vendorProfilePhoneNumberErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																<div class="control-group">
-																	<label class="control-labelalign">Country of
-																		Incorporation<span class="required">*</span>
-																	</label>
-																	<div class="controls">
-																		<select name="personalvencountryofincorp" 
-																			id="personalvencountryofincorp" data-mandatory="Y"
-																			style="width: 200px" onchange="getRegion('personalvencountryofincorp','personalvenregionofincorp')">
-																			<c:forEach var="countries" items="${countries}">
-																				<c:choose>
-																					   <c:when test="${vendor.countryofincorp eq countries.country_id}">
-																						        <option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
-																						    </c:when>    
-																						    <c:otherwise>
-																						    	<option value="${countries.country_id}">${countries.name}</option>
-																						    </c:otherwise>
-																				 </c:choose>
-																			</c:forEach>
-																		</select>
-																		<div>
-																			<label id="vendorProfileCountryOfIncorpErrorMsg"
-																				class="errorMessage"></label>
-																		</div>
-																	</div>
-																</div>
-																
-																<div class="control-group">
-																	<label class="control-labelalign">Region of	Incorporation<span class="required">*</span>
-																	</label>
-																<div class="controls">
-																		
-																	<input type="text" id="personalvenregionofincorp"
-																			name="personalvenregionofincorp" class="m-wrap" readonly="readonly" value="Asia Pacific"
-																	 />
-																</div>															
-																</div>
-												
-																<div class="control-group">
-																	<label class="control-labelalign">Company Logo<span
-																		class="required">*</span></label> <font id="invalidfileformat"
-																		style="bottom: 1px; font-family: 'Open Sans', sans-serif; font-weight: bold; font-size: 12px; position: absolute; color: #B94A48;"></font>
-																	<div class="controls">
-																		<input type="file" id="personalvencompanylogo"
-																			placeholder="Company Logo" name="companylogo"
-																			class="m-wrap largefileuploadcons"
-																			onblur="imageValidation();" value="${vendor.logoName}" />
-																		<div class="selectOptions">e.g. .jpeg, .jpg,
-																			.png, .gif</div>
-																			<div id="displayLogo">
-																					<img src="<%=request.getContextPath() %>/getfile/logo"  style="height: 61px; width: 115px; margin-top: 10px" />
-																					
-																			</div>
-																	</div>
-																</div>
-																
-															</div>
-														</span>
-													</div>
-													<div>
-														<br />
-													</div>
-													<div class="form-actions clearfix">
-														<div class="se" style="padding-left: 177px;">
-															<a class="btn" data-toggle="tab" class="step"
-																onclick="validateSpanElements('vendorProfileSpan');updateVendorPersonalInfo();">Update</a>
-															
-															<a
-																href="#tab3" class="btn button-next" data-toggle="tab"
-																class="step" onclick="activeMode('${awarddetails}');"
-																style="margin-left: 5px;">Continue</a>
+												<div id='spinner'>
+													<div class="spinner_gif">
+														<div class="sk-folding-cube">
+															<div class="sk-cube1 sk-cube"></div>
+															<div class="sk-cube2 sk-cube"></div>
+															<div class="sk-cube4 sk-cube"></div>
+															<div class="sk-cube3 sk-cube"></div>
 														</div>
+													</div>
+													<!-- <div class="spinner_text">
+														<p class="spinner_heading">{{Loading}}...</p>
+														<p>Please wait for a moment.</p>
+													</div> -->
+												</div>
+												<div class="tab-pane active" id="tab1">
+													<div id="top-card">
+														<div class="profile-top-card top-card">
+															<div class="profile-card vcard">
+																<div class="profile-picture">
+																	<img src="<%=request.getContextPath() %>/getfile/logo" />
+																</div>
+																<div class="profile-overview">
+																	<div class="profile-overview-content">
+																		<h2 class="full-name">
+																		${vendor.firstName} ${vendor.lastName}
+																		</h2>
+																		<h3 class="headline">
+																			${vendor.designation} at ${vendor.company}
+																		</h3>
+																		<h4 class="contacts">
+																			${vendor.user.email} | ${vendor.telephoneCode} ${vendor.telephone}
+																		</h4>
+																		<table class="company-details">
+																			<tr>
+																				<th>Comany Url</th>
+																				<td class="url">
+																					${vendor.companyUrl}
+																				</td>
+																			</tr>
+																			<tr>
+																				<th>Comany Information</th>
+																				<td class="info">
+																					${vendor.companyInfo}
+																				</td>
+																			</tr>
+																		</table>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<a class="btn" id="edit-details">
+															<span class="fa fa-pencil"></span>Edit Details
+														</a>
+													</div>
+													<div id="personal_details" class="custom_form">
+														<div class="generic_message">
+															<font id="personaltabsucessmessage"
+															style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;"></font>
+															<font id="personaltabfailuremessage"
+															style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #B94A48; font-weight: bold;"></font>
+														</div>
+														<ul>
+															<li id="name">
+																<div>
+																	<input type="text" name="firstname" class="single_line" id="personalvenfirstname" value="${vendor.firstName}" required />
+																	<label>First Name</label>
+																</div>
+																<div>
+																	<input type="text" name="lastname" id="personalvenlastname" class="single_line" value="${vendor.lastName}" required />
+																	<label>Last Name</label>
+																</div>
+															</li>
+															<li>
+																<input type="text" name="designation" id="personalvendesignation" value="${vendor.designation}" required />
+																<label>Designation</label>
+															</li>
+															<li>
+																<input type="text" name="company" id="personalvencompany" value="${vendor.company}" required />
+																<label>Company</label>
+															</li>
+															<li>
+																<input type="text" name="companyurl" placeholder="" id="personalvencompanyurl" class="personal_detail" value="${vendor.companyUrl}" required />
+																<label>Company URL</label>
+															</li>
+															<li>
+																<input type="text" name="companyinfo" id="personalvencompanyinfo" value="${vendor.companyInfo}" required />
+																<label>Company Information</label>
+															</li>
+														</ul>
+														<ul>
+															<li>
+																<input type="text" name="primaryemail" placeholder="" class="personal_detail" id="personalvenprimemail" value="${vendor.user.email}" required />
+																<label>Primary Email</label>
+															</li>
+															<li>
+																<input type="text" name="secondaryemail" id="personalvensecemail" value="${vendor.secondaryEmail}" required />
+																<label>Secondary Email</label>
+															</li>
+															<li id="phone">
+																<div>
+																	<input type="text" name="phonenumber" placeholder="" class="personal_detail  single_line" id="personalvenphonenumbercode" value="${vendor.telephoneCode}" required />
+																	<label>Country Code</label>
+																</div>
+																<div>
+																	<input type="text" name="phonenumber" id="personalvenphonenumber" class="single_line" value="${vendor.telephone}" required />
+																	<label>Phone Number</label>
+																</div>
+															</li>
+															<li>
+																<select name="personalvencountryofincorp" 
+																id="personalvencountryofincorp"  onchange="getRegion('personalvencountryofincorp','personalvenregionofincorp')">
+												<c:forEach var="countries" items="${countries}">
+														<c:choose>
+															<c:when test="${vendor.countryofincorp eq countries.country_id}">
+																	<option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
+															</c:when>    
+															<c:otherwise>
+																<option value="${countries.country_id}">${countries.name}</option>
+															</c:otherwise>
+														</c:choose>
+												</c:forEach>
+																</select>
+																<label class="default_select">Country of Incorporation</label>
+															</li>
+															<li>
+																<input type="text" name="personalvenregionofincorp" id="personalvenregionofincorp" required />
+																<label>Region of Incorporation</label>
+															</li>
+															<li>
+																<input type="file" id="personalvencompanylogo"
+																	placeholder="Company Logo" name="companylogo"
+																	class="largefileuploadcons"
+																	onblur="imageValidation();" value="${vendor.logoName}" required/>
+																<label class="default_select">Company Logo</label>
+																	<font id="invalidfileformat"
+																		style="bottom: 1px; font-family: 'Open Sans', sans-serif; font-weight: bold; font-size: 12px; position: absolute; color: #B94A48;"></font>
+																	<div class="selectOptions">e.g. .jpeg, .jpg,
+																		.png, .gif</div>
+																		<div id="displayLogo">
+																			<img src="<%=request.getContextPath() %>/getfile/logo" />
+																			<font id="invalidfileformat"
+																			style="bottom: 1px; font-family: 'Open Sans', sans-serif; font-weight: bold; font-size: 12px; position: absolute; color: #B94A48;"></font>
+																		</div>
+															</li>
+														</ul>
+														<p class="action_btn">
+															<a class="submit_btn save" data-toggle="tab">Save</a>
+															<a class="submit_btn next" data-toggle="tab" href="#tab3">Next</a>
+														</p>
 													</div>
 												</div>
 
 												<div class="tab-pane" id="tab3">
-													<div class="Rowtableinfoval">
-														<font id="awardtabsucessmessage"
-															style="font-size: 14px; font-family: Open Sans, sans-serif; font-weight: bold; position: absolute; color: #2AABAB; padding-left: 391px; margin-top: -2px;"></font>
-														<!-- <div class="ColumnCommonmyprofile"><div class="lable_header">Award Details</div></div> -->
-													</div>
-													<div>
-														<br />
-													</div>
-													<div class="Row">
-											
-														<div class="ColumnCommonSingletwo">
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage">Award
-																	Name<span class="required">*</span>
-																</label>
-																<div class="controls">
-																	<input type="text" id="awardname"
-																		placeholder="Award Name" name="awardname"
-																		class="m-wrap large" />
-																<div>
-																
-																<label id="awardnameErrorMsg" class="errorMessage"></label>
-																</div>
-																
-																</div>
-																
-																
-															</div>
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage">Award-Main
-																	Sponsor<span class="required">*</span>
-																</label>
-																<div class="controls">
-																	<input type="text" id="awardsponsor"
-																		placeholder="Award-Main Sponsor" name="awardsponsor"
-																		class="m-wrap large" />
-																</div>
-															</div>
-															<div class="control-group">
-																<label class="control-labelaligndatacoverage">Awarded
-																	year<span class="required">*</span>
-																</label>
-																<div class="controls">
-																	<input type="text" id="awardedyear"
-																		placeholder="Awarded year" name="awardedyear"
-																		class="m-wrap large" onblur="validateYear(this)"/>
-																</div>
-															</div>
+													<div id="awards_top_card">
+														
+														<div class="awards_info">
 														</div>
-														
-														
-														
-														<div class="ColumnCommonSingletwo">
-															<div class="control-group" >
-																<label class="control-labelaligndatacoverage"
-													style="padding-left: 47px;"><font color="black">Vendor Type</font></label>
-												<div class="controls">
-													<select name="awardVendorType" id="awardVendorType">
-														<option value="Data Aggregator vendor">Data	Aggregator vendor</option>
-														<option value="Trading Application vendor">Trading Application vendor</option>
-														<option value="Analytics Application vendor">Analytics Application vendor</option>
-														<option value="Research Reporting vendor">Research Reporting vendor</option>
-													</select>
-												</div>
-															</div>
-															<div class="control-group">
-															<div id="assetClassDiv" >
-																<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Asset Class</label>
-																<div class="controls">
+														<a class="btn" id="edit-details">
+															<span class="fa fa-pencil"></span>Add More
+														</a>
+													</div>
+													<div id="award_details" class="custom_form">
+														<div class="generic_message">
+															<font id="awardtabsucessmessage"
+															style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;"></font>
+														</div>
+														<ul>
+															<li>
+																<input type="text" name="awardname" id="awardname"  required />
+																<label>Award Name</label>
+															</li>
+															<li>
+																<input type="text" name="awardsponsor" id="awardsponsor"  required />
+																<label>Award Sponsor</label>
+															</li>
+															<li>
+																<input type="text" name="awardedyear" id="awardedyear"  required />
+																<label>Awarded Year</label>
+															</li>
+														</ul>
+														<ul>
+															<li>
+																<select name="awardVendorType" id="awardVendorType">
+																	<option value="Data Aggregator vendor">Data	Aggregator vendor</option>
+																	<option value="Trading Application vendor">Trading Application vendor</option>
+																	<option value="Analytics Application vendor">Analytics Application vendor</option>
+																	<option value="Research Reporting vendor">Research Reporting vendor</option>
+																</select>
+																<label class="default_select">Vendor Type</label>
+															</li>
+															<li>
 																<select name="awardAssetclass" id="awardAssetclass">
-																		<c:forEach var="assetClasses" items="${assetClasses}">
-																			<option value="${assetClasses.asset_class_id}">${assetClasses.description}</option>
-																		</c:forEach>
-																	</select>
-																</div>	
-															</div>
-															<div id="analyticsSolutionsTypeDiv" style="display:none">	
-																<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Analytics Solutions Type</label>
-														<div class="controls" >
-															<select name="awardAnalyticsSolutionsType"  id="awardAnalyticsSolutionsType" >
-															     <option value ="Banking Solutions" > Banking Solutions </option>
-															     <option value ="Alternative Investment Solutions" > Alternative Investment Solutions </option>
-																<option value ="Backoffice Operations" > Backoffice Operations</option>
-																<option value ="Backoffice Operations" > Backoffice Operations </option>
-																<option value ="Margining Solutions" > Margining Solutions</option>
-																<option value ="Portfolio Management Solutions" > Portfolio Management Solutions</option>
-																<option value ="Product Valuation" > Product Valuation</option>
-																<option value ="Regulatory, Compliance & Risk Mgm" > Regulatory, Compliance & Risk Mgm</option>
-														 	</select>
-														</div>	
-														</div>			
-													<div id="researchAreaDiv" style="display:none">				
-														<label class="control-labelaligndatacoverage" style="padding-left: 47px;">Research Area</label>
-														<div class="controls">
-															<select name="awardResearchArea"  id="awardResearchArea">
-															     
-																<option value ="Commodity Analysis" >Commodity Analysis</option>
-																<option value ="Exchange Rate Analysis" >Exchange Rate Analysis</option>
-																<option value ="Interest Rate Analysis" >Interest Rate Analysis</option>
-																<option value ="Equity research" >Equity research</option>
-																<option value ="Debt Market research" >Debt Market research</option>
-																<option value ="Index research" >Index research</option>
-																<option value ="Fund/ETF research" >Fund/ETF research</option>
-															     
-														 	</select> 
-														</div>
-																	
-														</div>			
-															</div>
-														</div>
-														
-													</div>
-													<div class="control-group">
-														<div class="controls">
-															<div class="se" style="margin: 0px 0px 0px 232px;">
-																<a class="awardaddtotable"> <span
-																	class="lable_header_add" onclick="addVendorAward()">Add More </span></a> 
-															</div>
-														</div>
-													</div>
-													<div class="portlet-body">
-
-														<table
-															class="table table-striped table-bordered table-hover table-full-width"
-															id="awardsample_1">
-															<thead style="background-color: #7BCCA5;">
-																<tr>
-																	<th>Award Name</th>
-																	<th>Award-Main Sponsor</th>
-																	<th>Awarded year</th>
-																	<th>Vendor Type</th>
-																	<th>#</th>
-																</tr>
-															</thead>
-															<tbody>
-															</tbody>
-														</table>
-														<input type="hidden" id="awardjsontable1"
-															name="awardjsontable1" />
-													</div>
-													<div>
-														<br />
-													</div>
+																	<c:forEach var="assetClasses" items="${assetClasses}">
+																	<option value="${assetClasses.asset_class_id}">${assetClasses.description}</option>
+																</c:forEach>
+															</select>
+															<label class="default_select">Asset Class</label>
+														</li>
+													</ul>
+													<p class="action_btn">
+														<a class="submit_btn save" data-toggle="tab">Save</a>
+														<a class="submit_btn previous hide" data-toggle="tab" href="#tab1">Previous</a>
+													</p>
+												</div>
 													
 												</div>
 												<!-- Award Details ENDs -->
@@ -1184,9 +983,6 @@ window.onload = function(){
 	var personalDetails= '<%=RequestConstans.Vendor.PERSONALDETAILS%>';
 			if (personalDetails != null && personalDetails.length > 0
 					&& personalDetails.match("personaldetails")) {
-				document.getElementById('change').style.backgroundColor = '#5CE5E5';
-				document.getElementById('interdiv').style.backgroundColor = '#5CE5E5';
-				document.getElementById('ancho').style.backgroundColor = '#5CE5E5';
 			}
 		};
 	</script>

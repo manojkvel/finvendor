@@ -1,4 +1,91 @@
 jQuery(document).ready(function() {
+ 
+	$("#tab1 #top-card #edit-details").on("click", function() {
+		$("#personal_details").slideDown();
+		$("#top-card").slideUp();
+		$("#personaltabfailuremessage").html('');
+		$("#personaltabsucessmessage").html('');
+		getRegion('personalvencountryofincorp','personalvenregionofincorp');
+	});
+
+	$("#tab1 .save").on("click", function() {
+		if(!validateSpanElements('personal_details')) {
+			progressLoader(false);
+			return false;
+		}
+		if(!updateVendorPersonalInfo()) {
+			progressLoader(false);
+			return false;
+		}
+		$("#personal_details").slideUp();
+		$("#top-card").slideDown();
+	});
+
+	$(".nav-tabs .awards_details").on("click", function() {
+		listVendorAward();
+		$("#personal_details").slideUp();
+		$("#top-card").slideDown();
+		$("#award_details").slideUp();
+		$("#awards_top_card").slideDown();
+	});
+
+	$("#tab1 .next").on("click", function() {
+		activeMode('awarddetails');
+		$("#personal_details").slideUp();
+		$("#top-card").slideDown();
+	});
+
+
+	$("#tab3 #awards_top_card #edit-details").on("click", function() {
+		$("#award_details").slideDown();
+		$("#awards_top_card").slideUp();
+		$("#awardtabsucessmessage").html('');
+	});
+
+	$("#tab3 #award_details .save").on("click", function() {
+		if(!validateSpanElements('award_details')) {
+			progressLoader(false);
+			return false;
+		}
+		if(!addVendorAward()) {
+			progressLoader(false);
+			return false;
+		}
+	});
+
+	/*$("#tab3 .award-list .delete_btn").on("click", function() {
+		alert($(this).parent()[0].id);
+	});*/
+
+	$(document).on("click", ".delete_btn", function (e) {
+    	
+		
+		  var r = confirm("Are you sure want to delete?");
+		    if (r == true) {
+				 var target = e.target;
+				 var trid = $(this).closest('.award-list').attr('id');
+				 var trids = trid.split("_");
+				 var url = "deleteRecord?recordId="+trids[0]+"&recordName="+trids[1];
+					$.ajax({
+				 		type: 'GET',
+				 		url:  url,
+				 		cache:false,
+				 		success : function(response){
+				 			$(target).closest('.award-list').remove();
+				 			alert("Record deleted successfully.");
+				 		},
+				 		error : function(data, textStatus, jqXHR){
+				 			//alert('Error: '+data+':'+textStatus);
+				 		}
+				 	});
+		    } else {
+		        
+		    }
+		 
+	});
+
+
+
 	// Support Details 
 	$(document).on("click", ".addtotable", function (e){
 		debugger;
@@ -40,7 +127,8 @@ jQuery(document).ready(function() {
 		
 		
 	});
-	 $(document).on("click", ".deleteButton", function (e) {
+	
+	$(document).on("click", ".deleteButton", function (e) {
     	
 		
 		  var r = confirm("Are you sure want to delete?");
@@ -1133,87 +1221,22 @@ function setValue(value) {
 /// Mode change for Vendor Dashboard tabs
 function activeMode(tabmode){
 	if(tabmode != '' && tabmode.length > 0 && tabmode.match("personaldetails")){
-		document.getElementById('change').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interdiv').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('ancho').style.backgroundColor = '#5CE5E5'; 
-		
-		document.getElementById('change2').style.backgroundColor = '';
-		document.getElementById('interdiv2').style.backgroundColor = '';  
-		document.getElementById('ancho2').style.backgroundColor = '';  
-	 
-		
-		document.getElementById('change4').style.backgroundColor = '';
-		document.getElementById('interdiv4').style.backgroundColor = '';  
-		document.getElementById('ancho4').style.backgroundColor = ''; 
+
 		
 		
 		
 	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("supportcoverage")){
-		document.getElementById('change1').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interdiv1').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('ancho1').style.backgroundColor = '#5CE5E5';  
-		
-		document.getElementById('change').style.backgroundColor = '';
-		document.getElementById('interdiv').style.backgroundColor = '';  
-		document.getElementById('ancho').style.backgroundColor = ''; 
-		
-		document.getElementById('change2').style.backgroundColor = '';
-		document.getElementById('interdiv2').style.backgroundColor = '';  
-		document.getElementById('ancho2').style.backgroundColor = ''; 
-		 
-		
-		document.getElementById('change4').style.backgroundColor = '';
-		document.getElementById('interdiv4').style.backgroundColor = '';  
-		document.getElementById('ancho4').style.backgroundColor = ''; 
+
 		
 		  
 	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("awarddetails")){
-		document.getElementById('change2').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interdiv2').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('ancho2').style.backgroundColor = '#5CE5E5';  
-		
-		document.getElementById('change').style.backgroundColor = '';
-		document.getElementById('interdiv').style.backgroundColor = '';  
-		document.getElementById('ancho').style.backgroundColor = '';
-		
-		document.getElementById('change4').style.backgroundColor = '';
-		document.getElementById('interdiv4').style.backgroundColor = '';  
-		document.getElementById('ancho4').style.backgroundColor = ''; 
-		
-		listVendorAward()
+		$(".nav-tabs li").removeClass("active");
+		$(".nav-tabs .awards_details").parent().addClass("active");
+		listVendorAward();
 		
 	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("searchdatabuyers")){
-		document.getElementById('change3').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interdiv3').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('ancho3').style.backgroundColor = '#5CE5E5';  
-		
-		document.getElementById('change').style.backgroundColor = '';
-		document.getElementById('interdiv').style.backgroundColor = '';  
-		document.getElementById('ancho').style.backgroundColor = '';
-		
-		document.getElementById('change1').style.backgroundColor = '';
-		document.getElementById('interdiv1').style.backgroundColor = '';  
-		document.getElementById('ancho1').style.backgroundColor = ''; 
-		
-		document.getElementById('change2').style.backgroundColor = '';
-		document.getElementById('interdiv2').style.backgroundColor = '';  
-		document.getElementById('ancho2').style.backgroundColor = '';
-		
-		document.getElementById('change4').style.backgroundColor = '';
-		document.getElementById('interdiv4').style.backgroundColor = '';  
-		document.getElementById('ancho4').style.backgroundColor = ''; 
+
 	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("myrfp")){
-		document.getElementById('change4').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interdiv4').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('ancho4').style.backgroundColor = '#5CE5E5';  
-		
-		document.getElementById('change').style.backgroundColor = '';
-		document.getElementById('interdiv').style.backgroundColor = '';  
-		document.getElementById('ancho').style.backgroundColor = '';
-		
-		document.getElementById('change2').style.backgroundColor = '';
-		document.getElementById('interdiv2').style.backgroundColor = '';  
-		document.getElementById('ancho2').style.backgroundColor = '';
 		
 		 
 	}
@@ -1402,7 +1425,7 @@ function imageValidation() {
 	    success: function(data){
 	    //  $('#result').html(data+ " uploaded by FormData!");
 	    
-	    //  $('#displayLogo').html(data);
+	      $('#displayLogo').html(data);
 
 	    }
 	  });
@@ -1414,7 +1437,7 @@ function imageValidation() {
 /// Update code to Vendor personal Info--:
 function updateVendorPersonalInfo(){
 	debugger;
-	showLoader();
+	progressLoader(true);
 	var personalvenfirstname = $("#personalvenfirstname").val();
 	var personalvenlastname = $("#personalvenlastname").val();
 	var personalvendesignation = $("#personalvendesignation").val();
@@ -1427,7 +1450,7 @@ function updateVendorPersonalInfo(){
 	
 	var personalvenregionofincorp = $("#personalvenregionofincorp").val();
 	var personalvencountryofincorp = $("#personalvencountryofincorp").val();
-	var personalvencompanylogo = $("#personalvencompanylogo").val();
+	var personalvencompanylogo = $("ul li #personalvencompanylogo").val();
 	
 	var support = "";
 	var selected = $("input[type='radio'][name='support']:checked");
@@ -1445,30 +1468,42 @@ function updateVendorPersonalInfo(){
 			personalvencompanyinfo != null && personalvencompanyinfo.length > 0 &&
 			personalvenprimemail != null && personalvenprimemail.length >0 &&
 			personalvenphonenumber != null && personalvenphonenumber.length > 10){
-		
-		$.ajax({
-			type: 'GET',
-			url:  "updateVendorPersonalTabInfo?venFirstname="+personalvenfirstname+"&venLastname="+personalvenlastname+"&venDesignation="+personalvendesignation
+		var url = "updateVendorPersonalTabInfo?venFirstname="+personalvenfirstname+"&venLastname="+personalvenlastname+"&venDesignation="+personalvendesignation
 			                                            +"&venCompany="+personalvencompany+"&venCompanyUrl="+personalvencompanyurl+"&venCompanyInfo="+personalvencompanyinfo
 			                                            +"&venPrimEmail="+personalvenprimemail+"&venSecEmail="+personalvensecemail+"&venPhoneNum="+personalvenphonenumber
 			                                            +"&venRegionOfIncorp="+personalvenregionofincorp+"&venCountryOfIncorp="+personalvencountryofincorp+"&venCompanyLogo="+personalvencompanylogo
-			                                            +"&support="+support+"&weekend="+weekend+"&publicHolidays="+publicHolidays,
+			                                            +"&support="+support+"&weekend="+weekend+"&publicHolidays="+publicHolidays;
+		$.ajax({
+			type: 'GET',
+			url:  url,
 			cache:false,
 			/*contentType: 'multipart/form-data',*/
 			success : function(output){
-				alert('You have updated sucessfully..!');
+				//alert('You have updated sucessfully..!');
+					progressLoader(false);
 				setTimeout(function() {
 					document.getElementById("personaltabfailuremessage").innerHTML = '';
 					document.getElementById("personaltabsucessmessage").innerHTML = 'You have updated sucessfully..!';
+
+					$("#personal_details").slideUp();
+					$("#top-card").slideDown();
+					$(".profile-card .full-name").html(personalvenfirstname + " " + personalvenlastname);
+					$(".profile-card .headline").html(personalvendesignation + " at " + personalvencompany);
+					$(".profile-card .contacts").html(personalvenprimemail + " | " + personalvenphonenumber);
+					$(".profile-card .company-details .url").html(personalvencompanyurl);
+					$(".profile-card .company-details .info").html(personalvencompanyinfo);
 				}, 10);
-				document.getElementById("vendorDetails").innerHTML = output;
+
+				//document.getElementById("vendorDetails").innerHTML = output;
 			},
 			error : function(data, textStatus, jqXHR){
 				//alert('Error: '+data+':'+textStatus);
+				progressLoader(false);
 			}
 		});
 	}else{
 		document.getElementById("personaltabfailuremessage").innerHTML = 'Please enter all mandatory fields..!';
+		return false;
 	}
 	 
 }
@@ -2464,7 +2499,7 @@ function listResearchCoverage(){
 
 //Award Details 
 function addVendorAward(){
-	debugger;
+	//debugger;
 	
     var awardname = $("#awardname").val();
     var awardsponsor = $("#awardsponsor").val();
@@ -2487,14 +2522,23 @@ function addVendorAward(){
 			url:  "updateVendorAwardDetails?awardname="+awardname+"&awardsponsor="+awardsponsor+"&awardedyear="+awardedyear+"&awardResearchArea="+awardResearchArea+"&awardSolutionTypes="+awardSolutionTypes+"&awardVendorType="+awardVendorType+"&awardAnalyticsSolutionsType="+awardAnalyticsSolutionsType+"&awardAssetclass="+awardAssetclass,
 			cache:false,
 			success : function(response){
-				alert('You have updated sucessfully..!');
 				var awardname = $("#awardname").val("");
-				   $("#awardsample_1 tbody").empty();	 
-			        var tableRecord = "";
-			        for(i =0 ; i < response.length ; i++){                                                                                    
-			       	 	tableRecord += '<tr id="'+response[i].id+'_awarddetails"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td>'+response[i].awardVendorType+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a> </a></td>';
-			        }
-			        $("#awardsample_1 tbody").append(tableRecord);
+				$("#awardsponsor").val("");
+				$("#awardedyear").val("");
+				$("#awards_top_card .awards_info").empty();	 
+				var tableRecord = "";
+				for(i =0 ; i < response.length ; i++){                                                                                    
+					tableRecord += "<div class='award-list' id='" + response[i].id + "_awarddetails'>" +
+										'<h3>'+response[i].name+'</h3>' +
+										'<h4>'+response[i].description + ' | ' + response[i].awardVendorType +'</h4>' +
+										'<h5>'+response[i].frequency+'</h5>' +
+										"<a class='btn delete_btn'>Delete</a>" +
+										'</div>'
+				}
+				$("#awards_top_card .awards_info").append(tableRecord);
+
+				$("#award_details").slideUp();
+				$("#awards_top_card").slideDown();
 				   document.getElementById("awardtabsucessmessage").innerHTML = 'You have updated sucessfully..!';		
 			},
 			error : function(data, textStatus, jqXHR){
@@ -2529,21 +2573,33 @@ function checkExisitngAward(awardname,awardyear){
 
 
 function listVendorAward(){
-	debugger;
+	//debugger;
+	progressLoader(true);
     
     	$.ajax({
 			type: 'GET',
 			url:  "updateVendorAwardDetails",
 			cache:false,
 			success : function(response){
-				   $("#awardsample_1 tbody").empty();	 
+						progressLoader(false);
+				   $("#awards_top_card .awards_info").empty();	 
 			        var tableRecord = "";
 			        for(i =0 ; i < response.length ; i++){                                                                                    
-			        	tableRecord += '<tr id="'+response[i].id+'_awarddetails"><td>'+response[i].name+'</td><td>'+response[i].description+'</td><td>'+response[i].frequency+'</td><td>'+response[i].awardVendorType+'</td><td onclick="deleteRecord(\''+response[i].id+'\',\'vendorAward\')"><a class="deleteButton"> <img src="resources/images/delete.png"></a> </a></td>';
+			        	tableRecord += "<div class='award-list' id='" + response[i].id + "_awarddetails'>" +
+										'<h3>'+response[i].name+'</h3>' +
+										'<h4>'+response[i].description + ' | ' + response[i].awardVendorType +'</h4>' +
+										'<h5>'+response[i].frequency+'</h5>' +
+										"<a class='btn delete_btn'>Delete</a>" +
+										'</div>'
 			        }
-			        $("#awardsample_1 tbody").append(tableRecord);
+			        $("#awards_top_card .awards_info").append(tableRecord);
+			        /*$("#tab3 .award-list .delete_btn").on("click", function() {
+			        	//alert($(this).parent()[0].id);
+			        	deleteRecord(" + $(this).parent()[0].id +",'vendorAward');
+			        });*/
 			},
 			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
 				//alert('Error: '+data+':'+textStatus);
 			}
 		});
@@ -2683,3 +2739,10 @@ $("#"+tableName+" tr").each(function() {
 }
 
 
+function progressLoader(isLoading) {
+	if(isLoading) {
+		$("#spinner").show();
+	} else {
+		$("#spinner").hide();
+	}
+}
