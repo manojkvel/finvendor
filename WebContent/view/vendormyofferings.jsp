@@ -21,8 +21,14 @@
 <c:set var="researchreport" value="${researchreport}"></c:set>
 <!DOCTYPE html>
 <head>
-    <meta charset="utf-8" />
 	<title>My Offerings</title>
+	
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta name="description" content="" />
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="author" content="" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
     <link href="<%=request.getContextPath() %>/resources/css/singleasset.css" type="text/css" rel="stylesheet" />
     <link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 	<link href="<%=request.getContextPath() %>/resources/plugins/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
@@ -36,12 +42,43 @@
 </head>
 <body>
 	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
 	<div class="container">
-		<div class="Rowtable"> 
-		     <c:if test="${not empty dataaggregator}"><div class="ColumnCommonmyprofile" id="changeraymyofferings1"> <div class="lable_header" id="interdivraymyofferings1"> <a id="anchoraymyooferings1" href="#tab1" class="lable_header" data-toggle="tab"  onclick="activeTabModeForMyOfferings('${vendormyofferingsasaggregatorvendor}');">As Data Aggregator vendor</a> </div></div></c:if>
+		<div class="Rowtable">
+			<ul class="nav nav-tabs">
+				<c:if test="${not empty dataaggregator}">
+				<li class="active">
+					<a id="anchoraymyooferings1" href="#tab1" data-toggle="tab"  onclick="activeTabModeForMyOfferings('${vendormyofferingsasaggregatorvendor}');">
+						As Data Aggregator vendor
+					</a>
+				</li>
+				</c:if>
+				<c:if test="${not empty tradingapplication}">
+				<li>
+					<a id="anchoraymyooferings2" href="#tab2" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsastradingapplicationvendor}');">
+						As Trading Application vendor
+					</a>
+				</li>
+				</c:if>
+				<c:if test="${not empty analyticsapplication}">
+				<li>
+					<a id="anchoraymyooferings3" href="#tab3" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsasanalyticsapplicationvendor}');">
+						As Analytics Application vendor
+					</a>
+				</li>
+				</c:if>
+				<c:if test="${not empty researchreport}">
+				<li>
+					<a id="anchoraymyooferings4" href="#tab4" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsasresearchreportingvendor}');">
+						As Research Reporting vendor
+					</a>
+				</li>
+				</c:if>
+			</ul>
+			<!--<c:if test="${not empty dataaggregator}"><div class="ColumnCommonmyprofile" id="changeraymyofferings1"> <div class="lable_header" id="interdivraymyofferings1"> <a id="anchoraymyooferings1" href="#tab1" class="lable_header" data-toggle="tab"  onclick="activeTabModeForMyOfferings('${vendormyofferingsasaggregatorvendor}');">As Data Aggregator vendor</a> </div></div></c:if>
 			 <c:if test="${not empty tradingapplication}"> <div class="ColumnCommonmyprofile" id="changeraymyofferings2"> <div class="lable_header" id="interdivraymyofferings2">  <a id="anchoraymyooferings2" href="#tab2" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsastradingapplicationvendor}');">As Trading Application vendor</a> </div> </div></c:if>
 			 <c:if test="${not empty analyticsapplication}"><div class="ColumnCommonmyprofile" id="changeraymyofferings3"> <div class="lable_header" id="interdivraymyofferings3">  <a id="anchoraymyooferings3" href="#tab3" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsasanalyticsapplicationvendor}');">As Analytics Application vendor</a> </div> </div></c:if>
-			 <c:if test="${not empty researchreport}"><div class="ColumnCommonmyprofile" id="changeraymyofferings4"> <div class="lable_header" id="interdivraymyofferings4">  <a id="anchoraymyooferings4" href="#tab4" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsasresearchreportingvendor}');">As Research Reporting vendor</a> </div> </div></c:if>
+			 <c:if test="${not empty researchreport}"><div class="ColumnCommonmyprofile" id="changeraymyofferings4"> <div class="lable_header" id="interdivraymyofferings4">  <a id="anchoraymyooferings4" href="#tab4" class="lable_header" data-toggle="tab" onclick="activeTabModeForMyOfferings('${vendormyofferingsasresearchreportingvendor}');">As Research Reporting vendor</a> </div> </div></c:if>-->
 		</div>
 	</div>
 		 

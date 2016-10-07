@@ -3,6 +3,11 @@ body {
 	background: #e9e9e9 !important;
 }
 
+.container {
+	width: auto;
+	max-width: 970px;
+}
+
 #vendor_profile h1,
 #vendor_profile h2,
 #vendor_profile h3,
@@ -42,7 +47,12 @@ body {
 	border-top: 0 !important;
 }
 
-#vendor_profile .container {
+.inner-breadcrumb {
+	display: none;
+}
+
+
+#footer .container {
 	width: auto;
 	max-width: 970px;
 }
@@ -353,12 +363,14 @@ textarea:valid ~ label {
 	transform: translateY(-50%);
 }
 
+.container #dashboard {
+	background: #fff;
+	padding: 20px 10px;
+	clear: both;
+}
+
 
 @media only screen and (max-width: 970px) {
-	#vendor_profile .inner-breadcrumb {
-		display: none;
-	}
-
 	.tab-container {
 		max-width: 940px;
 		margin: 0 15px;
