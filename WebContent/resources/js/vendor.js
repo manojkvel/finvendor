@@ -1,6 +1,6 @@
 jQuery(document).ready(function() {
  
-	$("#tab1 #top-card #edit-details").on("click", function() {
+	$("#vendor_profile #tab1 #top-card #edit-details").on("click", function() {
 		$("#personal_details").slideDown();
 		$("#top-card").slideUp();
 		$("#personaltabfailuremessage").html('');
@@ -8,7 +8,7 @@ jQuery(document).ready(function() {
 		getRegion('personalvencountryofincorp','personalvenregionofincorp');
 	});
 
-	$("#tab1 .save").on("click", function() {
+	$("#vendor_profile #tab1 .save").on("click", function() {
 		if(!validateSpanElements('personal_details')) {
 			progressLoader(false);
 			return false;
@@ -21,7 +21,7 @@ jQuery(document).ready(function() {
 		$("#top-card").slideDown();
 	});
 
-	$(".nav-tabs .awards_details").on("click", function() {
+	$("#vendor_profile .nav-tabs .awards_details").on("click", function() {
 		listVendorAward();
 		$("#personal_details").slideUp();
 		$("#top-card").slideDown();
@@ -29,20 +29,20 @@ jQuery(document).ready(function() {
 		$("#awards_top_card").slideDown();
 	});
 
-	$("#tab1 .next").on("click", function() {
+	$("#vendor_profile #tab1 .next").on("click", function() {
 		activeMode('awarddetails');
 		$("#personal_details").slideUp();
 		$("#top-card").slideDown();
 	});
 
 
-	$("#tab3 #awards_top_card #edit-details").on("click", function() {
+	$("#vendor_profile #tab3 #awards_top_card #edit-details").on("click", function() {
 		$("#award_details").slideDown();
 		$("#awards_top_card").slideUp();
 		$("#awardtabsucessmessage").html('');
 	});
 
-	$("#tab3 #award_details .save").on("click", function() {
+	$("#vendor_profile #tab3 #award_details .save").on("click", function() {
 		if(!validateSpanElements('award_details')) {
 			progressLoader(false);
 			return false;
@@ -53,9 +53,37 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	/*$("#tab3 .award-list .delete_btn").on("click", function() {
-		alert($(this).parent()[0].id);
-	});*/
+	$("#myofferings1, #myofferings2, #myofferings3, #myofferings4").on("click", function() {
+		activeModeVendorMyofferings(this.hash);
+	});
+
+	$("#data_aggregator .product_info h3").on("click", function() {
+		$("#data_aggregator .product_info ul").slideToggle();
+	});
+
+	$("#data_aggregator .data_coverage_info h3").on("click", function() {
+		$("#data_aggregator .data_coverage_info ul").slideToggle();
+	});
+
+	$("#data_aggregator .data_distribution_info h3").on("click", function() {
+		$("#data_aggregator .data_distribution_info ul").slideToggle();
+	});
+
+	$("#data_aggregator .save").on("click", function() {
+		if(!updateDataAggregatorInfo()) {
+			progressLoader(false);
+			return false;
+		}
+	});
+
+	$("#data_aggregator .next").on("click", function() {
+		activeMode('tradingApplication');
+		$("#tab1").hide();
+		$("#tab2").show();
+		$("#tab3").hide();
+		$("#tab4").hide();
+	});
+
 
 	$(document).on("click", ".delete_btn", function (e) {
     	
@@ -83,6 +111,47 @@ jQuery(document).ready(function() {
 		    }
 		 
 	});
+
+	/// Update code to Vendor Data Aggregator Info--:
+	function updateDataAggregatorInfo(){
+		progressLoader(true);
+		var productname = $("#data_aggregator #productname").val();
+		var productdescription = $("#data_aggregator #productdescription").val();
+		var tdsLaunchedYear = $("#data_aggregator #tdsLaunchedYear").val();
+		var assetClassForVenderOffering = $("#data_aggregator #assetClassForVenderOffering").val();
+		var securityType = $("#data_aggregator #securityType").val();
+
+		var supportcoverageregion = $("#data_aggregator #supportcoverageregion").val();
+		var attributessupported = $("#data_aggregator #attributessupported").val();
+		var supportcoveragecountry = $("#data_aggregator #supportcoveragecountry").val();
+		var coverageexchange = $("#data_aggregator #coverageexchange").val();
+		var vendorcostrange = $("#data_aggregator #vendorcostrange").val();
+		var email = $("#data_aggregator #email").val();
+		var phonenumber = $("#data_aggregator #phonenumber").val();
+
+		var feedtype = $("#data_aggregator #feedtype").val();
+		var feedsubtype = $("#data_aggregator #feedsubtype").val();
+		var frequency = $("#data_aggregator #frequency").val();
+		var distributionmethod = $("#data_aggregator #distributionmethod").val();
+
+		var url = "updateVendorDataAggregatorInfo?venProductname="+productname;
+		$.ajax({
+			type: 'GET',
+			url:  url,
+			cache:false,
+			success : function(output){
+				progressLoader(false);
+				setTimeout(function() {
+					document.getElementById("personaltabfailuremessage").innerHTML = '';
+					document.getElementById("personaltabsucessmessage").innerHTML = 'You have updated sucessfully..!';
+				}, 10);
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+			}
+		});
+
+}
 
 
 
@@ -1229,67 +1298,46 @@ function activeMode(tabmode){
 
 		
 		  
-	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("awarddetails")){
+	} else if(tabmode != '' && tabmode.length > 0 && tabmode.match("awarddetails")){
 		$(".nav-tabs li").removeClass("active");
 		$(".nav-tabs .awards_details").parent().addClass("active");
 		listVendorAward();
 		
-	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("searchdatabuyers")){
+	} else if(tabmode != '' && tabmode.length > 0 && tabmode.match("searchdatabuyers")){
 
-	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("myrfp")){
+	} else if(tabmode != '' && tabmode.length > 0 && tabmode.match("myrfp")){
 		
 		 
+	} else if(tabmode != '' && tabmode.length > 0 && tabmode.match("tradingApplication")){
+		$(".nav-tabs li").removeClass("active");
+		$(".nav-tabs #myofferings2").parent().addClass("active");
+		//listVendorDataAggregator();
 	}
 }
 /// My Data Aggregator Vendor tab mode changes
 function activeModeVendorMyofferings(tabmode){
-	
-	if(tabmode != '' && tabmode.length > 0 && tabmode.match("vendorMyOfferingsDataDictionary")){
-		
-		document.getElementById('changeoffer2').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interdivoffer2').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('anchooffer2').style.backgroundColor = '#5CE5E5'; 
-		
-		document.getElementById('changeoffer').style.backgroundColor = '';
-		document.getElementById('interdivoffer').style.backgroundColor = '';  
-		document.getElementById('anchooffer').style.backgroundColor = ''; 
-		
-		document.getElementById('changeoffer1').style.backgroundColor = '';
-		document.getElementById('interdivoffer1').style.backgroundColor = '';  
-		document.getElementById('anchooffer1').style.backgroundColor = ''; 
-
-		$("#solutionDetailList").show();
-		$("#createfileDiv").hide();
-		$("#createOfferingDiv").hide();
-		$("#createFieldsDiv").hide()
-		
-		
-	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("vendormyofferingsdatacoverage")){
-		document.getElementById('changeoffer').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interdivoffer').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('anchooffer').style.backgroundColor = '#5CE5E5'; 
-		
-		document.getElementById('changeoffer2').style.backgroundColor = '';
-		document.getElementById('interdivoffer2').style.backgroundColor = '';  
-		document.getElementById('anchooffer2').style.backgroundColor = '';
-		
-		document.getElementById('changeoffer1').style.backgroundColor = '';
-		document.getElementById('interdivoffer1').style.backgroundColor = '';  
-		document.getElementById('anchooffer1').style.backgroundColor = ''; 
-		listDataCoverageDetails();
-	}else if(tabmode != '' && tabmode.length > 0 && tabmode.match("vendormyofferingsdatadistribution")){
-		document.getElementById('changeoffer1').style.backgroundColor = '#5CE5E5';
-		document.getElementById('interdivoffer1').style.backgroundColor = '#5CE5E5';  
-		document.getElementById('anchooffer1').style.backgroundColor = '#5CE5E5';  
-		
-		document.getElementById('changeoffer').style.backgroundColor = '';
-		document.getElementById('interdivoffer').style.backgroundColor = '';  
-		document.getElementById('anchooffer').style.backgroundColor = '';
-		
-		document.getElementById('changeoffer2').style.backgroundColor = '';
-		document.getElementById('interdivoffer2').style.backgroundColor = '';  
-		document.getElementById('anchooffer2').style.backgroundColor = '';
-		listDataDistribution();  
+	$(".nav-tabs li").removeClass("active");
+	$(".nav-tabs " + tabmode).parent().addClass("active");
+	if(tabmode != '' && tabmode.length > 0 && tabmode.match("tab1")){
+		$(tabmode).show();
+		$("#tab2").hide();
+		$("#tab3").hide();
+		$("#tab4").hide();
+	} else if(tabmode != '' && tabmode.length > 0 && tabmode.match("tab2")){
+		$("#tab1").hide();
+		$(tabmode).show();
+		$("#tab3").hide();
+		$("#tab4").hide();
+	} else if(tabmode != '' && tabmode.length > 0 && tabmode.match("tab3")){
+		$("#tab1").hide();
+		$("#tab2").hide();
+		$(tabmode).show();
+		$("#tab4").hide();
+	} else if(tabmode != '' && tabmode.length > 0 && tabmode.match("tab4")){
+		$("#tab1").hide();
+		$("#tab2").hide();
+		$("#tab3").hide();
+		$(tabmode).show();
 	}
 }
 
