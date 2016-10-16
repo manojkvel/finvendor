@@ -3,12 +3,14 @@
  */
 package com.finvendor.serviceimpl;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.dao.MarketDataAggregatorsDAO;
 import com.finvendor.form.FinancialAnalyticsApplicationVendorSearchForm;
@@ -379,6 +381,12 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	public List<TradingApplicationVendorSearchForm> getTAMultiAssetClassSearchResult(Map<Object, Object> searchData, TradingApplicationVendorSearchForm dataForm) {
 		// TODO Auto-generated method stub
 		return marketDataAggregatorsDAO.getTAMultiAssetClassSearchResult(searchData,dataForm);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public Object getModelObjectById(Class<?> type, Serializable id) {
+		return marketDataAggregatorsDAO.getModelObjectById(type, id);
 	}
 
 }

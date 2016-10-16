@@ -1,10 +1,7 @@
-/**
- * 
- */
 package com.finvendor.daoimpl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -13,13 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,189 +45,129 @@ import com.finvendor.model.Vendor;
 import com.finvendor.model.VendorOffering;
 import com.finvendor.model.VendorSearchResult;
 
-/**
- * @author rayulu vemula
- *
- */
+@SuppressWarnings("unchecked")
 public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 
-	private static Logger logger = Logger.getLogger(MarketDataAggregatorsDAOImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsDAOImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getAllAssetClass(com.finvendor.model.AssetClass)
-	 */
-	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
 	public List<AssetClass> getAllAssetClass() {
-		logger.info("Method to load all asset classes---");
-		List<AssetClass>  assetClasses = null;
+		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getAllAssetClass");
+		List<AssetClass> assetClasses = null;
 		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(AssetClass.class);
 			assetClasses = criteria.list();
- 		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Method to load all asset classes---");
+ 		}catch (Exception exp) {
+			logger.error("Error loading Asset Classes", exp);
 		}
+		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getAllAssetClass");
 		return assetClasses;
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getSecurityTypeByAssetClassId(com.finvendor.model.AssetClassSecurityMap)
-	 */
-	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
 	public List<AssetClassSecurityMap> getSecurityTypeByAssetClassId(Integer assetId) {
-		logger.info("Method to load security types---");
+		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getSecurityTypeByAssetClassId for {} ", assetId);
 		Criteria criteria = null;
 		List<AssetClassSecurityMap> assetClassSecurityMaps = null;
 		try{
 			criteria = this.sessionFactory.openSession().createCriteria(AssetClassSecurityMap.class);
 			criteria.add(Restrictions.eq("assetClass.asset_class_id", assetId));
 			assetClassSecurityMaps = criteria.list();
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Method to load security types---"+ e);
+		}catch (Exception exp) {
+			logger.error("Error loading Security Types for Asset Class Id {}", assetId, exp);
 		}
+		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getSecurityTypeByAssetClassId for {} ", assetId);
 		return assetClassSecurityMaps;
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getSecurityTypeByAssetClassId(com.finvendor.model.SecurityType)
-	 */
-	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
 	public List<Region> getAllRegionClass() {
-		logger.info("Method to load all regions---");
-		List<Region>  regions = null;
+		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getAllRegionClass");
+		List<Region> regions = null;
 		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(Region.class);
 			regions = criteria.list();
- 		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Method to load all regions---");
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading Region Classes", exp);
 		}
+		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getAllRegionClass");
 		return regions;
 	}
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getRegionCountryMapsRegionId(com.finvendor.model.RegionCountryMap)
-	 */
-	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
 	public List<RegionCountryMap> getRegionCountryMapsRegionId(Integer regionId) {
-		logger.info("Method to getRegionCountryMapsRegionId---");
+		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getRegionCountryMapsRegionId for {} ", regionId);
 		Criteria criteria = null;
 		List<RegionCountryMap> regionCountryMaps = null;
 		try{
 			criteria = this.sessionFactory.openSession().createCriteria(RegionCountryMap.class);
 			criteria.add(Restrictions.eq("region.region_id", regionId));
 			regionCountryMaps = criteria.list();
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Method to load getRegionCountryMapsRegionId---"+ e);
+		}catch (Exception exp) {
+			logger.error("Error getRegionCountryMapsRegionId for Region Id {}", regionId, exp);
 		}
+		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getRegionCountryMapsRegionId for {} ", regionId);
 		return regionCountryMaps;
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getCountryExchangeMapsByCountryId(com.finvendor.model.CountryExchangeMap)
-	 */
-	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public List<CountryExchangeMap> getCountryExchangeMapsByCountryId(
-			Integer countryId) {
-		logger.info("Method to getCountryExchangeMapsByCountryId---");
+	public List<CountryExchangeMap> getCountryExchangeMapsByCountryId(Integer countryId) {
+		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getCountryExchangeMapsByCountryId for {} ", countryId);
 		Criteria criteria = null;
 		List<CountryExchangeMap> countryExchangeMaps = null;
 		try{
 			criteria = this.sessionFactory.openSession().createCriteria(CountryExchangeMap.class);
 			criteria.add(Restrictions.eq("country.country_id", countryId));
 			countryExchangeMaps = criteria.list();
-		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Method to load getCountryExchangeMapsByCountryId---"+ e);
+		}catch (Exception exp) {
+			logger.error("Error getCountryExchangeMapsByCountryId for Country Id {}", countryId, exp);
 		}
+		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getCountryExchangeMapsByCountryId for {} ", countryId);
 		return countryExchangeMaps;
 	}
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getAllCountries(com.finvendor.model.Country)
-	 */
-	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
 	public List<Country> getAllCountries() {
-		logger.info("Method to load all countries---");
-		List<Country>  countries = null;
+		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getAllCountries");
+		List<Country> countries = null;
 		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(Country.class);
 			countries = criteria.list();
- 		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Method to load all asset classes---");
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading All Countries", exp);
 		}
+		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getAllCountries");
 		return countries;
 	}
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getAllVendorSupports(com.finvendor.model.VendorSupport)
-	 */
-	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
 	public List<Support> getAllVendorSupports() {
-		logger.info("Method to load all supports---");
+		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getAllVendorSupports");
 		List<Support>  supports = null;
 		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(Support.class);
 			supports = criteria.list();
- 		}catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Method to load all supports---");
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading Vendor Supports", exp);
 		}
+		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getAllVendorSupports");
 		return supports;
 	}
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getAllCostInfo(com.finvendor.model.Cost)
-	 */
-	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
 	public List<Cost> getAllCostInfo() {
@@ -669,6 +607,17 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		currentSession.save(fileFields);
 		return fileFields;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Transactional
 	@Override
 	public Set<VendorOffering> listOfferings(String id) {
@@ -677,7 +626,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		Set<VendorOffering> vendorOfferings = null;
 		
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, id);
-		 vendorOfferings = vendor.getVendorOfferings();
+		 //vendorOfferings = vendor.getVendorOfferings();
 	
 		 vendorOfferings = new HashSet<VendorOffering>(vendorOfferings);
 		
@@ -685,6 +634,19 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		return vendorOfferings;
 	 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Transactional
 	@Override
 	public Set<OfferingFiles> listOfferingFiles(String id) {
@@ -1355,4 +1317,12 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	
 	return mdavsfsResult;
 }
+	
+	@Override
+	public Object getModelObjectById(Class<?> type, Serializable id) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Object modelObject = session.load(type, id);
+		return modelObject;
+	}
+	
  }

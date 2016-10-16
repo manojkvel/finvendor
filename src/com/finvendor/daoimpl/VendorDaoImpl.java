@@ -5,25 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.dao.VendorDAO;
+import com.finvendor.dao.VendorDao;
+import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
-import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
-import com.finvendor.model.Country;
-import com.finvendor.model.Exchange;
-import com.finvendor.model.Region;
-import com.finvendor.model.SecurityType;
 import com.finvendor.model.SolutionTypes;
 import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
@@ -32,6 +29,7 @@ import com.finvendor.model.VendorAnalystProfile;
 import com.finvendor.model.VendorAnalyticsSoftwareDetails;
 import com.finvendor.model.VendorAnalyticsfeaturesSupported;
 import com.finvendor.model.VendorAwardsMap;
+import com.finvendor.model.VendorDataAggregatorsOffering;
 import com.finvendor.model.VendorDataCoverage;
 import com.finvendor.model.VendorDistribution;
 import com.finvendor.model.VendorOffering;
@@ -43,10 +41,10 @@ import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 
-public class VendorDAOImpl implements VendorDAO{
+public class VendorDaoImpl implements VendorDao{
 	
-	private static Logger logger = Logger.getLogger(VendorDAOImpl.class);	
-	private static String recordExist = "Record Already Exist";
+	private static Logger logger = LoggerFactory.getLogger(VendorDaoImpl.class);
+	private static final String RECORD_ALREADY_EXISTS = "Record Already Exist";
 		
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -54,14 +52,13 @@ public class VendorDAOImpl implements VendorDAO{
 	@Transactional
 	@Override
 	public void saveVendorInfo(Vendor vendor) {
-		logger.info("saveVendorInfo method---");
+		logger.debug("Entering - VendorDaoImpl : saveVendorInfo");
 		try{
 			this.sessionFactory.getCurrentSession().save(vendor);
-		}catch(Exception ex){
-			ex.printStackTrace();
-			logger.error("Error in saveVendorInfo---- " + ex);
+		}catch(Exception exp){
+			logger.error("Error saveVendorInfo", exp);
 		}
-		
+		logger.debug("Leaving - VendorDaoImpl : saveVendorInfo");
 	}
 	
 	@Transactional
@@ -377,7 +374,8 @@ public class VendorDAOImpl implements VendorDAO{
 	public List<Solutions> listVednorSolution(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, id);
-		Set<Solutions> solution = vendor.getSolution();
+		Set<Solutions> solution = null;
+		//Set<Solutions> solution = vendor.getSolution();
 		return new ArrayList<Solutions>(solution);
 	}
 	
@@ -449,7 +447,7 @@ public class VendorDAOImpl implements VendorDAO{
 	            query.setParameter("regionId", vendorDataCoverage.getRegion());
 	            List result = query.list();
 	            if(result != null && result.size() > 0)
-	            	return recordExist;
+	            	return RECORD_ALREADY_EXISTS;
 	           currentSession.save(vendorDataCoverage);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -463,7 +461,8 @@ public class VendorDAOImpl implements VendorDAO{
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, id);
-		Set<VendorDataCoverage> vendorDataCoverage = vendor.getVendorDataCoverage();
+		Set<VendorDataCoverage> vendorDataCoverage = null;
+		//Set<VendorDataCoverage> vendorDataCoverage = vendor.getVendorDataCoverage();
 		
 		return new ArrayList<VendorDataCoverage>(vendorDataCoverage);
 	}
@@ -482,7 +481,7 @@ public class VendorDAOImpl implements VendorDAO{
 	            query.setParameter("fieldId", vendorDistribution.getOfferingFiles().getOfferingFilesId());
 	            List result = query.list();
 	            if(result != null && result.size() > 0)
-	            	return recordExist;
+	            	return RECORD_ALREADY_EXISTS;
 	            currentSession.save(vendorDistribution);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -496,7 +495,8 @@ public class VendorDAOImpl implements VendorDAO{
 	public List<VendorDistribution> listVendorDistribution(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, id);
-		Set<VendorDistribution> vendorDistribution = vendor.getVendorDistribution();
+		Set<VendorDistribution> vendorDistribution = null;
+		//Set<VendorDistribution> vendorDistribution = vendor.getVendorDistribution();
 		return new ArrayList<VendorDistribution>(vendorDistribution);
 	}
 	
@@ -590,7 +590,8 @@ public class VendorDAOImpl implements VendorDAO{
 	public List<VendorTradingCapabilitiesSupported> listTradingCapabilitiesSupported(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
-		Set<VendorTradingCapabilitiesSupported> vendorTradingCapabilitiesSupported = vendor.getVendorTradingCapabilitiesSupported();
+		Set<VendorTradingCapabilitiesSupported> vendorTradingCapabilitiesSupported = null;
+		//Set<VendorTradingCapabilitiesSupported> vendorTradingCapabilitiesSupported = vendor.getVendorTradingCapabilitiesSupported();
 		return new ArrayList<VendorTradingCapabilitiesSupported>(vendorTradingCapabilitiesSupported);
 	}
 	
@@ -599,7 +600,8 @@ public class VendorDAOImpl implements VendorDAO{
 	public List<VendorTradingSoftwareDetails> listTradingSoftwareDetails(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
-		Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails = vendor.getVendorTradingSoftwareDetails();
+		Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails = null;
+		//Set<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails = vendor.getVendorTradingSoftwareDetails();
 		return new ArrayList<VendorTradingSoftwareDetails>(vendorTradingSoftwareDetails);
 	}
 	
@@ -608,7 +610,8 @@ public class VendorDAOImpl implements VendorDAO{
 	public List<VendorAnalyticsfeaturesSupported> listAnalyticsfeaturesSupported(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
-		Set<VendorAnalyticsfeaturesSupported> vendorAnalyticsfeaturesSupported = vendor.getVendorAnalyticsfeaturesSupported();
+		Set<VendorAnalyticsfeaturesSupported> vendorAnalyticsfeaturesSupported = null;
+		//Set<VendorAnalyticsfeaturesSupported> vendorAnalyticsfeaturesSupported = vendor.getVendorAnalyticsfeaturesSupported();
 		return new ArrayList<VendorAnalyticsfeaturesSupported>(vendorAnalyticsfeaturesSupported);
 	}
 	
@@ -617,7 +620,8 @@ public class VendorDAOImpl implements VendorDAO{
 	public List<VendorAnalyticsSoftwareDetails> listAnalyticsSoftwareDetails(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
-		Set<VendorAnalyticsSoftwareDetails> vendorAnalyticsSoftwareDetails = vendor.getVendorAnalyticsSoftwareDetails();
+		Set<VendorAnalyticsSoftwareDetails> vendorAnalyticsSoftwareDetails = null;
+		//Set<VendorAnalyticsSoftwareDetails> vendorAnalyticsSoftwareDetails = vendor.getVendorAnalyticsSoftwareDetails();
 		return new ArrayList<VendorAnalyticsSoftwareDetails>(vendorAnalyticsSoftwareDetails);
 	}
 	
@@ -626,7 +630,8 @@ public class VendorDAOImpl implements VendorDAO{
 	public List<VendorResearchCoverage> listResearchCoverage(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
-		Set<VendorResearchCoverage> vendorResearchCoverage = vendor.getVendorResearchCoverage();
+		Set<VendorResearchCoverage> vendorResearchCoverage = null;
+		//Set<VendorResearchCoverage> vendorResearchCoverage = vendor.getVendorResearchCoverage();
 		return new ArrayList<VendorResearchCoverage>(vendorResearchCoverage);
 	}
 	@Transactional
@@ -634,7 +639,8 @@ public class VendorDAOImpl implements VendorDAO{
 	public List<VendorResearchDetails> listResearchDetails(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
-		Set<VendorResearchDetails> vendorResearchDetails = vendor.getVendorResearchDetails();
+		Set<VendorResearchDetails> vendorResearchDetails = null;
+		//Set<VendorResearchDetails> vendorResearchDetails = vendor.getVendorResearchDetails();
 		return new ArrayList<VendorResearchDetails>(vendorResearchDetails);
 	}
 	@Transactional
@@ -642,7 +648,8 @@ public class VendorDAOImpl implements VendorDAO{
 	public List<VendorAnalystProfile> listAnalystProfile(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor)currentSession.get(Vendor.class, objectId);
-		Set<VendorAnalystProfile> vendorAnalystProfile = vendor.getVendorAnalystProfile();
+		Set<VendorAnalystProfile> vendorAnalystProfile = null;
+		//Set<VendorAnalystProfile> vendorAnalystProfile = vendor.getVendorAnalystProfile();
 		return new ArrayList<VendorAnalystProfile>(vendorAnalystProfile);
 	}
 	@Transactional
@@ -881,4 +888,67 @@ public class VendorDAOImpl implements VendorDAO{
 		List<Object[]> tableData = hibQuery.list();
 		return tableData;
 	}
+	
+	/* Vendor Data Aggregator Offering Begin */
+	
+	@Override
+	public void addVendorDataAggregatorsOffering(VendorDataAggregatorsOffering 
+			vendorDataAggregatorsOffering) throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - addVendorDataAggregatorsOffering for {}, product Name {}", 
+				vendorDataAggregatorsOffering.getVendor().getId(), vendorDataAggregatorsOffering.getProductName());
+		try{
+			Session session = sessionFactory.getCurrentSession();
+			session.saveOrUpdate(vendorDataAggregatorsOffering);
+		}catch (Exception exp) {
+			logger.error("Error Updating Data Aggregator Offering for {}", 
+					vendorDataAggregatorsOffering.getVendor().getId(), exp);
+			throw new ApplicationException("Error Updating Data Aggregator Offering : " + exp.getMessage());
+		}
+		logger.debug("Leaving VendorDaoImpl - addVendorDataAggregatorsOffering for {}, product Name {}", 
+				vendorDataAggregatorsOffering.getVendor().getId(), vendorDataAggregatorsOffering.getProductName());
+	}
+	
+	@Override
+	public VendorDataAggregatorsOffering fetchVendorDataAggregatorsOffering(
+			String productId) throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - fetchVendorDataAggregatorsOffering for {}", 
+				productId);
+		try{
+			Session session = sessionFactory.getCurrentSession();
+			VendorDataAggregatorsOffering dataOffering = (VendorDataAggregatorsOffering)
+					session.get(VendorDataAggregatorsOffering.class, productId);
+			logger.debug("Leaving VendorDaoImpl - fetchVendorDataAggregatorsOffering for {}", 
+					productId);
+			return dataOffering;
+		}catch (Exception exp) {
+			logger.error("Error Reading Data Aggregator Offering for {}", 
+					productId, exp);
+			throw new ApplicationException("Error Reading Data Aggregator Offering : " + exp.getMessage());
+		}		
+	}
+	
+	@Override
+	public void deleteVendorDataAggregatorsOffering(String productId) 
+			throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - deleteVendorDataAggregatorsOffering for {}", 
+				productId);
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Object dataOffering = session.load(VendorDataAggregatorsOffering.class, productId);
+			if (dataOffering != null) { 
+				session.delete(dataOffering);
+			}else {
+				logger.error("No Record exists for Data Aggregator Offering {}", productId);
+				throw new ApplicationException("No Record exists for Data Aggregator Offering");
+			}
+			logger.debug("Leaving VendorDaoImpl - deleteVendorDataAggregatorsOffering for {}", 
+					productId);
+		}catch (Exception exp) {
+			logger.error("Error Deleting Data Aggregator Offering for {}", 
+					productId, exp);
+			throw new ApplicationException("Error Deleting Data Aggregator Offering : " + exp.getMessage());
+		}			
+	}
+	
+	/* Vendor Data Aggregator Offering End */
 }

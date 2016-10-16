@@ -1,20 +1,13 @@
-/**
- * 
- */
 package com.finvendor.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
-import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
-import com.finvendor.model.Country;
-import com.finvendor.model.Exchange;
-import com.finvendor.model.Region;
-import com.finvendor.model.SecurityType;
 import com.finvendor.model.SolutionTypes;
 import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
@@ -23,6 +16,7 @@ import com.finvendor.model.VendorAnalystProfile;
 import com.finvendor.model.VendorAnalyticsSoftwareDetails;
 import com.finvendor.model.VendorAnalyticsfeaturesSupported;
 import com.finvendor.model.VendorAwardsMap;
+import com.finvendor.model.VendorDataAggregatorsOffering;
 import com.finvendor.model.VendorDataCoverage;
 import com.finvendor.model.VendorDistribution;
 import com.finvendor.model.VendorOffering;
@@ -41,13 +35,7 @@ public interface VendorService {
 	Vendor getVendorInfoByEmail(String email);
 	Vendor getVendorInfoByUserName(String userName);
 	void updateVendorPersonalInfoTab(Vendor vendor, String username);
-	//AssetClass getAssetClassDetails(String asset_class);
-	//SecurityType getSecurityTypes(String securities);
 	void updateVendorOfferingDetails(VendorOffering vendorOffering);
-	//Region getRegionsByName(String regionsName);
-	//Country getCountryByName(String countryName);
-	//Country getCountryById(String countryId);
-	//Exchange getExchangesByName(String exchangeName);
 	void updateVendorRegionCountryExchangeInfos(
 			VendorRegionCountryExchangeMap vendorRegionCountryExchangeMap);
 	Awards saveAwardDetails(Awards awards);
@@ -101,8 +89,6 @@ public interface VendorService {
 
 	List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId);
 
-	//String getRegion(String country);
-
 	List<VendorAwardsMap> listVendorAwardDetails(String id);
 
 	Boolean isAwardAlreadyExist(String value);
@@ -121,5 +107,15 @@ public interface VendorService {
 	List<Object[]> getAnalyticsApplicationOfferingsForProfile(String vendorId);
 	List<Object[]> getResearchReportOfferingsForProfile(String vendorId);
 	public List<Object[]> getVendorAwardDetailsForProfile(String vendorId);
+	
+	/* Vendor Data Aggregator Offering Begin */
+	public void addVendorDataAggregatorsOffering(VendorDataAggregatorsOffering 
+			vendorDataAggregatorsOffering) throws ApplicationException;
+	public VendorDataAggregatorsOffering fetchVendorDataAggregatorsOffering(
+			String productId) throws ApplicationException;
+	public void deleteVendorDataAggregatorsOffering(String productId) throws ApplicationException;
+	public List<VendorDataAggregatorsOffering> getVendorDataAggregatorsOffering(
+			String vendorId) throws ApplicationException;
+	/* Vendor Data Aggregator Offering End */
 	
 }

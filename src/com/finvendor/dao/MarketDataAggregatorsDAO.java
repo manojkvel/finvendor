@@ -3,6 +3,7 @@
  */
 package com.finvendor.dao;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -227,4 +228,5 @@ public interface MarketDataAggregatorsDAO {
 	List<TradingApplicationVendorSearchForm> getTAMultiAssetClassSearchResult(Map<Object, Object> searchData,TradingApplicationVendorSearchForm dataForm);
 	Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm);
 
+	public Object getModelObjectById(Class<?> type, Serializable id);
 }

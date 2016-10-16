@@ -3,7 +3,7 @@
  */
 package com.finvendor.service;
 
-import java.util.Collection;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +28,6 @@ import com.finvendor.model.RegionCountryMap;
 import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
 import com.finvendor.model.VendorOffering;
-import com.finvendor.model.VendorSearchResult;
 
 /**
  * @author rayulu vemula
@@ -226,4 +225,5 @@ public interface MarketDataAggregatorsService {
 	List<TradingApplicationVendorSearchForm> getTAMultiAssetClassSearchResult(Map<Object, Object> searchData,TradingApplicationVendorSearchForm dataForm);
 	Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm);
 
+	public Object getModelObjectById(Class<?> type, Serializable id);
 }

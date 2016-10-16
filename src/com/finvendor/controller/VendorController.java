@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -58,6 +59,9 @@ import com.finvendor.model.Vendor;
 import com.finvendor.model.VendorAnalystProfile;
 import com.finvendor.model.VendorAnalyticsSoftwareDetails;
 import com.finvendor.model.VendorAwardsMap;
+import com.finvendor.model.VendorDataAggregatorsOffering;
+import com.finvendor.model.VendorDataAggregatorsOfferingCoverage;
+import com.finvendor.model.VendorDataAggregatorsOfferingDistribution;
 import com.finvendor.model.VendorDataCoverage;
 import com.finvendor.model.VendorDistribution;
 import com.finvendor.model.VendorMyofferingsDataCoverage;
@@ -505,10 +509,10 @@ public class VendorController {
 	
 	
 	/* Vendor - Applicable RFP list */
-	@RequestMapping(value="selectVendorApplicableRfp", method=RequestMethod.GET)
-	public ModelAndView expressRfpInterest(HttpServletRequest request){
+	@RequestMapping(value="vendorMyRFP", method=RequestMethod.GET)
+	public ModelAndView selectVendorApplicableRfp(HttpServletRequest request){
 		logger.debug("Entering : selectVendorApplicableRfp");
-		ModelAndView modelAndView = new ModelAndView("vendorRfpInbox");
+		ModelAndView modelAndView = new ModelAndView("rfpinbox");
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
 				return new ModelAndView(RequestConstans.Login.HOME);
@@ -1157,92 +1161,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		return modelAndView;
 	}
 	
-	/**
-	 * method to update vendor support coverage info
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	/*@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_SUPPORT_COVEAGE_TAB, method = RequestMethod.GET)
-	public ModelAndView updateVendorSupportCoverageInfo(@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("assetClass") AssetClass assetClass,
-			@ModelAttribute("securityType") SecurityType securityType,
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country,
-			@ModelAttribute("exchange") Exchange exchange,
-			@ModelAttribute("vendorOffering") VendorOffering vendorOffering,
-			@ModelAttribute("solutions") Solutions solutions,
-			@ModelAttribute("vendorRegionCountryExchangeMap") VendorRegionCountryExchangeMap vendorRegionCountryExchangeMap,
-			@RequestParam(value = "supportCoverageInfo", required = false) String supportCoverageInfo) {
-		ModelAndView modelAndView = new ModelAndView("empty");
-		logger.info("Mehtod for update Vendor Personal info tab--:");
-		User appUser = null;
-		try {
-			System.out.println("getting support coverage info--:" + supportCoverageInfo);
-			Gson gson = new Gson();
-			VendorSupportCoverage[] vendorSupportCoverages = null;
-			String[] securityTypes= null;
-			String[] regions = null;
-			String[] countries = null;
-			String[] exchanges = null;
-			appUser = (User)SecurityContextHolder.getContext().
-					getAuthentication().getPrincipal();
-			if(!supportCoverageInfo.equals("") && supportCoverageInfo != null){
-				vendorSupportCoverages = gson.fromJson(replaceJsonInput(supportCoverageInfo.toString()), VendorSupportCoverage[].class);
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
-				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				vendor.setId(vendor.getId());
-				if(vendorSupportCoverages.length > 0)
-				for (VendorSupportCoverage vendorSupportCoverage : vendorSupportCoverages) {
-					  assetClass = vendorService.getAssetClassDetails(vendorSupportCoverage.getAsset_class());
-					  assetClass.setAsset_class_id(assetClass.getAsset_class_id());
-					  securityTypes = vendorSupportCoverage.getSecurity_type().split(",");	
-					  regions = vendorSupportCoverage.getCoverage_region().split(",");
-					  countries = vendorSupportCoverage.getCoverage_country().split(",");
-					  exchanges = vendorSupportCoverage.getCoverage_exchange().split(",");
-					  if(securityTypes.length > 0)
-						for (String securities : securityTypes) {
-							securityType = vendorService.getSecurityTypes(securities);
-							securityType.setSecurity_type_id(securityType.getSecurity_type_id());
-							solutions.setSolution_id(1);
-							vendorOffering.setAssetClass(assetClass);
-							vendorOffering.setSecurityType(securityType);
-							vendorOffering.setVendor(vendor);
-							vendorOffering.setSolutions(solutions);
-							vendorOffering.setName("Best plans");
-							// Updating vendor offering details
-							vendorService.updateVendorOfferingDetails(vendorOffering);
-						}
-						for (String regionsName : regions) {
-							region = vendorService.getRegionsByName(regionsName);
-							vendorRegionCountryExchangeMap.setVendor(vendor);
-							region.setRegion_id(region.getRegion_id());
-							vendorRegionCountryExchangeMap.setRegion(region);
-							for (String countryName : countries) {
-								country = vendorService.getCountryByName(countryName);
-								country.setCountry_id(country.getCountry_id());
-								vendorRegionCountryExchangeMap.setCountry(country);
-								for (String exchangeName : exchanges) {
-									exchange = vendorService.getExchangesByName(exchangeName);
-									exchange.setExchange_id(exchange.getExchange_id());
-									vendorRegionCountryExchangeMap.setExchange(exchange);
-									// Updating vendor region, country and exchange details
-								    vendorService.updateVendorRegionCountryExchangeInfos(vendorRegionCountryExchangeMap);
-								}
-							}
-					}
-					
-				}
-				
-		 	}
-		} catch (Exception ex) {
-			logger.error("Mehtod for update Vendor Support Coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor support coverage info, Please contact administrator");
-		}
-		return modelAndView;
-	}
-*/
+	
 	/**
 	 * method to update vendor award details
 	 * 
@@ -2537,7 +2456,192 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		}catch (IOException exp) {
 			logger.error(message + " : " + exp);			
 		}
-	}	
+	}
+	
+	
+	
+	/* Vendor Data Aggregator Offering Begin */
+	
+	@RequestMapping(value="addDataAggregatorOffering", method = RequestMethod.POST)
+	public ModelAndView addDataAggregatorOffering(HttpServletRequest request,
+			@RequestParam(value = "productId", required = false) String productId,
+			@RequestParam(value = "productName", required = true) String productName,
+			@RequestParam(value = "productDescription", required = false) String productDescription,
+			@RequestParam(value = "assetClassId", required = true) int assetClassId,
+			@RequestParam(value = "securityTypes", required = true) String securityTypes,
+			@RequestParam(value = "launchedYear", required = false) String launchedYear,
+			@RequestParam(value = "coverageRegion", required = true) String coverageRegion,
+			@RequestParam(value = "coverageCountry", required = true) String coverageCountry,
+			@RequestParam(value = "coverageExchange", required = true) String coverageExchange,
+			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "costRange", required = true) float costRange,
+			@RequestParam(value = "feedType", required = false) String feedType,
+			@RequestParam(value = "feedSubType", required = false) String feedSubType,
+			@RequestParam(value = "frequency", required = false) String frequency,
+			@RequestParam(value = "distributionMethod", required = false) String distributionMethod) {
+		
+		logger.debug("Entering  - VendorController : addDataAggregatorOffering");
+		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
+		
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			
+			VendorDataAggregatorsOffering dataOffering = new VendorDataAggregatorsOffering();
+			VendorDataAggregatorsOfferingCoverage dataCoverage = new VendorDataAggregatorsOfferingCoverage();
+			VendorDataAggregatorsOfferingDistribution dataDistribution = new VendorDataAggregatorsOfferingDistribution();
+			
+			if(productId == null || productId.trim().equals("")) {
+				productId = UUID.randomUUID().toString(); 
+			}
+			dataOffering.setProductId(productId);
+			dataOffering.setProductName(productName);
+			dataOffering.setProductDescription(productDescription);
+			dataOffering.setLaunchedYear(launchedYear);
+			AssetClass assetClass = (AssetClass)marketDataAggregatorsService.getModelObjectById(
+					AssetClass.class, assetClassId);
+			dataOffering.setAssetClass(assetClass);
+			dataOffering.setSecurityTypes(securityTypes);
+			dataOffering.setVendor(vendor);
+		
+			dataCoverage.setProductId(productId);
+			dataCoverage.setCoverageRegion(coverageRegion);
+			dataCoverage.setCoverageCountry(coverageCountry);
+			dataCoverage.setCoverageExchange(coverageExchange);
+			dataCoverage.setCostRange(costRange);
+			dataCoverage.setEmail(email);
+			dataCoverage.setPhoneNumber(phoneNumber);
+			dataOffering.setOfferingCoverge(dataCoverage);
+			
+			dataDistribution.setProductId(productId);
+			dataDistribution.setFeedType(feedType);
+			dataDistribution.setFeedSubType(feedSubType);
+			dataDistribution.setFrequency(frequency);
+			dataDistribution.setDistributionMethod(distributionMethod);
+			dataOffering.setOfferingDistribution(dataDistribution);
+					
+			vendorService.addVendorDataAggregatorsOffering(dataOffering);
+		} catch (Exception exp) {
+			logger.error("Error Saving Market Data Aggregator Offering", exp); 
+			modelAndView.addObject("StatusMesage", "Error Updating Offering details");
+		}
+		modelAndView.addObject("StatusMesage", "Offering details Updated successfully");
+		logger.debug("Leaving  - VendorController : addDataAggregatorOffering");
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping(value="deleteDataAggregatorOffering", method = RequestMethod.POST)
+	public ModelAndView deleteDataAggregatorOffering(HttpServletRequest request,
+			@RequestParam(value = "productId", required = true) String productId) {
+		
+		logger.debug("Entering  - VendorController : deleteDataAggregatorOffering");
+		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
+		
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			boolean matchFound = false;
+			List<VendorDataAggregatorsOffering> offerings = vendorService.
+					getVendorDataAggregatorsOffering(vendor.getId());
+			for(VendorDataAggregatorsOffering dataAggreOffering : offerings) {
+				if (dataAggreOffering.getProductId().equals(productId)) {
+					matchFound = true;
+				}
+			}
+			if(matchFound) {
+				vendorService.deleteVendorDataAggregatorsOffering(productId);
+			} else {
+				logger.error("Selected Offering does not belong to logged in User !!");
+				modelAndView.addObject("StatusMesage", 
+						"Selected Offering does not belong to logged in User !!");
+			}
+			
+		} catch (Exception exp) {
+			logger.error("Error Deleting Market Data Aggregator Offering for Product {}", 
+					productId, exp); 
+			modelAndView.addObject("StatusMesage", "Error Deleting Offering details");
+		}
+		modelAndView.addObject("StatusMesage", "Offering details Deleted successfully");
+		logger.debug("Leaving  - VendorController : deleteDataAggregatorOffering");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="listDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView listDataAggregatorOffering(HttpServletRequest request) {
+		
+		logger.debug("Entering  - VendorController : listDataAggregatorOffering");
+		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
+		Vendor vendor = null;
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			List<VendorDataAggregatorsOffering> offerings = vendorService.
+					getVendorDataAggregatorsOffering(vendor.getId());
+			modelAndView.addObject("offerings", offerings);
+			
+		} catch (Exception exp) {
+			logger.error("Error Reading Market Data Aggregator Offering for {}", vendor.getId(), exp); 
+			modelAndView.addObject("StatusMesage", "Error Reading Offering details");
+		}
+		logger.debug("Leaving  - VendorController : listDataAggregatorOffering");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="fetchDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView fetchDataAggregatorOffering(HttpServletRequest request,
+			@RequestParam(value = "productId", required = true) String productId) {
+		
+		logger.debug("Entering  - VendorController : fetchDataAggregatorOffering");
+		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
+		Vendor vendor = null;
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			VendorDataAggregatorsOffering offering = null;
+			List<VendorDataAggregatorsOffering> offerings = vendorService.
+					getVendorDataAggregatorsOffering(vendor.getId());
+			for(VendorDataAggregatorsOffering dataAggreOffering : offerings) {
+				if (dataAggreOffering.getProductId().equals(productId)) {
+					offering = dataAggreOffering;
+				}
+			}
+			if(offering == null) {
+				logger.error("Selected Offering does not belong to logged in User !!");
+				modelAndView.addObject("StatusMesage", 
+						"Selected Offering does not belong to logged in User !!");
+			} else {
+				modelAndView.addObject("offering", offering);
+			}			
+		} catch (Exception exp) {
+			logger.error("Error Fetching Market Data Aggregator Offering for {}", vendor.getId(), exp); 
+			modelAndView.addObject("StatusMesage", "Error fetching Offering details");
+		}
+		logger.debug("Leaving  - VendorController : fetchDataAggregatorOffering");
+		return modelAndView;
+	}
+	
+	
+	/* Vendor Data Aggregator Offering End */
+	
+	
 }
 
 

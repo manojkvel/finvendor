@@ -54,7 +54,7 @@
    <bean id="userDAO" class="com.finvendor.daoimpl.UserDAOImpl"></bean>
    
    <bean id="vendorService" class="com.finvendor.serviceimpl.VendorServiceImpl" />
-   <bean id="vendorDAO" class="com.finvendor.daoimpl.VendorDAOImpl"></bean>
+   <bean id="vendorDao" class="com.finvendor.daoimpl.VendorDaoImpl"></bean>
    
    <bean id="consumerService" class="com.finvendor.serviceimpl.ConsumerServiceImpl" />
    <bean id="consumerDAO" class="com.finvendor.daoimpl.ConsumerDAOImpl"></bean>

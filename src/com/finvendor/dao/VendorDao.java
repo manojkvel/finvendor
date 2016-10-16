@@ -5,14 +5,10 @@ package com.finvendor.dao;
 
 import java.util.List;
 
+import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
-import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
-import com.finvendor.model.Country;
-import com.finvendor.model.Exchange;
-import com.finvendor.model.Region;
-import com.finvendor.model.SecurityType;
 import com.finvendor.model.SolutionTypes;
 import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
@@ -21,6 +17,7 @@ import com.finvendor.model.VendorAnalystProfile;
 import com.finvendor.model.VendorAnalyticsSoftwareDetails;
 import com.finvendor.model.VendorAnalyticsfeaturesSupported;
 import com.finvendor.model.VendorAwardsMap;
+import com.finvendor.model.VendorDataAggregatorsOffering;
 import com.finvendor.model.VendorDataCoverage;
 import com.finvendor.model.VendorDistribution;
 import com.finvendor.model.VendorOffering;
@@ -36,14 +33,14 @@ import com.finvendor.model.VendorTradingSoftwareDetails;
  * @author rayulu vemula
  *
  */
-public interface VendorDAO {
+public interface VendorDao {
 
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to save vendor info
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#saveVendorInfo()
+	 * @see com.finvendor.dao.VendorDao#saveVendorInfo()
 	 */
 	void saveVendorInfo(Vendor vendor);
 
@@ -52,7 +49,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to get vendor info
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#getVendorInfoByEmail()
+	 * @see com.finvendor.dao.VendorDao#getVendorInfoByEmail()
 	 */
 	Vendor getVendorInfoByEmail(String email);
 	Vendor getVendorInfoByUserName(String userName);
@@ -62,7 +59,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to update vendor personal info
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#updateVendorPersonalInfoTab()
+	 * @see com.finvendor.dao.VendorDao#updateVendorPersonalInfoTab()
 	 */
 	void updateVendorPersonalInfoTab(Vendor vendor, String username);
 
@@ -97,7 +94,7 @@ public interface VendorDAO {
 	/**
 	 * (non-Javadoc) Method to get asset class details
 	 * 
-	 * @see com.finvendor.dao.VendorDAO#updateVendorOfferingDetails()
+	 * @see com.finvendor.dao.VendorDao#updateVendorOfferingDetails()
 	 */
 	void updateVendorOfferingDetails(VendorOffering vendorOffering);
 
@@ -133,7 +130,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to update vendor region country exchange map
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#updateVendorRegionCountryExchangeInfos()
+	 * @see com.finvendor.dao.VendorDao#updateVendorRegionCountryExchangeInfos()
 	 */
 	void updateVendorRegionCountryExchangeInfos(
 			VendorRegionCountryExchangeMap vendorRegionCountryExchangeMap);
@@ -143,7 +140,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to save award details
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#saveAwardDetails()
+	 * @see com.finvendor.dao.VendorDao#saveAwardDetails()
 	 */
 	Awards saveAwardDetails(Awards awards);
 
@@ -152,7 +149,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to update vendor award details
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#updateVendorAwardDetails()
+	 * @see com.finvendor.dao.VendorDao#updateVendorAwardDetails()
 	 */
 	void updateVendorAwardDetails(VendorAwardsMap vendorAwardsMap);
 
@@ -161,7 +158,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to get cost details
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#getCostInfo()
+	 * @see com.finvendor.dao.VendorDao#getCostInfo()
 	 */
 	Cost getCostInfo(String costNames);
 
@@ -170,7 +167,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to update vendor solution details
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#updateVendorSolutionDetails()
+	 * @see com.finvendor.dao.VendorDao#updateVendorSolutionDetails()
 	 */
 	VendorSolution updateVendorSolutionDetails(VendorSolution vendorSolution);
 
@@ -179,7 +176,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to get support details
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#getSupportInfo()
+	 * @see com.finvendor.dao.VendorDao#getSupportInfo()
 	 */
 	Support getSupportInfo(String supportname);
 
@@ -188,7 +185,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to update vendor support details
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#updateVendorSupportInfo()
+	 * @see com.finvendor.dao.VendorDao#updateVendorSupportInfo()
 	 */
 	void updateVendorSupportInfo(VendorSupport vendorSupport);
 
@@ -197,7 +194,7 @@ public interface VendorDAO {
 	 * (non-Javadoc) Method to update vendor offering  details
 	 * 
 	 * @return  
-	 * @see com.finvendor.dao.VendorDAO#getVendorOfferingDetails()
+	 * @see com.finvendor.dao.VendorDao#getVendorOfferingDetails()
 	 */
 	List<VendorOffering> getVendorOfferingDetails(String id);
 	
@@ -267,5 +264,14 @@ public interface VendorDAO {
 	List<Object[]> getAnalyticsApplicationOfferingsForProfile(String vendorId);
 	List<Object[]> getResearchReportOfferingsForProfile(String vendorId);
 	public List<Object[]> getVendorAwardDetailsForProfile(String vendorId);
+	
+	/* Vendor Data Aggregator Offering Begin */
+	public void addVendorDataAggregatorsOffering(VendorDataAggregatorsOffering 
+			vendorDataAggregatorsOffering) throws ApplicationException;	
+	public VendorDataAggregatorsOffering fetchVendorDataAggregatorsOffering(
+			String productId) throws ApplicationException;
+	public void deleteVendorDataAggregatorsOffering(String productId) throws ApplicationException;
+	/* Vendor Data Aggregator Offering End */
+	
 	
  }

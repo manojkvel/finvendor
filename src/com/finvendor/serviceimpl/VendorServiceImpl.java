@@ -8,15 +8,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.dao.VendorDAO;
+import com.finvendor.dao.VendorDao;
+import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
-import com.finvendor.model.AssetClass;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
-import com.finvendor.model.Country;
-import com.finvendor.model.Exchange;
-import com.finvendor.model.Region;
-import com.finvendor.model.SecurityType;
 import com.finvendor.model.SolutionTypes;
 import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
@@ -25,6 +21,7 @@ import com.finvendor.model.VendorAnalystProfile;
 import com.finvendor.model.VendorAnalyticsSoftwareDetails;
 import com.finvendor.model.VendorAnalyticsfeaturesSupported;
 import com.finvendor.model.VendorAwardsMap;
+import com.finvendor.model.VendorDataAggregatorsOffering;
 import com.finvendor.model.VendorDataCoverage;
 import com.finvendor.model.VendorDistribution;
 import com.finvendor.model.VendorOffering;
@@ -35,6 +32,7 @@ import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
+import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
 
 public class VendorServiceImpl implements VendorService{
@@ -42,31 +40,34 @@ public class VendorServiceImpl implements VendorService{
 	private static Logger logger = Logger.getLogger(VendorServiceImpl.class);
 	
 	@Autowired
-	private VendorDAO vendorDAO;
+	private VendorDao vendorDao;
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public void saveVendorInfo(Vendor vendor) {
 		logger.info("saveVendorInfo method---:");
-		vendorDAO.saveVendorInfo(vendor);
+		vendorDao.saveVendorInfo(vendor);
 	}
 
 	@Override
 	public Vendor getVendorInfoByEmail(String email) {
 		logger.info("getVendorInfoByEmail method---:");
-		return vendorDAO.getVendorInfoByEmail(email);
+		return vendorDao.getVendorInfoByEmail(email);
 	}
 
 	
 	@Override
 	public Vendor getVendorInfoByUserName(String userName) {
 		logger.info("getVendorInfoByuserName method---:");
-		return vendorDAO.getVendorInfoByUserName(userName);
+		return vendorDao.getVendorInfoByUserName(userName);
 	}
 	
 	@Override
 	public void updateVendorPersonalInfoTab(Vendor vendor, String username) {
 		logger.info("updateVendorPersonalInfoTab method---:");
-		vendorDAO.updateVendorPersonalInfoTab(vendor,username);
+		vendorDao.updateVendorPersonalInfoTab(vendor,username);
 	}
 
 	/*-------------------------------------------------------
@@ -88,7 +89,7 @@ public class VendorServiceImpl implements VendorService{
 	@Override
 	public void updateVendorOfferingDetails(VendorOffering vendorOffering) {
 		logger.info("updateVendorOfferingDetails method---:");
-		 vendorDAO.updateVendorOfferingDetails(vendorOffering);
+		 vendorDao.updateVendorOfferingDetails(vendorOffering);
 		
 	}
 
@@ -120,86 +121,86 @@ public class VendorServiceImpl implements VendorService{
 	public void updateVendorRegionCountryExchangeInfos(
 			VendorRegionCountryExchangeMap vendorRegionCountryExchangeMap) {
 		logger.info("updateVendorRegionCountryExchangeInfos method---:");
-		 vendorDAO.updateVendorRegionCountryExchangeInfos(vendorRegionCountryExchangeMap);
+		 vendorDao.updateVendorRegionCountryExchangeInfos(vendorRegionCountryExchangeMap);
 	}
 
 	@Override
 	public Awards saveAwardDetails(Awards awards) {
 		logger.info("saveAwardDetails method---:");
-		return vendorDAO.saveAwardDetails(awards);
+		return vendorDao.saveAwardDetails(awards);
 	}
 
 	@Override
 	public void updateVendorAwardDetails(VendorAwardsMap vendorAwardsMap) {
 		logger.info("updateVendorAwardDetails method---:");
-		 vendorDAO.updateVendorAwardDetails(vendorAwardsMap);
+		 vendorDao.updateVendorAwardDetails(vendorAwardsMap);
 	}
 
 	@Override
 	public Cost getCostInfo(String costNames) {
 		logger.info("getCostInfo method---:");
-		return vendorDAO.getCostInfo(costNames);
+		return vendorDao.getCostInfo(costNames);
 	}
 	
 	@Override
 	public VendorSolution updateVendorSolutionDetails(
 			VendorSolution vendorSolution) {
 		logger.info("updateVendorSolutionDetails method---:");
-		return vendorDAO.updateVendorSolutionDetails(vendorSolution);
+		return vendorDao.updateVendorSolutionDetails(vendorSolution);
 	}
 
 
 	@Override
 	public Support getSupportInfo(String supportname) {
 		logger.info("getSupportInfo method---:");
-		return vendorDAO.getSupportInfo(supportname);
+		return vendorDao.getSupportInfo(supportname);
 	}
 
 	@Override
 	public void updateVendorSupportInfo(VendorSupport vendorSupport) {
 		logger.info("updateVendorSupportInfo method---:");
-		 vendorDAO.updateVendorSupportInfo(vendorSupport);
+		 vendorDao.updateVendorSupportInfo(vendorSupport);
 	}
 
 	@Override
 	public List<VendorOffering> getVendorOfferingDetails(String id) {
 		logger.info("getVendorOfferingDetails method---:");
-		 return vendorDAO.getVendorOfferingDetails(id);
+		 return vendorDao.getVendorOfferingDetails(id);
 	}
 	
 	@Override
 	public Solutions getSolutionsInfo(String id) {
 		logger.info("getSolutionsInfo method---:");
-		 return vendorDAO.getSolutionsInfo(id);
+		 return vendorDao.getSolutionsInfo(id);
 	}
 
 	@Override
 	public List<Solutions> listVednorSolution(String id) {
 		
-		return vendorDAO.listVednorSolution(id);
+		return vendorDao.listVednorSolution(id);
 	}
 
 	@Override
 	public List<Solutions> deleteVendorSolution(String id) {
-		vendorDAO.deleteVendorSolution(id);
+		vendorDao.deleteVendorSolution(id);
 		return null;
 	}
 
 	@Override
 	public SolutionTypes getSolutionTypes(String solutionName) {
-		SolutionTypes solutionTypes = vendorDAO.getSolutionTypes(solutionName);
+		SolutionTypes solutionTypes = vendorDao.getSolutionTypes(solutionName);
 		return solutionTypes;
 	}
 
 	@Override
 	public Solutions addSolutionsInfo(Solutions solutions) {
-		return vendorDAO.addSolutionsInfo(solutions);
+		return vendorDao.addSolutionsInfo(solutions);
 	}
 
 	@Override
 	public List<Solutions> getSolutionsBasedOnOfferingTypes(String offeringName, Vendor vendor) {
 		
-		SolutionTypes solutionTypes = vendorDAO.getSolutionTypes(offeringName);
+		SolutionTypes solutionTypes = vendorDao.getSolutionTypes(offeringName);
 		Set<Solutions> solutions = solutionTypes.getSolutions();
 		ArrayList<Solutions> vendorSolution = new ArrayList<Solutions>();
 		for(Solutions solution : solutions){
@@ -212,116 +213,116 @@ public class VendorServiceImpl implements VendorService{
 
 	@Override
 	public String addVendorDataCoverage(VendorDataCoverage vendorDataCoverage) {
-		return vendorDAO.addVendorDataCoverage(vendorDataCoverage);
+		return vendorDao.addVendorDataCoverage(vendorDataCoverage);
 	}
 
 	@Override
 	public List<VendorDataCoverage> listVendorDataCoverage(String id) {
-		List<VendorDataCoverage> listVendorDataCoverage = vendorDAO.listVendorDataCoverage(id); 
+		List<VendorDataCoverage> listVendorDataCoverage = vendorDao.listVendorDataCoverage(id); 
 		return listVendorDataCoverage;
 	}
 
 	@Override
 	public String addVendorDistribution(VendorDistribution vendorDistribution) {
-		return vendorDAO.addVendorDistribution(vendorDistribution);	
+		return vendorDao.addVendorDistribution(vendorDistribution);	
 	}
 
 	@Override
 	public List<VendorDistribution> listVendorDistribution(String id) {
-		List<VendorDistribution> listVendorDistribution = vendorDAO.listVendorDistribution(id);
+		List<VendorDistribution> listVendorDistribution = vendorDao.listVendorDistribution(id);
 		return listVendorDistribution;
 	}
 
 	@Override
 	public void deleteVendorDataCoverage(String selectedId) {
-		vendorDAO.deleteVendorDataCoverage(selectedId);
+		vendorDao.deleteVendorDataCoverage(selectedId);
 	}
 
 	@Override
 	public void deleteVendorDistribution(String selectedId) {
-		vendorDAO.deleteVendorDistribution(selectedId);
+		vendorDao.deleteVendorDistribution(selectedId);
 		
 	}
 
 	@Override
 	public String addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported) {
-		return vendorDAO.addTradingCapabilitiesSupported(tradingCapabilitiesSupported);
+		return vendorDao.addTradingCapabilitiesSupported(tradingCapabilitiesSupported);
 		
 	}
 
 	@Override
 	public void addTradingSoftwareDetails(VendorTradingSoftwareDetails tradingSoftwareDetails) {
-		vendorDAO.addTradingSoftwareDetails(tradingSoftwareDetails);
+		vendorDao.addTradingSoftwareDetails(tradingSoftwareDetails);
 		
 	}
 
 	@Override
 	public void addAnalyticsfeaturesSupported(VendorAnalyticsfeaturesSupported analyticsfeaturesSupported) {
-		vendorDAO.addAnalyticsfeaturesSupported(analyticsfeaturesSupported);
+		vendorDao.addAnalyticsfeaturesSupported(analyticsfeaturesSupported);
 		
 	}
 
 	@Override
 	public void addAnalyticsSoftwareDetails(VendorAnalyticsSoftwareDetails analyticsSoftwareDetails) {
-		vendorDAO.addAnalyticsSoftwareDetails(analyticsSoftwareDetails);
+		vendorDao.addAnalyticsSoftwareDetails(analyticsSoftwareDetails);
 		
 	}
 
 	@Override
 	public void addResearchCoverage(VendorResearchCoverage researchCoverage) {
-		vendorDAO.addResearchCoverage(researchCoverage);
+		vendorDao.addResearchCoverage(researchCoverage);
 		
 	}
 
 	@Override
 	public void addResearchDetails(VendorResearchDetails researchDetails) {
-		vendorDAO.addResearchDetails(researchDetails);
+		vendorDao.addResearchDetails(researchDetails);
 		
 	}
 
 	@Override
 	public void addAnalystProfile(VendorAnalystProfile analystProfile) {
-		vendorDAO.addAnalystProfile(analystProfile);
+		vendorDao.addAnalystProfile(analystProfile);
 		
 	}
 
 	@Override
 	public List<VendorTradingCapabilitiesSupported> listTradingCapabilitiesSupported(String objectId) {
-		List<VendorTradingCapabilitiesSupported> listTradingCapabilitiesSupported = vendorDAO.listTradingCapabilitiesSupported(objectId);
+		List<VendorTradingCapabilitiesSupported> listTradingCapabilitiesSupported = vendorDao.listTradingCapabilitiesSupported(objectId);
 		return listTradingCapabilitiesSupported;
 	
 	}
 
 	@Override
 	public List<VendorTradingSoftwareDetails> listTradingSoftwareDetails(String objectId) {
-		List<VendorTradingSoftwareDetails> listTradingSoftwareDetails = vendorDAO.listTradingSoftwareDetails(objectId);
+		List<VendorTradingSoftwareDetails> listTradingSoftwareDetails = vendorDao.listTradingSoftwareDetails(objectId);
 		return listTradingSoftwareDetails;
 	
 	}
 
 	@Override
 	public List<VendorAnalyticsfeaturesSupported> listAnalyticsfeaturesSupported(String objectId) {
-		List<VendorAnalyticsfeaturesSupported> listAnalyticsfeaturesSupported = vendorDAO.listAnalyticsfeaturesSupported(objectId);
+		List<VendorAnalyticsfeaturesSupported> listAnalyticsfeaturesSupported = vendorDao.listAnalyticsfeaturesSupported(objectId);
 		return listAnalyticsfeaturesSupported;
 	
 	}
 
 	@Override
 	public List<VendorAnalyticsSoftwareDetails> listAnalyticsSoftwareDetails(String objectId) {
-		List<VendorAnalyticsSoftwareDetails> listAnalyticsSoftwareDetails = vendorDAO.listAnalyticsSoftwareDetails(objectId);
+		List<VendorAnalyticsSoftwareDetails> listAnalyticsSoftwareDetails = vendorDao.listAnalyticsSoftwareDetails(objectId);
 		return listAnalyticsSoftwareDetails;
 	
 	}
 
 	@Override
 	public List<VendorResearchCoverage> listResearchCoverage(String objectId) {
-		List<VendorResearchCoverage> listResearchCoverage = vendorDAO.listResearchCoverage(objectId);
+		List<VendorResearchCoverage> listResearchCoverage = vendorDao.listResearchCoverage(objectId);
 		return listResearchCoverage;
 	}
 
 	@Override
 	public List<VendorResearchDetails> listResearchDetails(String objectId) {
-		List<VendorResearchDetails> listResearchDetails = vendorDAO.listResearchDetails(objectId);
+		List<VendorResearchDetails> listResearchDetails = vendorDao.listResearchDetails(objectId);
 		return listResearchDetails;
 	
 	}
@@ -329,62 +330,62 @@ public class VendorServiceImpl implements VendorService{
 	@Override
 	public List<VendorAnalystProfile> listAnalystProfile(String objectId) {
 		// TODO Auto-generated method stub
-		List<VendorAnalystProfile> listAnalystProfile = vendorDAO.listAnalystProfile(objectId);
+		List<VendorAnalystProfile> listAnalystProfile = vendorDao.listAnalystProfile(objectId);
 		return listAnalystProfile;
 	}
 
 	@Override
 	public void deleteTradingCapabilitiesSupported(String objectId) {
 		// TODO Auto-generated method stub
-		vendorDAO.deleteTradingCapabilitiesSupported(objectId);
+		vendorDao.deleteTradingCapabilitiesSupported(objectId);
 	}
 
 	@Override
 	public void deleteTradingSoftwareDetails(String objectId) {
 		// TODO Auto-generated method stub
-		vendorDAO.deleteTradingSoftwareDetails(objectId);
+		vendorDao.deleteTradingSoftwareDetails(objectId);
 	}
 
 	@Override
 	public void deleteAnalyticsfeaturesSupported(String objectId) {
 		// TODO Auto-generated method stub
-		vendorDAO.deleteAnalyticsfeaturesSupported(objectId);
+		vendorDao.deleteAnalyticsfeaturesSupported(objectId);
 	}
 
 	@Override
 	public void deleteAnalyticsSoftwareDetails(String objectId) {
 		// TODO Auto-generated method stub
-		vendorDAO.deleteAnalyticsSoftwareDetails(objectId);
+		vendorDao.deleteAnalyticsSoftwareDetails(objectId);
 	}
 
 	@Override
 	public void deleteResearchCoverage(String objectId) {
 		// TODO Auto-generated method stub
-		vendorDAO.deleteResearchCoverage(objectId);
+		vendorDao.deleteResearchCoverage(objectId);
 	}
 
 	@Override
 	public void deleteResearchDetails(String objectId) {
 		// TODO Auto-generated method stub
-		vendorDAO.deleteResearchDetails(objectId);
+		vendorDao.deleteResearchDetails(objectId);
 	}
 
 	@Override
 	public void deleteAnalystProfile(String objectId) {
 		// TODO Auto-generated method stub
-		vendorDAO.deleteAnalystProfile(objectId);
+		vendorDao.deleteAnalystProfile(objectId);
 		
 	}
 
 	@Override
 	public List<VendorTradingSoftwareDetails> listTradingSoftwareDetailsBasedOnSolutionId(String solutionId) {
-		List<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails = vendorDAO.listTradingSoftwareDetailsBasedOnSolutionId(solutionId);
+		List<VendorTradingSoftwareDetails> vendorTradingSoftwareDetails = vendorDao.listTradingSoftwareDetailsBasedOnSolutionId(solutionId);
 		return vendorTradingSoftwareDetails;
 	}
 
 	@Override
 	public List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId) {
-		List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId = vendorDAO.listResearchReportingVendorOfferingBasedOnSolutionId(solutionId);
+		List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId = vendorDao.listResearchReportingVendorOfferingBasedOnSolutionId(solutionId);
 		return listResearchReportingVendorOfferingBasedOnSolutionId;
 	}
 
@@ -406,7 +407,7 @@ public class VendorServiceImpl implements VendorService{
 
 	@Override
 	public List<VendorAwardsMap> listVendorAwardDetails(String id) {
-		List<VendorAwardsMap> vendorAwardsMaps  = vendorDAO.listVendorAwardDetails(id);
+		List<VendorAwardsMap> vendorAwardsMaps  = vendorDao.listVendorAwardDetails(id);
 		
 		return vendorAwardsMaps;
 	}
@@ -415,59 +416,92 @@ public class VendorServiceImpl implements VendorService{
 	public Boolean isAwardAlreadyExist(String value) {
 		
 		
-		return vendorDAO.isAwardAlreadyExist(value);
+		return vendorDao.isAwardAlreadyExist(value);
 	}
 
 	@Override
 	public Boolean isSolutionAlreadyExist(String value) {
-		return vendorDAO.isSolutionAlreadyExist(value);
+		return vendorDao.isSolutionAlreadyExist(value);
 	}
 
 	@Override
 	public void deleteAwardDetails(String objectVar) {
-		vendorDAO.deleteAwardDetails(objectVar);
+		vendorDao.deleteAwardDetails(objectVar);
 		
 	}
 
 	@Override
 	public Boolean isTradingSoftwareDetailsOfferingExist(String value) {
 		// TODO Auto-generated method stub
-		return vendorDAO.isTradingSoftwareDetailsOfferingExist(value);
+		return vendorDao.isTradingSoftwareDetailsOfferingExist(value);
 	}
 
 	@Override
 	public void updateVendorLogo(FileDetails ufile, String username) {
-		 vendorDAO.updateVendorLogo(ufile,username);
+		 vendorDao.updateVendorLogo(ufile,username);
 		
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public List<Object[]> getMarketDataVendorOfferingsForProfile(String vendorId) {
-		return vendorDAO.getMarketDataVendorOfferingsForProfile(vendorId);
+		return vendorDao.getMarketDataVendorOfferingsForProfile(vendorId);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public List<Object[]> getTradingApplicationOfferingsForProfile(String vendorId) {
-		return vendorDAO.getTradingApplicationOfferingsForProfile(vendorId);
+		return vendorDao.getTradingApplicationOfferingsForProfile(vendorId);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public List<Object[]> getAnalyticsApplicationOfferingsForProfile(String vendorId) {
-		return vendorDAO.getAnalyticsApplicationOfferingsForProfile(vendorId);
+		return vendorDao.getAnalyticsApplicationOfferingsForProfile(vendorId);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public List<Object[]> getResearchReportOfferingsForProfile(String vendorId) {
-		return vendorDAO.getResearchReportOfferingsForProfile(vendorId);
+		return vendorDao.getResearchReportOfferingsForProfile(vendorId);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public List<Object[]> getVendorAwardDetailsForProfile(String vendorId) {
-		return vendorDAO.getVendorAwardDetailsForProfile(vendorId);
+		return vendorDao.getVendorAwardDetailsForProfile(vendorId);
 	}
+	
+	/* Vendor Data Aggregator Offering Begin */
+	
+	@Override
+	@Transactional
+	public void addVendorDataAggregatorsOffering(VendorDataAggregatorsOffering 
+			vendorDataAggregatorsOffering) throws ApplicationException {
+		vendorDao.addVendorDataAggregatorsOffering(vendorDataAggregatorsOffering);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public VendorDataAggregatorsOffering fetchVendorDataAggregatorsOffering(
+			String productId) throws ApplicationException {
+		return vendorDao.fetchVendorDataAggregatorsOffering(productId);
+	}
+	
+	@Override
+	@Transactional
+	public void deleteVendorDataAggregatorsOffering(String productId) 
+			throws ApplicationException {
+		vendorDao.deleteVendorDataAggregatorsOffering(productId);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<VendorDataAggregatorsOffering> getVendorDataAggregatorsOffering(
+			String userName) throws ApplicationException {
+		Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
+		return vendor.getDataAggregatorsOffering();
+	}
+	
+	/* Vendor Data Aggregator Offering End */
 }
