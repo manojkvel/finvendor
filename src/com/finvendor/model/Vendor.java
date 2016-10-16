@@ -2,7 +2,9 @@ package com.finvendor.model;
 
 import java.io.Serializable;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,9 +37,6 @@ public class Vendor implements Serializable {
 	@Column(name="designation")
 	private String designation;
 	
-	//@Column(name="email")
-	//private String email;
-	
 	@Column(name="secondary_email")
 	private String secondaryEmail;
 	
@@ -59,8 +58,42 @@ public class Vendor implements Serializable {
 	@Column(name="logolength")
 	private Integer logoLength;
 	
-	@OneToOne(fetch=FetchType.EAGER,mappedBy="vendor", cascade=CascadeType.ALL)
+	@Column(name="LogoName")
+	public String logoName;
+	
+	@Column(name="logoType")
+	public String logoType;
+	
+	@Column(name="logoBytes")
+	@Lob
+	private Blob logoBytes;
+	
+	@Column(name="tags")
+	private String tags;
+	
+	@Column(name="companyaddress")
+	private String companyAddress;
+	
+	@Column(name="regionofincorp")
+	private Integer regionofincorp;
+	
+	@Column(name="countryofincorp")
+	private String 	countryofincorp;
+		 	
+	@OneToOne
+	@JoinColumn(name="username", nullable=false)
+	private FinVendorUser user;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="vendor")
+	private Set<VendorAwardsMap> vendorAwardsMaps = new HashSet<VendorAwardsMap>();
+	
+	@OneToOne(fetch=FetchType.EAGER, mappedBy="vendor", cascade=CascadeType.ALL)
 	private VendorSupport vendorSupport;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="vendor")
+	private List<VendorDataAggregatorsOffering> dataAggregatorsOffering;
+	
+	private String telephoneCode;
 		
 	public VendorSupport getVendorSupport() {
 		return vendorSupport;
@@ -70,6 +103,9 @@ public class Vendor implements Serializable {
 		this.vendorSupport = vendorSupport;
 	}
 
+	
+	
+	/*
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
 	private Set<VendorDataCoverage> vendorDataCoverage;  
 
@@ -96,10 +132,12 @@ public class Vendor implements Serializable {
 	private Set<VendorResearchDetails> vendorResearchDetails;  
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
 	private Set<VendorAnalystProfile> vendorAnalystProfile;  
+	
+	*/
 
 	
 	
-	
+	/*
 	public Set<Solutions> getSolution() {
 		return solution;
 	}
@@ -123,6 +161,8 @@ public class Vendor implements Serializable {
 	public void setVendorDataCoverage(Set<VendorDataCoverage> vendorDataCoverage) {
 		this.vendorDataCoverage = vendorDataCoverage;
 	}
+	
+	*/
 
 	public Integer getLogoLength() {
 		return logoLength;
@@ -148,16 +188,6 @@ public class Vendor implements Serializable {
 	public void setLogoType(String logoType) {
 		this.logoType = logoType;
 	}
-
-	@Column(name="LogoName")
-	public String logoName;
-	@Column(name="logoType")
-	public String logoType;
-	
-	@Column(name="logoBytes")
-	@Lob
-	private Blob logoBytes;
-	
 	
 	public Blob getLogoBytes() {
 		return logoBytes;
@@ -167,45 +197,40 @@ public class Vendor implements Serializable {
 		this.logoBytes = logoBytes;
 	}
 
-	@Column(name="tags")
-	private String tags;
+	
 	
 	/*@OneToOne
 	@JoinColumn(name="fileDetails", nullable=false)
 	private FileDetails fileDetails;
 	*/
 
-	@Column(name="companyaddress")
-	private String companyAddress;
 	
-	@Column(name="regionofincorp")
-	private Integer regionofincorp;
 	
-	@Column(name="countryofincorp")
-	private String 	countryofincorp;
-		 
 	
-	@OneToOne
-	@JoinColumn(name="username", nullable=false)
-	private FinVendorUser user;
-	
+	/*
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor",cascade = CascadeType.ALL)
 	private Set<VendorOffering> vendorOfferings=new HashSet<VendorOffering>();
+	*/
 	
+	/*
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor")
 	private Set<VendorRegionCountryExchangeMap> vendorRegionCountryMaps=new HashSet<VendorRegionCountryExchangeMap>();
+	*/
 	
+	/*
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor")
 	private Set<VendorSupport> vendorSupports=new HashSet<VendorSupport>();
+	*/
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor")
-	private Set<VendorAwardsMap> vendorAwardsMaps=new HashSet<VendorAwardsMap>();
 	
+	
+	/*
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="vendor")
 	private Set<VendorDataCoverage> vendorDistributions=new HashSet<VendorDataCoverage>();
+	*/
 	
 	
-	private String 	telephoneCode;
+	
 	
 	public String getTelephoneCode() {
 		return telephoneCode;
@@ -312,6 +337,7 @@ public class Vendor implements Serializable {
 		this.regionofincorp = regionofincorp;
 	}
 
+	/*
 	public Set<VendorOffering> getVendorOfferings() {
 		return vendorOfferings;
 	}
@@ -319,7 +345,10 @@ public class Vendor implements Serializable {
 	public void setVendorOfferings(Set<VendorOffering> vendorOfferings) {
 		this.vendorOfferings = vendorOfferings;
 	}
+	*/
 
+	
+	/*
 	public Set<VendorRegionCountryExchangeMap> getVendorRegionCountryMaps() {
 		return vendorRegionCountryMaps;
 	}
@@ -327,7 +356,10 @@ public class Vendor implements Serializable {
 	public void setVendorRegionCountryMaps(Set<VendorRegionCountryExchangeMap> vendorRegionCountryMaps) {
 		this.vendorRegionCountryMaps = vendorRegionCountryMaps;
 	}
+	
+	*/
 
+	/*
 	public Set<VendorSupport> getVendorSupports() {
 		return vendorSupports;
 	}
@@ -335,6 +367,7 @@ public class Vendor implements Serializable {
 	public void setVendorSupports(Set<VendorSupport> vendorSupports) {
 		this.vendorSupports = vendorSupports;
 	}
+	*/
 
 	public Set<VendorAwardsMap> getVendorAwardsMaps() {
 		return vendorAwardsMaps;
@@ -344,6 +377,8 @@ public class Vendor implements Serializable {
 		this.vendorAwardsMaps = vendorAwardsMaps;
 	}
 
+	
+	/*
 	public Set<VendorDataCoverage> getVendorDistributions() {
 		return vendorDistributions;
 	}
@@ -351,6 +386,8 @@ public class Vendor implements Serializable {
 	public void setVendorDistributions(Set<VendorDataCoverage> vendorDistributions) {
 		this.vendorDistributions = vendorDistributions;
 	}
+	
+	*/
 
 	public String getSecondaryEmail() {
 		return secondaryEmail;
@@ -384,6 +421,9 @@ public class Vendor implements Serializable {
 		this.designation = designation;
 	}
 
+
+	/*
+	
 	public Set<VendorTradingCapabilitiesSupported> getVendorTradingCapabilitiesSupported() {
 		return vendorTradingCapabilitiesSupported;
 	}
@@ -440,6 +480,13 @@ public class Vendor implements Serializable {
 		this.vendorAnalystProfile = vendorAnalystProfile;
 	}
 	
+*/
+	public List<VendorDataAggregatorsOffering> getDataAggregatorsOffering() {
+		return dataAggregatorsOffering;
+	}
 
+	public void setDataAggregatorsOffering(List<VendorDataAggregatorsOffering> dataAggregatorsOffering) {
+		this.dataAggregatorsOffering = dataAggregatorsOffering;
+	}
 	
 }
