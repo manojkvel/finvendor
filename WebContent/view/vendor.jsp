@@ -1009,10 +1009,6 @@ window.onload = function(){
 
 	<!-- Date plugins start-->
 	<script>
-		$(function() {
-			$("#inputField").datepicker();
-			$("#inputField1").datepicker();
-		});
 		function loadSecurityTypes(assettypeId) {
 		 	
 				if(assettypeId != '' && assettypeId.length > 0 && !assettypeId.match("-SELECT-")){
