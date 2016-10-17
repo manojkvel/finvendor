@@ -564,9 +564,15 @@ textarea:valid ~ label {
 	margin: 0;
 }
 
-#vendor_my_offerings .custom_form ul li {
+#vendor_my_offerings .custom_form ul > li {
 	width: 31.5%;
 	margin-right: 1.8%;
+}
+
+
+#vendor_my_offerings .custom_form .bootstrap-select ul li {
+	width: 100%;
+	margin-right: 0;
 }
 
 @media only screen and (max-width: 480px) {

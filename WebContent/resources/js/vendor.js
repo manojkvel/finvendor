@@ -115,29 +115,57 @@ jQuery(document).ready(function() {
 	/// Update code to Vendor Data Aggregator Info--:
 	function updateDataAggregatorInfo(){
 		progressLoader(true);
-		var productname = $("#data_aggregator #productname").val();
-		var productdescription = $("#data_aggregator #productdescription").val();
-		var tdsLaunchedYear = $("#data_aggregator #tdsLaunchedYear").val();
-		var assetClassForVenderOffering = $("#data_aggregator #assetClassForVenderOffering").val();
-		var securityType = $("#data_aggregator #securityType").val();
+		var productName = $("#data_aggregator #productName").val();
+		var productDescription = $("#data_aggregator #productDescription").val();
+		var launchedYear = $("#data_aggregator #launchedYear").val();
+		var assetClassId = $("#data_aggregator #assetClassId").val();
+		var securityTypes = $("#data_aggregator #securityTypes").val();
 
-		var supportcoverageregion = $("#data_aggregator #supportcoverageregion").val();
+		var coverageRegion = $("#data_aggregator #coverageRegion").val();
 		var attributessupported = $("#data_aggregator #attributessupported").val();
-		var supportcoveragecountry = $("#data_aggregator #supportcoveragecountry").val();
-		var coverageexchange = $("#data_aggregator #coverageexchange").val();
-		var vendorcostrange = $("#data_aggregator #vendorcostrange").val();
+		var coverageCountry = $("#data_aggregator #coverageCountry").val();
+		var coverageExchange = $("#data_aggregator #coverageExchange").val();
+		var costRange = $("#data_aggregator #costRange").val();
 		var email = $("#data_aggregator #email").val();
-		var phonenumber = $("#data_aggregator #phonenumber").val();
+		var phoneNumber = $("#data_aggregator #phoneNumber").val();
 
-		var feedtype = $("#data_aggregator #feedtype").val();
-		var feedsubtype = $("#data_aggregator #feedsubtype").val();
+		var feedType = $("#data_aggregator #feedType").val();
+		var feedSubType = $("#data_aggregator #feedSubType").val();
 		var frequency = $("#data_aggregator #frequency").val();
-		var distributionmethod = $("#data_aggregator #distributionmethod").val();
+		var distributionMethod = $("#data_aggregator #distributionMethod").val();
+	
+		var data = {
+			"productName" : productName,
+			"productDescription" : productDescription,
+			"assetClassId" : assetClassId,
+			"securityTypes" : "securityTypes",
+			"launchedYear" : launchedYear,
+			"coverageRegion" : coverageRegion,
+			"coverageCountry" : coverageCountry,
+			"coverageExchange" : coverageExchange,
+			"phoneNumber" : phoneNumber,
+			"email" : email,
+			"costRange" : costRange,
+			"feedType" : feedType,
+			"feedSubType" : feedSubType,
+			"frequency" :frequency,
+			"distributionMethod" : distributionMethod
+		}
 
-		var url = "updateVendorDataAggregatorInfo?venProductname="+productname;
+		/*var url = "addDataAggregatorOffering?productName="+productName+
+											"&productDescription="+productDescription+"&assetClassId="+assetClassId+
+											"&securityTypes="+"securityTypes"+"&launchedYear="+launchedYear+
+											"&coverageRegion="+coverageRegion+"&coverageCountry="+coverageCountry+
+											"&coverageExchange="+coverageExchange+"&phoneNumber="+phoneNumber+
+											"&email="+email+"&costRange="+costRange+
+											"&feedType="+feedType+"&feedSubType="+feedSubType+
+											"&frequency="+frequency+"&distributionMethod="+distributionMethod;
+		*/
 		$.ajax({
-			type: 'GET',
-			url:  url,
+			type: 'POST',
+			url:  "addDataAggregatorOffering",
+			dataType: JSON,
+			data: data,
 			cache:false,
 			success : function(output){
 				progressLoader(false);

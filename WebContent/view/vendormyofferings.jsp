@@ -88,19 +88,19 @@
 						<h3>Product Info <span class="fa fa-chevron-down"></span></h3>
 						<ul>
 							<li>
-								<input type="text" name="productname" id="productname" required />
+								<input type="text" name="productName" id="productName" required />
 								<label>Product Name</label>
 							</li>
 							<li>
-								<input type="text" name="productdescription" id="productdescription" required />
+								<input type="text" name="productDescription" id="productDescription" required />
 								<label>Product Description</label>
 							</li>
 							<li>
-								<input type="text" name="tdsLaunchedYear" id="tdsLaunchedYear" required />
+								<input type="text" name="launchedYear" id="launchedYear" required />
 								<label>Launched Year</label>
 							</li>
 							<li>
-								<select id="assetClassForVenderOffering" name="assetClassForVenderOffering">
+								<select id="assetClassId" name="assetClassId">
 									<c:forEach var="assetClasses" items="${assetClasses}">
 									<option value="${assetClasses.description}">${assetClasses.description}</option>
 									</c:forEach>
@@ -108,7 +108,7 @@
 								<label class="default_select">Asset Class</label>
 							</li>
 							<li>
-								<select class="select_multiple" id="securityType" name="securityType" multiple="multiple">
+								<select class="select_multiple" id="securityTypes" name="securityTypes" multiple="multiple">
 									<c:forEach var="securityType" items="${securityTypes}">
 									<option value="${securityType.name}">${securityType.name}</option>
 									</c:forEach>
@@ -122,7 +122,7 @@
 						<ul>
 							<li>
 								<div>
-									<select name="supportcoverageregion" id="supportcoverageregion" data-mandatory="Y" onchange="getCountries('supportcoverageregion','supportcoverageregion')">
+									<select name="coverageRegion" id="coverageRegion" data-mandatory="Y" onchange="getCountries('supportcoverageregion','supportcoverageregion')">
 										<option value="Select">-Select-</option>			
 										<c:forEach var="regions" items="${regions}">
 										<option value="${regions.name}">${regions.name}</option>
@@ -131,7 +131,7 @@
 									<label class="default_select">Coverage Region</label>
 								</div>
 								<div style="margin-top:20px;">
-									<select name="attributessupported" id="attributessupported">
+									<select class="selectpicker" name="attributessupported" id="attributessupported">
 										<c:forEach var="exchanges" items="${exchanges}">
 										<option value="${exchanges.name}">${exchanges.name}</option>
 										</c:forEach>
@@ -140,8 +140,8 @@
 								</div>
 							</li>
 							<li>
-								<select class="select_multiple" name="supportcoveragecountry" 
-								id="supportcoveragecountry" multiple="multiple">
+								<select class="selectpicker select_multiple" name="coverageCountry" 
+								id="coverageCountry" multiple="multiple">
 									<c:forEach var="countries" items="${countries}">
 									<option value="${countries.name}" >${countries.name}</option>
 									</c:forEach>
@@ -149,7 +149,7 @@
 								<label class="default_select">Coverage Country</label>
 							</li>
 							<li>
-								<select class="select_multiple" name="coverageexchange"  multiple="multiple" id="coverageexchange">
+								<select class="select_multiple" name="coverageExchange"  multiple="multiple" id="coverageExchange">
 									<c:forEach var="exchanges" items="${exchanges}">
 									<option value="${exchanges.name}">${exchanges.name}</option>
 									</c:forEach>
@@ -157,7 +157,7 @@
 								<label class="default_select">Coverage Exchange</label>
 							</li>
 							<li>
-								<input type="text" name="vendorcostrange" id="vendorcostrange" required />
+								<input type="text" name="costRange" id="costRange" required />
 								<label>Vendor Cost Range</label>
 							</li>
 							<li>
@@ -165,7 +165,7 @@
 								<label>Primary Email</label>
 							</li>
 							<li>
-								<input type="text" name="phonenumber" id="phonenumber" required />
+								<input type="text" name="phoneNumber" id="phoneNumber" required />
 								<label>Phone Number</label>
 							</li>
 						</ul>
@@ -174,7 +174,7 @@
 						<h3>Data Distribution Info <span class="fa fa-chevron-down"></span></h3>
 						<ul>
 							<li>
-								<select class="select_multiple" name="feedtype" multiple="multiple" id="feedtype">
+								<select class="select_multiple" name="feedType" multiple="multiple" id="feedType">
 									<option value ="-SELECT-"> -SELECT- </option>
 									<option value ="EOD"> EOD </option>
 									<option value ="REAL-TIME"> REAL-TIME </option>
@@ -184,7 +184,7 @@
 							</li>
 
 							<li>
-								<select class="select_multiple" name="feedsubtype" multiple="multiple" id="feedsubtype">
+								<select class="select_multiple" name="feedSubType" multiple="multiple" id="feedSubType">
 									<option value ="-SELECT-"> -SELECT- </option>
 									<option value ="Full Universe Data Feed"> Full Universe Data Feed </option>
 									<option value ="Delta Data Feed"> Delta Data Feed </option>
@@ -203,7 +203,7 @@
 								<label class="default_select">Frequency</label>
 							</li>
 							<li>
-								<select class="select_multiple" name="distributionmethod" multiple="multiple" id="distributionmethod">
+								<select class="select_multiple" name="distributionMethod" multiple="multiple" id="distributionMethod">
 									<option value ="Web"> Web </option>
 									<option value ="FTP"> FTP </option>
 									<option value ="FTP"> Email </option>
