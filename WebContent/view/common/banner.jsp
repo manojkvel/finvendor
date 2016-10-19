@@ -109,109 +109,107 @@
 		</div>
 	</div>
 </div>
-<div class="row-fluid" id="main-wrap">
-	<div class="span6">
-		<div class="row-fluid">
-			<div class="span6">
-				<div class="main-content-wrap">
-					<c:choose>
-						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
-						
-							<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>">
-							<img src="${pageContext.request.contextPath}/resources/images/main-img-1.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
-							
-						</c:when>
-						<c:otherwise>
-							<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>')"> -->
-							<img src="${pageContext.request.contextPath}/resources/images/main-img-1-no-search.png" style="float:right" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
-						</c:otherwise>
-					</c:choose>
-						
-					
-					<h2>
-						Market Data <span>Vendors</span>
-					</h2>
-					</a>
-					<p> FinvVendor provides an intuitive interface to search and select the market data vendors
-					 best suited for you needs, and a platform to interact and collaborate with them.
-					
-					</p>
-					<a href="#"><img
-						src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
-						alt="" title="" class="read-more" /></a>
-				</div>
-			</div>
-			<div class="span6">
-				<div class="main-content-wrap">
-					<c:choose>
-						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
-							<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>">
-							<img src="${pageContext.request.contextPath}/resources/images/main-img-2.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
-						</c:when>
-						<c:otherwise>
-							<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>')"> -->
-							<img src="${pageContext.request.contextPath}/resources/images/main-img-2-no-search.png" style="float:right" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
-						</c:otherwise>
-					</c:choose>	
-						
-					
-					<h2>
-						Trading Application <span>Vendors</span>
-					</h2>
-					</a>
-					<p>Finding the right application for your trading needs is no easy feat. FinVendor provides you a platform to 
+
+<div id="main-wrap">
+	<div class="col-xs-12 col-sm-6 col-md-3">
+		<div class="main-content-wrap">
+
+			<c:choose>
+			<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
+
+			<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>">
+				<img src="${pageContext.request.contextPath}/resources/images/main-img-1.png" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
+			</a>
+
+				</c:when>
+				<c:otherwise>
+				<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>')"> -->
+				<img src="${pageContext.request.contextPath}/resources/images/main-img-1-no-search.png" alt="Click here to Search Market Data Vendors" title="Click here to Search Market Data Vendors">
+			</c:otherwise>
+		</c:choose>
+
+		<h2>
+			Market Data <span>Vendors</span>
+		</h2>
+		<p> FinvVendor provides an intuitive interface to search and select the market data vendors
+			best suited for you needs, and a platform to interact and collaborate with them.
+
+		</p>
+		<a href="#"><img
+			src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
+			alt="" title="" class="read-more" /></a>
+		</div>
+	</div>
+
+	<div class="col-xs-12 col-sm-6 col-md-3">
+			<div class="main-content-wrap">
+				<c:choose>
+				<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
+				<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>">
+					<img src="${pageContext.request.contextPath}/resources/images/main-img-2.png" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
+				</a>
+				</c:when>
+				<c:otherwise>
+				<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.TradingApplication.TRADING_APPLICATION_INDEX_PAGE%>')"> -->
+				<img src="${pageContext.request.contextPath}/resources/images/main-img-2-no-search.png" alt="Click here to Search Trading Application Vendors" title="Click here to Search Trading Application Vendors">
+					</c:otherwise>
+				</c:choose>	
+
+
+				<h2>
+					Trading Application <span>Vendors</span>
+				</h2>
+				<p>Finding the right application for your trading needs is no easy feat. FinVendor provides you a platform to 
 					filter various vendor solutions by specialities listed to a granular level. </p>
 					<a href="#"><img
 						src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
 						alt="" title="" class="read-more" /></a>
-				</div>
 			</div>
-		</div>
 	</div>
-	<div class="span6">
-		<div class="row-fluid">
-				<div class="span6">
-					<div class="main-content-wrap">
+
+	<div class="col-xs-12 col-sm-6 col-md-3">
+		<div class="main-content-wrap">
 						<c:choose>
-							<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
-								<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>">
-								<img src="${pageContext.request.contextPath}/resources/images/main-img-3.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
-							</c:when>
-							<c:otherwise>
-								<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>')"> -->
-								<img src="${pageContext.request.contextPath}/resources/images/main-img-3-no-search.png" style="float:right" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
-							</c:otherwise>
-						</c:choose>
-							
-						
-						<h2>
-							Financial Analytics <span>Vendors</span>
-						</h2>
+						<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
+						<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>">
+							<img src="${pageContext.request.contextPath}/resources/images/main-img-3.png" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
 						</a>
-						<p>In this competitive industry Analytics is the most sought after service for business and risk insights.
-						FinVendor helps you choose the right analytics vendor befitting your business.</p>
-						<a href="#"><img
-							src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
-							alt="" title="" class="read-more" /></a>
-					</div>
+						</c:when>
+						<c:otherwise>
+						<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.FinancialAnalyticsApplication.FINANCIAL_ANALYTICS_APPLICATION_INDEX_PAGE%>')"> -->
+						<img src="${pageContext.request.contextPath}/resources/images/main-img-3-no-search.png" alt="Click here to Search Analytics Application Vendors" title="Click here to Search Analytics Application Vendors">
+					</c:otherwise>
+				</c:choose>
+
+
+				<h2>
+					Financial Analytics <span>Vendors</span>
+				</h2>
+				<p>In this competitive industry Analytics is the most sought after service for business and risk insights.
+					FinVendor helps you choose the right analytics vendor befitting your business.</p>
+					<a href="#"><img
+						src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
+						alt="" title="" class="read-more" /></a>
 				</div>
-				<div class="span6">
-					<div class="main-content-wrap last-child">
+	</div>
+
+	<div class="col-xs-12 col-sm-6 col-md-3">
+		<div class="main-content-wrap last-child">
 						<c:choose>
 							<c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 								<a class="stage" href="${pageContext.request.contextPath}/<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>">
-								<img src="${pageContext.request.contextPath}/resources/images/main-img-4.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
+								<img src="${pageContext.request.contextPath}/resources/images/main-img-4.png" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
 							</c:when>
 							<c:otherwise>
 								<!-- <a class="stage" href="javascript:inner_login('<%=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE%>')"> -->
-								<img src="${pageContext.request.contextPath}/resources/images/main-img-4-no-search.png" style="float:right" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
+								<img src="${pageContext.request.contextPath}/resources/images/main-img-4-no-search.png" alt="Click here to Search Research Report Providers" title="Click here to Search Research Report Providers">
 							</c:otherwise>
 						</c:choose>
+								
 							
-						
-						<h2>
-							Financial Research <span>Report Vendors</span>
-						</h2>
+							<h2>
+								Financial Research <span>Report Vendors</span>
+							</h2>
 						</a>
 						<p>Be it macro economic analysis, Sector analysis or Analysis on Market pulse,a good research report is the key to a successful business.
 						And FinVendor can help you find the best research vendors. </p>
@@ -219,10 +217,9 @@
 							src="<%=request.getContextPath()%>/resources/images/rd-mr.png"
 							alt="" title="" class="read-more" /></a>
 					</div>
-				</div>
-		</div>
 	</div>
 </div>
+
 <div class="slider-home" id="slider-home">
 	<img src="<%=request.getContextPath()%>/resources/images/hear.png"
 		alt="" title="" class="slider-hr" />

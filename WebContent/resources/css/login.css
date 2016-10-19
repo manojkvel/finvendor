@@ -613,6 +613,7 @@ table {
 	border-radius: 0 !important;
 	width: auto;
 	text-decoration: none;
+	font-size: 15px;
 }
 
 .cd-user-modal-container .cd-switcher a.selected {

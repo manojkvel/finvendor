@@ -85,7 +85,7 @@
 						style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #B94A48; font-weight: bold;"></font>
 					</div>
 					<div class="product_info">
-						<h3>Product Info <span class="fa fa-chevron-down"></span></h3>
+						<h3>Product Info <span class="fa fa-chevron-up"></span></h3>
 						<ul>
 							<li>
 								<input type="text" name="productName" id="productName" required />
@@ -108,7 +108,7 @@
 								<label class="default_select">Asset Class</label>
 							</li>
 							<li>
-								<select class="select_multiple" id="securityTypes" name="securityTypes" multiple="multiple">
+								<select class="selectpicker select_multiple" id="securityTypes" name="securityTypes" multiple="multiple">
 									<c:forEach var="securityType" items="${securityTypes}">
 									<option value="${securityType.name}">${securityType.name}</option>
 									</c:forEach>
@@ -122,22 +122,21 @@
 						<ul>
 							<li>
 								<div>
-									<select name="coverageRegion" id="coverageRegion" data-mandatory="Y" onchange="getCountries('supportcoverageregion','supportcoverageregion')">
-										<option value="Select">-Select-</option>			
+									<select class="selectpicker" name="coverageRegion" id="coverageRegion" data-mandatory="Y" onchange="getCountries('supportcoverageregion','supportcoverageregion')">			
 										<c:forEach var="regions" items="${regions}">
 										<option value="${regions.name}">${regions.name}</option>
 										</c:forEach>
 									</select>
 									<label class="default_select">Coverage Region</label>
 								</div>
-								<div style="margin-top:20px;">
+								<!-- <div style="margin-top:20px;">
 									<select class="selectpicker" name="attributessupported" id="attributessupported">
 										<c:forEach var="exchanges" items="${exchanges}">
 										<option value="${exchanges.name}">${exchanges.name}</option>
 										</c:forEach>
 									</select>
 									<label class="default_select">Attributes Supported</label>
-								</div>
+								</div> -->
 							</li>
 							<li>
 								<select class="selectpicker select_multiple" name="coverageCountry" 
@@ -149,7 +148,7 @@
 								<label class="default_select">Coverage Country</label>
 							</li>
 							<li>
-								<select class="select_multiple" name="coverageExchange"  multiple="multiple" id="coverageExchange">
+								<select class="selectpicker select_multiple" name="coverageExchange"  multiple="multiple" id="coverageExchange">
 									<c:forEach var="exchanges" items="${exchanges}">
 									<option value="${exchanges.name}">${exchanges.name}</option>
 									</c:forEach>
@@ -174,8 +173,7 @@
 						<h3>Data Distribution Info <span class="fa fa-chevron-down"></span></h3>
 						<ul>
 							<li>
-								<select class="select_multiple" name="feedType" multiple="multiple" id="feedType">
-									<option value ="-SELECT-"> -SELECT- </option>
+								<select class="selectpicker select_multiple" name="feedType" multiple="multiple" id="feedType">
 									<option value ="EOD"> EOD </option>
 									<option value ="REAL-TIME"> REAL-TIME </option>
 									<option value ="HISTORICAL-EOD">HISTORICAL-EOD</option>
@@ -184,15 +182,14 @@
 							</li>
 
 							<li>
-								<select class="select_multiple" name="feedSubType" multiple="multiple" id="feedSubType">
-									<option value ="-SELECT-"> -SELECT- </option>
+								<select class="selectpicker select_multiple" name="feedSubType" multiple="multiple" id="feedSubType">
 									<option value ="Full Universe Data Feed"> Full Universe Data Feed </option>
 									<option value ="Delta Data Feed"> Delta Data Feed </option>
 								</select>
 								<label class="default_select">Feed Sub-type</label>
 							</li>
 							<li>
-								<select class="select_multiple" name="frequency" multiple="multiple" id="frequency">
+								<select class="selectpicker select_multiple" name="frequency" multiple="multiple" id="frequency">
 									<option value ="intra-day"> intra-day </option>
 									<option value ="Daily"> Daily </option>
 									<option value ="Weekly"> Weekly </option>
@@ -203,7 +200,7 @@
 								<label class="default_select">Frequency</label>
 							</li>
 							<li>
-								<select class="select_multiple" name="distributionMethod" multiple="multiple" id="distributionMethod">
+								<select class="selectpicker select_multiple" name="distributionMethod" multiple="multiple" id="distributionMethod">
 									<option value ="Web"> Web </option>
 									<option value ="FTP"> FTP </option>
 									<option value ="FTP"> Email </option>

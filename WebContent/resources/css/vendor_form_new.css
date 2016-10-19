@@ -8,11 +8,24 @@ body {
 	max-width: 970px;
 }
 
+.nav-tabs {
+	margin-bottom: 20px;
+}
+
+.fa-chevron-down:before {
+    content: "\f078";
+}
+
+.fa-chevron-up:before {
+    content: "\f077";
+}
+
 #vendor_profile h1,
 #vendor_profile h2,
 #vendor_profile h3,
 #vendor_profile h4 {
 	line-height: 24px;
+	margin: 0;
 }
 
 #vendor_profile table {
@@ -82,10 +95,12 @@ body {
 }
 
 #vendor_profile .btn,
-#vendor_my_offerings .btn {
+#data_aggregator_top_card .btn,  
+.custom_form .btn {
 	float: right;
 	font-size: 12px;
 	padding: 5px 10px;
+	color: #fff;
 }
 
 .btn .fa-pencil {
@@ -331,6 +346,12 @@ textarea:valid ~ label {
 	margin-right: 0;
 }
 
+#vendor_my_offerings .custom_form ul {
+	float: none;
+	width: auto;
+	margin: 0;
+}
+
 .action_btn {
 	margin: 0 auto;
 }
@@ -535,20 +556,25 @@ textarea:valid ~ label {
 	overflow: hidden;
 }
 
+#data_aggregator .data_coverage_info ul,
 #data_aggregator .data_distribution_info ul {
 	display: none;
 }
 
 #vendor_my_offerings h3 {
-	font-weight: bold;
 	position: relative;
 	cursor: pointer;
+	background: #34bf98;
+    color: #fff;
+    padding: 10px 10px;
+    font-size: 15px;
 }
 
 #vendor_my_offerings h3 span {
 	float: right;
+	font-size: 12px;
 	position: absolute;
-	right: 0;
+	right: 10px;
 	top: 50%;
 	transform: translateY(-50%);
 }
@@ -558,27 +584,56 @@ textarea:valid ~ label {
 	width: 100%;
 }
 
-#vendor_my_offerings .custom_form ul {
-	float: none;
-	width: auto;
-	margin: 0;
-}
-
 #vendor_my_offerings .custom_form ul > li {
 	width: 31.5%;
 	margin-right: 1.8%;
 }
 
+.custom_form .bootstrap-select {
+	padding: 0;
+	margin-top: 20px;
+}
 
 #vendor_my_offerings .custom_form .bootstrap-select ul li {
 	width: 100%;
 	margin-right: 0;
+	margin-bottom: 0;
 }
+
+.custom_form .bootstrap-select .btn.dropdown-toggle {
+	background-color: transparent;
+	color: #333;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	border-bottom: 1px solid #d3d6d5;
+	outline: none;
+}
+
+.custom_form .bootstrap-select .dropdown-menu.open {
+	position: absolute;
+	max-height: 110px !important;
+}
+
+.custom_form .bootstrap-select .dropdown-menu.inner {
+	max-height: 100px !important;
+}
+
+.custom_form .bootstrap-select.btn-group .dropdown-menu li a {
+	padding: 3px 10px;
+	font-size: 12px;
+}
+
 
 @media only screen and (max-width: 480px) {
 
 	#vendor_my_offerings .custom_form ul li {
 		width: 100%;
 		margin-right: 0;
+	}
+
+	.custom_form .bootstrap-select .dropdown-menu.open {
+		position: static;
 	}
 }

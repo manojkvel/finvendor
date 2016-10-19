@@ -59,14 +59,18 @@ jQuery(document).ready(function() {
 
 	$("#data_aggregator .product_info h3").on("click", function() {
 		$("#data_aggregator .product_info ul").slideToggle();
+		$("#data_aggregator .product_info h3 span").toggleClass("fa-chevron-up");
+		$("#data_aggregator .product_info h3 span").toggleClass("fa-chevron-down");
 	});
 
 	$("#data_aggregator .data_coverage_info h3").on("click", function() {
 		$("#data_aggregator .data_coverage_info ul").slideToggle();
+		$("#data_aggregator .data_coverage_info h3 span").toggleClass("fa-chevron-up");
 	});
 
 	$("#data_aggregator .data_distribution_info h3").on("click", function() {
 		$("#data_aggregator .data_distribution_info ul").slideToggle();
+		$("#data_aggregator .data_distribution_info h3 span").toggleClass("fa-chevron-up");
 	});
 
 	$("#data_aggregator .save").on("click", function() {
@@ -137,7 +141,7 @@ jQuery(document).ready(function() {
 		var data = {
 			"productName" : productName,
 			"productDescription" : productDescription,
-			"assetClassId" : assetClassId,
+			"assetClassId" : 2,
 			"securityTypes" : "securityTypes",
 			"launchedYear" : launchedYear,
 			"coverageRegion" : coverageRegion,
@@ -145,7 +149,7 @@ jQuery(document).ready(function() {
 			"coverageExchange" : coverageExchange,
 			"phoneNumber" : phoneNumber,
 			"email" : email,
-			"costRange" : costRange,
+			"costRange" : 300,
 			"feedType" : feedType,
 			"feedSubType" : feedSubType,
 			"frequency" :frequency,
@@ -164,7 +168,7 @@ jQuery(document).ready(function() {
 		$.ajax({
 			type: 'POST',
 			url:  "addDataAggregatorOffering",
-			dataType: JSON,
+			dataType: 'JSON',
 			data: data,
 			cache:false,
 			success : function(output){
