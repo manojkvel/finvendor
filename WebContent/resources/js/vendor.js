@@ -79,7 +79,7 @@ jQuery(document).ready(function() {
 	});
 
 	$("#data_aggregator .save").on("click", function() {
-		if(!updateDataAggregatorInfo()) {
+		if(!addDataAggregatorOffering()) {
 			progressLoader(false);
 			return false;
 		}
@@ -120,8 +120,24 @@ jQuery(document).ready(function() {
 		 
 	});
 
-	/// Update code to Vendor Data Aggregator Info--:
-	function updateDataAggregatorInfo(){
+	/// list Data Aggregator offering--:
+	function listDataAggregatorOffering() {
+		progressLoader(true);
+		$.ajax({
+			type: 'GET',
+			url:  "listDataAggregatorOffering",
+			cache:false,
+			success : function(output){
+				progressLoader(false);
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+			}
+		});
+	}
+
+	/// add Data Aggregator offering--:
+	function addDataAggregatorOffering(){
 		progressLoader(true);
 		var productName = $("#data_aggregator #productName").val();
 		var productDescription = $("#data_aggregator #productDescription").val();
@@ -198,6 +214,10 @@ jQuery(document).ready(function() {
 			//return false;
 		}
 
+		if(email !='' && email.length>0) {
+			
+		}
+
 		if(feedType == 'Nothing selected') {
 			feedType = '';
 		}
@@ -217,7 +237,7 @@ jQuery(document).ready(function() {
 		if(productName != '' && productName.length > 0 &&
 			productDescription != null && productDescription.length > 0 &&
 			assetClassId != null && assetClassId.length > 0 &&
-			securityTypes != 'Nothing selected' && securityTypes.length > 0 &&
+			securityTypes != '' && securityTypes.length > 0 &&
 			coverageRegion != 'Nothing selected' && coverageRegion.length > 0 && 
 			coverageCountry != 'Nothing selected' && coverageCountry.length > 0 &&
 			coverageExchange != 'Nothing selected' && coverageExchange.length >0 &&
@@ -248,6 +268,7 @@ jQuery(document).ready(function() {
 				cache:false,
 				success : function(output){
 					$("#data_aggregator_form").trigger('reset');
+					$('.selectpicker').selectpicker('refresh');
 					progressLoader(false);
 					$("#data_aggregator .alert").removeClass("alert-success").removeClass("alert-danger").text('').hide();
 
@@ -1553,8 +1574,10 @@ function activeVendorAnalyticsResearchMyofferings(tabmode){
 
 function validateYear(year){
 	if(!(year.value.match(/^\d{4}$/))){
-		alert("Please enter valid year");
+		$(".generic_message .alert").addClass("alert-danger").text("Please enter valid year");
 		year.value="";
+	} else {
+		$(".generic_message .alert").removeClass("alert-danger").text("");
 	}
 }
 

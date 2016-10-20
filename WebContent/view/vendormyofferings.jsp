@@ -94,7 +94,7 @@
 									<label>Product Description</label>
 								</li>
 								<li>
-									<input type="text" name="launchedYear" id="launchedYear" required />
+									<input type="text" name="launchedYear" id="launchedYear" onblur="validateYear(this)" required />
 									<label>Launched Year</label>
 								</li>
 								<li>
@@ -227,6 +227,11 @@
 	
   	<script type="text/javascript" 	src="<%=request.getContextPath() %>/resources/js/finvendorValidation.js"></script>
     <link rel="stylesheet" src="<%=request.getContextPath() %>/resources/css/vendor.css"/>
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
 
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 </body>
 </html>

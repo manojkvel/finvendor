@@ -2580,7 +2580,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	public ModelAndView listDataAggregatorOffering(HttpServletRequest request) {
 		
 		logger.debug("Entering  - VendorController : listDataAggregatorOffering");
-		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
+		ModelAndView modelAndView = new ModelAndView("vendorMyOfferings");
 		Vendor vendor = null;
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
