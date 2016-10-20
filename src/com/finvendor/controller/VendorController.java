@@ -2466,7 +2466,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	public ModelAndView addDataAggregatorOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "productName", required = true) String productName,
-			@RequestParam(value = "productDescription", required = false) String productDescription,
+			@RequestParam(value = "productDescription", required = true) String productDescription,
 			@RequestParam(value = "assetClassId", required = true) int assetClassId,
 			@RequestParam(value = "securityTypes", required = true) String securityTypes,
 			@RequestParam(value = "launchedYear", required = false) String launchedYear,
@@ -2482,7 +2482,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "distributionMethod", required = false) String distributionMethod) {
 		
 		logger.debug("Entering  - VendorController : addDataAggregatorOffering");
-		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
+		ModelAndView modelAndView = new ModelAndView("empty");
 		
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){

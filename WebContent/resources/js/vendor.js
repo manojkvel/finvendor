@@ -57,6 +57,11 @@ jQuery(document).ready(function() {
 		activeModeVendorMyofferings(this.hash);
 	});
 
+	$("#tab1 #data_aggregator_top_card .add_more").on("click", function() {
+		$("#data_aggregator").slideDown();
+		$("#data_aggregator_top_card").slideUp();
+	});
+
 	$("#data_aggregator .product_info h3").on("click", function() {
 		$("#data_aggregator .product_info ul").slideToggle();
 		$("#data_aggregator .product_info h3 span").toggleClass("fa-chevron-up");
@@ -87,7 +92,6 @@ jQuery(document).ready(function() {
 		$("#tab3").hide();
 		$("#tab4").hide();
 	});
-
 
 	$(document).on("click", ".delete_btn", function (e) {
     	
@@ -123,65 +127,142 @@ jQuery(document).ready(function() {
 		var productDescription = $("#data_aggregator #productDescription").val();
 		var launchedYear = $("#data_aggregator #launchedYear").val();
 		var assetClassId = $("#data_aggregator #assetClassId").val();
-		var securityTypes = $("#data_aggregator #securityTypes").val();
+		var securityTypes = $("#data_aggregator #securityTypes").parent().find("button span").text();
 
-		var coverageRegion = $("#data_aggregator #coverageRegion").val();
-		var attributessupported = $("#data_aggregator #attributessupported").val();
-		var coverageCountry = $("#data_aggregator #coverageCountry").val();
-		var coverageExchange = $("#data_aggregator #coverageExchange").val();
+		var coverageRegion = $("#data_aggregator #coverageRegion").parent().find("button span").text();
+		//var attributessupported = $("#data_aggregator #attributessupported").parent().find("button span").text();
+		var coverageCountry = $("#data_aggregator #coverageCountry").parent().find("button span").text();
+		var coverageExchange = $("#data_aggregator #coverageExchange").parent().find("button span").text();
 		var costRange = $("#data_aggregator #costRange").val();
 		var email = $("#data_aggregator #email").val();
 		var phoneNumber = $("#data_aggregator #phoneNumber").val();
 
-		var feedType = $("#data_aggregator #feedType").val();
-		var feedSubType = $("#data_aggregator #feedSubType").val();
-		var frequency = $("#data_aggregator #frequency").val();
-		var distributionMethod = $("#data_aggregator #distributionMethod").val();
+		var feedType = $("#data_aggregator #feedType").parent().find("button span").text();
+		var feedSubType = $("#data_aggregator #feedSubType").parent().find("button span").text();
+		var frequency = $("#data_aggregator #frequency").parent().find("button span").text();
+		var distributionMethod = $("#data_aggregator #distributionMethod").parent().find("button span").text();
 	
-		var data = {
-			"productName" : productName,
-			"productDescription" : productDescription,
-			"assetClassId" : 2,
-			"securityTypes" : "securityTypes",
-			"launchedYear" : launchedYear,
-			"coverageRegion" : coverageRegion,
-			"coverageCountry" : coverageCountry,
-			"coverageExchange" : coverageExchange,
-			"phoneNumber" : phoneNumber,
-			"email" : email,
-			"costRange" : 300,
-			"feedType" : feedType,
-			"feedSubType" : feedSubType,
-			"frequency" :frequency,
-			"distributionMethod" : distributionMethod
+		if(productName != '' && productName.length > 0) {
+			$("#data_aggregator #productName").removeClass("error_field");
+		} else {
+			$("#data_aggregator #productName").addClass("error_field");
+			//return false;
 		}
 
-		/*var url = "addDataAggregatorOffering?productName="+productName+
-											"&productDescription="+productDescription+"&assetClassId="+assetClassId+
-											"&securityTypes="+"securityTypes"+"&launchedYear="+launchedYear+
-											"&coverageRegion="+coverageRegion+"&coverageCountry="+coverageCountry+
-											"&coverageExchange="+coverageExchange+"&phoneNumber="+phoneNumber+
-											"&email="+email+"&costRange="+costRange+
-											"&feedType="+feedType+"&feedSubType="+feedSubType+
-											"&frequency="+frequency+"&distributionMethod="+distributionMethod;
-		*/
-		$.ajax({
-			type: 'POST',
-			url:  "addDataAggregatorOffering",
-			dataType: 'JSON',
-			data: data,
-			cache:false,
-			success : function(output){
-				progressLoader(false);
-				setTimeout(function() {
-					document.getElementById("personaltabfailuremessage").innerHTML = '';
-					document.getElementById("personaltabsucessmessage").innerHTML = 'You have updated sucessfully..!';
-				}, 10);
-			},
-			error : function(data, textStatus, jqXHR){
-				progressLoader(false);
+		if(productDescription != '' && productDescription.length > 0) {
+			$("#data_aggregator #productDescription").removeClass("error_field");
+		} else {
+			$("#data_aggregator #productDescription").addClass("error_field");
+			//return false;
+		}
+
+		if(assetClassId != '' && assetClassId.length > 0) {
+			 $("#data_aggregator #assetClassId").parent().find("button").removeClass("error_field");
+		} else {
+			 $("#data_aggregator #assetClassId").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(securityTypes != 'Nothing selected' && securityTypes.length > 0) {
+			$("#data_aggregator #securityTypes").parent().find("button").removeClass("error_field");
+		} else {
+			$("#data_aggregator #securityTypes").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(coverageRegion != 'Nothing selected' && coverageRegion.length > 0) {
+			$("#data_aggregator #coverageRegion").parent().find("button").removeClass("error_field");
+		} else {
+			$("#data_aggregator #coverageRegion").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(coverageCountry != 'Nothing selected' && coverageCountry.length > 0) {
+			$("#data_aggregator #coverageCountry").parent().find("button").removeClass("error_field");
+		} else {
+			$("#data_aggregator #coverageCountry").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(coverageExchange != 'Nothing selected' && coverageExchange.length > 0) {
+			$("#data_aggregator #coverageExchange").parent().find("button").removeClass("error_field");
+		} else {
+			$("#data_aggregator #coverageExchange").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(costRange != '' && costRange > 0) {
+			 $("#data_aggregator #costRange").removeClass("error_field");
+		} else {
+			 $("#data_aggregator #costRange").addClass("error_field");
+			//return false;
+		}
+
+		if(feedType == 'Nothing selected') {
+			feedType = '';
+		}
+		
+		if(feedSubType == 'Nothing selected') {
+			feedSubType = '';
+		}
+		
+		if(frequency == 'Nothing selected') {
+			frequency = '';
+		}
+		
+		if(distributionMethod == 'Nothing selected') {
+			distributionMethod = '';
+		}
+
+		if(productName != '' && productName.length > 0 &&
+			productDescription != null && productDescription.length > 0 &&
+			assetClassId != null && assetClassId.length > 0 &&
+			securityTypes != 'Nothing selected' && securityTypes.length > 0 &&
+			coverageRegion != 'Nothing selected' && coverageRegion.length > 0 && 
+			coverageCountry != 'Nothing selected' && coverageCountry.length > 0 &&
+			coverageExchange != 'Nothing selected' && coverageExchange.length >0 &&
+			costRange != null && costRange > 0){
+
+			var data = {
+				"productName" : productName,
+				"productDescription" : productDescription,
+				"assetClassId" : assetClassId,
+				"securityTypes" : (securityTypes != null)? securityTypes : "securityTypes",
+				"launchedYear" : launchedYear,
+				"coverageRegion" : coverageRegion,
+				"coverageCountry" : coverageCountry,
+				"coverageExchange" : coverageExchange,
+				"phoneNumber" : phoneNumber,
+				"email" : email,
+				"costRange" : costRange,
+				"feedType" : feedType,
+				"feedSubType" : feedSubType,
+				"frequency" :frequency,
+				"distributionMethod" : distributionMethod
 			}
-		});
+
+			$.ajax({
+				type: 'POST',
+				url:  "addDataAggregatorOffering",
+				data: data,
+				cache:false,
+				success : function(output){
+					$("#data_aggregator_form").trigger('reset');
+					progressLoader(false);
+					$("#data_aggregator .alert").removeClass("alert-success").removeClass("alert-danger").text('').hide();
+
+					//listVendorAward();
+					$("#data_aggregator").slideUp();
+					$("#data_aggregator_top_card").slideDown();
+				},
+				error : function(data, textStatus, jqXHR){
+					progressLoader(false);
+				}
+			});
+
+		} else {
+			$("#data_aggregator .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
+		}
 
 }
 

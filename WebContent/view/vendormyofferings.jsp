@@ -1,4 +1,4 @@
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@page import="com.finvendor.util.RequestConstans"%>
 <c:set var="vendormyofferingsdatacoverage" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_DATACOVERAGE %>"> </c:set>
@@ -73,147 +73,138 @@
 				<div id="data_aggregator_top_card">
 					<div class="data_aggregator_info">
 					</div>
-					<a class="btn" id="edit-details">
+					<a class="btn add_more">
 						<span class="fa fa-pencil"></span>Add More
 					</a>
 				</div>
 				<div id="data_aggregator" class="custom_form">
-					<div class="generic_message">
-						<font id="personaltabsucessmessage"
-						style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;"></font>
-						<font id="personaltabfailuremessage"
-						style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #B94A48; font-weight: bold;"></font>
-					</div>
-					<div class="product_info">
-						<h3>Product Info <span class="fa fa-chevron-up"></span></h3>
-						<ul>
-							<li>
-								<input type="text" name="productName" id="productName" required />
-								<label>Product Name</label>
-							</li>
-							<li>
-								<input type="text" name="productDescription" id="productDescription" required />
-								<label>Product Description</label>
-							</li>
-							<li>
-								<input type="text" name="launchedYear" id="launchedYear" required />
-								<label>Launched Year</label>
-							</li>
-							<li>
-								<select id="assetClassId" name="assetClassId">
-									<c:forEach var="assetClasses" items="${assetClasses}">
-									<option value="${assetClasses.description}">${assetClasses.description}</option>
-									</c:forEach>
-								</select>
-								<label class="default_select">Asset Class</label>
-							</li>
-							<li>
-								<select class="selectpicker select_multiple" id="securityTypes" name="securityTypes" multiple="multiple">
-									<c:forEach var="securityType" items="${securityTypes}">
-									<option value="${securityType.name}">${securityType.name}</option>
-									</c:forEach>
-								</select>
-								<label class="default_select">Security Type</label>
-							</li>
-						</ul>
-					</div>
-					<div class="data_coverage_info">
-						<h3>Data Coverage Info <span class="fa fa-chevron-down"></span></h3>
-						<ul>
-							<li>
-								<div>
-									<select class="selectpicker" name="coverageRegion" id="coverageRegion" data-mandatory="Y" onchange="getCountries('supportcoverageregion','supportcoverageregion')">			
-										<c:forEach var="regions" items="${regions}">
-										<option value="${regions.name}">${regions.name}</option>
+					<form name="data_aggregator_form" id="data_aggregator_form" method="POST">
+						<div class="generic_message">
+							<div class="alert"></div>
+						</div>
+						<div class="product_info">
+							<h3>Product Info <span class="fa fa-chevron-up"></span></h3>
+							<ul>
+								<li>
+									<input type="text" name="productName" id="productName" required />
+									<label>Product Name</label>
+								</li>
+								<li>
+									<input type="text" name="productDescription" id="productDescription" required />
+									<label>Product Description</label>
+								</li>
+								<li>
+									<input type="text" name="launchedYear" id="launchedYear" required />
+									<label>Launched Year</label>
+								</li>
+								<li>
+									<select class="selectpicker" id="assetClassId" name="assetClassId">
+										<c:forEach var="assetClasses" items="${assetClasses}">
+										<option value="${assetClasses.asset_class_id}">${assetClasses.description}</option>
 										</c:forEach>
 									</select>
-									<label class="default_select">Coverage Region</label>
-								</div>
-								<!-- <div style="margin-top:20px;">
-									<select class="selectpicker" name="attributessupported" id="attributessupported">
+									<label class="default_select">Asset Class</label>
+								</li>
+								<li>
+									<select class="selectpicker select_multiple" id="securityTypes" name="securityTypes" multiple="multiple">
+										<c:forEach var="securityType" items="${securityTypes}">
+										<option value="${securityType.name}">${securityType.name}</option>
+										</c:forEach>
+									</select>
+									<label class="default_select">Security Type</label>
+								</li>
+							</ul>
+						</div>
+						<div class="data_coverage_info">
+							<h3>Data Coverage Info <span class="fa fa-chevron-down"></span></h3>
+							<ul>
+								<li>
+									<div>
+										<select class="selectpicker" name="coverageRegion" id="coverageRegion" data-mandatory="Y" onchange="getCountries('supportcoverageregion','supportcoverageregion')">			
+											<c:forEach var="regions" items="${regions}">
+											<option value="${regions.name}">${regions.name}</option>
+											</c:forEach>
+										</select>
+										<label class="default_select">Coverage Region</label>
+									</div>
+								</li>
+								<li>
+									<select class="selectpicker select_multiple" name="coverageCountry" 
+									id="coverageCountry" multiple="multiple">
+										<c:forEach var="countries" items="${countries}">
+										<option value="${countries.name}" >${countries.name}</option>
+										</c:forEach>
+									</select>
+									<label class="default_select">Coverage Country</label>
+								</li>
+								<li>
+									<select class="selectpicker select_multiple" name="coverageExchange"  multiple="multiple" id="coverageExchange">
 										<c:forEach var="exchanges" items="${exchanges}">
 										<option value="${exchanges.name}">${exchanges.name}</option>
 										</c:forEach>
 									</select>
-									<label class="default_select">Attributes Supported</label>
-								</div> -->
-							</li>
-							<li>
-								<select class="selectpicker select_multiple" name="coverageCountry" 
-								id="coverageCountry" multiple="multiple">
-									<c:forEach var="countries" items="${countries}">
-									<option value="${countries.name}" >${countries.name}</option>
-									</c:forEach>
-								</select>
-								<label class="default_select">Coverage Country</label>
-							</li>
-							<li>
-								<select class="selectpicker select_multiple" name="coverageExchange"  multiple="multiple" id="coverageExchange">
-									<c:forEach var="exchanges" items="${exchanges}">
-									<option value="${exchanges.name}">${exchanges.name}</option>
-									</c:forEach>
-								</select>
-								<label class="default_select">Coverage Exchange</label>
-							</li>
-							<li>
-								<input type="text" name="costRange" id="costRange" required />
-								<label>Vendor Cost Range</label>
-							</li>
-							<li>
-								<input type="text" name="email" id="email" required />
-								<label>Primary Email</label>
-							</li>
-							<li>
-								<input type="text" name="phoneNumber" id="phoneNumber" required />
-								<label>Phone Number</label>
-							</li>
-						</ul>
-					</div>
-					<div class="data_distribution_info">
-						<h3>Data Distribution Info <span class="fa fa-chevron-down"></span></h3>
-						<ul>
-							<li>
-								<select class="selectpicker select_multiple" name="feedType" multiple="multiple" id="feedType">
-									<option value ="EOD"> EOD </option>
-									<option value ="REAL-TIME"> REAL-TIME </option>
-									<option value ="HISTORICAL-EOD">HISTORICAL-EOD</option>
-								</select>
-								<label class="default_select">Feed Type</label>
-							</li>
+									<label class="default_select">Coverage Exchange</label>
+								</li>
+								<li>
+									<input type="text" name="costRange" id="costRange" required />
+									<label>Vendor Cost Range</label>
+								</li>
+								<li>
+									<input type="text" name="email" id="email" required />
+									<label>Primary Email</label>
+								</li>
+								<li>
+									<input type="text" name="phoneNumber" id="phoneNumber" required />
+									<label>Phone Number</label>
+								</li>
+							</ul>
+						</div>
+						<div class="data_distribution_info">
+							<h3>Data Distribution Info <span class="fa fa-chevron-down"></span></h3>
+							<ul>
+								<li>
+									<select class="selectpicker select_multiple" name="feedType" multiple="multiple" id="feedType">
+										<option value ="EOD"> EOD </option>
+										<option value ="REAL-TIME"> REAL-TIME </option>
+										<option value ="HISTORICAL-EOD">HISTORICAL-EOD</option>
+									</select>
+									<label class="default_select">Feed Type</label>
+								</li>
 
-							<li>
-								<select class="selectpicker select_multiple" name="feedSubType" multiple="multiple" id="feedSubType">
-									<option value ="Full Universe Data Feed"> Full Universe Data Feed </option>
-									<option value ="Delta Data Feed"> Delta Data Feed </option>
-								</select>
-								<label class="default_select">Feed Sub-type</label>
-							</li>
-							<li>
-								<select class="selectpicker select_multiple" name="frequency" multiple="multiple" id="frequency">
-									<option value ="intra-day"> intra-day </option>
-									<option value ="Daily"> Daily </option>
-									<option value ="Weekly"> Weekly </option>
-									<option value ="Semi-Monthly"> Semi-Monthly </option>
-									<option value ="Monthly"> Monthly </option>
-									<option value ="Yearly"> Yearly </option>
-								</select>
-								<label class="default_select">Frequency</label>
-							</li>
-							<li>
-								<select class="selectpicker select_multiple" name="distributionMethod" multiple="multiple" id="distributionMethod">
-									<option value ="Web"> Web </option>
-									<option value ="FTP"> FTP </option>
-									<option value ="FTP"> Email </option>
-									<option value ="Others"> Others </option>
-								</select>
-								<label class="default_select">Distribution Method</label>
-							</li>
-						</ul>
-					</div>
-					<p class="action_btn">
-						<a class="submit_btn save" data-toggle="tab">Save</a>
-						<a class="submit_btn next" data-toggle="tab" href="#tab3">Next</a>
-					</p>
+								<li>
+									<select class="selectpicker select_multiple" name="feedSubType" multiple="multiple" id="feedSubType">
+										<option value ="Full Universe Data Feed"> Full Universe Data Feed </option>
+										<option value ="Delta Data Feed"> Delta Data Feed </option>
+									</select>
+									<label class="default_select">Feed Sub-type</label>
+								</li>
+								<li>
+									<select class="selectpicker select_multiple" name="frequency" multiple="multiple" id="frequency">
+										<option value ="intra-day"> intra-day </option>
+										<option value ="Daily"> Daily </option>
+										<option value ="Weekly"> Weekly </option>
+										<option value ="Semi-Monthly"> Semi-Monthly </option>
+										<option value ="Monthly"> Monthly </option>
+										<option value ="Yearly"> Yearly </option>
+									</select>
+									<label class="default_select">Frequency</label>
+								</li>
+								<li>
+									<select class="selectpicker select_multiple" name="distributionMethod" multiple="multiple" id="distributionMethod">
+										<option value ="Web"> Web </option>
+										<option value ="FTP"> FTP </option>
+										<option value ="FTP"> Email </option>
+										<option value ="Others"> Others </option>
+									</select>
+									<label class="default_select">Distribution Method</label>
+								</li>
+							</ul>
+						</div>
+						<p class="action_btn">
+							<a class="submit_btn save" data-toggle="tab">Save</a>
+							<a class="submit_btn next" data-toggle="tab" href="#tab3">Next</a>
+						</p>
+					</form>
 				</div>
 			</div>
 			<div class="tab-pane" id="tab2">

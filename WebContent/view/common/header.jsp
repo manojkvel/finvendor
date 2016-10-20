@@ -225,7 +225,7 @@
                                             <i class="fa fa-chevron-down"></i>
                                         </a>
                                         <ul class="child-main-menu">
-                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Account</a>
+                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
                                             </li>
                                             <li><a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a></h4>
                                             </li>
