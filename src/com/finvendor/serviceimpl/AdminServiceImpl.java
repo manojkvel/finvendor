@@ -104,7 +104,7 @@ public class AdminServiceImpl implements AdminService {
 				sqlQuery.append(" and ");
 			}
 		}
-		logger.debug("AdminServiceImpl : deleteReferenceDataRow - sqlQuery : {}", 
+		logger.info("AdminServiceImpl : deleteReferenceDataRow - sqlQuery : {}", 
 				sqlQuery.toString());
 		try{
 			int rowsDeleted = adminDao.deleteReferenceDataRow(sqlQuery.toString());
@@ -176,7 +176,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		sqlQuery.append(query.substring(0, query.length() - 2));
 		sqlQuery.append(")");
-		logger.debug("AdminServiceImpl : addReferenceDataRow - sqlQuery : {}", 
+		logger.info("AdminServiceImpl : addReferenceDataRow - sqlQuery : {}", 
 				sqlQuery.toString());
 		try{
 			int rowsUpdated =  adminDao.updateReferenceDataRow(sqlQuery.toString());
