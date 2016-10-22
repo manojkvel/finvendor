@@ -2577,28 +2577,28 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	}
 	
 	@RequestMapping(value="listDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView listDataAggregatorOffering(HttpServletRequest request) {
+	public @ResponseBody List<VendorDataAggregatorsOffering> listDataAggregatorOffering(HttpServletRequest request, 
+			HttpServletResponse response) {
 		
 		logger.debug("Entering  - VendorController : listDataAggregatorOffering");
-		ModelAndView modelAndView = new ModelAndView("vendormyofferings");
+		List<VendorDataAggregatorsOffering> offerings = null;
 		Vendor vendor = null;
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
-				return new ModelAndView(RequestConstans.Login.HOME);
+				request.getRequestDispatcher("/").forward(request, response);
 			}
 			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
 			String userName = loggedInUser.getUsername();
 			vendor = userService.getUserDetailsByUsername(userName).getVendor();
-			List<VendorDataAggregatorsOffering> offerings = vendorService.
-					getVendorDataAggregatorsOffering(userName);
-			modelAndView.addObject("offerings", offerings);
+			offerings = vendorService.
+					getVendorDataAggregatorsOffering(vendor.getId());
 			
 		} catch (Exception exp) {
 			logger.error("Error Reading Market Data Aggregator Offering for {}", vendor.getId(), exp); 
-			modelAndView.addObject("StatusMesage", "Error Reading Offering details");
+			
 		}
 		logger.debug("Leaving  - VendorController : listDataAggregatorOffering");
-		return modelAndView;
+		return offerings;
 	}
 	
 	@RequestMapping(value="fetchDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
