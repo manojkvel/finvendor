@@ -57,6 +57,12 @@ jQuery(document).ready(function() {
 		activeModeVendorMyofferings(this.hash);
 	});
 
+	$("#myofferings1").on("click", function() {
+		$("#data_aggregator").slideUp();
+		$("#data_aggregator_top_card").slideDown();
+		listDataAggregatorOffering();
+	});
+
 	$("#tab1 #data_aggregator_top_card .add_more").on("click", function() {
 		$("#data_aggregator").slideDown();
 		$("#data_aggregator_top_card").slideUp();

@@ -1,6 +1,8 @@
 a,
-a:hover {
+a:hover,
+a:active {
 	text-decoration: none !important;
+	outline: none !important;
 }
 /** Header CSS**/
 .header-container{
@@ -1089,6 +1091,7 @@ a#sidemenu:focus {
     padding: 18px 0 18px 0;
     border-bottom: 1px solid #ddd;
     display: block;
+    font-size: 14px;
 }
 
 .side-menu .hd-right a i,

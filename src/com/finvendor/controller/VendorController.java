@@ -2580,7 +2580,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	public ModelAndView listDataAggregatorOffering(HttpServletRequest request) {
 		
 		logger.debug("Entering  - VendorController : listDataAggregatorOffering");
-		ModelAndView modelAndView = new ModelAndView("vendorMyOfferings");
+		ModelAndView modelAndView = new ModelAndView("vendormyofferings");
 		Vendor vendor = null;
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
@@ -2590,7 +2590,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String userName = loggedInUser.getUsername();
 			vendor = userService.getUserDetailsByUsername(userName).getVendor();
 			List<VendorDataAggregatorsOffering> offerings = vendorService.
-					getVendorDataAggregatorsOffering(vendor.getId());
+					getVendorDataAggregatorsOffering(userName);
 			modelAndView.addObject("offerings", offerings);
 			
 		} catch (Exception exp) {
