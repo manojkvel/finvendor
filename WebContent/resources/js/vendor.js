@@ -63,9 +63,17 @@ jQuery(document).ready(function() {
 		listDataAggregatorOffering();
 	});
 
-	$("#tab1 #data_aggregator_top_card .add_more").on("click", function() {
+	$("#data_aggregator_top_card .add_more").on("click", function() {
 		$("#data_aggregator").slideDown();
 		$("#data_aggregator_top_card").slideUp();
+	});
+
+	$("#data_aggregator_top_card .data_aggregator_list .delete_btn").on("click", function() {
+		deleteDataAggregatorOffering();
+	});
+
+	$("#data_aggregator_top_card .data_aggregator_list .edit_btn").on("click", function() {
+		fetchDataAggregatorOffering();
 	});
 
 	$("#data_aggregator .product_info h3").on("click", function() {
@@ -99,7 +107,7 @@ jQuery(document).ready(function() {
 		$("#tab4").hide();
 	});
 
-	$(document).on("click", ".delete_btn", function (e) {
+	$(document).on("click", "#awards_top_card .award-list .delete_btn", function (e) {
     	
 		
 		  var r = confirm("Are you sure want to delete?");
@@ -125,6 +133,60 @@ jQuery(document).ready(function() {
 		    }
 		 
 	});
+
+	/// list Data Aggregator offering--:
+	function fetchDataAggregatorOffering() {
+		progressLoader(true);
+		var productId = '';
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
+		}
+
+		var data = {
+			"productId" : productId
+		}
+
+		$.ajax({
+			type: 'GET',
+			url:  "fetchDataAggregatorOffering",
+			data: data,
+			cache:false,
+			success : function(output){
+				progressLoader(false);
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+			}
+		});
+	}
+
+	/// list Data Aggregator offering--:
+	function deleteDataAggregatorOffering() {
+		progressLoader(true);
+		var productId = '';
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
+		}
+
+		var data = {
+			"productId" : productId
+		}
+
+		$.ajax({
+			type: 'POST',
+			url:  "deleteDataAggregatorOffering",
+			data: data,
+			cache:false,
+			success : function(output){
+				progressLoader(false);
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+			}
+		});
+	}
 
 	/// list Data Aggregator offering--:
 	function listDataAggregatorOffering() {

@@ -586,7 +586,40 @@ textarea:valid ~ label {
 	display: none;
 }
 
-#vendor_my_offerings h3 {
+
+
+#data_aggregator_top_card h3 {
+	font-weight: bold;
+	line-height: normal;
+}
+
+#data_aggregator_top_card .data_aggregator_list .action_btn {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+}
+
+#data_aggregator_top_card .data_aggregator_list .action_btn .btn {
+	margin-left: 10px;
+}
+
+#data_aggregator_top_card .data_aggregator_list {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	position: relative;
+	overflow: hidden;
+}
+
+#data_aggregator_top_card .data_aggregator_list:last-child {
+	border-bottom: 0 solid #eee;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+
+#vendor_my_offerings form h3 {
 	position: relative;
 	cursor: pointer;
 	background: #34bf98;
@@ -596,7 +629,7 @@ textarea:valid ~ label {
     margin-bottom: 20px;
 }
 
-#vendor_my_offerings h3 span {
+#vendor_my_offerings form h3 span {
 	float: right;
 	font-size: 12px;
 	position: absolute;
@@ -658,6 +691,12 @@ textarea:valid ~ label {
 .alert-danger,
 .alert-success {
 	display: none;
+}
+
+@media only screen and (max-width: 767px) {
+	#data_aggregator_top_card .data_aggregator_list .action_btn {
+		position: static;
+	}
 }
 
 

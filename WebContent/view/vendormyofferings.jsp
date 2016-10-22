@@ -72,6 +72,24 @@
 			<div class="tab-pane" id="tab1">
 				<div id="data_aggregator_top_card">
 					<div class="data_aggregator_info">
+						<div class='data_aggregator_list' id='response[i].id_awarddetails'>
+							<h3>Product Name</h3>
+							<h4>Asset Class | Coverage Country</h4>
+							<p>Product Description</p>
+							<div class="action_btn">
+								<a class='btn delete_btn'>Delete</a>
+								<a class='btn edit_btn'>Edit</a>
+							</div>
+						</div>
+						<div class='data_aggregator_list' id='response[i].id_awarddetails'>
+							<h3>Product Name</h3>
+							<h4>Asset Class | Coverage Country</h4>
+							<p>Product Description</p>
+							<div class="action_btn">
+								<a class='btn delete_btn'>Delete</a>
+								<a class='btn edit_btn'>Edit</a>
+							</div>
+						</div>
 					</div>
 					<a class="btn add_more">
 						<span class="fa fa-pencil"></span>Add More
