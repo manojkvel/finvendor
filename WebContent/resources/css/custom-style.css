@@ -1,3 +1,9 @@
+a,
+a:hover,
+a:active {
+	text-decoration: none !important;
+	outline: none !important;
+}
 /** Header CSS**/
 .header-container{
 	background: #414b4f;
@@ -62,6 +68,7 @@
 .nav-srch-cnt >ul >li.sfHover {
 	background: #34bf98;
 	color: #fff;
+	text-decoration: none;
 }
 
 .sf-arrows .user_activity .sf-with-ul:after {
@@ -764,6 +771,9 @@ th{
     margin: 0 0 10px;
     color: #fff;
     text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 40px;
 }
 #footer_top p {
     font-size: 13px;
@@ -798,7 +808,8 @@ th{
     letter-spacing: 0.7px;
     border-bottom: 1px solid #5b6366;
     text-transform: uppercase;
-    text-decoration: none !important
+    text-decoration: none !important;
+    line-height: 20px;
 }
 #footer #footer_top ul li a span {
 	padding-right: 13px;
@@ -886,6 +897,10 @@ th{
 @media only screen and (max-width: 767px) {
 	#footer .col-xs-12 {
 		width: 221px;
+	}
+
+	.inner-left-wrap h1 {
+		font-size: 20px;
 	}
 }
 
@@ -1005,7 +1020,7 @@ a#sidemenu:focus {
     padding: 9px 0;
     display: block;
     color: #34bf98;
-    font-weight: bold;
+    font-size: 13px;
 }
 .child-main-menu a {
     color: #116a9e;
@@ -1034,6 +1049,7 @@ a#sidemenu:focus {
     padding: 18px 0 18px 0;
     border-bottom: 1px solid #ddd;
     display: block;
+    font-size: 13px;
 }
 
 .side-menu ul li.active ul {
@@ -1075,6 +1091,7 @@ a#sidemenu:focus {
     padding: 18px 0 18px 0;
     border-bottom: 1px solid #ddd;
     display: block;
+    font-size: 14px;
 }
 
 .side-menu .hd-right a i,
@@ -1217,4 +1234,53 @@ a#sidemenu:focus {
     transform: perspective(140px) rotateY(180deg);
     opacity: 0;
   }
+}
+
+#slider2_container {
+    float: none;
+    margin: 0 auto;
+}
+
+#main-wrap .main-content-wrap {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#main-wrap .main-content-wrap h2 {
+	padding: 0;
+}
+
+#slider-home .bx-controls-direction {
+	display: none;
+}
+
+#fin_vendor_inner_pages {
+	overflow: hidden;
+}
+
+.sidebar-ctn-wrap .head h3 {
+	padding: 10px;
+	margin: 0;
+}
+
+.inner-left-wrap {
+	float: none;
+	width: 100%;
+}
+
+.inner-sidebar-wrap {
+	float: none;
+	width: 100%;		
+}
+
+@media only screen and (max-width: 992px) {
+	.inner-left-wrap {
+		float: none;
+		width: 100%;
+	}
+
+	.inner-sidebar-wrap {
+		float: none;
+		width: 100%;		
+	}
 }

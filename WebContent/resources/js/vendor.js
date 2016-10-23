@@ -57,20 +57,43 @@ jQuery(document).ready(function() {
 		activeModeVendorMyofferings(this.hash);
 	});
 
+	$("#myofferings1").on("click", function() {
+		$("#data_aggregator").slideUp();
+		$("#data_aggregator_top_card").slideDown();
+		listDataAggregatorOffering();
+	});
+
+	$("#data_aggregator_top_card .add_more").on("click", function() {
+		$("#data_aggregator").slideDown();
+		$("#data_aggregator_top_card").slideUp();
+	});
+
+	$("#data_aggregator_top_card .data_aggregator_list .delete_btn").on("click", function() {
+		deleteDataAggregatorOffering();
+	});
+
+	$("#data_aggregator_top_card .data_aggregator_list .edit_btn").on("click", function() {
+		fetchDataAggregatorOffering();
+	});
+
 	$("#data_aggregator .product_info h3").on("click", function() {
 		$("#data_aggregator .product_info ul").slideToggle();
+		$("#data_aggregator .product_info h3 span").toggleClass("fa-chevron-up");
+		$("#data_aggregator .product_info h3 span").toggleClass("fa-chevron-down");
 	});
 
 	$("#data_aggregator .data_coverage_info h3").on("click", function() {
 		$("#data_aggregator .data_coverage_info ul").slideToggle();
+		$("#data_aggregator .data_coverage_info h3 span").toggleClass("fa-chevron-up");
 	});
 
 	$("#data_aggregator .data_distribution_info h3").on("click", function() {
 		$("#data_aggregator .data_distribution_info ul").slideToggle();
+		$("#data_aggregator .data_distribution_info h3 span").toggleClass("fa-chevron-up");
 	});
 
 	$("#data_aggregator .save").on("click", function() {
-		if(!updateDataAggregatorInfo()) {
+		if(!addDataAggregatorOffering()) {
 			progressLoader(false);
 			return false;
 		}
@@ -84,8 +107,7 @@ jQuery(document).ready(function() {
 		$("#tab4").hide();
 	});
 
-
-	$(document).on("click", ".delete_btn", function (e) {
+	$(document).on("click", "#awards_top_card .award-list .delete_btn", function (e) {
     	
 		
 		  var r = confirm("Are you sure want to delete?");
@@ -112,72 +134,224 @@ jQuery(document).ready(function() {
 		 
 	});
 
-	/// Update code to Vendor Data Aggregator Info--:
-	function updateDataAggregatorInfo(){
+	/// list Data Aggregator offering--:
+	function fetchDataAggregatorOffering() {
 		progressLoader(true);
-		var productName = $("#data_aggregator #productName").val();
-		var productDescription = $("#data_aggregator #productDescription").val();
-		var launchedYear = $("#data_aggregator #launchedYear").val();
-		var assetClassId = $("#data_aggregator #assetClassId").val();
-		var securityTypes = $("#data_aggregator #securityTypes").val();
-
-		var coverageRegion = $("#data_aggregator #coverageRegion").val();
-		var attributessupported = $("#data_aggregator #attributessupported").val();
-		var coverageCountry = $("#data_aggregator #coverageCountry").val();
-		var coverageExchange = $("#data_aggregator #coverageExchange").val();
-		var costRange = $("#data_aggregator #costRange").val();
-		var email = $("#data_aggregator #email").val();
-		var phoneNumber = $("#data_aggregator #phoneNumber").val();
-
-		var feedType = $("#data_aggregator #feedType").val();
-		var feedSubType = $("#data_aggregator #feedSubType").val();
-		var frequency = $("#data_aggregator #frequency").val();
-		var distributionMethod = $("#data_aggregator #distributionMethod").val();
-	
-		var data = {
-			"productName" : productName,
-			"productDescription" : productDescription,
-			"assetClassId" : assetClassId,
-			"securityTypes" : "securityTypes",
-			"launchedYear" : launchedYear,
-			"coverageRegion" : coverageRegion,
-			"coverageCountry" : coverageCountry,
-			"coverageExchange" : coverageExchange,
-			"phoneNumber" : phoneNumber,
-			"email" : email,
-			"costRange" : costRange,
-			"feedType" : feedType,
-			"feedSubType" : feedSubType,
-			"frequency" :frequency,
-			"distributionMethod" : distributionMethod
+		var productId = '';
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
 		}
 
-		/*var url = "addDataAggregatorOffering?productName="+productName+
-											"&productDescription="+productDescription+"&assetClassId="+assetClassId+
-											"&securityTypes="+"securityTypes"+"&launchedYear="+launchedYear+
-											"&coverageRegion="+coverageRegion+"&coverageCountry="+coverageCountry+
-											"&coverageExchange="+coverageExchange+"&phoneNumber="+phoneNumber+
-											"&email="+email+"&costRange="+costRange+
-											"&feedType="+feedType+"&feedSubType="+feedSubType+
-											"&frequency="+frequency+"&distributionMethod="+distributionMethod;
-		*/
+		var data = {
+			"productId" : productId
+		}
+
 		$.ajax({
-			type: 'POST',
-			url:  "addDataAggregatorOffering",
-			dataType: JSON,
+			type: 'GET',
+			url:  "fetchDataAggregatorOffering",
 			data: data,
 			cache:false,
 			success : function(output){
 				progressLoader(false);
-				setTimeout(function() {
-					document.getElementById("personaltabfailuremessage").innerHTML = '';
-					document.getElementById("personaltabsucessmessage").innerHTML = 'You have updated sucessfully..!';
-				}, 10);
 			},
 			error : function(data, textStatus, jqXHR){
 				progressLoader(false);
 			}
 		});
+	}
+
+	/// list Data Aggregator offering--:
+	function deleteDataAggregatorOffering() {
+		progressLoader(true);
+		var productId = '';
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
+		}
+
+		var data = {
+			"productId" : productId
+		}
+
+		$.ajax({
+			type: 'POST',
+			url:  "deleteDataAggregatorOffering",
+			data: data,
+			cache:false,
+			success : function(output){
+				progressLoader(false);
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+			}
+		});
+	}
+
+	/// list Data Aggregator offering--:
+	function listDataAggregatorOffering() {
+		progressLoader(true);
+		$.ajax({
+			type: 'GET',
+			url:  "listDataAggregatorOffering",
+			cache:false,
+			success : function(output){
+				progressLoader(false);
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+			}
+		});
+	}
+
+	/// add Data Aggregator offering--:
+	function addDataAggregatorOffering(){
+		progressLoader(true);
+		var productName = $("#data_aggregator #productName").val();
+		var productDescription = $("#data_aggregator #productDescription").val();
+		var launchedYear = $("#data_aggregator #launchedYear").val();
+		var assetClassId = $("#data_aggregator #assetClassId").val();
+		var securityTypes = $("#data_aggregator #securityTypes").parent().find("button span").text();
+
+		var coverageRegion = $("#data_aggregator #coverageRegion").parent().find("button span").text();
+		//var attributessupported = $("#data_aggregator #attributessupported").parent().find("button span").text();
+		var coverageCountry = $("#data_aggregator #coverageCountry").parent().find("button span").text();
+		var coverageExchange = $("#data_aggregator #coverageExchange").parent().find("button span").text();
+		var costRange = $("#data_aggregator #costRange").val();
+		var email = $("#data_aggregator #email").val();
+		var phoneNumber = $("#data_aggregator #phoneNumber").val();
+
+		var feedType = $("#data_aggregator #feedType").parent().find("button span").text();
+		var feedSubType = $("#data_aggregator #feedSubType").parent().find("button span").text();
+		var frequency = $("#data_aggregator #frequency").parent().find("button span").text();
+		var distributionMethod = $("#data_aggregator #distributionMethod").parent().find("button span").text();
+	
+		if(productName != '' && productName.length > 0) {
+			$("#data_aggregator #productName").removeClass("error_field");
+		} else {
+			$("#data_aggregator #productName").addClass("error_field");
+			//return false;
+		}
+
+		if(productDescription != '' && productDescription.length > 0) {
+			$("#data_aggregator #productDescription").removeClass("error_field");
+		} else {
+			$("#data_aggregator #productDescription").addClass("error_field");
+			//return false;
+		}
+
+		if(assetClassId != '' && assetClassId.length > 0) {
+			 $("#data_aggregator #assetClassId").parent().find("button").removeClass("error_field");
+		} else {
+			 $("#data_aggregator #assetClassId").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(securityTypes != 'Nothing selected' && securityTypes.length > 0) {
+			$("#data_aggregator #securityTypes").parent().find("button").removeClass("error_field");
+		} else {
+			$("#data_aggregator #securityTypes").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(coverageRegion != 'Nothing selected' && coverageRegion.length > 0) {
+			$("#data_aggregator #coverageRegion").parent().find("button").removeClass("error_field");
+		} else {
+			$("#data_aggregator #coverageRegion").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(coverageCountry != 'Nothing selected' && coverageCountry.length > 0) {
+			$("#data_aggregator #coverageCountry").parent().find("button").removeClass("error_field");
+		} else {
+			$("#data_aggregator #coverageCountry").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(coverageExchange != 'Nothing selected' && coverageExchange.length > 0) {
+			$("#data_aggregator #coverageExchange").parent().find("button").removeClass("error_field");
+		} else {
+			$("#data_aggregator #coverageExchange").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(costRange != '' && costRange > 0) {
+			 $("#data_aggregator #costRange").removeClass("error_field");
+		} else {
+			 $("#data_aggregator #costRange").addClass("error_field");
+			//return false;
+		}
+
+		if(email !='' && email.length>0) {
+			
+		}
+
+		if(feedType == 'Nothing selected') {
+			feedType = '';
+		}
+		
+		if(feedSubType == 'Nothing selected') {
+			feedSubType = '';
+		}
+		
+		if(frequency == 'Nothing selected') {
+			frequency = '';
+		}
+		
+		if(distributionMethod == 'Nothing selected') {
+			distributionMethod = '';
+		}
+
+		if(productName != '' && productName.length > 0 &&
+			productDescription != null && productDescription.length > 0 &&
+			assetClassId != null && assetClassId.length > 0 &&
+			securityTypes != '' && securityTypes.length > 0 &&
+			coverageRegion != 'Nothing selected' && coverageRegion.length > 0 && 
+			coverageCountry != 'Nothing selected' && coverageCountry.length > 0 &&
+			coverageExchange != 'Nothing selected' && coverageExchange.length >0 &&
+			costRange != null && costRange > 0){
+
+			var data = {
+				"productName" : productName,
+				"productDescription" : productDescription,
+				"assetClassId" : assetClassId,
+				"securityTypes" : (securityTypes != null)? securityTypes : "securityTypes",
+				"launchedYear" : launchedYear,
+				"coverageRegion" : coverageRegion,
+				"coverageCountry" : coverageCountry,
+				"coverageExchange" : coverageExchange,
+				"phoneNumber" : phoneNumber,
+				"email" : email,
+				"costRange" : costRange,
+				"feedType" : feedType,
+				"feedSubType" : feedSubType,
+				"frequency" :frequency,
+				"distributionMethod" : distributionMethod
+			}
+
+			$.ajax({
+				type: 'POST',
+				url:  "addDataAggregatorOffering",
+				data: data,
+				cache:false,
+				success : function(output){
+					$("#data_aggregator_form").trigger('reset');
+					$('.selectpicker').selectpicker('refresh');
+					progressLoader(false);
+					$("#data_aggregator .alert").removeClass("alert-success").removeClass("alert-danger").text('').hide();
+
+					//listVendorAward();
+					$("#data_aggregator").slideUp();
+					$("#data_aggregator_top_card").slideDown();
+				},
+				error : function(data, textStatus, jqXHR){
+					progressLoader(false);
+				}
+			});
+
+		} else {
+			$("#data_aggregator .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
+		}
 
 }
 
@@ -1468,8 +1642,10 @@ function activeVendorAnalyticsResearchMyofferings(tabmode){
 
 function validateYear(year){
 	if(!(year.value.match(/^\d{4}$/))){
-		alert("Please enter valid year");
+		$(".generic_message .alert").addClass("alert-danger").text("Please enter valid year");
 		year.value="";
+	} else {
+		$(".generic_message .alert").removeClass("alert-danger").text("");
 	}
 }
 

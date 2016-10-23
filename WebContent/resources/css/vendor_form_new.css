@@ -1,6 +1,18 @@
 
 body {
-	background: #e9e9e9 !important;
+	background: #e9e9e9 !important;;
+}
+
+h2 {
+	font-size: 21px;
+}
+
+h3 {
+	font-size: 16px;
+}
+
+h4 {
+	font-size: 13px;
 }
 
 .container {
@@ -8,11 +20,24 @@ body {
 	max-width: 970px;
 }
 
+.nav-tabs {
+	margin-bottom: 20px;
+}
+
+.fa-chevron-down:before {
+    content: "\f078";
+}
+
+.fa-chevron-up:before {
+    content: "\f077";
+}
+
 #vendor_profile h1,
 #vendor_profile h2,
 #vendor_profile h3,
 #vendor_profile h4 {
 	line-height: 24px;
+	margin: 0;
 }
 
 #vendor_profile table {
@@ -82,10 +107,18 @@ body {
 }
 
 #vendor_profile .btn,
-#vendor_my_offerings .btn {
+#data_aggregator_top_card .btn,  
+.custom_form .btn {
 	float: right;
 	font-size: 12px;
 	padding: 5px 10px;
+	color: #fff;
+}
+
+#top-card h3,
+.top-card h3 {
+	color: #222;
+	font-family: "Raleway",sans-serif;
 }
 
 .btn .fa-pencil {
@@ -222,14 +255,17 @@ body {
 
 .custom_form .generic_message {
 	overflow: hidden;
-	margin-bottom: 30px;
 	width: 100%;
 	float: none;
 }
 
+.alert {
+	margin-bottom: 0;
+}
+
 .custom_form ul li {
 	width: 100%;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	position: relative;
 	float: left;
 }
@@ -329,6 +365,12 @@ textarea:valid ~ label {
 .custom_form ul:nth-child(odd) {
 	float: right;
 	margin-right: 0;
+}
+
+#vendor_my_offerings .custom_form ul {
+	float: none;
+	width: auto;
+	margin: 0;
 }
 
 .action_btn {
@@ -535,20 +577,63 @@ textarea:valid ~ label {
 	overflow: hidden;
 }
 
+#data_aggregator {
+	display: none;
+}
+
+#data_aggregator .data_coverage_info ul,
 #data_aggregator .data_distribution_info ul {
 	display: none;
 }
 
-#vendor_my_offerings h3 {
+
+
+#data_aggregator_top_card h3 {
 	font-weight: bold;
-	position: relative;
-	cursor: pointer;
+	line-height: normal;
 }
 
-#vendor_my_offerings h3 span {
-	float: right;
+#data_aggregator_top_card .data_aggregator_list .action_btn {
 	position: absolute;
+	top: 50%;
 	right: 0;
+	transform: translateY(-50%);
+}
+
+#data_aggregator_top_card .data_aggregator_list .action_btn .btn {
+	margin-left: 10px;
+}
+
+#data_aggregator_top_card .data_aggregator_list {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	position: relative;
+	overflow: hidden;
+}
+
+#data_aggregator_top_card .data_aggregator_list:last-child {
+	border-bottom: 0 solid #eee;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+
+#vendor_my_offerings form h3 {
+	position: relative;
+	cursor: pointer;
+	background: #34bf98;
+    color: #fff;
+    padding: 10px 10px;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+#vendor_my_offerings form h3 span {
+	float: right;
+	font-size: 12px;
+	position: absolute;
+	right: 10px;
 	top: 50%;
 	transform: translateY(-50%);
 }
@@ -558,27 +643,71 @@ textarea:valid ~ label {
 	width: 100%;
 }
 
-#vendor_my_offerings .custom_form ul {
-	float: none;
-	width: auto;
-	margin: 0;
-}
-
 #vendor_my_offerings .custom_form ul > li {
 	width: 31.5%;
 	margin-right: 1.8%;
 }
 
+.custom_form .bootstrap-select {
+	padding: 0;
+	margin-top: 20px;
+}
 
 #vendor_my_offerings .custom_form .bootstrap-select ul li {
 	width: 100%;
 	margin-right: 0;
+	margin-bottom: 0;
 }
 
-@media only screen and (max-width: 480px) {
+.custom_form .bootstrap-select .btn.dropdown-toggle {
+	background-color: transparent;
+	color: #333;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	border-bottom: 1px solid #d3d6d5;
+	outline: none;
+}
+
+.custom_form .bootstrap-select .dropdown-menu.open {
+	position: absolute;
+	max-height: 110px !important;
+}
+
+.custom_form .bootstrap-select .dropdown-menu.inner {
+	max-height: 100px !important;
+}
+
+.custom_form .bootstrap-select.btn-group .dropdown-menu li a {
+	padding: 3px 10px;
+	font-size: 12px;
+}
+
+.error_field {
+    border-color: rgb(224, 34, 34) !important;
+}
+
+.alert-danger,
+.alert-success {
+	display: none;
+}
+
+@media only screen and (max-width: 767px) {
+	#data_aggregator_top_card .data_aggregator_list .action_btn {
+		position: static;
+	}
+}
+
+
+@media only screen and (max-width: 550px) {
 
 	#vendor_my_offerings .custom_form ul li {
 		width: 100%;
 		margin-right: 0;
+	}
+
+	.custom_form .bootstrap-select .dropdown-menu.open {
+		position: static;
 	}
 }
