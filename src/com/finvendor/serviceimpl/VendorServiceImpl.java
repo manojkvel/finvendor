@@ -496,11 +496,11 @@ public class VendorServiceImpl implements VendorService{
 	}
 	
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional
 	public List<VendorDataAggregatorsOffering> getVendorDataAggregatorsOffering(
 			String userName) throws ApplicationException {
-		Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
-		return vendor.getDataAggregatorsOffering();
+		return vendorDao.getVendorDataAggregatorsOffering(
+				userName);
 	}
 	
 	/* Vendor Data Aggregator Offering End */

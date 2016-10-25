@@ -9,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.SolutionTypes;
 import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
@@ -48,7 +50,7 @@ public class VendorDaoImpl implements VendorDao{
 		
 	@Autowired
 	private SessionFactory sessionFactory;
-
+	
 	@Transactional
 	@Override
 	public void saveVendorInfo(Vendor vendor) {
@@ -948,6 +950,18 @@ public class VendorDaoImpl implements VendorDao{
 					productId, exp);
 			throw new ApplicationException("Error Deleting Data Aggregator Offering : " + exp.getMessage());
 		}			
+	}
+	
+	@Override
+	public List<VendorDataAggregatorsOffering> getVendorDataAggregatorsOffering(
+			String userName) throws ApplicationException {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("select v from Vendor v join fetch v.dataAggregatorsOffering "
+				+ "where v.user.userName = :userName");
+		query.setParameter("userName", userName);
+		Vendor vendor = (Vendor)query.uniqueResult();
+		List<VendorDataAggregatorsOffering> offerings = vendor.getDataAggregatorsOffering();
+		return offerings;
 	}
 	
 	/* Vendor Data Aggregator Offering End */

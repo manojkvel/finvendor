@@ -115,7 +115,7 @@ public interface VendorService {
 			String productId) throws ApplicationException;
 	public void deleteVendorDataAggregatorsOffering(String productId) throws ApplicationException;
 	public List<VendorDataAggregatorsOffering> getVendorDataAggregatorsOffering(
-			String vendorId) throws ApplicationException;
+			String vendorName) throws ApplicationException;
 	/* Vendor Data Aggregator Offering End */
 	
 }

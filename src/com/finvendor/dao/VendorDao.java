@@ -271,6 +271,8 @@ public interface VendorDao {
 	public VendorDataAggregatorsOffering fetchVendorDataAggregatorsOffering(
 			String productId) throws ApplicationException;
 	public void deleteVendorDataAggregatorsOffering(String productId) throws ApplicationException;
+	public List<VendorDataAggregatorsOffering> getVendorDataAggregatorsOffering(
+			String userName) throws ApplicationException;
 	/* Vendor Data Aggregator Offering End */
 	
 	
