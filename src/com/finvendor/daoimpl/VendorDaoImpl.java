@@ -961,6 +961,7 @@ public class VendorDaoImpl implements VendorDao{
 		query.setParameter("userName", userName);
 		Vendor vendor = (Vendor)query.uniqueResult();
 		List<VendorDataAggregatorsOffering> offerings = vendor.getDataAggregatorsOffering();
+		logger.debug("{} Offering returned for Vendor {}", offerings.size(), userName);
 		return offerings;
 	}
 	
