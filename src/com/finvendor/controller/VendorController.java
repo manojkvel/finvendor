@@ -2,6 +2,7 @@ package com.finvendor.controller;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -40,6 +41,7 @@ import com.finvendor.form.VendorResearchCoverageForm;
 import com.finvendor.form.VendorResearchDetailsForm;
 import com.finvendor.form.VendorTradingCapabilitiesSupportedForm;
 import com.finvendor.form.VendorTradingSoftwareDetailsForm;
+import com.finvendor.json.bean.VendorDataAggregatorsOfferingJson;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassSecurityMap;
 import com.finvendor.model.Awards;
@@ -2577,28 +2579,38 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	}
 	
 	@RequestMapping(value="listDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
-	public @ResponseBody List<VendorDataAggregatorsOffering> listDataAggregatorOffering(HttpServletRequest request, 
+	public @ResponseBody List<VendorDataAggregatorsOfferingJson> listDataAggregatorOffering(HttpServletRequest request, 
 			HttpServletResponse response) {
 		
 		logger.debug("Entering  - VendorController : listDataAggregatorOffering");
 		List<VendorDataAggregatorsOffering> offerings = null;
-		Vendor vendor = null;
+		List<VendorDataAggregatorsOfferingJson> jsonOfferings = new ArrayList<VendorDataAggregatorsOfferingJson>();
+		String userName = null;
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
 				request.getRequestDispatcher("/").forward(request, response);
 			}
 			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
-			String userName = loggedInUser.getUsername();
-			vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			userName = loggedInUser.getUsername();
 			offerings = vendorService.
-					getVendorDataAggregatorsOffering(vendor.getId());
+					getVendorDataAggregatorsOffering(userName);
+			for(VendorDataAggregatorsOffering offering : offerings) {
+				VendorDataAggregatorsOfferingJson jsonOffering = new VendorDataAggregatorsOfferingJson();
+				jsonOffering.setProductId(offering.getProductId());
+				jsonOffering.setProductName(offering.getProductName());
+				jsonOffering.setProductDescription(offering.getProductDescription());
+				jsonOffering.setAssetClassCode(offering.getAssetClass().getAsset_class_cd());
+				jsonOffering.setAssetClassDescription(offering.getAssetClass().getDescription());
+				jsonOffering.setCoverageCountry(offering.getOfferingCoverge().getCoverageCountry());
+				jsonOfferings.add(jsonOffering);
+			}
 			
 		} catch (Exception exp) {
-			logger.error("Error Reading Market Data Aggregator Offering for {}", vendor.getId(), exp); 
+			logger.error("Error Reading Market Data Aggregator Offering for {}", userName, exp); 
 			
 		}
 		logger.debug("Leaving  - VendorController : listDataAggregatorOffering");
-		return offerings;
+		return jsonOfferings;
 	}
 	
 	@RequestMapping(value="fetchDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
@@ -2637,11 +2649,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		logger.debug("Leaving  - VendorController : fetchDataAggregatorOffering");
 		return modelAndView;
 	}
-	
-	
+		
 	/* Vendor Data Aggregator Offering End */
 	
 	
 }
-
-
