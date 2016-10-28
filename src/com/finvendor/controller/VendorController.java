@@ -2543,7 +2543,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "productId", required = true) String productId) {
 		
 		logger.debug("Entering  - VendorController : deleteDataAggregatorOffering");
-		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
+		ModelAndView modelAndView = new ModelAndView("vendormyofferings");
 		
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
@@ -2618,7 +2618,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "productId", required = true) String productId) {
 		
 		logger.debug("Entering  - VendorController : fetchDataAggregatorOffering");
-		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
+		ModelAndView modelAndView = new ModelAndView("vendormyofferings");
 		Vendor vendor = null;
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){

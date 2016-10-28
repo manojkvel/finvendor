@@ -1143,12 +1143,20 @@ a#sidemenu:focus {
     display: none;
 }
 
+/*-------------Start of Progress Bar-----------------*/
 
 #spinner {
 	display: none;
+	margin: 0 auto;
+	text-align: center;
 }
 
-.spinner_gif .sk-folding-cube {
+#spinner .spinner_gif {
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+#spinner .spinner_gif .sk-folding-cube {
   top: 8px;
   width: 25px;
   height: 25px;
@@ -1157,7 +1165,7 @@ a#sidemenu:focus {
   transform: rotateZ(45deg);
 }
 
-.spinner_gif .sk-folding-cube .sk-cube {
+#spinner .spinner_gif .sk-folding-cube .sk-cube {
   float: left;
   width: 50%;
   height: 50%;
@@ -1167,7 +1175,7 @@ a#sidemenu:focus {
   transform: scale(1.1);
 }
 
-.spinner_gif .sk-folding-cube .sk-cube:before {
+#spinner .spinner_gif .sk-folding-cube .sk-cube:before {
   content: '';
   position: absolute;
   top: 0;
@@ -1182,34 +1190,34 @@ a#sidemenu:focus {
   background-color: #414b4f;
 }
 
-.spinner_gif .sk-folding-cube .sk-cube2 {
+#spinner .spinner_gif .sk-folding-cube .sk-cube2 {
   -webkit-transform: scale(1.1) rotateZ(90deg);
   transform: scale(1.1) rotateZ(90deg);
 }
 
-.spinner_gif .sk-folding-cube .sk-cube3 {
+#spinner .spinner_gif .sk-folding-cube .sk-cube3 {
   -webkit-transform: scale(1.1) rotateZ(180deg);
   transform: scale(1.1) rotateZ(180deg);
 }
 
-.spinner_gif .sk-folding-cube .sk-cube4 {
+#spinner .spinner_gif .sk-folding-cube .sk-cube4 {
   -webkit-transform: scale(1.1) rotateZ(270deg);
   transform: scale(1.1) rotateZ(270deg);
 }
 
-.spinner_gif .sk-folding-cube .sk-cube2:before {
+#spinner .spinner_gif .sk-folding-cube .sk-cube2:before {
   -webkit-animation-delay: 0.3s;
   animation-delay: 0.3s;
   background-color: #34bf98;
 }
 
-.spinner_gif .sk-folding-cube .sk-cube3:before {
+#spinner .spinner_gif .sk-folding-cube .sk-cube3:before {
   -webkit-animation-delay: 0.6s;
   animation-delay: 0.6s;
   background-color: #414b4f;
 }
 
-.spinner_gif .sk-folding-cube .sk-cube4:before {
+#spinner .spinner_gif .sk-folding-cube .sk-cube4:before {
   -webkit-animation-delay: 0.9s;
   animation-delay: 0.9s;
   background-color: #34bf98;
@@ -1235,6 +1243,8 @@ a#sidemenu:focus {
     opacity: 0;
   }
 }
+
+/*-------------End of Progress Bar-----------------*/
 
 #slider2_container {
     float: none;

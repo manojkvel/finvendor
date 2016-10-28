@@ -58,22 +58,12 @@ jQuery(document).ready(function() {
 	});
 
 	$("#myofferings1").on("click", function() {
-		$("#data_aggregator").slideUp();
-		$("#data_aggregator_top_card").slideDown();
 		listDataAggregatorOffering();
 	});
 
 	$("#data_aggregator_top_card .add_more").on("click", function() {
 		$("#data_aggregator").slideDown();
 		$("#data_aggregator_top_card").slideUp();
-	});
-
-	$("#data_aggregator_top_card .data_aggregator_list .delete_btn").on("click", function() {
-		deleteDataAggregatorOffering();
-	});
-
-	$("#data_aggregator_top_card .data_aggregator_list .edit_btn").on("click", function() {
-		fetchDataAggregatorOffering();
 	});
 
 	$("#data_aggregator .product_info h3").on("click", function() {
@@ -107,6 +97,7 @@ jQuery(document).ready(function() {
 		$("#tab4").hide();
 	});
 
+
 	$(document).on("click", "#awards_top_card .award-list .delete_btn", function (e) {
     	
 		
@@ -134,10 +125,28 @@ jQuery(document).ready(function() {
 		 
 	});
 
-	/// list Data Aggregator offering--:
-	function fetchDataAggregatorOffering() {
+	$(document).on("click", "#data_aggregator_top_card .data_aggregator_list .edit_btn", function (e) {
+			var id = $(this).closest('.data_aggregator_list').attr('id');
+			fetchDataAggregatorOffering(id);		 
+	});
+
+	$(document).on("click", "#data_aggregator_top_card .data_aggregator_list .delete_btn", function (e) {
+    	
+		
+		var r = confirm("Are you sure want to delete?");
+		if (r == true) {
+			var id = $(this).closest('.data_aggregator_list').attr('id');
+			deleteDataAggregatorOffering(id);
+
+		}		 
+	});
+
+	/// fetch Data Aggregator offering--:
+	fetchDataAggregatorOffering = function(id) {
 		progressLoader(true);
-		var productId = '';
+		var trids = id.split("_");
+
+		var productId = trids[0];
 		if(productId.length <= 0) {
 			alert('Product Id is missing');
 			return;
@@ -154,6 +163,8 @@ jQuery(document).ready(function() {
 			cache:false,
 			success : function(output){
 				progressLoader(false);
+				$("#data_aggregator").slideDown();
+				$("#data_aggregator_top_card").slideUp();
 			},
 			error : function(data, textStatus, jqXHR){
 				progressLoader(false);
@@ -161,10 +172,12 @@ jQuery(document).ready(function() {
 		});
 	}
 
-	/// list Data Aggregator offering--:
-	function deleteDataAggregatorOffering() {
-		progressLoader(true);
-		var productId = '';
+	/// delete Data Aggregator offering--:
+	deleteDataAggregatorOffering = function(id) {
+		//progressLoader(true);
+		var trids = id.split("_");
+
+		var productId = trids[0];
 		if(productId.length <= 0) {
 			alert('Product Id is missing');
 			return;
@@ -180,26 +193,46 @@ jQuery(document).ready(function() {
 			data: data,
 			cache:false,
 			success : function(output){
-				progressLoader(false);
+				//progressLoader(false);
+				$('#' + id).remove();
 			},
 			error : function(data, textStatus, jqXHR){
-				progressLoader(false);
+				//progressLoader(false);
 			}
 		});
 	}
 
-	/// list Data Aggregator offering--:
-	function listDataAggregatorOffering() {
+	/// list Data Aggregator offering:
+	listDataAggregatorOffering = function() {
 		progressLoader(true);
+		$("#data_aggregator").slideUp();
+		$("#data_aggregator_top_card").hide();
+
 		$.ajax({
 			type: 'GET',
 			url:  "listDataAggregatorOffering",
 			cache:false,
-			success : function(output){
+			success : function(response){
+				$('#data_aggregator_top_card .data_aggregator_info').empty();
+				var listDataAggregatorOfferingHTML = '';
+				for(var i=0; i < response.length; i++) {
+					listDataAggregatorOfferingHTML += "<div class='data_aggregator_list' id='" + response[i].productId  + "_id'>" +
+							"<h3>" + response[i].productName  + "</h3>" +
+							"<h4>" + response[i].assetClassDescription  + " | " + response[i].coverageCountry  + " | " + response[i].launchedYear  + "</h4>" +
+							"<p>" + response[i].productDescription  + "</p>" +
+							"<div class='action_btn'>" +
+								"<a class='btn delete_btn'>Delete</a>" +
+								"<a class='btn edit_btn'>Edit</a>" +
+							"</div>" +
+						"</div>";
+				}
 				progressLoader(false);
+				$('#data_aggregator_top_card .data_aggregator_info').html(listDataAggregatorOfferingHTML);
+				$("#data_aggregator_top_card").show().slideDown();
 			},
 			error : function(data, textStatus, jqXHR){
 				progressLoader(false);
+				$("#data_aggregator .alert").removeClass("alert-success").addClass("alert-danger").text('Please try again after sometime').show();
 			}
 		});
 	}
@@ -207,6 +240,8 @@ jQuery(document).ready(function() {
 	/// add Data Aggregator offering--:
 	function addDataAggregatorOffering(){
 		progressLoader(true);
+		$("#data_aggregator_top_card").hide().slideUp();
+
 		var productName = $("#data_aggregator #productName").val();
 		var productDescription = $("#data_aggregator #productDescription").val();
 		var launchedYear = $("#data_aggregator #launchedYear").val();
@@ -340,9 +375,8 @@ jQuery(document).ready(function() {
 					progressLoader(false);
 					$("#data_aggregator .alert").removeClass("alert-success").removeClass("alert-danger").text('').hide();
 
-					//listVendorAward();
+					listDataAggregatorOffering();
 					$("#data_aggregator").slideUp();
-					$("#data_aggregator_top_card").slideDown();
 				},
 				error : function(data, textStatus, jqXHR){
 					progressLoader(false);
@@ -2824,38 +2858,40 @@ function checkExisitngAward(awardname,awardyear){
 
 
 
-function listVendorAward(){
-	//debugger;
+listVendorAward = function(){
 	progressLoader(true);
-    
-    	$.ajax({
-			type: 'GET',
-			url:  "updateVendorAwardDetails",
-			cache:false,
-			success : function(response){
-						progressLoader(false);
-				   $("#awards_top_card .awards_info").empty();	 
-			        var tableRecord = "";
-			        for(i =0 ; i < response.length ; i++){                                                                                    
-			        	tableRecord += "<div class='award-list' id='" + response[i].id + "_awarddetails'>" +
-										'<h3>'+response[i].name+'</h3>' +
-										'<h4>'+response[i].description + ' | ' + response[i].awardVendorType +'</h4>' +
-										'<h5>'+response[i].frequency+'</h5>' +
-										"<a class='btn delete_btn'>Delete</a>" +
-										'</div>'
-			        }
-			        $("#awards_top_card .awards_info").append(tableRecord);
-			        /*$("#tab3 .award-list .delete_btn").on("click", function() {
-			        	//alert($(this).parent()[0].id);
-			        	deleteRecord(" + $(this).parent()[0].id +",'vendorAward');
-			        });*/
-			},
-			error : function(data, textStatus, jqXHR){
+
+	$.ajax({
+		type: 'GET',
+		url:  "updateVendorAwardDetails",
+		cache:false,
+		success : function(response) {
+			if(response.length === 0) {
+				$("#award_details").slideDown();
+				$("#awards_top_card").slideUp();
+				$("#awardtabsucessmessage").html('');
 				progressLoader(false);
-				//alert('Error: '+data+':'+textStatus);
+				return false;
 			}
-		});
-	}
+
+			$("#awards_top_card .awards_info").empty();	 
+			var tableRecord = "";
+			for(i =0 ; i < response.length ; i++){                                                                                    
+				tableRecord += "<div class='award-list' id='" + response[i].id + "_awarddetails'>" +
+				'<h3>'+response[i].name+'</h3>' +
+				'<h4>'+response[i].description + ' | ' + response[i].awardVendorType +'</h4>' +
+				'<h5>'+response[i].frequency+'</h5>' +
+				"<a class='btn delete_btn'>Delete</a>" +
+				'</div>'
+			}
+			progressLoader(false);
+			$("#awards_top_card .awards_info").append(tableRecord);
+		},
+		error : function(data, textStatus, jqXHR){
+			progressLoader(false);
+		}
+	});
+}
 	
 
 $("#tdsSuitability").change(function() {

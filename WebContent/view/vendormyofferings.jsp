@@ -1,4 +1,4 @@
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@page import="com.finvendor.util.RequestConstans"%>
 <c:set var="vendormyofferingsdatacoverage" value="<%=RequestConstans.Vendor.VENDOR_MYOFFERINGS_DATACOVERAGE %>"> </c:set>
@@ -69,27 +69,11 @@
 					</a>
 				</li>
 			</ul>
+			<jsp:include page="common/progressLoader.jsp"></jsp:include>
 			<div class="tab-pane" id="tab1">
 				<div id="data_aggregator_top_card">
 					<div class="data_aggregator_info">
-						<div class='data_aggregator_list' id='response[i].id_awarddetails'>
-							<h3>Product Name</h3>
-							<h4>Asset Class | Coverage Country</h4>
-							<p>Product Description</p>
-							<div class="action_btn">
-								<a class='btn delete_btn'>Delete</a>
-								<a class='btn edit_btn'>Edit</a>
-							</div>
-						</div>
-						<div class='data_aggregator_list' id='response[i].id_awarddetails'>
-							<h3>Product Name</h3>
-							<h4>Asset Class | Coverage Country</h4>
-							<p>Product Description</p>
-							<div class="action_btn">
-								<a class='btn delete_btn'>Delete</a>
-								<a class='btn edit_btn'>Edit</a>
-							</div>
-						</div>
+	
 					</div>
 					<a class="btn add_more">
 						<span class="fa fa-pencil"></span>Add More
@@ -251,5 +235,10 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript">
+    	$(document).ready( function () {
+    		listDataAggregatorOffering();
+    	});
+    </script>
 </body>
 </html>
