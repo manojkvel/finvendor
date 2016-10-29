@@ -2539,43 +2539,42 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	}
 	
 	@RequestMapping(value="deleteDataAggregatorOffering", method = RequestMethod.POST)
-	public ModelAndView deleteDataAggregatorOffering(HttpServletRequest request,
+	public @ResponseBody List<VendorDataAggregatorsOfferingJson> deleteDataAggregatorOffering(
+			HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "productId", required = true) String productId) {
 		
-		logger.debug("Entering  - VendorController : deleteDataAggregatorOffering");
-		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
+		logger.debug("Entering  - VendorController : deleteDataAggregatorOffering for product {}", productId);
+		List<VendorDataAggregatorsOffering> offerings = null;
+		List<VendorDataAggregatorsOfferingJson> jsonOfferings = new ArrayList<VendorDataAggregatorsOfferingJson>();
 		
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
-				return new ModelAndView(RequestConstans.Login.HOME);
+				request.getRequestDispatcher("/").forward(request, response);
 			}
 			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
 			String userName = loggedInUser.getUsername();
-			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
 			boolean matchFound = false;
-			List<VendorDataAggregatorsOffering> offerings = vendorService.
-					getVendorDataAggregatorsOffering(vendor.getId());
+			offerings = vendorService.getVendorDataAggregatorsOffering(userName);
 			for(VendorDataAggregatorsOffering dataAggreOffering : offerings) {
 				if (dataAggreOffering.getProductId().equals(productId)) {
 					matchFound = true;
+					break;
 				}
 			}
 			if(matchFound) {
 				vendorService.deleteVendorDataAggregatorsOffering(productId);
+				offerings = vendorService.getVendorDataAggregatorsOffering(userName);
+				populateJsonVendorOfferingList(offerings, jsonOfferings);
 			} else {
 				logger.error("Selected Offering does not belong to logged in User !!");
-				modelAndView.addObject("StatusMesage", 
-						"Selected Offering does not belong to logged in User !!");
 			}
 			
 		} catch (Exception exp) {
 			logger.error("Error Deleting Market Data Aggregator Offering for Product {}", 
 					productId, exp); 
-			modelAndView.addObject("StatusMesage", "Error Deleting Offering details");
 		}
-		modelAndView.addObject("StatusMesage", "Offering details Deleted successfully");
-		logger.debug("Leaving  - VendorController : deleteDataAggregatorOffering");
-		return modelAndView;
+		logger.debug("Leaving  - VendorController : deleteDataAggregatorOffering for product {}", productId);
+		return jsonOfferings;
 	}
 	
 	@RequestMapping(value="listDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
@@ -2594,17 +2593,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			userName = loggedInUser.getUsername();
 			offerings = vendorService.
 					getVendorDataAggregatorsOffering(userName);
-			for(VendorDataAggregatorsOffering offering : offerings) {
-				VendorDataAggregatorsOfferingJson jsonOffering = new VendorDataAggregatorsOfferingJson();
-				jsonOffering.setProductId(offering.getProductId());
-				jsonOffering.setProductName(offering.getProductName());
-				jsonOffering.setProductDescription(offering.getProductDescription());
-				jsonOffering.setAssetClassCode(offering.getAssetClass().getAsset_class_cd());
-				jsonOffering.setAssetClassDescription(offering.getAssetClass().getDescription());
-				jsonOffering.setCoverageCountry(offering.getOfferingCoverge().getCoverageCountry());
-				jsonOfferings.add(jsonOffering);
-			}
-			
+			populateJsonVendorOfferingList(offerings, jsonOfferings);			
 		} catch (Exception exp) {
 			logger.error("Error Reading Market Data Aggregator Offering for {}", userName, exp); 
 			
@@ -2613,41 +2602,69 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		return jsonOfferings;
 	}
 	
+	private void populateJsonVendorOfferingList(List<VendorDataAggregatorsOffering> offerings,
+			List<VendorDataAggregatorsOfferingJson> jsonOfferings) {
+		for(VendorDataAggregatorsOffering offering : offerings) {
+			VendorDataAggregatorsOfferingJson jsonOffering = new VendorDataAggregatorsOfferingJson();
+			jsonOffering.setProductId(offering.getProductId());
+			jsonOffering.setProductName(offering.getProductName());
+			jsonOffering.setProductDescription(offering.getProductDescription());
+			jsonOffering.setAssetClassCode(offering.getAssetClass().getAsset_class_cd());
+			jsonOffering.setAssetClassDescription(offering.getAssetClass().getDescription());
+			jsonOffering.setCoverageCountry(offering.getOfferingCoverge().getCoverageCountry());
+			jsonOfferings.add(jsonOffering);
+		}
+	}
+	
 	@RequestMapping(value="fetchDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView fetchDataAggregatorOffering(HttpServletRequest request,
+	public @ResponseBody VendorDataAggregatorsOfferingJson fetchDataAggregatorOffering(
+			HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "productId", required = true) String productId) {
 		
-		logger.debug("Entering  - VendorController : fetchDataAggregatorOffering");
-		ModelAndView modelAndView = new ModelAndView("vendorMyOffering");
-		Vendor vendor = null;
+		logger.debug("Entering  - VendorController : fetchDataAggregatorOffering for product {}", productId);
+		VendorDataAggregatorsOfferingJson vendorOffering = null;
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
-				return new ModelAndView(RequestConstans.Login.HOME);
+				request.getRequestDispatcher("/").forward(request, response);
 			}
 			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
 			String userName = loggedInUser.getUsername();
-			vendor = userService.getUserDetailsByUsername(userName).getVendor();
 			VendorDataAggregatorsOffering offering = null;
 			List<VendorDataAggregatorsOffering> offerings = vendorService.
-					getVendorDataAggregatorsOffering(vendor.getId());
+					getVendorDataAggregatorsOffering(userName);
 			for(VendorDataAggregatorsOffering dataAggreOffering : offerings) {
 				if (dataAggreOffering.getProductId().equals(productId)) {
 					offering = dataAggreOffering;
+					break;
 				}
 			}
 			if(offering == null) {
 				logger.error("Selected Offering does not belong to logged in User !!");
-				modelAndView.addObject("StatusMesage", 
-						"Selected Offering does not belong to logged in User !!");
 			} else {
-				modelAndView.addObject("offering", offering);
+				vendorOffering = new VendorDataAggregatorsOfferingJson();
+				vendorOffering.setProductId(offering.getProductId());
+				vendorOffering.setProductName(offering.getProductName());
+				vendorOffering.setProductDescription(offering.getProductDescription());
+				vendorOffering.setAssetClassCode(offering.getAssetClass().getAsset_class_cd());
+				vendorOffering.setAssetClassDescription(offering.getAssetClass().getDescription());
+				vendorOffering.setSecurityTypes(offering.getSecurityTypes());
+				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
+				vendorOffering.setCoverageRegion(offering.getOfferingCoverge().getCoverageRegion());
+				vendorOffering.setCoverageCountry(offering.getOfferingCoverge().getCoverageCountry());
+				vendorOffering.setCoverageExchange(offering.getOfferingCoverge().getCoverageExchange());
+				vendorOffering.setEmail(offering.getOfferingCoverge().getEmail());
+				vendorOffering.setPhoneNumber(offering.getOfferingCoverge().getPhoneNumber());
+				vendorOffering.setCostRange(offering.getOfferingCoverge().getCostRange());
+				vendorOffering.setDistributionMethod(offering.getOfferingDistribution().getDistributionMethod());
+				vendorOffering.setFeedType(offering.getOfferingDistribution().getFeedType());
+				vendorOffering.setFeedSubType(offering.getOfferingDistribution().getFeedSubType());
+				vendorOffering.setFrequency(offering.getOfferingDistribution().getFrequency());
 			}			
 		} catch (Exception exp) {
-			logger.error("Error Fetching Market Data Aggregator Offering for {}", vendor.getId(), exp); 
-			modelAndView.addObject("StatusMesage", "Error fetching Offering details");
+			logger.error("Error Fetching Market Data Aggregator Offering for product {}", productId, exp); 
 		}
-		logger.debug("Leaving  - VendorController : fetchDataAggregatorOffering");
-		return modelAndView;
+		logger.debug("Leaving  - VendorController : fetchDataAggregatorOffering for product {}", productId);
+		return vendorOffering;
 	}
 		
 	/* Vendor Data Aggregator Offering End */
