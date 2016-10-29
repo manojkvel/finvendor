@@ -2612,6 +2612,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			jsonOffering.setAssetClassCode(offering.getAssetClass().getAsset_class_cd());
 			jsonOffering.setAssetClassDescription(offering.getAssetClass().getDescription());
 			jsonOffering.setCoverageCountry(offering.getOfferingCoverge().getCoverageCountry());
+			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
+			jsonOffering.setCoverageRegion(offering.getOfferingCoverge().getCoverageRegion());
 			jsonOfferings.add(jsonOffering);
 		}
 	}
