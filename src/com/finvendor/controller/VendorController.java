@@ -2530,26 +2530,26 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			vendorService.addVendorDataAggregatorsOffering(dataOffering);
 		} catch (Exception exp) {
 			logger.error("Error Saving Market Data Aggregator Offering", exp); 
-			modelAndView.addObject("StatusMesage", "Error Updating Offering details");
+			modelAndView.addObject("status", "Error Updating Offering details");
 		}
-		modelAndView.addObject("StatusMesage", "Offering details Updated successfully");
+		modelAndView.addObject("status", "Offering details Updated successfully");
 		logger.debug("Leaving  - VendorController : addDataAggregatorOffering");
 		return modelAndView;
 		
 	}
 	
 	@RequestMapping(value="deleteDataAggregatorOffering", method = RequestMethod.POST)
-	public @ResponseBody List<VendorDataAggregatorsOfferingJson> deleteDataAggregatorOffering(
-			HttpServletRequest request, HttpServletResponse response,
+	public ModelAndView deleteDataAggregatorOffering(
+			HttpServletRequest request,
 			@RequestParam(value = "productId", required = true) String productId) {
 		
 		logger.debug("Entering  - VendorController : deleteDataAggregatorOffering for product {}", productId);
+		ModelAndView modelAndView = new ModelAndView("empty");
 		List<VendorDataAggregatorsOffering> offerings = null;
-		List<VendorDataAggregatorsOfferingJson> jsonOfferings = new ArrayList<VendorDataAggregatorsOfferingJson>();
 		
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
-				request.getRequestDispatcher("/").forward(request, response);
+				return new ModelAndView(RequestConstans.Login.HOME);
 			}
 			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
 			String userName = loggedInUser.getUsername();
@@ -2563,18 +2563,19 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			}
 			if(matchFound) {
 				vendorService.deleteVendorDataAggregatorsOffering(productId);
-				offerings = vendorService.getVendorDataAggregatorsOffering(userName);
-				populateJsonVendorOfferingList(offerings, jsonOfferings);
+				modelAndView.addObject("status", "Successfully deleted Offring record");
 			} else {
 				logger.error("Selected Offering does not belong to logged in User !!");
+				modelAndView.addObject("status", "Error deleting Offering record");
 			}
 			
 		} catch (Exception exp) {
 			logger.error("Error Deleting Market Data Aggregator Offering for Product {}", 
 					productId, exp); 
+			modelAndView.addObject("status", "Error deleting Offering record");
 		}
 		logger.debug("Leaving  - VendorController : deleteDataAggregatorOffering for product {}", productId);
-		return jsonOfferings;
+		return modelAndView;
 	}
 	
 	@RequestMapping(value="listDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
