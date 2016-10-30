@@ -2563,7 +2563,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			}
 			if(matchFound) {
 				vendorService.deleteVendorDataAggregatorsOffering(productId);
-				modelAndView.addObject("status", "Successfully deleted Offring record");
+				modelAndView.addObject("status", "Successfully deleted Offering record");
 			} else {
 				logger.error("Selected Offering does not belong to logged in User !!");
 				modelAndView.addObject("status", "Error deleting Offering record");
