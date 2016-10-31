@@ -795,7 +795,8 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		
-		String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange, security.name, security.security_type_id, asset_sec.description sec_asset_description from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country, offeringfiles files, security_types security, asset_class asset_sec where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and files.vendor_offering_id = off.vendor_offering_id and security.security_type_id = files.security_type_id and security.asset_class_id = asset_sec.asset_class_id ";
+		//String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange, security.name, security.security_type_id, asset_sec.description sec_asset_description from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country, offeringfiles files, security_types security, asset_class asset_sec where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and files.vendor_offering_id = off.vendor_offering_id and security.security_type_id = files.security_type_id and security.asset_class_id = asset_sec.asset_class_id ";
+		String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.coverage_region REGION, cov.coverage_country COUTRIES, off.launched_year YEAR, cov.coverage_exchange coverageexchange from ven_data_aggr_offering off, ven_data_aggr_offering_coverage cov, asset_class asset, vendor ven, users u, country country, security_types security where u.username = ven.username and off.product_id = cov.product_id and asset.asset_class_id = off.asset_class_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp ";
 		StringBuilder searchSql = new StringBuilder(2000);
 		searchSql.append(vendorSearchSql);
 		
@@ -831,15 +832,18 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 			searchSql.append("'");
 			
 			Object datacoveragecountry = searchData.get(assetClass.toLowerCase() + "datacoveragecountry");
-			populateFilterCondition(searchSql, datacoveragecountry, "cov.country_ids");
+			//populateFilterCondition(searchSql, datacoveragecountry, "cov.country_ids");
+			populateFilterCondition(searchSql, datacoveragecountry, "cov.coverage_country");
 			Object datacoverageregion = searchData.get(assetClass.toLowerCase() + "datacoverageregion");
-			populateFilterCondition(searchSql, datacoverageregion, "cov.region_ids");
+			//populateFilterCondition(searchSql, datacoverageregion, "cov.region_ids");
+			populateFilterCondition(searchSql, datacoverageregion, "cov.coverage_region");
 			Object datacoverageexchange = searchData.get(assetClass.toLowerCase() + "datacoverageexchange");
-			populateFilterCondition(searchSql, datacoverageexchange, "cov.coverageexchange");
+			//populateFilterCondition(searchSql, datacoverageexchange, "cov.coverageexchange");
+			populateFilterCondition(searchSql, datacoverageexchange, "cov.coverage_exchange");
 			Object dataacquisitioncostrange = searchData.get(assetClass.toLowerCase() + "dataacquisitioncostrange");
-			populateFilterCondition(searchSql, dataacquisitioncostrange, "cov.cost_ids");
+			//populateFilterCondition(searchSql, dataacquisitioncostrange, "cov.cost_ids");
 			Object securitytype = searchData.get(assetClass.toLowerCase() + "securitytype");
-			populateFilterCondition(searchSql, securitytype, "security.security_type_id");
+			populateFilterCondition(searchSql, securitytype, "off.security_types");
 						
 			/*
 			if(datacoveragecountry != null && !datacoveragecountry.toString().isEmpty() ) {
@@ -900,7 +904,8 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		
 		List<Object[]> vendorAwardList = new ArrayList<Object[]>();
 		if(vendorFound) {
-			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange, security.name, security.security_type_id, asset_sec.description sec_asset_description from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country, offeringfiles files, security_types security, asset_class asset_sec where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and files.vendor_offering_id = off.vendor_offering_id and security.security_type_id = files.security_type_id and security.asset_class_id = asset_sec.asset_class_id and ven.vendor_id in (VENDOR_ID_LIST)";
+			//vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange, security.name, security.security_type_id, asset_sec.description sec_asset_description from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country, offeringfiles files, security_types security, asset_class asset_sec where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and files.vendor_offering_id = off.vendor_offering_id and security.security_type_id = files.security_type_id and security.asset_class_id = asset_sec.asset_class_id and ven.vendor_id in (VENDOR_ID_LIST)";
+			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS,  off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.coverage_region REGION, cov.coverage_country COUTRIES, off.launched_year YEAR, cov.coverage_exchange coverageexchange, off.security_types security_types from ven_data_aggr_offering off, ven_data_aggr_offering_coverage cov, asset_class asset, vendor ven, users u, country country where u.username = ven.username and off.product_id = cov.product_id and asset.asset_class_id = off.asset_class_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and ven.vendor_id in (VENDOR_ID_LIST)";
 			vendorSearchSql = vendorSearchSql.replaceAll("VENDOR_ID_LIST", vendorList.toString());
 			sqlQuery = currentSession.createSQLQuery(vendorSearchSql);
 			logger.info("vendorSearchSql ################## VENDOR SEARCH QUERY == " + vendorSearchSql.toString());
@@ -922,7 +927,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 			String assetClass = (String)searchRow[5];
 			String countries = (String)searchRow[9];
 			String exchanges = (String)searchRow[11];
-			String securityName = (String)searchRow[12];
+			String securityNames = (String)searchRow[12];
 			
 			String mapKey = (String)searchRow[0] + "_" + assetClass;
 			
@@ -940,33 +945,38 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 				}
 			}
 			
-			if("Indices".equals(assetClass)) {
-				if(securityName != null && securityName.indexOf("Equity") != -1) {
-					mapKey = (String)searchRow[0] + "_Equity_" + assetClass;
-				} else if (securityName != null && securityName.indexOf("FI") != -1) {
-					mapKey = (String)searchRow[0] + "_FI_" + assetClass;
-				} else {
-					mapKey = (String)searchRow[0] + "_Other_" + assetClass;
-				}
-			}else if (assetClass.indexOf("Derivative") != -1) {
-				mapKey = (String)searchRow[0] + "_Derivative";
-			}
-			
-			if(exchanges != null && !exchanges.trim().equals("")) {
-				String[] exchangeNames = exchanges.split(",");
-				for(String exchangeName : exchangeNames) {
-					Set<String> assetExchangesSet = assetExchanges.get(mapKey);
-					if(assetExchangesSet == null) {
-						assetExchangesSet = new HashSet<String>();
-						assetExchanges.put(mapKey, assetExchangesSet);
-						assetExchangesSet.add(exchangeName);
-					} else {
-						assetExchangesSet.add(exchangeName);
+			String [] securities = securityNames.split(",");
+			for(String securityName : securities) {
+				if(securityName != null && !securityName.trim().equals("")) {
+					if("Indices".equals(assetClass)) {
+						if(securityName != null && securityName.indexOf("Equity") != -1) {
+							mapKey = (String)searchRow[0] + "_Equity_" + assetClass;
+						} else if (securityName != null && securityName.indexOf("FI") != -1) {
+							mapKey = (String)searchRow[0] + "_FI_" + assetClass;
+						} else {
+							mapKey = (String)searchRow[0] + "_Other_" + assetClass;
+						}
+					}else if (assetClass.indexOf("Derivative") != -1) {
+						mapKey = (String)searchRow[0] + "_Derivative";
+					}
+					
+					if(exchanges != null && !exchanges.trim().equals("")) {
+						String[] exchangeNames = exchanges.split(",");
+						for(String exchangeName : exchangeNames) {
+							Set<String> assetExchangesSet = assetExchanges.get(mapKey);
+							if(assetExchangesSet == null) {
+								assetExchangesSet = new HashSet<String>();
+								assetExchanges.put(mapKey, assetExchangesSet);
+								assetExchangesSet.add(exchangeName);
+							} else {
+								assetExchangesSet.add(exchangeName);
+							}
+						}
 					}
 				}
 			}
 			
-			// 5 - Asset class, 9 - Countries, 11 - Exchanges, 12- Security name, 13- Security Id, 14 - security asset class
+			// 5 - Asset class, 9 - Countries, 11 - Exchanges, 12- Security Types
 			vendorSearchResultList.add(vendorSearchRow);
 		}
 		
@@ -1009,9 +1019,9 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 				}
 				searchSql.append(" ");
 				searchSql.append(columnName);
-				searchSql.append(" like '%");
+				searchSql.append(" like '%,");
 				searchSql.append(filterValue.trim());
-				searchSql.append("%' ");
+				searchSql.append(",%' ");
 				searchSql.append("or");
 			}
 			if(firstValue) {

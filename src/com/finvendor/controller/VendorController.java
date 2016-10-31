@@ -2672,6 +2672,5 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	}
 		
 	/* Vendor Data Aggregator Offering End */
-	
-	
+		
 }
