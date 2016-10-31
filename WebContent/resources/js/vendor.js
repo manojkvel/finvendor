@@ -62,8 +62,7 @@ jQuery(document).ready(function() {
 	});
 
 	$("#data_aggregator_top_card .add_more").on("click", function() {
-		$("#data_aggregator").slideDown();
-		$("#data_aggregator_top_card").slideUp();
+		openDataAggregratorForm();
 	});
 
 	$("#data_aggregator .product_info h3").on("click", function() {
@@ -75,6 +74,7 @@ jQuery(document).ready(function() {
 	$("#data_aggregator .data_coverage_info h3").on("click", function() {
 		$("#data_aggregator .data_coverage_info ul").slideToggle();
 		$("#data_aggregator .data_coverage_info h3 span").toggleClass("fa-chevron-up");
+		$("#data_aggregator .data_coverage_info h3 span").toggleClass("fa-chevron-down");
 	});
 
 	$("#data_aggregator .data_distribution_info h3").on("click", function() {
@@ -83,7 +83,8 @@ jQuery(document).ready(function() {
 	});
 
 	$("#data_aggregator .save").on("click", function() {
-		if(!addDataAggregatorOffering()) {
+		var id = $('#productId').val();
+		if(!addDataAggregatorOffering(id)) {
 			progressLoader(false);
 			return false;
 		}
@@ -125,8 +126,11 @@ jQuery(document).ready(function() {
 		 
 	});
 
+	var isEdit = false;
+
 	$(document).on("click", "#data_aggregator_top_card .data_aggregator_list .edit_btn", function (e) {
 			var id = $(this).closest('.data_aggregator_list').attr('id');
+			isEdit = true;
 			fetchDataAggregatorOffering(id);		 
 	});
 
@@ -141,12 +145,39 @@ jQuery(document).ready(function() {
 		}		 
 	});
 
+	$("#data_aggregator #launchedYear").on('blur', function() {
+		var year = $("#data_aggregator #launchedYear").val().trim();
+		validateYear(year);
+	});
+
+	openDataAggregratorForm = function() {
+		resetDataAggregratorForm();
+		$("#data_aggregator").slideDown();
+		$("#data_aggregator_top_card").slideUp();
+	}
+
+	closeDataAggregratorForm = function() {
+		resetDataAggregratorForm();
+		$("#data_aggregator").slideUp();
+		$("#data_aggregator_top_card").slideDown();
+	}
+
+	resetDataAggregratorForm = function() {
+		$("#data_aggregator .alert").hide();
+		$("#data_aggregator_form").trigger('reset');
+		$('.selectpicker').selectpicker('refresh');
+		$(".error_field").removeClass("error_field");
+	}
+
 	/// fetch Data Aggregator offering--:
 	fetchDataAggregatorOffering = function(id) {
+		$("#data_aggregator_top_card").hide();
+		$("#data_aggregator .alert").hide();
+		$(".error_field").removeClass("error_field");
 		progressLoader(true);
-		var trids = id.split("_");
 
-		var productId = trids[0];
+		var ids = id.split("_");
+		var productId = ids[0];
 		if(productId.length <= 0) {
 			alert('Product Id is missing');
 			return;
@@ -161,10 +192,28 @@ jQuery(document).ready(function() {
 			url:  "fetchDataAggregatorOffering",
 			data: data,
 			cache:false,
-			success : function(output){
+			success : function(response){
 				progressLoader(false);
 				$("#data_aggregator").slideDown();
 				$("#data_aggregator_top_card").slideUp();
+				$("#data_aggregator #productId").val(response.productId);
+				$("#data_aggregator #productName").val(response.productName);
+				$("#data_aggregator #productDescription").val(response.productDescription);
+				$("#data_aggregator #launchedYear").val(response.launchedYear);
+				$("select[name=assetClassId]").selectpicker('val', response.assetClassCode.split(','));
+				$("select[name=securityTypes]").selectpicker('val', response.securityTypes.split(','));
+
+				$("select[name=coverageRegion]").selectpicker('val', response.coverageRegion.split(','));
+				$("select[name=coverageCountry]").selectpicker('val', response.coverageCountry.split(','));
+				$("select[name=coverageExchange]").selectpicker('val', response.coverageExchange.split(','));
+				$("#data_aggregator #costRange").val(response.costRange);
+				$("#data_aggregator #email").val(response.email);
+				$("#data_aggregator #phoneNumber").val(response.phoneNumber);
+
+				$("select[name=feedType]").selectpicker('val', response.feedType.split(','));
+				$("select[name=feedSubType]").selectpicker('val', response.feedSubType.split(','));
+				$("select[name=frequency]").selectpicker('val', response.frequency.split(','));
+				$("select[name=distributionMethod]").selectpicker('val', response.distributionMethod.split(','));
 			},
 			error : function(data, textStatus, jqXHR){
 				progressLoader(false);
@@ -204,6 +253,7 @@ jQuery(document).ready(function() {
 
 	/// list Data Aggregator offering:
 	listDataAggregatorOffering = function() {
+		isEdit = false;
 		progressLoader(true);
 		$("#data_aggregator").slideUp();
 		$("#data_aggregator_top_card").hide();
@@ -212,13 +262,21 @@ jQuery(document).ready(function() {
 			type: 'GET',
 			url:  "listDataAggregatorOffering",
 			cache:false,
-			success : function(response){
+			success : function(response) {
+				var totalCount = response.length;
+
+				if(totalCount === 0) {
+					progressLoader(false);
+					openDataAggregratorForm();
+					return;
+				}
+
 				$('#data_aggregator_top_card .data_aggregator_info').empty();
 				var listDataAggregatorOfferingHTML = '';
-				for(var i=0; i < response.length; i++) {
+				for(var i=0; i < totalCount; i++) {
 					listDataAggregatorOfferingHTML += "<div class='data_aggregator_list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].assetClassDescription  + " | " + response[i].coverageCountry  + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].assetClassDescription  + " | " + response[i].coverageRegion  + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -238,130 +296,145 @@ jQuery(document).ready(function() {
 	}
 
 	/// add Data Aggregator offering--:
-	function addDataAggregatorOffering(){
+	addDataAggregatorOffering = function(id){
 		progressLoader(true);
 		$("#data_aggregator_top_card").hide().slideUp();
 
-		var productName = $("#data_aggregator #productName").val();
-		var productDescription = $("#data_aggregator #productDescription").val();
-		var launchedYear = $("#data_aggregator #launchedYear").val();
+		var productId = null;
+
+		if(isEdit) {
+			productId = id;
+			if(productId.length <= 0) {
+				alert('Product Id is missing');
+				return;
+			}
+		}
+
+		var productName = $("#data_aggregator #productName").val().trim();
+		var productDescription = $("#data_aggregator #productDescription").val().trim();
+		var launchedYear = $("#data_aggregator #launchedYear").val().trim();
 		var assetClassId = $("#data_aggregator #assetClassId").val();
-		var securityTypes = $("#data_aggregator #securityTypes").parent().find("button span").text();
+		var securityTypes = $("#data_aggregator #securityTypes").selectpicker('val');
 
-		var coverageRegion = $("#data_aggregator #coverageRegion").parent().find("button span").text();
-		//var attributessupported = $("#data_aggregator #attributessupported").parent().find("button span").text();
-		var coverageCountry = $("#data_aggregator #coverageCountry").parent().find("button span").text();
-		var coverageExchange = $("#data_aggregator #coverageExchange").parent().find("button span").text();
-		var costRange = $("#data_aggregator #costRange").val();
-		var email = $("#data_aggregator #email").val();
-		var phoneNumber = $("#data_aggregator #phoneNumber").val();
+		var coverageRegion = $("#data_aggregator #coverageRegion").selectpicker('val');
+		var coverageCountry = $("#data_aggregator #coverageCountry").selectpicker('val');
+		var coverageExchange = $("#data_aggregator #coverageExchange").selectpicker('val');
+		var costRange = $("#data_aggregator #costRange").val().trim();
+		var email = $("#data_aggregator #email").val().trim();
+		var phoneNumber = $("#data_aggregator #phoneNumber").val().trim();
 
-		var feedType = $("#data_aggregator #feedType").parent().find("button span").text();
-		var feedSubType = $("#data_aggregator #feedSubType").parent().find("button span").text();
-		var frequency = $("#data_aggregator #frequency").parent().find("button span").text();
-		var distributionMethod = $("#data_aggregator #distributionMethod").parent().find("button span").text();
+		var feedType = $("#data_aggregator #feedType").selectpicker('val');
+		var feedSubType = $("#data_aggregator #feedSubType").selectpicker('val');
+		var frequency = $("#data_aggregator #frequency").selectpicker('val');
+		var distributionMethod = $("#data_aggregator #distributionMethod").selectpicker('val');
 	
-		if(productName != '' && productName.length > 0) {
+		if(productName != '') {
 			$("#data_aggregator #productName").removeClass("error_field");
 		} else {
 			$("#data_aggregator #productName").addClass("error_field");
 			//return false;
 		}
 
-		if(productDescription != '' && productDescription.length > 0) {
+		if(productDescription != '') {
 			$("#data_aggregator #productDescription").removeClass("error_field");
 		} else {
 			$("#data_aggregator #productDescription").addClass("error_field");
 			//return false;
 		}
 
-		if(assetClassId != '' && assetClassId.length > 0) {
+		if(assetClassId != null) {
 			 $("#data_aggregator #assetClassId").parent().find("button").removeClass("error_field");
 		} else {
 			 $("#data_aggregator #assetClassId").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
-		if(securityTypes != 'Nothing selected' && securityTypes.length > 0) {
+		if(securityTypes != null) {
 			$("#data_aggregator #securityTypes").parent().find("button").removeClass("error_field");
 		} else {
 			$("#data_aggregator #securityTypes").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
-		if(coverageRegion != 'Nothing selected' && coverageRegion.length > 0) {
+		if(coverageRegion != null) {
 			$("#data_aggregator #coverageRegion").parent().find("button").removeClass("error_field");
 		} else {
 			$("#data_aggregator #coverageRegion").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
-		if(coverageCountry != 'Nothing selected' && coverageCountry.length > 0) {
+		if(coverageCountry != null) {
+			coverageCountry = coverageCountry.join();
 			$("#data_aggregator #coverageCountry").parent().find("button").removeClass("error_field");
 		} else {
 			$("#data_aggregator #coverageCountry").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
-		if(coverageExchange != 'Nothing selected' && coverageExchange.length > 0) {
+		if(coverageExchange != null) {
+			coverageExchange = coverageExchange.join();
 			$("#data_aggregator #coverageExchange").parent().find("button").removeClass("error_field");
 		} else {
 			$("#data_aggregator #coverageExchange").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
-		if(costRange != '' && costRange > 0) {
+		if(costRange != '') {
 			 $("#data_aggregator #costRange").removeClass("error_field");
 		} else {
 			 $("#data_aggregator #costRange").addClass("error_field");
 			//return false;
 		}
 
-		if(email !='' && email.length>0) {
-			
+		if(email != '') {
+			if(isValidEmailAddress(email)) {
+				$("#data_aggregator #email").removeClass("error_field");
+			} else {
+				$("#data_aggregator #email").addClass("error_field");
+				$("#data_aggregator .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter valid email id').show();
+				return false;
+			}
 		}
 
-		if(feedType == 'Nothing selected') {
-			feedType = '';
+		if(feedType != null) {
+			feedType = feedType.join();
 		}
 		
-		if(feedSubType == 'Nothing selected') {
-			feedSubType = '';
+		if(feedSubType != null) {
+			feedSubType = feedSubType.join();
 		}
 		
-		if(frequency == 'Nothing selected') {
-			frequency = '';
+		if(frequency != null) {
+			frequency = frequency.join();
 		}
 		
-		if(distributionMethod == 'Nothing selected') {
-			distributionMethod = '';
+		if(distributionMethod != null) {
+			distributionMethod = distributionMethod.join();
 		}
 
-		if(productName != '' && productName.length > 0 &&
-			productDescription != null && productDescription.length > 0 &&
-			assetClassId != null && assetClassId.length > 0 &&
-			securityTypes != '' && securityTypes.length > 0 &&
-			coverageRegion != 'Nothing selected' && coverageRegion.length > 0 && 
-			coverageCountry != 'Nothing selected' && coverageCountry.length > 0 &&
-			coverageExchange != 'Nothing selected' && coverageExchange.length >0 &&
-			costRange != null && costRange > 0){
+		if( productName != '' && productDescription != '' &&
+			assetClassId != null && securityTypes != '' && 
+			coverageRegion != null && coverageCountry != null && 
+			coverageExchange != null &&
+			costRange != ''){
 
 			var data = {
+				"productId" : productId,
 				"productName" : productName,
 				"productDescription" : productDescription,
 				"assetClassId" : assetClassId,
-				"securityTypes" : (securityTypes != null)? securityTypes : "securityTypes",
+				"securityTypes" : (securityTypes != null)? ',' + securityTypes : '',
 				"launchedYear" : launchedYear,
 				"coverageRegion" : coverageRegion,
-				"coverageCountry" : coverageCountry,
-				"coverageExchange" : coverageExchange,
+				"coverageCountry" : (coverageCountry != null) ? ',' + coverageCountry : '',
+				"coverageExchange" : (coverageExchange != null) ? ',' + coverageExchange : '',
 				"phoneNumber" : phoneNumber,
 				"email" : email,
 				"costRange" : costRange,
-				"feedType" : feedType,
-				"feedSubType" : feedSubType,
-				"frequency" :frequency,
-				"distributionMethod" : distributionMethod
+				"feedType" : (feedType != null) ? ',' + feedType : '',
+				"feedSubType" : (feedSubType != null) ? ',' + feedSubType : '',
+				"frequency" :(frequency != null) ? ',' + frequency : '',
+				"distributionMethod" : (distributionMethod != null) ? ',' + distributionMethod : ''
 			}
 
 			$.ajax({
@@ -1675,11 +1748,10 @@ function activeVendorAnalyticsResearchMyofferings(tabmode){
 ////File validation while uploading image-------------------
 
 function validateYear(year){
-	if(!(year.value.match(/^\d{4}$/))){
-		$(".generic_message .alert").addClass("alert-danger").text("Please enter valid year");
-		year.value="";
+	if(year != '' && !(year.match(/^\d{4}$/))){
+		$(".generic_message .alert").addClass("alert-danger").text("Please enter valid year").show();
 	} else {
-		$(".generic_message .alert").removeClass("alert-danger").text("");
+		$(".generic_message .alert").removeClass("alert-danger").text("").hide();
 	}
 }
 
@@ -3033,4 +3105,9 @@ function progressLoader(isLoading) {
 	} else {
 		$("#spinner").hide();
 	}
+}
+
+function isValidEmailAddress(emailAddress) {
+    var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+    return pattern.test(emailAddress);
 }

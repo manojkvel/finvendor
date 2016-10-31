@@ -21,8 +21,7 @@
 <c:set var="researchreport" value="${researchreport}"></c:set>
 <!DOCTYPE html>
 <head>
-	<title>My Offerings</title>
-	
+	<title>Vendor - My Offerings</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
 	<meta name="description" content="" />
@@ -86,6 +85,7 @@
 						</div>
 						<div class="product_info">
 							<h3>Product Info <span class="fa fa-chevron-up"></span></h3>
+							<input type="text" name="productId" id="productId" hidden="hidden" />
 							<ul>
 								<li>
 									<input type="text" name="productName" id="productName" required />
@@ -96,11 +96,11 @@
 									<label>Product Description</label>
 								</li>
 								<li>
-									<input type="text" name="launchedYear" id="launchedYear" onblur="validateYear(this)" required />
+									<input type="text" name="launchedYear" id="launchedYear" required />
 									<label>Launched Year</label>
 								</li>
 								<li>
-									<select class="selectpicker" id="assetClassId" name="assetClassId">
+									<select class="selectpicker show-tick" id="assetClassId" name="assetClassId">
 										<c:forEach var="assetClasses" items="${assetClasses}">
 										<option value="${assetClasses.asset_class_id}">${assetClasses.description}</option>
 										</c:forEach>
@@ -118,11 +118,11 @@
 							</ul>
 						</div>
 						<div class="data_coverage_info">
-							<h3>Data Coverage Info <span class="fa fa-chevron-down"></span></h3>
+							<h3>Data Coverage Info <span class="fa fa-chevron-up"></span></h3>
 							<ul>
 								<li>
 									<div>
-										<select class="selectpicker" name="coverageRegion" id="coverageRegion" data-mandatory="Y" onchange="getCountries('supportcoverageregion','supportcoverageregion')">			
+										<select class="selectpicker show-tick" name="coverageRegion" id="coverageRegion" data-mandatory="Y" onchange="getCountries('supportcoverageregion','supportcoverageregion')">			
 											<c:forEach var="regions" items="${regions}">
 											<option value="${regions.name}">${regions.name}</option>
 											</c:forEach>

@@ -261,6 +261,7 @@ h4 {
 
 .alert {
 	margin-bottom: 0;
+	display: none;
 }
 
 .custom_form ul li {
@@ -581,7 +582,7 @@ textarea:valid ~ label {
 	display: none;
 }
 
-#data_aggregator .data_coverage_info ul,
+/*#data_aggregator .data_coverage_info ul,*/
 #data_aggregator .data_distribution_info ul {
 	display: none;
 }
