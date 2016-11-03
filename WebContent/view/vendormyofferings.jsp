@@ -79,7 +79,7 @@
 					</a>
 				</div>
 				<div id="data_aggregator" class="custom_form">
-					<form name="data_aggregator_form" id="data_aggregator_form" method="POST">
+					<form name="data_aggregator_form" id="data_aggregator_form">
 						<div class="generic_message">
 							<div class="alert"></div>
 						</div>
@@ -96,7 +96,7 @@
 									<label>Product Description</label>
 								</li>
 								<li>
-									<input type="text" name="launchedYear" id="launchedYear" required />
+									<input type="number" name="launchedYear" id="launchedYear" required />
 									<label>Launched Year</label>
 								</li>
 								<li>
@@ -122,9 +122,9 @@
 							<ul>
 								<li>
 									<div>
-										<select class="selectpicker show-tick" name="coverageRegion" id="coverageRegion" data-mandatory="Y" onchange="getCountries('supportcoverageregion','supportcoverageregion')">			
+										<select class="selectpicker show-tick" name="coverageRegion" id="coverageRegion">			
 											<c:forEach var="regions" items="${regions}">
-											<option value="${regions.name}">${regions.name}</option>
+											<option value="${regions.region_id}">${regions.name}</option>
 											</c:forEach>
 										</select>
 										<label class="default_select">Coverage Region</label>
@@ -134,7 +134,7 @@
 									<select class="selectpicker select_multiple" name="coverageCountry" 
 									id="coverageCountry" multiple="multiple">
 										<c:forEach var="countries" items="${countries}">
-										<option value="${countries.name}" >${countries.name}</option>
+										<option value="${countries.country_id}" >${countries.name}</option>
 										</c:forEach>
 									</select>
 									<label class="default_select">Coverage Country</label>
@@ -142,7 +142,7 @@
 								<li>
 									<select class="selectpicker select_multiple" name="coverageExchange"  multiple="multiple" id="coverageExchange">
 										<c:forEach var="exchanges" items="${exchanges}">
-										<option value="${exchanges.name}">${exchanges.name}</option>
+										<option value="${exchanges.exchange_id}">${exchanges.name}</option>
 										</c:forEach>
 									</select>
 									<label class="default_select">Coverage Exchange</label>
@@ -200,6 +200,21 @@
 									</select>
 									<label class="default_select">Distribution Method</label>
 								</li>
+								<li>
+									<input id="fileName" name="fileName" type="text"/>
+									<label>File Name</label>
+									<div class="Rowtableinfoval"><font id="myofferingsdatacoveragetabsucessmessage" style="font-size: 14px;font-family:Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;margin: -19px 0px 0px 15px;"></font>
+										<div class="image-upload" style="margin-left: 252px;">
+											<label class="control-label-fileupload" >Bulk Insert Option (using .CSV or .Xls)<span class="required">*</span> 
+												<a href="<%=request.getContextPath()%>/<%=RequestConstans.Document.DOCUMENT_DOWNLOAD%>?RaYuL=${'/files/SupportDetails_insurance_sample.csv'}&VeMu=${path}" target="_blank"> <img src="<%=request.getContextPath() %>/resources/images/csv.png" style="padding:0px 0px 4px 0px;"/></a>&nbsp;
+												OR &nbsp;<a href="<%=request.getContextPath()%>/<%=RequestConstans.Document.DOCUMENT_DOWNLOAD%>?RaYuL=${'/files/SupportDetails_insurance_sample.csv'}&VeMu=${path}" target="_blank"><img src="<%=request.getContextPath() %>/resources/images/xls.png" style="padding:0px 0px 4px 0px;" /></a> &nbsp;&nbsp;&nbsp;&nbsp; 
+											</label>
+										</div>
+										<div class="ColumnCommonray">
+											<a class="#" data-toggle="modal" href="#normalModal"><span class="lable_headeractions"><img src="<%=request.getContextPath() %>/resources/images/attachment.png"/>Bulk Upload here</span></a>
+										</div>
+									</div>
+								</li>
 							</ul>
 						</div>
 						<p class="action_btn">
@@ -226,6 +241,26 @@
     <!-- END CONTAINER -->
  
     <jsp:include page="common/footer.jsp"></jsp:include>
+
+										<div id="normalModal" class="modal fade">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+														<h4 class="modal-title">Upload Your File</h4>
+													</div>
+													<div class="modal-body">
+														<input type="file" name="fileUpload" class="m-wrap largefileuploadconspopup" id="fileUploadmyoffercoverage">&nbsp;&nbsp;&nbsp;&nbsp;<a class="fileupmyoffercoverage btnpopup btn-default">Upload</a>
+														<div id="selectedFiles"></div>
+														<div><br></div>
+														<a class="btnpopup btn-default" onclick="loadCheckBoxes();">Remove</a> 
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													</div>
+												</div> 
+											</div> 
+										</div> 
 	
   	<script type="text/javascript" 	src="<%=request.getContextPath() %>/resources/js/finvendorValidation.js"></script>
     <link rel="stylesheet" src="<%=request.getContextPath() %>/resources/css/vendor.css"/>

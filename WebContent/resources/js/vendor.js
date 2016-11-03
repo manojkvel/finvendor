@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
  
 	$("#vendor_profile #tab1 #top-card #edit-details").on("click", function() {
+		progressLoader(false);
 		$("#personal_details").slideDown();
 		$("#top-card").slideUp();
 		$("#personaltabfailuremessage").html('');
@@ -23,10 +24,6 @@ jQuery(document).ready(function() {
 
 	$("#vendor_profile .nav-tabs .awards_details").on("click", function() {
 		listVendorAward();
-		$("#personal_details").slideUp();
-		$("#top-card").slideDown();
-		$("#award_details").slideUp();
-		$("#awards_top_card").slideDown();
 	});
 
 	$("#vendor_profile #tab1 .next").on("click", function() {
@@ -37,9 +34,7 @@ jQuery(document).ready(function() {
 
 
 	$("#vendor_profile #tab3 #awards_top_card #edit-details").on("click", function() {
-		$("#award_details").slideDown();
-		$("#awards_top_card").slideUp();
-		$("#awardtabsucessmessage").html('');
+		openVendorAwardForm();
 	});
 
 	$("#vendor_profile #tab3 #award_details .save").on("click", function() {
@@ -99,6 +94,13 @@ jQuery(document).ready(function() {
 	});
 
 
+
+	$("#award_details #awardedyear").on('blur', function() {
+		var year = $("#award_details #awardedyear").val().trim();
+		validateYear(year);
+	});
+
+
 	$(document).on("click", "#awards_top_card .award-list .delete_btn", function (e) {
     	
 		
@@ -150,10 +152,22 @@ jQuery(document).ready(function() {
 		validateYear(year);
 	});
 
+	$("select[name=coverageRegion]").on('change', function() {
+		getCountryListMultiInfo('coverageCountry', 'coverageRegion');
+	});
+
+	$("select[name=coverageCountry]").on('change', function() {
+		getExchangeList($("select[name=coverageCountry]").selectpicker('val'));
+	});
+
 	openDataAggregratorForm = function() {
 		resetDataAggregratorForm();
 		$("#data_aggregator").slideDown();
 		$("#data_aggregator_top_card").slideUp();
+
+		if(!isEdit) {
+			getCountryListMultiInfo('coverageCountry', 'coverageRegion');
+		}
 	}
 
 	closeDataAggregratorForm = function() {
@@ -327,7 +341,7 @@ jQuery(document).ready(function() {
 		var feedSubType = $("#data_aggregator #feedSubType").selectpicker('val');
 		var frequency = $("#data_aggregator #frequency").selectpicker('val');
 		var distributionMethod = $("#data_aggregator #distributionMethod").selectpicker('val');
-	
+
 		if(productName != '') {
 			$("#data_aggregator #productName").removeClass("error_field");
 		} else {
@@ -1750,7 +1764,7 @@ function activeVendorAnalyticsResearchMyofferings(tabmode){
 function validateYear(year){
 	if(year != '' && !(year.match(/^\d{4}$/))){
 		$(".generic_message .alert").addClass("alert-danger").text("Please enter valid year").show();
-	} else {
+	} else if(year.length === 4) {
 		$(".generic_message .alert").removeClass("alert-danger").text("").hide();
 	}
 }
@@ -2769,8 +2783,7 @@ function listAnalystProfile(){
 }
 
 function getRegion(countryId,regionId){
-	debugger;
-	
+
 	var countryId = $('#'+countryId+' option:selected').val();
 	$.ajax({
 		type: 'GET',                                                                                                                                                                               
@@ -2785,6 +2798,49 @@ function getRegion(countryId,regionId){
 	});
 }
 
+function getCountryListMultiInfo(countryId, regionId) {
+
+	var regionId = $("select[name=" + regionId + "]").selectpicker('val');
+
+	if(regionId != '' && regionId.length > 0 && !regionId.match("-SELECT-")){
+		regionId = encode64(regionId);
+		$.ajax({
+			type: 'GET',
+			url:  "loadCountryTypesInfoMulti?VeMuRaYu="+regionId,
+			cache:false,
+			success : function(response){
+				$("select[name=" + countryId + "]").empty()
+				$("select[name=" + countryId + "]").append(response);	
+				$("select[name=" + countryId + "]").selectpicker('refresh');
+			},
+			error : function(data, textStatus, jqXHR){
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+
+	}
+}
+
+function getExchangeList(countryId) {
+	if(countryId != '' && countryId.length > 0){
+		countryId = encode64(countryId);
+		$.ajax({
+			type: 'GET',
+			url:  "loadExchangeAssetList?RaYuLU="+countryId,
+			cache:false,
+			success : function(response){
+				$("select[name=coverageExchange]").empty()
+				$("select[name=coverageExchange]").append(response);	
+				$("select[name=coverageExchange]").selectpicker('refresh');	
+			},
+			error : function(data, textStatus, jqXHR){
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+
+	}
+
+}
 
 function changeTabMode(comp){
 	 //debugger; 
@@ -2855,29 +2911,50 @@ function listResearchCoverage(){
 
 
 
-//Award Details 
-function addVendorAward(){
-	//debugger;
+//Add Vendor Award Details 
+addVendorAward = function() {
 	
-    var awardname = $("#awardname").val();
-    var awardsponsor = $("#awardsponsor").val();
-    var awardedyear = $("#awardedyear").val();
+    var awardname = $("#awardname").val().trim();
+    var awardsponsor = $("#awardsponsor").val().trim();
+    var awardedyear = $("#awardedyear").val().trim();
     
-    var awardSolutionTypes = $("#awardSolutionTypes").val();
-    var awardVendorType = $("#awardVendorType").val();
-    var awardAnalyticsSolutionsType = $("#awardAnalyticsSolutionsType").val();
-    var awardResearchArea = $("#awardResearchArea").val();
-    var awardAssetclass = $("#awardAssetclass option:selected").text();
+    var awardVendorType = $("#awardVendorType").selectpicker('val');
+    var awardAssetclass = $("#awardAssetclass").selectpicker('val');
+
+    if(awardname != '') {
+    	$("#awardname").removeClass("error_field");
+    } else {
+    	$("#awardname").addClass("error_field");
+    }
+
+    if(awardsponsor != '') {
+    	$("#awardsponsor").removeClass("error_field");
+    } else {
+    	$("#awardsponsor").addClass("error_field");
+    }
+
+    if(awardedyear.length == 4) {
+    	$("#awardedyear").removeClass("error_field");
+    } else {
+    	$("#awardedyear").addClass("error_field");
+    }
     
-    if(awardname.length >0	&& awardsponsor != null && awardsponsor.length > 0 && awardedyear != null && awardedyear.length >0 ){
+    if( awardname != ''	&& awardsponsor != '' && 
+    	awardedyear.length === 4 ){
     	
     	if(checkExistingRecordVendors("awardsample_1",0,2,awardname,awardedyear))
     		return;
     	$("#awardname").val("");
+
+    	var data = {
+    		"awardname" : awardname,
+    		"awardsponsor" : awardsponsor,
+    		"awardedyear" : awardedyear
+    	}
     	
 		$.ajax({
 			type: 'GET',
-			url:  "updateVendorAwardDetails?awardname="+awardname+"&awardsponsor="+awardsponsor+"&awardedyear="+awardedyear+"&awardResearchArea="+awardResearchArea+"&awardSolutionTypes="+awardSolutionTypes+"&awardVendorType="+awardVendorType+"&awardAnalyticsSolutionsType="+awardAnalyticsSolutionsType+"&awardAssetclass="+awardAssetclass,
+			url:  "updateVendorAwardDetails?awardname="+awardname+"&awardsponsor="+awardsponsor+"&awardedyear="+awardedyear+"&awardVendorType="+awardVendorType+"&awardAssetclass="+awardAssetclass,
 			cache:false,
 			success : function(response){
 				var awardname = $("#awardname").val("");
@@ -2903,9 +2980,8 @@ function addVendorAward(){
 				//alert('Error: '+data+':'+textStatus);
 			}
 		});
-	}else{
-		alert("Please enter mandatory fields");
-		
+	} else {
+		$("#award_details .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
 	}
 	
 }
@@ -2927,10 +3003,23 @@ function checkExisitngAward(awardname,awardyear){
 	return status;
 }
 
+openVendorAwardForm = function() {
+	resetVendorAwardForm();
+	$("#award_details").slideDown();
+	$("#awards_top_card").slideUp();
+}
 
+resetVendorAwardForm = function() {
+	$("#award_details .alert").hide();
+	$("#award_details").trigger('reset');
+	$('.selectpicker').selectpicker('refresh');
+	$(".error_field").removeClass("error_field");
+}
 
 
 listVendorAward = function(){
+	$("#award_details").slideUp();
+	$("#awards_top_card").hide();
 	progressLoader(true);
 
 	$.ajax({
@@ -2938,17 +3027,17 @@ listVendorAward = function(){
 		url:  "updateVendorAwardDetails",
 		cache:false,
 		success : function(response) {
-			if(response.length === 0) {
-				$("#award_details").slideDown();
-				$("#awards_top_card").slideUp();
-				$("#awardtabsucessmessage").html('');
+			var totalCount = response.length;
+
+			if(totalCount === 0) {
 				progressLoader(false);
+				openVendorAwardForm();
 				return false;
 			}
 
 			$("#awards_top_card .awards_info").empty();	 
 			var tableRecord = "";
-			for(i =0 ; i < response.length ; i++){                                                                                    
+			for(i =0 ; i < totalCount ; i++){                                                                                    
 				tableRecord += "<div class='award-list' id='" + response[i].id + "_awarddetails'>" +
 				'<h3>'+response[i].name+'</h3>' +
 				'<h4>'+response[i].description + ' | ' + response[i].awardVendorType +'</h4>' +
@@ -2958,9 +3047,12 @@ listVendorAward = function(){
 			}
 			progressLoader(false);
 			$("#awards_top_card .awards_info").append(tableRecord);
+			$("#award_details").slideUp();
+			$("#awards_top_card").slideDown();
 		},
 		error : function(data, textStatus, jqXHR){
 			progressLoader(false);
+			$("#data_aggregator .alert").removeClass("alert-success").addClass("alert-danger").text('Please try again after sometime').show();
 		}
 	});
 }

@@ -32,6 +32,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta name="author" content="" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
 </head>
@@ -67,20 +68,7 @@
 											</ul>
 											
 											<div class="tab-content" style="background-color: white;">
-												<div id='spinner'>
-													<div class="spinner_gif">
-														<div class="sk-folding-cube">
-															<div class="sk-cube1 sk-cube"></div>
-															<div class="sk-cube2 sk-cube"></div>
-															<div class="sk-cube4 sk-cube"></div>
-															<div class="sk-cube3 sk-cube"></div>
-														</div>
-													</div>
-													<!-- <div class="spinner_text">
-														<p class="spinner_heading">{{Loading}}...</p>
-														<p>Please wait for a moment.</p>
-													</div> -->
-												</div>
+												<jsp:include page="common/progressLoader.jsp"></jsp:include>
 												<div class="tab-pane active" id="tab1">
 													<div id="top-card">
 														<div class="profile-top-card top-card">
@@ -221,7 +209,6 @@
 
 												<div class="tab-pane" id="tab3">
 													<div id="awards_top_card">
-														
 														<div class="awards_info">
 														</div>
 														<a class="btn" id="edit-details">
@@ -230,8 +217,7 @@
 													</div>
 													<div id="award_details" class="custom_form">
 														<div class="generic_message">
-															<font id="awardtabsucessmessage"
-															style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;"></font>
+															<div class="alert"></div>
 														</div>
 														<ul>
 															<li>
@@ -243,13 +229,11 @@
 																<label>Award Sponsor</label>
 															</li>
 															<li>
-																<input type="text" name="awardedyear" id="awardedyear"  required />
+																<input type="number" name="awardedyear" id="awardedyear"  required />
 																<label>Awarded Year</label>
 															</li>
-														</ul>
-														<ul>
 															<li>
-																<select name="awardVendorType" id="awardVendorType">
+																<select class="selectpicker show-tick" name="awardVendorType" id="awardVendorType">
 																	<option value="Data Aggregator vendor">Data	Aggregator vendor</option>
 																	<option value="Trading Application vendor">Trading Application vendor</option>
 																	<option value="Analytics Application vendor">Analytics Application vendor</option>
@@ -258,14 +242,14 @@
 																<label class="default_select">Vendor Type</label>
 															</li>
 															<li>
-																<select name="awardAssetclass" id="awardAssetclass">
+																<select class="selectpicker show-tick" name="awardAssetclass" id="awardAssetclass">
 																	<c:forEach var="assetClasses" items="${assetClasses}">
 																	<option value="${assetClasses.asset_class_id}">${assetClasses.description}</option>
-																</c:forEach>
-															</select>
-															<label class="default_select">Asset Class</label>
-														</li>
-													</ul>
+																	</c:forEach>
+																</select>
+																<label class="default_select">Asset Class</label>
+															</li>
+														</ul>
 													<p class="action_btn">
 														<a class="submit_btn save" data-toggle="tab">Save</a>
 														<a class="submit_btn previous hide" data-toggle="tab" href="#tab1">Previous</a>
@@ -986,29 +970,8 @@ window.onload = function(){
 			}
 		};
 	</script>
-	<!-- tab active code end here-->
-
-	<!-- popup window plugins start-->
-	<script src="<%=request.getContextPath()%>/resources/js/popup.js"
-		type="text/javascript"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/jquery-min.js"
-		type="text/javascript"></script>
-	<script src="<%=request.getContextPath()%>/resources/js/modernizr.js"
-		type="text/javascript"></script>
-	<script
-		src="<%=request.getContextPath()%>/resources/js/bootstrap-min.js"
-		type="text/javascript"></script>
-	<!-- popup window plugins ends-->
-
-	<!-- Add to table plugins start-->
-	<script type="text/javascript"
-		src="<%=request.getContextPath()%>/resources/js/jquery.tabletojson.min.js"></script>
-	<script type="text/javascript"
-		src="<%=request.getContextPath()%>/resources/js/jquery.tabletojson.js"></script>
-	<!-- Add to table plugins end here-->
-
-	<!-- Date plugins start-->
 	<script>
+		progressLoader(false);
 		function loadSecurityTypes(assettypeId) {
 		 	
 				if(assettypeId != '' && assettypeId.length > 0 && !assettypeId.match("-SELECT-")){
@@ -1031,7 +994,12 @@ window.onload = function(){
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"
 		type="text/javascript"></script>
 
-	<!-- Date plugins start-->
+  
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 
 </body>
 </html>
