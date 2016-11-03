@@ -1,5 +1,6 @@
 package com.finvendor.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.dao.ReferenceDataDao;
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.json.bean.ReferenceDataJson;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
@@ -82,6 +84,50 @@ public class ReferenceDataServiceImpl
 	public Country getCountryById(String countryId)
 			throws ApplicationException {
 		return referenceDataDao.getCountryById(countryId);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<ReferenceDataJson> getJsonReferenceData(String type) 
+			 throws ApplicationException {
+		logger.debug("Entering : ReferenceDataServiceImpl - getJsonReferenceData for : {}", 
+				type);
+		List<ReferenceDataJson> refDataList = new ArrayList<ReferenceDataJson>();
+		try {
+			switch(type) {
+				case "Country" :
+					List<Country> countryList = referenceDataDao.
+							getAllCountries();
+					for(Country country : countryList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(country.getCountry_id().toString());
+						refData.setDescription(country.getName());
+						refDataList.add(refData);
+					}
+					break;
+				default :
+					logger.error("Wrong Type in getJsonReferenceData : {}", 
+							type);
+			}
+		} catch (Exception exp) {
+			logger.debug("Error fetching Reference data for : {}", type);
+			throw new ApplicationException("Error fetching Reference data");
+		}
+		return refDataList;
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public ReferenceDataJson getJsonReferenceDataById(String type, 
+			String id) {
+		return null;
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<ReferenceDataJson> getJsonReferenceDataByParentId(
+			String type, String id) {
+		return null;
 	}
 
 }
