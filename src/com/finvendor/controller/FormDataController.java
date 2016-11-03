@@ -1,5 +1,6 @@
 package com.finvendor.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,12 +9,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.finvendor.json.bean.ReferenceDataJson;
+import com.finvendor.json.bean.VendorDataAggregatorsOfferingJson;
 import com.finvendor.model.SecurityType;
+import com.finvendor.model.VendorDataAggregatorsOffering;
 import com.finvendor.service.ReferenceDataService;
 
 @Controller
@@ -94,5 +100,26 @@ public class FormDataController {
 		logger.debug("Leaving - FormDataController : loadFormReferenceDataForSelect for method {}", 
 				methodName);
 		return null;
+	}
+	
+	@RequestMapping(value="getJsonReferenceData", method = RequestMethod.GET)
+	public @ResponseBody List<ReferenceDataJson> getJsonReferenceData(
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "referenceDataType", required = true) String referenceDataType) {
+		
+		logger.debug("Entering  - FormDataController : getJsonReferenceData for {}"
+				, referenceDataType);
+		List<ReferenceDataJson> refData = null;
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				request.getRequestDispatcher("/").forward(request, response);
+			}			
+			refData =  referenceDataService.getJsonReferenceData(referenceDataType);			
+		} catch (Exception exp) {
+			logger.error("Error Reading reference data for {}", referenceDataType); 			
+		}
+		logger.debug("Leaving  - FormDataController : getJsonReferenceData for {}"
+				, referenceDataType);
+		return refData;
 	}
 }
