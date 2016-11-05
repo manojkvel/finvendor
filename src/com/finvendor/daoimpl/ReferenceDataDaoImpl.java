@@ -1,5 +1,6 @@
 package com.finvendor.daoimpl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -25,6 +26,13 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Override
+	public Object getModelObjectById(Class<?> type, Serializable id) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Object modelObject = session.get(type, id);
+		return modelObject;
+	}
 		
 	/* Asset Class */
 	
@@ -93,25 +101,32 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	
 	/* Region */
 	
-	@Override
-	public String getRegion(String countryId)
-			throws ApplicationException {
-		Session currentSession = sessionFactory.getCurrentSession();
-		Country country = (Country)currentSession.get(Country.class, Integer.parseInt(countryId));
-		Region region = country.getRegion();
-		return region.getName();
+	public List<Region> getAllRegions() throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllRegions");		
+		List<Region> regions = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(Region.class);
+			regions = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading All getAllRegions", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllRegions");
+		return regions;
 	}
 	
+	
 	@Override
-	public Region getRegionsByName(String regionName)
+	public Region getRegionByName(String regionName)
 			throws ApplicationException {
-		logger.debug("Entering : ReferenceDataDaoImpl - getRegionsByName for : {}", 
+		logger.debug("Entering : ReferenceDataDaoImpl - getRegionByName for : {}", 
 				regionName);
 		Region region=null; Criteria criteria=null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(
-					Region.class);
-			criteria.add(Restrictions.sqlRestriction("lower(name) like '" + 
+					Region.class, "region");
+			criteria.add(Restrictions.sqlRestriction("lower({alias}.name) like '" + 
 					regionName.toLowerCase() + "'"));
 			region = (Region) criteria.uniqueResult();
 		}catch (Exception exp) {
@@ -119,7 +134,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 					regionName, exp);
 			throw new ApplicationException("Error fetching reference data details");
 		}
-		logger.debug("Leaving : ReferenceDataDaoImpl - getRegionsByName for : {}", 
+		logger.debug("Leaving : ReferenceDataDaoImpl - getRegionByName for : {}", 
 				regionName);
 		return region;
 	}
@@ -143,22 +158,14 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	}
 	
 	@Override
-	public Country getCountryById(String countryId)
-			throws ApplicationException {
-		Session currentSession = sessionFactory.getCurrentSession();
-		Country country = (Country)currentSession.get(Country.class, Integer.parseInt(countryId));
-		return country;
-	}
-	
-	@Override
 	public Country getCountryByName(String countryName)
 			throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getCountryByName for : {}", 
 				countryName);
 		Country country=null; Criteria criteria=null;
 		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(Country.class);
-			criteria.add(Restrictions.sqlRestriction("lower(name) like '" + countryName.toLowerCase() + "'"));
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(Country.class, "country");
+			criteria.add(Restrictions.sqlRestriction("lower({alias}name) like '" + countryName.toLowerCase() + "'"));
 			country = (Country) criteria.uniqueResult();
 		}catch (Exception exp) {
 			logger.error("Error reading Country details for {}", 
@@ -173,22 +180,53 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	@Override
 	public List<Country> getCountriesByRegionId(String regionId) 
 			throws ApplicationException {
-		
-		return null;
+		logger.debug("Entering : ReferenceDataDaoImpl - getCountriesByRegionId for : {}", 
+				regionId);
+		List<Country> countries = null;
+		Criteria criteria=null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(Country.class, "country");
+			criteria.add(Restrictions.sqlRestriction("{alias}.region_id = " + regionId ));
+			countries = criteria.list(); 
+		}catch (Exception exp) {
+			logger.error("Error reading Country details for Region {}", 
+					regionId, exp);
+			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getCountriesByRegionId for : {}", 
+				regionId);
+		return countries;
 	}
 	
 	/* Exchange */
 	
 	@Override
-	public Exchange getExchangesByName(String exchangeName)
+	public List<Exchange> getAllExchanges() 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllExchanges");		
+		List<Exchange> exchanges = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(Exchange.class);
+			exchanges = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading All Exchanges", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllExchanges");
+		return exchanges;
+	}
+	
+	@Override
+	public Exchange getExchangeByName(String exchangeName)
 			throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getExchangesByName for : {}", 
 				exchangeName);
 		Exchange exchange=null; Criteria criteria=null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(
-					Exchange.class);
-			criteria.add(Restrictions.sqlRestriction("lower(name) like '" + 
+					Exchange.class, "exchange");
+			criteria.add(Restrictions.sqlRestriction("lower({alias}name) like '" + 
 			exchangeName.toLowerCase() + "'"));
 			exchange = (Exchange) criteria.uniqueResult();
 		}catch (Exception exp) {
@@ -200,5 +238,27 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 				exchangeName);
 		return exchange;
 	}
-		
+	
+	@Override
+	public List<Exchange> getExchangesByCountryId(String countryId) 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getCountriesByRegionId for : {}", 
+				countryId);
+		List<Exchange> exchanges = null;
+		Criteria criteria=null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(Exchange.class, "exchange");
+			criteria.add(Restrictions.sqlRestriction("{alias}.country_id = " + countryId ));
+			exchanges = criteria.list(); 
+		}catch (Exception exp) {
+			logger.error("Error reading Country details for Region {}", 
+					countryId, exp);
+			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getCountriesByRegionId for : {}", 
+				countryId);
+		return exchanges;
+	}
+	
+	
 }

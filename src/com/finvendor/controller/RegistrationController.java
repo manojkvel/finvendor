@@ -316,7 +316,6 @@ public class RegistrationController {
 				vendor.setCompanyType(companyType);
 				vendor.setTags(tags);
 				vendor.setCompanyAddress("");
-				vendor.setCountryofincorp("");				
 				vendor.setUser(user);
 				user.setVendor(vendor);
 			}else {				

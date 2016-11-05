@@ -78,7 +78,7 @@ public class Vendor implements Serializable {
 	private Integer regionofincorp;
 	
 	@Column(name="countryofincorp")
-	private String 	countryofincorp;
+	private String countryofincorp;
 		 	
 	@OneToOne
 	@JoinColumn(name="username", nullable=false)

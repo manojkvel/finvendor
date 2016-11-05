@@ -1107,8 +1107,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "venCompanyLogo", required = false) String venCompanyLogoFile,
 			@RequestParam(value = "support", required = false) String support,
 			@RequestParam(value = "weekend", required = false) String weekend,
-			@RequestParam(value = "publicHolidays", required = false) String publicHolidays,
-			
+			@RequestParam(value = "publicHolidays", required = false) String publicHolidays,			
 			@ModelAttribute("region") Region region,
 			@ModelAttribute("country") Country country) {
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -1131,11 +1130,13 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendor.setSecondaryEmail(venSecEmail);
 				vendor.setTelephone(venPhoneNum);
 				
-				region = referenceDataService.getRegionsByName(venRegionOfIncorp);
+				region = referenceDataService.getRegionByName(venRegionOfIncorp);
 				vendor.setRegionofincorp(region.getRegion_id());
-				country = referenceDataService.getCountryById(venCountryOfIncorp);
-				vendor.setCountryofincorp(country.getCountry_id().toString());
+				country = (Country)referenceDataService.getModelObjectById(Country.class,
+						new Integer(venCountryOfIncorp));
+				vendor.setCountryofincorp(country.getCountry_id() + "");
 				
+				/*
 				VendorSupport vendorSupport = new VendorSupport();
 				try{
 				Class<? extends VendorSupport> c = vendorSupport.getClass();
@@ -1150,6 +1151,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				}catch(NoSuchMethodException e){
 					logger.error("Mehtod not found -- ", e);
 				}
+				*/
+				
 				vendorService.updateVendorPersonalInfoTab(vendor,appUser.getUsername());
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
 				//vendor = vendorService.getVendorDetails(appUser.getUsername());
@@ -1867,6 +1870,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	}
 	
 
+	/*
 	@SuppressWarnings("unused")
 	@RequestMapping(value =RequestConstans.Vendor.VENDOR_GET_REGION, method = RequestMethod.GET)
 	public @ResponseBody String getRegion(@RequestParam(value = "country", required = false) String country){
@@ -1878,6 +1882,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			return null;
 		}
 	}
+	*/
 	
 	/**
 	 * method to update vendor my offerings data coverage info
