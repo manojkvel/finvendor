@@ -588,6 +588,12 @@ table {
 	padding: 0;
 }
 
+.cd-switcher-forgot-password,
+.cd-switcher-change-password,
+.cd-switcher-success-message {
+	display: none;
+}
+
 .cd-switcher,.cd-switcher-forgot-password,.cd-switcher-change-password,.cd-switcher-success-message
 	{
 	background: #34bf98;
@@ -608,7 +614,10 @@ table {
 	border-right: 1px solid #f5f5f5;
 }
 
-.cd-user-modal-container .cd-switcher a {
+.cd-user-modal-container .cd-switcher a,
+.cd-switcher-forgot-password span,
+.cd-switcher-change-password span,
+.cd-switcher-success-message span {
 	background: none;
 	border-radius: 0 !important;
 	width: auto;
@@ -653,6 +662,20 @@ table {
 	border: 0 !important;
 	display: inline-block;
 	padding: 3px 6px;
+}
+
+.form-wrapper p {
+	font-size: 13px;
+}
+
+#register_vendor_area_of_interest {
+	display: none;
+}
+
+.cd-user-modal-container .submit-btn:hover,
+.cd-user-modal-container .submit-btn:focus,
+.cd-user-modal-container .submit-btn:active {
+	color: #fff;
 }
 
 .cd-user-modal-container #userRegisterSpan ul {

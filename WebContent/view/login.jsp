@@ -38,13 +38,13 @@
 					<li><a href="#0">Login</a></li>
 					<li><a href="#0">Register</a></li>
 				</ul>
-				<ul class="cd-switcher-forgot-password hide">
+				<ul class="cd-switcher-forgot-password">
 					<li><span>Forgot Password</span></li>
 				</ul>
-				<ul class="cd-switcher-change-password hide">
+				<ul class="cd-switcher-change-password">
 					<li><span>Change Password</span></li>
 				</ul>
-				<ul class="cd-switcher-success-message hide">
+				<ul class="cd-switcher-success-message">
 					<li><span>Thank You</span></li>
 				</ul>
 				
@@ -136,7 +136,7 @@
 											<option value="Other Firm" id="10" title='Other firm'>Other firm</option>
 										</select>
 									</li>
-									<li id="register_vendor_area_of_interest" class="normal-line hide">
+									<li id="register_vendor_area_of_interest" class="normal-line">
 										<label for='vendorareaofinterest'>Vendor Area of Interest</label>
 										<select id="sigup-tags" name="tags" class="form-control" multiple="multiple">
 											<option value ="-SELECT-" selected>-Select Vendor area of Interest-</option>
