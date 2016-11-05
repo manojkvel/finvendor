@@ -105,7 +105,8 @@ public class FormDataController {
 	@RequestMapping(value="getJsonReferenceData", method = RequestMethod.GET)
 	public @ResponseBody List<ReferenceDataJson> getJsonReferenceData(
 			HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value = "referenceDataType", required = true) String referenceDataType) {
+			@RequestParam(value = "referenceDataType", required = true) String referenceDataType,
+			@RequestParam(value = "parentId", required = false) String parentId) {
 		
 		logger.debug("Entering  - FormDataController : getJsonReferenceData for {}"
 				, referenceDataType);
@@ -114,7 +115,7 @@ public class FormDataController {
 			if(request.getSession().getAttribute("loggedInUser") == null){
 				request.getRequestDispatcher("/").forward(request, response);
 			}			
-			refData =  referenceDataService.getJsonReferenceData(referenceDataType);			
+			refData =  referenceDataService.getJsonReferenceData(referenceDataType, parentId);			
 		} catch (Exception exp) {
 			logger.error("Error Reading reference data for {}", referenceDataType); 			
 		}

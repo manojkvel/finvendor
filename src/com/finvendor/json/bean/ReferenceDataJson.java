@@ -3,7 +3,8 @@ package com.finvendor.json.bean;
 public class ReferenceDataJson {
 	
 	private String id;
-	private String description;
+	private String name;
+	private String parentId;
 	
 	public String getId() {
 		return id;
@@ -11,10 +12,17 @@ public class ReferenceDataJson {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getDescription() {
-		return description;
+	public String getName() {
+		return name;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
 	}
+	public String getParentId() {
+		return parentId;
+	}
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+	
 }

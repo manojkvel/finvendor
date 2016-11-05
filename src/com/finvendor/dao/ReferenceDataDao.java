@@ -1,9 +1,9 @@
 package com.finvendor.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.finvendor.exception.ApplicationException;
-import com.finvendor.json.bean.ReferenceDataJson;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
@@ -20,20 +20,24 @@ public interface ReferenceDataDao {
 	public SecurityType getSecurityTypes(String security)
 			throws ApplicationException;
 	
-	public Region getRegionsByName(String regionsName)
+	public Region getRegionByName(String regionsName)
 			throws ApplicationException;
-	public String getRegion(String country)
+	public List<Region> getAllRegions() 
 			throws ApplicationException;
 	
 	public List<Country> getAllCountries() 
 			throws ApplicationException;	
 	public Country getCountryByName(String countryName)
 			throws ApplicationException;
-	public Country getCountryById(String countryId)
-			throws ApplicationException;
 	public List<Country> getCountriesByRegionId(String regionId) 
 			throws ApplicationException;	
 	
-	public Exchange getExchangesByName(String exchangeName)
+	public List<Exchange> getAllExchanges()
 			throws ApplicationException;
+	public Exchange getExchangeByName(String exchangeName)
+			throws ApplicationException;
+	public List<Exchange> getExchangesByCountryId(String countryId)
+			throws ApplicationException;
+	
+	public Object getModelObjectById(Class<?> type, Serializable id);
 }

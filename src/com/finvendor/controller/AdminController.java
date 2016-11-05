@@ -271,15 +271,23 @@ public class AdminController {
 			Country country = null;
 			FinVendorUser user = userService.getUserDetailsByUsername(userName);
 			if(user.getVendor() != null) {
-				if(user.getVendor().getCountryofincorp() != null && !user.getVendor().getCountryofincorp().equals("")) {
-					country = referenceDataService.getCountryById(user.getVendor().getCountryofincorp());
-				}
-				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
-				marketDataOfferings = vendorService.getMarketDataVendorOfferingsForProfile(user.getVendor().getId());
-				tradingApplicationOfferings = vendorService.getTradingApplicationOfferingsForProfile(user.getVendor().getId());
-				analyticsApplicationOfferings = vendorService.getAnalyticsApplicationOfferingsForProfile(user.getVendor().getId());
-				researchReportOfferings = vendorService.getResearchReportOfferingsForProfile(user.getVendor().getId());
-				vendorAwardDetails = vendorService.getVendorAwardDetailsForProfile(user.getVendor().getId());
+				if(user.getVendor().getCountryofincorp() != null && !user.getVendor().
+						getCountryofincorp().equals("")) {
+					country = (Country)referenceDataService.getModelObjectById(
+							Country.class, new Integer(user.getVendor().getCountryofincorp()));
+					}
+				CommonUtils.populateVendorProfileRequest(user.getVendor(), 
+						vendorService, modelAndView);
+				marketDataOfferings = vendorService.
+						getMarketDataVendorOfferingsForProfile(user.getVendor().getId());
+				tradingApplicationOfferings = vendorService.
+						getTradingApplicationOfferingsForProfile(user.getVendor().getId());
+				analyticsApplicationOfferings = vendorService.
+						getAnalyticsApplicationOfferingsForProfile(user.getVendor().getId());
+				researchReportOfferings = vendorService.
+						getResearchReportOfferingsForProfile(user.getVendor().getId());
+				vendorAwardDetails = vendorService.getVendorAwardDetailsForProfile(
+						user.getVendor().getId());
 				
 				/*
 				marketDataOfferings = new ArrayList<Object[]>();
@@ -518,7 +526,8 @@ public class AdminController {
 				modelAndView.addObject("vendorAwardDetails", vendorAwardDetails);
 			}else if(user.getConsumer() != null) {
 				if(user.getConsumer().getCountryOfIncorporation() != 0) {
-					country = referenceDataService.getCountryById(user.getConsumer().getCountryOfIncorporation() + "");
+					country = (Country)referenceDataService.getModelObjectById(Country.class,
+							user.getConsumer().getCountryOfIncorporation());
 				}
 			}
 			modelAndView.addObject("user", user);

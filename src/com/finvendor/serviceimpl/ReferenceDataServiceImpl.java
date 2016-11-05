@@ -1,5 +1,6 @@
 package com.finvendor.serviceimpl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +30,16 @@ public class ReferenceDataServiceImpl
 	
 	@Override
 	@Transactional(readOnly=true)
+	public Object getModelObjectById(Class<?> type, Serializable id) {
+		return referenceDataDao.getModelObjectById(type, id);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
 	public List<SecurityType> getSecurityTypesForAssetClassId(int assetClassId) 
 			throws ApplicationException {
-		logger.debug("Entering : ReferenceDataServiceImpl - getSecurityTypesForAssetClassId for : {}", assetClassId);		
+		logger.debug("Entering : ReferenceDataServiceImpl - getSecurityTypesForAssetClassId for : {}", 
+				assetClassId);		
 		List<SecurityType> secList = null;
 		secList = referenceDataDao.getSecurityTypesForAssetClassId(assetClassId);
 		return secList;
@@ -53,9 +61,9 @@ public class ReferenceDataServiceImpl
 	
 	@Override
 	@Transactional(readOnly=true)
-	public Region getRegionsByName(String regionsName)
+	public Region getRegionByName(String regionsName)
 			throws ApplicationException {
-		return referenceDataDao.getRegionsByName(regionsName);
+		return referenceDataDao.getRegionByName(regionsName);
 	}
 	
 	@Override
@@ -67,44 +75,62 @@ public class ReferenceDataServiceImpl
 	
 	@Override
 	@Transactional(readOnly=true)
-	public Exchange getExchangesByName(String exchangeName)
+	public Exchange getExchangeByName(String exchangeName)
 			throws ApplicationException {
-		return referenceDataDao.getExchangesByName(exchangeName);
+		return referenceDataDao.getExchangeByName(exchangeName);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
-	public String getRegion(String country)
-			throws ApplicationException {
-		return referenceDataDao.getRegion(country);
-	}
-	
-	@Override
-	@Transactional(readOnly=true)
-	public Country getCountryById(String countryId)
-			throws ApplicationException {
-		return referenceDataDao.getCountryById(countryId);
-	}
-	
-	@Override
-	@Transactional(readOnly=true)
-	public List<ReferenceDataJson> getJsonReferenceData(String type) 
+	public List<ReferenceDataJson> getJsonReferenceData(String type, String parentId) 
 			 throws ApplicationException {
 		logger.debug("Entering : ReferenceDataServiceImpl - getJsonReferenceData for : {}", 
 				type);
 		List<ReferenceDataJson> refDataList = new ArrayList<ReferenceDataJson>();
 		try {
 			switch(type) {
+				case "Region" :
+					List<Region> regionList = referenceDataDao.getAllRegions();
+					for(Region region : regionList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(region.getName().toString());
+						refData.setName(region.getName());
+						refDataList.add(refData);
+					}
+					break;	
+				
 				case "Country" :
-					List<Country> countryList = referenceDataDao.
-							getAllCountries();
+					List<Country> countryList = null;
+					if(parentId == null || parentId.trim().equals("")) {
+						countryList = referenceDataDao.getAllCountries();
+					}else {
+						countryList = referenceDataDao.getCountriesByRegionId(parentId);
+					}
 					for(Country country : countryList) {
 						ReferenceDataJson refData = new ReferenceDataJson();
 						refData.setId(country.getCountry_id().toString());
-						refData.setDescription(country.getName());
+						refData.setName(country.getName());
+						refData.setParentId(country.getRegion().getRegion_id().toString());						
 						refDataList.add(refData);
 					}
 					break;
+				
+				case "Exchange" :
+					List<Exchange> exchangeList = null;
+					if(parentId == null || parentId.trim().equals("")) {
+						exchangeList = referenceDataDao.getAllExchanges();
+					}else {
+						exchangeList = referenceDataDao.getExchangesByCountryId(parentId);
+					}
+					for(Exchange exchange : exchangeList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(exchange.getExchange_id().toString());
+						refData.setName(exchange.getName());
+						refData.setParentId(exchange.getCountry().getCountry_id().toString());
+						refDataList.add(refData);
+					}
+					break;
+				
 				default :
 					logger.error("Wrong Type in getJsonReferenceData : {}", 
 							type);

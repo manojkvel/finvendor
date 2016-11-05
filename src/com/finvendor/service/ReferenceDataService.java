@@ -1,5 +1,6 @@
 package com.finvendor.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.finvendor.exception.ApplicationException;
@@ -12,23 +13,26 @@ import com.finvendor.model.SecurityType;
 
 public interface ReferenceDataService {
 	
-	public List<SecurityType> getSecurityTypesForAssetClassId(
-			int assetClassId) throws ApplicationException;
+	public Object getModelObjectById(Class<?> type, Serializable id);
+	
 	public AssetClass getAssetClassDetails(String assetClassDescription)
 			throws ApplicationException;
+	
 	public SecurityType getSecurityTypes(String security)
 			throws ApplicationException;
-	public Region getRegionsByName(String regionsName)
+	public List<SecurityType> getSecurityTypesForAssetClassId(
+			int assetClassId) throws ApplicationException;
+		
+	public Region getRegionByName(String regionName)
 			throws ApplicationException;
+	
 	public Country getCountryByName(String countryName)
 			throws ApplicationException;
-	public Exchange getExchangesByName(String exchangeName)
+	
+	public Exchange getExchangeByName(String exchangeName)
 			throws ApplicationException;
-	public String getRegion(String country)
-			throws ApplicationException;
-	public Country getCountryById(String countryId)
-			throws ApplicationException;
-	public List<ReferenceDataJson> getJsonReferenceData(String type)
+	
+	public List<ReferenceDataJson> getJsonReferenceData(String type, String parentId)
 			 throws ApplicationException;
 	public ReferenceDataJson getJsonReferenceDataById(String type, 
 			String id)  throws ApplicationException;
