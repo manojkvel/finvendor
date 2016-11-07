@@ -153,11 +153,12 @@ jQuery(document).ready(function() {
 	});
 
 	$("select[name=coverageRegion]").on('change', function() {
-		getCountryListMultiInfo('coverageCountry', 'coverageRegion');
+		//getCountryListMultiInfo('coverageCountry', 'coverageRegion');
+		getRegionCountryMapping('coverageRegion');
 	});
 
 	$("select[name=coverageCountry]").on('change', function() {
-		getExchangeList($("select[name=coverageCountry]").selectpicker('val'));
+		//getExchangeList($("select[name=coverageCountry]").selectpicker('val'));
 	});
 
 	openDataAggregratorForm = function() {
@@ -208,6 +209,7 @@ jQuery(document).ready(function() {
 			cache:false,
 			success : function(response){
 				progressLoader(false);
+				console.log(getCountryListById(response.coverageRegion.split(',')));
 				$("#data_aggregator").slideDown();
 				$("#data_aggregator_top_card").slideUp();
 				$("#data_aggregator #productId").val(response.productId);
@@ -278,7 +280,6 @@ jQuery(document).ready(function() {
 			cache:false,
 			success : function(response) {
 				var totalCount = response.length;
-
 				if(totalCount === 0) {
 					progressLoader(false);
 					openDataAggregratorForm();
@@ -290,7 +291,7 @@ jQuery(document).ready(function() {
 				for(var i=0; i < totalCount; i++) {
 					listDataAggregatorOfferingHTML += "<div class='data_aggregator_list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].assetClassDescription  + " | " + response[i].coverageRegion  + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].assetClassDescription  + " | " + getRegionListById(response[i].coverageRegion) + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -1036,10 +1037,12 @@ jQuery(document).ready(function() {
 	 
 	 //CSV File for Support Coverage Upload Code
 	 $(document).on("click", ".fileupmyoffercoverage", function (e) {
-		 debugger;
 		 var fileId = $("#fileUploadmyoffercoverage").val();
 		 if(fileId != null && fileId.length > 0){
 			 loadUploadFiles(fileId);	 
+		 } else {
+		 	alert("Please choose file to upload");
+		 	return;
 		 }
 	        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt|.xlsx)$/;
 	        if (regex.test($("#fileUploadmyoffercoverage").val().toLowerCase())) {
@@ -1306,7 +1309,7 @@ jQuery(document).ready(function() {
 				});
 			 
 			 //CSV File for Support Coverage Upload Code
-			 $(document).on("click", ".fileupmyoffercoverage", function (e) {
+			 /*$(document).on("click", ".fileupmyoffercoverage", function (e) {
 				 debugger;
 				 var fileId = $("#fileUploadmyoffercoverage").val();
 				 if(fileId != null && fileId.length > 0){
@@ -1353,7 +1356,7 @@ jQuery(document).ready(function() {
 					$(target).closest('tr').remove();
 					var table = $('#samplesupport').tableToJSON();
 				    document.getElementById('jsontablesupport').value = JSON.stringify(table);
-				});
+				});*/
 			
 			 
 			 
@@ -1381,7 +1384,7 @@ jQuery(document).ready(function() {
 					});
 				 
 				 //CSV File for Support Coverage Upload Code
-				 $(document).on("click", ".fileupmyoffercoverage", function (e) {
+				 /*$(document).on("click", ".fileupmyoffercoverage", function (e) {
 					 debugger;
 					 var fileId = $("#fileUploadmyoffercoverage").val();
 					 if(fileId != null && fileId.length > 0){
@@ -1428,7 +1431,7 @@ jQuery(document).ready(function() {
 						$(target).closest('tr').remove();
 						var table = $('#samplesupport').tableToJSON();
 					    document.getElementById('jsontablesupport').value = JSON.stringify(table);
-					});
+					});*/
 				
 		
 			 /// checkboxes selection and deselect---:
@@ -2142,7 +2145,7 @@ function getFileTreeList(){
 			}
 		});
 	}else{
-		alert("Please Enter Mandotry value");
+		alert("Please Enter Mandatory value");
 	}
 	return outputVar; 
 }
@@ -2840,6 +2843,66 @@ function getExchangeList(countryId) {
 
 	}
 
+}
+
+function getRegionList() {
+	$.ajax({
+		type: 'GET',
+		url:  "getJsonReferenceData?referenceDataType=Region",
+		cache:false,
+		success : function(response){
+			window.localStorage.setItem('regionList', JSON.stringify(response));
+		},
+		error : function(data, textStatus, jqXHR){
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+}
+
+function getRegionListById(id) {
+	var regionList = JSON.parse(window.localStorage.getItem('regionList'));
+	for(var i=0; i < regionList.length; i++) {
+		if(regionList[i].id == id) {
+			return regionList[i].name;
+		}
+	}
+}
+
+	function getCountryList() {
+	$.ajax({
+		type: 'GET',
+		url:  "getJsonReferenceData?referenceDataType=Country",
+		cache:false,
+		success : function(response){
+			window.localStorage.setItem('countryList', JSON.stringify(response));
+		},
+		error : function(data, textStatus, jqXHR){
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+}
+
+function getCountryListById(id) {
+	var countryList = JSON.parse(window.localStorage.getItem('countryList'));
+	for(var i=0; i < countryList.length; i++) {
+		if(countryList[i].id == id) {
+			return countryList[i].name;
+		}
+	}
+}
+
+function getRegionCountryMapping(regionId) {
+	var countryList = JSON.parse(window.localStorage.getItem('countryList'));
+	var regionId = $("select[name=" + regionId + "]").selectpicker('val');
+	var $option='';
+    for (var val in countryList) {
+        if (countryList[val].parentId == regionId) {
+        	$option += "<option value='" + countryList[val].id + "'>" + countryList[val].name + "</option>";
+        }
+    }
+    $("select#coverageCountry").empty();
+    $("select[name=coverageCountry]").append($option);	
+    $("select[name=coverageCountry]").selectpicker('refresh');
 }
 
 function changeTabMode(comp){

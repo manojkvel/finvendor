@@ -252,7 +252,6 @@ h4 {
 #personal_details,
 #award_details {
 	clear: both;
-	max-width: 800px;
 	margin: 0 auto;
 	overflow: hidden;
 }
@@ -583,7 +582,7 @@ textarea:valid ~ label {
     clear: both;
     max-width: auto;
     overflow: hidden;
-    min-height: 220px;
+    min-height: 242px;
 }
 
 #award_details.custom_form ul {
@@ -743,6 +742,12 @@ textarea:valid ~ label {
 	display: none;
 }
 
+#bulkUploadModal {
+	min-width: 280px;
+	padding: 20px;
+	margin: 0 auto;
+}
+
 .modal-dialog .modal-header {
 	background: #34bf98;
 	height: 45px;
@@ -774,6 +779,20 @@ textarea:valid ~ label {
     opacity: 1;
     position: absolute;
     margin: 0;
+}
+
+.modal-dialog .modal-body {
+	padding: 0 15px;
+	margin-bottom: 20px;
+}
+
+.modal-dialog .btn {
+	background: #414b4f;
+	color: #fff;
+}
+
+.modal-dialog .btn:hover {
+	background-color: #34bf98;
 }
 
 @media only screen and (max-width: 767px) {

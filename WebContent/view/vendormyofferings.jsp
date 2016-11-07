@@ -88,11 +88,11 @@
 							<input type="text" name="productId" id="productId" hidden="hidden" />
 							<ul>
 								<li>
-									<input type="text" name="productName" id="productName" required />
+									<input type="text" maxlength="300" name="productName" id="productName" required />
 									<label>Product Name</label>
 								</li>
 								<li>
-									<input type="text" name="productDescription" id="productDescription" required />
+									<input type="text" maxlength="1000" name="productDescription" id="productDescription" required />
 									<label>Product Description</label>
 								</li>
 								<li>
@@ -200,7 +200,7 @@
 									</select>
 									<label class="default_select">Distribution Method</label>
 								</li>
-								<li>
+								<!--<li>
 									<input id="fileName" name="fileName" type="text"/>
 									<label>File Name</label>
 									<div class="Rowtableinfoval"><font id="myofferingsdatacoveragetabsucessmessage" style="font-size: 14px;font-family:Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;margin: -19px 0px 0px 15px;"></font>
@@ -211,10 +211,10 @@
 											</label>
 										</div>
 										<div class="ColumnCommonray">
-											<a class="#" data-toggle="modal" href="#normalModal"><span class="lable_headeractions"><img src="<%=request.getContextPath() %>/resources/images/attachment.png"/>Bulk Upload here</span></a>
+											<a class="#" data-toggle="modal" href="#bulkUploadModal"><span class="lable_headeractions"><img src="<%=request.getContextPath() %>/resources/images/attachment.png"/>Bulk Upload here</span></a>
 										</div>
 									</div>
-								</li>
+								</li>-->
 							</ul>
 						</div>
 						<p class="action_btn">
@@ -242,7 +242,7 @@
  
     <jsp:include page="common/footer.jsp"></jsp:include>
 
-										<div id="normalModal" class="modal fade">
+										<div id="bulkUploadModal" class="modal fade">
 											<div class="modal-dialog">
 												<div class="modal-content">
 													<div class="modal-header">
@@ -250,13 +250,14 @@
 														<h4 class="modal-title">Upload Your File</h4>
 													</div>
 													<div class="modal-body">
-														<input type="file" name="fileUpload" class="m-wrap largefileuploadconspopup" id="fileUploadmyoffercoverage">&nbsp;&nbsp;&nbsp;&nbsp;<a class="fileupmyoffercoverage btnpopup btn-default">Upload</a>
-														<div id="selectedFiles"></div>
-														<div><br></div>
-														<a class="btnpopup btn-default" onclick="loadCheckBoxes();">Remove</a> 
+
+														<input type="file" name="fileUpload" class="m-wrap largefileuploadconspopup" id="fileUploadmyoffercoverage">
+														<div id="selectedFiles">
+														</div>
+															<!--<a class="btnpopup btn" onclick="loadCheckBoxes();">X</a>-->
 													</div>
 													<div class="modal-footer">
-														<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+														<a class="fileupmyoffercoverage btnpopup btn">Upload</a>
 													</div>
 												</div> 
 											</div> 
@@ -272,7 +273,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
     <script type="text/javascript">
     	$(document).ready( function () {
-    		listDataAggregatorOffering();
+
+		//getCountryList();
+		setTimeout(listDataAggregatorOffering(), 3000);
+    		//listDataAggregatorOffering();
     	});
     </script>
 </body>

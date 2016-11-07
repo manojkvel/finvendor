@@ -35,6 +35,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
+
+    <script type="text/javascript">
+    	$(document).ready( function () {
+    		getRegionList();
+    		getCountryList();
+    	});
+    </script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

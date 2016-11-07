@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/custom-style.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tab.css" rel="stylesheet"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style-metro.css"type="text/css"/>
+<!--<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style-metro.css"type="text/css"/>-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style-II.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/datepick/jsDatePick_ltr.min.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/profile.css">
