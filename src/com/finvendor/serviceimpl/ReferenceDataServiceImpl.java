@@ -93,7 +93,7 @@ public class ReferenceDataServiceImpl
 					List<Region> regionList = referenceDataDao.getAllRegions();
 					for(Region region : regionList) {
 						ReferenceDataJson refData = new ReferenceDataJson();
-						refData.setId(region.getName().toString());
+						refData.setId(region.getRegion_id().toString());
 						refData.setName(region.getName());
 						refDataList.add(refData);
 					}
