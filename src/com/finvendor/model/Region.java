@@ -26,7 +26,7 @@ public class Region implements Serializable {
 	@Column(name="name")
 	private String name;
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="region")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="region")
 	private Set<Country> countires = new HashSet<Country>();
 	
 	/*
