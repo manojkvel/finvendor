@@ -6,7 +6,6 @@ jQuery(document).ready(function() {
 		$("#top-card").slideUp();
 		$("#personaltabfailuremessage").html('');
 		$("#personaltabsucessmessage").html('');
-		getRegion('personalvencountryofincorp','personalvenregionofincorp');
 	});
 
 	$("#vendor_profile #tab1 .save").on("click", function() {
@@ -153,12 +152,12 @@ jQuery(document).ready(function() {
 	});
 
 	$("select[name=coverageRegion]").on('change', function() {
-		//getCountryListMultiInfo('coverageCountry', 'coverageRegion');
-		getRegionCountryMapping('coverageRegion');
+		getRegionCountryMapping('coverageRegion', 'coverageCountry');
+		getCountryExchangeMapping('coverageCountry', 'coverageExchange');
 	});
 
 	$("select[name=coverageCountry]").on('change', function() {
-		//getExchangeList($("select[name=coverageCountry]").selectpicker('val'));
+		getCountryExchangeMapping('coverageCountry', 'coverageExchange');
 	});
 
 	openDataAggregratorForm = function() {
@@ -167,7 +166,8 @@ jQuery(document).ready(function() {
 		$("#data_aggregator_top_card").slideUp();
 
 		if(!isEdit) {
-			getCountryListMultiInfo('coverageCountry', 'coverageRegion');
+			getRegionCountryMapping('coverageRegion', 'coverageCountry');
+			getCountryExchangeMapping('coverageCountry', 'coverageExchange');
 		}
 	}
 
@@ -181,6 +181,8 @@ jQuery(document).ready(function() {
 		$("#data_aggregator .alert").hide();
 		$("#data_aggregator_form").trigger('reset');
 		$('.selectpicker').selectpicker('refresh');
+		$('select[name=coverageCountry]').empty();
+		$('select[name=coverageExchange]').empty();
 		$(".error_field").removeClass("error_field");
 	}
 
@@ -202,6 +204,7 @@ jQuery(document).ready(function() {
 			"productId" : productId
 		}
 
+
 		$.ajax({
 			type: 'GET',
 			url:  "fetchDataAggregatorOffering",
@@ -209,7 +212,6 @@ jQuery(document).ready(function() {
 			cache:false,
 			success : function(response){
 				progressLoader(false);
-				console.log(getCountryListById(response.coverageRegion.split(',')));
 				$("#data_aggregator").slideDown();
 				$("#data_aggregator_top_card").slideUp();
 				$("#data_aggregator #productId").val(response.productId);
@@ -220,8 +222,12 @@ jQuery(document).ready(function() {
 				$("select[name=securityTypes]").selectpicker('val', response.securityTypes.split(','));
 
 				$("select[name=coverageRegion]").selectpicker('val', response.coverageRegion.split(','));
+				getRegionCountryMapping('coverageRegion', 'coverageCountry');
 				$("select[name=coverageCountry]").selectpicker('val', response.coverageCountry.split(','));
+				
+				getCountryExchangeMapping('coverageCountry', 'coverageExchange');
 				$("select[name=coverageExchange]").selectpicker('val', response.coverageExchange.split(','));
+				
 				$("#data_aggregator #costRange").val(response.costRange);
 				$("#data_aggregator #email").val(response.email);
 				$("#data_aggregator #phoneNumber").val(response.phoneNumber);
@@ -291,7 +297,7 @@ jQuery(document).ready(function() {
 				for(var i=0; i < totalCount; i++) {
 					listDataAggregatorOfferingHTML += "<div class='data_aggregator_list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].assetClassDescription  + " | " + getRegionListById(response[i].coverageRegion) + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].assetClassDescription  + " | " + getRegionMultipleListById(response[i].coverageRegion) + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -372,6 +378,7 @@ jQuery(document).ready(function() {
 		}
 
 		if(coverageRegion != null) {
+			coverageRegion = coverageRegion.join();
 			$("#data_aggregator #coverageRegion").parent().find("button").removeClass("error_field");
 		} else {
 			$("#data_aggregator #coverageRegion").parent().find("button").addClass("error_field");
@@ -440,7 +447,7 @@ jQuery(document).ready(function() {
 				"assetClassId" : assetClassId,
 				"securityTypes" : (securityTypes != null)? ',' + securityTypes : '',
 				"launchedYear" : launchedYear,
-				"coverageRegion" : coverageRegion,
+				"coverageRegion" : (coverageRegion != null) ? ',' + coverageRegion : '',
 				"coverageCountry" : (coverageCountry != null) ? ',' + coverageCountry : '',
 				"coverageExchange" : (coverageExchange != null) ? ',' + coverageExchange : '',
 				"phoneNumber" : phoneNumber,
@@ -2785,7 +2792,7 @@ function listAnalystProfile(){
 
 }
 
-function getRegion(countryId,regionId){
+/*function getRegion(countryId,regionId){
 
 	var countryId = $('#'+countryId+' option:selected').val();
 	$.ajax({
@@ -2843,7 +2850,7 @@ function getExchangeList(countryId) {
 
 	}
 
-}
+}*/
 
 function getRegionList() {
 	$.ajax({
@@ -2859,16 +2866,20 @@ function getRegionList() {
 		});
 }
 
-function getRegionListById(id) {
+function getRegionMultipleListById(regionId) {
 	var regionList = JSON.parse(window.localStorage.getItem('regionList'));
+	var $option=[];
 	for(var i=0; i < regionList.length; i++) {
-		if(regionList[i].id == id) {
-			return regionList[i].name;
+		for(id in regionId) {
+			if(regionList[i].id == regionId[id]) {
+				$option.push(regionList[i].name);
+			}
 		}
 	}
+	return $option;
 }
 
-	function getCountryList() {
+function getCountryList() {
 	$.ajax({
 		type: 'GET',
 		url:  "getJsonReferenceData?referenceDataType=Country",
@@ -2882,27 +2893,52 @@ function getRegionListById(id) {
 		});
 }
 
-function getCountryListById(id) {
+function getRegionCountryMapping(regionSelector, countrySelector) {
 	var countryList = JSON.parse(window.localStorage.getItem('countryList'));
-	for(var i=0; i < countryList.length; i++) {
-		if(countryList[i].id == id) {
-			return countryList[i].name;
+	var regionId = $("select[name=" + regionSelector + "]").selectpicker('val');
+	var $option='';
+	for (var val in countryList) {
+		for(var id in regionId) {
+			if (countryList[val].parentId == regionId[id]) {
+				$option += "<option value='" + countryList[val].id + "'>" + countryList[val].name + "</option>";
+			}    		
 		}
 	}
+    $("select#" + countrySelector +"").empty();
+    $("select[name=" + countrySelector + "]").append($option);	
+    $("select[name=" + countrySelector + "]").selectpicker('refresh');
 }
 
-function getRegionCountryMapping(regionId) {
-	var countryList = JSON.parse(window.localStorage.getItem('countryList'));
-	var regionId = $("select[name=" + regionId + "]").selectpicker('val');
+
+
+function getExchangeList() {
+	$.ajax({
+		type: 'GET',
+		url:  "getJsonReferenceData?referenceDataType=Exchange",
+		cache:false,
+		success : function(response){
+			window.localStorage.setItem('exchangeList', JSON.stringify(response));
+		},
+		error : function(data, textStatus, jqXHR){
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+}
+
+function getCountryExchangeMapping(countrySelector, exchangeSelector) {
+	var exchangeList = JSON.parse(window.localStorage.getItem('exchangeList'));
+	var countryId = $("select[name=" + countrySelector + "]").selectpicker('val');
 	var $option='';
-    for (var val in countryList) {
-        if (countryList[val].parentId == regionId) {
-        	$option += "<option value='" + countryList[val].id + "'>" + countryList[val].name + "</option>";
-        }
+    for (var val in exchangeList) {
+    	for(var id in countryId) {
+	        if (exchangeList[val].parentId == countryId[id]) {
+	        	$option += "<option value='" + exchangeList[val].id + "'>" + exchangeList[val].name + "</option>";
+	        }    		
+    	}
     }
-    $("select#coverageCountry").empty();
-    $("select[name=coverageCountry]").append($option);	
-    $("select[name=coverageCountry]").selectpicker('refresh');
+    $("select#" + exchangeSelector + "").empty();
+    $("select[name="+ exchangeSelector +"]").append($option);	
+    $("select[name="+ exchangeSelector +"]").selectpicker('refresh');
 }
 
 function changeTabMode(comp){

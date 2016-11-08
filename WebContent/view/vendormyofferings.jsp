@@ -121,18 +121,15 @@
 							<h3>Data Coverage Info <span class="fa fa-chevron-up"></span></h3>
 							<ul>
 								<li>
-									<div>
-										<select class="selectpicker show-tick" name="coverageRegion" id="coverageRegion">			
-											<c:forEach var="regions" items="${regions}">
-											<option value="${regions.region_id}">${regions.name}</option>
-											</c:forEach>
-										</select>
-										<label class="default_select">Coverage Region</label>
-									</div>
+									<select class="selectpicker select_multiple" name="coverageRegion" id="coverageRegion" multiple="multiple">
+										<c:forEach var="regions" items="${regions}">
+										<option value="${regions.region_id}">${regions.name}</option>
+										</c:forEach>
+									</select>
+									<label class="default_select">Coverage Region</label>
 								</li>
 								<li>
-									<select class="selectpicker select_multiple" name="coverageCountry" 
-									id="coverageCountry" multiple="multiple">
+									<select class="selectpicker select_multiple" name="coverageCountry" id="coverageCountry" multiple="multiple">
 										<c:forEach var="countries" items="${countries}">
 										<option value="${countries.country_id}" >${countries.name}</option>
 										</c:forEach>
@@ -273,10 +270,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
     <script type="text/javascript">
     	$(document).ready( function () {
-
-		//getCountryList();
-		setTimeout(listDataAggregatorOffering(), 3000);
-    		//listDataAggregatorOffering();
+    		listDataAggregatorOffering();
     	});
     </script>
 </body>

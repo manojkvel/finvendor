@@ -40,6 +40,7 @@
     	$(document).ready( function () {
     		getRegionList();
     		getCountryList();
+    		getExchangeList();
     	});
     </script>
 </head>
