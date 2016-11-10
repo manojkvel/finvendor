@@ -101,9 +101,7 @@
 								</li>
 								<li>
 									<select class="selectpicker show-tick" id="assetClassId" name="assetClassId">
-										<c:forEach var="assetClasses" items="${assetClasses}">
-										<option value="${assetClasses.asset_class_id}">${assetClasses.description}</option>
-										</c:forEach>
+										
 									</select>
 									<label class="default_select">Asset Class</label>
 								</li>
@@ -122,9 +120,7 @@
 							<ul>
 								<li>
 									<select class="selectpicker select_multiple" name="coverageRegion" id="coverageRegion" multiple="multiple">
-										<c:forEach var="regions" items="${regions}">
-										<option value="${regions.region_id}">${regions.name}</option>
-										</c:forEach>
+										
 									</select>
 									<label class="default_select">Coverage Region</label>
 								</li>
