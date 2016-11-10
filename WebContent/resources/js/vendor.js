@@ -148,6 +148,10 @@ jQuery(document).ready(function() {
 		validateYear(year);
 	});
 
+	$("select[name=assetClassId]").on('change', function() {
+		getAssetClassSecurityTypeMapping('assetClassId', 'securityTypes');
+	});
+
 	$("select[name=coverageRegion]").on('change', function() {
 		getRegionCountryMapping('coverageRegion', 'coverageCountry');
 		getCountryExchangeMapping('coverageCountry', 'coverageExchange');
@@ -162,7 +166,9 @@ jQuery(document).ready(function() {
 		$("#data_aggregator").slideDown();
 		$("#data_aggregator_top_card").slideUp();
 
+
 		if(!isEdit) {
+			getAssetClassSecurityTypeMapping('assetClassId', 'securityTypes');
 			getRegionCountryMapping('coverageRegion', 'coverageCountry');
 			getCountryExchangeMapping('coverageCountry', 'coverageExchange');
 		}
@@ -178,6 +184,7 @@ jQuery(document).ready(function() {
 		$("#data_aggregator .alert").hide();
 		$("#data_aggregator_form").trigger('reset');
 		$('.selectpicker').selectpicker('refresh');
+		$('select[name=securityTypes]').empty();
 		$('select[name=coverageCountry]').empty();
 		$('select[name=coverageExchange]').empty();
 		$(".error_field").removeClass("error_field");
@@ -216,9 +223,12 @@ jQuery(document).ready(function() {
 				$("#data_aggregator #productDescription").val(response.productDescription);
 				$("#data_aggregator #launchedYear").val(response.launchedYear);
 				$("select[name=assetClassId]").selectpicker('val', response.assetClassCode.split(','));
+				
+				getAssetClassSecurityTypeMapping('assetClassId', 'securityTypes');
 				$("select[name=securityTypes]").selectpicker('val', response.securityTypes.split(','));
 
 				$("select[name=coverageRegion]").selectpicker('val', response.coverageRegion.split(','));
+				
 				getRegionCountryMapping('coverageRegion', 'coverageCountry');
 				$("select[name=coverageCountry]").selectpicker('val', response.coverageCountry.split(','));
 				
@@ -2848,6 +2858,63 @@ function getExchangeList(countryId) {
 	}
 
 }*/
+
+function getAssetClassList() {
+	$.ajax({
+		type: 'GET',
+		url:  "getJsonReferenceData?referenceDataType=AssetClass",
+		cache:false,
+		success : function(response){
+			window.localStorage.setItem('assetClassList', JSON.stringify(response));
+		},
+		error : function(data, textStatus, jqXHR){
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+}
+
+function getAssetClassMultipleListById(assetclassId) {
+	var assetClassList = JSON.parse(window.localStorage.getItem('assetClassList'));
+	var $option=[];
+	for(var i=0; i < assetClassList.length; i++) {
+		for(id in assetclassId) {
+			if(assetClassList[i].id == assetclassId[id]) {
+				$option.push(assetClassList[i].name);
+			}
+		}
+	}
+	return $option;
+}
+
+function getSecurityTypeList() {
+	$.ajax({
+		type: 'GET',
+		url:  "getJsonReferenceData?referenceDataType=SecurityType",
+		cache:false,
+		success : function(response){
+			window.localStorage.setItem('securityTypeList', JSON.stringify(response));
+		},
+		error : function(data, textStatus, jqXHR){
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+}
+
+function getAssetClassSecurityTypeMapping(assetClassSelector, securityTypeSelector) {
+	var securityTypeList = JSON.parse(window.localStorage.getItem('securityTypeList'));
+	var assetClassId = $("select[name=" + assetClassSelector + "]").selectpicker('val');
+	var $option='';
+	for (var val in securityTypeList) {
+		for(var id in assetClassId) {
+			if (securityTypeList[val].parentId == assetClassId) {
+				$option += "<option value='" + securityTypeList[val].id + "'>" + securityTypeList[val].name + "</option>";
+			}    		
+		}
+	}
+    $("select#" + securityTypeSelector +"").empty();
+    $("select[name=" + securityTypeSelector + "]").append($option);	
+    $("select[name=" + securityTypeSelector + "]").selectpicker('refresh');
+}
 
 function getRegionList() {
 	$.ajax({

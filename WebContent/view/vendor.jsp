@@ -38,6 +38,8 @@
 
     <script type="text/javascript">
     	$(document).ready( function () {
+    		getAssetClassList();
+    		getSecurityTypeList();
     		getRegionList();
     		getCountryList();
     		getExchangeList();
