@@ -119,18 +119,16 @@
 													</div>
 													<div id="personal_details" class="custom_form">
 														<div class="generic_message">
-															<font id="personaltabsucessmessage"
-															style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #2AABAB; font-weight: bold;"></font>
-															<font id="personaltabfailuremessage"
-															style="font-size: 14px; font-family: Open Sans, sans-serif; position: absolute; color: #B94A48; font-weight: bold;"></font>
+															<div class="alert">
+															</div>
 														</div>
 														<ul>
 															<li id="name">
-																<div>
+																<div class="single_row">
 																	<input type="text" name="firstname" class="single_line" id="personalvenfirstname" value="${vendor.firstName}" required />
 																	<label>First Name</label>
 																</div>
-																<div>
+																<div class="single_row">
 																	<input type="text" name="lastname" id="personalvenlastname" class="single_line" value="${vendor.lastName}" required />
 																	<label>Last Name</label>
 																</div>
@@ -162,34 +160,27 @@
 																<label>Secondary Email</label>
 															</li>
 															<li id="phone">
-																<div>
+																<div class="single_row">
 																	<input type="text" name="phonenumber" placeholder="" class="personal_detail  single_line" id="personalvenphonenumbercode" value="${vendor.telephoneCode}" required />
 																	<label>Country Code</label>
 																</div>
-																<div>
+																<div class="single_row">
 																	<input type="text" name="phonenumber" id="personalvenphonenumber" class="single_line" value="${vendor.telephone}" required />
 																	<label>Phone Number</label>
 																</div>
 															</li>
 															<li>
-																<select name="personalvencountryofincorp" 
-																id="personalvencountryofincorp"  onchange="getRegion('personalvencountryofincorp','personalvenregionofincorp')">
-												<c:forEach var="countries" items="${countries}">
-														<c:choose>
-															<c:when test="${vendor.countryofincorp eq countries.country_id}">
-																	<option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
-															</c:when>    
-															<c:otherwise>
-																<option value="${countries.country_id}">${countries.name}</option>
-															</c:otherwise>
-														</c:choose>
-												</c:forEach>
+																<select class="selectpicker show-tick" name="personalvencountryofincorp" id="personalvencountryofincorp" onchange="getCountryRegionMapping('personalvencountryofincorp', 'personalvenregionofincorp');">
+																	<c:forEach var="countries" items="${countries}">
+																	<option value="${countries.country_id}" >${countries.name}</option>
+																	</c:forEach>
 																</select>
 																<label class="default_select">Country of Incorporation</label>
 															</li>
 															<li>
-																<input type="text" name="personalvenregionofincorp" id="personalvenregionofincorp" required />
-																<label>Region of Incorporation</label>
+																<select class="selectpicker show-tick" name="personalvenregionofincorp" id="personalvenregionofincorp" disabled="true">
+																</select>
+																<label class="default_select">Region of Incorporation</label>
 															</li>
 															<li>
 																<input type="file" id="personalvencompanylogo"

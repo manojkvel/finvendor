@@ -146,7 +146,7 @@
 								</li>
 								<li>
 									<input type="text" name="costRange" id="costRange" required />
-									<label>Vendor Cost Range</label>
+									<label>License Cost Range ($ per annum)</label>
 								</li>
 								<li>
 									<input type="text" name="email" id="email" required />
@@ -216,7 +216,7 @@
 						</div>
 						<p class="action_btn">
 							<a class="submit_btn save" data-toggle="tab">Save</a>
-							<a class="submit_btn next" data-toggle="tab" href="#tab3">Next</a>
+							<a class="submit_btn next" data-toggle="tab">RESET</a>
 						</p>
 					</form>
 				</div>

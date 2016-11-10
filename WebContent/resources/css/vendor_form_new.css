@@ -288,6 +288,12 @@ h4 {
 	float: left;
 }
 
+#personal_details.custom_form ul li div.single_row {
+	width: 48.5%;
+	float: left;
+	clear: none;
+}
+
 input[type="text"],
 input[type="number"], 
 input[type="tel"], 
@@ -596,18 +602,21 @@ textarea:valid ~ label {
     margin-right: 1.8%;
 }
 
-#award_details.custom_form div {
+#award_details.custom_form div,
+#personal_details.custom_form div {
     clear: both;
     width: 100%;
 }
 
-#award_details.custom_form .btn {
+#award_details.custom_form .btn,
+#personal_details.custom_form .btn {
     float: none;
     padding: 0;
     color: #333;
 }
 
-#award_details.custom_form .bootstrap-select ul li {
+#award_details.custom_form .bootstrap-select ul li,
+#personal_details.custom_form .bootstrap-select ul li  {
     width: 100%;
     margin-right: 0;
     margin-bottom: 0;
@@ -805,7 +814,8 @@ textarea:valid ~ label {
 @media only screen and (max-width: 550px) {
 
 	#award_details.custom_form ul li,
-	#vendor_my_offerings .custom_form ul li {
+	#vendor_my_offerings .custom_form ul li,
+	#personal_details.custom_form ul li {
 		width: 100%;
 		margin-right: 0;
 	}

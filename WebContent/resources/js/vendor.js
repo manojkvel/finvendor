@@ -6,6 +6,7 @@ jQuery(document).ready(function() {
 		$("#top-card").slideUp();
 		$("#personaltabfailuremessage").html('');
 		$("#personaltabsucessmessage").html('');
+		getCountryRegionMapping('personalvencountryofincorp', 'personalvenregionofincorp');
 	});
 
 	$("#vendor_profile #tab1 .save").on("click", function() {
@@ -85,11 +86,7 @@ jQuery(document).ready(function() {
 	});
 
 	$("#data_aggregator .next").on("click", function() {
-		activeMode('tradingApplication');
-		$("#tab1").hide();
-		$("#tab2").show();
-		$("#tab3").hide();
-		$("#tab4").hide();
+		resetDataAggregratorForm();
 	});
 
 
@@ -1780,7 +1777,7 @@ function validateYear(year){
 }
 
 function imageValidation() {
-	debugger;
+	//debugger;
 	var logoPath = $("#personalvencompanylogo").val();
 	var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpeg|.jpg|.png| .gif)$/;
 	if(logoPath !='' && logoPath.length > 0 && regex.test($("#personalvencompanylogo").val().toLowerCase())){
@@ -1808,6 +1805,7 @@ function imageValidation() {
 	    //  $('#result').html(data+ " uploaded by FormData!");
 	    
 	      $('#displayLogo').html(data);
+	      $('#profile-picture').html(data);
 
 	    }
 	  });
@@ -1864,8 +1862,7 @@ function updateVendorPersonalInfo(){
 				//alert('You have updated sucessfully..!');
 					progressLoader(false);
 				setTimeout(function() {
-					document.getElementById("personaltabfailuremessage").innerHTML = '';
-					document.getElementById("personaltabsucessmessage").innerHTML = 'You have updated sucessfully..!';
+					$("#personal_details .generic_message .alert").removeClass("alert-danger").addClass("alert-success").text('You have updated sucessfully..!').show();
 
 					$("#personal_details").slideUp();
 					$("#top-card").slideDown();
@@ -1884,7 +1881,7 @@ function updateVendorPersonalInfo(){
 			}
 		});
 	}else{
-		document.getElementById("personaltabfailuremessage").innerHTML = 'Please enter all mandatory fields..!';
+		$("#personal_details .generic_message .alert").addClass("alert-danger").text('Please enter all mandatory fields..!').show();
 		return false;
 	}
 	 
@@ -2909,7 +2906,22 @@ function getRegionCountryMapping(regionSelector, countrySelector) {
     $("select[name=" + countrySelector + "]").selectpicker('refresh');
 }
 
-
+function getCountryRegionMapping(countrySelector, regionSelector) {
+	var countryList = JSON.parse(window.localStorage.getItem('countryList'));
+	var regionList = JSON.parse(window.localStorage.getItem('regionList'));
+	var countryId = $("select[name=" + countrySelector + "]").selectpicker('val');
+	var $option='';
+	for (var val in regionList) {
+		for(var id in countryList) {
+			if (countryId == countryList[id].id && regionList[val].id == countryList[id].parentId) {
+				$option += "<option value='" + regionList[val].id + "'>" + regionList[val].name + "</option>";
+			}    		
+		}
+	}
+    $("select#" + regionSelector +"").empty();
+    $("select[name=" + regionSelector + "]").append($option);	
+    $("select[name=" + regionSelector + "]").selectpicker('refresh');
+}
 
 function getExchangeList() {
 	$.ajax({
