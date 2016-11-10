@@ -15,10 +15,10 @@ public interface ReferenceDataService {
 	
 	public Object getModelObjectById(Class<?> type, Serializable id);
 	
-	public AssetClass getAssetClassDetails(String assetClassDescription)
+	public AssetClass getAssetClassByDescription(String assetClassDescription)
 			throws ApplicationException;
 	
-	public SecurityType getSecurityTypes(String security)
+	public SecurityType getSecurityTypeByName(String securityName)
 			throws ApplicationException;
 	public List<SecurityType> getSecurityTypesForAssetClassId(
 			int assetClassId) throws ApplicationException;

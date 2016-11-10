@@ -752,7 +752,7 @@ public class VendorController {
 			OfferingFiles offeringFiles = new OfferingFiles();
 			offeringFiles.setFileName(fileName);
 			offeringFiles.setDescription(description);
-			SecurityType securityTypes = referenceDataService.getSecurityTypes(securityType);
+			SecurityType securityTypes = referenceDataService.getSecurityTypeByName(securityType);
 			offeringFiles.setSecurityType(securityTypes);
 			marketDataAggregatorsService.addOfferingFiles(selectedId, offeringFiles);
 			
@@ -947,15 +947,15 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "offeringName", required = false) String offeringName,
 			@RequestParam(value = "description", required = false) String description,
 			@RequestParam(value = "launchedYear", required = false) String launchedYear,
-			@RequestParam(value = "assetClass", required = false) String assetClass) {
+			@RequestParam(value = "assetClass", required = false) String assetClassDescription) {
 		if(offeringName != null && !(offeringName.isEmpty())){
         try {
         	User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         	
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			if(solution != null && !("null".equals(solution)) && assetClass != null){
+			if(solution != null && !("null".equals(solution)) && assetClassDescription != null){
 				Solutions solutionsInfo = vendorService.getSolutionsInfo(solution);
-				AssetClass assetClassDetails = referenceDataService.getAssetClassDetails(assetClass);
+				AssetClass assetClassDetails = referenceDataService.getAssetClassByDescription(assetClassDescription);
 				VendorOffering vendorOffering = new VendorOffering();
 				vendorOffering.setSolutions(solutionsInfo);
 				vendorOffering.setName(offeringName);
