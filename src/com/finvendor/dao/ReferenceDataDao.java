@@ -12,12 +12,18 @@ import com.finvendor.model.SecurityType;
 
 public interface ReferenceDataDao {
 	
-	public AssetClass getAssetClassDetails(String asset_class)
+	public Object getModelObjectById(Class<?> type, Serializable id);
+	
+	public List<AssetClass> getAllAssetClasses() 
+			throws ApplicationException;
+	public AssetClass getAssetClassByDescription(String assetClassDescription)
 			throws ApplicationException;
 	
+	public List<SecurityType> getAllSecurityTypes() 
+			throws ApplicationException;
 	public List<SecurityType> getSecurityTypesForAssetClassId(int 
 			assetClassId) throws ApplicationException;
-	public SecurityType getSecurityTypes(String security)
+	public SecurityType getSecurityTypeByName(String securityName)
 			throws ApplicationException;
 	
 	public Region getRegionByName(String regionsName)
@@ -38,6 +44,5 @@ public interface ReferenceDataDao {
 			throws ApplicationException;
 	public List<Exchange> getExchangesByCountryId(String countryId)
 			throws ApplicationException;
-	
-	public Object getModelObjectById(Class<?> type, Serializable id);
+		
 }

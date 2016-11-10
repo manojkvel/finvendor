@@ -47,16 +47,16 @@ public class ReferenceDataServiceImpl
 	
 	@Override
 	@Transactional(readOnly=true)
-	public AssetClass getAssetClassDetails(String asset_class)
+	public AssetClass getAssetClassByDescription(String assetClassDescription)
 			throws ApplicationException {
-		return referenceDataDao.getAssetClassDetails(asset_class);
+		return referenceDataDao.getAssetClassByDescription(assetClassDescription);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
-	public SecurityType getSecurityTypes(String security)
+	public SecurityType getSecurityTypeByName(String securityName)
 			throws ApplicationException {
-		return referenceDataDao.getSecurityTypes(security);
+		return referenceDataDao.getSecurityTypeByName(securityName);
 	}
 	
 	@Override
@@ -127,6 +127,33 @@ public class ReferenceDataServiceImpl
 						refData.setId(exchange.getExchange_id().toString());
 						refData.setName(exchange.getName());
 						refData.setParentId(exchange.getCountry().getCountry_id().toString());
+						refDataList.add(refData);
+					}
+					break;
+				
+				case "AssetClass" :
+					List<AssetClass> assetClassList = referenceDataDao.getAllAssetClasses();
+					for(AssetClass assetClass : assetClassList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(assetClass.getAsset_class_id().toString());
+						refData.setName(assetClass.getDescription());
+						refDataList.add(refData);
+					}
+					break;
+				
+				case "SecurityType" :
+					List<SecurityType> securityTypeList = null;
+					if(parentId == null || parentId.trim().equals("")) {
+						securityTypeList = referenceDataDao.getAllSecurityTypes();
+					}else {
+						securityTypeList = referenceDataDao.getSecurityTypesForAssetClassId(
+								new Integer(parentId));
+					}
+					for(SecurityType securityType : securityTypeList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(securityType.getSecurityTypeId().toString());
+						refData.setName(securityType.getName());
+						refData.setParentId(securityType.getAssetClassId().toString());
 						refDataList.add(refData);
 					}
 					break;

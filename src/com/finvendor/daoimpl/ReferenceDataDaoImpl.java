@@ -22,7 +22,8 @@ import com.finvendor.model.SecurityType;
 @SuppressWarnings("unchecked")
 public class ReferenceDataDaoImpl implements ReferenceDataDao {
 
-	private static Logger logger = LoggerFactory.getLogger(ReferenceDataDaoImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(
+			ReferenceDataDaoImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -37,21 +38,42 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	/* Asset Class */
 	
 	@Override
-	public AssetClass getAssetClassDetails(String assetClassDescription)
+	public List<AssetClass> getAllAssetClasses() 
 			throws ApplicationException {
-		logger.debug("Entering : ReferenceDataDaoImpl - getAssetClassDetails for : {}", 
-				assetClassDescription);
-		AssetClass assetClass=null; Criteria criteria=null;
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllAssetClasses");
+		List<AssetClass> assetClassList = null;
+		Criteria criteria = null;
 		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(AssetClass.class);
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(
+					AssetClass.class);
+			assetClassList = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error reading AssetClass details", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllAssetClasses");
+		return assetClassList;
+	}
+	
+	@Override
+	public AssetClass getAssetClassByDescription(String assetClassDescription)
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAssetClassByDescription for : {}", 
+				assetClassDescription);
+		AssetClass assetClass = null; 
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(
+					AssetClass.class);
 			criteria.add(Restrictions.sqlRestriction("lower(description) like '" + 
 					assetClassDescription.toLowerCase() + "'"));
 			assetClass = (AssetClass) criteria.uniqueResult();
 		}catch (Exception exp) {
-			logger.error("Error reading AssetClass details for {}", assetClassDescription, exp);
+			logger.error("Error reading AssetClass details for {}", 
+					assetClassDescription, exp);
 			throw new ApplicationException("Error fetching reference data details");
 		}
-		logger.debug("Leaving : ReferenceDataDaoImpl - getAssetClassDetails for : {}", 
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAssetClassByDescription for : {}", 
 				assetClassDescription);
 		return assetClass;
 	}
@@ -59,11 +81,30 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	/* Security Types */
 	
 	@Override
-	public SecurityType getSecurityTypes(String securityName)
+	public List<SecurityType> getAllSecurityTypes() 
+			throws ApplicationException {		
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllSecurityTypes");
+		List<SecurityType> securityTypeList = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(
+					SecurityType.class);
+			securityTypeList = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error reading SecurityType details", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllSecurityTypes");
+		return securityTypeList;
+	}
+	
+	@Override
+	public SecurityType getSecurityTypeByName(String securityName)
 			throws ApplicationException {
-		logger.debug("Entering : ReferenceDataDaoImpl - getSecurityTypes for : {}", 
+		logger.debug("Entering : ReferenceDataDaoImpl - getSecurityTypeByName for : {}", 
 				securityName);
-		SecurityType securityType=null; Criteria criteria=null;
+		SecurityType securityType = null; 
+		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(
 					SecurityType.class);
@@ -75,7 +116,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 					securityName, exp);
 			throw new ApplicationException("Error fetching reference data details");
 		}
-		logger.debug("Leaving : ReferenceDataDaoImpl - getSecurityTypes for : {}", 
+		logger.debug("Leaving : ReferenceDataDaoImpl - getSecurityTypeByName for : {}", 
 				securityName);
 		return securityType;
 	}
@@ -83,7 +124,8 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	@Override
 	public List<SecurityType> getSecurityTypesForAssetClassId(int assetClassId)
 			throws ApplicationException {		
-		logger.debug("Entering : ReferenceDataDaoImpl - getSecurityTypesForAssetClassId for : {}", assetClassId);
+		logger.debug("Entering : ReferenceDataDaoImpl - getSecurityTypesForAssetClassId for : {}", 
+				assetClassId);
 		Criteria criteria = null;
 		List<SecurityType> securityTypesList = null;
 		try {
@@ -122,7 +164,8 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 			throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getRegionByName for : {}", 
 				regionName);
-		Region region=null; Criteria criteria=null;
+		Region region = null; 
+		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(
 					Region.class, "region");
@@ -183,7 +226,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 		logger.debug("Entering : ReferenceDataDaoImpl - getCountriesByRegionId for : {}", 
 				regionId);
 		List<Country> countries = null;
-		Criteria criteria=null;
+		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(Country.class, "country");
 			criteria.add(Restrictions.sqlRestriction("{alias}.region_id = " + regionId ));
@@ -222,7 +265,8 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 			throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getExchangesByName for : {}", 
 				exchangeName);
-		Exchange exchange=null; Criteria criteria=null;
+		Exchange exchange = null; 
+		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(
 					Exchange.class, "exchange");
@@ -245,7 +289,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 		logger.debug("Entering : ReferenceDataDaoImpl - getCountriesByRegionId for : {}", 
 				countryId);
 		List<Exchange> exchanges = null;
-		Criteria criteria=null;
+		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(Exchange.class, "exchange");
 			criteria.add(Restrictions.sqlRestriction("{alias}.country_id = " + countryId ));
@@ -258,7 +302,5 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 		logger.debug("Leaving : ReferenceDataDaoImpl - getCountriesByRegionId for : {}", 
 				countryId);
 		return exchanges;
-	}
-	
-	
+	}	
 }
