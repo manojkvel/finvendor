@@ -345,6 +345,7 @@ textarea:valid ~ label {
 .custom_form label {
 	position: absolute;
 	top: 16px;
+	left: 0;
 	-webkit-transition: all 0.25s ease;
 	transition: all 0.25s ease;
 	pointer-events: none;
