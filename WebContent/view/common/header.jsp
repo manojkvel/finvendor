@@ -184,30 +184,31 @@
                     </header>
 
 
-                    <c:if test="${sessionScope.loggedInUser != null && !param.hideTabsAfterLogIn == 'true'}">
+                    <c:if test="${sessionScope.loggedInUser != null && !param.hideTabsAfterLogIn == 'true'}"> 
                         <div class="tab-container">
-                            <div class="container">
                                 <div class="tab-navigation">
+                                    <ul>
                                     <c:choose>
                                         <c:when test="${sessionScope.loggedInRole == 'ROLE_CONSUMER' }">
-                                            <li><a class="active" href="${pageContext.request.contextPath}/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>">My
-														profile</a>
+                                            <li><a class="active" href="${pageContext.request.contextPath}/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>">
+                                            <span>My Profile</span>
+                                            </a>
                                             </li>
-                                            <li><a class="#" href="#">My Blog</a>
+                                            <li><a class="#" href="#"><span>My Blog</span></a>
                                             </li>
-                                            <li><a class="#" href="${pageContext.request.contextPath}/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>">Invite
-															an RFP</a>
+                                            <li><a class="#" href="${pageContext.request.contextPath}/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>"><span>Invite
+															an RFP</span></a>
                                             </li>
-                                            <li><a class="#" href="#">My History</a>
+                                            <li><a class="#" href="#"><span>My History</span></a>
                                             </li>
-                                            <li><a class="#" href="#">My Statistics</a>
+                                            <li><a class="#" href="#"><span>My Statistics</span></a>
                                             </li>
-                                            <li><a class="#" href="#">Invite Your Team</a>
+                                            <li><a class="#" href="#"><span>Invite Your Team</span></a>
                                             </li>
                                         </c:when>
                                     </c:choose>
+                                    <ul>
                                 </div>
-                            </div>
                         </div>
                     </c:if>
 

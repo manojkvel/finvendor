@@ -1,3 +1,43 @@
+jQuery(document).ready(function() {
+	$("#consumer_profile #consumer_details #top-card #edit-details").on("click", function() {
+		progressLoader(false);
+		$("#personal_details").slideDown();
+		$("#top-card").slideUp();
+		$("#personaltabfailuremessage").html('');
+		$("#personaltabsucessmessage").html('');
+		getCountryRegionMapping('personalvencountryofincorp', 'personalvenregionofincorp');
+	});
+
+	$("#consumer_profile #consumer_details .save").on("click", function() {
+		if(!validateSpanElements('personal_details')) {
+			progressLoader(false);
+			return false;
+		}
+		if(!updateVendorPersonalInfo()) {
+			progressLoader(false);
+			return false;
+		}
+		$("#personal_details").slideUp();
+		$("#top-card").slideDown();
+	});
+
+	$("#consumer_profile .nav-tabs .consumer_details").on("click", function() {
+		$("#business_needs").hide();
+		$("#consumer_details").show();
+	});
+
+	$("#consumer_profile .nav-tabs .business_needs").on("click", function() {
+		$("#consumer_details").hide();
+		$("#business_needs").show();
+	});
+
+	$("#consumer_profile #tab1 .next").on("click", function() {
+		activeMode('awarddetails');
+		$("#personal_details").slideUp();
+		$("#top-card").slideDown();
+	});
+});
+
 function updateConsumerProfileCompanyDetails() {
 	var lastName = $("#consumerProfileLastName").val();
 	var designation = $("#consumerProfileDesignation").val();
@@ -2003,4 +2043,11 @@ function activeCosumerModeMyOffer(tabmode){
 	}
 }
 
- 
+
+function progressLoader(isLoading) {
+	if(isLoading) {
+		$("#spinner").show();
+	} else {
+		$("#spinner").hide();
+	}
+}

@@ -35,7 +35,11 @@ h4 {
 #vendor_profile h1,
 #vendor_profile h2,
 #vendor_profile h3,
-#vendor_profile h4 {
+#vendor_profile h4,
+#consumer_profile h1,
+#consumer_profile h2,
+#consumer_profile h3,
+#consumer_profile h4 {
 	line-height: 24px;
 	margin: 0;
 }
@@ -107,7 +111,8 @@ h4 {
 }
 
 #vendor_profile .btn,
-#data_aggregator_top_card .btn,  
+#data_aggregator_top_card .btn,
+#consumer_profile .btn, 
 .custom_form .btn {
 	float: right;
 	font-size: 12px;
@@ -481,7 +486,8 @@ textarea:valid ~ label {
 		height: 75px;
 	}
 
-	#vendor_profile h1, #vendor_profile h2, #vendor_profile h3, #vendor_profile h4 {
+	#vendor_profile h1, #vendor_profile h2, #vendor_profile h3, #vendor_profile h4,
+	#consumer_profile h1, #consumer_profile h2, #consumer_profile h3, #consumer_profile h4 {
 		font-size: 13px;
 	}
 
@@ -824,4 +830,31 @@ textarea:valid ~ label {
 	.custom_form .bootstrap-select .dropdown-menu.open {
 		position: static;
 	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#consumer_profile {
+	background: #fff;
+	padding: 10px;
+	overflow: hidden;
+}
+#consumer_profile #business_needs {
+	display: none;
 }
