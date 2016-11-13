@@ -1130,8 +1130,9 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendor.setSecondaryEmail(venSecEmail);
 				vendor.setTelephone(venPhoneNum);
 				
-				region = referenceDataService.getRegionByName(venRegionOfIncorp);
-				vendor.setRegionofincorp(region.getRegion_id());
+				region = (Region)referenceDataService.getModelObjectById(Region.class, 
+						new Integer(venRegionOfIncorp));
+				vendor.setRegionofincorp(new Integer(venRegionOfIncorp));
 				country = (Country)referenceDataService.getModelObjectById(Country.class,
 						new Integer(venCountryOfIncorp));
 				vendor.setCountryofincorp(country.getCountry_id() + "");
