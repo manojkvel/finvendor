@@ -4,8 +4,6 @@ jQuery(document).ready(function() {
 		progressLoader(false);
 		$("#personal_details").slideDown();
 		$("#top-card").slideUp();
-		$("#personaltabfailuremessage").html('');
-		$("#personaltabsucessmessage").html('');
 		getCountryRegionMapping('personalvencountryofincorp', 'personalvenregionofincorp');
 	});
 
@@ -18,6 +16,7 @@ jQuery(document).ready(function() {
 			progressLoader(false);
 			return false;
 		}
+
 		$("#personal_details").slideUp();
 		$("#top-card").slideDown();
 	});
@@ -1830,7 +1829,6 @@ function imageValidation() {
  
 /// Update code to Vendor personal Info--:
 function updateVendorPersonalInfo(){
-	debugger;
 	progressLoader(true);
 	var personalvenfirstname = $("#personalvenfirstname").val();
 	var personalvenlastname = $("#personalvenlastname").val();
@@ -1854,6 +1852,48 @@ function updateVendorPersonalInfo(){
 
 	var weekend = $('#weekend').is(":checked");
 	var publicHolidays = $('#publicHolidays').is(":checked");
+
+	if(personalvenfirstname != '') {
+		$("#personal_details #personalvenfirstname").removeClass("error_field");
+	} else {
+		$("#personal_details #personalvenfirstname").addClass("error_field");
+	}
+
+	if(personalvendesignation != '') {
+		$("#personal_details #personalvendesignation").removeClass("error_field");
+	} else {
+		$("#personal_details #personalvendesignation").addClass("error_field");
+	}
+
+	if(personalvencompany != '') {
+		$("#personal_details #personalvencompany").removeClass("error_field");
+	} else {
+		$("#personal_details #personalvencompany").addClass("error_field");
+	}
+
+	if(personalvencompanyurl != '') {
+		$("#personal_details #personalvencompanyurl").removeClass("error_field");
+	} else {
+		$("#personal_details #personalvencompanyurl").addClass("error_field");
+	}
+
+	if(personalvencompanyinfo != '') {
+		$("#personal_details #personalvencompanyinfo").removeClass("error_field");
+	} else {
+		$("#personal_details #personalvencompanyinfo").addClass("error_field");
+	}
+
+	if(personalvenprimemail != '') {
+		$("#personal_details #personalvenprimemail").removeClass("error_field");
+	} else {
+		$("#personal_details #personalvenprimemail").addClass("error_field");
+	}
+
+	if(personalvenphonenumber != '') {
+		$("#personal_details #personalvenphonenumber").removeClass("error_field");
+	} else {
+		$("#personal_details #personalvenphonenumber").addClass("error_field");
+	}
 	
 	if(personalvenfirstname != '' && personalvenfirstname.length > 0 &&
 			personalvendesignation != null && personalvendesignation.length > 0 &&
@@ -1873,10 +1913,9 @@ function updateVendorPersonalInfo(){
 			cache:false,
 			/*contentType: 'multipart/form-data',*/
 			success : function(output){
-				//alert('You have updated sucessfully..!');
-					progressLoader(false);
+				progressLoader(false);
 				setTimeout(function() {
-					$("#personal_details .generic_message .alert").removeClass("alert-danger").addClass("alert-success").text('You have updated sucessfully..!').show();
+					$("#personal_details .generic_message .alert").removeClass("alert-danger").addClass("alert-success").text('').hide();
 
 					$("#personal_details").slideUp();
 					$("#top-card").slideDown();
@@ -1885,9 +1924,9 @@ function updateVendorPersonalInfo(){
 					$(".profile-card .contacts").html(personalvenprimemail + " | " + personalvenphonenumber);
 					$(".profile-card .company-details .url").html(personalvencompanyurl);
 					$(".profile-card .company-details .info").html(personalvencompanyinfo);
-				}, 10);
 
-				//document.getElementById("vendorDetails").innerHTML = output;
+					$(".profile-card .profile-picture img").attr('src', $("#displayLogo img").attr("src"));
+				}, 10);
 			},
 			error : function(data, textStatus, jqXHR){
 				//alert('Error: '+data+':'+textStatus);
@@ -3178,7 +3217,7 @@ addVendorAward = function() {
 
 				$("#award_details").slideUp();
 				$("#awards_top_card").slideDown();
-				   document.getElementById("awardtabsucessmessage").innerHTML = 'You have updated sucessfully..!';		
+				$("#award_details .generic_message .alert").removeClass("alert-danger").addClass("alert-success").text('').hide();	
 			},
 			error : function(data, textStatus, jqXHR){
 				//alert('Error: '+data+':'+textStatus);

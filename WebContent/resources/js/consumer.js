@@ -3,17 +3,11 @@ jQuery(document).ready(function() {
 		progressLoader(false);
 		$("#personal_details").slideDown();
 		$("#top-card").slideUp();
-		$("#personaltabfailuremessage").html('');
-		$("#personaltabsucessmessage").html('');
-		getCountryRegionMapping('personalvencountryofincorp', 'personalvenregionofincorp');
+		getCountryRegionMapping('consumerProfileCountryOfIncorporation', 'consumerProfileYearOfIncorporation');
 	});
 
 	$("#consumer_profile #consumer_details .save").on("click", function() {
-		if(!validateSpanElements('personal_details')) {
-			progressLoader(false);
-			return false;
-		}
-		if(!updateVendorPersonalInfo()) {
+		if(!updateConsumerProfileCompanyDetails()) {
 			progressLoader(false);
 			return false;
 		}
@@ -39,8 +33,10 @@ jQuery(document).ready(function() {
 });
 
 function updateConsumerProfileCompanyDetails() {
+	progressLoader(true);
 	var lastName = $("#consumerProfileLastName").val();
 	var designation = $("#consumerProfileDesignation").val();
+	var company = $("#consumerProfileCompany").val();
 	var companyUrl = $("#consumerProfileCompanyUrl").val();
 	var companyInfo = $("#consumerProfileCompanyInfo").val();
 	var secondaryEmail = $("#consumerProfileSecondaryEmail").val();
@@ -50,6 +46,33 @@ function updateConsumerProfileCompanyDetails() {
 	var yearOfIncorporation = $("#consumerProfileYearOfIncorporation").val();
 	var companySubType = $("#consumerProfileCompanySubType").val();
 	var companyLogo = $("#consumerProfileCompanyLogo").val();
+
+	if(designation != '') {
+		$("#personal_details #consumerProfileDesignation").removeClass("error_field");
+	} else {
+		$("#personal_details #consumerProfileDesignation").addClass("error_field");
+	}
+
+	if(company != '') {
+		$("#personal_details #consumerProfileCompany").removeClass("error_field");
+	} else {
+		$("#personal_details #consumerProfileCompany").addClass("error_field");
+	}
+
+	if(companyUrl != '') {
+		$("#personal_details #consumerProfileCompanyUrl").removeClass("error_field");
+	} else {
+		$("#personal_details #consumerProfileCompanyUrl").addClass("error_field");
+	}
+
+	if(companyInfo != '') {
+		$("#personal_details #consumerProfileCompanyInfo").removeClass("error_field");
+	} else {
+		$("#personal_details #consumerProfileCompanyInfo").addClass("error_field");
+	}
+	
+	return;
+
 	$.ajax({
 		type: 'POST',
 		url:  "updateConsumerProfileCompanyDetails", 
@@ -68,7 +91,20 @@ function updateConsumerProfileCompanyDetails() {
 		},	
 		cache:false,
 		success : function(output){
-			alert('Compnay Details updated successfully');
+			progressLoader(false);
+			setTimeout(function() {
+				$("#personal_details .generic_message .alert").removeClass("alert-danger").addClass("alert-success").text('').hide();
+
+				$("#personal_details").slideUp();
+				$("#top-card").slideDown();
+				//$(".profile-card .full-name").html(personalvenfirstname + " " + personalvenlastname);
+				//$(".profile-card .headline").html(personalvendesignation + " at " + personalvencompany);
+				//$(".profile-card .contacts").html(personalvenprimemail + " | " + personalvenphonenumber);
+				//$(".profile-card .company-details .url").html(personalvencompanyurl);
+				//$(".profile-card .company-details .info").html(personalvencompanyinfo);
+
+				//$(".profile-card .profile-picture img").attr('src', $("#displayLogo img").attr("src"));
+			}, 10);
 		},
 		error : function(data, textStatus, jqXHR){
 			alert('Error updating Company Details');

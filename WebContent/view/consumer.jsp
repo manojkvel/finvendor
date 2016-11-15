@@ -44,7 +44,7 @@
 										${consumer.designation} at ${consumer.company}
 									</h3>
 									<h4 class="contacts">
-										${consumer.user.email} | ${vendor.telephoneCode} ${vendor.telephone}
+										${consumer.user.email} | ${telephoneCode} ${telephoneNumber}
 									</h4>
 									<table class="company-details">
 										<tr>
@@ -76,52 +76,52 @@
 				<ul>
 					<li id="name">
 						<div class="single_row">
-							<input type="text" name="firstname" class="single_line" id="personalvenfirstname" value="${vendor.firstName}" required />
+							<input type="text" name="firstname" class="single_line" id="consumerProfileFirstName" value="${consumer.firstName}" required />
 							<label>First Name</label>
 						</div>
 						<div class="single_row">
-							<input type="text" name="lastname" id="personalvenlastname" class="single_line" value="${vendor.lastName}" required />
+							<input type="text" name="lastname" id="consumerProfileLastName" class="single_line" value="${consumer.lastName}" required />
 							<label>Last Name</label>
 						</div>
 					</li>
 					<li>
-						<input type="text" name="designation" id="personalvendesignation" value="${vendor.designation}" required />
+						<input type="text" name="designation" id="consumerProfileDesignation" value="${consumer.designation}" required />
 						<label>Designation</label>
 					</li>
 					<li>
-						<input type="text" name="company" id="personalvencompany" value="${vendor.company}" required />
+						<input type="text" name="company" id="consumerProfileCompany" value="${consumer.company}" required />
 						<label>Company</label>
 					</li>
 					<li>
-						<input type="text" name="companyurl" placeholder="" id="personalvencompanyurl" class="personal_detail" value="${vendor.companyUrl}" required />
+						<input type="text" name="companyurl" placeholder="" id="consumerProfileCompanyUrl" class="personal_detail" value="${consumer.companyUrl}" required />
 						<label>Company URL</label>
 					</li>
 					<li>
-						<input type="text" name="companyinfo" id="personalvencompanyinfo" value="${vendor.companyInfo}" required />
+						<input type="text" name="companyinfo" id="consumerProfileCompanyInfo" value="${consumer.companyInfo}" required />
 						<label>Company Information</label>
 					</li>
 				</ul>
 				<ul>
 					<li>
-						<input type="text" name="primaryemail" placeholder="" class="personal_detail" id="personalvenprimemail" value="${vendor.user.email}" required />
+						<input type="text" name="primaryemail" placeholder="" class="personal_detail" id="consumerProfilePrimaryEmail" value="${consumer.user.email}" required />
 						<label>Primary Email</label>
 					</li>
 					<li>
-						<input type="text" name="secondaryemail" id="personalvensecemail" value="${vendor.secondaryEmail}" required />
+						<input type="text" name="secondaryemail" id="consumerProfileSecondaryEmail" value="${consumer.secondaryEmail}" required />
 						<label>Secondary Email</label>
 					</li>
 					<li id="phone">
 						<div class="single_row">
-							<input type="text" name="phonenumber" placeholder="" class="personal_detail  single_line" id="personalvenphonenumbercode" value="${vendor.telephoneCode}" required />
+							<input type="text" name="phonenumber" placeholder="" class="personal_detail  single_line" id="consumerProfilePhoneNumberCode" value="${telephoneCode}" required />
 							<label>Country Code</label>
 						</div>
 						<div class="single_row">
-							<input type="text" name="phonenumber" id="personalvenphonenumber" class="single_line" value="${vendor.telephone}" required />
+							<input type="text" name="phonenumber" id="consumerProfilePhoneNumber" class="single_line" value="${telephoneNumber}" required />
 							<label>Phone Number</label>
 						</div>
 					</li>
 					<li>
-						<select class="selectpicker show-tick" name="personalvencountryofincorp" id="personalvencountryofincorp" onchange="getCountryRegionMapping('personalvencountryofincorp', 'personalvenregionofincorp');">
+						<select class="selectpicker show-tick" name="consumerProfileCountryOfIncorporation" id="consumerProfileCountryOfIncorporation" onchange="getCountryRegionMapping('consumerProfileCountryOfIncorporation', 'consumerProfileYearOfIncorporation');">
 							<c:forEach var="countries" items="${countries}">
 							<option value="${countries.country_id}" >${countries.name}</option>
 						</c:forEach>
@@ -129,13 +129,13 @@
 					<label class="default_select">Country of Incorporation</label>
 				</li>
 				<li>
-					<select class="selectpicker show-tick" name="personalvenregionofincorp" id="personalvenregionofincorp" disabled="true">
+					<select class="selectpicker show-tick" name="consumerProfileYearOfIncorporation" id="consumerProfileYearOfIncorporation" disabled="true">
 					</select>
-					<label class="default_select">Region of Incorporation</label>
+					<label class="default_select">Year of Incorporation</label>
 				</li>
 				<li>
-					<input type="file" id="personalvencompanylogo"
-					placeholder="Company Logo" name="companylogo"
+					<input type="file" id="consumerProfileCompanyLogo"
+					placeholder="Company Logo" name="consumerProfileCompanyLogo"
 					class="largefileuploadcons"
 					onblur="imageValidation();" value="${vendor.logoName}" required/>
 					<label class="default_select">Company Logo</label>
@@ -144,7 +144,7 @@
 					<div class="selectOptions">e.g. .jpeg, .jpg,
 						.png, .gif</div>
 						<div id="displayLogo">
-							<img src="<%=request.getContextPath() %>/getfile/logo" />
+							<img src="${pageContext.request.contextPath}/displayCompanyLogo/${consumer.user.userName}" />
 							<font id="invalidfileformat"
 							style="bottom: 1px; font-family: 'Open Sans', sans-serif; font-weight: bold; font-size: 12px; position: absolute; color: #B94A48;"></font>
 						</div>
@@ -156,13 +156,21 @@
 				</p>
 			</div>
 		</div>
-			</div>
 			<div class="tab-pane" id="business_needs">My Business Needs</div>
 		</div>
 	</div>
+
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	<script type="text/javascript">
 		progressLoader(false);
 	</script>
+	
+  
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+
 </body>
 </html>
