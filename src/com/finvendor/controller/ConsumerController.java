@@ -82,9 +82,9 @@ public class ConsumerController {
 			@RequestParam(value = "consumerProfilePhoneNumberCode", required = false) String consumerProfilePhoneNumberCode,
 			@RequestParam(value = "consumerProfilePhoneNumber", required = false) String consumerProfilePhoneNumber,
 			@RequestParam(value = "consumerProfileCity", required = false) String city,
-			@RequestParam(value = "consumerProfileCountryOfIncorporation", required = false) int countryOfIncorporation,
-			@RequestParam(value = "consumerProfileYearOfIncorporation", required = false) int yearOfIncorporation,
-			@RequestParam(value = "consumerProfileCompanySubType", required = false) int companySubType,
+			@RequestParam(value = "consumerProfileCountryOfIncorporation", required = false) Integer countryOfIncorporation,
+			@RequestParam(value = "consumerProfileYearOfIncorporation", required = false) Integer yearOfIncorporation,
+			@RequestParam(value = "consumerProfileCompanySubType", required = false) Integer companySubType,
 			@RequestParam(value = "consumerProfileCompanyLogo", required = false) MultipartFile companyLogo) {
 		logger.debug("Entering ConsumerController : updateConsumerProfileCompanyDetails");
 		List<Country> countries = null;
