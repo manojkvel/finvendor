@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
 		progressLoader(false);
 		$("#personal_details").slideDown();
 		$("#top-card").slideUp();
-		getCountryRegionMapping('consumerProfileCountryOfIncorporation', 'consumerProfileYearOfIncorporation');
+		//getCountryRegionMapping('consumerProfileCountryOfIncorporation', 'consumerProfileYearOfIncorporation');
 	});
 
 	$("#consumer_profile #consumer_details .save").on("click", function() {
@@ -34,18 +34,27 @@ jQuery(document).ready(function() {
 
 function updateConsumerProfileCompanyDetails() {
 	progressLoader(true);
-	var lastName = $("#consumerProfileLastName").val();
-	var designation = $("#consumerProfileDesignation").val();
-	var company = $("#consumerProfileCompany").val();
-	var companyUrl = $("#consumerProfileCompanyUrl").val();
-	var companyInfo = $("#consumerProfileCompanyInfo").val();
-	var secondaryEmail = $("#consumerProfileSecondaryEmail").val();
-	var phoneNumber = $("#consumerProfilePhoneNumberCode").val() + "-" + $("#consumerProfilePhoneNumber").val();
+
+	var firstName = $("#consumerProfileFirstName").val().trim();
+	var lastName = $("#consumerProfileLastName").val().trim();
+	var designation = $("#consumerProfileDesignation").val().trim();
+	var company = $("#consumerProfileCompany").val().trim();
+	var companyUrl = $("#consumerProfileCompanyUrl").val().trim();
+	var companyInfo = $("#consumerProfileCompanyInfo").val().trim();
+	var secondaryEmail = $("#consumerProfileSecondaryEmail").val().trim();
+	var telephoneCode = $("#consumerProfilePhoneNumberCode").val();
+	var telephoneNumber = $("#consumerProfilePhoneNumber").val();
 	var city = $("#consumerProfileCity").val();
-	var countryOfIncorporation = $("#consumerProfileCountryOfIncorporation").val();
+	var countryOfIncorporation = $("#consumerProfileCountryOfIncorporation").selectpicker('val');
 	var yearOfIncorporation = $("#consumerProfileYearOfIncorporation").val();
-	var companySubType = $("#consumerProfileCompanySubType").val();
-	var companyLogo = $("#consumerProfileCompanyLogo").val();
+	var companySubType = $("#consumerProfileCompanySubType").selectpicker('val');
+	var companyLogo = $("#personalvencompanylogo").val();
+
+	if(firstName != '') {
+		$("#personal_details #consumerProfileFirstName").removeClass("error_field");
+	} else {
+		$("#personal_details #consumerProfileFirstName").addClass("error_field");
+	}
 
 	if(designation != '') {
 		$("#personal_details #consumerProfileDesignation").removeClass("error_field");
@@ -70,46 +79,95 @@ function updateConsumerProfileCompanyDetails() {
 	} else {
 		$("#personal_details #consumerProfileCompanyInfo").addClass("error_field");
 	}
+
+	if(companySubType != '') {
+		$("#personal_details #consumerProfileCompanySubType").removeClass("error_field");
+	} else {
+		$("#personal_details #consumerProfileCompanySubType").addClass("error_field");
+	}
+
+	if(telephoneCode != '') {
+		$("#personal_details #consumerProfilePhoneNumberCode").removeClass("error_field");
+	} else {
+		$("#personal_details #consumerProfilePhoneNumberCode").addClass("error_field");
+	}
+
+	if(telephoneNumber != '') {
+		$("#personal_details #consumerProfilePhoneNumber").removeClass("error_field");
+	} else {
+		$("#personal_details #consumerProfilePhoneNumber").addClass("error_field");
+	}
+
+	if(countryOfIncorporation != '') {
+		//countryOfIncorporation = countryOfIncorporation.split(',');
+		$("#personal_details #countryOfIncorporation").removeClass("error_field");
+	} else {
+		$("#personal_details #countryOfIncorporation").addClass("error_field");
+	}
+
+	if(yearOfIncorporation != '') {
+		$("#personal_details #yearOfIncorporation").removeClass("error_field");
+	} else {
+		$("#personal_details #yearOfIncorporation").addClass("error_field");
+	}
+
+	if(companySubType != null) {
+		companySubType = companySubType.join();
+	}
 	
-	return;
+	//return;
+	var phoneNumber = telephoneCode + "-" + telephoneNumber;
 
-	$.ajax({
-		type: 'POST',
-		url:  "updateConsumerProfileCompanyDetails", 
-		data:{
-			lastName:lastName,
-			designation:designation,
-			companyUrl:companyUrl,
-			companyInfo:companyInfo,
-			secondaryEmail:secondaryEmail,
-			phoneNumber:phoneNumber,
-			city:city,
-			countryOfIncorporation:countryOfIncorporation,
-			yearOfIncorporation:yearOfIncorporation,
-			companySubType:companySubType,
-			companyLogo:companyLogo			
-		},	
-		cache:false,
-		success : function(output){
-			progressLoader(false);
-			setTimeout(function() {
-				$("#personal_details .generic_message .alert").removeClass("alert-danger").addClass("alert-success").text('').hide();
+	if(designation != "" && designation != null && company != null && companyUrl != null &&
+		companyInfo != "" && phoneNumber.length > 10 && countryOfIncorporation != null && yearOfIncorporation != null) {
 
-				$("#personal_details").slideUp();
-				$("#top-card").slideDown();
-				//$(".profile-card .full-name").html(personalvenfirstname + " " + personalvenlastname);
-				//$(".profile-card .headline").html(personalvendesignation + " at " + personalvencompany);
-				//$(".profile-card .contacts").html(personalvenprimemail + " | " + personalvenphonenumber);
-				//$(".profile-card .company-details .url").html(personalvencompanyurl);
-				//$(".profile-card .company-details .info").html(personalvencompanyinfo);
+		var data = {
+				"lastName":lastName,
+				"designation":designation,
+				"companyUrl":companyUrl,
+				"companyInfo":companyInfo,
+				"secondaryEmail":secondaryEmail,
+				"phoneNumber":phoneNumber,
+				"city":city,
+				"countryOfIncorporation":countryOfIncorporation,
+				"yearOfIncorporation":yearOfIncorporation,
+				"companySubType":companySubType,
+				"companyLogo":companyLogo			
+			};
+			
+		var url = "updateConsumerProfileCompanyDetails";
 
-				//$(".profile-card .profile-picture img").attr('src', $("#displayLogo img").attr("src"));
-			}, 10);
-		},
-		error : function(data, textStatus, jqXHR){
-			alert('Error updating Company Details');
-		}
-	});
+		$.ajax({
+				type: 'POST',
+				url:  url, 
+				data: data,	
+				cache:false,
+				success : function(output){
+					progressLoader(false);
+					setTimeout(function() {
+						$("#personal_details .generic_message .alert").removeClass("alert-danger").addClass("alert-success").text('').hide();
+
+						$("#personal_details").slideUp();
+						$("#top-card").slideDown();
+						//$(".profile-card .full-name").html(personalvenfirstname + " " + personalvenlastname);
+						//$(".profile-card .headline").html(personalvendesignation + " at " + personalvencompany);
+						//$(".profile-card .contacts").html(personalvenprimemail + " | " + personalvenphonenumber);
+						//$(".profile-card .company-details .url").html(personalvencompanyurl);
+						//$(".profile-card .company-details .info").html(personalvencompanyinfo);
+
+						//$(".profile-card .profile-picture img").attr('src', $("#displayLogo img").attr("src"));
+					}, 10);
+				},
+				error : function(data, textStatus, jqXHR){
+					alert('Error updating Company Details');
+				}
+			});
+	} else {
+		$("#personal_details .generic_message .alert").addClass("alert-danger").text('Please enter all mandatory fields..!').show();
+		return false;
+	}
+
+	
 }
 
 function updateConsumerProfileMyBusinessNeedsMarketData() {
