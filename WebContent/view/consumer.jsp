@@ -69,126 +69,125 @@
 					</a>
 				</div>
 				<div id="personal_details" class="custom_form">
-				<form action="${pageContext.request.contextPath}/updateConsumerProfileCompanyDetails" class="form-horizontal" 
-												id="submit_form" method="post" enctype="multipart/form-data">
-				<div class="generic_message">
-					<div class="alert">
-					</div>
-				</div>
-				<ul>
-					<li id="name">
-						<div class="single_row">
-							<input type="text" name="firstname" class="single_line" id="consumerProfileFirstName" value="${consumer.firstName}" required />
-							<label>First Name</label>
+					<form action="#" class="form-horizontal" id="submit_form" method="post" enctype="multipart/form-data"> 
+						<div class="generic_message">
+							<div class="alert">
+							</div>
 						</div>
-						<div class="single_row">
-							<input type="text" name="lastname" id="consumerProfileLastName" class="single_line" value="${consumer.lastName}" required />
-							<label>Last Name</label>
-						</div>
-					</li>
-					<li>
-						<input type="text" name="designation" id="consumerProfileDesignation" value="${consumer.designation}" required />
-						<label>Designation</label>
-					</li>
-					<li>
-						<input type="text" name="company" id="consumerProfileCompany" value="${consumer.company}" required />
-						<label>Company</label>
-					</li>
-					<li>
-						<input type="text" name="companyurl" placeholder="" id="consumerProfileCompanyUrl" class="personal_detail" value="${consumer.companyUrl}" required />
-						<label>Company URL</label>
-					</li>
-					<li>
-						<input type="text" name="companyinfo" id="consumerProfileCompanyInfo" value="${consumer.companyInfo}" required />
-						<label>Company Information</label>
-					</li>
-					<li>
-						<input type="text" name="consumerProfileCity" id="consumerProfileCity" value="${consumer.city}" required />
-						<label>City</label>
-					</li>
-					<li>
-						<input type="text" name="consumerProfileCompanyType" id="consumerProfileCompanyType" value="${displayCompanyType}" readonly="readonly" />
-						<label class="default_select">Company Type</label>
-					</li>
-					<li>
-						<select class="selectpicker show-tick" name="consumerProfileCompanySubType" id="consumerProfileCompanySubType" multiple="multiple">
-							<c:forEach var="subType" items="${companySubType}">
-							<c:choose>
-							<c:when test="${consumer.companySubType.id == subType.id}">
-							<option value="${subType.id}" selected>${subType.type}</option>
-							</c:when>    
-							<c:otherwise>
-							<option value="${subType.id}">${subType.type}</option>
+						<ul>
+							<li id="name">
+								<div class="single_row">
+									<input type="text" name="firstname" class="single_line" id="consumerProfileFirstName" value="${consumer.firstName}" required />
+									<label>First Name</label>
+								</div>
+								<div class="single_row">
+									<input type="text" name="lastname" id="consumerProfileLastName" class="single_line" value="${consumer.lastName}" required />
+									<label>Last Name</label>
+								</div>
+							</li>
+							<li>
+								<input type="text" name="designation" id="consumerProfileDesignation" value="${consumer.designation}" required />
+								<label>Designation</label>
+							</li>
+							<li>
+								<input type="text" name="company" id="consumerProfileCompany" value="${consumer.company}" required />
+								<label>Company</label>
+							</li>
+							<li>
+								<input type="text" name="companyurl" placeholder="" id="consumerProfileCompanyUrl" class="personal_detail" value="${consumer.companyUrl}" required />
+								<label>Company URL</label>
+							</li>
+							<li>
+								<input type="text" name="companyinfo" id="consumerProfileCompanyInfo" value="${consumer.companyInfo}" required />
+								<label>Company Information</label>
+							</li>
+							<li>
+								<input type="text" name="consumerProfileCity" id="consumerProfileCity" value="${consumer.city}" required />
+								<label>City</label>
+							</li>
+							<li>
+								<input type="text" name="consumerProfileCompanyType" id="consumerProfileCompanyType" value="${displayCompanyType}" readonly="readonly" />
+								<label class="default_select">Company Type</label>
+							</li>
+							<li>
+								<select class="selectpicker show-tick" name="consumerProfileCompanySubType" id="consumerProfileCompanySubType" multiple="multiple">
+									<c:forEach var="subType" items="${companySubType}">
+									<c:choose>
+									<c:when test="${consumer.companySubType.id == subType.id}">
+									<option value="${subType.id}" selected>${subType.type}</option>
+									</c:when>    
+									<c:otherwise>
+									<option value="${subType.id}">${subType.type}</option>
+									</c:otherwise>
+									</c:choose>
+									</c:forEach>
+								</select>
+								<label class="default_select">Company SubType</label>
+							</li>
+						</ul>
+						<ul>
+							<li>
+								<input type="text" name="primaryemail" placeholder="" class="personal_detail" id="consumerProfilePrimaryEmail" value="${consumer.user.email}" readonly="readonly" />
+								<label class="default_select">Primary Email</label>
+							</li>
+							<li>
+								<input type="text" name="secondaryemail" id="consumerProfileSecondaryEmail" value="${consumer.secondaryEmail}" required />
+								<label>Secondary Email</label>
+							</li>
+							<li id="phone">
+								<div class="single_row">
+									<input type="text" name="phonenumber" placeholder="" class="personal_detail  single_line" id="consumerProfilePhoneNumberCode" value="${telephoneCode}" required />
+									<label>Country Code</label>
+								</div>
+								<div class="single_row">
+									<input type="text" name="phonenumber" id="consumerProfilePhoneNumber" class="single_line" value="${telephoneNumber}" required />
+									<label>Phone Number</label>
+								</div>
+							</li>
+							<li>
+								<select class="selectpicker show-tick" name="consumerProfileCountryOfIncorporation" id="consumerProfileCountryOfIncorporation">
+									<c:forEach var="countries" items="${countries}">
+									<c:choose>
+									<c:when test="${consumer.countryOfIncorporation eq countries.country_id}">
+									<option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
+								</c:when>    
+								<c:otherwise>
+								<option value="${countries.country_id}">${countries.name}</option>
 							</c:otherwise>
-							</c:choose>
-							</c:forEach>
-						</select>
-						<label class="default_select">Company SubType</label>
-					</li>
-				</ul>
-				<ul>
-					<li>
-						<input type="text" name="primaryemail" placeholder="" class="personal_detail" id="consumerProfilePrimaryEmail" value="${consumer.user.email}" readonly="readonly" />
-						<label class="default_select">Primary Email</label>
-					</li>
-					<li>
-						<input type="text" name="secondaryemail" id="consumerProfileSecondaryEmail" value="${consumer.secondaryEmail}" required />
-						<label>Secondary Email</label>
-					</li>
-					<li id="phone">
-						<div class="single_row">
-							<input type="text" name="phonenumber" placeholder="" class="personal_detail  single_line" id="consumerProfilePhoneNumberCode" value="${telephoneCode}" required />
-							<label>Country Code</label>
-						</div>
-						<div class="single_row">
-							<input type="text" name="phonenumber" id="consumerProfilePhoneNumber" class="single_line" value="${telephoneNumber}" required />
-							<label>Phone Number</label>
-						</div>
-					</li>
-					<li>
-						<select class="selectpicker show-tick" name="consumerProfileCountryOfIncorporation" id="consumerProfileCountryOfIncorporation">
-							<c:forEach var="countries" items="${countries}">
-							<c:choose>
-							<c:when test="${consumer.countryOfIncorporation eq countries.country_id}">
-							<option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
-						</c:when>    
-						<c:otherwise>
-						<option value="${countries.country_id}">${countries.name}</option>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
-					</select>
-					<label class="default_select">Country of Incorporation</label>
-				</li>
-				<li>
-					<input type="text" name="consumerProfileYearOfIncorporation" id="consumerProfileYearOfIncorporation" value="${consumer.yearOfIncorporation}" required />
-					<label class="default_select">Year of Incorporation</label>
-				</li>
-				<li>
-					<input type="file" id="personalvencompanylogo"
-					placeholder="Company Logo" name="personalvencompanylogo"
-					class="largefileuploadcons"
-					onblur="imageValidation();"  required/>
-					<label class="default_select">Company Logo</label>
-					<font id="invalidfileformat"
-					style="bottom: 1px; font-family: 'Open Sans', sans-serif; font-weight: bold; font-size: 12px; position: absolute; color: #B94A48;"></font>
-					<div class="selectOptions">e.g. .jpeg, .jpg,
-						.png, .gif</div>
-						<div id="displayLogo">
-							<img src="${pageContext.request.contextPath}/displayCompanyLogo/${consumer.user.userName}" />
+						</c:choose>
+					</c:forEach>
+							</select>
+							<label class="default_select">Country of Incorporation</label>
+						</li>
+						<li>
+							<input type="text" name="consumerProfileYearOfIncorporation" id="consumerProfileYearOfIncorporation" value="${consumer.yearOfIncorporation}" required />
+							<label class="default_select">Year of Incorporation</label>
+						</li>
+						<li>
+							<input type="file" id="personalvencompanylogo"
+							placeholder="Company Logo" name="personalvencompanylogo"
+							class="largefileuploadcons"
+							onblur="imageValidation();"  required/>
+							<label class="default_select">Company Logo</label>
 							<font id="invalidfileformat"
 							style="bottom: 1px; font-family: 'Open Sans', sans-serif; font-weight: bold; font-size: 12px; position: absolute; color: #B94A48;"></font>
-						</div>
-					</li>
-				</ul>
-				<p class="action_btn">
-					<a class="submit_btn save" data-toggle="tab">Save</a>
-					<a class="submit_btn next" data-toggle="tab" href="#tab3">Next</a>
-				</p>
-				</form>
+							<div class="selectOptions">e.g. .jpeg, .jpg,
+								.png, .gif</div>
+								<div id="displayLogo">
+									<img src="${pageContext.request.contextPath}/displayCompanyLogo/${consumer.user.userName}" />
+									<font id="invalidfileformat"
+									style="bottom: 1px; font-family: 'Open Sans', sans-serif; font-weight: bold; font-size: 12px; position: absolute; color: #B94A48;"></font>
+								</div>
+							</li>
+						</ul>
+						<p class="action_btn">
+							<a class="submit_btn save" data-toggle="tab">Save</a>
+							<a class="submit_btn next" data-toggle="tab" href="#tab3">Next</a>
+						</p>
+					</form>
 			</div>
 		</div>
-			<div class="tab-pane" id="business_needs">My Business Needs</div>
+			<div class="tab-pane" id="business_needs">Coming Soon</div>
 		</div>
 	</div>
 
