@@ -375,51 +375,87 @@ function userRegisteration() {
 
 
 function updateUserRegisteration() {
+	progressLoader(true);
+	var username = $("#userName").val().trim();
+	var email = $("#email").val().trim();
+	var companytype = $("#companyType").selectpicker('val');
+	var tags = $("#vendorAreaOfInterest").selectpicker('val');
 
-	var username = $("#signup-username").val();
-	var companytype = $("#signup-companytype").val();
-	var tags = $("#sigup-tags").val();
-	var email = $("#signup-email").val();
-	$("#sucessMessage").html('');
-	$("#errorMessage").html('');
+	var userRole = $("#account_details .action_btn").attr("data");
 
-	$('#loadingrgupdate').show();
+	if(email != '') {
+		$("#account_details #email").removeClass("error_field");
+	} else {
+		$("#account_details #email").addClass("error_field");
+	}
 
-	consumerSelected = false;
-	$('#signup-companytype :selected').each(function(i, selectedElement) {
-		selectedCompanyType = $(selectedElement).val();
-		selectedCompanyType = selectedCompanyType + "";
-		if (selectedCompanyType.substr(0, 14) == 'Financial Firm' || 
-				selectedCompanyType.substr(0, 10) == 'University') {
-			consumerSelected = true;
-			return false;
-		}
-	});
-	vendorSelected = false;
-	if(consumerSelected) {
-		$('#sigup-tags :selected').each(function(i, selectedElement) {
-			vendorSelected = true;
-			return false;
-		});
-		if(!vendorSelected) {			
-			$('#generic-error-message').html('Please select vendor area of interest');
+	if(companytype != null) {
+		companytype = companytype.join();
+		$("#account_details #companyType").parent().find("button").removeClass("error_field");
+	} else {
+		$("#account_details #companyType").parent().find("button").addClass("error_field");
+	}
+
+	if(userRole == "userConsumer") {
+		if(tags != null) {
+			tags = tags.join();
+			$("#account_details #vendorAreaOfInterest").parent().find("button").removeClass("error_field");
+		} else {
+			$("#account_details #vendorAreaOfInterest").parent().find("button").addClass("error_field");		
+			$("#account_details .generic_message .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
 			return false;
 		}
 	}
 
-	$("#errorMessage").html('');
-	$.ajax({
-		type: 'POST',
-		url:  "updateAccountSettings?userName="+username+"&companyType="+companytype+"&tags="+tags+"&email="+email,
-		cache: false,
-		success: function(output) {
-			$('#loadingrgupdate').hide();			
-			if (output.match("true")) {
-				$("#sucessMessage").html("Registration details updated successfully..!Please login again.");
-			}else {
-				$("#sucessMessage").html('');
-				$("#errorMessage").html("Error Updating Registration details. Please contact <a href='mailto:support@finvendor.com'>Fin Vendor support</a>");
+	if(email != '' && companytype != null) {
+
+		$.ajax({
+			type: 'POST',
+			url:  "updateAccountSettings?userName="+username+"&companyType="+companytype+"&tags="+tags+"&email="+email,
+			cache: false,
+			success: function(output) {
+				progressLoader(false);		
+				$("#account_details .generic_message .alert").removeClass("alert-danger").addClass("alert-success").text('').hide();
+
+
+				$("#account_details").slideUp();
+				$("#top-card").slideDown();
+				$(".profile-card .full-name").html(username);
+				$(".profile-card .contacts").html(email);
+				$(".profile-card .company-details .type").html(companytype);
+				$(".profile-card .company-details .tags").html(tags);
 			}
+		});
+	} else {
+		progressLoader(false);	
+		$("#account_details .generic_message .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
+	}
+}
+
+
+$(document).ready(function() {
+	$("#account_settings #top-card #edit-details").on("click", function() {
+		progressLoader(false);
+		$("#account_details").slideDown();
+		$("#top-card").slideUp();
+	});
+
+	$("#account_settings #account_details .save").on("click", function() {
+		if(!validateSpanElements('account_details')) {
+			progressLoader(false);
+			return false;
+		}
+		if(!updateUserRegisteration()) {
+			progressLoader(false);
+			return false;
 		}
 	});
-}
+
+	$("#account_settings select[name=companyType]").on('change', function() {
+		var userRole = $("#account_details .action_btn").attr("data");
+		if(userRole == "userConsumer") {
+			$('#vendor_area_of_interest .selectpicker').selectpicker('deselectAll');
+			$('#vendor_area_of_interest .selectpicker').selectpicker('refresh');
+		}
+	});
+});

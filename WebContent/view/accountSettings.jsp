@@ -6,113 +6,83 @@
 <un:useConstants className="com.finvendor.util.RequestConstans" var="requestConstants"/>
 <html>
 <head>
-	<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
-	<link href="${pageContext.request.contextPath}/resources/css/superfish.css" rel="stylesheet"/>
-	<link href="${pageContext.request.contextPath}/resources/css/tab.css" rel="stylesheet"/>
-	<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
-	<link href="${pageContext.request.contextPath}/resources/css/dataTables.jqueryui.min.css" rel="stylesheet"/>
-	<link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet" >
-	<link href="${pageContext.request.contextPath}/resources/css/finvendor.css" rel="stylesheet" >	
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/superfish.js"></script>		
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/dataTables.jqueryui.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
+	<title>Account Settings</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta name="description" content="" />
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="author" content="" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/finvendorValidation.js"></script>
 	
-	<style type="text/css">
-	.login_loading {
-		min-height: 50px;
-		background:  url(<%=request.getContextPath() %>/resources/images/bx_loader.gif) center center no-repeat #fff;
-		height: 100%;
-		width: 100%;
-		position: absolute;
-		top: 0;
-		left: 0;
-		z-index: 2000;
-		display: none;
-		opacity: 0.6;
-		}
-	</style>
-	
-	<script language="javascript">		
-		$( document ).ready(function() {
-			<c:if test="${user.vendor != null}">
-				$('#register_vendor_area_of_interest').hide();
-			</c:if>
-			$('#sigup-tags-mandatory-check').hide();
-	         $('select[name="companytype"]').change(function() {
-	            var selectedCompanyType =$(this).val(); 
-	            selectedCompanyType = selectedCompanyType + "";
-	            if (selectedCompanyType.substr(0, 14) == 'Financial Firm' || 
-	            		selectedCompanyType.substr(0, 10) == 'University') {
-	            	$('#register_vendor_area_of_interest').show();
-	            	$("#register_vendor_area_of_interest option:selected").removeAttr("selected");
-	            	$('#sigup-tags-mandatory-check').show();
-	            }else{
-	            	$('#register_vendor_area_of_interest').hide();
-	            	$('#sigup-tags-mandatory-check').hide();
-	            }
-	            vendorSelected = false;
-	            consumerSelected = false;
-	            $('#signup-companytype :selected').each(function(i, selectedElement) {
-	            	 companyType = $(selectedElement).val();
-	            	 companyType = companyType + "";
-	            	 if (companyType.substr(0, 14) == 'Financial Firm' || 
-	            			 companyType.substr(0, 10) == 'University'){
-	            		 consumerSelected = true;
-	 	            }else{
-	 	            	vendorSelected = true;
-	 	            }
-	            });
-	           	if(vendorSelected && consumerSelected){
-	           		document.getElementById('signupCompanyTypeErrorMsg').innerHTML = 'Please select either Vendor or Consumer as Company Type';
-	           	}else{
-	           		document.getElementById('signupCompanyTypeErrorMsg').innerHTML = '';
-	           	}
-	        });
-	    });
-		
-	</script>	
 </head>
 <body>
 	<jsp:include page="common/head.jsp"></jsp:include>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
 	<div class="container">
-		<div class="inner-content">
-			<div><label id="sucessMessage" class="errorMessage" style="color:green"></label></div>
-			<div><label id="errorMessage" class="errorMessage"></label></div>
-			<span id="userRegisterSpan">
-				<form class="cd-form">												
-					<div class="form-wrapper" style="line-height: 0;padding-top:30px">							
-						<div class="control-group-row">
-							<div class="form-group medium half-width"> 
-								<label for="signup-username" >UserName</label>
-								<input type="text" id="signup-username" placeholder="Username*" name="username" 
-									class="form-control" readonly value="${user.userName}"> &nbsp;&nbsp;&nbsp;
-								<div><label id="signupUserNameErrorMsg" class="errorMessage"></label></div>
+		<div id="account_settings">
+			<div id="top-card">
+				<div class="profile-top-card top-card">
+					<div class="profile-card vcard">
+						<div class="profile-overview">
+							<div class="profile-overview-content">
+								<h2 class="full-name">
+									${user.userName}
+								</h2>
+								<h4 class="contacts">
+									${user.email}
+								</h4>
+								<table class="company-details">
+									<tr>
+										<th>Comany Type</th>
+										<td class="type">
+											<c:if test="${user.consumer != null}">
+											${user.consumer.companyType}
+											</c:if>
+											<c:if test="${user.vendor != null}">
+											${user.vendor.companyType}
+											</c:if>
+										</td>
+									</tr>
+									<c:if test="${user.consumer != null}">
+									<tr>
+										<th>Vendor Area of Interest</th>
+										<td class="tags">										
+											<c:if test="${user.consumer != null}">
+											${user.consumer.tags}
+											</c:if>
+										</td>
+									</tr>
+									</c:if>
+								</table>
 							</div>
-							<div class="form-group medium half-width">
-								<label for="signup-email">E-mail</label>
-								<input type="text" id="signup-email" data-mandatory="Y" placeholder="E-mail*" name="email"
-									class="form-control" value="${user.email}"
-									onblur="if (validateWithRegularExpression(this, 'signupEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true) && validatePersonalEmailId(this, 'signupEmailErrorMsg')) validateAjax(this, 'checkExistingEmail','signupEmailErrorMsg')">
-								<div><label id="signupEmailErrorMsg" class="errorMessage"></label></div>
-							</div>								
 						</div>
-						<div>
-							<div class="control-group-row">
-								<div class="form-group medium half-width" id="register_company_type">
-									<label for="signup-companytype">Company Type</label>
-									<select id="signup-companytype" multi-data-mandatory="Y" name="companytype" class="form-control"   
-										multiple="multiple" onblur="validateSelectNotNull(this.id, 'signupCompanyTypeErrorMsg', 'Company Type')"> 
-										<%-- 
-										<c:if test="${user.vendor != null}">
-											<option value="Financial Firm - Sell side" id="2">Financial Firm - Sell side</option>
-											<option value="Financial Firm - Buy side" id="3" >Financial Firm - Buy side</option>
-											<option value="Financial Firm - Others" id="4">Financial Firm - Others</option>
-										</c:if>
-										--%>
+					</div>
+				</div>
+				<a class="btn" id="edit-details">
+					<span class="fa fa-pencil"></span>Edit Details
+				</a>
+			</div>
+			<div id="account_details" class="custom_form">
+				<jsp:include page="common/progressLoader.jsp"></jsp:include>
+				<form name="account_settings_form" id="account_settings_form">
+					<div class="generic_message">
+						<div class="alert"></div>
+					</div>
+					<ul>
+						<li>
+							<input type="text" name="userName" id="userName" value="${user.userName}" readonly="readonly" />
+							<label class="default_select">Username</label>
+						</li>
+						<li>
+							<input type="text" name="email" id="email" value="${user.email}"  readonly="readonly" />
+							<label class="default_select">Email</label>
+						</li>
+						<li>
+							<select class="selectpicker select_multiple" name="companyType" multiple="multiple" id="companyType">
 										<c:if test="${user.consumer != null}">
 											<c:choose>
 												<c:when test="${finConsumerCompanySellSide != null}">
@@ -138,15 +108,7 @@
 													<option value="Financial Firm - Others" id="4">Financial Firm - Others</option>
 												</c:otherwise>
 											</c:choose>
-										</c:if>									
-										<%--
-										<c:if test="${user.consumer != null}">
-											<option value="Data Aggregator" id="5">Financial Vendor - Data Aggregators</option>
-											<option value="Trading Application" id="6">Financial Vendor - Trading Applications</option>
-											<option value="Analytics Application" id="7">Financial Vendor - Analytics Applications</option>
-											<option value="Research Report" id="8">Financial Vendor - Research report Providers</option>
 										</c:if>
-										--%>
 										<c:if test="${user.vendor != null}">
 											<c:choose>
 												<c:when test="${dataaggregator != null}">
@@ -180,13 +142,7 @@
 													<option value="Research Report" id="8">Financial Vendor - Research report Providers</option>
 												</c:otherwise>
 											</c:choose>										
-										</c:if>	
-										<%-- 
-										<c:if test="${user.vendor != null}">
-											<option value="University/College" id="9">University/College</option>
-											<option value="Other Firm" id="10">Other firm</option>
-										</c:if>	
-										--%>							
+										</c:if>							
 										<c:if test="${user.consumer != null}">
 											<c:choose>
 												<c:when test="${consumerCompanyUniversity != null}">
@@ -205,19 +161,12 @@
 												</c:otherwise>
 											</c:choose>										
 										</c:if>	
-									</select>
-									<span class="help-test">Choose one or more options</span>
-									<div><label id="signupCompanyTypeErrorMsg" class="errorMessage"></label></div>
-								</div>
-								<div class="form-group medium half-width" id="register_vendor_area_of_interest">
-									<label for="signup-vendorareaofinterest">Vendor Area of Interest</label>
-									<select id="sigup-tags" name="tags" class="form-control" multiple="multiple">
-										<c:if test="${user.vendor != null}">
-											<option value="Data Aggregator">Data Aggregator</option>
-											<option value="Trading Application">Trading Application</option>
-											<option value="Analytics Application">Analytics Application</option>
-											<option value="Research Report">Research Report</option>
-										</c:if>
+							</select>
+							<label class="default_select">Company Type</label>
+						</li>
+						<c:if test="${user.consumer != null}">
+						<li id="vendor_area_of_interest">
+							<select class="selectpicker select_multiple" name="vendorAreaOfInterest" multiple="multiple" id="vendorAreaOfInterest">
 										<c:if test="${user.consumer != null}">
 											<c:choose>
 												<c:when test="${user.consumer.marketDataPreference == 'true'}">
@@ -252,33 +201,39 @@
 												</c:otherwise>
 											</c:choose>										
 										</c:if>
-									</select> 
-									<span class="help-test">Choose one or more options</span>
-									<div><label id="signupVendorAreaOfInterestErrorMsg" class="errorMessage"></label></div>
-								</div>	
-							</div>								
-						</div>
-						<div>				
-							<input type="checkbox" id="newslettersAndAlerts" name="newslettersAndAlerts" value="newslettersAndAlerts" style="float:left;"/> 							
-							<label for="newslettersAndAlerts" >
-								I wish to get regular 
+							</select>
+							<label class="default_select">Vendor Area of Interest</label>
+						</li>
+						</c:if>
+					</ul>
+					<div id="newslettersAndAlerts1">
+						<input type="checkbox" id="newslettersAndAlerts" name="newslettersAndAlerts" value="newslettersAndAlerts" style="float:left;"/> 							
+							<p>
+								&nbsp;I wish to get regular 
 								Newsletters & Alerts
-								<%-- 
-								<a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/newslettersAndAlerts.jsp', 'newslettersAndAlerts', 800, 600)">
-									Newsletters & Alerts
-								</a>
-								--%>
-							</label>				
-						</div>		
-						<div class="btn-group" style="padding-top:0">
-							<input class="btn info block" type="button" value="Update Account" onclick="if (validateSpanElements('userRegisterSpan')) updateUserRegisteration()">
-						</div>
-						<div id="loadingrgupdate" class="login_loading" ></div>
+							</p>
 					</div>
+
+					<c:if test="${user.consumer != null}">
+						<p class="action_btn" data="userConsumer">
+							<a class="submit_btn save" data-toggle="tab">Save</a>
+						</p>
+					</c:if>
+					<c:if test="${user.vendor != null}">
+						<p class="action_btn" data="userVendor">
+							<a class="submit_btn save" data-toggle="tab">Save</a>
+						</p>
+					</c:if>
 				</form>
-			</span>
+			</div>
 		</div>
 	</div>
+
 	<jsp:include page="common/footer.jsp"></jsp:include>
+	    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 </body>
 </html>
