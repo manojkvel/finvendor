@@ -396,8 +396,7 @@ public class VendorController {
 		logger.debug("Leaving VendorController : vendorMyOfferings");
 		return modelAndView;
 	}
-	
-	
+		
 	
 	@RequestMapping(value=RequestConstans.Vendor.VENDOR_SPECIFIC_SOLUTION_LIST, method=RequestMethod.GET)
 	public @ResponseBody Set<JsonResponseData> getVendorSpecificSolutionList(@RequestParam(value = "vendorProvider", required = false) String vendorProvider) {

@@ -482,8 +482,7 @@ public class LoginController {
 	@RequestMapping(value = "/getfile/{value}", method = RequestMethod.GET)
 	  public void get(HttpServletRequest request, 
 			  HttpServletResponse response, @PathVariable String value){
-	 		try {
-	 	
+	 		try {	 	
 	 			Vendor vendor = null;
 	 			Consumer consumer = null;
 	 			User appUser = (User)SecurityContextHolder.getContext().
