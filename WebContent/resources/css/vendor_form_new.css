@@ -113,6 +113,7 @@ h4 {
 #vendor_profile .btn,
 #data_aggregator_top_card .btn,
 #consumer_profile .btn, 
+#account_settings .btn, 
 .custom_form .btn {
 	float: right;
 	font-size: 12px;
@@ -724,6 +725,56 @@ textarea:valid ~ label {
 	margin-bottom: 0;
 }
 
+
+
+
+
+#consumer_profile {
+	background: #fff;
+	padding: 10px;
+	overflow: hidden;
+}
+#consumer_profile #business_needs {
+	display: none;
+}
+
+
+#account_settings {
+	background: #fff;
+	padding: 10px;
+	overflow: hidden;
+}
+
+#account_details {
+	display: none;
+}
+
+#account_details.custom_form ul {
+	float: none;
+	width: auto;
+	margin: 0;
+}
+#account_details.custom_form ul > li {
+    width: 48.5%;
+    margin-right: 1.5%;
+}
+#account_details.custom_form div {
+	clear: both;
+	width: 100%;
+}
+
+#account_details.custom_form .bootstrap-select ul li {
+	width: 100%;
+	margin-right: 0;
+	margin-bottom: 0;
+}
+
+#account_details.custom_form .btn {
+    float: none;
+    padding: 0;
+    color: #333;
+}
+
 .custom_form .bootstrap-select .btn.dropdown-toggle {
 	background-color: transparent;
 	color: #333;
@@ -822,7 +873,8 @@ textarea:valid ~ label {
 
 	#award_details.custom_form ul li,
 	#vendor_my_offerings .custom_form ul li,
-	#personal_details.custom_form ul li {
+	#personal_details.custom_form ul li,
+	#account_details.custom_form ul li {
 		width: 100%;
 		margin-right: 0;
 	}
@@ -846,15 +898,3 @@ textarea:valid ~ label {
 
 
 
-
-
-
-
-#consumer_profile {
-	background: #fff;
-	padding: 10px;
-	overflow: hidden;
-}
-#consumer_profile #business_needs {
-	display: none;
-}

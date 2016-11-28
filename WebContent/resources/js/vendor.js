@@ -160,6 +160,24 @@ jQuery(document).ready(function() {
 		getCountryExchangeMapping('coverageCountry', 'coverageExchange');
 	});
 
+	/// list Trading Application offering:
+	listTradeApplicationOffering = function() {
+		progressLoader(false);
+		activeModeVendorMyofferings("#tab2");
+	}
+
+	/// list Annalytics Application offering:
+	listAnalyticsApplicationOffering = function() {
+		progressLoader(false);
+		activeModeVendorMyofferings("#tab3");
+	}
+
+	/// list Research Report Providers offering:
+	listResearchReportProviderOffering = function() {
+		progressLoader(false);
+		activeModeVendorMyofferings("#tab4");
+	}
+
 	openDataAggregratorForm = function() {
 		resetDataAggregratorForm();
 		$("#data_aggregator").slideDown();
@@ -1659,8 +1677,8 @@ function activeMode(tabmode){
 }
 /// My Data Aggregator Vendor tab mode changes
 function activeModeVendorMyofferings(tabmode){
-	$(".nav-tabs li").removeClass("active");
-	$(".nav-tabs " + tabmode).parent().addClass("active");
+	//$(".nav-tabs li").removeClass("active");
+	//$(".nav-tabs " + tabmode).parent().addClass("active");
 	if(tabmode != '' && tabmode.length > 0 && tabmode.match("tab1")){
 		$(tabmode).show();
 		$("#tab2").hide();
