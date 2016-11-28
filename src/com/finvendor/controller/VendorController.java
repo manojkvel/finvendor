@@ -1040,57 +1040,31 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 */
 	
 	 @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	   public @ResponseBody String upload(MultipartHttpServletRequest request, HttpServletResponse response,@ModelAttribute("vendor") Vendor vendor) {                 
+	   public @ResponseBody String upload(MultipartHttpServletRequest request, 
+			   HttpServletResponse response) {                 
 	  	 
-	  	 Iterator<String> itr =  request.getFileNames();
-	  	 User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		 MultipartFile mpf = request.getFile(itr.next());
-	  	 System.out.println(mpf.getOriginalFilename() +" uploaded!");
-			FileDetails ufile = new FileDetails();
-
-	  	 try {
+		Iterator<String> itr =  request.getFileNames();
+		User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		MultipartFile mpf = request.getFile(itr.next());
+		FileDetails ufile = new FileDetails();
+		
+		try {
 			ufile.setLength(mpf.getBytes().length);
 			ufile.setBytes(mpf.getBytes());
-		  	ufile.setType(mpf.getContentType());
-		  	ufile.setName(mpf.getOriginalFilename());
-		  	ufile.setBlob( Hibernate.createBlob(mpf.getInputStream())); 
-		  	vendorService.updateVendorLogo(ufile,appUser.getUsername());
+			ufile.setType(mpf.getContentType());
+			ufile.setName(mpf.getOriginalFilename());
+			ufile.setBlob( Hibernate.createBlob(mpf.getInputStream())); 
+			vendorService.updateVendorLogo(ufile,appUser.getUsername());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	  	 
-	  	 //2. send it back to the client as <img> that calls get method
-	  	 //we are using getTimeInMillis to avoid server cached image 
-	  	 
-	  	 return "<img src='/getfile/"+Calendar.getInstance().getTimeInMillis()+"' />";
+		 
+	 	//2. send it back to the client as <img> that calls get method
+	 	//we are using getTimeInMillis to avoid server cached image 
+		return "<img src='/getfile/"+Calendar.getInstance().getTimeInMillis()+"' />";
 	  	
-	  }
-	 
-	  @RequestMapping(value = "/getfile/{value}", method = RequestMethod.GET)
-	  public void get(HttpServletResponse response,@PathVariable String value){
-	 		try {
-	 	
-	 			// FileDetails fileDetails = vendor.getFileDetails();
-	 			
-	 			User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	 			
-	 			Vendor vendorInfoByUserName = vendorService.getVendorInfoByUserName(appUser.getUsername());
-	 			
-	 			if(vendorInfoByUserName != null){
-	 				response.setContentType(vendorInfoByUserName.getLogoType());
-	 				if(vendorInfoByUserName.getLogoLength() != null)
-	 				response.setContentLength(vendorInfoByUserName.getLogoLength());
-					if(vendorInfoByUserName.getLogoBytes() != null)
-			 		FileCopyUtils.copy(vendorInfoByUserName.getLogoBytes().getBinaryStream() , response.getOutputStream());
-	 			}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	  }
-	  		
-  
+	 }
+	  
 	  @RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_PERSONAL_INFO_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorPersonalTabInfo(@ModelAttribute("vendor") Vendor vendor,
 			@RequestParam(value = "venFirstname", required = false) String venFirstname,

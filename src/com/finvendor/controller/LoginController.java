@@ -42,6 +42,7 @@ import com.finvendor.service.LoginService;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
+import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
@@ -65,6 +66,9 @@ public class LoginController {
 	
 	@Resource(name="consumerService")
 	private ConsumerService consumerService;
+	
+	@Resource(name="vendorService")
+	private VendorService vendorService;
 		
 	@RequestMapping(value=RequestConstans.Home.HOME_PAGE, method=RequestMethod.GET)
 	public ModelAndView homePageLand(ModelMap modelMap, HttpServletRequest request) {
@@ -474,4 +478,41 @@ public class LoginController {
 			logger.error("Error reading logo files for {}", username, exp);
 		}
 	}
+	
+	@RequestMapping(value = "/getfile/{value}", method = RequestMethod.GET)
+	  public void get(HttpServletRequest request, 
+			  HttpServletResponse response, @PathVariable String value){
+	 		try {
+	 	
+	 			Vendor vendor = null;
+	 			Consumer consumer = null;
+	 			User appUser = (User)SecurityContextHolder.getContext().
+	 					getAuthentication().getPrincipal();	
+	 			FinVendorUser user = userService.
+ 						getUserDetailsByUsername(appUser.getUsername());
+	 			
+	 			if (RequestConstans.Roles.ROLE_VENDOR.equals(
+	 					(String)request.getSession().getAttribute("loggedInRole"))){
+	 				vendor = user.getVendor();
+	 				response.setContentType(vendor.getLogoType());
+	 				if(vendor.getLogoLength() != null) {
+	 					response.setContentLength(vendor.getLogoLength());
+	 				}
+					if(vendor.getLogoBytes() != null) {
+						FileCopyUtils.copy(vendor.getLogoBytes().getBinaryStream() , 
+								response.getOutputStream());
+					}
+	 			} else {
+	 				consumer = user.getConsumer();
+	 				response.setContentType(consumer.getLogoType());
+	 				if(consumer.getLogoBytes() != null) {
+						FileCopyUtils.copy(consumer.getLogoBytes().getBinaryStream() , 
+								response.getOutputStream());
+					}
+	 			}
+	 			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	  }
 }
