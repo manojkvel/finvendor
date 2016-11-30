@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.finvendor.bean.ConsumerMyProfileBusinessNeedMarketData;
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.form.FileDetails;
 import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
 
@@ -16,4 +17,5 @@ public interface ConsumerService {
 			throws ApplicationException;
 	Set<ConsumerMyProfileBusinessNeedMarketData> updateConsumerMyProfileBusinessNeedMarketData(
 			String consumerId, String tableKey, String jsonTableData) throws ApplicationException;
+	public Object updateConsumerLogo(FileDetails ufile, String username);
 }

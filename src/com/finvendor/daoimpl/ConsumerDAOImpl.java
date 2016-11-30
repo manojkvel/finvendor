@@ -13,11 +13,14 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.dao.ConsumerDAO;
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.form.FileDetails;
 import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
+import com.finvendor.model.Vendor;
 
 public class ConsumerDAOImpl implements ConsumerDAO {
 
@@ -152,5 +155,23 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 			}
 		}
 		return tableData;
+	}
+	
+	@Override
+	public Object updateConsumerLogo(FileDetails ufile, String username) {
+		try{
+		Session currentSession = sessionFactory.getCurrentSession();
+		Criteria criteria = currentSession.createCriteria(Consumer.class, "c");
+		criteria.add(Restrictions.sqlRestriction("{alias}.username = '"+ username+"'"));
+		Consumer consumer =(Consumer)criteria.uniqueResult();
+		if(consumer != null){
+			consumer.setLogoType(ufile.getType());
+			consumer.setLogoBytes(ufile.getBlob());
+			currentSession.update(consumer);
+		}
+		}catch(Exception e){
+			
+		}
+		return null;
 	}
 }

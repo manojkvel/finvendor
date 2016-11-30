@@ -84,8 +84,7 @@ public class ConsumerController {
 			@RequestParam(value = "consumerProfileCity", required = false) String city,
 			@RequestParam(value = "consumerProfileCountryOfIncorporation", required = false) Integer countryOfIncorporation,
 			@RequestParam(value = "consumerProfileYearOfIncorporation", required = false) Integer yearOfIncorporation,
-			@RequestParam(value = "consumerProfileCompanySubType", required = false) Integer companySubType,
-			@RequestParam(value = "consumerProfileCompanyLogo", required = false) MultipartFile companyLogo) {
+			@RequestParam(value = "consumerProfileCompanySubType", required = false) Integer companySubType) {
 		logger.debug("Entering ConsumerController : updateConsumerProfileCompanyDetails");
 		List<Country> countries = null;
 		List<CompanySubType> companySubTypeList = null;
@@ -102,11 +101,13 @@ public class ConsumerController {
 			username = appUser.getUsername();
 			user = userService.getUserDetailsByUsername(username);
 			Consumer consumer = user.getConsumer();
+			/*
 			if(!companyLogo.isEmpty()) {
 				consumer.setLogoBytes(Hibernate.createBlob(
 						companyLogo.getInputStream()));
 				consumer.setLogoType(companyLogo.getContentType());
 			}
+			*/
 			String phoneNumber = consumerProfilePhoneNumberCode + "-" 
 					+ consumerProfilePhoneNumber;
 			consumer.setLastName(lastName);
@@ -116,8 +117,10 @@ public class ConsumerController {
 			consumer.setSecondaryEmail(secondaryEmail);
 			consumer.setTelephone(phoneNumber);
 			consumer.setCity(city);
-			consumer.setCountryOfIncorporation(countryOfIncorporation);
-			consumer.setYearOfIncorporation(yearOfIncorporation);
+			consumer.setCountryOfIncorporation(countryOfIncorporation);			
+			if(yearOfIncorporation != null) {
+				consumer.setYearOfIncorporation(yearOfIncorporation);
+			}
 			consumer.setCompanySubType(consumerService.
 					getCompanySubType(companySubType));	
 			user.setConsumer(consumer);

@@ -3,6 +3,7 @@ package com.finvendor.dao;
 import java.util.List;
 
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.form.FileDetails;
 import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
 
@@ -15,5 +16,5 @@ public interface ConsumerDAO {
 			throws ApplicationException;
 	List<Object[]> updateConsumerProfileDetails(String consumerId, String tableKey, 
 			List<Object[]> tableData) throws ApplicationException;
-
+	public Object updateConsumerLogo(FileDetails ufile, String username);
 }

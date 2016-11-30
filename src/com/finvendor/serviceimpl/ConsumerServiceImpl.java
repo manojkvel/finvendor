@@ -15,6 +15,7 @@ import com.finvendor.bean.ConsumerMyProfileBusinessNeedMarketData;
 import com.finvendor.controller.ConsumerController;
 import com.finvendor.dao.ConsumerDAO;
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.form.FileDetails;
 import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
 import com.finvendor.service.ConsumerService;
@@ -92,5 +93,11 @@ public class ConsumerServiceImpl implements ConsumerService {
 			throw new ApplicationException("Error updating Profile Details");
 		}		
 		return tableData;		
+	}
+	
+	@Override
+	@Transactional
+	public Object updateConsumerLogo(FileDetails ufile, String username) {
+		return consumerDAO.updateConsumerLogo(ufile, username);
 	}
 }
