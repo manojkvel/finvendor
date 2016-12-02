@@ -6,6 +6,12 @@
 <head>
 <meta charset="utf-8" />
 <title>Fin Vendor | Vendor</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta name="description" content="" />
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="author" content="" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -22,83 +28,32 @@
 			<div class="text_arw">Search Vendor</div>
 		</div>
 
-		<div class="row-fluid">
-			<div class="span12">
-				<div class="row-fluid service-box">
-					<div class="row-fluid">
-						<div class="span12">
-							<div class="portlet box blue" id="form_wizard_1">
-								<div class="portlet-title"></div>
-								<div class="portlet-body form">
-
-									<!-- Search using saved search starts here -->
-
-									<!-- Search using saved search end here -->
-
-									<!-- Single Marketing Aggregator Vendor Start here 
-								<div id="searchsingleform">
-									<form action="<%=request.getContextPath() %>/singleassetsearchresult?RaYvEmUl=${l:encrypt(username)}" class="form-horizontal" id="submit_form" method="post" enctype="multipart/form-data">
-									  <jsp:include page="marketaggregators/singleassetinfoclass.jsp"></jsp:include>
-									</form>
-								</div>
-								-->
-									<!-- Single Marketing Aggregator vendor End here -->
-
-									<!-- Multi Marketing Aggregator Vendor Start here -->
-									<div id="searchmultiform">
-										<form
-											action="<%=request.getContextPath() %>/multiassetsearchresult?RaYvEmUl=${l:encrypt(username)}"
-											class="form-horizontal" id="submit_form" method="post"
-											enctype="multipart/form-data">
-											<jsp:include page="marketaggregators/multiassetinfoclass.jsp"></jsp:include>
-										</form>
-									</div>
-
-								</div>
-								<!-- Multi Marketing Aggregator Vendor ends here -->
-
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+		<!-- Multi Marketing Aggregator Vendor Start here -->
+		<div id="searchmultiform">
+			<form
+			action="<%=request.getContextPath() %>/multiassetsearchresult?RaYvEmUl=${l:encrypt(username)}"
+			class="form-horizontal" id="submit_form" method="post"
+			enctype="multipart/form-data">
+			<jsp:include page="marketaggregators/multiassetinfoclass.jsp"></jsp:include>
+			</form>
 		</div>
 	</div>
 	<!-- END CONTAINER -->
 	<jsp:include page="common/footer.jsp"></jsp:include>
 
-	<!-- popup window plugins start-->
-	<script src="<%=request.getContextPath() %>/resources/js/popup.js"
-		type="text/javascript"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/jquery-min.js"
-		type="text/javascript"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/modernizr.js"
-		type="text/javascript"></script>
-	<script
-		src="<%=request.getContextPath() %>/resources/js/bootstrap-min.js"
-		type="text/javascript"></script>
-	<!-- popup window plugins ends-->
+
 
 	<!-- Add to table plugins start-->
 	<script type="text/javascript"
 		src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.min.js"></script>
 	<script type="text/javascript"
 		src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
-	<!-- Add to table plugins end here-->
 
-	<!-- Date plugins start-->
-	<script>
-		  $(function() {
-		    $( "#inputField" ).datepicker();
-		    $( "#inputField1" ).datepicker();
-		  });
-	  </script>
-	<script src="//code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"
-		type="text/javascript"></script>
+	    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
 
-	<!-- Date plugins start-->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 
 </body>
 </html>

@@ -212,6 +212,7 @@ $(document).ready(function() {
 		if(assetClassArray.length == 1) {
 			var assetType = assetClassArray[0];
 			singleAssetClass(assetType);
+			$(".selectpicker").selectpicker('refresh');
 			$("#singleAsset").slideDown('slow');
 			$("#multipleAsset").slideUp('slow');
 		}
@@ -220,6 +221,7 @@ $(document).ready(function() {
 			multipleAssetData = '';
 			for(var i=0;i<assetClassArray.length;i++) {
 				multipleAssetClass(assetClassArray[i]);
+				$(".selectpicker").selectpicker('refresh');
 			}
 			$("#singleAsset").slideUp('slow');
 			$("#multipleAsset").slideDown('slow');
@@ -234,6 +236,7 @@ $(document).ready(function() {
 			if(assetClassArray.length == 1) {
 				var assetType = assetClassArray[0];
 				singleAssetClass(assetType);
+				$(".selectpicker").selectpicker('refresh');
 				$("#singleAsset").slideDown('slow');
 				$("#multipleAsset").slideUp('slow');
 			}
@@ -242,6 +245,7 @@ $(document).ready(function() {
 				multipleAssetData = '';
 				for(var i=0;i<assetClassArray.length;i++) {
 					multipleAssetClass(assetClassArray[i]);
+					$(".selectpicker").selectpicker('refresh');
 				}
 				$("#singleAsset").slideUp('slow');
 				$("#multipleAsset").slideDown('slow');
@@ -263,6 +267,7 @@ $(document).ready(function() {
 
 	$("#reset_vendor").click(function() {
 		assetClassArray = [];
+		$(".selectpicker").selectpicker('refresh');
 		$("#singleAsset").slideUp('slow');
 		$("#multipleAsset").slideUp('slow');
 	});

@@ -361,7 +361,7 @@ textarea:valid ~ label {
 }
 
 .custom_form .default_select {
-	top: -4px;
+	top: -3px;
 	z-index: 1;
 }
 
@@ -795,10 +795,102 @@ textarea:valid ~ label {
 	max-height: 100px !important;
 }
 
+.custom_form .bootstrap-select.btn-group .dropdown-menu.inner {
+	padding: 0 !important;
+}
+
 .custom_form .bootstrap-select.btn-group .dropdown-menu li a {
 	padding: 3px 10px;
 	font-size: 12px;
 }
+
+
+
+
+
+#searchmultiform  .multisearch {
+	overflow: inherit;
+}
+
+#market_data_aggregrator_search  h3 {
+	position: relative;
+	cursor: pointer;
+	background: #34bf98;
+    color: #fff;
+    padding: 10px 10px;
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 0;
+    clear: both;
+}
+
+#market_data_aggregrator_search.custom_form h3 span {
+	float: right;
+	font-size: 12px;
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+#market_data_aggregrator_search.custom_form div {
+	clear: both;
+	width: 100%;
+}
+
+#market_data_aggregrator_search.custom_form ul {
+	width: 100%;
+	margin: 0;
+	padding: 10px;
+	float: none;
+	background: #fff;
+	margin-bottom: 20px;
+	float: left;
+}
+
+#market_data_aggregrator_search.custom_form ul > li {
+	width: 31.5%;
+	margin-right: 1.8%;
+}
+
+#market_data_aggregrator_search.custom_form .asset_class ul > li {
+	width: 25%;
+	margin-right: 0;
+}
+
+#market_data_aggregrator_search.custom_form .asset_class label {
+	position: static;
+	margin-right : 5px;
+	vertical-align: text-top;
+}
+
+#market_data_aggregrator_search.custom_form .asset_class input {
+	position: static;
+	margin: 0;
+}
+
+#market_data_aggregrator_search.custom_form .bootstrap-select ul li {
+	width: 100%;
+	margin-right: 0;
+	margin-bottom: 0;
+}
+
+#market_data_aggregrator_search.custom_form .form-actions input {
+	margin-left: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .error_field {
     border-color: rgb(224, 34, 34) !important;
@@ -874,27 +966,18 @@ textarea:valid ~ label {
 	#award_details.custom_form ul li,
 	#vendor_my_offerings .custom_form ul li,
 	#personal_details.custom_form ul li,
-	#account_details.custom_form ul li {
+	#account_details.custom_form ul li,
+	#market_data_aggregrator_search.custom_form ul li {
 		width: 100%;
 		margin-right: 0;
+	}
+
+	#market_data_aggregrator_search.custom_form .asset_class ul li {
+		float: left;
+		width: 50%;
 	}
 
 	.custom_form .bootstrap-select .dropdown-menu.open {
 		position: static;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
