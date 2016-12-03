@@ -41,6 +41,7 @@ function updateConsumerProfileCompanyDetails() {
 	var company = $("#consumerProfileCompany").val().trim();
 	var companyUrl = $("#consumerProfileCompanyUrl").val().trim();
 	var companyInfo = $("#consumerProfileCompanyInfo").val().trim();
+	var primaryEmail = $("#consumerProfilePrimaryEmail").val().trim();
 	var secondaryEmail = $("#consumerProfileSecondaryEmail").val().trim();
 	var telephoneCode = $("#consumerProfilePhoneNumberCode").val();
 	var telephoneNumber = $("#consumerProfilePhoneNumber").val();
@@ -111,27 +112,38 @@ function updateConsumerProfileCompanyDetails() {
 		$("#personal_details #yearOfIncorporation").addClass("error_field");
 	}
 
+	if(secondaryEmail != '') {
+		if(isValidEmailAddress(secondaryEmail)) {
+			$("#personal_details #consumerProfileSecondaryEmail").removeClass("error_field");
+		} else {
+			$("#personal_details #consumerProfileSecondaryEmail").addClass("error_field");
+			$("#personal_details .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter valid email id').show();
+			return false;
+		}
+	}
+
 	if(companySubType != null) {
 		companySubType = companySubType.join();
 	}
 	
 	//return;
-	var phoneNumber = telephoneCode + "-" + telephoneNumber;
+	var phoneNumber = telephoneCode + " " + telephoneNumber;
 
 	if(designation != "" && designation != null && company != null && companyUrl != null &&
 		companyInfo != "" && phoneNumber.length > 10 && countryOfIncorporation != null && yearOfIncorporation != null) {
 
 		var data = {
-				"lastName":lastName,
-				"designation":designation,
-				"companyUrl":companyUrl,
-				"companyInfo":companyInfo,
-				"secondaryEmail":secondaryEmail,
-				"phoneNumber":phoneNumber,
-				"city":city,
-				"countryOfIncorporation":countryOfIncorporation,
-				"yearOfIncorporation":yearOfIncorporation,
-				"companySubType":companySubType,
+				"consumerProfileLastName":lastName,
+				"consumerProfileDesignation":designation,
+				"consumerProfileCompanyUrl":companyUrl,
+				"consumerProfileCompanyInfo":companyInfo,
+				"consumerProfileSecondaryEmail":secondaryEmail,
+				"consumerProfilePhoneNumberCode":telephoneCode,
+				"consumerProfilePhoneNumber":telephoneNumber,
+				"consumerProfileCity":city,
+				"consumerProfileCountryOfIncorporation":countryOfIncorporation,
+				"consumerProfileYearOfIncorporation":yearOfIncorporation,
+				"consumerProfileCompanySubType":companySubType,
 				"companyLogo":companyLogo			
 			};
 			
@@ -149,11 +161,11 @@ function updateConsumerProfileCompanyDetails() {
 
 						$("#personal_details").slideUp();
 						$("#top-card").slideDown();
-						//$(".profile-card .full-name").html(personalvenfirstname + " " + personalvenlastname);
-						//$(".profile-card .headline").html(personalvendesignation + " at " + personalvencompany);
-						//$(".profile-card .contacts").html(personalvenprimemail + " | " + personalvenphonenumber);
-						//$(".profile-card .company-details .url").html(personalvencompanyurl);
-						//$(".profile-card .company-details .info").html(personalvencompanyinfo);
+						$(".profile-card .full-name").html(firstName + " " + lastName);
+						$(".profile-card .headline").html(designation + " at " + company);
+						$(".profile-card .contacts").html(primaryEmail + " | " + phoneNumber);
+						$(".profile-card .company-details .url").html(companyUrl);
+						$(".profile-card .company-details .info").html(companyInfo);
 
 						//$(".profile-card .profile-picture img").attr('src', $("#displayLogo img").attr("src"));
 					}, 10);
