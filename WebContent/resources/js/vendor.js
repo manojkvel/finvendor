@@ -1856,7 +1856,8 @@ function updateVendorPersonalInfo(){
 	var personalvencompanyinfo = $("#personalvencompanyinfo").val();
 	var personalvenprimemail = $("#personalvenprimemail").val();
 	var personalvensecemail = $("#personalvensecemail").val();
-	var personalvenphonenumber = $("#personalvenphonenumbercode").val()+"-"+$("#personalvenphonenumber").val() ;
+	var personalvenphonenumbercode = $("#personalvenphonenumbercode").val();
+	var personalvenphonenumber = $("#personalvenphonenumber").val();
 	
 	var personalvenregionofincorp = $("#personalvenregionofincorp").val();
 	var personalvencountryofincorp = $("#personalvencountryofincorp").val();
@@ -1907,7 +1908,13 @@ function updateVendorPersonalInfo(){
 		$("#personal_details #personalvenprimemail").addClass("error_field");
 	}
 
-	if(personalvenphonenumber != '') {
+	if(personalvenphonenumbercode != '') {
+		$("#personal_details #personalvenphonenumbercode").removeClass("error_field");
+	} else {
+		$("#personal_details #personalvenphonenumbercode").addClass("error_field");
+	}
+
+	if(personalvenphonenumber != '' && personalvenphonenumber.length >= 10) {
 		$("#personal_details #personalvenphonenumber").removeClass("error_field");
 	} else {
 		$("#personal_details #personalvenphonenumber").addClass("error_field");
@@ -1919,10 +1926,10 @@ function updateVendorPersonalInfo(){
 			personalvencompanyurl != null && personalvencompanyurl.length > 0 && 
 			personalvencompanyinfo != null && personalvencompanyinfo.length > 0 &&
 			personalvenprimemail != null && personalvenprimemail.length >0 &&
-			personalvenphonenumber != null && personalvenphonenumber.length > 10){
+			personalvenphonenumber != null && personalvenphonenumber.length >= 10){
 		var url = "updateVendorPersonalTabInfo?venFirstname="+personalvenfirstname+"&venLastname="+personalvenlastname+"&venDesignation="+personalvendesignation
 			                                            +"&venCompany="+personalvencompany+"&venCompanyUrl="+personalvencompanyurl+"&venCompanyInfo="+personalvencompanyinfo
-			                                            +"&venPrimEmail="+personalvenprimemail+"&venSecEmail="+personalvensecemail+"&venPhoneNum="+personalvenphonenumber
+			                                            +"&venPrimEmail="+personalvenprimemail+"&venSecEmail="+personalvensecemail+"&venPhoneNum="+personalvenphonenumbercode + "-" + personalvenphonenumber
 			                                            +"&venRegionOfIncorp="+personalvenregionofincorp+"&venCountryOfIncorp="+personalvencountryofincorp+"&venCompanyLogo="+personalvencompanylogo
 			                                            +"&support="+support+"&weekend="+weekend+"&publicHolidays="+publicHolidays;
 		$.ajax({
@@ -1939,7 +1946,7 @@ function updateVendorPersonalInfo(){
 					$("#top-card").slideDown();
 					$(".profile-card .full-name").html(personalvenfirstname + " " + personalvenlastname);
 					$(".profile-card .headline").html(personalvendesignation + " at " + personalvencompany);
-					$(".profile-card .contacts").html(personalvenprimemail + " | " + personalvenphonenumber);
+					$(".profile-card .contacts").html(personalvenprimemail + " | " + personalvenphonenumbercode + " " + personalvenphonenumber);
 					$(".profile-card .company-details .url").html(personalvencompanyurl);
 					$(".profile-card .company-details .info").html(personalvencompanyinfo);
 

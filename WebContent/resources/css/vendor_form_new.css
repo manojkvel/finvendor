@@ -958,6 +958,10 @@ textarea:valid ~ label {
 	#data_aggregator_top_card .data_aggregator_list .action_btn {
 		position: static;
 	}
+
+	#consumer_profile {
+		margin-bottom: 20px;
+	}
 }
 
 

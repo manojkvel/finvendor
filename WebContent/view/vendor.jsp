@@ -127,8 +127,8 @@
 														<ul>
 															<li id="name">
 																<div class="single_row">
-																	<input type="text" name="firstname" class="single_line" id="personalvenfirstname" value="${vendor.firstName}" required />
-																	<label>First Name</label>
+																	<input type="text" name="firstname" class="single_line" id="personalvenfirstname" value="${vendor.firstName}" readonly />
+																	<label class="default_select">First Name</label>
 																</div>
 																<div class="single_row">
 																	<input type="text" name="lastname" id="personalvenlastname" class="single_line" value="${vendor.lastName}" required />
@@ -154,8 +154,8 @@
 														</ul>
 														<ul>
 															<li>
-																<input type="text" name="primaryemail" placeholder="" class="personal_detail" id="personalvenprimemail" value="${vendor.user.email}" required />
-																<label>Primary Email</label>
+																<input type="text" name="primaryemail" placeholder="" class="personal_detail" id="personalvenprimemail" value="${vendor.user.email}" readonly />
+																<label class="default_select">Primary Email</label>
 															</li>
 															<li>
 																<input type="text" name="secondaryemail" id="personalvensecemail" value="${vendor.secondaryEmail}" required />

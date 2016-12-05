@@ -93,7 +93,7 @@ function updateConsumerProfileCompanyDetails() {
 		$("#personal_details #consumerProfilePhoneNumberCode").addClass("error_field");
 	}
 
-	if(telephoneNumber != '') {
+	if(telephoneNumber != '' && telephoneNumber.length >= 10) {
 		$("#personal_details #consumerProfilePhoneNumber").removeClass("error_field");
 	} else {
 		$("#personal_details #consumerProfilePhoneNumber").addClass("error_field");
@@ -130,7 +130,7 @@ function updateConsumerProfileCompanyDetails() {
 	var phoneNumber = telephoneCode + " " + telephoneNumber;
 
 	if(designation != "" && designation != null && company != null && companyUrl != null &&
-		companyInfo != "" && phoneNumber.length > 10 && countryOfIncorporation != null && yearOfIncorporation != null) {
+		companyInfo != "" && telephoneNumber.length >= 10 && countryOfIncorporation != null && yearOfIncorporation != null) {
 
 		var data = {
 				"consumerProfileLastName":lastName,
