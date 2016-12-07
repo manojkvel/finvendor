@@ -111,7 +111,7 @@ h4 {
 }
 
 #vendor_profile .btn,
-#data_aggregator_top_card .btn,
+#vendor_my_offerings .top_card .btn,
 #consumer_profile .btn, 
 #account_settings .btn, 
 .custom_form .btn {
@@ -358,6 +358,11 @@ textarea:valid ~ label {
 	font-size: 11px;
 	color: #aaa;
 	font-weight: bold;
+}
+
+.custom_form .default_checkbox {
+	position: static;
+	vertical-align: middle;
 }
 
 .custom_form .default_select {
@@ -649,27 +654,27 @@ textarea:valid ~ label {
 	display: none;
 }
 
-#data_aggregator_top_card {
+#vendor_my_offerings .top_card {
 	display: none;
 }
 
-#data_aggregator_top_card h3 {
+#vendor_my_offerings .top_card h3 {
 	font-weight: bold;
 	line-height: normal;
 }
 
-#data_aggregator_top_card .data_aggregator_list .action_btn {
+#vendor_my_offerings .top_card .data_aggregator_list .action_btn {
 	position: absolute;
 	top: 50%;
 	right: 0;
 	transform: translateY(-50%);
 }
 
-#data_aggregator_top_card .data_aggregator_list .action_btn .btn {
+#vendor_my_offerings .top_card .data_aggregator_list .action_btn .btn {
 	margin-left: 10px;
 }
 
-#data_aggregator_top_card .data_aggregator_list {
+#vendor_my_offerings .top_card .data_aggregator_list {
 	border-bottom: 1px solid #eee;
 	padding-bottom: 10px;
 	margin-bottom: 10px;
@@ -677,7 +682,7 @@ textarea:valid ~ label {
 	overflow: hidden;
 }
 
-#data_aggregator_top_card .data_aggregator_list:last-child {
+#vendor_my_offerings .top_card .data_aggregator_list:last-child {
 	border-bottom: 0 solid #eee;
 	padding-bottom: 10px;
 	margin-bottom: 10px;
@@ -778,7 +783,7 @@ textarea:valid ~ label {
 .custom_form .bootstrap-select .btn.dropdown-toggle {
 	background-color: transparent;
 	color: #333;
-	padding: 0;
+	padding: 0 0 1px;
 	border: 0;
 	border-radius: 0;
 	box-shadow: none;
@@ -955,7 +960,7 @@ textarea:valid ~ label {
 }
 
 @media only screen and (max-width: 767px) {
-	#data_aggregator_top_card .data_aggregator_list .action_btn {
+	#vendor_my_offerings .top_card .data_aggregator_list .action_btn {
 		position: static;
 	}
 

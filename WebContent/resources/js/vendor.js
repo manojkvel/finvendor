@@ -88,6 +88,39 @@ jQuery(document).ready(function() {
 		resetDataAggregratorForm();
 	});
 
+	$("#trading_application_top_card .add_more").on("click", function() {
+		openDataAggregratorForm();
+	});
+
+	$("#trading_application .product_info h3").on("click", function() {
+		$("#trading_application .product_info ul").slideToggle();
+		$("#trading_application .product_info h3 span").toggleClass("fa-chevron-up");
+		$("#trading_application .product_info h3 span").toggleClass("fa-chevron-down");
+	});
+
+	$("#trading_application .software_details_info h3").on("click", function() {
+		$("#trading_application .software_details_info ul").slideToggle();
+		$("#trading_application .software_details_info h3 span").toggleClass("fa-chevron-up");
+		$("#trading_application .software_details_info h3 span").toggleClass("fa-chevron-down");
+	});
+
+	$("#trading_application .trading_capability_info h3").on("click", function() {
+		$("#trading_application .trading_capability_info ul").slideToggle();
+		$("#trading_application .trading_capability_info h3 span").toggleClass("fa-chevron-up");
+	});
+
+	$("#trading_application .save").on("click", function() {
+		var id = $('#productId').val();
+		if(!addDataAggregatorOffering(id)) {
+			progressLoader(false);
+			return false;
+		}
+	});
+
+	$("#trading_application .next").on("click", function() {
+		resetDataAggregratorForm();
+	});
+
 
 
 	$("#award_details #awardedyear").on('blur', function() {
