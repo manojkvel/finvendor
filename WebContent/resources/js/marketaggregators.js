@@ -188,10 +188,16 @@ $(document).ready(function() {
 
 	var assetClassArray = [];
 	var getAssetClassAggregators = function() {
+		var costRange = $("select#acquisitioncostrange option").map(function() {return $(this).html();}).get();
+		
 		if($(this).prop('checked') == true) {
 			assetClassArray.push($(this).attr('id').toLowerCase());
 		} else {
 			assetClassArray.splice($.inArray($(this).attr('id').toLowerCase(), assetClassArray), 1);
+		}
+
+		if(assetClassArray.length == 0) {
+			$("#singleAsset").slideUp('slow');
 		}
 
 		if(assetClassArray.length > 3) {
@@ -203,10 +209,6 @@ $(document).ready(function() {
 			return;
 		} else {
 			$(".error").hide();
-		}
-
-		if(assetClassArray.length == 0) {
-			$("#singleAsset").slideUp('slow');
 		}
 
 		if(assetClassArray.length == 1) {
@@ -225,6 +227,18 @@ $(document).ready(function() {
 			}
 			$("#singleAsset").slideUp('slow');
 			$("#multipleAsset").slideDown('slow');
+		}
+
+
+		for(var i=0;i<assetClassArray.length;i++) {
+			getRegionMapping(assetClassArray[i] + 'datacoverageregion');
+			getSecurityTypeMapping(assetClassArray[i] + 'securitytype');
+			getCountryMapping(assetClassArray[i] + 'datacoveragecountry');
+			getExchangeMapping(assetClassArray[i] + 'datacoverageexchange');
+			getCostRangeMapping(costRange, assetClassArray[i] + 'acquisitioncostrange');
+
+
+			$(".selectpicker").selectpicker('refresh');
 		}
 		console.log(assetClassArray + " : " + assetClassArray.length);
 	};
@@ -256,6 +270,44 @@ $(document).ready(function() {
 
 	$(".assetClass").click(getAssetClassAggregators);
 
+	$("select[name=vendorregionofincorp]").on('change', function() {
+		getRegionCountryMapping('vendorregionofincorp', 'vendorcountryofincorp');
+	});
+
+	$(document).on('change', 'select', function() {
+		var type = $(this)[0]['id'];
+		if(type.indexOf('equities') != -1) {
+			type = 'equities';
+		} else if(type.indexOf('derivatives') != -1) {
+			type = 'derivatives';
+		} else if(type.indexOf('fixedincome') != -1) {
+			type = 'fixedincome';
+		} else if(type.indexOf('fx') != -1) {
+			type = 'fx';
+		} else if(type.indexOf('indices') != -1) {
+			type = 'indices';
+		} else if(type.indexOf('ai') != -1) {
+			type = 'ai';
+		} else if(type.indexOf('misc') != -1) {
+			type = 'misc';
+		}
+		if($(this)[0]['id'] == type + 'datacoverageregion') {
+			getRegionCountryMapping(type + 'datacoverageregion', type + 'datacoveragecountry');
+			getCountryExchangeMapping(type + 'datacoveragecountry', type + 'datacoverageexchange');
+		}
+
+		if($(this)[0]['id'] == type + 'datacoveragecountry') {
+			getCountryExchangeMapping(type + 'datacoveragecountry', type + 'datacoverageexchange');
+		}
+	});
+
+	$("select").on('change', function() {
+		if($(this)[0]['id'] == 'equitiesdatacoverageregion') {
+			//getRegionCountryMapping('equitiesdatacoverageregion', 'equitiesdatacoveragecountry');
+		}
+		//getRegionCountryMapping('vendorregionofincorp', 'vendorcountryofincorp');
+	});
+
 	$("#search_vendor").click(function(e) {
 		if(assetClassArray.length == 0) {
 			alert("Please select atleast 1 asset class.");
@@ -271,4 +323,161 @@ $(document).ready(function() {
 		$("#singleAsset").slideUp('slow');
 		$("#multipleAsset").slideUp('slow');
 	});
+
+	var getCostRangeMapping = function(costRange, costRangeSelector) {
+		$.each(costRange, function(key, value) {
+			$("select[name=" + costRangeSelector + "]").append($("<option></option>")
+                    .attr("value",key)
+                    .text(value)); 
+		});
+	}
 });
+
+function singleAssetClass(assetType) {
+	console.log("assetType : " + assetType);
+	$('#singleAssetFields').html('');
+	var singleAssetData = "<h3>"
+	+ $("#" + assetType).siblings().html()
+	+ "</h3>"
+	+ "<ul>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "securitytype' id='" + assetType + "securitytype' multiple='multiple'>"
+	+ "<c:forEach var='securityType' items='${securityTypes}'>"
+	+ "<option value='${securityType.securityTypeId}'>${securityType.name}</option>"
+	+ "</c:forEach>"
+	+ "</select>"
+	+ "<label class='default_select'>Security Types</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "datacoverageregion' id='" + assetType + "datacoverageregion' multiple='multiple'>"
+	+ "<c:forEach var='regions' items='${regions}'>"
+	+ "<option value='${regions.region_id}'>${regions.name}</option>"
+	+ "</c:forEach>"
+	+ "</select>"
+	+ "<label class='default_select'>Data Coverage Region</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "datacoveragecountry' id='" + assetType + "datacoveragecountry' multiple='multiple'>"
+	+ "<c:forEach var='countries' items='${countries}'>"
+	+ "<option value='${countries.country_id}'>${countries.name}</option>"
+	+ "</c:forEach>"
+	+ "</select>"
+	+ "<label class='default_select'>Data Coverage Country</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "datacoverageexchange' id='" + assetType + "datacoverageexchange' multiple='multiple'>"
+	+ "<c:forEach var='exchanges' items='${exchanges}'>"
+	+ "<option value='${exchanges.exchange_id}'>${exchanges.name}</option>"
+	+ "</c:forEach>"
+	+ "</select>"
+	+ "<label class='default_select'>Data Coverage Exchange</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "vendoryearoperation' id='" + assetType + "vendoryearoperation' multiple='multiple'>"
+	+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
+	/*
+	+ "<option>Date (1970)</option>"
+	+ "<option>Last one week</option>"
+	+ "<option>Last one month</option>"
+	+ "<option>Last one year</option>"
+	*/
+	+ "</select>"
+	+ "<label class='default_select'>Vendor Year of Operation</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "awards' id='" + assetType + "awards' multiple='multiple'>"
+	+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
+	/*
+	+ "<c:forEach var='awards' items='${awards}'>"
+	+ "<option value='${awards.award_id}'>${awards.name}</option>"
+	+ "</c:forEach>"
+	*/
+	+ "</select>"
+	+ "<label class='default_select'>Awards</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "acquisitioncostrange' id='" + assetType + "acquisitioncostrange' multiple='multiple'>"
+	/*+ "<c:forEach var='costs' items='${costs}'>"
+	+ "<option value='${costs.range}'>${costs.range}</option>"
+	+ "</c:forEach>"*/
+	+ "</select>"
+	+ "<label class='default_select'>Data Acquisition Cost Range</label>"
+	+ "</li>"
+	+ "</ul>"
+	$('#singleAssetFields').append(singleAssetData);
+}
+
+function multipleAssetClass(assetType) {
+	console.log("assetType : " + assetType);
+	$('#multipleAsset #multipleAssetFields').html('');
+	multipleAssetData = multipleAssetData
+	+ "<h3>"
+	+ $("#" + assetType).siblings().html()
+	+ "</h3>"
+	+ "<ul>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "securitytype' id='" + assetType + "securitytype' multiple='multiple'>"
+	+ "<c:forEach var='securityType' items='${securityTypes}'>"
+	+ "<option value='${securityType.securityTypeId}'>${securityType.name}</option>"
+	+ "</c:forEach>"
+	+ "</select>"
+	+ "<label class='default_select'>Security Types</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "datacoverageregion' id='" + assetType + "datacoverageregion' multiple='multiple'>"
+	+ "<c:forEach var='regions' items='${regions}'>"
+	+ "<option value='${regions.region_id}'>${regions.name}</option>"
+	+ "</c:forEach>"
+	+ "</select>"
+	+ "<label class='default_select'>Data Coverage Region</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "datacoveragecountry' id='" + assetType + "datacoveragecountry' multiple='multiple'>"
+	+ "<c:forEach var='countries' items='${countries}'>"
+	+ "<option value='${countries.country_id}'>${countries.name}</option>"
+	+ "</c:forEach>"
+	+ "</select>"
+	+ "<label class='default_select'>Data Coverage Country</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "datacoverageexchange' id='" + assetType + "datacoverageexchange' multiple='multiple'>"
+	+ "<c:forEach var='exchanges' items='${exchanges}'>"
+	+ "<option value='${exchanges.exchange_id}'>${exchanges.name}</option>"
+	+ "</c:forEach>"
+	+ "</select>"
+	+ "<label class='default_select'>Data Coverage Exchange</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "vendoryearoperation' id='" + assetType + "vendoryearoperation' multiple='multiple'>"
+	+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
+	/*
+	+ "<option>Date (1970)</option>"
+	+ "<option>Last one week</option>"
+	+ "<option>Last one month</option>"
+	+ "<option>Last one year</option>"
+	*/
+	+ "</select>"
+	+ "<label class='default_select'>Vendor Year of Operation</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "awards' id='" + assetType + "awards' style='height: 53px;' multiple='multiple'>"
+	+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
+	/*
+	+ "<c:forEach var='awards' items='${awards}'>"
+	+ "<option value='${awards.award_id}'>${awards.name}</option>"
+	+ "</c:forEach>"
+	*/
+	+ "</select>"
+	+ "<label class='default_select'>Awards</label>"
+	+ "</li>"
+	+ "<li><select class='selectpicker select_multiple' name='" 
+	+ assetType + "acquisitioncostrange' id='" + assetType + "acquisitioncostrange' multiple='multiple'>"
+	/*+ "<c:forEach var='costs' items='${costs}'>"
+	+ "<option value='${costs.range}'>${costs.range}</option>"
+	+ "</c:forEach>"*/
+	+ "</select>"
+	+ "<label class='default_select'>Data Acquisition Cost Range</label>"
+	+ "</li>"
+	+ "</ul>"
+	$('#multipleAssetFields').append(multipleAssetData);
+}

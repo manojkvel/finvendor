@@ -72,7 +72,8 @@ $(document).ready(function(){
 
 	var validatePersonalEmailId = function(element, errorLabelId) {
 		var emailId = $.trim(element.value);
-		var validationList = ['@yahoo','@aol','@rediff','@hotmail','@in','@msn','@gmail'];
+		//var validationList = ['@yahoo','@aol','@rediff','@hotmail','@in','@msn','@gmail'];
+		var validationList = ['@msn'];
 		for (i = 0; i < validationList.length; i++) {
 			if(emailId.indexOf(validationList[i]) != -1) {
 				$('#generic-error-message').html('Please enter valid Company Email id');

@@ -215,7 +215,7 @@ jQuery(document).ready(function() {
 		resetDataAggregratorForm();
 		$("#data_aggregator").slideDown();
 		$("#data_aggregator_top_card").slideUp();
-
+ 
 		if(!isEdit) {
 			getAssetClassMapping('assetClassId');
 			getRegionMapping('coverageRegion');
@@ -3012,6 +3012,17 @@ function getSecurityTypeList() {
 		});
 }
 
+function getSecurityTypeMapping(securityTypeSelector) {
+	var securityTypeList = JSON.parse(window.localStorage.getItem('securityTypeList'));
+	var $option='';
+	for (var val in securityTypeList) {
+		$option += "<option value='" + securityTypeList[val].id + "'>" + securityTypeList[val].name + "</option>";
+	}
+    $("select#" + securityTypeSelector +"").empty();
+    $("select[name=" + securityTypeSelector + "]").append($option);	
+    $("select[name=" + securityTypeSelector + "]").selectpicker('refresh');
+}
+
 function getAssetClassSecurityTypeMapping(assetClassSelector, securityTypeSelector) {
 	var securityTypeList = JSON.parse(window.localStorage.getItem('securityTypeList'));
 	var assetClassId = $("select[name=" + assetClassSelector + "]").selectpicker('val');
@@ -3080,6 +3091,17 @@ function getCountryList() {
 		});
 }
 
+function getCountryMapping(countrySelector) {
+	var countryList = JSON.parse(window.localStorage.getItem('countryList'));
+	var $option='';
+	for (var val in countryList) {
+		$option += "<option value='" + countryList[val].id + "'>" + countryList[val].name + "</option>";
+	}
+    $("select#" + countrySelector +"").empty();
+    $("select[name=" + countrySelector + "]").append($option);	
+    $("select[name=" + countrySelector + "]").selectpicker('refresh');
+}
+
 function getRegionCountryMapping(regionSelector, countrySelector) {
 	var countryList = JSON.parse(window.localStorage.getItem('countryList'));
 	var regionId = $("select[name=" + regionSelector + "]").selectpicker('val');
@@ -3125,6 +3147,17 @@ function getExchangeList() {
 				//alert('Error: '+data+':'+textStatus);
 			}
 		});
+}
+
+function getExchangeMapping(exchangeSelector) {
+	var exchangeList = JSON.parse(window.localStorage.getItem('exchangeList'));
+	var $option='';
+	for (var val in exchangeList) {
+		$option += "<option value='" + exchangeList[val].id + "'>" + exchangeList[val].name + "</option>";
+	}
+    $("select#" + exchangeSelector +"").empty();
+    $("select[name=" + exchangeSelector + "]").append($option);	
+    $("select[name=" + exchangeSelector + "]").selectpicker('refresh');
 }
 
 function getCountryExchangeMapping(countrySelector, exchangeSelector) {

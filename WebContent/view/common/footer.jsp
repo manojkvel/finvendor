@@ -255,8 +255,8 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/jssor.slider.js"></script>
 
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/marketaggregators.js"></script>
+<!-- <script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/marketaggregators.js"></script> -->
 <script
 	src="${pageContext.request.contextPath}/resources/js/loginmain.js"></script>
 <script

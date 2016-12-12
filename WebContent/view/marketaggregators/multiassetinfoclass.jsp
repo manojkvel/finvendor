@@ -98,161 +98,24 @@
 					</ul>
 				</div>
 
+				<div id="hidden_params" style="display:none;">
+					<select class="selectpicker show-tick" id="acquisitioncostrange" name="acquisitioncostrange" multiple='multiple' >
+						<c:forEach var='costs' items='${costs}'>
+							<option value='${costs.range}'>${costs.range}</option>
+						</c:forEach>
+					</select>
+				</div>
+
 				<div class="multisearch" id="singleAsset">
 					<div id="singleAssetFields"></div>
 					<script type="text/javascript">
-						function singleAssetClass(assetType) {
-							console.log("assetType : " + assetType);
-							$('#singleAssetFields').html('');
-							var singleAssetData = "<h3>"
-							+ $("#" + assetType).siblings().html()
-							+ "</h3>"
-							+ "<ul>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "securitytype' id='" + assetType + "securitytype' multiple='multiple'>"
-							+ "<c:forEach var='securityType' items='${securityTypes}'>"
-							+ "<option value='${securityType.securityTypeId}'>${securityType.name}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Security Types</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "datacoverageregion' id='" + assetType + "datacoverageregion' multiple='multiple'>"
-							+ "<c:forEach var='regions' items='${regions}'>"
-							+ "<option value='${regions.name}'>${regions.name}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Data Coverage Region</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "datacoveragecountry' id='" + assetType + "datacoveragecountry' multiple='multiple'>"
-							+ "<c:forEach var='countries' items='${countries}'>"
-							+ "<option value='${countries.name}'>${countries.name}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Data Coverage Country</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "datacoverageexchange' id='" + assetType + "datacoverageexchange' multiple='multiple'>"
-							+ "<c:forEach var='exchanges' items='${exchanges}'>"
-							+ "<option value='${exchanges.name}'>${exchanges.name}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Data Coverage Exchange</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "vendoryearoperation' id='" + assetType + "vendoryearoperation' multiple='multiple'>"
-							+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
-							<%--
-							+ "<option>Date (1970)</option>"
-							+ "<option>Last one week</option>"
-							+ "<option>Last one month</option>"
-							+ "<option>Last one year</option>"
-							--%>
-							+ "</select>"
-							+ "<label class='default_select'>Vendor Year of Operation</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "awards' id='" + assetType + "awards' multiple='multiple'>"
-							+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
-							<%--
-							+ "<c:forEach var='awards' items='${awards}'>"
-							+ "<option value='${awards.award_id}'>${awards.name}</option>"
-							+ "</c:forEach>"
-							--%>
-							+ "</select>"
-							+ "<label class='default_select'>Awards</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "acquisitioncostrange' id='" + assetType + "acquisitioncostrange' multiple='multiple'>"
-							+ "<c:forEach var='costs' items='${costs}'>"
-							+ "<option value='${costs.range}'>${costs.range}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Data Acquisition Cost Range</label>"
-							+ "</li>"
-							+ "</ul>"
-							$('#singleAssetFields').append(singleAssetData);
-						}
+						
 					</script>
 				</div>
 				<div class="multisearch" id="multipleAsset">
 					<script type="text/javascript">
 						var multipleAssetData = '';
-						function multipleAssetClass(assetType) {
-							console.log("assetType : " + assetType);
-							$('#multipleAsset #multipleAssetFields').html('');
-							multipleAssetData = multipleAssetData
-									+ "<h3>"
-							+ $("#" + assetType).siblings().html()
-							+ "</h3>"
-							+ "<ul>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "securitytype' id='" + assetType + "securitytype' multiple='multiple'>"
-							+ "<c:forEach var='securityType' items='${securityTypes}'>"
-							+ "<option value='${securityType.securityTypeId}'>${securityType.name}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Security Types</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "datacoverageregion' id='" + assetType + "datacoverageregion' multiple='multiple'>"
-							+ "<c:forEach var='regions' items='${regions}'>"
-							+ "<option value='${regions.name}'>${regions.name}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Data Coverage Region</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "datacoveragecountry' id='" + assetType + "datacoveragecountry' multiple='multiple'>"
-							+ "<c:forEach var='countries' items='${countries}'>"
-							+ "<option value='${countries.name}'>${countries.name}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Data Coverage Country</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "datacoverageexchange' id='" + assetType + "datacoverageexchange' multiple='multiple'>"
-							+ "<c:forEach var='exchanges' items='${exchanges}'>"
-							+ "<option value='${exchanges.name}'>${exchanges.name}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Data Coverage Exchange</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "vendoryearoperation' id='" + assetType + "vendoryearoperation' multiple='multiple'>"
-							+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
-							<%--
-							+ "<option>Date (1970)</option>"
-							+ "<option>Last one week</option>"
-							+ "<option>Last one month</option>"
-							+ "<option>Last one year</option>"
-							--%>
-							+ "</select>"
-							+ "<label class='default_select'>Vendor Year of Operation</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "awards' id='" + assetType + "awards' style='height: 53px;' multiple='multiple'>"
-							+ "<option selected='selected' value ='' class='selectvalues'>ANY</option>"
-							<%--
-							+ "<c:forEach var='awards' items='${awards}'>"
-							+ "<option value='${awards.award_id}'>${awards.name}</option>"
-							+ "</c:forEach>"
-							--%>
-							+ "</select>"
-							+ "<label class='default_select'>Awards</label>"
-							+ "</li>"
-							+ "<li><select class='selectpicker select_multiple' name='" 
-							+ assetType + "acquisitioncostrange' id='" + assetType + "acquisitioncostrange' multiple='multiple'>"
-							+ "<c:forEach var='costs' items='${costs}'>"
-							+ "<option value='${costs.range}'>${costs.range}</option>"
-							+ "</c:forEach>"
-							+ "</select>"
-							+ "<label class='default_select'>Data Acquisition Cost Range</label>"
-							+ "</li>"
-							+ "</ul>"
-							$('#multipleAssetFields').append(multipleAssetData);
-						}
+						
 					</script>
 					<div id="multipleAssetFields"></div>
 				</div>
