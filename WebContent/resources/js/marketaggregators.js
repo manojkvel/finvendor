@@ -317,11 +317,12 @@ $(document).ready(function() {
 		window.localStorage.setItem('assetClassArray', JSON.stringify(assetClassArray));
 	});
 
-	$("#reset_vendor").click(function() {
+	$("#reset_vendor").on('click', function() {
 		assetClassArray = [];
-		$(".selectpicker").selectpicker('refresh');
 		$("#singleAsset").slideUp('slow');
 		$("#multipleAsset").slideUp('slow');
+		$('.selectpicker').selectpicker('deselectAll');
+		$(".selectpicker").selectpicker('refresh');
 	});
 
 	var getCostRangeMapping = function(costRange, costRangeSelector) {

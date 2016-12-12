@@ -205,7 +205,7 @@
 			<div class="inner-sidebar-wrap" style="display: none;">
 				<div class="sidebar-ctn-wrap cnt-ctn-wrap">
 					<div class="head">
-						<h3>PRODUCTS</h3>
+						<h3>Search New Vendor</h3>
 					</div>
 					<div class="content" id="sidelinks">
 						<input type="hidden" value="${consumer.tags}" />
