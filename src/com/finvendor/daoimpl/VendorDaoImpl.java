@@ -819,7 +819,7 @@ public class VendorDaoImpl implements VendorDao{
 		       return true;
 		return false;
 	}
-	@Transactional
+	
 	@Override
 	public Object updateVendorLogo(FileDetails ufile, String username) {
 		try{

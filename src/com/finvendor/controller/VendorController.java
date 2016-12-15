@@ -1030,41 +1030,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		return modelAndView;
 	}
 	
-	/**
-	 * method to update vendor personal info
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
-	
-	 @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	   public @ResponseBody String upload(MultipartHttpServletRequest request, 
-			   HttpServletResponse response) {                 
-	  	 
-		Iterator<String> itr =  request.getFileNames();
-		User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		MultipartFile mpf = request.getFile(itr.next());
-		FileDetails ufile = new FileDetails();
 		
-		try {
-			ufile.setLength(mpf.getBytes().length);
-			ufile.setBytes(mpf.getBytes());
-			ufile.setType(mpf.getContentType());
-			ufile.setName(mpf.getOriginalFilename());
-			ufile.setBlob( Hibernate.createBlob(mpf.getInputStream())); 
-			vendorService.updateVendorLogo(ufile,appUser.getUsername());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		 
-	 	//2. send it back to the client as <img> that calls get method
-	 	//we are using getTimeInMillis to avoid server cached image 
-		return "<img src='/getfile/"+Calendar.getInstance().getTimeInMillis()+"' />";
-	  	
-	 }
-	  
-	  @RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_PERSONAL_INFO_TAB, method = RequestMethod.GET)
+	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_PERSONAL_INFO_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorPersonalTabInfo(@ModelAttribute("vendor") Vendor vendor,
 			@RequestParam(value = "venFirstname", required = false) String venFirstname,
 			@RequestParam(value = "venLastname", required = false) String venLastname,

@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.dao.MarketDataAggregatorsDAO;
+import com.finvendor.dao.MarketDataAggregatorsDao;
 import com.finvendor.form.FinancialAnalyticsApplicationVendorSearchForm;
 import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
 import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
@@ -46,9 +46,9 @@ import com.finvendor.model.VendorOffering;
 import com.finvendor.model.VendorSearchResult;
 
 @SuppressWarnings("unchecked")
-public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
+public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 
-	private static Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsDAOImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsDaoImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -56,7 +56,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	@Transactional
 	@Override
 	public List<AssetClass> getAllAssetClass() {
-		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getAllAssetClass");
+		logger.debug("Entering - MarketDataAggregatorsDaoImpl : getAllAssetClass");
 		List<AssetClass> assetClasses = null;
 		Criteria criteria = null;
 		try{
@@ -65,14 +65,14 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
  		}catch (Exception exp) {
 			logger.error("Error loading Asset Classes", exp);
 		}
-		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getAllAssetClass");
+		logger.debug("Leaving - MarketDataAggregatorsDaoImpl : getAllAssetClass");
 		return assetClasses;
 	}
 	
 	@Transactional
 	@Override
 	public List<AssetClassSecurityMap> getSecurityTypeByAssetClassId(Integer assetId) {
-		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getSecurityTypeByAssetClassId for {} ", assetId);
+		logger.debug("Entering - MarketDataAggregatorsDaoImpl : getSecurityTypeByAssetClassId for {} ", assetId);
 		Criteria criteria = null;
 		List<AssetClassSecurityMap> assetClassSecurityMaps = null;
 		try{
@@ -82,14 +82,14 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		}catch (Exception exp) {
 			logger.error("Error loading Security Types for Asset Class Id {}", assetId, exp);
 		}
-		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getSecurityTypeByAssetClassId for {} ", assetId);
+		logger.debug("Leaving - MarketDataAggregatorsDaoImpl : getSecurityTypeByAssetClassId for {} ", assetId);
 		return assetClassSecurityMaps;
 	}
 	
 	@Transactional
 	@Override
 	public List<Region> getAllRegionClass() {
-		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getAllRegionClass");
+		logger.debug("Entering - MarketDataAggregatorsDaoImpl : getAllRegionClass");
 		List<Region> regions = null;
 		Criteria criteria = null;
 		try{
@@ -98,14 +98,14 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
  		}catch (Exception exp) {
  			logger.error("Error loading Region Classes", exp);
 		}
-		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getAllRegionClass");
+		logger.debug("Leaving - MarketDataAggregatorsDaoImpl : getAllRegionClass");
 		return regions;
 	}
 
 	@Transactional
 	@Override
 	public List<RegionCountryMap> getRegionCountryMapsRegionId(Integer regionId) {
-		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getRegionCountryMapsRegionId for {} ", regionId);
+		logger.debug("Entering - MarketDataAggregatorsDaoImpl : getRegionCountryMapsRegionId for {} ", regionId);
 		Criteria criteria = null;
 		List<RegionCountryMap> regionCountryMaps = null;
 		try{
@@ -115,14 +115,14 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		}catch (Exception exp) {
 			logger.error("Error getRegionCountryMapsRegionId for Region Id {}", regionId, exp);
 		}
-		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getRegionCountryMapsRegionId for {} ", regionId);
+		logger.debug("Leaving - MarketDataAggregatorsDaoImpl : getRegionCountryMapsRegionId for {} ", regionId);
 		return regionCountryMaps;
 	}
 	
 	@Transactional
 	@Override
 	public List<CountryExchangeMap> getCountryExchangeMapsByCountryId(Integer countryId) {
-		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getCountryExchangeMapsByCountryId for {} ", countryId);
+		logger.debug("Entering - MarketDataAggregatorsDaoImpl : getCountryExchangeMapsByCountryId for {} ", countryId);
 		Criteria criteria = null;
 		List<CountryExchangeMap> countryExchangeMaps = null;
 		try{
@@ -132,14 +132,14 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 		}catch (Exception exp) {
 			logger.error("Error getCountryExchangeMapsByCountryId for Country Id {}", countryId, exp);
 		}
-		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getCountryExchangeMapsByCountryId for {} ", countryId);
+		logger.debug("Leaving - MarketDataAggregatorsDaoImpl : getCountryExchangeMapsByCountryId for {} ", countryId);
 		return countryExchangeMaps;
 	}
 	
 	@Transactional
 	@Override
 	public List<Country> getAllCountries() {
-		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getAllCountries");
+		logger.debug("Entering - MarketDataAggregatorsDaoImpl : getAllCountries");
 		List<Country> countries = null;
 		Criteria criteria = null;
 		try{
@@ -148,14 +148,14 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
  		}catch (Exception exp) {
  			logger.error("Error loading All Countries", exp);
 		}
-		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getAllCountries");
+		logger.debug("Leaving - MarketDataAggregatorsDaoImpl : getAllCountries");
 		return countries;
 	}
 
 	@Transactional
 	@Override
 	public List<Support> getAllVendorSupports() {
-		logger.debug("Entering - MarketDataAggregatorsDAOImpl : getAllVendorSupports");
+		logger.debug("Entering - MarketDataAggregatorsDaoImpl : getAllVendorSupports");
 		List<Support>  supports = null;
 		Criteria criteria = null;
 		try{
@@ -164,7 +164,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
  		}catch (Exception exp) {
  			logger.error("Error loading Vendor Supports", exp);
 		}
-		logger.debug("Leaving - MarketDataAggregatorsDAOImpl : getAllVendorSupports");
+		logger.debug("Leaving - MarketDataAggregatorsDaoImpl : getAllVendorSupports");
 		return supports;
 	}
 
@@ -188,7 +188,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getAllAwards(com.finvendor.model.Awards)
+	 * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getAllAwards(com.finvendor.model.Awards)
 	 */
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -211,7 +211,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getAllAwards(com.finvendor.model.Awards)
+	 * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getAllAwards(com.finvendor.model.Awards)
 	 */
 	@Transactional
 	@Override
@@ -233,7 +233,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getAssetClassByName(com.finvendor.model.AssetClass)
+	 * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getAssetClassByName(com.finvendor.model.AssetClass)
 	 */
 	@Transactional
 	@Override
@@ -257,7 +257,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getRegionNamesByName(com.finvendor.model.Region)
+	 * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getRegionNamesByName(com.finvendor.model.Region)
 	 */
 	@Transactional
 	@Override
@@ -291,7 +291,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getSingleAssetClassSearchResultInfo(com.finvendor.model.AssetClassDataDetails)
+	 * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getSingleAssetClassSearchResultInfo(com.finvendor.model.AssetClassDataDetails)
 	 */
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -376,7 +376,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getSingleAssetClassSearchResultVendorInfo(com.finvendor.model.AssetClassDataDetails)
+	 * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getSingleAssetClassSearchResultVendorInfo(com.finvendor.model.AssetClassDataDetails)
 	 */
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -443,7 +443,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getSingleAssetClassVendorDetails(com.finvendor.model.AssetClassDataDetails)
+	 * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getSingleAssetClassVendorDetails(com.finvendor.model.AssetClassDataDetails)
 	 */
 	@Transactional
 	@Override
@@ -515,7 +515,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.MarketDataAggregatorsDAOImpl#getMultiAssetClassSearchResultInfo(com.finvendor.model.AssetClassDataDetails)
+	 * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getMultiAssetClassSearchResultInfo(com.finvendor.model.AssetClassDataDetails)
 	 */
 	@Transactional
 	@Override
@@ -777,7 +777,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
 	@Override
 	@Transactional(readOnly=true)
 	public List<CompanySubType> getCompanySubTypeList(){
-		logger.debug("Entering MarketDataAggregatorsDAOImpl : getCompanySubTypeList");
+		logger.debug("Entering MarketDataAggregatorsDaoImpl : getCompanySubTypeList");
 		List<CompanySubType> compnaySubType = null;
 		Criteria criteria = null;
 		try{
@@ -786,7 +786,7 @@ public class MarketDataAggregatorsDAOImpl implements MarketDataAggregatorsDAO{
  		}catch (Exception exp) {
 			logger.error("Error reading CompanySubType details", exp);
 		}
-		logger.debug("Leaving MarketDataAggregatorsDAOImpl : getCompanySubTypeList");
+		logger.debug("Leaving MarketDataAggregatorsDaoImpl : getCompanySubTypeList");
 		return compnaySubType;
 	}
 	

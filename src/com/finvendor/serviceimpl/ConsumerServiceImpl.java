@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.bean.ConsumerMyProfileBusinessNeedMarketData;
 import com.finvendor.controller.ConsumerController;
-import com.finvendor.dao.ConsumerDAO;
+import com.finvendor.dao.ConsumerDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
 import com.finvendor.model.CompanySubType;
@@ -26,14 +26,14 @@ public class ConsumerServiceImpl implements ConsumerService {
 			ConsumerController.class);
 
 	@Autowired
-	private ConsumerDAO consumerDAO;
+	private ConsumerDao consumerDao;
 	
 	@Override
 	@Transactional
 	public Consumer updateConsumerDetails(Consumer consumer) 
 			throws ApplicationException {
 		logger.debug("ConsumerServiceImpl : saveConsumerInfo");
-		Consumer updatedConsumer = consumerDAO
+		Consumer updatedConsumer = consumerDao
 				.updateConsumerDetails(consumer);
 		return updatedConsumer;
 	}
@@ -43,7 +43,7 @@ public class ConsumerServiceImpl implements ConsumerService {
 	public Consumer getConsumerInfoByEmail(String email) 
 			throws ApplicationException {
 		logger.debug("ConsumerServiceImpl : getConsumerInfoByEmail");
-		return consumerDAO.getConsumerInfoByEmail(email);
+		return consumerDao.getConsumerInfoByEmail(email);
 	}
 	
 	@Override
@@ -51,14 +51,14 @@ public class ConsumerServiceImpl implements ConsumerService {
 	public CompanySubType getCompanySubType(int id) 
 			throws ApplicationException {
 		logger.debug("ConsumerServiceImpl : getCompanySubType");
-		return consumerDAO.getCompanySubType(id);
+		return consumerDao.getCompanySubType(id);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public List<Object[]> loadConsumerMyProfile(String consumerId, 
 			String tableKey) throws ApplicationException {
-		List<Object[]> tableRowList = consumerDAO.loadConsumerMyProfile(
+		List<Object[]> tableRowList = consumerDao.loadConsumerMyProfile(
 				consumerId, tableKey);		
 		return tableRowList;
 	}
@@ -87,7 +87,7 @@ public class ConsumerServiceImpl implements ConsumerService {
 				tableRow[5] = record.getDataAttribute();
 				tableRowList.add(tableRow);
 			}
-			consumerDAO.updateConsumerProfileDetails(consumerId, tableKey, tableRowList);
+			consumerDao.updateConsumerProfileDetails(consumerId, tableKey, tableRowList);
 		}catch (Exception exp) {
 			logger.error("Error updating Profile Details for Consumer : {}", consumerId, exp);
 			throw new ApplicationException("Error updating Profile Details");
@@ -98,6 +98,6 @@ public class ConsumerServiceImpl implements ConsumerService {
 	@Override
 	@Transactional
 	public Object updateConsumerLogo(FileDetails ufile, String username) {
-		return consumerDAO.updateConsumerLogo(ufile, username);
+		return consumerDao.updateConsumerLogo(ufile, username);
 	}
 }
