@@ -48,19 +48,19 @@
 	
        <!-- login configuration beans -->
    <bean id="loginService" class="com.finvendor.serviceimpl.LoginServiceImpl" />
-   <bean id="loginDAO" class="com.finvendor.daoimpl.LoginDAOImpl"></bean> 
+   <bean id="loginDao" class="com.finvendor.daoimpl.LoginDaoImpl"></bean> 
     
    <bean id="userService" class="com.finvendor.serviceimpl.UserServiceImpl" />
-   <bean id="userDAO" class="com.finvendor.daoimpl.UserDAOImpl"></bean>
+   <bean id="userDao" class="com.finvendor.daoimpl.UserDaoImpl"></bean>
    
    <bean id="vendorService" class="com.finvendor.serviceimpl.VendorServiceImpl" />
    <bean id="vendorDao" class="com.finvendor.daoimpl.VendorDaoImpl"></bean>
    
    <bean id="consumerService" class="com.finvendor.serviceimpl.ConsumerServiceImpl" />
-   <bean id="consumerDAO" class="com.finvendor.daoimpl.ConsumerDAOImpl"></bean>
+   <bean id="consumerDao" class="com.finvendor.daoimpl.ConsumerDaoImpl"></bean>
    
    <bean id="marketDataAggregatorsService" class="com.finvendor.serviceimpl.MarketDataAggregatorsServiceImpl" />
-   <bean id="marketDataAggregatorsDAO" class="com.finvendor.daoimpl.MarketDataAggregatorsDAOImpl"></bean>
+   <bean id="marketDataAggregatorsDao" class="com.finvendor.daoimpl.MarketDataAggregatorsDaoImpl"></bean>
    
    <bean id="adminService" class="com.finvendor.serviceimpl.AdminServiceImpl" />
    <bean id="adminDao" class="com.finvendor.daoimpl.AdminDaoImpl"></bean>

@@ -7,7 +7,7 @@ import com.finvendor.form.FileDetails;
 import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
 
-public interface ConsumerDAO {
+public interface ConsumerDao {
 
 	Consumer updateConsumerDetails(Consumer consumer) throws ApplicationException;
 	Consumer getConsumerInfoByEmail(String email) throws ApplicationException;

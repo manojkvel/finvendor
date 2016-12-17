@@ -1,26 +1,33 @@
 package com.finvendor.controller;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.finvendor.form.FileDetails;
 import com.finvendor.json.bean.ReferenceDataJson;
-import com.finvendor.json.bean.VendorDataAggregatorsOfferingJson;
 import com.finvendor.model.SecurityType;
-import com.finvendor.model.VendorDataAggregatorsOffering;
 import com.finvendor.service.ReferenceDataService;
+import com.finvendor.service.UserService;
+import com.finvendor.util.RequestConstans;
 
 @Controller
 public class FormDataController {
@@ -31,37 +38,8 @@ public class FormDataController {
 	@Resource(name="referenceDataService")
 	private ReferenceDataService referenceDataService;
 	
-	/*
-	@RequestMapping(value="loadSecurityTypesForAssetClass", method = RequestMethod.POST)
-	public String loadSecurityTypesForAssetClass(
-			HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value = "assetClassId", required = true) int assetClassId) {
-		logger.debug("Entering - FormDataController : loadSecurityTypesForAssetClass for assetClass Id {}", 
-				assetClassId);
-		List<SecurityType> securityTypeList = null;
-		StringBuilder securityTypeFormElement = null;
-		try {
-			securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(assetClassId);
-			securityTypeFormElement = new StringBuilder();
-			for(SecurityType secType : securityTypeList) {
-				securityTypeFormElement.append("<option value='");
-				securityTypeFormElement.append(secType.getSecurityTypeId());
-				securityTypeFormElement.append("'>");
-				securityTypeFormElement.append(secType.getName());
-				securityTypeFormElement.append("</option>");
-			}
-			response.getWriter().print(securityTypeFormElement.toString());
-		} catch (Exception exp) {
-			logger.error("Error loading Security Types for assetClass Id {}",
-					assetClassId, exp);
-			return null;
-			
-		}
-		logger.debug("Leaving - FormDataController : loadSecurityTypesForAssetClass for assetClass Id {}", 
-				assetClassId);
-		return null;
-	}
-	*/
+	@Resource(name="userService")
+	private UserService userService;
 	
 	@RequestMapping(value="loadFormReferenceDataForSelect", method = RequestMethod.POST)
 	public String loadFormReferenceDataForSelect(
@@ -123,4 +101,38 @@ public class FormDataController {
 				, referenceDataType);
 		return refData;
 	}
+	
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	public @ResponseBody String uploadCompanyLogo(MultipartHttpServletRequest request, 
+			HttpServletResponse response) {                 
+	  	 
+	User appUser = (User)SecurityContextHolder.getContext().getAuthentication().
+			getPrincipal();
+	logger.debug("Entering  - FormDataController : uploadCompanyLogo for {}", 
+			appUser.getUsername());
+	Iterator<String> itr =  request.getFileNames();	
+	MultipartFile mpf = request.getFile(itr.next());
+	FileDetails ufile = new FileDetails();
+	boolean vendor = false;
+	
+	try {
+		ufile.setLength(mpf.getBytes().length);
+		ufile.setBytes(mpf.getBytes());
+		ufile.setType(mpf.getContentType());
+		ufile.setName(mpf.getOriginalFilename());
+		ufile.setBlob( Hibernate.createBlob(mpf.getInputStream())); 
+		if (RequestConstans.Roles.ROLE_VENDOR.equals(
+					(String)request.getSession().getAttribute("loggedInRole"))) {
+			vendor = true;
+		}
+		userService.updateCompanyLogo(ufile, appUser.getUsername(), vendor);
+	} catch (IOException exp) {
+		logger.error("Error Uploading Logo file for {} ", appUser.getUsername());
+	}	 
+		logger.debug("Leaving  - FormDataController : uploadCompanyLogo for {}", 
+			appUser.getUsername());
+		//2. send it back to the client as <img> that calls get method
+		//we are using getTimeInMillis to avoid server cached image
+		return "<img src='/getfile/"+Calendar.getInstance().getTimeInMillis()+"'/>";	  	
+	}	  
 }

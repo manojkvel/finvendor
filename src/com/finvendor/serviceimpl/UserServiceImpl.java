@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.dao.UserDAO;
+import com.finvendor.dao.ConsumerDao;
+import com.finvendor.dao.UserDao;
+import com.finvendor.dao.VendorDao;
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.form.FileDetails;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.UserRole;
 import com.finvendor.service.UserService;
@@ -21,42 +24,48 @@ public class UserServiceImpl implements UserService{
 	private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
-	private UserDAO userDAO;
+	private UserDao userDao;
+	
+	@Autowired
+	private VendorDao vendorDao;
+	
+	@Autowired
+	private ConsumerDao consumerDao;
 
 	@Override
 	@Transactional
 	public void saveUserInfo(FinVendorUser user) {
-		userDAO.saveUserInfo(user);
+		userDao.saveUserInfo(user);
 	}
 
 	@Override
 	public void saveUserRolesInfo(UserRole userRole) {
-		userDAO.saveUserRolesInfo(userRole);	
+		userDao.saveUserRolesInfo(userRole);	
 	}
 
 	@Override
 	public UserRole getUserRoleInfobyUsername(String username) {
-		return userDAO.getUserRoleInfobyUsername(username);
+		return userDao.getUserRoleInfobyUsername(username);
 	}
 	
 	@Override
 	public List<FinVendorUser> getUserInfoByNamewithPassword(String username,
 			String password) {
-		return userDAO.getUserInfoByNamewithPassword(username,password);
+		return userDao.getUserInfoByNamewithPassword(username,password);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public boolean validateUsername(String username) throws ApplicationException {
 		logger.debug("UserServiceImpl : validateUsername - {}", username);
-		return userDAO.validateUsername(username.toLowerCase());
+		return userDao.validateUsername(username.toLowerCase());
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public FinVendorUser getUserDetailsByUsername(String username) throws ApplicationException {
 		logger.debug("Entering : UserServiceImpl.getUserDetailsByUsername");
-		FinVendorUser user = userDAO.getUserDetailsByUsername(username);
+		FinVendorUser user = userDao.getUserDetailsByUsername(username);
 		logger.debug("Leaving : UserServiceImpl.getUserDetailsByUsername");
 		return user;
 	}
@@ -64,28 +73,28 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public int updateUnsuccessfulLoginAttempts(String username, boolean reset){
-		return userDAO.updateUnsuccessfulLoginAttempts(username, reset);
+		return userDao.updateUnsuccessfulLoginAttempts(username, reset);
 	}
 	
 	@Override
 	@Transactional
 	public int updateUserAccountStatus(String username, boolean status) {
 		logger.debug("UserServiceImpl : updateUserAccountStatus to {} for {}", status, username);
-		return userDAO.updateUserAccountStatus(username, status);
+		return userDao.updateUserAccountStatus(username, status);
 	}
 	
 	@Override
 	@Transactional
 	public String insertRegistrationVerificationRecord(String username, boolean recreate){
 		String registration_id = UUID.randomUUID().toString();
-		userDAO.insertRegistrationVerificationRecord(username, registration_id, recreate);
+		userDao.insertRegistrationVerificationRecord(username, registration_id, recreate);
 		return registration_id;
 	}
 	
 	@Override
 	@Transactional
 	public boolean updateUserVerificationStatus(String userName, String registrationId){
-		int updatedRows = userDAO.updateUserVerificationStatus(userName, registrationId);
+		int updatedRows = userDao.updateUserVerificationStatus(userName, registrationId);
 		if(updatedRows == 0) {
 			return false;
 		}else{
@@ -96,13 +105,13 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional(readOnly=true)
 	public FinVendorUser getUserDetailsByEmailId(String email) throws ApplicationException {
-		return userDAO.getUserDetailsByEmailId(email);
+		return userDao.getUserDetailsByEmailId(email);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public List<FinVendorUser> getUserDetails() {
-		return userDAO.getUserDetails();
+		return userDao.getUserDetails();
 	}
 	
 	@Override
@@ -110,7 +119,7 @@ public class UserServiceImpl implements UserService{
 	public String resetPassword(String username) throws ApplicationException {
 		String password = new String(RandomPasswordGenerator.generatePswd(8, 10, 3, 3, 2));
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-		int updatedRows = userDAO.resetPassword(username, encoder.encode(password));
+		int updatedRows = userDao.resetPassword(username, encoder.encode(password));
 		if (updatedRows == 1) { 
 			return password;
 		}else {
@@ -121,7 +130,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public int changePassword(String username, String password) throws ApplicationException {
-		int updatedRows = userDAO.resetPassword(username, password);
+		int updatedRows = userDao.resetPassword(username, password);
 		if (updatedRows == 1) { 
 			return updatedRows;
 		}else {
@@ -133,14 +142,24 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public void updateVendorAccountSettings(String userName, String companyType, String email) 
 			throws ApplicationException {
-		userDAO.updateVendorAccountSettings(userName, companyType, email);
+		userDao.updateVendorAccountSettings(userName, companyType, email);
 	}
 	
 	@Override
 	@Transactional
 	public void updateConsumerAccountSettings(String userName, String companyType, String tags, String email) 
 			throws ApplicationException {
-		userDAO.updateConsumerAccountSettings(userName, companyType, tags, email);
+		userDao.updateConsumerAccountSettings(userName, companyType, tags, email);
 	}
 	
+	@Override
+	@Transactional
+	public void updateCompanyLogo(FileDetails ufile, String userName, boolean vendor) {
+		if(vendor) {
+			vendorDao.updateVendorLogo(ufile, userName);
+		} else {
+			consumerDao.updateConsumerLogo(ufile, userName);
+		}
+		
+	}
 }

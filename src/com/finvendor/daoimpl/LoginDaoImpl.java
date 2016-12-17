@@ -10,16 +10,16 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.dao.LoginDAO;
+import com.finvendor.dao.LoginDao;
 import com.finvendor.model.FinVendorUser;
 
 /**
  * @author rayulu vemula
  *
  */
-public class LoginDAOImpl implements LoginDAO{
+public class LoginDaoImpl implements LoginDao{
 
-	private static Logger logger = Logger.getLogger(LoginDAOImpl.class);
+	private static Logger logger = Logger.getLogger(LoginDaoImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -28,7 +28,7 @@ public class LoginDAOImpl implements LoginDAO{
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.finvendor.dao.LoginDAOImpl#getUserInfoByEmail(com.finvendor.model.FinVendorUser)
+	 * @see com.finvendor.dao.LoginDaoImpl#getUserInfoByEmail(com.finvendor.model.FinVendorUser)
 	 */
 	@Transactional
 	public FinVendorUser getUserInfoByEmail(String email) {

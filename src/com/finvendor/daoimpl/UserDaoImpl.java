@@ -13,15 +13,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.dao.UserDAO;
+import com.finvendor.dao.UserDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.UserRole;
 import com.finvendor.util.RequestConstans;
 
-public class UserDAOImpl implements UserDAO {
+public class UserDaoImpl implements UserDao {
 	
-	private static Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 	private static final String UPDATE_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE users SET login_attempts = login_attempts + 1, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
 	private static final String RESET_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE users SET login_attempts = 0, last_login = CURRENT_TIMESTAMP(), last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
 	private static final String UPDATE_USER_STATUS = "UPDATE users SET enabled = :enabled, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
@@ -39,14 +39,14 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void saveUserInfo(FinVendorUser user) {
-		logger.debug("Entering UserDAOImpl : saveUserInfo");
+		logger.debug("Entering UserDaoImpl : saveUserInfo");
 		try{
 			 this.sessionFactory.getCurrentSession().save(user);
 			 this.sessionFactory.getCurrentSession().flush();
 		}catch(Exception exp){
-			logger.error("Error UserDAOImpl : saveUserInfo ", exp);
+			logger.error("Error UserDaoImpl : saveUserInfo ", exp);
 		}
-		logger.debug("Leaving UserDAOImpl : saveUserInfo");
+		logger.debug("Leaving UserDaoImpl : saveUserInfo");
 	}
 
 	@Transactional
@@ -64,17 +64,17 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public boolean validateUsername(String username) throws ApplicationException {
-		logger.debug("Entering UserDAOImpl:validateUsername");
+		logger.debug("Entering UserDaoImpl:validateUsername");
 		FinVendorUser user = this.getUserDetailsByUsername(username);
 		return (user != null) ? true : false;
 	}
 	
 	@Override
 	public FinVendorUser getUserDetailsByUsername(String username) throws ApplicationException {
-		logger.debug("Entering UserDAOImpl:getUserDetailsByUsername");		
+		logger.debug("Entering UserDaoImpl:getUserDetailsByUsername");		
 		try{
 			FinVendorUser user = (FinVendorUser) this.sessionFactory.getCurrentSession().get(FinVendorUser.class, username);
-			logger.debug("Leaving UserDAOImpl:getUserDetailsByUsername");
+			logger.debug("Leaving UserDaoImpl:getUserDetailsByUsername");
 			return user;
 		}catch (Exception exp){
 			logger.error("Error getUserDetailsByUsername : " + exp);
@@ -130,7 +130,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public int updateUnsuccessfulLoginAttempts(String username, boolean reset){
-		logger.debug("Entering UserDAOImpl:updateUnsucessfulLoginAttempts for {} ", username);
+		logger.debug("Entering UserDaoImpl:updateUnsucessfulLoginAttempts for {} ", username);
 		int updatedRows = 0;
 		SQLQuery sqlQuery = null;
 		if(reset){
@@ -140,25 +140,25 @@ public class UserDAOImpl implements UserDAO {
 		}		
 		sqlQuery.setParameter("username", username);
 		updatedRows = sqlQuery.executeUpdate();
-		logger.debug("Leaving UserDAOImpl:updateUnsucessfulLoginAttempts");
+		logger.debug("Leaving UserDaoImpl:updateUnsucessfulLoginAttempts");
 		return updatedRows;
 	}
 	
 	@Override	
 	public int updateUserAccountStatus(String username, boolean status){
-		logger.debug("Entering UserDAOImpl:updateUserAccountStatus for {} to update status as {}", username, status);
+		logger.debug("Entering UserDaoImpl:updateUserAccountStatus for {} to update status as {}", username, status);
 		int updatedRows = 0;
 		SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_USER_STATUS);
 		sqlQuery.setParameter("username", username);
 		sqlQuery.setParameter("enabled", status);
 		updatedRows = sqlQuery.executeUpdate();
-		logger.debug("Leaving UserDAOImpl:updateUserAccountStatus");
+		logger.debug("Leaving UserDaoImpl:updateUserAccountStatus");
 		return updatedRows;
 	}
 	
 	@Override
 	public void insertRegistrationVerificationRecord(String username, String registration_id, boolean recreate){
-		logger.debug("Entering UserDAOImpl:insertRegistrationVerificationRecord {}, Recreate : ", username, recreate);
+		logger.debug("Entering UserDaoImpl:insertRegistrationVerificationRecord {}, Recreate : ", username, recreate);
 		SQLQuery sqlQuery = null;
 		if(recreate){
 			sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(DELETE_USER_VERIFICATION_RECORD);
@@ -169,36 +169,36 @@ public class UserDAOImpl implements UserDAO {
 		sqlQuery.setParameter("username", username);
 		sqlQuery.setParameter("registration_id", registration_id);
 		sqlQuery.executeUpdate();
-		logger.debug("Leaving UserDAOImpl:insertRegistrationVerificationRecord {}", username);
+		logger.debug("Leaving UserDaoImpl:insertRegistrationVerificationRecord {}", username);
 	}
 	
 	@Override
 	public int updateUserVerificationStatus(String username, String registration_id){
-		logger.debug("Entering UserDAOImpl:updateUserVerificationStatus {}, {}", username, registration_id);
+		logger.debug("Entering UserDaoImpl:updateUserVerificationStatus {}, {}", username, registration_id);
 		int updatedRows = 0;
 		SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_USER_VERIFICATION_DATE);
 		sqlQuery.setParameter("registrationId", registration_id);
 		sqlQuery.setParameter("username", username);
 		updatedRows = sqlQuery.executeUpdate();
-		logger.debug("UserDAOImpl:updateUserVerificationStatus {}, Rows updated : {}", username, updatedRows);
+		logger.debug("UserDaoImpl:updateUserVerificationStatus {}, Rows updated : {}", username, updatedRows);
 		if(updatedRows == 1){
 			sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_USER_REGISTER_ENABLE_STATUS);
 			sqlQuery.setParameter("username", username);
 			sqlQuery.setParameter("enabled", true);
 			sqlQuery.executeUpdate();
 		}
-		logger.debug("Leaving UserDAOImpl:updateUserVerificationStatus {}, {}", username, registration_id);
+		logger.debug("Leaving UserDaoImpl:updateUserVerificationStatus {}, {}", username, registration_id);
 		return updatedRows;
 	}
 	
 	@Override
 	public FinVendorUser getUserDetailsByEmailId(String email) throws ApplicationException {
-		logger.debug("Entering UserDAOImpl:getUserDetailsByEmailId {}", email);
+		logger.debug("Entering UserDaoImpl:getUserDetailsByEmailId {}", email);
 		try{			 
 			Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(FinVendorUser.class);  
 			criteria.add(Restrictions.eq("email", email));
 			FinVendorUser user = (FinVendorUser)criteria.uniqueResult();
-			logger.debug("Leaving UserDAOImpl:getUserDetailsByEmailId {}", email);
+			logger.debug("Leaving UserDaoImpl:getUserDetailsByEmailId {}", email);
 			return user;
 		}catch (Exception exp) {
 			logger.error("Error getUserDetailsByEmailId : " + exp);
@@ -208,30 +208,30 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public List<FinVendorUser> getUserDetails() {		
-		logger.debug("Entering UserDAOImpl:getUserDetails");
+		logger.debug("Entering UserDaoImpl:getUserDetails");
 		Query query = this.sessionFactory.getCurrentSession().createQuery("from FinVendorUser");
 		@SuppressWarnings("unchecked")
 		List<FinVendorUser> userList = query.list();
-		logger.debug("Leaving UserDAOImpl:getUserDetails");
+		logger.debug("Leaving UserDaoImpl:getUserDetails");
 		return userList;
 	}
 	
 	@Override
 	public int resetPassword(String username, String password) {
-		logger.debug("Entering UserDAOImpl:resetPassword for {}", username);
+		logger.debug("Entering UserDaoImpl:resetPassword for {}", username);
 		int updatedRows = 0;
 		SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(RESET_USER_PASSWORD);
 		sqlQuery.setParameter("username", username);
 		sqlQuery.setParameter("password", password);
 		updatedRows = sqlQuery.executeUpdate();
-		logger.debug("Leaving UserDAOImpl:resetPassword");
+		logger.debug("Leaving UserDaoImpl:resetPassword");
 		return updatedRows;
 	}
 	
 	@Override
 	public void updateVendorAccountSettings(String userName, String companyType, String email) 
 			throws ApplicationException {
-		logger.info("Entering UserDAOImpl:updateVendorAccountSettings for {}", userName);
+		logger.info("Entering UserDaoImpl:updateVendorAccountSettings for {}", userName);
 		try{
 			SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_VENDOR_REGISTRATION_DETAILS);
 			sqlQuery.setParameter("username", userName);
@@ -245,13 +245,13 @@ public class UserDAOImpl implements UserDAO {
 			logger.error("Error updateVendorAccountSettings : " + exp);
 			throw new ApplicationException("Error Updating User Registration Details for : " + userName);
 		}
-		logger.info("Leaving UserDAOImpl:updateVendorAccountSettings");
+		logger.info("Leaving UserDaoImpl:updateVendorAccountSettings");
 	}
 	
 	@Override
 	public void updateConsumerAccountSettings(String userName, String companyType, String tags, String email) 
 			throws ApplicationException {
-		logger.info("Entering UserDAOImpl:updateConsumerAccountSettings for {}", userName);
+		logger.info("Entering UserDaoImpl:updateConsumerAccountSettings for {}", userName);
 		try{
 			SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_CONSUMER_REGISTRATION_DETAILS);
 			sqlQuery.setParameter("username", userName);
@@ -266,7 +266,7 @@ public class UserDAOImpl implements UserDAO {
 			logger.error("Error updateConsumerAccountSettings : " + exp);
 			throw new ApplicationException("Error Updating User Registration Details for : " + userName);
 		}
-		logger.info("Leaving UserDAOImpl:updateConsumerAccountSettings");
+		logger.info("Leaving UserDaoImpl:updateConsumerAccountSettings");
 	}
 
 }

@@ -15,17 +15,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.dao.ConsumerDAO;
+import com.finvendor.dao.ConsumerDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
 import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
 import com.finvendor.model.Vendor;
 
-public class ConsumerDAOImpl implements ConsumerDAO {
+public class ConsumerDaoImpl implements ConsumerDao {
 
 	private static Logger logger = LoggerFactory.
-			getLogger(ConsumerDAOImpl.class);
+			getLogger(ConsumerDaoImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -36,7 +36,7 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 	@Override
 	public Consumer updateConsumerDetails(Consumer consumer) 
 			throws ApplicationException {
-		logger.debug("ConsumerDAOImpl : saveConsumerInfo");
+		logger.debug("ConsumerDaoImpl : saveConsumerInfo");
 		try {
 			this.sessionFactory.getCurrentSession().saveOrUpdate(consumer);
 		}catch(Exception exp) {
@@ -51,7 +51,7 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 	@Override
 	public Consumer getConsumerInfoByEmail(String email) 
 			throws ApplicationException {
-		logger.debug("ConsumerDAOImpl : getConsumerInfoByEmail - {}", 
+		logger.debug("ConsumerDaoImpl : getConsumerInfoByEmail - {}", 
 				email);
 		Consumer consumer = null; 
 		Criteria criteria = null;
@@ -73,7 +73,7 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 	@Override	
 	public CompanySubType getCompanySubType(int id) 
 			throws ApplicationException {
-		logger.debug("ConsumerDAOImpl : getCompanySubType");
+		logger.debug("ConsumerDaoImpl : getCompanySubType");
 		CompanySubType companySubType = null; 
 		try {
 			companySubType = (CompanySubType) this.sessionFactory.
@@ -169,8 +169,8 @@ public class ConsumerDAOImpl implements ConsumerDAO {
 			consumer.setLogoBytes(ufile.getBlob());
 			currentSession.update(consumer);
 		}
-		}catch(Exception e){
-			
+		}catch(Exception exp){
+			logger.error("Error updating Consumer logo file", exp);
 		}
 		return null;
 	}

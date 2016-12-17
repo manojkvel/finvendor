@@ -6,7 +6,7 @@ import com.finvendor.model.UserRole;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.FinVendorUser;
 
-public interface UserDAO {
+public interface UserDao {
 
 	public void saveUserInfo(FinVendorUser users);
 

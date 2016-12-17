@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.dao.MarketDataAggregatorsDAO;
+import com.finvendor.dao.MarketDataAggregatorsDao;
 import com.finvendor.form.FinancialAnalyticsApplicationVendorSearchForm;
 import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
 import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
@@ -44,7 +44,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	private static Logger logger = Logger.getLogger(MarketDataAggregatorsServiceImpl.class);
 
 	@Autowired
-	private MarketDataAggregatorsDAO marketDataAggregatorsDAO;
+	private MarketDataAggregatorsDao marketDataAggregatorsDao;
 
 	/** --------------------------------------------------------------------- */
 	/**
@@ -55,7 +55,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<AssetClass> getAllAssetClass() {
 		logger.info("Method for getAllAssetClass---");
-		return marketDataAggregatorsDAO.getAllAssetClass();
+		return marketDataAggregatorsDao.getAllAssetClass();
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -67,7 +67,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<AssetClassSecurityMap> getSecurityTypeByAssetClassId(Integer assetId) {
 		logger.info("Method for getAllAssetClass---");
-		return marketDataAggregatorsDAO.getSecurityTypeByAssetClassId(assetId);
+		return marketDataAggregatorsDao.getSecurityTypeByAssetClassId(assetId);
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -79,7 +79,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<Region> getAllRegionClass() {
 		logger.info("Method for getAllRegionClass---");
-		return marketDataAggregatorsDAO.getAllRegionClass();
+		return marketDataAggregatorsDao.getAllRegionClass();
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -91,7 +91,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<RegionCountryMap> getRegionCountryMapsRegionId(Integer regionId) {
 		logger.info("Method for getRegionCountryMapsRegionId---");
-		return marketDataAggregatorsDAO.getRegionCountryMapsRegionId(regionId);
+		return marketDataAggregatorsDao.getRegionCountryMapsRegionId(regionId);
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -104,7 +104,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	public List<CountryExchangeMap> getCountryExchangeMapsByCountryId(
 			Integer countryId) {
 		logger.info("Method for getCountryExchangeMapsByCountryId---");
-		return marketDataAggregatorsDAO.getCountryExchangeMapsByCountryId(countryId);
+		return marketDataAggregatorsDao.getCountryExchangeMapsByCountryId(countryId);
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -116,7 +116,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<Country> getAllCountries() {
 		logger.info("Method for getAllCountries---");
-		return marketDataAggregatorsDAO.getAllCountries();
+		return marketDataAggregatorsDao.getAllCountries();
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -128,7 +128,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<Support> getAllVendorSupports() {
 		logger.info("Method for getAllVendorSupports---");
-		return marketDataAggregatorsDAO.getAllVendorSupports();
+		return marketDataAggregatorsDao.getAllVendorSupports();
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -140,7 +140,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<Cost> getAllCostInfo() {
 		logger.info("Method for getAllCostInfo---");
-		return marketDataAggregatorsDAO.getAllCostInfo();
+		return marketDataAggregatorsDao.getAllCostInfo();
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -152,7 +152,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<Awards> getAllAwards() {
 		logger.info("Method for getAllAwards---");
-		return marketDataAggregatorsDAO.getAllAwards();
+		return marketDataAggregatorsDao.getAllAwards();
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -164,7 +164,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<Exchange> getAllExchanges() {
 		logger.info("Method for getAllExchanges---");
-		return marketDataAggregatorsDAO.getAllExchanges();
+		return marketDataAggregatorsDao.getAllExchanges();
 	}
 	
 	/** --------------------------------------------------------------------- */
@@ -179,7 +179,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 			List<String> regionList,  List<String> countryList,
 			List<String> exchangeList) {
 		logger.info("Method for getSingleAssetClassSearchResultInfo---");
-		return marketDataAggregatorsDAO.getSingleAssetClassSearchResultInfo(assetclassId,securitytypeId,dataattribute,
+		return marketDataAggregatorsDao.getSingleAssetClassSearchResultInfo(assetclassId,securitytypeId,dataattribute,
 				regionList,countryList,exchangeList);
 	}
 
@@ -200,7 +200,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 			List<String> vendorsupporttimeList, List<String> awardsList,
 			List<String> acquisitioncostrangeList) {
 		logger.info("Method for getSingleAssetClassSearchResultVendorInfo---");
-		return marketDataAggregatorsDAO.getSingleAssetClassSearchResultVendorInfo(assetclassId,securitytypeList,vendorregionofincorp,
+		return marketDataAggregatorsDao.getSingleAssetClassSearchResultVendorInfo(assetclassId,securitytypeList,vendorregionofincorp,
 				vendorcountryofincorpList,vendorprofilefreshnessList,vendoryearoperationList,
 				searchkeyword,vendorsupportregionList,vendorsupporttimeList,awardsList,acquisitioncostrangeList);
 	}
@@ -221,7 +221,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 			String vendorsupporttime, String vendorawards,
 			String vendorcostrange) {
 		logger.info("Method for getSingleAssetClassVendorDetails---");
-		return marketDataAggregatorsDAO.getSingleAssetClassVendorDetails(assetclassId,securitytypeList,vendorregionofincorpList,vendorcountryofincorpList,
+		return marketDataAggregatorsDao.getSingleAssetClassVendorDetails(assetclassId,securitytypeList,vendorregionofincorpList,vendorcountryofincorpList,
 				vendorprofilefreshness,vendoryearoperation,searchkeyword,vendorsupportregion,vendorsupporttime,vendorawards,
 				vendorcostrange);
 	}
@@ -236,7 +236,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	public List<AssetClassDataDetails> getMultiAssetClassSearchResultInfo(
 			List<String> assetClassList, List<String> securityList) {
 		logger.info("Method for getMultiAssetClassSearchResultInfo---");
-		return marketDataAggregatorsDAO.getMultiAssetClassSearchResultInfo(assetClassList,securityList);
+		return marketDataAggregatorsDao.getMultiAssetClassSearchResultInfo(assetClassList,securityList);
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -248,7 +248,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public List<Region> getRegionNamesByName(String regionName) {
 		logger.info("Method for getRegionNamesByName---");
-		return marketDataAggregatorsDAO.getRegionNamesByName(regionName);
+		return marketDataAggregatorsDao.getRegionNamesByName(regionName);
 	}
 
 	/** --------------------------------------------------------------------- */
@@ -260,133 +260,133 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public AssetClass getAssetClassByName(String assetType) {
 		logger.info("Method for getAssetClassByName---");
-		return marketDataAggregatorsDAO.getAssetClassByName(assetType);
+		return marketDataAggregatorsDao.getAssetClassByName(assetType);
 	}
 
 	@Override
 	public VendorOffering createOfferings(String id,VendorOffering vendorOffering) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.createOfferings(id, vendorOffering);
+		return marketDataAggregatorsDao.createOfferings(id, vendorOffering);
 		
 	}
 
 	@Override
 	public OfferingFiles addOfferingFiles(String id, OfferingFiles OfferingFiles) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.addOfferingFiles(id, OfferingFiles);
+		return marketDataAggregatorsDao.addOfferingFiles(id, OfferingFiles);
 	}
 
 	@Override
 	public FileFields addFieldsToFile(String id,FileFields fileFields) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.addFieldsToFile(id, fileFields);
+		return marketDataAggregatorsDao.addFieldsToFile(id, fileFields);
 	}
 
 	@Override
 	public Set<VendorOffering> listOfferings(String id) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.listOfferings(id);
+		return marketDataAggregatorsDao.listOfferings(id);
 	}
 
 	@Override
 	public Set<OfferingFiles> listOfferingFiles(String id) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.listOfferingFiles(id);
+		return marketDataAggregatorsDao.listOfferingFiles(id);
 	}
 
 	@Override
 	public Set<FileFields> listFieldsToFile(String id) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.listFieldsToFile(id);
+		return marketDataAggregatorsDao.listFieldsToFile(id);
 	}
 
 	@Override
 	public VendorOffering deleteOfferings(String id) {
 		VendorOffering deleteOfferings = null;
-		deleteOfferings = marketDataAggregatorsDAO.findOfferingById(id);
-		marketDataAggregatorsDAO.deleteOfferings(deleteOfferings);
+		deleteOfferings = marketDataAggregatorsDao.findOfferingById(id);
+		marketDataAggregatorsDao.deleteOfferings(deleteOfferings);
 		return deleteOfferings;
 	}
 
 	@Override
 	public OfferingFiles deleteOfferingFiles(String id) {
-		OfferingFiles deleteOfferingFiles = marketDataAggregatorsDAO.deleteOfferingFiles(id);
+		OfferingFiles deleteOfferingFiles = marketDataAggregatorsDao.deleteOfferingFiles(id);
 		return deleteOfferingFiles;
 	}
 
 	@Override
 	public FileFields deleteFieldsToFile(String id) {
-		FileFields deleteFieldsToFile = marketDataAggregatorsDAO.deleteFieldsToFile(id);
+		FileFields deleteFieldsToFile = marketDataAggregatorsDao.deleteFieldsToFile(id);
 		return deleteFieldsToFile;
 	}
 
 	@Override
 	public List<SecurityType> listSecurityType() {
 		
-		return marketDataAggregatorsDAO.listSecurityType();
+		return marketDataAggregatorsDao.listSecurityType();
 	}
 
 	@Override
 	public VendorOffering getVendorOfferingById(String id) {
-		return marketDataAggregatorsDAO.getVendorOfferingById(id);
+		return marketDataAggregatorsDao.getVendorOfferingById(id);
 	}
 
 	@Override
 	public Region getRegionById(String id) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.getRegionById(id);
+		return marketDataAggregatorsDao.getRegionById(id);
 	}
 
 	@Override
 	public Country getCountryById(String id) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.getCountryById(id);
+		return marketDataAggregatorsDao.getCountryById(id);
 	}
 
 	@Override
 	public Cost getCostById(String id) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.getCostById(id);
+		return marketDataAggregatorsDao.getCostById(id);
 	}
 
 	@Override
 	public Exchange getExchangeById(String exchangeId) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.getExchangeById(exchangeId);
+		return marketDataAggregatorsDao.getExchangeById(exchangeId);
 	}
 
 	@Override
 	public List<CompanySubType> getCompanySubTypeList() {
-		return marketDataAggregatorsDAO.getCompanySubTypeList();
+		return marketDataAggregatorsDao.getCompanySubTypeList();
 	}
 
 	@Override
 	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
-		return marketDataAggregatorsDAO.getMultiAssetClassSearchResult(searchData,dataForm);
+		return marketDataAggregatorsDao.getMultiAssetClassSearchResult(searchData,dataForm);
 	}
 	
 	@Override
 	public List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(Map<Object, Object> searchData, FinancialAnalyticsApplicationVendorSearchForm dataForm) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.getFAMultiAssetClassSearchResult(searchData,dataForm);
+		return marketDataAggregatorsDao.getFAMultiAssetClassSearchResult(searchData,dataForm);
 	}
 
 	@Override
 	public List<ResearchReportProvidersVendorSearchForm> getRRMultiAssetClassSearchResult(Map<Object, Object> searchData, ResearchReportProvidersVendorSearchForm dataForm) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.getRRMultiAssetClassSearchResult(searchData,dataForm);
+		return marketDataAggregatorsDao.getRRMultiAssetClassSearchResult(searchData,dataForm);
 	}
 
 	@Override
 	public List<TradingApplicationVendorSearchForm> getTAMultiAssetClassSearchResult(Map<Object, Object> searchData, TradingApplicationVendorSearchForm dataForm) {
 		// TODO Auto-generated method stub
-		return marketDataAggregatorsDAO.getTAMultiAssetClassSearchResult(searchData,dataForm);
+		return marketDataAggregatorsDao.getTAMultiAssetClassSearchResult(searchData,dataForm);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public Object getModelObjectById(Class<?> type, Serializable id) {
-		return marketDataAggregatorsDAO.getModelObjectById(type, id);
+		return marketDataAggregatorsDao.getModelObjectById(type, id);
 	}
 
 }
