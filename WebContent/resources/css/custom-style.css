@@ -789,6 +789,11 @@ th{
 	margin: 10px 0;
 }
 
+#footer_top .section_three cite {
+	font-size: 11px;
+	font-style: normal;
+}
+
 #footer_top .section_three p span {
 	padding-right: 10px;
 }

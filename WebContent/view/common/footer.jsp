@@ -69,7 +69,9 @@
 						<div class="section_three">
 							<h3>Contact Us</h3>
 							<p>
-								<span class="fa fa-map-marker"></span> Company Address
+								<span class="fa fa-map-marker"></span>
+								101, F-Wing, Kailash Gardens, Gauripada, Kalyan(west), Thane, Maharashtra, India, 42130
+								<br /><cite>(CIN - U74999MH2016PTC284691)</cite>
 							</p>
 							<p>
 								<span class="fa fa-phone"></span> +65 869 633 21
@@ -95,7 +97,7 @@
 									src="${pageContext.request.contextPath}/resources/images/company-logo-footer.png"
 									alt="Footer logo">
 							</div>
-							<div class="copyright_text">Copyright © 2016 Finvendor</div>
+							<div class="copyright_text">Copyright © 2016 MTAR Vendor Consulting Pvt. Ltd.</div>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-4">

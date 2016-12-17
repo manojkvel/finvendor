@@ -12,6 +12,17 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript">
+    	$(document).ready( function () {
+    		getAssetClassList();
+    		getSecurityTypeList();
+    		getRegionList();
+    		getCountryList();
+    		getExchangeList();
+    	});
+    </script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

@@ -150,7 +150,7 @@
 										<label class="default_select">Coverage Exchange</label>
 									</li>
 									<li>
-										<input type="text" name="costRange" id="costRange" required />
+										<input type="number" name="costRange" id="costRange" required />
 										<label>License Cost Range ($ per annum)</label>
 									</li>
 									<li>
@@ -262,7 +262,7 @@
 							<div class="software_details_info">
 								<h3>Software Details <span class="fa fa-chevron-up"></span></h3>
 								<ul>
-									<li>
+									<!-- <li>
 										<input type="text" id="tdsAppName" name="tdsAppName" required />
 										<label>Application Name</label>
 									</li>
@@ -311,7 +311,7 @@
 											<option value="FX-Accumulators/Decumulators">FX-Accumulators/Decumulators</option>
 										</select>
 										<label class="default_select">Asset Class Supported</label>
-									</li>
+									</li> -->
 									<li>
 										<select class="selectpicker select_multiple" name="tdsAccessibility"  multiple="multiple" id="tdsAccessibility">
 											<option value ="Web/Browser Based"> Web/Browser Based </option>
@@ -322,7 +322,7 @@
 										<label class="default_select">Accessibility (?)</label>
 									</li>
 									<li>
-										<select class="selectpicker select_multiple" name="tdsSuitability"  multiple="multiple" id="tdsSuitability">
+										<select class="selectpicker select_multiple" name="tdsSuitability1"  multiple="multiple" id="tdsSuitability1">
 											<option value ="All Users"> All Users </option>
 											<option value ="Advanced shares traders"> Advanced shares traders </option>
 											<option value ="Technical chart users"> Technical chart users </option>
@@ -408,8 +408,14 @@
 										<label>Add-Ons</label>
 									</li>
 									<li>
-										<input type="text" name="tdsOpeSystem" id="tdsOpeSystem" required />
-										<label>Operating system</label>
+										<select class="selectpicker select_multiple" name="tdsOpeSystem"  multiple="multiple" id="tdsOpeSystem">
+											<option value ="Windows">Windows</option>
+											<option value ="MAC OS X">MAC OS X</option>
+											<option value ="Unix">Unix</option>
+											<option value ="Linux">Linux</option>
+											<option value ="Solaris">Solaris</option>
+										</select>
+										<label class="default_select">Operating system</label>
 									</li>
 									<li>
 										<input type="text" name="tdsClientBase" id="tdsClientBase" required />
