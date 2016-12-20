@@ -26,6 +26,7 @@ import com.finvendor.model.VendorResearchCoverage;
 import com.finvendor.model.VendorResearchDetails;
 import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
+import com.finvendor.model.VendorTradingApplicationsOffering;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 
@@ -272,8 +273,17 @@ public interface VendorDao {
 			String productId) throws ApplicationException;
 	public void deleteVendorDataAggregatorsOffering(String productId) throws ApplicationException;
 	public List<VendorDataAggregatorsOffering> getVendorDataAggregatorsOffering(
-			String userName) throws ApplicationException;
+			String vendorName) throws ApplicationException;
 	/* Vendor Data Aggregator Offering End */
 	
+	/* Vendor Trading Applications Offering Begin */
+	public void addVendorTradingApplicationsOffering(VendorTradingApplicationsOffering 
+			vendorTradingApplicationsOffering) throws ApplicationException;
+	public VendorTradingApplicationsOffering fetchVendorTradingApplicationsOffering(
+			String productId) throws ApplicationException;
+	public void deleteVendorTradingApplicationsOffering(String productId) throws ApplicationException;
+	public List<VendorTradingApplicationsOffering> getVendorTradingApplicationsOffering(
+			String vendorName) throws ApplicationException;
+	/* Vendor Trading Applications Offering End */
 	
  }

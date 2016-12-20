@@ -93,6 +93,9 @@ public class Vendor implements Serializable {
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="vendor")
 	private List<VendorDataAggregatorsOffering> dataAggregatorsOffering;
 	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="vendor")
+	private List<VendorTradingApplicationsOffering> tradingApplicationsOffering;
+	
 	private String telephoneCode;
 		
 	public VendorSupport getVendorSupport() {
@@ -488,5 +491,15 @@ public class Vendor implements Serializable {
 	public void setDataAggregatorsOffering(List<VendorDataAggregatorsOffering> dataAggregatorsOffering) {
 		this.dataAggregatorsOffering = dataAggregatorsOffering;
 	}
+	
+	public List<VendorTradingApplicationsOffering> getTradingApplicationsOffering() {
+		return tradingApplicationsOffering;
+	}
+
+	public void setTradingApplicationsOffering(List<VendorTradingApplicationsOffering> tradingApplicationsOffering) {
+		this.tradingApplicationsOffering = tradingApplicationsOffering;
+	}
+
+	
 	
 }

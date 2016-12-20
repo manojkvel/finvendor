@@ -67,7 +67,7 @@ insert into company_sub_type (id, type) values (2, 'Investment Banking');
 ALTER TABLE `consumer`
 	ADD COLUMN `city` VARCHAR(100) NULL AFTER `company_sub_type`;
 	
-/* To be run */
+
 UPDATE `finven`.`security_types` SET `asset_class_id`=1 WHERE  `security_type_id`=1;
 
 CREATE TABLE `con_mybusineeds_market_data` (
@@ -124,3 +124,50 @@ consumer_reply varchar(1000) NULL,
 more_info_provided_date timestamp
 )
 
+/* To be run */
+
+CREATE TABLE ven_trad_app_offering (
+	product_id VARCHAR(45) NOT NULL,
+	product_name VARCHAR(300) NOT NULL,
+	product_description VARCHAR(1000) NULL DEFAULT NULL,
+	vendor_id VARCHAR(45) NOT NULL,
+	launched_year VARCHAR(4) NULL DEFAULT NULL,
+	asset_class_id INT(11) NOT NULL,
+	security_types VARCHAR(200) NOT NULL
+)
+;
+
+CREATE TABLE ven_trad_app_soft_dtls (
+	product_id VARCHAR(45) NOT NULL,
+	accessbility VARCHAR(150) NULL,
+	suitability VARCHAR(150) NULL,
+	cost_type VARCHAR(100) NULL,
+	platform_ccy VARCHAR(10) NULL,
+	platform_cost_pm FLOAT(10, 2) NULL,
+	platform_cost_py FLOAT(10, 2) NULL,
+	order_type VARCHAR(200) NULL,
+	trade_type VARCHAR(200) NULL,
+	soft_specification VARCHAR(1000) NULL,
+	add_ons VARCHAR(1000) NULL,
+	operating_system VARCHAR(100) NULL,
+	client_base VARCHAR(1000) NULL,
+	price_alerts VARCHAR(1) NULL,
+	watchlist VARCHAR(1) NULL,
+	streaming_news VARCHAR(1) NULL,
+	trade_using_charts VARCHAR(1) NULL
+)
+;
+
+CREATE TABLE ven_trad_app_trad_capab (
+	product_id VARCHAR(45) NOT NULL,
+	trad_region VARCHAR(100) NULL,
+	trad_country VARCHAR(100) NULL,
+	trad_exchange VARCHAR(100) NULL,
+	trad_capab_type VARCHAR(300) NULL,
+	trad_exec_type VARCHAR(300) NULL,
+	algo_trade_type VARCHAR(300) NULL,
+	darkpool_access VARCHAR(500) NULL,
+	darkpool_venues VARCHAR(500) NULL,
+	soft_specification VARCHAR(1000) NULL
+)
+;

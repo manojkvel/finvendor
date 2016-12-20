@@ -1,11 +1,8 @@
 package com.finvendor.controller;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -14,26 +11,20 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.exception.ApplicationException;
-import com.finvendor.form.FileDetails;
 import com.finvendor.form.JsonResponseData;
 import com.finvendor.form.VendorAnalystProfileForm;
 import com.finvendor.form.VendorAnalyticsSoftwareDetailsForm;
@@ -42,6 +33,7 @@ import com.finvendor.form.VendorResearchDetailsForm;
 import com.finvendor.form.VendorTradingCapabilitiesSupportedForm;
 import com.finvendor.form.VendorTradingSoftwareDetailsForm;
 import com.finvendor.json.bean.VendorDataAggregatorsOfferingJson;
+import com.finvendor.json.bean.VendorTradingApplicationsOfferingJson;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassSecurityMap;
 import com.finvendor.model.Awards;
@@ -72,6 +64,9 @@ import com.finvendor.model.VendorResearchCoverage;
 import com.finvendor.model.VendorResearchDetails;
 import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
+import com.finvendor.model.VendorTradingApplicationsOffering;
+import com.finvendor.model.VendorTradingApplicationsSoftwareDetails;
+import com.finvendor.model.VendorTradingApplicationsTradingCapability;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 import com.finvendor.service.MarketDataAggregatorsService;
@@ -2492,7 +2487,6 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		logger.debug("Entering  - VendorController : deleteDataAggregatorOffering for product {}", productId);
 		ModelAndView modelAndView = new ModelAndView("empty");
 		List<VendorDataAggregatorsOffering> offerings = null;
-		List<VendorDataAggregatorsOfferingJson> jsonOfferings = new ArrayList<VendorDataAggregatorsOfferingJson>();
 		try {
 			if(request.getSession().getAttribute("loggedInUser") == null){
 				return new ModelAndView(RequestConstans.Login.HOME);
@@ -2618,5 +2612,263 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	}
 		
 	/* Vendor Data Aggregator Offering End */
+	
+	
+	/* Vendor Trading Applications Offering Begin */
+	
+	@RequestMapping(value="addTradingApplicationsOffering", method = RequestMethod.POST)
+	public ModelAndView addTradingApplicationsOffering(HttpServletRequest request,
+			@RequestParam(value = "productId", required = false) String productId,
+			@RequestParam(value = "productName", required = true) String productName,
+			@RequestParam(value = "productDescription", required = true) String productDescription,
+			@RequestParam(value = "assetClassId", required = true) int assetClassId,
+			@RequestParam(value = "securityTypes", required = true) String securityTypes,
+			@RequestParam(value = "launchedYear", required = false) String launchedYear,
+			@RequestParam(value = "accessbility", required = false) String accessbility,
+			@RequestParam(value = "suitability", required = false) String suitability,
+			@RequestParam(value = "costType", required = false) String costType,
+			@RequestParam(value = "platformCcy", required = false) String platformCcy,
+			@RequestParam(value = "platformCostPm", required = false) float platformCostPm,
+			@RequestParam(value = "platformCostPy", required = false) float platformCostPy,
+			@RequestParam(value = "orderType", required = false) String orderType,
+			@RequestParam(value = "tradeType", required = false) String tradeType,
+			@RequestParam(value = "softSpecification", required = false) String softSpecification,
+			@RequestParam(value = "addOns", required = false) String addOns,
+			@RequestParam(value = "operatingSystem", required = false) String operatingSystem,
+			@RequestParam(value = "clientBase", required = false) String clientBase,
+			@RequestParam(value = "priceAlerts", required = false) String priceAlerts,
+			@RequestParam(value = "watchlist", required = false) String watchlist,
+			@RequestParam(value = "streamingNews", required = false) String streamingNews,
+			@RequestParam(value = "tradeUsingCharts", required = false) String tradeUsingCharts,
+			@RequestParam(value = "tradRegion", required = false) String tradRegion,
+			@RequestParam(value = "tradCountry", required = false) String tradCountry,
+			@RequestParam(value = "tradExchange", required = false) String tradExchange,
+			@RequestParam(value = "tradCapabType", required = false) String tradCapabType,
+			@RequestParam(value = "tradExecType", required = false) String tradExecType,
+			@RequestParam(value = "algoTradeType", required = false) String algoTradeType,
+			@RequestParam(value = "darkpoolAccess", required = false) String darkpoolAccess,
+			@RequestParam(value = "darkpoolVenues", required = false) String darkpoolVenues) {
+		
+		logger.debug("Entering  - VendorController : addTradingApplicationsOffering");
+		ModelAndView modelAndView = new ModelAndView("empty");
+		
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			
+			VendorTradingApplicationsOffering tradeAppOffering = new VendorTradingApplicationsOffering();
+			VendorTradingApplicationsSoftwareDetails softDetails = new VendorTradingApplicationsSoftwareDetails();
+			VendorTradingApplicationsTradingCapability tradeCapability = new VendorTradingApplicationsTradingCapability();
+			
+			if(productId == null || productId.trim().equals("")) {
+				productId = UUID.randomUUID().toString(); 
+			}
+			tradeAppOffering.setProductId(productId);
+			tradeAppOffering.setProductName(productName);
+			tradeAppOffering.setProductDescription(productDescription);
+			tradeAppOffering.setLaunchedYear(launchedYear);
+			AssetClass assetClass = (AssetClass)marketDataAggregatorsService.getModelObjectById(
+					AssetClass.class, assetClassId);
+			tradeAppOffering.setAssetClass(assetClass);
+			tradeAppOffering.setSecurityTypes(securityTypes);
+			tradeAppOffering.setVendor(vendor);
+		
+			softDetails.setProductId(productId);
+			softDetails.setAccessbility(accessbility);
+			softDetails.setSuitability(suitability);
+			softDetails.setCostType(costType);
+			softDetails.setPlatformCcy(platformCcy);
+			softDetails.setPlatformCostPm(platformCostPm);
+			softDetails.setPlatformCostPy(platformCostPy);
+			softDetails.setOrderType(orderType);
+			softDetails.setTradeType(tradeType);
+			softDetails.setSoftSpecification(softSpecification);
+			softDetails.setAddOns(addOns);
+			softDetails.setOperatingSystem(operatingSystem);
+			softDetails.setClientBase(clientBase);
+			softDetails.setPriceAlerts(priceAlerts);
+			softDetails.setWatchlist(watchlist);
+			softDetails.setStreamingNews(streamingNews);
+			softDetails.setTradeUsingCharts(tradeUsingCharts);
+			tradeAppOffering.setSoftwareDetails(softDetails);
+						
+			tradeCapability.setProductId(productId);
+			tradeCapability.setTradRegion(tradRegion);
+			tradeCapability.setTradCountry(tradCountry);
+			tradeCapability.setTradExchange(tradExchange);
+			tradeCapability.setTradCapabType(tradCapabType);
+			tradeCapability.setTradExecType(tradExecType);
+			tradeCapability.setAlgoTradeType(algoTradeType);
+			tradeCapability.setDarkpoolAccess(darkpoolAccess);
+			tradeCapability.setDarkpoolVenues(darkpoolVenues);
+			tradeAppOffering.setTradingCapability(tradeCapability);
+					
+			vendorService.addVendorTradingApplicationsOffering(tradeAppOffering);
+		} catch (Exception exp) {
+			logger.error("Error Saving Trading Applications Offering", exp); 
+			modelAndView.addObject("status", "Error Updating Offering details");
+		}
+		modelAndView.addObject("status", "Offering details Updated successfully");
+		logger.debug("Leaving  - VendorController : addTradingApplicationsOffering");
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping(value="deleteTradingApplicationsOffering", method = RequestMethod.POST)
+	public ModelAndView deleteTradingApplicationsOffering(
+			HttpServletRequest request,
+			@RequestParam(value = "productId", required = true) String productId) {
+		
+		logger.debug("Entering  - VendorController : deleteTradingApplicationsOffering for product {}", 
+				productId);
+		ModelAndView modelAndView = new ModelAndView("empty");
+		List<VendorTradingApplicationsOffering> offerings = null;
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			boolean matchFound = false;
+			offerings = vendorService.getVendorTradingApplicationsOffering(userName);
+			for(VendorTradingApplicationsOffering offering : offerings) {
+				if (offering.getProductId().equals(productId)) {
+					matchFound = true;
+					break;
+				}
+			}
+			if(matchFound) {
+				vendorService.deleteVendorTradingApplicationsOffering(productId);
+				modelAndView.addObject("status", "Successfully deleted Offering record");
+			} else {
+				logger.error("Selected Offering does not belong to logged in User !!");
+				modelAndView.addObject("status", "Error deleting Offering record");
+			}
+			
+		} catch (Exception exp) {
+			logger.error("Error Deleting Trading Applications Offering for Product {}", 
+					productId, exp); 
+			modelAndView.addObject("status", "Error deleting Offering record");
+		}
+		logger.debug("Leaving  - VendorController : deleteTradingApplicationsOffering for product {}", 
+				productId);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="listTradingApplicationsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+	public @ResponseBody List<VendorTradingApplicationsOfferingJson> listTradingApplicationsOffering(
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		logger.debug("Entering  - VendorController : listTradingApplicationsOffering");
+		List<VendorTradingApplicationsOffering> offerings = null;
+		List<VendorTradingApplicationsOfferingJson> jsonOfferings = new ArrayList<VendorTradingApplicationsOfferingJson>();
+		String userName = null;
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				request.getRequestDispatcher("/").forward(request, response);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			userName = loggedInUser.getUsername();
+			offerings = vendorService.
+					getVendorTradingApplicationsOffering(userName);
+			populateJsonVendorTradingApplicationsOfferingList(offerings, jsonOfferings);			
+		} catch (Exception exp) {
+			logger.error("Error Reading Trading Applications Offering for {}", userName, exp); 
+			
+		}
+		logger.debug("Leaving  - VendorController : listTradingApplicationsOffering");
+		return jsonOfferings;
+	}
+	
+	private void populateJsonVendorTradingApplicationsOfferingList(List<VendorTradingApplicationsOffering> offerings,
+			List<VendorTradingApplicationsOfferingJson> jsonOfferings) {
+		for(VendorTradingApplicationsOffering offering : offerings) {
+			VendorTradingApplicationsOfferingJson jsonOffering = new VendorTradingApplicationsOfferingJson();
+			jsonOffering.setProductId(offering.getProductId());
+			jsonOffering.setProductName(offering.getProductName());
+			jsonOffering.setProductDescription(offering.getProductDescription());
+			jsonOffering.setAssetClassCode(offering.getAssetClass().getAsset_class_cd());
+			jsonOffering.setAssetClassDescription(offering.getAssetClass().getDescription());
+			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
+			jsonOfferings.add(jsonOffering);
+		}
+	}
+	
+	@RequestMapping(value="fetchTradingApplicationsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+	public @ResponseBody VendorTradingApplicationsOfferingJson fetchTradingApplicationsOffering(
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "productId", required = true) String productId) {
+		
+		logger.debug("Entering  - VendorController : fetchTradingApplicationsOffering for product {}", 
+				productId);
+		VendorTradingApplicationsOfferingJson vendorOffering = null;
+
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				request.getRequestDispatcher("/").forward(request, response);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			VendorTradingApplicationsOffering offering = null;
+			List<VendorTradingApplicationsOffering> offerings = vendorService.
+					getVendorTradingApplicationsOffering(userName);
+			for(VendorTradingApplicationsOffering tradingAppOffering : offerings) {
+				if (tradingAppOffering.getProductId().equals(productId)) {
+					offering = tradingAppOffering;
+					break;
+				}
+			}
+			if(offering == null) {
+				logger.error("Selected Offering does not belong to logged in User !!");
+			} else {
+				vendorOffering = new VendorTradingApplicationsOfferingJson();
+				vendorOffering.setProductId(offering.getProductId());
+				vendorOffering.setProductName(offering.getProductName());
+				vendorOffering.setProductDescription(offering.getProductDescription());
+				vendorOffering.setAssetClassCode(offering.getAssetClass().getAsset_class_cd());
+				vendorOffering.setAssetClassDescription(offering.getAssetClass().getDescription());
+				vendorOffering.setSecurityTypes(offering.getSecurityTypes());
+				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
+				
+				vendorOffering.setAccessbility(offering.getSoftwareDetails().getAccessbility());
+				vendorOffering.setSuitability(offering.getSoftwareDetails().getSuitability());
+				vendorOffering.setCostType(offering.getSoftwareDetails().getCostType());
+				vendorOffering.setPlatformCcy(offering.getSoftwareDetails().getPlatformCcy());
+				vendorOffering.setPlatformCostPm(offering.getSoftwareDetails().getPlatformCostPm());
+				vendorOffering.setPlatformCostPy(offering.getSoftwareDetails().getPlatformCostPy());
+				vendorOffering.setOrderType(offering.getSoftwareDetails().getOrderType());
+				vendorOffering.setTradeType(offering.getSoftwareDetails().getTradeType());
+				vendorOffering.setSoftSpecification(offering.getSoftwareDetails().getSoftSpecification());
+				vendorOffering.setAddOns(offering.getSoftwareDetails().getAddOns());
+				vendorOffering.setOperatingSystem(offering.getSoftwareDetails().getOperatingSystem());
+				vendorOffering.setClientBase(offering.getSoftwareDetails().getClientBase());
+				vendorOffering.setPriceAlerts(offering.getSoftwareDetails().getPriceAlerts());
+				vendorOffering.setWatchlist(offering.getSoftwareDetails().getWatchlist());
+				vendorOffering.setStreamingNews(offering.getSoftwareDetails().getStreamingNews());
+				vendorOffering.setTradeUsingCharts(offering.getSoftwareDetails().getTradeUsingCharts());
+				
+				vendorOffering.setTradRegion(offering.getTradingCapability().getTradRegion());
+				vendorOffering.setTradCountry(offering.getTradingCapability().getTradCountry());
+				vendorOffering.setTradExchange(offering.getTradingCapability().getTradExchange());
+				vendorOffering.setTradCapabType(offering.getTradingCapability().getTradCapabType());
+				vendorOffering.setTradExecType(offering.getTradingCapability().getTradExecType());
+				vendorOffering.setAlgoTradeType(offering.getTradingCapability().getAlgoTradeType());
+				vendorOffering.setDarkpoolAccess(offering.getTradingCapability().getDarkpoolAccess());
+				vendorOffering.setDarkpoolVenues(offering.getTradingCapability().getDarkpoolVenues());
+			}			
+		} catch (Exception exp) {
+			logger.error("Error Fetching Trading Applications Offering for product {}", 
+					productId, exp); 
+		}
+		logger.debug("Leaving  - VendorController : fetchTradingApplicationsOffering for product {}", 
+				productId);
+		return vendorOffering;
+	}
+		
+	/* Vendor Trading Applications Offering End */
 		
 }

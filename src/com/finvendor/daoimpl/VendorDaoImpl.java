@@ -40,6 +40,7 @@ import com.finvendor.model.VendorResearchCoverage;
 import com.finvendor.model.VendorResearchDetails;
 import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
+import com.finvendor.model.VendorTradingApplicationsOffering;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 
@@ -961,9 +962,83 @@ public class VendorDaoImpl implements VendorDao{
 		query.setParameter("userName", userName);
 		Vendor vendor = (Vendor)query.uniqueResult();
 		List<VendorDataAggregatorsOffering> offerings = vendor.getDataAggregatorsOffering();
-		logger.debug("{} Offering returned for Vendor {}", offerings.size(), userName);
+		logger.debug("{} Data Aggregators Offering returned for Vendor {}", offerings.size(), userName);
 		return offerings;
 	}
 	
 	/* Vendor Data Aggregator Offering End */
+	
+	/* Vendor Trading Applications Offering Begin */
+	@Override
+	public void addVendorTradingApplicationsOffering(VendorTradingApplicationsOffering 
+			vendorTradingApplicationsOffering) throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - addVendorTradingApplicationsOffering for {}, product Name {}", 
+				vendorTradingApplicationsOffering.getVendor().getId(), vendorTradingApplicationsOffering.getProductName());
+		try{
+			Session session = sessionFactory.getCurrentSession();
+			session.saveOrUpdate(vendorTradingApplicationsOffering);
+		}catch (Exception exp) {
+			logger.error("Error Updating Trading Appliations Offering for {}", 
+					vendorTradingApplicationsOffering.getVendor().getId(), exp);
+			throw new ApplicationException("Error Updating Trading Applications Offering : " + exp.getMessage());
+		}
+		logger.debug("Leaving VendorDaoImpl - addVendorTradingApplicationsOffering for {}, product Name {}", 
+				vendorTradingApplicationsOffering.getVendor().getId(), vendorTradingApplicationsOffering.getProductName());
+	}
+	
+	@Override
+	public VendorTradingApplicationsOffering fetchVendorTradingApplicationsOffering(
+			String productId) throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - fetchVendorTradingApplicationsOffering for {}", 
+				productId);
+		try{
+			Session session = sessionFactory.getCurrentSession();
+			VendorTradingApplicationsOffering tradingAppOffering = (VendorTradingApplicationsOffering)
+					session.get(VendorTradingApplicationsOffering.class, productId);
+			logger.debug("Leaving VendorDaoImpl - fetchVendorTradingApplicationsOffering for {}", 
+					productId);
+			return tradingAppOffering;
+		}catch (Exception exp) {
+			logger.error("Error Reading Trading Applications Offering for {}", 
+					productId, exp);
+			throw new ApplicationException("Error Reading Trading Applications Offering : " + exp.getMessage());
+		}		
+	}
+	
+	@Override
+	public void deleteVendorTradingApplicationsOffering(String productId) 
+			throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - deleteVendorTradingApplicationsOffering for {}", 
+				productId);
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Object tradingAppOffering = session.load(VendorTradingApplicationsOffering.class, productId);
+			if (tradingAppOffering != null) { 
+				session.delete(tradingAppOffering);
+			}else {
+				logger.error("No Record exists for Trading Applications Offering {}", productId);
+				throw new ApplicationException("No Record exists for Trading Applications Offering");
+			}
+			logger.debug("Leaving VendorDaoImpl - deleteVendorTradingApplicationsOffering for {}", 
+					productId);
+		}catch (Exception exp) {
+			logger.error("Error Deleting Trading Applications Offering for {}", 
+					productId, exp);
+			throw new ApplicationException("Error Deleting Trading Applications Offering : " + exp.getMessage());
+		}		
+	}
+	
+	@Override
+	public List<VendorTradingApplicationsOffering> getVendorTradingApplicationsOffering(
+			String vendorName) throws ApplicationException {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("select v from Vendor v join fetch v.tradingApplicationsOffering "
+				+ "where v.user.userName = :userName");
+		query.setParameter("userName", vendorName);
+		Vendor vendor = (Vendor)query.uniqueResult();
+		List<VendorTradingApplicationsOffering> offerings = vendor.getTradingApplicationsOffering();
+		logger.debug("{} Trading Applications Offering returned for Vendor {}", offerings.size(), vendorName);
+		return offerings;
+	}
+	/* Vendor Trading Applications Offering End */
 }

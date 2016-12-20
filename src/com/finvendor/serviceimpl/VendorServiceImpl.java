@@ -30,6 +30,7 @@ import com.finvendor.model.VendorResearchCoverage;
 import com.finvendor.model.VendorResearchDetails;
 import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
+import com.finvendor.model.VendorTradingApplicationsOffering;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 import com.finvendor.service.UserService;
@@ -504,4 +505,35 @@ public class VendorServiceImpl implements VendorService{
 	}
 	
 	/* Vendor Data Aggregator Offering End */
+	
+	/* Vendor Trading Applications Offering Begin */
+	@Override
+	@Transactional
+	public void addVendorTradingApplicationsOffering(VendorTradingApplicationsOffering 
+			vendorTradingApplicationsOffering) throws ApplicationException {
+		vendorDao.addVendorTradingApplicationsOffering(
+				vendorTradingApplicationsOffering);
+	}
+	
+	@Override
+	@Transactional
+	public VendorTradingApplicationsOffering fetchVendorTradingApplicationsOffering(
+			String productId) throws ApplicationException {
+		return vendorDao.fetchVendorTradingApplicationsOffering(productId);
+	}
+	
+	@Override
+	@Transactional
+	public void deleteVendorTradingApplicationsOffering(String productId) 
+			throws ApplicationException {
+		vendorDao.deleteVendorTradingApplicationsOffering(productId);
+	}
+	
+	@Override
+	@Transactional
+	public List<VendorTradingApplicationsOffering> getVendorTradingApplicationsOffering(
+			String vendorName) throws ApplicationException {
+		return vendorDao.getVendorTradingApplicationsOffering(vendorName);
+	}
+	/* Vendor Trading Applications Offering End */
 }
