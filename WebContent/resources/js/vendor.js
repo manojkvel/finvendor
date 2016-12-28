@@ -77,7 +77,7 @@ jQuery(document).ready(function() {
 	});
 
 	$("#data_aggregator .save").on("click", function() {
-		var id = $('#productId').val();
+		var id = $('#data_aggregator #productId').val();
 		if(!addDataAggregatorOffering(id)) {
 			progressLoader(false);
 			return false;
@@ -109,8 +109,18 @@ jQuery(document).ready(function() {
 		$("#trading_application .trading_capability_info h3 span").toggleClass("fa-chevron-up");
 	});
 
+
+
+	$("#myofferings2").on("click", function() {
+		listTradingApplicationsOffering();
+	});
+
+	$("#trading_application_top_card .add_more").on("click", function() {
+		openTradingApplicationForm();
+	});
+
 	$("#trading_application .save").on("click", function() {
-		var id = $('#productId').val();
+		var id = $('#trading_application #productId').val();
 		if(!addTradingApplicationOffering(id)) {
 			progressLoader(false);
 			return false;
@@ -191,6 +201,23 @@ jQuery(document).ready(function() {
 
 	$("select[name=coverageCountry]").on('change', function() {
 		getCountryExchangeMapping('coverageCountry', 'coverageExchange');
+	});
+
+	$(document).on("click", "#trading_application_top_card .trading_application_list .edit_btn", function (e) {
+			var id = $(this).closest('.trading_application_list').attr('id');
+			isEdit = true;
+			fetchTradingApplicationsOffering(id);		 
+	});
+
+	$(document).on("click", "#trading_application_top_card .trading_application_list .delete_btn", function (e) {
+    	
+		
+		var r = confirm("Are you sure want to delete?");
+		if (r == true) {
+			var id = $(this).closest('.trading_application_list').attr('id');
+			deleteTradingApplicationsOffering(id);
+
+		}		 
 	});
 
 	/// list Trading Application offering:
@@ -356,7 +383,7 @@ jQuery(document).ready(function() {
 				$('#data_aggregator_top_card .data_aggregator_info').empty();
 				var listDataAggregatorOfferingHTML = '';
 				for(var i=0; i < totalCount; i++) {
-					listDataAggregatorOfferingHTML += "<div class='data_aggregator_list' id='" + response[i].productId  + "_id'>" +
+					listDataAggregatorOfferingHTML += "<div class='data_aggregator_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
 							"<h4>" + response[i].assetClassDescription  + " | " + getRegionMultipleListById(response[i].coverageRegion) + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
@@ -545,8 +572,23 @@ jQuery(document).ready(function() {
 
 	}
 
+
+	openTradingApplicationForm = function() {
+		resetTradingApplicationForm();
+		$("#trading_application").slideDown();
+		$("#trading_application_top_card").slideUp();
+ 
+		if(!isEdit) {
+			getAssetClassMapping('assetClassId');
+			getRegionMapping('coverageRegion');
+			getAssetClassSecurityTypeMapping('assetClassId', 'securityTypes');
+			getRegionCountryMapping('coverageRegion', 'coverageCountry');
+			getCountryExchangeMapping('coverageCountry', 'coverageExchange');
+		}
+	}
+
 	closeTradingApplicationForm = function() {
-		resetDataAggregratorForm();
+		resetTradingApplicationForm();
 		$("#trading_application").slideUp();
 		$("#trading_application_top_card").slideDown();
 	}
@@ -556,9 +598,126 @@ jQuery(document).ready(function() {
 		$("#trading_application_form").trigger('reset');
 		$('.selectpicker').selectpicker('refresh');
 		$('select[name=securityTypes]').empty();
-		$('select[name=coverageCountry]').empty();
-		$('select[name=coverageExchange]').empty();
 		$(".error_field").removeClass("error_field");
+	}
+
+
+	/// fetch Trading Application offering--:
+	fetchTradingApplicationsOffering = function(id) {
+		$("#trading_application_top_card").hide();
+		$("#trading_application .alert").hide();
+		$(".error_field").removeClass("error_field");
+		progressLoader(true);
+
+		var ids = id.split("_");
+		var productId = ids[0];
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
+		}
+
+		var data = {
+			"productId" : productId
+		}
+
+
+		$.ajax({
+			type: 'GET',
+			url:  "fetchTradingApplicationsOffering",
+			data: data,
+			cache:false,
+			success : function(response){
+				progressLoader(false);
+				$("#trading_application").slideDown();
+				$("#trading_application_top_card").slideUp();
+				$("#trading_application #productId").val(response.productId);
+				$("#trading_application #productName").val(response.productName);
+				$("#trading_application #productDescription").val(response.productDescription);
+				$("#trading_application #launchedYear").val(response.launchedYear);
+
+				getAssetClassMapping('assetClassId');
+				$("select[name=assetClassId]").selectpicker('val', response.assetClassCode.split(','));
+				
+				getAssetClassSecurityTypeMapping('assetClassId', 'securityTypes');
+				$("select[name=securityTypes]").selectpicker('val', response.securityTypes.split(','));
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+			}
+		});
+	}
+
+	/// delete Trading Application offering--:
+	deleteTradingApplicationsOffering = function(id) {
+		//progressLoader(true);
+		var trids = id.split("_");
+
+		var productId = trids[0];
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
+		}
+
+		var data = {
+			"productId" : productId
+		}
+
+		$.ajax({
+			type: 'POST',
+			url:  "deleteTradingApplicationsOffering",
+			data: data,
+			cache:false,
+			success : function(output){
+				//progressLoader(false);
+				$('#' + id).remove();
+			},
+			error : function(data, textStatus, jqXHR){
+				//progressLoader(false);
+			}
+		});
+	}
+
+	/// list Trading Application offering:
+	listTradingApplicationsOffering = function() {
+		isEdit = false;
+		progressLoader(true);
+		$("#trading_application").slideUp();
+		$("#trading_application_top_card").hide();
+
+		$.ajax({
+			type: 'GET',
+			url:  "listTradingApplicationsOffering",
+			cache:false,
+			success : function(response) {
+				var totalCount = response.length;
+				if(totalCount === 0) {
+					progressLoader(false);
+					openDataAggregratorForm();
+					return;
+				}
+
+				$('#trading_application_top_card .trading_application_info').empty();
+				var listTradingApplicationsOfferingHTML = '';
+				for(var i=0; i < totalCount; i++) {
+					listTradingApplicationsOfferingHTML += "<div class='trading_application_list list' id='" + response[i].productId  + "_id'>" +
+							"<h3>" + response[i].productName  + "</h3>" +
+							"<h4>" + response[i].assetClassDescription  + " | " + getRegionMultipleListById(response[i].coverageRegion) + " | " + response[i].launchedYear  + "</h4>" +
+							"<p>" + response[i].productDescription  + "</p>" +
+							"<div class='action_btn'>" +
+								"<a class='btn delete_btn'>Delete</a>" +
+								"<a class='btn edit_btn'>Edit</a>" +
+							"</div>" +
+						"</div>";
+				}
+				progressLoader(false);
+				$('#trading_application_top_card .trading_application_info').html(listTradingApplicationsOfferingHTML);
+				$("#trading_application_top_card").show().slideDown();
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+				$("#trading_application .alert").removeClass("alert-success").addClass("alert-danger").text('Please try again after sometime').show();
+			}
+		});
 	}
 
 	/// add Trading Application offering--:
@@ -686,7 +845,7 @@ jQuery(document).ready(function() {
 					progressLoader(false);
 					$("#trading_application .alert").removeClass("alert-success").removeClass("alert-danger").text('').hide();
 
-					//listDataAggregatorOffering();
+					listTradingApplicationsOffering();
 					$("#trading_application").slideUp();
 				},
 				error : function(data, textStatus, jqXHR){

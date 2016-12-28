@@ -338,7 +338,7 @@
 										</select>
 										<label class="default_select">Order Type</label>
 									</li>
-									<li>
+									<!-- <li>
 										<select class="selectpicker select_multiple" name="tdsTradeType"  multiple="multiple" id="tdsTradeType">
 											<option value ="Algorithmic & Program Trading" >Algorithmic & Program Trading </option>
 											<option value ="Direct Market Access (DMA)" > Direct Market Access (DMA) </option>
@@ -348,7 +348,7 @@
 											<option value ="Swap Execution Facility" > Swap Execution Facility </option>
 										</select>
 										<label class="default_select">Trade Type</label>
-									</li>
+									</li> -->
 									<li>
 										<input type="text" name="tdsAddSoftwareSpecifications" id="tdsAddSoftwareSpecifications" required />
 										<label>Software specifications</label>
@@ -871,7 +871,7 @@
 											<option value ="November">November</option>
 											<option value ="December">December</option>
 										</select>
-										<label class="default_select">Research Period</label>
+										<label class="default_select">Research Period - Month</label>
 									</li>
 									<li>
 										<select class="selectpicker" name="rdResearchApplicableYear" id="rdResearchApplicableYear">
@@ -887,7 +887,7 @@
 											<option value ="2015">2015</option>
 											<option value ="2016">2016</option>
 										</select>
-										<label class="default_select">Research Period</label>
+										<label class="default_select">Research Period - Year</label>
 									</li>
 								</ul>
 							</div>
