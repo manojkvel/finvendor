@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ven_data_aggr_offering")
+@Table(name="ven_trad_app_offering")
 public class VendorTradingApplicationsOffering 
 	implements Serializable {
 	
