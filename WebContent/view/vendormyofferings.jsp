@@ -338,17 +338,6 @@
 										</select>
 										<label class="default_select">Order Type</label>
 									</li>
-									<!-- <li>
-										<select class="selectpicker select_multiple" name="tdsTradeType"  multiple="multiple" id="tdsTradeType">
-											<option value ="Algorithmic & Program Trading" >Algorithmic & Program Trading </option>
-											<option value ="Direct Market Access (DMA)" > Direct Market Access (DMA) </option>
-											<option value ="FX -DMA" >FX -DMA </option>
-											<option value ="Smart Order Routing (Sequential SOR)" > Smart Order Routing (Sequential SOR) </option>
-											<option value ="Smart Order Routing (Multi-Posting SOR)" > Smart Order Routing (Multi-Posting SOR) </option>
-											<option value ="Swap Execution Facility" > Swap Execution Facility </option>
-										</select>
-										<label class="default_select">Trade Type</label>
-									</li> -->
 									<li>
 										<input type="text" name="tdsAddSoftwareSpecifications" id="tdsAddSoftwareSpecifications" required />
 										<label>Software specifications</label>
