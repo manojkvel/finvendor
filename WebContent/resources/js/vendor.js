@@ -772,7 +772,7 @@ jQuery(document).ready(function() {
 				var totalCount = response.length;
 				if(totalCount === 0) {
 					progressLoader(false);
-					openDataAggregratorForm();
+					openTradingApplicationForm();
 					return;
 				}
 
