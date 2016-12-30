@@ -51,6 +51,10 @@
         <mapping class="com.finvendor.model.VendorTradingApplicationsOffering"></mapping>
         <mapping class="com.finvendor.model.VendorTradingApplicationsSoftwareDetails"></mapping>
         <mapping class="com.finvendor.model.VendorTradingApplicationsTradingCapability"></mapping>
+        <mapping class="com.finvendor.model.AnalyticalSolutionType"></mapping>
+        <mapping class="com.finvendor.model.AnalyticalSolutionSubType"></mapping>
+        <mapping class="com.finvendor.model.ResearchArea"></mapping>
+        <mapping class="com.finvendor.model.ResearchSubArea"></mapping>
       </session-factory>
 	 
 </hibernate-configuration>

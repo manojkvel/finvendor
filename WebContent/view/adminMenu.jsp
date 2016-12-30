@@ -63,6 +63,10 @@
 				      	<ul id="OTHER_ul">
 				      		<li data-div-id="OTHER_dm"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=dm">Distribution Mode</a></li>
 				      		<li data-div-id="OTHER_supp"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=supp">Support</a></li>
+				      		<li data-div-id="OTHER_rsrcharea"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=rsrcharea">Research Area</a></li>
+				      		<li data-div-id="OTHER_rsrchsubarea"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=rsrchsubarea">Research Sub Area</a></li>
+				      		<li data-div-id="OTHER_analytsolutiotype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=analytsolutiotype">Analytical Solution Type</a></li>
+				      		<li data-div-id="OTHER_analytsolutiosubtype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=analytsolutiosubtype">Analytical Solution Sub Type</a></li>
 				      	</ul>
      				</li>
    				</ul>

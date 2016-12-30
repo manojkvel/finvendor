@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.AnalyticalSolutionSubType;
+import com.finvendor.model.AnalyticalSolutionType;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
+import com.finvendor.model.ResearchArea;
+import com.finvendor.model.ResearchSubArea;
 import com.finvendor.model.SecurityType;
 
 public interface ReferenceDataDao {
@@ -44,5 +48,14 @@ public interface ReferenceDataDao {
 			throws ApplicationException;
 	public List<Exchange> getExchangesByCountryId(String countryId)
 			throws ApplicationException;
+	
+	public List<ResearchArea> getAllResearchAreaForResearchReportVendorOffering() 
+			throws ApplicationException;
+	public List<ResearchSubArea> getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 
+			throws ApplicationException;
 		
+	public List<AnalyticalSolutionType> getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering() 
+			throws ApplicationException;
+	public List<AnalyticalSolutionSubType> getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId(String analyticalSolutionTypeId) 
+			throws ApplicationException;
 }

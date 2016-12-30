@@ -12,10 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.finvendor.dao.ReferenceDataDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.json.bean.ReferenceDataJson;
+import com.finvendor.model.AnalyticalSolutionSubType;
+import com.finvendor.model.AnalyticalSolutionType;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
+import com.finvendor.model.ResearchArea;
+import com.finvendor.model.ResearchSubArea;
 import com.finvendor.model.SecurityType;
 import com.finvendor.service.ReferenceDataService;
 
@@ -154,6 +158,54 @@ public class ReferenceDataServiceImpl
 						refData.setId(securityType.getSecurityTypeId().toString());
 						refData.setName(securityType.getName());
 						refData.setParentId(securityType.getAssetClassId().toString());
+						refDataList.add(refData);
+					}
+					break;
+					
+				case "AnalyticalSolutionType" :
+					List<AnalyticalSolutionType> analyticalSolutionTypeList = referenceDataDao.
+						getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering();
+					for(AnalyticalSolutionType analyticalSolutionType : analyticalSolutionTypeList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(analyticalSolutionType.getAnalyticalSolutionTypeId().toString());
+						refData.setName(analyticalSolutionType.getDescription());
+						refDataList.add(refData);
+					}
+					break;	
+					
+				case "AnalyticalSolutionSubType" :
+					List<AnalyticalSolutionSubType> analyticalSolutionSubTypeList = null;
+					analyticalSolutionSubTypeList = referenceDataDao.
+							getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId(parentId);
+					for(AnalyticalSolutionSubType analyticalSolutionSubType : analyticalSolutionSubTypeList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(analyticalSolutionSubType.getAnalyticalSolutionSubTypeId().toString());
+						refData.setName(analyticalSolutionSubType.getDescription());
+						refData.setParentId(analyticalSolutionSubType.getAnalyticalSolutionType().getAnalyticalSolutionTypeId().toString());						
+						refDataList.add(refData);
+					}
+					break;
+				
+				case "ResearchArea" :
+					List<ResearchArea> researchAreaList = referenceDataDao.
+						getAllResearchAreaForResearchReportVendorOffering();
+					for(ResearchArea researchArea : researchAreaList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(researchArea.getResearchAreaId().toString());
+						refData.setName(researchArea.getDescription());
+						refDataList.add(refData);
+					}
+					break;
+					
+				case "ResearchSubArea" :
+					List<ResearchSubArea> researchSubAreaList = null;
+					researchSubAreaList = referenceDataDao.
+							getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId(parentId);
+					for(ResearchSubArea researchSubArea : researchSubAreaList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(researchSubArea.getResearchSubAreaId().toString());
+						refData.setName(researchSubArea.getDescription());
+						refData.setParentId(researchSubArea.getResearchArea().getResearchAreaId().toString());						
 						refDataList.add(refData);
 					}
 					break;

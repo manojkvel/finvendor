@@ -13,10 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.finvendor.dao.ReferenceDataDao;
 import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.AnalyticalSolutionSubType;
+import com.finvendor.model.AnalyticalSolutionType;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
+import com.finvendor.model.ResearchArea;
+import com.finvendor.model.ResearchSubArea;
 import com.finvendor.model.SecurityType;
 
 @SuppressWarnings("unchecked")
@@ -143,6 +147,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	
 	/* Region */
 	
+	@Override
 	public List<Region> getAllRegions() throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getAllRegions");		
 		List<Region> regions = null;
@@ -184,6 +189,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	
 	/* Country */
 	
+	@Override
 	public List<Country> getAllCountries() 
 			throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getAllCountries");		
@@ -302,5 +308,86 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 		logger.debug("Leaving : ReferenceDataDaoImpl - getCountriesByRegionId for : {}", 
 				countryId);
 		return exchanges;
-	}	
+	}
+		
+	/* ResearchArea (Research Report Vendor Offering) */
+	
+	@Override
+	public List<ResearchArea> getAllResearchAreaForResearchReportVendorOffering() 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchAreaForResearchReportVendorOffering");		
+		List<ResearchArea> researchAreas = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchArea.class);
+			researchAreas = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading All ResearchAreaForResearchReportVendorOffering", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllResearchAreaForResearchReportVendorOffering");
+		return researchAreas;
+	}
+	
+	
+	@Override
+	public List<ResearchSubArea> getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId for : {}", 
+				researchAreaId);
+		List<ResearchSubArea> researchSubAreas = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchSubArea.class, "researchSubArea");
+			criteria.add(Restrictions.sqlRestriction("{alias}.research_area_id = " + researchAreaId ));
+			researchSubAreas = criteria.list(); 
+		}catch (Exception exp) {
+			logger.error("Error reading Research Sub Area details for Research Area {}", 
+					researchAreaId, exp);
+			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId for : {}", 
+				researchAreaId);
+		return researchSubAreas;
+	}
+	
+	/* AnalyticalSolutionType (Analytical Application Vendor Offering) */
+	
+	@Override
+	public List<AnalyticalSolutionType> getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering() 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering");		
+		List<AnalyticalSolutionType> analyticalSolutionTypes = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(AnalyticalSolutionType.class);
+			analyticalSolutionTypes = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading All getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering");
+		return analyticalSolutionTypes;
+	}
+	
+	@Override
+	public List<AnalyticalSolutionSubType> getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId(String analyticalSolutionTypeId) 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId for : {}", 
+				analyticalSolutionTypeId);
+		List<AnalyticalSolutionSubType> analyticalSolutionSubTypes = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(AnalyticalSolutionSubType.class, "analyticalSolutionSubType");
+			criteria.add(Restrictions.sqlRestriction("{alias}.analytical_solution_type_id = " + analyticalSolutionTypeId ));
+			analyticalSolutionSubTypes = criteria.list(); 
+		}catch (Exception exp) {
+			logger.error("Error reading Analytical Solution Sub Type details for Analytical Solution {}", 
+					analyticalSolutionTypeId, exp);
+			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId for : {}", 
+				analyticalSolutionTypeId);
+		return analyticalSolutionSubTypes;
+	}
 }
