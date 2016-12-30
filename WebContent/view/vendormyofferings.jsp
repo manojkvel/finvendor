@@ -361,7 +361,7 @@
 										<input type="text" name="tdsClientBase" id="tdsClientBase" required />
 										<label>Client Base</label>
 									</li>
-									<li>
+									<li style="clear:both;">
 										<input type="checkbox" name="tdsPriceAlerts" id="tdsPriceAlerts" required />
 										<label class="default_checkbox">Price Alerts?</label>
 
@@ -608,7 +608,7 @@
 										<label class="default_select">Suitability</label>
 									</li>
 									<li>
-										<select class="selectpicker select_multiple" name="tdsCostType"  multiple="multiple" id="tdsCostType">
+										<select class="selectpicker select_multiple" name="asdCostType"  multiple="multiple" id="asdCostType">
 											<option value ="Min Balance Required" > Min Balance Required </option>
 											<option value ="Free and Min Balance Not required" >Free and Min Balance Not required</option>
 											<option value ="Subscription based" > Subscription based </option>
@@ -685,11 +685,11 @@
 								<ul>
 									<li>
 										<input type="text" maxlength="300" name="productName" id="productName" required />
-										<label>Product Name</label>
+										<label>Research Report Name</label>
 									</li>
 									<li>
 										<input type="text" maxlength="1000" name="productDescription" id="productDescription" required />
-										<label>Product Description</label>
+										<label>Research Report Description</label>
 									</li>
 									<li>
 										<input type="number" name="launchedYear" id="launchedYear" required />
