@@ -139,7 +139,6 @@ public class VendorController {
 			modelAndView.addObject("vendor", vendor);
 			modelAndView.addObject("breadcrum", "My Stats");
 		}catch (Exception exp) {
-			exp.printStackTrace();
 			logger.error("VendorController : vendorMyStats - Error reading details", exp);
 		}
 		return modelAndView;
