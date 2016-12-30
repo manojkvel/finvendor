@@ -262,56 +262,6 @@
 							<div class="software_details_info">
 								<h3>Software Details <span class="fa fa-chevron-up"></span></h3>
 								<ul>
-									<!-- <li>
-										<input type="text" id="tdsAppName" name="tdsAppName" required />
-										<label>Application Name</label>
-									</li>
-									<li>
-										<input type="text" id="tdsAppDesc" name="tdsAppDesc" required />
-										<label>Application Details</label>
-									</li>
-									<li>
-										<select class="selectpicker select_multiple" name="tdsAssetClass" id="tdsAssetClass" multiple="multiple">
-											<option value="Equity-Common Stocks">Equity-Common Stocks</option>
-											<option value="Equity-Preferreds">Equity-Preferreds</option>
-											<option value="Equity-Warrants/Rights">Equity-Warrants/Rights</option>
-											<option value="Equity-CFDs">Equity-CFDs</option>
-											<option value="Equity-REITs">Equity-REITs</option>
-											<option value="Equity-Depository Receipts">Equity-Depository Receipts</option>
-											<option value="FI-Govt. LT Bonds">FI-Govt. LT Bonds</option>
-											<option value="FI-Money Markets">FI-Money Markets</option>
-											<option value="FI-Corp. Bonds/Convertibles">FI-Corp. Bonds/Convertibles</option>
-											<option value="FI-Munis">FI-Munis</option>
-											<option value="FI-Securitized Products">FI-Securitized Products</option>
-											<option value="Indices-Equity Index/ETFs">Indices-Equity Index/ETFs</option>
-											<option value="Indices-FI Index/ETFs">Indices-FI Index/ETFs</option>
-											<option value="Indices-Hedge Fund Indices/ETFs">Indices-Hedge Fund Indices/ETFs</option>
-											<option value="Indices-Mutual Funds">Indices-Mutual Funds</option>
-											<option value="Indices-PE Indices">Indices-PE Indices</option>
-											<option value="Indices-Cross Assets ETFs">Indices-Cross Assets ETFs</option>
-											<option value="Indices-Sharia Compliant/ETFs/MFs">Indices-Sharia Compliant/ETFs/MFs</option>
-											<option value="Indices-Derivative Index/ETFs">Indices-Derivative Index/ETFs</option>
-											<option value="Indices-FX or Currency Index/ETFs">Indices-FX or Currency Index/ETFs</option>
-											<option value="Indices-Commodity Index/ETFs">Indices-Commodity Index/ETFs</option>
-											<option value="Derivatives-Exchange Options">Derivatives-Exchange Options</option>
-											<option value="Derivatives-Exchange Future Outrights(Stock)">Derivatives-Exchange Future Outrights(Stock)</option>
-											<option value="Derivatives-Exchange Future Outrights(Metal)">Derivatives-Exchange Future Outrights(Metal)</option>
-											<option value="Derivatives-Exchange Future Outrights(Agriculture)">Derivatives-Exchange Future Outrights(Agriculture)</option>
-											<option value="Derivatives-Exchange Future Outrights(Energy)">Derivatives-Exchange Future Outrights(Energy)</option>
-											<option value="Derivatives-Exchange Future Outrights(IR)">Derivatives-Exchange Future Outrights(IR)</option>
-											<option value="Derivatives-Exchange Future Outrights(Others)">Derivatives-Exchange Future Outrights(Others)</option>
-											<option value="Derivatives-Exchange Future Spreads">Derivatives-Exchange Future Spreads</option>
-											<option value="Derivatives-OTC Products">Derivatives-OTC Products</option>
-											<option value="Derivatives-Commodity Spots">Derivatives-Commodity Spots</option>
-											<option value="FX-Plain Vanila Options (G-7 Pairs)">FX-Plain Vanila Options (G-7 Pairs)</option>
-											<option value="FX-Plain Vanila Options (Non G-7 Pairs)">FX-Plain Vanila Options (Non G-7 Pairs)</option>
-											<option value="FX-Futures/Forwards (Non G-7 Pairs)">FX-Futures/Forwards (Non G-7 Pairs)</option>
-											<option value="FX-Exotic Options(G-7 Pairs)">FX-Exotic Options(G-7 Pairs)</option>
-											<option value="FX-Exotic Options(Non G-7 Pairs)">FX-Exotic Options(Non G-7 Pairs)</option>
-											<option value="FX-Accumulators/Decumulators">FX-Accumulators/Decumulators</option>
-										</select>
-										<label class="default_select">Asset Class Supported</label>
-									</li> -->
 									<li>
 										<select class="selectpicker select_multiple" name="tdsAccessibility"  multiple="multiple" id="tdsAccessibility">
 											<option value ="Web/Browser Based"> Web/Browser Based </option>
@@ -387,17 +337,6 @@
 											<option value ="Take profit">Take profit </option>
 										</select>
 										<label class="default_select">Order Type</label>
-									</li>
-									<li>
-										<select class="selectpicker select_multiple" name="tdsTradeType"  multiple="multiple" id="tdsTradeType">
-											<option value ="Algorithmic & Program Trading" >Algorithmic & Program Trading </option>
-											<option value ="Direct Market Access (DMA)" > Direct Market Access (DMA) </option>
-											<option value ="FX -DMA" >FX -DMA </option>
-											<option value ="Smart Order Routing (Sequential SOR)" > Smart Order Routing (Sequential SOR) </option>
-											<option value ="Smart Order Routing (Multi-Posting SOR)" > Smart Order Routing (Multi-Posting SOR) </option>
-											<option value ="Swap Execution Facility" > Swap Execution Facility </option>
-										</select>
-										<label class="default_select">Trade Type</label>
 									</li>
 									<li>
 										<input type="text" name="tdsAddSoftwareSpecifications" id="tdsAddSoftwareSpecifications" required />
@@ -921,7 +860,7 @@
 											<option value ="November">November</option>
 											<option value ="December">December</option>
 										</select>
-										<label class="default_select">Research Period</label>
+										<label class="default_select">Research Period - Month</label>
 									</li>
 									<li>
 										<select class="selectpicker" name="rdResearchApplicableYear" id="rdResearchApplicableYear">
@@ -937,7 +876,7 @@
 											<option value ="2015">2015</option>
 											<option value ="2016">2016</option>
 										</select>
-										<label class="default_select">Research Period</label>
+										<label class="default_select">Research Period - Year</label>
 									</li>
 								</ul>
 							</div>

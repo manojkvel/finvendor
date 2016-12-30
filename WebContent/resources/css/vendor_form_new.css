@@ -663,18 +663,18 @@ textarea:valid ~ label {
 	line-height: normal;
 }
 
-#vendor_my_offerings .top_card .data_aggregator_list .action_btn {
+#vendor_my_offerings .top_card .list .action_btn {
 	position: absolute;
 	top: 50%;
 	right: 0;
 	transform: translateY(-50%);
 }
 
-#vendor_my_offerings .top_card .data_aggregator_list .action_btn .btn {
+#vendor_my_offerings .top_card .list .action_btn .btn {
 	margin-left: 10px;
 }
 
-#vendor_my_offerings .top_card .data_aggregator_list {
+#vendor_my_offerings .top_card .list {
 	border-bottom: 1px solid #eee;
 	padding-bottom: 10px;
 	margin-bottom: 10px;
@@ -682,7 +682,7 @@ textarea:valid ~ label {
 	overflow: hidden;
 }
 
-#vendor_my_offerings .top_card .data_aggregator_list:last-child {
+#vendor_my_offerings .top_card .list:last-child {
 	border-bottom: 0 solid #eee;
 	padding-bottom: 10px;
 	margin-bottom: 10px;

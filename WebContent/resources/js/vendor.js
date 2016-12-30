@@ -77,7 +77,7 @@ jQuery(document).ready(function() {
 	});
 
 	$("#data_aggregator .save").on("click", function() {
-		var id = $('#productId').val();
+		var id = $('#data_aggregator #productId').val();
 		if(!addDataAggregatorOffering(id)) {
 			progressLoader(false);
 			return false;
@@ -109,16 +109,26 @@ jQuery(document).ready(function() {
 		$("#trading_application .trading_capability_info h3 span").toggleClass("fa-chevron-up");
 	});
 
+
+
+	$("#myofferings2").on("click", function() {
+		listTradingApplicationsOffering();
+	});
+
+	$("#trading_application_top_card .add_more").on("click", function() {
+		openTradingApplicationForm();
+	});
+
 	$("#trading_application .save").on("click", function() {
-		var id = $('#productId').val();
-		if(!addDataAggregatorOffering(id)) {
+		var id = $('#trading_application #productId').val();
+		if(!addTradingApplicationsOffering(id)) {
 			progressLoader(false);
 			return false;
 		}
 	});
 
 	$("#trading_application .next").on("click", function() {
-		resetDataAggregratorForm();
+		resetTradingApplicationForm();
 	});
 
 
@@ -191,6 +201,23 @@ jQuery(document).ready(function() {
 
 	$("select[name=coverageCountry]").on('change', function() {
 		getCountryExchangeMapping('coverageCountry', 'coverageExchange');
+	});
+
+	$(document).on("click", "#trading_application_top_card .trading_application_list .edit_btn", function (e) {
+			var id = $(this).closest('.trading_application_list').attr('id');
+			isEdit = true;
+			fetchTradingApplicationsOffering(id);		 
+	});
+
+	$(document).on("click", "#trading_application_top_card .trading_application_list .delete_btn", function (e) {
+    	
+		
+		var r = confirm("Are you sure want to delete?");
+		if (r == true) {
+			var id = $(this).closest('.trading_application_list').attr('id');
+			deleteTradingApplicationsOffering(id);
+
+		}		 
 	});
 
 	/// list Trading Application offering:
@@ -356,7 +383,7 @@ jQuery(document).ready(function() {
 				$('#data_aggregator_top_card .data_aggregator_info').empty();
 				var listDataAggregatorOfferingHTML = '';
 				for(var i=0; i < totalCount; i++) {
-					listDataAggregatorOfferingHTML += "<div class='data_aggregator_list' id='" + response[i].productId  + "_id'>" +
+					listDataAggregatorOfferingHTML += "<div class='data_aggregator_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
 							"<h4>" + response[i].assetClassDescription  + " | " + getRegionMultipleListById(response[i].coverageRegion) + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
@@ -543,7 +570,450 @@ jQuery(document).ready(function() {
 			$("#data_aggregator .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
 		}
 
-}
+	}
+
+
+
+	$("select[name=tcsTradeCoverageRegion]").on('change', function() {
+		getRegionCountryMapping('tcsTradeCoverageRegion', 'tcsTradeCoverageCountry');
+		getCountryExchangeMapping('tcsTradeCoverageCountry', 'tcsTradableMarkets');
+	});
+
+	$("select[name=tcsTradeCoverageCountry]").on('change', function() {
+		getCountryExchangeMapping('tcsTradeCoverageCountry', 'tcsTradableMarkets');
+	});
+
+
+	openTradingApplicationForm = function() {
+		resetTradingApplicationForm();
+		$("#trading_application").slideDown();
+		$("#trading_application_top_card").slideUp();
+ 
+		if(!isEdit) {
+			getAssetClassMapping('assetClassId');
+			getAssetClassSecurityTypeMapping('assetClassId', 'securityTypes');
+			getRegionMapping('tcsTradeCoverageRegion');
+			getRegionCountryMapping('tcsTradeCoverageRegion', 'tcsTradeCoverageCountry');
+			getCountryExchangeMapping('tcsTradeCoverageCountry', 'tcsTradableMarkets');
+		}
+	}
+
+	closeTradingApplicationForm = function() {
+		resetTradingApplicationForm();
+		$("#trading_application").slideUp();
+		$("#trading_application_top_card").slideDown();
+	}
+
+	resetTradingApplicationForm = function() {
+		$("#trading_application .alert").hide();
+		$("#trading_application_form").trigger('reset');
+		$('.selectpicker').selectpicker('refresh');
+		$('select[name=securityTypes]').empty();
+		$(".error_field").removeClass("error_field");
+	}
+
+
+	/// fetch Trading Application offering--:
+	fetchTradingApplicationsOffering = function(id) {
+		$("#trading_application_top_card").hide();
+		$("#trading_application .alert").hide();
+		$(".error_field").removeClass("error_field");
+		progressLoader(true);
+
+		var ids = id.split("_");
+		var productId = ids[0];
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
+		}
+
+		var data = {
+			"productId" : productId
+		}
+
+
+		$.ajax({
+			type: 'GET',
+			url:  "fetchTradingApplicationsOffering",
+			data: data,
+			cache:false,
+			success : function(response){
+				progressLoader(false);
+				$("#trading_application").slideDown();
+				$("#trading_application_top_card").slideUp();
+				$("#trading_application #productId").val(response.productId);
+				$("#trading_application #productName").val(response.productName);
+				$("#trading_application #productDescription").val(response.productDescription);
+				$("#trading_application #launchedYear").val(response.launchedYear);
+
+				getAssetClassMapping('assetClassId');
+				$("select[name=assetClassId]").selectpicker('val', response.assetClassCode.split(','));
+				
+				getAssetClassSecurityTypeMapping('assetClassId', 'securityTypes');
+				$("select[name=securityTypes]").selectpicker('val', response.securityTypes.split(','));
+
+				$("#trading_application #tdsAccessibility").selectpicker('val', response.accessbility.split(','));
+				$("#trading_application #tdsSuitability1").selectpicker('val', response.suitability.split(','));
+				$("#trading_application #tdsCostType").selectpicker('val', response.costType.split(','));
+				$("#trading_application #tdsPlatformCCY").selectpicker('val', response.platformCcy.split(','));
+				$("#trading_application #tdsPlatformCost").val(response.platformCostPm);
+				$("#trading_application #tdsPlatformType").val(response.platformCostPy);
+				$("#trading_application #tdsOrderType").selectpicker('val', response.orderType.split(','));
+				$("#trading_application #tdsAddSoftwareSpecifications").val(response.softSpecification);
+				$("#trading_application #tdsAddOns").val(response.addOns);
+				$("#trading_application #tdsOpeSystem").selectpicker('val', response.operatingSystem.split(','));
+				$("#trading_application #tdsClientBase").val(response.clientBase);
+				$("#trading_application #tdsPriceAlerts").prop("checked",(response.priceAlerts == 'Y') ? true : false);
+				$("#trading_application #tdsWatchlist").prop("checked",(response.watchlist == 'Y') ? true : false);
+				$("#trading_application #tdsStreNews").prop("checked",(response.streamingNews == 'Y') ? true : false);
+				$("#trading_application #tdsChartsAvai").prop("checked",(response.tradeUsingCharts == 'Y') ? true : false);
+
+				getRegionMapping('tcsTradeCoverageRegion');
+				$("select[name=tcsTradeCoverageRegion]").selectpicker('val', response.tradRegion.split(','));
+
+				getRegionCountryMapping('tcsTradeCoverageRegion', 'tcsTradeCoverageCountry');
+				$("select[name=tcsTradeCoverageCountry]").selectpicker('val', response.tradCountry.split(','));
+
+				getCountryExchangeMapping('tcsTradeCoverageCountry', 'tcsTradableMarkets');
+				$("select[name=tcsTradableMarkets]").selectpicker('val', response.tradExchange.split(','));
+
+
+				$("#trading_application #tcsTradingCapabilitiesType").selectpicker('val', response.tradCapabType.split(','));
+				$("#trading_application #tcsTradeExecutionsType").selectpicker('val', response.tradExecType.split(','));
+				$("#trading_application #tcsAlgorithmicTradeType").selectpicker('val', response.algoTradeType.split(','));
+				$("#trading_application #tcsDarkpoolAccess").selectpicker('val', response.darkpoolAccess.split(','));
+				$("#trading_application #tcsSupportedDarkpoolVenues").selectpicker('val', response.darkpoolVenues.split(','));
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+			}
+		});
+	}
+
+	/// delete Trading Application offering--:
+	deleteTradingApplicationsOffering = function(id) {
+		//progressLoader(true);
+		var trids = id.split("_");
+
+		var productId = trids[0];
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
+		}
+
+		var data = {
+			"productId" : productId
+		}
+
+		$.ajax({
+			type: 'POST',
+			url:  "deleteTradingApplicationsOffering",
+			data: data,
+			cache:false,
+			success : function(output){
+				//progressLoader(false);
+				$('#' + id).remove();
+			},
+			error : function(data, textStatus, jqXHR){
+				//progressLoader(false);
+			}
+		});
+	}
+
+	/// list Trading Application offering:
+	listTradingApplicationsOffering = function() {
+		isEdit = false;
+		progressLoader(true);
+		$("#trading_application").slideUp();
+		$("#trading_application_top_card").hide();
+
+		$.ajax({
+			type: 'GET',
+			url:  "listTradingApplicationsOffering",
+			cache:false,
+			success : function(response) {
+				var totalCount = response.length;
+				if(totalCount === 0) {
+					progressLoader(false);
+					openDataAggregratorForm();
+					return;
+				}
+
+				$('#trading_application_top_card .trading_application_info').empty();
+				var listTradingApplicationsOfferingHTML = '';
+				for(var i=0; i < totalCount; i++) {
+					listTradingApplicationsOfferingHTML += "<div class='trading_application_list list' id='" + response[i].productId  + "_id'>" +
+							"<h3>" + response[i].productName  + "</h3>" +
+							"<h4>" + response[i].assetClassDescription  + " | " + getRegionMultipleListById(response[i].coverageRegion) + " | " + response[i].launchedYear  + "</h4>" +
+							"<p>" + response[i].productDescription  + "</p>" +
+							"<div class='action_btn'>" +
+								"<a class='btn delete_btn'>Delete</a>" +
+								"<a class='btn edit_btn'>Edit</a>" +
+							"</div>" +
+						"</div>";
+				}
+				progressLoader(false);
+				$('#trading_application_top_card .trading_application_info').html(listTradingApplicationsOfferingHTML);
+				$("#trading_application_top_card").show().slideDown();
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+				$("#trading_application .alert").removeClass("alert-success").addClass("alert-danger").text('Please try again after sometime').show();
+			}
+		});
+	}
+
+	/// add Trading Application offering--:
+	addTradingApplicationsOffering = function(id) {
+		progressLoader(true);
+		$("#trading_application_top_card").hide().slideUp();
+
+		var productId = null;
+
+		if(isEdit) {
+			productId = id;
+			if(productId.length <= 0) {
+				alert('Product Id is missing');
+				return;
+			}
+		}
+
+		var productName = $("#trading_application #productName").val().trim();
+		var productDescription = $("#trading_application #productDescription").val().trim();
+		var launchedYear = $("#trading_application #launchedYear").val().trim();
+		var assetClassId = $("#trading_application #assetClassId").val();
+		var securityTypes = $("#trading_application #securityTypes").selectpicker('val');
+
+		var tdsAccessibility = $("#trading_application #tdsAccessibility").selectpicker('val');
+		var tdsSuitability = $("#trading_application #tdsSuitability1").selectpicker('val');
+		var tdsCostType = $("#trading_application #tdsCostType").selectpicker('val');
+		var tdsPlatformCCY = $("#trading_application #tdsPlatformCCY").selectpicker('val');
+		var tdsPlatformCost = $("#trading_application #tdsPlatformCost").val().trim();
+		var tdsPlatformType = $("#trading_application #tdsPlatformType").val().trim();
+		var tdsOrderType = $("#trading_application #tdsOrderType").selectpicker('val');
+
+		var tdsAddSoftwareSpecifications = $("#trading_application #tdsAddSoftwareSpecifications").val().trim();
+		var tdsAddOns = $("#trading_application #tdsAddOns").val().trim();
+		var tdsOpeSystem = $("#trading_application #tdsOpeSystem").selectpicker('val');
+		var tdsClientBase = $("#trading_application #tdsClientBase").val().trim();
+
+		var tdsPriceAlerts = $("#trading_application #tdsPriceAlerts").prop("checked");
+		var tdsWatchlist = $("#trading_application #tdsWatchlist").prop("checked");
+		var tdsStreNews = $("#trading_application #tdsStreNews").prop("checked");
+		var tdsChartsAvai = $("#trading_application #tdsChartsAvai").prop("checked");
+
+		var tcsTradeCoverageRegion = $("#trading_application #tcsTradeCoverageRegion").selectpicker('val');
+		var tcsTradeCoverageCountry = $("#trading_application #tcsTradeCoverageCountry").selectpicker('val');
+		var tcsTradableMarkets = $("#trading_application #tcsTradableMarkets").selectpicker('val');
+		var tcsTradingCapabilitiesType = $("#trading_application #tcsTradingCapabilitiesType").selectpicker('val');
+		var tcsTradeExecutionsType = $("#trading_application #tcsTradeExecutionsType").selectpicker('val');
+		var tcsAlgorithmicTradeType = $("#trading_application #tcsAlgorithmicTradeType").selectpicker('val');
+		var tcsDarkpoolAccess = $("#trading_application #tcsDarkpoolAccess").selectpicker('val');
+		var tcsSupportedDarkpoolVenues = $("#trading_application #tcsSupportedDarkpoolVenues").selectpicker('val');
+
+		if(productName != '') {
+			$("#trading_application #productName").removeClass("error_field");
+		} else {
+			$("#trading_application #productName").addClass("error_field");
+			//return false;
+		}
+
+		if(productDescription != '') {
+			$("#trading_application #productDescription").removeClass("error_field");
+		} else {
+			$("#trading_application #productDescription").addClass("error_field");
+			//return false;
+		}
+
+		if(launchedYear != '') {
+			$("#trading_application #launchedYear").removeClass("error_field");
+		} else {
+			$("#trading_application #launchedYear").addClass("error_field");
+			//return false;
+		}
+
+		if(assetClassId != null) {
+			 $("#trading_application #assetClassId").parent().find("button").removeClass("error_field");
+		} else {
+			 $("#trading_application #assetClassId").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(securityTypes != null) {
+			$("#trading_application #securityTypes").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #securityTypes").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(tcsTradeCoverageRegion != null) {
+			tcsTradeCoverageRegion = tcsTradeCoverageRegion.join();
+			$("#trading_application #tcsTradeCoverageRegion").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #tcsTradeCoverageRegion").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(tcsTradeCoverageCountry != null) {
+			tcsTradeCoverageCountry = tcsTradeCoverageCountry.join();
+			$("#trading_application #tcsTradeCoverageCountry").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #tcsTradeCoverageCountry").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(tdsAccessibility != null) {
+			tdsAccessibility = tdsAccessibility.join();
+			$("#trading_application #tdsAccessibility").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #tdsAccessibility").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(tdsCostType != null) {
+			tdsCostType = tdsCostType.join();
+			$("#trading_application #tdsCostType").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #tdsCostType").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(tdsAddSoftwareSpecifications != '') {
+			$("#trading_application #tdsAddSoftwareSpecifications").removeClass("error_field");
+		} else {
+			$("#trading_application #tdsAddSoftwareSpecifications").addClass("error_field");
+			//return false;
+		}
+
+		if(tdsPriceAlerts) {
+			tdsPriceAlerts = 'Y';
+		} else {
+			tdsPriceAlerts = '';
+		}
+
+		if(tdsWatchlist) {
+			tdsWatchlist = 'Y';
+		} else {
+			tdsWatchlist = '';
+		}
+
+		if(tdsStreNews) {
+			tdsStreNews = 'Y';
+		} else {
+			tdsStreNews = '';
+		}
+
+		if(tdsChartsAvai) {
+			tdsChartsAvai = 'Y';
+		} else {
+			tdsChartsAvai = '';
+		}
+
+		if(tcsTradingCapabilitiesType != null) {
+			tcsTradingCapabilitiesType = tcsTradingCapabilitiesType.join();
+			$("#trading_application #tcsTradingCapabilitiesType").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #tcsTradingCapabilitiesType").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(tcsTradeExecutionsType != null) {
+			tcsTradeExecutionsType = tcsTradeExecutionsType.join();
+			$("#trading_application #tcsTradeExecutionsType").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #tcsTradeExecutionsType").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(tcsAlgorithmicTradeType != null) {
+			tcsAlgorithmicTradeType = tcsAlgorithmicTradeType.join();
+			$("#trading_application #tcsAlgorithmicTradeType").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #tcsAlgorithmicTradeType").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(tcsDarkpoolAccess != null) {
+			tcsDarkpoolAccess = tcsDarkpoolAccess.join();
+			$("#trading_application #tcsDarkpoolAccess").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #tcsDarkpoolAccess").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(tcsSupportedDarkpoolVenues != null) {
+			tcsSupportedDarkpoolVenues = tcsSupportedDarkpoolVenues.join();
+			$("#trading_application #tcsSupportedDarkpoolVenues").parent().find("button").removeClass("error_field");
+		} else {
+			$("#trading_application #tcsSupportedDarkpoolVenues").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+
+		if( productName != '' && productDescription != '' && launchedYear != '' &&
+			assetClassId != null && securityTypes != null && 
+			tcsTradeCoverageRegion != null && 
+			tcsTradeCoverageCountry != null && tcsTradableMarkets != null &&
+			tcsTradingCapabilitiesType != null && tcsTradeExecutionsType != null &&
+			tcsAlgorithmicTradeType != null && tcsDarkpoolAccess != null &&
+			tcsSupportedDarkpoolVenues != null){
+
+			var data = {
+				"productId" : productId,
+				"productName" : productName,
+				"productDescription" : productDescription,
+				"assetClassId" : assetClassId,
+				"securityTypes" : (securityTypes != null)? ',' + securityTypes : '',
+				"launchedYear" : launchedYear,
+				"accessbility" : (tdsAccessibility != null) ? ',' + tdsAccessibility : '',
+				"suitability" : (tdsSuitability != null) ? ',' + tdsSuitability : '',
+				"costType" : (tdsCostType != null) ? ',' + tdsCostType : '',
+				"platformCcy" : (tdsPlatformCCY != null) ? ',' + tdsPlatformCCY : '',
+				"platformCostPm" : 1.0,
+				"platformCostPy" : 2.2,
+				"orderType" : (tdsOrderType != null) ? ',' + tdsOrderType : '',
+				"softSpecification" : tdsAddSoftwareSpecifications,
+				"addOns" : tdsAddOns,
+				"operatingSystem" : (tdsOpeSystem != null) ? ',' + tdsOpeSystem : '',
+				"clientBase" : tdsClientBase,
+				"priceAlerts" : tdsPriceAlerts,
+				"watchlist" : tdsWatchlist,
+				"streamingNews" : tdsStreNews,
+				"tradeUsingCharts" : tdsChartsAvai,
+				"tradRegion" : (tcsTradeCoverageRegion != null) ? ',' + tcsTradeCoverageRegion : '',
+				"tradCountry" : (tcsTradeCoverageCountry != null) ? ',' + tcsTradeCoverageCountry : '',
+				"tradExchange" : (tcsTradableMarkets != null) ? ',' + tcsTradableMarkets : '',
+				"tradCapabType" : (tcsTradingCapabilitiesType != null) ? ',' + tcsTradingCapabilitiesType : '',
+				"tradExecType" : (tcsTradeExecutionsType != null) ? ',' + tcsTradeExecutionsType : '',
+				"algoTradeType" : (tcsAlgorithmicTradeType != null) ? ',' + tcsAlgorithmicTradeType : '',
+				"darkpoolAccess" : (tcsDarkpoolAccess != null) ? ',' + tcsDarkpoolAccess : '',
+				"darkpoolVenues" : (tcsSupportedDarkpoolVenues != null) ? ',' + tcsSupportedDarkpoolVenues : ''
+			}
+
+			$.ajax({
+				type: 'POST',
+				url:  "addTradingApplicationsOffering",
+				data: data,
+				cache:false,
+				success : function(output){
+					$("#trading_application_form").trigger('reset');
+					$('.selectpicker').selectpicker('refresh');
+					progressLoader(false);
+					$("#trading_application .alert").removeClass("alert-success").removeClass("alert-danger").text('').hide();
+
+					listTradingApplicationsOffering();
+					$("#trading_application").slideUp();
+				},
+				error : function(data, textStatus, jqXHR){
+					progressLoader(false);
+				}
+			});
+
+		} else {
+			$("#trading_application .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
+		}
+
+	}
 
 
 
