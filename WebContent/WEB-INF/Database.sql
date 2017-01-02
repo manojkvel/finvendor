@@ -124,7 +124,6 @@ consumer_reply varchar(1000) NULL,
 more_info_provided_date timestamp
 )
 
-/* To be run */
 
 CREATE TABLE ven_trad_app_offering (
 	product_id VARCHAR(45) NOT NULL,
@@ -169,5 +168,79 @@ CREATE TABLE ven_trad_app_trad_capab (
 	darkpool_access VARCHAR(500) NULL,
 	darkpool_venues VARCHAR(500) NULL,
 	soft_specification VARCHAR(1000) NULL
+)
+;
+
+
+CREATE TABLE research_area (
+	research_area_id INT(11) NOT NULL AUTO_INCREMENT,
+	description VARCHAR(500) NOT NULL,
+	PRIMARY KEY (research_area_id)
+);
+
+CREATE TABLE research_sub_area (
+	research_sub_area_id INT(11) NOT NULL AUTO_INCREMENT,
+	description VARCHAR(500) NOT NULL,
+	research_area_id INT(11) NOT NULL,
+	PRIMARY KEY (research_sub_area_id),
+	CONSTRAINT FK1_RESEARCH_AREA_ID FOREIGN KEY (research_area_id) REFERENCES research_area (research_area_id)
+);
+
+CREATE TABLE analytical_soln_type (
+	analytical_solution_type_id INT(11) NOT NULL AUTO_INCREMENT,
+	description VARCHAR(500) NOT NULL,
+	PRIMARY KEY (analytical_solution_type_id)
+);
+
+CREATE TABLE analytical_soln_sub_type (
+	analytical_solution_sub_type_id INT(11) NOT NULL AUTO_INCREMENT,
+	description VARCHAR(500) NOT NULL,
+	analytical_solution_type_id INT(11) NOT NULL,
+	PRIMARY KEY (analytical_solution_sub_type_id),
+	CONSTRAINT FK1_ANALYTICAL_SOLUTION_ID FOREIGN KEY (analytical_solution_type_id) REFERENCES analytical_soln_type (analytical_solution_type_id)
+);
+
+/* To be run */
+
+CREATE TABLE ven_rsrch_rpt_offering (
+	product_id VARCHAR(45) NOT NULL,
+	product_name VARCHAR(300) NOT NULL,
+	product_description VARCHAR(1000) NULL DEFAULT NULL,
+	vendor_id VARCHAR(45) NOT NULL,
+	launched_year VARCHAR(4) NULL DEFAULT NULL,
+	research_area INT(11) NOT NULL,
+	research_sub_area VARCHAR(200) NOT NULL
+)
+;
+
+CREATE TABLE ven_rsrch_rpt_covg (
+	product_id VARCHAR(45) NOT NULL,
+	regions_covered VARCHAR(100) NULL,
+	total_analyst INT NULL,
+	existing_client_base INT NULL
+)
+;
+
+CREATE TABLE ven_rsrch_rpt_dtls (
+	product_id VARCHAR(45) NOT NULL,
+	accessbility VARCHAR(150) NULL,
+	suitability VARCHAR(150) NULL,
+	cost_type VARCHAR(100) NULL,
+	sub_cost_pm FLOAT(10, 2) NULL,
+	sub_cost_py FLOAT(10, 2) NULL,
+	rep_format VARCHAR(20) NULL,
+	res_period_mon VARCHAR(20) NULL,
+	res_period_year VARCHAR(4) NULL
+)
+;
+
+CREATE TABLE ven_rsrch_rpt_analyst_prof (
+	product_id VARCHAR(45) NOT NULL,
+	analyst_name VARCHAR(200) NULL,
+	analyst_region VARCHAR(100) NULL,
+	analyst_country VARCHAR(200) NULL,
+	analyst_year_of_exp VARCHAR(30) NULL,
+	analyst_awards VARCHAR(500) NULL,
+	anayst_cfa_charter VARCHAR(1) NULL
 )
 ;
