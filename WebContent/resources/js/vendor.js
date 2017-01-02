@@ -163,6 +163,54 @@ jQuery(document).ready(function() {
 
 
 
+
+	$("#research_application .product_info h3").on("click", function() {
+		$("#research_application .product_info ul").slideToggle();
+		$("#research_application .product_info h3 span").toggleClass("fa-chevron-up");
+		$("#research_application .product_info h3 span").toggleClass("fa-chevron-down");
+	});
+
+	$("#research_application .coverage_info h3").on("click", function() {
+		$("#research_application .coverage_info ul").slideToggle();
+		$("#research_application .coverage_info h3 span").toggleClass("fa-chevron-up");
+		$("#research_application .coverage_info h3 span").toggleClass("fa-chevron-down");
+	});
+
+	$("#research_application .research_details h3").on("click", function() {
+		$("#research_application .research_details ul").slideToggle();
+		$("#research_application .research_details h3 span").toggleClass("fa-chevron-up");
+		$("#research_application .research_details h3 span").toggleClass("fa-chevron-down");
+	});
+
+	$("#research_application .analyst_profile_info h3").on("click", function() {
+		$("#research_application .analyst_profile_info ul").slideToggle();
+		$("#research_application .analyst_profile_info h3 span").toggleClass("fa-chevron-up");
+		$("#research_application .analyst_profile_info h3 span").toggleClass("fa-chevron-down");
+	});
+
+
+	$("#myofferings4").on("click", function() {
+		//listResearchApplicationsOffering();
+	});
+
+	$("#research_application_top_card .add_more").on("click", function() {
+		openResearchApplicationForm();
+	});
+
+	$("#research_application .save").on("click", function() {
+		var id = $('#research_application #productId').val();
+		if(!addResearchApplicationsOffering(id)) {
+			progressLoader(false);
+			return false;
+		}
+	});
+
+	$("#research_application .next").on("click", function() {
+		resetResearchApplicationForm();
+	});
+
+
+
 	$("#award_details #awardedyear").on('blur', function() {
 		var year = $("#award_details #awardedyear").val().trim();
 		validateYear(year);
@@ -603,6 +651,11 @@ jQuery(document).ready(function() {
 	}
 
 
+
+	$("#trading_application #launchedYear").on('blur', function() {
+		var year = $("#trading_application #launchedYear").val().trim();
+		validateYear(year);
+	});
 
 	$("select[name=tcsTradeCoverageRegion]").on('change', function() {
 		getRegionCountryMapping('tcsTradeCoverageRegion', 'tcsTradeCoverageCountry');
@@ -1052,6 +1105,13 @@ jQuery(document).ready(function() {
 
 	}
 
+
+
+	$("#analytic_application #launchedYear").on('blur', function() {
+		var year = $("#analytic_application #launchedYear").val().trim();
+		validateYear(year);
+	});
+
 	openAnalyticApplicationForm = function() {
 		resetAnalyticApplicationForm();
 		$("#analytic_application").slideDown();
@@ -1367,6 +1427,163 @@ jQuery(document).ready(function() {
 
 		} else {
 			$("#analytic_application .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
+		}
+
+	}
+
+	
+
+	$("#research_application #launchedYear").on('blur', function() {
+		var year = $("#research_application #launchedYear").val().trim();
+		validateYear(year);
+	});
+
+	/// add Research Application offering--:
+	addResearchApplicationsOffering = function(id) {
+		progressLoader(true);
+		$("#research_application_top_card").hide().slideUp();
+
+		var productId = null;
+
+		if(isEdit) {
+			productId = id;
+			if(productId.length <= 0) {
+				alert('Product Id is missing');
+				return;
+			}
+		}
+
+		var productName = $("#research_application #productName").val().trim();
+		var productDescription = $("#research_application #productDescription").val().trim();
+		var launchedYear = $("#research_application #launchedYear").val().trim();
+		var rcResearchArea = $("#research_application #rcResearchArea").val();
+		var rcResearchSubArea = $("#research_application #rcResearchSubArea").selectpicker('val');
+
+		var rcRegionsCovered = $("#research_application #rcRegionsCovered").selectpicker('val');
+		var rcTotalResearchAnalyst = $("#research_application #rcTotalResearchAnalyst").val().trim();
+		var rcExistingClientBase = $("#research_application #rcExistingClientBase").val();
+
+		var rdAccessibility = $("#research_application #rdAccessibility").val();
+		var rdSuitability = $("#research_application #rdSuitability").selectpicker('val');
+		var rdReportCostType = $("#research_application #rdReportCostType").selectpicker('val');
+		
+		var rdSubsriptionCostUSDpermonth = $("#research_application #rdSubsriptionCostUSDpermonth").val().trim();
+		var rdSubsriptionCostUSDperannum = $("#research_application #rdSubsriptionCostUSDperannum").val().trim();
+		
+		var rdReportFormat = $("#research_application #rdReportFormat").selectpicker('val');
+		var rdResearchApplicableMonth = $("#research_application #rdResearchApplicableMonth").selectpicker('val');
+		var rdResearchApplicableYear = $("#research_application #rdResearchApplicableYear").selectpicker('val');
+
+	
+		var apResearchAnalystWithCFA = $("#research_application #apResearchAnalystWithCFA").prop("checked");
+
+		
+		if(productName != '') {
+			$("#research_application #productName").removeClass("error_field");
+		} else {
+			$("#research_application #productName").addClass("error_field");
+			//return false;
+		}
+
+		if(productDescription != '') {
+			$("#research_application #productDescription").removeClass("error_field");
+		} else {
+			$("#research_application #productDescription").addClass("error_field");
+			//return false;
+		}
+
+		if(launchedYear != '') {
+			$("#research_application #launchedYear").removeClass("error_field");
+		} else {
+			$("#research_application #launchedYear").addClass("error_field");
+			//return false;
+		}
+
+		if(rcResearchArea != null) {
+			 $("#research_application #rcResearchArea").parent().find("button").removeClass("error_field");
+		} else {
+			 $("#research_application #rcResearchArea").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(rcResearchSubArea != null) {
+			$("#research_application #rcResearchSubArea").parent().find("button").removeClass("error_field");
+		} else {
+			$("#research_application #rcResearchSubArea").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(rcRegionsCovered != null) {
+			 $("#research_application #rcRegionsCovered").parent().find("button").removeClass("error_field");
+		} else {
+			 $("#research_application #rcRegionsCovered").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(rdAccessibility != null) {
+			$("#research_application #rdAccessibility").parent().find("button").removeClass("error_field");
+		} else {
+			$("#research_application #rdAccessibility").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(rdReportCostType != null) {
+			rdReportCostType = rdReportCostType.join();
+			$("#research_application #rdReportCostType").parent().find("button").removeClass("error_field");
+		} else {
+			$("#research_application #rdReportCostType").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(rdResearchApplicableYear != null) {
+			$("#research_application #rdResearchApplicableYear").parent().find("button").removeClass("error_field");
+		} else {
+			$("#research_application #rdResearchApplicableYear").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
+		if(apResearchAnalystWithCFA) {
+			apResearchAnalystWithCFA = 'Y';
+		} else {
+			apResearchAnalystWithCFA = '';
+		}
+
+
+		if( productName != '' && productDescription != '' && launchedYear != '' &&
+			rcResearchArea != null && rcResearchSubArea != null &&
+			rdAccessibility != null && rdReportCostType != '' &&
+			rdResearchApplicableYear != null){
+
+			var data = {
+				"productId" : productId,
+				"productName" : productName,
+				"productDescription" : productDescription,
+				"rcResearchArea" : rcResearchArea,
+				"rcResearchSubArea" : (rcResearchSubArea != null)? ',' + rcResearchSubArea : '',
+				"launchedYear" : launchedYear
+			}
+
+			$.ajax({
+				type: 'POST',
+				url:  "addAnalyticApplicationsOffering",
+				data: data,
+				cache:false,
+				success : function(output){
+					$("#research_application_form").trigger('reset');
+					$('.selectpicker').selectpicker('refresh');
+					progressLoader(false);
+					$("#research_application .alert").removeClass("alert-success").removeClass("alert-danger").text('').hide();
+
+					listTradingApplicationsOffering();
+					$("#research_application").slideUp();
+				},
+				error : function(data, textStatus, jqXHR){
+					progressLoader(false);
+				}
+			});
+
+		} else {
+			$("#research_application .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
 		}
 
 	}
