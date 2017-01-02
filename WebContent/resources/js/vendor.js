@@ -4219,6 +4219,78 @@ function getCountryExchangeMapping(countrySelector, exchangeSelector) {
     $("select[name="+ exchangeSelector +"]").selectpicker('refresh');
 }
 
+function getAnalyticalSolutionTypeList() {
+	$.ajax({
+		type: 'GET',
+		url:  "getJsonReferenceData?referenceDataType=AnalyticalSolutionType",
+		cache:false,
+		success : function(response) {
+			window.localStorage.setItem('analyticalSolutionTypeList', JSON.stringify(response));
+		},
+		error : function(data, textStatus, jqXHR) {
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+}
+
+function getAnalyticalSolutionSubTypeList() {
+	$.ajax({
+		type: 'GET',
+		url:  "getJsonReferenceData?referenceDataType=AnalyticalSolutionSubType",
+		cache:false,
+		success : function(response) {
+			window.localStorage.setItem('analyticalSolutionSubTypeList', JSON.stringify(response));
+		},
+		error : function(data, textStatus, jqXHR) {
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+}
+
+function getAnalyticalSolutionTypeMapping(analyticalSolutionTypeSelector, analyticalSolutionSubTypeSelector) {
+	var analyticalSolutionSubTypeList = JSON.parse(window.localStorage.getItem('analyticalSolutionSubTypeList'));
+	var analyticSolutionTypeId = $("select[name=" + analyticalSolutionTypeSelector + "]").selectpicker('val');
+	var $option='';
+    for (var val in analyticalSolutionSubTypeList) {
+    	for(var id in analyticSolutionTypeId) {
+	        if (analyticalSolutionSubTypeList[val].parentId == analyticSolutionTypeId[id]) {
+	        	$option += "<option value='" + analyticalSolutionSubTypeList[val].id + "'>" + analyticalSolutionSubTypeList[val].name + "</option>";
+	        }    		
+    	}
+    }
+    $("select#" + analyticalSolutionSubTypeSelector +"").empty();
+    $("select[name=" + analyticalSolutionSubTypeSelector + "]").append($option);	
+    $("select[name=" + analyticalSolutionSubTypeSelector + "]").selectpicker('refresh');
+}
+
+function getResearchAreaList() {
+	$.ajax({
+		type: 'GET',
+		url:  "getJsonReferenceData?referenceDataType=ResearchArea",
+		cache:false,
+		success : function(response) {
+			window.localStorage.setItem('researchAreaList', JSON.stringify(response));
+		},
+		error : function(data, textStatus, jqXHR) {
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+}
+
+function getResearchSubAreaList() {
+	$.ajax({
+		type: 'GET',
+		url:  "getJsonReferenceData?referenceDataType=ResearchSubArea",
+		cache:false,
+		success : function(response) {
+			window.localStorage.setItem('researchSubAreaList', JSON.stringify(response));
+		},
+		error : function(data, textStatus, jqXHR) {
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+}
+
 function changeTabMode(comp){
 	 //debugger; 
 	 comppnentId="";

@@ -43,6 +43,10 @@
     		getRegionList();
     		getCountryList();
     		getExchangeList();
+    		getAnalyticalSolutionTypeList();
+    		getAnalyticalSolutionSubTypeList();
+    		getResearchAreaList();
+    		getResearchSubAreaList();
     	});
     </script>
 </head>
