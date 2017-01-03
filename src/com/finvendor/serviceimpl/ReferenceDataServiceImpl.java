@@ -175,8 +175,13 @@ public class ReferenceDataServiceImpl
 					
 				case "AnalyticalSolutionSubType" :
 					List<AnalyticalSolutionSubType> analyticalSolutionSubTypeList = null;
-					analyticalSolutionSubTypeList = referenceDataDao.
-							getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId(parentId);
+					if(parentId == null || parentId.trim().equals("")) {
+						analyticalSolutionSubTypeList = referenceDataDao.
+								getAllAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOffering();
+					}else {
+						analyticalSolutionSubTypeList = referenceDataDao.
+								getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId(parentId);
+					}						
 					for(AnalyticalSolutionSubType analyticalSolutionSubType : analyticalSolutionSubTypeList) {
 						ReferenceDataJson refData = new ReferenceDataJson();
 						refData.setId(analyticalSolutionSubType.getAnalyticalSolutionSubTypeId().toString());
@@ -199,8 +204,13 @@ public class ReferenceDataServiceImpl
 					
 				case "ResearchSubArea" :
 					List<ResearchSubArea> researchSubAreaList = null;
-					researchSubAreaList = referenceDataDao.
-							getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId(parentId);
+					if(parentId == null || parentId.trim().equals("")) {
+						researchSubAreaList = referenceDataDao.
+								getAllResearchSubAreaForResearchReportVendorOffering();
+					}else {
+						researchSubAreaList = referenceDataDao.
+								getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId(parentId);
+					}					
 					for(ResearchSubArea researchSubArea : researchSubAreaList) {
 						ReferenceDataJson refData = new ReferenceDataJson();
 						refData.setId(researchSubArea.getResearchSubAreaId().toString());

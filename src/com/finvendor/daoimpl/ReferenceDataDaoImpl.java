@@ -331,6 +331,24 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	
 	
 	@Override
+	public List<ResearchSubArea> getAllResearchSubAreaForResearchReportVendorOffering() 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchSubAreaForResearchReportVendorOffering");		
+		List<ResearchSubArea> researchSubAreas = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchSubArea.class);
+			researchSubAreas = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading All ResearchAreaForResearchReportVendorOffering", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllResearchSubAreaForResearchReportVendorOffering");
+		return researchSubAreas;
+	}
+	
+	
+	@Override
 	public List<ResearchSubArea> getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 
 			throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId for : {}", 
@@ -363,11 +381,28 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(AnalyticalSolutionType.class);
 			analyticalSolutionTypes = criteria.list();
  		}catch (Exception exp) {
- 			logger.error("Error loading All getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering", exp);
+ 			logger.error("Error loading All AnalyticalSolutionType", exp);
  			throw new ApplicationException("Error fetching reference data details");
 		}
 		logger.debug("Leaving : ReferenceDataDaoImpl - getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering");
 		return analyticalSolutionTypes;
+	}
+	
+	@Override
+	public List<AnalyticalSolutionSubType> getAllAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOffering() 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering");		
+		List<AnalyticalSolutionSubType> analyticalSolutionSubType = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(AnalyticalSolutionSubType.class);
+			analyticalSolutionSubType = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading All AnalyticalSolutionType", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering");
+		return analyticalSolutionSubType;
 	}
 	
 	@Override

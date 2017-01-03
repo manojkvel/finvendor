@@ -33,6 +33,7 @@ public class VendorTradingApplicationsOfferingJson {
 	private String algoTradeType;
 	private String darkpoolAccess;
 	private String darkpoolVenues;
+	
 	public String getProductId() {
 		return productId;
 	}

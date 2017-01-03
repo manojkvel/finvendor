@@ -51,10 +51,14 @@ public interface ReferenceDataDao {
 	
 	public List<ResearchArea> getAllResearchAreaForResearchReportVendorOffering() 
 			throws ApplicationException;
+	public List<ResearchSubArea> getAllResearchSubAreaForResearchReportVendorOffering() 
+			throws ApplicationException;
 	public List<ResearchSubArea> getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 
 			throws ApplicationException;
 		
 	public List<AnalyticalSolutionType> getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering() 
+			throws ApplicationException;
+	public List<AnalyticalSolutionSubType> getAllAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOffering() 
 			throws ApplicationException;
 	public List<AnalyticalSolutionSubType> getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId(String analyticalSolutionTypeId) 
 			throws ApplicationException;
