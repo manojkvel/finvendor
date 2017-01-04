@@ -1112,17 +1112,20 @@ jQuery(document).ready(function() {
 		validateYear(year);
 	});
 
+	getAnalyticalSolutionTypeMapping('analyticsSolutionType');
+
+	$("select[name=analyticsSolutionType]").on('change', function() {
+		getAnalyticalSolutionSubTypeMapping('analyticsSolutionType', 'analyticsSolutionSubType');
+	});
+
 	openAnalyticApplicationForm = function() {
 		resetAnalyticApplicationForm();
 		$("#analytic_application").slideDown();
 		$("#analytic_application_top_card").slideUp();
  
 		if(!isEdit) {
-			getAssetClassMapping('assetClassId');
-			getAssetClassSecurityTypeMapping('assetClassId', 'securityTypes');
-			getRegionMapping('tcsTradeCoverageRegion');
-			getRegionCountryMapping('tcsTradeCoverageRegion', 'tcsTradeCoverageCountry');
-			getCountryExchangeMapping('tcsTradeCoverageCountry', 'tcsTradableMarkets');
+			getAnalyticalSolutionTypeMapping('analyticsSolutionType');
+			getAnalyticalSolutionSubTypeMapping('analyticsSolutionType', 'analyticsSolutionSubType');
 		}
 	}
 
@@ -1437,6 +1440,37 @@ jQuery(document).ready(function() {
 		var year = $("#research_application #launchedYear").val().trim();
 		validateYear(year);
 	});
+
+	getResearchAreaMapping('rcResearchArea');
+
+	$("select[name=rcResearchArea]").on('change', function() {
+		getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
+	});
+
+	openResearchApplicationForm = function() {
+		resetResearchApplicationForm();
+		$("#research_application").slideDown();
+		$("#research_application_top_card").slideUp();
+ 
+		if(!isEdit) {
+			getResearchAreaMapping('rcResearchArea');
+			getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
+		}
+	}
+
+	closeResearchApplicationForm = function() {
+		resetResearchApplicationForm();
+		$("#research_application").slideUp();
+		$("#research_application_top_card").slideDown();
+	}
+
+	resetResearchApplicationForm = function() {
+		$("#research_application .alert").hide();
+		$("#research_application_form").trigger('reset');
+		$('.selectpicker').selectpicker('refresh');
+		$('select[name=securityTypes]').empty();
+		$(".error_field").removeClass("error_field");
+	}
 
 	/// add Research Application offering--:
 	addResearchApplicationsOffering = function(id) {
@@ -4233,6 +4267,17 @@ function getAnalyticalSolutionTypeList() {
 		});
 }
 
+function getAnalyticalSolutionTypeMapping(analyticalSolutionTypeSelector) {
+	var analyticalSolutionTypeList = JSON.parse(window.localStorage.getItem('analyticalSolutionTypeList'));
+	var $option='';
+	for (var val in analyticalSolutionTypeList) {
+		$option += "<option value='" + analyticalSolutionTypeList[val].id + "'>" + analyticalSolutionTypeList[val].name + "</option>";
+	}
+    $("select#" + analyticalSolutionTypeSelector +"").empty();
+    $("select[name=" + analyticalSolutionTypeSelector + "]").append($option);	
+    $("select[name=" + analyticalSolutionTypeSelector + "]").selectpicker('refresh');
+}
+
 function getAnalyticalSolutionSubTypeList() {
 	$.ajax({
 		type: 'GET',
@@ -4247,7 +4292,7 @@ function getAnalyticalSolutionSubTypeList() {
 		});
 }
 
-function getAnalyticalSolutionTypeMapping(analyticalSolutionTypeSelector, analyticalSolutionSubTypeSelector) {
+function getAnalyticalSolutionSubTypeMapping(analyticalSolutionTypeSelector, analyticalSolutionSubTypeSelector) {
 	var analyticalSolutionSubTypeList = JSON.parse(window.localStorage.getItem('analyticalSolutionSubTypeList'));
 	var analyticSolutionTypeId = $("select[name=" + analyticalSolutionTypeSelector + "]").selectpicker('val');
 	var $option='';
@@ -4277,6 +4322,17 @@ function getResearchAreaList() {
 		});
 }
 
+function getResearchAreaMapping(rcResearchAreaSelector) {
+	var researchAreaList = JSON.parse(window.localStorage.getItem('researchAreaList'));
+	var $option='';
+	for (var val in researchAreaList) {
+		$option += "<option value='" + researchAreaList[val].id + "'>" + researchAreaList[val].name + "</option>";
+	}
+    $("select#" + rcResearchAreaSelector +"").empty();
+    $("select[name=" + rcResearchAreaSelector + "]").append($option);	
+    $("select[name=" + rcResearchAreaSelector + "]").selectpicker('refresh');
+}
+
 function getResearchSubAreaList() {
 	$.ajax({
 		type: 'GET',
@@ -4289,6 +4345,22 @@ function getResearchSubAreaList() {
 				//alert('Error: '+data+':'+textStatus);
 			}
 		});
+}
+
+function getResearchSubAreaMapping(rcResearchAreaSelector, rcResearchSubAreaSelector) {
+	var researchSubAreaList = JSON.parse(window.localStorage.getItem('researchSubAreaList'));
+	var rcResearchAreaId = $("select[name=" + rcResearchAreaSelector + "]").selectpicker('val');
+	var $option='';
+    for (var val in researchSubAreaList) {
+    	for(var id in rcResearchAreaId) {
+	        if (researchSubAreaList[val].parentId == rcResearchAreaId[id]) {
+	        	$option += "<option value='" + researchSubAreaList[val].id + "'>" + researchSubAreaList[val].name + "</option>";
+	        }    		
+    	}
+    }
+    $("select#" + rcResearchSubAreaSelector +"").empty();
+    $("select[name=" + rcResearchSubAreaSelector + "]").append($option);	
+    $("select[name=" + rcResearchSubAreaSelector + "]").selectpicker('refresh');
 }
 
 function changeTabMode(comp){
