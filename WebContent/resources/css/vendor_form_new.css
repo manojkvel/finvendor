@@ -17,7 +17,7 @@ h4 {
 
 .container {
 	width: auto;
-	max-width: 970px;
+	max-width: 1000px;
 }
 
 .nav-tabs {
@@ -83,11 +83,11 @@ h4 {
 
 #footer .container {
 	width: auto;
-	max-width: 970px;
+	max-width: 1000px;
 }
 
 .tab-container {
-	max-width: 940px;
+	max-width: 970px;
 	margin: 0 auto;
 }
 

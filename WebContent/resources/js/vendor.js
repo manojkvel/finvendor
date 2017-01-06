@@ -4275,7 +4275,7 @@ function getAnalyticalSolutionTypeMapping(analyticalSolutionTypeSelector) {
 	}
     $("select#" + analyticalSolutionTypeSelector +"").empty();
     $("select[name=" + analyticalSolutionTypeSelector + "]").append($option);	
-    $("select[name=" + analyticalSolutionTypeSelector + "]").selectpicker('refresh');
+    $//("select[name=" + analyticalSolutionTypeSelector + "]").selectpicker('refresh');
 }
 
 function getAnalyticalSolutionSubTypeList() {
@@ -4330,7 +4330,7 @@ function getResearchAreaMapping(rcResearchAreaSelector) {
 	}
     $("select#" + rcResearchAreaSelector +"").empty();
     $("select[name=" + rcResearchAreaSelector + "]").append($option);	
-    $("select[name=" + rcResearchAreaSelector + "]").selectpicker('refresh');
+//    $("select[name=" + rcResearchAreaSelector + "]").selectpicker('refresh');
 }
 
 function getResearchSubAreaList() {

@@ -9,22 +9,21 @@
 <head>
 <title>FinVendor</title>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" /> 
 	<meta name="description" content="" />
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+	<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />	
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
 </head>
 <body>
 	<c:set var="checkingresultpageview" value="${checkingresultpageview}"></c:set>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 	<section>
 		<div id="fin_vendor_index" class="section">
-			<div class="container">
-				<div class="row">
-					<jsp:include page="common/banner.jsp"></jsp:include>
-				</div>
+			<div class="container" style="background:#fff;">
+				<jsp:include page="common/banner.jsp"></jsp:include>
 			</div>
 		</div>
 	</section>

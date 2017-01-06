@@ -3,10 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="com.finvendor.util.RequestConstans"%>
-<div class="banner" id="banner">
+<div class="banner" id="banner" style="background:#fff;">
 	<div class="container">
+		<div class="row">
 		<div id="slider2_container"
-			style="position: relative; top: 0px; left: 0px; width: 1000px; height: 391px; overflow: hidden;">
+			style="position: relative; top: 0px; left: -15px; width: 1000px; height: 405px; overflow: hidden;">
 			<div u="slides"
 				style="width: 1170px; height: 391px; overflow: hidden;">
 				<div>
@@ -14,9 +15,9 @@
 						<div class="home-slider-wrap">
 							<div class="content">
 								<h2>
-									<span>List Your</span><span>Offerings Here</span>
+									<span style="font-size:24px;font-weight: bold;">List Your Offerings Here</span>
 								</h2>
-								<h3>Shared Platform For<br>All Financial Vendors</h3>
+								<h3 style="font-size:20px;font-weight: bold;padding-top:0;">Shared Platform For All Financial Vendors</h3>
 								<div class="para">
 									<p>Market Data Vendors (Aggregators)</p>
 									<p>Trading Application Vendors</p>
@@ -37,9 +38,9 @@
 						<div class="home-slider-wrap">
 							<div class="content">
 								<h2>
-									<span>Find Your</span><span>Optimal</span><span>Vendor</span>
+									<span style="font-size:24px;font-weight: bold;">Find Your Optimal Vendor</span>
 								</h2>
-								<h3>Well Researched Search Platform</h3>
+								<h3 style="font-size:20px;font-weight: bold;padding-top:0;">Well Researched Search Platform</h3>
 								<div class="para">
 									<p>Search Our Pre-Screened Vendor Database</p>
 									<p>in a very interactive way</p>
@@ -59,9 +60,9 @@
 							<div class="content">
 								<h2>
 									<%--<span>Helps Increasing</span><span>Your Sales</span>--%>
-									<span>See Your</span><span>Revenue</span><span>Growing</span>
+									<span style="font-size:24px;font-weight: bold;">See Your Revenue Growing</span>
 								</h2>
-								<h3>Send Your Response to<br>End-User's RFP</h3>
+								<h3 style="font-size:20px;font-weight: bold;padding-top:0;">Send Your Response to<br>End-User's RFP</h3>
 								<div class="para">
 									<p>Authenticated RFPs at FinVendor (as initiated by End-Users)</p>
 									<p>are open for application for all qualified vendors</p>
@@ -80,9 +81,9 @@
 						<div class="home-slider-wrap">
 							<div class="content">
 								<h2>
-									<span>Post Your Vendor</span><span>Needs as a RFP</span>
+									<span style="font-size:24px;font-weight: bold;">Post Your Vendor Needs as a RFP</span>
 								</h2>
-								<h3>Helping You Going Public<br>With Your Vendor Needs</h3>
+								<h3 style="font-size:20px;font-weight: bold;padding-top:0;">Helping You Going Public With Your Vendor Needs</h3>
 								<div class="para">
 									<p>An Easy-to-use medium to share your vendor needs,</p>
 									<p>track the response and shortlist the vendors</p>
@@ -106,6 +107,7 @@
 					</div>
 				</div>
 			</div>
+		</div>
 		</div>
 	</div>
 </div>
