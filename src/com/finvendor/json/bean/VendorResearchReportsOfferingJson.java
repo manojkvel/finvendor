@@ -11,7 +11,7 @@ public class VendorResearchReportsOfferingJson {
 	private String researchSubArea;
 	private String regionsCovered;
 	private int totalAnalyst;
-	private int existingClientBase;
+	private String existingClientBase;
 	private String accessbility;
 	private String suitability;
 	private String costType;
@@ -83,10 +83,10 @@ public class VendorResearchReportsOfferingJson {
 	public void setTotalAnalyst(int totalAnalyst) {
 		this.totalAnalyst = totalAnalyst;
 	}
-	public int getExistingClientBase() {
+	public String getExistingClientBase() {
 		return existingClientBase;
 	}
-	public void setExistingClientBase(int existingClientBase) {
+	public void setExistingClientBase(String existingClientBase) {
 		this.existingClientBase = existingClientBase;
 	}
 	public String getAccessbility() {

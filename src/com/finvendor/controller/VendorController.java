@@ -32,9 +32,11 @@ import com.finvendor.form.VendorResearchCoverageForm;
 import com.finvendor.form.VendorResearchDetailsForm;
 import com.finvendor.form.VendorTradingCapabilitiesSupportedForm;
 import com.finvendor.form.VendorTradingSoftwareDetailsForm;
+import com.finvendor.json.bean.VendorAnalyticsApplicationsOfferingJson;
 import com.finvendor.json.bean.VendorDataAggregatorsOfferingJson;
 import com.finvendor.json.bean.VendorResearchReportsOfferingJson;
 import com.finvendor.json.bean.VendorTradingApplicationsOfferingJson;
+import com.finvendor.model.AnalyticalSolutionType;
 import com.finvendor.model.AssetClass;
 import com.finvendor.model.AssetClassSecurityMap;
 import com.finvendor.model.Awards;
@@ -53,6 +55,8 @@ import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
 import com.finvendor.model.Vendor;
 import com.finvendor.model.VendorAnalystProfile;
+import com.finvendor.model.VendorAnalyticsApplicationsOffering;
+import com.finvendor.model.VendorAnalyticsApplicationsSoftwareDetails;
 import com.finvendor.model.VendorAnalyticsSoftwareDetails;
 import com.finvendor.model.VendorAwardsMap;
 import com.finvendor.model.VendorDataAggregatorsOffering;
@@ -2889,7 +2893,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "launchedYear", required = false) String launchedYear,
 			@RequestParam(value = "regionsCovered", required = false) String regionsCovered,
 			@RequestParam(value = "totalResearchAnalyst", required = false) int totalResearchAnalyst,
-			@RequestParam(value = "existingClientBase", required = false) int existingClientBase,
+			@RequestParam(value = "existingClientBase", required = false) String existingClientBase,
 			@RequestParam(value = "accessibility", required = false) String accessibility,
 			@RequestParam(value = "suitability", required = false) String suitability,
 			@RequestParam(value = "reportCostType", required = false) String reportCostType,
@@ -3125,5 +3129,219 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	}
 		
 	/* Vendor Research Reports Offering End */
+	
+	/* Vendor Analytics Applications Offering Begin */
+	
+	@RequestMapping(value="addAnalyticsApplicationsOffering", method = RequestMethod.POST)
+	public ModelAndView addAnalyticsApplicationsOffering(HttpServletRequest request,
+			@RequestParam(value = "productId", required = false) String productId,
+			@RequestParam(value = "productName", required = true) String productName,
+			@RequestParam(value = "productDescription", required = true) String productDescription,
+			@RequestParam(value = "analyticsSolutionTypeId", required = true) int analyticsSolutionTypeId,
+			@RequestParam(value = "analyticsSolutionSubTypes", required = false) String analyticsSolutionSubTypes,
+			@RequestParam(value = "launchedYear", required = false) String launchedYear,
+			@RequestParam(value = "accessbility", required = false) String accessbility,
+			@RequestParam(value = "suitability", required = false) String suitability,
+			@RequestParam(value = "costType", required = false) String costType,
+			@RequestParam(value = "subCostPm", required = false) float subCostPm,
+			@RequestParam(value = "subCostPy", required = false) float subCostPy,
+			@RequestParam(value = "addOns", required = false) String addOns,
+			@RequestParam(value = "operatingSystem", required = false) String operatingSystem,
+			@RequestParam(value = "softSpecification", required = false) String softSpecification,			
+			@RequestParam(value = "userBase", required = false) String userBase,
+			@RequestParam(value = "customizableCalcModel", required = false) String customizableCalcModel,
+			@RequestParam(value = "realTimeMarketData", required = false) String realTimeMarketData) {
+		
+		logger.debug("Entering  - VendorController : addAnalyticsApplicationsOffering");
+		ModelAndView modelAndView = new ModelAndView("empty");
+		
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			
+			VendorAnalyticsApplicationsOffering analyticsAppOffering = new VendorAnalyticsApplicationsOffering();
+			VendorAnalyticsApplicationsSoftwareDetails softDetails = new VendorAnalyticsApplicationsSoftwareDetails();
+			
+			if(productId == null || productId.trim().equals("")) {
+				productId = UUID.randomUUID().toString(); 
+			}
+			analyticsAppOffering.setProductId(productId);
+			analyticsAppOffering.setProductName(productName);
+			analyticsAppOffering.setProductDescription(productDescription);
+			analyticsAppOffering.setLaunchedYear(launchedYear);
+			AnalyticalSolutionType analyticalSolutionType = (AnalyticalSolutionType)marketDataAggregatorsService.getModelObjectById(
+					AnalyticalSolutionType.class, analyticsSolutionTypeId);
+			analyticsAppOffering.setAnalyticalSolutionType(analyticalSolutionType);
+			analyticsAppOffering.setAnalyticalSolutionSubTypes(analyticsSolutionSubTypes);
+			analyticsAppOffering.setVendor(vendor);
+		
+			softDetails.setProductId(productId);
+			softDetails.setAccessbility(accessbility);
+			softDetails.setSuitability(suitability);
+			softDetails.setCostType(costType);
+			softDetails.setSubCostPm(subCostPm);
+			softDetails.setSubCostPy(subCostPy);
+			softDetails.setAddOns(addOns);
+			softDetails.setOperatingSystem(operatingSystem);
+			softDetails.setSoftSpecification(softSpecification);
+			softDetails.setUserBase(userBase);
+			softDetails.setCustomizableCalcModel(customizableCalcModel);
+			softDetails.setRealTimeMarketData(realTimeMarketData);			
+			analyticsAppOffering.setSoftwareDetails(softDetails);
+						
+			vendorService.addVendorAnalyticsApplicationsOffering(analyticsAppOffering);
+		} catch (Exception exp) {
+			logger.error("Error Saving Analytics Applications Offering", exp); 
+			modelAndView.addObject("status", "Error Updating Offering details");
+		}
+		modelAndView.addObject("status", "Offering details Updated successfully");
+		logger.debug("Leaving  - VendorController : addAnalyticsApplicationsOffering");
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping(value="deleteAnalyticsApplicationsOffering", method = RequestMethod.POST)
+	public ModelAndView deleteAnalyticsApplicationsOffering(
+			HttpServletRequest request,
+			@RequestParam(value = "productId", required = true) String productId) {
+		
+		logger.debug("Entering  - VendorController : deleteAnalyticsApplicationsOffering for product {}", 
+				productId);
+		ModelAndView modelAndView = new ModelAndView("empty");
+		List<VendorAnalyticsApplicationsOffering> offerings = null;
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			boolean matchFound = false;
+			offerings = vendorService.getVendorAnalyticsApplicationsOffering(userName);
+			for(VendorAnalyticsApplicationsOffering offering : offerings) {
+				if (offering.getProductId().equals(productId)) {
+					matchFound = true;
+					break;
+				}
+			}
+			if(matchFound) {
+				vendorService.deleteVendorAnalyticsApplicationsOffering(productId);
+				modelAndView.addObject("status", "Successfully deleted Offering record");
+			} else {
+				logger.error("Selected Offering does not belong to logged in User !!");
+				modelAndView.addObject("status", "Error deleting Offering record");
+			}
+			
+		} catch (Exception exp) {
+			logger.error("Error Deleting Analytics Applications Offering for Product {}", 
+					productId, exp); 
+			modelAndView.addObject("status", "Error deleting Offering record");
+		}
+		logger.debug("Leaving  - VendorController : deleteAnalyticsApplicationsOffering for product {}", 
+				productId);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="listAnalyticsApplicationsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+	public @ResponseBody List<VendorAnalyticsApplicationsOfferingJson> listAnalyticsApplicationsOffering(
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		logger.debug("Entering  - VendorController : listAnalyticsApplicationsOffering");
+		List<VendorAnalyticsApplicationsOffering> offerings = null;
+		List<VendorAnalyticsApplicationsOfferingJson> jsonOfferings = new ArrayList<VendorAnalyticsApplicationsOfferingJson>();
+		String userName = null;
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				request.getRequestDispatcher("/").forward(request, response);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			userName = loggedInUser.getUsername();
+			offerings = vendorService.
+					getVendorAnalyticsApplicationsOffering(userName);
+			populateJsonVendorAnalyticsApplicationsOfferingList(offerings, jsonOfferings);			
+		} catch (Exception exp) {
+			logger.error("Error Reading Analytics Applications Offering for {}", userName, exp); 
+			
+		}
+		logger.debug("Leaving  - VendorController : listAnalyticsApplicationsOffering");
+		return jsonOfferings;
+	}
+	
+	private void populateJsonVendorAnalyticsApplicationsOfferingList(List<VendorAnalyticsApplicationsOffering> offerings,
+			List<VendorAnalyticsApplicationsOfferingJson> jsonOfferings) {
+		for(VendorAnalyticsApplicationsOffering offering : offerings) {
+			VendorAnalyticsApplicationsOfferingJson jsonOffering = new VendorAnalyticsApplicationsOfferingJson();
+			jsonOffering.setProductId(offering.getProductId());
+			jsonOffering.setProductName(offering.getProductName());
+			jsonOffering.setProductDescription(offering.getProductDescription());
+			jsonOffering.setAnalyticalSolutionTypeCode(offering.getAnalyticalSolutionType().getAnalyticalSolutionTypeId());
+			jsonOffering.setAnalyticalSolutionTypeDescription(offering.getAnalyticalSolutionType().getDescription());
+			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
+			jsonOfferings.add(jsonOffering);
+		}
+	}
+	
+	@RequestMapping(value="fetchAnalyticsApplicationsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+	public @ResponseBody VendorAnalyticsApplicationsOfferingJson fetchAnalyticsApplicationsOffering(
+			HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "productId", required = true) String productId) {
+		
+		logger.debug("Entering  - VendorController : fetchAnalyticsApplicationsOffering for product {}", 
+				productId);
+		VendorAnalyticsApplicationsOfferingJson vendorOffering = null;
+
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				request.getRequestDispatcher("/").forward(request, response);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			VendorAnalyticsApplicationsOffering offering = null;
+			List<VendorAnalyticsApplicationsOffering> offerings = vendorService.
+					getVendorAnalyticsApplicationsOffering(userName);
+			for(VendorAnalyticsApplicationsOffering AnalyticsAppOffering : offerings) {
+				if (AnalyticsAppOffering.getProductId().equals(productId)) {
+					offering = AnalyticsAppOffering;
+					break;
+				}
+			}
+			if(offering == null) {
+				logger.error("Selected Offering does not belong to logged in User !!");
+			} else {
+				vendorOffering = new VendorAnalyticsApplicationsOfferingJson();
+				vendorOffering.setProductId(offering.getProductId());
+				vendorOffering.setProductName(offering.getProductName());
+				vendorOffering.setProductDescription(offering.getProductDescription());
+				vendorOffering.setAnalyticalSolutionTypeCode(offering.getAnalyticalSolutionType().getAnalyticalSolutionTypeId());
+				vendorOffering.setAnalyticalSolutionTypeDescription(offering.getAnalyticalSolutionType().getDescription());
+				vendorOffering.setAnalyticalSolutionSubTypes(offering.getAnalyticalSolutionSubTypes());
+				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
+				
+				vendorOffering.setAccessbility(offering.getSoftwareDetails().getAccessbility());
+				vendorOffering.setSuitability(offering.getSoftwareDetails().getSuitability());
+				vendorOffering.setCostType(offering.getSoftwareDetails().getCostType());
+				vendorOffering.setSubCostPm(offering.getSoftwareDetails().getSubCostPm());
+				vendorOffering.setSubCostPy(offering.getSoftwareDetails().getSubCostPy());
+				vendorOffering.setAddOns(offering.getSoftwareDetails().getAddOns());
+				vendorOffering.setOperatingSystem(offering.getSoftwareDetails().getOperatingSystem());
+				vendorOffering.setSoftSpecification(offering.getSoftwareDetails().getSoftSpecification());				
+				vendorOffering.setUserBase(offering.getSoftwareDetails().getUserBase());
+				vendorOffering.setCustomizableCalcModel(offering.getSoftwareDetails().getCustomizableCalcModel());
+				vendorOffering.setRealTimeMarketData(offering.getSoftwareDetails().getRealTimeMarketData());
+				
+			}			
+		} catch (Exception exp) {
+			logger.error("Error Fetching Analytics Applications Offering for product {}", 
+					productId, exp); 
+		}
+		logger.debug("Leaving  - VendorController : fetchAnalyticsApplicationsOffering for product {}", 
+				productId);
+		return vendorOffering;
+	}
+		
+	/* Vendor Analytics Applications Offering End */
 		
 }

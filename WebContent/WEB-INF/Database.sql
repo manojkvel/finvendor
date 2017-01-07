@@ -200,7 +200,6 @@ CREATE TABLE analytical_soln_sub_type (
 	CONSTRAINT FK1_ANALYTICAL_SOLUTION_ID FOREIGN KEY (analytical_solution_type_id) REFERENCES analytical_soln_type (analytical_solution_type_id)
 );
 
-/* To be run */
 
 CREATE TABLE ven_rsrch_rpt_offering (
 	product_id VARCHAR(45) NOT NULL,
@@ -218,7 +217,7 @@ CREATE TABLE ven_rsrch_rpt_covg (
 	product_id VARCHAR(45) NOT NULL,
 	regions_covered VARCHAR(100) NULL,
 	total_analyst INT NULL,
-	existing_client_base INT NULL,
+	existing_client_base VARCHAR(100) NULL,
 	PRIMARY KEY (product_id)
 )
 ;
@@ -245,6 +244,37 @@ CREATE TABLE ven_rsrch_rpt_analyst_prof (
 	analyst_year_of_exp VARCHAR(30) NULL,
 	analyst_awards VARCHAR(500) NULL,
 	anayst_cfa_charter VARCHAR(1) NULL,
+	PRIMARY KEY (product_id)
+)
+;
+
+/* To be run */
+
+CREATE TABLE ven_analytics_app_offering (
+	product_id VARCHAR(45) NOT NULL,
+	product_name VARCHAR(300) NOT NULL,
+	product_description VARCHAR(1000) NULL DEFAULT NULL,
+	vendor_id VARCHAR(45) NOT NULL,
+	launched_year VARCHAR(4) NULL DEFAULT NULL,
+	analytical_soln_type_id INT(11) NOT NULL,
+	analytical_soln_sub_types VARCHAR(200) NOT NULL,
+	PRIMARY KEY (product_id)
+)
+;
+
+CREATE TABLE ven_analytics_app_soft_dtls (
+	product_id VARCHAR(45) NOT NULL,
+	accessbility VARCHAR(150) NULL,
+	suitability VARCHAR(150) NULL,
+	cost_type VARCHAR(100) NULL,
+	sub_cost_pm FLOAT(10, 2) NULL,
+	sub_cost_py FLOAT(10, 2) NULL,
+	add_ons VARCHAR(1000) NULL,
+	operating_system VARCHAR(100) NULL,
+	soft_specification VARCHAR(1000) NULL,	
+	user_base VARCHAR(100) NULL,
+	customizable_calc_model VARCHAR(1) NULL,
+	real_time_market_data VARCHAR(1) NULL,
 	PRIMARY KEY (product_id)
 )
 ;

@@ -59,6 +59,8 @@
         <mapping class="com.finvendor.model.VendorResearchReportsCoverageDetails"></mapping>
         <mapping class="com.finvendor.model.VendorResearchReportsResearchDetails"></mapping>
         <mapping class="com.finvendor.model.VendorResearchReportsAnalystProfile"></mapping>
+         <mapping class="com.finvendor.model.VendorAnalyticsApplicationsOffering"></mapping>
+        <mapping class="com.finvendor.model.VendorAnalyticsApplicationsSoftwareDetails"></mapping>
       </session-factory>
 	 
 </hibernate-configuration>

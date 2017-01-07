@@ -18,6 +18,7 @@ import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
 import com.finvendor.model.Vendor;
 import com.finvendor.model.VendorAnalystProfile;
+import com.finvendor.model.VendorAnalyticsApplicationsOffering;
 import com.finvendor.model.VendorAnalyticsSoftwareDetails;
 import com.finvendor.model.VendorAnalyticsfeaturesSupported;
 import com.finvendor.model.VendorAwardsMap;
@@ -568,4 +569,35 @@ public class VendorServiceImpl implements VendorService{
 		return vendorDao.getVendorResearchReportsOffering(vendorName);
 	}
 	/* Vendor Research Reports Offering End */
+	
+	/* Vendor Analytics Applications Offering Begin */
+	@Override
+	@Transactional
+	public void addVendorAnalyticsApplicationsOffering(VendorAnalyticsApplicationsOffering 
+			vendorAnalyticsApplicationsOffering) throws ApplicationException {
+		vendorDao.addVendorAnalyticsApplicationsOffering(
+				vendorAnalyticsApplicationsOffering);
+	}
+	
+	@Override
+	@Transactional
+	public VendorAnalyticsApplicationsOffering fetchVendorAnalyticsApplicationsOffering(
+			String productId) throws ApplicationException {
+		return vendorDao.fetchVendorAnalyticsApplicationsOffering(productId);
+	}
+	
+	@Override
+	@Transactional
+	public void deleteVendorAnalyticsApplicationsOffering(String productId) 
+			throws ApplicationException {
+		vendorDao.deleteVendorAnalyticsApplicationsOffering(productId);
+	}
+	
+	@Override
+	@Transactional
+	public List<VendorAnalyticsApplicationsOffering> getVendorAnalyticsApplicationsOffering(
+			String vendorName) throws ApplicationException {
+		return vendorDao.getVendorAnalyticsApplicationsOffering(vendorName);
+	}
+	/* Vendor Analytics Applications Offering End */
 }

@@ -97,6 +97,9 @@ public class Vendor implements Serializable {
 	private List<VendorTradingApplicationsOffering> tradingApplicationsOffering;
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="vendor")
+	private List<VendorAnalyticsApplicationsOffering> analyticsApplicationsOffering;
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="vendor")
 	private List<VendorResearchReportsOffering> researchReportsOffering;
 	
 	private String telephoneCode;
@@ -501,6 +504,14 @@ public class Vendor implements Serializable {
 
 	public void setTradingApplicationsOffering(List<VendorTradingApplicationsOffering> tradingApplicationsOffering) {
 		this.tradingApplicationsOffering = tradingApplicationsOffering;
+	}
+	
+	public List<VendorAnalyticsApplicationsOffering> getAnalyticsApplicationsOffering() {
+		return analyticsApplicationsOffering;
+	}
+
+	public void setAnalyticsApplicationsOffering(List<VendorAnalyticsApplicationsOffering> analyticsApplicationsOffering) {
+		this.analyticsApplicationsOffering = analyticsApplicationsOffering;
 	}
 
 	public List<VendorResearchReportsOffering> getResearchReportsOffering() {

@@ -26,6 +26,7 @@ import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
 import com.finvendor.model.Vendor;
 import com.finvendor.model.VendorAnalystProfile;
+import com.finvendor.model.VendorAnalyticsApplicationsOffering;
 import com.finvendor.model.VendorAnalyticsSoftwareDetails;
 import com.finvendor.model.VendorAnalyticsfeaturesSupported;
 import com.finvendor.model.VendorAwardsMap;
@@ -1115,4 +1116,79 @@ public class VendorDaoImpl implements VendorDao{
 		return offerings;
 	}
 	/* Vendor Research Reports Offering End */
+	
+	
+	/* Vendor Analytics Applications Offering Begin */
+	@Override
+	public void addVendorAnalyticsApplicationsOffering(VendorAnalyticsApplicationsOffering 
+			vendorAnalyticsApplicationsOffering) throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - addVendorAnalyticsApplicationsOffering for {}, product Name {}", 
+				vendorAnalyticsApplicationsOffering.getVendor().getId(), vendorAnalyticsApplicationsOffering.getProductName());
+		try{
+			Session session = sessionFactory.getCurrentSession();
+			session.saveOrUpdate(vendorAnalyticsApplicationsOffering);
+		}catch (Exception exp) {
+			logger.error("Error Updating Analytics Appliations Offering for {}", 
+					vendorAnalyticsApplicationsOffering.getVendor().getId(), exp);
+			throw new ApplicationException("Error Updating Analytics Applications Offering : " + exp.getMessage());
+		}
+		logger.debug("Leaving VendorDaoImpl - addVendorAnalyticsApplicationsOffering for {}, product Name {}", 
+				vendorAnalyticsApplicationsOffering.getVendor().getId(), vendorAnalyticsApplicationsOffering.getProductName());
+	}
+	
+	@Override
+	public VendorAnalyticsApplicationsOffering fetchVendorAnalyticsApplicationsOffering(
+			String productId) throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - fetchVendorAnalyticsApplicationsOffering for {}", 
+				productId);
+		try{
+			Session session = sessionFactory.getCurrentSession();
+			VendorAnalyticsApplicationsOffering AnalyticsAppOffering = (VendorAnalyticsApplicationsOffering)
+					session.get(VendorAnalyticsApplicationsOffering.class, productId);
+			logger.debug("Leaving VendorDaoImpl - fetchVendorAnalyticsApplicationsOffering for {}", 
+					productId);
+			return AnalyticsAppOffering;
+		}catch (Exception exp) {
+			logger.error("Error Reading Analytics Applications Offering for {}", 
+					productId, exp);
+			throw new ApplicationException("Error Reading Analytics Applications Offering : " + exp.getMessage());
+		}		
+	}
+	
+	@Override
+	public void deleteVendorAnalyticsApplicationsOffering(String productId) 
+			throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - deleteVendorAnalyticsApplicationsOffering for {}", 
+				productId);
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Object AnalyticsAppOffering = session.load(VendorAnalyticsApplicationsOffering.class, productId);
+			if (AnalyticsAppOffering != null) { 
+				session.delete(AnalyticsAppOffering);
+			}else {
+				logger.error("No Record exists for Analytics Applications Offering {}", productId);
+				throw new ApplicationException("No Record exists for Analytics Applications Offering");
+			}
+			logger.debug("Leaving VendorDaoImpl - deleteVendorAnalyticsApplicationsOffering for {}", 
+					productId);
+		}catch (Exception exp) {
+			logger.error("Error Deleting Analytics Applications Offering for {}", 
+					productId, exp);
+			throw new ApplicationException("Error Deleting Analytics Applications Offering : " + exp.getMessage());
+		}		
+	}
+	
+	@Override
+	public List<VendorAnalyticsApplicationsOffering> getVendorAnalyticsApplicationsOffering(
+			String vendorName) throws ApplicationException {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("select v from Vendor v join fetch v.analyticsApplicationsOffering "
+				+ "where v.user.userName = :userName");
+		query.setParameter("userName", vendorName);
+		Vendor vendor = (Vendor)query.uniqueResult();
+		List<VendorAnalyticsApplicationsOffering> offerings = vendor.getAnalyticsApplicationsOffering();
+		logger.debug("{} Analytics Applications Offering returned for Vendor {}", offerings.size(), vendorName);
+		return offerings;
+	}
+	/* Vendor Analytics Applications Offering End */
 }

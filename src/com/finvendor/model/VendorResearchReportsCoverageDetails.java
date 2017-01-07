@@ -25,7 +25,7 @@ public class VendorResearchReportsCoverageDetails
 	private int totalAnalyst;
 	
 	@Column(name="existing_client_base")
-	private int existingClientBase;
+	private String existingClientBase;
 
 	public String getProductId() {
 		return productId;
@@ -51,11 +51,11 @@ public class VendorResearchReportsCoverageDetails
 		this.totalAnalyst = totalAnalyst;
 	}
 
-	public int getExistingClientBase() {
+	public String getExistingClientBase() {
 		return existingClientBase;
 	}
 
-	public void setExistingClientBase(int existingClientBase) {
+	public void setExistingClientBase(String existingClientBase) {
 		this.existingClientBase = existingClientBase;
 	}
 	

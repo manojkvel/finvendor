@@ -13,6 +13,7 @@ import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
 import com.finvendor.model.Vendor;
 import com.finvendor.model.VendorAnalystProfile;
+import com.finvendor.model.VendorAnalyticsApplicationsOffering;
 import com.finvendor.model.VendorAnalyticsSoftwareDetails;
 import com.finvendor.model.VendorAnalyticsfeaturesSupported;
 import com.finvendor.model.VendorAwardsMap;
@@ -139,5 +140,15 @@ public interface VendorService {
 	public List<VendorResearchReportsOffering> getVendorResearchReportsOffering(
 			String vendorName) throws ApplicationException;
 	/* Vendor Research Report Offering End */
+	
+	/* Vendor Analytics Applications Offering Begin */
+	public void addVendorAnalyticsApplicationsOffering(VendorAnalyticsApplicationsOffering 
+			vendorAnalyticsApplicationsOffering) throws ApplicationException;
+	public VendorAnalyticsApplicationsOffering fetchVendorAnalyticsApplicationsOffering(
+			String productId) throws ApplicationException;
+	public void deleteVendorAnalyticsApplicationsOffering(String productId) throws ApplicationException;
+	public List<VendorAnalyticsApplicationsOffering> getVendorAnalyticsApplicationsOffering(
+			String vendorName) throws ApplicationException;
+	/* Vendor Analytics Applications Offering End */
 	
 }
