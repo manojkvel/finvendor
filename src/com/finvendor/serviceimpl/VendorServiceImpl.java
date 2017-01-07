@@ -28,6 +28,7 @@ import com.finvendor.model.VendorOffering;
 import com.finvendor.model.VendorRegionCountryExchangeMap;
 import com.finvendor.model.VendorResearchCoverage;
 import com.finvendor.model.VendorResearchDetails;
+import com.finvendor.model.VendorResearchReportsOffering;
 import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingApplicationsOffering;
@@ -536,4 +537,35 @@ public class VendorServiceImpl implements VendorService{
 		return vendorDao.getVendorTradingApplicationsOffering(vendorName);
 	}
 	/* Vendor Trading Applications Offering End */
+	
+	/* Vendor Research Reports Offering Begin */
+	@Override
+	@Transactional
+	public void addVendorResearchReportsOffering(VendorResearchReportsOffering 
+			vendorResearchReportsOffering) throws ApplicationException {
+		vendorDao.addVendorResearchReportsOffering(
+				vendorResearchReportsOffering);
+	}
+	
+	@Override
+	@Transactional
+	public VendorResearchReportsOffering fetchVendorResearchReportsOffering(
+			String productId) throws ApplicationException {
+		return vendorDao.fetchVendorResearchReportsOffering(productId);
+	}
+	
+	@Override
+	@Transactional
+	public void deleteVendorResearchReportsOffering(String productId) 
+			throws ApplicationException {
+		vendorDao.deleteVendorResearchReportsOffering(productId);
+	}
+	
+	@Override
+	@Transactional
+	public List<VendorResearchReportsOffering> getVendorResearchReportsOffering(
+			String vendorName) throws ApplicationException {
+		return vendorDao.getVendorResearchReportsOffering(vendorName);
+	}
+	/* Vendor Research Reports Offering End */
 }

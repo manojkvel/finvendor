@@ -9,7 +9,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -22,7 +21,6 @@ import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
-import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.SolutionTypes;
 import com.finvendor.model.Solutions;
 import com.finvendor.model.Support;
@@ -38,6 +36,7 @@ import com.finvendor.model.VendorOffering;
 import com.finvendor.model.VendorRegionCountryExchangeMap;
 import com.finvendor.model.VendorResearchCoverage;
 import com.finvendor.model.VendorResearchDetails;
+import com.finvendor.model.VendorResearchReportsOffering;
 import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingApplicationsOffering;
@@ -1041,4 +1040,79 @@ public class VendorDaoImpl implements VendorDao{
 		return offerings;
 	}
 	/* Vendor Trading Applications Offering End */
+	
+	
+	/* Vendor Research Reports Offering Begin */
+	@Override
+	public void addVendorResearchReportsOffering(VendorResearchReportsOffering 
+			vendorResearchReportsOffering) throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - addVendorResearchReportsOffering for {}, product Name {}", 
+				vendorResearchReportsOffering.getVendor().getId(), vendorResearchReportsOffering.getProductName());
+		try{
+			Session session = sessionFactory.getCurrentSession();
+			session.saveOrUpdate(vendorResearchReportsOffering);
+		}catch (Exception exp) {
+			logger.error("Error Updating Research Reports Offering for {}", 
+					vendorResearchReportsOffering.getVendor().getId(), exp);
+			throw new ApplicationException("Error Updating Research Reports Offering : " + exp.getMessage());
+		}
+		logger.debug("Leaving VendorDaoImpl - addVendorResearchReportsOffering for {}, product Name {}", 
+				vendorResearchReportsOffering.getVendor().getId(), vendorResearchReportsOffering.getProductName());
+	}
+	
+	@Override
+	public VendorResearchReportsOffering fetchVendorResearchReportsOffering(
+			String productId) throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - fetchVendorResearchReportsOffering for {}", 
+				productId);
+		try{
+			Session session = sessionFactory.getCurrentSession();
+			VendorResearchReportsOffering researchReportOffering = (VendorResearchReportsOffering)
+					session.get(VendorResearchReportsOffering.class, productId);
+			logger.debug("Leaving VendorDaoImpl - fetchVendorResearchReportsOffering for {}", 
+					productId);
+			return researchReportOffering;
+		}catch (Exception exp) {
+			logger.error("Error Reading Research Reports Offering for {}", 
+					productId, exp);
+			throw new ApplicationException("Error Reading Research Reports Offering : " + exp.getMessage());
+		}		
+	}
+	
+	@Override
+	public void deleteVendorResearchReportsOffering(String productId) 
+			throws ApplicationException {
+		logger.debug("Entering VendorDaoImpl - deleteVendorResearchReportsOffering for {}", 
+				productId);
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Object researchReportOffering = session.load(VendorResearchReportsOffering.class, productId);
+			if (researchReportOffering != null) { 
+				session.delete(researchReportOffering);
+			}else {
+				logger.error("No Record exists for Research Reports Offering {}", productId);
+				throw new ApplicationException("No Record exists for Research Reports Offering");
+			}
+			logger.debug("Leaving VendorDaoImpl - deleteVendorTradingApplicationsOffering for {}", 
+					productId);
+		}catch (Exception exp) {
+			logger.error("Error Deleting Research Reports Offering for {}", 
+					productId, exp);
+			throw new ApplicationException("Error Deleting Research Reports Offering : " + exp.getMessage());
+		}		
+	}
+	
+	@Override
+	public List<VendorResearchReportsOffering> getVendorResearchReportsOffering(
+			String vendorName) throws ApplicationException {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("select v from Vendor v join fetch v.researchReportsOffering "
+				+ "where v.user.userName = :userName");
+		query.setParameter("userName", vendorName);
+		Vendor vendor = (Vendor)query.uniqueResult();
+		List<VendorResearchReportsOffering> offerings = vendor.getResearchReportsOffering();
+		logger.debug("{} Reasearch Reports Offering returned for Vendor {}", offerings.size(), vendorName);
+		return offerings;
+	}
+	/* Vendor Research Reports Offering End */
 }

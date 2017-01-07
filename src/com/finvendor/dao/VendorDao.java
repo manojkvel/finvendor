@@ -24,6 +24,7 @@ import com.finvendor.model.VendorOffering;
 import com.finvendor.model.VendorRegionCountryExchangeMap;
 import com.finvendor.model.VendorResearchCoverage;
 import com.finvendor.model.VendorResearchDetails;
+import com.finvendor.model.VendorResearchReportsOffering;
 import com.finvendor.model.VendorSolution;
 import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingApplicationsOffering;
@@ -285,5 +286,15 @@ public interface VendorDao {
 	public List<VendorTradingApplicationsOffering> getVendorTradingApplicationsOffering(
 			String vendorName) throws ApplicationException;
 	/* Vendor Trading Applications Offering End */
+	
+	/* Vendor Research Report Offering Begin */
+	public void addVendorResearchReportsOffering(VendorResearchReportsOffering 
+			vendorResearchReportsOffering) throws ApplicationException;
+	public VendorResearchReportsOffering fetchVendorResearchReportsOffering(
+			String productId) throws ApplicationException;
+	public void deleteVendorResearchReportsOffering(String productId) throws ApplicationException;
+	public List<VendorResearchReportsOffering> getVendorResearchReportsOffering(
+			String vendorName) throws ApplicationException;
+	/* Vendor Research Report Offering End */
 	
  }

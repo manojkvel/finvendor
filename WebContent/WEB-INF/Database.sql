@@ -209,7 +209,8 @@ CREATE TABLE ven_rsrch_rpt_offering (
 	vendor_id VARCHAR(45) NOT NULL,
 	launched_year VARCHAR(4) NULL DEFAULT NULL,
 	research_area INT(11) NOT NULL,
-	research_sub_area VARCHAR(200) NOT NULL
+	research_sub_area VARCHAR(200) NULL,
+	PRIMARY KEY (product_id)
 )
 ;
 
@@ -217,7 +218,8 @@ CREATE TABLE ven_rsrch_rpt_covg (
 	product_id VARCHAR(45) NOT NULL,
 	regions_covered VARCHAR(100) NULL,
 	total_analyst INT NULL,
-	existing_client_base INT NULL
+	existing_client_base INT NULL,
+	PRIMARY KEY (product_id)
 )
 ;
 
@@ -230,17 +232,19 @@ CREATE TABLE ven_rsrch_rpt_dtls (
 	sub_cost_py FLOAT(10, 2) NULL,
 	rep_format VARCHAR(20) NULL,
 	res_period_mon VARCHAR(20) NULL,
-	res_period_year VARCHAR(4) NULL
+	res_period_year VARCHAR(4) NULL,
+	PRIMARY KEY (product_id)
 )
 ;
 
 CREATE TABLE ven_rsrch_rpt_analyst_prof (
 	product_id VARCHAR(45) NOT NULL,
-	analyst_name VARCHAR(200) NULL,
-	analyst_region VARCHAR(100) NULL,
-	analyst_country VARCHAR(200) NULL,
+	analyst_name VARCHAR(200) NOT NULL,
+	analyst_region INT NOT NULL,
+	analyst_country INT NOT NULL,
 	analyst_year_of_exp VARCHAR(30) NULL,
 	analyst_awards VARCHAR(500) NULL,
-	anayst_cfa_charter VARCHAR(1) NULL
+	anayst_cfa_charter VARCHAR(1) NULL,
+	PRIMARY KEY (product_id)
 )
 ;
