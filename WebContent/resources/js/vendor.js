@@ -142,7 +142,7 @@ jQuery(document).ready(function() {
 
 
 	$("#myofferings3").on("click", function() {
-		//listAnalyticApplicationsOffering();
+		listAnalyticsApplicationsOffering();
 	});
 
 	$("#analytic_application_top_card .add_more").on("click", function() {
@@ -190,7 +190,7 @@ jQuery(document).ready(function() {
 
 
 	$("#myofferings4").on("click", function() {
-		//listResearchApplicationsOffering();
+		listResearchReportsOffering();
 	});
 
 	$("#research_application_top_card .add_more").on("click", function() {
@@ -199,7 +199,7 @@ jQuery(document).ready(function() {
 
 	$("#research_application .save").on("click", function() {
 		var id = $('#research_application #productId').val();
-		if(!addResearchApplicationsOffering(id)) {
+		if(!addResearchReportsOffering(id)) {
 			progressLoader(false);
 			return false;
 		}
@@ -304,11 +304,47 @@ jQuery(document).ready(function() {
 		activeModeVendorMyofferings("#tab2");
 	}
 
+	$(document).on("click", "#analytic_application_top_card .analytic_application_list .edit_btn", function (e) {
+			var id = $(this).closest('.analytic_application_list').attr('id');
+			isEdit = true;
+			fetchAnalyticsApplicationsOffering(id);		 
+	});
+
+	$(document).on("click", "#analytic_application_top_card .analytic_application_list .delete_btn", function (e) {
+    	
+		
+		var r = confirm("Are you sure want to delete?");
+		if (r == true) {
+			var id = $(this).closest('.analytic_application_list').attr('id');
+			deleteAnalyticsApplicationsOffering(id);
+
+		}		 
+	});
+
 	/// list Annalytics Application offering:
 	listAnalyticsApplicationOffering = function() {
 		progressLoader(false);
 		activeModeVendorMyofferings("#tab3");
 	}
+
+	var isEdit = false;
+
+	$(document).on("click", "#research_application_top_card .research_application_list .edit_btn", function (e) {
+			var id = $(this).closest('.analytic_application_list').attr('id');
+			isEdit = true;
+			fetchResearchReportsOffering(id);		 
+	});
+
+	$(document).on("click", "#research_application_top_card .research_application_list .delete_btn", function (e) {
+    	
+		
+		var r = confirm("Are you sure want to delete?");
+		if (r == true) {
+			var id = $(this).closest('.research_application_list').attr('id');
+			deleteResearchReportsOffering(id);
+
+		}		 
+	});
 
 	/// list Research Report Providers offering:
 	listResearchReportProviderOffering = function() {
@@ -1145,7 +1181,7 @@ jQuery(document).ready(function() {
 
 
 	/// fetch Analytic Application offering--:
-	fetchAnalyticApplicationsOffering = function(id) {
+	fetchAnalyticsApplicationsOffering = function(id) {
 		$("#analytic_application_top_card").hide();
 		$("#analytic_application .alert").hide();
 		$(".error_field").removeClass("error_field");
@@ -1165,7 +1201,7 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'GET',
-			url:  "fetchAnalyticApplicationsOffering",
+			url:  "fetchAnalyticsApplicationsOffering",
 			data: data,
 			cache:false,
 			success : function(response){
@@ -1177,24 +1213,30 @@ jQuery(document).ready(function() {
 				$("#analytic_application #productDescription").val(response.productDescription);
 				$("#analytic_application #launchedYear").val(response.launchedYear);
 
-				getAssetClassMapping('assetClassId');
-				$("select[name=assetClassId]").selectpicker('val', response.assetClassCode.split(','));
+				getAnalyticalSolutionTypeMapping('analyticsSolutionType');
+				$("select[name=analyticsSolutionType]").selectpicker('val', response.analyticalSolutionTypeCode);
 				
-				getAssetClassSecurityTypeMapping('assetClassId', 'securityTypes');
-				$("select[name=securityTypes]").selectpicker('val', response.securityTypes.split(','));
+				getAnalyticalSolutionSubTypeMapping('analyticsSolutionType', 'analyticsSolutionSubType');
+				$("select[name=analyticsSolutionSubType]").selectpicker('val', response.analyticalSolutionSubTypes.split(','));
 
 				$("#analytic_application #asdAccessibility").selectpicker('val', response.accessbility.split(','));
 				$("#analytic_application #asdSuitability1").selectpicker('val', response.suitability.split(','));
 				$("#analytic_application #asdCostType").selectpicker('val', response.costType.split(','));
 				
-				$("#analytic_application #asdApplicationSubscriptionCost").val(response.platformCostPm);
-				$("#analytic_application #asdApplicationSubscriptionAnnum").val(response.platformCostPy);
+				if(response.subCostPm != 0) {
+					$("#analytic_application #asdApplicationSubscriptionCost").val(response.subCostPm);
+				}
+
+				if(response.subCostPy != 0) {
+					$("#analytic_application #asdApplicationSubscriptionAnnum").val(response.subCostPy);
+				}
+
 				$("#analytic_application #asdSoftwareSpecifications").val(response.softSpecification);
 				$("#analytic_application #asdAddOns").val(response.addOns);
 				$("#analytic_application #asdOperatingSystem").selectpicker('val', response.operatingSystem.split(','));
-				$("#analytic_application #asdExistingUserBase").val(response.existingClientBase);
-				$("#analytic_application #asdCustomizableCalculationModels").prop("checked",(response.customizableCalculationModels == 'Y') ? true : false);
-				$("#analytic_application #asdRealtimeMarketData").prop("checked",(response.realtimeMarketData == 'Y') ? true : false);
+				$("#analytic_application #asdExistingUserBase").val(response.userBase);
+				$("#analytic_application #asdCustomizableCalculationModels").prop("checked",(response.customizableCalcModel == 'Y') ? true : false);
+				$("#analytic_application #asdRealtimeMarketData").prop("checked",(response.realTimeMarketData == 'Y') ? true : false);
 
 			},
 			error : function(data, textStatus, jqXHR){
@@ -1204,7 +1246,7 @@ jQuery(document).ready(function() {
 	}
 
 	/// delete Analytic Application offering--:
-	deleteAnalyticApplicationsOffering = function(id) {
+	deleteAnalyticsApplicationsOffering = function(id) {
 		//progressLoader(true);
 		var trids = id.split("_");
 
@@ -1220,7 +1262,7 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'POST',
-			url:  "deleteAnalyticApplicationsOffering",
+			url:  "deleteAnalyticsApplicationsOffering",
 			data: data,
 			cache:false,
 			success : function(output){
@@ -1234,7 +1276,7 @@ jQuery(document).ready(function() {
 	}
 
 	/// list Analytic Application offering:
-	listAnalyticApplicationsOffering = function() {
+	listAnalyticsApplicationsOffering = function() {
 		isEdit = false;
 		progressLoader(true);
 		$("#analytic_application").slideUp();
@@ -1242,22 +1284,22 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'GET',
-			url:  "listAnalyticApplicationsOffering",
+			url:  "listAnalyticsApplicationsOffering",
 			cache:false,
 			success : function(response) {
 				var totalCount = response.length;
 				if(totalCount === 0) {
 					progressLoader(false);
-					openDataAggregratorForm();
+					openAnalyticApplicationForm();
 					return;
 				}
 
 				$('#analytic_application_top_card .analytic_application_info').empty();
-				var listAnalyticApplicationsOfferingHTML = '';
+				var listAnalyticsApplicationsOfferingHTML = '';
 				for(var i=0; i < totalCount; i++) {
-					listAnalyticApplicationsOfferingHTML += "<div class='analytic_application_list list' id='" + response[i].productId  + "_id'>" +
+					listAnalyticsApplicationsOfferingHTML += "<div class='analytic_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].assetClassDescription  + " | " + getRegionMultipleListById(response[i].tradRegion) + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].analyticalSolutionTypeDescription  + " | " + getRegionMultipleListById(response[i].tradRegion) + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -1266,7 +1308,7 @@ jQuery(document).ready(function() {
 						"</div>";
 				}
 				progressLoader(false);
-				$('#analytic_application_top_card .analytic_application_info').html(listAnalyticApplicationsOfferingHTML);
+				$('#analytic_application_top_card .analytic_application_info').html(listAnalyticsApplicationsOfferingHTML);
 				$("#analytic_application_top_card").show().slideDown();
 			},
 			error : function(data, textStatus, jqXHR){
@@ -1304,11 +1346,11 @@ jQuery(document).ready(function() {
 		var asdApplicationSubscriptionCost = $("#analytic_application #asdApplicationSubscriptionCost").val().trim();
 		var asdApplicationSubscriptionAnnum = $("#analytic_application #asdApplicationSubscriptionAnnum").val().trim();
 		
-		var asdAddOns = $("#trading_application #asdAddOns").val();
-		var asdOperatingSystem = $("#trading_application #asdOperatingSystem").selectpicker('val');
-		var asdSoftwareSpecifications = $("#analytic_application #asdSoftwareSpecifications").val().trim();
+		var asdAddOns = $("#analytic_application #asdAddOns").val();
+		var asdOperatingSystem = $("#analytic_application #asdOperatingSystem").selectpicker('val');
+		var asdAddSoftwareSpecifications = $("#analytic_application #asdSoftwareSpecifications").val().trim();
 
-		var asdExistingUserBase = $("#trading_application #asdExistingUserBase").val();
+		var asdExistingUserBase = $("#analytic_application #asdExistingUserBase").val();
 		var asdCustomizableCalculationModels = $("#analytic_application #asdCustomizableCalculationModels").prop("checked");
 		var asdRealtimeMarketData = $("#analytic_application #asdRealtimeMarketData").prop("checked");
 
@@ -1393,25 +1435,25 @@ jQuery(document).ready(function() {
 				"productId" : productId,
 				"productName" : productName,
 				"productDescription" : productDescription,
-				"analyticsSolutionType" : analyticsSolutionType,
-				"analyticsSolutionSubType" : (analyticsSolutionSubType != null)? ',' + analyticsSolutionSubType : '',
+				"analyticsSolutionTypeId" : analyticsSolutionType,
+				"analyticsSolutionSubTypes" : (analyticsSolutionSubType != null)? ',' + analyticsSolutionSubType : '',
 				"launchedYear" : launchedYear,
 				"accessbility" : (asdAccessibility != null) ? ',' + asdAccessibility : '',
 				"suitability" : (asdSuitability != null) ? ',' + asdSuitability : '',
 				"costType" : (asdCostType != null) ? ',' + asdCostType : '',
-				"platformCostPm" : 1.0,
-				"platformCostPy" : 2.2,
+				"subCostPm" : (asdApplicationSubscriptionCost != '') ? asdApplicationSubscriptionCost : '0.0',
+				"subCostPy" : (asdApplicationSubscriptionAnnum != '') ? asdApplicationSubscriptionAnnum : '0.0',
 				"softSpecification" : asdAddSoftwareSpecifications,
 				"addOns" : asdAddOns,
-				"operatingSystem" : (asdOpeSystem != null) ? ',' + asdOpeSystem : '',
-				"existingClientBase" : asdExistingUserBase,
-				"customizableCalculationModels" : asdCustomizableCalculationModels,
-				"realtimeMarketData" : asdRealtimeMarketData
+				"operatingSystem" : (asdOperatingSystem != null) ? ',' + asdOperatingSystem : '',
+				"userBase" : asdExistingUserBase,
+				"customizableCalcModel" : asdCustomizableCalculationModels,
+				"realTimeMarketData" : asdRealtimeMarketData
 			}
 
 			$.ajax({
 				type: 'POST',
-				url:  "addAnalyticApplicationsOffering",
+				url:  "addAnalyticsApplicationsOffering",
 				data: data,
 				cache:false,
 				success : function(output){
@@ -1420,7 +1462,7 @@ jQuery(document).ready(function() {
 					progressLoader(false);
 					$("#analytic_application .alert").removeClass("alert-success").removeClass("alert-danger").text('').hide();
 
-					listTradingApplicationsOffering();
+					listAnalyticsApplicationsOffering();
 					$("#analytic_application").slideUp();
 				},
 				error : function(data, textStatus, jqXHR){
@@ -1447,6 +1489,10 @@ jQuery(document).ready(function() {
 		getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
 	});
 
+	$("select[name=rdAnalystRegionofIncorp]").on('change', function() {
+		getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');
+	});
+
 	openResearchApplicationForm = function() {
 		resetResearchApplicationForm();
 		$("#research_application").slideDown();
@@ -1455,6 +1501,8 @@ jQuery(document).ready(function() {
 		if(!isEdit) {
 			getResearchAreaMapping('rcResearchArea');
 			getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
+			getRegionMapping('rdAnalystRegionofIncorp');
+			getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');
 		}
 	}
 
@@ -1472,8 +1520,146 @@ jQuery(document).ready(function() {
 		$(".error_field").removeClass("error_field");
 	}
 
+	/// fetch Analytic Application offering--:
+	fetchResearchApplicationsOffering = function(id) {
+		$("#research_application_top_card").hide();
+		$("#research_application .alert").hide();
+		$(".error_field").removeClass("error_field");
+		progressLoader(true);
+
+		var ids = id.split("_");
+		var productId = ids[0];
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
+		}
+
+		var data = {
+			"productId" : productId
+		}
+
+
+		$.ajax({
+			type: 'GET',
+			url:  "fetchAnalyticsApplicationsOffering",
+			data: data,
+			cache:false,
+			success : function(response){
+				progressLoader(false);
+				$("#analytic_application").slideDown();
+				$("#analytic_application_top_card").slideUp();
+				$("#analytic_application #productId").val(response.productId);
+				$("#analytic_application #productName").val(response.productName);
+				$("#analytic_application #productDescription").val(response.productDescription);
+				$("#analytic_application #launchedYear").val(response.launchedYear);
+
+				getAnalyticalSolutionTypeMapping('analyticsSolutionType');
+				$("select[name=analyticsSolutionType]").selectpicker('val', response.analyticalSolutionTypeCode);
+				
+				getAnalyticalSolutionSubTypeMapping('analyticsSolutionType', 'analyticsSolutionSubType');
+				$("select[name=analyticsSolutionSubType]").selectpicker('val', response.analyticalSolutionSubTypes.split(','));
+
+				$("#analytic_application #asdAccessibility").selectpicker('val', response.accessbility.split(','));
+				$("#analytic_application #asdSuitability1").selectpicker('val', response.suitability.split(','));
+				$("#analytic_application #asdCostType").selectpicker('val', response.costType.split(','));
+				
+				if(response.subCostPm != 0) {
+					$("#analytic_application #asdApplicationSubscriptionCost").val(response.subCostPm);
+				}
+
+				if(response.subCostPy != 0) {
+					$("#analytic_application #asdApplicationSubscriptionAnnum").val(response.subCostPy);
+				}
+
+				$("#analytic_application #asdSoftwareSpecifications").val(response.softSpecification);
+				$("#analytic_application #asdAddOns").val(response.addOns);
+				$("#analytic_application #asdOperatingSystem").selectpicker('val', response.operatingSystem.split(','));
+				$("#analytic_application #asdExistingUserBase").val(response.userBase);
+				$("#analytic_application #asdCustomizableCalculationModels").prop("checked",(response.customizableCalcModel == 'Y') ? true : false);
+				$("#analytic_application #asdRealtimeMarketData").prop("checked",(response.realTimeMarketData == 'Y') ? true : false);
+
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+			}
+		});
+	}
+
+	/// delete Analytic Application offering--:
+	deleteResearchApplicationsOffering = function(id) {
+		//progressLoader(true);
+		var trids = id.split("_");
+
+		var productId = trids[0];
+		if(productId.length <= 0) {
+			alert('Product Id is missing');
+			return;
+		}
+
+		var data = {
+			"productId" : productId
+		}
+
+		$.ajax({
+			type: 'POST',
+			url:  "deleteAnalyticsApplicationsOffering",
+			data: data,
+			cache:false,
+			success : function(output){
+				//progressLoader(false);
+				$('#' + id).remove();
+			},
+			error : function(data, textStatus, jqXHR){
+				//progressLoader(false);
+			}
+		});
+	}
+
+	/// list Analytic Application offering:
+	listResearchReportsOffering = function() {
+		isEdit = false;
+		progressLoader(true);
+		$("#research_application").slideUp();
+		$("#research_application_top_card").hide();
+
+		$.ajax({
+			type: 'GET',
+			url:  "listResearchReportsOffering",
+			cache:false,
+			success : function(response) {
+				var totalCount = response.length;
+				if(totalCount === 0) {
+					progressLoader(false);
+					openResearchApplicationForm();
+					return;
+				}
+
+				$('#research_application_top_card .research_application_info').empty();
+				var listResearchReportsOfferingHTML = '';
+				for(var i=0; i < totalCount; i++) {
+					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
+							"<h3>" + response[i].productName  + "</h3>" +
+							"<h4>" + response[i].analyticalSolutionTypeDescription  + " | " + getRegionMultipleListById(response[i].tradRegion) + " | " + response[i].launchedYear  + "</h4>" +
+							"<p>" + response[i].productDescription  + "</p>" +
+							"<div class='action_btn'>" +
+								"<a class='btn delete_btn'>Delete</a>" +
+								"<a class='btn edit_btn'>Edit</a>" +
+							"</div>" +
+						"</div>";
+				}
+				progressLoader(false);
+				$('#research_application_top_card .research_application_info').html(listResearchReportsOfferingHTML);
+				$("#research_application_top_card").show().slideDown();
+			},
+			error : function(data, textStatus, jqXHR){
+				progressLoader(false);
+				$("#research_application .alert").removeClass("alert-success").addClass("alert-danger").text('Please try again after sometime').show();
+			}
+		});
+	}
+
 	/// add Research Application offering--:
-	addResearchApplicationsOffering = function(id) {
+	addResearchReportsOffering = function(id) {
 		progressLoader(true);
 		$("#research_application_top_card").hide().slideUp();
 
@@ -1493,23 +1679,27 @@ jQuery(document).ready(function() {
 		var rcResearchArea = $("#research_application #rcResearchArea").val();
 		var rcResearchSubArea = $("#research_application #rcResearchSubArea").selectpicker('val');
 
-		var rcRegionsCovered = $("#research_application #rcRegionsCovered").selectpicker('val');
-		var rcTotalResearchAnalyst = $("#research_application #rcTotalResearchAnalyst").val().trim();
-		var rcExistingClientBase = $("#research_application #rcExistingClientBase").val();
+		var regionsCovered = $("#research_application #rcRegionsCovered").selectpicker('val');
+		var totalResearchAnalyst = $("#research_application #rcTotalResearchAnalyst").val().trim();
+		var existingClientBase = $("#research_application #rcExistingClientBase").val();
 
-		var rdAccessibility = $("#research_application #rdAccessibility").val();
-		var rdSuitability = $("#research_application #rdSuitability").selectpicker('val');
-		var rdReportCostType = $("#research_application #rdReportCostType").selectpicker('val');
+		var accessibility = $("#research_application #rdAccessibility").val();
+		var suitability = $("#research_application #rdSuitability").selectpicker('val');
+		var reportCostType = $("#research_application #rdReportCostType").selectpicker('val');
 		
-		var rdSubsriptionCostUSDpermonth = $("#research_application #rdSubsriptionCostUSDpermonth").val().trim();
-		var rdSubsriptionCostUSDperannum = $("#research_application #rdSubsriptionCostUSDperannum").val().trim();
+		var costPerMonth = $("#research_application #rdSubsriptionCostUSDpermonth").val().trim();
+		var costPerAnnum = $("#research_application #rdSubsriptionCostUSDperannum").val().trim();
 		
-		var rdReportFormat = $("#research_application #rdReportFormat").selectpicker('val');
-		var rdResearchApplicableMonth = $("#research_application #rdResearchApplicableMonth").selectpicker('val');
-		var rdResearchApplicableYear = $("#research_application #rdResearchApplicableYear").selectpicker('val');
+		var reportFormat = $("#research_application #rdReportFormat").selectpicker('val');
+		var researchPeriodMonth = $("#research_application #rdResearchApplicableMonth").val();
+		var researchPeriodYear = $("#research_application #rdResearchApplicableYear").val();
 
-	
-		var apResearchAnalystWithCFA = $("#research_application #apResearchAnalystWithCFA").prop("checked");
+		var analystName = $("#research_application #rdAnalystName").val().trim();
+		var analystRegion = $("#research_application #rdAnalystRegionofIncorp").selectpicker('val');
+		var analystCountry = $("#research_application #rdAnalystCountryofIncorp").selectpicker('val');
+		var anaystYearOfExperience = $("#research_application #rdAnalystYearofExp").val();
+		var analystAwards = $("#research_application #rdAnalystAwards").val();
+		var analystCfaCharter = $("#research_application #rdResearchAnalystWithCFA").prop("checked");
 
 		
 		if(productName != '') {
@@ -1547,59 +1737,107 @@ jQuery(document).ready(function() {
 			//return false;
 		}
 
-		if(rcRegionsCovered != null) {
+		if(regionsCovered != null) {
 			 $("#research_application #rcRegionsCovered").parent().find("button").removeClass("error_field");
 		} else {
 			 $("#research_application #rcRegionsCovered").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
-		if(rdAccessibility != null) {
+		if(accessibility != null) {
 			$("#research_application #rdAccessibility").parent().find("button").removeClass("error_field");
 		} else {
 			$("#research_application #rdAccessibility").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
-		if(rdReportCostType != null) {
-			rdReportCostType = rdReportCostType.join();
+		if(reportCostType != null) {
+			reportCostType = reportCostType.join();
 			$("#research_application #rdReportCostType").parent().find("button").removeClass("error_field");
 		} else {
 			$("#research_application #rdReportCostType").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
-		if(rdResearchApplicableYear != null) {
+
+		if(reportFormat != null) {
+			$("#research_application #rdReportFormat").removeClass("error_field");
+		} else {
+			$("#research_application #rdReportFormat").addClass("error_field");
+			//return false;
+		}
+
+		if(researchPeriodYear != null) {
 			$("#research_application #rdResearchApplicableYear").parent().find("button").removeClass("error_field");
 		} else {
 			$("#research_application #rdResearchApplicableYear").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
-		if(apResearchAnalystWithCFA) {
-			apResearchAnalystWithCFA = 'Y';
+		if(analystCfaCharter) {
+			analystCfaCharter = 'Y';
 		} else {
-			apResearchAnalystWithCFA = '';
+			analystCfaCharter = '';
 		}
 
 
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			rcResearchArea != null && rcResearchSubArea != null &&
-			rdAccessibility != null && rdReportCostType != '' &&
-			rdResearchApplicableYear != null){
+			accessibility != null && reportCostType != '' &&
+			reportFormat != null && researchPeriodYear != null){
 
 			var data = {
-				"productId" : productId,
-				"productName" : productName,
-				"productDescription" : productDescription,
-				"rcResearchArea" : rcResearchArea,
-				"rcResearchSubArea" : (rcResearchSubArea != null)? ',' + rcResearchSubArea : '',
-				"launchedYear" : launchedYear
+				/*"productId" : productId,
+				"researchReportName" : productName,
+				"researchReportDescription" : productDescription,
+				"researchAreaId" : rcResearchArea,
+				"researchSubAreas" : (rcResearchSubArea != null)? ',' + rcResearchSubArea : '',
+				"launchedYear" : launchedYear,
+				"regionsCovered" : regionsCovered,
+				"totalResearchAnalyst" : totalResearchAnalyst,
+				"existingClientBase" : existingClientBase,
+				"accessibility" : accessibility,
+				"suitability" : (suitability != null) ? ',' + suitability : '',
+				"reportCostType" : reportCostType,
+				"costPerMonth" : (costPerMonth != '') ? costPerMonth : '0.0',
+				"costPerAnnum" : (costPerAnnum != '') ? costPerAnnum : '0.0',
+				"reportFormat" : (reportFormat != null) ? ',' + reportFormat : '',
+				"researchPeriodMonth" : researchPeriodMonth,
+				"researchPeriodYear" : researchPeriodYear,
+				"analystName" : analystName,
+				"analystRegion" : analystRegion,
+				"analystCountry" : (analystCountry != null) ? ',' + analystCountry : '',
+				"anaystYearOfExperience" : anaystYearOfExperience,
+				"analystAwards" : analystAwards,
+				"analystCfaCharter" : analystCfaCharter*/
+				"productId" : null,
+				"researchReportName" : 'productName',
+				"researchReportDescription" : 'productDescription',
+				"researchAreaId" : 5,
+				"researchSubAreas" : 25,
+				"launchedYear" : 2017,
+				"regionsCovered" : 'regionsCovered',
+				"totalResearchAnalyst" : 5,
+				"existingClientBase" : 'existingClientBase',
+				"accessibility" : 'accessibility',
+				"suitability" : 'suitability',
+				"reportCostType" : 'reportCostType',
+				"costPerMonth" : '0.0',
+				"costPerAnnum" : '0.0',
+				"reportFormat" : 'reportFormat',
+				"researchPeriodMonth" : 'researchPeriodMonth',
+				"researchPeriodYear" : 'researchPeriodYear',
+				"analystName" : 'analystName',
+				"analystRegion" : 1,
+				"analystCountry" : 14,
+				"anaystYearOfExperience" : 'anaystYearOfExperience',
+				"analystAwards" : 'analystAwards',
+				"analystCfaCharter" : 'analystCfaCharter'
 			}
 
 			$.ajax({
 				type: 'POST',
-				url:  "addAnalyticApplicationsOffering",
+				url:  "addResearchReportsOffering",
 				data: data,
 				cache:false,
 				success : function(output){
@@ -1608,7 +1846,7 @@ jQuery(document).ready(function() {
 					progressLoader(false);
 					$("#research_application .alert").removeClass("alert-success").removeClass("alert-danger").text('').hide();
 
-					listTradingApplicationsOffering();
+					listResearchReportsOffering();
 					$("#research_application").slideUp();
 				},
 				error : function(data, textStatus, jqXHR){
@@ -4654,13 +4892,13 @@ $("#apAnalystAwards").change(function() {
 	 }
 });
 
-$("#rdSuitability").change(function() {
+/*$("#rdSuitability").change(function() {
 	 if ($("#rdSuitability option[value=Others]:selected").length > 0){
 		 document.getElementById("rdSuitabilityOthers").style.visibility = "visible";
 	 }else{
 		 document.getElementById("rdSuitabilityOthers").style.visibility = "hidden";
 	 }
-});
+});*/
 
 
 $("#awardVendorType").change(function() {

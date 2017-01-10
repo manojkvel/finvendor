@@ -1305,4 +1305,8 @@ a#sidemenu:focus {
 		float: none;
 		width: 100%;		
 	}
+
+	#main-wrap .main-content-wrap > :first-child {
+		width: 100%;
+	}
 }

@@ -560,14 +560,14 @@
 									</li>
 									<li>
 										<select class="selectpicker show-tick" id="analyticsSolutionType" name="analyticsSolutionType">
-											<option value ="Banking Solutions" > Banking Solutions </option>
-											<option value ="Alternative Investment Solutions" > Alternative Investment Solutions </option>
-											<option value ="Backoffice Operations" > Backoffice Operations</option>
-											<option value ="Backoffice Operations" > Backoffice Operations </option>
-											<option value ="Margining Solutions" > Margining Solutions</option>
-											<option value ="Portfolio Management Solutions" > Portfolio Management Solutions</option>
-											<option value ="Product Valuation" > Product Valuation</option>
-											<option value ="Regulatory, Compliance & Risk Mgm" > Regulatory, Compliance & Risk Mgm</option>
+											<option value ="1" > Banking Solutions </option>
+											<option value ="2" > Alternative Investment Solutions </option>
+											<option value ="3" > Backoffice Operations</option>
+											<option value ="4" > Backoffice Operations </option>
+											<option value ="5" > Margining Solutions</option>
+											<option value ="6" > Portfolio Management Solutions</option>
+											<option value ="7" > Product Valuation</option>
+											<option value ="8" > Regulatory, Compliance & Risk Mgm</option>
 										</select>
 										<label class="default_select">Analytics Solutions Type</label>
 									</li>
@@ -790,7 +790,7 @@
 										<label>Total Research Analyst</label>
 									</li>
 									<li>
-										<input type="text" name="rcExistingClientBase" id="rcExistingClientBase" readonly />
+										<input type="text" name="rcExistingClientBase" id="rcExistingClientBase" />
 										<label>Existing Client Base</label>
 									</li>
 								</ul>
@@ -884,11 +884,11 @@
 								<h3>Analyst Profile <span class="fa fa-chevron-up"></span></h3>
 								<ul>
 									<li>
-										<input type="text" name="apAnalystName" id="apAnalystName" required />
+										<input type="text" name="rdAnalystName" id="rdAnalystName" required />
 										<label>Analyst Name</label>
 									</li>
 									<li>
-										<select class="selectpicker" name="apAnalystRegionofIncorp"  id="apAnalystRegionofIncorp">
+										<select class="selectpicker" name="rdAnalystRegionofIncorp"  id="rdAnalystRegionofIncorp">
 											<c:forEach var="regions" items="${regions}">
 												<option value="${regions.name}">${regions.name}</option>
 											</c:forEach>
@@ -896,7 +896,7 @@
 										<label class="default_select">Analyst Region of Incorp</label>
 									</li>
 									<li>
-										<select class="selectpicker" name="apAnalystCountryofIncorp" id="apAnalystCountryofIncorp">
+										<select class="selectpicker" name="rdAnalystCountryofIncorp" id="rdAnalystCountryofIncorp">
 											<c:forEach var="countries" items="${countries}">
 												<option value="${countries.name}">${countries.name}</option>
 											</c:forEach>
@@ -904,7 +904,7 @@
 										<label class="default_select">Analyst Country of Incorp</label>
 									</li>
 									<li>
-										<select class="selectpicker" name="apAnalystYearofExp" id="apAnalystYearofExp">
+										<select class="selectpicker" name="rdAnalystYearofExp" id="rdAnalystYearofExp">
 											<option value="Less than 1">Less than 1</option>
 											<option value="1-3">1-3</option>
 											<option value="3-5">3-5</option>
@@ -918,7 +918,7 @@
 										<label class="default_select">Analyst Year of Exp</label>
 									</li>
 									<li>
-										<select class="selectpicker" name="apAnalystAwards" id="apAnalystAwards">
+										<select class="selectpicker" name="rdAnalystAwards" id="rdAnalystAwards">
 											<c:forEach var="awards" items="${awards}">
 												<option value="${awards.name}">${awards.name}</option>
 											</c:forEach>
@@ -926,8 +926,8 @@
 										</select>
 										<label class="default_select">Analyst Awards</label>
 									</li>
-									<li>
-										<input type="checkbox" name="apResearchAnalystWithCFA" id="apResearchAnalystWithCFA" required />
+									<li style="clear:left;">
+										<input type="checkbox" name="rdResearchAnalystWithCFA" id="rdResearchAnalystWithCFA" required />
 										<label class="default_checkbox">Research Analyst with CFA Charter?</label>
 									</li>
 								</ul>
