@@ -330,7 +330,7 @@ jQuery(document).ready(function() {
 	var isEdit = false;
 
 	$(document).on("click", "#research_application_top_card .research_application_list .edit_btn", function (e) {
-			var id = $(this).closest('.analytic_application_list').attr('id');
+			var id = $(this).closest('.research_application_list').attr('id');
 			isEdit = true;
 			fetchResearchReportsOffering(id);		 
 	});
@@ -1520,8 +1520,8 @@ jQuery(document).ready(function() {
 		$(".error_field").removeClass("error_field");
 	}
 
-	/// fetch Analytic Application offering--:
-	fetchResearchApplicationsOffering = function(id) {
+	/// fetch Research Application offering--:
+	fetchResearchReportsOffering = function(id) {
 		$("#research_application_top_card").hide();
 		$("#research_application .alert").hide();
 		$(".error_field").removeClass("error_field");
@@ -1541,42 +1541,55 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'GET',
-			url:  "fetchAnalyticsApplicationsOffering",
+			url:  "fetchResearchReportsOffering",
 			data: data,
 			cache:false,
 			success : function(response){
 				progressLoader(false);
-				$("#analytic_application").slideDown();
-				$("#analytic_application_top_card").slideUp();
-				$("#analytic_application #productId").val(response.productId);
-				$("#analytic_application #productName").val(response.productName);
-				$("#analytic_application #productDescription").val(response.productDescription);
-				$("#analytic_application #launchedYear").val(response.launchedYear);
+				$("#research_application").slideDown();
+				$("#research_application_top_card").slideUp();
+				$("#research_application #productId").val(response.productId);
+				$("#research_application #productName").val(response.productName);
+				$("#research_application #productDescription").val(response.productDescription);
+				$("#research_application #launchedYear").val(response.launchedYear);
 
-				getAnalyticalSolutionTypeMapping('analyticsSolutionType');
-				$("select[name=analyticsSolutionType]").selectpicker('val', response.analyticalSolutionTypeCode);
+				getResearchAreaMapping("rcResearchArea");
+				$("#research_application #rcResearchArea").selectpicker('val', response.researchArea);
 				
-				getAnalyticalSolutionSubTypeMapping('analyticsSolutionType', 'analyticsSolutionSubType');
-				$("select[name=analyticsSolutionSubType]").selectpicker('val', response.analyticalSolutionSubTypes.split(','));
+				getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
+				$("select[name=rcResearchSubArea]").selectpicker('val', response.researchSubArea.split(','));
 
-				$("#analytic_application #asdAccessibility").selectpicker('val', response.accessbility.split(','));
-				$("#analytic_application #asdSuitability1").selectpicker('val', response.suitability.split(','));
-				$("#analytic_application #asdCostType").selectpicker('val', response.costType.split(','));
+				$("#research_application #rcRegionsCovered").val(response.regionsCovered);
+				$("#research_application #rcTotalResearchAnalyst").val(response.totalAnalyst);
+				$("#research_application #rcExistingClientBase").val(response.existingClientBase);
+
+				$("#research_application #rdAccessibility").selectpicker('val', response.accessbility.split(','));
+				$("#research_application #rdSuitability").selectpicker('val', response.suitability.split(','));
+				$("#research_application #rdReportCostType").selectpicker('val', response.costType.split(','));
 				
 				if(response.subCostPm != 0) {
-					$("#analytic_application #asdApplicationSubscriptionCost").val(response.subCostPm);
+					$("#research_application #rdSubsriptionCostUSDpermonth").val(response.subCostPm);
 				}
 
 				if(response.subCostPy != 0) {
-					$("#analytic_application #asdApplicationSubscriptionAnnum").val(response.subCostPy);
+					$("#research_application #rdSubsriptionCostUSDperannum").val(response.subCostPy);
 				}
 
-				$("#analytic_application #asdSoftwareSpecifications").val(response.softSpecification);
-				$("#analytic_application #asdAddOns").val(response.addOns);
-				$("#analytic_application #asdOperatingSystem").selectpicker('val', response.operatingSystem.split(','));
-				$("#analytic_application #asdExistingUserBase").val(response.userBase);
-				$("#analytic_application #asdCustomizableCalculationModels").prop("checked",(response.customizableCalcModel == 'Y') ? true : false);
-				$("#analytic_application #asdRealtimeMarketData").prop("checked",(response.realTimeMarketData == 'Y') ? true : false);
+				$("#research_application #rdReportFormat").selectpicker('val', response.repFormat.split(','));
+				$("#research_application #rdResearchApplicableMonth").val(response.resPeriodMon);
+				$("#research_application #rdResearchApplicableYear").val(response.resPeriodYear);
+
+				$("#research_application #rdAnalystName").val(response.analystName);
+
+				getRegionMapping('rdAnalystRegionofIncorp');
+				$("#research_application #rdAnalystRegionofIncorp").selectpicker('val', response.analystRegion);
+				getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');
+				$("select[name=rdAnalystCountryofIncorp]").selectpicker('val', response.analystCountry);
+				
+
+				$("#research_application #rdAnalystYearofExp").val(response.analystYearOfExp);
+				$("#research_application #rdAnalystAwards").val(response.analystAwards);
+				$("#research_application #rdResearchAnalystWithCFA").prop("checked",(response.anaystCfaCharter == 'Y') ? true : false);
 
 			},
 			error : function(data, textStatus, jqXHR){
@@ -1586,7 +1599,7 @@ jQuery(document).ready(function() {
 	}
 
 	/// delete Analytic Application offering--:
-	deleteResearchApplicationsOffering = function(id) {
+	deleteResearchReportsOffering = function(id) {
 		//progressLoader(true);
 		var trids = id.split("_");
 
@@ -1602,7 +1615,7 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'POST',
-			url:  "deleteAnalyticsApplicationsOffering",
+			url:  "deleteResearchReportsOffering",
 			data: data,
 			cache:false,
 			success : function(output){
@@ -1639,7 +1652,7 @@ jQuery(document).ready(function() {
 				for(var i=0; i < totalCount; i++) {
 					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].analyticalSolutionTypeDescription  + " | " + getRegionMultipleListById(response[i].tradRegion) + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].researchAreaDescription + " | " + getRegionMultipleListById(response[i].regionsCovered) + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -1787,7 +1800,7 @@ jQuery(document).ready(function() {
 			reportFormat != null && researchPeriodYear != null){
 
 			var data = {
-				/*"productId" : productId,
+				"productId" : productId,
 				"researchReportName" : productName,
 				"researchReportDescription" : productDescription,
 				"researchAreaId" : rcResearchArea,
@@ -1806,33 +1819,10 @@ jQuery(document).ready(function() {
 				"researchPeriodYear" : researchPeriodYear,
 				"analystName" : analystName,
 				"analystRegion" : analystRegion,
-				"analystCountry" : (analystCountry != null) ? ',' + analystCountry : '',
+				"analystCountry" : analystCountry,
 				"anaystYearOfExperience" : anaystYearOfExperience,
 				"analystAwards" : analystAwards,
-				"analystCfaCharter" : analystCfaCharter*/
-				"productId" : null,
-				"researchReportName" : 'productName',
-				"researchReportDescription" : 'productDescription',
-				"researchAreaId" : 5,
-				"researchSubAreas" : 25,
-				"launchedYear" : 2017,
-				"regionsCovered" : 'regionsCovered',
-				"totalResearchAnalyst" : 5,
-				"existingClientBase" : 'existingClientBase',
-				"accessibility" : 'accessibility',
-				"suitability" : 'suitability',
-				"reportCostType" : 'reportCostType',
-				"costPerMonth" : '0.0',
-				"costPerAnnum" : '0.0',
-				"reportFormat" : 'reportFormat',
-				"researchPeriodMonth" : 'researchPeriodMonth',
-				"researchPeriodYear" : 'researchPeriodYear',
-				"analystName" : 'analystName',
-				"analystRegion" : 1,
-				"analystCountry" : 14,
-				"anaystYearOfExperience" : 'anaystYearOfExperience',
-				"analystAwards" : 'analystAwards',
-				"analystCfaCharter" : 'analystCfaCharter'
+				"analystCfaCharter" : analystCfaCharter
 			}
 
 			$.ajax({

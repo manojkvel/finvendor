@@ -786,11 +786,11 @@
 										<label class="default_select">Regions Covered</label>
 									</li>
 									<li>
-										<input type="text" name="rcTotalResearchAnalyst" id="rcTotalResearchAnalyst" required />
+										<input type="number" name="rcTotalResearchAnalyst" id="rcTotalResearchAnalyst" required />
 										<label>Total Research Analyst</label>
 									</li>
 									<li>
-										<input type="text" name="rcExistingClientBase" id="rcExistingClientBase" />
+										<input type="number" name="rcExistingClientBase" id="rcExistingClientBase" required />
 										<label>Existing Client Base</label>
 									</li>
 								</ul>
@@ -890,7 +890,7 @@
 									<li>
 										<select class="selectpicker" name="rdAnalystRegionofIncorp"  id="rdAnalystRegionofIncorp">
 											<c:forEach var="regions" items="${regions}">
-												<option value="${regions.name}">${regions.name}</option>
+												<option value="${regions.region_id}">${regions.name}</option>
 											</c:forEach>
 										</select>
 										<label class="default_select">Analyst Region of Incorp</label>
