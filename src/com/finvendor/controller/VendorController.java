@@ -3058,6 +3058,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			jsonOffering.setResearchArea(offering.getResearchArea().getResearchAreaId());
 			jsonOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
 			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
+			jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
 			jsonOfferings.add(jsonOffering);
 		}
 	}
@@ -3282,6 +3283,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			jsonOffering.setAnalyticalSolutionTypeCode(offering.getAnalyticalSolutionType().getAnalyticalSolutionTypeId());
 			jsonOffering.setAnalyticalSolutionTypeDescription(offering.getAnalyticalSolutionType().getDescription());
 			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
+			jsonOffering.setAccessbility(offering.getSoftwareDetails().getAccessbility());
 			jsonOfferings.add(jsonOffering);
 		}
 	}
