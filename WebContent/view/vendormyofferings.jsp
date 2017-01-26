@@ -306,11 +306,11 @@
 										<label class="default_select">Platform  CCY</label>
 									</li>
 									<li>
-										<input type="text" name="tdsPlatformCost" id="tdsPlatformCost" readonly />
+										<input type="text" name="tdsPlatformCost" id="tdsPlatformCost" readonly required />
 										<label>Platform cost (USD per month)</label>
 									</li>
 									<li>
-										<input type="text" name="tdsPlatformType" id="tdsPlatformType" readonly />
+										<input type="text" name="tdsPlatformType" id="tdsPlatformType" readonly required />
 										<label>Platform cost (USD per annum)</label>
 									</li>
 									<li>
@@ -608,7 +608,7 @@
 										<label class="default_select">Suitability</label>
 									</li>
 									<li>
-										<select class="selectpicker select_multiple" name="asdCostType"  multiple="multiple" id="asdCostType">
+										<select class="selectpicker select_multiple" name="asdApplicationCostType"  multiple="multiple" id="asdApplicationCostType">
 											<option value ="Min Balance Required" > Min Balance Required </option>
 											<option value ="Free and Min Balance Not required" >Free and Min Balance Not required</option>
 											<option value ="Subscription based" > Subscription based </option>
@@ -616,11 +616,11 @@
 										<label class="default_select">Application Cost Type</label>
 									</li>
 									<li>
-										<input type="text" name="asdApplicationSubscriptionCost" id="asdApplicationSubscriptionCost" readonly />
+										<input type="text" name="asdApplicationSubscriptionCost" id="asdApplicationSubscriptionCost" readonly required />
 										<label>Subscription cost (USD per month)</label>
 									</li>
 									<li>
-										<input type="text" name="asdApplicationSubscriptionAnnum" id="asdApplicationSubscriptionAnnum" readonly />
+										<input type="text" name="asdApplicationSubscriptionAnnum" id="asdApplicationSubscriptionAnnum" readonly required />
 										<label>Subscription cost (USD per annum)</label>
 									</li>
 									<li>
@@ -830,11 +830,11 @@
 										<label class="default_select">Report Cost Type</label>
 									</li>
 									<li>
-										<input type="text" name="rdSubsriptionCostUSDpermonth" id="rdSubsriptionCostUSDpermonth" readonly />
+										<input type="text" name="rdSubsriptionCostUSDpermonth" id="rdSubsriptionCostUSDpermonth" readonly required />
 										<label>Subscription cost (USD per month)</label>
 									</li>
 									<li>
-										<input type="text" name="rdSubsriptionCostUSDperannum" id="rdSubsriptionCostUSDperannum" readonly />
+										<input type="text" name="rdSubsriptionCostUSDperannum" id="rdSubsriptionCostUSDperannum" readonly required />
 										<label>Subscription cost (USD per annum)</label>
 									</li>
 									<li>

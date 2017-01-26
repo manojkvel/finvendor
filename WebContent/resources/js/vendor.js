@@ -776,6 +776,8 @@ jQuery(document).ready(function() {
 				$("#trading_application #tdsCostType").selectpicker('val', response.costType.split(','));
 				$("#trading_application #tdsPlatformCCY").selectpicker('val', response.platformCcy.split(','));
 				
+				tdsCostTypeSelector();
+
 				if(response.platformCostPm != 0.0) {
 					$("#trading_application #tdsPlatformCost").val(response.platformCostPm);
 				}
@@ -1221,8 +1223,10 @@ jQuery(document).ready(function() {
 
 				$("#analytic_application #asdAccessibility").selectpicker('val', response.accessbility.split(','));
 				$("#analytic_application #asdSuitability1").selectpicker('val', response.suitability.split(','));
-				$("#analytic_application #asdCostType").selectpicker('val', response.costType.split(','));
+				$("#analytic_application #asdApplicationCostType").selectpicker('val', response.costType.split(','));
 				
+				asdApplicationCostTypeSelector();
+
 				if(response.subCostPm != 0) {
 					$("#analytic_application #asdApplicationSubscriptionCost").val(response.subCostPm);
 				}
@@ -1341,7 +1345,7 @@ jQuery(document).ready(function() {
 
 		var asdAccessibility = $("#analytic_application #asdAccessibility").selectpicker('val');
 		var asdSuitability = $("#analytic_application #asdSuitability1").selectpicker('val');
-		var asdCostType = $("#analytic_application #asdCostType").selectpicker('val');
+		var asdCostType = $("#analytic_application #asdApplicationCostType").selectpicker('val');
 		
 		var asdApplicationSubscriptionCost = $("#analytic_application #asdApplicationSubscriptionCost").val().trim();
 		var asdApplicationSubscriptionAnnum = $("#analytic_application #asdApplicationSubscriptionAnnum").val().trim();
@@ -1400,9 +1404,9 @@ jQuery(document).ready(function() {
 
 		if(asdCostType != null) {
 			asdCostType = asdCostType.join();
-			$("#analytic_application #asdCostType").parent().find("button").removeClass("error_field");
+			$("#analytic_application #asdApplicationCostType").parent().find("button").removeClass("error_field");
 		} else {
-			$("#analytic_application #asdCostType").parent().find("button").addClass("error_field");
+			$("#analytic_application #asdApplicationCostType").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
@@ -1567,6 +1571,7 @@ jQuery(document).ready(function() {
 				$("#research_application #rdSuitability").selectpicker('val', response.suitability.split(','));
 				$("#research_application #rdReportCostType").selectpicker('val', response.costType.split(','));
 				
+				rdReportCostTypeSelector();
 				if(response.subCostPm != 0) {
 					$("#research_application #rdSubsriptionCostUSDpermonth").val(response.subCostPm);
 				}
@@ -1576,8 +1581,8 @@ jQuery(document).ready(function() {
 				}
 
 				$("#research_application #rdReportFormat").selectpicker('val', response.repFormat.split(','));
-				$("#research_application #rdResearchApplicableMonth").val(response.resPeriodMon);
-				$("#research_application #rdResearchApplicableYear").val(response.resPeriodYear);
+				$("#research_application #rdResearchApplicableMonth").selectpicker('val', response.resPeriodMon);
+				$("#research_application #rdResearchApplicableYear").selectpicker('val', response.resPeriodYear);
 
 				$("#research_application #rdAnalystName").val(response.analystName);
 
@@ -1587,8 +1592,8 @@ jQuery(document).ready(function() {
 				$("select[name=rdAnalystCountryofIncorp]").selectpicker('val', response.analystCountry);
 				
 
-				$("#research_application #rdAnalystYearofExp").val(response.analystYearOfExp);
-				$("#research_application #rdAnalystAwards").val(response.analystAwards);
+				$("#research_application #rdAnalystYearofExp").selectpicker('val', response.analystYearOfExp);
+				$("#research_application #rdAnalystAwards").selectpicker('val', response.analystAwards);
 				$("#research_application #rdResearchAnalystWithCFA").prop("checked",(response.anaystCfaCharter == 'Y') ? true : false);
 
 			},
@@ -4827,34 +4832,52 @@ $("#asdSuitability").change(function() {
 
 
 $("#tdsCostType").change(function() {
-	 if ($("#tdsCostType option[value='Subscription based']:selected").length > 0){
-		 document.getElementById("tdsPlatformCost").readOnly  = false;
-		 document.getElementById("tdsPlatformType").readOnly  = false;
-	 }else{
-		 document.getElementById("tdsPlatformCost").readOnly  = true;
-		 document.getElementById("tdsPlatformType").readOnly  = true;
-	 }
+	tdsCostTypeSelector();
 });
+
+function tdsCostTypeSelector() {
+	if ($("#tdsCostType option[value='Subscription based']:selected").length > 0){
+		document.getElementById("tdsPlatformCost").readOnly  = false;
+		document.getElementById("tdsPlatformType").readOnly  = false;
+	}else{
+		document.getElementById("tdsPlatformCost").readOnly  = true;
+		document.getElementById("tdsPlatformType").readOnly  = true;
+		$("#tdsPlatformCost").val("");
+		$("#tdsPlatformType").val("");
+	}
+}
 
 $("#asdApplicationCostType").change(function() {
-	 if ($("#asdApplicationCostType option[value='Subscription based']:selected").length > 0){
-		 document.getElementById("asdApplicationSubscriptionCost").readOnly = false;
-		 document.getElementById("asdApplicationSubscriptionAnnum").readOnly = false;
-	 }else{
-		 document.getElementById("asdApplicationSubscriptionCost").readOnly = true;
-		 document.getElementById("asdApplicationSubscriptionAnnum").readOnly = true;
-	 }
+	 asdApplicationCostTypeSelector();
 });
 
+function asdApplicationCostTypeSelector() {
+	if ($("#analytic_application #asdApplicationCostType option[value='Subscription based']:selected").length > 0){
+		document.getElementById("asdApplicationSubscriptionCost").readOnly = false;
+		document.getElementById("asdApplicationSubscriptionAnnum").readOnly = false;
+	} else{
+		document.getElementById("asdApplicationSubscriptionCost").readOnly = true;
+		document.getElementById("asdApplicationSubscriptionAnnum").readOnly = true;
+		$("#asdApplicationSubscriptionCost").val("");
+		$("#asdApplicationSubscriptionAnnum").val("");
+	}
+}
+
 $("#rdReportCostType").change(function() {
-	 if ($("#rdReportCostType option[value='Subscription based']:selected").length > 0){
-		 document.getElementById("rdSubsriptionCostUSDpermonth").readOnly = false;
-		 document.getElementById("rdSubsriptionCostUSDperannum").readOnly  = false;
-	 }else{
-		 document.getElementById("rdSubsriptionCostUSDpermonth").readOnly =true;
-		 document.getElementById("rdSubsriptionCostUSDperannum").readOnly =true;
-	 }
+	rdReportCostTypeSelector();
 });
+
+function rdReportCostTypeSelector() {
+	if ($("#rdReportCostType option[value='Subscription based']:selected").length > 0){
+		document.getElementById("rdSubsriptionCostUSDpermonth").readOnly = false;
+		document.getElementById("rdSubsriptionCostUSDperannum").readOnly  = false;
+	}else{
+		document.getElementById("rdSubsriptionCostUSDpermonth").readOnly =true;
+		document.getElementById("rdSubsriptionCostUSDperannum").readOnly =true;
+		$("#rdSubsriptionCostUSDpermonth").val("");
+		$("#rdSubsriptionCostUSDperannum").val("");
+	}
+}
 
 
 $("#tcsTradeExecutionsType").change(function() {
