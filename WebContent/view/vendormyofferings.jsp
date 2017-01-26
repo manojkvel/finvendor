@@ -282,7 +282,7 @@
 										<label class="default_select">Suitability</label>
 									</li>
 									<li>
-										<select class="selectpicker select_multiple" name="tdsCostType"  multiple="multiple" id="tdsCostType">
+										<select class="selectpicker select_multiple" name="tdsCostType" id="tdsCostType">
 											<option value ="Free and Min Balance Not required"> Free and Min Balance Not required </option>
 											<option value ="Min Balance Required"> Min Balance Required </option>
 											<option value ="Subscription based"> Subscription based </option>
@@ -608,7 +608,7 @@
 										<label class="default_select">Suitability</label>
 									</li>
 									<li>
-										<select class="selectpicker select_multiple" name="asdApplicationCostType"  multiple="multiple" id="asdApplicationCostType">
+										<select class="selectpicker select_multiple" name="asdApplicationCostType"  id="asdApplicationCostType">
 											<option value ="Min Balance Required" > Min Balance Required </option>
 											<option value ="Free and Min Balance Not required" >Free and Min Balance Not required</option>
 											<option value ="Subscription based" > Subscription based </option>
@@ -822,7 +822,7 @@
 										<label class="default_select">Suitability</label>
 									</li>
 									<li>
-										<select class="selectpicker select_multiple" name="rdReportCostType"  multiple="multiple" id="rdReportCostType">
+										<select class="selectpicker select_multiple" name="rdReportCostType" id="rdReportCostType">
 											<option value ="Free and Min Balance Not required" >Free and Min Balance Not required</option>
 											<option value ="Min Balance Required" > Min Balance Required </option>
 											<option value ="Subscription based" > Subscription based </option>

@@ -647,18 +647,18 @@ jQuery(document).ready(function() {
 				"productName" : productName,
 				"productDescription" : productDescription,
 				"assetClassId" : assetClassId,
-				"securityTypes" : (securityTypes != null)? ',' + securityTypes : '',
+				"securityTypes" : (securityTypes != null)? ',' + securityTypes + ',' : '',
 				"launchedYear" : launchedYear,
-				"coverageRegion" : (coverageRegion != null) ? ',' + coverageRegion : '',
-				"coverageCountry" : (coverageCountry != null) ? ',' + coverageCountry : '',
-				"coverageExchange" : (coverageExchange != null) ? ',' + coverageExchange : '',
+				"coverageRegion" : (coverageRegion != null) ? ',' + coverageRegion  + ',': '',
+				"coverageCountry" : (coverageCountry != null) ? ',' + coverageCountry + ',' : '',
+				"coverageExchange" : (coverageExchange != null) ? ',' + coverageExchange + ',' : '',
 				"phoneNumber" : phoneNumber,
 				"email" : email,
 				"costRange" : costRange,
-				"feedType" : (feedType != null) ? ',' + feedType : '',
-				"feedSubType" : (feedSubType != null) ? ',' + feedSubType : '',
-				"frequency" :(frequency != null) ? ',' + frequency : '',
-				"distributionMethod" : (distributionMethod != null) ? ',' + distributionMethod : ''
+				"feedType" : (feedType != null) ? ',' + feedType + ',' : '',
+				"feedSubType" : (feedSubType != null) ? ',' + feedSubType + ',' : '',
+				"frequency" :(frequency != null) ? ',' + frequency + ',' : '',
+				"distributionMethod" : (distributionMethod != null) ? ',' + distributionMethod + ',' : ''
 			}
 
 			$.ajax({
@@ -999,7 +999,6 @@ jQuery(document).ready(function() {
 		}
 
 		if(tdsCostType != null) {
-			tdsCostType = tdsCostType.join();
 			$("#trading_application #tdsCostType").parent().find("button").removeClass("error_field");
 		} else {
 			$("#trading_application #tdsCostType").parent().find("button").addClass("error_field");
@@ -1091,31 +1090,31 @@ jQuery(document).ready(function() {
 				"productName" : productName,
 				"productDescription" : productDescription,
 				"assetClassId" : assetClassId,
-				"securityTypes" : (securityTypes != null)? ',' + securityTypes : '',
+				"securityTypes" : (securityTypes != null)? ',' + securityTypes + ',': '',
 				"launchedYear" : launchedYear,
-				"accessbility" : (tdsAccessibility != null) ? ',' + tdsAccessibility : '',
-				"suitability" : (tdsSuitability != null) ? ',' + tdsSuitability : '',
-				"costType" : (tdsCostType != null) ? ',' + tdsCostType : '',
-				"platformCcy" : (tdsPlatformCCY != null) ? ',' + tdsPlatformCCY : '',
+				"accessbility" : (tdsAccessibility != null) ? ',' + tdsAccessibility + ',' : '',
+				"suitability" : (tdsSuitability != null) ? ',' + tdsSuitability + ',' : '',
+				"costType" : tdsCostType,
+				"platformCcy" : (tdsPlatformCCY != null) ? ',' + tdsPlatformCCY + ',' : '',
 				"platformCostPm" : (tdsPlatformCost != '') ? tdsPlatformCost : '0.0',
 				"platformCostPy" : (tdsPlatformType != '') ? tdsPlatformType : '0.0',
-				"orderType" : (tdsOrderType != null) ? ',' + tdsOrderType : '',
+				"orderType" : (tdsOrderType != null) ? ',' + tdsOrderType + ',' : '',
 				"softSpecification" : tdsAddSoftwareSpecifications,
 				"addOns" : tdsAddOns,
-				"operatingSystem" : (tdsOpeSystem != null) ? ',' + tdsOpeSystem : '',
+				"operatingSystem" : (tdsOpeSystem != null) ? ',' + tdsOpeSystem + ',' : '',
 				"clientBase" : tdsClientBase,
 				"priceAlerts" : tdsPriceAlerts,
 				"watchlist" : tdsWatchlist,
 				"streamingNews" : tdsStreNews,
 				"tradeUsingCharts" : tdsChartsAvai,
-				"tradRegion" : (tcsTradeCoverageRegion != null) ? ',' + tcsTradeCoverageRegion : '',
-				"tradCountry" : (tcsTradeCoverageCountry != null) ? ',' + tcsTradeCoverageCountry : '',
-				"tradExchange" : (tcsTradableMarkets != null) ? ',' + tcsTradableMarkets : '',
-				"tradCapabType" : (tcsTradingCapabilitiesType != null) ? ',' + tcsTradingCapabilitiesType : '',
-				"tradExecType" : (tcsTradeExecutionsType != null) ? ',' + tcsTradeExecutionsType : '',
-				"algoTradeType" : (tcsAlgorithmicTradeType != null) ? ',' + tcsAlgorithmicTradeType : '',
-				"darkpoolAccess" : (tcsDarkpoolAccess != null) ? ',' + tcsDarkpoolAccess : '',
-				"darkpoolVenues" : (tcsSupportedDarkpoolVenues != null) ? ',' + tcsSupportedDarkpoolVenues : ''
+				"tradRegion" : (tcsTradeCoverageRegion != null) ? ',' + tcsTradeCoverageRegion + ',' : '',
+				"tradCountry" : (tcsTradeCoverageCountry != null) ? ',' + tcsTradeCoverageCountry + ',' : '',
+				"tradExchange" : (tcsTradableMarkets != null) ? ',' + tcsTradableMarkets + ',' : '',
+				"tradCapabType" : (tcsTradingCapabilitiesType != null) ? ',' + tcsTradingCapabilitiesType + ',' : '',
+				"tradExecType" : (tcsTradeExecutionsType != null) ? ',' + tcsTradeExecutionsType + ',' : '',
+				"algoTradeType" : (tcsAlgorithmicTradeType != null) ? ',' + tcsAlgorithmicTradeType + ',' : '',
+				"darkpoolAccess" : (tcsDarkpoolAccess != null) ? ',' + tcsDarkpoolAccess + ',' : '',
+				"darkpoolVenues" : (tcsSupportedDarkpoolVenues != null) ? ',' + tcsSupportedDarkpoolVenues + ',' : ''
 			}
 
 			$.ajax({
@@ -1303,7 +1302,7 @@ jQuery(document).ready(function() {
 				for(var i=0; i < totalCount; i++) {
 					listAnalyticsApplicationsOfferingHTML += "<div class='analytic_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].analyticalSolutionTypeDescription  + " | " + getRegionMultipleListById(response[i].tradRegion) + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].analyticalSolutionTypeDescription  + " | " + response[i].accessbility.replace(/(^,)|(,$)/g, "") + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -1403,7 +1402,6 @@ jQuery(document).ready(function() {
 		}
 
 		if(asdCostType != null) {
-			asdCostType = asdCostType.join();
 			$("#analytic_application #asdApplicationCostType").parent().find("button").removeClass("error_field");
 		} else {
 			$("#analytic_application #asdApplicationCostType").parent().find("button").addClass("error_field");
@@ -1440,16 +1438,16 @@ jQuery(document).ready(function() {
 				"productName" : productName,
 				"productDescription" : productDescription,
 				"analyticsSolutionTypeId" : analyticsSolutionType,
-				"analyticsSolutionSubTypes" : (analyticsSolutionSubType != null)? ',' + analyticsSolutionSubType : '',
+				"analyticsSolutionSubTypes" : (analyticsSolutionSubType != null)? ',' + analyticsSolutionSubType + ',' : '',
 				"launchedYear" : launchedYear,
-				"accessbility" : (asdAccessibility != null) ? ',' + asdAccessibility : '',
-				"suitability" : (asdSuitability != null) ? ',' + asdSuitability : '',
-				"costType" : (asdCostType != null) ? ',' + asdCostType : '',
+				"accessbility" : (asdAccessibility != null) ? ',' + asdAccessibility + ',' : '',
+				"suitability" : (asdSuitability != null) ? ',' + asdSuitability + ',' : '',
+				"costType" : asdCostType,
 				"subCostPm" : (asdApplicationSubscriptionCost != '') ? asdApplicationSubscriptionCost : '0.0',
 				"subCostPy" : (asdApplicationSubscriptionAnnum != '') ? asdApplicationSubscriptionAnnum : '0.0',
 				"softSpecification" : asdAddSoftwareSpecifications,
 				"addOns" : asdAddOns,
-				"operatingSystem" : (asdOperatingSystem != null) ? ',' + asdOperatingSystem : '',
+				"operatingSystem" : (asdOperatingSystem != null) ? ',' + asdOperatingSystem + ',' : '',
 				"userBase" : asdExistingUserBase,
 				"customizableCalcModel" : asdCustomizableCalculationModels,
 				"realTimeMarketData" : asdRealtimeMarketData
@@ -1657,7 +1655,7 @@ jQuery(document).ready(function() {
 				for(var i=0; i < totalCount; i++) {
 					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].researchAreaDescription + " | " + getRegionMultipleListById(response[i].regionsCovered) + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].researchAreaDescription + " | " + response[i].regionsCovered + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -1770,7 +1768,6 @@ jQuery(document).ready(function() {
 		}
 
 		if(reportCostType != null) {
-			reportCostType = reportCostType.join();
 			$("#research_application #rdReportCostType").parent().find("button").removeClass("error_field");
 		} else {
 			$("#research_application #rdReportCostType").parent().find("button").addClass("error_field");
@@ -1809,17 +1806,17 @@ jQuery(document).ready(function() {
 				"researchReportName" : productName,
 				"researchReportDescription" : productDescription,
 				"researchAreaId" : rcResearchArea,
-				"researchSubAreas" : (rcResearchSubArea != null)? ',' + rcResearchSubArea : '',
+				"researchSubAreas" : (rcResearchSubArea != null)? ',' + rcResearchSubArea + ',' : '',
 				"launchedYear" : launchedYear,
 				"regionsCovered" : regionsCovered,
 				"totalResearchAnalyst" : totalResearchAnalyst,
 				"existingClientBase" : existingClientBase,
 				"accessibility" : accessibility,
-				"suitability" : (suitability != null) ? ',' + suitability : '',
+				"suitability" : (suitability != null) ? ',' + suitability + ',' : '',
 				"reportCostType" : reportCostType,
 				"costPerMonth" : (costPerMonth != '') ? costPerMonth : '0.0',
 				"costPerAnnum" : (costPerAnnum != '') ? costPerAnnum : '0.0',
-				"reportFormat" : (reportFormat != null) ? ',' + reportFormat : '',
+				"reportFormat" : (reportFormat != null) ? ',' + reportFormat + ',' : '',
 				"researchPeriodMonth" : researchPeriodMonth,
 				"researchPeriodYear" : researchPeriodYear,
 				"analystName" : analystName,
