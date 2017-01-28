@@ -1408,7 +1408,7 @@ jQuery(document).ready(function() {
 			//return false;
 		}
 
-		if(asdSoftwareSpecifications != '') {
+		if(asdAddSoftwareSpecifications != '') {
 			$("#analytic_application #asdSoftwareSpecifications").removeClass("error_field");
 		} else {
 			$("#analytic_application #asdSoftwareSpecifications").addClass("error_field");

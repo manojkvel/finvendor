@@ -306,11 +306,11 @@
 										<label class="default_select">Platform  CCY</label>
 									</li>
 									<li>
-										<input type="text" name="tdsPlatformCost" id="tdsPlatformCost" readonly required />
+										<input type="number" name="tdsPlatformCost" id="tdsPlatformCost" readonly required />
 										<label>Platform cost (USD per month)</label>
 									</li>
 									<li>
-										<input type="text" name="tdsPlatformType" id="tdsPlatformType" readonly required />
+										<input type="number" name="tdsPlatformType" id="tdsPlatformType" readonly required />
 										<label>Platform cost (USD per annum)</label>
 									</li>
 									<li>
@@ -616,11 +616,11 @@
 										<label class="default_select">Application Cost Type</label>
 									</li>
 									<li>
-										<input type="text" name="asdApplicationSubscriptionCost" id="asdApplicationSubscriptionCost" readonly required />
+										<input type="number" name="asdApplicationSubscriptionCost" id="asdApplicationSubscriptionCost" readonly required />
 										<label>Subscription cost (USD per month)</label>
 									</li>
 									<li>
-										<input type="text" name="asdApplicationSubscriptionAnnum" id="asdApplicationSubscriptionAnnum" readonly required />
+										<input type="number" name="asdApplicationSubscriptionAnnum" id="asdApplicationSubscriptionAnnum" readonly required />
 										<label>Subscription cost (USD per annum)</label>
 									</li>
 									<li>
@@ -830,11 +830,11 @@
 										<label class="default_select">Report Cost Type</label>
 									</li>
 									<li>
-										<input type="text" name="rdSubsriptionCostUSDpermonth" id="rdSubsriptionCostUSDpermonth" readonly required />
+										<input type="number" name="rdSubsriptionCostUSDpermonth" id="rdSubsriptionCostUSDpermonth" readonly required />
 										<label>Subscription cost (USD per month)</label>
 									</li>
 									<li>
-										<input type="text" name="rdSubsriptionCostUSDperannum" id="rdSubsriptionCostUSDperannum" readonly required />
+										<input type="number" name="rdSubsriptionCostUSDperannum" id="rdSubsriptionCostUSDperannum" readonly required />
 										<label>Subscription cost (USD per annum)</label>
 									</li>
 									<li>
