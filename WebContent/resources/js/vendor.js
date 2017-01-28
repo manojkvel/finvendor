@@ -1431,7 +1431,7 @@ jQuery(document).ready(function() {
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			analyticsSolutionType != null && analyticsSolutionSubType != null && 
 			asdAccessibility != null && asdCostType != null && 
-			asdSoftwareSpecifications != null){
+			asdAddSoftwareSpecifications != null){
 
 			var data = {
 				"productId" : productId,
