@@ -26,12 +26,30 @@
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8" />
-<title>Fin Vendor | Vendor</title>
+<title>Fin Vendor | Vendor</title>	
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta name="description" content="" />
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="author" content="" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript">
+    	$(document).ready( function () {
+    		getAssetClassList();
+    		getSecurityTypeList();
+    		getRegionList();
+    		getCountryList();
+    		getExchangeList();
+    	});
+    </script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body>
 	<jsp:include page="common/dashboardheader.jsp"></jsp:include>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
 	<div class="container">
 		<div class="text_area">
 			<div class="text_arw">
@@ -42,427 +60,163 @@
 			<div class="arw">></div>
 			<div class="text_arw">Search Vendor</div>
 		</div>
-		<div class="row-fluid">
-			<div class="span12">
-				<div class="row-fluid service-box">
-					<div class="row-fluid">
-						<div class="span12">
-							<div class="portlet box blue" id="form_wizard_1">
-								<div class="portlet-title"></div>
-								<div class="portlet-body form">
-									<!-- Multi Trading Vendor Start here -->
-									<div id="searchmultiform">
-										<form
-											action="<%=request.getContextPath()+"/"+RequestConstans.FinancialAnalyticsApplication.MULTI_ASSET_CLASS_SEARCH_RESULT%>?RaYvEmUl=${l:encrypt(username)}"
-											class="form-horizontal" id="submit_form" method="post"
-											enctype="multipart/form-data">
+		<div id="searchmultiform">
+			<div id="trading_application_search" class="consumer_search custom_form">
+				<div class="generic_message">
+					<div class="alert"></div>
+				</div>
+				<div class="asset_class">
+					<h3>Analytics Solutions Type <span class="fa fa-chevron-up"></span></h3>
+					<ul>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="Alternative Investment Solutions"
+							id="alternative_investment_solutions" />
+							<label>Alternative Invest.. Soln</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="Backoffice Operations"
+							id="back_office_operations" />
+							<label>Backoffice Operations</label>
+						</li>
+						<li>
+							<input type="checkbox" class="assetClass"
+							name="assetClassChk" value="Product Valuation" id="product_valuation" />
+							<label>Product Valuation</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="Banking Solution" id="banking_solution" />
+							<label>Banking Solution</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="Regulatory Compliance & Risk Mgmt" id="regulatory_compliance_risk_mgmt" />
+							<label>Regulatory Cmpl. &amp; Risk Mgmt</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="Portfolio Management Solutions" id="portfolio_management" />
+							<label>Portfolio Management Solutions</label>
+						</li>
+					</ul>
+				</div>
 
-											<div class="form-wizard">
-												<div class="tab-content" style="background-color: white;">
-													<div class="tab-pane active">
-														<div class="ColumnCommonvendor">
-															<div class="control-group">
-																<label class="control-label">Analytics Solutions
-																	Type<span class="required">*</span>
-																</label>
-															</div>
-														</div>
-														<div class="Row" id="asset-class-type">
-															<div class="ColumnCommonvendormarketingdataaggregators">
-																<div class="control-group">
-																	<label class="control-labelcheckbox">
-																		Alternative Invest.. Soln&nbsp; <span class="required">*</span>
-																	</label>&nbsp; <input type="checkbox" class="assetClass"
-																		name="alternative_investment_solutions"
-																		value="Alternative Investment Solutions"
-																		id="alternative_investment_solutions" />
-																</div>
-															</div>
-															<div class="ColumnCommonvendormarketingdataaggregators">
-																<div class="control-group">
-																	<label class="control-labelcheckbox">
-																		Backoffice Operations<span class="required">*</span>
-																	</label>&nbsp; <input type="checkbox" class="assetClass"
-																		name="back_office_operations"
-																		value="Backoffice Operations"
-																		id="back_office_operations" />
-																</div>
-															</div>
-															<div class="ColumnCommonvendormarketingdataaggregators">
-																<div class="control-group">
-																	<label class="control-labelcheckbox"> Product
-																		Valuation<span class="required">*</span>
-																	</label>&nbsp; <input type="checkbox" class="assetClass"
-																		name="product_valuation" value="Product Valuation"
-																		id="product_valuation" />
-																</div>
-															</div>
-															<div class="ColumnCommonvendormarketingdataaggregators">
-																<div class="control-group">
-																	<label class="control-labelcheckbox"> Banking
-																		Solution<span class="required">*</span>
-																	</label>&nbsp; <input type="checkbox" class="assetClass"
-																		name="banking_solution" value="Banking Solution"
-																		id="banking_solution" />
-																</div>
-															</div>
-															<div class="ColumnCommonvendormarketingdataaggregators">
-																<div class="control-group">
-																	<label class="control-labelcheckbox">
-																		Regulatory Compliance &amp; Risk Mgmt<span
-																		class="required">*</span>
-																	</label>&nbsp; <input type="checkbox" class="assetClass"
-																		name="regulatory_compliance_risk_mgmt"
-																		value="Regulatory Compliance & Risk Mgmt"
-																		id="regulatory_compliance_risk_mgmt" />
-																</div>
-															</div>
-															<div class="ColumnCommonvendormarketingdataaggregators">
-																<div class="control-group">
-																	<label class="control-labelcheckbox"> Portfolio
-																		Management Solutions<span class="required">*</span>
-																	</label>&nbsp; <input type="checkbox" class="assetClass"
-																		name="portfolio_management"
-																		value="Portfolio Management Solutions"
-																		id="portfolio_management" />
-																</div>
-															</div>
-														</div>
-														<div class="ColumnCommonvendor">
-															<div class="control-group">
-																<label class="control-label">Common fields for
-																	all asset class<span class="required">*</span>
-																</label>
-															</div>
-														</div>
-														<div class="Row" id="common-vendor-type">
-															<div class="control-group">
-																<label>Trading Capability Type<span
-																	class="required">*</span></label> <select
-																	name="trading_capability_type"
-																	onchange="loadSecurityTypes(this.value);"
-																	id="trading_capability_type">
-																	<option value="-SELECT-" class="selectvalues">
-																		-SELECT-</option>
-																	<c:forEach var="assetClasses" items="${assetClasses}">
-																		<option value="${assetClasses.description}">${assetClasses.description}</option>
-																	</c:forEach>
-																</select>
-															</div>
-															<div class="control-group">
-																<label>Vendor Profile Freshness<span
-																	class="required">*</span></label> <select
-																	name="vendor_profile_freshness"
-																	id="vendor_profile_freshness">
-																	<option selected="selected" value=""
-																		class="selectvalues">-SELECT-</option>
-																	<option>Today</option>
-																	<option>Last One Week</option>
-																	<option>Last One Month</option>
-																	<option>Last One Year</option>
-																</select>
-															</div>
+				<div class="common_fields_for_asset_class">
+					<h3>Common Fields for all asset class <span class="fa fa-chevron-up"></span></h3>
+					<ul>
+						<li>
+							<select class="selectpicker select_multiple" name="asdAccessibility"  multiple="multiple" id="asdAccessibility">
+								<option value ="Web/Browser Based"> Web/Browser Based </option>
+								<option value ="Binaries(Executable) Based"> Binaries(Executable) Based </option>
+								<option value ="Dedicated Desktop">Dedicated Desktop</option>
+								<option value ="Mobile/Tablet Apps">Mobile/Tablet Apps</option>
+							</select>
+							<label class="default_select">Accessibility (?)</label>
+						</li>
+						<li>
+							<select class="selectpicker select_multiple" name="asdSuitability1"  multiple="multiple" id="asdSuitability1">
+								<option value ="All Users" >All Users</option>
+								<option value ="Risk Managers" >Risk Managers</option>
+								<option value ="Backoffice & Middle Office Users" >Backoffice & Middle Office Users</option>
+								<option value ="Portfolio Managers" >Portfolio Managers</option>
+								<option value ="Retail/Corporat Banking Users" >Retail/Corporat Banking Users</option>
+								<option value ="Regulation & Compliance Users" >Regulation & Compliance Users</option>
+								<option value ="Research Analysts" >Research Analysts</option>
+								<option value ="Others" >Others</option>
+							</select>
+							<label class="default_select">Suitability</label>
+						</li>
+						<li>
+							<select class="selectpicker select_multiple" name="vendorregionofincorp" id="vendorregionofincorp">
+								<c:forEach var="regionslist" items="${regionslist}">
+									<option value="${regionslist.region_id}">${regionslist.name}</option>
+								</c:forEach>
+							</select>
+							<label class="default_select">Region of Incorporation</label>
+						</li>
+						<li>
+							<select class="selectpicker select_multiple" name="vendorcountryofincorp" id="vendorcountryofincorp" multiple="multiple">
+								<c:forEach var="countries" items="${countries}">
+									<option value="${countries.country_id}">${countries.name}</option>
+								</c:forEach>
+							</select>
+							<label class="default_select">Country of Incorporation</label>
+						</li>
+						<li>
+							<select class="selectpicker show-tick" id="vendorprofilefreshness" name="vendorprofilefreshness">
+								<option selected="selected" value="" class="selectvalues">
+									ANY</option>
+								<%--
+								<option>Today</option>
+								<option>Last One Week</option>
+								<option>Last One Month</option>
+								<option>Last One Year</option>
+								--%>
+							</select>
+							<label class="default_select">Profile Freshness</label>
+						</li>
+						<li>
+							<select class="selectpicker show-tick" id="vendorsupporttime" name="vendorsupporttime">
+								<option selected="selected" value="" class="selectvalues">
+									ANY</option>
+								<%--
+								<c:forEach var="supports" items="${supports}">
+									<option value="${supports.support_id}">${supports.name}</option>
+								</c:forEach>
+								--%>
+							</select>
+							<label class="default_select">Support Coverage Time</label>
+						</li>
 
-															<div class="control-group">
-																<label>Vendor Support Coverage Region<span
-																	class="required">*</span></label> <select
-																	name="vendor_support_coverage_region"
-																	id="vendor_support_coverage_region">
-																	<option value="-SELECT-" class="selectvalues"
-																		selected="selected">-SELECT-</option>
-																	<c:forEach var="regions" items="${regions}">
-																		<option value="${regions.name}">${regions.name}</option>
-																	</c:forEach>
-																</select>
-															</div>
-															<div class="control-group">
-																<label>Accessibility<span class="required">*</span></label>
-																<select name="accessibility" multiple="multiple"
-																	id="accessibility">
-																	<option value="" class="selectvalues"
-																		selected="selected">-SELECT-</option>
-																	<option value="Web Browser Based">Web Browser
-																		Based</option>
-																	<option value="Binaries(Executable) Based">
-																		Binaries(Executable) Based</option>
-																	<option value="Dedicated Desktop">Dedicated
-																		Desktop</option>
-																	<option value="Mobile/Tablet Apps">Mobile/Tablet
-																		Apps</option>
-
-																</select>
-															</div>
-															<div class="control-group">
-																<label>Vendor Region of Incorporation<span
-																	class="required">*</span></label> <select
-																	name="vendor_region_of_incorporation"
-																	multiple="multiple" id="vendor_region_of_incorporation">
-																	<option value="-SELECT-" class="selectvalues"
-																		selected="selected">-SELECT-</option>
-																	<c:forEach var="regions" items="${regions}">
-																		<option value="${regions.name}">${regions.name}</option>
-																	</c:forEach>
-																</select>
-															</div>
-															<div class="control-group">
-																<label>Vendor Country of Incorporation<span
-																	class="required">*</span></label> <select
-																	name="vendor_country_of_incorporation"
-																	multiple="multiple"
-																	id="vendor_country_of_incorporation">
-																	<option value="" class="selectvalues"
-																		selected="selected">-SELECT-</option>
-																	<c:forEach var="countries" items="${countries}">
-																		<option value="${countries.name}">${countries.name}</option>
-																	</c:forEach>
-																</select>
-															</div>
-															<div class="control-group">
-																<label>Suitability<span class="required">*</span></label>
-																<select name="suitability" multiple="multiple"
-																	id="suitability">
-																	<option value="" class="selectvalues"
-																		selected="selected">-SELECT-</option>
-																	<option value="All Users">All Users</option>
-																	<option value="Risk Managers">Risk Managers</option>
-																	<option value="Backoffice & Middle Office Users">Backoffice
-																		& Middle Office Users</option>
-																	<option value="Portfolio Managers">Portfolio
-																		Managers</option>
-																	<option value="Retail/Corporat Banking Users">Retail/Corporat
-																		Banking Users</option>
-																	<option value="Regulation & Compliance Users">Regulation
-																		& Compliance Users</option>
-																	<option value="Research Analysts">Research
-																		Analysts</option>
-																	<option value="Others">Others</option>
-																</select>
-															</div>
-															<div class="control-group" style="margin-top: 20px;">
-																<label style="float: left; width: 274px;">Customizable
-																	Calc. Model?<span class="required">*</span>
-																</label> <input type="checkbox" id="data_attribute"
-																	placeholder="Data Attribute" name="data_attribute"
-																	class="m-wraptrading largeval"
-																	style="width: auto !important; margin: 0;" />
-															</div>
-															<div class="control-group">
-																<label>Vendor Support Coverage Time<span
-																	class="required">*</span></label> <select
-																	name="vendor_support_time" id="vendor_support_time">
-																	<option selected="selected" value=""
-																		class="selectvalues">-SELECT-</option>
-																	<c:forEach var="supports" items="${supports}">
-																		<option value="${supports.support_id}">${supports.name}</option>
-																	</c:forEach>
-																</select>
-															</div>
-															<div class="control-group" style="margin-top: 10px;">
-																<label style="float: left; width: 274px;">Real
-																	time Market Data?<span class="required">*</span>
-																</label> <input type="checkbox" id="real_time_market_data"
-																	placeholder="Data Attribute"
-																	name="real_time_market_data"
-																	class="m-wraptrading largeval"
-																	style="width: auto !important; margin: 0;" />
-															</div>
-
-														</div>
-														<div>
-															<br />
-														</div>
-														<div class="multisearch" id="singleAsset">
-															<div id="singleAssetFields"></div>
-															<script type="text/javascript">
-					function singleAssetClass(assetType) {
-						console.log("assetType : " + assetType);
-						$('#singleAssetFields').html('');
-						var singleAssetData = "<div class='lable_header'>"
-								+ $("#" + assetType).siblings().html()
-								+ "</div>"
-								+ "<div class='Row'>"
-								+ "<div class='ColumnCommontradingappinterestratemarket'>"
-								+ "<div class='control-group'>"
-								+ "<label>Analytics Solutions Sub Type</label>"
-								+ "<select name='" + assetType + "_analytics_solution_sub_type' multiple='multiple' id='" + assetType + "_analytics_solution_sub_type' style='height: 53px;'>"
-								+ "<option selected='selected' value =''> -SELECT- </option>"
-								+ "<c:forEach var='securityType' items='${securityTypes}'>"
-								+ "<option value='${securityType.securityTypeId}'>${securityType.name}</option>"
-								+ "</c:forEach>"
-								+ "</select>"
-								+ "</div>"
-								+ "<div class='control-group'>"
-								+ "<label>Year of Operation</label>"
-								+ "<select name='" + assetType + "_year_operation' multiple='multiple' id='" + assetType + "_year_operation'>"
-								+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
-								+ "<option>Date (1970)</option>"
-								+ "<option>Last one week</option>"
-								+ "<option>Last one month</option>"
-								+ "<option>Last one year</option>"
-								+ "</select>"
-								+ "</div>"
-								+ "<div class='control-group'>"
-								+ "<label>Awards</label>"
-								+ "<select name='" + assetType + "_awards' multiple='multiple' id='" + assetType + "_awards'>"
-								+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
-								+ "<c:forEach var='awards' items='${awards}'>"
-								+ "<option value='${awards.award_id}'>${awards.name}</option>"
-								+ "</c:forEach>"
-								+ "</select>"
-								+ "</div>"
-								+ "<div class='control-group'>"
-								+ "<label>Cost Range</label>"
-								+ "<select name='" + assetType + "_acquisition_cost_range' multiple='multiple' id='" + assetType + "_acquisition_cost_range'>"
-								+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
-								+ "<c:forEach var='costs' items='${costs}'>"
-								+ "<option value='${costs.range}'>${costs.range}</option>"
-								+ "</c:forEach>"
-								+ "</select>"
-								+ "</div>" + "</div>" + "</div>";
-						$('#singleAssetFields').append(singleAssetData);
-					}
-				</script>
-														</div>
-
-
-														<div class="multisearch" id="multipleAsset">
-															<div class="Row">
-																<div class="ColumnCommontradingapp" id="commonarea">
-																	<div class="control-group">
-																		<label>Analytics Solutions Sub Type</label>
-																	</div>
-																	<div class="control-group">
-																		<label>Year of Operation</label>
-																	</div>
-																	<div class="control-group">
-																		<label>Awards</label>
-																	</div>
-																	<div class="control-group">
-																		<label>Cost Range</label>
-																	</div>
-																</div>
-																<script type="text/javascript">
-						var multipleAssetData = '';
-						function multipleAssetClass(assetType) {
-							console.log("assetType : " + assetType);
-							$('#multipleAsset #multipleAssetFields').html('');
-							multipleAssetData = multipleAssetData
-									+ "<div class='ColumnCommontradingappinterestratemarket'>"
-									+ "<div class='lable_header'>"
-									+ $("#" + assetType).siblings().html()
-									+ "</div>"
-									+ "<div class='control-group'>"
-									+ "<select name='" + assetType + "_analytics_solution_sub_type' multiple='multiple' id='" + assetType + "_analytics_solution_sub_type'>"
-									+ "<option selected='selected' value =''> -SELECT- </option>"
-									+ "<c:forEach var='securityType' items='${securityTypes}'>"
-									+ "<option value='${securityType.securityTypeId}'>${securityType.name}</option>"
-									+ "</c:forEach>"
-									+ "</select>"
-									+ "</div>"
-									+ "<div class='control-group'>"
-									+ "<select name='" + assetType + "_year_operation' multiple='multiple' id='" + assetType + "_year_operation'>"
-									+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
-									+ "<option>Date (1970)</option>"
-									+ "<option>Last one week</option>"
-									+ "<option>Last one month</option>"
-									+ "<option>Last one year</option>"
-									+ "</select>"
-									+ "</div>"
-									+ "<div class='control-group'>"
-									+ "<select name='" + assetType + "_awards' multiple='multiple' id='" + assetType + "_awards' style='height: 53px;'>"
-									+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
-									+ "<c:forEach var='awards' items='${awards}'>"
-									+ "<option value='${awards.award_id}'>${awards.name}</option>"
-									+ "</c:forEach>"
-									+ "</select>"
-									+ "</div>"
-									+ "<div class='control-group'>"
-									+ "<select name='" + assetType + "_acquisition_cost_range' multiple='multiple' id='" + assetType + "_acquisition_cost_range'>"
-									+ "<option selected='selected' value ='' class='selectvalues'> -SELECT- </option>"
-									+ "<c:forEach var='costs' items='${costs}'>"
-									+ "<option value='${costs.range}'>${costs.range}</option>"
-									+ "</c:forEach>"
-									+ "</select>"
-									+ "</div>" + "</div>";
-							$('#multipleAssetFields').append(multipleAssetData);
-						}
+						<li>
+							<input type="checkbox" name="asdCustomizableCalculationModels" id="asdCustomizableCalculationModels" required />
+							<label class="default_checkbox">Customizable Calculation Models(?)</label>
+						</li>
+						<li>
+							<input type="checkbox" name="asdRealtimeMarketData" id="asdRealtimeMarketData" required />
+							<label class="default_checkbox">Real time Market Data?</label>
+						</li>
+					</ul>
+				</div>
+				<div class="multisearch" id="singleAsset">
+					<div id="singleAssetFields"></div>
+					<script type="text/javascript">
+						
 					</script>
-																<div id="multipleAssetFields"></div>
-															</div>
-														</div>
-														<div>
-															<br />
-														</div>
-														<div class="form-actions clearfix">
-															<div class="se" style="padding-left: 150px;">
-																<input type="submit" value="Search" class="btn"
-																	id="search_vendor" /> <input type="reset"
-																	value="Reset" class="btn" id="reset_vendor" />
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</form>
-									</div>
-									<!-- Multi Trading Vendor Start here -->
+				</div>
+				<div class="multisearch" id="multipleAsset">
+					<script type="text/javascript">
+						var multipleAssetData = '';
+						
+					</script>
+					<div id="multipleAssetFields"></div>
+				</div>
 
-
-								</div>
-							</div>
-						</div>
+				<div class="form-actions clearfix">
+					<div class="se">
+						<input type="submit" value="Search" class="btn" id="search_vendor" />
+						<input type="reset" value="Reset" class="btn" id="reset_vendor" />
 					</div>
 				</div>
 			</div>
+			<form
+			action="<%=request.getContextPath()+"/"+RequestConstans.FinancialAnalyticsApplication.MULTI_ASSET_CLASS_SEARCH_RESULT%>?RaYvEmUl=${l:encrypt(username)}"
+			class="form-horizontal" id="submit_form" method="post"
+			enctype="multipart/form-data">
+			</form>
 		</div>
 	</div>
 	<!-- END CONTAINER -->
 	<jsp:include page="common/footer.jsp"></jsp:include>
 
-	<!-- tab active code starts here-->
-	<script type="text/javascript">
-window.onload = function(){
-	var personalDetails= '<%=RequestConstans.Vendor.PERSONALDETAILS%>';
-			if (personalDetails != null && personalDetails.length > 0
-					&& personalDetails.match("personaldetails")) {
-				document.getElementById('change').style.backgroundColor = '#5CE5E5';
-				document.getElementById('interdiv').style.backgroundColor = '#5CE5E5';
-				document.getElementById('ancho').style.backgroundColor = '#5CE5E5';
-			}
-		};
-	</script>
-	<!-- tab active code end here-->
 
-	<!-- popup window plugins start-->
-	<script src="<%=request.getContextPath() %>/resources/js/popup.js"
-		type="text/javascript"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/jquery-min.js"
-		type="text/javascript"></script>
-	<script src="<%=request.getContextPath() %>/resources/js/modernizr.js"
-		type="text/javascript"></script>
-	<script
-		src="<%=request.getContextPath() %>/resources/js/bootstrap-min.js"
-		type="text/javascript"></script>
-	<!-- popup window plugins ends-->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
 
-	<!-- Add to table plugins start-->
-	<script type="text/javascript"
-		src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.min.js"></script>
-	<script type="text/javascript"
-		src="<%=request.getContextPath() %>/resources/js/jquery.tabletojson.js"></script>
-	<!-- Add to table plugins end here-->
-
-	<!-- Date plugins start-->
-	<!-- <script>
-		  $(function() {
-		    $( "#inputField" ).datepicker();
-		    $( "#inputField1" ).datepicker();
-		  });
-	  </script>
-	  <script src="//code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
-	  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script> -->
-
-	<!-- Date plugins start-->
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 
 </body>
 </html>

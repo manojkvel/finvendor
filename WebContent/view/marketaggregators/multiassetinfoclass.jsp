@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
-	<div id="market_data_aggregrator_search" class="custom_form">
+	<div id="market_data_aggregrator_search" class="consumer_search custom_form">
 				<div class="generic_message">
 					<div class="alert"></div>
 				</div>
