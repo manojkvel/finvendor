@@ -43,6 +43,8 @@
     		getExchangeList();
     	});
     </script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/researchreportprovidervendor.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -109,16 +111,8 @@
 				</div>
 
 				<div class="common_fields_for_asset_class">
-					<h3>Common Fields for all asset class <span class="fa fa-chevron-up"></span></h3>
+					<h3>Common Fields for all research area <span class="fa fa-chevron-up"></span></h3>
 					<ul>
-						<li>
-							<select class="selectpicker" name="rcRegionsCovered" id="rcRegionsCovered">
-								<c:forEach var="regions" items="${regions}">
-								<option value="${regions.name}">${regions.name}</option>
-							</c:forEach>
-						</select>
-						<label class="default_select">Regions Covered</label>
-						</li>
 						<li>
 							<select class="selectpicker" name="rdAnalystRegionofIncorp"  id="rdAnalystRegionofIncorp">
 								<c:forEach var="regions" items="${regions}">
@@ -136,7 +130,7 @@
 							<label class="default_select">Analyst Country of Incorp</label>
 						</li>
 						<li>
-							<select class="selectpicker show-tick" id="vendorprofilefreshness" name="vendorprofilefreshness">
+							<select class="selectpicker show-tick" id="rdVendorProfileFreshness" name="rdVendorProfileFreshness">
 								<option selected="selected" value="" class="selectvalues">
 									ANY</option>
 								<%--
@@ -148,25 +142,34 @@
 							</select>
 							<label class="default_select">Profile Freshness</label>
 						</li>
+						
 						<li>
-							<select class="selectpicker show-tick" id="vendorsupporttime" name="vendorsupporttime">
-								<option selected="selected" value="" class="selectvalues">
-									ANY</option>
-								<%--
-								<c:forEach var="supports" items="${supports}">
-									<option value="${supports.support_id}">${supports.name}</option>
-								</c:forEach>
-								--%>
+							<select class="selectpicker" name="rdAnalystYearofExp" id="rdAnalystYearofExp">
+								<option value="Less than 1">Less than 1</option>
+								<option value="1-3">1-3</option>
+								<option value="3-5">3-5</option>
+								<option value="5-10">5-10</option>
+								<option value="10-15">10-15</option>
+								<option value="15-25">15-25</option>
+								<option value="25-35">25-35</option>
+								<option value="35-50">35-50</option>
+								<option value="More than 50">More than 50</option>
 							</select>
-							<label class="default_select">Support Coverage Time</label>
+							<label class="default_select">Analyst Year of Exp</label>
 						</li>
 						
 						<li>
-							<input type="number" name="rcExistingClientBase" id="rcExistingClientBase" required />
-							<label>Existing Client Base</label>
+							<select class="selectpicker" name="rcExistingClientBase" id="rcExistingClientBase">
+								<option value="Any">Any</option>
+								<option value="Upto 10">Upto 10</option>
+								<option value="Upto 25">Upto 25</option>
+								<option value="Upto 100">Upto 100</option>
+								<option value="More than 100">More than 100</option>
+							</select>
+							<label class="default_select">Existing Client Base</label>
 						</li>
 
-						<li style="clear:left;">
+						<li>
 							<input type="checkbox" name="rdResearchAnalystWithCFA" id="rdResearchAnalystWithCFA" required />
 							<label class="default_checkbox">Research Analyst with CFA Charter?</label>
 						</li>

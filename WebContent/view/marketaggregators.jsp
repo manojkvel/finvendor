@@ -22,6 +22,13 @@
     		getExchangeList();
     	});
     </script>
+    
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/marketaggregators.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/tradingapplicationvendor.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/financialanalyticsvendor.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
