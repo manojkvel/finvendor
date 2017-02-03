@@ -9,7 +9,9 @@ public class VendorResearchReportsOfferingJson {
 	private int researchArea;
 	private String researchAreaDescription;
 	private String researchSubArea;
+	private String stocksFundsIssuesCovered;
 	private String regionsCovered;
+	private String countriesCovered;
 	private int totalAnalyst;
 	private String existingClientBase;
 	private String accessbility;
@@ -71,11 +73,23 @@ public class VendorResearchReportsOfferingJson {
 	public void setResearchSubArea(String researchSubArea) {
 		this.researchSubArea = researchSubArea;
 	}
+	public String getStocksFundsIssuesCovered() {
+		return stocksFundsIssuesCovered;
+	}
+	public void setStocksFundsIssuesCovered(String stocksFundsIssuesCovered) {
+		this.stocksFundsIssuesCovered = stocksFundsIssuesCovered;
+	}
 	public String getRegionsCovered() {
 		return regionsCovered;
 	}
 	public void setRegionsCovered(String regionsCovered) {
 		this.regionsCovered = regionsCovered;
+	}
+	public String getCountriesCovered() {
+		return countriesCovered;
+	}
+	public void setCountriesCovered(String countriesCovered) {
+		this.countriesCovered = countriesCovered;
 	}
 	public int getTotalAnalyst() {
 		return totalAnalyst;

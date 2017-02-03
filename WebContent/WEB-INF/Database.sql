@@ -248,8 +248,6 @@ CREATE TABLE ven_rsrch_rpt_analyst_prof (
 )
 ;
 
-/* To be run */
-
 CREATE TABLE ven_analytics_app_offering (
 	product_id VARCHAR(45) NOT NULL,
 	product_name VARCHAR(300) NOT NULL,
@@ -278,3 +276,10 @@ CREATE TABLE ven_analytics_app_soft_dtls (
 	PRIMARY KEY (product_id)
 )
 ;
+
+/* To be run */
+
+ALTER TABLE `ven_rsrch_rpt_offering`
+	ADD COLUMN `stock_fund_issue_covered` VARCHAR(100) NULL AFTER `research_sub_area`;
+ALTER TABLE `ven_rsrch_rpt_covg`
+	ADD COLUMN `countries_covered` VARCHAR(100) NULL AFTER `regions_covered`;

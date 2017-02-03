@@ -2892,8 +2892,10 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "researchReportDescription", required = true) String productDescription,
 			@RequestParam(value = "researchAreaId", required = true) int researchAreaId,
 			@RequestParam(value = "researchSubAreas", required = true) String researchSubAreas,
+			@RequestParam(value = "researchSubAreas", required = false) String stocksFundsIssuesCovered,
 			@RequestParam(value = "launchedYear", required = false) String launchedYear,
 			@RequestParam(value = "regionsCovered", required = false) String regionsCovered,
+			@RequestParam(value = "countriesCovered", required = false) String countriesCovered,
 			@RequestParam(value = "totalResearchAnalyst", required = false) int totalResearchAnalyst,
 			@RequestParam(value = "existingClientBase", required = false) String existingClientBase,
 			@RequestParam(value = "accessibility", required = false) String accessibility,
@@ -2938,10 +2940,12 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 					ResearchArea.class, researchAreaId);
 			researchReportsOffering.setResearchArea(researchArea);
 			researchReportsOffering.setResearchSubArea(researchSubAreas);
+			researchReportsOffering.setStocksFundsIssuesCovered(stocksFundsIssuesCovered);
 			researchReportsOffering.setVendor(vendor);
 		
 			coverageDetails.setProductId(productId);
 			coverageDetails.setRegionsCovered(regionsCovered);
+			coverageDetails.setCountriesCovered(countriesCovered);
 			coverageDetails.setTotalAnalyst(totalResearchAnalyst);
 			coverageDetails.setExistingClientBase(existingClientBase);
 			researchReportsOffering.setCoverageDetails(coverageDetails);
@@ -3057,8 +3061,10 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			jsonOffering.setProductDescription(offering.getProductDescription());
 			jsonOffering.setResearchArea(offering.getResearchArea().getResearchAreaId());
 			jsonOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
+			jsonOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
 			jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
+			jsonOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
 			jsonOfferings.add(jsonOffering);
 		}
 	}
@@ -3097,9 +3103,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setResearchArea(offering.getResearchArea().getResearchAreaId());
 				vendorOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
 				vendorOffering.setResearchSubArea(offering.getResearchSubArea());
+				vendorOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
 				
 				vendorOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
+				vendorOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
 				vendorOffering.setTotalAnalyst(offering.getCoverageDetails().getTotalAnalyst());
 				vendorOffering.setExistingClientBase(offering.getCoverageDetails().getExistingClientBase());
 				

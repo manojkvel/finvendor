@@ -42,6 +42,9 @@ public class VendorResearchReportsOffering
 	@Column(name="research_sub_area")
 	private String researchSubArea;
 	
+	@Column(name="stock_fund_issue_covered")
+	private String stocksFundsIssuesCovered;
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="product_id")
 	private VendorResearchReportsCoverageDetails coverageDetails;
@@ -108,6 +111,14 @@ public class VendorResearchReportsOffering
 
 	public void setResearchSubArea(String researchSubArea) {
 		this.researchSubArea = researchSubArea;
+	}
+
+	public String getStocksFundsIssuesCovered() {
+		return stocksFundsIssuesCovered;
+	}
+
+	public void setStocksFundsIssuesCovered(String stocksFundsIssuesCovered) {
+		this.stocksFundsIssuesCovered = stocksFundsIssuesCovered;
 	}
 
 	public VendorResearchReportsCoverageDetails getCoverageDetails() {

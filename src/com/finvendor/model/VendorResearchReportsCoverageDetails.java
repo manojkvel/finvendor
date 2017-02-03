@@ -21,6 +21,9 @@ public class VendorResearchReportsCoverageDetails
 	@Column(name="regions_covered")
 	private String regionsCovered;
 	
+	@Column(name="countries_covered")
+	private String countriesCovered;
+	
 	@Column(name="total_analyst")
 	private int totalAnalyst;
 	
@@ -41,6 +44,14 @@ public class VendorResearchReportsCoverageDetails
 
 	public void setRegionsCovered(String regionsCovered) {
 		this.regionsCovered = regionsCovered;
+	}
+
+	public String getCountriesCovered() {
+		return countriesCovered;
+	}
+
+	public void setCountriesCovered(String countriesCovered) {
+		this.countriesCovered = countriesCovered;
 	}
 
 	public int getTotalAnalyst() {
