@@ -90,7 +90,37 @@
 		    <div><b><label class="errorMessage" style="color:red">${lastActionError}</label></b></div>
 		    <div><b><label class="errorMessage" style="color:green">${lastActionStatus}</label></b></div>
 			<br>
+			<c:if test="${status == 'true'}"><script>alert('Account Added Successfully')</script></c:if>
+			<c:if test="${status == 'false'}"><script>alert('Error Adding Account')</script></c:if>
 			<c:choose>
+				<c:when test="${nav == 'Add Account'}">
+					<form action="${pageContext.request.contextPath}/adminAddAcount" method="post">
+						<table id="userAccountDetails" class="display" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>User Name</th>
+									<th>Password</th>
+									<th>Email</th>
+									<th>Company</th>
+									<th>Company Type</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><input name="userName" type="text"/></td>
+									<td><input name="password" type="text"/></td>
+									<td><input name="email" type="text"/></td>
+									<td><input name="company" type="text"/></td>
+									<td><input name="companyType" type="text" value="Data Aggregator,Trading Application,Analytics Application,Research Report"/></td>			      		
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<div align="center">
+							<button type="submit">Add Account</button>
+						</div>
+					</form>
+				</c:when>
 				<c:when test="${nav == 'Manage Account'}">
 					<table id="userAccountDetails" class="display" cellspacing="0" width="100%">
 						<thead>
