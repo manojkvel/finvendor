@@ -4646,7 +4646,7 @@ function getResearchSubAreaMapping(rcResearchAreaSelector, rcResearchSubAreaSele
     $("select[name=" + rcResearchSubAreaSelector + "]").append($option);	
     $("select[name=" + rcResearchSubAreaSelector + "]").selectpicker('refresh');
 
-    if(getResearchAreaMultipleListById(rcResearchAreaId) == ("Equity Research") || getResearchAreaMultipleListById(rcResearchAreaId) == ("Debt Research") || getResearchAreaMultipleListById(rcResearchAreaId) == ("Index/Fund/ETF Research")) {
+    if(getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("equity research") || getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("debt market research") || getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("index/fund/etf research")) {
     	$("#stocksFundsIssuesCovered").val("");
     	$("#stocksFundsIssuesCovered_parent").show();
     } else {

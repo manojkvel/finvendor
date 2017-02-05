@@ -1005,6 +1005,8 @@ window.onload = function(){
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+    
+<script src="<%=request.getContextPath() %>/resources/js/vendor.js"></script>
 
 </body>
 </html>
