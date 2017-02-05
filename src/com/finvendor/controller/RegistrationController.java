@@ -353,6 +353,70 @@ public class RegistrationController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value="adminAddAcount", method=RequestMethod.POST)
+	public ModelAndView adminAddAcount(HttpServletRequest request, 
+			@RequestParam(value = "userName", required = false) String uname,
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "company", required = false) String company,
+			@RequestParam(value = "companyType", required = false) String companyType) {
+		
+		logger.debug("Entering RegistrationController : adminAddAcount");
+		ModelAndView modelAndView = null;
+		boolean status = false;
+		Set<UserRole> userRoles = null;
+		String userRoleName = null;
+		FinVendorUser user = new FinVendorUser();
+		Vendor vendor = new Vendor();
+		Roles role = new Roles();
+		UserRole userRole = new UserRole();
+		try {
+			
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+			modelAndView = new ModelAndView(RequestConstans.Login.ADMIN_INFO);
+			user.setUserName(uname.toLowerCase());
+			user.setPassword(encoder.encode(password));
+			user.setEnabled(true);
+			user.setEmail(email.toLowerCase());
+			user.setVerified("Y");
+			user.setRegistrationDate(new Timestamp(System.currentTimeMillis()));			
+			
+			role.setId(new Integer(RequestConstans.Roles.ROLE_VENDOR_VALUE));
+			userRoleName = "VENDOR";
+			vendor.setId(UUID.randomUUID().toString());
+			vendor.setFirstName(uname);
+			vendor.setLastName("");
+			vendor.setDesignation("");
+			vendor.setSecondaryEmail("");
+			vendor.setTelephone("");
+			vendor.setCompany(company);
+			vendor.setCompanyInfo("");
+			vendor.setCompanyUrl("");
+			vendor.setCompanyType(companyType);
+			vendor.setCompanyAddress("");
+			vendor.setUser(user);
+			user.setVendor(vendor);
+			
+			userRole.setRoles(role);
+			userRole.setUser(user);
+			userRoles = new HashSet<UserRole>();
+			userRoles.add(userRole);
+			user.setUserRoles(userRoles);			
+			userService.saveUserInfo(user);
+			String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
+			
+			EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName); 
+			modelAndView.addObject("status", true);
+			logger.debug("Leaving RegistrationController : adminAddAcount");
+			
+		}catch (Exception exp) {
+			logger.error("Error saving User inforamtion : ", exp);
+			modelAndView.addObject("status", status);
+		}
+				
+		return modelAndView;
+	}
+	
 	@RequestMapping(value="validateRegistrationEmail", method=RequestMethod.GET)
 	public ModelAndView validateRegistrationEmail(HttpServletRequest request,
 			@RequestParam(value = "param", required = true) String regId) {
