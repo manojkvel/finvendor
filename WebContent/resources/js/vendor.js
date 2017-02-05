@@ -1,4 +1,21 @@
 jQuery(document).ready(function() {
+
+	awardCategoryList = function(){
+		var vendorType = $("#awardVendorType").selectpicker("val");
+		if(vendorType == "Data Aggregator vendor") {
+			getAssetClassMapping("awardAssetclass");
+		} else if(vendorType == "Trading Application vendor") {
+			getAssetClassMapping("awardAssetclass");
+		} else if(vendorType == "Analytics Application vendor") {
+			getAnalyticalSolutionTypeMapping("awardAssetclass");
+		} else if(vendorType == "Research Reporting vendor") {
+			getResearchAreaMapping("awardAssetclass");
+		} else {
+			getAssetClassMapping("awardAssetclass");
+		}
+	};
+
+	$("#awardVendorType").on('change', awardCategoryList);
  
 	$("#vendor_profile #tab1 #top-card #edit-details").on("click", function() {
 		progressLoader(false);
@@ -1491,6 +1508,10 @@ jQuery(document).ready(function() {
 		getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
 	});
 
+	$("select[name=rcRegionsCovered]").on('change', function() {
+		getRegionCountryMapping('rcRegionsCovered', 'rcCountriesCovered');
+	});
+
 	$("select[name=rdAnalystRegionofIncorp]").on('change', function() {
 		getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');
 	});
@@ -1503,6 +1524,8 @@ jQuery(document).ready(function() {
 		if(!isEdit) {
 			getResearchAreaMapping('rcResearchArea');
 			getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
+			getRegionMapping('rcRegionsCovered');
+			getRegionCountryMapping('rcRegionsCovered', 'rcCountriesCovered');
 			getRegionMapping('rdAnalystRegionofIncorp');
 			getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');
 		}
@@ -1561,7 +1584,13 @@ jQuery(document).ready(function() {
 				getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
 				$("select[name=rcResearchSubArea]").selectpicker('val', response.researchSubArea.split(','));
 
-				$("#research_application #rcRegionsCovered").val(response.regionsCovered);
+				$("#research_application #stocksFundsIssuesCovered").val(response.stocksFundsIssuesCovered);
+
+				getRegionMapping('rcRegionsCovered');
+				$("#research_application #rcRegionsCovered").selectpicker('val', response.regionsCovered);
+				getRegionCountryMapping('rcRegionsCovered', 'rcCountriesCovered');
+				$("#research_application #rcCountriesCovered").selectpicker('val', response.rcCountriesCovered);
+
 				$("#research_application #rcTotalResearchAnalyst").val(response.totalAnalyst);
 				$("#research_application #rcExistingClientBase").val(response.existingClientBase);
 
@@ -1655,7 +1684,7 @@ jQuery(document).ready(function() {
 				for(var i=0; i < totalCount; i++) {
 					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].researchAreaDescription + " | " + response[i].regionsCovered + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].researchAreaDescription + " | " + getRegionMultipleListById(response[i].regionsCovered) + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -1694,8 +1723,10 @@ jQuery(document).ready(function() {
 		var launchedYear = $("#research_application #launchedYear").val().trim();
 		var rcResearchArea = $("#research_application #rcResearchArea").val();
 		var rcResearchSubArea = $("#research_application #rcResearchSubArea").selectpicker('val');
+		var stocksFundsIssuesCovered = $("#research_application #stocksFundsIssuesCovered").val();
 
 		var regionsCovered = $("#research_application #rcRegionsCovered").selectpicker('val');
+		var countriesCovered = $("#research_application #rcCountriesCovered").selectpicker('val');
 		var totalResearchAnalyst = $("#research_application #rcTotalResearchAnalyst").val().trim();
 		var existingClientBase = $("#research_application #rcExistingClientBase").val();
 
@@ -1760,6 +1791,13 @@ jQuery(document).ready(function() {
 			//return false;
 		}
 
+		if(countriesCovered != null) {
+			 $("#research_application #rcCountriesCovered").parent().find("button").removeClass("error_field");
+		} else {
+			 $("#research_application #rcCountriesCovered").parent().find("button").addClass("error_field");
+			//return false;
+		}
+
 		if(accessibility != null) {
 			$("#research_application #rdAccessibility").parent().find("button").removeClass("error_field");
 		} else {
@@ -1808,7 +1846,9 @@ jQuery(document).ready(function() {
 				"researchAreaId" : rcResearchArea,
 				"researchSubAreas" : (rcResearchSubArea != null)? ',' + rcResearchSubArea + ',' : '',
 				"launchedYear" : launchedYear,
+				"stocksFundsIssuesCovered" : stocksFundsIssuesCovered,
 				"regionsCovered" : regionsCovered,
+				"countriesCovered" : countriesCovered,
 				"totalResearchAnalyst" : totalResearchAnalyst,
 				"existingClientBase" : existingClientBase,
 				"accessibility" : accessibility,
@@ -4267,6 +4307,7 @@ function getExchangeList(countryId) {
 
 }*/
 
+
 function getAssetClassList() {
 	$.ajax({
 		type: 'GET',
@@ -4505,7 +4546,7 @@ function getAnalyticalSolutionTypeMapping(analyticalSolutionTypeSelector) {
 	}
     $("select#" + analyticalSolutionTypeSelector +"").empty();
     $("select[name=" + analyticalSolutionTypeSelector + "]").append($option);	
-    $//("select[name=" + analyticalSolutionTypeSelector + "]").selectpicker('refresh');
+    $("select[name=" + analyticalSolutionTypeSelector + "]").selectpicker('refresh');
 }
 
 function getAnalyticalSolutionSubTypeList() {
@@ -4552,6 +4593,19 @@ function getResearchAreaList() {
 		});
 }
 
+function getResearchAreaMultipleListById(researchAreaId) {
+	var researchAreaList = JSON.parse(window.localStorage.getItem('researchAreaList'));
+	var $option=[];
+	for(var i=0; i < researchAreaList.length; i++) {
+		for(id in researchAreaId) {
+			if(researchAreaList[i].id == researchAreaId[id]) {
+				$option.push(researchAreaList[i].name);
+			}
+		}
+	}
+	return $option;
+}
+
 function getResearchAreaMapping(rcResearchAreaSelector) {
 	var researchAreaList = JSON.parse(window.localStorage.getItem('researchAreaList'));
 	var $option='';
@@ -4560,7 +4614,7 @@ function getResearchAreaMapping(rcResearchAreaSelector) {
 	}
     $("select#" + rcResearchAreaSelector +"").empty();
     $("select[name=" + rcResearchAreaSelector + "]").append($option);	
-//    $("select[name=" + rcResearchAreaSelector + "]").selectpicker('refresh');
+   	$("select[name=" + rcResearchAreaSelector + "]").selectpicker('refresh');
 }
 
 function getResearchSubAreaList() {
@@ -4591,6 +4645,13 @@ function getResearchSubAreaMapping(rcResearchAreaSelector, rcResearchSubAreaSele
     $("select#" + rcResearchSubAreaSelector +"").empty();
     $("select[name=" + rcResearchSubAreaSelector + "]").append($option);	
     $("select[name=" + rcResearchSubAreaSelector + "]").selectpicker('refresh');
+
+    if(getResearchAreaMultipleListById(rcResearchAreaId) == ("Equity Research") || getResearchAreaMultipleListById(rcResearchAreaId) == ("Debt Research") || getResearchAreaMultipleListById(rcResearchAreaId) == ("Index/Fund/ETF Research")) {
+    	$("#stocksFundsIssuesCovered").val("");
+    	$("#stocksFundsIssuesCovered_parent").show();
+    } else {
+    	$("#stocksFundsIssuesCovered_parent").hide();
+    }
 }
 
 function changeTabMode(comp){
@@ -4763,6 +4824,8 @@ openVendorAwardForm = function() {
 resetVendorAwardForm = function() {
 	$("#award_details .alert").hide();
 	$("#award_details").trigger('reset');
+	$("#awardVendorType").val(1);
+	awardCategoryList();
 	$('.selectpicker').selectpicker('refresh');
 	$(".error_field").removeClass("error_field");
 }

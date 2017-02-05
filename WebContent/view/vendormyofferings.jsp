@@ -772,6 +772,10 @@
 										</select>
 										<label class="default_select">Research Sub Area</label>
 									</li>
+									<li id="stocksFundsIssuesCovered_parent" style="display: none;">
+										<input type="number" name="stocksFundsIssuesCovered" id="stocksFundsIssuesCovered" required />
+										<label>No. of Stocks/ETFs/Funds/Issuers Supported</label>
+									</li>
 								</ul>
 							</div>
 							<div class="coverage_info">
@@ -784,6 +788,14 @@
 											</c:forEach>
 										</select>
 										<label class="default_select">Regions Covered</label>
+									</li>									
+									<li>
+										<select class="selectpicker" name="rcCountriesCovered" id="rcCountriesCovered">
+											<c:forEach var="countries" items="${countries}">
+												<option value="${countries.name}">${countries.name}</option>
+											</c:forEach>
+										</select>
+										<label class="default_select">Countries Covered</label>
 									</li>
 									<li>
 										<input type="number" name="rcTotalResearchAnalyst" id="rcTotalResearchAnalyst" required />

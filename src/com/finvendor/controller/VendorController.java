@@ -2892,7 +2892,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "researchReportDescription", required = true) String productDescription,
 			@RequestParam(value = "researchAreaId", required = true) int researchAreaId,
 			@RequestParam(value = "researchSubAreas", required = true) String researchSubAreas,
-			@RequestParam(value = "researchSubAreas", required = false) String stocksFundsIssuesCovered,
+			@RequestParam(value = "stocksFundsIssuesCovered", required = false) String stocksFundsIssuesCovered,
 			@RequestParam(value = "launchedYear", required = false) String launchedYear,
 			@RequestParam(value = "regionsCovered", required = false) String regionsCovered,
 			@RequestParam(value = "countriesCovered", required = false) String countriesCovered,

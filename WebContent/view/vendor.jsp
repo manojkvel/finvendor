@@ -237,9 +237,9 @@
 																<input type="number" name="awardedyear" id="awardedyear"  required />
 																<label>Awarded Year</label>
 															</li>
-															<li>
+															<li> 
 																<select class="selectpicker show-tick" name="awardVendorType" id="awardVendorType">
-																	<option value="Data Aggregator vendor">Data	Aggregator vendor</option>
+																	<option value="Data Aggregator vendor">Data Aggregator vendor</option>
 																	<option value="Trading Application vendor">Trading Application vendor</option>
 																	<option value="Analytics Application vendor">Analytics Application vendor</option>
 																	<option value="Research Reporting vendor">Research Reporting vendor</option>
@@ -252,7 +252,7 @@
 																	<option value="${assetClasses.asset_class_id}">${assetClasses.description}</option>
 																	</c:forEach>
 																</select>
-																<label class="default_select">Asset Class</label>
+																<label class="default_select">Award Category</label>
 															</li>
 														</ul>
 													<p class="action_btn">
