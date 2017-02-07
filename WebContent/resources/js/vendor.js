@@ -2,13 +2,13 @@ jQuery(document).ready(function() {
 
 	awardCategoryList = function(){
 		var vendorType = $("#awardVendorType").selectpicker("val");
-		if(vendorType == "Data Aggregator vendor") {
+		if(vendorType == "Data Aggregator") {
 			getAssetClassMapping("awardAssetclass");
-		} else if(vendorType == "Trading Application vendor") {
+		} else if(vendorType == "Trading Application") {
 			getAssetClassMapping("awardAssetclass");
-		} else if(vendorType == "Analytics Application vendor") {
+		} else if(vendorType == "Analytics Application") {
 			getAnalyticalSolutionTypeMapping("awardAssetclass");
-		} else if(vendorType == "Research Reporting vendor") {
+		} else if(vendorType == "Research Report") {
 			getResearchAreaMapping("awardAssetclass");
 		} else {
 			getAssetClassMapping("awardAssetclass");
@@ -1588,8 +1588,9 @@ jQuery(document).ready(function() {
 
 				getRegionMapping('rcRegionsCovered');
 				$("#research_application #rcRegionsCovered").selectpicker('val', response.regionsCovered);
+				
 				getRegionCountryMapping('rcRegionsCovered', 'rcCountriesCovered');
-				$("#research_application #rcCountriesCovered").selectpicker('val', response.rcCountriesCovered);
+				$("#research_application #rcCountriesCovered").selectpicker('val', response.countriesCovered.split(','));
 
 				$("#research_application #rcTotalResearchAnalyst").val(response.totalAnalyst);
 				$("#research_application #rcExistingClientBase").val(response.existingClientBase);
@@ -1814,9 +1815,9 @@ jQuery(document).ready(function() {
 
 
 		if(reportFormat != null) {
-			$("#research_application #rdReportFormat").removeClass("error_field");
+			$("#research_application #rdReportFormat").parent().find("button").removeClass("error_field");
 		} else {
-			$("#research_application #rdReportFormat").addClass("error_field");
+			$("#research_application #rdReportFormat").parent().find("button").addClass("error_field");
 			//return false;
 		}
 
@@ -1848,7 +1849,7 @@ jQuery(document).ready(function() {
 				"launchedYear" : launchedYear,
 				"stocksFundsIssuesCovered" : stocksFundsIssuesCovered,
 				"regionsCovered" : regionsCovered,
-				"countriesCovered" : countriesCovered,
+				"countriesCovered" : (countriesCovered != null) ? ',' + countriesCovered + ',' : '',
 				"totalResearchAnalyst" : totalResearchAnalyst,
 				"existingClientBase" : existingClientBase,
 				"accessibility" : accessibility,
@@ -4307,6 +4308,17 @@ function getExchangeList(countryId) {
 
 }*/
 
+function getCompanyTypeList(companyTypeListSelector, awardVendorTypeSelector) {
+	var companyTypeList = $("#" + companyTypeListSelector).val().split(',');
+	var $option='';
+	for(var id in companyTypeList ) {
+		$option += "<option value='" + companyTypeList[id] + "'>" + companyTypeList[id] + "</option>";   		
+	}
+    $("select#" + awardVendorTypeSelector +"").empty();
+    $("select[name=" + awardVendorTypeSelector + "]").append($option);	
+    $("select[name=" + awardVendorTypeSelector + "]").selectpicker('refresh');
+}
+
 
 function getAssetClassList() {
 	$.ajax({
@@ -4825,6 +4837,7 @@ resetVendorAwardForm = function() {
 	$("#award_details .alert").hide();
 	$("#award_details").trigger('reset');
 	$("#awardVendorType").val(1);
+	getCompanyTypeList('companyTypeList', 'awardVendorType');
 	awardCategoryList();
 	$('.selectpicker').selectpicker('refresh');
 	$(".error_field").removeClass("error_field");

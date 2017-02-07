@@ -790,7 +790,7 @@
 										<label class="default_select">Regions Covered</label>
 									</li>									
 									<li>
-										<select class="selectpicker" name="rcCountriesCovered" id="rcCountriesCovered">
+										<select class="selectpicker" name="rcCountriesCovered" id="rcCountriesCovered" multiple="multiple">
 											<c:forEach var="countries" items="${countries}">
 												<option value="${countries.name}">${countries.name}</option>
 											</c:forEach>

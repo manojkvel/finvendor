@@ -238,11 +238,12 @@
 																<label>Awarded Year</label>
 															</li>
 															<li> 
+																<input name='companyTypeList' id='companyTypeList' type="hidden" value="${vendor.companyType}" />
 																<select class="selectpicker show-tick" name="awardVendorType" id="awardVendorType">
-																	<option value="Data Aggregator vendor">Data Aggregator vendor</option>
-																	<option value="Trading Application vendor">Trading Application vendor</option>
-																	<option value="Analytics Application vendor">Analytics Application vendor</option>
-																	<option value="Research Reporting vendor">Research Reporting vendor</option>
+																	<option value="Data Aggregator">Data Aggregator</option>
+																	<option value="Trading Application">Trading Application</option>
+																	<option value="Analytics Application">Analytics Application</option>
+																	<option value="Research Report">Research Report</option>
 																</select>
 																<label class="default_select">Vendor Type</label>
 															</li>
