@@ -184,6 +184,8 @@
 <script src="<%=request.getContextPath() %>/resources/js/base64.js"></script>
 <script
 	src="<%=request.getContextPath() %>/resources/js/loadingpanel-min.js"></script>
+	
+<script src="<%=request.getContextPath() %>/resources/js/common.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/consumer.js"></script>
 <script
 	src="<%=request.getContextPath() %>/resources/js/consumerinviteanrfp.js"></script>

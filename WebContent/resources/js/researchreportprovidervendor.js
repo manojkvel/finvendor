@@ -53,12 +53,9 @@ $(document).ready(function() {
 
 
 		for(var i=0;i<assetClassArray.length;i++) {
-			getRegionMapping(assetClassArray[i] + 'datacoverageregion');
-			getSecurityTypeMapping(assetClassArray[i] + 'securitytype');
-			getCountryMapping(assetClassArray[i] + 'datacoveragecountry');
-			getExchangeMapping(assetClassArray[i] + 'datacoverageexchange');
-			getCostRangeMapping(costRange, assetClassArray[i] + 'acquisitioncostrange');
-
+			getRegionMapping(assetClassArray[i] + 'researchcoverageregion');
+			getCountryMapping(assetClassArray[i] + 'researchcoveragecountry');
+			getResearchSubAreaMapping(assetClassArray[i], assetClassArray[i] + '_researchsubarea');
 
 			$(".selectpicker").selectpicker('refresh');
 		}
@@ -92,34 +89,34 @@ $(document).ready(function() {
 
 	$(".assetClass").click(getAssetClassAggregators);
 
-	$("select[name=vendorregionofincorp]").on('change', function() {
-		getRegionCountryMapping('vendorregionofincorp', 'vendorcountryofincorp');
+	$("select[name=rdAnalystRegionofIncorp]").on('change', function() {
+		getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');
 	});
 
 	$(document).on('change', 'select', function() {
 		var type = $(this)[0]['id'];
-		if(type.indexOf('equities') != -1) {
-			type = 'equities';
-		} else if(type.indexOf('derivatives') != -1) {
-			type = 'derivatives';
-		} else if(type.indexOf('fixedincome') != -1) {
-			type = 'fixedincome';
-		} else if(type.indexOf('fx') != -1) {
-			type = 'fx';
-		} else if(type.indexOf('indices') != -1) {
-			type = 'indices';
-		} else if(type.indexOf('ai') != -1) {
-			type = 'ai';
-		} else if(type.indexOf('misc') != -1) {
-			type = 'misc';
-		}
-		if($(this)[0]['id'] == type + 'datacoverageregion') {
-			getRegionCountryMapping(type + 'datacoverageregion', type + 'datacoveragecountry');
-			getCountryExchangeMapping(type + 'datacoveragecountry', type + 'datacoverageexchange');
-		}
-
-		if($(this)[0]['id'] == type + 'datacoveragecountry') {
-			getCountryExchangeMapping(type + 'datacoveragecountry', type + 'datacoverageexchange');
+		if(type.indexOf('macro_economic_analysis') != -1) {
+			type = 'macro_economic_analysis';
+		} else if(type.indexOf('sector_analysis') != -1) {
+			type = 'sector_analysis';
+		} else if(type.indexOf('industry_analysis') != -1) {
+			type = 'industry_analysis';
+		} else if(type.indexOf('commodity_analysis') != -1) {
+			type = 'commodity_analysis';
+		} else if(type.indexOf('exchange_rate_analysis') != -1) {
+			type = 'exchange_rate_analysis';
+		} else if(type.indexOf('interest_rate_analysis') != -1) {
+			type = 'interest_rate_analysis';
+		} else if(type.indexOf('equity_research') != -1) {
+			type = 'equity_research';
+		} else if(type.indexOf('debt_market_research') != -1) {
+			type = 'debt_market_research';
+		} else if(type.indexOf('index_fund_etf_research') != -1) {
+			type = 'index_fund_etf_research';
+		} 
+		
+		if($(this)[0]['id'] == type + 'researchcoverageregion') {
+			getRegionCountryMapping(type + 'researchcoverageregion', type + 'researchcoveragecountry');
 		}
 	});
 
@@ -164,7 +161,7 @@ function singleAssetClass(assetType) {
 	+ "</h3>"
 	+ "<ul>"
 	+ "<li>"
-	+ "<select class='selectpicker select_multiple' id='" + assetType + "researchsubarea' name='" + assetType + "researchsubarea' multiple='multiple'>"								
+	+ "<select class='selectpicker select_multiple' id='" + assetType + "_researchsubarea' name='" + assetType + "_researchsubarea' multiple='multiple'>"								
 	+ "</select>"
 	+ "<label class='default_select'>Research Sub Area</label>"
 	+ "</li>"
@@ -253,7 +250,7 @@ function multipleAssetClass(assetType) {
 	+ "</h3>"
 	+ "<ul>"
 	+ "<li>"
-	+ "<select class='selectpicker select_multiple' id='" + assetType + "researchsubarea' name='" + assetType + "researchsubarea' multiple='multiple'>"								
+	+ "<select class='selectpicker select_multiple' id='" + assetType + "_researchsubarea' name='" + assetType + "_researchsubarea' multiple='multiple'>"								
 	+ "</select>"
 	+ "<label class='default_select'>Research Sub Area</label>"
 	+ "</li>"

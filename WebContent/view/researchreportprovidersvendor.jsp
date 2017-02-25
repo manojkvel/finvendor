@@ -41,6 +41,8 @@
     		getRegionList();
     		getCountryList();
     		getExchangeList();
+    		getResearchAreaList();
+    		getResearchSubAreaList();
     	});
     </script>
 <script type="text/javascript"
@@ -72,40 +74,53 @@
 					<ul>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Commodity Analysis"
+							class="assetClass" name="assetClassChk" value="1"
+							id="macro_economic_analysis" />
+							<label>Macro economic Analysis</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="2"
+							id="sector_analysis" />
+							<label>Sector Analysis</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="3"
+							id="industry_analysis" />
+							<label>Industry Analysis</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="4"
 							id="commodity_analysis" />
 							<label>Commodity Analysis</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Exchange Rate Analysis"
+							class="assetClass" name="assetClassChk" value="5"
 							id="exchange_rate_analysis" />
 							<label>Exchange Rate Analysis</label>
 						</li>
 						<li>
 							<input type="checkbox" class="assetClass"
-							name="assetClassChk" value="Interest Rate Analysis" id="interest_rate_analysis" />
+							name="assetClassChk" value="6" id="interest_rate_analysis" />
 							<label>Interest Rate Analysis</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Equity research" id="equity_research" />
+							class="assetClass" name="assetClassChk" value="7" id="equity_research" />
 							<label>Equity research</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Debt Market research" id="debt_market_research" />
+							class="assetClass" name="assetClassChk" value="8" id="debt_market_research" />
 							<label>Debt Market research</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Index research" id="index_research" />
-							<label>Index research</label>
-						</li>
-						<li>
-							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Fund/ETF research" id="fund_etf_research" />
-							<label>Fund/ETF research</label>
+							class="assetClass" name="assetClassChk" value="9" id="index_fund_etf_research" />
+							<label>Index/Fund/ETF research</label>
 						</li>
 					</ul>
 				</div>

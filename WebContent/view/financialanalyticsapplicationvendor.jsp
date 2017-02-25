@@ -42,8 +42,12 @@
     		getRegionList();
     		getCountryList();
     		getExchangeList();
+    		getAnalyticalSolutionTypeList();
+    		getAnalyticalSolutionSubTypeList();
     	});
     </script>
+    <script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/financialanalyticsvendor.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -70,35 +74,45 @@
 					<ul>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Alternative Investment Solutions"
+							class="assetClass" name="assetClassChk" value="1"
 							id="alternative_investment_solutions" />
 							<label>Alternative Invest.. Soln</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Backoffice Operations"
+							class="assetClass" name="assetClassChk" value="2"
 							id="back_office_operations" />
 							<label>Backoffice Operations</label>
 						</li>
 						<li>
-							<input type="checkbox" class="assetClass"
-							name="assetClassChk" value="Product Valuation" id="product_valuation" />
-							<label>Product Valuation</label>
-						</li>
-						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Banking Solution" id="banking_solution" />
+							class="assetClass" name="assetClassChk" value="3" id="banking_solution" />
 							<label>Banking Solution</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Regulatory Compliance & Risk Mgmt" id="regulatory_compliance_risk_mgmt" />
+							class="assetClass" name="assetClassChk" value="4" id="margining_solution" />
+							<label>Margining Solution</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="6" id="portfolio_management" />
+							<label>Portfolio Management Solutions</label>
+						</li>
+						<li>
+							<input type="checkbox" class="assetClass"
+							name="assetClassChk" value="7" id="product_valuation" />
+							<label>Product Valuation</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" value="8" id="regulatory_compliance_risk_mgmt" />
 							<label>Regulatory Cmpl. &amp; Risk Mgmt</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Portfolio Management Solutions" id="portfolio_management" />
-							<label>Portfolio Management Solutions</label>
+							class="assetClass" name="assetClassChk" value="5" id="others" />
+							<label>Others</label>
 						</li>
 					</ul>
 				</div>
@@ -127,22 +141,6 @@
 								<option value ="Others" >Others</option>
 							</select>
 							<label class="default_select">Suitability</label>
-						</li>
-						<li>
-							<select class="selectpicker select_multiple" name="vendorregionofincorp" id="vendorregionofincorp">
-								<c:forEach var="regionslist" items="${regionslist}">
-									<option value="${regionslist.region_id}">${regionslist.name}</option>
-								</c:forEach>
-							</select>
-							<label class="default_select">Region of Incorporation</label>
-						</li>
-						<li>
-							<select class="selectpicker select_multiple" name="vendorcountryofincorp" id="vendorcountryofincorp" multiple="multiple">
-								<c:forEach var="countries" items="${countries}">
-									<option value="${countries.country_id}">${countries.name}</option>
-								</c:forEach>
-							</select>
-							<label class="default_select">Country of Incorporation</label>
 						</li>
 						<li>
 							<select class="selectpicker show-tick" id="vendorprofilefreshness" name="vendorprofilefreshness">

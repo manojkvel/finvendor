@@ -840,7 +840,7 @@ textarea:valid ~ label {
 
 .consumer_search.custom_form div {
 	clear: both;
-	width: 100%;
+	width: 100% !important;
 }
 
 .consumer_search.custom_form ul {

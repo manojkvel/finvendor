@@ -22,6 +22,8 @@
     		getExchangeList();
     	});
     </script>
+	<script type="text/javascript"
+	src="<%=request.getContextPath() %>/resources/js/tradingapplicationvendor.js"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -75,90 +77,6 @@
 					<h3>Common Fields for all asset class <span class="fa fa-chevron-up"></span></h3>
 					<ul>
 						<li>
-							<select class="selectpicker select_multiple" name="tcsTradingCapabilitiesType" multiple="multiple" id="tcsTradingCapabilitiesType">
-								<option value ="Order placement/execution" > Order placement/execution </option>
-								<option value ="Order allocation" > Order allocation </option>
-								<option value ="Trade settlement" > Trade settlement </option>
-								<option value ="Trade Clearance" > Trade Clearance</option>
-								<option value ="Real Time Quotes" > Real Time Quotes</option>
-								<option value ="Real Time Financial News" > Real Time Financial News</option>
-								<option value ="Trade Analytics" > Trade Analytics</option>
-								<option value ="Collateral Management" > Collateral Management</option>
-								<option value ="Listed stocks/contracts" > Listed stocks/contracts</option>
-								<option value ="Electronic Trading for OTC" > Electronic Trading for OTC</option>
-								<option value ="Order Management" > Order Management</option>
-								<option value ="Trade Confirmation" > Trade Confirmation</option>
-								<option value ="Trade Reporting" > Trade Reporting</option>
-								<option value ="Trading Strategy Builder" > Trading Strategy Builder</option>
-								<option value ="Liquidity Aggregation" > Liquidity Aggregation</option>
-								<option value ="Market Surveillance & Compliance" > Market Surveillance & Compliance</option>
-								<option value ="Ability to connect to liquidity providers" > Ability to connect to liquidity providers</option>
-								<option value ="Algorithmic Signal Generation" > Algorithmic Signal Generation</option>
-								<option value ="Algorithmic Order Execution& Mgmt" > Algorithmic Order Execution& Mgmt</option>
-								<option value ="Auto Hedging & Risk Mgmt" > Auto Hedging & Risk Mgmt</option>
-								<option value ="Time Series Modelling" > Time Series Modelling</option>
-								<option value ="Market Data Distribution" > Market Data Distribution</option>
-								<option value ="Pricing and Rates Engine" > Pricing and Rates Engine</option>
-								<option value ="Quoting & Price Distribution" > Quoting & Price Distribution</option>
-							</select>
-							<label class="default_select">Trading Capability Type</label>
-						</li>
-						<li>
-							<select class="selectpicker select_multiple" name="tdsOrderType"  multiple="multiple" id="tdsOrderType">
-								<option value ="Limits"> Limits  </option>
-								<option value ="market orders"> market orders </option>
-								<option value ="tranche (iceberg) orders"> tranche (iceberg) orders </option>
-								<option value ="fill or kill"> fill or kill </option>
-								<option value ="execute and eliminate"> execute and eliminate </option>
-								<option value ="date"> date  </option>
-								<option value ="day"> day  </option>
-								<option value ="good for auction"> good for auction  </option>
-								<option value ="Good till cancel"> Good till cancel  </option>
-								<option value ="Good till cancel"> Good till cancel </option>
-								<option value ="At the auction"> At the auction </option>
-								<option value ="At the open"> At the open </option>
-								<option value ="At the close"> At the close </option>
-								<option value ="At best"> At best  </option>
-								<option value ="Trailing stops"> Trailing stops  </option>
-								<option value ="Market if touched">Market if touched  </option>
-								<option value ="One cancels the other"> One cancels the other </option>
-								<option value ="One enables the others"> One enables the others  </option>
-								<option value ="Stop-loss"> Stop-loss  </option>
-								<option value ="Take profit">Take profit </option>
-							</select>
-							<label class="default_select">Order Type</label>
-						</li>
-						<li>
-							<select class="selectpicker select_multiple" name="tdsAccessibility"  multiple="multiple" id="tdsAccessibility">
-								<option value ="Web/Browser Based"> Web/Browser Based </option>
-								<option value ="Binaries(Executable) Based"> Binaries(Executable) Based </option>
-								<option value ="Dedicated Desktop">Dedicated Desktop</option>
-								<option value ="Mobile/Tablet Apps">Mobile/Tablet Apps</option>
-							</select>
-							<label class="default_select">Accessibility (?)</label>
-						</li>
-						<li>
-							<select class="selectpicker select_multiple" name="tdsSuitability1"  multiple="multiple" id="tdsSuitability1">
-								<option value ="All Users"> All Users </option>
-								<option value ="Advanced shares traders"> Advanced shares traders </option>
-								<option value ="Technical chart users"> Technical chart users </option>
-								<option value ="Forex specialists"> Forex specialists </option>
-								<option value ="Other"> Other </option>
-							</select>
-							<label class="default_select">Suitability</label>
-						</li>
-						<li>
-							<select class="selectpicker select_multiple" name="tcsDarkpoolAccess" multiple="multiple" id="tcsDarkpoolAccess">
-								<option value ="Access to independent Darkpools"> Access to independent Darkpools (?) </option>
-								<option value ="Access to Broker-dealer Darkpools"> Access to Broker-dealer Darkpools (?) </option>
-								<option value ="Access to Consortium-owned darkpools"> Access to Consortium-owned darkpools (?) </option>
-								<option value ="Access to Exchange-owned darkpools"> Access to Exchange-owned darkpools (?) </option>
-								<option value ="Access to Darkpool Aggregators"> Access to Darkpool Aggregators(?) </option>
-								<option value ="No Darkpool Access">No Darkpool Access </option>
-							</select>
-							<label class="default_select">Darkpool Access</label>
-						</li>
-						<li>
 							<select class="selectpicker select_multiple" name="vendorregionofincorp" id="vendorregionofincorp">
 								<c:forEach var="regionslist" items="${regionslist}">
 									<option value="${regionslist.region_id}">${regionslist.name}</option>
@@ -204,7 +122,7 @@
 				<div class="multisearch" id="singleAsset">
 					<div id="singleAssetFields"></div>
 					<script type="text/javascript">
-						
+						 
 					</script>
 				</div>
 				<div class="multisearch" id="multipleAsset">
