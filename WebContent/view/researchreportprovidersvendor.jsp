@@ -190,17 +190,8 @@
 						</li>
 					</ul>
 				</div>
-				<div class="multisearch" id="singleAsset">
-					<div id="singleAssetFields"></div>
-					<script type="text/javascript">
-						
-					</script>
-				</div>
+
 				<div class="multisearch" id="multipleAsset">
-					<script type="text/javascript">
-						var multipleAssetData = '';
-						
-					</script>
 					<div id="multipleAssetFields"></div>
 				</div>
 
