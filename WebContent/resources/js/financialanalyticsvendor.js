@@ -8,7 +8,6 @@
 
 	var assetClassArray = [];
 	var getAssetClassAggregators = function() {
-		var costRange = $("select#acquisitioncostrange option").map(function() {return $(this).html();}).get();
 		
 		if($(this).prop('checked') == true) {
 			assetClassArray.push($(this).attr('id').toLowerCase());
@@ -55,6 +54,11 @@
 
 	$(".assetClass").click(getAssetClassAggregators);
 
+	$("select[name=region_of_incorp]").on('change', function() {
+		getRegionCountryMapping('region_of_incorp', 'country_of_incorp');
+	});
+
+
 	function multipleAssetClass(assetType) {
 	console.log("assetType : " + assetType);
 	multipleAssetData = '';
@@ -80,6 +84,20 @@
 	+ "<option value ='Any'>Any</option>"
 	+ "</select>"
 	+ "<label class='default_select'>Launch Year</label>"
+	+ "</li>"
+	+ "<li>"
+	+ "<select class='selectpicker' id='" + assetType + "_awards' name='" + assetType + "_awards'>"								
+	+ "<option value ='Any'>Any</option>"
+	+ "</select>"
+	+ "<label class='default_select'>Awards</label>"
+	+ "</li>"
+	+ "<li>"
+	+ "<input type='checkbox' name='asdCustomizableCalculationModels' id='asdCustomizableCalculationModels' required />"
+	+ "<label class='default_checkbox'>Customizable Calculation Models(?)</label>"
+	+ "</li>"
+	+ "<li>"
+	+ "<input type='checkbox' name='asdRealtimeMarketData' id='asdRealtimeMarketData' required />"
+	+ "<label class='default_checkbox'>Real time Market Data?</label>"
 	+ "</li>"
 	+ "</ul>"
 	+ "</div>"

@@ -118,29 +118,23 @@
 				</div>
 
 				<div class="common_fields_for_asset_class">
-					<h3>Common Fields for all asset class <span class="fa fa-chevron-up"></span></h3>
+					<h3>Common Fields for all Solution Type <span class="fa fa-chevron-up"></span></h3>
 					<ul>
 						<li>
-							<select class="selectpicker select_multiple" name="asdAccessibility"  multiple="multiple" id="asdAccessibility">
-								<option value ="Web/Browser Based"> Web/Browser Based </option>
-								<option value ="Binaries(Executable) Based"> Binaries(Executable) Based </option>
-								<option value ="Dedicated Desktop">Dedicated Desktop</option>
-								<option value ="Mobile/Tablet Apps">Mobile/Tablet Apps</option>
+							<select class="selectpicker" name="region_of_incorp"  id="region_of_incorp">
+								<c:forEach var="regions" items="${regions}">
+								<option value="${regions.region_id}">${regions.name}</option>
+								</c:forEach>
 							</select>
-							<label class="default_select">Accessibility (?)</label>
+							<label class="default_select">Region of Incorp</label>
 						</li>
 						<li>
-							<select class="selectpicker select_multiple" name="asdSuitability1"  multiple="multiple" id="asdSuitability1">
-								<option value ="All Users" >All Users</option>
-								<option value ="Risk Managers" >Risk Managers</option>
-								<option value ="Backoffice & Middle Office Users" >Backoffice & Middle Office Users</option>
-								<option value ="Portfolio Managers" >Portfolio Managers</option>
-								<option value ="Retail/Corporat Banking Users" >Retail/Corporat Banking Users</option>
-								<option value ="Regulation & Compliance Users" >Regulation & Compliance Users</option>
-								<option value ="Research Analysts" >Research Analysts</option>
-								<option value ="Others" >Others</option>
+							<select class="selectpicker" name="country_of_incorp" id="country_of_incorp">
+								<c:forEach var="countries" items="${countries}">
+								<option value="${countries.name}">${countries.name}</option>
+								</c:forEach>
 							</select>
-							<label class="default_select">Suitability</label>
+							<label class="default_select">Country of Incorp</label>
 						</li>
 						<li>
 							<select class="selectpicker show-tick" id="vendorprofilefreshness" name="vendorprofilefreshness">
@@ -166,16 +160,7 @@
 								--%>
 							</select>
 							<label class="default_select">Support Coverage Time</label>
-						</li>
-
-						<li>
-							<input type="checkbox" name="asdCustomizableCalculationModels" id="asdCustomizableCalculationModels" required />
-							<label class="default_checkbox">Customizable Calculation Models(?)</label>
-						</li>
-						<li>
-							<input type="checkbox" name="asdRealtimeMarketData" id="asdRealtimeMarketData" required />
-							<label class="default_checkbox">Real time Market Data?</label>
-						</li>
+						</li>					
 					</ul>
 				</div>
 				<div class="multisearch" id="singleAsset">

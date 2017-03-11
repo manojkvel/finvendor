@@ -203,7 +203,7 @@
                                             </li>
                                             <li><a class="#" href="#"><span>My Statistics</span></a>
                                             </li>
-                                            <li><a class="#" href="#"><span>Invite Your Team</span></a>
+                                            <li style="display: none;"><a class="#" href="#"><span>Invite Your Team</span></a>
                                             </li>
                                         </c:when>
                                     </c:choose>
