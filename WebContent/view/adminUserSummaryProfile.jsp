@@ -6,6 +6,13 @@
 <un:useConstants className="com.finvendor.util.RequestConstans" var="requestConstants"/>
 <html>
 	<head>
+		<title>Fin Vendor | Consumer Profile</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+		<meta name="description" content="" />
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="author" content="" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/resources/css/superfish.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/resources/css/tab.css" rel="stylesheet"/>
@@ -20,40 +27,211 @@
 	<body>
 		<jsp:include page="common/head.jsp"></jsp:include>
 		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
+
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
+		<div class="row" style="margin: -20px 0;">
+			<img src="${pageContext.request.contextPath}/resources/images/banner/profile-banner.svg" />
+		</div>
+		<div class="container" id="user_profile_details">
+			<div class="row">
+				<div class="col-xs-12 col-sm-8 col-md-9">
+					<c:choose>
+						<c:when test="${user.consumer != null}">
+							<div class="user_profile">
+								<div class="profile_icon">
+									<img src="${pageContext.request.contextPath}/resources/images/banner/default_profile.png" />
+									<!-- <img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="48" height="48" alt="${user.vendor.company}" title="${user.consumer.company}"/> -->	
+								</div>
+								<h1><a href="${finven:rectifyCompanyUrl(user.consumer.companyUrl)}" target="_blank">${user.consumer.company}</a></h1>								
+							</div>
+							<div class="user_info">
+								<h4>About Me</h4>
+								<table class="company-details">
+									<tr>
+										<c:if test="${user.consumer.firstName != null}">
+											<th>Name</th>
+											<td class="url">
+												${user.consumer.firstName}&nbsp;${user.consumer.lastName}
+											</td>
+										</c:if>
+									</tr>
+									<tr>
+										<c:if test="${user.consumer.designation != null}">
+											<th>Designation</th>
+											<td class="url">
+												${user.consumer.designation}
+											</td>
+										</c:if>
+									</tr>
+									<tr>
+										<c:if test="${user.email != null}">
+											<th>Primary Email</th>
+											<td class="url">
+												<a href="mailto:${user.email}" target="_top">${user.email}</a>
+											</td>
+										</c:if>
+									</tr>
+
+									<tr>
+										<c:if test="${user.consumer.secondaryEmail != null}">
+											<th>Secondary Email</th>
+											<td class="url">
+												<a href="mailto:${user.consumer.secondaryEmail}" target="_top">${user.consumer.secondaryEmail}</a>
+											</td>
+										</c:if>
+									</tr>
+									
+									<tr>
+										<c:if test="${user.consumer.telephone != null}">
+											<th>Phone</th>
+											<td class="url">
+												${user.consumer.telephone}
+											</td>
+										</c:if>
+									</tr>
+								</table>
+							</div>
+							<div class="company_info">
+								<h4>Company Info</h4>
+								<table class="company-details">
+									<tr>
+										<c:if test="${user.consumer.companyType != null}">
+											<th>Comany Type</th>
+											<td class="url">
+												${user.consumer.companyType}
+											</td>
+										</c:if>
+									</tr>
+									<tr>
+										<c:if test="${consumer.companyUrl != null}">
+											<th>Comany Url</th>
+											<td class="url">
+												${consumer.companyUrl}
+											</td>
+										</c:if>
+									</tr>
+									<tr>
+										<c:if test="${user.consumer.companyInfo != null}">
+											<th>Summary</th>
+											<td class="info">
+												${user.consumer.companyInfo}
+											</td>
+										</c:if>
+									</tr>
+								</table>
+							</div>
+						</c:when>
+						<c:when test="${user.vendor != null}">
+							<div class="user_profile">
+								<div class="profile_icon">
+									<img src="${pageContext.request.contextPath}/resources/images/banner/default_profile.png" />
+									<!-- <img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="48" height="48" alt="${user.vendor.company}" title="${user.vendor.company}"/> -->	
+								</div>
+								<h1><a href="${finven:rectifyCompanyUrl(user.vendor.companyUrl)}" target="_blank">${user.vendor.company}</a></h1>								
+							</div>
+							<div class="user_info">
+								<h4>About Me</h4>
+								<table class="company-details">
+									<tr>
+										<c:if test="${user.vendor.firstName != null}">
+											<th>Name</th>
+											<td class="url">
+												${user.vendor.firstName}&nbsp;${user.vendor.lastName}
+											</td>
+										</c:if>
+									</tr>
+									<tr>
+										<c:if test="${user.vendor.designation != null}">
+											<th>Designation</th>
+											<td class="url">
+												${user.vendor.designation}
+											</td>
+										</c:if>
+									</tr>
+									<tr>
+										<c:if test="${user.email != null}">
+											<th>Primary Email</th>
+											<td class="url">
+												<a href="mailto:${user.email}" target="_top">${user.email}</a>
+											</td>
+										</c:if>
+									</tr>
+
+									<tr>
+										<c:if test="${user.vendor.secondaryEmail != null}">
+											<th>Secondary Email</th>
+											<td class="url">
+												<a href="mailto:${user.vendor.secondaryEmail}" target="_top">${user.vendor.secondaryEmail}</a>
+											</td>
+										</c:if>
+									</tr>
+									
+									<tr>
+										<c:if test="${user.vendor.telephone != null}">
+											<th>Phone</th>
+											<td class="url">
+												${user.vendor.telephone}
+											</td>
+										</c:if>
+									</tr>
+								</table>
+							</div>
+							<div class="company_info">
+								<h4>Company Info</h4>
+								<table class="company-details">
+									<tr>
+										<c:if test="${user.vendor.companyType != null}">
+											<th>Comany Type</th>
+											<td class="url">
+												${user.vendor.companyType}
+											</td>
+										</c:if>
+									</tr>
+									<tr>
+										<c:if test="${vendor.companyUrl != null}">
+											<th>Comany Url</th>
+											<td class="url">
+												${vendor.companyUrl}
+											</td>
+										</c:if>
+									</tr>
+									<tr>
+										<c:if test="${user.vendor.companyInfo != null}">
+											<th>Summary</th>
+											<td class="info">
+												${user.vendor.companyInfo}
+											</td>
+										</c:if>
+									</tr>
+								</table>
+							</div>
+						</c:when>
+					</c:choose>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-3">
+					<div class="inner-sidebar-wrap" style="display: none;margin-top: 23px;">
+						<div class="sidebar-ctn-wrap cnt-ctn-wrap">
+							<div class="head">
+								<h3>Search New Vendor</h3>
+							</div>
+							<div class="content" id="sidelinks">
+								<input type="hidden" value="${user.consumer.tags}" />
+								<ul id="SOLUTIONS_ul">
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="container">
 			<div class="inner-content">
 				<div class="inner-left-wrap" id="${finven:replaceCharacter(nav, ' ', '_')}_${finven:replaceCharacter(subNav, ' ', '_')}">
-					<div><b><label class="errorMessage" style="color:red">${lastActionError}</label></b></div>
+					<div><b><label class="errorMessage" style="color:red">${lastActionError}</label></b></div> 
 		    		<c:choose>
 						<c:when test="${user.vendor != null}">
-							<p>
-								<div id="companyLogo">
-									<img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="175" height="400" 
-										style="float:left;margin-right:10px" alt="${user.vendor.company}" title="${user.vendor.company}"/>										
-								</div>
-								<b><h1><a href="${finven:rectifyCompanyUrl(user.vendor.companyUrl)}" target="_blank">${user.vendor.company}</a></h1></b>								
-								<h5>
-									<c:if test="${country != null}">
-										${country.name}&nbsp;|&nbsp;
-									</c:if>
-									${user.vendor.companyType}
-								</h5>
-							</p>					
-								<%--Since<br> --%>
-								${user.vendor.firstName}&nbsp;${user.vendor.lastName}<br>
-								${user.vendor.designation}<br>
-								<a href="mailto:${user.email}" target="_top">${user.email}</a><br>
-								<a href="mailto:${user.vendor.secondaryEmail}" target="_top">${user.vendor.secondaryEmail}</a><br>
-								<%--
-								${user.email}<br>
-								${user.vendor.secondaryEmail}<br>
-								--%>
-								${user.vendor.telephone}
-								<%--${user.vendor.companyUrl}--%>
-							</p>
-							<br>
-							<p><b><h3>Summary</h3></b></p>
-							<p>${user.vendor.companyInfo}</p>
 							<c:if test="${not empty dataaggregator}">	
 								
 								<c:set var="firstMarketDataOfferingTable">false</c:set>
@@ -463,36 +641,6 @@
 								</table>
 							</c:if>						
 						</c:when>
-						<c:when test="${user.consumer != null}">
-							<p>
-								<div id="companyLogo">
-									<img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="175" height="400" 
-										style="float:left;margin-right:10px" alt="${user.consumer.company}" title="${user.consumer.company}"/>										
-								</div>
-								<b><h1><a href="${finven:rectifyCompanyUrl(user.consumer.companyUrl)}" target="_blank">${user.consumer.company}</a></h1></b>
-								<h5>
-									<c:if test="${country != null}">
-										${country.name}&nbsp;|&nbsp;
-									</c:if>
-									${user.consumer.companyType}
-								</h5>
-							</p>					
-								<%--Since<br>--%>
-								${user.consumer.firstName}&nbsp;${user.consumer.lastName}<br>
-								${user.consumer.designation}<br>
-								<a href="mailto:${user.email}" target="_top">${user.email}</a><br>
-								<a href="mailto:${user.consumer.secondaryEmail}" target="_top">${user.consumer.secondaryEmail}</a><br>
-								<%-- 
-								${user.email}<br>
-								${user.consumer.secondaryEmail}<br>
-								--%>
-								${user.consumer.telephone}<br>
-								<%--${user.consumer.companyUrl}--%>
-							</p>
-							<br>
-							<p><b><h3>Summary</h3></b></p>
-							<p>${user.consumer.companyInfo}</p>	
-						</c:when>
 					</c:choose>						
 				</div>	
 			</div>
@@ -502,4 +650,27 @@
 		</div>
 		<jsp:include page="common/footer.jsp"></jsp:include>
 	</body>
+	<script type="text/javascript">
+		progressLoader(false);
+		var tags = $(".inner-sidebar-wrap #sidelinks input").val().split(',');
+		var li = '';
+		var link = '#';
+		for(i in tags) {
+			if(tags[i] == 'Data Aggregator') {
+				link = '/marketaggregators';
+			} else if(tags[i] == 'Trading Application') {
+				link = '/tradingapplicationvendor';
+			} else if(tags[i] == 'Analytics Application') {
+				link = '/financialanalyticsapplicationvendor';
+			} else if(tags[i] == 'Research Report') {
+				link = '/researchreportprovidersvendor';
+			}
+			li = li + "<li data-div-id='SOLUTIONS_frrpd'>"
+					+	"<a href='" + link + "''>" + tags[i] + "</a>"
+					+ "</li>";			
+		}
+		$("#SOLUTIONS_ul").append(li);
+
+		$(".inner-sidebar-wrap").css({"display": "block"});
+	</script>
 </html>
