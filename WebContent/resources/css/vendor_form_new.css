@@ -1007,9 +1007,8 @@ textarea:valid ~ label {
 }
 
 #feature_list .feature_list .counter-block {
-    position: relative;
     z-index: 1;
-    padding: 30px 0;
+    padding: 30px 10px;
     text-align: center;
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
@@ -1017,7 +1016,7 @@ textarea:valid ~ label {
     font-size: 15px;
 }
 
-#feature_list .feature_list .counter-block:before {
+/*#feature_list .feature_list .counter-block:before {
     border-right: 1px solid #34bf98;
     border-left: 1px solid #34bf98;
     -webkit-transform: scaleY(0);
@@ -1063,10 +1062,15 @@ textarea:valid ~ label {
     -webkit-transform: scaleX(1); 
     -ms-transform: scaleX(1);
     transform: scaleX(1)
-}
+}*/
 
 #feature_list .feature_list li {
 	margin: 10px 0;
+	position: relative;
+}
+
+#feature_list .feature_list .counter-block .content {
+
 }
 
 #feature_list .feature_list .counter-block img {
@@ -1075,6 +1079,43 @@ textarea:valid ~ label {
 	height: 150px;
 	display: block;
 	margin: 0 auto 10px;
+}
+
+#feature_list .feature_list li:hover .feature_list_tooltip {
+	opacity: 0.9;
+}
+
+.feature_list_tooltip {
+	background: #fff;
+	text-align: left;
+	transition: all .5s ease-out;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	padding: 20px;
+	font-size: 15px;
+	line-height: 18px;
+	border: 1px solid #34bf98;
+	cursor: default;
+}
+.feature_list_tooltip span a {
+	position: absolute;
+	bottom: 10px;
+	right: 20px;
+	border: 1px solid #34bf98;
+	padding: 3px 10px;
+	border-radius: 10px;
+	font-weight: bold;
+	font-size: 11px;
+}
+
+.feature_list_tooltip span a:hover {
+	background: #34bf98;
+	border: 1px solid #fff;
+	color: #fff;
 }
 
 #user_profile_details .user_profile {
