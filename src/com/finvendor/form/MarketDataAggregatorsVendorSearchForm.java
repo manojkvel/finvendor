@@ -31,9 +31,29 @@ public class MarketDataAggregatorsVendorSearchForm {
 	private String dataAcquisitionCostRange;
 	private String vendor;
 	private String assetClass;
+	private String analystYearOfExp;
+	private String analystCfaCharter;
+	private String existingClientBase;
 	
 	
-	
+	public String getExistingClientBase() {
+		return existingClientBase;
+	}
+	public void setExistingClientBase(String existingClientBase) {
+		this.existingClientBase = existingClientBase;
+	}
+	public String getAnalystYearOfExp() {
+		return analystYearOfExp;
+	}
+	public void setAnalystYearOfExp(String analystYearOfExp) {
+		this.analystYearOfExp = analystYearOfExp;
+	}
+	public String getAnalystCfaCharter() {
+		return analystCfaCharter;
+	}
+	public void setAnalystCfaCharter(String analystCfaCharter) {
+		this.analystCfaCharter = analystCfaCharter;
+	}
 	public String getVendorcountryofincorp() {
 		return vendorcountryofincorp;
 	}

@@ -790,9 +790,12 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		return compnaySubType;
 	}
 	
+	/* Market Data Aggregators Search */
 	@Transactional
 	@Override
-	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
+	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData, 
+			MarketDataAggregatorsVendorSearchForm dataForm) {
+		
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		
 		//String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.name OFFERING_NAME, off.description OFFERING_DESCRIPTION, cov.region_ids REGION, cov.country_ids COUTRIES, off.LaunchedYear YEAR, cov.coverageexchange, security.name, security.security_type_id, asset_sec.description sec_asset_description from vendor_offering off, vendor_datacoverage cov, asset_class asset, vendor ven, users u, country country, offeringfiles files, security_types security, asset_class asset_sec where u.username = ven.username and off.vendor_offering_id = cov.vendor_offering_id and asset.asset_class_id = off.asset_class_id and off.vendor_id = cov.vendor_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and files.vendor_offering_id = off.vendor_offering_id and security.security_type_id = files.security_type_id and security.asset_class_id = asset_sec.asset_class_id ";
@@ -1333,6 +1336,183 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		Session session = this.sessionFactory.getCurrentSession();
 		Object modelObject = session.load(type, id);
 		return modelObject;
+	}
+	
+	
+	
+	/* Research Report Search */
+	@Override
+	public Map<String, Object> getResearchReportVendorSearchResult(Map<Object, Object> searchData, 
+			MarketDataAggregatorsVendorSearchForm dataForm) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		
+		String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, off.research_area RESEARCH_AREA, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.regions_covered REGION, cov.countries_covered COUTRIES, off.launched_year YEAR from ven_rsrch_rpt_offering off, ven_rsrch_rpt_covg cov, vendor ven, ven_rsrch_rpt_analyst_prof analyst, ven_rsrch_rpt_dtls details, users u, country country, security_types security where u.username = ven.username and off.product_id = cov.product_id and off.product_id = analyst.product_id and ven.vendor_id = off.vendor_id and country.country_id = analyst.analyst_country ";
+		StringBuilder searchSql = new StringBuilder(2000);
+		searchSql.append(vendorSearchSql);
+		
+		if (dataForm.getVendorregionofincorp() != null && !dataForm.getVendorregionofincorp().toString().trim().equals("")) {
+			searchSql.append("and analyst.analyst_region in ( ");
+			searchSql.append(dataForm.getVendorregionofincorp());
+			searchSql.append(" ) ");
+		}
+		
+		if (dataForm.getVendorcountryofincorp() != null && !dataForm.getVendorcountryofincorp().toString().trim().equals("")) {
+			searchSql.append(" and analyst.analyst_country in ( ");
+			searchSql.append(dataForm.getVendorcountryofincorp());
+			searchSql.append(" ) ");
+		}
+		
+		if (dataForm.getAnalystYearOfExp() != null && !dataForm.getAnalystYearOfExp().toString().trim().equals("")) {
+			searchSql.append(" analyst.analyst_year_of_exp = '");
+			searchSql.append(dataForm.getAnalystYearOfExp());
+			searchSql.append("' ");
+		}
+		
+		if (dataForm.getAnalystCfaCharter() != null && !dataForm.getAnalystCfaCharter().toString().trim().equals("")) {
+			searchSql.append(" and analyst.anayst_cfa_charter = '");
+			searchSql.append(dataForm.getAnalystCfaCharter());
+			searchSql.append("' ");
+		}
+		
+		if (dataForm.getExistingClientBase() != null && !dataForm.getExistingClientBase().toString().trim().equals("")) {
+			searchSql.append(" and cov.existing_client_base = '");
+			searchSql.append(dataForm.getExistingClientBase());
+			searchSql.append("' ");
+		}
+		
+		String assetClasses = (String)searchData.get("assetClassChk");
+		String[] assetClassList = new String[0];
+		
+		if(assetClasses != null && !assetClasses.trim().equals("")) {
+			assetClassList = assetClasses.split(",");
+		}
+						
+		boolean firstAssetClass = false;
+		
+		for(String assetClass : assetClassList) {
+			if(!firstAssetClass) {
+				searchSql.append(" and (");
+				firstAssetClass = true;
+			}
+			searchSql.append(" ( ");
+			searchSql.append(" off.research_area = '");
+			searchSql.append(assetClass);
+			searchSql.append("'");
+			
+			Object datacoveragecountry = searchData.get(assetClass.toLowerCase() + "datacoveragecountry");
+			populateFilterCondition(searchSql, datacoveragecountry, "cov.countries_covered");
+			Object datacoverageregion = searchData.get(assetClass.toLowerCase() + "datacoverageregion");
+			populateFilterCondition(searchSql, datacoverageregion, "cov.regions_covered");
+			Object datacoverageexchange = searchData.get(assetClass.toLowerCase() + "dataresearchsubarea");
+			populateFilterCondition(searchSql, datacoverageexchange, "off.research_sub_area");
+						
+			searchSql.append(")");
+			searchSql.append("or");
+		}
+		
+		if(firstAssetClass) {
+			searchSql.delete(searchSql.length() - 2, searchSql.length());
+			searchSql.append(" ) ");
+		}
+		
+		searchSql.append(" order by ven.vendor_id, off.research_area");
+		logger.info("searchSql ################## QUERY == " + searchSql.toString());
+		
+		SQLQuery sqlQuery = currentSession.createSQLQuery(searchSql.toString());
+		@SuppressWarnings("unchecked")
+		List<Object[]> searchResultList = (List<Object[]>)sqlQuery.list();
+		Set<VendorSearchResult> vendorSearchResultList = new HashSet<VendorSearchResult>();
+		
+		Map<String, Set<String>> assetCountries = new HashMap<String, Set<String>>();
+		Map<String, Set<String>> assetExchanges = new HashMap<String, Set<String>>();
+		Map<String, List<VendorSearchResult>> awardsMap = new HashMap<String, List<VendorSearchResult>>();
+		
+		Map<String, Object> searchResultMap = new HashMap <String, Object>();
+		
+		StringBuilder vendorList = new StringBuilder();
+		boolean vendorFound = false;
+		int vendorCount = 0;
+		for(Object[] searchRow : searchResultList) {
+			vendorFound = true;
+			vendorList.append("'");
+			vendorList.append((String)searchRow[0]);
+			vendorList.append("'");
+			vendorCount++;
+			if (vendorCount <= searchResultList.size() -1) {
+				vendorList.append(",");
+			}
+		}
+		
+		List<Object[]> vendorAwardList = new ArrayList<Object[]>();
+		if(vendorFound) {
+			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, off.research_area RESEARCH_AREA, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.regions_covered REGION, cov.countries_covered COUTRIES, off.launched_year YEAR from ven_rsrch_rpt_offering off, ven_rsrch_rpt_covg cov, vendor ven, ven_rsrch_rpt_analyst_prof analyst, ven_rsrch_rpt_dtls details, users u, country country, security_types security where u.username = ven.username and off.product_id = cov.product_id and off.product_id = analyst.product_id and ven.vendor_id = off.vendor_id and country.country_id = analyst.analyst_country and ven.vendor_id in (VENDOR_ID_LIST)";
+			vendorSearchSql = vendorSearchSql.replaceAll("VENDOR_ID_LIST", vendorList.toString());
+			sqlQuery = currentSession.createSQLQuery(vendorSearchSql);
+			logger.info("vendorSearchSql ################## VENDOR SEARCH QUERY == " + vendorSearchSql.toString());
+			searchResultList = (List<Object[]>)sqlQuery.list();
+			String vendorAwardSql = "select vendor_id, Awardname, Awardsponsor, Awardedyear from vendor_awards where vendor_id in (" + vendorList.toString()  + ") order by vendor_id";
+			sqlQuery = currentSession.createSQLQuery(vendorAwardSql);
+			vendorAwardList = (List<Object[]>)sqlQuery.list();
+		}
+		
+		for(Object[] searchRow : searchResultList) {
+			
+			VendorSearchResult vendorSearchRow = new VendorSearchResult();
+			vendorSearchRow.setVendorId((String)searchRow[0]);
+			vendorSearchRow.setVendorName((String)searchRow[1]);
+			vendorSearchRow.setVendorCompany((String)searchRow[2]);
+			vendorSearchRow.setVendorCountry((String)searchRow[3]);
+			vendorSearchRow.setVendorType((String)searchRow[4]);
+			
+			String assetClass = (String)searchRow[5];	//Research Area
+			String countries = (String)searchRow[9];
+				
+			String mapKey = (String)searchRow[0] + "_" + assetClass;
+			
+			if(countries != null && !countries.trim().equals("")) {
+				String[] countryNames = countries.split(",");
+				for(String countryName : countryNames) {
+					Set<String> assetCountriesSet = assetCountries.get(mapKey);
+					if(assetCountriesSet == null) {
+						assetCountriesSet = new HashSet<String>();
+						assetCountries.put(mapKey, assetCountriesSet);
+						assetCountriesSet.add(countryName);
+					} else {
+						assetCountriesSet.add(countryName);
+					}
+				}
+			}
+			
+			// 5 - Asset class, 9 - Countries, 11 - Exchanges, 12- Security Types
+			vendorSearchResultList.add(vendorSearchRow);
+		}
+		
+		for(Object[] searchRow : vendorAwardList) {
+			VendorSearchResult vendorSearchRow = new VendorSearchResult();
+			vendorSearchRow.setVendorId((String)searchRow[0]);
+			vendorSearchRow.setAwardName((String)searchRow[1]);
+			vendorSearchRow.setAwardSponsor((String)searchRow[2]);
+			vendorSearchRow.setAwardYear(searchRow[3].toString());
+			
+			List<VendorSearchResult> vendorSearchAwardList = awardsMap.get((String)searchRow[0]);
+			
+			if(vendorSearchAwardList == null) {
+				vendorSearchAwardList = new ArrayList<VendorSearchResult>();
+				vendorSearchAwardList.add(vendorSearchRow);
+				awardsMap.put((String)searchRow[0], vendorSearchAwardList);
+			}else {
+				vendorSearchAwardList.add(vendorSearchRow);
+			}
+		}
+		
+		searchResultMap.put("vendorSearchResultList", vendorSearchResultList);
+		searchResultMap.put("assetCountries", assetCountries);
+		searchResultMap.put("assetExchanges", assetExchanges);
+		searchResultMap.put("awardsMap", awardsMap);
+		
+		//logger.info("MAP == " + Arrays.toString(searchResultMap.entrySet().toArray()));
+		
+		return searchResultMap;
 	}
 	
  }

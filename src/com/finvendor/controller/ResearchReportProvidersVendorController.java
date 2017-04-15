@@ -1,12 +1,9 @@
-/**
- * 
- */
 package com.finvendor.controller;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,38 +18,70 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
-import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
-import com.finvendor.model.AssetClass;
-import com.finvendor.model.Awards;
-import com.finvendor.model.Cost;
-import com.finvendor.model.Country;
-import com.finvendor.model.Exchange;
-import com.finvendor.model.FinVendorUser;
-import com.finvendor.model.Region;
-import com.finvendor.model.Support;
+import com.finvendor.model.VendorSearchResult;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.util.RequestConstans;
 
-/**
- * @author rayulu vemula
- *
- */
 @Controller
 public class ResearchReportProvidersVendorController {
 
-	private static Logger logger = LoggerFactory.getLogger(ResearchReportProvidersVendorController.class);
-	
-	
+	private static Logger logger = LoggerFactory.getLogger(
+			ResearchReportProvidersVendorController.class);
+		
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
 	
-	/**
-	 * method for research report page navigation
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
+	/* Research Reports Vendor Search */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="reserachReportVendorSearch", method=RequestMethod.POST)
+	public ModelAndView multiSearchAssetClass(HttpServletRequest request, 
+			@ModelAttribute("vendorSearchForm") 
+				MarketDataAggregatorsVendorSearchForm dataForm) {
+		
+		ModelAndView modelAndView = new ModelAndView("multiassetsearchresult");
+		try{					
+			Map parameterMap = request.getParameterMap();
+			Map<Object, Object> searchData = new LinkedHashMap<Object, Object>();
+			Iterator entries = parameterMap.entrySet().iterator();
+			int counter = 0;
+			
+			while (entries.hasNext()) {
+				Map.Entry entry = (Map.Entry) entries.next();
+				try {
+					String []s = (String[])entry.getValue();
+					String tempStr = "";
+					for(String str: s) {
+						tempStr =str != null && tempStr.length()>1? str+","+tempStr:str;
+					}
+					searchData.put(entry.getKey(), tempStr);
+					System.out.println((++counter)+" : Key = " + entry.getKey() + ", Value = " + tempStr);
+						    		
+				} catch(Exception e) {
+						    	
+				}
+			}
+						
+			System.out.println("dataForm = " + dataForm);
+						
+			Map<String, Object> multiAssetClassSearchResult = marketDataAggregatorsService.
+					getResearchReportVendorSearchResult(searchData, dataForm);
+			Set<VendorSearchResult> marketDataAggregatorsVendorSearchs = 
+					(Set<VendorSearchResult>)multiAssetClassSearchResult.get("vendorSearchResultList");
+												
+			modelAndView.addObject("marketDataAggregatorsVendorSearchs", marketDataAggregatorsVendorSearchs);
+			modelAndView.addObject("assetCountries", multiAssetClassSearchResult.get("assetCountries"));
+			modelAndView.addObject("assetExchanges", multiAssetClassSearchResult.get("assetExchanges"));
+			modelAndView.addObject("awardsMap", multiAssetClassSearchResult.get("awardsMap"));
+			modelAndView.addObject("result", RequestConstans.MarketAggregators.MULTI_ASSET_CLASS_SEARCH_RESULT);
+						 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return modelAndView;
+	}
+	
+	/*
 	
 	@RequestMapping(value=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE, method=RequestMethod.GET)
 	public ModelAndView researchReportProviderIndex(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
@@ -88,35 +117,7 @@ public class ResearchReportProvidersVendorController {
 				modelAndView.addObject("costs", costs);
 				modelAndView.addObject("awards", awards);	
 				
-				/*
-				username = CommonUtils.decrypt(username.getBytes());
-				 String usernameCheck= SecurityContextHolder.getContext().
-						getAuthentication().getName(); 
-				 if(username.equals("")){
-					modelAndView.addObject("usernameCheck", usernameCheck);
-					modelAndView=new ModelAndView(RequestConstans.Login.HOME);
-				}else{ 
-					assetClasses = marketDataAggregatorsService.getAllAssetClass();
-					regions = marketDataAggregatorsService.getAllRegionClass();
-					countries = marketDataAggregatorsService.getAllCountries();
-					exchanges = marketDataAggregatorsService.getAllExchanges();
-					supports =  marketDataAggregatorsService.getAllVendorSupports();
-					costs  = marketDataAggregatorsService.getAllCostInfo();
-					awards = marketDataAggregatorsService.getAllAwards();
-					
-					modelAndView.addObject("assetClasses", assetClasses);
-					modelAndView.addObject("regions", regions);
-					modelAndView.addObject("regionslist", regions);
-					modelAndView.addObject("countries", countries);
-					modelAndView.addObject("exchanges", exchanges);
-					modelAndView.addObject("supports", supports);
-					modelAndView.addObject("costs", costs);
-					modelAndView.addObject("awards", awards);	
-					
-					modelAndView.addObject("username", username);
-					
-				 } 
-				 */
+				
 			}catch (Exception e) {
 				logger.error("Error ResearchReportProvidersVendor : researchReportProviderIndex", e);
 				modelAndView.addObject("errorMessage", "Error reading ResearchReportProvidersVendor details : " + e.getMessage());
@@ -124,7 +125,10 @@ public class ResearchReportProvidersVendorController {
 			logger.debug("Leaving ResearchReportProvidersVendor : researchReportProviderIndex");
 			return modelAndView;
 	}
+	
+	*/
 
+	/*
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value=RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT, method=RequestMethod.POST)
 	public ModelAndView multiSearchAssetClass(HttpServletRequest request, @ModelAttribute("researchReportProvidersVendorSearchForm") ResearchReportProvidersVendorSearchForm dataForm,
@@ -168,6 +172,6 @@ public class ResearchReportProvidersVendorController {
 	
 
 	
-	
+	*/
 	
 }

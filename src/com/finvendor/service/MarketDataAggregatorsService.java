@@ -226,4 +226,7 @@ public interface MarketDataAggregatorsService {
 	Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm);
 
 	public Object getModelObjectById(Class<?> type, Serializable id);
+	
+	public Map<String, Object> getResearchReportVendorSearchResult(
+			Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm);
 }

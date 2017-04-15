@@ -667,61 +667,55 @@ public class MarketDataAggregatorsVendorController {
 			return modelAndView;
 	}
 	
-	/**
-	 * method for result of multi asset class search
-	 * 
-	 * @return modelAndView
-	 * @throws Exception
-	 *             the exception
-	 */
 	
+	/* Market Data Agrregators Search */
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value=RequestConstans.MarketAggregators.MULTI_ASSET_CLASS_SEARCH_RESULT, method=RequestMethod.POST)
-	public ModelAndView multiSearchAssetClass(HttpServletRequest request, @ModelAttribute("marketDataAggregatorsVendorSearchForm") MarketDataAggregatorsVendorSearchForm dataForm,
-			@RequestParam(value = "RaYUnA", required = false) String username
-			){
-					ModelAndView modelAndView=new ModelAndView("multiassetsearchresult");
-					try{
-					
-						Map parameterMap = request.getParameterMap();
-						Map<Object, Object> searchData = new LinkedHashMap<Object, Object>();
-						Iterator entries = parameterMap.entrySet().iterator();
-						int counter=0;
-						while (entries.hasNext()) {
-						    Map.Entry entry = (Map.Entry) entries.next();
-						    try{
-						    String []s =(String[])entry.getValue();
-						    String tempStr = "";
-						    for(String str: s){
-						    	tempStr =str != null && tempStr.length()>1? str+","+tempStr:str;
-						    }
-						    searchData.put(entry.getKey(), tempStr);
-						    System.out.println((++counter)+" : Key = " + entry.getKey() + ", Value = " + tempStr);
+	public ModelAndView multiSearchAssetClass(HttpServletRequest request, 
+			@ModelAttribute("marketDataAggregatorsVendorSearchForm") MarketDataAggregatorsVendorSearchForm dataForm,
+			@RequestParam(value = "RaYUnA", required = false) String username) {
+		
+		ModelAndView modelAndView = new ModelAndView("multiassetsearchresult");
+		try{					
+			Map parameterMap = request.getParameterMap();
+			Map<Object, Object> searchData = new LinkedHashMap<Object, Object>();
+			Iterator entries = parameterMap.entrySet().iterator();
+			int counter = 0;
+			
+			while (entries.hasNext()) {
+				Map.Entry entry = (Map.Entry) entries.next();
+				try {
+					String []s = (String[])entry.getValue();
+					String tempStr = "";
+					for(String str: s) {
+						tempStr =str != null && tempStr.length()>1? str+","+tempStr:str;
+					}
+					searchData.put(entry.getKey(), tempStr);
+					System.out.println((++counter)+" : Key = " + entry.getKey() + ", Value = " + tempStr);
 						    		
-						    }catch(Exception e){
+				} catch(Exception e) {
 						    	
-						    }
-						}
+				}
+			}
 						
-						System.out.println("dataForm = " + dataForm);
+			System.out.println("dataForm = " + dataForm);
 						
-						//for(Map.Entry<Object,Object> t: parameterMap.entrySet())
-						Map<String, Object> multiAssetClassSearchResult = marketDataAggregatorsService.getMultiAssetClassSearchResult(searchData,dataForm);
-						Set<VendorSearchResult> marketDataAggregatorsVendorSearchs = (Set<VendorSearchResult>)multiAssetClassSearchResult.get("vendorSearchResultList");
-						
-					
-						
+			Map<String, Object> multiAssetClassSearchResult = marketDataAggregatorsService.
+					getMultiAssetClassSearchResult(searchData, dataForm);
+			Set<VendorSearchResult> marketDataAggregatorsVendorSearchs = 
+					(Set<VendorSearchResult>)multiAssetClassSearchResult.get("vendorSearchResultList");
+												
 			modelAndView.addObject("marketDataAggregatorsVendorSearchs", marketDataAggregatorsVendorSearchs);
 			modelAndView.addObject("assetCountries", multiAssetClassSearchResult.get("assetCountries"));
 			modelAndView.addObject("assetExchanges", multiAssetClassSearchResult.get("assetExchanges"));
 			modelAndView.addObject("awardsMap", multiAssetClassSearchResult.get("awardsMap"));
 			modelAndView.addObject("result", RequestConstans.MarketAggregators.MULTI_ASSET_CLASS_SEARCH_RESULT);
 			modelAndView.addObject("username", username);			 
- 			}catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			return modelAndView;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return modelAndView;
 	}
 	
 	

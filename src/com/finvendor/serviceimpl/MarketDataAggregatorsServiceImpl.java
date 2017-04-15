@@ -361,8 +361,15 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	}
 
 	@Override
-	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm) {
-		return marketDataAggregatorsDao.getMultiAssetClassSearchResult(searchData,dataForm);
+	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm) {
+		return marketDataAggregatorsDao.getMultiAssetClassSearchResult(searchData, dataForm);
+	}
+	
+	@Override
+	@Transactional
+	public Map<String, Object> getResearchReportVendorSearchResult(
+			Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm) {
+		return marketDataAggregatorsDao.getResearchReportVendorSearchResult(searchData, dataForm);
 	}
 	
 	@Override
