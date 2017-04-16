@@ -1424,7 +1424,9 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		Set<VendorSearchResult> vendorSearchResultList = new HashSet<VendorSearchResult>();
 		
 		Map<String, Set<String>> assetCountries = new HashMap<String, Set<String>>();
+		Map<String, Set<String>> assetRegions = new HashMap<String, Set<String>>();
 		Map<String, Set<String>> assetExchanges = new HashMap<String, Set<String>>();
+		Map<String, Set<String>> researchSubAreas = new HashMap<String, Set<String>>();
 		Map<String, List<VendorSearchResult>> awardsMap = new HashMap<String, List<VendorSearchResult>>();
 		
 		Map<String, Object> searchResultMap = new HashMap <String, Object>();
@@ -1445,7 +1447,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		
 		List<Object[]> vendorAwardList = new ArrayList<Object[]>();
 		if(vendorFound) {
-			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, off.research_area RESEARCH_AREA, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.regions_covered REGION, cov.countries_covered COUTRIES, off.launched_year YEAR from ven_rsrch_rpt_offering off, ven_rsrch_rpt_covg cov, vendor ven, ven_rsrch_rpt_analyst_prof analyst, ven_rsrch_rpt_dtls details, users u, country country, security_types security where u.username = ven.username and off.product_id = cov.product_id and off.product_id = analyst.product_id and ven.vendor_id = off.vendor_id and country.country_id = analyst.analyst_country and ven.vendor_id in (VENDOR_ID_LIST)";
+			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, off.research_area RESEARCH_AREA, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.regions_covered REGION, cov.countries_covered COUTRIES, off.launched_year YEAR, off.research_sub_area RESEARCH_SUB_AREA from ven_rsrch_rpt_offering off, ven_rsrch_rpt_covg cov, vendor ven, ven_rsrch_rpt_analyst_prof analyst, ven_rsrch_rpt_dtls details, users u, country country, security_types security where u.username = ven.username and off.product_id = cov.product_id and off.product_id = analyst.product_id and ven.vendor_id = off.vendor_id and country.country_id = analyst.analyst_country and ven.vendor_id in (VENDOR_ID_LIST)";
 			vendorSearchSql = vendorSearchSql.replaceAll("VENDOR_ID_LIST", vendorList.toString());
 			sqlQuery = currentSession.createSQLQuery(vendorSearchSql);
 			logger.info("vendorSearchSql ################## VENDOR SEARCH QUERY == " + vendorSearchSql.toString());
@@ -1465,7 +1467,9 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 			vendorSearchRow.setVendorType((String)searchRow[4]);
 			
 			String assetClass = (String)searchRow[5];	//Research Area
+			String regions = (String)searchRow[8];
 			String countries = (String)searchRow[9];
+			String researchSubAreasList = (String)searchRow[11];
 				
 			String mapKey = (String)searchRow[0] + "_" + assetClass;
 			
@@ -1483,7 +1487,36 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 				}
 			}
 			
-			// 5 - Asset class, 9 - Countries, 11 - Exchanges, 12- Security Types
+			if(regions != null && !regions.trim().equals("")) {
+				String[] regionNames = regions.split(",");
+				for(String regionName : regionNames) {
+					Set<String> assetRegionsSet = assetRegions.get(mapKey);
+					if(assetRegionsSet == null) {
+						assetRegionsSet = new HashSet<String>();
+						assetRegions.put(mapKey, assetRegionsSet);
+						assetRegionsSet.add(regionName);
+					} else {
+						assetRegionsSet.add(regionName);
+					}
+				}
+			}
+			
+			if(researchSubAreasList != null && !researchSubAreasList.trim().equals("")) {
+				String[] researchSubAreaNames = researchSubAreasList.split(",");
+				for(String researchSubAreaName : researchSubAreaNames) {
+					//String reasrchSubAreaMapKey = (String)searchRow[0] + "_" + assetClass + "_" + researchSubAreaName;
+					Set<String> researchSubAreaSet = researchSubAreas.get(mapKey);
+					if(researchSubAreaSet == null) {
+						researchSubAreaSet = new HashSet<String>();
+						researchSubAreas.put(mapKey, researchSubAreaSet);
+						researchSubAreaSet.add(researchSubAreaName);
+					} else {
+						researchSubAreaSet.add(researchSubAreaName);
+					}
+				}
+			}
+			
+			// 5 - Asset class, 8 - Region, 9 - Countries, 11 - Research Sub Area
 			vendorSearchResultList.add(vendorSearchRow);
 		}
 		
@@ -1507,7 +1540,9 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		
 		searchResultMap.put("vendorSearchResultList", vendorSearchResultList);
 		searchResultMap.put("assetCountries", assetCountries);
+		searchResultMap.put("assetRegions", assetRegions);
 		searchResultMap.put("assetExchanges", assetExchanges);
+		searchResultMap.put("researchSubAreas", researchSubAreas);
 		searchResultMap.put("awardsMap", awardsMap);
 		
 		//logger.info("MAP == " + Arrays.toString(searchResultMap.entrySet().toArray()));
