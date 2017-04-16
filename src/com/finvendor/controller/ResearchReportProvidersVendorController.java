@@ -2,6 +2,7 @@ package com.finvendor.controller;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,6 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
+import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
+import com.finvendor.model.AssetClass;
+import com.finvendor.model.Awards;
+import com.finvendor.model.Cost;
+import com.finvendor.model.Country;
+import com.finvendor.model.Exchange;
+import com.finvendor.model.FinVendorUser;
+import com.finvendor.model.Region;
+import com.finvendor.model.Support;
 import com.finvendor.model.VendorSearchResult;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.util.RequestConstans;
@@ -81,7 +91,6 @@ public class ResearchReportProvidersVendorController {
 		return modelAndView;
 	}
 	
-	/*
 	
 	@RequestMapping(value=RequestConstans.ResearchReportProviders.RESEARCH_REPORT_PROVIDERS_INDEX_PAGE, method=RequestMethod.GET)
 	public ModelAndView researchReportProviderIndex(HttpServletRequest request,@ModelAttribute("users") FinVendorUser users,
@@ -126,9 +135,7 @@ public class ResearchReportProvidersVendorController {
 			return modelAndView;
 	}
 	
-	*/
-
-	/*
+	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value=RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT, method=RequestMethod.POST)
 	public ModelAndView multiSearchAssetClass(HttpServletRequest request, @ModelAttribute("researchReportProvidersVendorSearchForm") ResearchReportProvidersVendorSearchForm dataForm,
@@ -158,9 +165,9 @@ public class ResearchReportProvidersVendorController {
 						}
 						
 						//for(Map.Entry<Object,Object> t: parameterMap.entrySet())
-					 List<ResearchReportProvidersVendorSearchForm> rrMultiAssetClassSearchResult = marketDataAggregatorsService.getRRMultiAssetClassSearchResult(searchData, dataForm);
+					 //List<ResearchReportProvidersVendorSearchForm> rrMultiAssetClassSearchResult = marketDataAggregatorsService.getRRMultiAssetClassSearchResult(searchData, dataForm);
 					
-			modelAndView.addObject("marketDataAggregatorsVendorSearchs", rrMultiAssetClassSearchResult);
+			//modelAndView.addObject("marketDataAggregatorsVendorSearchs", rrMultiAssetClassSearchResult);
 			modelAndView.addObject("result", RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT);
 			modelAndView.addObject("username", username);			 
  			}catch (Exception e) {
@@ -172,6 +179,6 @@ public class ResearchReportProvidersVendorController {
 	
 
 	
-	*/
+	
 	
 }
