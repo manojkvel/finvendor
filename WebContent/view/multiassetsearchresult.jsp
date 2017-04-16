@@ -36,10 +36,26 @@ tbody:before {
 	<jsp:include page="common/dashboardheader.jsp"></jsp:include>
 	<div class="container">
 		<div class="text_area">
-			<div class="text_arw">
-				<a
+			<div class="text_arw ${result}">
+			<c:choose>
+				<c:when test="${result eq marketAggregators}">
+					<a
 					href="<%=request.getContextPath()%>/<%=RequestConstans.MarketAggregators.MARKETAGGREGATORS%>?RaYUnA=${l:encrypt(username)}">Market
-					Data Vendors (Aggregators) Directory</a>
+					Data Vendors</a>
+				</c:when>
+				<c:when test="${result eq tradingApplication}">
+					<a
+					href="<%=request.getContextPath()%>/<%=RequestConstans.TradingApplication.MULTI_ASSET_CLASS_SEARCH_RESULT%>?RaYUnA=${l:encrypt(username)}">Trading Application Vendors</a>
+				</c:when>
+				<c:when test="${result eq financialAnalytics}">
+					<a
+					href="<%=request.getContextPath()%>/<%=RequestConstans.FinancialAnalyticsApplication.MULTI_ASSET_CLASS_SEARCH_RESULT%>?RaYUnA=${l:encrypt(username)}">Financial Analytics Vendors</a>
+				</c:when>
+				<c:when test="${result eq researchReportProviders}">
+					<a
+					href="<%=request.getContextPath()%>/<%=RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT%>?RaYUnA=${l:encrypt(username)}">Research Reporting Vendors</a>
+				</c:when>
+			</c:choose>
 			</div>
 			<div class="arw">></div>
 			<div class="text_arw">Result</div>
@@ -85,23 +101,90 @@ tbody:before {
 					<c:when test="${not empty marketDataAggregatorsVendorSearchs && result eq marketAggregators}">
 						<c:forEach var="marketDataAggregatorsVendorSearch"
 							items="${marketDataAggregatorsVendorSearchs}">
-							
-							<%-- 
-							<tr>
-								<td><div id="companyLogo">
-										<img
-											src="${pageContext.request.contextPath}/displayCompanyLogo/${marketDataAggregatorsVendorSearch.userName}"
-											width="175" height="400"
-											style="float: left; margin-right: 10px"
-											alt="${marketDataAggregatorsVendorSearch.vendorCompany}"
-											title="${marketDataAggregatorsVendorSearch.vendorCompany}" />
-									</div></td>
-								<td><div>${marketDataAggregatorsVendorSearch.vendorCountry}</div></td>
-								<td><div>${marketDataAggregatorsVendorSearch.vendorCompany}</div></td>
-								<td><div>${marketDataAggregatorsVendorSearch.vendorType}</div></td>
-							</tr>
-						
-						--%>
+							<div class="portlet box blue">
+								<div class="portlet-title"></div>
+								<div class="portlet-body">
+									<div class="portlet-content">
+										<div class="vendor-logo">
+											<img src="${pageContext.request.contextPath}/displayCompanyLogo/${marketDataAggregatorsVendorSearch.vendorName}" 
+												alt="${assetCountries}"
+												title="${marketDataAggregatorsVendorSearch.vendorCompany}" width="60" height="60" />
+										</div>
+										<div class="vendor-overview">
+											<h2><a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${marketDataAggregatorsVendorSearch.vendorName}">${marketDataAggregatorsVendorSearch.vendorCompany}</a></h2>
+											<p>${marketDataAggregatorsVendorSearch.vendorCountry} | ${marketDataAggregatorsVendorSearch.vendorType} | <%-- Year Since
+												Operations--%></p>
+											<div class="vendor-coverage">
+												<label>Coverage Details:</label>
+												<table cellpadding="0" cellspacing="0" border="1">
+													<tr>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Equities"/>
+														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${exchangeCount > 0}">
+															<td><label>Equity :</label> ${exchangeCount} exchange, ${countriesCount} countries</td>
+														</c:if>														
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FI"/>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${countriesCount > 0}">
+															<td><label>FI :</label> ${countriesCount} countries</td>
+														</c:if>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Equity_Indices"/>
+														<c:set var="equityExchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FI_Indices"/>
+														<c:set var="fiExchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Other_Indices"/>
+														<c:set var="otherExchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:if test="${equityExchangeCount > 0 || fiExchangeCount > 0 || otherExchangeCount > 0}">
+															<td>
+																<label>Indices :</label> 
+																<c:if test="${equityExchangeCount > 0}">
+																	${equityExchangeCount} equity
+																</c:if>
+																<c:if test="${fiExchangeCount > 0}">
+																	, ${fiExchangeCount} FI
+																</c:if>
+																<c:if test="${otherExchangeCount > 0}">
+																	, ${otherExchangeCount} Other
+																</c:if>
+															</td>
+														</c:if>
+													</tr>
+													<tr>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Derivative"/>
+														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:if test="${exchangeCount > 0}">
+															<td><label>Derivatives :</label> ${exchangeCount} F&O exchanges</td>
+														</c:if>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FX"/>
+														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>		
+														<c:if test="${exchangeCount > 0}">
+															<td><label>FX :</label> ${exchangeCount} pairs</td>
+														</c:if>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+													</tr>
+													<c:set var="awardsList" value="${awardsMap[marketDataAggregatorsVendorSearch.vendorId]}"/>
+													<c:forEach var="awardRecord" items="${awardsList}" varStatus="counter">
+														<c:if test="${counter.count == 1}">
+															<tr><td colspan="4"><label>Awards Won:</label></td></tr>
+														</c:if>
+														<tr>
+															<td colspan="4">${awardRecord.awardName} by ${awardRecord.awardSponsor} (${awardRecord.awardYear})</td>
+														</tr>
+													</c:forEach>
+													
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>						
+						</c:forEach>
+					</c:when>
+					<c:when test="${not empty marketDataAggregatorsVendorSearchs && result eq researchReportProviders}">
+						<c:forEach var="marketDataAggregatorsVendorSearch"
+							items="${marketDataAggregatorsVendorSearchs}">
 							<div class="portlet box blue">
 								<div class="portlet-title"></div>
 								<div class="portlet-body">

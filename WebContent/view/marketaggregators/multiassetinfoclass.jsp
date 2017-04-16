@@ -11,40 +11,40 @@
 					<ul>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Equities"
+							class="assetClass" name="assetClassChk" value="1"
 							id="equities" />
 							<label>Equities</label>
 						</li>
 						<li>
 							<input type="checkbox" class="assetClass"
-							name="assetClassChk" value="FI" id="fi" />
+							name="assetClassChk" value="2" id="fi" />
 							<label>Fixed Income</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Indices"
+							class="assetClass" name="assetClassChk" value="3"
 							id="indices" />
 							<label>Indices</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="MISC" id="misc" />
+							class="assetClass" name="assetClassChk" value="7" id="misc" />
 							<label>Misc</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="Derivatives"
+							class="assetClass" name="assetClassChk" value="4"
 							id="derivatives" />
 							<label>Derivatives</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="FX" id="fx" />
+							class="assetClass" name="assetClassChk" value="5" id="fx" />
 							<label>FX</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="AI" id="ai" />
+							class="assetClass" name="assetClassChk" value="6" id="ai" />
 							<label>AI</label>
 						</li>
 					</ul>

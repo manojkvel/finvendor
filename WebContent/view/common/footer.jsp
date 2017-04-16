@@ -222,13 +222,13 @@
 	        $( "#loading" ).hide();
 	     });
 		$(document).ready(function() {
-			$('.slider2').bxSlider({
+			/*$('.slider2').bxSlider({
 				slideWidth : 740,
 				minSlides : 1,
 				maxSlides : 1,
 				slideMargin : 15,
 				auto : true,
-			});
+			});*/
 		});
 	</script>
 <script

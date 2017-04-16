@@ -41,6 +41,10 @@
 			<div class="text_arw">Search Vendor</div>
 		</div>
 		<div id="searchmultiform">
+			<form
+			action="<%=request.getContextPath()+"/"+RequestConstans.TradingApplication.MULTI_ASSET_CLASS_SEARCH_RESULT %>?RaYvEmUl=${l:encrypt(username)}"
+			class="form-horizontal" id="submit_form" method="post"
+			enctype="multipart/form-data">
 			<div id="trading_application_search" class="consumer_search custom_form">
 				<div class="generic_message">
 					<div class="alert"></div>
@@ -140,10 +144,6 @@
 					</div>
 				</div>
 			</div>
-			<form
-			action="<%=request.getContextPath()+"/"+RequestConstans.TradingApplication.MULTI_ASSET_CLASS_SEARCH_RESULT %>?RaYvEmUl=${l:encrypt(username)}"
-			class="form-horizontal" id="submit_form" method="post"
-			enctype="multipart/form-data">
 			</form>
 		</div>
 	</div>

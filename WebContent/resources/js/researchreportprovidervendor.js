@@ -8,6 +8,7 @@
 
 $(document).ready(function() {
 
+
 	var assetClassArray = [];
 	var getAssetClassAggregators = function() {
 		

@@ -76,7 +76,12 @@ function getSecurityTypeMapping(securityTypeSelector) {
 
 function getAssetClassSecurityTypeMapping(assetClassSelector, securityTypeSelector) {
 	var securityTypeList = JSON.parse(window.localStorage.getItem('securityTypeList'));
-	var assetClassId = $("select[name=" + assetClassSelector + "]").selectpicker('val');
+	var assetClassId = 0;
+	if($("select[name=" + assetClassSelector + "]").length == 0) {
+		assetClassId = $("#" + assetClassSelector).val();
+	} else {
+		assetClassId = $("select[name=" + assetClassSelector + "]").selectpicker('val');
+	}
 	var $option='';
 	for (var val in securityTypeList) {
 		for(var id in assetClassId) {

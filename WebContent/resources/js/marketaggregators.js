@@ -232,7 +232,7 @@ $(document).ready(function() {
 
 		for(var i=0;i<assetClassArray.length;i++) {
 			getRegionMapping(assetClassArray[i] + 'datacoverageregion');
-			getSecurityTypeMapping(assetClassArray[i] + 'securitytype');
+			getAssetClassSecurityTypeMapping(assetClassArray[i], assetClassArray[i] + 'securitytype');
 			getCountryMapping(assetClassArray[i] + 'datacoveragecountry');
 			getExchangeMapping(assetClassArray[i] + 'datacoverageexchange');
 			getCostRangeMapping(costRange, assetClassArray[i] + 'acquisitioncostrange');
