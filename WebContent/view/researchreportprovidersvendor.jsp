@@ -68,7 +68,7 @@
 
 			
 			<form
-			action="<%=request.getContextPath()+"/"+RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT%>?RaYvEmUl=${l:encrypt(username)}"
+			action="<%=request.getContextPath()%>/reserachReportVendorSearch?RaYvEmUl=${l:encrypt(username)}"
 			class="form-horizontal" id="submit_form" method="post"
 			enctype="multipart/form-data">
 			<div id="research_reporting_search" class="consumer_search custom_form">

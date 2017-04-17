@@ -38,8 +38,8 @@ $(document).ready(function() {
 		
 
 		multipleAssetClass($(this).attr('id'));
-		getRegionMapping($(this).attr('id') + 'researchcoverageregion');
-		getCountryMapping($(this).attr('id') + 'researchcoveragecountry');
+		getRegionMapping($(this).attr('id') + '_researchcoverageregion');
+		getCountryMapping($(this).attr('id') + '_researchcoveragecountry');
 		getResearchSubAreaMapping($(this).attr('id'), $(this).attr('id') + '_researchsubarea');
 
 		//console.log(assetClassArray + " : " + assetClassArray.length);
@@ -98,8 +98,8 @@ $(document).ready(function() {
 			type = 'index_fund_etf_research';
 		} 
 
-		if($(this)[0]['id'] == type + 'researchcoverageregion') {
-			getRegionCountryMapping(type + 'researchcoverageregion', type + 'researchcoveragecountry');
+		if($(this)[0]['id'] == type + '_researchcoverageregion') {
+			getRegionCountryMapping(type + '_researchcoverageregion', type + '_researchcoveragecountry');
 		}
 	});
 
@@ -145,17 +145,17 @@ function multipleAssetClass(assetType) {
 	+ "<label class='default_select'>Research Sub Area</label>"
 	+ "</li>"
 	+ "<li>"
-	+ "<select class='selectpicker select_multiple' id='" + assetType + "researchcoverageregion' name='" + assetType + "researchcoverageregion' multiple='multiple'>"								
+	+ "<select class='selectpicker select_multiple' id='" + assetType + "_researchcoverageregion' name='" + assetType + "_researchcoverageregion' multiple='multiple'>"								
 	+ "</select>"
 	+ "<label class='default_select'>Research Coverage Region</label>"
 	+ "</li>"
 	+ "<li>"
-	+ "<select class='selectpicker select_multiple' id='" + assetType + "researchcoveragecountry' name='" + assetType + "researchcoveragecountry' multiple='multiple'>"								
+	+ "<select class='selectpicker select_multiple' id='" + assetType + "_researchcoveragecountry' name='" + assetType + "_researchcoveragecountry' multiple='multiple'>"								
 	+ "</select>"
 	+ "<label class='default_select'>Research Coverage Country</label>"
 	+ "</li>"
 	+ "<li>"
-	+ "<select class='selectpicker' id='" + assetType + "researchapplicablemonth' name='" + assetType + "researchapplicablemonth'>"								
+	+ "<select class='selectpicker' id='" + assetType + "_researchapplicablemonth' name='" + assetType + "_researchapplicablemonth'>"								
 	+ "<option value ='January'>January</option>"
 	+ "<option value ='February'>February</option>"
 	+ "<option value ='March'>March</option>"
@@ -172,7 +172,7 @@ function multipleAssetClass(assetType) {
 	+ "<label class='default_select'>Research Period - Month</label>"
 	+ "</li>"
 	+ "<li>"
-	+ "<select class='selectpicker' id='" + assetType + "researchapplicableyear' name='" + assetType + "researchapplicableyear'>"								
+	+ "<select class='selectpicker' id='" + assetType + "_researchapplicableyear' name='" + assetType + "_researchapplicableyear'>"								
 	+ "<option value ='2006'>2006</option>"
 	+ "<option value ='2007'>2007</option>"
 	+ "<option value ='2008'>2008</option>"
@@ -189,7 +189,7 @@ function multipleAssetClass(assetType) {
 	+ "<label class='default_select'>Research Period - Year</label>"
 	+ "</li>"
 	+ "<li>"
-	+ "<select class='selectpicker' id='" + assetType + "researchsupportedby' name='" + assetType + "researchsupportedby'>"								
+	+ "<select class='selectpicker' id='" + assetType + "_researchsupportedby' name='" + assetType + "_researchsupportedby'>"								
 	+ "<option value ='Any'>Any</option>"
 	+ "<option value ='Upto 10'>Upto 10</option>"
 	+ "<option value ='Upto 25'>Upto 25</option>"
@@ -199,19 +199,19 @@ function multipleAssetClass(assetType) {
 	+ "<label class='default_select'>No. of stocks/ETFs/Funds/Issuers supported</label>"
 	+ "</li>"
 	+ "<li>"
-	+ "<select class='selectpicker' id='" + assetType + "researchsubsriptioncostUSDperannum' name='" + assetType + "researchsubsriptioncostUSDperannum'>"								
+	+ "<select class='selectpicker' id='" + assetType + "_researchsubsriptioncostUSDperannum' name='" + assetType + "_researchsubsriptioncostUSDperannum'>"								
 	+ "<option value ='Any'>Any</option>"
 	+ "</select>"
 	+ "<label class='default_select'>Subscription Cost - Annual(USD)</label>"
 	+ "</li>"
 	+ "<li>"
-	+ "<select class='selectpicker' id='" + assetType + "researchlaunchyear' name='" + assetType + "researchlaunchyear'>"								
+	+ "<select class='selectpicker' id='" + assetType + "_researchlaunchyear' name='" + assetType + "_researchlaunchyear'>"								
 	+ "<option value ='Any'>Any</option>"
 	+ "</select>"
 	+ "<label class='default_select'>Launch Year</label>"
 	+ "</li>"
 	+ "<li>"
-	+ "<select class='selectpicker' id='" + assetType + "researchawards' name='" + assetType + "researchawards'>"								
+	+ "<select class='selectpicker' id='" + assetType + "_researchawards' name='" + assetType + "_researchawards'>"								
 	+ "<option value ='Any'>Any</option>"
 	+ "</select>"
 	+ "<label class='default_select'>Awards</label>"
