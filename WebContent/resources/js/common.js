@@ -78,9 +78,13 @@ function getAssetClassSecurityTypeMapping(assetClassSelector, securityTypeSelect
 	var securityTypeList = JSON.parse(window.localStorage.getItem('securityTypeList'));
 	var assetClassId = 0;
 	if($("select[name=" + assetClassSelector + "]").length == 0) {
-		assetClassId = $("#" + assetClassSelector).val();
+		assetClassId = $("#" + assetClassSelector).attr("data-id");
 	} else {
-		assetClassId = $("select[name=" + assetClassSelector + "]").selectpicker('val');
+		if($("#vendor_my_offerings").length==1) {
+			assetClassId = $($(".nav-tabs .active a").attr("href") + " select[name='" + assetClassSelector + "']").selectpicker('val');
+		} else {
+			assetClassId = $("select[name='" + assetClassSelector + "']").selectpicker('val');
+		}
 	}
 	var $option='';
 	for (var val in securityTypeList) {

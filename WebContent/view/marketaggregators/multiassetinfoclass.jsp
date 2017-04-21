@@ -6,45 +6,46 @@
 				<div class="generic_message">
 					<div class="alert"></div>
 				</div>
+
 				<div class="asset_class">
 					<h3>Asset Class <span class="fa fa-chevron-up"></span></h3>
 					<ul>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="1"
+							class="assetClass" name="assetClassChk" data-id="1" value="Equities"
 							id="equities" />
 							<label>Equities</label>
 						</li>
 						<li>
 							<input type="checkbox" class="assetClass"
-							name="assetClassChk" value="2" id="fi" />
+							name="assetClassChk" data-id="2" value="FI" id="fi" />
 							<label>Fixed Income</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="3"
+							class="assetClass" name="assetClassChk" data-id="3" value="Indices"
 							id="indices" />
 							<label>Indices</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="7" id="misc" />
+							class="assetClass" name="assetClassChk" data-id="7" value="MISC" id="misc" />
 							<label>Misc</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="4"
+							class="assetClass" name="assetClassChk" data-id="4" value="Derivatives"
 							id="derivatives" />
 							<label>Derivatives</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="5" id="fx" />
+							class="assetClass" name="assetClassChk" data-id="5" value="FX" id="fx" />
 							<label>FX</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="6" id="ai" />
+							class="assetClass" name="assetClassChk" data-id="6" value="AI" id="ai" />
 							<label>AI</label>
 						</li>
 					</ul>
