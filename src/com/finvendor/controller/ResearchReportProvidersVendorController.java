@@ -80,7 +80,6 @@ public class ResearchReportProvidersVendorController {
 												
 			modelAndView.addObject("marketDataAggregatorsVendorSearchs", marketDataAggregatorsVendorSearchs);
 			modelAndView.addObject("assetCountries", multiAssetClassSearchResult.get("assetCountries"));
-			modelAndView.addObject("assetExchanges", multiAssetClassSearchResult.get("assetExchanges"));
 			modelAndView.addObject("assetRegions", multiAssetClassSearchResult.get("assetRegions"));
 			modelAndView.addObject("researchSubAreas", multiAssetClassSearchResult.get("researchSubAreas"));
 			modelAndView.addObject("awardsMap", multiAssetClassSearchResult.get("awardsMap"));

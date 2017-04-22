@@ -31,28 +31,41 @@ public class MarketDataAggregatorsVendorSearchForm {
 	private String dataAcquisitionCostRange;
 	private String vendor;
 	private String assetClass;
-	private String analystYearOfExp;
-	private String analystCfaCharter;
-	private String existingClientBase;
+	private String rdAnalystYearofExp;
+	private String rdResearchAnalystWithCFA;
+	private String rcExistingClientBase;
+	private String rdAnalystCountryofIncorp;
+	private String rdAnalystRegionofIncorp;
 	
-	
-	public String getExistingClientBase() {
-		return existingClientBase;
+	public String getRdAnalystYearofExp() {
+		return rdAnalystYearofExp;
 	}
-	public void setExistingClientBase(String existingClientBase) {
-		this.existingClientBase = existingClientBase;
+	public void setRdAnalystYearofExp(String rdAnalystYearofExp) {
+		this.rdAnalystYearofExp = rdAnalystYearofExp;
 	}
-	public String getAnalystYearOfExp() {
-		return analystYearOfExp;
+	public String getRdResearchAnalystWithCFA() {
+		return rdResearchAnalystWithCFA;
 	}
-	public void setAnalystYearOfExp(String analystYearOfExp) {
-		this.analystYearOfExp = analystYearOfExp;
+	public void setRdResearchAnalystWithCFA(String rdResearchAnalystWithCFA) {
+		this.rdResearchAnalystWithCFA = rdResearchAnalystWithCFA;
 	}
-	public String getAnalystCfaCharter() {
-		return analystCfaCharter;
+	public String getRcExistingClientBase() {
+		return rcExistingClientBase;
 	}
-	public void setAnalystCfaCharter(String analystCfaCharter) {
-		this.analystCfaCharter = analystCfaCharter;
+	public void setRcExistingClientBase(String rcExistingClientBase) {
+		this.rcExistingClientBase = rcExistingClientBase;
+	}
+	public String getRdAnalystCountryofIncorp() {
+		return rdAnalystCountryofIncorp;
+	}
+	public void setRdAnalystCountryofIncorp(String rdAnalystCountryofIncorp) {
+		this.rdAnalystCountryofIncorp = rdAnalystCountryofIncorp;
+	}
+	public String getRdAnalystRegionofIncorp() {
+		return rdAnalystRegionofIncorp;
+	}
+	public void setRdAnalystRegionofIncorp(String rdAnalystRegionofIncorp) {
+		this.rdAnalystRegionofIncorp = rdAnalystRegionofIncorp;
 	}
 	public String getVendorcountryofincorp() {
 		return vendorcountryofincorp;
