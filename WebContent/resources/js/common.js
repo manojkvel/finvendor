@@ -279,7 +279,7 @@ function getAnalyticalSolutionSubTypeMapping(analyticalSolutionTypeSelector, ana
 	var analyticalSolutionSubTypeList = JSON.parse(window.localStorage.getItem('analyticalSolutionSubTypeList'));
 	var analyticSolutionTypeId = 0;
 	if($("select[name=" + analyticalSolutionTypeSelector + "]").length == 0) {
-		analyticSolutionTypeId = $("#" + analyticalSolutionTypeSelector).val();
+		analyticSolutionTypeId = $("#" + analyticalSolutionTypeSelector).attr("data-id");
 	} else {
 		analyticSolutionTypeId = $("select[name=" + analyticalSolutionTypeSelector + "]").selectpicker('val');
 	}
@@ -354,10 +354,11 @@ function getResearchSubAreaMapping(rcResearchAreaSelector, rcResearchSubAreaSele
 	var researchSubAreaList = JSON.parse(window.localStorage.getItem('researchSubAreaList'));
 	var rcResearchAreaId = 0;
 	if($("select[name=" + rcResearchAreaSelector + "]").length == 0) {
-		rcResearchAreaId = $("#" + rcResearchAreaSelector).val();
+		rcResearchAreaId = $("#" + rcResearchAreaSelector).attr("data-id");
 	} else {
 		rcResearchAreaId = $("select[name=" + rcResearchAreaSelector + "]").selectpicker('val');
 	}
+
 	var $option='';
     for (var val in researchSubAreaList) {
     	for(var id in rcResearchAreaId) {

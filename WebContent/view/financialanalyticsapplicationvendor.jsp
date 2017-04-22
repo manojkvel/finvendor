@@ -78,44 +78,44 @@
 					<ul>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="1"
+							class="assetClass" name="assetClassChk" data-id="1" value="Alternative Investment Solutions"
 							id="alternative_investment_solutions" />
 							<label>Alternative Invest.. Soln</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="2"
+							class="assetClass" name="assetClassChk" data-id="2" value="Backoffice Operations"
 							id="back_office_operations" />
 							<label>Backoffice Operations</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="3" id="banking_solution" />
+							class="assetClass" name="assetClassChk" data-id="3" value="Banking Solution" id="banking_solution" />
 							<label>Banking Solution</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="4" id="margining_solution" />
+							class="assetClass" name="assetClassChk" data-id="4" value="Margining Solution" id="margining_solution" />
 							<label>Margining Solution</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="6" id="portfolio_management" />
+							class="assetClass" name="assetClassChk" data-id="6" value="Portfolio Management Solutions" id="portfolio_management" />
 							<label>Portfolio Management Solutions</label>
 						</li>
 						<li>
 							<input type="checkbox" class="assetClass"
-							name="assetClassChk" value="7" id="product_valuation" />
+							name="assetClassChk" data-id="7" value="Product Valuation" id="product_valuation" />
 							<label>Product Valuation</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="8" id="regulatory_compliance_risk_mgmt" />
+							class="assetClass" name="assetClassChk" data-id="8" value="Regulatory Compliance & Risk Mgmt" id="regulatory_compliance_risk_mgmt" />
 							<label>Regulatory Cmpl. &amp; Risk Mgmt</label>
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" value="5" id="others" />
+							class="assetClass" name="assetClassChk" data-id="5" value="Others" id="others" />
 							<label>Others</label>
 						</li>
 					</ul>
