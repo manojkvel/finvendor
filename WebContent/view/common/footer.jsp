@@ -287,6 +287,13 @@
 									$DisableDrag : true
 								}
 							};
+							$('.slider2').bxSlider({
+								slideWidth : 740,
+								minSlides : 1,
+								maxSlides : 1,
+								slideMargin : 15,
+								auto : true,
+							});
 							try{
 							var jssor_slider2 = new $JssorSlider$(
 									"slider2_container", options);
