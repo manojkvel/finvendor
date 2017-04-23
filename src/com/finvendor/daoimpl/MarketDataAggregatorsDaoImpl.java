@@ -1034,6 +1034,29 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		}
 	}
 	
+	private void populateEqualFilterCondition(StringBuilder searchSql, Object filter, String columnName) {
+		if(filter != null && !filter.toString().isEmpty() ) {
+			String[] filterList = filter.toString().split(",");
+			boolean firstValue = false;
+			for(String filterValue : filterList) {
+				if(!firstValue) {
+					firstValue = true;
+					searchSql.append(" and ( ");						
+				}
+				searchSql.append(" ");
+				searchSql.append(columnName);
+				searchSql.append(" = '");
+				searchSql.append(filterValue.trim());
+				searchSql.append("' ");
+				searchSql.append("or");
+			}
+			if(firstValue) {
+				searchSql.delete(searchSql.length() - 2, searchSql.length());
+				searchSql.append(")");
+			}
+		}
+	}
+	
 	@Transactional
 	@Override
 	public List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(Map<Object, Object> searchData, FinancialAnalyticsApplicationVendorSearchForm dataForm) {
@@ -1346,37 +1369,43 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 			MarketDataAggregatorsVendorSearchForm dataForm) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		
-		String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, off.research_area RESEARCH_AREA, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.regions_covered REGION, cov.countries_covered COUTRIES, off.launched_year YEAR from ven_rsrch_rpt_offering off, ven_rsrch_rpt_covg cov, vendor ven, ven_rsrch_rpt_analyst_prof analyst, ven_rsrch_rpt_dtls details, users u, country country, security_types security where u.username = ven.username and off.product_id = cov.product_id and off.product_id = analyst.product_id and ven.vendor_id = off.vendor_id and country.country_id = analyst.analyst_country ";
+		String vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, rarea.description RESEARCH_AREA, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.regions_covered REGION, cov.countries_covered COUTRIES, off.launched_year YEAR from ven_rsrch_rpt_offering off, ven_rsrch_rpt_covg cov, vendor ven, ven_rsrch_rpt_analyst_prof analyst, ven_rsrch_rpt_dtls details, users u, country country, security_types security, research_area rarea where u.username = ven.username and off.product_id = cov.product_id and off.product_id = analyst.product_id and ven.vendor_id = off.vendor_id and country.country_id = analyst.analyst_country and rarea.research_area_id = off.research_area and details.product_id = off.product_id ";
 		StringBuilder searchSql = new StringBuilder(2000);
 		searchSql.append(vendorSearchSql);
 		
-		if (dataForm.getVendorregionofincorp() != null && !dataForm.getVendorregionofincorp().toString().trim().equals("")) {
+		if (dataForm.getRdAnalystRegionofIncorp() != null && 
+				!dataForm.getRdAnalystRegionofIncorp().toString().trim().equals("")) {
 			searchSql.append("and analyst.analyst_region in ( ");
-			searchSql.append(dataForm.getVendorregionofincorp());
+			searchSql.append(dataForm.getRdAnalystRegionofIncorp());
 			searchSql.append(" ) ");
 		}
 		
-		if (dataForm.getVendorcountryofincorp() != null && !dataForm.getVendorcountryofincorp().toString().trim().equals("")) {
+		if (dataForm.getRdAnalystCountryofIncorp() != null && 
+				!dataForm.getRdAnalystCountryofIncorp().toString().trim().equals("")) {
 			searchSql.append(" and analyst.analyst_country in ( ");
-			searchSql.append(dataForm.getVendorcountryofincorp());
+			searchSql.append(dataForm.getRdAnalystCountryofIncorp());
 			searchSql.append(" ) ");
 		}
 		
-		if (dataForm.getAnalystYearOfExp() != null && !dataForm.getAnalystYearOfExp().toString().trim().equals("")) {
-			searchSql.append(" analyst.analyst_year_of_exp = '");
-			searchSql.append(dataForm.getAnalystYearOfExp());
+		if (dataForm.getRdAnalystYearofExp() != null && 
+				!dataForm.getRdAnalystYearofExp().toString().trim().equals("")) {
+			searchSql.append(" and analyst.analyst_year_of_exp = '");
+			searchSql.append(dataForm.getRdAnalystYearofExp());
 			searchSql.append("' ");
 		}
 		
-		if (dataForm.getAnalystCfaCharter() != null && !dataForm.getAnalystCfaCharter().toString().trim().equals("")) {
+		if (dataForm.getRdResearchAnalystWithCFA() != null && 
+				!dataForm.getRdResearchAnalystWithCFA().toString().trim().equals("")) {
 			searchSql.append(" and analyst.anayst_cfa_charter = '");
-			searchSql.append(dataForm.getAnalystCfaCharter());
+			searchSql.append(dataForm.getRdResearchAnalystWithCFA().equals("on") ? "Y":"N");
 			searchSql.append("' ");
 		}
 		
-		if (dataForm.getExistingClientBase() != null && !dataForm.getExistingClientBase().toString().trim().equals("")) {
+		if (dataForm.getRcExistingClientBase() != null && 
+				!dataForm.getRcExistingClientBase().toString().trim().equals("") &&
+				!dataForm.getRcExistingClientBase().toString().trim().equals("Any")) {
 			searchSql.append(" and cov.existing_client_base = '");
-			searchSql.append(dataForm.getExistingClientBase());
+			searchSql.append(dataForm.getRcExistingClientBase());
 			searchSql.append("' ");
 		}
 		
@@ -1394,17 +1423,28 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 				searchSql.append(" and (");
 				firstAssetClass = true;
 			}
+			
 			searchSql.append(" ( ");
-			searchSql.append(" off.research_area = '");
+			searchSql.append(" rarea.description = '");
 			searchSql.append(assetClass);
 			searchSql.append("'");
 			
-			Object datacoveragecountry = searchData.get(assetClass.toLowerCase() + "datacoveragecountry");
-			populateFilterCondition(searchSql, datacoveragecountry, "cov.countries_covered");
-			Object datacoverageregion = searchData.get(assetClass.toLowerCase() + "datacoverageregion");
-			populateFilterCondition(searchSql, datacoverageregion, "cov.regions_covered");
-			Object datacoverageexchange = searchData.get(assetClass.toLowerCase() + "dataresearchsubarea");
-			populateFilterCondition(searchSql, datacoverageexchange, "off.research_sub_area");
+			assetClass = assetClass.replaceAll(" ", "_").toLowerCase() + "_research";
+			
+			Object coveragecountry = searchData.get(assetClass.toLowerCase() + "coveragecountry");
+			populateFilterCondition(searchSql, coveragecountry, "cov.countries_covered");
+			Object coverageregion = searchData.get(assetClass.toLowerCase() + "coverageregion");
+			populateFilterCondition(searchSql, coverageregion, "cov.regions_covered");
+			Object subarea = searchData.get(assetClass.toLowerCase() + "subarea");
+			populateFilterCondition(searchSql, subarea, "off.research_sub_area");
+			Object supportedby = searchData.get(assetClass.toLowerCase() + "supportedby");
+			if(!"Any".equals(supportedby)) {
+				populateEqualFilterCondition(searchSql, supportedby, "off.stock_fund_issue_covered");
+			}
+			Object applicableyear = searchData.get(assetClass.toLowerCase() + "applicableyear");
+			populateEqualFilterCondition(searchSql, applicableyear, "details.res_period_year");
+			Object applicablemonth = searchData.get(assetClass.toLowerCase() + "applicablemonth");
+			populateEqualFilterCondition(searchSql, applicablemonth, "details.res_period_mon");
 						
 			searchSql.append(")");
 			searchSql.append("or");
@@ -1425,7 +1465,6 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		
 		Map<String, Set<String>> assetCountries = new HashMap<String, Set<String>>();
 		Map<String, Set<String>> assetRegions = new HashMap<String, Set<String>>();
-		Map<String, Set<String>> assetExchanges = new HashMap<String, Set<String>>();
 		Map<String, Set<String>> researchSubAreas = new HashMap<String, Set<String>>();
 		Map<String, List<VendorSearchResult>> awardsMap = new HashMap<String, List<VendorSearchResult>>();
 		
@@ -1447,7 +1486,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		
 		List<Object[]> vendorAwardList = new ArrayList<Object[]>();
 		if(vendorFound) {
-			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, off.research_area RESEARCH_AREA, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.regions_covered REGION, cov.countries_covered COUTRIES, off.launched_year YEAR, off.research_sub_area RESEARCH_SUB_AREA from ven_rsrch_rpt_offering off, ven_rsrch_rpt_covg cov, vendor ven, ven_rsrch_rpt_analyst_prof analyst, ven_rsrch_rpt_dtls details, users u, country country, security_types security where u.username = ven.username and off.product_id = cov.product_id and off.product_id = analyst.product_id and ven.vendor_id = off.vendor_id and country.country_id = analyst.analyst_country and ven.vendor_id in (VENDOR_ID_LIST)";
+			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, rarea.description RESEARCH_AREA, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, cov.regions_covered REGION, cov.countries_covered COUTRIES, off.launched_year YEAR, off.research_sub_area RESEARCH_SUB_AREA from ven_rsrch_rpt_offering off, ven_rsrch_rpt_covg cov, vendor ven, ven_rsrch_rpt_analyst_prof analyst, ven_rsrch_rpt_dtls details, users u, country country, security_types security, research_area rarea where u.username = ven.username and off.product_id = cov.product_id and off.product_id = analyst.product_id and ven.vendor_id = off.vendor_id and country.country_id = analyst.analyst_country and rarea.research_area_id = off.research_area and ven.vendor_id in (VENDOR_ID_LIST)";
 			vendorSearchSql = vendorSearchSql.replaceAll("VENDOR_ID_LIST", vendorList.toString());
 			sqlQuery = currentSession.createSQLQuery(vendorSearchSql);
 			logger.info("vendorSearchSql ################## VENDOR SEARCH QUERY == " + vendorSearchSql.toString());
@@ -1480,9 +1519,13 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 					if(assetCountriesSet == null) {
 						assetCountriesSet = new HashSet<String>();
 						assetCountries.put(mapKey, assetCountriesSet);
-						assetCountriesSet.add(countryName);
+						if(countryName != null && !countryName.trim().equals("")) {
+							assetCountriesSet.add(countryName);
+						}
 					} else {
-						assetCountriesSet.add(countryName);
+						if(countryName != null && !countryName.trim().equals("")) {
+							assetCountriesSet.add(countryName);
+						}
 					}
 				}
 			}
@@ -1494,9 +1537,13 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 					if(assetRegionsSet == null) {
 						assetRegionsSet = new HashSet<String>();
 						assetRegions.put(mapKey, assetRegionsSet);
-						assetRegionsSet.add(regionName);
+						if(regionName != null && !regionName.trim().equals("")) {
+							assetRegionsSet.add(regionName);
+						}
 					} else {
-						assetRegionsSet.add(regionName);
+						if(regionName != null && !regionName.trim().equals("")) {
+							assetRegionsSet.add(regionName);
+						}
 					}
 				}
 			}
@@ -1509,9 +1556,13 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 					if(researchSubAreaSet == null) {
 						researchSubAreaSet = new HashSet<String>();
 						researchSubAreas.put(mapKey, researchSubAreaSet);
-						researchSubAreaSet.add(researchSubAreaName);
+						if(researchSubAreaName != null && !researchSubAreaName.trim().equals("")) {
+							researchSubAreaSet.add(researchSubAreaName);
+						}
 					} else {
-						researchSubAreaSet.add(researchSubAreaName);
+						if(researchSubAreaName != null && !researchSubAreaName.trim().equals("")) {
+							researchSubAreaSet.add(researchSubAreaName);
+						}
 					}
 				}
 			}
@@ -1541,9 +1592,14 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		searchResultMap.put("vendorSearchResultList", vendorSearchResultList);
 		searchResultMap.put("assetCountries", assetCountries);
 		searchResultMap.put("assetRegions", assetRegions);
-		searchResultMap.put("assetExchanges", assetExchanges);
 		searchResultMap.put("researchSubAreas", researchSubAreas);
 		searchResultMap.put("awardsMap", awardsMap);
+		
+		logger.info("vendorSearchResultList == " + vendorSearchResultList);
+		logger.info("assetCountries == " + assetCountries);
+		logger.info("assetRegions == " + assetRegions);
+		logger.info("researchSubAreas == " + researchSubAreas);
+		logger.info("awardsMap == " + awardsMap);
 		
 		//logger.info("MAP == " + Arrays.toString(searchResultMap.entrySet().toArray()));
 		
