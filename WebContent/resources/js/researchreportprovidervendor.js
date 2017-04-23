@@ -45,16 +45,15 @@ $(document).ready(function() {
 		//console.log(assetClassArray + " : " + assetClassArray.length);
 	};
 
-	/*if(window.localStorage.getItem('assetClassArray') != undefined) {
+	if(window.localStorage.getItem('assetClassArray') != undefined) {
 		if($("#searchmultiform").is(':visible')) {
 			assetClassArray = JSON.parse(window.localStorage.assetClassArray);
 			console.log("LocalStorage : " + assetClassArray + " : " + assetClassArray.length);
 			if(assetClassArray.length == 1) {
 				var assetType = assetClassArray[0];
-				singleAssetClass(assetType);
+				multipleAssetClass(assetType);
 				$(".selectpicker").selectpicker('refresh');
-				$("#singleAsset").slideDown('slow');
-				$("#multipleAsset").slideUp('slow');
+				$("#multipleAsset").slideDown('slow');
 			}
 
 			if(assetClassArray.length > 1) {
@@ -63,14 +62,16 @@ $(document).ready(function() {
 					multipleAssetClass(assetClassArray[i]);
 					$(".selectpicker").selectpicker('refresh');
 				}
-				$("#singleAsset").slideUp('slow');
 				$("#multipleAsset").slideDown('slow');
 			}
 			window.localStorage.clear();
 		}
-	}*/
+	}
 
 	$(".assetClass").click(getAssetClassAggregators);
+
+
+	getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');
 
 	$("select[name=rdAnalystRegionofIncorp]").on('change', function() {
 		getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');

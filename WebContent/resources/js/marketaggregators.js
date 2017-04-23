@@ -243,10 +243,20 @@ $(document).ready(function() {
 		console.log(assetClassArray + " : " + assetClassArray.length);
 	};
 
+
+	var getCostRangeMapping = function(costRange, costRangeSelector) {
+		$.each(costRange, function(key, value) {
+			$("select[name=" + costRangeSelector + "]").append($("<option></option>")
+                    .attr("value",key)
+                    .text(value)); 
+		});
+	}
+
 	if(window.localStorage.getItem('assetClassArray') != undefined) {
 		if($("#searchmultiform").is(':visible')) {
 			assetClassArray = JSON.parse(window.localStorage.assetClassArray);
 			console.log("LocalStorage : " + assetClassArray + " : " + assetClassArray.length);
+			var costRange = $("select#acquisitioncostrange option").map(function() {return $("select#acquisitioncostrange option").html();}).get();
 			if(assetClassArray.length == 1) {
 				var assetType = assetClassArray[0];
 				singleAssetClass(assetType);
@@ -264,6 +274,16 @@ $(document).ready(function() {
 				$("#singleAsset").slideUp('slow');
 				$("#multipleAsset").slideDown('slow');
 			}
+
+			for(var i=0;i<assetClassArray.length;i++) {
+				getRegionMapping(assetClassArray[i] + 'datacoverageregion');
+				getAssetClassSecurityTypeMapping(assetClassArray[i], assetClassArray[i] + 'securitytype');
+				getCountryMapping(assetClassArray[i] + 'datacoveragecountry');
+				getExchangeMapping(assetClassArray[i] + 'datacoverageexchange');
+				getCostRangeMapping(costRange, assetClassArray[i] + 'acquisitioncostrange');
+
+				$(".selectpicker").selectpicker('refresh');
+			}
 			window.localStorage.clear();
 		}
 	}
@@ -280,8 +300,8 @@ $(document).ready(function() {
 			type = 'equities';
 		} else if(type.indexOf('derivatives') != -1) {
 			type = 'derivatives';
-		} else if(type.indexOf('fixedincome') != -1) {
-			type = 'fixedincome';
+		} else if(type.indexOf('fi') != -1) {
+			type = 'fi';
 		} else if(type.indexOf('fx') != -1) {
 			type = 'fx';
 		} else if(type.indexOf('indices') != -1) {
@@ -301,13 +321,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$("select").on('change', function() {
-		if($(this)[0]['id'] == 'equitiesdatacoverageregion') {
-			//getRegionCountryMapping('equitiesdatacoverageregion', 'equitiesdatacoveragecountry');
-		}
-		//getRegionCountryMapping('vendorregionofincorp', 'vendorcountryofincorp');
-	});
-
 	$("#search_vendor").click(function(e) {
 		if(assetClassArray.length == 0) {
 			alert("Please select atleast 1 asset class.");
@@ -325,13 +338,6 @@ $(document).ready(function() {
 		$(".selectpicker").selectpicker('refresh');
 	});
 
-	var getCostRangeMapping = function(costRange, costRangeSelector) {
-		$.each(costRange, function(key, value) {
-			$("select[name=" + costRangeSelector + "]").append($("<option></option>")
-                    .attr("value",key)
-                    .text(value)); 
-		});
-	}
 });
 
 function singleAssetClass(assetType) {
