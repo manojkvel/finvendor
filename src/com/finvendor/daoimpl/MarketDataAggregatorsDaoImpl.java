@@ -1374,31 +1374,33 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		searchSql.append(vendorSearchSql);
 		
 		if (dataForm.getRdAnalystRegionofIncorp() != null && 
-				!dataForm.getRdAnalystRegionofIncorp().toString().trim().equals("")) {
+				!dataForm.getRdAnalystRegionofIncorp().toString().trim().equals("") &&
+				!dataForm.getRdAnalystRegionofIncorp().toString().trim().equals("Any")) {
 			searchSql.append("and analyst.analyst_region in ( ");
 			searchSql.append(dataForm.getRdAnalystRegionofIncorp());
 			searchSql.append(" ) ");
 		}
 		
 		if (dataForm.getRdAnalystCountryofIncorp() != null && 
-				!dataForm.getRdAnalystCountryofIncorp().toString().trim().equals("")) {
+				!dataForm.getRdAnalystCountryofIncorp().toString().trim().equals("") &&
+				!dataForm.getRdAnalystCountryofIncorp().toString().trim().equals("Any")) {
 			searchSql.append(" and analyst.analyst_country in ( ");
 			searchSql.append(dataForm.getRdAnalystCountryofIncorp());
 			searchSql.append(" ) ");
 		}
 		
 		if (dataForm.getRdAnalystYearofExp() != null && 
-				!dataForm.getRdAnalystYearofExp().toString().trim().equals("")) {
+				!dataForm.getRdAnalystYearofExp().toString().trim().equals("") &&
+				!dataForm.getRdAnalystYearofExp().toString().trim().equals("Any")) {
 			searchSql.append(" and analyst.analyst_year_of_exp = '");
 			searchSql.append(dataForm.getRdAnalystYearofExp());
 			searchSql.append("' ");
 		}
 		
 		if (dataForm.getRdResearchAnalystWithCFA() != null && 
-				!dataForm.getRdResearchAnalystWithCFA().toString().trim().equals("")) {
-			searchSql.append(" and analyst.anayst_cfa_charter = '");
-			searchSql.append(dataForm.getRdResearchAnalystWithCFA().equals("on") ? "Y":"N");
-			searchSql.append("' ");
+				!dataForm.getRdResearchAnalystWithCFA().toString().trim().equals("") &&
+				dataForm.getRdResearchAnalystWithCFA().equals("on")) {
+			searchSql.append(" and analyst.anayst_cfa_charter = 'Y' ");
 		}
 		
 		if (dataForm.getRcExistingClientBase() != null && 
@@ -1432,20 +1434,29 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 			assetClass = assetClass.replaceAll(" ", "_").toLowerCase() + "_research";
 			
 			Object coveragecountry = searchData.get(assetClass.toLowerCase() + "coveragecountry");
-			populateFilterCondition(searchSql, coveragecountry, "cov.countries_covered");
+			if(!"Any".equals(coveragecountry)) {
+				populateFilterCondition(searchSql, coveragecountry, "cov.countries_covered");
+			}
 			Object coverageregion = searchData.get(assetClass.toLowerCase() + "coverageregion");
-			populateFilterCondition(searchSql, coverageregion, "cov.regions_covered");
+			if(!"Any".equals(coverageregion)) {
+				populateFilterCondition(searchSql, coverageregion, "cov.regions_covered");
+			}
 			Object subarea = searchData.get(assetClass.toLowerCase() + "subarea");
-			populateFilterCondition(searchSql, subarea, "off.research_sub_area");
+			if(!"Any".equals(subarea)) {
+				populateFilterCondition(searchSql, subarea, "off.research_sub_area");
+			}
 			Object supportedby = searchData.get(assetClass.toLowerCase() + "supportedby");
 			if(!"Any".equals(supportedby)) {
 				populateEqualFilterCondition(searchSql, supportedby, "off.stock_fund_issue_covered");
 			}
 			Object applicableyear = searchData.get(assetClass.toLowerCase() + "applicableyear");
-			populateEqualFilterCondition(searchSql, applicableyear, "details.res_period_year");
+			if(!"Any".equals(applicableyear)) {
+				populateEqualFilterCondition(searchSql, applicableyear, "details.res_period_year");
+			}
 			Object applicablemonth = searchData.get(assetClass.toLowerCase() + "applicablemonth");
-			populateEqualFilterCondition(searchSql, applicablemonth, "details.res_period_mon");
-						
+			if(!"Any".equals(applicablemonth)) {
+				populateEqualFilterCondition(searchSql, applicablemonth, "details.res_period_mon");
+			}
 			searchSql.append(")");
 			searchSql.append("or");
 		}
