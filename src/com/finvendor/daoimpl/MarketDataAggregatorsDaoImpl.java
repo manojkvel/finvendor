@@ -1012,7 +1012,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 	}
 	
 	private void populateFilterCondition(StringBuilder searchSql, Object filter, String columnName) {
-		if(filter != null && !filter.toString().isEmpty() ) {
+		if(filter != null && !filter.toString().isEmpty() && !"Any".equalsIgnoreCase(filter.toString())) {
 			String[] filterList = filter.toString().split(",");
 			boolean firstValue = false;
 			for(String filterValue : filterList) {
@@ -1035,7 +1035,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 	}
 	
 	private void populateEqualFilterCondition(StringBuilder searchSql, Object filter, String columnName) {
-		if(filter != null && !filter.toString().isEmpty() ) {
+		if(filter != null && !filter.toString().isEmpty() && !"Any".equalsIgnoreCase(filter.toString())) {
 			String[] filterList = filter.toString().split(",");
 			boolean firstValue = false;
 			for(String filterValue : filterList) {
@@ -1375,7 +1375,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		
 		if (dataForm.getRdAnalystRegionofIncorp() != null && 
 				!dataForm.getRdAnalystRegionofIncorp().toString().trim().equals("") &&
-				!dataForm.getRdAnalystRegionofIncorp().toString().trim().equals("Any")) {
+				!dataForm.getRdAnalystRegionofIncorp().toString().trim().equalsIgnoreCase("Any")) {
 			searchSql.append("and analyst.analyst_region in ( ");
 			searchSql.append(dataForm.getRdAnalystRegionofIncorp());
 			searchSql.append(" ) ");
@@ -1383,7 +1383,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		
 		if (dataForm.getRdAnalystCountryofIncorp() != null && 
 				!dataForm.getRdAnalystCountryofIncorp().toString().trim().equals("") &&
-				!dataForm.getRdAnalystCountryofIncorp().toString().trim().equals("Any")) {
+				!dataForm.getRdAnalystCountryofIncorp().toString().trim().equalsIgnoreCase("Any")) {
 			searchSql.append(" and analyst.analyst_country in ( ");
 			searchSql.append(dataForm.getRdAnalystCountryofIncorp());
 			searchSql.append(" ) ");
@@ -1391,7 +1391,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		
 		if (dataForm.getRdAnalystYearofExp() != null && 
 				!dataForm.getRdAnalystYearofExp().toString().trim().equals("") &&
-				!dataForm.getRdAnalystYearofExp().toString().trim().equals("Any")) {
+				!dataForm.getRdAnalystYearofExp().toString().trim().equalsIgnoreCase("Any")) {
 			searchSql.append(" and analyst.analyst_year_of_exp = '");
 			searchSql.append(dataForm.getRdAnalystYearofExp());
 			searchSql.append("' ");
@@ -1405,7 +1405,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		
 		if (dataForm.getRcExistingClientBase() != null && 
 				!dataForm.getRcExistingClientBase().toString().trim().equals("") &&
-				!dataForm.getRcExistingClientBase().toString().trim().equals("Any")) {
+				!dataForm.getRcExistingClientBase().toString().trim().equalsIgnoreCase("Any")) {
 			searchSql.append(" and cov.existing_client_base = '");
 			searchSql.append(dataForm.getRcExistingClientBase());
 			searchSql.append("' ");
@@ -1434,29 +1434,17 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 			assetClass = assetClass.replaceAll(" ", "_").toLowerCase() + "_research";
 			
 			Object coveragecountry = searchData.get(assetClass.toLowerCase() + "coveragecountry");
-			if(!"Any".equals(coveragecountry)) {
-				populateFilterCondition(searchSql, coveragecountry, "cov.countries_covered");
-			}
+			populateFilterCondition(searchSql, coveragecountry, "cov.countries_covered");
 			Object coverageregion = searchData.get(assetClass.toLowerCase() + "coverageregion");
-			if(!"Any".equals(coverageregion)) {
-				populateFilterCondition(searchSql, coverageregion, "cov.regions_covered");
-			}
+			populateFilterCondition(searchSql, coverageregion, "cov.regions_covered");
 			Object subarea = searchData.get(assetClass.toLowerCase() + "subarea");
-			if(!"Any".equals(subarea)) {
-				populateFilterCondition(searchSql, subarea, "off.research_sub_area");
-			}
+			populateFilterCondition(searchSql, subarea, "off.research_sub_area");
 			Object supportedby = searchData.get(assetClass.toLowerCase() + "supportedby");
-			if(!"Any".equals(supportedby)) {
-				populateEqualFilterCondition(searchSql, supportedby, "off.stock_fund_issue_covered");
-			}
+			populateEqualFilterCondition(searchSql, supportedby, "off.stock_fund_issue_covered");
 			Object applicableyear = searchData.get(assetClass.toLowerCase() + "applicableyear");
-			if(!"Any".equals(applicableyear)) {
-				populateEqualFilterCondition(searchSql, applicableyear, "details.res_period_year");
-			}
+			populateEqualFilterCondition(searchSql, applicableyear, "details.res_period_year");
 			Object applicablemonth = searchData.get(assetClass.toLowerCase() + "applicablemonth");
-			if(!"Any".equals(applicablemonth)) {
-				populateEqualFilterCondition(searchSql, applicablemonth, "details.res_period_mon");
-			}
+			populateEqualFilterCondition(searchSql, applicablemonth, "details.res_period_mon");
 			searchSql.append(")");
 			searchSql.append("or");
 		}

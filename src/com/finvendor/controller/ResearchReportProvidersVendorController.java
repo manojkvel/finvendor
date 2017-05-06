@@ -83,7 +83,7 @@ public class ResearchReportProvidersVendorController {
 			modelAndView.addObject("assetRegions", multiAssetClassSearchResult.get("assetRegions"));
 			modelAndView.addObject("researchSubAreas", multiAssetClassSearchResult.get("researchSubAreas"));
 			modelAndView.addObject("awardsMap", multiAssetClassSearchResult.get("awardsMap"));
-			modelAndView.addObject("result", RequestConstans.MarketAggregators.MULTI_ASSET_CLASS_SEARCH_RESULT);
+			modelAndView.addObject("result", RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT);
 						 
 		} catch (Exception e) {
 			e.printStackTrace();

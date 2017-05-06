@@ -182,6 +182,7 @@ tbody:before {
 							</div>						
 						</c:forEach>
 					</c:when>
+					<%-- Research Report Vendor Search --%>
 					<c:when test="${not empty marketDataAggregatorsVendorSearchs && result eq researchReportProviders}">
 						<c:forEach var="marketDataAggregatorsVendorSearch"
 							items="${marketDataAggregatorsVendorSearchs}">
@@ -199,54 +200,67 @@ tbody:before {
 											<p>${marketDataAggregatorsVendorSearch.vendorCountry} | ${marketDataAggregatorsVendorSearch.vendorType} | <%-- Year Since
 												Operations--%></p>
 											<div class="vendor-coverage">
-												<label>Coverage Details:</label>
+												<label>Research Coverage</label>
 												<table cellpadding="0" cellspacing="0" border="1">
 													<tr>
-														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Equities"/>
-														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Macro economic Analysis"/>
+														<c:set var="regionsCount" value="${l:getCount(functionMapKey, requestScope.assetRegions)}"/>
 														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
-														<c:if test="${exchangeCount > 0}">
-															<td><label>Equity :</label> ${exchangeCount} exchange, ${countriesCount} countries</td>
+														<c:if test="${regionsCount > 0}">
+															<td><label>Macroeconomic :</label> ${regionsCount} regions, ${countriesCount} countries</td>
 														</c:if>														
-														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FI"/>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Sector Analysis"/>
+														<c:set var="sectorCount" value="${l:getCount(functionMapKey, requestScope.researchSubAreas)}"/>
 														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
-														<c:if test="${countriesCount > 0}">
-															<td><label>FI :</label> ${countriesCount} countries</td>
+														<c:if test="${sectorCount > 0}">
+															<td><label>Sector :</label> ${sectorCount} sectors, ${countriesCount} countries</td>
 														</c:if>
-														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Equity_Indices"/>
-														<c:set var="equityExchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
-														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FI_Indices"/>
-														<c:set var="fiExchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
-														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Other_Indices"/>
-														<c:set var="otherExchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
-														<c:if test="${equityExchangeCount > 0 || fiExchangeCount > 0 || otherExchangeCount > 0}">
-															<td>
-																<label>Indices :</label> 
-																<c:if test="${equityExchangeCount > 0}">
-																	${equityExchangeCount} equity
-																</c:if>
-																<c:if test="${fiExchangeCount > 0}">
-																	, ${fiExchangeCount} FI
-																</c:if>
-																<c:if test="${otherExchangeCount > 0}">
-																	, ${otherExchangeCount} Other
-																</c:if>
-															</td>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Industry Analysis"/>
+														<c:set var="sectorCount" value="${l:getCount(functionMapKey, requestScope.researchSubAreas)}"/>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${sectorCount > 0}">
+															<td><label>Industry :</label> ${sectorCount} Ind, ${countriesCount} countries</td>
 														</c:if>
 													</tr>
 													<tr>
-														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Derivative"/>
-														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>
-														<c:if test="${exchangeCount > 0}">
-															<td><label>Derivatives :</label> ${exchangeCount} F&O exchanges</td>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Commodity Analysis"/>
+														<c:set var="sectorCount" value="${l:getCount(functionMapKey, requestScope.researchSubAreas)}"/>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${sectorCount > 0}">
+															<td><label>Commodity :</label> ${sectorCount} comdty, ${countriesCount} countries</td>
 														</c:if>
-														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_FX"/>
-														<c:set var="exchangeCount" value="${l:getCount(functionMapKey, requestScope.assetExchanges)}"/>		
-														<c:if test="${exchangeCount > 0}">
-															<td><label>FX :</label> ${exchangeCount} pairs</td>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Exchange Rate Analysis"/>
+														<c:set var="regionsCount" value="${l:getCount(functionMapKey, requestScope.assetRegions)}"/>
+														<c:set var="sectorCount" value="${l:getCount(functionMapKey, requestScope.researchSubAreas)}"/>
+														<c:if test="${regionsCount > 0}">
+															<td><label>Forex :</label> ${regionsCount} regions, ${sectorCount} CCYs</td>
 														</c:if>
-														<td>&nbsp;</td>
-														<td>&nbsp;</td>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Interest Rate Analysis"/>
+														<c:set var="regionsCount" value="${l:getCount(functionMapKey, requestScope.assetRegions)}"/>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${regionsCount > 0}">
+															<td><label>Interest Rate :</label> ${regionsCount} regions, ${countriesCount} countries</td>
+														</c:if>	
+													</tr>
+													<tr>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Equity research"/>
+														<c:set var="sectorCount" value="${l:getCount(functionMapKey, requestScope.researchSubAreas)}"/>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${sectorCount > 0}">
+															<td><label>Equity :</label> ${sectorCount} stocks, ${countriesCount} countries</td>
+														</c:if>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Debt Market research"/>
+														<c:set var="sectorCount" value="${l:getCount(functionMapKey, requestScope.researchSubAreas)}"/>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${sectorCount > 0}">
+															<td><label>Debt :</label> ${sectorCount} issuers, ${countriesCount} countries</td>
+														</c:if>
+														<c:set var="functionMapKey" value="${marketDataAggregatorsVendorSearch.vendorId}_Index/Fund/ETF research"/>
+														<c:set var="sectorCount" value="${l:getCount(functionMapKey, requestScope.researchSubAreas)}"/>
+														<c:set var="countriesCount" value="${l:getCount(functionMapKey, requestScope.assetCountries)}"/>
+														<c:if test="${sectorCount > 0}">
+															<td><label>Index :</label> ${sectorCount} issuers, ${countriesCount} countries</td>
+														</c:if>	
 													</tr>
 													<c:set var="awardsList" value="${awardsMap[marketDataAggregatorsVendorSearch.vendorId]}"/>
 													<c:forEach var="awardRecord" items="${awardsList}" varStatus="counter">
