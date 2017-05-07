@@ -40,7 +40,7 @@
 							<div class="user_profile">
 								<div class="profile_icon">
 									<img src="${pageContext.request.contextPath}/resources/images/banner/default_profile.png" />
-									<img src="<%=request.getContextPath() %>/getfile/logo" alt="${user.vendor.company}" title="${user.consumer.company}"/>	
+									<img src="<%=request.getContextPath() %>/displayCompanyLogo/${user.userName}" alt="${user.vendor.company}" title="${user.consumer.company}"/>	
 								</div>
 								<h1><a href="${finven:rectifyCompanyUrl(user.consumer.companyUrl)}" target="_blank">${user.consumer.company}</a></h1>								
 							</div>
@@ -125,7 +125,7 @@
 							<div class="user_profile">
 								<div class="profile_icon">
 									<img src="${pageContext.request.contextPath}/resources/images/banner/default_profile.png" />
-									<img src="<%=request.getContextPath() %>/getfile/logo" width="48" height="48" alt="${user.vendor.company}" title="${user.vendor.company}"/>	
+									<img src="<%=request.getContextPath() %>/displayCompanyLogo/${user.userName}" width="48" height="48" alt="${user.vendor.company}" title="${user.vendor.company}"/>	
 								</div>
 								<h1><a href="${finven:rectifyCompanyUrl(user.vendor.companyUrl)}" target="_blank">${user.vendor.company}</a></h1>								
 							</div>
