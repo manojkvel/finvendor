@@ -200,7 +200,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                             <li class="user_activity">
                                 <c:choose>
                                     <c:when test="${sessionScope.loggedInUser != null }">
-                                        <a href="#" class="account">
+                                        <a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${sessionScope.loggedInUser.username}" class="account">
                                             <img src="${pageContext.request.contextPath}/displayCompanyLogo/${sessionScope.loggedInUser.username}" class="profile-circle" border="0" />
                                             <span title="${sessionScope.loggedInUser.username}">${sessionScope.loggedInUser.username}</span>
 

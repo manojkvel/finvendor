@@ -6,7 +6,7 @@
 <un:useConstants className="com.finvendor.util.RequestConstans" var="requestConstants"/>
 <html>
 	<head>
-		<title>Fin Vendor | Consumer Profile</title>
+		<title>Fin Vendor | User Profile</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
 		<meta name="description" content="" />
@@ -40,7 +40,7 @@
 							<div class="user_profile">
 								<div class="profile_icon">
 									<img src="${pageContext.request.contextPath}/resources/images/banner/default_profile.png" />
-									<!-- <img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="48" height="48" alt="${user.vendor.company}" title="${user.consumer.company}"/> -->	
+									<img src="<%=request.getContextPath() %>/getfile/logo" alt="${user.vendor.company}" title="${user.consumer.company}"/>	
 								</div>
 								<h1><a href="${finven:rectifyCompanyUrl(user.consumer.companyUrl)}" target="_blank">${user.consumer.company}</a></h1>								
 							</div>
@@ -125,7 +125,7 @@
 							<div class="user_profile">
 								<div class="profile_icon">
 									<img src="${pageContext.request.contextPath}/resources/images/banner/default_profile.png" />
-									<!-- <img src="${pageContext.request.contextPath}/displayCompanyLogo/${user.userName}" width="48" height="48" alt="${user.vendor.company}" title="${user.vendor.company}"/> -->	
+									<img src="<%=request.getContextPath() %>/getfile/logo" width="48" height="48" alt="${user.vendor.company}" title="${user.vendor.company}"/>	
 								</div>
 								<h1><a href="${finven:rectifyCompanyUrl(user.vendor.companyUrl)}" target="_blank">${user.vendor.company}</a></h1>								
 							</div>
@@ -152,6 +152,7 @@
 										<c:if test="${user.email != null}">
 											<th>Primary Email</th>
 											<td class="url">
+												${consumer}
 												<a href="mailto:${user.email}" target="_top">${user.email}</a>
 											</td>
 										</c:if>
@@ -205,35 +206,7 @@
 									</tr>
 								</table>
 							</div>
-						</c:when>
-					</c:choose>
-				</div>
-				<div class="col-xs-12 col-sm-4 col-md-3">
-					<div class="inner-sidebar-wrap" style="display: none;margin-top: 23px;">
-						<div class="sidebar-ctn-wrap cnt-ctn-wrap">
-							<div class="head">
-								<h3>Search New Vendor</h3>
-							</div>
-							<div class="content" id="sidelinks">
-								<input type="hidden" value="${user.consumer.tags}" />
-								<ul id="SOLUTIONS_ul">
-
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="container">
-			<div class="inner-content">
-				<div class="inner-left-wrap" id="${finven:replaceCharacter(nav, ' ', '_')}_${finven:replaceCharacter(subNav, ' ', '_')}">
-					<div><b><label class="errorMessage" style="color:red">${lastActionError}</label></b></div> 
-		    		<c:choose>
-						<c:when test="${user.vendor != null}">
-							<c:if test="${not empty dataaggregator}">	
-								
+							<c:if test="${not empty dataaggregator}">
 								<c:set var="firstMarketDataOfferingTable">false</c:set>
 								<c:set var="firstMarketDataOfferingYearTable">false</c:set>
 								<c:set var="marketDataOfferingTableCreated">false</c:set>
@@ -244,406 +217,114 @@
 									<c:if test="${lastMarketDataOfferingAssetType != currentMarketDataOfferingAssetType}">
 										<c:set var="lastMarketDataOfferingYear"></c:set>
 										<c:if test="${firstMarketDataOfferingTable == false}">
-											<c:set var="firstMarketDataOfferingTable">true</c:set>
-											<p><b><h3>Market Data Coverage</h3></b></p>
+
+											<div class="offerings_info">
+												<c:set var="firstMarketDataOfferingTable">true</c:set>
+												<h4>Market Data Coverage</h4>
 										</c:if>														
 									</c:if>
-									<c:if test="${lastMarketDataOfferingYear != currentMarketDataOfferingYear}">
-										<c:choose>
-											<c:when test="${firstMarketDataOfferingYearTable == false}">
-												<c:set var="firstMarketDataOfferingYearTable">true</c:set>
-												<p><b><h4>${currentMarketDataOfferingAssetType} (Launch Year: ${currentMarketDataOfferingYear})</h4></b></p>
-												<table class="table table-striped table-bordered table-hover table-full-width">
-													<thead style="background-color:#7BCCA5">
-														<tr>
-															<th>Offering Name</th>
-															<th>Offering Description</th>
-															<th>Region</th>
-															<th>Country</th>
-														</tr>
-													</thead>
-													<tbody>
-											</c:when>
-											<c:otherwise>
-												</tbody>
-												</table>
-												<p><b><h4>${currentMarketDataOfferingAssetType} (Launch Year: ${currentMarketDataOfferingYear})</h4></b></p>
-												<table class="table table-striped table-bordered table-hover table-full-width">
-													<thead style="background-color:#7BCCA5">
-														<tr>
-															<th>Offering Name</th>
-															<th>Offering Description</th>
-															<th>Region</th>
-															<th>Country</th>
-														</tr>
-													</thead>
-													<tbody>
-											</c:otherwise>
-										</c:choose>									
-										<tr>
-											<td>${tableRowData[1]}</td>
-											<td>${tableRowData[2]}</td>
-											<td>${tableRowData[3]}</td>
-											<td>${tableRowData[4]}</td>
-										</tr>
-									</c:if>
-									<c:if test="${lastMarketDataOfferingYear == currentMarketDataOfferingYear}">
-										<tr>
-											<td>${tableRowData[1]}</td>
-											<td>${tableRowData[2]}</td>
-											<td>${tableRowData[3]}</td>
-											<td>${tableRowData[4]}</td>
-										</tr>
-									</c:if>
-									<c:set var="lastMarketDataOfferingAssetType">${currentMarketDataOfferingAssetType}</c:set>
-									<c:set var="lastMarketDataOfferingYear">${currentMarketDataOfferingYear}</c:set>
+									<div class="data_aggregator_list list">
+										<h3>${tableRowData[1]}</h3>
+										<h4>${currentMarketDataOfferingAssetType} | ${currentMarketDataOfferingYear}</h4>
+										<p>${tableRowData[2]}</p>
+									</div>
 								</c:forEach>
-								<c:if test="${marketDataOfferingTableCreated == true}">
-									</tbody>
-									</table>
-								</c:if>	
-								
-								
-								
-								
-								
-																
-							</c:if>
-							
-							
-							<c:if test="${not empty tradingapplication}">	
-								<c:set var="firstTradingApplicationOfferingTable">false</c:set>
-								<c:set var="firstTradingApplicationOfferingYearTable">false</c:set>
-								<c:set var="tradingApplicationOfferingTableCreated">false</c:set>
-								<c:forEach items="${tradingApplicationOfferings}" var="tableRowData">								
-									<c:set var="tradingApplicationOfferingTableCreated">true</c:set>
-									<c:set var="currentTradingApplicationOfferingAssetType">${tableRowData[0]}</c:set>
-									<c:set var="currentTradingApplicationOfferingYear">${tableRowData[1]}</c:set>
-									<c:if test="${lastTradingApplicationOfferingAssetType != currentTradingApplicationOfferingAssetType}">
-										<c:set var="lastTradingApplicationOfferingYear"></c:set>
-										<c:if test="${firstTradingApplicationOfferingTable == false}">
-											<c:set var="firstTradingApplicationOfferingTable">true</c:set>
-											<p><b><h3>Trading Application Coverage</h3></b></p>
-										</c:if>															
-									</c:if>
-									<c:if test="${lastTradingApplicationOfferingYear != currentTradingApplicationOfferingYear}">
-										<c:choose>
-											<c:when test="${firstTradingApplicationOfferingYearTable == false}">
-												<c:set var="firstTradingApplicationOfferingYearTable">true</c:set>
-												<p><b><h4>${currentTradingApplicationOfferingAssetType} (Launch Year: ${currentTradingApplicationOfferingYear})</h4></b></p>
-												<table class="table table-striped table-bordered table-hover table-full-width">
-													<thead style="background-color:#7BCCA5">
-														<tr>
-															<th>Offering Name</th>
-															<th>Offering Description</th>
-															<th>Region</th>
-															<th>Market</th>
-															<th>Trading Capability Type</th>
-															<th>Trade Execution Type</th>
-														</tr>
-													</thead>
-													<tbody>
-											</c:when>
-											<c:otherwise>
-												</tbody>
-												</table>
-												<p><b><h4>${currentTradingApplicationOfferingAssetType} (Launch Year: ${currentTradingApplicationOfferingYear})</h4></b></p>
-												<table class="table table-striped table-bordered table-hover table-full-width">
-													<thead style="background-color:#7BCCA5">
-														<tr>
-															<th>Offering Name</th>
-															<th>Offering Description</th>
-															<th>Region</th>
-															<th>Country</th>
-															<th>Trading Capability Type</th>
-															<th>Trade Execution Type</th>
-														</tr>
-													</thead>
-													<tbody>
-											</c:otherwise>
-										</c:choose>									
-										<tr>
-											<td>${tableRowData[2]}</td>
-											<td>${tableRowData[3]}</td>
-											<td>${tableRowData[4]}</td>
-											<td>${tableRowData[5]}</td>
-											<td>${tableRowData[6]}</td>
-											<td>${tableRowData[7]}</td>
-										</tr>
-									</c:if>
-									<c:if test="${lastTradingApplicationOfferingYear == currentTradingApplicationOfferingYear}">
-										<tr>
-											<td>${tableRowData[2]}</td>
-											<td>${tableRowData[3]}</td>
-											<td>${tableRowData[4]}</td>
-											<td>${tableRowData[5]}</td>
-											<td>${tableRowData[6]}</td>
-											<td>${tableRowData[7]}</td>
-										</tr>
-									</c:if>
-									<c:set var="lastTradingApplicationOfferingAssetType">${currentTradingApplicationOfferingAssetType}</c:set>
-									<c:set var="lastTradingApplicationOfferingYear">${currentTradingApplicationOfferingYear}</c:set>
-								</c:forEach>
-								<c:if test="${tradingApplicationOfferingTableCreated == true}">
-									</tbody>
-									</table>
+								<c:if test="${marketDataOfferingTableCreated == true}">	
+									</div>
 								</c:if>	
 							</c:if>
-							
-							
-							
-							
-							
-							<c:if test="${not empty analyticsapplication}">	
-								<c:set var="firstAnalyticsApplicationOfferingTable">false</c:set>
-								<c:set var="analyticsApplicationOfferingTableCreated">false</c:set>
-								<c:forEach items="${analyticsApplicationOfferings}" var="tableRowData">								
-									<c:set var="analyticsApplicationOfferingTableCreated">true</c:set>
-									<c:set var="currentAnalyticsApplicationOfferingType">${tableRowData[0]}</c:set>
-									<c:if test="${lastAnalyticsApplicationOfferingType != currentAnalyticsApplicationOfferingType}">
-										<c:choose>
-											<c:when test="${firstAnalyticsApplicationOfferingTable == false}">
-												<c:set var="firstAnalyticsApplicationOfferingTable">true</c:set>
-												<p><b><h3>Analytics Application Coverage</h3></b></p>
-												<p><b><h4>${currentAnalyticsApplicationOfferingType}</h4></b></p>
-												<table class="table table-striped table-bordered table-hover table-full-width">
-													<thead style="background-color:#7BCCA5">
-														<tr>
-															<th>Offering Description</th>
-															<th>Solution Sub Type</th>
-															<th>Launch Year</th>
-															<th>Subscription Cost</th>
-														</tr>
-													</thead>
-													<tbody>
-											</c:when>
-											<c:otherwise>
-												</tbody>
-												</table>
-												<p><b><h4>${currentAnalyticsApplicationOfferingType}</h4></b></p>
-												<table class="table table-striped table-bordered table-hover table-full-width">
-													<thead style="background-color:#7BCCA5">
-														<tr>
-															<th>Offering Description</th>
-															<th>Solution Sub Type</th>
-															<th>Launch Year</th>
-															<th>Subscription Cost</th>
-														</tr>
-													</thead>
-													<tbody>
-											</c:otherwise>
-										</c:choose>
-										<tr>
-											<td>${tableRowData[1]}</td>
-											<td>${tableRowData[2]}</td>
-											<td>${tableRowData[3]}</td>
-											<td>${tableRowData[4]}</td>
-										</tr>															
-									</c:if>								
-									<c:if test="${lastAnalyticsApplicationOfferingType == currentAnalyticsApplicationOfferingType}">
-										<tr>
-											<td>${tableRowData[1]}</td>
-											<td>${tableRowData[2]}</td>
-											<td>${tableRowData[3]}</td>
-											<td>${tableRowData[4]}</td>
-										</tr>
-									</c:if>
-									<c:set var="lastAnalyticsApplicationOfferingType">${currentAnalyticsApplicationOfferingType}</c:set>
-								</c:forEach>
-								<c:if test="${analyticsApplicationOfferingTableCreated == true}">
-									</tbody>
-									</table>
-								</c:if>								
-							</c:if>
-							
-							
-							
-							<c:if test="${not empty researchreport}">	
+
+							<c:if test="${not empty researchreport}">
 								<c:set var="firstResearchReportOfferingTable">false</c:set>
 								<c:set var="researchReportOfferingTableCreated">false</c:set>
 								<c:forEach items="${researchReportOfferings}" var="tableRowData">								
 									<c:set var="researchReportOfferingTableCreated">true</c:set>
 									<c:set var="currentResearchReportOfferingType">${tableRowData[0]}</c:set>
+									<c:set var="currentMarketDataOfferingYear">${tableRowData[5]}</c:set>
 									<c:if test="${lastResearchReportOfferingType != currentResearchReportOfferingType}">
-										<c:choose>
-											<c:when test="${firstResearchReportOfferingTable == false}">
+										<c:if test="${firstResearchReportOfferingTable == false}">
+
+											<div class="offerings_info">
 												<c:set var="firstResearchReportOfferingTable">true</c:set>
-												<p><b><h3>Research Coverage</h3></b></p>
-												<p><b><h4>${currentResearchReportOfferingType}</h4></b></p>
-												<table class="table table-striped table-bordered table-hover table-full-width">
-													<thead style="background-color:#7BCCA5">
-														<tr>
-															<th>Offering Name</th>
-															<th>Offering Description</th>
-															<th>Research Sub Area</th>
-															<th>Regions Covered</th>
-															<th>Analyst Name</th>
-															<th>Annual Cost</th>
-														</tr>
-													</thead>
-													<tbody>
-											</c:when>
-											<c:otherwise>
-												</tbody>
-												</table>
-												<p><b><h4>${currentResearchReportOfferingType}</h4></b></p>
-												<table class="table table-striped table-bordered table-hover table-full-width">
-													<thead style="background-color:#7BCCA5">
-														<tr>
-															<th>Offering Name</th>
-															<th>Offering Description</th>
-															<th>Research Sub Area</th>
-															<th>Regions Covered</th>
-															<th>Analyst Name</th>
-															<th>Annual Cost</th>
-														</tr>
-													</thead>
-													<tbody>
-											</c:otherwise>
-										</c:choose>
-										<tr>
-											<td>${tableRowData[1]}</td>
-											<td>${tableRowData[2]}</td>
-											<td>${tableRowData[3]}</td>
-											<td>${tableRowData[4]}</td>
-											<td>${tableRowData[6]}</td>
-											<td>${tableRowData[7]}</td>
-										</tr>															
-									</c:if>								
-									<c:if test="${lastResearchReportOfferingType == currentResearchReportOfferingType}">
-										<tr>
-											<td>${tableRowData[1]}</td>
-											<td>${tableRowData[2]}</td>
-											<td>${tableRowData[3]}</td>
-											<td>${tableRowData[4]}</td>
-											<td>${tableRowData[6]}</td>
-											<td>${tableRowData[7]}</td>
-										</tr>
+												<h4>Research Coverage</h4>
+										</c:if>														
 									</c:if>
-									<c:set var="lastResearchReportOfferingType">${currentResearchReportOfferingType}</c:set>
+									<div class="research_coverage_list list">
+										<h3>${tableRowData[1]}</h3>
+										<h4>${currentResearchReportOfferingType} | ${currentResearchReportOfferingYear}</h4>
+										<p>${tableRowData[2]}</p>
+									</div>
 								</c:forEach>
-								<c:if test="${researchReportOfferingTableCreated == true}">
-									</tbody>
-									</table>
-								</c:if>		
-							
-							
-							
-							
-							
-							
-							
-							
+								<c:if test="${researchReportOfferingTableCreated == true}">	
+									</div>
+								</c:if>	
 							</c:if>
-							
-							
-							
-							
-							
-							
-							<c:set var="firstAssetTable">false</c:set>
-							<c:set var="firstVendor">false</c:set>
-							<c:set var="awardTableCreated">false</c:set>
-							<c:forEach items="${vendorAwardDetails}" var="tableRowData">								
-								<c:if test="${awardTableCreated == false}">
-									<c:set var="awardTableCreated">true</c:set>
-									<p><b><h3>Award Details</h3></b></p>
-								</c:if>								
-								<c:set var="currentVendorType">${tableRowData[5]}</c:set>
-								<c:set var="currentAssetType">${tableRowData[4]}</c:set>
-								<c:if test="${lastVendorType != currentVendorType}">
-									<c:choose>
-										<c:when test="${firstVendor == false}">
-											<c:set var="firstVendor">true</c:set>
-											<c:choose>
-												<c:when test="${tableRowData[5] == 1}">
-													<p><b><h4>Market Data Awards</h4></b></p>																							
-												</c:when>
-												<c:when test="${tableRowData[5] == 2}">
-													<p><b><h4>Trading Application Awards</h4></b></p>																							
-												</c:when>
-												<c:when test="${tableRowData[5] == 3}">
-													<p><b><h4>Analytics Application Awards</h4></b></p>																							
-												</c:when>
-												<c:when test="${tableRowData[5] == 4}">
-													<p><b><h4>Research Report Awards</h4></b></p>																							
-												</c:when>
-											</c:choose>	
-										</c:when>
-										<c:otherwise>
-											</tbody>
-											</table>
-											<c:choose>
-												<c:when test="${tableRowData[5] == 1}">
-													<p><b><h4>Market Data Awards</h4></b></p>																							
-												</c:when>
-												<c:when test="${tableRowData[5] == 2}">
-													<p><b><h4>Trading Application Awards</h4></b></p>																							
-												</c:when>
-												<c:when test="${tableRowData[5] == 3}">
-													<p><b><h4>Analytics Application Awards</h4></b></p>																							
-												</c:when>
-												<c:when test="${tableRowData[5] == 4}">
-													<p><b><h4>Research Report Awards</h4></b></p>																							
-												</c:when>
-											</c:choose>	
-										</c:otherwise>
-									</c:choose>															
-								</c:if>
-								<c:if test="${lastAssetType != currentAssetType}">
-									<c:choose>
-										<c:when test="${firstAssetTable == false}">
-											<c:set var="firstAssetTable">true</c:set>
-											<p><b><h4>${currentAssetType}</h4></b></p>
-											<table class="table table-striped table-bordered table-hover table-full-width">
-												<thead style="background-color:#7BCCA5">
-													<tr>
-														<th>Award Name</th>
-														<th>Award Main Sponsor</th>
-														<th>Awarded Year</th>
-													</tr>
-												</thead>
-												<tbody>
-										</c:when>
-										<c:otherwise>
-											</tbody>
-											</table>
-											<p><b><h4>${currentAssetType}</h4></b></p>
-											<table class="table table-striped table-bordered table-hover table-full-width">
-												<thead style="background-color:#7BCCA5">
-													<tr>
-														<th>Award Name</th>
-														<th>Award Main Sponsor</th>
-														<th>Awarded Year</th>
-													</tr>
-												</thead>
-												<tbody>
-										</c:otherwise>
-									</c:choose>									
-									<tr>
-										<td>${tableRowData[0]}</td>
-										<td>${tableRowData[1]}</td>
-										<td>${tableRowData[2]}</td>
-									</tr>
-								</c:if>
-								<c:if test="${lastAssetType == currentAssetType}">
-									<tr>
-										<td>${tableRowData[0]}</td>
-										<td>${tableRowData[1]}</td>
-										<td>${tableRowData[2]}</td>
-									</tr>
-								</c:if>
-								<c:set var="lastAssetType">${currentAssetType}</c:set>
-								<c:set var="lastVendorType">${currentVendorType}</c:set>
-							</c:forEach>
-							<c:if test="${awardTableCreated == true}">
-								</tbody>
-								</table>
-							</c:if>						
+
+							<c:if test="${not empty vendorAwardDetails}">
+								<c:set var="firstAssetTable">false</c:set>
+								<c:set var="firstVendor">false</c:set>
+								<c:set var="awardTableCreated">false</c:set>
+								<c:forEach items="${vendorAwardDetails}" var="tableRowData">
+									<c:if test="${awardTableCreated == false}">
+										<c:set var="awardTableCreated">true</c:set>
+										<div class="offerings_info">
+											<h4>Award Details</h4>
+									</c:if>
+									<div class="awards_info_list list">
+										<h3>${tableRowData[0]}</h3>
+										<h4>${tableRowData[1]} | ${tableRowData[3]} | ${tableRowData[2]}</h4>
+									</div>
+								</c:forEach>
+								<c:if test="${awardTableCreated == true}">	
+									</div>
+								</c:if>	
+							</c:if>
 						</c:when>
-					</c:choose>						
-				</div>	
+					</c:choose>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-3">
+					<div class="inner-sidebar-wrap" style="display: none;margin-top: 23px;">
+						<div class="sidebar-ctn-wrap cnt-ctn-wrap">
+							<div class="head">
+								<c:if test="${user.consumer != null}">
+									<h3>Search New Vendor</h3>
+								</c:if>
+								<c:if test="${user.vendor != null}">
+									<h3>Review Vendor Offerings</h3>
+								</c:if>
+							</div>
+							<div class="content" id="sidelinks">
+								<c:if test="${user.consumer != null}">
+									<input type="hidden" user-type="consumer" value="${user.consumer.tags}" />
+								</c:if>
+								<c:if test="${user.vendor != null}">
+									<input type="hidden" user-type="vendor" value="${user.vendor.companyType}" />
+								</c:if>
+								
+								<ul id="SOLUTIONS_ul">
+
+								</ul>
+							</div>
+						</div>
+						<div class="sidebar-ctn-wrap cnt-ctn-wrap">
+							<div class="head">
+								<h3>Need More Info</h3>
+							</div>
+							<div class="content">
+								<ul>
+									<li><a
+									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=CONTACT">
+										<span class="fa fa-chevron-right"></span> Contact Us
+								</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+		</div>
+
+		<div class="container">
 			<c:if test="${sessionScope.loggedInRole == 'ROLE_ADMIN'}">
 				<jsp:include page="adminMenu.jsp"></jsp:include>
 			</c:if>
@@ -652,21 +333,46 @@
 	</body>
 	<script type="text/javascript">
 		progressLoader(false);
+		var userType = $(".inner-sidebar-wrap #sidelinks input").attr('user-type');
 		var tags = $(".inner-sidebar-wrap #sidelinks input").val().split(',');
 		var li = '';
 		var link = '#';
 		for(i in tags) {
 			if(tags[i] == 'Data Aggregator') {
-				link = '/marketaggregators';
+				if (userType == 'consumer') {
+					link = '/marketaggregators';
+				} else if (userType == 'vendor') {
+					link = '/vendormyofferings?RaYUnA=YW1pdF92ZW5kb3I=';
+				} else {
+					link = '${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=mdvad&RaYUnA=YW1pdF92ZW5kb3I='
+				}
 			} else if(tags[i] == 'Trading Application') {
-				link = '/tradingapplicationvendor';
+				if (userType == 'consumer') {
+					link = '/tradingapplicationvendor';
+				} else if (userType == 'vendor') {
+					link = '/vendormyofferings?RaYUnA=YW1pdF92ZW5kb3I=';
+				} else {
+					link = '${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=tavd&RaYUnA=YW1pdF92ZW5kb3I='
+				}
 			} else if(tags[i] == 'Analytics Application') {
-				link = '/financialanalyticsapplicationvendor';
+				if (userType == 'consumer') {
+					link = '/financialanalyticsapplicationvendor';
+				} else if (userType == 'vendor') {
+					link = '/vendormyofferings?RaYUnA=YW1pdF92ZW5kb3I=';
+				} else {
+					link = '${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=faavd&RaYUnA=YW1pdF92ZW5kb3I='
+				}
 			} else if(tags[i] == 'Research Report') {
-				link = '/researchreportprovidersvendor';
+				if (userType == 'consumer') {
+					link = '/researchreportprovidersvendor';
+				} else if (userType == 'vendor') {
+					link = '/vendormyofferings?RaYUnA=YW1pdF92ZW5kb3I=';
+				} else {
+					link = '${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=frrpd&RaYUnA=YW1pdF92ZW5kb3I='
+				}
 			}
 			li = li + "<li data-div-id='SOLUTIONS_frrpd'>"
-					+	"<a href='" + link + "''>" + tags[i] + "</a>"
+					+	"<a href='" + link + "''><span class='fa fa-chevron-right'></span> " + tags[i] + "</a>"
 					+ "</li>";			
 		}
 		$("#SOLUTIONS_ul").append(li);

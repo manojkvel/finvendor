@@ -106,9 +106,11 @@ tbody:before {
 								<div class="portlet-body">
 									<div class="portlet-content">
 										<div class="vendor-logo">
+											<a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${marketDataAggregatorsVendorSearch.vendorName}">
 											<img src="${pageContext.request.contextPath}/displayCompanyLogo/${marketDataAggregatorsVendorSearch.vendorName}" 
 												alt="${assetCountries}"
 												title="${marketDataAggregatorsVendorSearch.vendorCompany}" width="60" height="60" />
+											</a>
 										</div>
 										<div class="vendor-overview">
 											<h2><a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${marketDataAggregatorsVendorSearch.vendorName}">${marketDataAggregatorsVendorSearch.vendorCompany}</a></h2>
@@ -191,9 +193,11 @@ tbody:before {
 								<div class="portlet-body">
 									<div class="portlet-content">
 										<div class="vendor-logo">
+											<a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${marketDataAggregatorsVendorSearch.vendorName}">
 											<img src="${pageContext.request.contextPath}/displayCompanyLogo/${marketDataAggregatorsVendorSearch.vendorName}" 
 												alt="${assetCountries}"
 												title="${marketDataAggregatorsVendorSearch.vendorCompany}" width="60" height="60" />
+											</a>
 										</div>
 										<div class="vendor-overview">
 											<h2><a href="${pageContext.request.contextPath}/adminUserSummaryProfile?userName=${marketDataAggregatorsVendorSearch.vendorName}">${marketDataAggregatorsVendorSearch.vendorCompany}</a></h2>

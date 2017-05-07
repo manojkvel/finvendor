@@ -501,6 +501,10 @@ textarea:valid ~ label {
 		position: static;
 		transform: none;
 	}
+
+	#user_profile_details .profile_icon {
+		height: 190px !important;
+	}
 }
 
 
@@ -1125,7 +1129,8 @@ textarea:valid ~ label {
 #user_profile_details .user_profile,
 #user_profile_details .user_info,
 #user_profile_details .company_info,
-#user_profile_details .user_summary {
+#user_profile_details .user_summary,
+#user_profile_details .offerings_info {
     background: #fff;
     padding: 10px;
     margin: 10px 0;
@@ -1134,9 +1139,25 @@ textarea:valid ~ label {
 
 #user_profile_details .user_summary,
 #user_profile_details .user_info,
-#user_profile_details .company_info {
+#user_profile_details .company_info,
+#user_profile_details .offerings_info {
 	text-align: left;
 }
+
+.offerings_info .list {
+	border-bottom: 1px solid #eee;
+}
+
+.offerings_info .list:last-child {
+	border-bottom: 0;
+}
+
+.offerings_info .list h3,
+.offerings_info .list  h4 {
+	font-size: 13px;
+	font-weight: normal !important;
+}
+
 #user_profile_details h4 {
 	font-weight: bold;
 }
@@ -1144,14 +1165,22 @@ textarea:valid ~ label {
 #user_profile_details .profile_icon {
 	text-align: center;
 	position: relative;
-	margin-top: -85px;
+	margin: -85px auto 0;
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
 }
 #user_profile_details .profile_icon img {
 	float: none;
 	margin: 0;
 	border-radius: 50%;
 	width: 150px;
+	height: 150px;
+	overflow: hidden;
 	border: 5px solid #fff;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 #user_profile_details h1 {
