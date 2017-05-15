@@ -104,14 +104,7 @@
                                                                         </li>
 
                                                                         <li>
-                                                                            <c:choose>
-                                                                                <c:when test="${sessionScope.loggedInUser != null}">
-                                                                                    <a target="_blank" href="https://finvendor.wordpress.com/">Blogs</a>
-                                                                                </c:when>
-                                                                                <c:otherwise>
-                                                                                    <a href="javascript:inner_login('BLG')">Blogs</a>
-                                                                                </c:otherwise>
-                                                                            </c:choose>
+                                                                            <a target="_blank" href="http://blog.finvendor.com">Blogs</a>
                                                                         </li>
                                                                         <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=cs">Case
 																							Studies</a>
@@ -295,14 +288,7 @@
                                     	</li>
 
                                     	<li>
-                                    		<c:choose>
-                                    			<c:when test="${sessionScope.loggedInUser != null}">
-                                    				<a target="_blank" href="https://finvendor.wordpress.com/">Blogs</a>
-                                    			</c:when>
-                                    			<c:otherwise>
-                                    			 <a href="javascript:inner_login('BLG')">Blogs</a>
-                                    		  </c:otherwise>
-                                    	   </c:choose>
+                                    		<a target="_blank" href="http://blog.finvendor.com">Blogs</a>
                                         </li>
                                         <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=cs">Case
                                     	Studies</a>

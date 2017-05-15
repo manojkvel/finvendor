@@ -29,17 +29,6 @@
 						</li>
 						<li>
 							<input type="checkbox"
-							class="assetClass" name="assetClassChk" data-id="7" value="MISC" id="misc" />
-							<label>Misc</label>
-						</li>
-						<li>
-							<input type="checkbox"
-							class="assetClass" name="assetClassChk" data-id="4" value="Derivatives"
-							id="derivatives" />
-							<label>Derivatives</label>
-						</li>
-						<li>
-							<input type="checkbox"
 							class="assetClass" name="assetClassChk" data-id="5" value="FX" id="fx" />
 							<label>FX</label>
 						</li>
@@ -47,6 +36,47 @@
 							<input type="checkbox"
 							class="assetClass" name="assetClassChk" data-id="6" value="AI" id="ai" />
 							<label>AI</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" data-id="4" value="Derivative-Forwards"
+							id="derivatives_forwards" />
+							<label>Derivative-Forwards</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" data-id="8" value="Derivative-Options"
+							id="derivatives_options" />
+							<label>Derivative-Options</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" data-id="9" value="Derivative-Futures"
+							id="derivatives_futures" />
+							<label>Derivative-Futures</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" data-id="10" value="Derivative-Spreads"
+							id="derivatives_spreads" />
+							<label>Derivative-Spreads</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" data-id="11" value="Derivative-Structured"
+							id="derivatives_structured" />
+							<label>Derivative-Structured</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" data-id="12" value="Derivative-OTC Exotics"
+							id="derivatives_otc_exotics" />
+							<label>Derivative-OTC Exotics</label>
+						</li>
+						<li>
+							<input type="checkbox"
+							class="assetClass" name="assetClassChk" data-id="7" value="MISC" id="misc" />
+							<label>Misc</label>
 						</li>
 					</ul>
 				</div>
