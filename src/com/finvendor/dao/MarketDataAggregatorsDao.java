@@ -231,4 +231,7 @@ public interface MarketDataAggregatorsDao {
 	public Object getModelObjectById(Class<?> type, Serializable id);
 	public Map<String, Object> getResearchReportVendorSearchResult(
 			Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm);
+	
+	public Map<String, Object> getTradingApplicationVendorSearchResult(Map<Object, Object> searchData, 
+			MarketDataAggregatorsVendorSearchForm dataForm);
 }

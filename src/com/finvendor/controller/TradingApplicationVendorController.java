@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,6 +31,7 @@ import com.finvendor.model.Exchange;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.Region;
 import com.finvendor.model.Support;
+import com.finvendor.model.VendorSearchResult;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.util.RequestConstans;
 
@@ -127,7 +129,7 @@ public class TradingApplicationVendorController {
 	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value=RequestConstans.TradingApplication.MULTI_ASSET_CLASS_SEARCH_RESULT, method=RequestMethod.POST)
-	public ModelAndView multiSearchAssetClass(HttpServletRequest request, @ModelAttribute("tradingApplicationVendorSearchForm") TradingApplicationVendorSearchForm dataForm,
+	public ModelAndView multiSearchAssetClass(HttpServletRequest request, @ModelAttribute("tradingApplicationVendorSearchForm") MarketDataAggregatorsVendorSearchForm dataForm,
 			@RequestParam(value = "RaYUnA", required = false) String username
 			){
 					ModelAndView modelAndView=new ModelAndView("multiassetsearchresult");
@@ -153,12 +155,20 @@ public class TradingApplicationVendorController {
 						    }
 						}
 						
-						//for(Map.Entry<Object,Object> t: parameterMap.entrySet())
-					 List<TradingApplicationVendorSearchForm> taMultiAssetClassSearchResult = marketDataAggregatorsService.getTAMultiAssetClassSearchResult(searchData, dataForm);
-					
-			modelAndView.addObject("marketDataAggregatorsVendorSearchs", taMultiAssetClassSearchResult);
-			modelAndView.addObject("result", RequestConstans.TradingApplication.MULTI_ASSET_CLASS_SEARCH_RESULT);
-			modelAndView.addObject("username", username);			 
+						System.out.println("dataForm = " + dataForm);
+						
+						Map<String, Object> multiAssetClassSearchResult = marketDataAggregatorsService.
+								getTradingApplicationVendorSearchResult(searchData, dataForm);
+						Set<VendorSearchResult> marketDataAggregatorsVendorSearchs = 
+								(Set<VendorSearchResult>)multiAssetClassSearchResult.get("vendorSearchResultList");
+															
+						modelAndView.addObject("marketDataAggregatorsVendorSearchs", marketDataAggregatorsVendorSearchs);
+						modelAndView.addObject("assetCountries", multiAssetClassSearchResult.get("assetCountries"));
+						modelAndView.addObject("assetRegions", multiAssetClassSearchResult.get("assetRegions"));
+						modelAndView.addObject("researchSubAreas", multiAssetClassSearchResult.get("researchSubAreas"));
+						modelAndView.addObject("awardsMap", multiAssetClassSearchResult.get("awardsMap"));
+						modelAndView.addObject("result", RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT);
+						
  			}catch (Exception e) {
 				e.printStackTrace();
 			}

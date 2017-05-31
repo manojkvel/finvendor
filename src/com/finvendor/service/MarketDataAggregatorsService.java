@@ -229,4 +229,7 @@ public interface MarketDataAggregatorsService {
 	
 	public Map<String, Object> getResearchReportVendorSearchResult(
 			Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm);
+	
+	public Map<String, Object> getTradingApplicationVendorSearchResult(Map<Object, Object> searchData, 
+			MarketDataAggregatorsVendorSearchForm dataForm);
 }

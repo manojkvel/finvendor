@@ -373,6 +373,13 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	}
 	
 	@Override
+	@Transactional
+	public Map<String, Object> getTradingApplicationVendorSearchResult(
+			Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm) {
+		return marketDataAggregatorsDao.getTradingApplicationVendorSearchResult(searchData, dataForm);
+	}
+	
+	@Override
 	public List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(Map<Object, Object> searchData, FinancialAnalyticsApplicationVendorSearchForm dataForm) {
 		// TODO Auto-generated method stub
 		return marketDataAggregatorsDao.getFAMultiAssetClassSearchResult(searchData,dataForm);
