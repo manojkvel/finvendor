@@ -163,11 +163,16 @@ public class TradingApplicationVendorController {
 								(Set<VendorSearchResult>)multiAssetClassSearchResult.get("vendorSearchResultList");
 															
 						modelAndView.addObject("marketDataAggregatorsVendorSearchs", marketDataAggregatorsVendorSearchs);
-						modelAndView.addObject("assetCountries", multiAssetClassSearchResult.get("assetCountries"));
+						modelAndView.addObject("assetClassMap", multiAssetClassSearchResult.get("assetClassMap"));
 						modelAndView.addObject("assetRegions", multiAssetClassSearchResult.get("assetRegions"));
-						modelAndView.addObject("researchSubAreas", multiAssetClassSearchResult.get("researchSubAreas"));
+						modelAndView.addObject("assetExchanges", multiAssetClassSearchResult.get("assetExchanges"));
 						modelAndView.addObject("awardsMap", multiAssetClassSearchResult.get("awardsMap"));
-						modelAndView.addObject("result", RequestConstans.ResearchReportProviders.MULTI_ASSET_CLASS_SEARCH_RESULT);
+						modelAndView.addObject("result", RequestConstans.TradingApplication.MULTI_ASSET_CLASS_SEARCH_RESULT);
+						
+						logger.info("Trading Application Vendor Search marketDataAggregatorsVendorSearchs " + marketDataAggregatorsVendorSearchs);
+						logger.info("Trading Application Vendor Search multiAssetClassSearchResult.get(assetClassMap) " + multiAssetClassSearchResult.get("assetClassMap"));
+						logger.info("Trading Application Vendor Search multiAssetClassSearchResult.get(assetRegions) " + multiAssetClassSearchResult.get("assetRegions"));
+						logger.info("Trading Application Vendor Search multiAssetClassSearchResult.get(assetExchanges) " + multiAssetClassSearchResult.get("assetExchanges"));
 						
  			}catch (Exception e) {
 				e.printStackTrace();

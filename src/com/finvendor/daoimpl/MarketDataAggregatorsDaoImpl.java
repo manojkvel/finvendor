@@ -1678,7 +1678,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		List<Object[]> searchResultList = (List<Object[]>)sqlQuery.list();
 		Set<VendorSearchResult> vendorSearchResultList = new HashSet<VendorSearchResult>();
 		
-		Map<String, Set<String>> assetCountries = new HashMap<String, Set<String>>();
+		Map<String, Set<String>> assetClassMap = new HashMap<String, Set<String>>();
+		Map<String, Set<String>> assetRegions = new HashMap<String, Set<String>>();
 		Map<String, Set<String>> assetExchanges = new HashMap<String, Set<String>>();
 		Map<String, List<VendorSearchResult>> awardsMap = new HashMap<String, List<VendorSearchResult>>();
 		
@@ -1700,7 +1701,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		
 		List<Object[]> vendorAwardList = new ArrayList<Object[]>();
 		if(vendorFound) {
-			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, trad_capab.trad_region REGION, trad_capab.trad_country COUTRIES, off.launched_year YEAR, trad_capab.trad_exchange trad_exchange, off.security_types security_types from ven_trad_app_offering off, ven_trad_app_soft_dtls soft_dtls, ven_trad_app_trad_capab trad_capab, asset_class asset, vendor ven, users u, country country, security_types security where u.username = ven.username and off.product_id = soft_dtls.product_id and off.product_id = trad_capab.product_id and asset.asset_class_id = off.asset_class_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and ven.vendor_id in (VENDOR_ID_LIST)";
+			vendorSearchSql = "select distinct ven.vendor_id, u.username, ven.company, country.name country, ven.companytype, asset.description ASSET_CLASS, off.product_name OFFERING_NAME, off.product_description OFFERING_DESCRIPTION, trad_capab.trad_region REGION, trad_capab.trad_country COUTRIES, off.launched_year YEAR, trad_capab.trad_exchange trad_exchange, off.security_types security_types, trad_capab.trad_exec_type trad_exec_type from ven_trad_app_offering off, ven_trad_app_soft_dtls soft_dtls, ven_trad_app_trad_capab trad_capab, asset_class asset, vendor ven, users u, country country, security_types security where u.username = ven.username and off.product_id = soft_dtls.product_id and off.product_id = trad_capab.product_id and asset.asset_class_id = off.asset_class_id and ven.vendor_id = off.vendor_id and country.country_id = ven.countryofincorp and ven.vendor_id in (VENDOR_ID_LIST)";
 			vendorSearchSql = vendorSearchSql.replaceAll("VENDOR_ID_LIST", vendorList.toString());
 			sqlQuery = currentSession.createSQLQuery(vendorSearchSql);
 			logger.info("Trading Application VENDOR SEARCH QUERY == " + vendorSearchSql.toString());
@@ -1720,59 +1721,74 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 			vendorSearchRow.setVendorType((String)searchRow[4]);
 			
 			String assetClass = (String)searchRow[5];
-			String countries = (String)searchRow[9];
+			String regions = (String)searchRow[8];
+			//String countries = (String)searchRow[9];
 			String exchanges = (String)searchRow[11];
-			String securityNames = (String)searchRow[12];
+			//String securityNames = (String)searchRow[12];
+			String tradeExecTypesValues = (String)searchRow[13];
 			
-			String mapKey = (String)searchRow[0] + "_" + assetClass;
-			
-			if(countries != null && !countries.trim().equals("")) {
-				String[] countryNames = countries.split(",");
-				for(String countryName : countryNames) {
-					Set<String> assetCountriesSet = assetCountries.get(mapKey);
-					if(assetCountriesSet == null) {
-						assetCountriesSet = new HashSet<String>();
-						assetCountries.put(mapKey, assetCountriesSet);
-						assetCountriesSet.add(countryName);
-					} else {
-						assetCountriesSet.add(countryName);
-					}
-				}
-			}
-			
-			String [] securities = securityNames.split(",");
-			for(String securityName : securities) {
-				if(securityName != null && !securityName.trim().equals("")) {
-					if("Indices".equals(assetClass)) {
-						if(securityName != null && securityName.indexOf("Equity") != -1) {
-							mapKey = (String)searchRow[0] + "_Equity_" + assetClass;
-						} else if (securityName != null && securityName.indexOf("FI") != -1) {
-							mapKey = (String)searchRow[0] + "_FI_" + assetClass;
-						} else {
-							mapKey = (String)searchRow[0] + "_Other_" + assetClass;
+			if(tradeExecTypesValues != null && !tradeExecTypesValues.trim().equals("")) {
+				
+				String[] tradeExecTypesList = tradeExecTypesValues.split(",");
+				
+				for(String tradeExecTypes : tradeExecTypesList) {
+				
+					if(tradeExecTypes != null && !tradeExecTypes.trim().equals("")) {
+	
+						if(tradeExecTypes.contains("DMA")) {
+							tradeExecTypes = "Direct Market Access";
+						} else if (tradeExecTypes.contains("SOR")) {
+							tradeExecTypes = "Smart Order Routing";
 						}
-					}else if (assetClass.indexOf("Derivative") != -1) {
-						mapKey = (String)searchRow[0] + "_Derivative";
-					}
-					
-					if(exchanges != null && !exchanges.trim().equals("")) {
-						String[] exchangeNames = exchanges.split(",");
-						for(String exchangeName : exchangeNames) {
-							Set<String> assetExchangesSet = assetExchanges.get(mapKey);
-							if(assetExchangesSet == null) {
-								assetExchangesSet = new HashSet<String>();
-								assetExchanges.put(mapKey, assetExchangesSet);
-								assetExchangesSet.add(exchangeName);
+						
+						String mapKey = (String)searchRow[0] + "_" + tradeExecTypes;
+						
+						if(assetClass != null && !assetClass.trim().equals("")) {
+							Set<String> assetClassSet = assetClassMap.get(mapKey);
+							if(assetClassSet == null) {
+								assetClassSet = new HashSet<String>();
+								assetClassMap.put(mapKey, assetClassSet);
+								assetClassSet.add(assetClass);
 							} else {
-								assetExchangesSet.add(exchangeName);
+								assetClassSet.add(assetClass);
 							}
 						}
+						
+						if(regions != null && !regions.trim().equals("")) {
+							String[] regionNames = regions.split(",");
+							for(String regionName : regionNames) {
+								Set<String> assetRegionsSet = assetRegions.get(mapKey);
+								if(assetRegionsSet == null) {
+									assetRegionsSet = new HashSet<String>();
+									assetRegions.put(mapKey, assetRegionsSet);
+									assetRegionsSet.add(regionName);
+								} else {
+									assetRegionsSet.add(regionName);
+								}
+							}
+						}
+						
+						if(exchanges != null && !exchanges.trim().equals("")) {
+							String[] exchangeNames = exchanges.split(",");
+							for(String exchangeName : exchangeNames) {
+								Set<String> assetExchangesSet = assetExchanges.get(mapKey);
+								if(assetExchangesSet == null) {
+									assetExchangesSet = new HashSet<String>();
+									assetExchanges.put(mapKey, assetExchangesSet);
+									assetExchangesSet.add(exchangeName);
+								} else {
+									assetExchangesSet.add(exchangeName);
+								}
+							}
+						}
+						
+						// 5 - Asset class, 9 - Countries, 11 - Exchanges, 12- Security Types
+						vendorSearchResultList.add(vendorSearchRow);
 					}
 				}
+		
 			}
-			
-			// 5 - Asset class, 9 - Countries, 11 - Exchanges, 12- Security Types
-			vendorSearchResultList.add(vendorSearchRow);
+		
 		}
 		
 		for(Object[] searchRow : vendorAwardList) {
@@ -1794,11 +1810,10 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 		}
 		
 		searchResultMap.put("vendorSearchResultList", vendorSearchResultList);
-		searchResultMap.put("assetCountries", assetCountries);
+		searchResultMap.put("assetClassMap", assetClassMap);
+		searchResultMap.put("assetRegions", assetRegions);
 		searchResultMap.put("assetExchanges", assetExchanges);
 		searchResultMap.put("awardsMap", awardsMap);
-		
-		//logger.info("MAP == " + Arrays.toString(searchResultMap.entrySet().toArray()));
 		
 		return searchResultMap;
 	}
