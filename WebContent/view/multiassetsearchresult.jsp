@@ -23,6 +23,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>finvendor</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" /> 
+	<meta name="description" content="" />
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="author" content="" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 <style type="">
 tbody:before {
 	content: "-";
@@ -691,7 +696,7 @@ tbody:before {
 		
 		</div>
 	</div>
-
+	</div>
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	<script src="<%=request.getContextPath()%>/resources/js/popup.js"
 		type="text/javascript"></script>

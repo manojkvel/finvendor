@@ -98,11 +98,11 @@
 								<ul>
 									<li>
 										<input type="text" maxlength="300" name="productName" id="productName" required />
-										<label>Product Name</label>
+										<label>Product Name <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" maxlength="1000" name="productDescription" id="productDescription" required />
-										<label>Product Description</label>
+										<label>Product Description <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="number" name="launchedYear" id="launchedYear" required />
@@ -120,7 +120,7 @@
 											<option value="${securityType.name}">${securityType.name}</option>
 											</c:forEach>
 										</select>
-										<label class="default_select">Security Type</label>
+										<label class="default_select">Security Type <sup>*</sup></label>
 									</li>
 								</ul>
 							</div>
@@ -131,7 +131,7 @@
 										<select class="selectpicker select_multiple" name="coverageRegion" id="coverageRegion" multiple="multiple">
 											
 										</select>
-										<label class="default_select">Coverage Region</label>
+										<label class="default_select">Coverage Region <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker select_multiple" name="coverageCountry" id="coverageCountry" multiple="multiple">
@@ -139,7 +139,7 @@
 											<option value="${countries.country_id}" >${countries.name}</option>
 											</c:forEach>
 										</select>
-										<label class="default_select">Coverage Country</label>
+										<label class="default_select">Coverage Country <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker select_multiple" name="coverageExchange"  multiple="multiple" id="coverageExchange">
@@ -147,11 +147,11 @@
 											<option value="${exchanges.exchange_id}">${exchanges.name}</option>
 											</c:forEach>
 										</select>
-										<label class="default_select">Coverage Exchange</label>
+										<label class="default_select">Coverage Exchange <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="number" name="costRange" id="costRange" required />
-										<label>License Cost Range ($ per annum)</label>
+										<label>License Cost Range ($ per annum) <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" name="email" id="email" required />
@@ -233,15 +233,15 @@
 								<ul>
 									<li>
 										<input type="text" maxlength="300" name="productName" id="productName" required />
-										<label>Product Name</label>
+										<label>Product Name <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" maxlength="1000" name="productDescription" id="productDescription" required />
-										<label>Product Description</label>
+										<label>Product Description <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="number" name="launchedYear" id="launchedYear" required />
-										<label>Launched Year</label>
+										<label>Launched Year <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker show-tick" id="assetClassId" name="assetClassId">
@@ -255,7 +255,7 @@
 											<option value="${securityType.name}">${securityType.name}</option>
 											</c:forEach>
 										</select>
-										<label class="default_select">Security Type</label>
+										<label class="default_select">Security Type <sup>*</sup></label>
 									</li>
 								</ul>
 							</div>
@@ -269,7 +269,7 @@
 											<option value ="Dedicated Desktop">Dedicated Desktop</option>
 											<option value ="Mobile/Tablet Apps">Mobile/Tablet Apps</option>
 										</select>
-										<label class="default_select">Accessibility (?)</label>
+										<label class="default_select">Accessibility (?) <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker select_multiple" name="tdsSuitability1"  multiple="multiple" id="tdsSuitability1">
@@ -340,7 +340,7 @@
 									</li>
 									<li>
 										<input type="text" name="tdsAddSoftwareSpecifications" id="tdsAddSoftwareSpecifications" required />
-										<label>Software specifications</label>
+										<label>Software specifications <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" name="tdsAddOns" id="tdsAddOns" required />
@@ -385,7 +385,7 @@
 											<option value="${regions.name}">${regions.name}</option>
 											</c:forEach>
 										</select>
-										<label class="default_select">Tradable region</label>
+										<label class="default_select">Tradable region <sup>*</sup></label>
 									</li>
 
 									<li>
@@ -394,7 +394,7 @@
 											<option value="${countries.name}">${countries.name}</option>
 											</c:forEach>
 										</select>
-										<label class="default_select">Tradable Country</label>
+										<label class="default_select">Tradable Country <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker select_multiple" name="tcsTradableMarkets" multiple="multiple" id="tcsTradableMarkets">
@@ -431,7 +431,7 @@
 											<option value ="Pricing and Rates Engine" > Pricing and Rates Engine</option>
 											<option value ="Quoting & Price Distribution" > Quoting & Price Distribution</option>
 										</select>
-										<label class="default_select">Trading Capabilities Type</label>
+										<label class="default_select">Trading Capabilities Type <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker select_multiple" name="tcsTradeExecutionsType" multiple="multiple" id="tcsTradeExecutionsType">
@@ -443,7 +443,7 @@
 											<option value ="Smart Order Routing (Multi-Posting SOR)"> Smart Order Routing (Multi-Posting SOR) </option>
 											<option value ="Swap Execution Facility"> Swap Execution Facility </option>
 										</select>
-										<label class="default_select">Trade Executions Type</label>
+										<label class="default_select">Trade Executions Type <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker select_multiple" name="tcsAlgorithmicTradeType" multiple="multiple" id="tcsAlgorithmicTradeType">
@@ -452,7 +452,7 @@
 											<option value ="PVOL - (Percentage Of Volume)"> -PVOL - (Percentage Of Volume) - </option>
 											<option value ="IMSH - (Implementation Shortfall)"> -IMSH - (Implementation Shortfall) - </option>
 										</select>
-										<label class="default_select">Algorithmic Trade Type</label>
+										<label class="default_select">Algorithmic Trade Type <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker select_multiple" name="tcsDarkpoolAccess" multiple="multiple" id="tcsDarkpoolAccess">
@@ -463,7 +463,7 @@
 											<option value ="Access to Darkpool Aggregators"> Access to Darkpool Aggregators(?) </option>
 											<option value ="No Darkpool Access">No Darkpool Access </option>
 										</select>
-										<label class="default_select">Darkpool Access</label>
+										<label class="default_select">Darkpool Access <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker select_multiple" name="tcsSupportedDarkpoolVenues" multiple="multiple" id="tcsSupportedDarkpoolVenues">
@@ -515,7 +515,7 @@
 											<option value ="Crossfire - Credit Agricole Cheuvreux"> Crossfire - Credit Agricole Cheuvreux </option>
 											<option value ="Instinet - Nighthawk"> Instinet - Nighthawk </option>
 										</select>
-										<label class="default_select">Supported Darkpool Venues</label>
+										<label class="default_select">Supported Darkpool Venues <sup>*</sup></label>
 									</li>
 								</ul>
 							</div>
@@ -548,15 +548,15 @@
 								<ul>
 									<li>
 										<input type="text" maxlength="300" name="productName" id="productName" required />
-										<label>Product Name</label>
+										<label>Product Name <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" maxlength="1000" name="productDescription" id="productDescription" required />
-										<label>Product Description</label>
+										<label>Product Description <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="number" name="launchedYear" id="launchedYear" required />
-										<label>Launched Year</label>
+										<label>Launched Year <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker show-tick" id="analyticsSolutionType" name="analyticsSolutionType">
@@ -578,7 +578,7 @@
 											<option value ="Commodity trading solutions" > Commodity trading solutions </option>
 											<option value ="FCP/CCP clearing suite" > FCP/CCP clearing suite </option>
 										</select>
-										<label class="default_select">Analytics Solutions Sub Type</label>
+										<label class="default_select">Analytics Solutions Sub Type <sup>*</sup></label>
 									</li>
 								</ul>
 							</div>
@@ -592,7 +592,7 @@
 											<option value ="Dedicated Desktop">Dedicated Desktop</option>
 											<option value ="Mobile/Tablet Apps">Mobile/Tablet Apps</option>
 										</select>
-										<label class="default_select">Accessibility (?)</label>
+										<label class="default_select">Accessibility (?) <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker select_multiple" name="asdSuitability1"  multiple="multiple" id="asdSuitability1">
@@ -613,7 +613,7 @@
 											<option value ="Free and Min Balance Not required" >Free and Min Balance Not required</option>
 											<option value ="Subscription based" > Subscription based </option>
 										</select>
-										<label class="default_select">Application Cost Type</label>
+										<label class="default_select">Application Cost Type <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="number" name="asdApplicationSubscriptionCost" id="asdApplicationSubscriptionCost" readonly required />
@@ -640,7 +640,7 @@
 									</li>
 									<li>
 										<input type="text" name="asdSoftwareSpecifications" id="asdSoftwareSpecifications" required />
-										<label>Software specifications</label>
+										<label>Software specifications <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" name="asdExistingUserBase" id="asdExistingUserBase" required />
@@ -685,15 +685,15 @@
 								<ul>
 									<li>
 										<input type="text" maxlength="300" name="productName" id="productName" required />
-										<label>Research Report Name</label>
+										<label>Research Report Name <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" maxlength="1000" name="productDescription" id="productDescription" required />
-										<label>Research Report Description</label>
+										<label>Research Report Description <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="number" name="launchedYear" id="launchedYear" required />
-										<label>Launched Year</label>
+										<label>Launched Year <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker show-tick" id="rcResearchArea" name="rcResearchArea">
@@ -770,7 +770,7 @@
 											<option value ="High Yield Spread" >High Yield Spread</option>
 											<option value ="LIBOR Rate" >LIBOR Rate</option>
 										</select>
-										<label class="default_select">Research Sub Area</label>
+										<label class="default_select">Research Sub Area <sup>*</sup></label>
 									</li>
 									<li id="stocksFundsIssuesCovered_parent" style="display: none;">
 										<input type="number" name="stocksFundsIssuesCovered" id="stocksFundsIssuesCovered" required />
@@ -787,7 +787,7 @@
 												<option value="${regions.name}">${regions.name}</option>
 											</c:forEach>
 										</select>
-										<label class="default_select">Regions Covered</label>
+										<label class="default_select">Regions Covered <sup>*</sup></label>
 									</li>									
 									<li>
 										<select class="selectpicker" name="rcCountriesCovered" id="rcCountriesCovered" multiple="multiple">
@@ -795,7 +795,7 @@
 												<option value="${countries.name}">${countries.name}</option>
 											</c:forEach>
 										</select>
-										<label class="default_select">Countries Covered</label>
+										<label class="default_select">Countries Covered <sup>*</sup></label>
 									</li>
 									<li>
 										<input type="number" name="rcTotalResearchAnalyst" id="rcTotalResearchAnalyst" required />
@@ -855,10 +855,11 @@
 											<option value ="DOC"> DOC </option>
 											<option value ="EXCEL"> EXCEL </option>
 										</select>
-										<label class="default_select">Report Format</label>
+										<label class="default_select">Report Format <sup>*</sup></label>
 									</li>
 									<li>
 										<select class="selectpicker" name="rdResearchApplicableMonth" id="rdResearchApplicableMonth">
+											<option value ="Any">Any</option>
 											<option value ="January">January</option>
 											<option value ="February">February</option>
 											<option value ="March">March</option>
@@ -876,6 +877,7 @@
 									</li>
 									<li>
 										<select class="selectpicker" name="rdResearchApplicableYear" id="rdResearchApplicableYear">
+											<option value ="Any">Any</option>
 											<option value ="2006">2006</option>
 											<option value ="2007">2007</option>
 											<option value ="2008">2008</option>
@@ -889,7 +891,7 @@
 											<option value ="2016">2016</option>
 											<option value ="2017">2017</option>
 										</select>
-										<label class="default_select">Research Period - Year</label>
+										<label class="default_select">Research Period - Year <sup>*</sup></label>
 									</li>
 								</ul>
 							</div>
