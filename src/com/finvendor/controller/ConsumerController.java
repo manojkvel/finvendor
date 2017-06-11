@@ -228,7 +228,7 @@ public class ConsumerController {
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
 			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			awards = marketDataAggregatorsService.getAllAwards(null);
 			
 			username = CommonUtils.decrypt(username.getBytes());
 			
@@ -409,7 +409,7 @@ public class ConsumerController {
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
 			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			awards = marketDataAggregatorsService.getAllAwards(null);
 			
 			username = CommonUtils.decrypt(username.getBytes());
 			
@@ -461,7 +461,7 @@ public class ConsumerController {
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
 			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			awards = marketDataAggregatorsService.getAllAwards(null);
 			
 			username = CommonUtils.decrypt(username.getBytes());
 			
@@ -513,7 +513,7 @@ public class ConsumerController {
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
 			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			awards = marketDataAggregatorsService.getAllAwards(null);
 			
 			username = CommonUtils.decrypt(username.getBytes());
 			
@@ -565,7 +565,7 @@ public class ConsumerController {
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
 			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			awards = marketDataAggregatorsService.getAllAwards(null);
 			
 			username = CommonUtils.decrypt(username.getBytes());
 			

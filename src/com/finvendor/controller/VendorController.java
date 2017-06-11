@@ -128,12 +128,12 @@ public class VendorController {
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			costs  = marketDataAggregatorsService.getAllCostInfo();			
 			User appUser = (User)SecurityContextHolder.getContext().
 					getAuthentication().getPrincipal();
-			String username = appUser.getUsername();
+			String username = appUser.getUsername();			
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
 			modelAndView.addObject("securityTypes",listSecurityType);
 			modelAndView.addObject("assetClasses", assetClasses);
@@ -173,12 +173,12 @@ public class VendorController {
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			costs  = marketDataAggregatorsService.getAllCostInfo();			
 			User appUser = (User)SecurityContextHolder.getContext().
 					getAuthentication().getPrincipal();
 			String username = appUser.getUsername();
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
 			modelAndView.addObject("securityTypes",listSecurityType);
 			modelAndView.addObject("assetClasses", assetClasses);
@@ -224,10 +224,10 @@ public class VendorController {
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();			
+			costs  = marketDataAggregatorsService.getAllCostInfo();						
 			username = CommonUtils.decrypt(username.getBytes());			
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			modelAndView.addObject("assetClasses", assetClasses);
 			modelAndView.addObject("regions", regions);
 			modelAndView.addObject("regionslist", regions);
@@ -279,10 +279,10 @@ public class VendorController {
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			costs  = marketDataAggregatorsService.getAllCostInfo();			
 			username = CommonUtils.decrypt(username.getBytes());
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			String vendorCompanyTypes = vendor.getCompanyType();
 			logger.debug("Registered Company Types for Vendor {} are {}", username, vendorCompanyTypes);
 			vendorOfferings  = vendorCompanyTypes.split(",");
@@ -357,10 +357,10 @@ public class VendorController {
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			costs  = marketDataAggregatorsService.getAllCostInfo();			
 			username = CommonUtils.decrypt(username.getBytes());
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			String vendorCompanyTypes = vendor.getCompanyType();
 			logger.debug("Registered Company Types for Vendor {} are {}", username, vendorCompanyTypes);
 			vendorOfferings  = vendorCompanyTypes.split(",");
@@ -447,10 +447,10 @@ public class VendorController {
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			costs  = marketDataAggregatorsService.getAllCostInfo();			
 			username = CommonUtils.decrypt(username.getBytes());
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
+			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			String vendorCompanyTypes = vendor.getCompanyType();
 			logger.debug("Registered Company Types for Vendor {} are {}", username, vendorCompanyTypes);
 			vendorOfferings  = vendorCompanyTypes.split(",");

@@ -116,7 +116,7 @@ public class ResearchReportProvidersVendorController {
 				exchanges = marketDataAggregatorsService.getAllExchanges();
 				supports =  marketDataAggregatorsService.getAllVendorSupports();
 				costs  = marketDataAggregatorsService.getAllCostInfo();
-				awards = marketDataAggregatorsService.getAllAwards();
+				awards = marketDataAggregatorsService.getAllAwards(null);
 				
 				modelAndView.addObject("assetClasses", assetClasses);
 				modelAndView.addObject("regions", regions);

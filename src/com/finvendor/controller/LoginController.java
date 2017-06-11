@@ -192,7 +192,7 @@ public class LoginController {
 			exchanges = marketDataAggregatorsService.getAllExchanges();
 			supports =  marketDataAggregatorsService.getAllVendorSupports();
 			costs  = marketDataAggregatorsService.getAllCostInfo();
-			awards = marketDataAggregatorsService.getAllAwards();
+			awards = marketDataAggregatorsService.getAllAwards(null);
 			companySubType = marketDataAggregatorsService.getCompanySubTypeList();
 			
 			try {
@@ -209,6 +209,7 @@ public class LoginController {
 		       				username, RequestConstans.Roles.ROLE_VENDOR);
 		       		modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);					
 					vendor = userService.getUserDetailsByUsername(username).getVendor();
+					awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 					modelAndView.addObject("myprofiletab", "myprofile");	       		
 		       		modelAndView.addObject("vendortabdetails", "vendortabdetails");	       	
 		       		String telephone = vendor.getTelephone();

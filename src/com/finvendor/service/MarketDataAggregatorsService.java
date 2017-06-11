@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.finvendor.service;
 
 import java.io.Serializable;
@@ -29,117 +26,20 @@ import com.finvendor.model.SecurityType;
 import com.finvendor.model.Support;
 import com.finvendor.model.VendorOffering;
 
-/**
- * @author rayulu vemula
- *
- */
 public interface MarketDataAggregatorsService {
 	
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all asset class values
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<AssetClass> getAllAssetClass();
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all security types
-	 * 
-	 * @param assetId
-	 * @return 
-	 */
 	List<AssetClassSecurityMap> getSecurityTypeByAssetClassId(Integer assetId);
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all regions
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<Region> getAllRegionClass();
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all region country maps
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<RegionCountryMap> getRegionCountryMapsRegionId(Integer regionId);
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all country exchange maps
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<CountryExchangeMap> getCountryExchangeMapsByCountryId(Integer countryId);
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all countries
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<Country> getAllCountries();
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all support
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<Support> getAllVendorSupports();
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all cost
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<Cost> getAllCostInfo();
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all awards
-	 * 
-	 * @param 
-	 * @return 
-	 */
-	List<Awards> getAllAwards();
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get all exchanges
-	 * 
-	 * @param 
-	 * @return 
-	 */
+	List<Awards> getAllAwards(String vendorId);
 	List<Exchange> getAllExchanges();
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get regionNames
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<Region> getRegionNamesByName(String regionName);
-
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get Single Asset Class Search
-	 * 
-	 * @param 
-	 * @return 
-	 */
+	
 	Region getRegionById(String Id);
 	Country getCountryById(String Id);
 	Cost getCostById(String Id);
@@ -149,13 +49,6 @@ public interface MarketDataAggregatorsService {
 			List<String> regionList, List<String> countryList,
 			List<String> exchangesList);
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get Single Asset Class Search for Vendor details
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<AssetClassDataDetails> getSingleAssetClassSearchResultVendorInfo(
 			String assetclassId, List<String> securitytypeList,
 			String vendorregionofincorp,
@@ -166,13 +59,6 @@ public interface MarketDataAggregatorsService {
 			List<String> vendorsupporttimeList, List<String> awardsList,
 			List<String> acquisitioncostrangeList);
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get Single Asset Class Search for Vendor details
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<AssetClassDataDetails> getSingleAssetClassVendorDetails(
 			String assetclassId, List<String> securitytypeList,
 			List<String> vendorregionofincorpList,
@@ -182,23 +68,9 @@ public interface MarketDataAggregatorsService {
 			String vendorsupporttime, String vendorawards,
 			String vendorcostrange);
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get Multi Asset Class Search for Vendor details
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	List<AssetClassDataDetails> getMultiAssetClassSearchResultInfo(
 			List<String> assetClassList, List<String> securityList);
 
-	/** --------------------------------------------------------------------- */
-	/**
-	 * Method to get Asset Class by passing name
-	 * 
-	 * @param 
-	 * @return 
-	 */
 	AssetClass getAssetClassByName(String assetType);
 	
 	VendorOffering createOfferings(String id, VendorOffering vendorOffering);
@@ -220,10 +92,14 @@ public interface MarketDataAggregatorsService {
 	
 	List<CompanySubType> getCompanySubTypeList();
 
-	List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(Map<Object, Object> searchData,FinancialAnalyticsApplicationVendorSearchForm dataForm);
-	List<ResearchReportProvidersVendorSearchForm> getRRMultiAssetClassSearchResult(Map<Object, Object> searchData,ResearchReportProvidersVendorSearchForm dataForm);
-	List<TradingApplicationVendorSearchForm> getTAMultiAssetClassSearchResult(Map<Object, Object> searchData,TradingApplicationVendorSearchForm dataForm);
-	Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,MarketDataAggregatorsVendorSearchForm dataForm);
+	List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(
+			Map<Object, Object> searchData, FinancialAnalyticsApplicationVendorSearchForm dataForm);
+	List<ResearchReportProvidersVendorSearchForm> getRRMultiAssetClassSearchResult(
+			Map<Object, Object> searchData, ResearchReportProvidersVendorSearchForm dataForm);
+	List<TradingApplicationVendorSearchForm> getTAMultiAssetClassSearchResult(
+			Map<Object, Object> searchData, TradingApplicationVendorSearchForm dataForm);
+	Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,
+			MarketDataAggregatorsVendorSearchForm dataForm);
 
 	public Object getModelObjectById(Class<?> type, Serializable id);
 	

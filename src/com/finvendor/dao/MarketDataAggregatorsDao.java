@@ -116,7 +116,7 @@ public interface MarketDataAggregatorsDao {
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getAllAwards()
 	 */
-	List<Awards> getAllAwards();
+	List<Awards> getAllAwards(String vendorId);
 
 	/** --------------------------------------------------------------------- */
 	/**

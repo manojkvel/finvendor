@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.finvendor.model;
 
 import java.io.Serializable;
@@ -11,110 +8,122 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * @author rayulu vemula
- *
- */
 @Entity
-@Table(name="awards")
+@Table(name="vendor_awards")
 public class Awards implements Serializable{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	
+	private static final long serialVersionUID = -9030715887562192502L;
+
 	@Id
-    @Column(name="award_id")
+    @Column(name="va_id")
     @GeneratedValue
     private Integer award_id;
 	
-    @Column(name="name")
+    @Column(name="Awardname")
     private String name;
     
-    @Column(name="sponsor")
+    @Column(name="Awardsponsor")
     private String sponsor;
     
-    @Column(name="rank")
-    private String rank;
+    @Column(name="vendor_id")
+    private String vendorId;
     
-    @Column(name="logo")
-    private String logo;
-    /*
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="awards")
-	private Set<VendorAwardsMap> vendorAwardsMaps=new HashSet<VendorAwardsMap>();
-	 */
+    @Column(name="Awardedyear")
+    private String year;
+    
+    @Column(name="awardAnalyticsSolutionsType")
+    private String awardAnalyticsSolutionsType;
+    
+    @Column(name="awardAssetclass")
+    private String awardAssetclass;
+    
+    @Column(name="awardResearchArea")
+    private String awardResearchArea;
+    
+    @Column(name="awardSolutionTypes")
+    private String awardSolutionTypes;
+    
+    @Column(name="awardVendorType")
+    private String awardVendorType;
 
-    
-	/**
-	 * @return the award_id
-	 */
 	public Integer getAward_id() {
 		return award_id;
 	}
 
-	/**
-	 * @param award_id the award_id to set
-	 */
 	public void setAward_id(Integer award_id) {
 		this.award_id = award_id;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return the sponsor
-	 */
 	public String getSponsor() {
 		return sponsor;
 	}
 
-	/**
-	 * @param sponsor the sponsor to set
-	 */
 	public void setSponsor(String sponsor) {
 		this.sponsor = sponsor;
 	}
 
-	/**
-	 * @return the rank
-	 */
-	public String getRank() {
-		return rank;
+	public String getVendorId() {
+		return vendorId;
 	}
 
-	/**
-	 * @param rank the rank to set
-	 */
-	public void setRank(String rank) {
-		this.rank = rank;
+	public void setVendorId(String vendorId) {
+		this.vendorId = vendorId;
 	}
 
-	/**
-	 * @return the logo
-	 */
-	public String getLogo() {
-		return logo;
+	public String getYear() {
+		return year;
 	}
 
-	/**
-	 * @param logo the logo to set
-	 */
-	public void setLogo(String logo) {
-		this.logo = logo;
+	public void setYear(String year) {
+		this.year = year;
 	}
 
+	public String getAwardAnalyticsSolutionsType() {
+		return awardAnalyticsSolutionsType;
+	}
+
+	public void setAwardAnalyticsSolutionsType(String awardAnalyticsSolutionsType) {
+		this.awardAnalyticsSolutionsType = awardAnalyticsSolutionsType;
+	}
+
+	public String getAwardAssetclass() {
+		return awardAssetclass;
+	}
+
+	public void setAwardAssetclass(String awardAssetclass) {
+		this.awardAssetclass = awardAssetclass;
+	}
+
+	public String getAwardResearchArea() {
+		return awardResearchArea;
+	}
+
+	public void setAwardResearchArea(String awardResearchArea) {
+		this.awardResearchArea = awardResearchArea;
+	}
+
+	public String getAwardSolutionTypes() {
+		return awardSolutionTypes;
+	}
+
+	public void setAwardSolutionTypes(String awardSolutionTypes) {
+		this.awardSolutionTypes = awardSolutionTypes;
+	}
+
+	public String getAwardVendorType() {
+		return awardVendorType;
+	}
+
+	public void setAwardVendorType(String awardVendorType) {
+		this.awardVendorType = awardVendorType;
+	}
+    
 }

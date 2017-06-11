@@ -91,7 +91,7 @@ public class MarketDataAggregatorsVendorController {
 				exchanges = marketDataAggregatorsService.getAllExchanges();
 				supports =  marketDataAggregatorsService.getAllVendorSupports();
 				costs  = marketDataAggregatorsService.getAllCostInfo();
-				awards = marketDataAggregatorsService.getAllAwards();
+				awards = marketDataAggregatorsService.getAllAwards(null);
 				List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
 				
 				modelAndView.addObject("securityTypes",listSecurityType);

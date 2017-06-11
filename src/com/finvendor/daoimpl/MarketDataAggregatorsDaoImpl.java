@@ -193,12 +193,15 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public List<Awards> getAllAwards() {
+	public List<Awards> getAllAwards(String vendorId) {
 		logger.info("Method to load all awards---");
 		List<Awards>  awards = null;
 		Criteria criteria = null;
 		try{
 			criteria = this.sessionFactory.getCurrentSession().createCriteria(Awards.class);
+			if(vendorId != null) {
+				criteria.add(Restrictions.eq("vendorId", vendorId));
+			}
 			awards = criteria.list();
  		}catch (Exception e) {
 			e.printStackTrace();
