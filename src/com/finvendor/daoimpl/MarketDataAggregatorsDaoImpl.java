@@ -1651,17 +1651,17 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao{
 			searchSql.append(assetClass);
 			searchSql.append("'");
 			
-			Object trad_region = searchData.get(assetClass.toLowerCase() + "trad_region");
+			Object trad_region = searchData.get(assetClass.toLowerCase() + "tcsTradeCoverageRegion");
 			populateFilterCondition(searchSql, trad_region, "trad_capab.trad_region");
-			Object trad_country = searchData.get(assetClass.toLowerCase() + "trad_country");
+			Object trad_country = searchData.get(assetClass.toLowerCase() + "tcsTradeCoverageCountry");
 			populateFilterCondition(searchSql, trad_country, "trad_capab.trad_country");
-			Object trad_exchange = searchData.get(assetClass.toLowerCase() + "trad_exchange");
+			Object trad_exchange = searchData.get(assetClass.toLowerCase() + "tcsTradeCoverageExchange");
 			populateFilterCondition(searchSql, trad_exchange, "trad_capab.trad_exchange");
 			Object trad_capab_type = searchData.get(assetClass.toLowerCase() + "trad_capab_type");
 			populateFilterCondition(searchSql, trad_capab_type, "trad_capab.trad_capab_type");
-			Object trad_exec_type = searchData.get(assetClass.toLowerCase() + "trad_exec_type");
+			Object trad_exec_type = searchData.get(assetClass.toLowerCase() + "tcsTradeExecutionsType");
 			populateFilterCondition(searchSql, trad_exec_type, "trad_capab.trad_exec_type");
-			Object security_types = searchData.get(assetClass.toLowerCase() + "security_types");
+			Object security_types = searchData.get(assetClass.toLowerCase() + "securityTypes");
 			populateFilterCondition(searchSql, security_types, "off.security_types");
 						
 			searchSql.append(")");
