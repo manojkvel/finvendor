@@ -56,22 +56,22 @@
                                                                 <li>
                                                                     <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS">SOLUTIONS</a>
                                                                     <ul>
+                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=frrpd&RaYUnA=${finVen:encrypt(username)}">Free Equity Research
+                                                                    Reports</a>
+                                                                        </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=mdvad&RaYUnA=${finVen:encrypt(username)}">Market
-														Data Vendors</a>
+														Data Providers</a>
                                                                         </li>
                                                                         <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=tavd&RaYUnA=${finVen:encrypt(username)}">Trading
-															Application Vendors</a>
+															Platforms</a>
                                                                         </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=faavd&RaYUnA=${finVen:encrypt(username)}">Analytics
+                                                                        <li style="display: none;"><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=faavd&RaYUnA=${finVen:encrypt(username)}">Analytics
 																Application Vendors</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=frrpd&RaYUnA=${finVen:encrypt(username)}">Research
-																	Report Providers</a>
                                                                         </li>
                                                                     </ul>
                                                                 </li>
-                                                                <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES">SERVICES</a>
+                                                                <li style="display: none;"><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES">SERVICES</a>
                                                                     <ul>
                                                                         <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES&subNav=dadd">Data
 																			Aggregator Services</a>
@@ -112,6 +112,12 @@
                                                                         <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=s">Spotlights</a>
                                                                         </li>
                                                                     </ul>
+                                                                </li>
+
+                                                                <li class="cd-contact">
+                                                                    <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=CONTACT">
+                                                                        <i class="fa fa-address-book"></i> Contact
+                                                                    </a>
                                                                 </li>
 
                                                                 <li class="user_activity">
@@ -240,17 +246,17 @@
                     		<li>
                     			<a href="#">SOLUTIONS <i class="fa fa-chevron-down"></i></a>
                     			<ul class="child-main-menu">
+                                    <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=frrpd&RaYUnA=${finVen:encrypt(username)}">Free Equity Research
+                                        Reports</a>
                     				<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=mdvad&RaYUnA=${finVen:encrypt(username)}">Market
-                    					Data Vendors</a>
+                    					Data Providers</a>
                     				</li>
                     				<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=tavd&RaYUnA=${finVen:encrypt(username)}">Trading
+                    					Platoforms</a>
+                    				</li>
+                    				<li style="display: none;"><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=faavd&RaYUnA=${finVen:encrypt(username)}">Analytics
                     					Application Vendors</a>
                     				</li>
-                    				<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=faavd&RaYUnA=${finVen:encrypt(username)}">Analytics
-                    					Application Vendors</a>
-                    				</li>
-                    				<li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=frrpd&RaYUnA=${finVen:encrypt(username)}">Research
-                    					Report Providers</a>
                     				</li>
                     			</ul>
                     		</li>           

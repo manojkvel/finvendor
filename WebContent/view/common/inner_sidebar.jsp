@@ -7,14 +7,14 @@
             <ul>
                 <li data-div-id="SOLUTIONS"><a href="#">SOLUTIONS</a>
                     <ul id="SOLUTIONS_ul">
+                        <li data-div-id="SOLUTIONS_frrpd"><a href="#">Free Equity Research
+                                        Reports</a></li>
                         <li data-div-id="SOLUTIONS_mdvad"><a href="#">Market
-							Data Vendors</a></li>
+							Data Providers</a></li>
                         <li data-div-id="SOLUTIONS_tavd"><a href="#">Trading
 								Application Vendors</a></li>
-                        <li data-div-id="SOLUTIONS_faavd"><a href="#">Analytics
-									Application Vendors</a></li>
-                        <li data-div-id="SOLUTIONS_frrpd"><a href="#">Research
-										Report Providers</a></li>
+                        <li data-div-id="SOLUTIONS_faavd" style="display: none;"><a href="#">Analytics
+									Platforms</a></li>
                     </ul>
                 </li>
                 <li data-div-id="SERVICES"><a href="#">SERVICES</a>
@@ -65,7 +65,7 @@
                 <li class="phone">+65 869 633 21</li>
                 <li class="message"><a href="mailto:enquiry@finvendor.com">enquiry@finvendor.com</a></li>
                 <li class="location">
-                    <%--<span>Tech Park Bangalore</span> <span>Whitefield Road Bangalore </span><span>560 066. Karnataka, India.</span>--%>
+                    <span>101, F-Wing, Kailash Gardens, Gauripada, Kalyan(west), Thane, Maharashtra, India, 42130</span>
                 </li>
             </ul>
         </div>

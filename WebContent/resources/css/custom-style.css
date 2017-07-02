@@ -161,6 +161,7 @@ a:active {
     line-height: 20px;
     color: #fff;
 }
+
 .contact-detail{
 	text-align: right;
 }
@@ -685,6 +686,11 @@ th{
 	padding-bottom: 10px;
 }
 
+.header-container .sf-menu a.cd-signin {
+	font-size: 14px;
+	font-weight: bold;
+}
+
 #header_user_profile.dropdown {
 	margin-right: 0;
 	margin-top: 0;
@@ -696,6 +702,9 @@ th{
 	line-height: 60px;
 }
 
+.header-container .sf-menu .cd-contact.sfHover,
+.nav-srch-cnt >ul >li.cd-contact >a:hover,
+.nav-srch-cnt >ul >li.cd-contact.sfHover >a,
 .header-container .sf-menu .user_activity.sfHover {
 	background: transparent;
 }
