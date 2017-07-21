@@ -7,7 +7,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>FinVendor - Search Free and Quality Equity Research Reports, Market Data Providers, Trading Platforms</title>
+<title>FinVendor - Market Place for Financial Research Report Providers, Market Data Vendors and Trading Platform.</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" /> 
 	
@@ -49,7 +49,23 @@
 <body>
 	<c:set var="checkingresultpageview" value="${checkingresultpageview}"></c:set>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
-	<section style="position: relative; top: -20px;">
+	<div id="fv_sub_header">
+		<div class="container">
+			<form action="#" class="elastic-search desktop_variant" method="POST">
+				<div class="input-group">
+					<input id="txtSearchBox" class="form-control" autocomplete="off" name="query" type="text" placeholder="Free text hint company name">
+					<input type="hidden" name="form_submitted_from_search" value="1">
+					<div class="input-group-addon"><span class="glyphicon glyphicon-search"><input class="submit-button" type="submit"></span></div>
+					<div class="input-group-addon close-btn"><span class="glyphicon glyphicon-remove"><a href="javascript:;"></a></span></div>
+				</div>
+				<div class="suggestions" style="display:none" id="tblSuggestions">
+					<div id="tableBodyAutocomplete">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<section style="position: relative; top: 0px;">
 		<div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:1980px;height:550px;overflow:hidden;visibility:hidden;">
 			<!-- Loading Screen -->
 			<div data-u="loading" class="jssorl-oval" style="position:absolute;top:0px;left:0px;text-align:center;background-color:rgba(0,0,0,0.7);">
@@ -106,7 +122,7 @@ End-User's RFP</span></div>
 					<li><strong>Beneficial for all investors:</strong> <br />Equally beneficial for both group of investors – newbie and astute investors.</li>
 				</ul>
 				<p>
-					<span class="know-more"><a href="/view/common/inner.jsp?nav=SOLUTIONS&subNav=frrpd&RaYUnA=">Get Started</a></span>
+					<span class="know-more"><a href="/view/equity_research_report_vendor.jsp">Get Started</a></span>
 				</p>
 			</div>
 		</section>
@@ -253,4 +269,14 @@ clients?</strong> <br />Yes, we do. It is customizable to individual broker/publ
 	src="<%=request.getContextPath()%>/resources/js/mail-functions.js"></script>
 
 <script type="text/javascript">jssor_1_slider_init();</script>
+
+	<script type="text/javascript">
+		$('#fv_sub_header #txtSearchBox').on('focus', function() {
+			$('#fv_sub_header form').addClass('open');
+		});
+
+		$('#fv_sub_header #txtSearchBox').on('blur', function() {
+			$('#fv_sub_header form').removeClass('open');
+		});
+	</script>
 </html>

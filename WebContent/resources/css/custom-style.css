@@ -185,6 +185,209 @@ a:active {
     padding: 5px 10px;
 }
 
+
+#fv_sub_header {
+    display: block;
+    width: 100%;
+    float: left;
+    position: relative;
+    background-color: #34bf98;
+    height: 40px;
+    margin-top: -20px;
+}
+
+#fv_sub_header .container {
+	position: relative;
+}
+
+#fv_sub_header form {
+    width: auto;
+    position: relative;
+    right: 0;
+}
+
+#fv_sub_header form.open {
+    position: absolute;
+    width: 100%;
+    padding: 0 25px 20px 55px;
+    background-color: white;
+    border-bottom: 5px solid #333;
+    -moz-transition: padding .15s ease-in-out;
+    -o-transition: padding .15s ease-in-out;
+    -webkit-transition: padding .15s ease-in-out;
+    transition: padding .15s ease-in-out;
+    z-index: 1;
+}
+
+@media screen and (min-width: 1200px)
+{
+	#fv_sub_header form .input-group {
+    padding-left: 30px;
+}
+
+}
+@media screen and (min-width: 992px)
+{
+	#fv_sub_header form .input-group {
+	    max-width: 325px;
+	}
+	#fv_sub_header form .input-group {
+	    -moz-transition: max-width .3s ease-in-out;
+	    -o-transition: max-width .3s ease-in-out;
+	    -webkit-transition: max-width .3s ease-in-out;
+	    transition: max-width .3s ease-in-out;
+	    float: right;
+	    padding-top: 3px;
+	}
+
+}
+
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+@media screen and (min-width: 1200px)
+{
+	#fv_sub_header form .form-control {
+	    padding-left: 15px;
+	}
+
+}
+
+#fv_sub_header form .form-control {
+    border: none;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    height: 34px;
+    color: #0e62ab;
+    font-size: 13px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    /* font-family: "pt_sansregular"; */
+}
+
+#fv_sub_header form .input-group-addon {
+    background-color: white;
+    padding: 0 11px;
+    margin: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    border: none;
+    position: relative;
+}
+
+.input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child) {
+    border-radius: 0;
+}
+
+.input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-group-addon, .input-group-btn {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.input-group-addon, .input-group-btn, .input-group .form-control {
+    display: table-cell;
+}
+
+#fv_sub_header form .input-group-addon>span {
+    color: #34bf98;
+    font-size: 22px;
+}
+#fv_sub_header form .input-group-addon input, 
+#fv_sub_header form .input-group-addon a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 0;
+    font-size: 0;
+}
+
+#fv_sub_header form.open .input-group {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0 !important;
+    padding-bottom: 3px;
+    padding-right: 10px;
+}
+@media screen and (min-width: 1200px)
+{
+#fv_sub_header form .input-group {
+    padding-left: 30px;
+}
+}
+@media screen and (min-width: 992px)
+{
+#fv_sub_header form .input-group {
+    max-width: 325px;
+}
+
+}
+
+#fv_sub_header form .form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    -webkit-transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s;
+}
+
+#fv_sub_header form .input-group {
+    -moz-transition: max-width .3s ease-in-out;
+    -o-transition: max-width .3s ease-in-out;
+    -webkit-transition: max-width .3s ease-in-out;
+    transition: max-width .3s ease-in-out;
+    float: right;
+    padding-top: 3px;
+}
+
+#fv_sub_header form .input-group-addon.close-btn {
+    display: none;
+}
+
+#fv_sub_header form.open .form-control {
+    padding-left: 0;
+    border-bottom: 3px solid #34bf98;
+    font-size: 18px;
+    height: 63px;
+    padding: 6px 0 0;
+    box-shadow: none;
+}
+
+#fv_sub_header form.open .input-group-addon {
+    display: none;
+}
+
+#fv_sub_header form.open .input-group-addon.close-btn {
+    display: table-cell;
+}
+
 /***************************
 	Links Style 
 ***************************/

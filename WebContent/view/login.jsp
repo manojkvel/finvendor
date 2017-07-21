@@ -125,6 +125,7 @@
 										<select id="signup-companytype" multi-data-mandatory="Y" name="companytype" class="form-control"   
 										multiple="multiple"> 
 											<option value ="-SELECT-" id="1" selected>-Select Company Type-</option>
+											<option value="Individual Investor/Researcher" id="10" title='Individual Investor/Researcher'>Individual Investor/Researcher</option>
 											<option value="Financial Firm - Sell side" id="2" title='Financial Firm - Sell side'>Financial Firm - Sell side</option>
 											<option value="Financial Firm - Buy side" id="3" title='Financial Firm - Buy side'>Financial Firm - Buy side</option>
 											<option value="Financial Firm - Others" id="4" title='Financial Firm - Others'>Financial Firm - Others</option>
@@ -133,7 +134,6 @@
 											<option value="Analytics Application" id="7" title='Financial Vendor - Analytics Applications'>Financial Vendor - Analytics Applications</option>
 											<option value="Research Report" id="8" title='Financial Vendor - Research report Providers'>Financial Vendor - Research report Providers</option>
 											<option value="University/College" id="9" title='University/College'>University/College</option>
-											<option value="Other Firm" id="10" title='Other firm'>Other firm</option>
 										</select>
 									</li>
 									<li id="register_vendor_area_of_interest" class="normal-line">

@@ -1293,6 +1293,54 @@ textarea:valid ~ label {
 }
 
 
+
+
+
+
+
+
+#fv_equity_research_report_vendor {
+	background: #fff;
+	padding: 10px;
+	overflow: hidden;
+	min-height: 400px;
+}
+
+#fv_equity_research_report_vendor .custom_form div {
+	clear: both;
+	width: 100%;
+}
+
+#fv_equity_research_report_vendor .custom_form ul {
+	float: left;
+	width: 100%;
+	overflow: inherit;
+}
+
+
+#fv_equity_research_report_vendor .custom_form ul > li {
+	width: 47.5%;
+	margin-right: 1.8%;
+}
+
+.custom_form .bootstrap-select {
+	padding: 0;
+	margin-top: 20px;
+}
+
+#fv_equity_research_report_vendor .custom_form .bootstrap-select ul li {
+	width: 100%;
+	margin-right: 0;
+	margin-bottom: 0;
+}
+
+#fv_equity_research_report_vendor .custom_form .bs-searchbox input {
+	padding: 0;
+	height: 20px;
+}
+
+
+
 @media only screen and (max-width: 360px) {
 
 	#fin_vendor_videos iframe {
