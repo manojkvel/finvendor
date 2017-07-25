@@ -277,9 +277,24 @@ CREATE TABLE ven_analytics_app_soft_dtls (
 )
 ;
 
-/* To be run */
-
 ALTER TABLE `ven_rsrch_rpt_offering`
 	ADD COLUMN `stock_fund_issue_covered` VARCHAR(100) NULL AFTER `research_sub_area`;
 ALTER TABLE `ven_rsrch_rpt_covg`
 	ADD COLUMN `countries_covered` VARCHAR(100) NULL AFTER `regions_covered`;
+	
+/* To be run */	
+	
+CREATE TABLE rsch_area_stock_class (
+	stock_class_type_id VARCHAR(100) NOT NULL,
+	stock_class_type VARCHAR(500) NULL,
+	stock_class_name VARCHAR(500) NULL,
+	PRIMARY KEY (stock_class_type_id)
+);
+
+CREATE TABLE rsch_area_company_dtls (
+	company_id VARCHAR(100) NOT NULL,
+	company_name VARCHAR(500) NULL,
+	rsch_sub_area_id INT NOT NULL,
+	stock_class_type_id VARCHAR(100) NOT NULL,
+	PRIMARY KEY (company_id)
+);

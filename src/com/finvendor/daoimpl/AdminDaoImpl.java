@@ -36,7 +36,7 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Object[]> getReferenceDataRow(ReferenceData refData, String primaryKeyValue) {
 		logger.debug("Entering : AdminDaoImpl - getReferenceDataRow for {}", refData.getTableName());
 		String sql = "SELECT " + refData.getColumnNames() + " FROM " + refData.getTableName() + getFilterWithPrimaryKey(refData, primaryKeyValue);
-		logger.debug("AdminDaoImpl - getReferenceDataRow : sql - ", sql);
+		logger.info("AdminDaoImpl - getReferenceDataRow : sql - ", sql);
 		SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.list();
@@ -69,7 +69,13 @@ public class AdminDaoImpl implements AdminDao {
 		for(TableColumn column : primKeys) {
 			filter.append(column.getColumnName());
 			filter.append("=");
-			filter.append(filterValues[indexCounter++]);
+			if (column.getColumnType().equals("VARCHAR")) {
+				filter.append("'");
+				filter.append(filterValues[indexCounter++]);
+				filter.append("'");
+			}else {
+				filter.append(filterValues[indexCounter++]);
+			}			
 			if(indexCounter != primKeySize) {
 				filter.append(" and ");
 			}
