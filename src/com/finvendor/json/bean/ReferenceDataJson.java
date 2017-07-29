@@ -5,6 +5,7 @@ public class ReferenceDataJson {
 	private String id;
 	private String name;
 	private String parentId;
+	private String otherAttributes;
 	
 	public String getId() {
 		return id;
@@ -23,6 +24,12 @@ public class ReferenceDataJson {
 	}
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
+	}
+	public String getOtherAttributes() {
+		return otherAttributes;
+	}
+	public void setOtherAttributes(String otherAttributes) {
+		this.otherAttributes = otherAttributes;
 	}
 	
 }

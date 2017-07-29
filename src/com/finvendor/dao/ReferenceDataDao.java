@@ -11,6 +11,8 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.ResearchArea;
+import com.finvendor.model.ResearchAreaCompanyDetails;
+import com.finvendor.model.ResearchAreaStockClassification;
 import com.finvendor.model.ResearchSubArea;
 import com.finvendor.model.SecurityType;
 
@@ -54,6 +56,14 @@ public interface ReferenceDataDao {
 	public List<ResearchSubArea> getAllResearchSubAreaForResearchReportVendorOffering() 
 			throws ApplicationException;
 	public List<ResearchSubArea> getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 
+			throws ApplicationException;
+	public List<ResearchAreaStockClassification> getAllResearchAreaStockClassificationForResearchReportVendorOffering() 
+			throws ApplicationException;
+	public List<ResearchAreaStockClassification> getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId(String stockClassifcationId) 
+			throws ApplicationException;
+	public List<ResearchAreaCompanyDetails> getAllResearchAreaCompanyDetailsForResearchReportVendorOffering() 
+			throws ApplicationException;
+	public List<ResearchAreaCompanyDetails> getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 
 			throws ApplicationException;
 		
 	public List<AnalyticalSolutionType> getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering() 

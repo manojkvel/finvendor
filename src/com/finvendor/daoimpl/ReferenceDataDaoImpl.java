@@ -20,6 +20,8 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.ResearchArea;
+import com.finvendor.model.ResearchAreaCompanyDetails;
+import com.finvendor.model.ResearchAreaStockClassification;
 import com.finvendor.model.ResearchSubArea;
 import com.finvendor.model.SecurityType;
 
@@ -368,6 +370,84 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 				researchAreaId);
 		return researchSubAreas;
 	}
+	
+	@Override
+	public List<ResearchAreaStockClassification> getAllResearchAreaStockClassificationForResearchReportVendorOffering() 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchAreaStockClassificationForResearchReportVendorOffering");		
+		List<ResearchAreaStockClassification> researchAreaStockClassifications = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchAreaStockClassification.class);
+			researchAreaStockClassifications = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading All getAllResearchAreaStockClassificationForResearchReportVendorOffering", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllResearchAreaStockClassificationForResearchReportVendorOffering");
+		return researchAreaStockClassifications;
+	}
+	
+	@Override
+	public List<ResearchAreaStockClassification> getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId(String stockClassifcationId) 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId for : {}", 
+				stockClassifcationId);
+		List<ResearchAreaStockClassification> researchAreaStockClassifications = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchAreaStockClassification.class, "stockClassifcationId");
+			criteria.add(Restrictions.sqlRestriction("{alias}.stock_class_type_id = " + stockClassifcationId ));
+			researchAreaStockClassifications = criteria.list(); 
+		}catch (Exception exp) {
+			logger.error("Error reading Research Sub Area details for Stock Classification Area {}", 
+					stockClassifcationId, exp);
+			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId for : {}", 
+				stockClassifcationId);
+		return researchAreaStockClassifications;
+	}
+	
+	@Override
+	public List<ResearchAreaCompanyDetails> getAllResearchAreaCompanyDetailsForResearchReportVendorOffering() 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchAreaCompanyDetailsForResearchReportVendorOffering");		
+		List<ResearchAreaCompanyDetails> researchAreaCompanyDetails = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchAreaCompanyDetails.class);
+			researchAreaCompanyDetails = criteria.list();
+ 		}catch (Exception exp) {
+ 			logger.error("Error loading All getAllResearchAreaCompanyDetailsForResearchReportVendorOffering", exp);
+ 			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getAllResearchAreaCompanyDetailsForResearchReportVendorOffering");
+		return researchAreaCompanyDetails;
+	}
+	
+	@Override
+	public List<ResearchAreaCompanyDetails> getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 
+			throws ApplicationException {
+		logger.debug("Entering : ReferenceDataDaoImpl - getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId for : {}", 
+				researchAreaId);
+		List<ResearchAreaCompanyDetails> researchAreaCompanyDetails = null;
+		Criteria criteria = null;
+		try{
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchAreaStockClassification.class, "researchArea");
+			criteria.add(Restrictions.sqlRestriction("{alias}.rsch_sub_area_id = " + researchAreaId ));
+			researchAreaCompanyDetails = criteria.list(); 
+		}catch (Exception exp) {
+			logger.error("Error reading Research Sub Area details for Reasearch Area {}", 
+					researchAreaId, exp);
+			throw new ApplicationException("Error fetching reference data details");
+		}
+		logger.debug("Leaving : ReferenceDataDaoImpl - getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId for : {}", 
+				researchAreaId);
+		return researchAreaCompanyDetails;
+	}
+	
+	
 	
 	/* AnalyticalSolutionType (Analytical Application Vendor Offering) */
 	

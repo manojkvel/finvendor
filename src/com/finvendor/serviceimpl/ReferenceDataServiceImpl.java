@@ -19,6 +19,8 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.ResearchArea;
+import com.finvendor.model.ResearchAreaCompanyDetails;
+import com.finvendor.model.ResearchAreaStockClassification;
 import com.finvendor.model.ResearchSubArea;
 import com.finvendor.model.SecurityType;
 import com.finvendor.service.ReferenceDataService;
@@ -218,6 +220,68 @@ public class ReferenceDataServiceImpl
 						refData.setParentId(researchSubArea.getResearchArea().getResearchAreaId().toString());						
 						refDataList.add(refData);
 					}
+					break;
+					
+				case "ResearchAreaStockClassification" :
+					List<ResearchAreaStockClassification> researchAreaStockClassificationList = null;
+					if(parentId == null || parentId.trim().equals("")) {
+						researchAreaStockClassificationList = referenceDataDao.
+								getAllResearchAreaStockClassificationForResearchReportVendorOffering();
+					}else {
+						researchAreaStockClassificationList = referenceDataDao.
+								getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId(parentId);
+					}
+					
+					for(ResearchAreaStockClassification researchAreaStockClassification : researchAreaStockClassificationList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(researchAreaStockClassification.getStockClassificationTypeId().toString());
+						refData.setName(researchAreaStockClassification.getStockClassificationName().toString());
+						refData.setOtherAttributes("stock_classicfication_name=" + researchAreaStockClassification.getStockClassificationName().toString());					
+						refDataList.add(refData);
+					}
+					
+					/*
+					researchAreaStockClassificationList.forEach(e -> {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(e.getStockClassificationTypeId().toString());
+						refData.setName(e.getStockClassificationName().toString());
+						refData.setOtherAttributes("stock_classicfication_name=" + e.getStockClassificationName().toString());
+						refDataList.add(refData);
+					});
+					*/
+					
+					break;
+					
+				case "ResearchAreaCompanyDetails" :
+					List<ResearchAreaCompanyDetails> researchAreaCompanyDetailsList = null;
+					if(parentId == null || parentId.trim().equals("")) {
+						researchAreaCompanyDetailsList = referenceDataDao.
+								getAllResearchAreaCompanyDetailsForResearchReportVendorOffering();
+					}else {
+						researchAreaCompanyDetailsList = referenceDataDao.
+								getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId(parentId);
+					}
+					
+					for(ResearchAreaCompanyDetails researchAreaCompanyDetails : researchAreaCompanyDetailsList) {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(researchAreaCompanyDetails.getCompnayId().toString());
+						refData.setName(researchAreaCompanyDetails.getCompanyName().toString());
+						refData.setParentId(researchAreaCompanyDetails.getResearchSubArea().getResearchSubAreaId().toString());
+						refData.setOtherAttributes("stock_classicfication_type_id=" + researchAreaCompanyDetails.getResearchAreaStockClassification().getStockClassificationTypeId());
+						refDataList.add(refData);
+					}
+					
+					/*
+					researchAreaCompanyDetailsList.forEach(e -> {
+						ReferenceDataJson refData = new ReferenceDataJson();
+						refData.setId(e.getCompnayId().toString());
+						refData.setName(e.getCompanyName().toString());
+						refData.setParentId(e.getResearchSubArea().getResearchSubAreaId().toString());
+						refData.setOtherAttributes("stock_classicfication_type_id=" + e.getResearchAreaStockClassification().getStockClassificationTypeId());
+						refDataList.add(refData);
+					});
+					*/
+					
 					break;
 				
 				default :
