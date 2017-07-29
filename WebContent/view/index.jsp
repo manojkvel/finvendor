@@ -44,7 +44,13 @@
 <!-- This is deep minimized code which works independently. -->
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/jssor_deep_minified.js"></script>
-
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9715733329489506",
+    enable_page_level_ads: true
+  });
+</script>
 </head>
 <body>
 	<c:set var="checkingresultpageview" value="${checkingresultpageview}"></c:set>

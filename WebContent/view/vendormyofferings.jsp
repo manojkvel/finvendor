@@ -778,6 +778,56 @@
 									</li>
 								</ul>
 							</div>
+
+							<div class="research_report_for_info">
+								<h3>Research Report For <span class="fa fa-chevron-up"></span></h3>
+								<div class="summary_details">
+									<table width="100%" border="0" cellpadding="1" cellspacing="0">
+										
+									</table>
+								</div>
+								<ul>
+									<li>
+										<select class="selectpicker" name="vo_rr_report_for" id="vo_rr_report_for">
+											<option value="All">All</option>
+											<option value="Any">Any</option>
+											<option value="ICICI">ICICI</option>
+											<option value="HDFC Bank">HDFC Bank</option>
+											<option value="Yes Bank">Yes Bank</option>
+										</select>
+										<label class="default_select">Research Report For<sup>*</sup></label>
+									</li>
+									<li>
+										<input type="text" id="vo_datepicker" />
+										<label>Report Date <sup>*</sup></label>
+									</li>
+									<li>
+										<input type="number" name="vo_target_price" id="vo_target_price" required />
+										<label>Target Price <sup>*</sup></label>
+									</li>									
+									<li>
+										<select class="selectpicker" name="vo_eqrrv_recommendation_type" id="vo_eqrrv_recommendation_type">
+											<option value="Buy">Buy</option>
+											<option value="Sell">Sell</option>
+											<option value="Accumulate">Accumulate</option>
+											<option value="Overweight">Overweight</option>
+											<option value="Underweight">Underweight</option>
+											<option value="Reduce">Reduce</option>
+											<option value="Neutral">Neutral</option>
+											<option value="Hold">Hold</option>
+										</select>
+										<label class="default_select">Recommendation Type<sup>*</sup></label>
+									</li>
+									<li>
+										<input type="file" name="vo_upload_report" id="vo_upload_report" required />
+										<label class="default_select">Upload Report <sup>*</sup></label>
+									</li>
+								</ul>
+								<p id='research_report_for_info_add_more_btn'>
+									<span class="add-more"><a href="#">Add more</a></span>
+								</p>
+							</div>
+
 							<div class="coverage_info">
 								<h3>Coverage <span class="fa fa-chevron-up"></span></h3>
 								<ul>
@@ -988,7 +1038,160 @@
     		} else if(selected.indexOf("Research Reporting") != -1) {
     			listResearchReportProviderOffering();
     		}
+
     	});
+
+
+
+    	$(document).ready(function() {
+
+
+
+    		var operation = "A"; //"A"=Adding; "E"=Editing
+    		var selected_index = -1; //Index of the selected list item
+
+			window.localStorage.removeItem('researh_report_for_summary_details');
+			var researh_report_for_summary_details  = window.localStorage.removeItem('researh_report_for_summary_details');
+
+			if(researh_report_for_summary_details == null) {
+				researh_report_for_summary_details = [];
+			}
+
+			setTimeout(function() {
+				$('#vo_rr_report_for').selectpicker('val', 'default');
+				$('#vo_eqrrv_recommendation_type').selectpicker('val', 'default');
+			}, 1000);
+
+
+
+			var research_report_for = {
+				add : function() {
+					var vo_rr_report_for = $('#vo_rr_report_for').selectpicker('val');
+					var vo_datepicker = $('#vo_datepicker').val();
+					var vo_target_price = $('#vo_target_price').val();
+					var vo_eqrrv_recommendation_type = $('#vo_eqrrv_recommendation_type').selectpicker('val');
+					var vo_upload_report = $('#vo_upload_report').val();
+
+				/*if(vo_rr_report_for == null || vo_datepicker == '' || vo_target_price == '' || vo_eqrrv_recommendation_type == null || vo_upload_report == '') {
+					return;
+				}*/ 
+
+
+					var researh_report_for_summary_details_json_obj = {
+						'vo_rr_report_for' : vo_rr_report_for,
+						'vo_datepicker' : vo_datepicker,
+						'vo_target_price' : vo_target_price,
+						'vo_eqrrv_recommendation_type' : vo_eqrrv_recommendation_type,
+						'vo_upload_report' : vo_upload_report
+					};
+
+					researh_report_for_summary_details.push(researh_report_for_summary_details_json_obj);
+					window.localStorage.setItem('researh_report_for_summary_details', JSON.stringify(researh_report_for_summary_details));
+
+					research_report_for.list(researh_report_for_summary_details);
+				},
+				edit : function(e) {
+					e.preventDefault();
+					var researh_report_for_summary_details_json_obj = {
+						'vo_rr_report_for' : $('#vo_rr_report_for').selectpicker('val'),
+						'vo_datepicker' : $('#vo_datepicker').val(),
+						'vo_target_price' : $('#vo_target_price').val(),
+						'vo_eqrrv_recommendation_type' : $('#vo_eqrrv_recommendation_type').selectpicker('val'),
+						'vo_upload_report' : $('#vo_upload_report').val()
+					};
+
+					researh_report_for_summary_details[selected_index] = researh_report_for_summary_details_json_obj;
+
+					window.localStorage.setItem('researh_report_for_summary_details', JSON.stringify(researh_report_for_summary_details));
+					console.log("The data was edited.");
+					operation = "A"; //Return to default value return true;
+					research_report_for.list(researh_report_for_summary_details);
+				}, 
+
+				delete : function(e) {
+					e.preventDefault();
+					selected_index = $(this).parents('tr').index();
+					researh_report_for_summary_details.splice(selected_index, 1);
+					window.localStorage.setItem("researh_report_for_summary_details", JSON.stringify(researh_report_for_summary_details));
+					$(this).parents('tr').remove();
+					console.log("Client deleted.");
+					
+					if(researh_report_for_summary_details.length === 0) {
+						$('.summary_details table').html('');
+						$('.research_report_for_info .summary_details').hide();
+					}
+					//research_report_for.list(JSON.parse(window.localStorage.getItem("researh_report_for_summary_details")));
+				},
+
+				list: function(researh_report_for_summary_details) {
+					
+					$('.summary_details table').html('');
+					$('.summary_details table').html(
+						"<thead>" +
+						"<th>Company</th>" +
+						"<th>Date</th>" +
+						"<th>Price</th>" +
+						"<th>Recommendation Type</th>" +
+						"</thead>"
+					);
+					var total = researh_report_for_summary_details.length;
+					var row = '';
+					for(var i = 0; i < total; i++) {
+						 row = row + "<tr>" + 
+						"<td>" +  researh_report_for_summary_details[i].vo_rr_report_for + "</td>" +
+						"<td>" +  researh_report_for_summary_details[i].vo_datepicker + "</td>" +
+						"<td>" +  researh_report_for_summary_details[i].vo_target_price + "</td>" +
+						"<td>" +  researh_report_for_summary_details[i].vo_eqrrv_recommendation_type + "</td>" +
+						"<td><a class='edit_btn' href='#' tabindex='" + i + "'>Edit</a><a class='delete_btn' href='#'>Delete</a></td>" +
+						"</tr>";
+
+					}
+
+					$('.summary_details table').append(row);
+					$('.research_report_for_info .summary_details').show();
+
+
+					$('#vo_rr_report_for').selectpicker('val', 'default');
+					$('#vo_datepicker').val('');
+					$('#vo_target_price').val('');
+					$('#vo_eqrrv_recommendation_type').selectpicker('val', 'default');
+					$('#vo_upload_report').val('');
+
+					$(".edit_btn").bind("click", function(e) {
+						e.preventDefault();
+						operation = 'E';
+						selected_index = $(this).parents('tr').index();
+						var data = researh_report_for_summary_details[selected_index];
+						$('#vo_rr_report_for').selectpicker('val', data.vo_rr_report_for);
+						$('#vo_datepicker').val(data.vo_datepicker);
+						$('#vo_target_price').val(data.vo_target_price);
+						$('#vo_eqrrv_recommendation_type').selectpicker('val', data.vo_eqrrv_recommendation_type);
+						$('#vo_upload_report').val(data.vo_upload_report);
+					});
+					$('.delete_btn').bind("click", research_report_for.delete);
+				}
+			};
+
+			$('#research_report_for_info_add_more_btn a').on('click', function(e) {
+				e.preventDefault();
+				
+				if(operation == 'A') {
+					return research_report_for.add();
+				} else {
+					return research_report_for.edit(e);
+				}
+			});
+
+			
+			//$("table").on("click", research_report_for.edit);
+
+    	});
+    </script>
+
+    <script>
+    	$( function() {
+    		$( "#vo_datepicker" ).datepicker();
+    	} );
     </script>
 </body>
 </html>
