@@ -224,13 +224,8 @@ public class ReferenceDataServiceImpl
 					
 				case "ResearchAreaStockClassification" :
 					List<ResearchAreaStockClassification> researchAreaStockClassificationList = null;
-					if(parentId == null || parentId.trim().equals("")) {
-						researchAreaStockClassificationList = referenceDataDao.
-								getAllResearchAreaStockClassificationForResearchReportVendorOffering();
-					}else {
-						researchAreaStockClassificationList = referenceDataDao.
-								getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId(parentId);
-					}
+					researchAreaStockClassificationList = referenceDataDao.
+							getAllResearchAreaStockClassificationForResearchReportVendorOffering();
 					
 					for(ResearchAreaStockClassification researchAreaStockClassification : researchAreaStockClassificationList) {
 						ReferenceDataJson refData = new ReferenceDataJson();

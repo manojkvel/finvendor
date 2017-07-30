@@ -59,8 +59,6 @@ public interface ReferenceDataDao {
 			throws ApplicationException;
 	public List<ResearchAreaStockClassification> getAllResearchAreaStockClassificationForResearchReportVendorOffering() 
 			throws ApplicationException;
-	public List<ResearchAreaStockClassification> getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId(String stockClassifcationId) 
-			throws ApplicationException;
 	public List<ResearchAreaCompanyDetails> getAllResearchAreaCompanyDetailsForResearchReportVendorOffering() 
 			throws ApplicationException;
 	public List<ResearchAreaCompanyDetails> getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 

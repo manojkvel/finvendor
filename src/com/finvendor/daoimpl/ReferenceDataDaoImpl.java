@@ -389,27 +389,6 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	}
 	
 	@Override
-	public List<ResearchAreaStockClassification> getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId(String stockClassifcationId) 
-			throws ApplicationException {
-		logger.debug("Entering : ReferenceDataDaoImpl - getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId for : {}", 
-				stockClassifcationId);
-		List<ResearchAreaStockClassification> researchAreaStockClassifications = null;
-		Criteria criteria = null;
-		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchAreaStockClassification.class, "stockClassifcationId");
-			criteria.add(Restrictions.sqlRestriction("{alias}.stock_class_type_id = " + stockClassifcationId ));
-			researchAreaStockClassifications = criteria.list(); 
-		}catch (Exception exp) {
-			logger.error("Error reading Research Sub Area details for Stock Classification Area {}", 
-					stockClassifcationId, exp);
-			throw new ApplicationException("Error fetching reference data details");
-		}
-		logger.debug("Leaving : ReferenceDataDaoImpl - getResearchAreaStockClassificationResearchReportVendorOfferingByStockClassificationId for : {}", 
-				stockClassifcationId);
-		return researchAreaStockClassifications;
-	}
-	
-	@Override
 	public List<ResearchAreaCompanyDetails> getAllResearchAreaCompanyDetailsForResearchReportVendorOffering() 
 			throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchAreaCompanyDetailsForResearchReportVendorOffering");		
@@ -434,7 +413,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 		List<ResearchAreaCompanyDetails> researchAreaCompanyDetails = null;
 		Criteria criteria = null;
 		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchAreaStockClassification.class, "researchArea");
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchAreaCompanyDetails.class, "researchArea");
 			criteria.add(Restrictions.sqlRestriction("{alias}.rsch_sub_area_id = " + researchAreaId ));
 			researchAreaCompanyDetails = criteria.list(); 
 		}catch (Exception exp) {
