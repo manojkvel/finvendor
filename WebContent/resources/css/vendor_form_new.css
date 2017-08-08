@@ -975,6 +975,16 @@ textarea:valid ~ label {
 	#user_profile_details .profile_icon img {
 		margin-top: 30px !important;
 	}
+
+	.research_report_for_info .summary_details table th {
+		text-align: center;
+		font-size: 11px;
+	}
+
+	.research_report_for_info .summary_details table td {
+		text-align: center;
+		font-size: 11px;
+	}
 }
 
 
@@ -1403,7 +1413,7 @@ input[type="file"]:focus {
 	margin-bottom: 20px;
 	display: inline-block;
 	color: #fff;
-	background: #0072b9;
+	background: #414b4f;
 }
 
 #research_report_for_info_add_more_btn .add-more a:hover {
@@ -1417,4 +1427,37 @@ input[type="file"]:focus {
 
 .research_report_for_info .summary_details table th {
 	padding-bottom: 10px;
+	overflow: hidden;
 }
+
+.research_report_for_info .summary_details table td {
+	line-height: 24px;
+	overflow: hidden;
+}
+
+.research_report_for_info a {
+	color: #34bf98;
+}
+
+.research_report_for_info .summary_details table td:last-child {
+	text-align: right;
+}
+
+.research_report_for_info .summary_details .fa {
+	font-size: 20px;
+}
+
+.research_report_for_info .edit_btn {
+	font-size: 18px;
+	margin-right: 20px;
+}
+
+.research_report_for_info .delete_btn {
+	font-size: 20px;
+	position: relative;
+	top: -1px;
+	margin-left: 20px;
+}
+
+
+
