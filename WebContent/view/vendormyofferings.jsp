@@ -1049,5 +1049,6 @@
     		$( "#vo_datepicker" ).datepicker();
     	} );
     </script>
+    <script src="<%=request.getContextPath() %>/resources/js/research_report_for_vendor.js"></script>
 </body>
 </html>
