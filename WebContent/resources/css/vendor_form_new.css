@@ -1309,46 +1309,6 @@ textarea:valid ~ label {
 
 
 
-#fv_equity_research_report_vendor {
-	background: #fff;
-	padding: 10px;
-	overflow: hidden;
-	min-height: 400px;
-}
-
-#fv_equity_research_report_vendor .custom_form div {
-	clear: both;
-	width: 100%;
-}
-
-#fv_equity_research_report_vendor .custom_form ul {
-	float: left;
-	width: 100%;
-	overflow: inherit;
-}
-
-
-#fv_equity_research_report_vendor .custom_form ul > li {
-	width: 47.5%;
-	margin-right: 1.8%;
-}
-
-.custom_form .bootstrap-select {
-	padding: 0;
-	margin-top: 20px;
-}
-
-#fv_equity_research_report_vendor .custom_form .bootstrap-select ul li {
-	width: 100%;
-	margin-right: 0;
-	margin-bottom: 0;
-}
-
-#fv_equity_research_report_vendor .custom_form .bs-searchbox input {
-	padding: 0;
-	height: 20px;
-}
-
 
 
 @media only screen and (max-width: 360px) {
@@ -1461,3 +1421,135 @@ input[type="file"]:focus {
 
 
 
+#fv_equity_research_report_vendor {
+	background: #fff;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+#fv_equity_research_report_vendor .custom_form div {
+	clear: both;
+	width: 100%;
+}
+
+#fv_equity_research_report_vendor .custom_form ul {
+	float: left;
+	width: 100%;
+	overflow: inherit;
+}
+
+
+#fv_equity_research_report_vendor .custom_form ul > li {
+	width: 47.5%;
+	margin-right: 1.8%;
+}
+
+.custom_form .bootstrap-select {
+	padding: 0;
+	margin-top: 20px;
+}
+
+#fv_equity_research_report_vendor .custom_form .bootstrap-select ul li {
+	width: 100%;
+	margin-right: 0;
+	margin-bottom: 0;
+}
+
+#fv_equity_research_report_vendor .custom_form .bs-searchbox input {
+	padding: 0;
+	height: 20px;
+}
+
+#fv_equity_research_report_vendor .header {
+	padding: 0;
+}
+
+
+#fv_equity_research_report_vendor .header h3 {
+	position: relative;
+	cursor: pointer;
+	background: #34bf98;
+    color: #fff;
+    padding: 10px 10px;
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+#fv_equity_research_report_vendor .header h3 span {
+	float: right;
+	font-size: 12px;
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+#fv_equity_research_report_vendor .header p {
+	font-size: 20px;
+	text-align: center;
+	display: none;
+}
+
+#fv_equity_research_report_vendor .body {
+	padding: 10px;
+	min-height: 400px;
+}
+
+#fv_equity_research_report_vendor .body .nav-tabs {
+	font-size: 13px;
+}
+
+#fv_equity_research_report_vendor_search {
+	background: #fff;
+	padding: 0;
+	overflow: hidden;
+	min-height: 400px;
+	margin-bottom: 10px;
+	display: none;
+}
+
+
+#fv_equity_research_report_vendor_search #broker_table {
+	min-height: 200px;
+	margin-bottom: 20px;
+}
+
+#fv_equity_research_report_vendor_search #broker_table > thead > tr > th {
+    min-height: 40px;
+    height: 40px;
+    font-weight: 500;
+    background-color: #34bf98;
+    color: #FFFFFF;
+    border: 1px solid #eceeef;
+    border-bottom: 2px solid #eceeef;
+}
+
+#fv_equity_research_report_vendor_search #broker_table td, 
+#fv_equity_research_report_vendor_search #broker_table th {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    vertical-align: middle;
+    font-size: 13px;
+    padding: 10px;
+    text-align: center;
+}
+
+
+
+#fv_equity_research_report_vendor_search #broker_table tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+#fv_equity_research_report_vendor_search #broker_table i.fa {
+	font-size: 22px;
+}
+
+#fv_equity_research_report_vendor_search #broker_table i.fa.fa-file-pdf-o {
+	color: #ff0000;
+}
+
+#fv_equity_research_report_vendor_search #broker_table td a:last-child {
+	margin-left:20px;
+}
