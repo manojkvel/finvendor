@@ -371,10 +371,16 @@ function getResearchSubAreaMapping(rcResearchAreaSelector, rcResearchSubAreaSele
     $("select[name=" + rcResearchSubAreaSelector + "]").append($option);	
     $("select[name=" + rcResearchSubAreaSelector + "]").selectpicker('refresh');
 
-    if(getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("equity research") || getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("debt market research") || getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("index/fund/etf research")) {
+    if(getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("debt market research") || getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("index/fund/etf research")) {
     	$("#stocksFundsIssuesCovered").val("");
     	$("#stocksFundsIssuesCovered_parent").show();
     } else {
     	$("#stocksFundsIssuesCovered_parent").hide();
+    }
+
+    if(getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("equity research")) {
+    	$("#research_report_for_info").show();
+    } else {
+    	$("#research_report_for_info").hide();
     }
 }

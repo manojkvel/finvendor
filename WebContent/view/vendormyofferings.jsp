@@ -707,6 +707,7 @@
 										</select>
 										<label class="default_select">Research Area</label>
 									</li>
+
 									<li>
 										<select class="selectpicker select_multiple" id="rcResearchSubArea" name="rcResearchSubArea" multiple="multiple">
 											<option value ="Economic Data analysis" >Economic Data analysis</option>
@@ -770,7 +771,30 @@
 											<option value ="High Yield Spread" >High Yield Spread</option>
 											<option value ="LIBOR Rate" >LIBOR Rate</option>
 										</select>
-										<label class="default_select">Research Sub Area <sup>*</sup></label>
+										<label class="default_select">Research Sub Area</label>
+									</li>
+									<li>
+										<select class="selectpicker select_multiple" name="rdSuitability"  multiple="multiple" id="rdSuitability">
+											<option value ="All Users" >All Users</option>
+											<option value ="Equity Fund Manager" >Equity Fund Manager</option>
+											<option value ="Fixed Income Fund Manager" >Fixed Income Fund Manager</option>
+											<option value ="Hedge Fund" >Hedge Fund</option>
+											<option value ="Private Equity Fund" >Private Equity Fund</option>
+											<option value ="Advanced shares traders" >Advanced shares traders</option>
+											<option value ="Corporate Creditors (Banks, Lending Institutions, etc)" >Corporate Creditors (Banks, Lending Institutions, etc)</option>
+											<option value ="Technical chart users" >Technical chart users</option>
+											<option value ="Forex specialists" >Forex specialists</option>
+											<option value ="Others" >Others</option> 
+										</select>
+										<label class="default_select">Suitability</label>
+									</li>									
+									<li>
+										<input type="number" name="rdSubsriptionCostUSDpermonth" id="rdSubsriptionCostUSDpermonth" readonly required />
+										<label>Subscription cost (USD per month)</label>
+									</li>
+									<li>
+										<input type="number" name="rdSubsriptionCostUSDperannum" id="rdSubsriptionCostUSDperannum" readonly required />
+										<label>Subscription cost (USD per annum)</label>
 									</li>
 									<li id="stocksFundsIssuesCovered_parent" style="display: none;">
 										<input type="number" name="stocksFundsIssuesCovered" id="stocksFundsIssuesCovered" required />
@@ -779,7 +803,7 @@
 								</ul>
 							</div>
 
-							<div class="research_report_for_info">
+							<div id="research_report_for_info" class="research_report_for_info" style="display: none;">
 								<h3>Research Report For <span class="fa fa-chevron-up"></span></h3>
 								<div class="detail_container">
 									<div class="summary_details">
@@ -808,20 +832,42 @@
 										</li>									
 										<li>
 											<select class="selectpicker" name="vo_eqrrv_recommendation_type" id="vo_eqrrv_recommendation_type">
-												<option value="Buy">Buy</option>
-												<option value="Sell">Sell</option>
-												<option value="Accumulate">Accumulate</option>
-												<option value="Overweight">Overweight</option>
-												<option value="Underweight">Underweight</option>
-												<option value="Reduce">Reduce</option>
-												<option value="Neutral">Neutral</option>
-												<option value="Hold">Hold</option>
+												<option value="buy">Buy</option>
+												<option value="sell">Sell</option>
+												<option value="accumulate">Accumulate</option>
+												<option value="overweight">Overweight</option>
+												<option value="underweight">Underweight</option>
+												<option value="reduce">Reduce</option>
+												<option value="neutral">Neutral</option>
+												<option value="hold">Hold</option>
+												<option value="target_hiy">Target Hit</option>
+												<option value="bullish">Bullish</option>
+												<option value="bearish">Bearish</option>
 											</select>
 											<label class="default_select">Recommendation Type<sup>*</sup></label>
 										</li>
 										<li>
+											<input type="text" name="vo_eqrrv_report_desc" id="vo_eqrrv_report_desc" maxlength="500" required />
+											<label>Report Desc.</label>
+										</li>
+										<li>
+											<input type="text" name="rdAnalystName" id="rdAnalystName" required />
+											<label>Analyst Name</label>
+										</li>								
+										<li>
+											<select class="selectpicker" name="vo_eqrrv_report_access" id="vo_eqrrv_report_access">
+												<option value="buy">Free</option>
+												<option value="sell">Paid</option>
+											</select>
+											<label class="default_select">Report Access</label>
+										</li>
+										<li>
 											<input type="file" name="vo_upload_report" id="vo_upload_report" required />
 											<label class="default_select">Upload Report</label>
+										</li>
+										<li style="clear:left;">
+											<input type="checkbox" name="rdResearchAnalystWithCFA" id="rdResearchAnalystWithCFA" />
+											<label class="default_checkbox">Research Analyst with CFA Charter?</label>
 										</li>
 									</ul>
 									<p id='research_report_for_info_add_more_btn'>
@@ -860,7 +906,7 @@
 								</ul>
 							</div>
 
-							<div class="research_details">
+							<!--<div class="research_details">
 								<h3>Research Details <span class="fa fa-chevron-up"></span></h3>
 								<ul>
 									<li>
@@ -946,8 +992,8 @@
 										<label class="default_select">Research Period - Year <sup>*</sup></label>
 									</li>
 								</ul>
-							</div>
-							<div class="analyst_profile_info">
+							</div>-->
+							<!--<div class="analyst_profile_info">
 								<h3>Analyst Profile <span class="fa fa-chevron-up"></span></h3>
 								<ul>
 									<li>
@@ -998,7 +1044,7 @@
 										<label class="default_checkbox">Research Analyst with CFA Charter?</label>
 									</li>
 								</ul>
-							</div>
+							</div>-->
 							<p class="action_btn">
 								<a class="submit_btn save" data-toggle="tab">Save</a>
 								<a class="submit_btn next" data-toggle="tab">RESET</a>

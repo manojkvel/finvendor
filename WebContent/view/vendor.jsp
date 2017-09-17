@@ -155,6 +155,15 @@
 																<input type="text" name="companyinfo" id="personalvencompanyinfo" value="${vendor.companyInfo}" required />
 																<label>Company Information</label>
 															</li>
+															<li>
+																<select class="selectpicker show-tick" name="personal_analyst_type" id="personal_analyst_type">
+																	<option value="">Nothing Selected</option>
+																	<option value="brokers">Brokers</option>
+																	<option value="independent">Independent</option>
+																	<option value="others">Others</option>
+																</select>
+																<label class="default_select">Analyst Type</label>
+															</li>
 														</ul>
 														<ul>
 															<li>

@@ -1790,12 +1790,12 @@ jQuery(document).ready(function() {
 			//return false;
 		}
 
-		if(rcResearchSubArea != null) {
+		/*if(rcResearchSubArea != null) {
 			$("#research_application #rcResearchSubArea").parent().find("button").removeClass("error_field");
 		} else {
 			$("#research_application #rcResearchSubArea").parent().find("button").addClass("error_field");
 			//return false;
-		}
+		}*/
 
 		if(window.localStorage.researh_report_for_summary_details == undefined || JSON.parse(window.localStorage.researh_report_for_summary_details).length == 0) {
 			if(vo_rr_report_for != null) {
@@ -1843,35 +1843,6 @@ jQuery(document).ready(function() {
 			//return false;
 		}
 
-		if(accessibility != null) {
-			$("#research_application #rdAccessibility").parent().find("button").removeClass("error_field");
-		} else {
-			$("#research_application #rdAccessibility").parent().find("button").addClass("error_field");
-			//return false;
-		}
-
-		if(reportCostType != null) {
-			$("#research_application #rdReportCostType").parent().find("button").removeClass("error_field");
-		} else {
-			$("#research_application #rdReportCostType").parent().find("button").addClass("error_field");
-			//return false;
-		}
-
-
-		if(reportFormat != null) {
-			$("#research_application #rdReportFormat").parent().find("button").removeClass("error_field");
-		} else {
-			$("#research_application #rdReportFormat").parent().find("button").addClass("error_field");
-			//return false;
-		}
-
-		if(researchPeriodYear != null) {
-			$("#research_application #rdResearchApplicableYear").parent().find("button").removeClass("error_field");
-		} else {
-			$("#research_application #rdResearchApplicableYear").parent().find("button").addClass("error_field");
-			//return false;
-		}
-
 		if(analystCfaCharter) {
 			analystCfaCharter = 'Y';
 		} else {
@@ -1880,9 +1851,7 @@ jQuery(document).ready(function() {
 
 
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
-			rcResearchArea != null && rcResearchSubArea != null &&
-			accessibility != null && reportCostType != '' &&
-			reportFormat != null && researchPeriodYear != null){
+			rcResearchArea != null){
 
 			var data = {
 				"productId" : productId,
@@ -1896,19 +1865,10 @@ jQuery(document).ready(function() {
 				"countriesCovered" : (countriesCovered != null) ? ',' + countriesCovered + ',' : '',
 				"totalResearchAnalyst" : (totalResearchAnalyst != '') ? totalResearchAnalyst : '0',
 				"existingClientBase" : (existingClientBase != '') ? existingClientBase : '0',
-				"accessibility" : accessibility,
 				"suitability" : (suitability != null) ? ',' + suitability + ',' : '',
-				"reportCostType" : reportCostType,
 				"costPerMonth" : (costPerMonth != '') ? costPerMonth : '0.0',
 				"costPerAnnum" : (costPerAnnum != '') ? costPerAnnum : '0.0',
-				"reportFormat" : (reportFormat != null) ? ',' + reportFormat + ',' : '',
-				"researchPeriodMonth" : researchPeriodMonth,
-				"researchPeriodYear" : researchPeriodYear,
 				"analystName" : analystName,
-				"analystRegion" : analystRegion,
-				"analystCountry" : analystCountry,
-				"anaystYearOfExperience" : anaystYearOfExperience,
-				"analystAwards" : analystAwards,
 				"analystCfaCharter" : analystCfaCharter
 			}
 
@@ -3284,6 +3244,9 @@ function updateVendorPersonalInfo(){
 	var personalvencompany = $("#personalvencompany").val();
 	var personalvencompanyurl = $("#personalvencompanyurl").val();
 	var personalvencompanyinfo = $("#personalvencompanyinfo").val();
+
+	var personalvenAnalystType = $("#personal_analyst_type").val();
+
 	var personalvenprimemail = $("#personalvenprimemail").val();
 	var personalvensecemail = $("#personalvensecemail").val();
 	var personalvenphonenumbercode = $("#personalvenphonenumbercode").val();
@@ -3332,6 +3295,12 @@ function updateVendorPersonalInfo(){
 		$("#personal_details #personalvencompanyinfo").addClass("error_field");
 	}
 
+	if(personalvenAnalystType != '') {
+		$("#personal_details #personal_analyst_type").parent().find("button").removeClass("error_field");
+	} else {
+		$("#personal_details #personal_analyst_type").parent().find("button").addClass("error_field");
+	}
+
 	if(personalvenprimemail != '') {
 		$("#personal_details #personalvenprimemail").removeClass("error_field");
 	} else {
@@ -3355,10 +3324,11 @@ function updateVendorPersonalInfo(){
 			personalvencompany != null && personalvencompany.length > 0 &&
 			personalvencompanyurl != null && personalvencompanyurl.length > 0 && 
 			personalvencompanyinfo != null && personalvencompanyinfo.length > 0 &&
+			personalvenAnalystType != '' &&
 			personalvenprimemail != null && personalvenprimemail.length >0 &&
 			personalvenphonenumber != null && personalvenphonenumber.length >= 10){
 		var url = "updateVendorPersonalTabInfo?venFirstname="+personalvenfirstname+"&venLastname="+personalvenlastname+"&venDesignation="+personalvendesignation
-			                                            +"&venCompany="+personalvencompany+"&venCompanyUrl="+personalvencompanyurl+"&venCompanyInfo="+personalvencompanyinfo
+			                                            +"&venCompany="+personalvencompany+"&venCompanyUrl="+personalvencompanyurl+"&venCompanyInfo="+personalvencompanyinfo+"&venAnalystType="+personalvenAnalystType
 			                                            +"&venPrimEmail="+personalvenprimemail+"&venSecEmail="+personalvensecemail+"&venPhoneNum="+personalvenphonenumbercode + "-" + personalvenphonenumber
 			                                            +"&venRegionOfIncorp="+personalvenregionofincorp+"&venCountryOfIncorp="+personalvencountryofincorp+"&venCompanyLogo="+personalvencompanylogo
 			                                            +"&support="+support+"&weekend="+weekend+"&publicHolidays="+publicHolidays;
