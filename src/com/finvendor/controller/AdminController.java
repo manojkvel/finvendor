@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
@@ -175,6 +176,9 @@ public class AdminController {
 		while(tokenizer.hasMoreTokens()) {
 			String columnName = tokenizer.nextToken();
 			String paramValue = request.getParameter(columnName);
+			if("id".equals(columnName) && (paramValue == null || paramValue.trim().equals(""))) {
+				paramValue = UUID.randomUUID().toString();
+			}
 			params.add(paramValue);
 			columnName = columnName + "_check";
 			paramValue = request.getParameter(columnName);

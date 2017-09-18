@@ -11,13 +11,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="rsch_area_company_dtls")
-public class ResearchAreaCompanyDetails implements Serializable {
+@Table(name="rsch_sub_area_company_dtls")
+public class ResearchSubAreaCompanyDetails implements Serializable {
 
 	private static final long serialVersionUID = -3751449132568377457L;
 	
 	@Id
-    @Column(name="company_id")
+    @Column(name="id")
+	private String id;
+	
+	@Column(name="company_id")
 	private String compnayId;
 	
 	@Column(name="company_name")
@@ -30,6 +33,15 @@ public class ResearchAreaCompanyDetails implements Serializable {
 	@ManyToOne(targetEntity=ResearchAreaStockClassification.class, fetch=FetchType.EAGER)
 	@JoinColumn(name="stock_class_type_id", nullable=false)
 	private ResearchAreaStockClassification researchAreaStockClassification;
+	
+	@Column(name="isin_code")
+	private String isinCode;
+	
+	@Column(name="ticker")
+	private String ticker;
+	
+	@Column(name="exchg_code")
+	private String exchgCode;
 
 	public String getCompnayId() {
 		return compnayId;
