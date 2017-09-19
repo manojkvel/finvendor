@@ -90,7 +90,7 @@ $(document).ready(function(){
 			research_report_for.list(researh_report_for_summary_details);
 		}, 
 
-		delete : function(e) {
+		_delete : function(e) {
 			e.preventDefault();
 			selected_index = $(this).parents('tr').index();
 			researh_report_for_summary_details.splice(selected_index, 1);
@@ -140,7 +140,7 @@ $(document).ready(function(){
 			$('#vo_eqrrv_recommendation_type').selectpicker('val', 'default');
 			$('#vo_upload_report').val('');
 			$('#vo_eqrrv_report_desc').val('');
-			$('#vo_eqrrv_report_access').selectpicker('val', 'default');
+			$('#vo_eqrrv_report_access').selectpicker('val');
 			$('#vo_analystName').val('');
 			$('#vo_analystCfaCharter').attr("checked", false);
 
@@ -160,7 +160,7 @@ $(document).ready(function(){
 				$('#vo_analystCfaCharter').attr("checked", (data.vo_analystCfaCharter == 'Y') ? true : false);
 			});
 
-			$('.delete_btn').bind("click", research_report_for.delete);
+			$('.delete_btn').bind("click", research_report_for._delete);
 		}
 	};
 
