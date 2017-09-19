@@ -1736,7 +1736,7 @@ jQuery(document).ready(function() {
 		var vo_datepicker = $("#research_application #vo_datepicker").val();
 		var vo_target_price = $("#research_application #vo_target_price").val();
 		var vo_eqrrv_recommendation_type = $("#research_application #vo_eqrrv_recommendation_type").selectpicker('val');
-		var vo_analystName = $("#research_application #rdAnalystName").val().trim();
+		
 
 		
 		if(productName != '') {
