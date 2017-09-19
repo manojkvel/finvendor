@@ -19,7 +19,7 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.ResearchArea;
-import com.finvendor.model.ResearchAreaCompanyDetails;
+import com.finvendor.model.ResearchSubAreaCompanyDetails;
 import com.finvendor.model.ResearchAreaStockClassification;
 import com.finvendor.model.ResearchSubArea;
 import com.finvendor.model.SecurityType;
@@ -248,7 +248,7 @@ public class ReferenceDataServiceImpl
 					break;
 					
 				case "ResearchAreaCompanyDetails" :
-					List<ResearchAreaCompanyDetails> researchAreaCompanyDetailsList = null;
+					List<ResearchSubAreaCompanyDetails> researchAreaCompanyDetailsList = null;
 					if(parentId == null || parentId.trim().equals("")) {
 						researchAreaCompanyDetailsList = referenceDataDao.
 								getAllResearchAreaCompanyDetailsForResearchReportVendorOffering();
@@ -257,7 +257,7 @@ public class ReferenceDataServiceImpl
 								getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId(parentId);
 					}
 					
-					for(ResearchAreaCompanyDetails researchAreaCompanyDetails : researchAreaCompanyDetailsList) {
+					for(ResearchSubAreaCompanyDetails researchAreaCompanyDetails : researchAreaCompanyDetailsList) {
 						ReferenceDataJson refData = new ReferenceDataJson();
 						refData.setId(researchAreaCompanyDetails.getCompnayId().toString());
 						refData.setName(researchAreaCompanyDetails.getCompanyName().toString());

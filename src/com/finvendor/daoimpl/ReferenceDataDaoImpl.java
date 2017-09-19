@@ -20,7 +20,7 @@ import com.finvendor.model.Country;
 import com.finvendor.model.Exchange;
 import com.finvendor.model.Region;
 import com.finvendor.model.ResearchArea;
-import com.finvendor.model.ResearchAreaCompanyDetails;
+import com.finvendor.model.ResearchSubAreaCompanyDetails;
 import com.finvendor.model.ResearchAreaStockClassification;
 import com.finvendor.model.ResearchSubArea;
 import com.finvendor.model.SecurityType;
@@ -389,13 +389,13 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	}
 	
 	@Override
-	public List<ResearchAreaCompanyDetails> getAllResearchAreaCompanyDetailsForResearchReportVendorOffering() 
+	public List<ResearchSubAreaCompanyDetails> getAllResearchAreaCompanyDetailsForResearchReportVendorOffering() 
 			throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchAreaCompanyDetailsForResearchReportVendorOffering");		
-		List<ResearchAreaCompanyDetails> researchAreaCompanyDetails = null;
+		List<ResearchSubAreaCompanyDetails> researchAreaCompanyDetails = null;
 		Criteria criteria = null;
 		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchAreaCompanyDetails.class);
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchSubAreaCompanyDetails.class);
 			researchAreaCompanyDetails = criteria.list();
  		}catch (Exception exp) {
  			logger.error("Error loading All getAllResearchAreaCompanyDetailsForResearchReportVendorOffering", exp);
@@ -406,14 +406,14 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 	}
 	
 	@Override
-	public List<ResearchAreaCompanyDetails> getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 
+	public List<ResearchSubAreaCompanyDetails> getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId(String researchAreaId) 
 			throws ApplicationException {
 		logger.debug("Entering : ReferenceDataDaoImpl - getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId for : {}", 
 				researchAreaId);
-		List<ResearchAreaCompanyDetails> researchAreaCompanyDetails = null;
+		List<ResearchSubAreaCompanyDetails> researchAreaCompanyDetails = null;
 		Criteria criteria = null;
 		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchAreaCompanyDetails.class, "researchArea");
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(ResearchSubAreaCompanyDetails.class, "researchArea");
 			criteria.add(Restrictions.sqlRestriction("{alias}.rsch_sub_area_id = " + researchAreaId ));
 			researchAreaCompanyDetails = criteria.list(); 
 		}catch (Exception exp) {
