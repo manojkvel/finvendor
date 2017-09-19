@@ -1509,6 +1509,7 @@ jQuery(document).ready(function() {
 	});
 
 	getResearchAreaMapping('rcResearchArea');
+	getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
 
 	$("select[name=rcResearchArea]").on('change', function() {
 		getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');

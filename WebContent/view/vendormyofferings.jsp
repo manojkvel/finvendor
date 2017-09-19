@@ -766,7 +766,7 @@
 												<option value="reduce">Reduce</option>
 												<option value="neutral">Neutral</option>
 												<option value="hold">Hold</option>
-												<option value="target_hiy">Target Hit</option>
+												<option value="target_hit">Target Hit</option>
 												<option value="bullish">Bullish</option>
 												<option value="bearish">Bearish</option>
 											</select>
