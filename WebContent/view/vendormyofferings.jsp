@@ -697,79 +697,12 @@
 									</li>
 									<li>
 										<select class="selectpicker show-tick" id="rcResearchArea" name="rcResearchArea">
-											<option value ="Commodity Analysis" >Commodity Analysis</option>
-											<option value ="Exchange Rate Analysis" >Exchange Rate Analysis</option>
-											<option value ="Interest Rate Analysis" >Interest Rate Analysis</option>
-											<option value ="Equity research" >Equity research</option>
-											<option value ="Debt Market research" >Debt Market research</option>
-											<option value ="Index research" >Index research</option>
-											<option value ="Fund/ETF research" >Fund/ETF research</option>
 										</select>
 										<label class="default_select">Research Area</label>
 									</li>
 
 									<li>
 										<select class="selectpicker select_multiple" id="rcResearchSubArea" name="rcResearchSubArea" multiple="multiple">
-											<option value ="Economic Data analysis" >Economic Data analysis</option>
-											<option value ="Country Economy Analysis" >Country Economy Analysis</option>
-											<option value ="World economy Analysis" >World economy Analysis</option>
-											<option value ="Oil & Gas" >Oil & Gas</option>
-											<option value ="Basic Materials" >Basic Materials</option>
-											<option value ="Industrials" >Industrials</option>
-											<option value ="Consumer Goods" >Consumer Goods</option>
-											<option value ="Health Care" >Health Care</option>
-											<option value ="Consumer Services" >Consumer Services</option>
-											<option value ="Telecommunications" >Telecommunications</option>
-											<option value ="Utilities" >Utilities</option>
-											<option value ="Financials" >Financials</option>
-											<option value ="Technology" >Technology</option>
-											<option value ="Agriculture and allied" >Agriculture and allied</option> 
-											<option value ="Mining" >Mining</option>
-											<option value ="Utilities" >Utilities</option>
-											<option value ="Construction" >Construction</option>
-											<option value ="Manufacturing" >Manufacturing</option>
-											<option value ="Wholesale Trade" >Wholesale Trade</option>
-											<option value ="Retail Trade" >Retail Trade</option>
-											<option value ="Transportation and warehousing" >Transportation and warehousing</option>
-											<option value ="Information" >Information</option>
-											<option value ="Finance and Insurance" >Finance and Insurance</option>
-											<option value ="Real Estate and Rental/Leasing" >Real Estate and Rental/Leasing</option>
-											<option value ="Professional, Scientific & Technical Services" >Professional, Scientific & Technical Services</option>
-											<option value ="Education Services" >Education Services</option>
-											<option value ="Healthcare & Social Assistance" >Healthcare & Social Assistance</option>
-											<option value ="Arts, Entertainment & Recreation" >Arts, Entertainment & Recreation</option>
-											<option value ="Accomodation & Food services" >Accomodation & Food services</option>
-											<option value ="Other Services" >Other Services</option>
-											<option value ="Energy" >Energy</option>
-											<option value ="Industrial Metals" >Industrial Metals</option>
-											<option value ="Precious Metals" >Precious Metals</option>
-											<option value ="Agricultural Commodities" >Agricultural Commodities</option>
-											<option value ="European Euro to US Dollar EUR/USD" >European Euro to US Dollar EUR/USD</option>
-											<option value ="British Pound to US Dollar GBP/USD" >British Pound to US Dollar GBP/USD</option>
-											<option value ="Swiss Franc to US Dollar USD/CHF" >Swiss Franc to US Dollar USD/CHF</option>
-											<option value ="Japanese Yen to US Dollar USD/JPY" >Japanese Yen to US Dollar USD/JPY</option>
-											<option value ="Chinese Yuan to US Dollar USD/CNY" >Chinese Yuan to US Dollar USD/CNY</option>
-											<option value ="Taiwan Dollar to US Dollar USD/TWD" >Taiwan Dollar to US Dollar USD/TWD</option>
-											<option value ="South Korean Won to US Dollar USD/KRW" >South Korean Won to US Dollar USD/KRW</option>
-											<option value ="Australian Dollar to US Dollar AUD/USD" >Australian Dollar to US Dollar AUD/USD</option>
-											<option value ="Singapore Dollar to US Dollar USD/SGD" >Singapore Dollar to US Dollar USD/SGD</option>
-											<option value ="India Rupee to US Dollar USD/INR" >India Rupee to US Dollar USD/INR</option>
-											<option value ="New Zealand Dollar to US Dollar NZD/USD" >New Zealand Dollar to US Dollar NZD/USD</option>
-											<option value ="Canadian Dollar to US Dollar USD/CAD" >Canadian Dollar to US Dollar USD/CAD</option>
-											<option value ="Mexican Peso to US Dollar USD/MXN" >Mexican Peso to US Dollar USD/MXN</option>
-											<option value ="Govt Bond rate" >Govt Bond rate</option>
-											<option value ="Prime Lending Rate" >Prime Lending Rate</option>
-											<option value ="Investment Grade Spread" >Investment Grade Spread</option>
-											<option value ="High Yield Spread" >High Yield Spread</option>
-											<option value ="Govt Bond rate" >Govt Bond rate</option>
-											<option value ="Prime Lending Rate" >Prime Lending Rate</option>
-											<option value ="Investment Grade Spread" >Investment Grade Spread</option>
-											<option value ="High Yield Spread" >High Yield Spread</option>
-											<option value ="Govt Bond rate" >Govt Bond rate</option>
-											<option value ="Prime Lending Rate" >Prime Lending Rate</option>
-											<option value ="Investment Grade Spread" >Investment Grade Spread</option>
-											<option value ="High Yield Spread" >High Yield Spread</option>
-											<option value ="LIBOR Rate" >LIBOR Rate</option>
 										</select>
 										<label class="default_select">Research Sub Area</label>
 									</li>
@@ -789,21 +722,13 @@
 										<label class="default_select">Suitability</label>
 									</li>									
 									<li>
-										<input type="number" name="rdSubsriptionCostUSDpermonth" id="rdSubsriptionCostUSDpermonth" readonly required />
-										<label>Subscription cost (USD per month)</label>
-									</li>
-									<li>
-										<input type="number" name="rdSubsriptionCostUSDperannum" id="rdSubsriptionCostUSDperannum" readonly required />
-										<label>Subscription cost (USD per annum)</label>
-									</li>
-									<li id="stocksFundsIssuesCovered_parent" style="display: none;">
-										<input type="number" name="stocksFundsIssuesCovered" id="stocksFundsIssuesCovered" required />
-										<label>No. of Stocks/ETFs/Funds/Issuers Supported</label>
+										<input type="number" name="rdSubsriptionCostUSDperannum" id="rdSubsriptionCostUSDperannum"  required />
+										<label>Subscription cost per Annum</label>
 									</li>
 								</ul>
 							</div>
 
-							<div id="research_report_for_info" class="research_report_for_info" style="display: none;">
+							<div id="research_report_for_info" class="research_report_for_info">
 								<h3>Research Report For <span class="fa fa-chevron-up"></span></h3>
 								<div class="detail_container">
 									<div class="summary_details">
@@ -823,15 +748,16 @@
 											<label class="default_select">Research Report For<sup>*</sup></label>
 										</li>
 										<li>
-											<input type="text" id="vo_datepicker" />
+											<input type="text" id="vo_datepicker" name="vo_datepicker" required />
 											<label>Report Date <sup>*</sup></label>
 										</li>
-										<li>
+										<li style="display:none;">
 											<input type="number" name="vo_target_price" id="vo_target_price" required />
 											<label>Target Price <sup>*</sup></label>
 										</li>									
 										<li>
 											<select class="selectpicker" name="vo_eqrrv_recommendation_type" id="vo_eqrrv_recommendation_type">
+												<option value="none">None</option>
 												<option value="buy">Buy</option>
 												<option value="sell">Sell</option>
 												<option value="accumulate">Accumulate</option>
@@ -849,10 +775,6 @@
 										<li>
 											<input type="text" name="vo_eqrrv_report_desc" id="vo_eqrrv_report_desc" maxlength="500" required />
 											<label>Report Desc.</label>
-										</li>
-										<li>
-											<input type="text" name="rdAnalystName" id="rdAnalystName" required />
-											<label>Analyst Name</label>
 										</li>								
 										<li>
 											<select class="selectpicker" name="vo_eqrrv_report_access" id="vo_eqrrv_report_access">
@@ -862,11 +784,15 @@
 											<label class="default_select">Report Access</label>
 										</li>
 										<li>
+											<input type="text" name="vo_analystName" id="vo_analystName" required />
+											<label>Analyst Name</label>
+										</li>
+										<li>
 											<input type="file" name="vo_upload_report" id="vo_upload_report" required />
 											<label class="default_select">Upload Report</label>
 										</li>
-										<li style="clear:left;">
-											<input type="checkbox" name="rdResearchAnalystWithCFA" id="rdResearchAnalystWithCFA" />
+										<li style='margin-top: 22px;'>
+											<input type="checkbox" name="vo_analystCfaCharter" id="vo_analystCfaCharter" />
 											<label class="default_checkbox">Research Analyst with CFA Charter?</label>
 										</li>
 									</ul>
@@ -875,176 +801,6 @@
 									</p>
 								</div>
 							</div>
-
-							<div class="coverage_info">
-								<h3>Coverage <span class="fa fa-chevron-up"></span></h3>
-								<ul>
-									<li>
-										<select class="selectpicker" name="rcRegionsCovered" id="rcRegionsCovered">
-											<c:forEach var="regions" items="${regions}">
-												<option value="${regions.name}">${regions.name}</option>
-											</c:forEach>
-										</select>
-										<label class="default_select">Regions Covered <sup>*</sup></label>
-									</li>									
-									<li>
-										<select class="selectpicker" name="rcCountriesCovered" id="rcCountriesCovered" multiple="multiple">
-											<c:forEach var="countries" items="${countries}">
-												<option value="${countries.name}">${countries.name}</option>
-											</c:forEach>
-										</select>
-										<label class="default_select">Countries Covered <sup>*</sup></label>
-									</li>
-									<li>
-										<input type="number" name="rcTotalResearchAnalyst" id="rcTotalResearchAnalyst" required />
-										<label>Total Research Analyst</label>
-									</li>
-									<li>
-										<input type="number" name="rcExistingClientBase" id="rcExistingClientBase" required />
-										<label>Existing Client Base</label>
-									</li>
-								</ul>
-							</div>
-
-							<!--<div class="research_details">
-								<h3>Research Details <span class="fa fa-chevron-up"></span></h3>
-								<ul>
-									<li>
-										<select class="selectpicker" name="rdAccessibility" id="rdAccessibility">
-											<option value ="Web-Browser Based" >-Web-Browser Based-</option>
-											<option value ="Email" > -Email- </option>
-										</select>
-										<label class="default_select">Accessibility (?)</label>
-									</li>
-									<li>
-										<select class="selectpicker select_multiple" name="rdSuitability"  multiple="multiple" id="rdSuitability">
-											<option value ="All Users" >All Users</option>
-											<option value ="Equity Fund Manager" >Equity Fund Manager</option>
-											<option value ="Fixed Income Fund Manager" >Fixed Income Fund Manager</option>
-											<option value ="Hedge Fund" >Hedge Fund</option>
-											<option value ="Private Equity Fund" >Private Equity Fund</option>
-											<option value ="Advanced shares traders" >Advanced shares traders</option>
-											<option value ="Corporate Creditors (Banks, Lending Institutions, etc)" >Corporate Creditors (Banks, Lending Institutions, etc)</option>
-											<option value ="Technical chart users" >Technical chart users</option>
-											<option value ="Forex specialists" >Forex specialists</option>
-											<option value ="Others" >Others</option> 
-										</select>
-										<label class="default_select">Suitability</label>
-									</li>
-									<li>
-										<select class="selectpicker select_multiple" name="rdReportCostType" id="rdReportCostType">
-											<option value ="Free and Min Balance Not required" >Free and Min Balance Not required</option>
-											<option value ="Min Balance Required" > Min Balance Required </option>
-											<option value ="Subscription based" > Subscription based </option>
-										</select>
-										<label class="default_select">Report Cost Type</label>
-									</li>
-									<li>
-										<input type="number" name="rdSubsriptionCostUSDpermonth" id="rdSubsriptionCostUSDpermonth" readonly required />
-										<label>Subscription cost (USD per month)</label>
-									</li>
-									<li>
-										<input type="number" name="rdSubsriptionCostUSDperannum" id="rdSubsriptionCostUSDperannum" readonly required />
-										<label>Subscription cost (USD per annum)</label>
-									</li>
-									<li>
-										<select class="selectpicker select_multiple" name="rdReportFormat"  multiple="multiple" id="rdReportFormat">
-											<option value ="PDF"> PDF  </option>
-											<option value ="DOC"> DOC </option>
-											<option value ="EXCEL"> EXCEL </option>
-										</select>
-										<label class="default_select">Report Format <sup>*</sup></label>
-									</li>
-									<li>
-										<select class="selectpicker" name="rdResearchApplicableMonth" id="rdResearchApplicableMonth">
-											<option value ="Any">Any</option>
-											<option value ="January">January</option>
-											<option value ="February">February</option>
-											<option value ="March">March</option>
-											<option value ="April">April</option>
-											<option value ="May">May</option>
-											<option value ="June">June</option>
-											<option value ="July">July</option>
-											<option value ="August">August</option>
-											<option value ="September">September</option>
-											<option value ="October">October</option>
-											<option value ="November">November</option>
-											<option value ="December">December</option>
-										</select>
-										<label class="default_select">Research Period - Month</label>
-									</li>
-									<li>
-										<select class="selectpicker" name="rdResearchApplicableYear" id="rdResearchApplicableYear">
-											<option value ="Any">Any</option>
-											<option value ="2006">2006</option>
-											<option value ="2007">2007</option>
-											<option value ="2008">2008</option>
-											<option value ="2009">2009</option>
-											<option value ="2010">2010</option>
-											<option value ="2011">2011</option>
-											<option value ="2012">2012</option>
-											<option value ="2013">2013</option>
-											<option value ="2014">2014</option>
-											<option value ="2015">2015</option>
-											<option value ="2016">2016</option>
-											<option value ="2017">2017</option>
-										</select>
-										<label class="default_select">Research Period - Year <sup>*</sup></label>
-									</li>
-								</ul>
-							</div>-->
-							<!--<div class="analyst_profile_info">
-								<h3>Analyst Profile <span class="fa fa-chevron-up"></span></h3>
-								<ul>
-									<li>
-										<input type="text" name="rdAnalystName" id="rdAnalystName" required />
-										<label>Analyst Name</label>
-									</li>
-									<li>
-										<select class="selectpicker" name="rdAnalystRegionofIncorp"  id="rdAnalystRegionofIncorp">
-											<c:forEach var="regions" items="${regions}">
-												<option value="${regions.region_id}">${regions.name}</option>
-											</c:forEach>
-										</select>
-										<label class="default_select">Analyst Region of Incorp</label>
-									</li>
-									<li>
-										<select class="selectpicker" name="rdAnalystCountryofIncorp" id="rdAnalystCountryofIncorp">
-											<c:forEach var="countries" items="${countries}">
-												<option value="${countries.name}">${countries.name}</option>
-											</c:forEach>
-										</select>
-										<label class="default_select">Analyst Country of Incorp</label>
-									</li>
-									<li>
-										<select class="selectpicker" name="rdAnalystYearofExp" id="rdAnalystYearofExp">
-											<option value="Less than 1">Less than 1</option>
-											<option value="1-3">1-3</option>
-											<option value="3-5">3-5</option>
-											<option value="5-10">5-10</option>
-											<option value="10-15">10-15</option>
-											<option value="15-25">15-25</option>
-											<option value="25-35">25-35</option>
-											<option value="35-50">35-50</option>
-											<option value="More than 50">More than 50</option>
-										</select>
-										<label class="default_select">Analyst Year of Exp</label>
-									</li>
-									<li>
-										<select class="selectpicker" name="rdAnalystAwards" id="rdAnalystAwards">
-											<c:forEach var="awards" items="${awards}">
-												<option value="${awards.name}">${awards.name}</option>
-											</c:forEach>
-											<option value="Other">Other</option>
-										</select>
-										<label class="default_select">Analyst Awards</label>
-									</li>
-									<li style="clear:left;">
-										<input type="checkbox" name="rdResearchAnalystWithCFA" id="rdResearchAnalystWithCFA" required />
-										<label class="default_checkbox">Research Analyst with CFA Charter?</label>
-									</li>
-								</ul>
-							</div>-->
 							<p class="action_btn">
 								<a class="submit_btn save" data-toggle="tab">Save</a>
 								<a class="submit_btn next" data-toggle="tab">RESET</a>
