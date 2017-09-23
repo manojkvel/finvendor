@@ -291,10 +291,22 @@ CREATE TABLE rsch_area_stock_class (
 	PRIMARY KEY (stock_class_type_id)
 );
 
-CREATE TABLE rsch_area_company_dtls (
+CREATE TABLE rsch_sub_area_company_dtls (
+	id varchar(45) NOT NULL,	
 	company_id VARCHAR(100) NOT NULL,
 	company_name VARCHAR(500) NULL,
 	rsch_sub_area_id INT NOT NULL,
 	stock_class_type_id VARCHAR(100) NOT NULL,
-	PRIMARY KEY (company_id)
+	isin_code VARCHAR(500) NULL,
+	ticker VARCHAR(500) NULL,
+	exchg_code VARCHAR(500) NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE rsch_sub_area_mkt_cap_type (
+	id varchar(45) NOT NULL,	
+	rsch_area_id INT NOT NULL,
+	rsch_sub_area_id INT NOT NULL,
+	cap_type VARCHAR(20) NULL,
+	PRIMARY KEY (id)
 );

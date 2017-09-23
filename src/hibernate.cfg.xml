@@ -62,7 +62,8 @@
         <mapping class="com.finvendor.model.VendorAnalyticsApplicationsOffering"></mapping>
         <mapping class="com.finvendor.model.VendorAnalyticsApplicationsSoftwareDetails"></mapping>
         <mapping class="com.finvendor.model.ResearchAreaStockClassification"></mapping>
-        <mapping class="com.finvendor.model.ResearchAreaCompanyDetails"></mapping>
+        <mapping class="com.finvendor.model.ResearchSubAreaCompanyDetails"></mapping>
+        <mapping class="com.finvendor.model.ResearchSubAreaMarketCapType"></mapping>
       </session-factory>
 	 
 </hibernate-configuration>

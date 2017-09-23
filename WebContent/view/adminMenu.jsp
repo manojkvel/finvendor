@@ -67,6 +67,7 @@
 				      		<li data-div-id="OTHER_rsrchsubarea"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=rsrchsubarea">Research Sub Area</a></li>
 				      		<li data-div-id="OTHER_rsrchareastockclass"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=rsrchareastockclass">Research Area Stock Classification</a></li>
 				      		<li data-div-id="OTHER_rschareacompanydtls"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=rschareacompanydtls">Research Sub Area Company Details</a></li>
+				      		<li data-div-id="OTHER_rschsubareamktcaptype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=rschsubareamktcaptype">Research Sub Area Market Capital Type</a></li>
 				      		<li data-div-id="OTHER_analytsolutiotype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=analytsolutiotype">Analytical Solution Type</a></li>
 				      		<li data-div-id="OTHER_analytsolutiosubtype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=analytsolutiosubtype">Analytical Solution Sub Type</a></li>
 				      	</ul>
