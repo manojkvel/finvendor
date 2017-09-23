@@ -39,6 +39,14 @@ $(document).ready(function(){
 				vo_analystCfaCharter = '';
 			}
 
+			
+			var vo_analystwithawards = $("#research_application #vo_analystwithawards").prop("checked");
+			if(vo_analystwithawards) {
+				vo_analystwithawards = 'Y';
+			} else {
+				vo_analystwithawards = '';
+			}
+
 			var vo_eqrrv_report_desc = $('#vo_eqrrv_report_desc').val();
 			var vo_eqrrv_report_access = $("#vo_eqrrv_report_access").selectpicker('val');
 			var vo_analystName = $("#research_application #vo_analystName").val().trim();
@@ -59,7 +67,8 @@ $(document).ready(function(){
 				'vo_eqrrv_report_desc' : vo_eqrrv_report_desc,
 				'vo_eqrrv_report_access' : vo_eqrrv_report_access,
 				'vo_analystName' : vo_analystName,
-				'vo_analystCfaCharter' : vo_analystCfaCharter
+				'vo_analystCfaCharter' : vo_analystCfaCharter,
+				'vo_analystwithawards' : vo_analystwithawards
 			};
 
 			researh_report_for_summary_details.push(researh_report_for_summary_details_json_obj);
@@ -79,7 +88,8 @@ $(document).ready(function(){
 				'vo_eqrrv_report_desc' : $('#vo_eqrrv_report_desc').val(),
 				'vo_eqrrv_report_access' : $("#vo_eqrrv_report_access").selectpicker('val'),
 				'vo_analystName' : $("#research_application #vo_analystName").val().trim(),
-				'vo_analystCfaCharter' : ($("#research_application #vo_analystCfaCharter").prop("checked"))? 'Y' : ''
+				'vo_analystCfaCharter' : ($("#research_application #vo_analystCfaCharter").prop("checked"))? 'Y' : '',
+				'vo_analystwithawards' : ($("#research_application #vo_analystwithawards").prop("checked"))? 'Y' : ''
 			};
 
 			researh_report_for_summary_details[selected_index] = researh_report_for_summary_details_json_obj;
@@ -143,6 +153,7 @@ $(document).ready(function(){
 			$('#vo_eqrrv_report_access').selectpicker('val');
 			$('#vo_analystName').val('');
 			$('#vo_analystCfaCharter').attr("checked", false);
+			$('#vo_analystwithawards').attr('checked', false);
 
 			$(".edit_btn").bind("click", function(e) {
 				e.preventDefault();
@@ -158,6 +169,8 @@ $(document).ready(function(){
 				$('#vo_eqrrv_report_access').selectpicker('val', data.vo_eqrrv_report_access);
 				$('#vo_analystName').val(data.vo_analystName);
 				$('#vo_analystCfaCharter').attr("checked", (data.vo_analystCfaCharter == 'Y') ? true : false);
+				$('#vo_analystName').val(data.vo_analystName);
+				$('#vo_analystwithawards').attr("checked", (data.vo_analystwithawards == 'Y') ? true : false);
 			});
 
 			$('.delete_btn').bind("click", research_report_for._delete);
@@ -175,6 +188,7 @@ $(document).ready(function(){
 				vo_target_price = $("#research_application #vo_target_price").selectpicker('val');
 			}
 			var vo_eqrrv_recommendation_type = $("#research_application #vo_eqrrv_recommendation_type").selectpicker('val');
+			var vo_eqrrv_report_desc = $("#research_application #vo_eqrrv_report_desc").val();
 
 			if(vo_rr_report_for != null) {
 				$("#research_application #vo_rr_report_for").parent().find("button").removeClass("error_field");
@@ -200,7 +214,13 @@ $(document).ready(function(){
 				$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").addClass("error_field");
 			}
 
-			if(vo_rr_report_for == null || vo_datepicker == '' || vo_target_price == '' || vo_eqrrv_recommendation_type == null) {
+			if(vo_eqrrv_report_desc != '') {
+				$("#research_application #vo_eqrrv_report_desc").removeClass("error_field");
+			} else {
+				$("#research_application #vo_eqrrv_report_desc").addClass("error_field");
+			}
+
+			if(vo_rr_report_for == null || vo_datepicker == '' || vo_target_price == '' || vo_eqrrv_recommendation_type == null || vo_eqrrv_report_desc == '') {
 				return;
 			}
 

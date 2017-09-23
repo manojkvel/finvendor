@@ -774,7 +774,7 @@
 										</li>
 										<li>
 											<input type="text" name="vo_eqrrv_report_desc" id="vo_eqrrv_report_desc" maxlength="500" required />
-											<label>Report Desc.</label>
+											<label>Report Desc. <sup>*</sup></label>
 										</li>								
 										<li>
 											<select class="selectpicker" name="vo_eqrrv_report_access" id="vo_eqrrv_report_access">
@@ -793,7 +793,11 @@
 										</li>
 										<li style='margin-top: 22px;'>
 											<input type="checkbox" name="vo_analystCfaCharter" id="vo_analystCfaCharter" />
-											<label class="default_checkbox">Research Analyst with CFA Charter?</label>
+											<label class="default_checkbox">Analyst with CFA Charter</label>
+										</li>
+										<li style='margin-top: 22px;'>
+											<input type="checkbox" name="vo_analystwithawards" id="vo_analystwithawards" />
+											<label class="default_checkbox">Analyst with Awards</label>
 										</li>
 									</ul>
 									<p id='research_report_for_info_add_more_btn'>

@@ -1737,7 +1737,7 @@ jQuery(document).ready(function() {
 		var vo_datepicker = $("#research_application #vo_datepicker").val();
 		var vo_target_price = $("#research_application #vo_target_price").val();
 		var vo_eqrrv_recommendation_type = $("#research_application #vo_eqrrv_recommendation_type").selectpicker('val');
-		
+		var vo_eqrrv_report_desc = $("#research_application #vo_eqrrv_report_desc").val();
 
 		
 		if(productName != '') {
@@ -1800,12 +1800,19 @@ jQuery(document).ready(function() {
 				$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").addClass("error_field");
 			}
 
+			if(vo_eqrrv_report_desc != '') {
+				$("#research_application #vo_eqrrv_report_desc").removeClass("error_field");
+			} else {
+				$("#research_application #vo_eqrrv_report_desc").addClass("error_field");
+			}
+
 
 		} else {
 			$("#research_application #vo_rr_report_for").parent().find("button").removeClass("error_field");
 			$("#research_application #vo_datepicker").removeClass("error_field");
 			$("#research_application #vo_target_price").removeClass("error_field");
 			$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").removeClass("error_field");
+			$("#research_application #vo_eqrrv_report_desc").removeClass("error_field");
 		}
 		
 		researhReportList = window.localStorage.researh_report_for_summary_details;
