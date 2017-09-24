@@ -300,6 +300,7 @@ CREATE TABLE rsch_sub_area_company_dtls (
 	isin_code VARCHAR(500) NULL,
 	ticker VARCHAR(500) NULL,
 	exchg_code VARCHAR(500) NULL,
+	country_id INT NOT NULL,
 	PRIMARY KEY (id)
 );
 

@@ -34,6 +34,10 @@ public class ResearchSubAreaCompanyDetails implements Serializable {
 	@JoinColumn(name="stock_class_type_id", nullable=false)
 	private ResearchAreaStockClassification researchAreaStockClassification;
 	
+	@ManyToOne(targetEntity=Country.class, fetch=FetchType.EAGER)
+	@JoinColumn(name="country_id", nullable=false)
+	private Country country;
+	
 	@Column(name="isin_code")
 	private String isinCode;
 	
