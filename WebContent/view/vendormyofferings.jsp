@@ -800,9 +800,9 @@
 											<label class="default_checkbox">Analyst with Awards</label>
 										</li>
 									</ul>
-									<p id='research_report_for_info_add_more_btn'>
+									<!--<p id='research_report_for_info_add_more_btn'>
 										<span class="add-more"><a href="#">Add</a></span>
-									</p>
+									</p>-->
 								</div>
 							</div>
 							<p class="action_btn">
@@ -855,6 +855,6 @@
     		$( "#vo_datepicker" ).datepicker();
     	} );
     </script>
-    <script src="<%=request.getContextPath() %>/resources/js/research_report_for_vendor.js"></script>
+    <!--<script src="<%=request.getContextPath() %>/resources/js/research_report_for_vendor.js"></script>-->
 </body>
 </html>

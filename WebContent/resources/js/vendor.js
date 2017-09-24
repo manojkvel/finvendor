@@ -1591,43 +1591,23 @@ jQuery(document).ready(function() {
 				getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
 				$("select[name=rcResearchSubArea]").selectpicker('val', response.researchSubArea.split(','));
 
-				getRegionMapping('rcRegionsCovered');
-				$("#research_application #rcRegionsCovered").selectpicker('val', response.regionsCovered);
 				
-				getRegionCountryMapping('rcRegionsCovered', 'rcCountriesCovered');
-				$("#research_application #rcCountriesCovered").selectpicker('val', response.countriesCovered.split(','));
-
-				$("#research_application #rcTotalResearchAnalyst").val(response.totalAnalyst);
-				$("#research_application #rcExistingClientBase").val(response.existingClientBase);
-
-				$("#research_application #rdAccessibility").selectpicker('val', response.accessbility.split(','));
 				$("#research_application #rdSuitability").selectpicker('val', response.suitability.split(','));
-				$("#research_application #rdReportCostType").selectpicker('val', response.costType.split(','));
-				
-				rdReportCostTypeSelector();
-				if(response.subCostPm != 0) {
-					$("#research_application #rdSubsriptionCostUSDpermonth").val(response.subCostPm);
-				}
 
 				if(response.subCostPy != 0) {
 					$("#research_application #rdSubsriptionCostUSDperannum").val(response.subCostPy);
 				}
 
-				$("#research_application #rdReportFormat").selectpicker('val', response.repFormat.split(','));
-				$("#research_application #rdResearchApplicableMonth").selectpicker('val', response.resPeriodMon);
-				$("#research_application #rdResearchApplicableYear").selectpicker('val', response.resPeriodYear);
-
-				$("#research_application #rdAnalystName").val(response.analystName);
-
-				getRegionMapping('rdAnalystRegionofIncorp');
-				$("#research_application #rdAnalystRegionofIncorp").selectpicker('val', response.analystRegion);
-				getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');
-				$("select[name=rdAnalystCountryofIncorp]").selectpicker('val', response.analystCountry);
-				
-
-				$("#research_application #rdAnalystYearofExp").selectpicker('val', response.analystYearOfExp);
-				$("#research_application #rdAnalystAwards").selectpicker('val', response.analystAwards);
-				$("#research_application #rdResearchAnalystWithCFA").prop("checked",(response.anaystCfaCharter == 'Y') ? true : false);
+				$("#research_application #vo_rr_report_for").val(response.vo_rr_report_for);
+				$("#research_application #vo_datepicker").val(response.vo_datepicker);
+				$("#research_application #vo_target_price").val(response.vo_target_price);
+				$("#research_application #vo_eqrrv_recommendation_type").selectpicker('val', response.vo_eqrrv_recommendation_type);
+				$("#research_application #vo_upload_report").val(response.vo_upload_report);
+				$("#research_application #vo_eqrrv_report_desc").val(response.vo_eqrrv_report_desc);
+				$("#research_application #vo_eqrrv_report_access").selectpicker('val', response.vo_eqrrv_report_access);
+				$("#research_application #vo_analystName").val(response.vo_upload_report);
+				$("#research_application #vo_analystCfaCharter").prop("checked",(response.vo_analystCfaCharter == 'Y') ? true : false);
+				$("#research_application #vo_analystwithawards").prop("checked",(response.vo_analystwithawards == 'Y') ? true : false);
 
 			},
 			error : function(data, textStatus, jqXHR){
@@ -1690,7 +1670,7 @@ jQuery(document).ready(function() {
 				for(var i=0; i < totalCount; i++) {
 					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].researchAreaDescription + " | " + getRegionMultipleListById(response[i].regionsCovered) + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].researchAreaDescription + " | " + response[i].vo_rr_report_for + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -1735,9 +1715,36 @@ jQuery(document).ready(function() {
 
 		var vo_rr_report_for = $("#research_application #vo_rr_report_for").selectpicker('val');
 		var vo_datepicker = $("#research_application #vo_datepicker").val();
-		var vo_target_price = $("#research_application #vo_target_price").val();
 		var vo_eqrrv_recommendation_type = $("#research_application #vo_eqrrv_recommendation_type").selectpicker('val');
 		var vo_eqrrv_report_desc = $("#research_application #vo_eqrrv_report_desc").val();
+		var vo_eqrrv_report_access = $("#vo_eqrrv_report_access").selectpicker('val');
+		var vo_analystName = $("#research_application #vo_analystName").val().trim();
+
+
+		var vo_target_price = null;
+		if($('#vo_target_price').is(':visible')) {
+			vo_target_price = $('#research_application #vo_target_price').val();
+		}
+
+		var vo_upload_report = $('#research_application #vo_upload_report').val();
+
+		var vo_analystCfaCharter = $("#research_application #vo_analystCfaCharter").prop("checked");
+		if(vo_analystCfaCharter) {
+			vo_analystCfaCharter = 'Y';
+		} else {
+			vo_analystCfaCharter = '';
+		}
+
+
+		var vo_analystwithawards = $("#research_application #vo_analystwithawards").prop("checked");
+		if(vo_analystwithawards) {
+			vo_analystwithawards = 'Y';
+		} else {
+			vo_analystwithawards = '';
+		}
+
+
+
 
 		
 		if(productName != '') {
@@ -1775,7 +1782,38 @@ jQuery(document).ready(function() {
 			//return false;
 		}*/
 
-		if(window.localStorage.researh_report_for_summary_details == undefined || JSON.parse(window.localStorage.researh_report_for_summary_details).length == 0) {
+		if(vo_rr_report_for != null) {
+			$("#research_application #vo_rr_report_for").parent().find("button").removeClass("error_field");
+		} else {
+			$("#research_application #vo_rr_report_for").parent().find("button").addClass("error_field");
+		}
+
+		if(vo_datepicker != '') {
+			$("#research_application #vo_datepicker").removeClass("error_field");
+		} else {
+			$("#research_application #vo_datepicker").addClass("error_field");
+		}
+
+		if(vo_target_price != '') {
+			$("#research_application #vo_target_price").removeClass("error_field");
+		} else {
+			$("#research_application #vo_target_price").addClass("error_field");
+		}
+
+		if(vo_eqrrv_recommendation_type != null) {
+			$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").removeClass("error_field");
+		} else {
+			$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").addClass("error_field");
+		}
+
+		if(vo_eqrrv_report_desc != '') {
+			$("#research_application #vo_eqrrv_report_desc").removeClass("error_field");
+		} else {
+			$("#research_application #vo_eqrrv_report_desc").addClass("error_field");
+		}
+
+
+		/*if(window.localStorage.researh_report_for_summary_details == undefined || JSON.parse(window.localStorage.researh_report_for_summary_details).length == 0) {
 			if(vo_rr_report_for != null) {
 				$("#research_application #vo_rr_report_for").parent().find("button").removeClass("error_field");
 			} else {
@@ -1816,11 +1854,13 @@ jQuery(document).ready(function() {
 		}
 		
 		researhReportList = window.localStorage.researh_report_for_summary_details;
+		*/
 
 
 
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
-			rcResearchArea != null){
+			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != '' && vo_target_price != null && 
+				vo_eqrrv_recommendation_type != null && vo_eqrrv_report_desc != ''){
 
 			var data = {
 				"productId" : productId,
@@ -1831,7 +1871,16 @@ jQuery(document).ready(function() {
 				"launchedYear" : launchedYear,
 				"suitability" : (suitability != null) ? ',' + suitability + ',' : '',
 				"costPerAnnum" : (costPerAnnum != '') ? costPerAnnum : '0.0',
-				"researhReportList" : researhReportList
+				'vo_rr_report_for' : vo_rr_report_for,
+				'vo_datepicker' : vo_datepicker,
+				'vo_target_price' : vo_target_price,
+				'vo_eqrrv_recommendation_type' : vo_eqrrv_recommendation_type,
+				'vo_upload_report' : vo_upload_report,
+				'vo_eqrrv_report_desc' : vo_eqrrv_report_desc,
+				'vo_eqrrv_report_access' : vo_eqrrv_report_access,
+				'vo_analystName' : vo_analystName,
+				'vo_analystCfaCharter' : vo_analystCfaCharter,
+				'vo_analystwithawards' : vo_analystwithawards
 			}
 
 			$.ajax({
