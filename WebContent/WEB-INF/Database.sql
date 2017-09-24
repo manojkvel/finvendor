@@ -311,3 +311,11 @@ CREATE TABLE rsch_sub_area_mkt_cap_type (
 	cap_type VARCHAR(20) NULL,
 	PRIMARY KEY (id)
 );
+
+CREATE TABLE industry_sub_type (
+	id varchar(45) NOT NULL,	
+	rsch_area_id INT NOT NULL,
+	rsch_sub_area_id INT NOT NULL,
+	industry_sub_type_name VARCHAR(200) NULL,
+	PRIMARY KEY (id)
+);
