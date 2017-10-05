@@ -1506,7 +1506,6 @@ input[type="file"]:focus {
 	overflow: hidden;
 	min-height: 400px;
 	margin-bottom: 10px;
-	display: none;
 }
 
 
@@ -1552,4 +1551,80 @@ input[type="file"]:focus {
 
 #fv_equity_research_report_vendor_search #broker_table td a:last-child {
 	margin-left:20px;
+}
+
+
+
+
+
+h2 {
+	margin: 0;
+	padding: 0;
+}
+
+.container-fluid .col-md-3 {
+	padding-right: 0; 
+}
+
+.container-fluid .sidebar-panel {
+	background: #fff;
+	font-size: 10px;
+	padding: 10px;
+}
+
+.container-fluid .sidebar-panel .sidebar-heading {
+	font-size: 1.8rem;
+	font-weight: bold;
+}
+
+.container-fluid .sidebar-panel .sidebar-heading h2 {
+	font-size: inherit;
+	font-weight: inherit;
+	margin: 0 0 15px;
+}
+
+.container-fluid .sidebar-panel input[type=checkbox] {
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	right: 15px;
+}
+
+.widget-group {
+	font-size: 1.3rem;
+}
+
+.widget-group .widget-panel-default {
+	border-bottom: 1px solid #fff;
+}
+
+.widget-group .widget-panel-heading {
+	font-weight: bold;
+	position: relative;
+	cursor: pointer;
+	background: #414b4f;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.widget-group .widget-panel-heading h3 {
+	margin: 0;
+	color: #fff;
+}
+
+.widget-group .widget-panel-body {
+	display: none;
+}
+
+.widget-group .widget-panel-body li {
+	padding: 5px 0;
+}
+
+
+.widget-group .widget-panel-heading .fa-chevron-up,
+.widget-group .widget-panel-heading .fa-chevron-down {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: #fff;
 }
