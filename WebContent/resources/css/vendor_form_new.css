@@ -1512,6 +1512,7 @@ input[type="file"]:focus {
 #fv_equity_research_report_vendor_search #broker_table {
 	min-height: 200px;
 	margin-bottom: 20px;
+	width: 100%;
 }
 
 #fv_equity_research_report_vendor_search #broker_table > thead > tr > th {
@@ -1566,28 +1567,31 @@ h2 {
 	padding-right: 0; 
 }
 
-.container-fluid .sidebar-panel {
+.container-fluid #sidebar-panel {
 	background: #fff;
 	font-size: 10px;
 	padding: 10px;
 }
 
-.container-fluid .sidebar-panel .sidebar-heading {
+.container-fluid #sidebar-panel .sidebar-heading {
 	font-size: 1.8rem;
 	font-weight: bold;
 }
 
-.container-fluid .sidebar-panel .sidebar-heading h2 {
+.container-fluid #sidebar-panel .sidebar-heading h2 {
 	font-size: inherit;
 	font-weight: inherit;
 	margin: 0 0 15px;
 }
 
-.container-fluid .sidebar-panel input[type=checkbox] {
+.container-fluid #sidebar-panel input[type=checkbox] {
 	width: 15px;
 	height: 15px;
 	position: absolute;
 	right: 15px;
+}
+.container-fluid #sidebar-panel input[type=radio] {
+	float: right;
 }
 
 .widget-group {
@@ -1627,4 +1631,27 @@ h2 {
 	top: 10px;
 	right: 10px;
 	color: #fff;
+}
+
+.widget-group .widget-panel-body .widget_search #search_broker {
+	width: 100%;
+	border: 1px solid #ddd;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+#fv_equity_research_report_vendor_search #broker_table i.fa-sort {
+	font-size: 11px;
+}
+
+#fv_equity_research_report_vendor_search #broker_table a {
+	color: #fff;
+}
+
+#fv_equity_research_report_vendor_search .large_font a {
+	font-size: 16px;
+}
+
+#fv_equity_research_report_vendor_search .small_font a {
+	font-size: 13px;
 }
