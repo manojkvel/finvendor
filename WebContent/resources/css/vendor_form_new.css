@@ -1644,14 +1644,21 @@ h2 {
 	font-size: 11px;
 }
 
+#fv_equity_research_report_vendor_search #broker_table i.fa-file {
+	color: #414b4f;
+}
+
 #fv_equity_research_report_vendor_search #broker_table a {
 	color: #fff;
+}
+
+#fv_equity_research_report_vendor_search #broker_table thead th p {
+	margin: 0;
 }
 
 #fv_equity_research_report_vendor_search .large_font a {
 	font-size: 16px;
 }
-
 #fv_equity_research_report_vendor_search .small_font a {
 	font-size: 13px;
 }
