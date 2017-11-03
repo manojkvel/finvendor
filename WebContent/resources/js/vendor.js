@@ -1859,7 +1859,7 @@ jQuery(document).ready(function() {
 
 
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
-			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != '' && vo_target_price != null && 
+			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != '' && 
 				vo_eqrrv_recommendation_type != null && vo_eqrrv_report_desc != ''){
 
 			var data = {
