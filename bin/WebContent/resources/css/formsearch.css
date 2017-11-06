@@ -1,0 +1,223 @@
+.d2
+{
+	position:relative;
+	top:-8%;
+	left:400px;
+	width:30%;
+	font: 13px; 
+	color: #5CE5E5; 
+	font-family: open_sansregular;
+}
+.d3
+{
+	position:relative;
+	top:-11%;
+	left:400px;
+	width:30%;
+    
+}
+.d4
+{
+	position:relative;
+	top:-11%;
+	left:300px;
+	width:60%;
+
+}
+.d4pub
+{
+	position:relative;
+	top:-11%;
+	left:300px;
+	width:60%;
+
+}
+.d5
+{
+	position:relative;
+	background-color:snow;
+	width:100%;
+	top:-13%;
+	left:0px;
+	height:20%;
+
+
+}
+.d6
+{
+	position:relative;
+	top:-14%;
+	height:25%;
+	width:100%;
+	background-color:snow;
+}
+hr
+{
+	position:relative;
+	top:-8%;
+
+}
+.h1
+{
+	position:relative;
+	top:-8%;
+
+}
+.h3
+{
+	position:relative;
+	top:-12%;
+
+}
+.h4
+{
+	position:relative;
+	top:-12%;
+
+}
+.h5
+{
+	position:relative;
+	top:-12%;
+
+}
+.h2
+{
+	position:relative;
+	top:-10%;
+
+}
+.d1
+{
+	position:relative;
+	top:-4%;
+	left:1%;
+
+
+}
+.main
+{
+	position:absolute;
+	width:76.5%;
+	height:85%;
+	background-color:snow;
+	left:22%;
+	top:13.5%;
+
+}
+
+
+.report
+{
+	position:absolute;
+	z-index:2;
+	left:22%;
+}
+
+
+
+
+.header
+{
+	position:relative;
+	background-color:snow;
+	width:100%;
+	height:10%;
+}
+
+.hlink
+{
+	position:absolute;
+	
+	top:30px;
+	left:1200px;
+}
+
+.himg
+{
+	position:absolute;
+	left:18px;
+	top:8px;
+
+}
+
+.form1
+{
+	position:relative;
+	left:80px;
+
+}
+
+.fields
+{
+position:relative;
+width:98%;
+height:40%;
+left:12px;
+background-color:snow;
+
+}
+table
+{
+	position:absolute;
+	left:30%
+
+}
+
+.search
+{
+	
+	float:center;
+	background:3399FF ;
+	border-radius:5px;
+	border:none;
+	height:40px;
+	padding:0px 40px;
+	font-family: open_sansregular;
+	font-weight:bold;
+	font-size:18px;
+	color:#FFFFFF;
+}
+
+.search:hover
+{
+	
+float: center;
+background: #8CC63F ;
+border-radius: 5px;
+border: none;
+height: 40px;
+padding: 0px 40px;
+font-family: open_sansregular;
+font-weight: bold;
+font-size: 18px;
+color: white;
+	
+}
+
+.results
+{
+	position:relative;
+	background-color:snow;
+	width:98%;
+	height:60%;
+	left:12px;
+	
+
+}
+.t2
+{
+	left:2%;
+	width:68%;
+	
+}
+.left
+{
+	position:absolute;
+	width:20%;
+	height:85%;
+	top:13.3%;
+	left:1.5%;
+	background-color:#C8C8C8;
+
+}
