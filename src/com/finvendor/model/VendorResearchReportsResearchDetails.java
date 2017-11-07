@@ -24,11 +24,11 @@ public class VendorResearchReportsResearchDetails
 	@Column(name="suitability")
 	private String suitability;
 	
-	@Column(name="cost_type")
+/*	@Column(name="cost_type")
 	private String costType;
 	
 	@Column(name="sub_cost_pm")
-	private float subCostPm;
+	private float subCostPm;*/
 	
 	@Column(name="sub_cost_py")
 	private float subCostPy;
@@ -36,12 +36,95 @@ public class VendorResearchReportsResearchDetails
 	@Column(name="rep_format")
 	private String repFormat;
 	
-	@Column(name="res_period_mon")
+	@Column(name="rsrch_report_for")
+	private String rsrchReportFor;
+	
+	@Column(name="rep_date")
+	private String repDate;
+	
+	@Column(name="rsrch_report_access")
+	private String rsrchReportAccess;
+	
+	@Column(name="rsrch_remm_type")
+	private String rsrchRecommType;
+
+	public String getRsrchReportFor() {
+		return rsrchReportFor;
+	}
+
+	public void setRsrchReportFor(String rsrchReportFor) {
+		this.rsrchReportFor = rsrchReportFor;
+	}
+
+	public String getRsrchRecommType() {
+		return rsrchRecommType;
+	}
+
+	public void setRsrchRecommType(String rsrchRecommType) {
+		this.rsrchRecommType = rsrchRecommType;
+	}
+
+	public String getRepDate() {
+		return repDate;
+	}
+
+	public void setRepDate(String repDate) {
+		this.repDate = repDate;
+	}
+
+	public String getRsrchReportAccess() {
+		return rsrchReportAccess;
+	}
+
+	public void setRsrchReportAccess(String rsrchReportAccess) {
+		this.rsrchReportAccess = rsrchReportAccess;
+	}
+
+	public String getRsrchReportDesc() {
+		return rsrchReportDesc;
+	}
+
+	public void setRsrchReportDesc(String rsrchReportDesc) {
+		this.rsrchReportDesc = rsrchReportDesc;
+	}
+
+	public String getRsrchUploadReport() {
+		return rsrchUploadReport;
+	}
+
+	public void setRsrchUploadReport(String rsrchUploadReport) {
+		this.rsrchUploadReport = rsrchUploadReport;
+	}
+
+	public String getTargetPrice() {
+		return targetPrice;
+	}
+
+	public void setTargetPrice(String targetPrice) {
+		this.targetPrice = targetPrice;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Column(name="rsrch_report_desc")
+	private String rsrchReportDesc;
+	
+	@Column(name="rsrch_upload_report")
+	private String rsrchUploadReport;
+	
+	@Column(name="target_price")
+	private String targetPrice;
+	
+	
+	
+/*	@Column(name="res_period_mon")
 	private String resPeriodMon;
 	
 	@Column(name="res_period_year")
 	private String resPeriodYear;
-
+*/
 	public String getProductId() {
 		return productId;
 	}
@@ -66,7 +149,7 @@ public class VendorResearchReportsResearchDetails
 		this.suitability = suitability;
 	}
 
-	public String getCostType() {
+	/*public String getCostType() {
 		return costType;
 	}
 
@@ -81,7 +164,7 @@ public class VendorResearchReportsResearchDetails
 	public void setSubCostPm(float subCostPm) {
 		this.subCostPm = subCostPm;
 	}
-
+*/
 	public float getSubCostPy() {
 		return subCostPy;
 	}
@@ -98,7 +181,7 @@ public class VendorResearchReportsResearchDetails
 		this.repFormat = repFormat;
 	}
 
-	public String getResPeriodMon() {
+	/*public String getResPeriodMon() {
 		return resPeriodMon;
 	}
 
@@ -113,5 +196,5 @@ public class VendorResearchReportsResearchDetails
 	public void setResPeriodYear(String resPeriodYear) {
 		this.resPeriodYear = resPeriodYear;
 	}
-	
+	*/
 }

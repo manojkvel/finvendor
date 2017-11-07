@@ -10,24 +10,74 @@ public class VendorResearchReportsOfferingJson {
 	private String researchAreaDescription;
 	private String researchSubArea;
 	private String stocksFundsIssuesCovered;
-	private String regionsCovered;
+/*	private String regionsCovered;
 	private String countriesCovered;
 	private int totalAnalyst;
-	private String existingClientBase;
+	private String existingClientBase;*/
 	private String accessbility;
 	private String suitability;
-	private String costType;
-	private float subCostPm;
+/*	private String costType;*/
+/*	private float subCostPm;*/
 	private float subCostPy;
 	private String repFormat;
-	private String resPeriodMon;
-	private String resPeriodYear;
+	private String rsrchReportFor;
+	private String repDate;
+	private String rsrchReportAccess;
+	private String rsrchRecommType;
+	private String rsrchReportDesc;
+	private String rsrchUploadReport;
+	private String targetPrice;
+
+public String getRsrchReportDesc() {
+		return rsrchReportDesc;
+	}
+	public void setRsrchReportDesc(String rsrchReportDesc) {
+		this.rsrchReportDesc = rsrchReportDesc;
+	}
+	public String getRsrchUploadReport() {
+		return rsrchUploadReport;
+	}
+	public void setRsrchUploadReport(String rsrchUploadReport) {
+		this.rsrchUploadReport = rsrchUploadReport;
+	}
+	public String getTargetPrice() {
+		return targetPrice;
+	}
+	public void setTargetPrice(String targetPrice) {
+		this.targetPrice = targetPrice;
+	}
+public String getRsrchReportFor() {
+		return rsrchReportFor;
+	}
+	public void setRsrchReportFor(String rsrchReportFor) {
+		this.rsrchReportFor = rsrchReportFor;
+	}
+	public String getRepDate() {
+		return repDate;
+	}
+	public void setRepDate(String repDate) {
+		this.repDate = repDate;
+	}
+	public String getRsrchReportAccess() {
+		return rsrchReportAccess;
+	}
+	public void setRsrchReportAccess(String rsrchReportAccess) {
+		this.rsrchReportAccess = rsrchReportAccess;
+	}
+	public String getRsrchRecommType() {
+		return rsrchRecommType;
+	}
+	public void setRsrchRecommType(String rsrchRecommType) {
+		this.rsrchRecommType = rsrchRecommType;
+	}
+	/*	private String resPeriodMon;
+	private String resPeriodYear;*/
 	private String analystName;
-	private int analystRegion;
+	/*private int analystRegion;
 	private String analystRegionDescription;
 	private int analystCountry;
 	private String analystCountryDescription;
-	private String analystYearOfExp;
+	private String analystYearOfExp;*/
 	private String analystAwards;
 	private String anaystCfaCharter;
 	
@@ -79,7 +129,7 @@ public class VendorResearchReportsOfferingJson {
 	public void setStocksFundsIssuesCovered(String stocksFundsIssuesCovered) {
 		this.stocksFundsIssuesCovered = stocksFundsIssuesCovered;
 	}
-	public String getRegionsCovered() {
+	/*public String getRegionsCovered() {
 		return regionsCovered;
 	}
 	public void setRegionsCovered(String regionsCovered) {
@@ -102,7 +152,7 @@ public class VendorResearchReportsOfferingJson {
 	}
 	public void setExistingClientBase(String existingClientBase) {
 		this.existingClientBase = existingClientBase;
-	}
+	}*/
 	public String getAccessbility() {
 		return accessbility;
 	}
@@ -115,7 +165,7 @@ public class VendorResearchReportsOfferingJson {
 	public void setSuitability(String suitability) {
 		this.suitability = suitability;
 	}
-	public String getCostType() {
+	/*public String getCostType() {
 		return costType;
 	}
 	public void setCostType(String costType) {
@@ -126,7 +176,7 @@ public class VendorResearchReportsOfferingJson {
 	}
 	public void setSubCostPm(float subCostPm) {
 		this.subCostPm = subCostPm;
-	}
+	}*/
 	public float getSubCostPy() {
 		return subCostPy;
 	}
@@ -139,7 +189,7 @@ public class VendorResearchReportsOfferingJson {
 	public void setRepFormat(String repFormat) {
 		this.repFormat = repFormat;
 	}
-	public String getResPeriodMon() {
+	/*public String getResPeriodMon() {
 		return resPeriodMon;
 	}
 	public void setResPeriodMon(String resPeriodMon) {
@@ -150,14 +200,14 @@ public class VendorResearchReportsOfferingJson {
 	}
 	public void setResPeriodYear(String resPeriodYear) {
 		this.resPeriodYear = resPeriodYear;
-	}
+	}*/
 	public String getAnalystName() {
 		return analystName;
 	}
 	public void setAnalystName(String analystName) {
 		this.analystName = analystName;
 	}
-	public int getAnalystRegion() {
+	/*public int getAnalystRegion() {
 		return analystRegion;
 	}
 	public void setAnalystRegion(int analystRegion) {
@@ -186,7 +236,7 @@ public class VendorResearchReportsOfferingJson {
 	}
 	public void setAnalystYearOfExp(String analystYearOfExp) {
 		this.analystYearOfExp = analystYearOfExp;
-	}
+	}*/
 	public String getAnalystAwards() {
 		return analystAwards;
 	}
