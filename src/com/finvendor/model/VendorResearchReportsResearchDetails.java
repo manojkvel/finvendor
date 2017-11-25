@@ -45,7 +45,7 @@ public class VendorResearchReportsResearchDetails
 	@Column(name="rsrch_report_access")
 	private String rsrchReportAccess;
 	
-	@Column(name="rsrch_remm_type")
+	@Column(name="rsrch_recomm_type")
 	private String rsrchRecommType;
 
 	public String getRsrchReportFor() {
