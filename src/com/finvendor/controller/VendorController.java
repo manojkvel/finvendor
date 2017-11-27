@@ -3259,12 +3259,15 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				
 				// code managed by Rohit
 				vendorOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
+				logger.info("RESEARCH REPORT FOR : "+offering.getResearchDetails().getRsrchReportFor());
+				logger.info("PRODUCT NAME: "+offering.getProductName());
+				logger.info(vendorOffering.getRsrchReportFor());
 				vendorOffering.setRepDate(offering.getResearchDetails().getRepDate());
 				vendorOffering.setRsrchRecommType(offering.getResearchDetails().getRsrchRecommType());
 				vendorOffering.setRsrchReportDesc(offering.getResearchDetails().getRsrchReportDesc());
 				vendorOffering.setRsrchReportAccess(offering.getResearchDetails().getRsrchReportAccess());;
 				vendorOffering.setRsrchUploadReport(offering.getResearchDetails().getRsrchUploadReport());
-				
+				logger.info(vendorOffering.toString());
 			}			
 		} catch (Exception exp) {
 			logger.error("Error Fetching Research Reports Offering for product {}", 

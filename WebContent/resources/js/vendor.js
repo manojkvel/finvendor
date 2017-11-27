@@ -1597,17 +1597,20 @@ jQuery(document).ready(function() {
 				if(response.subCostPy != 0) {
 					$("#research_application #rdSubsriptionCostUSDperannum").val(response.subCostPy);
 				}
+				//code edited by rohit...
+//				alert(response.analystName);
+//				alert(response.vo_rr_report_for);
 
-				$("#research_application #vo_rr_report_for").val(response.vo_rr_report_for);
-				$("#research_application #vo_datepicker").val(response.vo_datepicker);
+				$("#research_application #vo_rr_report_for").val(response.rsrchReportFor);
+				$("#research_application #vo_datepicker").val(response.repDate);
 				$("#research_application #vo_target_price").val(response.vo_target_price);
-				$("#research_application #vo_eqrrv_recommendation_type").selectpicker('val', response.vo_eqrrv_recommendation_type);
-				$("#research_application #vo_upload_report").val(response.vo_upload_report);
-				$("#research_application #vo_eqrrv_report_desc").val(response.vo_eqrrv_report_desc);
-				$("#research_application #vo_eqrrv_report_access").selectpicker('val', response.vo_eqrrv_report_access);
-				$("#research_application #vo_analystName").val(response.vo_upload_report);
-				$("#research_application #vo_analystCfaCharter").prop("checked",(response.vo_analystCfaCharter == 'Y') ? true : false);
-				$("#research_application #vo_analystwithawards").prop("checked",(response.vo_analystwithawards == 'Y') ? true : false);
+				$("#research_application #vo_eqrrv_recommendation_type").selectpicker('val', response.rsrchRecommType);
+				$("#research_application #vo_upload_report").val(response.rsrchUploadReport);
+				$("#research_application #vo_eqrrv_report_desc").val(response.rsrchReportDesc);
+				$("#research_application #vo_eqrrv_report_access").selectpicker('val', response.rsrchReportAccess);
+				$("#research_application #vo_analystName").val(response.analystName);
+				$("#research_application #vo_analystCfaCharter").prop("checked",(response.anaystCfaCharter == 'Y') ? true : false);
+				$("#research_application #vo_analystwithawards").prop("checked",(response.analystAwards == 'Y') ? true : false);
 
 			},
 			error : function(data, textStatus, jqXHR){
@@ -1721,6 +1724,7 @@ jQuery(document).ready(function() {
 		var vo_analystName = $("#research_application #vo_analystName").val().trim();
 
 
+		
 		var vo_target_price = null;
 		if($('#vo_target_price').is(':visible')) {
 			vo_target_price = $('#research_application #vo_target_price').val();
@@ -1856,7 +1860,9 @@ jQuery(document).ready(function() {
 		researhReportList = window.localStorage.researh_report_for_summary_details;
 		*/
 
-
+		alert(vo_target_price);
+		alert(vo_eqrrv_recommendation_type);
+		alert(vo_eqrrv_report_desc);
 
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != '' && vo_target_price != null && 

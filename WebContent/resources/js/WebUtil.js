@@ -138,11 +138,12 @@ function emailFilter(sEmail){
 
 
 function checkMandotrySelectValue(val){
-	if(val != null && val != undefined && val != '-SELECT-' ){
+	return true;
+	/*if(val != null && val != undefined && val != '-SELECT-' ){
 		return true;
 	}else{
 		return false;
-	}
+	}*/
 	
 }
 

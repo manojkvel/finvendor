@@ -4,6 +4,18 @@ public class VendorResearchReportsOfferingJson {
 
 	private String productId; 	
 	private String productName;	
+	@Override
+	public String toString() {
+		return "VendorResearchReportsOfferingJson [productId=" + productId + ", productName=" + productName
+				+ ", productDescription=" + productDescription + ", launchedYear=" + launchedYear + ", researchArea="
+				+ researchArea + ", researchAreaDescription=" + researchAreaDescription + ", researchSubArea="
+				+ researchSubArea + ", stocksFundsIssuesCovered=" + stocksFundsIssuesCovered + ", accessbility="
+				+ accessbility + ", suitability=" + suitability + ", subCostPy=" + subCostPy + ", repFormat="
+				+ repFormat + ", rsrchReportFor=" + rsrchReportFor + ", repDate=" + repDate + ", rsrchReportAccess="
+				+ rsrchReportAccess + ", rsrchRecommType=" + rsrchRecommType + ", rsrchReportDesc=" + rsrchReportDesc
+				+ ", rsrchUploadReport=" + rsrchUploadReport + ", targetPrice=" + targetPrice + ", analystName="
+				+ analystName + ", analystAwards=" + analystAwards + ", anaystCfaCharter=" + anaystCfaCharter + "]";
+	}
 	private String productDescription;	
 	private String launchedYear;	
 	private int researchArea;
