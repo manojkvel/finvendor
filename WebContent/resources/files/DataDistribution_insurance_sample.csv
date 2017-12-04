@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 Asset Class,Security type,Filename,File-Brief-Desc,Feed Type,Feed Sub-type,Distribution Method,Frequency,Data Coverage Region,Data Coverage Country,Data Coverage Exchange
 Equities,Common-Stocks,Distribution,Data,EOD,Full Universe ,Web,Daily,Asia,India,NSE
 FI,Money Markets,Data,Module,REAL-TIME,Delta Data,FTP,Weekly,South Asia,Singapore,BSE
 Indies,ETF,Module,full,HISTORICAL-EOD,Full Universe,Email,Semi-Monthly,Africa,South Africa,BSE
-=======
-Asset Class,Security type,Filename,File-Brief-Desc,Feed Type,Feed Sub-type,Distribution Method,Frequency,Data Coverage Region,Data Coverage Country,Data Coverage Exchange
-Equities,Common-Stocks,Distribution,Data,EOD,Full Universe ,Web,Daily,Asia,India,NSE
-FI,Money Markets,Data,Module,REAL-TIME,Delta Data,FTP,Weekly,South Asia,Singapore,BSE
-Indies,ETF,Module,full,HISTORICAL-EOD,Full Universe,Email,Semi-Monthly,Africa,South Africa,BSE
->>>>>>> origin/master
