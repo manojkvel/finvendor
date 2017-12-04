@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml  version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -154,4 +155,162 @@
 	
 	<util:properties id="finvendorProperties" location="/WEB-INF/finvendor.properties"/>
 
+=======
+<?xml  version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+ 	xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+ 	xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/jee 
+		http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang 
+		http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+ 		http://www.springframework.org/schema/util 
+ 		http://www.springframework.org/schema/util/spring-util.xsd
+      	http://www.springframework.org/schema/task 
+      	http://www.springframework.org/schema/task/spring-task-3.0.xsd
+      	http://jax-ws.dev.java.net/spring/core 
+      	http://jax-ws.dev.java.net/spring/core.xsd
+      	http://jax-ws.dev.java.net/spring/servlet 
+      	http://jax-ws.java.net/spring/servlet.xsd
+      	http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.finvendor.controller" />
+	
+    
+	
+	<!-- This tag registers the DefaultAnnotationHandlerMapping and AnnotationMethodHandlerAdapter beans that are required for Spring MVC  -->
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:default-servlet-handler />
+	
+	
+       <!-- login configuration beans -->
+   <bean id="loginService" class="com.finvendor.serviceimpl.LoginServiceImpl" />
+   <bean id="loginDao" class="com.finvendor.daoimpl.LoginDaoImpl"></bean> 
+    
+   <bean id="userService" class="com.finvendor.serviceimpl.UserServiceImpl" />
+   <bean id="userDao" class="com.finvendor.daoimpl.UserDaoImpl"></bean>
+   
+   <bean id="vendorService" class="com.finvendor.serviceimpl.VendorServiceImpl" />
+   <bean id="vendorDao" class="com.finvendor.daoimpl.VendorDaoImpl"></bean>
+   
+   <bean id="consumerService" class="com.finvendor.serviceimpl.ConsumerServiceImpl" />
+   <bean id="consumerDao" class="com.finvendor.daoimpl.ConsumerDaoImpl"></bean>
+   
+   <bean id="marketDataAggregatorsService" class="com.finvendor.serviceimpl.MarketDataAggregatorsServiceImpl" />
+   <bean id="marketDataAggregatorsDao" class="com.finvendor.daoimpl.MarketDataAggregatorsDaoImpl"></bean>
+   
+   <bean id="adminService" class="com.finvendor.serviceimpl.AdminServiceImpl" />
+   <bean id="adminDao" class="com.finvendor.daoimpl.AdminDaoImpl"></bean>
+   
+   <bean id="referenceDataService" class="com.finvendor.serviceimpl.ReferenceDataServiceImpl" />
+   <bean id="referenceDataDao" class="com.finvendor.daoimpl.ReferenceDataDaoImpl"></bean>
+   
+   <bean id="rfpService" class="com.finvendor.serviceimpl.RfpServiceImpl" />
+   <bean id="rfpDao" class="com.finvendor.daoimpl.RfpDaoImpl"></bean>
+   
+   <!-- Mail Service -->
+   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">  
+  <property name="host" value="mail.finvendor.com" />  
+    <property name="username" value="enquiry@finvendor.com" />  
+    <property name="password" value="amv_enq11" />  
+   
+    <property name="javaMailProperties">  
+       <props>  
+              <prop key="mail.smtp.auth">true</prop>  
+           </props>  
+    </property>  
+  
+</bean> 
+   <bean id="mailService" class="com.finvendor.serviceimpl.MailServiceImpl" >
+    <property name="mailSender" ref="mailSender" />  
+</bean> 
+   <!-- Mail Service -->
+   
+    <bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/view/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:location="/WEB-INF/jdbc.properties" />
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+		p:driverClassName="${jdbc.driverClassName}"
+		p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
+		p:password="${jdbc.password}" >
+		<property name="validationQuery" value="SELECT 1"/>
+  		<property name="testOnBorrow" value="true"/>
+		<property name="maxActive" value="1000"/>
+        <property name="maxIdle" value="300"/>
+        <property name="maxWait" value="10000"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="60"/>
+		</bean>
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation">
+			<value>classpath:hibernate.cfg.xml</value>
+		</property>
+		<property name="configurationClass">
+			<value>org.hibernate.cfg.AnnotationConfiguration</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+			</props>
+		</property>
+	</bean>
+
+	<tx:annotation-driven />
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	  	<property name="maxUploadSize" value="100000"/>
+	</bean>
+	
+	<util:properties id="finvendorProperties" location="/WEB-INF/finvendor.properties"/>
+
+>>>>>>> origin/master
 </beans>

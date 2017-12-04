@@ -1,3 +1,4 @@
+
 package com.finvendor.util;
 
 import java.util.HashMap;
@@ -396,3 +397,4 @@ public class RequestConstans {
 	public static final int REGISTRATION_LINK_EXPIRY = 48;	
 		
 }
+

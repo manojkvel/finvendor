@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 .errorMessage {
 	font-size:12px; 
 	font-weight:bold;
 	color:red; 
+=======
+.errorMessage {
+	font-size:12px; 
+	font-weight:bold;
+	color:red; 
+>>>>>>> origin/master
 }
