@@ -1,7 +1,0 @@
-Asset Class,Security type,Data Coverage Region,Data Coverage Country,Data Coverage Exchange,Data Attribute
-Equities,Common-Stocks,Asia,India,NSE,12
-FI,Money Markets,South Asia,Singapore,BSE,13
-Indies,ETF,Africa,South Africa,SSE,19
-FX,Mutual Funds,North America,Newyork,CSE,5
-AI,PE Indies,South Asia,Hongkong,MSE,9
-MISC,Common-Stocks,North America,Beli,RSE,1
