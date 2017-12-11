@@ -1860,10 +1860,6 @@ jQuery(document).ready(function() {
 		researhReportList = window.localStorage.researh_report_for_summary_details;
 		*/
 
-		alert(vo_target_price);
-		alert(vo_eqrrv_recommendation_type);
-		alert(vo_eqrrv_report_desc);
-
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != ''  && 
 				vo_eqrrv_recommendation_type != null && vo_eqrrv_report_desc != ''){
