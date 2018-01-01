@@ -3,3 +3,44 @@
 	font-weight:bold;
 	color:red; 
 }
+
+.splash-content {
+	background: #0072b9;
+	color: #fff;
+	min-height: 300px;
+}
+
+.splash-title {
+	font-size: 36px;
+	text-align: center;
+	padding: 50px 0 20px;
+}
+
+.splash-subtitle {
+	font-size: 14px;
+	text-align: center;
+}
+
+.splash-search-bar {
+	margin-top: 70px;
+}
+
+.splash-content .form-control {
+	padding: 5px !important;
+	height: 34px !important;
+	width: 100% !important;
+	text-align: center;
+}
+
+.input-group-addon {
+	border: 0;
+}
+
+.splash-search-addon {
+	background: #414b4f;
+	font-weight: bold;
+}
+
+.splash-search-addon .fa-search {
+	color: #fff;
+}

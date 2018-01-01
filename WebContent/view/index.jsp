@@ -54,70 +54,22 @@
 </head>
 <body>
 	<c:set var="checkingresultpageview" value="${checkingresultpageview}"></c:set>
-	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
-	<div id="fv_sub_header">
-		<div class="container">
-			<form action="#" class="elastic-search desktop_variant" method="POST">
-				<div class="input-group">
-					<input id="txtSearchBox" class="form-control" autocomplete="off" name="query" type="text" placeholder="Free text hint company name">
-					<input type="hidden" name="form_submitted_from_search" value="1">
-					<div class="input-group-addon"><span class="glyphicon glyphicon-search"><input class="submit-button" type="submit"></span></div>
-					<div class="input-group-addon close-btn"><span class="glyphicon glyphicon-remove"><a href="javascript:;"></a></span></div>
-				</div>
-				<div class="suggestions" style="display:none" id="tblSuggestions">
-					<div id="tableBodyAutocomplete">
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-	<section style="position: relative; top: 0px;">
-		<div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:1980px;height:550px;overflow:hidden;visibility:hidden;">
-			<!-- Loading Screen -->
-			<div data-u="loading" class="jssorl-oval" style="position:absolute;top:0px;left:0px;text-align:center;background-color:rgba(0,0,0,0.7);">
-				<img style="margin-top:-19.0px;position:relative;top:50%;width:38px;height:38px;" src="img/oval.svg" />
+		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
+		<section>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="splash-content">
+						<div class="splash-title">
+	                		Track Stocks, Sectors &amp; Macroeconomy
+	            		</div>
+	            		<div class="splash-subtitle">
+	                		Access the quality Research Reports of India, UK &amp; US Markets with Just few clicks
+	            		</div>
+	            		<div class="splash-search-bar"><div class="row m0"><div class="col-md-2 col-sm-2 hiddenn-sm-down col-lg-2"></div><div class="col-md-8 col-sm-8 hiddenn-sm-down col-lg-8"><form class="navbar-form navbar-input-group input-group p0" data-bind="enterkey: submit"><div class="input-group-btn "><button type="button" class="norbdr pr05r splash-search-addon btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="htmlvalue">Stocks</span></button><ul class="dropdown-menu ddselect" data-function="searchValueChange"><li class="dropdown-item"><a data-context="stock" data-placeholder="stocks" data-searchurl="/member/api/ac_snames/stock/" class="active">Stocks</a></li><li class="dropdown-item"><a data-context="mutualfund" data-placeholder="Mutaul Funds" data-searchurl="/mutual-fund/search/">Mutual Funds</a></li><li class="dropdown-item"><a data-context="news" data-placeholder="news" data-searchurl="/member/api/ac_snames/news/">News</a></li><li class="dropdown-item"><a data-context="news" data-placeholder="Fundamentals Data" data-searchurl="/member/api/ac_snames/fundamental/">Fundamentals</a></li><li class="dropdown-item"><a data-context="research" data-placeholder="research reports" data-searchurl="/research-reports/search/">Reports</a></li><li class="dropdown-item"><a data-context="corpactions" data-placeholder="corporate actions" data-searchurl="/member/api/ac_snames/corpactions/">Corporate Actions</a></li><li class="dropdown-item"><a data-context="alerts" data-placeholder="alerts" data-searchurl="/member/api/ac_snames/alerts/">Alerts</a></li><li class="dropdown-item"><a data-context="shareholding" data-placeholder="shareholding" data-searchurl="/member/api/ac_snames/shareholding/">Share Holding</a></li></ul></div><input class="form-control mform-control navbar-ac phcenter ui-autocomplete-input" name="search" placeholder="Search for a Stock, Sector or Interest area" data-searchurl="/member/api/ac_snames/stock/" type="text" autocomplete="off"><div class="input-group-addon splash-search-addon nobdr"><i class="fa fa-search  "></i></div></form></div><div class="col-md-2 col-sm-2 hiddenn-sm-down col-lg-2"></div></div></div><div class="card-group splash-card-group"><div class="card splash-card"></div></div>
+	                </div>
+                </div>
 			</div>
-			<div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:1980px;height:650px;overflow:hidden;">
-
-				<div>
-					<img data-u="image" src="${pageContext.request.contextPath}/resources/images/banner/skyline-banner.jpg" />
-					<div class="banner-content1" style="">
-						<div>Shared Platform For All Financial Vendors<br><span>Hassle Free Product Listing</span></div>
-						<span class="know-more"><a href="#">Know more</a></span>
-					</div>
-				</div>
-				<div>
-					<img data-u="image" src="${pageContext.request.contextPath}/resources/images/banner/world-map-banner.jpg" />
-					<div class="banner-content2" style="">
-						<div>Well-Researched Search Platform<br><span>Searching Financial vendor made Easy</span></div>
-						<span class="know-more"><a href="#">Know more</a></span>
-					</div>
-				</div>
-				<div>
-					<img data-u="image" src="${pageContext.request.contextPath}/resources/images/banner/closeup-pen-banner.jpg" />
-					<div class="banner-content1" style="color: #000;">
-						<div>Helping You Going Public with your vendor<br><span>Post Your Financial Vendor Needs as a RFP</span></div>
-						<span class="know-more"><a href="#">Know more</a></span>
-					</div>
-				</div>
-				<div>
-					<img data-u="image" src="${pageContext.request.contextPath}/resources/images/banner/billion-banner.jpg" />
-					<div class="banner-content2" style="color: #000;">
-						<div>Keep Track of New RFPs/Sales Leads<br><span>Send Your Response to
-End-User's RFP</span></div>
-						<span class="know-more"><a href="#">Know more</a></span>
-					</div>
-				</div>
-			</div>
-			<!-- Bullet Navigator -->
-			<div data-u="navigator" class="jssorb05" style="bottom:16px;right:16px;" data-autocenter="1">
-				<!-- bullet navigator item prototype -->
-				<div data-u="prototype" style="width:16px;height:16px;"></div>
-			</div>
-			<!-- Arrow Navigator -->
-			<span data-u="arrowleft" class="jssora22l" style="top:0px;left:8px;width:50px;height:58px;" data-autocenter="2"></span>
-			<span data-u="arrowright" class="jssora22r" style="top:0px;right:8px;width:50px;height:58px;" data-autocenter="2"></span>
-		</div>
+		</section>
 		<section id="what_we_do">
 			<div class="container">
 				<h2>Search Free and Quality Equity Research Reports</h2>
@@ -276,13 +228,4 @@ clients?</strong> <br />Yes, we do. It is customizable to individual broker/publ
 
 <script type="text/javascript">jssor_1_slider_init();</script>
 
-	<script type="text/javascript">
-		$('#fv_sub_header #txtSearchBox').on('focus', function() {
-			$('#fv_sub_header form').addClass('open');
-		});
-
-		$('#fv_sub_header #txtSearchBox').on('blur', function() {
-			$('#fv_sub_header form').removeClass('open');
-		});
-	</script>
 </html>

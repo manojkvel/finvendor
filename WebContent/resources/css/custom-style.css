@@ -6,16 +6,15 @@ a:active {
 }
 /** Header CSS**/
 .header-container{
-	background: #414b4f;
 	/*border-bottom: 2px solid;*/
-	height: 60px;
-	margin-bottom: 20px;
+	height: 120px;
 }
 
 .header-container .container {
 	width: auto;
 	max-width: 1000px;
-}
+} 
+
 
 .header-container .header .logo img {
 	height: 40px;
@@ -27,12 +26,16 @@ a:active {
     margin-top: 10px;
 }
 .header-container .header {
-	height: 100%;
+	height: 60px;
 	padding: 0;
+	background: #414b4f;
+}
+
+.header-container .header-nav {
+	background: #fff;
 }
 
 .nav-container{
-	margin-bottom: 20px;
 	float: left;
 }
 .nav-container .container {
@@ -50,11 +53,11 @@ a:active {
 .nav-container .sf-menu{
 	float: none;
 	margin-bottom: 0px;
-	height: 60px;
+	height: 40px;
 	padding: 0 !important;
 }
 .nav-srch-cnt>ul>li{
-	height: 60px !important;
+	height: 40px !important;
 	border-right: 0;
 }
 .nav-srch-cnt >ul >li >a{
@@ -67,8 +70,8 @@ a:active {
 .nav-srch-cnt >ul >li >a:hover,
 .nav-srch-cnt >ul >li.sfHover >a,
 .nav-srch-cnt >ul >li.sfHover {
-	background: #34bf98;
-	color: #fff;
+	background: #fff;
+	color: #000;
 	text-decoration: none;
 }
 
@@ -145,18 +148,18 @@ a:active {
 	float: right;
 }
 .sf-menu ul {
-    top: 60px;
+    top: 40px;
     left: 0;
 	width: 230px;
 }
 .sf-menu ul li {
-    background: #34bf98;
+    background: #fff;
 }
 .sf-menu ul li:hover {
     background: #34bf98;
 }
 .sf-menu li ul li a {
-    border-bottom: 1px solid #FFF;
+    border-bottom: 1px solid transparent;
     font-size: 14px;
     line-height: 20px;
     color: #fff;
@@ -216,7 +219,7 @@ a:active {
     -o-transition: padding .15s ease-in-out;
     -webkit-transition: padding .15s ease-in-out;
     transition: padding .15s ease-in-out;
-    z-index: 1;
+    z-index: 11;
 }
 
 @media screen and (min-width: 1200px)
@@ -875,8 +878,8 @@ th{
 .header-container .sf-menu a {
 	padding-top: 0;
 	padding-bottom: 0;
-	line-height: 60px;
-	color: #fff;
+	line-height: 40px;
+	color: #000;
 }
 
 .header-container .sf-menu .sfHover ul li a:hover {
