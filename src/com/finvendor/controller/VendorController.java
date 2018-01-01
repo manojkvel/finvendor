@@ -2885,7 +2885,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	
 	/* Vendor Research Reports Offering Begin */
 	
-	@RequestMapping(value="addResearchReportsOffering", method = RequestMethod.POST)
+	/*@RequestMapping(value="addResearchReportsOffering", method = RequestMethod.POST)
 	public ModelAndView addResearchReportsOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "researchReportName", required = true) String productName,
@@ -2985,7 +2985,135 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		return modelAndView;
 		
 	}
+	*/
 	
+/* code changed by Rohit Vendor Research Reports Offering Begin */
+	
+	@RequestMapping(value="addResearchReportsOffering", method = RequestMethod.POST)
+	public ModelAndView addResearchReportsOffering(HttpServletRequest request,
+			@RequestParam(value = "productId", required = false) String productId,
+			@RequestParam(value = "researchReportName", required = true) String productName,
+			@RequestParam(value = "researchReportDescription", required = true) String productDescription,
+			@RequestParam(value = "researchAreaId", required = true) int researchAreaId,
+			@RequestParam(value = "researchSubAreas", required = true) String researchSubAreas,
+			@RequestParam(value = "stocksFundsIssuesCovered", required = false) String stocksFundsIssuesCovered,
+			@RequestParam(value = "launchedYear", required = false) String launchedYear,
+//			@RequestParam(value = "regionsCovered", required = false) String regionsCovered,
+//			@RequestParam(value = "countriesCovered", required = false) String countriesCovered,
+//			@RequestParam(value = "totalResearchAnalyst", required = false) int totalResearchAnalyst,
+//			@RequestParam(value = "existingClientBase", required = false) String existingClientBase,
+//			@RequestParam(value = "accessibility", required = false) String accessibility,
+			@RequestParam(value = "suitability", required = false) String suitability,
+//			@RequestParam(value = "reportCostType", required = false) String reportCostType,
+//			@RequestParam(value = "costPerMonth", required = false) float costPerMonth,
+			@RequestParam(value = "costPerAnnum", required = false) float costPerAnnum,
+			
+			@RequestParam(value = "vo_rr_report_for", required = false) String researchReportFor,
+			@RequestParam(value = "vo_datepicker", required = false) String researchReportDate,
+			@RequestParam(value = "vo_target_price", required = false) String researchTargetPrice,
+			@RequestParam(value = "vo_eqrrv_recommendation_type", required = false) String researchRecommendationType,
+			@RequestParam(value = "vo_eqrrv_report_desc", required = false) String researchReportDesc,
+			@RequestParam(value = "vo_eqrrv_report_access", required = false) String researchReportAccess,
+			
+
+			
+//			@RequestParam(value = "reportFormat", required = false) String reportFormat,
+//			@RequestParam(value = "researchPeriodMonth", required = false) String researchPeriodMonth,
+//			@RequestParam(value = "researchPeriodYear", required = false) String researchPeriodYear,
+			@RequestParam(value = "vo_analystName", required = true) String analystName,
+			@RequestParam(value = "vo_upload_report", required = false) String researchUploadReport,
+
+//			@RequestParam(value = "analystRegion", required = true) int analystRegion,
+//			@RequestParam(value = "analystCountry", required = true) int analystCountry,
+//			@RequestParam(value = "anaystYearOfExperience", required = false) String anaystYearOfExperience,
+			@RequestParam(value = "vo_analystwithawards", required = false) String analystAwards,
+			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter) {
+		
+		logger.debug("Entering  - VendorController : addResearchReportsOffering");
+		ModelAndView modelAndView = new ModelAndView("empty");
+		
+		try {
+			if(request.getSession().getAttribute("loggedInUser") == null){
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			String userName = loggedInUser.getUsername();
+			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
+			
+			VendorResearchReportsOffering researchReportsOffering = new VendorResearchReportsOffering();
+			VendorResearchReportsCoverageDetails coverageDetails = new VendorResearchReportsCoverageDetails();
+			VendorResearchReportsResearchDetails researchDetails = new VendorResearchReportsResearchDetails();
+			VendorResearchReportsAnalystProfile analystProfile = new VendorResearchReportsAnalystProfile();
+			
+			if(productId == null || productId.trim().equals("")) {
+				productId = UUID.randomUUID().toString(); 
+			}
+			researchReportsOffering.setProductId(productId);
+			researchReportsOffering.setProductName(productName);
+			researchReportsOffering.setProductDescription(productDescription);
+			researchReportsOffering.setLaunchedYear(launchedYear);
+			ResearchArea researchArea = (ResearchArea)marketDataAggregatorsService.getModelObjectById(
+					ResearchArea.class, researchAreaId);
+			researchReportsOffering.setResearchArea(researchArea);
+			researchReportsOffering.setResearchSubArea(researchSubAreas);
+			researchReportsOffering.setStocksFundsIssuesCovered(stocksFundsIssuesCovered);
+			researchReportsOffering.setVendor(vendor);
+		
+			coverageDetails.setProductId(productId);
+		//	coverageDetails.setRegionsCovered(regionsCovered);
+		//	coverageDetails.setCountriesCovered(countriesCovered);
+		//	coverageDetails.setTotalAnalyst(totalResearchAnalyst);
+		//	coverageDetails.setExistingClientBase(existingClientBase);
+			researchReportsOffering.setCoverageDetails(coverageDetails);
+						
+			researchDetails.setProductId(productId);
+		//	researchDetails.setAccessbility(accessibility);
+			researchDetails.setSuitability(suitability);
+		//	researchDetails.setCostType(reportCostType);
+		//	researchDetails.setSubCostPm(costPerMonth);
+			researchDetails.setSubCostPy(costPerAnnum);
+			
+			/*code by rohit*/
+			researchDetails.setRsrchReportFor(researchReportFor);
+			researchDetails.setRepDate(researchReportDate);
+			researchDetails.setRsrchRecommType(researchRecommendationType);
+			researchDetails.setRsrchReportAccess(researchReportAccess);
+			researchDetails.setRsrchReportDesc(researchReportDesc);
+			researchDetails.setRsrchUploadReport(researchUploadReport);
+			researchDetails.setTargetPrice(researchTargetPrice);
+			
+			
+			
+			
+		//	researchDetails.setRepFormat(reportFormat);
+		//	researchDetails.setResPeriodMon(researchPeriodMonth);
+		//	researchDetails.setResPeriodYear(researchPeriodYear);			
+			researchReportsOffering.setResearchDetails(researchDetails);
+			
+//			Region region = (Region)marketDataAggregatorsService.getModelObjectById(
+//					Region.class, analystRegion);
+//			Country country = (Country)marketDataAggregatorsService.getModelObjectById(
+//					Country.class, analystCountry);
+						
+			analystProfile.setProductId(productId);
+			analystProfile.setAnalystName(analystName);
+//			analystProfile.setAnalystRegion(region);
+//			analystProfile.setAnalystCountry(country);
+//			analystProfile.setAnalystYearOfExp(anaystYearOfExperience);
+			analystProfile.setAnalystAwards(analystAwards);			
+			analystProfile.setAnaystCfaCharter(analystCfaCharter);
+			researchReportsOffering.setAnalystProfile(analystProfile);
+			
+			vendorService.addVendorResearchReportsOffering(researchReportsOffering);
+		} catch (Exception exp) {
+			logger.error("Error Saving Research Reports Offering", exp); 
+			modelAndView.addObject("status", "Error Updating Offering details");
+		}
+		modelAndView.addObject("status", "Offering details Updated successfully");
+		logger.debug("Leaving  - VendorController : addResearchReportsOffering");
+		return modelAndView;
+		
+	}
 	@RequestMapping(value="deleteResearchReportsOffering", method = RequestMethod.POST)
 	public ModelAndView deleteResearchReportsOffering(
 			HttpServletRequest request,
@@ -3060,11 +3188,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			jsonOffering.setProductName(offering.getProductName());
 			jsonOffering.setProductDescription(offering.getProductDescription());
 			jsonOffering.setResearchArea(offering.getResearchArea().getResearchAreaId());
-			jsonOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
+//			jsonOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
 			jsonOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
-			jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
-			jsonOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
+//			jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
+//			jsonOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
 			jsonOfferings.add(jsonOffering);
 		}
 	}
@@ -3101,34 +3229,45 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setProductName(offering.getProductName());
 				vendorOffering.setProductDescription(offering.getProductDescription());
 				vendorOffering.setResearchArea(offering.getResearchArea().getResearchAreaId());
-				vendorOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
+//				vendorOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
 				vendorOffering.setResearchSubArea(offering.getResearchSubArea());
 				vendorOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
 				
-				vendorOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
+				/*vendorOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
 				vendorOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
 				vendorOffering.setTotalAnalyst(offering.getCoverageDetails().getTotalAnalyst());
-				vendorOffering.setExistingClientBase(offering.getCoverageDetails().getExistingClientBase());
+				vendorOffering.setExistingClientBase(offering.getCoverageDetails().getExistingClientBase());*/
 				
-				vendorOffering.setAccessbility(offering.getResearchDetails().getAccessbility());
+				//vendorOffering.setAccessbility(offering.getResearchDetails().getAccessbility());
 				vendorOffering.setSuitability(offering.getResearchDetails().getSuitability());
-				vendorOffering.setCostType(offering.getResearchDetails().getCostType());
-				vendorOffering.setSubCostPm(offering.getResearchDetails().getSubCostPm());
+				//vendorOffering.setCostType(offering.getResearchDetails().getCostType());
+				//vendorOffering.setSubCostPm(offering.getResearchDetails().getSubCostPm());
 				vendorOffering.setSubCostPy(offering.getResearchDetails().getSubCostPy());
-				vendorOffering.setRepFormat(offering.getResearchDetails().getRepFormat());
-				vendorOffering.setResPeriodMon(offering.getResearchDetails().getResPeriodMon());
-				vendorOffering.setResPeriodYear(offering.getResearchDetails().getResPeriodYear());
+				//vendorOffering.setRepFormat(offering.getResearchDetails().getRepFormat());
+				//vendorOffering.setResPeriodMon(offering.getResearchDetails().getResPeriodMon());
+				//vendorOffering.setResPeriodYear(offering.getResearchDetails().getResPeriodYear());
 				
 				vendorOffering.setAnalystName(offering.getAnalystProfile().getAnalystName());
-				vendorOffering.setAnalystRegion(offering.getAnalystProfile().getAnalystRegion().getRegion_id());
+				/*vendorOffering.setAnalystRegion(offering.getAnalystProfile().getAnalystRegion().getRegion_id());
 				vendorOffering.setAnalystRegionDescription(offering.getAnalystProfile().getAnalystRegion().getName());
 				vendorOffering.setAnalystCountry(offering.getAnalystProfile().getAnalystCountry().getCountry_id());
 				vendorOffering.setAnalystCountryDescription(offering.getAnalystProfile().getAnalystCountry().getName());
-				vendorOffering.setAnalystYearOfExp(offering.getAnalystProfile().getAnalystYearOfExp());
+				vendorOffering.setAnalystYearOfExp(offering.getAnalystProfile().getAnalystYearOfExp());*/
 				vendorOffering.setAnalystAwards(offering.getAnalystProfile().getAnalystAwards());
 				vendorOffering.setAnaystCfaCharter(offering.getAnalystProfile().getAnaystCfaCharter());
 				
+				// code managed by Rohit
+				vendorOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
+				logger.info("RESEARCH REPORT FOR : "+offering.getResearchDetails().getRsrchReportFor());
+				logger.info("PRODUCT NAME: "+offering.getProductName());
+				logger.info(vendorOffering.getRsrchReportFor());
+				vendorOffering.setRepDate(offering.getResearchDetails().getRepDate());
+				vendorOffering.setRsrchRecommType(offering.getResearchDetails().getRsrchRecommType());
+				vendorOffering.setRsrchReportDesc(offering.getResearchDetails().getRsrchReportDesc());
+				vendorOffering.setRsrchReportAccess(offering.getResearchDetails().getRsrchReportAccess());;
+				vendorOffering.setRsrchUploadReport(offering.getResearchDetails().getRsrchUploadReport());
+				logger.info(vendorOffering.toString());
 			}			
 		} catch (Exception exp) {
 			logger.error("Error Fetching Research Reports Offering for product {}", 

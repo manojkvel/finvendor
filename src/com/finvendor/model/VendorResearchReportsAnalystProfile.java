@@ -23,7 +23,7 @@ public class VendorResearchReportsAnalystProfile
 	@Column(name="analyst_name")
 	private String analystName;
 	
-	@OneToOne(targetEntity=Region.class)
+	/*@OneToOne(targetEntity=Region.class)
 	@JoinColumn(name="analyst_region", nullable=false)
 	private Region analystRegion;
 	
@@ -33,7 +33,7 @@ public class VendorResearchReportsAnalystProfile
 		
 	@Column(name="analyst_year_of_exp")
 	private String analystYearOfExp;
-	
+	*/
 	@Column(name="analyst_awards")
 	private String analystAwards;
 	
@@ -56,7 +56,7 @@ public class VendorResearchReportsAnalystProfile
 		this.analystName = analystName;
 	}
 
-	public Region getAnalystRegion() {
+/*	public Region getAnalystRegion() {
 		return analystRegion;
 	}
 
@@ -78,7 +78,7 @@ public class VendorResearchReportsAnalystProfile
 
 	public void setAnalystYearOfExp(String analystYearOfExp) {
 		this.analystYearOfExp = analystYearOfExp;
-	}
+	}*/
 
 	public String getAnalystAwards() {
 		return analystAwards;
