@@ -1860,8 +1860,11 @@ jQuery(document).ready(function() {
 		researhReportList = window.localStorage.researh_report_for_summary_details;
 		*/
 
+<<<<<<< HEAD
 	
 
+=======
+>>>>>>> 2bd25f1c54c50b1728a93a7c8cbbdb13f66a0ffa
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != ''  && 
 				vo_eqrrv_recommendation_type != null && vo_eqrrv_report_desc != ''){
