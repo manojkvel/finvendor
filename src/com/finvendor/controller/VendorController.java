@@ -3187,7 +3187,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	private void populateVendorResearchReportsOfferingJsonList(List<VendorResearchReportsOffering> offerings,
 			List<VendorResearchReportsOfferingJson> jsonOfferings) {
 		for(VendorResearchReportsOffering offering : offerings) {
-				logger.info("****************   : "+offering.getResearchDetails().getResearchReportFor());
+//		logger.info("****************   : "+offering.getResearchDetails().getResearchReportFor());
 			VendorResearchReportsOfferingJson jsonOffering = new VendorResearchReportsOfferingJson();
 			jsonOffering.setProductId(offering.getProductId());
 			jsonOffering.setProductName(offering.getProductName());
