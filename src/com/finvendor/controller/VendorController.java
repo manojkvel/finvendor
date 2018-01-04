@@ -3196,7 +3196,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 //			jsonOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
 			jsonOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
-			System.out.println("Offering.getResearchReportFor is :" +offering.getResearchDetails().getRsrchReportFor( );
+//			System.out.println("Offering.getResearchReportFor is :" +offering.getResearchDetails().getRsrchReportFor( );
 			jsonOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
 			
 //			jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
