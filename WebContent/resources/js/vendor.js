@@ -1673,7 +1673,7 @@ jQuery(document).ready(function() {
 				for(var i=0; i < totalCount; i++) {
 					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].researchAreaDescription + " | " + response[i].vo_rr_report_for + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].researchArea + " | " + response[i].rsrchReportFor + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
@@ -1860,6 +1860,11 @@ jQuery(document).ready(function() {
 		researhReportList = window.localStorage.researh_report_for_summary_details;
 		*/
 
+<<<<<<< HEAD
+	
+
+=======
+>>>>>>> 2bd25f1c54c50b1728a93a7c8cbbdb13f66a0ffa
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != ''  && 
 				vo_eqrrv_recommendation_type != null && vo_eqrrv_report_desc != ''){

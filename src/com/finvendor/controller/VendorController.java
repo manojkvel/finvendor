@@ -3160,6 +3160,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		logger.debug("Entering  - VendorController : listResearchReportsOffering");
+		logger.info("vendor offering research report for ********: ");
+		System.out.println("vendor offering research report for ********: ");
 		List<VendorResearchReportsOffering> offerings = null;
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
@@ -3171,6 +3173,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			userName = loggedInUser.getUsername();
 			offerings = vendorService.
 					getVendorResearchReportsOffering(userName);
+			System.out.println("vendor offering research report for ********: " +offerings.get(8).getResearchDetails().getRsrchReportFor());
+			
 			populateVendorResearchReportsOfferingJsonList(offerings, jsonOfferings);			
 		} catch (Exception exp) {
 			logger.error("Error Reading Trading Applications Offering for {}", userName, exp); 
@@ -3183,6 +3187,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	private void populateVendorResearchReportsOfferingJsonList(List<VendorResearchReportsOffering> offerings,
 			List<VendorResearchReportsOfferingJson> jsonOfferings) {
 		for(VendorResearchReportsOffering offering : offerings) {
+//		logger.info("****************   : "+offering.getResearchDetails().getResearchReportFor());
 			VendorResearchReportsOfferingJson jsonOffering = new VendorResearchReportsOfferingJson();
 			jsonOffering.setProductId(offering.getProductId());
 			jsonOffering.setProductName(offering.getProductName());
@@ -3191,6 +3196,9 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 //			jsonOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
 			jsonOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
+//			System.out.println("Offering.getResearchReportFor is :" +offering.getResearchDetails().getRsrchReportFor( );
+			jsonOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
+			
 //			jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
 //			jsonOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
 			jsonOfferings.add(jsonOffering);
@@ -3259,6 +3267,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				
 				// code managed by Rohit
 				vendorOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
+				System.out.println("*********************** inside fetch");
 				logger.info("RESEARCH REPORT FOR : "+offering.getResearchDetails().getRsrchReportFor());
 				logger.info("PRODUCT NAME: "+offering.getProductName());
 				logger.info(vendorOffering.getRsrchReportFor());
