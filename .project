@@ -22,12 +22,10 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-<<<<<<< HEAD
-			
-=======
+
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
->>>>>>> 2bd25f1c54c50b1728a93a7c8cbbdb13f66a0ffa
+
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
