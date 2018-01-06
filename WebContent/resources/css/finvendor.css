@@ -36,11 +36,27 @@
 	border: 0;
 }
 
-.splash-search-addon {
+.splash-search-bar .open .splash-search-addon,
+.splash-search-addon,
+.splash-search-addon:hover {
 	background: #414b4f;
 	font-weight: bold;
-}
-
-.splash-search-addon .fa-search {
 	color: #fff;
 }
+
+.splash-search-addon .fa-search,
+.splash-search-addon .fa-search:hover {
+	color: #fff;
+}
+
+.splash-search-bar button[type='button']:hover,
+.splash-search-bar.open button[type='button']:focus,
+.splash-search-bar .open .splash-search-addon {
+	border: 1px solid transparent;
+}
+
+.splash-search-bar .open>.dropdown-menu {
+	border-radius: 0 0 5px 5px;
+	margin:0;
+}
+
