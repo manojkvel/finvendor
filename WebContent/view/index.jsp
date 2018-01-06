@@ -66,7 +66,7 @@
 	});
 </script>
 </head>
-<body>
+<body id="home">
 	<c:set var="checkingresultpageview" value="${checkingresultpageview}"></c:set>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 	<section>
@@ -158,7 +158,7 @@
 		</div>
 		<p>
 			<span class="know-more"><a
-				href="/view/equity_research_report_vendor.jsp">Get Started</a></span>
+				href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp">Get Started</a></span>
 		</p>
 	</div>
 	</section>

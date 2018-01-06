@@ -7,7 +7,7 @@ a:active {
 /** Header CSS**/
 .header-container{
 	/*border-bottom: 2px solid;*/
-	height: 120px;
+	height: 100px;
 }
 
 .header-container .container {
@@ -196,7 +196,11 @@ a:active {
     position: relative;
     background-color: #34bf98;
     height: 40px;
-    margin-top: -20px;
+    margin-bottom: 20px;
+}
+
+#home #fv_sub_header {
+    margin-bottom: 0;
 }
 
 #fv_sub_header .container {

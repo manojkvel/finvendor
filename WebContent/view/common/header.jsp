@@ -41,7 +41,7 @@
                                 <div class="header-container">
                                     <div class="header">
                                         <div class="container">
-                                            <a href="/" onclick="homePage()" class="logo"> <img src="${pageContext.request.contextPath}/resources/images/company-logo-header.jpg" alt="FinVendor" title="FinVendor" onclick="homepage()" align="middle" />
+                                            <a href="${pageContext.request.contextPath}" onclick="homePage()" class="logo"> <img src="${pageContext.request.contextPath}/resources/images/company-logo-header.jpg" alt="FinVendor" title="FinVendor" onclick="homepage()" align="middle" />
                                                 <span class="hide">Democratizing The World Of Financial Vendors.</span>
                                             </a>
                                         </div>
