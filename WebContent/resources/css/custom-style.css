@@ -4,35 +4,44 @@ a:active {
 	text-decoration: none !important;
 	outline: none !important;
 }
+
+.container-fluid {
+	padding: 0 !important;
+}
+
+.row {
+	margin: 0 !important;
+}
+
+body {
+	background: #e6e6e6 !important;	
+}
+
 /** Header CSS**/
-.header-container{
+.header{
 	/*border-bottom: 2px solid;*/
-	height: 100px;
+	height: auto;
 }
 
-.header-container .container {
-	width: auto;
-	max-width: 1000px;
-} 
-
-
-.header-container .header .logo img {
-	height: 40px;
-}
-.header .logo{
+.header .logo {
 	display: inline-block;
-	padding: 0 5px;
-    border-radius: 4px;
-    margin-top: 10px;
+	padding: 10px 20px;
+    float: left;
+    background: #fff;
 }
-.header-container .header {
-	height: 60px;
+
+.header .logo img {
+	height: 35px;
+	margin-left: 10px;
+}
+
+.header {
 	padding: 0;
 	background: #414b4f;
 }
 
-.header-container .header-nav {
-	background: #fff;
+.header .header-nav {
+	background: #414b4f;
 }
 
 .nav-container{
@@ -53,11 +62,9 @@ a:active {
 .nav-container .sf-menu{
 	float: none;
 	margin-bottom: 0px;
-	height: 40px;
 	padding: 0 !important;
 }
 .nav-srch-cnt>ul>li{
-	height: 40px !important;
 	border-right: 0;
 }
 .nav-srch-cnt >ul >li >a{
@@ -70,8 +77,8 @@ a:active {
 .nav-srch-cnt >ul >li >a:hover,
 .nav-srch-cnt >ul >li.sfHover >a,
 .nav-srch-cnt >ul >li.sfHover {
-	background: #fff;
-	color: #000;
+	background: #34bf98;
+	color: #fff;
 	text-decoration: none;
 }
 
@@ -140,7 +147,7 @@ a:active {
 	border-top-color: #a0a0a0;
 }
 
-.header-container .pull-right {
+.header .pull-right {
 	height: 60px;
 }
 
@@ -148,9 +155,8 @@ a:active {
 	float: right;
 }
 .sf-menu ul {
-    top: 40px;
+    top: 55px;
     left: 0;
-	width: 230px;
 }
 .sf-menu ul li {
     background: #fff;
@@ -191,15 +197,17 @@ a:active {
 
 #fv_sub_header {
     display: block;
-    width: 100%;
-    float: left;
+    float: right;
     position: relative;
-    background-color: #34bf98;
-    height: 40px;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+.header {
     margin-bottom: 20px;
 }
 
-#home #fv_sub_header {
+#home .header {
     margin-bottom: 0;
 }
 
@@ -316,7 +324,7 @@ a:active {
 
 #fv_sub_header form .input-group-addon>span {
     color: #34bf98;
-    font-size: 22px;
+    font-size: 18px;
 }
 #fv_sub_header form .input-group-addon input, 
 #fv_sub_header form .input-group-addon a {
@@ -633,7 +641,12 @@ th{
 
 .sf-menu ul {
 	display: none;
+	position: fixed;
+	width: 100%;
+	background: #fff;
+	padding-left: 100px;
 }
+
 #searchmultiform .ColumnCommonvendor {
 	width: auto;
 	float: none;
@@ -875,29 +888,31 @@ th{
 	margin-bottom: 0;
 }
 
-.header-container .sf-menu li {
+.header .sf-menu li {
 	display: block;
 	text-align: left;
+	float: left;
 }
 
-.header-container .sf-menu a {
+.header .sf-menu a {
 	padding-top: 0;
 	padding-bottom: 0;
-	line-height: 40px;
-	color: #000;
+	line-height: 55px;
+	color: #fff;
 }
 
-.header-container .sf-menu .sfHover ul li a:hover {
+.header .sf-menu .sfHover ul li a:hover {
 	background: #414b4f;
 }
 
-.header-container .sf-menu ul li a {
+.header .sf-menu ul li a {
 	line-height: normal;
 	padding-top: 10px;
 	padding-bottom: 10px;
+	color: #000;
 }
 
-.header-container .sf-menu a.cd-signin {
+.header .sf-menu a.cd-signin {
 	font-size: 14px;
 	font-weight: bold;
 }
@@ -913,14 +928,14 @@ th{
 	line-height: 60px;
 }
 
-.header-container .sf-menu .cd-contact.sfHover,
+.header .sf-menu .cd-contact.sfHover,
 .nav-srch-cnt >ul >li.cd-contact >a:hover,
 .nav-srch-cnt >ul >li.cd-contact.sfHover >a,
-.header-container .sf-menu .user_activity.sfHover {
+.header .sf-menu .user_activity.sfHover {
 	background: transparent;
 }
 
-.header-container .sf-menu #header_user_profile a.account {
+.header .sf-menu #header_user_profile a.account {
 	height: 60px;
 	margin-top: 0;
 	background: none;
@@ -929,18 +944,18 @@ th{
 }
 
 
-.header-container .sf-menu .profile-circle {
+.header .sf-menu .profile-circle {
 	border: none;
 	width: 30px;
 	height: 30px;
 	margin-right: 5px;
 }
 
-.header-container .sf-menu #header_user_profile span {
+.header .sf-menu #header_user_profile span {
 	margin-right: 5px;
 }
 
-.header-container .sf-menu #header_user_profile .profilepicsubmenu {
+.header .sf-menu #header_user_profile .profilepicsubmenu {
 	border-radius: 0;
 	box-shadow: none;
 	width: auto;
@@ -1129,6 +1144,14 @@ th{
 
 	.inner-left-wrap h1 {
 		font-size: 20px;
+	}
+	#fv_sub_header {
+		margin-right: 0;
+	}
+	
+	.header .pull-left {
+		float: right !important;
+		padding: 0 10px 0 20px;
 	}
 }
 

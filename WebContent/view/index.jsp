@@ -89,6 +89,7 @@
 										data-toggle="dropdown" aria-haspopup="true"
 										aria-expanded="false">
 										<span class="htmlvalue">Stocks</span>
+										<span class="fa fa-caret-down" style="padding-left: 5px;"></span>
 									</button>
 									<ul class="dropdown-menu ddselect"
 										data-function="searchValueChange">
@@ -106,7 +107,7 @@
 									class="form-control mform-control navbar-ac phcenter ui-autocomplete-input"
 									name="search"
 									placeholder="Search for a Stock, Sector or Interest area"
-									data-searchurl="/member/api/ac_snames/stock/" type="text"
+									 type="text"
 									autocomplete="off">
 								<div class="input-group-addon splash-search-addon nobdr">
 									<i class="fa fa-search  "></i>

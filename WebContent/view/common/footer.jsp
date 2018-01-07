@@ -3,7 +3,6 @@
 <footer>
 	<div id="footer" class="footer_wrapper">
 		<div id="footer_top">
-			<div class="container">
 				<div class="row">
 					<div class="col-md-4 col-sm-4 col-xs-12">
 						<div class="section_one">
@@ -85,10 +84,9 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			
 		</div>
 		<div id="footer_bottom">
-			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-sm-8">
 						<div class="clearfix">
@@ -127,7 +125,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			
 		</div>
 	</div>
 </footer>
