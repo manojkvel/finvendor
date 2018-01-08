@@ -1,5 +1,6 @@
 package com.finvendor.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingApplicationsOffering;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
+import com.finvendor.util.VendorEnum;
 
 @Service
 public interface VendorService {
@@ -150,5 +152,8 @@ public interface VendorService {
 	public List<VendorAnalyticsApplicationsOffering> getVendorAnalyticsApplicationsOffering(
 			String vendorName) throws ApplicationException;
 	/* Vendor Analytics Applications Offering End */
+	
+	boolean uploadFile(VendorEnum type, byte[] bytes, String destPath) throws IOException;
+	void deleteFile(VendorEnum type, String path) throws IOException;
 	
 }

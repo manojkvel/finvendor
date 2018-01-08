@@ -57,6 +57,9 @@ public class VendorResearchReportsOffering
 	@JoinColumn(name="product_id")
 	private VendorResearchReportsAnalystProfile analystProfile;
 
+	@Column(name="rsrch_rpt_offering_file_path")
+	private String researchReportOfferingFilePath;
+	
 	public String getProductId() {
 		return productId;
 	}
@@ -144,5 +147,12 @@ public class VendorResearchReportsOffering
 	public void setAnalystProfile(VendorResearchReportsAnalystProfile analystProfile) {
 		this.analystProfile = analystProfile;
 	}
-	
+
+	public String getResearchReportOfferingFilePath() {
+		return researchReportOfferingFilePath;
+	}
+
+	public void setResearchReportOfferingFilePath(String researchReportOfferingFilePath) {
+		this.researchReportOfferingFilePath = researchReportOfferingFilePath;
+	}
 }
