@@ -1597,11 +1597,8 @@ jQuery(document).ready(function() {
 				if(response.subCostPy != 0) {
 					$("#research_application #rdSubsriptionCostUSDperannum").val(response.subCostPy);
 				}
-				//code edited by rohit...
-//				alert(response.analystName);
-//				alert(response.vo_rr_report_for);
 
-				$("#research_application #vo_rr_report_for").val(response.rsrchReportFor);
+				$("#research_application #vo_rr_report_for").selectpicker('val', response.rsrchReportFor);
 				$("#research_application #vo_datepicker").val(response.repDate);
 				$("#research_application #vo_target_price").val(response.vo_target_price);
 				$("#research_application #vo_eqrrv_recommendation_type").selectpicker('val', response.rsrchRecommType);
@@ -1673,7 +1670,7 @@ jQuery(document).ready(function() {
 				for(var i=0; i < totalCount; i++) {
 					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].researchArea + " | " + response[i].rsrchReportFor + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + getResearchAreaMultipleListById(response[i].researchArea + '') + " | " + response[i].rsrchReportFor + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
