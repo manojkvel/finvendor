@@ -106,11 +106,7 @@ body {
 
 
 .nav-srch-cnt >ul >li.user_activity.sfHover ul li a:hover {
-	background: #34bf98;
-}
-
-.nav-srch-cnt >ul >li.user_activity ul li {
-	background: #414b4f;
+	/*background: #34bf98;*/
 }
 
 .nav-srch-cnt >ul >li.user_activity a span {
@@ -162,7 +158,7 @@ body {
     background: #fff;
 }
 .sf-menu ul li:hover {
-    background: #34bf98;
+    background: #414b4f;
 }
 .sf-menu li ul li a {
     border-bottom: 1px solid transparent;

@@ -51,8 +51,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 <header>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="header-container">
-				<div class="container">
+			
 					<div class="header">
 						<a href="/" onclick="homePage()" class="logo"> <img
 							src="${pageContext.request.contextPath}/resources/images/company-logo-header.jpg"
@@ -60,14 +59,48 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 							align="middle" /> 
 							<span class="hide">Democratizing The World Of Financial Vendors.</span>
 						</a>
-						<div class="pull-right">
+						 <nav>
+                                        <div class="header-nav">
+										<div class="pull-left">
                                                 <div class="nav-container">
                                                     <div class="nav-srch">
                                                         <div class="nav-srch-cnt ">
 
                                                             <ul class="sf-menu hidden-xs" id="example">
-
-                                                                <li><a href="#">SOLUTIONS</a>
+																<li>
+                                                                        <a href="#">Research Reports</a>
+                                                                        <ul>
+                                                                            <li>
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Equity/Company Research">
+                                                                                    Equity/Company Research
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Sector Research">
+                                                                                    Sector Research
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Macro Research">
+                                                                                    Macro Research
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Debt Mkt Research">
+                                                                                    Debt Mkt Research
+                                                                                </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Fund/ETF Research">
+                                                                                    Fund/ETF Research
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Brokers_Analysts">Brokers/Analysts</a>
+                                                                    </li>
+                                                                <!--<li><a href="#">SOLUTIONS</a>
                                                                     <ul>
                                                                         <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=mdvad&RaYUnA=${l:encrypt(username)}">Market
 														Data Vendors</a>
@@ -98,8 +131,8 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 																						Report Services</a>
                                                                         </li>
                                                                     </ul>
-                                                                </li>
-                                                                <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE">MORE</a>
+                                                                </li>-->
+                                                                <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE">More</a>
                                                                     <ul>
 
                                                                         <c:if test="${sessionScope.loggedInRole == 'ROLE_CONSUMER'}">
@@ -134,11 +167,17 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                     </a>
                                                                     <ul>
                                                                         <li>
-                                                                            <a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+                                                                            <a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Profile</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                            <a href="#" id='my_subscription'>Subscribe</a>
                                                                         </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_portfolio'>My Portfolio</a>
+                                                                        </li>
+                                                                        <!--<li>
+                                                                        	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                        </li>-->
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
                                                                         </li>
@@ -180,10 +219,24 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                     </div>
 
                                                 </div>
+                                                <div id="fv_sub_header">
+			                                        <form action="#" class="elastic-search desktop_variant" method="POST">
+			                                                <div class="input-group">
+			                                                    <input id="txtSearchBox" class="form-control" autocomplete="off" name="query" type="text" placeholder="Free text hint company name">
+			                                                    <input type="hidden" name="form_submitted_from_search" value="1">
+			                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-search"><input class="submit-button" type="submit"></span></div>
+			                                                    <div class="input-group-addon close-btn"><span class="glyphicon glyphicon-remove"><a href="javascript:;"></a></span></div>
+			                                                </div>
+			                                                <div class="suggestions" style="display:none" id="tblSuggestions">
+			                                                    <div id="tableBodyAutocomplete">
+			                                                    </div>
+			                                                </div>
+			                                            </form>
+			                                    </div>
                                                 <div class="clearfix"></div>
+                                        </div>
+                          </nav>
 					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </header>
