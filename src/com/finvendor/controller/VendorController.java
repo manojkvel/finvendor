@@ -3093,7 +3093,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			
 			
 			
-			
+			logger.info("TARGET PRICE: "+researchDetails.getTargetPrice());
 		//	researchDetails.setRepFormat(reportFormat);
 		//	researchDetails.setResPeriodMon(researchPeriodMonth);
 		//	researchDetails.setResPeriodYear(researchPeriodYear);			
@@ -3274,7 +3274,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setResearchSubArea(offering.getResearchSubArea());
 				vendorOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
-				
+				vendorOffering.setTargetPrice(offering.getResearchDetails().getTargetPrice());
 				/*vendorOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
 				vendorOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
 				vendorOffering.setTotalAnalyst(offering.getCoverageDetails().getTotalAnalyst());

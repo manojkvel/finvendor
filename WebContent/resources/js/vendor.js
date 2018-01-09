@@ -1600,7 +1600,11 @@ jQuery(document).ready(function() {
 
 				$("#research_application #vo_rr_report_for").selectpicker('val', response.rsrchReportFor);
 				$("#research_application #vo_datepicker").val(response.repDate);
-				$("#research_application #vo_target_price").val(response.vo_target_price);
+				
+				if(response.targetPrice != 0){
+					$("#research_application #vo_target_price").val(response.targetPrice);
+
+				}
 				$("#research_application #vo_eqrrv_recommendation_type").selectpicker('val', response.rsrchRecommType);
 			//	$("#research_application #vo_upload_report").val(response.rsrchUploadReport);
 				$("#research_application #vo_eqrrv_report_desc").val(response.rsrchReportDesc);
