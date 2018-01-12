@@ -164,15 +164,23 @@
                                                                             <span>${sessionScope.loggedInUser.username}</span>
                                                                         </a>
                                                                         <ul>
-                                                                            <li>
-                                                                                <a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
-                                                                            </li>
+                                                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+							                                            </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_profile'>My Profile</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_subscription'>Subscribe</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_portfolio'>My Portfolio</a>
+                                                                        </li>
+                                                                        <li>
+                                                                        	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
+                                                                        </li>
                                                                         </ul>
                                                                     </c:when>
                                                                     <c:otherwise>
@@ -274,11 +282,23 @@
 
                                         <i class="fa fa-chevron-down"></i>
                                         <ul class="child-main-menu">
-                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
-                                            </li>
-                                            <li><a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a></h4>
-                                            </li>
-                                            <li><a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
+                                        		<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+							                                            </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_profile'>My Profile</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_subscription'>Subscribe</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_portfolio'>My Portfolio</a>
+                                                                        </li>
+                                                                        <li>
+                                                                        	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
+                                                                        </li>
                                             </li>
                                         </ul>
                                         </c:when>

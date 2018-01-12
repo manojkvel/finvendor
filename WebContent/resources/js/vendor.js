@@ -1727,7 +1727,6 @@ jQuery(document).ready(function() {
 			vo_target_price = $('#research_application #vo_target_price').val();
 		}
 
-		var vo_upload_report = getUploadReportObj();
 
 		var vo_analystCfaCharter = $("#research_application #vo_analystCfaCharter").prop("checked");
 		if(vo_analystCfaCharter) {
@@ -1859,6 +1858,10 @@ jQuery(document).ready(function() {
 		
 		researhReportList = window.localStorage.researh_report_for_summary_details;
 		*/
+		
+		if(rsrch_report_offeringfile == undefined) {
+			rsrch_report_offeringfile = '';
+		}
 
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != ''  && 

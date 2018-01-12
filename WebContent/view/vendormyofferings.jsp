@@ -29,7 +29,7 @@
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
     <style type="text/css">
-    	#tab2, #tab3, #tab4 {
+    	#tab2, #tab3 {
     		display: none;
     	}
     </style>

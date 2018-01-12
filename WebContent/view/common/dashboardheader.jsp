@@ -166,8 +166,10 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                         <span>${sessionScope.loggedInUser.username}</span>
                                                                     </a>
                                                                     <ul>
+                                                                    		<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+							                                            </li>
                                                                         <li>
-                                                                            <a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Profile</a>
+                                                                            <a href="#" id='my_profile'>My Profile</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="#" id='my_subscription'>Subscribe</a>
@@ -175,9 +177,9 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                         <li>
                                                                             <a href="#" id='my_portfolio'>My Portfolio</a>
                                                                         </li>
-                                                                        <!--<li>
+                                                                        <li>
                                                                         	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
-                                                                        </li>-->
+                                                                        </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
                                                                         </li>
@@ -253,12 +255,25 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                             <i class="fa fa-chevron-down"></i>
                                         </a>
                                         <ul class="child-main-menu">
-                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
-                                            </li>
-                                            <li><a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a></h4>
-                                            </li>
-                                            <li><a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
-                                            </li>
+                                        					<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+							                                            </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_profile'>My Profile</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_subscription'>Subscribe</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="#" id='my_portfolio'>My Portfolio</a>
+                                                                        </li>
+                                                                        <li>
+                                                                        	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
+                                                                        </li>
+                                            
+                                          
                                         </ul>
                                         </c:when>
                                         <c:otherwise>
