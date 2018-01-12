@@ -317,10 +317,6 @@
 				your email below to be added to our mailing list.
 			</p>
 			<form name="form_signup_newsletter">
-			
-											<input type="file" name="vo_upload_report" id="vo_upload_report" required />
-											<label class="default_select">Upload Report</label>
-
 				<ul>
 					<li><input type="email" name="signup_newsletter"
 						placeholder="Email Address" /></li>

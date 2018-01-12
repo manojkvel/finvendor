@@ -1727,7 +1727,7 @@ jQuery(document).ready(function() {
 			vo_target_price = $('#research_application #vo_target_price').val();
 		}
 
-		var vo_upload_report = $('#research_application #vo_upload_report').val();
+		var vo_upload_report = getUploadReportObj();
 
 		var vo_analystCfaCharter = $("#research_application #vo_analystCfaCharter").prop("checked");
 		if(vo_analystCfaCharter) {
@@ -1795,11 +1795,6 @@ jQuery(document).ready(function() {
 			$("#research_application #vo_datepicker").addClass("error_field");
 		}
 
-		if(vo_target_price != '') {
-			$("#research_application #vo_target_price").removeClass("error_field");
-		} else {
-			$("#research_application #vo_target_price").addClass("error_field");
-		}
 
 		if(vo_eqrrv_recommendation_type != null) {
 			$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").removeClass("error_field");
@@ -1811,6 +1806,14 @@ jQuery(document).ready(function() {
 			$("#research_application #vo_eqrrv_report_desc").removeClass("error_field");
 		} else {
 			$("#research_application #vo_eqrrv_report_desc").addClass("error_field");
+		}
+		
+
+		if(vo_target_price != '') {
+			$("#research_application #vo_target_price").removeClass("error_field");
+		} else {
+			$("#research_application #vo_target_price").addClass("error_field");
+			return false;
 		}
 
 
@@ -1874,7 +1877,7 @@ jQuery(document).ready(function() {
 				'vo_datepicker' : vo_datepicker,
 				'vo_target_price' : vo_target_price,
 				'vo_eqrrv_recommendation_type' : vo_eqrrv_recommendation_type,
-				'vo_upload_report' : vo_upload_report,
+				'rsrch_report_offeringfile' : rsrch_report_offeringfile,
 				'vo_eqrrv_report_desc' : vo_eqrrv_report_desc,
 				'vo_eqrrv_report_access' : vo_eqrrv_report_access,
 				'vo_analystName' : vo_analystName,
@@ -1906,6 +1909,7 @@ jQuery(document).ready(function() {
 		}
 
 	}
+
 	
 
 	var handleUploadReportSelect = function(evt) {
@@ -1928,14 +1932,17 @@ jQuery(document).ready(function() {
 	            var fileMetadata = {
 	                name: file.name.replace(/^.*[\\\/]/, ''),
 	                size: file.size,
-	                hash: binary,
-	                sourceFolder: file.name
+	                hash: binary
 	            }
 	            
 	            var formData = new FormData();
 	            formData.append("metadataString", JSON.stringify(fileMetadata));
 	            formData.append("file", file);
-	            
+	            rsrch_report_offeringfile = {
+	            		'formData' : formData,
+	            		'file' : file,
+	            		'fileMetadata' : fileMetadata
+	            }
 	        }
 	        reader.readAsBinaryString(file);	
 	    }
