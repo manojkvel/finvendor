@@ -844,7 +844,7 @@
     		} else if(selected.indexOf("Analytics Application") != -1) {
     			listAnalyticsApplicationOffering();
     		} else if(selected.indexOf("Research Reporting") != -1) {
-    			listResearchReportProviderOffering();
+    			listResearchReportsOffering();
     		}
 
     	});

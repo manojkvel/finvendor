@@ -46,17 +46,17 @@
 <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
-<link rel="stylesheet"
+<!--<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/jssor.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/jssor-deep-minified.css">
+	href="${pageContext.request.contextPath}/resources/css/jssor-deep-minified.css">-->
 
 <!-- #region Jssor Slider Begin -->
 <!-- Generator: Jssor Slider Maker -->
 <!-- Source: http://www.jssor.com -->
 <!-- This is deep minimized code which works independently. -->
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/jssor_deep_minified.js"></script>
+<!--<script type="text/javascript"
+	src="</%=request.getContextPath()%>/resources/js/jssor_deep_minified.js"></script> -->
 <script async
 	src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
@@ -317,6 +317,10 @@
 				your email below to be added to our mailing list.
 			</p>
 			<form name="form_signup_newsletter">
+			
+				<input type="file" name="vo_upload_report" id="vo_upload_report"  required />
+				<label class="default_select">Upload Report</label>
+
 				<ul>
 					<li><input type="email" name="signup_newsletter"
 						placeholder="Email Address" /></li>
@@ -335,9 +339,12 @@
 	src="<%=request.getContextPath()%>/resources/js/mail-functions.js"></script>
 
 <script type="text/javascript">
-	jssor_1_slider_init();
-	
-	
+	/*jssor_1_slider_init();*/
+
+</script>
+<script type="text/javasscript">
+
+											
 </script>
 
 </html>

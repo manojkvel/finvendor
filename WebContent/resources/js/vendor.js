@@ -1906,6 +1906,43 @@ jQuery(document).ready(function() {
 		}
 
 	}
+	
+
+	var handleUploadReportSelect = function(evt) {
+	    var file = evt.target.files[0]; // FileList object
+	    var max_upload_report_limit = 10485760; //10 MB
+	    
+	    if(file.size > max_upload_report_limit) {
+	    		alert("Please select file report size less than 10MB.");
+	    		$('#research_application #vo_upload_report').val('');
+	    		return false;
+	    } else if(file.type != 'application/pdf') {
+	    		alert("Please select only pdf file.");
+	    		$('#research_application #vo_upload_report').val('');
+	    		return false;
+	    } else {
+	    		var reader = new window.FileReader();
+	        reader.onload = function (event) {
+	            var binary = event.target.result;
+
+	            var fileMetadata = {
+	                name: file.name.replace(/^.*[\\\/]/, ''),
+	                size: file.size,
+	                hash: binary,
+	                sourceFolder: file.name
+	            }
+	            
+	            var formData = new FormData();
+	            formData.append("metadataString", JSON.stringify(fileMetadata));
+	            formData.append("file", file);
+	            
+	        }
+	        reader.readAsBinaryString(file);	
+	    }
+	}
+	$('#research_application #vo_upload_report').on('change', handleUploadReportSelect);
+	
+	
 
 
 
