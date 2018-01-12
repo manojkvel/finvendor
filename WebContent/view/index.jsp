@@ -318,8 +318,8 @@
 			</p>
 			<form name="form_signup_newsletter">
 			
-				<input type="file" name="vo_upload_report" id="vo_upload_report"  required />
-				<label class="default_select">Upload Report</label>
+											<input type="file" name="vo_upload_report" id="vo_upload_report" required />
+											<label class="default_select">Upload Report</label>
 
 				<ul>
 					<li><input type="email" name="signup_newsletter"
@@ -340,11 +340,6 @@
 
 <script type="text/javascript">
 	/*jssor_1_slider_init();*/
-
-</script>
-<script type="text/javasscript">
-
-											
 </script>
 
 </html>
