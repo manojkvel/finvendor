@@ -1688,6 +1688,8 @@ jQuery(document).ready(function() {
 			}
 		});
 	}
+	
+	var rsrch_report_offeringfile = '';
 
 	/// add Research Application offering--:
 	addResearchReportsOffering = function(id) {
@@ -1880,7 +1882,7 @@ jQuery(document).ready(function() {
 				'vo_datepicker' : vo_datepicker,
 				'vo_target_price' : vo_target_price,
 				'vo_eqrrv_recommendation_type' : vo_eqrrv_recommendation_type,
-				'rsrch_report_offeringfile' : rsrch_report_offeringfile,
+				'rsrch_report_offeringfile' : JSON.stringify(rsrch_report_offeringfile),
 				'vo_eqrrv_report_desc' : vo_eqrrv_report_desc,
 				'vo_eqrrv_report_access' : vo_eqrrv_report_access,
 				'vo_analystName' : vo_analystName,
