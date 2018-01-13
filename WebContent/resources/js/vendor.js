@@ -1693,7 +1693,7 @@ jQuery(document).ready(function() {
 		});
 	}
 	
-	var rsrch_report_offeringfile = '';
+	//var rsrch_report_offeringfile = '';
 
 	/// add Research Application offering--:
 	addResearchReportsOffering = function(id) {
@@ -1864,10 +1864,10 @@ jQuery(document).ready(function() {
 		
 		researhReportList = window.localStorage.researh_report_for_summary_details;
 		*/
+		var rsrch_report_offeringfile = new FormData();
+		rsrch_report_offeringfile.append("file", vo_upload_report.files[0]);
 		
-		if(rsrch_report_offeringfile == undefined) {
-			rsrch_report_offeringfile = '';
-		}
+		
 
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != ''  && 
@@ -1886,7 +1886,7 @@ jQuery(document).ready(function() {
 				'vo_datepicker' : vo_datepicker,
 				'vo_target_price' : vo_target_price,
 				'vo_eqrrv_recommendation_type' : vo_eqrrv_recommendation_type,
-				'rsrch_report_offeringfile' : JSON.stringify(rsrch_report_offeringfile),
+				'vo_eqrrv_upload_report' : rsrch_report_offeringfile,
 				'vo_eqrrv_report_desc' : vo_eqrrv_report_desc,
 				'vo_eqrrv_report_access' : vo_eqrrv_report_access,
 				'vo_analystName' : vo_analystName,
@@ -1898,6 +1898,8 @@ jQuery(document).ready(function() {
 				type: 'POST',
 				url:  "addResearchReportsOffering",
 				data: data,
+			    processData: false,
+			    contentType: false,
 				cache:false,
 				success : function(output){
 					$("#research_application_form").trigger('reset');
@@ -1934,7 +1936,7 @@ jQuery(document).ready(function() {
 	    		$('#research_application #vo_upload_report').val('');
 	    		return false;
 	    } else {
-	    		var reader = new window.FileReader();
+	    		/*var reader = new window.FileReader();
 	        reader.onload = function (event) {
 	            var binary = event.target.result;
 
@@ -1945,15 +1947,11 @@ jQuery(document).ready(function() {
 	            }
 	            
 	            var formData = new FormData();
-	            formData.append("metadataString", JSON.stringify(fileMetadata));
+	            formData.append("fileMetadata", JSON.stringify(fileMetadata));
 	            formData.append("file", file);
-	            rsrch_report_offeringfile = {
-	            		'formData' : formData,
-	            		'file' : file,
-	            		'fileMetadata' : fileMetadata
-	            }
+	            rsrch_report_offeringfile = formData;
 	        }
-	        reader.readAsBinaryString(file);	
+	        reader.readAsBinaryString(file);	*/
 	    }
 	}
 	$('#research_application #vo_upload_report').on('change', handleUploadReportSelect);
