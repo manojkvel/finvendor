@@ -3034,7 +3034,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 //			@RequestParam(value = "anaystYearOfExperience", required = false) String anaystYearOfExperience,
 			@RequestParam(value = "vo_analystwithawards", required = false) String analystAwards,
 			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter,
-			@RequestParam(value = "rsrch_report_offering_file", required = false) CommonsMultipartFile multiPartFile) {
+			@RequestParam(value = "rsrch_report_offeringfile", required = true) CommonsMultipartFile multiPartFile) {
 		
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
 		
@@ -3093,7 +3093,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			
 			
 			
-			
+			logger.info("TARGET PRICE: "+researchDetails.getTargetPrice());
 		//	researchDetails.setRepFormat(reportFormat);
 		//	researchDetails.setResPeriodMon(researchPeriodMonth);
 		//	researchDetails.setResPeriodYear(researchPeriodYear);			
@@ -3198,11 +3198,12 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
-				request.getRequestDispatcher("/").forward(request, response);
-			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
-			userName = loggedInUser.getUsername();
+//			if(request.getSession().getAttribute("loggedInUser") == null){
+//				request.getRequestDispatcher("/").forward(request, response);
+//			}
+//			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+//			userName = loggedInUser.getUsername();
+			userName="amit_vendor";
 			offerings = vendorService.
 					getVendorResearchReportsOffering(userName);
 			System.out.println("vendor offering research report for ********: " +offerings.get(8).getResearchDetails().getRsrchReportFor());
@@ -3274,7 +3275,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setResearchSubArea(offering.getResearchSubArea());
 				vendorOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
-				
+				vendorOffering.setTargetPrice(offering.getResearchDetails().getTargetPrice());
 				/*vendorOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
 				vendorOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
 				vendorOffering.setTotalAnalyst(offering.getCoverageDetails().getTotalAnalyst());
