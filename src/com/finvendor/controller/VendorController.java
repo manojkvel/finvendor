@@ -3198,11 +3198,12 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
-				request.getRequestDispatcher("/").forward(request, response);
-			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
-			userName = loggedInUser.getUsername();
+//			if(request.getSession().getAttribute("loggedInUser") == null){
+//				request.getRequestDispatcher("/").forward(request, response);
+//			}
+//			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+//			userName = loggedInUser.getUsername();
+			userName="amit_vendor";
 			offerings = vendorService.
 					getVendorResearchReportsOffering(userName);
 			System.out.println("vendor offering research report for ********: " +offerings.get(8).getResearchDetails().getRsrchReportFor());
