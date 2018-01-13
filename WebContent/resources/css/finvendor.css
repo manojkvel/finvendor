@@ -1,5 +1,64 @@
+
+
 .errorMessage {
 	font-size:12px; 
 	font-weight:bold;
 	color:red; 
 }
+
+.splash-content {
+	background: rgba(0, 114, 185, 0.8);
+	color: #fff;
+	min-height: 300px;
+}
+
+.splash-title {
+	font-size: 36px;
+	text-align: center;
+	padding: 50px 0 20px;
+}
+
+.splash-subtitle {
+	font-size: 14px;
+	text-align: center;
+}
+
+.splash-search-bar {
+	margin-top: 70px;
+}
+
+.splash-content .form-control {
+	padding: 5px !important;
+	height: 34px !important;
+	width: 100% !important;
+	text-align: center;
+}
+
+.input-group-addon {
+	border: 0;
+}
+
+.splash-search-bar .open .splash-search-addon,
+.splash-search-addon,
+.splash-search-addon:hover {
+	background: #414b4f;
+	font-weight: bold;
+	color: #fff;
+}
+
+.splash-search-addon .fa-search,
+.splash-search-addon .fa-search:hover {
+	color: #fff;
+}
+
+.splash-search-bar button[type='button']:hover,
+.splash-search-bar.open button[type='button']:focus,
+.splash-search-bar .open .splash-search-addon {
+	border: 1px solid transparent;
+}
+
+.splash-search-bar .open>.dropdown-menu {
+	border-radius: 0 0 5px 5px;
+	margin:0;
+}
+

@@ -1025,7 +1025,34 @@ textarea:valid ~ label {
 	line-height: 24px;
 }
 
-#what_we_do ul li,
+#what_we_do .index-icon {
+	font-size: 24px;
+	float: left;
+	margin-top: 3px;
+}
+
+#what_we_do .index-list-wrapper {
+	font-size: 15px;
+	text-align: left;
+	margin-bottom: 10px;
+	list-style-type: disc;
+	line-height: 24px;
+	padding-left: 50px;
+}
+
+#what_we_do h2 {
+	margin-bottom: 40px;
+}
+
+#what_we_do p {
+	text-align: center;
+}
+
+#what_we_do .row > div
+{
+	margin-bottom: 20px;
+}
+
 #faq_list ul li {
 	font-size: 15px;
 	text-align: left;
@@ -1034,7 +1061,6 @@ textarea:valid ~ label {
 	line-height: 20px;
 }
 
-#what_we_do p,
 #faq_list p {
 	text-align: center;
 }
@@ -1661,4 +1687,9 @@ h2 {
 }
 #fv_equity_research_report_vendor_search .small_font a {
 	font-size: 13px;
+}
+
+
+#research_application.custom_form {
+	display: none;
 }

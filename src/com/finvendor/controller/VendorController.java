@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.exception.ApplicationException;
@@ -85,7 +87,10 @@ import com.finvendor.service.RfpService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
+import com.finvendor.util.FileHandler;
 import com.finvendor.util.RequestConstans;
+import com.finvendor.util.StringUtil;
+import com.finvendor.util.VendorEnum;
 import com.google.gson.Gson;
 
 
@@ -108,6 +113,9 @@ public class VendorController {
 	
 	@Resource(name="rfpService")
 	private RfpService rfpService;
+	
+	@Resource(name = "finvendorProperties")
+	private Properties finvendorProperties;
 	
 	@RequestMapping(value="vendorMyStats", method=RequestMethod.GET)
 	public ModelAndView vendorMyStats(HttpServletRequest request) {		
@@ -2987,8 +2995,6 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	}
 	*/
 	
-/* code changed by Rohit Vendor Research Reports Offering Begin */
-	
 	@RequestMapping(value="addResearchReportsOffering", method = RequestMethod.POST)
 	public ModelAndView addResearchReportsOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = false) String productId,
@@ -3027,12 +3033,15 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 //			@RequestParam(value = "analystCountry", required = true) int analystCountry,
 //			@RequestParam(value = "anaystYearOfExperience", required = false) String anaystYearOfExperience,
 			@RequestParam(value = "vo_analystwithawards", required = false) String analystAwards,
-			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter) {
+			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter,
+			@RequestParam(value = "rsrch_report_offeringfile", required = true) CommonsMultipartFile multiPartFile) {
 		
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
+		
 		ModelAndView modelAndView = new ModelAndView("empty");
 		
 		try {
+			
 			if(request.getSession().getAttribute("loggedInUser") == null){
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
@@ -3084,7 +3093,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			
 			
 			
-			
+			logger.info("TARGET PRICE: "+researchDetails.getTargetPrice());
 		//	researchDetails.setRepFormat(reportFormat);
 		//	researchDetails.setResPeriodMon(researchPeriodMonth);
 		//	researchDetails.setResPeriodYear(researchPeriodYear);			
@@ -3104,7 +3113,27 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			analystProfile.setAnaystCfaCharter(analystCfaCharter);
 			researchReportsOffering.setAnalystProfile(analystProfile);
 			
+			
+			// Build Vendor research report offering file path using logged in user name
+			String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
+			logger.info("Research Reports Offering file baasepath:"+basePath);
+			
+			String reportResearchOfferingFilePath = StringUtil.builtPath(multiPartFile.getOriginalFilename(), basePath, userName);
+			logger.info("Research Reports Offering filepath:"+reportResearchOfferingFilePath);
+			
+			researchReportsOffering.setResearchReportOfferingFilePath(reportResearchOfferingFilePath);
 			vendorService.addVendorResearchReportsOffering(researchReportsOffering);
+
+			// upload Vendor Research Report Offering file to server
+			boolean uploadFileStatus = vendorService.uploadFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING, multiPartFile.getBytes(), reportResearchOfferingFilePath);
+			logger.info("Research Reports Offering file uploaded status:"+uploadFileStatus);
+		
+			// If Upload file failed somehow then delete corresponding entry from ven_rsrch_rpt_offering table
+			if ( ! uploadFileStatus) {
+				vendorService.deleteVendorResearchReportsOffering(productId);
+			} else {
+				logger.info("Research Reports Offering file uploaded file successfully at server path:" + reportResearchOfferingFilePath);
+			}
 		} catch (Exception exp) {
 			logger.error("Error Saving Research Reports Offering", exp); 
 			modelAndView.addObject("status", "Error Updating Offering details");
@@ -3112,8 +3141,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		modelAndView.addObject("status", "Offering details Updated successfully");
 		logger.debug("Leaving  - VendorController : addResearchReportsOffering");
 		return modelAndView;
-		
 	}
+
 	@RequestMapping(value="deleteResearchReportsOffering", method = RequestMethod.POST)
 	public ModelAndView deleteResearchReportsOffering(
 			HttpServletRequest request,
@@ -3131,14 +3160,17 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String userName = loggedInUser.getUsername();
 			boolean matchFound = false;
 			offerings = vendorService.getVendorResearchReportsOffering(userName);
+			String researchReportOfferingFilePath = null;
 			for(VendorResearchReportsOffering offering : offerings) {
 				if (offering.getProductId().equals(productId)) {
 					matchFound = true;
+					researchReportOfferingFilePath=offering.getResearchReportOfferingFilePath();
 					break;
 				}
 			}
 			if(matchFound) {
 				vendorService.deleteVendorResearchReportsOffering(productId);
+				vendorService.deleteFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING, researchReportOfferingFilePath);
 				modelAndView.addObject("status", "Successfully deleted Offering record");
 			} else {
 				logger.error("Selected Offering does not belong to logged in User !!");
@@ -3160,17 +3192,22 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		logger.debug("Entering  - VendorController : listResearchReportsOffering");
+		logger.info("vendor offering research report for ********: ");
+		System.out.println("vendor offering research report for ********: ");
 		List<VendorResearchReportsOffering> offerings = null;
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
-				request.getRequestDispatcher("/").forward(request, response);
-			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
-			userName = loggedInUser.getUsername();
+//			if(request.getSession().getAttribute("loggedInUser") == null){
+//				request.getRequestDispatcher("/").forward(request, response);
+//			}
+//			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+//			userName = loggedInUser.getUsername();
+			userName="amit_vendor";
 			offerings = vendorService.
 					getVendorResearchReportsOffering(userName);
+			System.out.println("vendor offering research report for ********: " +offerings.get(8).getResearchDetails().getRsrchReportFor());
+			
 			populateVendorResearchReportsOfferingJsonList(offerings, jsonOfferings);			
 		} catch (Exception exp) {
 			logger.error("Error Reading Trading Applications Offering for {}", userName, exp); 
@@ -3183,6 +3220,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	private void populateVendorResearchReportsOfferingJsonList(List<VendorResearchReportsOffering> offerings,
 			List<VendorResearchReportsOfferingJson> jsonOfferings) {
 		for(VendorResearchReportsOffering offering : offerings) {
+//		logger.info("****************   : "+offering.getResearchDetails().getResearchReportFor());
 			VendorResearchReportsOfferingJson jsonOffering = new VendorResearchReportsOfferingJson();
 			jsonOffering.setProductId(offering.getProductId());
 			jsonOffering.setProductName(offering.getProductName());
@@ -3191,8 +3229,12 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 //			jsonOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
 			jsonOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
+//			System.out.println("Offering.getResearchReportFor is :" +offering.getResearchDetails().getRsrchReportFor( );
+			jsonOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
+			
 //			jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
 //			jsonOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
+			jsonOffering.setResearchReportOfferingFilePath(offering.getResearchReportOfferingFilePath());
 			jsonOfferings.add(jsonOffering);
 		}
 	}
@@ -3233,7 +3275,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setResearchSubArea(offering.getResearchSubArea());
 				vendorOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
-				
+				vendorOffering.setTargetPrice(offering.getResearchDetails().getTargetPrice());
 				/*vendorOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
 				vendorOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
 				vendorOffering.setTotalAnalyst(offering.getCoverageDetails().getTotalAnalyst());
@@ -3259,6 +3301,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				
 				// code managed by Rohit
 				vendorOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
+				System.out.println("*********************** inside fetch");
 				logger.info("RESEARCH REPORT FOR : "+offering.getResearchDetails().getRsrchReportFor());
 				logger.info("PRODUCT NAME: "+offering.getProductName());
 				logger.info(vendorOffering.getRsrchReportFor());
@@ -3267,6 +3310,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setRsrchReportDesc(offering.getResearchDetails().getRsrchReportDesc());
 				vendorOffering.setRsrchReportAccess(offering.getResearchDetails().getRsrchReportAccess());;
 				vendorOffering.setRsrchUploadReport(offering.getResearchDetails().getRsrchUploadReport());
+				vendorOffering.setResearchReportOfferingFilePath(offering.getResearchReportOfferingFilePath());
 				logger.info(vendorOffering.toString());
 			}			
 		} catch (Exception exp) {

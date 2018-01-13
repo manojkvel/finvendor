@@ -309,6 +309,11 @@
     </p>
     <p>End user can either come to FinVendor, use its search Research Report Providers functionality and search the desired vendor or End user can initiate a RFP (Request for Proposal) for this on FinVendor RFP section. Vendor, on the other hand, can make its presence felt by listing on FinVendor platform. Once listed, vendor can apply for any open RFPs. Based on the vendor’s response on RFP, vendor will be shortlisted and subsequently, vendor will be contacted by End users.</p>
 </div>
+<div class="inner-left-wrap" id="Brokers_Analysts">
+    <h1>Brokers/Analysts</h1>
+    <h2>To Be Available soon</h2>
+</div>
+
 <div class="inner-left-wrap" id="MORE">
     <h1>MORE</h1>
     <h2>To Be Available soon</h2>
