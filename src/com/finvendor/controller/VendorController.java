@@ -2999,7 +2999,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	*/
 	
 	@RequestMapping(value="addResearchReportsOffering", method = RequestMethod.POST)
-	public ModelAndView addResearchReportsOffering(MultipartHttpServletRequest request,
+	public ModelAndView addResearchReportsOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "researchReportName", required = true) String productName,
 			@RequestParam(value = "researchReportDescription", required = true) String productDescription,
@@ -3036,7 +3036,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 //			@RequestParam(value = "analystCountry", required = true) int analystCountry,
 //			@RequestParam(value = "anaystYearOfExperience", required = false) String anaystYearOfExperience,
 			@RequestParam(value = "vo_analystwithawards", required = false) String analystAwards,
-			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter) {
+			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter,
+			@RequestParam(value = "vo_eqrrv_upload_report", required = true) CommonsMultipartFile multiPartFile) {
 		
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
 		
@@ -3115,22 +3116,19 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			analystProfile.setAnaystCfaCharter(analystCfaCharter);
 			researchReportsOffering.setAnalystProfile(analystProfile);
 			
-			//Multipart handling
-			Iterator<String> itr =  request.getFileNames();	
-			MultipartFile mpf = request.getFile(itr.next());
 			
 			// Build Vendor research report offering file path using logged in user name
 			String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
 			logger.info("Research Reports Offering file baasepath:"+basePath);
 			
-			String reportResearchOfferingFilePath = StringUtil.builtPath(mpf.getOriginalFilename(), basePath, userName);
+			String reportResearchOfferingFilePath = StringUtil.builtPath(multiPartFile.getOriginalFilename(), basePath, userName);
 			logger.info("Research Reports Offering filepath:"+reportResearchOfferingFilePath);
 			
 			researchReportsOffering.setResearchReportOfferingFilePath(reportResearchOfferingFilePath);
 			vendorService.addVendorResearchReportsOffering(researchReportsOffering);
 
 			// upload Vendor Research Report Offering file to server
-			boolean uploadFileStatus = vendorService.uploadFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING, mpf.getBytes(), reportResearchOfferingFilePath);
+			boolean uploadFileStatus = vendorService.uploadFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING, multiPartFile.getBytes(), reportResearchOfferingFilePath);
 			logger.info("Research Reports Offering file uploaded status:"+uploadFileStatus);
 		
 			// If Upload file failed somehow then delete corresponding entry from ven_rsrch_rpt_offering table
