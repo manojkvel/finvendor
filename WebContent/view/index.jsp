@@ -46,17 +46,17 @@
 <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
-<link rel="stylesheet"
+<!--<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/jssor.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/jssor-deep-minified.css">
+	href="${pageContext.request.contextPath}/resources/css/jssor-deep-minified.css">-->
 
 <!-- #region Jssor Slider Begin -->
 <!-- Generator: Jssor Slider Maker -->
 <!-- Source: http://www.jssor.com -->
 <!-- This is deep minimized code which works independently. -->
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/jssor_deep_minified.js"></script>
+<!--<script type="text/javascript"
+	src="</%=request.getContextPath()%>/resources/js/jssor_deep_minified.js"></script> -->
 <script async
 	src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
@@ -335,9 +335,7 @@
 	src="<%=request.getContextPath()%>/resources/js/mail-functions.js"></script>
 
 <script type="text/javascript">
-	jssor_1_slider_init();
-	
-	
+	/*jssor_1_slider_init();*/
 </script>
 
 </html>

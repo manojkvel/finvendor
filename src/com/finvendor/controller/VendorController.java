@@ -3034,7 +3034,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 //			@RequestParam(value = "anaystYearOfExperience", required = false) String anaystYearOfExperience,
 			@RequestParam(value = "vo_analystwithawards", required = false) String analystAwards,
 			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter,
-			@RequestParam(value = "rsrch_report_offering_file", required = false) CommonsMultipartFile multiPartFile) {
+			@RequestParam(value = "rsrch_report_offeringfile", required = true) CommonsMultipartFile multiPartFile) {
 		
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
 		

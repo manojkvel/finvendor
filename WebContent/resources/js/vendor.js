@@ -1692,6 +1692,8 @@ jQuery(document).ready(function() {
 			}
 		});
 	}
+	
+	var rsrch_report_offeringfile = '';
 
 	/// add Research Application offering--:
 	addResearchReportsOffering = function(id) {
@@ -1731,7 +1733,6 @@ jQuery(document).ready(function() {
 			vo_target_price = $('#research_application #vo_target_price').val();
 		}
 
-		var vo_upload_report = $('#research_application #vo_upload_report').val();
 
 		var vo_analystCfaCharter = $("#research_application #vo_analystCfaCharter").prop("checked");
 		if(vo_analystCfaCharter) {
@@ -1799,11 +1800,6 @@ jQuery(document).ready(function() {
 			$("#research_application #vo_datepicker").addClass("error_field");
 		}
 
-		if(vo_target_price != '') {
-			$("#research_application #vo_target_price").removeClass("error_field");
-		} else {
-			$("#research_application #vo_target_price").addClass("error_field");
-		}
 
 		if(vo_eqrrv_recommendation_type != null) {
 			$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").removeClass("error_field");
@@ -1815,6 +1811,14 @@ jQuery(document).ready(function() {
 			$("#research_application #vo_eqrrv_report_desc").removeClass("error_field");
 		} else {
 			$("#research_application #vo_eqrrv_report_desc").addClass("error_field");
+		}
+		
+
+		if(vo_target_price != '') {
+			$("#research_application #vo_target_price").removeClass("error_field");
+		} else {
+			$("#research_application #vo_target_price").addClass("error_field");
+			return false;
 		}
 
 
@@ -1860,6 +1864,10 @@ jQuery(document).ready(function() {
 		
 		researhReportList = window.localStorage.researh_report_for_summary_details;
 		*/
+		
+		if(rsrch_report_offeringfile == undefined) {
+			rsrch_report_offeringfile = '';
+		}
 
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != ''  && 
@@ -1878,7 +1886,7 @@ jQuery(document).ready(function() {
 				'vo_datepicker' : vo_datepicker,
 				'vo_target_price' : vo_target_price,
 				'vo_eqrrv_recommendation_type' : vo_eqrrv_recommendation_type,
-				'vo_upload_report' : vo_upload_report,
+				'rsrch_report_offeringfile' : JSON.stringify(rsrch_report_offeringfile),
 				'vo_eqrrv_report_desc' : vo_eqrrv_report_desc,
 				'vo_eqrrv_report_access' : vo_eqrrv_report_access,
 				'vo_analystName' : vo_analystName,
@@ -1910,6 +1918,47 @@ jQuery(document).ready(function() {
 		}
 
 	}
+
+	
+
+	var handleUploadReportSelect = function(evt) {
+	    var file = evt.target.files[0]; // FileList object
+	    var max_upload_report_limit = 10485760; //10 MB
+	    
+	    if(file.size > max_upload_report_limit) {
+	    		alert("Please select file report size less than 10MB.");
+	    		$('#research_application #vo_upload_report').val('');
+	    		return false;
+	    } else if(file.type != 'application/pdf') {
+	    		alert("Please select only pdf file.");
+	    		$('#research_application #vo_upload_report').val('');
+	    		return false;
+	    } else {
+	    		var reader = new window.FileReader();
+	        reader.onload = function (event) {
+	            var binary = event.target.result;
+
+	            var fileMetadata = {
+	                name: file.name.replace(/^.*[\\\/]/, ''),
+	                size: file.size,
+	                hash: binary
+	            }
+	            
+	            var formData = new FormData();
+	            formData.append("metadataString", JSON.stringify(fileMetadata));
+	            formData.append("file", file);
+	            rsrch_report_offeringfile = {
+	            		'formData' : formData,
+	            		'file' : file,
+	            		'fileMetadata' : fileMetadata
+	            }
+	        }
+	        reader.readAsBinaryString(file);	
+	    }
+	}
+	$('#research_application #vo_upload_report').on('change', handleUploadReportSelect);
+	
+	
 
 
 

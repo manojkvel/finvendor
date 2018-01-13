@@ -1688,3 +1688,8 @@ h2 {
 #fv_equity_research_report_vendor_search .small_font a {
 	font-size: 13px;
 }
+
+
+#research_application.custom_form {
+	display: none;
+}
