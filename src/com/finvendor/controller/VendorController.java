@@ -2999,12 +2999,12 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	*/
 	
 	@RequestMapping(value="addResearchReportsOffering", method = RequestMethod.POST)
-	public ModelAndView addResearchReportsOffering(HttpServletRequest request,
+	public ModelAndView addResearchReportsOffering(MultipartHttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "productId", required = false) String productId,
-			@RequestParam(value = "researchReportName", required = true) String productName,
-			@RequestParam(value = "researchReportDescription", required = true) String productDescription,
-			@RequestParam(value = "researchAreaId", required = true) int researchAreaId,
-			@RequestParam(value = "researchSubAreas", required = true) String researchSubAreas,
+			@RequestParam(value = "productName", required = true) String productName,
+			@RequestParam(value = "productDescription", required = true) String productDescription,
+			@RequestParam(value = "rcResearchArea", required = true) int researchAreaId,
+			@RequestParam(value = "rcResearchSubArea", required = true) String researchSubAreas,
 			@RequestParam(value = "stocksFundsIssuesCovered", required = false) String stocksFundsIssuesCovered,
 			@RequestParam(value = "launchedYear", required = false) String launchedYear,
 //			@RequestParam(value = "regionsCovered", required = false) String regionsCovered,
@@ -3012,10 +3012,10 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 //			@RequestParam(value = "totalResearchAnalyst", required = false) int totalResearchAnalyst,
 //			@RequestParam(value = "existingClientBase", required = false) String existingClientBase,
 //			@RequestParam(value = "accessibility", required = false) String accessibility,
-			@RequestParam(value = "suitability", required = false) String suitability,
+			@RequestParam(value = "rdSuitability", required = false) String suitability,
 //			@RequestParam(value = "reportCostType", required = false) String reportCostType,
 //			@RequestParam(value = "costPerMonth", required = false) float costPerMonth,
-			@RequestParam(value = "costPerAnnum", required = false) float costPerAnnum,
+			@RequestParam(value = "rdSubsriptionCostUSDperannum", required = false) float costPerAnnum,
 			
 			@RequestParam(value = "vo_rr_report_for", required = false) String researchReportFor,
 			@RequestParam(value = "vo_datepicker", required = false) String researchReportDate,
@@ -3036,8 +3036,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 //			@RequestParam(value = "analystCountry", required = true) int analystCountry,
 //			@RequestParam(value = "anaystYearOfExperience", required = false) String anaystYearOfExperience,
 			@RequestParam(value = "vo_analystwithawards", required = false) String analystAwards,
-			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter,
-			@RequestParam(value = "vo_eqrrv_upload_report", required = true) CommonsMultipartFile multiPartFile) {
+			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter) {
 		
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
 		
@@ -3116,7 +3115,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			analystProfile.setAnaystCfaCharter(analystCfaCharter);
 			researchReportsOffering.setAnalystProfile(analystProfile);
 			
-			
+			Iterator<String> itr =  request.getFileNames();	
+			MultipartFile multiPartFile = request.getFile(itr.next());
 			// Build Vendor research report offering file path using logged in user name
 			String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
 			logger.info("Research Reports Offering file baasepath:"+basePath);
