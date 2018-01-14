@@ -1610,6 +1610,9 @@ jQuery(document).ready(function() {
 				$("#research_application #vo_eqrrv_report_desc").val(response.rsrchReportDesc);
 				$("#research_application #vo_eqrrv_report_access").selectpicker('val', response.rsrchReportAccess);
 				$("#research_application #vo_analystName").val(response.analystName);
+
+				//$("#research_application #vo_upload_report").val(response.rsrchUploadReport.replace(/^.*[\\\/]/, ''));
+				
 				$("#research_application #vo_analystCfaCharter").prop("checked",(response.anaystCfaCharter == 'Y') ? true : false);
 				$("#research_application #vo_analystwithawards").prop("checked",(response.analystAwards == 'Y') ? true : false);
 
