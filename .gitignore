@@ -1,5 +1,4 @@
 bin/
-WebContent/WEB-INF/jdbc.properties
 .project
 .DS_Store
 bin/
