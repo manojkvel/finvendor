@@ -39,7 +39,6 @@ public class VendorResearchReportsOfferingJson {
 	private String rsrchReportDesc;
 	private String rsrchUploadReport;
 	private String targetPrice;
-	private String researchReportOfferingFilePath;
 
 public String getRsrchReportDesc() {
 		return rsrchReportDesc;
@@ -261,12 +260,6 @@ public String getRsrchReportFor() {
 	}
 	public void setAnaystCfaCharter(String anaystCfaCharter) {
 		this.anaystCfaCharter = anaystCfaCharter;
-	}
-	public String getResearchReportOfferingFilePath() {
-		return researchReportOfferingFilePath;
-	}
-	public void setResearchReportOfferingFilePath(String researchReportOfferingFilePath) {
-		this.researchReportOfferingFilePath = researchReportOfferingFilePath;
 	}
 	
 }

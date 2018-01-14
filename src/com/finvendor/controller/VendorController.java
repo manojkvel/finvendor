@@ -96,32 +96,31 @@ import com.finvendor.util.StringUtil;
 import com.finvendor.util.VendorEnum;
 import com.google.gson.Gson;
 
-
 @Controller
 public class VendorController {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(VendorController.class);
-	
-	@Resource(name="userService")
+
+	@Resource(name = "userService")
 	private UserService userService;
-	
-	@Resource(name="vendorService")
+
+	@Resource(name = "vendorService")
 	private VendorService vendorService;
-	
-	@Resource(name="referenceDataService")
+
+	@Resource(name = "referenceDataService")
 	private ReferenceDataService referenceDataService;
-	
+
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;
-	
-	@Resource(name="rfpService")
+
+	@Resource(name = "rfpService")
 	private RfpService rfpService;
-	
+
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;
-	
-	@RequestMapping(value="vendorMyStats", method=RequestMethod.GET)
-	public ModelAndView vendorMyStats(HttpServletRequest request) {		
+
+	@RequestMapping(value = "vendorMyStats", method = RequestMethod.GET)
+	public ModelAndView vendorMyStats(HttpServletRequest request) {
 		logger.debug("Entering VendorController : vendorMyStats");
 		ModelAndView modelAndView = new ModelAndView("vendorMyStats");
 		List<AssetClass> assetClasses = null;
@@ -133,20 +132,19 @@ public class VendorController {
 		List<Awards> awards = null;
 		Vendor vendor = null;
 		logger.debug("Entering VendorController : vendorMyStats");
-		try{
+		try {
 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
-			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();			
-			User appUser = (User)SecurityContextHolder.getContext().
-					getAuthentication().getPrincipal();
-			String username = appUser.getUsername();			
+			supports = marketDataAggregatorsService.getAllVendorSupports();
+			costs = marketDataAggregatorsService.getAllCostInfo();
+			User appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String username = appUser.getUsername();
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
 			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
-			modelAndView.addObject("securityTypes",listSecurityType);
+			modelAndView.addObject("securityTypes", listSecurityType);
 			modelAndView.addObject("assetClasses", assetClasses);
 			modelAndView.addObject("regions", regions);
 			modelAndView.addObject("regionslist", regions);
@@ -159,14 +157,14 @@ public class VendorController {
 			modelAndView.addObject("username", username);
 			modelAndView.addObject("vendor", vendor);
 			modelAndView.addObject("breadcrum", "My Stats");
-		}catch (Exception exp) {
+		} catch (Exception exp) {
 			logger.error("VendorController : vendorMyStats - Error reading details", exp);
 		}
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="vendorMyBlogs", method=RequestMethod.GET)
-	public ModelAndView vendorMyBlogs(HttpServletRequest request) {		
+
+	@RequestMapping(value = "vendorMyBlogs", method = RequestMethod.GET)
+	public ModelAndView vendorMyBlogs(HttpServletRequest request) {
 		logger.debug("Entering VendorController : vendorMyStats");
 		ModelAndView modelAndView = new ModelAndView("vendorMyBlog");
 		List<AssetClass> assetClasses = null;
@@ -178,20 +176,19 @@ public class VendorController {
 		List<Awards> awards = null;
 		Vendor vendor = null;
 		logger.debug("Entering VendorController : vendorMyBlogs");
-		try{
+		try {
 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
-			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();			
-			User appUser = (User)SecurityContextHolder.getContext().
-					getAuthentication().getPrincipal();
+			supports = marketDataAggregatorsService.getAllVendorSupports();
+			costs = marketDataAggregatorsService.getAllCostInfo();
+			User appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			String username = appUser.getUsername();
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
 			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
-			modelAndView.addObject("securityTypes",listSecurityType);
+			modelAndView.addObject("securityTypes", listSecurityType);
 			modelAndView.addObject("assetClasses", assetClasses);
 			modelAndView.addObject("regions", regions);
 			modelAndView.addObject("regionslist", regions);
@@ -204,18 +201,18 @@ public class VendorController {
 			modelAndView.addObject("username", username);
 			modelAndView.addObject("vendor", vendor);
 			modelAndView.addObject("breadcrum", "My Blogs");
-		}catch (Exception exp) {
+		} catch (Exception exp) {
 			exp.printStackTrace();
 			logger.error("VendorController : vendorMyBlogs - Error reading details", exp);
 		}
 		return modelAndView;
 	}
-	
-	@RequestMapping(value=RequestConstans.Vendor.VENDOR_MY_PROFILE, method=RequestMethod.GET)
+
+	@RequestMapping(value = RequestConstans.Vendor.VENDOR_MY_PROFILE, method = RequestMethod.GET)
 	public ModelAndView vendorMyProfile(HttpServletRequest request,
 			@RequestParam(value = "RaYUnA", required = false) String username,
 			@ModelAttribute("vendor") Vendor vendor) {
-		
+
 		logger.debug("Entering VendorController : vendorMyProfile");
 		List<AssetClass> assetClasses = null;
 		List<Region> regions = null;
@@ -225,18 +222,18 @@ public class VendorController {
 		List<Cost> costs = null;
 		List<Awards> awards = null;
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);
-		
-		try{
-			if(request.getSession().getAttribute("loggedInUser") == null){
+
+		try {
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
-			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();						
-			username = CommonUtils.decrypt(username.getBytes());			
+			supports = marketDataAggregatorsService.getAllVendorSupports();
+			costs = marketDataAggregatorsService.getAllCostInfo();
+			username = CommonUtils.decrypt(username.getBytes());
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
 			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			modelAndView.addObject("assetClasses", assetClasses);
@@ -249,29 +246,28 @@ public class VendorController {
 			modelAndView.addObject("awards", awards);
 			modelAndView.addObject("myprofiletab", "myprofile");
 			modelAndView.addObject("username", username);
-			
+
 			String telephone = vendor.getTelephone();
-       		if(telephone != null && !telephone.isEmpty()){
-       			String[] split = telephone.split("-");	
-       			if(split.length == 2){
-       			vendor.setTelephoneCode(split[0]);
-       			vendor.setTelephone(split[1]);
-       			}
-       		}
-			
-			
+			if (telephone != null && !telephone.isEmpty()) {
+				String[] split = telephone.split("-");
+				if (split.length == 2) {
+					vendor.setTelephoneCode(split[0]);
+					vendor.setTelephone(split[1]);
+				}
+			}
+
 			modelAndView.addObject("vendor", vendor);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Mehtod for vendorNavigation--:");
 		}
 		return modelAndView;
 	}
-	
-	@RequestMapping(value=RequestConstans.Vendor.VENDOR_MY_OFFERINGS, method=RequestMethod.GET)
+
+	@RequestMapping(value = RequestConstans.Vendor.VENDOR_MY_OFFERINGS, method = RequestMethod.GET)
 	public ModelAndView vendorMyOfferings(HttpServletRequest request,
 			@RequestParam(value = "RaYUnA", required = false) String username) {
-		
+
 		logger.debug("Entering VendorController : vendorMyOfferings");
 		List<AssetClass> assetClasses = null;
 		List<Region> regions = null;
@@ -283,51 +279,55 @@ public class VendorController {
 		Vendor vendor = null;
 		String[] vendorOfferings = null;
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Vendor.VENDOR_MY_OFFERINGS);
-		
-		try{
+
+		try {
 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
-			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();			
+			supports = marketDataAggregatorsService.getAllVendorSupports();
+			costs = marketDataAggregatorsService.getAllCostInfo();
 			username = CommonUtils.decrypt(username.getBytes());
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
 			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			String vendorCompanyTypes = vendor.getCompanyType();
 			logger.debug("Registered Company Types for Vendor {} are {}", username, vendorCompanyTypes);
-			vendorOfferings  = vendorCompanyTypes.split(",");
+			vendorOfferings = vendorCompanyTypes.split(",");
 			for (String vendormyofferingtags : vendorOfferings) {
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.DATA_AGGREGATOR)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.DATA_AGGREGATOR);
-					 modelAndView.addObject("dataaggregator", vendormyofferingtags);
-				 }
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.TRADING_APPLICATION)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.TRADING_APPLICATION);
-					 modelAndView.addObject("tradingapplication", vendormyofferingtags);
-				 }
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.ANALYTICS_APPLICATION)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.ANALYTICS_APPLICATION);
-					 modelAndView.addObject("analyticsapplication", vendormyofferingtags);
-				 }
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.RESEARCH_REPORT)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.RESEARCH_REPORT);
-					 modelAndView.addObject("researchreport", vendormyofferingtags);
-				 }
-			} 
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.DATA_AGGREGATOR)) {
+					logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.DATA_AGGREGATOR);
+					modelAndView.addObject("dataaggregator", vendormyofferingtags);
+				}
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.TRADING_APPLICATION)) {
+					logger.debug("Set My Offerings tab of {} for {}", username,
+							RequestConstans.Vendor.TRADING_APPLICATION);
+					modelAndView.addObject("tradingapplication", vendormyofferingtags);
+				}
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.ANALYTICS_APPLICATION)) {
+					logger.debug("Set My Offerings tab of {} for {}", username,
+							RequestConstans.Vendor.ANALYTICS_APPLICATION);
+					modelAndView.addObject("analyticsapplication", vendormyofferingtags);
+				}
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.RESEARCH_REPORT)) {
+					logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.RESEARCH_REPORT);
+					modelAndView.addObject("researchreport", vendormyofferingtags);
+				}
+			}
 
-			//Set<VendorOffering> listOfferings = marketDataAggregatorsService.listOfferings(vendor.getId());
+			// Set<VendorOffering> listOfferings =
+			// marketDataAggregatorsService.listOfferings(vendor.getId());
 			List<SecurityType> listSecurityType = marketDataAggregatorsService.listSecurityType();
-			List<Solutions> solutions = vendorService.getSolutionsBasedOnOfferingTypes(RequestConstans.Vendor.DATA_AGGREGATOR, vendor);
-			modelAndView.addObject("securityTypes",listSecurityType);
-			modelAndView.addObject("solutions",solutions);
-			
-		}catch (Exception exp) {
+			List<Solutions> solutions = vendorService
+					.getSolutionsBasedOnOfferingTypes(RequestConstans.Vendor.DATA_AGGREGATOR, vendor);
+			modelAndView.addObject("securityTypes", listSecurityType);
+			modelAndView.addObject("solutions", solutions);
+
+		} catch (Exception exp) {
 			exp.printStackTrace();
 			logger.error("VendorController : vendorMyOfferings - Error reading details", exp);
 		}
-		
-		//modelAndView.addObject("listOfferings",listOfferings);
+
+		// modelAndView.addObject("listOfferings",listOfferings);
 		modelAndView.addObject("assetClasses", assetClasses);
 		modelAndView.addObject("regions", regions);
 		modelAndView.addObject("regionslist", regions);
@@ -336,20 +336,18 @@ public class VendorController {
 		modelAndView.addObject("supports", supports);
 		modelAndView.addObject("costs", costs);
 		modelAndView.addObject("awards", awards);
-		//modelAndView.addObject("myofferingstab", "myofferings");
+		// modelAndView.addObject("myofferingstab", "myofferings");
 		modelAndView.addObject("myprofiletab", "myprofile");
 		modelAndView.addObject("breadcrum", RequestConstans.Vendor.VENDOR_MY_OFFERINGS);
 		modelAndView.addObject("username", username);
 		logger.debug("Leaving VendorController : vendorMyOfferings");
 		return modelAndView;
 	}
-	
-	
-	
-	@RequestMapping(value=RequestConstans.Vendor.VENDOR_SOLUTION, method=RequestMethod.GET)
+
+	@RequestMapping(value = RequestConstans.Vendor.VENDOR_SOLUTION, method = RequestMethod.GET)
 	public ModelAndView vendorSolutions(HttpServletRequest request,
 			@RequestParam(value = "RaYUnA", required = false) String username) {
-		
+
 		logger.debug("Entering VendorController : vendorMyOfferings");
 		List<AssetClass> assetClasses = null;
 		List<Region> regions = null;
@@ -361,38 +359,40 @@ public class VendorController {
 		Vendor vendor = null;
 		String[] vendorOfferings = null;
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Vendor.VENDOR_SOLUTION);
-		
-		try{
+
+		try {
 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
-			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();			
+			supports = marketDataAggregatorsService.getAllVendorSupports();
+			costs = marketDataAggregatorsService.getAllCostInfo();
 			username = CommonUtils.decrypt(username.getBytes());
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
 			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			String vendorCompanyTypes = vendor.getCompanyType();
 			logger.debug("Registered Company Types for Vendor {} are {}", username, vendorCompanyTypes);
-			vendorOfferings  = vendorCompanyTypes.split(",");
+			vendorOfferings = vendorCompanyTypes.split(",");
 			for (String vendormyofferingtags : vendorOfferings) {
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.DATA_AGGREGATOR)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.DATA_AGGREGATOR);
-					 modelAndView.addObject("dataaggregator", vendormyofferingtags);
-				 }
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.TRADING_APPLICATION)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.TRADING_APPLICATION);
-					 modelAndView.addObject("tradingapplication", vendormyofferingtags);
-				 }
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.ANALYTICS_APPLICATION)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.ANALYTICS_APPLICATION);
-					 modelAndView.addObject("analyticsapplication", vendormyofferingtags);
-				 }
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.RESEARCH_REPORT)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.RESEARCH_REPORT);
-					 modelAndView.addObject("researchreport", vendormyofferingtags);
-				 }
-			} 			
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.DATA_AGGREGATOR)) {
+					logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.DATA_AGGREGATOR);
+					modelAndView.addObject("dataaggregator", vendormyofferingtags);
+				}
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.TRADING_APPLICATION)) {
+					logger.debug("Set My Offerings tab of {} for {}", username,
+							RequestConstans.Vendor.TRADING_APPLICATION);
+					modelAndView.addObject("tradingapplication", vendormyofferingtags);
+				}
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.ANALYTICS_APPLICATION)) {
+					logger.debug("Set My Offerings tab of {} for {}", username,
+							RequestConstans.Vendor.ANALYTICS_APPLICATION);
+					modelAndView.addObject("analyticsapplication", vendormyofferingtags);
+				}
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.RESEARCH_REPORT)) {
+					logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.RESEARCH_REPORT);
+					modelAndView.addObject("researchreport", vendormyofferingtags);
+				}
+			}
 			modelAndView.addObject("assetClasses", assetClasses);
 			modelAndView.addObject("regions", regions);
 			modelAndView.addObject("regionslist", regions);
@@ -401,45 +401,44 @@ public class VendorController {
 			modelAndView.addObject("supports", supports);
 			modelAndView.addObject("costs", costs);
 			modelAndView.addObject("awards", awards);
-			//modelAndView.addObject("myofferingstab", "myofferings");
+			// modelAndView.addObject("myofferingstab", "myofferings");
 			modelAndView.addObject("myprofiletab", "myprofile");
 			modelAndView.addObject("breadcrum", RequestConstans.Vendor.VENDOR_SOLUTION);
 			modelAndView.addObject("username", username);
-		}catch (Exception exp) {
+		} catch (Exception exp) {
 			logger.error("VendorController : vendorMyOfferings - Error reading details", exp);
 		}
 		logger.debug("Leaving VendorController : vendorMyOfferings");
 		return modelAndView;
 	}
-		
-	
-	@RequestMapping(value=RequestConstans.Vendor.VENDOR_SPECIFIC_SOLUTION_LIST, method=RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData> getVendorSpecificSolutionList(@RequestParam(value = "vendorProvider", required = false) String vendorProvider) {
-		
-		User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+	@RequestMapping(value = RequestConstans.Vendor.VENDOR_SPECIFIC_SOLUTION_LIST, method = RequestMethod.GET)
+	public @ResponseBody Set<JsonResponseData> getVendorSpecificSolutionList(
+			@RequestParam(value = "vendorProvider", required = false) String vendorProvider) {
+
+		User appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Vendor vendor;
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
 		try {
 			vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-		List<Solutions> solutions = vendorService.getSolutionsBasedOnOfferingTypes(vendorProvider,vendor);
-		for(Solutions solution : solutions){
-			JsonResponseData addResponseData = new JsonResponseData();
-			addResponseData.setId(solution.getSolution_id().toString());
-			addResponseData.setName(solution.getName());
-			JsonResponseData.add(addResponseData);
-		}
+			List<Solutions> solutions = vendorService.getSolutionsBasedOnOfferingTypes(vendorProvider, vendor);
+			for (Solutions solution : solutions) {
+				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setId(solution.getSolution_id().toString());
+				addResponseData.setName(solution.getName());
+				JsonResponseData.add(addResponseData);
+			}
 		} catch (ApplicationException e) {
 			logger.error("VendorController : - Error reading details", e);
-		}		
+		}
 		return JsonResponseData;
-		
+
 	}
 
-	
-	@RequestMapping(value=RequestConstans.Vendor.MY_OFFERTINGS_FILE, method=RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.MY_OFFERTINGS_FILE, method = RequestMethod.GET)
 	public ModelAndView vendorMyOfferingsFiles(HttpServletRequest request,
 			@RequestParam(value = "RaYUnA", required = false) String username) {
-		
+
 		logger.debug("Entering VendorController : vendorMyOfferings");
 		List<AssetClass> assetClasses = null;
 		List<Region> regions = null;
@@ -451,38 +450,40 @@ public class VendorController {
 		Vendor vendor = null;
 		String[] vendorOfferings = null;
 		ModelAndView modelAndView = new ModelAndView(RequestConstans.Vendor.MY_OFFERTINGS_FILE);
-		
-		try{
+
+		try {
 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
 			countries = marketDataAggregatorsService.getAllCountries();
 			exchanges = marketDataAggregatorsService.getAllExchanges();
-			supports =  marketDataAggregatorsService.getAllVendorSupports();
-			costs  = marketDataAggregatorsService.getAllCostInfo();			
+			supports = marketDataAggregatorsService.getAllVendorSupports();
+			costs = marketDataAggregatorsService.getAllCostInfo();
 			username = CommonUtils.decrypt(username.getBytes());
 			vendor = userService.getUserDetailsByUsername(username).getVendor();
 			awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
 			String vendorCompanyTypes = vendor.getCompanyType();
 			logger.debug("Registered Company Types for Vendor {} are {}", username, vendorCompanyTypes);
-			vendorOfferings  = vendorCompanyTypes.split(",");
+			vendorOfferings = vendorCompanyTypes.split(",");
 			for (String vendormyofferingtags : vendorOfferings) {
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.DATA_AGGREGATOR)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.DATA_AGGREGATOR);
-					 modelAndView.addObject("dataaggregator", vendormyofferingtags);
-				 }
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.TRADING_APPLICATION)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.TRADING_APPLICATION);
-					 modelAndView.addObject("tradingapplication", vendormyofferingtags);
-				 }
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.ANALYTICS_APPLICATION)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.ANALYTICS_APPLICATION);
-					 modelAndView.addObject("analyticsapplication", vendormyofferingtags);
-				 }
-				 if(vendormyofferingtags.equals(RequestConstans.Vendor.RESEARCH_REPORT)) {
-					 logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.RESEARCH_REPORT);
-					 modelAndView.addObject("researchreport", vendormyofferingtags);
-				 }
-			} 			
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.DATA_AGGREGATOR)) {
+					logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.DATA_AGGREGATOR);
+					modelAndView.addObject("dataaggregator", vendormyofferingtags);
+				}
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.TRADING_APPLICATION)) {
+					logger.debug("Set My Offerings tab of {} for {}", username,
+							RequestConstans.Vendor.TRADING_APPLICATION);
+					modelAndView.addObject("tradingapplication", vendormyofferingtags);
+				}
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.ANALYTICS_APPLICATION)) {
+					logger.debug("Set My Offerings tab of {} for {}", username,
+							RequestConstans.Vendor.ANALYTICS_APPLICATION);
+					modelAndView.addObject("analyticsapplication", vendormyofferingtags);
+				}
+				if (vendormyofferingtags.equals(RequestConstans.Vendor.RESEARCH_REPORT)) {
+					logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.RESEARCH_REPORT);
+					modelAndView.addObject("researchreport", vendormyofferingtags);
+				}
+			}
 			modelAndView.addObject("assetClasses", assetClasses);
 			modelAndView.addObject("regions", regions);
 			modelAndView.addObject("regionslist", regions);
@@ -491,71 +492,70 @@ public class VendorController {
 			modelAndView.addObject("supports", supports);
 			modelAndView.addObject("costs", costs);
 			modelAndView.addObject("awards", awards);
-			//modelAndView.addObject("myofferingstab", "myofferings");
+			// modelAndView.addObject("myofferingstab", "myofferings");
 			modelAndView.addObject("myprofiletab", "myprofile");
 			modelAndView.addObject("username", username);
-		}catch (Exception exp) {
+		} catch (Exception exp) {
 			logger.error("VendorController : vendorMyOfferings - Error reading details", exp);
 		}
 		logger.debug("Leaving VendorController : vendorMyOfferings");
 		return modelAndView;
 	}
-	
+
 	/* Vendor - RFP inbox */
-	@RequestMapping(value=RequestConstans.Vendor.VENDOR_RFP_INBOX, method=RequestMethod.GET)
-	public ModelAndView vendorRfpInbox(HttpServletRequest request){
+	@RequestMapping(value = RequestConstans.Vendor.VENDOR_RFP_INBOX, method = RequestMethod.GET)
+	public ModelAndView vendorRfpInbox(HttpServletRequest request) {
 		logger.debug("Entering : vendorRfpInbox");
-		ModelAndView modelAndView=new ModelAndView(RequestConstans.Vendor.VENDOR_RFP_INBOX);
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Vendor.VENDOR_RFP_INBOX);
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
 			List<Object[]> rfpDetails = rfpService.selectMyRfpVendor(vendor.getId());
 			modelAndView.addObject("rfpDetails", rfpDetails);
-		}catch (Exception exp) {
+		} catch (Exception exp) {
 			logger.error("Error : expressRfpInterest", exp);
 			modelAndView.addObject("statusMessage", "Error selecting RFP details");
 		}
 		logger.debug("Exiting : vendorRfpInbox");
 		return modelAndView;
 	}
-	
-	
+
 	/* Vendor - Applicable RFP list */
-	@RequestMapping(value="vendorMyRFP", method=RequestMethod.GET)
-	public ModelAndView selectVendorApplicableRfp(HttpServletRequest request){
+	@RequestMapping(value = "vendorMyRFP", method = RequestMethod.GET)
+	public ModelAndView selectVendorApplicableRfp(HttpServletRequest request) {
 		logger.debug("Entering : selectVendorApplicableRfp");
 		ModelAndView modelAndView = new ModelAndView("rfpinbox");
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
 			List<Object[]> rfpDetails = rfpService.selectMyRfpListVendor();
 			modelAndView.addObject("rfpDetails", rfpDetails);
-		}catch (Exception exp) {
+		} catch (Exception exp) {
 			logger.error("Error : expressRfpInterest", exp);
 			modelAndView.addObject("statusMessage", "Error selecting RFP details");
 		}
 		logger.debug("Exiting : selectVendorApplicableRfp");
 		return modelAndView;
 	}
-	
+
 	/* Vendor - express/revoke RFP interest */
-	@RequestMapping(value="expressRfpInterest", method=RequestMethod.POST)
+	@RequestMapping(value = "expressRfpInterest", method = RequestMethod.POST)
 	public ModelAndView expressRfpInterest(HttpServletRequest request,
 			@RequestParam(value = "rfpId", required = true) String rfpId,
 			@RequestParam(value = "consumerName", required = true) String consumerName,
-			@RequestParam(value = "revoke", required = true) boolean revoke){
+			@RequestParam(value = "revoke", required = true) boolean revoke) {
 		logger.debug("Entering : expressRfpInterest");
 		ModelAndView modelAndView = new ModelAndView("vendorRfpInbox");
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			Consumer consumer = userService.getUserDetailsByUsername(consumerName).getConsumer();
 			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
@@ -565,37 +565,37 @@ public class VendorController {
 			rfpBean.setRfpTitle(rfpDetails[2].toString());
 			rfpService.expresssRfpInterest(rfpBean, vendor, consumer, revoke);
 			modelAndView.addObject("statusMessage", "RFP interest successfully updated");
-		}catch (Exception exp) {
+		} catch (Exception exp) {
 			logger.error("Error : expressRfpInterest", exp);
 			modelAndView.addObject("statusMessage", "Error Updating RFP interest");
 		}
 		logger.debug("Exiting : expressRfpInterest");
 		return modelAndView;
 	}
-	
+
 	/* Vendor - RFP Details */
-	@RequestMapping(value="selectRfpDetailsForVendor", method=RequestMethod.GET)
+	@RequestMapping(value = "selectRfpDetailsForVendor", method = RequestMethod.GET)
 	public ModelAndView selectRfpDetailsForVendor(HttpServletRequest request,
-			@RequestParam(value = "rfpId", required = true) String rfpId){
+			@RequestParam(value = "rfpId", required = true) String rfpId) {
 		logger.debug("Entering : selectRfpDetailsForVendor");
 		ModelAndView modelAndView = new ModelAndView("vendorRfpInbox");
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
 			Object[] rfpDetails = rfpService.selectRfpDetails(rfpId, vendor.getId()).get(0);
 			modelAndView.addObject("rfpDetails", rfpDetails);
-		}catch (Exception exp) {
+		} catch (Exception exp) {
 			logger.error("Error : selectRfpDetailsForVendor", exp);
 			modelAndView.addObject("statusMessage", "Error selecting RFP details");
 		}
 		logger.debug("Exiting : selectRfpDetailsForVendor");
 		return modelAndView;
 	}
-	
+
 	/**
 	 * method for navigate vendor search data buyers
 	 * 
@@ -603,33 +603,32 @@ public class VendorController {
 	 * @throws Exception
 	 *             the exception
 	 */
-	
-	@RequestMapping(value=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER, method=RequestMethod.GET)
+
+	@RequestMapping(value = RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER, method = RequestMethod.GET)
 	public ModelAndView vendorSearchDataBuyers(HttpServletRequest request,
-			@RequestParam(value = "RaYUnA", required = false) String username){
+			@RequestParam(value = "RaYUnA", required = false) String username) {
 		logger.info("Mehtod for vendorsearch data buyers--:");
 		@SuppressWarnings("unused")
-		Vendor vendor=null;
+		Vendor vendor = null;
 		List<AssetClass> assetClasses = null;
 		List<Region> regions = null;
-		ModelAndView modelAndView=new ModelAndView(RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER);
-		try{
+		ModelAndView modelAndView = new ModelAndView(RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER);
+		try {
 			username = CommonUtils.decrypt(username.getBytes());
 			assetClasses = marketDataAggregatorsService.getAllAssetClass();
 			regions = marketDataAggregatorsService.getAllRegionClass();
-			
+
 			modelAndView.addObject("assetClasses", assetClasses);
 			modelAndView.addObject("regions", regions);
 			modelAndView.addObject("username", username);
 			modelAndView.addObject("searchDataBuyers", "searchDataBuyers");
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Mehtod for vendorsearch data buyers--:");
 		}
 		return modelAndView;
 	}
-	
-	
+
 	/**
 	 * method to full Security types
 	 * 
@@ -637,16 +636,17 @@ public class VendorController {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@RequestMapping(value =RequestConstans.Vendor.LOAD_VENDOR_SECURITY_TYPES, method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.LOAD_VENDOR_SECURITY_TYPES, method = RequestMethod.GET)
 	public ModelAndView loadVendorSecurityType(@RequestParam(value = "RAyuL", required = false) String assetType) {
 		ModelAndView modelAndView = new ModelAndView("vendorpage/vendorsecuritylist");
 		List<AssetClassSecurityMap> assetClassSecurityMaps = null;
 		try {
 			assetType = CommonUtils.decrypt(assetType.getBytes());
-			if(!assetType.equals("") && !assetType.equals("-SELECT-")){
+			if (!assetType.equals("") && !assetType.equals("-SELECT-")) {
 				AssetClass assetClass = marketDataAggregatorsService.getAssetClassByName(assetType);
-				assetClassSecurityMaps = marketDataAggregatorsService.getSecurityTypeByAssetClassId(Integer.parseInt(assetClass.getAsset_class_cd()));
-		 	}
+				assetClassSecurityMaps = marketDataAggregatorsService
+						.getSecurityTypeByAssetClassId(Integer.parseInt(assetClass.getAsset_class_cd()));
+			}
 			modelAndView.addObject("assetClassVendorSecurityMaps", assetClassSecurityMaps);
 		} catch (Exception ex) {
 			logger.error("Exception in loadSecurityType -- ", ex);
@@ -654,6 +654,7 @@ public class VendorController {
 		}
 		return modelAndView;
 	}
+
 	/**
 	 * method to full Security types
 	 * 
@@ -661,16 +662,17 @@ public class VendorController {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@RequestMapping(value =RequestConstans.Vendor.LOAD_VENDOR_SECURITY_AWARD_TYPES, method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.LOAD_VENDOR_SECURITY_AWARD_TYPES, method = RequestMethod.GET)
 	public ModelAndView loadVendorAwardSecurityType(@RequestParam(value = "RAyuL", required = false) String assetType) {
 		ModelAndView modelAndView = new ModelAndView("vendorpage/vendorsecurityawardlist");
 		List<AssetClassSecurityMap> assetClassSecurityMaps = null;
 		try {
 			assetType = CommonUtils.decrypt(assetType.getBytes());
-			if(!assetType.equals("") && !assetType.equals("-SELECT-")){
+			if (!assetType.equals("") && !assetType.equals("-SELECT-")) {
 				AssetClass assetClass = marketDataAggregatorsService.getAssetClassByName(assetType);
-				assetClassSecurityMaps = marketDataAggregatorsService.getSecurityTypeByAssetClassId(assetClass.getAsset_class_id());
-		 	}
+				assetClassSecurityMaps = marketDataAggregatorsService
+						.getSecurityTypeByAssetClassId(assetClass.getAsset_class_id());
+			}
 			modelAndView.addObject("assetClassVendorSecurityAwardMaps", assetClassSecurityMaps);
 		} catch (Exception ex) {
 			logger.error("Exception in loadSecurityType -- ", ex);
@@ -678,6 +680,7 @@ public class VendorController {
 		}
 		return modelAndView;
 	}
+
 	/**
 	 * method to full Security types
 	 * 
@@ -685,16 +688,18 @@ public class VendorController {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@RequestMapping(value =RequestConstans.Vendor.LOAD_VENDOR_SECURITY_DISTRI_TYPES, method = RequestMethod.GET)
-	public ModelAndView loadVendorDstributionSecurityType(@RequestParam(value = "RAyuL", required = false) String assetType) {
+	@RequestMapping(value = RequestConstans.Vendor.LOAD_VENDOR_SECURITY_DISTRI_TYPES, method = RequestMethod.GET)
+	public ModelAndView loadVendorDstributionSecurityType(
+			@RequestParam(value = "RAyuL", required = false) String assetType) {
 		ModelAndView modelAndView = new ModelAndView("vendorpage/vendorsecurityDistrilist");
 		List<AssetClassSecurityMap> assetClassSecurityMaps = null;
 		try {
 			assetType = CommonUtils.decrypt(assetType.getBytes());
-			if(!assetType.equals("") && !assetType.equals("-SELECT-")){
+			if (!assetType.equals("") && !assetType.equals("-SELECT-")) {
 				AssetClass assetClass = marketDataAggregatorsService.getAssetClassByName(assetType);
-				assetClassSecurityMaps = marketDataAggregatorsService.getSecurityTypeByAssetClassId(Integer.parseInt(assetClass.getAsset_class_cd()));
-		 	}
+				assetClassSecurityMaps = marketDataAggregatorsService
+						.getSecurityTypeByAssetClassId(Integer.parseInt(assetClass.getAsset_class_cd()));
+			}
 			modelAndView.addObject("assetClassVendorSecurityDistriMaps", assetClassSecurityMaps);
 		} catch (Exception ex) {
 			logger.error("Exception in loadSecurityType -- ", ex);
@@ -702,8 +707,7 @@ public class VendorController {
 		}
 		return modelAndView;
 	}
-	
-	
+
 	/**
 	 * method to full Security types
 	 * 
@@ -711,104 +715,35 @@ public class VendorController {
 	 * @throws Exception
 	 *             the exception
 	 */
-	
-	@RequestMapping(value =RequestConstans.Vendor.LOAD_VENDOR_FOCUS_ADD_FIELD_TO_FILE, method = RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData>  addFieldsToFile(@RequestParam(value = "fieldName", required = false) String fieldName,
+
+	@RequestMapping(value = RequestConstans.Vendor.LOAD_VENDOR_FOCUS_ADD_FIELD_TO_FILE, method = RequestMethod.GET)
+	public @ResponseBody Set<JsonResponseData> addFieldsToFile(
+			@RequestParam(value = "fieldName", required = false) String fieldName,
 			@RequestParam(value = "description", required = false) String description,
 			@RequestParam(value = "fieldIndex", required = false) String fieldIndex,
 			@RequestParam(value = "fieldMaxLength", required = false) String fieldMaxLength,
 			@RequestParam(value = "fieldFormat", required = false) String fieldFormat,
 			@RequestParam(value = "fieldDataType", required = false) String fieldDataType,
-			@RequestParam(value = "selectedId", required = false) String selectedId
-			) {
-	
+			@RequestParam(value = "selectedId", required = false) String selectedId) {
+
 		// fieldName,fieldDescription,fieldIndex,fieldMaxLength,fieldFormat,fieldDataType
-		try{
-				FileFields fileFields = new FileFields();
-				fileFields.setFieldName(fieldName);
-				fileFields.setDescription(description);
-				fileFields.setFieldIndex(fieldIndex);
-				fileFields.setFieldFormat(fieldFormat);
-				fileFields.setFieldDataType(fieldDataType);
-				fileFields.setFieldMaxLength(fieldMaxLength);		
-				
-				marketDataAggregatorsService.addFieldsToFile(selectedId, fileFields);
-		}catch(Exception e){
+		try {
+			FileFields fileFields = new FileFields();
+			fileFields.setFieldName(fieldName);
+			fileFields.setDescription(description);
+			fileFields.setFieldIndex(fieldIndex);
+			fileFields.setFieldFormat(fieldFormat);
+			fileFields.setFieldDataType(fieldDataType);
+			fileFields.setFieldMaxLength(fieldMaxLength);
+
+			marketDataAggregatorsService.addFieldsToFile(selectedId, fileFields);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-			Set<FileFields> listFieldsToFile = marketDataAggregatorsService.listFieldsToFile(selectedId);
-			Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-			for(FileFields fileFields : listFieldsToFile){
-				JsonResponseData addResponseData = new JsonResponseData();
-				addResponseData.setId(fileFields.getId().toString());
-				addResponseData.setName(fileFields.getFieldName());
-				addResponseData.setDescription(fileFields.getDescription());
-				addResponseData.setFieldDataType(fileFields.getFieldDataType());
-				addResponseData.setFieldFormat(fileFields.getFieldFormat());
-				addResponseData.setFieldIndex(fileFields.getFieldIndex());
-				addResponseData.setFieldMaxLength(fileFields.getFieldMaxLength());
-				addResponseData.setOfferingFiles( fileFields.getOfferingFiles().getFileName());
-				JsonResponseData.add(addResponseData);
-			}
-			
-			return JsonResponseData;
-	}
-	
-	@RequestMapping(value =RequestConstans.Vendor.LOAD_VENDOR_FOCUS_ADD_OFFERING_FILES, method = RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData>  addOfferingFiles(@RequestParam(value = "selectedId", required = false) String selectedId,
-			@RequestParam(value = "fileName", required = false) String fileName,
-			@RequestParam(value = "description", required = false) String description,
-			@RequestParam(value = "securityType", required = false) String securityType) {
-		
+
+		Set<FileFields> listFieldsToFile = marketDataAggregatorsService.listFieldsToFile(selectedId);
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-		try{
-			OfferingFiles offeringFiles = new OfferingFiles();
-			offeringFiles.setFileName(fileName);
-			offeringFiles.setDescription(description);
-			SecurityType securityTypes = referenceDataService.getSecurityTypeByName(securityType);
-			offeringFiles.setSecurityType(securityTypes);
-			marketDataAggregatorsService.addOfferingFiles(selectedId, offeringFiles);
-			
-			
-			Set<OfferingFiles> listOfferingFiles = marketDataAggregatorsService.listOfferingFiles(selectedId);
-			
-			for(OfferingFiles OfferingFile : listOfferingFiles){
-				JsonResponseData addResponseData = new JsonResponseData();
-				addResponseData.setId(OfferingFile.getOfferingFilesId().toString());
-				addResponseData.setName(OfferingFile.getFileName());
-				addResponseData.setDescription(OfferingFile.getDescription());
-				addResponseData.setSecurityType(OfferingFile.getSecurityType().getName());
-				JsonResponseData.add(addResponseData);
-			}
-		}catch(Exception exp) {
-			
-		}
-		return JsonResponseData;
-	}
-	
-	
-	@RequestMapping(value =RequestConstans.Vendor.LIST_OFFERING_DATA, method = RequestMethod.POST )
-	public @ResponseBody Set<JsonResponseData>  listOfferingData(@RequestParam(value = "objectVar", required = false) String objectVar) {
-		Set<OfferingFiles> listOfferingFiles = marketDataAggregatorsService.listOfferingFiles(objectVar);
-		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-		for(OfferingFiles OfferingFile : listOfferingFiles){
-			JsonResponseData addResponseData = new JsonResponseData();
-			addResponseData.setId(OfferingFile.getOfferingFilesId().toString());
-			addResponseData.setName(OfferingFile.getFileName());
-			addResponseData.setDescription(OfferingFile.getDescription());
-			addResponseData.setSecurityType(OfferingFile.getSecurityType().getName());
-			JsonResponseData.add(addResponseData);
-		}
-		
-		return JsonResponseData;
-	}
-	
-	@RequestMapping(value =RequestConstans.Vendor.LIST_OFFERING_FIELD_DATA, method = RequestMethod.POST )
-	public @ResponseBody Set<JsonResponseData>  listOfferingFieldData(@RequestParam(value = "objectVar", required = false) String objectVar) {
-		Set<FileFields> listFieldsToFile = marketDataAggregatorsService.listFieldsToFile(objectVar);
-		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-		for(FileFields fileFields : listFieldsToFile){
+		for (FileFields fileFields : listFieldsToFile) {
 			JsonResponseData addResponseData = new JsonResponseData();
 			addResponseData.setId(fileFields.getId().toString());
 			addResponseData.setName(fileFields.getFieldName());
@@ -817,226 +752,290 @@ public class VendorController {
 			addResponseData.setFieldFormat(fileFields.getFieldFormat());
 			addResponseData.setFieldIndex(fileFields.getFieldIndex());
 			addResponseData.setFieldMaxLength(fileFields.getFieldMaxLength());
-			addResponseData.setOfferingFiles( fileFields.getOfferingFiles().getFileName());
+			addResponseData.setOfferingFiles(fileFields.getOfferingFiles().getFileName());
 			JsonResponseData.add(addResponseData);
 		}
-		
+
 		return JsonResponseData;
 	}
-	
-	
 
-	@RequestMapping(value =RequestConstans.Vendor.DELETE_VENDOR_SOLUTION, method = (RequestMethod.POST))
-	public @ResponseBody Set<JsonResponseData>  deleteVendorSolution(@RequestParam(value = "objectVar", required = false) String objectVar) {
-		vendorService.deleteVendorSolution(objectVar);
-	
-User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	@RequestMapping(value = RequestConstans.Vendor.LOAD_VENDOR_FOCUS_ADD_OFFERING_FILES, method = RequestMethod.GET)
+	public @ResponseBody Set<JsonResponseData> addOfferingFiles(
+			@RequestParam(value = "selectedId", required = false) String selectedId,
+			@RequestParam(value = "fileName", required = false) String fileName,
+			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "securityType", required = false) String securityType) {
+
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
 		try {
-		Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+			OfferingFiles offeringFiles = new OfferingFiles();
+			offeringFiles.setFileName(fileName);
+			offeringFiles.setDescription(description);
+			SecurityType securityTypes = referenceDataService.getSecurityTypeByName(securityType);
+			offeringFiles.setSecurityType(securityTypes);
+			marketDataAggregatorsService.addOfferingFiles(selectedId, offeringFiles);
 
-		List<Solutions> listVednorSolution = vendorService.listVednorSolution(vendor.getId());
-		
-			for(Solutions solution : listVednorSolution){
+			Set<OfferingFiles> listOfferingFiles = marketDataAggregatorsService.listOfferingFiles(selectedId);
+
+			for (OfferingFiles OfferingFile : listOfferingFiles) {
+				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setId(OfferingFile.getOfferingFilesId().toString());
+				addResponseData.setName(OfferingFile.getFileName());
+				addResponseData.setDescription(OfferingFile.getDescription());
+				addResponseData.setSecurityType(OfferingFile.getSecurityType().getName());
+				JsonResponseData.add(addResponseData);
+			}
+		} catch (Exception exp) {
+
+		}
+		return JsonResponseData;
+	}
+
+	@RequestMapping(value = RequestConstans.Vendor.LIST_OFFERING_DATA, method = RequestMethod.POST)
+	public @ResponseBody Set<JsonResponseData> listOfferingData(
+			@RequestParam(value = "objectVar", required = false) String objectVar) {
+		Set<OfferingFiles> listOfferingFiles = marketDataAggregatorsService.listOfferingFiles(objectVar);
+		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
+		for (OfferingFiles OfferingFile : listOfferingFiles) {
 			JsonResponseData addResponseData = new JsonResponseData();
-			addResponseData.setId(solution.getSolution_id().toString());
-			addResponseData.setName(solution.getName());
-			addResponseData.setDescription(solution.getDescription());
-			addResponseData.setSolutionType(solution.getSolutionTypes().getName());
+			addResponseData.setId(OfferingFile.getOfferingFilesId().toString());
+			addResponseData.setName(OfferingFile.getFileName());
+			addResponseData.setDescription(OfferingFile.getDescription());
+			addResponseData.setSecurityType(OfferingFile.getSecurityType().getName());
 			JsonResponseData.add(addResponseData);
 		}
+
+		return JsonResponseData;
+	}
+
+	@RequestMapping(value = RequestConstans.Vendor.LIST_OFFERING_FIELD_DATA, method = RequestMethod.POST)
+	public @ResponseBody Set<JsonResponseData> listOfferingFieldData(
+			@RequestParam(value = "objectVar", required = false) String objectVar) {
+		Set<FileFields> listFieldsToFile = marketDataAggregatorsService.listFieldsToFile(objectVar);
+		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
+		for (FileFields fileFields : listFieldsToFile) {
+			JsonResponseData addResponseData = new JsonResponseData();
+			addResponseData.setId(fileFields.getId().toString());
+			addResponseData.setName(fileFields.getFieldName());
+			addResponseData.setDescription(fileFields.getDescription());
+			addResponseData.setFieldDataType(fileFields.getFieldDataType());
+			addResponseData.setFieldFormat(fileFields.getFieldFormat());
+			addResponseData.setFieldIndex(fileFields.getFieldIndex());
+			addResponseData.setFieldMaxLength(fileFields.getFieldMaxLength());
+			addResponseData.setOfferingFiles(fileFields.getOfferingFiles().getFileName());
+			JsonResponseData.add(addResponseData);
+		}
+
+		return JsonResponseData;
+	}
+
+	@RequestMapping(value = RequestConstans.Vendor.DELETE_VENDOR_SOLUTION, method = (RequestMethod.POST))
+	public @ResponseBody Set<JsonResponseData> deleteVendorSolution(
+			@RequestParam(value = "objectVar", required = false) String objectVar) {
+		vendorService.deleteVendorSolution(objectVar);
+
+		User appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
+		try {
+			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+
+			List<Solutions> listVednorSolution = vendorService.listVednorSolution(vendor.getId());
+
+			for (Solutions solution : listVednorSolution) {
+				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setId(solution.getSolution_id().toString());
+				addResponseData.setName(solution.getName());
+				addResponseData.setDescription(solution.getDescription());
+				addResponseData.setSolutionType(solution.getSolutionTypes().getName());
+				JsonResponseData.add(addResponseData);
+			}
 		} catch (ApplicationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return JsonResponseData;
 	}
-	
 
-	@RequestMapping(value =RequestConstans.Vendor.DELETE_RECORD, method = (RequestMethod.GET))
-	public @ResponseBody Set<JsonResponseData>  deleteRecord(@RequestParam(value = "recordId", required = false) String objectVar,
+	@RequestMapping(value = RequestConstans.Vendor.DELETE_RECORD, method = (RequestMethod.GET))
+	public @ResponseBody Set<JsonResponseData> deleteRecord(
+			@RequestParam(value = "recordId", required = false) String objectVar,
 			@RequestParam(value = "recordName", required = false) String recordName) {
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-		
-		if(RequestConstans.Vendor.DELETE_RECORD_OFFERING.equals(recordName)){
+
+		if (RequestConstans.Vendor.DELETE_RECORD_OFFERING.equals(recordName)) {
 			marketDataAggregatorsService.deleteOfferings(objectVar);
-		}else if(RequestConstans.Vendor.AWARDDETAILS.equals(recordName)){
+		} else if (RequestConstans.Vendor.AWARDDETAILS.equals(recordName)) {
 			vendorService.deleteAwardDetails(objectVar);
-		}else if(RequestConstans.Vendor.DELETE_VENDOR_DATACOVERAGE.equals(recordName)){
+		} else if (RequestConstans.Vendor.DELETE_VENDOR_DATACOVERAGE.equals(recordName)) {
 			vendorService.deleteVendorDataCoverage(objectVar);
-		}else if(RequestConstans.Vendor.DELETE_FIELDS_FILE.equals(recordName)){
+		} else if (RequestConstans.Vendor.DELETE_FIELDS_FILE.equals(recordName)) {
 			marketDataAggregatorsService.deleteFieldsToFile(objectVar);
-		}else if(RequestConstans.Vendor.DELETE_OFFERING_FILE.equals(recordName)){
-			 marketDataAggregatorsService.deleteOfferingFiles(objectVar);
-		}else if(RequestConstans.Vendor.DELETE_VENDOR_DATADISTRIBUTION.equals(recordName)){
+		} else if (RequestConstans.Vendor.DELETE_OFFERING_FILE.equals(recordName)) {
+			marketDataAggregatorsService.deleteOfferingFiles(objectVar);
+		} else if (RequestConstans.Vendor.DELETE_VENDOR_DATADISTRIBUTION.equals(recordName)) {
 			vendorService.deleteVendorDistribution(objectVar);
-		}else if(RequestConstans.Vendor.ADD_VENDOR_TRADINGSOFTWAREDETAILS.equals(recordName)){
+		} else if (RequestConstans.Vendor.ADD_VENDOR_TRADINGSOFTWAREDETAILS.equals(recordName)) {
 			vendorService.deleteTradingSoftwareDetails(objectVar);
-		}else if(RequestConstans.Vendor.ADD_VENDOR_TRADINGCAPABILITIESSUPPORTED.equals(recordName)){
+		} else if (RequestConstans.Vendor.ADD_VENDOR_TRADINGCAPABILITIESSUPPORTED.equals(recordName)) {
 			vendorService.deleteTradingCapabilitiesSupported(objectVar);
-		}else if(RequestConstans.Vendor.ADD_VENDOR_ANALYTICSSOFTWAREDETAILS.equals(recordName)){
+		} else if (RequestConstans.Vendor.ADD_VENDOR_ANALYTICSSOFTWAREDETAILS.equals(recordName)) {
 			vendorService.deleteAnalyticsSoftwareDetails(objectVar);
-		}else if(RequestConstans.Vendor.ADD_VENDOR_RESEARCHDETAILS.equals(recordName)){
+		} else if (RequestConstans.Vendor.ADD_VENDOR_RESEARCHDETAILS.equals(recordName)) {
 			vendorService.deleteResearchDetails(objectVar);
-		}else if(RequestConstans.Vendor.ADD_VENDOR_RESEARCHCOVERAGE.equals(recordName)){
+		} else if (RequestConstans.Vendor.ADD_VENDOR_RESEARCHCOVERAGE.equals(recordName)) {
 			vendorService.deleteResearchCoverage(objectVar);
-		}else if(RequestConstans.Vendor.ADD_VENDOR_ANALYSTPROFILE.equals(recordName)){
+		} else if (RequestConstans.Vendor.ADD_VENDOR_ANALYSTPROFILE.equals(recordName)) {
 			vendorService.deleteAnalystProfile(objectVar);
 		}
-		
-		
+
 		return JsonResponseData;
 	}
 
-	
-	
-	
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_SOLUTION, method = RequestMethod.POST)
-	public @ResponseBody Set<JsonResponseData>  addVendorSolution(@RequestParam(value = "vendorSolutionTypes", required = false) String vendorSolutionTypes,
-	@RequestParam(value = "fieldDescription", required = false) String fieldDescription,
-	@RequestParam(value = "solutionName", required = false) String solutionName) {
-		User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_SOLUTION, method = RequestMethod.POST)
+	public @ResponseBody Set<JsonResponseData> addVendorSolution(
+			@RequestParam(value = "vendorSolutionTypes", required = false) String vendorSolutionTypes,
+			@RequestParam(value = "fieldDescription", required = false) String fieldDescription,
+			@RequestParam(value = "solutionName", required = false) String solutionName) {
+		User appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
 		try {
-		Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-	
-		Solutions solutions = new Solutions();
-		solutions.setName(solutionName);
-		solutions.setDescription(fieldDescription);
-		
-		logger.info("vendorSolutionTypes == " + vendorSolutionTypes);
-		
-		SolutionTypes solutionTypes = vendorService.getSolutionTypes(vendorSolutionTypes);
-		solutions.setSolutionTypes(solutionTypes);
-		solutions.setVendor(vendor);
-		
-		
-		vendorService.addSolutionsInfo(solutions);
-		
-		logger.info("Succeesfully added solution");
-		
-		List<Solutions> listVednorSolution = vendorService.listVednorSolution(vendor.getId());
-		
-			for(Solutions solution : listVednorSolution){
-			JsonResponseData addResponseData = new JsonResponseData();
-			addResponseData.setId(solution.getSolution_id().toString());
-			addResponseData.setName(solution.getName());
-			addResponseData.setDescription(solution.getDescription());
-			addResponseData.setSolutionType(solution.getSolutionTypes().getName());
-			JsonResponseData.add(addResponseData);
-		}
-		 } catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+
+			Solutions solutions = new Solutions();
+			solutions.setName(solutionName);
+			solutions.setDescription(fieldDescription);
+
+			logger.info("vendorSolutionTypes == " + vendorSolutionTypes);
+
+			SolutionTypes solutionTypes = vendorService.getSolutionTypes(vendorSolutionTypes);
+			solutions.setSolutionTypes(solutionTypes);
+			solutions.setVendor(vendor);
+
+			vendorService.addSolutionsInfo(solutions);
+
+			logger.info("Succeesfully added solution");
+
+			List<Solutions> listVednorSolution = vendorService.listVednorSolution(vendor.getId());
+
+			for (Solutions solution : listVednorSolution) {
+				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setId(solution.getSolution_id().toString());
+				addResponseData.setName(solution.getName());
+				addResponseData.setDescription(solution.getDescription());
+				addResponseData.setSolutionType(solution.getSolutionTypes().getName());
+				JsonResponseData.add(addResponseData);
 			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		logger.info("Retturn solution response");
 		return JsonResponseData;
 	}
-	
-	@RequestMapping(value =RequestConstans.Vendor.LIST_VENDOR_SOLUTION, method = RequestMethod.POST)
-	public @ResponseBody Set<JsonResponseData>  listVendorSolution() {
-		User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+	@RequestMapping(value = RequestConstans.Vendor.LIST_VENDOR_SOLUTION, method = RequestMethod.POST)
+	public @ResponseBody Set<JsonResponseData> listVendorSolution() {
+		User appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
 		try {
-		Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-		List<Solutions> listVednorSolution = vendorService.listVednorSolution(vendor.getId());
-			for(Solutions solution : listVednorSolution){
-			JsonResponseData addResponseData = new JsonResponseData();
-			addResponseData.setId(solution.getSolution_id().toString());
-			addResponseData.setName(solution.getName());
-			addResponseData.setDescription(solution.getDescription());
-			addResponseData.setSolutionType(solution.getSolutionTypes().getName());
-			JsonResponseData.add(addResponseData);
-		}
-		 } catch (ApplicationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+			List<Solutions> listVednorSolution = vendorService.listVednorSolution(vendor.getId());
+			for (Solutions solution : listVednorSolution) {
+				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setId(solution.getSolution_id().toString());
+				addResponseData.setName(solution.getName());
+				addResponseData.setDescription(solution.getDescription());
+				addResponseData.setSolutionType(solution.getSolutionTypes().getName());
+				JsonResponseData.add(addResponseData);
 			}
+		} catch (ApplicationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return JsonResponseData;
 	}
-	
-	
-	@RequestMapping(value =RequestConstans.Vendor.LOAD_VENDOR_FOCUS_CREATE_OFFERINGS, method = RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData>  updateOfferings(@RequestParam(value = "solution", required = false) String solution,
+
+	@RequestMapping(value = RequestConstans.Vendor.LOAD_VENDOR_FOCUS_CREATE_OFFERINGS, method = RequestMethod.GET)
+	public @ResponseBody Set<JsonResponseData> updateOfferings(
+			@RequestParam(value = "solution", required = false) String solution,
 			@RequestParam(value = "offeringName", required = false) String offeringName,
 			@RequestParam(value = "description", required = false) String description,
 			@RequestParam(value = "launchedYear", required = false) String launchedYear,
 			@RequestParam(value = "assetClass", required = false) String assetClassDescription) {
-		if(offeringName != null && !(offeringName.isEmpty())){
-        try {
-        	User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        	
-			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			if(solution != null && !("null".equals(solution)) && assetClassDescription != null){
-				Solutions solutionsInfo = vendorService.getSolutionsInfo(solution);
-				AssetClass assetClassDetails = referenceDataService.getAssetClassByDescription(assetClassDescription);
-				VendorOffering vendorOffering = new VendorOffering();
-				vendorOffering.setSolutions(solutionsInfo);
-				vendorOffering.setName(offeringName);
-				vendorOffering.setDescription(description);
-				vendorOffering.setAssetClass(assetClassDetails);
-				vendorOffering.setLaunchedYear(Integer.parseInt(launchedYear));
-				
-				vendorOffering.setVendor(vendor);
-				marketDataAggregatorsService.createOfferings(vendor.getId(), vendorOffering);
+		if (offeringName != null && !(offeringName.isEmpty())) {
+			try {
+				User appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+				Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+				if (solution != null && !("null".equals(solution)) && assetClassDescription != null) {
+					Solutions solutionsInfo = vendorService.getSolutionsInfo(solution);
+					AssetClass assetClassDetails = referenceDataService
+							.getAssetClassByDescription(assetClassDescription);
+					VendorOffering vendorOffering = new VendorOffering();
+					vendorOffering.setSolutions(solutionsInfo);
+					vendorOffering.setName(offeringName);
+					vendorOffering.setDescription(description);
+					vendorOffering.setAssetClass(assetClassDetails);
+					vendorOffering.setLaunchedYear(Integer.parseInt(launchedYear));
+
+					vendorOffering.setVendor(vendor);
+					marketDataAggregatorsService.createOfferings(vendor.getId(), vendorOffering);
+				}
+
+			} catch (ApplicationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-		} catch (ApplicationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		}
-		
-        List<VendorOffering> vendorOfferingDetails = vendorService.getVendorOfferingDetails(solution);
+
+		List<VendorOffering> vendorOfferingDetails = vendorService.getVendorOfferingDetails(solution);
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
-		for(VendorOffering endorOffering : vendorOfferingDetails){
+		for (VendorOffering endorOffering : vendorOfferingDetails) {
 			JsonResponseData addResponseData = new JsonResponseData();
 			addResponseData.setId(endorOffering.getVendor_offering_id().toString());
 			addResponseData.setName(endorOffering.getName());
 			addResponseData.setDescription(endorOffering.getDescription());
 			addResponseData.setSecurityType(endorOffering.getAssetClass().getDescription());
-			addResponseData.setLaunchedYear(endorOffering.getLaunchedYear()+"");
+			addResponseData.setLaunchedYear(endorOffering.getLaunchedYear() + "");
 			JsonResponseData.add(addResponseData);
 		}
-				
+
 		return JsonResponseData;
 	}
-	
-	
-	@RequestMapping(value =RequestConstans.Vendor.CREATE_TREE, method = RequestMethod.GET)
+
+	@RequestMapping(value = RequestConstans.Vendor.CREATE_TREE, method = RequestMethod.GET)
 	public ModelAndView createTree(@RequestParam(value = "solution", required = false) String solution,
 			@RequestParam(value = "offeringName", required = false) String offeringName,
 			@RequestParam(value = "description", required = false) String description,
 			@RequestParam(value = "assetClass", required = false) String assetClass) {
-			ModelAndView modelAndView = new ModelAndView("jqueryFileTree");
-		
-        try {
-        	User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        	
+		ModelAndView modelAndView = new ModelAndView("jqueryFileTree");
+
+		try {
+			User appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			  Set<VendorOffering> listOfferings = marketDataAggregatorsService.listOfferings(vendor.getId());
-			modelAndView.addObject("listOfferings",listOfferings);
-			
+			Set<VendorOffering> listOfferings = marketDataAggregatorsService.listOfferings(vendor.getId());
+			modelAndView.addObject("listOfferings", listOfferings);
+
 		} catch (ApplicationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return modelAndView;
 	}
-	
-	
-	
-	@RequestMapping(value =RequestConstans.Vendor.LOAD_VENDOR_FOCUS_SECURITY_DISTRI_TYPES, method = RequestMethod.GET)
+
+	@RequestMapping(value = RequestConstans.Vendor.LOAD_VENDOR_FOCUS_SECURITY_DISTRI_TYPES, method = RequestMethod.GET)
 	public ModelAndView loadVendorFocusSecurityType(@RequestParam(value = "RAyuL", required = false) String assetType) {
 		ModelAndView modelAndView = new ModelAndView("vendorpage/vendorfocussecuritylist");
 		List<AssetClassSecurityMap> assetClassSecurityMaps = null;
 		try {
 			assetType = CommonUtils.decrypt(assetType.getBytes());
-			if(!assetType.equals("") && !assetType.equals("-SELECT-")){
+			if (!assetType.equals("") && !assetType.equals("-SELECT-")) {
 				AssetClass assetClass = marketDataAggregatorsService.getAssetClassByName(assetType);
-				assetClassSecurityMaps = marketDataAggregatorsService.getSecurityTypeByAssetClassId(Integer.parseInt(assetClass.getAsset_class_cd()));
-		 	}
+				assetClassSecurityMaps = marketDataAggregatorsService
+						.getSecurityTypeByAssetClassId(Integer.parseInt(assetClass.getAsset_class_cd()));
+			}
 			modelAndView.addObject("assetclassVendorloadFocusSecurityTypes", assetClassSecurityMaps);
 		} catch (Exception ex) {
 			logger.error("Exception in loadSecurityType -- ", ex);
@@ -1044,9 +1043,8 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		}
 		return modelAndView;
 	}
-	
-		
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_PERSONAL_INFO_TAB, method = RequestMethod.GET)
+
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_PERSONAL_INFO_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorPersonalTabInfo(@ModelAttribute("vendor") Vendor vendor,
 			@RequestParam(value = "venFirstname", required = false) String venFirstname,
 			@RequestParam(value = "venLastname", required = false) String venLastname,
@@ -1062,67 +1060,58 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "venCompanyLogo", required = false) String venCompanyLogoFile,
 			@RequestParam(value = "support", required = false) String support,
 			@RequestParam(value = "weekend", required = false) String weekend,
-			@RequestParam(value = "publicHolidays", required = false) String publicHolidays,			
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country) {
+			@RequestParam(value = "publicHolidays", required = false) String publicHolidays,
+			@ModelAttribute("region") Region region, @ModelAttribute("country") Country country) {
 		ModelAndView modelAndView = new ModelAndView("empty");
 		logger.info("Mehtod for update Vendor Personal info tab--:");
 		User appUser = null;
-		
+
 		try {
-			
+
 			System.out.println("I'm executing successfully----:");
-			appUser = (User)SecurityContextHolder.getContext().
-					getAuthentication().getPrincipal();
-			if(!venFirstname.equals("")){
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!venFirstname.equals("")) {
 				vendor.setFirstName(venFirstname);
 				vendor.setLastName(venLastname);
 				vendor.setDesignation(venDesignation);
 				vendor.setCompanyUrl(venCompanyUrl);
 				vendor.setCompanyInfo(venCompanyInfo);
 				vendor.setCompany(venCompany);
-				//vendor.setEmail(venPrimEmail);
+				// vendor.setEmail(venPrimEmail);
 				vendor.setSecondaryEmail(venSecEmail);
 				vendor.setTelephone(venPhoneNum);
-				
-				region = (Region)referenceDataService.getModelObjectById(Region.class, 
-						new Integer(venRegionOfIncorp));
+
+				region = (Region) referenceDataService.getModelObjectById(Region.class, new Integer(venRegionOfIncorp));
 				vendor.setRegionofincorp(new Integer(venRegionOfIncorp));
-				country = (Country)referenceDataService.getModelObjectById(Country.class,
+				country = (Country) referenceDataService.getModelObjectById(Country.class,
 						new Integer(venCountryOfIncorp));
 				vendor.setCountryofincorp(country.getCountry_id() + "");
-				
+
 				/*
-				VendorSupport vendorSupport = new VendorSupport();
-				try{
-				Class<? extends VendorSupport> c = vendorSupport.getClass();
-			    Class[] cArg = new Class[1];
-			    cArg[0] = Boolean.class;
-			     Method method = c.getMethod("setC"+support, cArg);
-			    method.invoke(vendorSupport, true);
-				vendorSupport.setcWeekend(new Boolean(weekend));
-				vendorSupport.setcWeekend(new Boolean(publicHolidays));
-				
-				vendor.setVendorSupport(vendorSupport);
-				}catch(NoSuchMethodException e){
-					logger.error("Mehtod not found -- ", e);
-				}
-				*/
-				
-				vendorService.updateVendorPersonalInfoTab(vendor,appUser.getUsername());
+				 * VendorSupport vendorSupport = new VendorSupport(); try{ Class<? extends
+				 * VendorSupport> c = vendorSupport.getClass(); Class[] cArg = new Class[1];
+				 * cArg[0] = Boolean.class; Method method = c.getMethod("setC"+support, cArg);
+				 * method.invoke(vendorSupport, true); vendorSupport.setcWeekend(new
+				 * Boolean(weekend)); vendorSupport.setcWeekend(new Boolean(publicHolidays));
+				 * 
+				 * vendor.setVendorSupport(vendorSupport); }catch(NoSuchMethodException e){
+				 * logger.error("Mehtod not found -- ", e); }
+				 */
+
+				vendorService.updateVendorPersonalInfoTab(vendor, appUser.getUsername());
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				modelAndView.addObject("vendorDetails", vendor);
-		 	}
+			}
 		} catch (Exception ex) {
-			
+
 			logger.error("Mehtod for update Vendor Personal info tab -- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor personal details, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor personal details, Please contact administrator");
 		}
 		return modelAndView;
 	}
-	
-	
+
 	/**
 	 * method to update vendor award details
 	 * 
@@ -1130,8 +1119,9 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 * @throws Exception
 	 *             the exception
 	 */
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_AWARD_DETAILS_TAB, method = RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData> updateVendorAwardDetails(@RequestParam(value = "awardname", required = false) String awardname,
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_AWARD_DETAILS_TAB, method = RequestMethod.GET)
+	public @ResponseBody Set<JsonResponseData> updateVendorAwardDetails(
+			@RequestParam(value = "awardname", required = false) String awardname,
 			@RequestParam(value = "awardsponsor", required = false) String awardsponsor,
 			@RequestParam(value = "awardedyear", required = false) String awardedyear,
 			@RequestParam(value = "awardResearchArea", required = false) String awardResearchArea,
@@ -1139,16 +1129,14 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "awardVendorType", required = false) String awardVendorType,
 			@RequestParam(value = "awardAnalyticsSolutionsType", required = false) String awardAnalyticsSolutionsType,
 			@RequestParam(value = "awardAssetclass", required = false) String awardAssetclass) {
-		
+
 		Set<JsonResponseData> JsonResponseData = new HashSet<JsonResponseData>();
 		User appUser = null;
 		try {
-			
-			
-			appUser = (User)SecurityContextHolder.getContext().
-					getAuthentication().getPrincipal();
+
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			if(awardname != null){
+			if (awardname != null) {
 				VendorAwardsMap vendorAwardsMap = new VendorAwardsMap();
 				vendorAwardsMap.setAwardname(awardname);
 				vendorAwardsMap.setAwardsponsor(awardsponsor);
@@ -1158,46 +1146,42 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorAwardsMap.setAwardSolutionTypes(awardSolutionTypes);
 				vendorAwardsMap.setAwardVendorType(awardVendorType);
 				vendorAwardsMap.setAwardAnalyticsSolutionsType(awardAnalyticsSolutionsType);
-				vendorAwardsMap.setAwardAssetclass(awardAssetclass); 
-				
-				
+				vendorAwardsMap.setAwardAssetclass(awardAssetclass);
+
 				// Update vendor award details
 				vendorService.updateVendorAwardDetails(vendorAwardsMap);
-		 	}
+			}
 			List<VendorAwardsMap> vendorAwardsMaps = vendorService.listVendorAwardDetails(vendor.getId());
-			
-			for(VendorAwardsMap vendorAwardsMap : vendorAwardsMaps){
+
+			for (VendorAwardsMap vendorAwardsMap : vendorAwardsMaps) {
 				JsonResponseData addResponseData = new JsonResponseData();
 				addResponseData.setId(vendorAwardsMap.getVa_id().toString());
 				addResponseData.setName(vendorAwardsMap.getAwardname());
 				addResponseData.setDescription(vendorAwardsMap.getAwardsponsor());
-				addResponseData.setFrequency(vendorAwardsMap.getAwardedyear()+"");
+				addResponseData.setFrequency(vendorAwardsMap.getAwardedyear() + "");
 				addResponseData.setAwardResearchArea(vendorAwardsMap.getAwardResearchArea());
 				addResponseData.setAwardSolutionTypes(vendorAwardsMap.getAwardSolutionTypes());
 				addResponseData.setAwardVendorType(vendorAwardsMap.getAwardVendorType());
 				addResponseData.setAwardAnalyticsSolutionsType(vendorAwardsMap.getAwardAnalyticsSolutionsType());
-				addResponseData.setAwardAssetclass(vendorAwardsMap.getAwardAssetclass()); 
-				
+				addResponseData.setAwardAssetclass(vendorAwardsMap.getAwardAssetclass());
+
 				JsonResponseData.add(addResponseData);
 			}
-					
-			
-			
+
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Award details tab -- ", ex);
 		}
 		return JsonResponseData;
 	}
-	
-	
+
 	/**
 	 * method to update vendor data buyers
-	 * 	 
+	 * 
 	 * @return modelAndView
 	 * @throws Exception
 	 *             the exception
 	 */
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_DATA_SEARCH_BUYERS, method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_DATA_SEARCH_BUYERS, method = RequestMethod.GET)
 	public ModelAndView updateVendorSearchDataBuyers(@ModelAttribute("vendor") Vendor vendor,
 			@ModelAttribute("assetClass") AssetClass assetClass,
 			@ModelAttribute("securityType") SecurityType securityType,
@@ -1209,20 +1193,20 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		logger.info("Mehtod for update Vendor Personal info tab--:");
 		User appUser = null;
 		try {
-			appUser = (User)SecurityContextHolder.getContext().
-					getAuthentication().getPrincipal();
-			if(!databuyername.equals("")){
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!databuyername.equals("")) {
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
-		 	}
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update data buyers tab -- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor data buyers details, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor data buyers details, Please contact administrator");
 		}
 		return modelAndView;
 	}
-	
+
 	/**
 	 * method to update vendor my offerings data coverage info
 	 * 
@@ -1231,14 +1215,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 *             the exception
 	 */
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_DATA_COVEAGE_TAB, method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_DATA_COVEAGE_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorMyOfferingsDataCoverageInfo(@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("solutions") Solutions solutions,
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country,
-			@ModelAttribute("cost") Cost cost,
-			@ModelAttribute("support") Support support,
-			@ModelAttribute("vendorSolution") VendorSolution vendorSolution,
+			@ModelAttribute("solutions") Solutions solutions, @ModelAttribute("region") Region region,
+			@ModelAttribute("country") Country country, @ModelAttribute("cost") Cost cost,
+			@ModelAttribute("support") Support support, @ModelAttribute("vendorSolution") VendorSolution vendorSolution,
 			@ModelAttribute("vendorSupport") VendorSupport vendorSupport,
 			@RequestParam(value = "dataCoverageInfo", required = false) String dataCoverageInfo) {
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -1252,52 +1233,54 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] countries = null;
 			String[] costs = null;
 			String[] supports = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(!dataCoverageInfo.equals("") && dataCoverageInfo != null){
-				vendorMyofferingsDataCoverages = gson.fromJson(replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()), VendorMyofferingsDataCoverage[].class);
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!dataCoverageInfo.equals("") && dataCoverageInfo != null) {
+				vendorMyofferingsDataCoverages = gson.fromJson(
+						replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()),
+						VendorMyofferingsDataCoverage[].class);
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
-				if(vendorMyofferingsDataCoverages.length > 0)
-				for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
-					  regions = vendorMyofferings.getCoverage_region().split(",");
-					  countries = vendorMyofferings.getCoverage_country().split(",");
-					  supports = vendorMyofferings.getSupport_timings().split(",");
-					  costs = vendorMyofferings.getVendor_costrange().split(",");
-					  if(supports.length > 0)
-						for (String costNames : costs) {
-							if(costNames.contains("$200"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
-							else if(costNames.contains("$300"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
-							cost.setCost_id(cost.getCost_id());
-							solutions.setSolution_id(1);
-							vendorSolution.setVendor(vendor);
-							vendorSolution.setSolutions(solutions);
-							vendorSolution.setCost(cost);
-							// Updating vendor vendor solution details
-							vendorSolution =	vendorService.updateVendorSolutionDetails(vendorSolution);
-							for (String supportname : supports) {
-								support = vendorService.getSupportInfo(supportname);
-								support.setSupport_id(support.getSupport_id());
-								vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
-								vendorSupport.setSupport(support);
-								vendorSupport.setVendorSolution(vendorSolution);
-								vendorSupport.setVendor(vendor);
-								vendorService.updateVendorSupportInfo(vendorSupport);
+				if (vendorMyofferingsDataCoverages.length > 0)
+					for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
+						regions = vendorMyofferings.getCoverage_region().split(",");
+						countries = vendorMyofferings.getCoverage_country().split(",");
+						supports = vendorMyofferings.getSupport_timings().split(",");
+						costs = vendorMyofferings.getVendor_costrange().split(",");
+						if (supports.length > 0)
+							for (String costNames : costs) {
+								if (costNames.contains("$200"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
+								else if (costNames.contains("$300"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
+								cost.setCost_id(cost.getCost_id());
+								solutions.setSolution_id(1);
+								vendorSolution.setVendor(vendor);
+								vendorSolution.setSolutions(solutions);
+								vendorSolution.setCost(cost);
+								// Updating vendor vendor solution details
+								vendorSolution = vendorService.updateVendorSolutionDetails(vendorSolution);
+								for (String supportname : supports) {
+									support = vendorService.getSupportInfo(supportname);
+									support.setSupport_id(support.getSupport_id());
+									vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
+									vendorSupport.setSupport(support);
+									vendorSupport.setVendorSolution(vendorSolution);
+									vendorSupport.setVendor(vendor);
+									vendorService.updateVendorSupportInfo(vendorSupport);
+								}
 							}
-						}
-				}
-				
-		 	}
+					}
+
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return modelAndView;
 	}
 
-	
 	/**
 	 * method to update vendor my offerings data coverage info
 	 * 
@@ -1305,130 +1288,140 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 * @throws Exception
 	 *             the exception
 	 */
-	
 
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_TRADINGCAPABILITIESSUPPORTED, method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_TRADINGCAPABILITIESSUPPORTED, method = RequestMethod.GET)
 	public @ResponseBody Set<VendorTradingCapabilitiesSupportedForm> addTradingCapabilitiesSupported(
-			@ModelAttribute("vendorTradingCapabilitiesSupportedForm") VendorTradingCapabilitiesSupportedForm vendorTradingCapabilitiesSupportedForm
-			) {
+			@ModelAttribute("vendorTradingCapabilitiesSupportedForm") VendorTradingCapabilitiesSupportedForm vendorTradingCapabilitiesSupportedForm) {
 		ModelAndView modelAndView = new ModelAndView("empty");
 		logger.info("Mehtod for update Vendor my offerings data coverage info tab--:");
 		User appUser = null;
-		
+
 		Set<VendorTradingCapabilitiesSupportedForm> jsonResponseData = null;
 		try {
-	
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			
-			if(vendorTradingCapabilitiesSupportedForm.getSolution() != null){
-			Solutions solutionsInfo = vendorService.getSolutionsInfo(vendorTradingCapabilitiesSupportedForm.getSolution());
-			
-		/*	VendorOffering vendorOfferingToStoreInDB = new VendorOffering();
-			for(VendorOffering vendorOffering: vendorOfferings){
-				if(vendorOffering.getVendor_offering_id().toString().equals(offering)){
-					vendorOfferingToStoreInDB = vendorOffering;
-					break;
-				}
-			}*/
-			
-			VendorTradingCapabilitiesSupported insertIntoModel = vendorTradingCapabilitiesSupportedForm.insertIntoModel(vendorTradingCapabilitiesSupportedForm);
-			
-			insertIntoModel.setVendor(vendor);
-			insertIntoModel.setSolution(solutionsInfo);
-			String isRecordExist = vendorService.addTradingCapabilitiesSupported(insertIntoModel);
-			
-			
+
+			if (vendorTradingCapabilitiesSupportedForm.getSolution() != null) {
+				Solutions solutionsInfo = vendorService
+						.getSolutionsInfo(vendorTradingCapabilitiesSupportedForm.getSolution());
+
+				/*
+				 * VendorOffering vendorOfferingToStoreInDB = new VendorOffering();
+				 * for(VendorOffering vendorOffering: vendorOfferings){
+				 * if(vendorOffering.getVendor_offering_id().toString().equals(offering)){
+				 * vendorOfferingToStoreInDB = vendorOffering; break; } }
+				 */
+
+				VendorTradingCapabilitiesSupported insertIntoModel = vendorTradingCapabilitiesSupportedForm
+						.insertIntoModel(vendorTradingCapabilitiesSupportedForm);
+
+				insertIntoModel.setVendor(vendor);
+				insertIntoModel.setSolution(solutionsInfo);
+				String isRecordExist = vendorService.addTradingCapabilitiesSupported(insertIntoModel);
+
 			}
-			List<VendorTradingCapabilitiesSupported> listVendorTradingCapabilitiesSupported = vendorService.listTradingCapabilitiesSupported(vendor.getId());
+			List<VendorTradingCapabilitiesSupported> listVendorTradingCapabilitiesSupported = vendorService
+					.listTradingCapabilitiesSupported(vendor.getId());
 
-			 jsonResponseData = new HashSet<VendorTradingCapabilitiesSupportedForm>();
-			for(VendorTradingCapabilitiesSupported vendorTradingCapabilitiesSupported : listVendorTradingCapabilitiesSupported){
+			jsonResponseData = new HashSet<VendorTradingCapabilitiesSupportedForm>();
+			for (VendorTradingCapabilitiesSupported vendorTradingCapabilitiesSupported : listVendorTradingCapabilitiesSupported) {
 
-				VendorTradingCapabilitiesSupportedForm insertDataToForm = vendorTradingCapabilitiesSupportedForm.insertDataToForm(vendorTradingCapabilitiesSupported);
+				VendorTradingCapabilitiesSupportedForm insertDataToForm = vendorTradingCapabilitiesSupportedForm
+						.insertDataToForm(vendorTradingCapabilitiesSupported);
 				jsonResponseData.add(insertDataToForm);
-			
+
 			}
-			
-			
-			
+
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return jsonResponseData;
 	}
-	
+
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.TRADING_CAPABILITIES_SUPPORTED_OFFERING, method = RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData> tradingCapabilitiesSupportedOffering(@RequestParam(value = "solutionId", required = false) String solutionId ) {
-		List<VendorTradingSoftwareDetails> listTradingSoftwareDetails = vendorService.listTradingSoftwareDetailsBasedOnSolutionId(solutionId);
-		 Set<JsonResponseData> jsonResponseDataSet = new HashSet<JsonResponseData>();
-	     for(VendorTradingSoftwareDetails vendorTradingSoftwareDetail : listTradingSoftwareDetails){
-	    	 JsonResponseData  jsonResponseData = new JsonResponseData();
-	    	 jsonResponseData.setId(vendorTradingSoftwareDetail.getTradingSoftwareDetailsId().toString());
-	    	 jsonResponseData.setName(vendorTradingSoftwareDetail.getOffering());
-	    	 jsonResponseDataSet.add(jsonResponseData);
-	     }
-	     return jsonResponseDataSet;
+	@RequestMapping(value = RequestConstans.Vendor.TRADING_CAPABILITIES_SUPPORTED_OFFERING, method = RequestMethod.GET)
+	public @ResponseBody Set<JsonResponseData> tradingCapabilitiesSupportedOffering(
+			@RequestParam(value = "solutionId", required = false) String solutionId) {
+		List<VendorTradingSoftwareDetails> listTradingSoftwareDetails = vendorService
+				.listTradingSoftwareDetailsBasedOnSolutionId(solutionId);
+		Set<JsonResponseData> jsonResponseDataSet = new HashSet<JsonResponseData>();
+		for (VendorTradingSoftwareDetails vendorTradingSoftwareDetail : listTradingSoftwareDetails) {
+			JsonResponseData jsonResponseData = new JsonResponseData();
+			jsonResponseData.setId(vendorTradingSoftwareDetail.getTradingSoftwareDetailsId().toString());
+			jsonResponseData.setName(vendorTradingSoftwareDetail.getOffering());
+			jsonResponseDataSet.add(jsonResponseData);
+		}
+		return jsonResponseDataSet;
 	}
-	
+
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.RESEARCH_REPORTING_VENDOR_OFFERING, method = RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData> researchReportingVendorOffering(@RequestParam(value = "solutionId", required = false) String solutionId ) {
-		List<VendorResearchCoverage> listVendorAnalystProfile = vendorService.listResearchReportingVendorOfferingBasedOnSolutionId(solutionId);
-		 Set<JsonResponseData> jsonResponseDataSet = new HashSet<JsonResponseData>();
-	     for(VendorResearchCoverage vendorAnalystProfile : listVendorAnalystProfile){
-	    	 JsonResponseData  jsonResponseData = new JsonResponseData();
-	    	 jsonResponseData.setId(vendorAnalystProfile.getResearchCoverageId().toString());
-	    	 jsonResponseData.setName(vendorAnalystProfile.getOffering());
-	    	 jsonResponseDataSet.add(jsonResponseData);
-	     }
-	     return jsonResponseDataSet;
+	@RequestMapping(value = RequestConstans.Vendor.RESEARCH_REPORTING_VENDOR_OFFERING, method = RequestMethod.GET)
+	public @ResponseBody Set<JsonResponseData> researchReportingVendorOffering(
+			@RequestParam(value = "solutionId", required = false) String solutionId) {
+		List<VendorResearchCoverage> listVendorAnalystProfile = vendorService
+				.listResearchReportingVendorOfferingBasedOnSolutionId(solutionId);
+		Set<JsonResponseData> jsonResponseDataSet = new HashSet<JsonResponseData>();
+		for (VendorResearchCoverage vendorAnalystProfile : listVendorAnalystProfile) {
+			JsonResponseData jsonResponseData = new JsonResponseData();
+			jsonResponseData.setId(vendorAnalystProfile.getResearchCoverageId().toString());
+			jsonResponseData.setName(vendorAnalystProfile.getOffering());
+			jsonResponseDataSet.add(jsonResponseData);
+		}
+		return jsonResponseDataSet;
 	}
-	
+
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_TRADINGSOFTWAREDETAILS, method = RequestMethod.GET)
-	public @ResponseBody Set<VendorTradingSoftwareDetailsForm> addTradingSoftwareDetails(@ModelAttribute("vendorTradingSoftwareDetailsForm") VendorTradingSoftwareDetailsForm vendorTradingSoftwareDetailsForm ) {
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_TRADINGSOFTWAREDETAILS, method = RequestMethod.GET)
+	public @ResponseBody Set<VendorTradingSoftwareDetailsForm> addTradingSoftwareDetails(
+			@ModelAttribute("vendorTradingSoftwareDetailsForm") VendorTradingSoftwareDetailsForm vendorTradingSoftwareDetailsForm) {
 		ModelAndView modelAndView = new ModelAndView("empty");
 		logger.info("Mehtod for update Vendor my addTradingSoftwareDetails info tab--:");
 		User appUser = null;
 		Set<VendorTradingSoftwareDetailsForm> jsonResponseData = null;
-		
+
 		try {
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			if(vendorTradingSoftwareDetailsForm.getSolution() != null){
-				VendorTradingSoftwareDetails insertDataToModel = vendorTradingSoftwareDetailsForm.insertDataToModel(vendorTradingSoftwareDetailsForm);
+			if (vendorTradingSoftwareDetailsForm.getSolution() != null) {
+				VendorTradingSoftwareDetails insertDataToModel = vendorTradingSoftwareDetailsForm
+						.insertDataToModel(vendorTradingSoftwareDetailsForm);
 				insertDataToModel.setVendor(vendor);
 				String assetClass2 = vendorTradingSoftwareDetailsForm.getAssetClass();
-				if(vendorTradingSoftwareDetailsForm.getAssetClass() != null){
+				if (vendorTradingSoftwareDetailsForm.getAssetClass() != null) {
 					String[] split = assetClass2.split("-");
 					AssetClass assetClass = marketDataAggregatorsService.getAssetClassByName(split[0]);
 					insertDataToModel.setAssetClass(assetClass);
 					insertDataToModel.setSecurityName(split[1]);
 				}
-			Solutions solutionsInfo = vendorService.getSolutionsInfo(vendorTradingSoftwareDetailsForm.getSolution());
-			insertDataToModel.setSolution(solutionsInfo);
-			
-			vendorService.addTradingSoftwareDetails(insertDataToModel);
-			}
-			List<VendorTradingSoftwareDetails> listTradingSoftwareDetails = vendorService.listTradingSoftwareDetails(vendor.getId());
+				Solutions solutionsInfo = vendorService
+						.getSolutionsInfo(vendorTradingSoftwareDetailsForm.getSolution());
+				insertDataToModel.setSolution(solutionsInfo);
 
-			 jsonResponseData = new HashSet<VendorTradingSoftwareDetailsForm>();
-			for(VendorTradingSoftwareDetails vendorTradingSoftwareDetails : listTradingSoftwareDetails){
-				VendorTradingSoftwareDetailsForm insertDataToForm = vendorTradingSoftwareDetailsForm.insertDataToForm(vendorTradingSoftwareDetails);
+				vendorService.addTradingSoftwareDetails(insertDataToModel);
+			}
+			List<VendorTradingSoftwareDetails> listTradingSoftwareDetails = vendorService
+					.listTradingSoftwareDetails(vendor.getId());
+
+			jsonResponseData = new HashSet<VendorTradingSoftwareDetailsForm>();
+			for (VendorTradingSoftwareDetails vendorTradingSoftwareDetails : listTradingSoftwareDetails) {
+				VendorTradingSoftwareDetailsForm insertDataToForm = vendorTradingSoftwareDetailsForm
+						.insertDataToForm(vendorTradingSoftwareDetails);
 				jsonResponseData.add(insertDataToForm);
 			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return jsonResponseData;
 	}
+
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_ANALYTICSFEATURESSUPPORTED, method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_ANALYTICSFEATURESSUPPORTED, method = RequestMethod.GET)
 	public @ResponseBody Set<JsonResponseData> addAnalyticsfeaturesSupported(
 			@RequestParam(value = "solution", required = false) String solution,
 			@RequestParam(value = "offering", required = false) String offering,
@@ -1439,12 +1432,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "distributionmethod", required = false) String distributionmethod,
 			@RequestParam(value = "coverageregion", required = false) String coverageregion,
 			@RequestParam(value = "coveragecountry", required = false) String coveragecountry,
-			@RequestParam(value = "coverageexchange", required = false) String coverageexchange
-			) {
+			@RequestParam(value = "coverageexchange", required = false) String coverageexchange) {
 		ModelAndView modelAndView = new ModelAndView("empty");
 		logger.info("Mehtod for update Vendor my offerings data coverage info tab--:");
 		User appUser = null;
-		
+
 		Set<JsonResponseData> jsonResponseData = null;
 		try {
 			// Gson gson = new Gson();
@@ -1452,49 +1444,49 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] regions = null;
 			String[] countries = null;
 			String[] exchanges = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			
-			if(solution != null){
-			Solutions solutionsInfo = vendorService.getSolutionsInfo(solution);
-			
-			Set<VendorOffering> vendorOfferings = solutionsInfo.getVendorOffering();
-			VendorOffering vendorOfferingToStoreInDB = new VendorOffering();
-			for(VendorOffering vendorOffering: vendorOfferings){
-				if(vendorOffering.getVendor_offering_id().toString().equals(offering)){
-					vendorOfferingToStoreInDB = vendorOffering;
-					break;
+
+			if (solution != null) {
+				Solutions solutionsInfo = vendorService.getSolutionsInfo(solution);
+
+				Set<VendorOffering> vendorOfferings = solutionsInfo.getVendorOffering();
+				VendorOffering vendorOfferingToStoreInDB = new VendorOffering();
+				for (VendorOffering vendorOffering : vendorOfferings) {
+					if (vendorOffering.getVendor_offering_id().toString().equals(offering)) {
+						vendorOfferingToStoreInDB = vendorOffering;
+						break;
+					}
 				}
-			}
-			
-			Set<OfferingFiles> offeringFiles = vendorOfferingToStoreInDB.getOfferingFiles();
-			
-			OfferingFiles offeringFilesToStorInDB = new OfferingFiles();
-			
-			for(OfferingFiles offeringFile: offeringFiles){
-				if(offeringFile.getOfferingFilesId().toString().equals(fileDataCoverage)){
-					offeringFilesToStorInDB = offeringFile;
-					break;
+
+				Set<OfferingFiles> offeringFiles = vendorOfferingToStoreInDB.getOfferingFiles();
+
+				OfferingFiles offeringFilesToStorInDB = new OfferingFiles();
+
+				for (OfferingFiles offeringFile : offeringFiles) {
+					if (offeringFile.getOfferingFilesId().toString().equals(fileDataCoverage)) {
+						offeringFilesToStorInDB = offeringFile;
+						break;
+					}
 				}
-			}
-			VendorDistribution vendorDistribution = new VendorDistribution();
-			vendorDistribution.setVendor(vendor);
-			vendorDistribution.setSolution(solutionsInfo);
-			vendorDistribution.setVendorOffering(vendorOfferingToStoreInDB);
-			vendorDistribution.setOfferingFiles(offeringFilesToStorInDB);
-			vendorDistribution.setRegion(coverageregion);
-			vendorDistribution.setCountry(coveragecountry);
-			vendorDistribution.setExchange(coverageexchange);
-			vendorDistribution.setFeedtype(feedtype);
-			vendorDistribution.setFeedsubtype(feedsubtype);
-			vendorDistribution.setFrequency(frequency);
-			vendorDistribution.setDistributionmethod(distributionmethod);
-			vendorService.addVendorDistribution(vendorDistribution);
+				VendorDistribution vendorDistribution = new VendorDistribution();
+				vendorDistribution.setVendor(vendor);
+				vendorDistribution.setSolution(solutionsInfo);
+				vendorDistribution.setVendorOffering(vendorOfferingToStoreInDB);
+				vendorDistribution.setOfferingFiles(offeringFilesToStorInDB);
+				vendorDistribution.setRegion(coverageregion);
+				vendorDistribution.setCountry(coveragecountry);
+				vendorDistribution.setExchange(coverageexchange);
+				vendorDistribution.setFeedtype(feedtype);
+				vendorDistribution.setFeedsubtype(feedsubtype);
+				vendorDistribution.setFrequency(frequency);
+				vendorDistribution.setDistributionmethod(distributionmethod);
+				vendorService.addVendorDistribution(vendorDistribution);
 			}
 			List<VendorDistribution> listVendorDistribution = vendorService.listVendorDistribution(vendor.getId());
 
-			 jsonResponseData = new HashSet<JsonResponseData>();
-			for(VendorDistribution vendorDistribution1 : listVendorDistribution){
+			jsonResponseData = new HashSet<JsonResponseData>();
+			for (VendorDistribution vendorDistribution1 : listVendorDistribution) {
 				JsonResponseData addResponseData = new JsonResponseData();
 				addResponseData.setSolution(vendorDistribution1.getSolution().getName());
 				addResponseData.setOffering(vendorDistribution1.getVendorOffering().getName());
@@ -1506,76 +1498,84 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				addResponseData.setFeedSubType(vendorDistribution1.getFeedsubtype());
 				addResponseData.setFrequency(vendorDistribution1.getFrequency());
 				addResponseData.setDistributionMethod(vendorDistribution1.getDistributionmethod());
-				
+
 				jsonResponseData.add(addResponseData);
 			}
-			
-			
-			
+
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return jsonResponseData;
 	}
+
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_ANALYTICSSOFTWAREDETAILS, method = RequestMethod.GET)
-	public @ResponseBody Set<VendorAnalyticsSoftwareDetailsForm> addAnalyticsSoftwareDetails(@ModelAttribute("analyticsSoftwareDetailsForm") VendorAnalyticsSoftwareDetailsForm analyticsSoftwareDetailsForm
-			) {
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_ANALYTICSSOFTWAREDETAILS, method = RequestMethod.GET)
+	public @ResponseBody Set<VendorAnalyticsSoftwareDetailsForm> addAnalyticsSoftwareDetails(
+			@ModelAttribute("analyticsSoftwareDetailsForm") VendorAnalyticsSoftwareDetailsForm analyticsSoftwareDetailsForm) {
 
 		ModelAndView modelAndView = new ModelAndView("empty");
 		logger.info("Mehtod for update Vendor my addAnalyticsSoftwareDetails info tab--:");
 		User appUser = null;
 		Set<VendorAnalyticsSoftwareDetailsForm> jsonResponseData = null;
-		
-		try {
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			if(analyticsSoftwareDetailsForm.getSolution() != null){
-				VendorAnalyticsSoftwareDetails insertDataToModel = analyticsSoftwareDetailsForm.insertDataToModel(analyticsSoftwareDetailsForm);
-				insertDataToModel.setVendor(vendor);
-			Solutions solutionsInfo = vendorService.getSolutionsInfo(analyticsSoftwareDetailsForm.getSolution());
-			insertDataToModel.setSolution(solutionsInfo);
-			vendorService.addAnalyticsSoftwareDetails(insertDataToModel);
-			}
-			List<VendorAnalyticsSoftwareDetails> listAnlyticsSoftwareDetails = vendorService.listAnalyticsSoftwareDetails(vendor.getId());
 
-			 jsonResponseData = new HashSet<VendorAnalyticsSoftwareDetailsForm>();
-			for(VendorAnalyticsSoftwareDetails vendorAnalyticsSoftwareDetails : listAnlyticsSoftwareDetails){
-				VendorAnalyticsSoftwareDetailsForm insertDataToForm = analyticsSoftwareDetailsForm.insertDataToForm(vendorAnalyticsSoftwareDetails);
+		try {
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
+			if (analyticsSoftwareDetailsForm.getSolution() != null) {
+				VendorAnalyticsSoftwareDetails insertDataToModel = analyticsSoftwareDetailsForm
+						.insertDataToModel(analyticsSoftwareDetailsForm);
+				insertDataToModel.setVendor(vendor);
+				Solutions solutionsInfo = vendorService.getSolutionsInfo(analyticsSoftwareDetailsForm.getSolution());
+				insertDataToModel.setSolution(solutionsInfo);
+				vendorService.addAnalyticsSoftwareDetails(insertDataToModel);
+			}
+			List<VendorAnalyticsSoftwareDetails> listAnlyticsSoftwareDetails = vendorService
+					.listAnalyticsSoftwareDetails(vendor.getId());
+
+			jsonResponseData = new HashSet<VendorAnalyticsSoftwareDetailsForm>();
+			for (VendorAnalyticsSoftwareDetails vendorAnalyticsSoftwareDetails : listAnlyticsSoftwareDetails) {
+				VendorAnalyticsSoftwareDetailsForm insertDataToForm = analyticsSoftwareDetailsForm
+						.insertDataToForm(vendorAnalyticsSoftwareDetails);
 				jsonResponseData.add(insertDataToForm);
 			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return jsonResponseData;
-	
+
 	}
+
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_RESEARCHCOVERAGE, method = RequestMethod.GET)
-	public @ResponseBody Set<VendorResearchCoverageForm> addResearchCoverage(@ModelAttribute("vendorResearchCoverageForm") VendorResearchCoverageForm vendorResearchCoverageForm ) {
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_RESEARCHCOVERAGE, method = RequestMethod.GET)
+	public @ResponseBody Set<VendorResearchCoverageForm> addResearchCoverage(
+			@ModelAttribute("vendorResearchCoverageForm") VendorResearchCoverageForm vendorResearchCoverageForm) {
 
 		logger.info("Mehtod for update Vendor my addResearchCoverage info tab--:");
 		User appUser = null;
 		Set<VendorResearchCoverageForm> jsonResponseData = null;
-		
+
 		try {
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			if(vendorResearchCoverageForm.getSolution() != null){
-				VendorResearchCoverage insertDataToModel = vendorResearchCoverageForm.insertDataToModel(vendorResearchCoverageForm);
+			if (vendorResearchCoverageForm.getSolution() != null) {
+				VendorResearchCoverage insertDataToModel = vendorResearchCoverageForm
+						.insertDataToModel(vendorResearchCoverageForm);
 				insertDataToModel.setVendor(vendor);
-				
-			Solutions solutionsInfo = vendorService.getSolutionsInfo(vendorResearchCoverageForm.getSolution());
-			insertDataToModel.setSolution(solutionsInfo);
-			vendorService.addResearchCoverage(insertDataToModel);
+
+				Solutions solutionsInfo = vendorService.getSolutionsInfo(vendorResearchCoverageForm.getSolution());
+				insertDataToModel.setSolution(solutionsInfo);
+				vendorService.addResearchCoverage(insertDataToModel);
 			}
 			List<VendorResearchCoverage> listResearchCoverage = vendorService.listResearchCoverage(vendor.getId());
 
-			 jsonResponseData = new HashSet<VendorResearchCoverageForm>();
-			for(VendorResearchCoverage vendorResearchCoverage : listResearchCoverage){
-				VendorResearchCoverageForm insertDataToForm = vendorResearchCoverageForm.insertDataToForm(vendorResearchCoverage);
+			jsonResponseData = new HashSet<VendorResearchCoverageForm>();
+			for (VendorResearchCoverage vendorResearchCoverage : listResearchCoverage) {
+				VendorResearchCoverageForm insertDataToForm = vendorResearchCoverageForm
+						.insertDataToForm(vendorResearchCoverage);
 				jsonResponseData.add(insertDataToForm);
 			}
 		} catch (Exception ex) {
@@ -1583,9 +1583,9 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		}
 		return jsonResponseData;
 	}
-	
+
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_DATADISTRIBUTION, method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_DATADISTRIBUTION, method = RequestMethod.GET)
 	public @ResponseBody Set<JsonResponseData> addVendorDataDistribution(
 			@RequestParam(value = "solution", required = false) String solution,
 			@RequestParam(value = "offering", required = false) String offering,
@@ -1596,12 +1596,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "distributionmethod", required = false) String distributionmethod,
 			@RequestParam(value = "coverageregion", required = false) String coverageregion,
 			@RequestParam(value = "coveragecountry", required = false) String coveragecountry,
-			@RequestParam(value = "coverageexchange", required = false) String coverageexchange
-			) {
+			@RequestParam(value = "coverageexchange", required = false) String coverageexchange) {
 		ModelAndView modelAndView = new ModelAndView("empty");
 		logger.info("Mehtod for update Vendor my offerings data coverage info tab--:");
 		User appUser = null;
-		
+
 		Set<JsonResponseData> jsonResponseData = null;
 		try {
 			// Gson gson = new Gson();
@@ -1609,57 +1608,57 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] regions = null;
 			String[] countries = null;
 			String[] exchanges = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			
-			if(solution != null){
-			Solutions solutionsInfo = vendorService.getSolutionsInfo(solution);
-			
-			Set<VendorOffering> vendorOfferings = solutionsInfo.getVendorOffering();
-			VendorOffering vendorOfferingToStoreInDB = new VendorOffering();
-			for(VendorOffering vendorOffering: vendorOfferings){
-				if(vendorOffering.getVendor_offering_id().toString().equals(offering)){
-					vendorOfferingToStoreInDB = vendorOffering;
-					break;
+
+			if (solution != null) {
+				Solutions solutionsInfo = vendorService.getSolutionsInfo(solution);
+
+				Set<VendorOffering> vendorOfferings = solutionsInfo.getVendorOffering();
+				VendorOffering vendorOfferingToStoreInDB = new VendorOffering();
+				for (VendorOffering vendorOffering : vendorOfferings) {
+					if (vendorOffering.getVendor_offering_id().toString().equals(offering)) {
+						vendorOfferingToStoreInDB = vendorOffering;
+						break;
+					}
 				}
-			}
-			
-			Set<OfferingFiles> offeringFiles = vendorOfferingToStoreInDB.getOfferingFiles();
-			
-			OfferingFiles offeringFilesToStorInDB = new OfferingFiles();
-			
-			for(OfferingFiles offeringFile: offeringFiles){
-				if(offeringFile.getOfferingFilesId().toString().equals(fileDataCoverage)){
-					offeringFilesToStorInDB = offeringFile;
-					break;
+
+				Set<OfferingFiles> offeringFiles = vendorOfferingToStoreInDB.getOfferingFiles();
+
+				OfferingFiles offeringFilesToStorInDB = new OfferingFiles();
+
+				for (OfferingFiles offeringFile : offeringFiles) {
+					if (offeringFile.getOfferingFilesId().toString().equals(fileDataCoverage)) {
+						offeringFilesToStorInDB = offeringFile;
+						break;
+					}
 				}
-			}
-			VendorDistribution vendorDistribution = new VendorDistribution();
-			vendorDistribution.setVendor(vendor);
-			vendorDistribution.setSolution(solutionsInfo);
-			vendorDistribution.setVendorOffering(vendorOfferingToStoreInDB);
-			vendorDistribution.setOfferingFiles(offeringFilesToStorInDB);
-			vendorDistribution.setRegion(coverageregion);
-			vendorDistribution.setCountry(coveragecountry);
-			vendorDistribution.setExchange(coverageexchange);
-			vendorDistribution.setFeedtype(feedtype);
-			vendorDistribution.setFeedsubtype(feedsubtype);
-			vendorDistribution.setFrequency(frequency);
-			vendorDistribution.setDistributionmethod(distributionmethod);
-			String addVendorDistribution = vendorService.addVendorDistribution(vendorDistribution);
-			if(addVendorDistribution != null){
-				jsonResponseData = new HashSet<JsonResponseData>();
-				JsonResponseData addResponseData = new JsonResponseData();
-				addResponseData.setRecordExist(addVendorDistribution);
-				jsonResponseData.add(addResponseData);
-				return jsonResponseData;
-			}
+				VendorDistribution vendorDistribution = new VendorDistribution();
+				vendorDistribution.setVendor(vendor);
+				vendorDistribution.setSolution(solutionsInfo);
+				vendorDistribution.setVendorOffering(vendorOfferingToStoreInDB);
+				vendorDistribution.setOfferingFiles(offeringFilesToStorInDB);
+				vendorDistribution.setRegion(coverageregion);
+				vendorDistribution.setCountry(coveragecountry);
+				vendorDistribution.setExchange(coverageexchange);
+				vendorDistribution.setFeedtype(feedtype);
+				vendorDistribution.setFeedsubtype(feedsubtype);
+				vendorDistribution.setFrequency(frequency);
+				vendorDistribution.setDistributionmethod(distributionmethod);
+				String addVendorDistribution = vendorService.addVendorDistribution(vendorDistribution);
+				if (addVendorDistribution != null) {
+					jsonResponseData = new HashSet<JsonResponseData>();
+					JsonResponseData addResponseData = new JsonResponseData();
+					addResponseData.setRecordExist(addVendorDistribution);
+					jsonResponseData.add(addResponseData);
+					return jsonResponseData;
+				}
 
 			}
 			List<VendorDistribution> listVendorDistribution = vendorService.listVendorDistribution(vendor.getId());
 
-			 jsonResponseData = new HashSet<JsonResponseData>();
-			for(VendorDistribution vendorDistribution1 : listVendorDistribution){
+			jsonResponseData = new HashSet<JsonResponseData>();
+			for (VendorDistribution vendorDistribution1 : listVendorDistribution) {
 				JsonResponseData addResponseData = new JsonResponseData();
 				addResponseData.setId(vendorDistribution1.getVendorDistributionId().toString());
 				addResponseData.setSolution(vendorDistribution1.getSolution().getName());
@@ -1672,95 +1671,99 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				addResponseData.setFeedSubType(vendorDistribution1.getFeedsubtype());
 				addResponseData.setFrequency(vendorDistribution1.getFrequency());
 				addResponseData.setDistributionMethod(vendorDistribution1.getDistributionmethod());
-				
+
 				jsonResponseData.add(addResponseData);
 			}
-			
-			
-			
+
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return jsonResponseData;
 	}
+
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_RESEARCHDETAILS, method = RequestMethod.GET)
-	public @ResponseBody Set<VendorResearchDetailsForm> addResearchDetails(@ModelAttribute("vendorResearchDetailsForm") VendorResearchDetailsForm vendorResearchDetailsForm ) {
-	
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_RESEARCHDETAILS, method = RequestMethod.GET)
+	public @ResponseBody Set<VendorResearchDetailsForm> addResearchDetails(
+			@ModelAttribute("vendorResearchDetailsForm") VendorResearchDetailsForm vendorResearchDetailsForm) {
 
 		ModelAndView modelAndView = new ModelAndView("empty");
 		logger.info("Mehtod for update Vendor my addTradingSoftwareDetails info tab--:");
 		User appUser = null;
 		Set<VendorResearchDetailsForm> jsonResponseData = null;
-		
+
 		try {
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			if(vendorResearchDetailsForm.getSolution() != null){
-				VendorResearchDetails insertDataToModel = vendorResearchDetailsForm.insertDataToModel(vendorResearchDetailsForm);
+			if (vendorResearchDetailsForm.getSolution() != null) {
+				VendorResearchDetails insertDataToModel = vendorResearchDetailsForm
+						.insertDataToModel(vendorResearchDetailsForm);
 				insertDataToModel.setVendor(vendor);
-				
-			Solutions solutionsInfo = vendorService.getSolutionsInfo(vendorResearchDetailsForm.getSolution());
-			insertDataToModel.setSolution(solutionsInfo);
-			vendorService.addResearchDetails(insertDataToModel);
+
+				Solutions solutionsInfo = vendorService.getSolutionsInfo(vendorResearchDetailsForm.getSolution());
+				insertDataToModel.setSolution(solutionsInfo);
+				vendorService.addResearchDetails(insertDataToModel);
 			}
 			List<VendorResearchDetails> listResearchDetails = vendorService.listResearchDetails(vendor.getId());
 
-			 jsonResponseData = new HashSet<VendorResearchDetailsForm>();
-			for(VendorResearchDetails vendorResearchDetails : listResearchDetails){
-				VendorResearchDetailsForm insertDataToForm = vendorResearchDetailsForm.insertDataToForm(vendorResearchDetails);
+			jsonResponseData = new HashSet<VendorResearchDetailsForm>();
+			for (VendorResearchDetails vendorResearchDetails : listResearchDetails) {
+				VendorResearchDetailsForm insertDataToForm = vendorResearchDetailsForm
+						.insertDataToForm(vendorResearchDetails);
 				jsonResponseData.add(insertDataToForm);
 			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return jsonResponseData;
-		
-		
+
 	}
+
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_ANALYSTPROFILE, method = RequestMethod.GET)
-	public @ResponseBody Set<VendorAnalystProfileForm> addAnalystProfile(@ModelAttribute("vendorAnalystProfileForm") VendorAnalystProfileForm vendorAnalystProfileForm
-			) {
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_ANALYSTPROFILE, method = RequestMethod.GET)
+	public @ResponseBody Set<VendorAnalystProfileForm> addAnalystProfile(
+			@ModelAttribute("vendorAnalystProfileForm") VendorAnalystProfileForm vendorAnalystProfileForm) {
 
 		ModelAndView modelAndView = new ModelAndView("empty");
 		logger.info("Mehtod for update Vendor my addTradingSoftwareDetails info tab--:");
 		User appUser = null;
 		Set<VendorAnalystProfileForm> jsonResponseData = null;
-		
+
 		try {
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			if(vendorAnalystProfileForm.getSolution() != null){
-				VendorAnalystProfile insertDataToModel = vendorAnalystProfileForm.insertDataToModel(vendorAnalystProfileForm);
+			if (vendorAnalystProfileForm.getSolution() != null) {
+				VendorAnalystProfile insertDataToModel = vendorAnalystProfileForm
+						.insertDataToModel(vendorAnalystProfileForm);
 				insertDataToModel.setVendor(vendor);
-				
-			Solutions solutionsInfo = vendorService.getSolutionsInfo(vendorAnalystProfileForm.getSolution());
-			insertDataToModel.setSolution(solutionsInfo);
-			vendorService.addAnalystProfile(insertDataToModel);
+
+				Solutions solutionsInfo = vendorService.getSolutionsInfo(vendorAnalystProfileForm.getSolution());
+				insertDataToModel.setSolution(solutionsInfo);
+				vendorService.addAnalystProfile(insertDataToModel);
 			}
 			List<VendorAnalystProfile> listAnalystProfile = vendorService.listAnalystProfile(vendor.getId());
 
-			 jsonResponseData = new HashSet<VendorAnalystProfileForm>();
-			for(VendorAnalystProfile vendorAnalystProfile : listAnalystProfile){
-				VendorAnalystProfileForm insertDataToForm = vendorAnalystProfileForm.insertDataToForm(vendorAnalystProfile);
+			jsonResponseData = new HashSet<VendorAnalystProfileForm>();
+			for (VendorAnalystProfile vendorAnalystProfile : listAnalystProfile) {
+				VendorAnalystProfileForm insertDataToForm = vendorAnalystProfileForm
+						.insertDataToForm(vendorAnalystProfile);
 				jsonResponseData.add(insertDataToForm);
 			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return jsonResponseData;
 
-		
 	}
 
-	
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.ADD_VENDOR_DATACOVERAGE, method = RequestMethod.GET)
-	public @ResponseBody Set<JsonResponseData>  addVendorDataCoverage(
+	@RequestMapping(value = RequestConstans.Vendor.ADD_VENDOR_DATACOVERAGE, method = RequestMethod.GET)
+	public @ResponseBody Set<JsonResponseData> addVendorDataCoverage(
 			@RequestParam(value = "solutionDataCoverage", required = false) String solutionDataCoverage,
 			@RequestParam(value = "offeringsDataCoverage", required = false) String offeringsDataCoverage,
 			@RequestParam(value = "supportcoverageregion", required = false) String supportcoverageregion,
@@ -1768,8 +1771,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "coverageexchange", required = false) String coverageexchange,
 			@RequestParam(value = "vendorcostrange", required = false) String vendorcostrange,
 			@RequestParam(value = "phonenumber", required = false) String phonenumber,
-			@RequestParam(value = "email", required = false) String email
-			) {
+			@RequestParam(value = "email", required = false) String email) {
 		logger.info("Mehtod for update Vendor my offerings data coverage info tab--:");
 		User appUser = null;
 		Set<JsonResponseData> jsonResponseData = null;
@@ -1777,69 +1779,65 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] regions = null;
 			String[] countries = null;
 			String[] costs = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Vendor vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-			if(solutionDataCoverage != null){
-			Solutions solutionsInfo = vendorService.getSolutionsInfo(solutionDataCoverage);
-			VendorOffering vendorOfferingById = marketDataAggregatorsService.getVendorOfferingById(offeringsDataCoverage);
-			
-			regions = supportcoveragecountry.split(",");
-			VendorDataCoverage vendorDataCoverage = new VendorDataCoverage();
-			vendorDataCoverage.setVendor(vendor);
-			vendorDataCoverage.setSolution(solutionsInfo);
-			vendorDataCoverage.setVendorOffering(vendorOfferingById);
-			vendorDataCoverage.setRegion(supportcoverageregion);
-			vendorDataCoverage.setCountry(supportcoveragecountry);
-			vendorDataCoverage.setCoverageexchange(coverageexchange);
-			vendorDataCoverage.setCost(vendorcostrange);
-			vendorDataCoverage.setPhoneNo(phonenumber);
-			vendorDataCoverage.setEmail(email);
-			String addVendorDataCoverage = vendorService.addVendorDataCoverage(vendorDataCoverage);
-			if(addVendorDataCoverage != null){
-				jsonResponseData = new HashSet<JsonResponseData>();
-				JsonResponseData addResponseData = new JsonResponseData();
-				addResponseData.setRecordExist(addVendorDataCoverage);
-				jsonResponseData.add(addResponseData);
-				return jsonResponseData;
-			}
+			if (solutionDataCoverage != null) {
+				Solutions solutionsInfo = vendorService.getSolutionsInfo(solutionDataCoverage);
+				VendorOffering vendorOfferingById = marketDataAggregatorsService
+						.getVendorOfferingById(offeringsDataCoverage);
+
+				regions = supportcoveragecountry.split(",");
+				VendorDataCoverage vendorDataCoverage = new VendorDataCoverage();
+				vendorDataCoverage.setVendor(vendor);
+				vendorDataCoverage.setSolution(solutionsInfo);
+				vendorDataCoverage.setVendorOffering(vendorOfferingById);
+				vendorDataCoverage.setRegion(supportcoverageregion);
+				vendorDataCoverage.setCountry(supportcoveragecountry);
+				vendorDataCoverage.setCoverageexchange(coverageexchange);
+				vendorDataCoverage.setCost(vendorcostrange);
+				vendorDataCoverage.setPhoneNo(phonenumber);
+				vendorDataCoverage.setEmail(email);
+				String addVendorDataCoverage = vendorService.addVendorDataCoverage(vendorDataCoverage);
+				if (addVendorDataCoverage != null) {
+					jsonResponseData = new HashSet<JsonResponseData>();
+					JsonResponseData addResponseData = new JsonResponseData();
+					addResponseData.setRecordExist(addVendorDataCoverage);
+					jsonResponseData.add(addResponseData);
+					return jsonResponseData;
+				}
 			}
 			List<VendorDataCoverage> listVendorDataCoverage = vendorService.listVendorDataCoverage(vendor.getId());
-			
-			 jsonResponseData = new HashSet<JsonResponseData>();
-				for(VendorDataCoverage dataCoverage : listVendorDataCoverage){
-					JsonResponseData addResponseData = new JsonResponseData();
-					addResponseData.setId(dataCoverage.getDataCoverageId().toString());
-					addResponseData.setSolution(dataCoverage.getSolution().getName());
-					addResponseData.setOffering(dataCoverage.getVendorOffering().getName());
-					addResponseData.setRegion(dataCoverage.getRegion());
-					addResponseData.setCoverageexchange(dataCoverage.getCoverageexchange());
-					addResponseData.setCountry(dataCoverage.getCountry());
-					addResponseData.setCost(dataCoverage.getCost());
-					addResponseData.setPhonNo(dataCoverage.getPhoneNo());
-					addResponseData.setEmail(dataCoverage.getEmail());
-					jsonResponseData.add(addResponseData);
-				}
+
+			jsonResponseData = new HashSet<JsonResponseData>();
+			for (VendorDataCoverage dataCoverage : listVendorDataCoverage) {
+				JsonResponseData addResponseData = new JsonResponseData();
+				addResponseData.setId(dataCoverage.getDataCoverageId().toString());
+				addResponseData.setSolution(dataCoverage.getSolution().getName());
+				addResponseData.setOffering(dataCoverage.getVendorOffering().getName());
+				addResponseData.setRegion(dataCoverage.getRegion());
+				addResponseData.setCoverageexchange(dataCoverage.getCoverageexchange());
+				addResponseData.setCountry(dataCoverage.getCountry());
+				addResponseData.setCost(dataCoverage.getCost());
+				addResponseData.setPhonNo(dataCoverage.getPhoneNo());
+				addResponseData.setEmail(dataCoverage.getEmail());
+				jsonResponseData.add(addResponseData);
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
 		}
 		return jsonResponseData;
 	}
-	
 
 	/*
-	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.VENDOR_GET_REGION, method = RequestMethod.GET)
-	public @ResponseBody String getRegion(@RequestParam(value = "country", required = false) String country){
-		try{
-			String region = referenceDataService.getRegion(country);
-			return region;
-		}catch(Exception exp){
-			logger.error("Error getRegion", exp);
-			return null;
-		}
-	}
-	*/
-	
+	 * @SuppressWarnings("unused")
+	 * 
+	 * @RequestMapping(value =RequestConstans.Vendor.VENDOR_GET_REGION, method =
+	 * RequestMethod.GET) public @ResponseBody String getRegion(@RequestParam(value
+	 * = "country", required = false) String country){ try{ String region =
+	 * referenceDataService.getRegion(country); return region; }catch(Exception
+	 * exp){ logger.error("Error getRegion", exp); return null; } }
+	 */
+
 	/**
 	 * method to update vendor my offerings data coverage info
 	 * 
@@ -1848,14 +1846,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 *             the exception
 	 */
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_TRADING_CAPABILITIES_SUPPORTED_TAB , method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_TRADING_CAPABILITIES_SUPPORTED_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorOfferingTradingCapabilitiesSupportedInfo(@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("solutions") Solutions solutions,
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country,
-			@ModelAttribute("cost") Cost cost,
-			@ModelAttribute("support") Support support,
-			@ModelAttribute("vendorSolution") VendorSolution vendorSolution,
+			@ModelAttribute("solutions") Solutions solutions, @ModelAttribute("region") Region region,
+			@ModelAttribute("country") Country country, @ModelAttribute("cost") Cost cost,
+			@ModelAttribute("support") Support support, @ModelAttribute("vendorSolution") VendorSolution vendorSolution,
 			@ModelAttribute("vendorSupport") VendorSupport vendorSupport,
 			@RequestParam(value = "dataCoverageInfo", required = false) String dataCoverageInfo) {
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -1869,47 +1864,50 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] countries = null;
 			String[] costs = null;
 			String[] supports = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(!dataCoverageInfo.equals("") && dataCoverageInfo != null){
-				vendorMyofferingsDataCoverages = gson.fromJson(replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()), VendorMyofferingsDataCoverage[].class);
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!dataCoverageInfo.equals("") && dataCoverageInfo != null) {
+				vendorMyofferingsDataCoverages = gson.fromJson(
+						replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()),
+						VendorMyofferingsDataCoverage[].class);
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
-				if(vendorMyofferingsDataCoverages.length > 0)
-				for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
-					  regions = vendorMyofferings.getCoverage_region().split(",");
-					  countries = vendorMyofferings.getCoverage_country().split(",");
-					  supports = vendorMyofferings.getSupport_timings().split(",");
-					  costs = vendorMyofferings.getVendor_costrange().split(",");
-					  if(supports.length > 0)
-						for (String costNames : costs) {
-							if(costNames.contains("$200"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
-							else if(costNames.contains("$300"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
-							cost.setCost_id(cost.getCost_id());
-							solutions.setSolution_id(1);
-							vendorSolution.setVendor(vendor);
-							vendorSolution.setSolutions(solutions);
-							vendorSolution.setCost(cost);
-							// Updating vendor vendor solution details
-							vendorSolution =	vendorService.updateVendorSolutionDetails(vendorSolution);
-							for (String supportname : supports) {
-								support = vendorService.getSupportInfo(supportname);
-								support.setSupport_id(support.getSupport_id());
-								vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
-								vendorSupport.setSupport(support);
-								vendorSupport.setVendorSolution(vendorSolution);
-								vendorSupport.setVendor(vendor);
-								vendorService.updateVendorSupportInfo(vendorSupport);
+				if (vendorMyofferingsDataCoverages.length > 0)
+					for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
+						regions = vendorMyofferings.getCoverage_region().split(",");
+						countries = vendorMyofferings.getCoverage_country().split(",");
+						supports = vendorMyofferings.getSupport_timings().split(",");
+						costs = vendorMyofferings.getVendor_costrange().split(",");
+						if (supports.length > 0)
+							for (String costNames : costs) {
+								if (costNames.contains("$200"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
+								else if (costNames.contains("$300"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
+								cost.setCost_id(cost.getCost_id());
+								solutions.setSolution_id(1);
+								vendorSolution.setVendor(vendor);
+								vendorSolution.setSolutions(solutions);
+								vendorSolution.setCost(cost);
+								// Updating vendor vendor solution details
+								vendorSolution = vendorService.updateVendorSolutionDetails(vendorSolution);
+								for (String supportname : supports) {
+									support = vendorService.getSupportInfo(supportname);
+									support.setSupport_id(support.getSupport_id());
+									vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
+									vendorSupport.setSupport(support);
+									vendorSupport.setVendorSolution(vendorSolution);
+									vendorSupport.setVendor(vendor);
+									vendorService.updateVendorSupportInfo(vendorSupport);
+								}
 							}
-						}
-				}
-				
-		 	}
+					}
+
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return modelAndView;
 	}
@@ -1922,14 +1920,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 *             the exception
 	 */
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_TRADING_SOFT_WAREDETAILS_TAB , method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_TRADING_SOFT_WAREDETAILS_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorOfferingTradingSoftwareDetailsInfo(@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("solutions") Solutions solutions,
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country,
-			@ModelAttribute("cost") Cost cost,
-			@ModelAttribute("support") Support support,
-			@ModelAttribute("vendorSolution") VendorSolution vendorSolution,
+			@ModelAttribute("solutions") Solutions solutions, @ModelAttribute("region") Region region,
+			@ModelAttribute("country") Country country, @ModelAttribute("cost") Cost cost,
+			@ModelAttribute("support") Support support, @ModelAttribute("vendorSolution") VendorSolution vendorSolution,
 			@ModelAttribute("vendorSupport") VendorSupport vendorSupport,
 			@RequestParam(value = "dataCoverageInfo", required = false) String dataCoverageInfo) {
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -1943,47 +1938,50 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] countries = null;
 			String[] costs = null;
 			String[] supports = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(!dataCoverageInfo.equals("") && dataCoverageInfo != null){
-				vendorMyofferingsDataCoverages = gson.fromJson(replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()), VendorMyofferingsDataCoverage[].class);
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!dataCoverageInfo.equals("") && dataCoverageInfo != null) {
+				vendorMyofferingsDataCoverages = gson.fromJson(
+						replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()),
+						VendorMyofferingsDataCoverage[].class);
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
-				if(vendorMyofferingsDataCoverages.length > 0)
-				for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
-					  regions = vendorMyofferings.getCoverage_region().split(",");
-					  countries = vendorMyofferings.getCoverage_country().split(",");
-					  supports = vendorMyofferings.getSupport_timings().split(",");
-					  costs = vendorMyofferings.getVendor_costrange().split(",");
-					  if(supports.length > 0)
-						for (String costNames : costs) {
-							if(costNames.contains("$200"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
-							else if(costNames.contains("$300"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
-							cost.setCost_id(cost.getCost_id());
-							solutions.setSolution_id(1);
-							vendorSolution.setVendor(vendor);
-							vendorSolution.setSolutions(solutions);
-							vendorSolution.setCost(cost);
-							// Updating vendor vendor solution details
-							vendorSolution =	vendorService.updateVendorSolutionDetails(vendorSolution);
-							for (String supportname : supports) {
-								support = vendorService.getSupportInfo(supportname);
-								support.setSupport_id(support.getSupport_id());
-								vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
-								vendorSupport.setSupport(support);
-								vendorSupport.setVendorSolution(vendorSolution);
-								vendorSupport.setVendor(vendor);
-								vendorService.updateVendorSupportInfo(vendorSupport);
+				if (vendorMyofferingsDataCoverages.length > 0)
+					for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
+						regions = vendorMyofferings.getCoverage_region().split(",");
+						countries = vendorMyofferings.getCoverage_country().split(",");
+						supports = vendorMyofferings.getSupport_timings().split(",");
+						costs = vendorMyofferings.getVendor_costrange().split(",");
+						if (supports.length > 0)
+							for (String costNames : costs) {
+								if (costNames.contains("$200"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
+								else if (costNames.contains("$300"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
+								cost.setCost_id(cost.getCost_id());
+								solutions.setSolution_id(1);
+								vendorSolution.setVendor(vendor);
+								vendorSolution.setSolutions(solutions);
+								vendorSolution.setCost(cost);
+								// Updating vendor vendor solution details
+								vendorSolution = vendorService.updateVendorSolutionDetails(vendorSolution);
+								for (String supportname : supports) {
+									support = vendorService.getSupportInfo(supportname);
+									support.setSupport_id(support.getSupport_id());
+									vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
+									vendorSupport.setSupport(support);
+									vendorSupport.setVendorSolution(vendorSolution);
+									vendorSupport.setVendor(vendor);
+									vendorService.updateVendorSupportInfo(vendorSupport);
+								}
 							}
-						}
-				}
-				
-		 	}
+					}
+
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return modelAndView;
 	}
@@ -1996,14 +1994,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 *             the exception
 	 */
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_ANALYTICS_FEATURES_SUPPORTED_TAB, method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_ANALYTICS_FEATURES_SUPPORTED_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorOfferingAnalyticsFeaturesSupportedInfo(@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("solutions") Solutions solutions,
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country,
-			@ModelAttribute("cost") Cost cost,
-			@ModelAttribute("support") Support support,
-			@ModelAttribute("vendorSolution") VendorSolution vendorSolution,
+			@ModelAttribute("solutions") Solutions solutions, @ModelAttribute("region") Region region,
+			@ModelAttribute("country") Country country, @ModelAttribute("cost") Cost cost,
+			@ModelAttribute("support") Support support, @ModelAttribute("vendorSolution") VendorSolution vendorSolution,
 			@ModelAttribute("vendorSupport") VendorSupport vendorSupport,
 			@RequestParam(value = "dataCoverageInfo", required = false) String dataCoverageInfo) {
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -2017,47 +2012,50 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] countries = null;
 			String[] costs = null;
 			String[] supports = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(!dataCoverageInfo.equals("") && dataCoverageInfo != null){
-				vendorMyofferingsDataCoverages = gson.fromJson(replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()), VendorMyofferingsDataCoverage[].class);
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!dataCoverageInfo.equals("") && dataCoverageInfo != null) {
+				vendorMyofferingsDataCoverages = gson.fromJson(
+						replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()),
+						VendorMyofferingsDataCoverage[].class);
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
-				if(vendorMyofferingsDataCoverages.length > 0)
-				for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
-					  regions = vendorMyofferings.getCoverage_region().split(",");
-					  countries = vendorMyofferings.getCoverage_country().split(",");
-					  supports = vendorMyofferings.getSupport_timings().split(",");
-					  costs = vendorMyofferings.getVendor_costrange().split(",");
-					  if(supports.length > 0)
-						for (String costNames : costs) {
-							if(costNames.contains("$200"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
-							else if(costNames.contains("$300"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
-							cost.setCost_id(cost.getCost_id());
-							solutions.setSolution_id(1);
-							vendorSolution.setVendor(vendor);
-							vendorSolution.setSolutions(solutions);
-							vendorSolution.setCost(cost);
-							// Updating vendor vendor solution details
-							vendorSolution =	vendorService.updateVendorSolutionDetails(vendorSolution);
-							for (String supportname : supports) {
-								support = vendorService.getSupportInfo(supportname);
-								support.setSupport_id(support.getSupport_id());
-								vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
-								vendorSupport.setSupport(support);
-								vendorSupport.setVendorSolution(vendorSolution);
-								vendorSupport.setVendor(vendor);
-								vendorService.updateVendorSupportInfo(vendorSupport);
+				if (vendorMyofferingsDataCoverages.length > 0)
+					for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
+						regions = vendorMyofferings.getCoverage_region().split(",");
+						countries = vendorMyofferings.getCoverage_country().split(",");
+						supports = vendorMyofferings.getSupport_timings().split(",");
+						costs = vendorMyofferings.getVendor_costrange().split(",");
+						if (supports.length > 0)
+							for (String costNames : costs) {
+								if (costNames.contains("$200"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
+								else if (costNames.contains("$300"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
+								cost.setCost_id(cost.getCost_id());
+								solutions.setSolution_id(1);
+								vendorSolution.setVendor(vendor);
+								vendorSolution.setSolutions(solutions);
+								vendorSolution.setCost(cost);
+								// Updating vendor vendor solution details
+								vendorSolution = vendorService.updateVendorSolutionDetails(vendorSolution);
+								for (String supportname : supports) {
+									support = vendorService.getSupportInfo(supportname);
+									support.setSupport_id(support.getSupport_id());
+									vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
+									vendorSupport.setSupport(support);
+									vendorSupport.setVendorSolution(vendorSolution);
+									vendorSupport.setVendor(vendor);
+									vendorService.updateVendorSupportInfo(vendorSupport);
+								}
 							}
-						}
-				}
-				
-		 	}
+					}
+
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return modelAndView;
 	}
@@ -2070,14 +2068,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 *             the exception
 	 */
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_AnalyticsSoftwareDetails_TAB , method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_AnalyticsSoftwareDetails_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorOfferingAnalyticsSoftwareDetailsInfo(@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("solutions") Solutions solutions,
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country,
-			@ModelAttribute("cost") Cost cost,
-			@ModelAttribute("support") Support support,
-			@ModelAttribute("vendorSolution") VendorSolution vendorSolution,
+			@ModelAttribute("solutions") Solutions solutions, @ModelAttribute("region") Region region,
+			@ModelAttribute("country") Country country, @ModelAttribute("cost") Cost cost,
+			@ModelAttribute("support") Support support, @ModelAttribute("vendorSolution") VendorSolution vendorSolution,
 			@ModelAttribute("vendorSupport") VendorSupport vendorSupport,
 			@RequestParam(value = "dataCoverageInfo", required = false) String dataCoverageInfo) {
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -2091,47 +2086,50 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] countries = null;
 			String[] costs = null;
 			String[] supports = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(!dataCoverageInfo.equals("") && dataCoverageInfo != null){
-				vendorMyofferingsDataCoverages = gson.fromJson(replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()), VendorMyofferingsDataCoverage[].class);
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!dataCoverageInfo.equals("") && dataCoverageInfo != null) {
+				vendorMyofferingsDataCoverages = gson.fromJson(
+						replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()),
+						VendorMyofferingsDataCoverage[].class);
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
-				if(vendorMyofferingsDataCoverages.length > 0)
-				for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
-					  regions = vendorMyofferings.getCoverage_region().split(",");
-					  countries = vendorMyofferings.getCoverage_country().split(",");
-					  supports = vendorMyofferings.getSupport_timings().split(",");
-					  costs = vendorMyofferings.getVendor_costrange().split(",");
-					  if(supports.length > 0)
-						for (String costNames : costs) {
-							if(costNames.contains("$200"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
-							else if(costNames.contains("$300"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
-							cost.setCost_id(cost.getCost_id());
-							solutions.setSolution_id(1);
-							vendorSolution.setVendor(vendor);
-							vendorSolution.setSolutions(solutions);
-							vendorSolution.setCost(cost);
-							// Updating vendor vendor solution details
-							vendorSolution =	vendorService.updateVendorSolutionDetails(vendorSolution);
-							for (String supportname : supports) {
-								support = vendorService.getSupportInfo(supportname);
-								support.setSupport_id(support.getSupport_id());
-								vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
-								vendorSupport.setSupport(support);
-								vendorSupport.setVendorSolution(vendorSolution);
-								vendorSupport.setVendor(vendor);
-								vendorService.updateVendorSupportInfo(vendorSupport);
+				if (vendorMyofferingsDataCoverages.length > 0)
+					for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
+						regions = vendorMyofferings.getCoverage_region().split(",");
+						countries = vendorMyofferings.getCoverage_country().split(",");
+						supports = vendorMyofferings.getSupport_timings().split(",");
+						costs = vendorMyofferings.getVendor_costrange().split(",");
+						if (supports.length > 0)
+							for (String costNames : costs) {
+								if (costNames.contains("$200"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
+								else if (costNames.contains("$300"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
+								cost.setCost_id(cost.getCost_id());
+								solutions.setSolution_id(1);
+								vendorSolution.setVendor(vendor);
+								vendorSolution.setSolutions(solutions);
+								vendorSolution.setCost(cost);
+								// Updating vendor vendor solution details
+								vendorSolution = vendorService.updateVendorSolutionDetails(vendorSolution);
+								for (String supportname : supports) {
+									support = vendorService.getSupportInfo(supportname);
+									support.setSupport_id(support.getSupport_id());
+									vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
+									vendorSupport.setSupport(support);
+									vendorSupport.setVendorSolution(vendorSolution);
+									vendorSupport.setVendor(vendor);
+									vendorService.updateVendorSupportInfo(vendorSupport);
+								}
 							}
-						}
-				}
-				
-		 	}
+					}
+
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return modelAndView;
 	}
@@ -2144,14 +2142,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 *             the exception
 	 */
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_RESEARCH_COVERAGE_TAB , method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_RESEARCH_COVERAGE_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorOfferingResearchCoverageInfo(@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("solutions") Solutions solutions,
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country,
-			@ModelAttribute("cost") Cost cost,
-			@ModelAttribute("support") Support support,
-			@ModelAttribute("vendorSolution") VendorSolution vendorSolution,
+			@ModelAttribute("solutions") Solutions solutions, @ModelAttribute("region") Region region,
+			@ModelAttribute("country") Country country, @ModelAttribute("cost") Cost cost,
+			@ModelAttribute("support") Support support, @ModelAttribute("vendorSolution") VendorSolution vendorSolution,
 			@ModelAttribute("vendorSupport") VendorSupport vendorSupport,
 			@RequestParam(value = "dataCoverageInfo", required = false) String dataCoverageInfo) {
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -2165,47 +2160,50 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] countries = null;
 			String[] costs = null;
 			String[] supports = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(!dataCoverageInfo.equals("") && dataCoverageInfo != null){
-				vendorMyofferingsDataCoverages = gson.fromJson(replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()), VendorMyofferingsDataCoverage[].class);
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!dataCoverageInfo.equals("") && dataCoverageInfo != null) {
+				vendorMyofferingsDataCoverages = gson.fromJson(
+						replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()),
+						VendorMyofferingsDataCoverage[].class);
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
-				if(vendorMyofferingsDataCoverages.length > 0)
-				for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
-					  regions = vendorMyofferings.getCoverage_region().split(",");
-					  countries = vendorMyofferings.getCoverage_country().split(",");
-					  supports = vendorMyofferings.getSupport_timings().split(",");
-					  costs = vendorMyofferings.getVendor_costrange().split(",");
-					  if(supports.length > 0)
-						for (String costNames : costs) {
-							if(costNames.contains("$200"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
-							else if(costNames.contains("$300"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
-							cost.setCost_id(cost.getCost_id());
-							solutions.setSolution_id(1);
-							vendorSolution.setVendor(vendor);
-							vendorSolution.setSolutions(solutions);
-							vendorSolution.setCost(cost);
-							// Updating vendor vendor solution details
-							vendorSolution =	vendorService.updateVendorSolutionDetails(vendorSolution);
-							for (String supportname : supports) {
-								support = vendorService.getSupportInfo(supportname);
-								support.setSupport_id(support.getSupport_id());
-								vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
-								vendorSupport.setSupport(support);
-								vendorSupport.setVendorSolution(vendorSolution);
-								vendorSupport.setVendor(vendor);
-								vendorService.updateVendorSupportInfo(vendorSupport);
+				if (vendorMyofferingsDataCoverages.length > 0)
+					for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
+						regions = vendorMyofferings.getCoverage_region().split(",");
+						countries = vendorMyofferings.getCoverage_country().split(",");
+						supports = vendorMyofferings.getSupport_timings().split(",");
+						costs = vendorMyofferings.getVendor_costrange().split(",");
+						if (supports.length > 0)
+							for (String costNames : costs) {
+								if (costNames.contains("$200"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
+								else if (costNames.contains("$300"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
+								cost.setCost_id(cost.getCost_id());
+								solutions.setSolution_id(1);
+								vendorSolution.setVendor(vendor);
+								vendorSolution.setSolutions(solutions);
+								vendorSolution.setCost(cost);
+								// Updating vendor vendor solution details
+								vendorSolution = vendorService.updateVendorSolutionDetails(vendorSolution);
+								for (String supportname : supports) {
+									support = vendorService.getSupportInfo(supportname);
+									support.setSupport_id(support.getSupport_id());
+									vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
+									vendorSupport.setSupport(support);
+									vendorSupport.setVendorSolution(vendorSolution);
+									vendorSupport.setVendor(vendor);
+									vendorService.updateVendorSupportInfo(vendorSupport);
+								}
 							}
-						}
-				}
-				
-		 	}
+					}
+
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return modelAndView;
 	}
@@ -2218,14 +2216,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 *             the exception
 	 */
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_RESEARCH_DETAILS_TAB , method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_RESEARCH_DETAILS_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorOfferingResearchDetailsInfo(@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("solutions") Solutions solutions,
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country,
-			@ModelAttribute("cost") Cost cost,
-			@ModelAttribute("support") Support support,
-			@ModelAttribute("vendorSolution") VendorSolution vendorSolution,
+			@ModelAttribute("solutions") Solutions solutions, @ModelAttribute("region") Region region,
+			@ModelAttribute("country") Country country, @ModelAttribute("cost") Cost cost,
+			@ModelAttribute("support") Support support, @ModelAttribute("vendorSolution") VendorSolution vendorSolution,
 			@ModelAttribute("vendorSupport") VendorSupport vendorSupport,
 			@RequestParam(value = "dataCoverageInfo", required = false) String dataCoverageInfo) {
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -2239,47 +2234,50 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] countries = null;
 			String[] costs = null;
 			String[] supports = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(!dataCoverageInfo.equals("") && dataCoverageInfo != null){
-				vendorMyofferingsDataCoverages = gson.fromJson(replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()), VendorMyofferingsDataCoverage[].class);
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!dataCoverageInfo.equals("") && dataCoverageInfo != null) {
+				vendorMyofferingsDataCoverages = gson.fromJson(
+						replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()),
+						VendorMyofferingsDataCoverage[].class);
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
-				if(vendorMyofferingsDataCoverages.length > 0)
-				for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
-					  regions = vendorMyofferings.getCoverage_region().split(",");
-					  countries = vendorMyofferings.getCoverage_country().split(",");
-					  supports = vendorMyofferings.getSupport_timings().split(",");
-					  costs = vendorMyofferings.getVendor_costrange().split(",");
-					  if(supports.length > 0)
-						for (String costNames : costs) {
-							if(costNames.contains("$200"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
-							else if(costNames.contains("$300"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
-							cost.setCost_id(cost.getCost_id());
-							solutions.setSolution_id(1);
-							vendorSolution.setVendor(vendor);
-							vendorSolution.setSolutions(solutions);
-							vendorSolution.setCost(cost);
-							// Updating vendor vendor solution details
-							vendorSolution =	vendorService.updateVendorSolutionDetails(vendorSolution);
-							for (String supportname : supports) {
-								support = vendorService.getSupportInfo(supportname);
-								support.setSupport_id(support.getSupport_id());
-								vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
-								vendorSupport.setSupport(support);
-								vendorSupport.setVendorSolution(vendorSolution);
-								vendorSupport.setVendor(vendor);
-								vendorService.updateVendorSupportInfo(vendorSupport);
+				if (vendorMyofferingsDataCoverages.length > 0)
+					for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
+						regions = vendorMyofferings.getCoverage_region().split(",");
+						countries = vendorMyofferings.getCoverage_country().split(",");
+						supports = vendorMyofferings.getSupport_timings().split(",");
+						costs = vendorMyofferings.getVendor_costrange().split(",");
+						if (supports.length > 0)
+							for (String costNames : costs) {
+								if (costNames.contains("$200"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
+								else if (costNames.contains("$300"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
+								cost.setCost_id(cost.getCost_id());
+								solutions.setSolution_id(1);
+								vendorSolution.setVendor(vendor);
+								vendorSolution.setSolutions(solutions);
+								vendorSolution.setCost(cost);
+								// Updating vendor vendor solution details
+								vendorSolution = vendorService.updateVendorSolutionDetails(vendorSolution);
+								for (String supportname : supports) {
+									support = vendorService.getSupportInfo(supportname);
+									support.setSupport_id(support.getSupport_id());
+									vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
+									vendorSupport.setSupport(support);
+									vendorSupport.setVendorSolution(vendorSolution);
+									vendorSupport.setVendor(vendor);
+									vendorService.updateVendorSupportInfo(vendorSupport);
+								}
 							}
-						}
-				}
-				
-		 	}
+					}
+
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return modelAndView;
 	}
@@ -2292,14 +2290,11 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 	 *             the exception
 	 */
 	@SuppressWarnings("unused")
-	@RequestMapping(value =RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_ANALYST_PROFILE_TAB, method = RequestMethod.GET)
+	@RequestMapping(value = RequestConstans.Vendor.UPDATE_VENDOR_MYOFFEINGS_ANALYST_PROFILE_TAB, method = RequestMethod.GET)
 	public ModelAndView updateVendorOfferingAnalystProfileInfo(@ModelAttribute("vendor") Vendor vendor,
-			@ModelAttribute("solutions") Solutions solutions,
-			@ModelAttribute("region") Region region,
-			@ModelAttribute("country") Country country,
-			@ModelAttribute("cost") Cost cost,
-			@ModelAttribute("support") Support support,
-			@ModelAttribute("vendorSolution") VendorSolution vendorSolution,
+			@ModelAttribute("solutions") Solutions solutions, @ModelAttribute("region") Region region,
+			@ModelAttribute("country") Country country, @ModelAttribute("cost") Cost cost,
+			@ModelAttribute("support") Support support, @ModelAttribute("vendorSolution") VendorSolution vendorSolution,
 			@ModelAttribute("vendorSupport") VendorSupport vendorSupport,
 			@RequestParam(value = "dataCoverageInfo", required = false) String dataCoverageInfo) {
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -2313,57 +2308,54 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			String[] countries = null;
 			String[] costs = null;
 			String[] supports = null;
-			appUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(!dataCoverageInfo.equals("") && dataCoverageInfo != null){
-				vendorMyofferingsDataCoverages = gson.fromJson(replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()), VendorMyofferingsDataCoverage[].class);
+			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!dataCoverageInfo.equals("") && dataCoverageInfo != null) {
+				vendorMyofferingsDataCoverages = gson.fromJson(
+						replaceVendorMyOfferingsDataCoverageJsonInput(dataCoverageInfo.toString()),
+						VendorMyofferingsDataCoverage[].class);
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
-				//vendor = vendorService.getVendorDetails(appUser.getUsername());
+				// vendor = vendorService.getVendorDetails(appUser.getUsername());
 				vendor.setId(vendor.getId());
-				if(vendorMyofferingsDataCoverages.length > 0)
-				for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
-					  regions = vendorMyofferings.getCoverage_region().split(",");
-					  countries = vendorMyofferings.getCoverage_country().split(",");
-					  supports = vendorMyofferings.getSupport_timings().split(",");
-					  costs = vendorMyofferings.getVendor_costrange().split(",");
-					  if(supports.length > 0)
-						for (String costNames : costs) {
-							if(costNames.contains("$200"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
-							else if(costNames.contains("$300"))
-							  cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
-							cost.setCost_id(cost.getCost_id());
-							solutions.setSolution_id(1);
-							vendorSolution.setVendor(vendor);
-							vendorSolution.setSolutions(solutions);
-							vendorSolution.setCost(cost);
-							// Updating vendor vendor solution details
-							vendorSolution =	vendorService.updateVendorSolutionDetails(vendorSolution);
-							for (String supportname : supports) {
-								support = vendorService.getSupportInfo(supportname);
-								support.setSupport_id(support.getSupport_id());
-								vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
-								vendorSupport.setSupport(support);
-								vendorSupport.setVendorSolution(vendorSolution);
-								vendorSupport.setVendor(vendor);
-								vendorService.updateVendorSupportInfo(vendorSupport);
+				if (vendorMyofferingsDataCoverages.length > 0)
+					for (VendorMyofferingsDataCoverage vendorMyofferings : vendorMyofferingsDataCoverages) {
+						regions = vendorMyofferings.getCoverage_region().split(",");
+						countries = vendorMyofferings.getCoverage_country().split(",");
+						supports = vendorMyofferings.getSupport_timings().split(",");
+						costs = vendorMyofferings.getVendor_costrange().split(",");
+						if (supports.length > 0)
+							for (String costNames : costs) {
+								if (costNames.contains("$200"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$200);
+								else if (costNames.contains("$300"))
+									cost = vendorService.getCostInfo(RequestConstans.CostValues.$300);
+								cost.setCost_id(cost.getCost_id());
+								solutions.setSolution_id(1);
+								vendorSolution.setVendor(vendor);
+								vendorSolution.setSolutions(solutions);
+								vendorSolution.setCost(cost);
+								// Updating vendor vendor solution details
+								vendorSolution = vendorService.updateVendorSolutionDetails(vendorSolution);
+								for (String supportname : supports) {
+									support = vendorService.getSupportInfo(supportname);
+									support.setSupport_id(support.getSupport_id());
+									vendorSolution.setVendor_solution_id(vendorSolution.getVendor_solution_id());
+									vendorSupport.setSupport(support);
+									vendorSupport.setVendorSolution(vendorSolution);
+									vendorSupport.setVendor(vendor);
+									vendorService.updateVendorSupportInfo(vendorSupport);
+								}
 							}
-						}
-				}
-				
-		 	}
+					}
+
+			}
 		} catch (Exception ex) {
 			logger.error("Mehtod for update Vendor  my offerings data coverage info-- ", ex);
-			modelAndView.addObject("errorMsg", "Unable to update vendor s my offerings data coverage info, Please contact administrator");
+			modelAndView.addObject("errorMsg",
+					"Unable to update vendor s my offerings data coverage info, Please contact administrator");
 		}
 		return modelAndView;
 	}
 
-
-	
-	
-	
-	
-	
 	/**
 	 * method to convert my offerings data coverage JSON values
 	 * 
@@ -2386,46 +2378,44 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		return returnValue;
 	}
 
-	
-	@RequestMapping(value="checkExistingValue", method=RequestMethod.POST)
+	@RequestMapping(value = "checkExistingValue", method = RequestMethod.POST)
 	public String checkExistingValue(HttpServletRequest request, HttpServletResponse response) {
 		String value = request.getParameter("param");
 		String actionComponent = request.getParameter("actionComponent");
-		
-		logger.info("Validate existing value : " + value);		
+
+		logger.info("Validate existing value : " + value);
 		Boolean isExist = false;
-		try{
-			if(RequestConstans.Vendor.AWARDDETAILS.equals(actionComponent)){
-				 isExist = vendorService.isAwardAlreadyExist(value);
-			}else if(RequestConstans.Vendor.VENDOR_SOLUTION.equals(actionComponent)){
-				 isExist = vendorService.isSolutionAlreadyExist(value);
-			}else if(RequestConstans.Vendor.ADD_VENDOR_TRADINGSOFTWAREDETAILS.equals(actionComponent)){
-				 isExist = vendorService.isTradingSoftwareDetailsOfferingExist(value);
+		try {
+			if (RequestConstans.Vendor.AWARDDETAILS.equals(actionComponent)) {
+				isExist = vendorService.isAwardAlreadyExist(value);
+			} else if (RequestConstans.Vendor.VENDOR_SOLUTION.equals(actionComponent)) {
+				isExist = vendorService.isSolutionAlreadyExist(value);
+			} else if (RequestConstans.Vendor.ADD_VENDOR_TRADINGSOFTWAREDETAILS.equals(actionComponent)) {
+				isExist = vendorService.isTradingSoftwareDetailsOfferingExist(value);
 			}
-			
-		if(isExist){
-			response.getWriter().print("Name already exists");	
-		}
-			
-		}catch (IOException exp) {
+
+			if (isExist) {
+				response.getWriter().print("Name already exists");
+			}
+
+		} catch (IOException exp) {
 			logger.error("Error checking Email id : " + exp);
 			handleExceptionMessage(response, "Error validating Email id");
 		}
 		return null;
 	}
+
 	private void handleExceptionMessage(HttpServletResponse response, String message) {
-		try{
+		try {
 			response.getWriter().print(message);
-		}catch (IOException exp) {
-			logger.error(message + " : " + exp);			
+		} catch (IOException exp) {
+			logger.error(message + " : " + exp);
 		}
 	}
-	
-	
-	
+
 	/* Vendor Data Aggregator Offering Begin */
-	
-	@RequestMapping(value="addDataAggregatorOffering", method = RequestMethod.POST)
+
+	@RequestMapping(value = "addDataAggregatorOffering", method = RequestMethod.POST)
 	public ModelAndView addDataAggregatorOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "productName", required = true) String productName,
@@ -2443,35 +2433,35 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "feedSubType", required = false) String feedSubType,
 			@RequestParam(value = "frequency", required = false) String frequency,
 			@RequestParam(value = "distributionMethod", required = false) String distributionMethod) {
-		
+
 		logger.debug("Entering  - VendorController : addDataAggregatorOffering");
 		ModelAndView modelAndView = new ModelAndView("empty");
-		
+
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
-			
+
 			VendorDataAggregatorsOffering dataOffering = new VendorDataAggregatorsOffering();
 			VendorDataAggregatorsOfferingCoverage dataCoverage = new VendorDataAggregatorsOfferingCoverage();
 			VendorDataAggregatorsOfferingDistribution dataDistribution = new VendorDataAggregatorsOfferingDistribution();
-			
-			if(productId == null || productId.trim().equals("")) {
-				productId = UUID.randomUUID().toString(); 
+
+			if (productId == null || productId.trim().equals("")) {
+				productId = UUID.randomUUID().toString();
 			}
 			dataOffering.setProductId(productId);
 			dataOffering.setProductName(productName);
 			dataOffering.setProductDescription(productDescription);
 			dataOffering.setLaunchedYear(launchedYear);
-			AssetClass assetClass = (AssetClass)marketDataAggregatorsService.getModelObjectById(
-					AssetClass.class, assetClassId);
+			AssetClass assetClass = (AssetClass) marketDataAggregatorsService.getModelObjectById(AssetClass.class,
+					assetClassId);
 			dataOffering.setAssetClass(assetClass);
 			dataOffering.setSecurityTypes(securityTypes);
 			dataOffering.setVendor(vendor);
-		
+
 			dataCoverage.setProductId(productId);
 			dataCoverage.setCoverageRegion(coverageRegion);
 			dataCoverage.setCoverageCountry(coverageCountry);
@@ -2480,92 +2470,89 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			dataCoverage.setEmail(email);
 			dataCoverage.setPhoneNumber(phoneNumber);
 			dataOffering.setOfferingCoverge(dataCoverage);
-			
+
 			dataDistribution.setProductId(productId);
 			dataDistribution.setFeedType(feedType);
 			dataDistribution.setFeedSubType(feedSubType);
 			dataDistribution.setFrequency(frequency);
 			dataDistribution.setDistributionMethod(distributionMethod);
 			dataOffering.setOfferingDistribution(dataDistribution);
-					
+
 			vendorService.addVendorDataAggregatorsOffering(dataOffering);
 		} catch (Exception exp) {
-			logger.error("Error Saving Market Data Aggregator Offering", exp); 
+			logger.error("Error Saving Market Data Aggregator Offering", exp);
 			modelAndView.addObject("status", "Error Updating Offering details");
 		}
 		modelAndView.addObject("status", "Offering details Updated successfully");
 		logger.debug("Leaving  - VendorController : addDataAggregatorOffering");
 		return modelAndView;
-		
+
 	}
-	
-	@RequestMapping(value="deleteDataAggregatorOffering", method = RequestMethod.POST)
-	public ModelAndView deleteDataAggregatorOffering(
-			HttpServletRequest request,
+
+	@RequestMapping(value = "deleteDataAggregatorOffering", method = RequestMethod.POST)
+	public ModelAndView deleteDataAggregatorOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = true) String productId) {
-		
+
 		logger.debug("Entering  - VendorController : deleteDataAggregatorOffering for product {}", productId);
 		ModelAndView modelAndView = new ModelAndView("empty");
 		List<VendorDataAggregatorsOffering> offerings = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			boolean matchFound = false;
 			offerings = vendorService.getVendorDataAggregatorsOffering(userName);
-			for(VendorDataAggregatorsOffering dataAggreOffering : offerings) {
+			for (VendorDataAggregatorsOffering dataAggreOffering : offerings) {
 				if (dataAggreOffering.getProductId().equals(productId)) {
 					matchFound = true;
 					break;
 				}
 			}
-			if(matchFound) {
+			if (matchFound) {
 				vendorService.deleteVendorDataAggregatorsOffering(productId);
 				modelAndView.addObject("status", "Successfully deleted Offering record");
 			} else {
 				logger.error("Selected Offering does not belong to logged in User !!");
 				modelAndView.addObject("status", "Error deleting Offering record");
 			}
-			
+
 		} catch (Exception exp) {
-			logger.error("Error Deleting Market Data Aggregator Offering for Product {}", 
-					productId, exp); 
+			logger.error("Error Deleting Market Data Aggregator Offering for Product {}", productId, exp);
 			modelAndView.addObject("status", "Error deleting Offering record");
 		}
 		logger.debug("Leaving  - VendorController : deleteDataAggregatorOffering for product {}", productId);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="listDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
-	public @ResponseBody List<VendorDataAggregatorsOfferingJson> listDataAggregatorOffering(HttpServletRequest request, 
+
+	@RequestMapping(value = "listDataAggregatorOffering", method = { RequestMethod.POST, RequestMethod.GET })
+	public @ResponseBody List<VendorDataAggregatorsOfferingJson> listDataAggregatorOffering(HttpServletRequest request,
 			HttpServletResponse response) {
-		
+
 		logger.debug("Entering  - VendorController : listDataAggregatorOffering");
 		List<VendorDataAggregatorsOffering> offerings = null;
 		List<VendorDataAggregatorsOfferingJson> jsonOfferings = new ArrayList<VendorDataAggregatorsOfferingJson>();
 		String userName = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				request.getRequestDispatcher("/").forward(request, response);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			userName = loggedInUser.getUsername();
-			offerings = vendorService.
-					getVendorDataAggregatorsOffering(userName);
-			populateJsonVendorOfferingList(offerings, jsonOfferings);			
+			offerings = vendorService.getVendorDataAggregatorsOffering(userName);
+			populateJsonVendorOfferingList(offerings, jsonOfferings);
 		} catch (Exception exp) {
-			logger.error("Error Reading Market Data Aggregator Offering for {}", userName, exp); 
-			
+			logger.error("Error Reading Market Data Aggregator Offering for {}", userName, exp);
+
 		}
 		logger.debug("Leaving  - VendorController : listDataAggregatorOffering");
 		return jsonOfferings;
 	}
-	
+
 	private void populateJsonVendorOfferingList(List<VendorDataAggregatorsOffering> offerings,
 			List<VendorDataAggregatorsOfferingJson> jsonOfferings) {
-		for(VendorDataAggregatorsOffering offering : offerings) {
+		for (VendorDataAggregatorsOffering offering : offerings) {
 			VendorDataAggregatorsOfferingJson jsonOffering = new VendorDataAggregatorsOfferingJson();
 			jsonOffering.setProductId(offering.getProductId());
 			jsonOffering.setProductName(offering.getProductName());
@@ -2578,31 +2565,29 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			jsonOfferings.add(jsonOffering);
 		}
 	}
-	
-	@RequestMapping(value="fetchDataAggregatorOffering", method = {RequestMethod.POST, RequestMethod.GET})
-	public @ResponseBody VendorDataAggregatorsOfferingJson fetchDataAggregatorOffering(
-			HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value = "productId", required = true) String productId) {
-		
+
+	@RequestMapping(value = "fetchDataAggregatorOffering", method = { RequestMethod.POST, RequestMethod.GET })
+	public @ResponseBody VendorDataAggregatorsOfferingJson fetchDataAggregatorOffering(HttpServletRequest request,
+			HttpServletResponse response, @RequestParam(value = "productId", required = true) String productId) {
+
 		logger.debug("Entering  - VendorController : fetchDataAggregatorOffering for product {}", productId);
 		VendorDataAggregatorsOfferingJson vendorOffering = null;
 
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				request.getRequestDispatcher("/").forward(request, response);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			VendorDataAggregatorsOffering offering = null;
-			List<VendorDataAggregatorsOffering> offerings = vendorService.
-					getVendorDataAggregatorsOffering(userName);
-			for(VendorDataAggregatorsOffering dataAggreOffering : offerings) {
+			List<VendorDataAggregatorsOffering> offerings = vendorService.getVendorDataAggregatorsOffering(userName);
+			for (VendorDataAggregatorsOffering dataAggreOffering : offerings) {
 				if (dataAggreOffering.getProductId().equals(productId)) {
 					offering = dataAggreOffering;
 					break;
 				}
 			}
-			if(offering == null) {
+			if (offering == null) {
 				logger.error("Selected Offering does not belong to logged in User !!");
 			} else {
 				vendorOffering = new VendorDataAggregatorsOfferingJson();
@@ -2623,20 +2608,19 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setFeedType(offering.getOfferingDistribution().getFeedType());
 				vendorOffering.setFeedSubType(offering.getOfferingDistribution().getFeedSubType());
 				vendorOffering.setFrequency(offering.getOfferingDistribution().getFrequency());
-			}			
+			}
 		} catch (Exception exp) {
-			logger.error("Error Fetching Market Data Aggregator Offering for product {}", productId, exp); 
+			logger.error("Error Fetching Market Data Aggregator Offering for product {}", productId, exp);
 		}
 		logger.debug("Leaving  - VendorController : fetchDataAggregatorOffering for product {}", productId);
 		return vendorOffering;
 	}
-		
+
 	/* Vendor Data Aggregator Offering End */
-	
-	
+
 	/* Vendor Trading Applications Offering Begin */
-	
-	@RequestMapping(value="addTradingApplicationsOffering", method = RequestMethod.POST)
+
+	@RequestMapping(value = "addTradingApplicationsOffering", method = RequestMethod.POST)
 	public ModelAndView addTradingApplicationsOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "productName", required = true) String productName,
@@ -2668,35 +2652,35 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "algoTradeType", required = false) String algoTradeType,
 			@RequestParam(value = "darkpoolAccess", required = false) String darkpoolAccess,
 			@RequestParam(value = "darkpoolVenues", required = false) String darkpoolVenues) {
-		
+
 		logger.debug("Entering  - VendorController : addTradingApplicationsOffering");
 		ModelAndView modelAndView = new ModelAndView("empty");
-		
+
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
-			
+
 			VendorTradingApplicationsOffering tradeAppOffering = new VendorTradingApplicationsOffering();
 			VendorTradingApplicationsSoftwareDetails softDetails = new VendorTradingApplicationsSoftwareDetails();
 			VendorTradingApplicationsTradingCapability tradeCapability = new VendorTradingApplicationsTradingCapability();
-			
-			if(productId == null || productId.trim().equals("")) {
-				productId = UUID.randomUUID().toString(); 
+
+			if (productId == null || productId.trim().equals("")) {
+				productId = UUID.randomUUID().toString();
 			}
 			tradeAppOffering.setProductId(productId);
 			tradeAppOffering.setProductName(productName);
 			tradeAppOffering.setProductDescription(productDescription);
 			tradeAppOffering.setLaunchedYear(launchedYear);
-			AssetClass assetClass = (AssetClass)marketDataAggregatorsService.getModelObjectById(
-					AssetClass.class, assetClassId);
+			AssetClass assetClass = (AssetClass) marketDataAggregatorsService.getModelObjectById(AssetClass.class,
+					assetClassId);
 			tradeAppOffering.setAssetClass(assetClass);
 			tradeAppOffering.setSecurityTypes(securityTypes);
 			tradeAppOffering.setVendor(vendor);
-		
+
 			softDetails.setProductId(productId);
 			softDetails.setAccessbility(accessbility);
 			softDetails.setSuitability(suitability);
@@ -2715,7 +2699,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			softDetails.setStreamingNews(streamingNews);
 			softDetails.setTradeUsingCharts(tradeUsingCharts);
 			tradeAppOffering.setSoftwareDetails(softDetails);
-						
+
 			tradeCapability.setProductId(productId);
 			tradeCapability.setTradRegion(tradRegion);
 			tradeCapability.setTradCountry(tradCountry);
@@ -2726,87 +2710,82 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			tradeCapability.setDarkpoolAccess(darkpoolAccess);
 			tradeCapability.setDarkpoolVenues(darkpoolVenues);
 			tradeAppOffering.setTradingCapability(tradeCapability);
-					
+
 			vendorService.addVendorTradingApplicationsOffering(tradeAppOffering);
 		} catch (Exception exp) {
-			logger.error("Error Saving Trading Applications Offering", exp); 
+			logger.error("Error Saving Trading Applications Offering", exp);
 			modelAndView.addObject("status", "Error Updating Offering details");
 		}
 		modelAndView.addObject("status", "Offering details Updated successfully");
 		logger.debug("Leaving  - VendorController : addTradingApplicationsOffering");
 		return modelAndView;
-		
+
 	}
-	
-	@RequestMapping(value="deleteTradingApplicationsOffering", method = RequestMethod.POST)
-	public ModelAndView deleteTradingApplicationsOffering(
-			HttpServletRequest request,
+
+	@RequestMapping(value = "deleteTradingApplicationsOffering", method = RequestMethod.POST)
+	public ModelAndView deleteTradingApplicationsOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = true) String productId) {
-		
-		logger.debug("Entering  - VendorController : deleteTradingApplicationsOffering for product {}", 
-				productId);
+
+		logger.debug("Entering  - VendorController : deleteTradingApplicationsOffering for product {}", productId);
 		ModelAndView modelAndView = new ModelAndView("empty");
 		List<VendorTradingApplicationsOffering> offerings = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			boolean matchFound = false;
 			offerings = vendorService.getVendorTradingApplicationsOffering(userName);
-			for(VendorTradingApplicationsOffering offering : offerings) {
+			for (VendorTradingApplicationsOffering offering : offerings) {
 				if (offering.getProductId().equals(productId)) {
 					matchFound = true;
 					break;
 				}
 			}
-			if(matchFound) {
+			if (matchFound) {
 				vendorService.deleteVendorTradingApplicationsOffering(productId);
 				modelAndView.addObject("status", "Successfully deleted Offering record");
 			} else {
 				logger.error("Selected Offering does not belong to logged in User !!");
 				modelAndView.addObject("status", "Error deleting Offering record");
 			}
-			
+
 		} catch (Exception exp) {
-			logger.error("Error Deleting Trading Applications Offering for Product {}", 
-					productId, exp); 
+			logger.error("Error Deleting Trading Applications Offering for Product {}", productId, exp);
 			modelAndView.addObject("status", "Error deleting Offering record");
 		}
-		logger.debug("Leaving  - VendorController : deleteTradingApplicationsOffering for product {}", 
-				productId);
+		logger.debug("Leaving  - VendorController : deleteTradingApplicationsOffering for product {}", productId);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="listTradingApplicationsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+
+	@RequestMapping(value = "listTradingApplicationsOffering", method = { RequestMethod.POST, RequestMethod.GET })
 	public @ResponseBody List<VendorTradingApplicationsOfferingJson> listTradingApplicationsOffering(
 			HttpServletRequest request, HttpServletResponse response) {
-		
+
 		logger.debug("Entering  - VendorController : listTradingApplicationsOffering");
 		List<VendorTradingApplicationsOffering> offerings = null;
 		List<VendorTradingApplicationsOfferingJson> jsonOfferings = new ArrayList<VendorTradingApplicationsOfferingJson>();
 		String userName = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				request.getRequestDispatcher("/").forward(request, response);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			userName = loggedInUser.getUsername();
-			offerings = vendorService.
-					getVendorTradingApplicationsOffering(userName);
-			populateJsonVendorTradingApplicationsOfferingList(offerings, jsonOfferings);			
+			offerings = vendorService.getVendorTradingApplicationsOffering(userName);
+			populateJsonVendorTradingApplicationsOfferingList(offerings, jsonOfferings);
 		} catch (Exception exp) {
-			logger.error("Error Reading Trading Applications Offering for {}", userName, exp); 
-			
+			logger.error("Error Reading Trading Applications Offering for {}", userName, exp);
+
 		}
 		logger.debug("Leaving  - VendorController : listTradingApplicationsOffering");
 		return jsonOfferings;
 	}
-	
+
 	private void populateJsonVendorTradingApplicationsOfferingList(List<VendorTradingApplicationsOffering> offerings,
 			List<VendorTradingApplicationsOfferingJson> jsonOfferings) {
-		for(VendorTradingApplicationsOffering offering : offerings) {
+		for (VendorTradingApplicationsOffering offering : offerings) {
 			VendorTradingApplicationsOfferingJson jsonOffering = new VendorTradingApplicationsOfferingJson();
 			jsonOffering.setProductId(offering.getProductId());
 			jsonOffering.setProductName(offering.getProductName());
@@ -2819,32 +2798,31 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			jsonOfferings.add(jsonOffering);
 		}
 	}
-	
-	@RequestMapping(value="fetchTradingApplicationsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+
+	@RequestMapping(value = "fetchTradingApplicationsOffering", method = { RequestMethod.POST, RequestMethod.GET })
 	public @ResponseBody VendorTradingApplicationsOfferingJson fetchTradingApplicationsOffering(
 			HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "productId", required = true) String productId) {
-		
-		logger.debug("Entering  - VendorController : fetchTradingApplicationsOffering for product {}", 
-				productId);
+
+		logger.debug("Entering  - VendorController : fetchTradingApplicationsOffering for product {}", productId);
 		VendorTradingApplicationsOfferingJson vendorOffering = null;
 
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				request.getRequestDispatcher("/").forward(request, response);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			VendorTradingApplicationsOffering offering = null;
-			List<VendorTradingApplicationsOffering> offerings = vendorService.
-					getVendorTradingApplicationsOffering(userName);
-			for(VendorTradingApplicationsOffering tradingAppOffering : offerings) {
+			List<VendorTradingApplicationsOffering> offerings = vendorService
+					.getVendorTradingApplicationsOffering(userName);
+			for (VendorTradingApplicationsOffering tradingAppOffering : offerings) {
 				if (tradingAppOffering.getProductId().equals(productId)) {
 					offering = tradingAppOffering;
 					break;
 				}
 			}
-			if(offering == null) {
+			if (offering == null) {
 				logger.error("Selected Offering does not belong to logged in User !!");
 			} else {
 				vendorOffering = new VendorTradingApplicationsOfferingJson();
@@ -2855,7 +2833,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setAssetClassDescription(offering.getAssetClass().getDescription());
 				vendorOffering.setSecurityTypes(offering.getSecurityTypes());
 				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
-				
+
 				vendorOffering.setAccessbility(offering.getSoftwareDetails().getAccessbility());
 				vendorOffering.setSuitability(offering.getSoftwareDetails().getSuitability());
 				vendorOffering.setCostType(offering.getSoftwareDetails().getCostType());
@@ -2872,7 +2850,7 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setWatchlist(offering.getSoftwareDetails().getWatchlist());
 				vendorOffering.setStreamingNews(offering.getSoftwareDetails().getStreamingNews());
 				vendorOffering.setTradeUsingCharts(offering.getSoftwareDetails().getTradeUsingCharts());
-				
+
 				vendorOffering.setTradRegion(offering.getTradingCapability().getTradRegion());
 				vendorOffering.setTradCountry(offering.getTradingCapability().getTradCountry());
 				vendorOffering.setTradExchange(offering.getTradingCapability().getTradExchange());
@@ -2881,125 +2859,162 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setAlgoTradeType(offering.getTradingCapability().getAlgoTradeType());
 				vendorOffering.setDarkpoolAccess(offering.getTradingCapability().getDarkpoolAccess());
 				vendorOffering.setDarkpoolVenues(offering.getTradingCapability().getDarkpoolVenues());
-			}			
+			}
 		} catch (Exception exp) {
-			logger.error("Error Fetching Trading Applications Offering for product {}", 
-					productId, exp); 
+			logger.error("Error Fetching Trading Applications Offering for product {}", productId, exp);
 		}
-		logger.debug("Leaving  - VendorController : fetchTradingApplicationsOffering for product {}", 
-				productId);
+		logger.debug("Leaving  - VendorController : fetchTradingApplicationsOffering for product {}", productId);
 		return vendorOffering;
 	}
-		
+
 	/* Vendor Trading Applications Offering End */
-	
-	
+
 	/* Vendor Research Reports Offering Begin */
-	
-	/*@RequestMapping(value="addResearchReportsOffering", method = RequestMethod.POST)
-	public ModelAndView addResearchReportsOffering(HttpServletRequest request,
-			@RequestParam(value = "productId", required = false) String productId,
-			@RequestParam(value = "researchReportName", required = true) String productName,
-			@RequestParam(value = "researchReportDescription", required = true) String productDescription,
-			@RequestParam(value = "researchAreaId", required = true) int researchAreaId,
-			@RequestParam(value = "researchSubAreas", required = true) String researchSubAreas,
-			@RequestParam(value = "stocksFundsIssuesCovered", required = false) String stocksFundsIssuesCovered,
-			@RequestParam(value = "launchedYear", required = false) String launchedYear,
-			@RequestParam(value = "regionsCovered", required = false) String regionsCovered,
-			@RequestParam(value = "countriesCovered", required = false) String countriesCovered,
-			@RequestParam(value = "totalResearchAnalyst", required = false) int totalResearchAnalyst,
-			@RequestParam(value = "existingClientBase", required = false) String existingClientBase,
-			@RequestParam(value = "accessibility", required = false) String accessibility,
-			@RequestParam(value = "suitability", required = false) String suitability,
-			@RequestParam(value = "reportCostType", required = false) String reportCostType,
-			@RequestParam(value = "costPerMonth", required = false) float costPerMonth,
-			@RequestParam(value = "costPerAnnum", required = false) float costPerAnnum,
-			@RequestParam(value = "reportFormat", required = false) String reportFormat,
-			@RequestParam(value = "researchPeriodMonth", required = false) String researchPeriodMonth,
-			@RequestParam(value = "researchPeriodYear", required = false) String researchPeriodYear,
-			@RequestParam(value = "analystName", required = true) String analystName,
-			@RequestParam(value = "analystRegion", required = true) int analystRegion,
-			@RequestParam(value = "analystCountry", required = true) int analystCountry,
-			@RequestParam(value = "anaystYearOfExperience", required = false) String anaystYearOfExperience,
-			@RequestParam(value = "analystAwards", required = false) String analystAwards,
-			@RequestParam(value = "analystCfaCharter", required = false) String analystCfaCharter) {
-		
-		logger.debug("Entering  - VendorController : addResearchReportsOffering");
-		ModelAndView modelAndView = new ModelAndView("empty");
-		
-		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
-				return new ModelAndView(RequestConstans.Login.HOME);
-			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
-			String userName = loggedInUser.getUsername();
-			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
-			
-			VendorResearchReportsOffering researchReportsOffering = new VendorResearchReportsOffering();
-			VendorResearchReportsCoverageDetails coverageDetails = new VendorResearchReportsCoverageDetails();
-			VendorResearchReportsResearchDetails researchDetails = new VendorResearchReportsResearchDetails();
-			VendorResearchReportsAnalystProfile analystProfile = new VendorResearchReportsAnalystProfile();
-			
-			if(productId == null || productId.trim().equals("")) {
-				productId = UUID.randomUUID().toString(); 
-			}
-			researchReportsOffering.setProductId(productId);
-			researchReportsOffering.setProductName(productName);
-			researchReportsOffering.setProductDescription(productDescription);
-			researchReportsOffering.setLaunchedYear(launchedYear);
-			ResearchArea researchArea = (ResearchArea)marketDataAggregatorsService.getModelObjectById(
-					ResearchArea.class, researchAreaId);
-			researchReportsOffering.setResearchArea(researchArea);
-			researchReportsOffering.setResearchSubArea(researchSubAreas);
-			researchReportsOffering.setStocksFundsIssuesCovered(stocksFundsIssuesCovered);
-			researchReportsOffering.setVendor(vendor);
-		
-			coverageDetails.setProductId(productId);
-			coverageDetails.setRegionsCovered(regionsCovered);
-			coverageDetails.setCountriesCovered(countriesCovered);
-			coverageDetails.setTotalAnalyst(totalResearchAnalyst);
-			coverageDetails.setExistingClientBase(existingClientBase);
-			researchReportsOffering.setCoverageDetails(coverageDetails);
-						
-			researchDetails.setProductId(productId);
-			researchDetails.setAccessbility(accessibility);
-			researchDetails.setSuitability(suitability);
-			researchDetails.setCostType(reportCostType);
-			researchDetails.setSubCostPm(costPerMonth);
-			researchDetails.setSubCostPy(costPerAnnum);
-			researchDetails.setRepFormat(reportFormat);
-			researchDetails.setResPeriodMon(researchPeriodMonth);
-			researchDetails.setResPeriodYear(researchPeriodYear);			
-			researchReportsOffering.setResearchDetails(researchDetails);
-			
-			Region region = (Region)marketDataAggregatorsService.getModelObjectById(
-					Region.class, analystRegion);
-			Country country = (Country)marketDataAggregatorsService.getModelObjectById(
-					Country.class, analystCountry);
-						
-			analystProfile.setProductId(productId);
-			analystProfile.setAnalystName(analystName);
-			analystProfile.setAnalystRegion(region);
-			analystProfile.setAnalystCountry(country);
-			analystProfile.setAnalystYearOfExp(anaystYearOfExperience);
-			analystProfile.setAnalystAwards(analystAwards);			
-			analystProfile.setAnaystCfaCharter(analystCfaCharter);
-			researchReportsOffering.setAnalystProfile(analystProfile);
-			
-			vendorService.addVendorResearchReportsOffering(researchReportsOffering);
-		} catch (Exception exp) {
-			logger.error("Error Saving Research Reports Offering", exp); 
-			modelAndView.addObject("status", "Error Updating Offering details");
-		}
-		modelAndView.addObject("status", "Offering details Updated successfully");
-		logger.debug("Leaving  - VendorController : addResearchReportsOffering");
-		return modelAndView;
-		
-	}
-	*/
-	
-	@RequestMapping(value="addResearchReportsOffering", method = RequestMethod.POST)
-	public ModelAndView addResearchReportsOffering(MultipartHttpServletRequest request, HttpServletResponse response,
+
+	/*
+	 * @RequestMapping(value="addResearchReportsOffering", method =
+	 * RequestMethod.POST) public ModelAndView
+	 * addResearchReportsOffering(HttpServletRequest request,
+	 * 
+	 * @RequestParam(value = "productId", required = false) String productId,
+	 * 
+	 * @RequestParam(value = "researchReportName", required = true) String
+	 * productName,
+	 * 
+	 * @RequestParam(value = "researchReportDescription", required = true) String
+	 * productDescription,
+	 * 
+	 * @RequestParam(value = "researchAreaId", required = true) int researchAreaId,
+	 * 
+	 * @RequestParam(value = "researchSubAreas", required = true) String
+	 * researchSubAreas,
+	 * 
+	 * @RequestParam(value = "stocksFundsIssuesCovered", required = false) String
+	 * stocksFundsIssuesCovered,
+	 * 
+	 * @RequestParam(value = "launchedYear", required = false) String launchedYear,
+	 * 
+	 * @RequestParam(value = "regionsCovered", required = false) String
+	 * regionsCovered,
+	 * 
+	 * @RequestParam(value = "countriesCovered", required = false) String
+	 * countriesCovered,
+	 * 
+	 * @RequestParam(value = "totalResearchAnalyst", required = false) int
+	 * totalResearchAnalyst,
+	 * 
+	 * @RequestParam(value = "existingClientBase", required = false) String
+	 * existingClientBase,
+	 * 
+	 * @RequestParam(value = "accessibility", required = false) String
+	 * accessibility,
+	 * 
+	 * @RequestParam(value = "suitability", required = false) String suitability,
+	 * 
+	 * @RequestParam(value = "reportCostType", required = false) String
+	 * reportCostType,
+	 * 
+	 * @RequestParam(value = "costPerMonth", required = false) float costPerMonth,
+	 * 
+	 * @RequestParam(value = "costPerAnnum", required = false) float costPerAnnum,
+	 * 
+	 * @RequestParam(value = "reportFormat", required = false) String reportFormat,
+	 * 
+	 * @RequestParam(value = "researchPeriodMonth", required = false) String
+	 * researchPeriodMonth,
+	 * 
+	 * @RequestParam(value = "researchPeriodYear", required = false) String
+	 * researchPeriodYear,
+	 * 
+	 * @RequestParam(value = "analystName", required = true) String analystName,
+	 * 
+	 * @RequestParam(value = "analystRegion", required = true) int analystRegion,
+	 * 
+	 * @RequestParam(value = "analystCountry", required = true) int analystCountry,
+	 * 
+	 * @RequestParam(value = "anaystYearOfExperience", required = false) String
+	 * anaystYearOfExperience,
+	 * 
+	 * @RequestParam(value = "analystAwards", required = false) String
+	 * analystAwards,
+	 * 
+	 * @RequestParam(value = "analystCfaCharter", required = false) String
+	 * analystCfaCharter) {
+	 * 
+	 * logger.debug("Entering  - VendorController : addResearchReportsOffering");
+	 * ModelAndView modelAndView = new ModelAndView("empty");
+	 * 
+	 * try { if(request.getSession().getAttribute("loggedInUser") == null){ return
+	 * new ModelAndView(RequestConstans.Login.HOME); } User loggedInUser =
+	 * (User)request.getSession().getAttribute("loggedInUser"); String userName =
+	 * loggedInUser.getUsername(); Vendor vendor =
+	 * userService.getUserDetailsByUsername(userName).getVendor();
+	 * 
+	 * VendorResearchReportsOffering researchReportsOffering = new
+	 * VendorResearchReportsOffering(); VendorResearchReportsCoverageDetails
+	 * coverageDetails = new VendorResearchReportsCoverageDetails();
+	 * VendorResearchReportsResearchDetails researchDetails = new
+	 * VendorResearchReportsResearchDetails(); VendorResearchReportsAnalystProfile
+	 * analystProfile = new VendorResearchReportsAnalystProfile();
+	 * 
+	 * if(productId == null || productId.trim().equals("")) { productId =
+	 * UUID.randomUUID().toString(); }
+	 * researchReportsOffering.setProductId(productId);
+	 * researchReportsOffering.setProductName(productName);
+	 * researchReportsOffering.setProductDescription(productDescription);
+	 * researchReportsOffering.setLaunchedYear(launchedYear); ResearchArea
+	 * researchArea = (ResearchArea)marketDataAggregatorsService.getModelObjectById(
+	 * ResearchArea.class, researchAreaId);
+	 * researchReportsOffering.setResearchArea(researchArea);
+	 * researchReportsOffering.setResearchSubArea(researchSubAreas);
+	 * researchReportsOffering.setStocksFundsIssuesCovered(stocksFundsIssuesCovered)
+	 * ; researchReportsOffering.setVendor(vendor);
+	 * 
+	 * coverageDetails.setProductId(productId);
+	 * coverageDetails.setRegionsCovered(regionsCovered);
+	 * coverageDetails.setCountriesCovered(countriesCovered);
+	 * coverageDetails.setTotalAnalyst(totalResearchAnalyst);
+	 * coverageDetails.setExistingClientBase(existingClientBase);
+	 * researchReportsOffering.setCoverageDetails(coverageDetails);
+	 * 
+	 * researchDetails.setProductId(productId);
+	 * researchDetails.setAccessbility(accessibility);
+	 * researchDetails.setSuitability(suitability);
+	 * researchDetails.setCostType(reportCostType);
+	 * researchDetails.setSubCostPm(costPerMonth);
+	 * researchDetails.setSubCostPy(costPerAnnum);
+	 * researchDetails.setRepFormat(reportFormat);
+	 * researchDetails.setResPeriodMon(researchPeriodMonth);
+	 * researchDetails.setResPeriodYear(researchPeriodYear);
+	 * researchReportsOffering.setResearchDetails(researchDetails);
+	 * 
+	 * Region region = (Region)marketDataAggregatorsService.getModelObjectById(
+	 * Region.class, analystRegion); Country country =
+	 * (Country)marketDataAggregatorsService.getModelObjectById( Country.class,
+	 * analystCountry);
+	 * 
+	 * analystProfile.setProductId(productId);
+	 * analystProfile.setAnalystName(analystName);
+	 * analystProfile.setAnalystRegion(region);
+	 * analystProfile.setAnalystCountry(country);
+	 * analystProfile.setAnalystYearOfExp(anaystYearOfExperience);
+	 * analystProfile.setAnalystAwards(analystAwards);
+	 * analystProfile.setAnaystCfaCharter(analystCfaCharter);
+	 * researchReportsOffering.setAnalystProfile(analystProfile);
+	 * 
+	 * vendorService.addVendorResearchReportsOffering(researchReportsOffering); }
+	 * catch (Exception exp) {
+	 * logger.error("Error Saving Research Reports Offering", exp);
+	 * modelAndView.addObject("status", "Error Updating Offering details"); }
+	 * modelAndView.addObject("status", "Offering details Updated successfully");
+	 * logger.debug("Leaving  - VendorController : addResearchReportsOffering");
+	 * return modelAndView;
+	 * 
+	 * }
+	 */
+
+	@RequestMapping(value = "addResearchReportsOffering", method = RequestMethod.POST)
+	public ModelAndView addResearchReportsOffering(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "productName", required = true) String productName,
 			@RequestParam(value = "productDescription", required = true) String productDescription,
@@ -3007,138 +3022,143 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "rcResearchSubArea", required = true) String researchSubAreas,
 			@RequestParam(value = "stocksFundsIssuesCovered", required = false) String stocksFundsIssuesCovered,
 			@RequestParam(value = "launchedYear", required = false) String launchedYear,
-//			@RequestParam(value = "regionsCovered", required = false) String regionsCovered,
-//			@RequestParam(value = "countriesCovered", required = false) String countriesCovered,
-//			@RequestParam(value = "totalResearchAnalyst", required = false) int totalResearchAnalyst,
-//			@RequestParam(value = "existingClientBase", required = false) String existingClientBase,
-//			@RequestParam(value = "accessibility", required = false) String accessibility,
+			// @RequestParam(value = "regionsCovered", required = false) String
+			// regionsCovered,
+			// @RequestParam(value = "countriesCovered", required = false) String
+			// countriesCovered,
+			// @RequestParam(value = "totalResearchAnalyst", required = false) int
+			// totalResearchAnalyst,
+			// @RequestParam(value = "existingClientBase", required = false) String
+			// existingClientBase,
+			// @RequestParam(value = "accessibility", required = false) String
+			// accessibility,
 			@RequestParam(value = "rdSuitability", required = false) String suitability,
-//			@RequestParam(value = "reportCostType", required = false) String reportCostType,
-//			@RequestParam(value = "costPerMonth", required = false) float costPerMonth,
+			// @RequestParam(value = "reportCostType", required = false) String
+			// reportCostType,
+			// @RequestParam(value = "costPerMonth", required = false) float costPerMonth,
 			@RequestParam(value = "rdSubsriptionCostUSDperannum", required = false) float costPerAnnum,
-			
 			@RequestParam(value = "vo_rr_report_for", required = false) String researchReportFor,
 			@RequestParam(value = "vo_datepicker", required = false) String researchReportDate,
 			@RequestParam(value = "vo_target_price", required = false) String researchTargetPrice,
 			@RequestParam(value = "vo_eqrrv_recommendation_type", required = false) String researchRecommendationType,
 			@RequestParam(value = "vo_eqrrv_report_desc", required = false) String researchReportDesc,
 			@RequestParam(value = "vo_eqrrv_report_access", required = false) String researchReportAccess,
-			
-
-			
-//			@RequestParam(value = "reportFormat", required = false) String reportFormat,
-//			@RequestParam(value = "researchPeriodMonth", required = false) String researchPeriodMonth,
-//			@RequestParam(value = "researchPeriodYear", required = false) String researchPeriodYear,
+			// @RequestParam(value = "reportFormat", required = false) String reportFormat,
+			// @RequestParam(value = "researchPeriodMonth", required = false) String
+			// researchPeriodMonth,
+			// @RequestParam(value = "researchPeriodYear", required = false) String
+			// researchPeriodYear,
 			@RequestParam(value = "vo_analystName", required = true) String analystName,
-			@RequestParam(value = "vo_upload_report", required = false) String researchUploadReport,
-
-//			@RequestParam(value = "analystRegion", required = true) int analystRegion,
-//			@RequestParam(value = "analystCountry", required = true) int analystCountry,
-//			@RequestParam(value = "anaystYearOfExperience", required = false) String anaystYearOfExperience,
+			// @RequestParam(value = "vo_upload_report", required = false)
+			// CommonsMultipartFile researchUploadReport,
+			// @RequestParam(value = "analystRegion", required = true) int analystRegion,
+			// @RequestParam(value = "analystCountry", required = true) int analystCountry,
+			// @RequestParam(value = "anaystYearOfExperience", required = false) String
+			// anaystYearOfExperience,
 			@RequestParam(value = "vo_analystwithawards", required = false) String analystAwards,
-			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter) {
-		
+			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter,
+			@RequestParam(value = "vo_upload_report", required = false) CommonsMultipartFile multiPartFile) {
+
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
-		
 		ModelAndView modelAndView = new ModelAndView("empty");
-		
+
 		try {
-			
-			if(request.getSession().getAttribute("loggedInUser") == null){
-				return new ModelAndView(RequestConstans.Login.HOME);
-			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			logger.info("with - vo_upload_report field - FileName:" + multiPartFile.getOriginalFilename());
+			logger.info("with - vo_upload_report field - FileSize:" + multiPartFile.getSize());
+			 if(request.getSession().getAttribute("loggedInUser") == null){
+			 return new ModelAndView(RequestConstans.Login.HOME);
+			 }
+			 User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
-			
+
 			VendorResearchReportsOffering researchReportsOffering = new VendorResearchReportsOffering();
 			VendorResearchReportsCoverageDetails coverageDetails = new VendorResearchReportsCoverageDetails();
 			VendorResearchReportsResearchDetails researchDetails = new VendorResearchReportsResearchDetails();
 			VendorResearchReportsAnalystProfile analystProfile = new VendorResearchReportsAnalystProfile();
-			
-			if(productId == null || productId.trim().equals("")) {
-				productId = UUID.randomUUID().toString(); 
+
+			if (productId == null || productId.trim().equals("")) {
+				productId = UUID.randomUUID().toString();
 			}
 			researchReportsOffering.setProductId(productId);
 			researchReportsOffering.setProductName(productName);
 			researchReportsOffering.setProductDescription(productDescription);
 			researchReportsOffering.setLaunchedYear(launchedYear);
-			ResearchArea researchArea = (ResearchArea)marketDataAggregatorsService.getModelObjectById(
-					ResearchArea.class, researchAreaId);
+			ResearchArea researchArea = (ResearchArea) marketDataAggregatorsService.getModelObjectById(ResearchArea.class, researchAreaId);
 			researchReportsOffering.setResearchArea(researchArea);
 			researchReportsOffering.setResearchSubArea(researchSubAreas);
 			researchReportsOffering.setStocksFundsIssuesCovered(stocksFundsIssuesCovered);
 			researchReportsOffering.setVendor(vendor);
-		
+
 			coverageDetails.setProductId(productId);
-		//	coverageDetails.setRegionsCovered(regionsCovered);
-		//	coverageDetails.setCountriesCovered(countriesCovered);
-		//	coverageDetails.setTotalAnalyst(totalResearchAnalyst);
-		//	coverageDetails.setExistingClientBase(existingClientBase);
+			// coverageDetails.setRegionsCovered(regionsCovered);
+			// coverageDetails.setCountriesCovered(countriesCovered);
+			// coverageDetails.setTotalAnalyst(totalResearchAnalyst);
+			// coverageDetails.setExistingClientBase(existingClientBase);
 			researchReportsOffering.setCoverageDetails(coverageDetails);
-						
+
 			researchDetails.setProductId(productId);
-		//	researchDetails.setAccessbility(accessibility);
+			// researchDetails.setAccessbility(accessibility);
 			researchDetails.setSuitability(suitability);
-		//	researchDetails.setCostType(reportCostType);
-		//	researchDetails.setSubCostPm(costPerMonth);
+			// researchDetails.setCostType(reportCostType);
+			// researchDetails.setSubCostPm(costPerMonth);
 			researchDetails.setSubCostPy(costPerAnnum);
-			
-			/*code by rohit*/
+
 			researchDetails.setRsrchReportFor(researchReportFor);
 			researchDetails.setRepDate(researchReportDate);
 			researchDetails.setRsrchRecommType(researchRecommendationType);
 			researchDetails.setRsrchReportAccess(researchReportAccess);
 			researchDetails.setRsrchReportDesc(researchReportDesc);
-			researchDetails.setRsrchUploadReport(researchUploadReport);
+//			researchDetails.setRsrchUploadReport(researchUploadReport);
 			researchDetails.setTargetPrice(researchTargetPrice);
-			
-			
-			
-			logger.info("TARGET PRICE: "+researchDetails.getTargetPrice());
-		//	researchDetails.setRepFormat(reportFormat);
-		//	researchDetails.setResPeriodMon(researchPeriodMonth);
-		//	researchDetails.setResPeriodYear(researchPeriodYear);			
+
+			logger.info("TARGET PRICE: " + researchDetails.getTargetPrice());
+			// researchDetails.setRepFormat(reportFormat);
+			// researchDetails.setResPeriodMon(researchPeriodMonth);
+			// researchDetails.setResPeriodYear(researchPeriodYear);
 			researchReportsOffering.setResearchDetails(researchDetails);
-			
-//			Region region = (Region)marketDataAggregatorsService.getModelObjectById(
-//					Region.class, analystRegion);
-//			Country country = (Country)marketDataAggregatorsService.getModelObjectById(
-//					Country.class, analystCountry);
-						
+
+			// Region region = (Region)marketDataAggregatorsService.getModelObjectById(
+			// Region.class, analystRegion);
+			// Country country =
+			// (Country)marketDataAggregatorsService.getModelObjectById(Country.class,
+			// analystCountry);
+
 			analystProfile.setProductId(productId);
 			analystProfile.setAnalystName(analystName);
-//			analystProfile.setAnalystRegion(region);
-//			analystProfile.setAnalystCountry(country);
-//			analystProfile.setAnalystYearOfExp(anaystYearOfExperience);
-			analystProfile.setAnalystAwards(analystAwards);			
+			// analystProfile.setAnalystRegion(region);
+			// analystProfile.setAnalystCountry(country);
+			// analystProfile.setAnalystYearOfExp(anaystYearOfExperience);
+			analystProfile.setAnalystAwards(analystAwards);
 			analystProfile.setAnaystCfaCharter(analystCfaCharter);
 			researchReportsOffering.setAnalystProfile(analystProfile);
-			
-			Iterator<String> itr =  request.getFileNames();	
-			MultipartFile multiPartFile = request.getFile(itr.next());
+
 			// Build Vendor research report offering file path using logged in user name
 			String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
-			logger.info("Research Reports Offering file baasepath:"+basePath);
-			
-			String reportResearchOfferingFilePath = StringUtil.builtPath(multiPartFile.getOriginalFilename(), basePath, userName);
-			logger.info("Research Reports Offering filepath:"+reportResearchOfferingFilePath);
-			
-			researchReportsOffering.setResearchReportOfferingFilePath(reportResearchOfferingFilePath);
+			logger.info("Research Reports Offering file baasepath:" + basePath);
+
+			logger.info("Multipart (vo_upload_report form field) FileName:" + multiPartFile.getOriginalFilename());
+			logger.info("Multipart (vo_upload_report form field) FileSize:" + multiPartFile.getSize());
+
+			String reportResearchOfferingFilePath = StringUtil.builtPath(multiPartFile.getOriginalFilename(), basePath,	userName);
+			logger.info("Research Reports Offering filepath:" + reportResearchOfferingFilePath);
+
+			researchReportsOffering.setRsrchUploadReport(reportResearchOfferingFilePath);
 			vendorService.addVendorResearchReportsOffering(researchReportsOffering);
 
 			// upload Vendor Research Report Offering file to server
-			boolean uploadFileStatus = vendorService.uploadFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING, multiPartFile.getBytes(), reportResearchOfferingFilePath);
-			logger.info("Research Reports Offering file uploaded status:"+uploadFileStatus);
-		
+			boolean uploadFileStatus = vendorService.uploadFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING,
+					multiPartFile.getBytes(), reportResearchOfferingFilePath);
+			logger.info("Research Reports Offering file uploaded status:" + uploadFileStatus);
+
 			// If Upload file failed somehow then delete corresponding entry from ven_rsrch_rpt_offering table
-			if ( ! uploadFileStatus) {
+			if (!uploadFileStatus) {
 				vendorService.deleteVendorResearchReportsOffering(productId);
 			} else {
-				logger.info("Research Reports Offering file uploaded file successfully at server path:" + reportResearchOfferingFilePath);
+				logger.info("Research Reports Offering file uploaded file successfully at server path:"	+ reportResearchOfferingFilePath);
 			}
 		} catch (Exception exp) {
-			logger.error("Error Saving Research Reports Offering", exp); 
+			logger.error("Error Saving Research Reports Offering", exp);
 			modelAndView.addObject("status", "Error Updating Offering details");
 		}
 		modelAndView.addObject("status", "Offering details Updated successfully");
@@ -3146,54 +3166,52 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		return modelAndView;
 	}
 
-	@RequestMapping(value="deleteResearchReportsOffering", method = RequestMethod.POST)
-	public ModelAndView deleteResearchReportsOffering(
-			HttpServletRequest request,
+	@RequestMapping(value = "deleteResearchReportsOffering", method = RequestMethod.POST)
+	public ModelAndView deleteResearchReportsOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = true) String productId) {
-		
-		logger.debug("Entering  - VendorController : deleteResearchReportsOffering for product {}", 
-				productId);
+
+		logger.debug("Entering  - VendorController : deleteResearchReportsOffering for product {}", productId);
 		ModelAndView modelAndView = new ModelAndView("empty");
 		List<VendorResearchReportsOffering> offerings = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			boolean matchFound = false;
 			offerings = vendorService.getVendorResearchReportsOffering(userName);
-			String researchReportOfferingFilePath = null;
-			for(VendorResearchReportsOffering offering : offerings) {
+			String voFilePath = null;
+			for (VendorResearchReportsOffering offering : offerings) {
 				if (offering.getProductId().equals(productId)) {
 					matchFound = true;
-					researchReportOfferingFilePath=offering.getResearchReportOfferingFilePath();
+					voFilePath = offering.getRsrchUploadReport();
 					break;
 				}
 			}
-			if(matchFound) {
+			if (matchFound) {
 				vendorService.deleteVendorResearchReportsOffering(productId);
-				vendorService.deleteFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING, researchReportOfferingFilePath);
+				if (voFilePath != null && !voFilePath.isEmpty()) {
+					vendorService.deleteFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING, voFilePath);
+				}
 				modelAndView.addObject("status", "Successfully deleted Offering record");
 			} else {
 				logger.error("Selected Offering does not belong to logged in User !!");
 				modelAndView.addObject("status", "Error deleting Offering record");
 			}
-			
+
 		} catch (Exception exp) {
-			logger.error("Error Deleting Research Reports Offering for Product {}", 
-					productId, exp); 
+			logger.error("Error Deleting Research Reports Offering for Product {}", productId, exp);
 			modelAndView.addObject("status", "Error deleting Offering record");
 		}
-		logger.debug("Leaving  - VendorController : deleteResearchReportsOffering for product {}", 
-				productId);
+		logger.debug("Leaving  - VendorController : deleteResearchReportsOffering for product {}", productId);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="listResearchReportsOffering", method = {RequestMethod.POST, RequestMethod.GET})
-	public @ResponseBody List<VendorResearchReportsOfferingJson> listResearchReportsOffering(
-			HttpServletRequest request, HttpServletResponse response) {
-		
+
+	@RequestMapping(value = "listResearchReportsOffering", method = { RequestMethod.POST, RequestMethod.GET })
+	public @ResponseBody List<VendorResearchReportsOfferingJson> listResearchReportsOffering(HttpServletRequest request,
+			HttpServletResponse response) {
+
 		logger.debug("Entering  - VendorController : listResearchReportsOffering");
 		logger.info("vendor offering research report for ********: ");
 		System.out.println("vendor offering research report for ********: ");
@@ -3201,72 +3219,71 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
 		try {
-//			if(request.getSession().getAttribute("loggedInUser") == null){
-//				request.getRequestDispatcher("/").forward(request, response);
-//			}
-//			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
-//			userName = loggedInUser.getUsername();
-			userName="amit_vendor";
-			offerings = vendorService.
-					getVendorResearchReportsOffering(userName);
-			System.out.println("vendor offering research report for ********: " +offerings.get(8).getResearchDetails().getRsrchReportFor());
-			
-			populateVendorResearchReportsOfferingJsonList(offerings, jsonOfferings);			
+			// if(request.getSession().getAttribute("loggedInUser") == null){
+			// request.getRequestDispatcher("/").forward(request, response);
+			// }
+			// User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
+			// userName = loggedInUser.getUsername();
+			userName = "amit_vendor";
+			offerings = vendorService.getVendorResearchReportsOffering(userName);
+			System.out.println("vendor offering research report for ********: "
+					+ offerings.get(8).getResearchDetails().getRsrchReportFor());
+
+			populateVendorResearchReportsOfferingJsonList(offerings, jsonOfferings);
 		} catch (Exception exp) {
-			logger.error("Error Reading Trading Applications Offering for {}", userName, exp); 
-			
+			logger.error("Error Reading Trading Applications Offering for {}", userName, exp);
+
 		}
 		logger.debug("Leaving  - VendorController : listTradingApplicationsOffering");
 		return jsonOfferings;
 	}
-	
+
 	private void populateVendorResearchReportsOfferingJsonList(List<VendorResearchReportsOffering> offerings,
 			List<VendorResearchReportsOfferingJson> jsonOfferings) {
-		for(VendorResearchReportsOffering offering : offerings) {
-//		logger.info("****************   : "+offering.getResearchDetails().getResearchReportFor());
+		for (VendorResearchReportsOffering offering : offerings) {
+			// logger.info("**************** :
+			// "+offering.getResearchDetails().getResearchReportFor());
 			VendorResearchReportsOfferingJson jsonOffering = new VendorResearchReportsOfferingJson();
 			jsonOffering.setProductId(offering.getProductId());
 			jsonOffering.setProductName(offering.getProductName());
 			jsonOffering.setProductDescription(offering.getProductDescription());
 			jsonOffering.setResearchArea(offering.getResearchArea().getResearchAreaId());
-//			jsonOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
+			// jsonOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
 			jsonOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
-//			System.out.println("Offering.getResearchReportFor is :" +offering.getResearchDetails().getRsrchReportFor( );
+			// System.out.println("Offering.getResearchReportFor is :"
+			// +offering.getResearchDetails().getRsrchReportFor( );
 			jsonOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
-			
-//			jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
-//			jsonOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
-			jsonOffering.setResearchReportOfferingFilePath(offering.getResearchReportOfferingFilePath());
+
+			// jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
+			// jsonOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
+			jsonOffering.setRsrchUploadReport(offering.getRsrchUploadReport());
 			jsonOfferings.add(jsonOffering);
 		}
 	}
-	
-	@RequestMapping(value="fetchResearchReportsOffering", method = {RequestMethod.POST, RequestMethod.GET})
-	public @ResponseBody VendorResearchReportsOfferingJson fetchResearchReportsOffering(
-			HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value = "productId", required = true) String productId) {
-		
-		logger.debug("Entering  - VendorController : fetchResearchReportsOffering for product {}", 
-				productId);
+
+	@RequestMapping(value = "fetchResearchReportsOffering", method = { RequestMethod.POST, RequestMethod.GET })
+	public @ResponseBody VendorResearchReportsOfferingJson fetchResearchReportsOffering(HttpServletRequest request,
+			HttpServletResponse response, @RequestParam(value = "productId", required = true) String productId) {
+
+		logger.debug("Entering  - VendorController : fetchResearchReportsOffering for product {}", productId);
 		VendorResearchReportsOfferingJson vendorOffering = null;
 
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				request.getRequestDispatcher("/").forward(request, response);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			VendorResearchReportsOffering offering = null;
-			List<VendorResearchReportsOffering> offerings = vendorService.
-					getVendorResearchReportsOffering(userName);
-			for(VendorResearchReportsOffering researchReportOffering : offerings) {
+			List<VendorResearchReportsOffering> offerings = vendorService.getVendorResearchReportsOffering(userName);
+			for (VendorResearchReportsOffering researchReportOffering : offerings) {
 				if (researchReportOffering.getProductId().equals(productId)) {
 					offering = researchReportOffering;
 					break;
 				}
 			}
-			if(offering == null) {
+			if (offering == null) {
 				logger.error("Selected Offering does not belong to logged in User !!");
 			} else {
 				vendorOffering = new VendorResearchReportsOfferingJson();
@@ -3274,62 +3291,71 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setProductName(offering.getProductName());
 				vendorOffering.setProductDescription(offering.getProductDescription());
 				vendorOffering.setResearchArea(offering.getResearchArea().getResearchAreaId());
-//				vendorOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
+				// vendorOffering.setResearchAreaDescription(offering.getResearchArea().getDescription());
 				vendorOffering.setResearchSubArea(offering.getResearchSubArea());
 				vendorOffering.setStocksFundsIssuesCovered(offering.getStocksFundsIssuesCovered());
 				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
 				vendorOffering.setTargetPrice(offering.getResearchDetails().getTargetPrice());
-				/*vendorOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
-				vendorOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
-				vendorOffering.setTotalAnalyst(offering.getCoverageDetails().getTotalAnalyst());
-				vendorOffering.setExistingClientBase(offering.getCoverageDetails().getExistingClientBase());*/
-				
-				//vendorOffering.setAccessbility(offering.getResearchDetails().getAccessbility());
+				/*
+				 * vendorOffering.setRegionsCovered(offering.getCoverageDetails().
+				 * getRegionsCovered());
+				 * vendorOffering.setCountriesCovered(offering.getCoverageDetails().
+				 * getCountriesCovered());
+				 * vendorOffering.setTotalAnalyst(offering.getCoverageDetails().getTotalAnalyst(
+				 * )); vendorOffering.setExistingClientBase(offering.getCoverageDetails().
+				 * getExistingClientBase());
+				 */
+
+				// vendorOffering.setAccessbility(offering.getResearchDetails().getAccessbility());
 				vendorOffering.setSuitability(offering.getResearchDetails().getSuitability());
-				//vendorOffering.setCostType(offering.getResearchDetails().getCostType());
-				//vendorOffering.setSubCostPm(offering.getResearchDetails().getSubCostPm());
+				// vendorOffering.setCostType(offering.getResearchDetails().getCostType());
+				// vendorOffering.setSubCostPm(offering.getResearchDetails().getSubCostPm());
 				vendorOffering.setSubCostPy(offering.getResearchDetails().getSubCostPy());
-				//vendorOffering.setRepFormat(offering.getResearchDetails().getRepFormat());
-				//vendorOffering.setResPeriodMon(offering.getResearchDetails().getResPeriodMon());
-				//vendorOffering.setResPeriodYear(offering.getResearchDetails().getResPeriodYear());
-				
+				// vendorOffering.setRepFormat(offering.getResearchDetails().getRepFormat());
+				// vendorOffering.setResPeriodMon(offering.getResearchDetails().getResPeriodMon());
+				// vendorOffering.setResPeriodYear(offering.getResearchDetails().getResPeriodYear());
+
 				vendorOffering.setAnalystName(offering.getAnalystProfile().getAnalystName());
-				/*vendorOffering.setAnalystRegion(offering.getAnalystProfile().getAnalystRegion().getRegion_id());
-				vendorOffering.setAnalystRegionDescription(offering.getAnalystProfile().getAnalystRegion().getName());
-				vendorOffering.setAnalystCountry(offering.getAnalystProfile().getAnalystCountry().getCountry_id());
-				vendorOffering.setAnalystCountryDescription(offering.getAnalystProfile().getAnalystCountry().getName());
-				vendorOffering.setAnalystYearOfExp(offering.getAnalystProfile().getAnalystYearOfExp());*/
+				/*
+				 * vendorOffering.setAnalystRegion(offering.getAnalystProfile().getAnalystRegion
+				 * ().getRegion_id());
+				 * vendorOffering.setAnalystRegionDescription(offering.getAnalystProfile().
+				 * getAnalystRegion().getName());
+				 * vendorOffering.setAnalystCountry(offering.getAnalystProfile().
+				 * getAnalystCountry().getCountry_id());
+				 * vendorOffering.setAnalystCountryDescription(offering.getAnalystProfile().
+				 * getAnalystCountry().getName());
+				 * vendorOffering.setAnalystYearOfExp(offering.getAnalystProfile().
+				 * getAnalystYearOfExp());
+				 */
 				vendorOffering.setAnalystAwards(offering.getAnalystProfile().getAnalystAwards());
 				vendorOffering.setAnaystCfaCharter(offering.getAnalystProfile().getAnaystCfaCharter());
-				
-				// code managed by Rohit
+
 				vendorOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
 				System.out.println("*********************** inside fetch");
-				logger.info("RESEARCH REPORT FOR : "+offering.getResearchDetails().getRsrchReportFor());
-				logger.info("PRODUCT NAME: "+offering.getProductName());
+				logger.info("RESEARCH REPORT FOR : " + offering.getResearchDetails().getRsrchReportFor());
+				logger.info("PRODUCT NAME: " + offering.getProductName());
 				logger.info(vendorOffering.getRsrchReportFor());
 				vendorOffering.setRepDate(offering.getResearchDetails().getRepDate());
 				vendorOffering.setRsrchRecommType(offering.getResearchDetails().getRsrchRecommType());
 				vendorOffering.setRsrchReportDesc(offering.getResearchDetails().getRsrchReportDesc());
-				vendorOffering.setRsrchReportAccess(offering.getResearchDetails().getRsrchReportAccess());;
+				vendorOffering.setRsrchReportAccess(offering.getResearchDetails().getRsrchReportAccess());
 				vendorOffering.setRsrchUploadReport(offering.getResearchDetails().getRsrchUploadReport());
-				vendorOffering.setResearchReportOfferingFilePath(offering.getResearchReportOfferingFilePath());
+				vendorOffering.setRsrchUploadReport(offering.getRsrchUploadReport());
 				logger.info(vendorOffering.toString());
-			}			
+			}
 		} catch (Exception exp) {
-			logger.error("Error Fetching Research Reports Offering for product {}", 
-					productId, exp); 
+			logger.error("Error Fetching Research Reports Offering for product {}", productId, exp);
 		}
-		logger.debug("Leaving  - VendorController : fetchResearchReportsOffering for product {}", 
-				productId);
+		logger.debug("Leaving  - VendorController : fetchResearchReportsOffering for product {}", productId);
 		return vendorOffering;
 	}
-		
+
 	/* Vendor Research Reports Offering End */
-	
+
 	/* Vendor Analytics Applications Offering Begin */
-	
-	@RequestMapping(value="addAnalyticsApplicationsOffering", method = RequestMethod.POST)
+
+	@RequestMapping(value = "addAnalyticsApplicationsOffering", method = RequestMethod.POST)
 	public ModelAndView addAnalyticsApplicationsOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "productName", required = true) String productName,
@@ -3344,38 +3370,38 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			@RequestParam(value = "subCostPy", required = false) float subCostPy,
 			@RequestParam(value = "addOns", required = false) String addOns,
 			@RequestParam(value = "operatingSystem", required = false) String operatingSystem,
-			@RequestParam(value = "softSpecification", required = false) String softSpecification,			
+			@RequestParam(value = "softSpecification", required = false) String softSpecification,
 			@RequestParam(value = "userBase", required = false) String userBase,
 			@RequestParam(value = "customizableCalcModel", required = false) String customizableCalcModel,
 			@RequestParam(value = "realTimeMarketData", required = false) String realTimeMarketData) {
-		
+
 		logger.debug("Entering  - VendorController : addAnalyticsApplicationsOffering");
 		ModelAndView modelAndView = new ModelAndView("empty");
-		
+
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
-			
+
 			VendorAnalyticsApplicationsOffering analyticsAppOffering = new VendorAnalyticsApplicationsOffering();
 			VendorAnalyticsApplicationsSoftwareDetails softDetails = new VendorAnalyticsApplicationsSoftwareDetails();
-			
-			if(productId == null || productId.trim().equals("")) {
-				productId = UUID.randomUUID().toString(); 
+
+			if (productId == null || productId.trim().equals("")) {
+				productId = UUID.randomUUID().toString();
 			}
 			analyticsAppOffering.setProductId(productId);
 			analyticsAppOffering.setProductName(productName);
 			analyticsAppOffering.setProductDescription(productDescription);
 			analyticsAppOffering.setLaunchedYear(launchedYear);
-			AnalyticalSolutionType analyticalSolutionType = (AnalyticalSolutionType)marketDataAggregatorsService.getModelObjectById(
-					AnalyticalSolutionType.class, analyticsSolutionTypeId);
+			AnalyticalSolutionType analyticalSolutionType = (AnalyticalSolutionType) marketDataAggregatorsService
+					.getModelObjectById(AnalyticalSolutionType.class, analyticsSolutionTypeId);
 			analyticsAppOffering.setAnalyticalSolutionType(analyticalSolutionType);
 			analyticsAppOffering.setAnalyticalSolutionSubTypes(analyticsSolutionSubTypes);
 			analyticsAppOffering.setVendor(vendor);
-		
+
 			softDetails.setProductId(productId);
 			softDetails.setAccessbility(accessbility);
 			softDetails.setSuitability(suitability);
@@ -3387,137 +3413,135 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 			softDetails.setSoftSpecification(softSpecification);
 			softDetails.setUserBase(userBase);
 			softDetails.setCustomizableCalcModel(customizableCalcModel);
-			softDetails.setRealTimeMarketData(realTimeMarketData);			
+			softDetails.setRealTimeMarketData(realTimeMarketData);
 			analyticsAppOffering.setSoftwareDetails(softDetails);
-						
+
 			vendorService.addVendorAnalyticsApplicationsOffering(analyticsAppOffering);
 		} catch (Exception exp) {
-			logger.error("Error Saving Analytics Applications Offering", exp); 
+			logger.error("Error Saving Analytics Applications Offering", exp);
 			modelAndView.addObject("status", "Error Updating Offering details");
 		}
 		modelAndView.addObject("status", "Offering details Updated successfully");
 		logger.debug("Leaving  - VendorController : addAnalyticsApplicationsOffering");
 		return modelAndView;
-		
+
 	}
-	
-	@RequestMapping(value="deleteAnalyticsApplicationsOffering", method = RequestMethod.POST)
-	public ModelAndView deleteAnalyticsApplicationsOffering(
-			HttpServletRequest request,
+
+	@RequestMapping(value = "deleteAnalyticsApplicationsOffering", method = RequestMethod.POST)
+	public ModelAndView deleteAnalyticsApplicationsOffering(HttpServletRequest request,
 			@RequestParam(value = "productId", required = true) String productId) {
-		
-		logger.debug("Entering  - VendorController : deleteAnalyticsApplicationsOffering for product {}", 
-				productId);
+
+		logger.debug("Entering  - VendorController : deleteAnalyticsApplicationsOffering for product {}", productId);
 		ModelAndView modelAndView = new ModelAndView("empty");
 		List<VendorAnalyticsApplicationsOffering> offerings = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			boolean matchFound = false;
 			offerings = vendorService.getVendorAnalyticsApplicationsOffering(userName);
-			for(VendorAnalyticsApplicationsOffering offering : offerings) {
+			for (VendorAnalyticsApplicationsOffering offering : offerings) {
 				if (offering.getProductId().equals(productId)) {
 					matchFound = true;
 					break;
 				}
 			}
-			if(matchFound) {
+			if (matchFound) {
 				vendorService.deleteVendorAnalyticsApplicationsOffering(productId);
 				modelAndView.addObject("status", "Successfully deleted Offering record");
 			} else {
 				logger.error("Selected Offering does not belong to logged in User !!");
 				modelAndView.addObject("status", "Error deleting Offering record");
 			}
-			
+
 		} catch (Exception exp) {
-			logger.error("Error Deleting Analytics Applications Offering for Product {}", 
-					productId, exp); 
+			logger.error("Error Deleting Analytics Applications Offering for Product {}", productId, exp);
 			modelAndView.addObject("status", "Error deleting Offering record");
 		}
-		logger.debug("Leaving  - VendorController : deleteAnalyticsApplicationsOffering for product {}", 
-				productId);
+		logger.debug("Leaving  - VendorController : deleteAnalyticsApplicationsOffering for product {}", productId);
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="listAnalyticsApplicationsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+
+	@RequestMapping(value = "listAnalyticsApplicationsOffering", method = { RequestMethod.POST, RequestMethod.GET })
 	public @ResponseBody List<VendorAnalyticsApplicationsOfferingJson> listAnalyticsApplicationsOffering(
 			HttpServletRequest request, HttpServletResponse response) {
-		
+
 		logger.debug("Entering  - VendorController : listAnalyticsApplicationsOffering");
 		List<VendorAnalyticsApplicationsOffering> offerings = null;
 		List<VendorAnalyticsApplicationsOfferingJson> jsonOfferings = new ArrayList<VendorAnalyticsApplicationsOfferingJson>();
 		String userName = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				request.getRequestDispatcher("/").forward(request, response);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			userName = loggedInUser.getUsername();
-			offerings = vendorService.
-					getVendorAnalyticsApplicationsOffering(userName);
-			populateJsonVendorAnalyticsApplicationsOfferingList(offerings, jsonOfferings);			
+			offerings = vendorService.getVendorAnalyticsApplicationsOffering(userName);
+			populateJsonVendorAnalyticsApplicationsOfferingList(offerings, jsonOfferings);
 		} catch (Exception exp) {
-			logger.error("Error Reading Analytics Applications Offering for {}", userName, exp); 
-			
+			logger.error("Error Reading Analytics Applications Offering for {}", userName, exp);
+
 		}
 		logger.debug("Leaving  - VendorController : listAnalyticsApplicationsOffering");
 		return jsonOfferings;
 	}
-	
-	private void populateJsonVendorAnalyticsApplicationsOfferingList(List<VendorAnalyticsApplicationsOffering> offerings,
+
+	private void populateJsonVendorAnalyticsApplicationsOfferingList(
+			List<VendorAnalyticsApplicationsOffering> offerings,
 			List<VendorAnalyticsApplicationsOfferingJson> jsonOfferings) {
-		for(VendorAnalyticsApplicationsOffering offering : offerings) {
+		for (VendorAnalyticsApplicationsOffering offering : offerings) {
 			VendorAnalyticsApplicationsOfferingJson jsonOffering = new VendorAnalyticsApplicationsOfferingJson();
 			jsonOffering.setProductId(offering.getProductId());
 			jsonOffering.setProductName(offering.getProductName());
 			jsonOffering.setProductDescription(offering.getProductDescription());
-			jsonOffering.setAnalyticalSolutionTypeCode(offering.getAnalyticalSolutionType().getAnalyticalSolutionTypeId());
+			jsonOffering
+					.setAnalyticalSolutionTypeCode(offering.getAnalyticalSolutionType().getAnalyticalSolutionTypeId());
 			jsonOffering.setAnalyticalSolutionTypeDescription(offering.getAnalyticalSolutionType().getDescription());
 			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
 			jsonOffering.setAccessbility(offering.getSoftwareDetails().getAccessbility());
 			jsonOfferings.add(jsonOffering);
 		}
 	}
-	
-	@RequestMapping(value="fetchAnalyticsApplicationsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+
+	@RequestMapping(value = "fetchAnalyticsApplicationsOffering", method = { RequestMethod.POST, RequestMethod.GET })
 	public @ResponseBody VendorAnalyticsApplicationsOfferingJson fetchAnalyticsApplicationsOffering(
 			HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "productId", required = true) String productId) {
-		
-		logger.debug("Entering  - VendorController : fetchAnalyticsApplicationsOffering for product {}", 
-				productId);
+
+		logger.debug("Entering  - VendorController : fetchAnalyticsApplicationsOffering for product {}", productId);
 		VendorAnalyticsApplicationsOfferingJson vendorOffering = null;
 
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
+			if (request.getSession().getAttribute("loggedInUser") == null) {
 				request.getRequestDispatcher("/").forward(request, response);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");	
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			VendorAnalyticsApplicationsOffering offering = null;
-			List<VendorAnalyticsApplicationsOffering> offerings = vendorService.
-					getVendorAnalyticsApplicationsOffering(userName);
-			for(VendorAnalyticsApplicationsOffering AnalyticsAppOffering : offerings) {
+			List<VendorAnalyticsApplicationsOffering> offerings = vendorService
+					.getVendorAnalyticsApplicationsOffering(userName);
+			for (VendorAnalyticsApplicationsOffering AnalyticsAppOffering : offerings) {
 				if (AnalyticsAppOffering.getProductId().equals(productId)) {
 					offering = AnalyticsAppOffering;
 					break;
 				}
 			}
-			if(offering == null) {
+			if (offering == null) {
 				logger.error("Selected Offering does not belong to logged in User !!");
 			} else {
 				vendorOffering = new VendorAnalyticsApplicationsOfferingJson();
 				vendorOffering.setProductId(offering.getProductId());
 				vendorOffering.setProductName(offering.getProductName());
 				vendorOffering.setProductDescription(offering.getProductDescription());
-				vendorOffering.setAnalyticalSolutionTypeCode(offering.getAnalyticalSolutionType().getAnalyticalSolutionTypeId());
-				vendorOffering.setAnalyticalSolutionTypeDescription(offering.getAnalyticalSolutionType().getDescription());
+				vendorOffering.setAnalyticalSolutionTypeCode(
+						offering.getAnalyticalSolutionType().getAnalyticalSolutionTypeId());
+				vendorOffering
+						.setAnalyticalSolutionTypeDescription(offering.getAnalyticalSolutionType().getDescription());
 				vendorOffering.setAnalyticalSolutionSubTypes(offering.getAnalyticalSolutionSubTypes());
 				vendorOffering.setLaunchedYear(offering.getLaunchedYear());
-				
+
 				vendorOffering.setAccessbility(offering.getSoftwareDetails().getAccessbility());
 				vendorOffering.setSuitability(offering.getSoftwareDetails().getSuitability());
 				vendorOffering.setCostType(offering.getSoftwareDetails().getCostType());
@@ -3525,21 +3549,19 @@ User appUser = (User)SecurityContextHolder.getContext().getAuthentication().getP
 				vendorOffering.setSubCostPy(offering.getSoftwareDetails().getSubCostPy());
 				vendorOffering.setAddOns(offering.getSoftwareDetails().getAddOns());
 				vendorOffering.setOperatingSystem(offering.getSoftwareDetails().getOperatingSystem());
-				vendorOffering.setSoftSpecification(offering.getSoftwareDetails().getSoftSpecification());				
+				vendorOffering.setSoftSpecification(offering.getSoftwareDetails().getSoftSpecification());
 				vendorOffering.setUserBase(offering.getSoftwareDetails().getUserBase());
 				vendorOffering.setCustomizableCalcModel(offering.getSoftwareDetails().getCustomizableCalcModel());
 				vendorOffering.setRealTimeMarketData(offering.getSoftwareDetails().getRealTimeMarketData());
-				
-			}			
+
+			}
 		} catch (Exception exp) {
-			logger.error("Error Fetching Analytics Applications Offering for product {}", 
-					productId, exp); 
+			logger.error("Error Fetching Analytics Applications Offering for product {}", productId, exp);
 		}
-		logger.debug("Leaving  - VendorController : fetchAnalyticsApplicationsOffering for product {}", 
-				productId);
+		logger.debug("Leaving  - VendorController : fetchAnalyticsApplicationsOffering for product {}", productId);
 		return vendorOffering;
 	}
-		
+
 	/* Vendor Analytics Applications Offering End */
-		
+
 }

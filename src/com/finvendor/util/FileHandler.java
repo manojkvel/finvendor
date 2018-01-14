@@ -29,7 +29,12 @@ public final class FileHandler {
 	}
 
 	public static void deleteFile(String path) throws IOException {
-		FileUtils.forceDelete(new File(path));
+		//Delete if report file exists
+		File fileTemp = new File(path);
+		if (fileTemp.exists()){
+		    fileTemp.delete();
+		}
+
 	}
 
 	public static void validateFileSize(long threshold, long fileSize) throws Exception {
