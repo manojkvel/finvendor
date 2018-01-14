@@ -604,7 +604,6 @@ public class VendorServiceImpl implements VendorService {
 		case VENDOR_RESEARCH_REPORT_OFFERING:
 			try {
 				FileHandler.writeByteArrayToFile(destPath, bytes);
-				uploadFileStatus = false;
 			} catch (IOException e) {
 				uploadFileStatus = false;
 			}
@@ -612,7 +611,7 @@ public class VendorServiceImpl implements VendorService {
 		default:
 			uploadFileStatus = false;
 			break;
-			
+
 		}
 		return uploadFileStatus;
 	}
@@ -621,7 +620,8 @@ public class VendorServiceImpl implements VendorService {
 	public void deleteFile(VendorEnum type, String path) throws IOException {
 		switch (type) {
 		case VENDOR_RESEARCH_REPORT_OFFERING:
-			FileHandler.deleteFile(path);
+			if (path != null && !path.isEmpty() )
+				FileHandler.deleteFile(path);
 			break;
 		}
 

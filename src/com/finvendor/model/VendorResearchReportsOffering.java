@@ -57,8 +57,8 @@ public class VendorResearchReportsOffering
 	@JoinColumn(name="product_id")
 	private VendorResearchReportsAnalystProfile analystProfile;
 
-	@Column(name="rsrch_rpt_offering_file_path")
-	private String researchReportOfferingFilePath;
+	@Column(name="rsrch_upload_report")
+	private String rsrchUploadReport;
 	
 	public String getProductId() {
 		return productId;
@@ -148,11 +148,14 @@ public class VendorResearchReportsOffering
 		this.analystProfile = analystProfile;
 	}
 
-	public String getResearchReportOfferingFilePath() {
-		return researchReportOfferingFilePath;
+	public String getRsrchUploadReport() {
+		return rsrchUploadReport;
 	}
 
-	public void setResearchReportOfferingFilePath(String researchReportOfferingFilePath) {
-		this.researchReportOfferingFilePath = researchReportOfferingFilePath;
+	public void setRsrchUploadReport(String rsrchUploadReport) {
+		this.rsrchUploadReport = rsrchUploadReport;
 	}
+	
+	
+
 }

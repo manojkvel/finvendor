@@ -1865,7 +1865,7 @@ jQuery(document).ready(function() {
 		researhReportList = window.localStorage.researh_report_for_summary_details;
 		*/
 		var rsrch_report_offeringfile = new FormData(jQuery('#research_application form')[0]);
-		rsrch_report_offeringfile.append("file", vo_upload_report.files[0]);
+//		rsrch_report_offeringfile.append("file", vo_upload_report.files[0]);
 		
 		
 
