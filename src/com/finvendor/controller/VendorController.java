@@ -91,6 +91,7 @@ import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.FileHandler;
+import com.finvendor.util.Pair;
 import com.finvendor.util.RequestConstans;
 import com.finvendor.util.StringUtil;
 import com.finvendor.util.VendorEnum;
@@ -3063,12 +3064,10 @@ public class VendorController {
 		ModelAndView modelAndView = new ModelAndView("empty");
 
 		try {
-			logger.info("with - vo_upload_report field - FileName:" + multiPartFile.getOriginalFilename());
-			logger.info("with - vo_upload_report field - FileSize:" + multiPartFile.getSize());
-			 if(request.getSession().getAttribute("loggedInUser") == null){
-			 return new ModelAndView(RequestConstans.Login.HOME);
-			 }
-			 User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
+			if (request.getSession().getAttribute("loggedInUser") == null) {
+				return new ModelAndView(RequestConstans.Login.HOME);
+			}
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			String userName = loggedInUser.getUsername();
 			Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
 
@@ -3084,7 +3083,8 @@ public class VendorController {
 			researchReportsOffering.setProductName(productName);
 			researchReportsOffering.setProductDescription(productDescription);
 			researchReportsOffering.setLaunchedYear(launchedYear);
-			ResearchArea researchArea = (ResearchArea) marketDataAggregatorsService.getModelObjectById(ResearchArea.class, researchAreaId);
+			ResearchArea researchArea = (ResearchArea) marketDataAggregatorsService
+					.getModelObjectById(ResearchArea.class, researchAreaId);
 			researchReportsOffering.setResearchArea(researchArea);
 			researchReportsOffering.setResearchSubArea(researchSubAreas);
 			researchReportsOffering.setStocksFundsIssuesCovered(stocksFundsIssuesCovered);
@@ -3109,7 +3109,7 @@ public class VendorController {
 			researchDetails.setRsrchRecommType(researchRecommendationType);
 			researchDetails.setRsrchReportAccess(researchReportAccess);
 			researchDetails.setRsrchReportDesc(researchReportDesc);
-//			researchDetails.setRsrchUploadReport(researchUploadReport);
+			// researchDetails.setRsrchUploadReport(researchUploadReport);
 			researchDetails.setTargetPrice(researchTargetPrice);
 
 			logger.info("TARGET PRICE: " + researchDetails.getTargetPrice());
@@ -3136,26 +3136,45 @@ public class VendorController {
 			// Build Vendor research report offering file path using logged in user name
 			String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
 			logger.info("Research Reports Offering file baasepath:" + basePath);
+			if (multiPartFile != null && multiPartFile.getSize() > 0) {
+				logger.info("Multipart (vo_upload_report form field) FileName:" + multiPartFile.getOriginalFilename());
+				logger.info("Multipart (vo_upload_report form field) FileSize:" + multiPartFile.getSize());
 
-			logger.info("Multipart (vo_upload_report form field) FileName:" + multiPartFile.getOriginalFilename());
-			logger.info("Multipart (vo_upload_report form field) FileSize:" + multiPartFile.getSize());
+				// Upload filename suffix with productId
+				// Reason: loggedIn user can upload multiple file while upload
+				Pair<String, String> fileNameAndExtention = StringUtil
+						.getFileNameAndExtention(multiPartFile.getOriginalFilename());
 
-			String reportResearchOfferingFilePath = StringUtil.builtPath(multiPartFile.getOriginalFilename(), basePath,	userName);
-			logger.info("Research Reports Offering filepath:" + reportResearchOfferingFilePath);
+				String uploadFileNameOnly = fileNameAndExtention.getElement1() + "_" + productId
+						+ fileNameAndExtention.getElement2();
+				String reportResearchOfferingFilePath = StringUtil.builtPath(uploadFileNameOnly, basePath, userName);
+				logger.info("Research Reports Offering filepath:" + reportResearchOfferingFilePath);
 
-			researchReportsOffering.setRsrchUploadReport(reportResearchOfferingFilePath);
-			vendorService.addVendorResearchReportsOffering(researchReportsOffering);
+				researchReportsOffering.setRsrchUploadReport(reportResearchOfferingFilePath);
+				vendorService.addVendorResearchReportsOffering(researchReportsOffering);
 
-			// upload Vendor Research Report Offering file to server
-			boolean uploadFileStatus = vendorService.uploadFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING,
-					multiPartFile.getBytes(), reportResearchOfferingFilePath);
-			logger.info("Research Reports Offering file uploaded status:" + uploadFileStatus);
+				// upload Vendor Research Report Offering file to server
+				// We store upload report file on server with base path like
+				// basepath: /home/finvendo/<loggedIn-username>/research_report/xyz.pdf
+				boolean uploadFileStatus = vendorService.uploadFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING,
+						multiPartFile.getBytes(), reportResearchOfferingFilePath);
+				logger.info("Research Reports Offering file uploaded status:" + uploadFileStatus);
 
-			// If Upload file failed somehow then delete corresponding entry from ven_rsrch_rpt_offering table
-			if (!uploadFileStatus) {
-				vendorService.deleteVendorResearchReportsOffering(productId);
+				// If Upload file failed somehow then delete corresponding entry from
+				// ven_rsrch_rpt_offering table
+				if (!uploadFileStatus) {
+					vendorService.deleteVendorResearchReportsOffering(productId);
+				} else {
+					logger.info("Research Reports Offering file uploaded file successfully at server path:"
+							+ reportResearchOfferingFilePath);
+				}
 			} else {
-				logger.info("Research Reports Offering file uploaded file successfully at server path:"	+ reportResearchOfferingFilePath);
+				String reportResearchOfferingFilePath = vendorService.fetchVendorResearchReportsOffering(productId)
+						.getRsrchUploadReport();
+				if (reportResearchOfferingFilePath != null && (! reportResearchOfferingFilePath.isEmpty())) {
+					researchReportsOffering.setRsrchUploadReport(reportResearchOfferingFilePath);
+					vendorService.addVendorResearchReportsOffering(researchReportsOffering);
+				}
 			}
 		} catch (Exception exp) {
 			logger.error("Error Saving Research Reports Offering", exp);
@@ -3219,10 +3238,10 @@ public class VendorController {
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
 		try {
-			if(request.getSession().getAttribute("loggedInUser") == null){
-			 request.getRequestDispatcher("/").forward(request, response);
+			if (request.getSession().getAttribute("loggedInUser") == null) {
+				request.getRequestDispatcher("/").forward(request, response);
 			}
-			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			userName = loggedInUser.getUsername();
 			offerings = vendorService.getVendorResearchReportsOffering(userName);
 			System.out.println("vendor offering research report for ********: "
@@ -3256,7 +3275,7 @@ public class VendorController {
 
 			// jsonOffering.setRegionsCovered(offering.getCoverageDetails().getRegionsCovered());
 			// jsonOffering.setCountriesCovered(offering.getCoverageDetails().getCountriesCovered());
-			jsonOffering.setRsrchUploadReport(offering.getRsrchUploadReport());
+			jsonOffering.setRsrchUploadReport(StringUtil.EMPTY_STRING);
 			jsonOfferings.add(jsonOffering);
 		}
 	}
@@ -3340,7 +3359,8 @@ public class VendorController {
 				vendorOffering.setRsrchReportDesc(offering.getResearchDetails().getRsrchReportDesc());
 				vendorOffering.setRsrchReportAccess(offering.getResearchDetails().getRsrchReportAccess());
 				vendorOffering.setRsrchUploadReport(offering.getResearchDetails().getRsrchUploadReport());
-				vendorOffering.setRsrchUploadReport(offering.getRsrchUploadReport());
+				vendorOffering.setRsrchUploadReport(
+						StringUtil.getFileNameWithoutProductId(productId, offering.getRsrchUploadReport()));
 				logger.info(vendorOffering.toString());
 			}
 		} catch (Exception exp) {
