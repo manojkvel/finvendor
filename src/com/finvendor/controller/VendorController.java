@@ -3219,12 +3219,11 @@ public class VendorController {
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
 		try {
-			// if(request.getSession().getAttribute("loggedInUser") == null){
-			// request.getRequestDispatcher("/").forward(request, response);
-			// }
-			// User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
-			// userName = loggedInUser.getUsername();
-			userName = "amit_vendor";
+			if(request.getSession().getAttribute("loggedInUser") == null){
+			 request.getRequestDispatcher("/").forward(request, response);
+			}
+			User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
+			userName = loggedInUser.getUsername();
 			offerings = vendorService.getVendorResearchReportsOffering(userName);
 			System.out.println("vendor offering research report for ********: "
 					+ offerings.get(8).getResearchDetails().getRsrchReportFor());
