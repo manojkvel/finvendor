@@ -1867,6 +1867,8 @@ jQuery(document).ready(function() {
 		
 		researhReportList = window.localStorage.researh_report_for_summary_details;
 		*/
+		
+		
 		var rsrch_report_offeringfile = new FormData(jQuery('#research_application form')[0]);
 //		rsrch_report_offeringfile.append("file", vo_upload_report.files[0]);
 		
@@ -1875,6 +1877,12 @@ jQuery(document).ready(function() {
 		if( productName != '' && productDescription != '' && launchedYear != '' &&
 			rcResearchArea != null && vo_rr_report_for != null && vo_datepicker != ''  && 
 				vo_eqrrv_recommendation_type != null && vo_eqrrv_report_desc != ''){
+			
+
+			if(vo_upload_report.files[0] == undefined) {
+				alert("Please select upload report");
+				return;
+			} 
 
 			var data = {
 				"productId" : productId,
