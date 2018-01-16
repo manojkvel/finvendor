@@ -3233,7 +3233,6 @@ public class VendorController {
 
 		logger.debug("Entering  - VendorController : listResearchReportsOffering");
 		logger.info("vendor offering research report for ********: ");
-		System.out.println("vendor offering research report for ********: ");
 		List<VendorResearchReportsOffering> offerings = null;
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
@@ -3244,9 +3243,6 @@ public class VendorController {
 			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			userName = loggedInUser.getUsername();
 			offerings = vendorService.getVendorResearchReportsOffering(userName);
-			System.out.println("vendor offering research report for ********: "
-					+ offerings.get(8).getResearchDetails().getRsrchReportFor());
-
 			populateVendorResearchReportsOfferingJsonList(offerings, jsonOfferings);
 		} catch (Exception exp) {
 			logger.error("Error Reading Trading Applications Offering for {}", userName, exp);
