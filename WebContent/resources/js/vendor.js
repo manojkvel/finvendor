@@ -1869,8 +1869,25 @@ jQuery(document).ready(function() {
 		*/
 		
 		
-		var rsrch_report_offeringfile = new FormData(jQuery('#research_application form')[0]);
-//		rsrch_report_offeringfile.append("file", vo_upload_report.files[0]);
+		var rsrch_report_offeringfile = new FormData();
+		rsrch_report_offeringfile.append("productId", productId);
+		rsrch_report_offeringfile.append("productName", productName);
+		rsrch_report_offeringfile.append("productDescription", productDescription);
+		rsrch_report_offeringfile.append("rcResearchArea", rcResearchArea);
+		rsrch_report_offeringfile.append("rcResearchSubArea", (rcResearchSubArea != null)? ',' + rcResearchSubArea + ',' : '');
+		rsrch_report_offeringfile.append("launchedYear", launchedYear);
+		rsrch_report_offeringfile.append("rdSuitability", (suitability != null) ? ',' + suitability + ',' : '');
+		rsrch_report_offeringfile.append("rdSubsriptionCostUSDperannum", (costPerAnnum != '') ? costPerAnnum : '0.0');
+		rsrch_report_offeringfile.append('vo_rr_report_for', vo_rr_report_for);
+		rsrch_report_offeringfile.append('vo_datepicker', vo_datepicker);
+		rsrch_report_offeringfile.append('vo_target_price', vo_target_price);
+		rsrch_report_offeringfile.append('vo_eqrrv_recommendation_type', vo_eqrrv_recommendation_type);
+		rsrch_report_offeringfile.append('vo_upload_report', vo_upload_report.files[0]);
+		rsrch_report_offeringfile.append('vo_eqrrv_report_desc', vo_eqrrv_report_desc);
+		rsrch_report_offeringfile.append('vo_eqrrv_report_access', vo_eqrrv_report_access);
+		rsrch_report_offeringfile.append('vo_analystName', vo_analystName);
+		rsrch_report_offeringfile.append('vo_analystCfaCharter', vo_analystCfaCharter);
+		rsrch_report_offeringfile.append('vo_analystwithawards', vo_analystwithawards);
 		
 		
 
