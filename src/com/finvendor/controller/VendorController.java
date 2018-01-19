@@ -3019,46 +3019,21 @@ public class VendorController {
 			@RequestParam(value = "productId", required = false) String productId,
 			@RequestParam(value = "productName", required = true) String productName,
 			@RequestParam(value = "productDescription", required = true) String productDescription,
-			@RequestParam(value = "rcResearchArea", required = true) int researchAreaId,
-			@RequestParam(value = "rcResearchSubArea", required = true) String researchSubAreas,
-			@RequestParam(value = "stocksFundsIssuesCovered", required = false) String stocksFundsIssuesCovered,
-			@RequestParam(value = "launchedYear", required = false) String launchedYear,
-			// @RequestParam(value = "regionsCovered", required = false) String
-			// regionsCovered,
-			// @RequestParam(value = "countriesCovered", required = false) String
-			// countriesCovered,
-			// @RequestParam(value = "totalResearchAnalyst", required = false) int
-			// totalResearchAnalyst,
-			// @RequestParam(value = "existingClientBase", required = false) String
-			// existingClientBase,
-			// @RequestParam(value = "accessibility", required = false) String
-			// accessibility,
+			@RequestParam(value = "launchedYear", required = true) String launchedYear,
+			@RequestParam(value = "rcResearchArea", required = false) int researchAreaId,
+			@RequestParam(value = "rcResearchSubArea", required = false) String researchSubAreas,
 			@RequestParam(value = "rdSuitability", required = false) String suitability,
-			// @RequestParam(value = "reportCostType", required = false) String
-			// reportCostType,
-			// @RequestParam(value = "costPerMonth", required = false) float costPerMonth,
-			@RequestParam(value = "rdSubsriptionCostUSDperannum", required = false) float costPerAnnum,
-			@RequestParam(value = "vo_rr_report_for", required = false) String researchReportFor,
-			@RequestParam(value = "vo_datepicker", required = false) String researchReportDate,
-			@RequestParam(value = "vo_target_price", required = false) String researchTargetPrice,
-			@RequestParam(value = "vo_eqrrv_recommendation_type", required = false) String researchRecommendationType,
-			@RequestParam(value = "vo_eqrrv_report_desc", required = false) String researchReportDesc,
+			@RequestParam(value = "rdSubsriptionCostUSDperannum", required = false) String costPerAnnum,
+			@RequestParam(value = "vo_rr_report_for", required = true) String researchReportFor,
+			@RequestParam(value = "vo_datepicker", required = true) String researchReportDate,
+			@RequestParam(value = "vo_target_price", required = true) String researchTargetPrice,
+			@RequestParam(value = "vo_eqrrv_recommendation_type", required = true) String researchRecommendationType,
+			@RequestParam(value = "vo_eqrrv_report_desc", required = true) String researchReportDesc,
 			@RequestParam(value = "vo_eqrrv_report_access", required = false) String researchReportAccess,
-			// @RequestParam(value = "reportFormat", required = false) String reportFormat,
-			// @RequestParam(value = "researchPeriodMonth", required = false) String
-			// researchPeriodMonth,
-			// @RequestParam(value = "researchPeriodYear", required = false) String
-			// researchPeriodYear,
-			@RequestParam(value = "vo_analystName", required = true) String analystName,
-			// @RequestParam(value = "vo_upload_report", required = false)
-			// CommonsMultipartFile researchUploadReport,
-			// @RequestParam(value = "analystRegion", required = true) int analystRegion,
-			// @RequestParam(value = "analystCountry", required = true) int analystCountry,
-			// @RequestParam(value = "anaystYearOfExperience", required = false) String
-			// anaystYearOfExperience,
+			@RequestParam(value = "vo_analystName", required = false) String analystName,
 			@RequestParam(value = "vo_analystwithawards", required = false) String analystAwards,
 			@RequestParam(value = "vo_analystCfaCharter", required = false) String analystCfaCharter,
-			@RequestParam(value = "vo_upload_report", required = false) CommonsMultipartFile multiPartFile) {
+			@RequestParam(value = "vo_upload_report", required = true) CommonsMultipartFile multiPartFile) {
 
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
 		ModelAndView modelAndView = new ModelAndView("empty");
@@ -3076,7 +3051,7 @@ public class VendorController {
 			VendorResearchReportsResearchDetails researchDetails = new VendorResearchReportsResearchDetails();
 			VendorResearchReportsAnalystProfile analystProfile = new VendorResearchReportsAnalystProfile();
 
-			if (productId == null || productId.trim().equals("")) {
+			if (productId == null || "".equals(productId.trim())) {
 				productId = UUID.randomUUID().toString();
 			}
 			researchReportsOffering.setProductId(productId);
@@ -3087,48 +3062,29 @@ public class VendorController {
 					.getModelObjectById(ResearchArea.class, researchAreaId);
 			researchReportsOffering.setResearchArea(researchArea);
 			researchReportsOffering.setResearchSubArea(researchSubAreas);
-			researchReportsOffering.setStocksFundsIssuesCovered(stocksFundsIssuesCovered);
 			researchReportsOffering.setVendor(vendor);
 
 			coverageDetails.setProductId(productId);
-			// coverageDetails.setRegionsCovered(regionsCovered);
-			// coverageDetails.setCountriesCovered(countriesCovered);
-			// coverageDetails.setTotalAnalyst(totalResearchAnalyst);
-			// coverageDetails.setExistingClientBase(existingClientBase);
 			researchReportsOffering.setCoverageDetails(coverageDetails);
 
 			researchDetails.setProductId(productId);
-			// researchDetails.setAccessbility(accessibility);
 			researchDetails.setSuitability(suitability);
-			// researchDetails.setCostType(reportCostType);
-			// researchDetails.setSubCostPm(costPerMonth);
-			researchDetails.setSubCostPy(costPerAnnum);
+			if(costPerAnnum!=null && !costPerAnnum.isEmpty()) {
+				researchDetails.setSubCostPy(Float.parseFloat(costPerAnnum));
+			}
 
 			researchDetails.setRsrchReportFor(researchReportFor);
 			researchDetails.setRepDate(researchReportDate);
 			researchDetails.setRsrchRecommType(researchRecommendationType);
 			researchDetails.setRsrchReportAccess(researchReportAccess);
 			researchDetails.setRsrchReportDesc(researchReportDesc);
-			// researchDetails.setRsrchUploadReport(researchUploadReport);
 			researchDetails.setTargetPrice(researchTargetPrice);
 
 			logger.info("TARGET PRICE: " + researchDetails.getTargetPrice());
-			// researchDetails.setRepFormat(reportFormat);
-			// researchDetails.setResPeriodMon(researchPeriodMonth);
-			// researchDetails.setResPeriodYear(researchPeriodYear);
 			researchReportsOffering.setResearchDetails(researchDetails);
-
-			// Region region = (Region)marketDataAggregatorsService.getModelObjectById(
-			// Region.class, analystRegion);
-			// Country country =
-			// (Country)marketDataAggregatorsService.getModelObjectById(Country.class,
-			// analystCountry);
 
 			analystProfile.setProductId(productId);
 			analystProfile.setAnalystName(analystName);
-			// analystProfile.setAnalystRegion(region);
-			// analystProfile.setAnalystCountry(country);
-			// analystProfile.setAnalystYearOfExp(anaystYearOfExperience);
 			analystProfile.setAnalystAwards(analystAwards);
 			analystProfile.setAnaystCfaCharter(analystCfaCharter);
 			researchReportsOffering.setAnalystProfile(analystProfile);
