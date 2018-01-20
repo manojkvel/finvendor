@@ -1703,7 +1703,7 @@ jQuery(document).ready(function() {
 		progressLoader(true);
 		$("#research_application_top_card").hide().slideUp();
 
-		var productId = null;
+		var productId = '';
 
 		if(isEdit) {
 			productId = id;
@@ -1870,7 +1870,7 @@ jQuery(document).ready(function() {
 		
 		
 		var rsrch_report_offeringfile = new FormData();
-		rsrch_report_offeringfile.append("productId", '');
+		rsrch_report_offeringfile.append("productId", productId);
 		rsrch_report_offeringfile.append("productName", productName);
 		rsrch_report_offeringfile.append("productDescription", productDescription);
 		rsrch_report_offeringfile.append("rcResearchArea", rcResearchArea);
