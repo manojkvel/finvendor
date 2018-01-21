@@ -788,7 +788,12 @@
 											<label>Analyst Name</label>
 										</li>
 										<li>
-											<input type="file" name="vo_upload_report" id="vo_upload_report" required />
+											<div class="upload_report_container">
+												<input type="text" name="vo_upload_report_file_name" id="vo_upload_report_file_name" readonly="readonly" />
+												<span class="fa fa-upload">
+													<input type="file" name="vo_upload_report" id="vo_upload_report" required />
+												</span>
+											</div>
 											<label class="default_select">Upload Report</label>
 										</li>
 										<li style='margin-top: 22px;'>

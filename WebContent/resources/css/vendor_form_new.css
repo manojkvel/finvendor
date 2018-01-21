@@ -1693,3 +1693,29 @@ h2 {
 #research_application.custom_form {
 	display: none;
 }
+
+#research_application .upload_report_container input:first-child {
+	width: 80%;
+	float: left;
+}
+#research_application .upload_report_container span {
+	width: 20%;
+	padding: 5%;
+	font-size: 20px;
+	text-align: center;
+	position: relative;
+	margin-top: 8px;
+}
+
+
+#research_application .upload_report_container #vo_upload_report {
+	text-indent: -9999em;
+    color: #fff;
+    position: absolute;
+    width: 100%;
+    top: -10px;
+}
+
+#research_application .upload_report_container .vo_upload_report_file_name {
+
+}

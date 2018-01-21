@@ -1607,6 +1607,7 @@ jQuery(document).ready(function() {
 				}
 				$("#research_application #vo_eqrrv_recommendation_type").selectpicker('val', response.rsrchRecommType);
 			//	$("#research_application #vo_upload_report").val(response.rsrchUploadReport);
+				$('#research_application #vo_upload_report_file_name').val(response.rsrchUploadReport);
 				$("#research_application #vo_eqrrv_report_desc").val(response.rsrchReportDesc);
 				$("#research_application #vo_eqrrv_report_access").selectpicker('val', response.rsrchReportAccess);
 				$("#research_application #vo_analystName").val(response.analystName);
@@ -1728,6 +1729,7 @@ jQuery(document).ready(function() {
 		var vo_eqrrv_report_desc = $("#research_application #vo_eqrrv_report_desc").val();
 		var vo_eqrrv_report_access = $("#vo_eqrrv_report_access").selectpicker('val');
 		var vo_analystName = $("#research_application #vo_analystName").val().trim();
+		var vo_upload_report_file_name = $('#research_application #vo_upload_report_file_name').val();
 
 
 		
@@ -1824,6 +1826,13 @@ jQuery(document).ready(function() {
 			return false;
 		}
 
+		if(vo_upload_report_file_name != '') {
+			$("#research_application #vo_upload_report_file_name").removeClass("error_field");
+		} else {
+			$("#research_application #vo_upload_report_file_name").addClass("error_field");
+			return false;
+		}
+
 
 		/*if(window.localStorage.researh_report_for_summary_details == undefined || JSON.parse(window.localStorage.researh_report_for_summary_details).length == 0) {
 			if(vo_rr_report_for != null) {
@@ -1882,6 +1891,13 @@ jQuery(document).ready(function() {
 		rsrch_report_offeringfile.append('vo_datepicker', vo_datepicker);
 		rsrch_report_offeringfile.append('vo_target_price', vo_target_price);
 		rsrch_report_offeringfile.append('vo_eqrrv_recommendation_type', vo_eqrrv_recommendation_type);
+
+		if(isEdit) {
+			rsrch_report_offeringfile.append('vo_upload_report', null);
+		} else {
+			rsrch_report_offeringfile.append('vo_upload_report', vo_upload_report.files[0]);
+		}
+
 		rsrch_report_offeringfile.append('vo_upload_report', vo_upload_report.files[0]);
 		rsrch_report_offeringfile.append('vo_eqrrv_report_desc', vo_eqrrv_report_desc);
 		rsrch_report_offeringfile.append('vo_eqrrv_report_access', vo_eqrrv_report_access);
@@ -1896,10 +1912,15 @@ jQuery(document).ready(function() {
 				vo_eqrrv_recommendation_type != null && vo_eqrrv_report_desc != ''){
 			
 
-			if(vo_upload_report.files[0] == undefined) {
+			/*if(vo_upload_report.files[0] == undefined) {
 				alert("Please select upload report");
 				return;
-			} 
+			}*/
+
+			if(vo_upload_report_file_name == '') {
+				alert("Please select upload report");
+				return;
+			}
 
 			var data = {
 				"productId" : productId,
@@ -1957,11 +1978,11 @@ jQuery(document).ready(function() {
 	    
 	    if(file.size > max_upload_report_limit) {
 	    		alert("Please select file report size less than 10MB.");
-	    		$('#research_application #vo_upload_report').val('');
+	    		$('#research_application #vo_upload_report_file_name').val('');
 	    		return false;
 	    } else if(file.type != 'application/pdf') {
 	    		alert("Please select only pdf file.");
-	    		$('#research_application #vo_upload_report').val('');
+	    		$('#research_application #vo_upload_report_file_name').val('');
 	    		return false;
 	    } else {
 	    		/*var reader = new window.FileReader();
@@ -1980,6 +2001,8 @@ jQuery(document).ready(function() {
 	            rsrch_report_offeringfile = formData;
 	        }
 	        reader.readAsBinaryString(file);	*/
+
+	        $('#research_application #vo_upload_report_file_name').val(file.name);
 	    }
 	}
 	$('#research_application #vo_upload_report').on('change', handleUploadReportSelect);
