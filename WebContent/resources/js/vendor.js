@@ -1893,7 +1893,7 @@ jQuery(document).ready(function() {
 		rsrch_report_offeringfile.append('vo_eqrrv_recommendation_type', vo_eqrrv_recommendation_type);
 
 		if(isEdit) {
-			rsrch_report_offeringfile.append('vo_upload_report', null);
+			rsrch_report_offeringfile.append('vo_upload_report', new Blob([{name: '', size: 0}], { type: "text/json"}));
 		} else {
 			rsrch_report_offeringfile.append('vo_upload_report', vo_upload_report.files[0]);
 		}
