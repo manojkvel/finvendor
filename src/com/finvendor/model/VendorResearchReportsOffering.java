@@ -57,9 +57,6 @@ public class VendorResearchReportsOffering
 	@JoinColumn(name="product_id")
 	private VendorResearchReportsAnalystProfile analystProfile;
 
-	@Column(name="rsrch_upload_report")
-	private String rsrchUploadReport;
-	
 	public String getProductId() {
 		return productId;
 	}
@@ -147,15 +144,4 @@ public class VendorResearchReportsOffering
 	public void setAnalystProfile(VendorResearchReportsAnalystProfile analystProfile) {
 		this.analystProfile = analystProfile;
 	}
-
-	public String getRsrchUploadReport() {
-		return rsrchUploadReport;
-	}
-
-	public void setRsrchUploadReport(String rsrchUploadReport) {
-		this.rsrchUploadReport = rsrchUploadReport;
-	}
-	
-	
-
 }

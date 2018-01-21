@@ -3020,7 +3020,7 @@ public class VendorController {
 			@RequestParam(value = "productName", required = true) String productName,
 			@RequestParam(value = "productDescription", required = true) String productDescription,
 			@RequestParam(value = "launchedYear", required = true) String launchedYear,
-			@RequestParam(value = "rcResearchArea", required = false) int researchAreaId,
+			@RequestParam(value = "rcResearchArea", required = false) Integer researchAreaId,
 			@RequestParam(value = "rcResearchSubArea", required = false) String researchSubAreas,
 			@RequestParam(value = "rdSuitability", required = false) String suitability,
 			@RequestParam(value = "rdSubsriptionCostUSDperannum", required = false) String costPerAnnum,
@@ -3128,17 +3128,17 @@ public class VendorController {
 				}
 			} else {
 				String reportResearchOfferingFilePath = vendorService.fetchVendorResearchReportsOffering(productId)
-						.getRsrchUploadReport();
+						.getResearchDetails().getRsrchUploadReport();
 				if (reportResearchOfferingFilePath != null && (!reportResearchOfferingFilePath.isEmpty())) {
-					researchReportsOffering.setRsrchUploadReport(reportResearchOfferingFilePath);
+					researchReportsOffering.getResearchDetails().setRsrchUploadReport(reportResearchOfferingFilePath);
 					vendorService.addVendorResearchReportsOffering(researchReportsOffering);
 				}
 			}
+			modelAndView.addObject("status", "Offering details Updated successfully");
 		} catch (Exception exp) {
 			logger.error("Error Saving Research Reports Offering", exp);
 			modelAndView.addObject("status", "Error Updating Offering details");
 		}
-		modelAndView.addObject("status", "Offering details Updated successfully");
 		logger.debug("Leaving  - VendorController : addResearchReportsOffering");
 		return modelAndView;
 	}
@@ -3158,11 +3158,15 @@ public class VendorController {
 			String userName = loggedInUser.getUsername();
 			boolean matchFound = false;
 			offerings = vendorService.getVendorResearchReportsOffering(userName);
-			String voFilePath = null;
+			String voFilePath = "NA";
 			for (VendorResearchReportsOffering offering : offerings) {
 				if (offering.getProductId().equals(productId)) {
 					matchFound = true;
-					voFilePath = offering.getRsrchUploadReport();
+					if (offering.getResearchDetails() != null) {
+						voFilePath = offering.getResearchDetails().getRsrchUploadReport();
+					} else {
+						logger.error("Research upload path is empty as details found null");
+					}
 					break;
 				}
 			}
@@ -3195,19 +3199,13 @@ public class VendorController {
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
 		try {
-			if (request.getSession() != null) {
-				System.out.println("****Session is OK");
-				if (request.getSession().getAttribute("loggedInUser") == null) {
-					request.getRequestDispatcher("/").forward(request, response);
-				}
-				User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-				userName = loggedInUser.getUsername();
-				System.out.println("***userName->"+userName+"<-");
-				offerings = vendorService.getVendorResearchReportsOffering(userName);
-				populateVendorResearchReportsOfferingJsonList(offerings, jsonOfferings);
-			}else {
-				System.out.println("Session is null");
+			if (request.getSession().getAttribute("loggedInUser") == null) {
+				request.getRequestDispatcher("/").forward(request, response);
 			}
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			userName = loggedInUser.getUsername();
+			offerings = vendorService.getVendorResearchReportsOffering(userName);
+			populateVendorResearchReportsOfferingJsonList(offerings, jsonOfferings);
 		} catch (Exception exp) {
 			logger.error("Error Reading Trading Applications Offering for {}", userName, exp);
 
