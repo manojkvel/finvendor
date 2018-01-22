@@ -1,6 +1,8 @@
 package com.finvendor.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -95,6 +97,7 @@ import com.finvendor.util.Pair;
 import com.finvendor.util.RequestConstans;
 import com.finvendor.util.StringUtil;
 import com.finvendor.util.VendorEnum;
+import com.finvendor.util.WebUtil;
 import com.google.gson.Gson;
 
 @Controller
@@ -3037,7 +3040,6 @@ public class VendorController {
 
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
 		ModelAndView modelAndView = new ModelAndView("empty");
-
 		try {
 			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
@@ -3080,9 +3082,6 @@ public class VendorController {
 			researchDetails.setRsrchReportDesc(researchReportDesc);
 			researchDetails.setTargetPrice(researchTargetPrice);
 
-			logger.info("TARGET PRICE: " + researchDetails.getTargetPrice());
-			// researchReportsOffering.setResearchDetails(researchDetails);
-
 			analystProfile.setProductId(productId);
 			analystProfile.setAnalystName(analystName);
 			analystProfile.setAnalystAwards(analystAwards);
@@ -3091,53 +3090,35 @@ public class VendorController {
 
 			// Build Vendor research report offering file path using logged in user name
 			String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
-			logger.info("Research Reports Offering file baasepath:" + basePath);
-			if (multiPartFile != null && multiPartFile.getSize() > 0) {
-				logger.info("Multipart (vo_upload_report form field) FileName:" + multiPartFile.getOriginalFilename());
-				logger.info("Multipart (vo_upload_report form field) FileSize:" + multiPartFile.getSize());
-
-				// Upload filename suffix with productId
-				// Reason: loggedIn user can upload multiple file while upload
-				Pair<String, String> fileNameAndExtention = StringUtil
-						.getFileNameAndExtention(multiPartFile.getOriginalFilename());
-
-				String uploadFileNameOnly = fileNameAndExtention.getElement1() + "_" + productId
-						+ fileNameAndExtention.getElement2();
-				String reportResearchOfferingFilePath = StringUtil.builtPath(uploadFileNameOnly, basePath, userName);
-				logger.info("Research Reports Offering filepath:" + reportResearchOfferingFilePath);
-
-				researchDetails.setRsrchUploadReport(reportResearchOfferingFilePath);
+			if (multiPartFile != null && multiPartFile.getSize() > 0L) {
+				String rsrchUploadRptPath = WebUtil.buildReportPath(productId, multiPartFile, userName, basePath);
+				researchDetails.setRsrchUploadReport(rsrchUploadRptPath);
 
 				researchReportsOffering.setResearchDetails(researchDetails);
 				vendorService.addVendorResearchReportsOffering(researchReportsOffering);
 
-				// upload Vendor Research Report Offering file to server
-				// We store upload report file on server with base path like
-				// basepath: /home/finvendo/<loggedIn-username>/research_report/xyz.pdf
+				/*
+				 * upload Vendor Research Report Offering file to server. We store upload report
+				 * file on server with base path like
+				 * /home/finvendo/<loggedIn-username>/research_report/xyz.pdf
+				 */
 				boolean uploadFileStatus = vendorService.uploadFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING,
-						multiPartFile.getBytes(), reportResearchOfferingFilePath);
-				logger.info("Research Reports Offering file uploaded status:" + uploadFileStatus);
+						multiPartFile.getBytes(), rsrchUploadRptPath);
 
-				// If Upload file failed somehow then delete corresponding entry from
-				// ven_rsrch_rpt_offering table
+				// Upon Upload file failed revert from ven_rsrch_rpt_offering table
 				if (!uploadFileStatus) {
 					vendorService.deleteVendorResearchReportsOffering(productId);
 				} else {
 					logger.info("Research Reports Offering file uploaded file successfully at server path:"
-							+ reportResearchOfferingFilePath);
+							+ rsrchUploadRptPath);
 				}
 			} else {
-				String reportResearchOfferingFilePath = vendorService.fetchVendorResearchReportsOffering(productId)
-						.getResearchDetails().getRsrchUploadReport();
-				if (reportResearchOfferingFilePath != null && (!reportResearchOfferingFilePath.isEmpty())) {
-					researchReportsOffering.getResearchDetails().setRsrchUploadReport(reportResearchOfferingFilePath);
-					vendorService.addVendorResearchReportsOffering(researchReportsOffering);
-				}
+				vendorService.addVendorResearchReportsOffering(researchReportsOffering);
 			}
 			modelAndView.addObject("status", "Offering details Updated successfully");
 		} catch (Exception exp) {
-			logger.error("Error Saving Research Reports Offering", exp);
-			modelAndView.addObject("status", "Error Updating Offering details");
+			logger.error("Error Saving Research Reports Offering", productId, exp);
+			modelAndView.addObject("status", "Error Updating Offering details, cause: " + exp.getMessage());
 		}
 		logger.debug("Leaving  - VendorController : addResearchReportsOffering");
 		return modelAndView;
@@ -3180,7 +3161,6 @@ public class VendorController {
 				logger.error("Selected Offering does not belong to logged in User !!");
 				modelAndView.addObject("status", "Error deleting Offering record");
 			}
-
 		} catch (Exception exp) {
 			logger.error("Error Deleting Research Reports Offering for Product {}", productId, exp);
 			modelAndView.addObject("status", "Error deleting Offering record");
@@ -3192,9 +3172,7 @@ public class VendorController {
 	@RequestMapping(value = "listResearchReportsOffering", method = { RequestMethod.POST, RequestMethod.GET })
 	public @ResponseBody List<VendorResearchReportsOfferingJson> listResearchReportsOffering(HttpServletRequest request,
 			HttpServletResponse response) {
-
 		logger.debug("Entering  - VendorController : listResearchReportsOffering");
-		logger.info("vendor offering research report for ********: ");
 		List<VendorResearchReportsOffering> offerings = null;
 		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
 		String userName = null;
