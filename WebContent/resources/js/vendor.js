@@ -1893,7 +1893,11 @@ jQuery(document).ready(function() {
 		rsrch_report_offeringfile.append('vo_eqrrv_recommendation_type', vo_eqrrv_recommendation_type);
 
 		if(isEdit) {
-			rsrch_report_offeringfile.append('vo_upload_report', new Blob([]));
+			if(vo_upload_report.files[0] == undefined) {
+				rsrch_report_offeringfile.append('vo_upload_report', new Blob([]));
+			} else {
+				rsrch_report_offeringfile.append('vo_upload_report', vo_upload_report.files[0]);
+			}
 		} else {
 			rsrch_report_offeringfile.append('vo_upload_report', vo_upload_report.files[0]);
 		}
