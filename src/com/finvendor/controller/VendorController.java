@@ -3033,6 +3033,7 @@ public class VendorController {
 
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
 		ModelAndView modelAndView = new ModelAndView("empty");
+
 		try {
 			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
@@ -3048,7 +3049,8 @@ public class VendorController {
 
 			if (productId == null || "".equals(productId.trim())) {
 				productId = UUID.randomUUID().toString();
-			}
+			} 
+			
 			researchReportsOffering.setProductId(productId);
 			researchReportsOffering.setProductName(productName);
 			researchReportsOffering.setProductDescription(productDescription);
@@ -3106,10 +3108,24 @@ public class VendorController {
 							+ rsrchUploadRptPath);
 				}
 			} else {
+				String voUploadFilePath = "";
+				VendorResearchReportsResearchDetails existingResearchDetails = vendorService
+						.fetchVendorResearchReportsOffering(productId).getResearchDetails();
+				if (existingResearchDetails != null) {
+					voUploadFilePath = existingResearchDetails.getRsrchUploadReport();
+				} else {
+					throw new Exception("Existing ResearchDetails found null!");
+				}
+
+				researchDetails.setRsrchUploadReport(voUploadFilePath);
+				researchReportsOffering.setResearchDetails(researchDetails);
 				vendorService.addVendorResearchReportsOffering(researchReportsOffering);
 			}
+
 			modelAndView.addObject("status", "Offering details Updated successfully");
-		} catch (Exception exp) {
+		} catch (
+
+		Exception exp) {
 			logger.error("Error Saving Research Reports Offering", productId, exp);
 			modelAndView.addObject("status", "Error Updating Offering details, cause: " + exp.getMessage());
 		}
