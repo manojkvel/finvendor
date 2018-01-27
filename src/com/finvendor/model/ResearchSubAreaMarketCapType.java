@@ -17,8 +17,8 @@ public class ResearchSubAreaMarketCapType implements Serializable {
 	private static final long serialVersionUID = -3951449132568377457L;
 	
 	@Id
-    @Column(name="id")
-	private String id;
+    @Column(name="company_id")
+	private String company_id;
 	
 	@ManyToOne(targetEntity=ResearchArea.class, fetch=FetchType.EAGER)
 	@JoinColumn(name="rsch_area_id", nullable=false)
@@ -28,15 +28,15 @@ public class ResearchSubAreaMarketCapType implements Serializable {
 	@JoinColumn(name="rsch_sub_area_id", nullable=false)
 	private ResearchSubArea researchSubArea;
 	
-	@Column(name="cap_type")
+	@Column(name="mcap_id")
 	private String capType;
 
-	public String getId() {
-		return id;
+	public String getCompany_id() {
+		return company_id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setCompany_id(String company_id) {
+		this.company_id = company_id;
 	}
 
 	public ResearchArea getResearchArea() {

@@ -36,7 +36,7 @@ public class VendorResearchReportsResearchDetails
 	@Column(name="rep_format")
 	private String repFormat;
 	
-	@Column(name="rsrch_report_for")
+	@Column(name="company_id")
 	private String rsrchReportFor;
 	
 	@Column(name="rep_date")

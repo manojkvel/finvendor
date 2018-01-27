@@ -12,8 +12,12 @@ import javax.persistence.Table;
 public class ResearchAreaStockClassification implements Serializable {
 		
 	private static final long serialVersionUID = 2739608434104227444L;
-	
+
 	@Id
+    @Column(name="research_area_id")
+	private String researchAreaId;
+	
+	//@Id
     @Column(name="stock_class_type_id")
 	private String stockClassificationTypeId;
 	
@@ -41,5 +45,10 @@ public class ResearchAreaStockClassification implements Serializable {
 	public void setStockClassificationName(String stockClassificationName) {
 		this.stockClassificationName = stockClassificationName;
 	}
-	
+	public String getResearchAreaId() {
+		return researchAreaId;
+	}
+	public void setResearchAreaId(String researchAreaId) {
+		this.researchAreaId = researchAreaId;
+	}
 }
