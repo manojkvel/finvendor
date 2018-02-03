@@ -1,5 +1,7 @@
 package com.finvendor.server.researchreport.dto.filter;
 
+import com.finvendor.server.researchreport.dto.filter.ifc.ResearchReportFilter;
+
 /**
  * 
  * @author ayush
