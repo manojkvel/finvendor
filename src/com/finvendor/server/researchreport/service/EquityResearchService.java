@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.finvendor.common.dao.ifc.ICommonDao;
 import com.finvendor.server.researchreport.dao.ifc.IResearchReportDao;
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
@@ -24,14 +23,9 @@ public class EquityResearchService extends AbsResearchReportService {
 	@Qualifier(value="equityResearchDao")
 	IResearchReportDao equityReserachReportDao;
 	
-	@Autowired
-	private ICommonDao dao;
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EquityResearchResult> getResearchReport(EquityResearchFilter rrFilter) {
-		boolean executeNativeQuery = dao.executeNativeQuery("");
-		System.out.println("executeNativeQuery Status="+executeNativeQuery);
 		return (List<EquityResearchResult>) equityReserachReportDao.findResearchResult(rrFilter);
 	}
 }

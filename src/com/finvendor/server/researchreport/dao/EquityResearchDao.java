@@ -3,6 +3,8 @@ package com.finvendor.server.researchreport.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.finvendor.server.researchreport.dao.ifc.AbsResearchReportDao;
@@ -17,6 +19,9 @@ import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
 @Repository
 public class EquityResearchDao extends AbsResearchReportDao {
 
+	@Autowired
+	private SessionFactory sessionFactory;
+	
 	@Override
 	public List<EquityResearchResult> findResearchResult(ResearchReportFilter filter) {
 		applyFilter(EQUITY_RESEARCH_SQL_QUERY,filter);
