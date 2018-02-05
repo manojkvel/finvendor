@@ -9,4 +9,8 @@ public interface RestApiUriConstants {
 	interface ResearchReport {
 		String RESEARCH_REPORT_EQUITY = "/researchReports";
 	}
+	
+	interface AdminDashBoard {
+		String COMPANY_DETAILS_URI = "/companydetails";
+	}
 }

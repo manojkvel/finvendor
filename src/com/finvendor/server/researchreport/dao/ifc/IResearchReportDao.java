@@ -13,6 +13,7 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
  */
 public interface IResearchReportDao {
 
-	String EQUITY_RESEARCH_SQL_QUERY="";
-	List<? extends AbsResearchReportResult> findResearchResult(ResearchReportFilter filter);
+	String EQUITY_RESEARCH_SQL_QUERY = "";
+
+	List<? extends AbsResearchReportResult> findResearchResult(ResearchReportFilter filter) throws RuntimeException;
 }
