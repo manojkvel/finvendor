@@ -47,6 +47,7 @@
     		getAnalyticalSolutionSubTypeList();
     		getResearchAreaList();
     		getResearchSubAreaList();
+    		getResearchSubAreaCompanyDetailsList();
     	});
     </script>
 </head>

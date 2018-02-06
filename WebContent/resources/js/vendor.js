@@ -1798,6 +1798,10 @@ jQuery(document).ready(function() {
 		} else {
 			$("#research_application #vo_rr_report_for").parent().find("button").addClass("error_field");
 		}
+		
+
+
+		getResearchSubAreaCompanyDetailsListMapping("#research_application #vo_rr_report_for", "#research_application #rcResearchSubArea");
 
 		if(vo_datepicker != '') {
 			$("#research_application #vo_datepicker").removeClass("error_field");
