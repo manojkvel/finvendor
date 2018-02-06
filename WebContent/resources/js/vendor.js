@@ -1697,7 +1697,41 @@ jQuery(document).ready(function() {
 		});
 	}
 	
-	//var rsrch_report_offeringfile = '';
+
+	function getResearchReportList(researchAreaId) {
+		$.ajax({
+			type: 'GET',
+			url:  "/system/api/companydetails?researchAreaId=" + researchAreaId,
+			cache:false,
+			success : function(response) {
+				var $option='';
+				for (var val in response) {
+					$option += "<option value='" + response[val].companyId + "'>" + response[val].companyName + "</option>";   
+				}
+				$("select#vo_rr_report_for").empty();
+				$("select[name=vo_rr_report_for]").append($option);	
+				$("select[name=vo_rr_report_for]").selectpicker('refresh');
+			},
+			error : function(data, textStatus, jqXHR) {
+				//alert('Error: '+data+':'+textStatus);
+			}
+		});
+	}
+
+	function getResearchReportForMapping() {
+		var rcResearchAreaId = 0;
+		if($("select[name=rcResearchArea]").length == 0) {
+			rcResearchAreaId = 0;
+		} else {
+			rcResearchAreaId = $("select[name=rcResearchArea]").selectpicker('val');
+		}
+
+		getResearchReportList(rcResearchAreaId);
+	}
+
+	getResearchReportForMapping('rcResearchArea', 'vo_rr_report_for');
+
+	$("#research_application #rcResearchArea").on('change', getResearchReportForMapping);
 
 	/// add Research Application offering--:
 	addResearchReportsOffering = function(id) {
@@ -1798,6 +1832,7 @@ jQuery(document).ready(function() {
 		} else {
 			$("#research_application #vo_rr_report_for").parent().find("button").addClass("error_field");
 		}
+		
 
 		if(vo_datepicker != '') {
 			$("#research_application #vo_datepicker").removeClass("error_field");
