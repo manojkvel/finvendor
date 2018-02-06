@@ -6,13 +6,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
+@NamedNativeQueries({
+	@NamedNativeQuery(name = Roles.FETCH_ALL_ROLES, query = "select * from Roles", resultClass = Roles.class)
+	})
 @Entity
 @Table(name="roles")
 public class Roles implements Serializable{
 	
 	private static final long serialVersionUID = 120920151057L;
+	public static final String FETCH_ALL_ROLES="roles";
 	@Id
     @Column(name="role_id")
     @GeneratedValue
