@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finvendor.bean.CompanyDetails;
-import com.finvendor.serverwebapi.resources.exception.RestApiException;
+import com.finvendor.serverwebapi.exception.WebApiException;
 
 /**
  * 
  * @author ayush
  *
  */
-@RequestMapping(RestApiUriConstants.BASE_URI)
-public interface IAdminDashboardRestApi {
-	@RequestMapping(value = RestApiUriConstants.AdminDashBoard.COMPANY_DETAILS_URI, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(WebUriConstants.BASE_URI)
+public interface WebFvAdminDashboardIfc {
+	@RequestMapping(value = WebUriConstants.AdminDashBoard.COMPANY_DETAILS_URI, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	List<CompanyDetails> getResearchResult(@RequestParam("researchAreaId") String researchAreaId) throws RestApiException;
+	List<CompanyDetails> getResearchResult(@RequestParam("researchAreaId") String researchAreaId) throws WebApiException;
 }

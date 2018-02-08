@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.restapi;
+package com.finvendor.serverwebapi.resources;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
 import com.finvendor.server.researchreport.service.ifc.IResearchReportService;
-import com.finvendor.serverwebapi.resources.exception.RestApiException;
-import com.finvendor.serverwebapi.resources.ifc.IResearchReportRestApi;
+import com.finvendor.serverwebapi.exception.WebApiException;
+import com.finvendor.serverwebapi.resources.ifc.WebFvResearchReportIfc;
 
 /**
  * 
@@ -20,7 +20,7 @@ import com.finvendor.serverwebapi.resources.ifc.IResearchReportRestApi;
  */
 @Controller
 // TBD: Later will replace with RestController to avoid @Responsebody annotation
-public class ResearchReportRestApi implements IResearchReportRestApi {
+public class WebFvResearchReport implements WebFvResearchReportIfc {
 
 	@Autowired
 	@Qualifier(value = "equityResearchService")
@@ -36,14 +36,14 @@ public class ResearchReportRestApi implements IResearchReportRestApi {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, List<EquityResearchResult>> getResearchResult(String type) throws RestApiException {
+	public Map<String, List<EquityResearchResult>> getResearchResult(String type) throws WebApiException {
 		Map<String, List<EquityResearchResult>> result = new HashMap<>();
 		try {
 			List<EquityResearchResult> researchReport = (List<EquityResearchResult>) equityResearchService.getResearchReport(null);
 			result.put(type, researchReport);
 			return result;
 		} catch (Exception e) {
-			throw new RestApiException("getResearchResult has REST API Error, cause: " + e.getMessage(), e);
+			throw new WebApiException("getResearchResult has REST API Error, cause: " + e.getMessage(), e);
 		}
 	}
 }

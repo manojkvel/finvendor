@@ -1,6 +1,6 @@
 package com.finvendor.serverwebapi.resources.ifc;
 
-public interface RestApiUriConstants {
+public interface WebUriConstants {
 	
 	String BASE_URI = "/system/api";
 	
