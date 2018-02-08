@@ -62,3 +62,16 @@
 	margin:0;
 }
 
+#broker_table div {
+	padding: 3px 0;
+}
+
+#broker_table .company,
+#broker_table .broker,
+#broker_table .brokerRank,
+#broker_table .cmp,
+#broker_table .recommType,
+#broker_table .analystName
+ {
+	font-weight: bold;
+}

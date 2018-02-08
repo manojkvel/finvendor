@@ -1591,6 +1591,8 @@ jQuery(document).ready(function() {
 				getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
 				$("select[name=rcResearchSubArea]").selectpicker('val', response.researchSubArea.split(','));
 
+
+
 				
 				$("#research_application #rdSuitability").selectpicker('val', response.suitability.split(','));
 
@@ -1598,7 +1600,12 @@ jQuery(document).ready(function() {
 					$("#research_application #rdSubsriptionCostUSDperannum").val(response.subCostPy);
 				}
 
-				$("#research_application #vo_rr_report_for").selectpicker('val', response.rsrchReportFor);
+
+				getResearchReportForMapping('rcResearchArea', 'vo_rr_report_for');
+				setTimeout(function() {
+					$("#research_application #vo_rr_report_for").selectpicker('val', response.rsrchReportFor);
+				}, 200);
+
 				$("#research_application #vo_datepicker").val(response.repDate);
 				
 				if(response.targetPrice != 0){

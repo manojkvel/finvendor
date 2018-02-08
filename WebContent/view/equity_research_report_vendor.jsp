@@ -651,6 +651,11 @@
 								</thead>
 								<tbody>
 									<tr>
+										<td colspan="6">
+											<jsp:include page="common/progressLoader.jsp"></jsp:include>
+										</td>
+									</tr>
+									<!--<tr>
 										<td>Zee Learn Limited</td>
 										<td>Axis Direct</td>
 										<td>5</td>
@@ -753,7 +758,7 @@
 												<a href="#" target="" data-toggle="tooltip" title="Go to report post"><i class="fa fa-file"></i></a>
 											</div>
 										</td>
-									</tr>
+									</tr>-->
 								</tbody>
 							</table>
 						</div>
@@ -769,6 +774,7 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/equitysearch.js"></script>
     <script type='text/javascript'>
     	$('#myofferings1').on('click', function() {
     		$('#tab1').show();
