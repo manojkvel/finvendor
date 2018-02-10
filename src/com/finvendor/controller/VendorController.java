@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finvendor.common.util.StringUtil;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.JsonResponseData;
 import com.finvendor.form.VendorAnalystProfileForm;
@@ -81,6 +82,7 @@ import com.finvendor.model.VendorTradingApplicationsSoftwareDetails;
 import com.finvendor.model.VendorTradingApplicationsTradingCapability;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
+import com.finvendor.serverwebapi.utils.WebUtil;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.RfpService;
@@ -88,9 +90,7 @@ import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
-import com.finvendor.util.StringUtil;
 import com.finvendor.util.VendorEnum;
-import com.finvendor.util.WebUtil;
 import com.google.gson.Gson;
 
 @Controller

@@ -1,4 +1,4 @@
-package com.finvendor.util;
+package com.finvendor.common.util;
 /**
  * Holder of pair of object
  * 

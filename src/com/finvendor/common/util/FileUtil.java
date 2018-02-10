@@ -1,4 +1,4 @@
-package com.finvendor.util;
+package com.finvendor.common.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
  * @author ayush
  * @since 07-Jan-2018
  */
-public final class FileHandler {
+public final class FileUtil {
 	public static final long FIXED_FILE_SIZE_OF_10_MB = 10L * 1024L * 1024L; // 10MB
 
 	public enum FileSizeEnum {
@@ -20,7 +20,7 @@ public final class FileHandler {
 	}
 
 	// forbidden instantiation
-	private FileHandler() {
+	private FileUtil() {
 	}
 
 	public static void writeByteArrayToFile(String destinationPath, byte[] bytes) throws IOException {

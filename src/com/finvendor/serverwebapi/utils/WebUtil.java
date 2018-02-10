@@ -1,9 +1,12 @@
-package com.finvendor.util;
+package com.finvendor.serverwebapi.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import com.finvendor.common.util.Pair;
+import com.finvendor.common.util.StringUtil;
 
 /**
  * Web Utility class
