@@ -27,11 +27,11 @@ public class EquityResearchService extends AbsResearchReportService {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly = true)
-	public List<EquityResearchResult> getResearchReport(EquityResearchFilter rrFilter) {
+	public List<EquityResearchResult> getResearchReport(EquityResearchFilter rrFilter) throws Exception {
 		try {
 			return (List<EquityResearchResult>) equityReserachReportDao.findResearchResult(rrFilter);
-		} catch (Exception e) {
-			throw e;
+		} catch (RuntimeException e) {//TODO need to replace with custom Exception
+			throw new Exception(e);
 		}
 	}
 }

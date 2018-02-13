@@ -18,7 +18,7 @@ import com.finvendor.serverwebapi.exception.WebApiException;
  * @since 03-Feb-2018
  */
 @RequestMapping(WebUriConstants.BASE_URI)
-public interface WebFvResearchReportIfc {
+public interface WebResearchReportIfc {
 
 	@RequestMapping(value = WebUriConstants.ResearchReport.RESEARCH_REPORT_EQUITY, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

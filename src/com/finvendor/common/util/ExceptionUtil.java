@@ -14,6 +14,6 @@ public final class ExceptionUtil {
 	}
 
 	public static final String getRootCauseMessage(Throwable th) {
-		return ExceptionUtils.getRootCauseMessage(th);
+		return ExceptionUtils.getRootCause(th).getMessage();
 	}
 }

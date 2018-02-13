@@ -1,24 +1,23 @@
 package com.finvendor.server.example;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.model.Roles;
-import com.finvendor.server.common.dao.ifc.ICommonDao;
+import com.finvendor.model.Example;
 import com.finvendor.server.example.ifc.IExampleService;
 
 @Service
+@Transactional(readOnly = true)
 public class ExampleService implements IExampleService {
 
 	@Autowired
-	private ICommonDao dao;
+	private ExampleDaoImpl dao;
 
 	@Override
-	@Transactional(readOnly = true)
-	public List<Roles> getRoles(String namedQueryname) {
-		return dao.executeNamedQuery(namedQueryname);
+
+	public long createNewExample(Example example) {
+		Long save = (Long) dao.save(example);
+		return save;
 	}
 }

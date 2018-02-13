@@ -1,8 +1,6 @@
 package com.finvendor.server.example.ifc;
 
-import java.util.List;
-
-import com.finvendor.model.Roles;
+import com.finvendor.model.Example;
 
 /**
  * This interface is for quick testing at service level
@@ -11,5 +9,5 @@ import com.finvendor.model.Roles;
  */
 public interface IExampleService {
 
-	List<Roles> getRoles(String sql);
+	long createNewExample(Example example);
 }
