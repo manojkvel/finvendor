@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.finvendor.common.util.FileUtil;
 import com.finvendor.dao.VendorDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
@@ -38,7 +39,6 @@ import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
-import com.finvendor.util.FileHandler;
 import com.finvendor.util.VendorEnum;
 
 public class VendorServiceImpl implements VendorService {
@@ -603,7 +603,7 @@ public class VendorServiceImpl implements VendorService {
 		switch (type) {
 		case VENDOR_RESEARCH_REPORT_OFFERING:
 			try {
-				FileHandler.writeByteArrayToFile(destPath, bytes);
+				FileUtil.writeByteArrayToFile(destPath, bytes);
 			} catch (IOException e) {
 				uploadFileStatus = false;
 			}
@@ -621,7 +621,7 @@ public class VendorServiceImpl implements VendorService {
 		switch (type) {
 		case VENDOR_RESEARCH_REPORT_OFFERING:
 			if (path != null && !path.isEmpty() )
-				FileHandler.deleteFile(path);
+				FileUtil.deleteFile(path);
 			break;
 		}
 

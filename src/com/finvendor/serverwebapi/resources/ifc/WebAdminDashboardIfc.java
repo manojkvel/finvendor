@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.finvendor.bean.CompanyDetails;
+import com.finvendor.modelpojo.staticpojo.CompanyDetails;
 import com.finvendor.serverwebapi.exception.WebApiException;
 
 /**
@@ -17,8 +17,8 @@ import com.finvendor.serverwebapi.exception.WebApiException;
  *
  */
 @RequestMapping(WebUriConstants.BASE_URI)
-public interface WebFvAdminDashboardIfc {
+public interface WebAdminDashboardIfc {
 	@RequestMapping(value = WebUriConstants.AdminDashBoard.COMPANY_DETAILS_URI, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	List<CompanyDetails> getResearchResult(@RequestParam("researchAreaId") String researchAreaId) throws WebApiException;
+	List<CompanyDetails> getCompanyDetails(@RequestParam("researchAreaId") String researchAreaId) throws WebApiException;
 }

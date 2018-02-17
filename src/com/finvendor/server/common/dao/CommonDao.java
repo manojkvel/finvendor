@@ -9,8 +9,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.finvendor.bean.CompanyDetails;
 import com.finvendor.model.Roles;
+import com.finvendor.modelpojo.staticpojo.CompanyDetails;
 import com.finvendor.server.common.dao.ifc.ICommonDao;
 
 /**

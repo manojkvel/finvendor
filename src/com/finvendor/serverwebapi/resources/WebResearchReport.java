@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
+import com.finvendor.common.util.ExceptionUtil;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
 import com.finvendor.server.researchreport.service.ifc.IResearchReportService;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.ifc.WebFvResearchReportIfc;
+import com.finvendor.serverwebapi.resources.ifc.WebResearchReportIfc;
 
 /**
  * 
@@ -20,7 +21,7 @@ import com.finvendor.serverwebapi.resources.ifc.WebFvResearchReportIfc;
  */
 @Controller
 // TBD: Later will replace with RestController to avoid @Responsebody annotation
-public class WebFvResearchReport implements WebFvResearchReportIfc {
+public class WebResearchReport implements WebResearchReportIfc {
 
 	@Autowired
 	@Qualifier(value = "equityResearchService")
@@ -43,7 +44,13 @@ public class WebFvResearchReport implements WebFvResearchReportIfc {
 			result.put(type, researchReport);
 			return result;
 		} catch (Exception e) {
-			throw new WebApiException("getResearchResult has REST API Error, cause: " + e.getMessage(), e);
+			//TODO need to refactor
+			String generalError="Error has occured in Finvendor Web API .../system/api/researchReports?type=equity";
+			String technicalError="Technical has occred in WebResearchReport-> getResearchResult() :: Error Cause:"+ExceptionUtil.getRootCauseMessage(e);
+			StringBuffer sb=new StringBuffer();
+			sb.append("User Error:"+generalError).append("\n").append("Developer Error:").append(technicalError).append("\n")
+			.append("Please contact Finvendor support team!!");
+			throw new WebApiException(sb.toString());
 		}
 	}
 }

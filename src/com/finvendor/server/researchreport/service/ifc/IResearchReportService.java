@@ -12,5 +12,5 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
  */
 public interface IResearchReportService {
 
-	 List<? extends AbsResearchReportResult> getResearchReport(EquityResearchFilter rrfilter);
+	 List<? extends AbsResearchReportResult> getResearchReport(EquityResearchFilter rrfilter) throws Exception;
 }

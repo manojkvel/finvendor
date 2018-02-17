@@ -6,20 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.bean.CompanyDetails;
+import com.finvendor.modelpojo.staticpojo.CompanyDetails;
 import com.finvendor.server.common.dao.ifc.ICommonDao;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.ifc.WebFvAdminDashboardIfc;
+import com.finvendor.serverwebapi.resources.ifc.WebAdminDashboardIfc;
 
 @Controller
-public class WebFvAdminDashboard implements WebFvAdminDashboardIfc {
+public class WebAdminDashboard implements WebAdminDashboardIfc {
 
 	@Autowired
 	private ICommonDao dao;
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<CompanyDetails> getResearchResult(String researchAreaId) throws WebApiException {
+	public List<CompanyDetails> getCompanyDetails(String researchAreaId) throws WebApiException {
 		return dao.getCompanyDetails(Integer.parseInt(researchAreaId));
 	}
 }

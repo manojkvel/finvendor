@@ -1,4 +1,4 @@
-package com.finvendor.util;
+package com.finvendor.common.util;
 
 import java.io.File;
 
