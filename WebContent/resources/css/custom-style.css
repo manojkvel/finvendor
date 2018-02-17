@@ -350,7 +350,7 @@ body {
 @media screen and (min-width: 992px)
 {
 #fv_sub_header form .input-group {
-    max-width: 325px;
+    max-width: 310px;
 }
 
 }

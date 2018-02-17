@@ -1562,6 +1562,10 @@ input[type="file"]:focus {
     text-align: center;
 }
 
+#fv_equity_research_report_vendor_search #broker_table th {
+	vertical-align: top;
+}
+
 
 
 #fv_equity_research_report_vendor_search #broker_table tbody tr:nth-of-type(odd) {
@@ -1577,7 +1581,7 @@ input[type="file"]:focus {
 }
 
 #fv_equity_research_report_vendor_search #broker_table td a:last-child {
-	margin-left:20px;
+	margin-left:0;
 }
 
 
@@ -1680,6 +1684,7 @@ h2 {
 
 #fv_equity_research_report_vendor_search #broker_table thead th p {
 	margin: 0;
+	text-align: left;
 }
 
 #fv_equity_research_report_vendor_search .large_font a {

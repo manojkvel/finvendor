@@ -1,4 +1,6 @@
-
+body {
+	font-family: 'Roboto', sans-serif, Arial;
+}
 
 .errorMessage {
 	font-size:12px; 
@@ -74,4 +76,51 @@
 #broker_table .analystName
  {
 	font-weight: bold;
+}
+
+.recommType {
+	border-radius: 20px;
+	color: #fff;
+	padding: 5px !important;
+}
+
+._3YrPatGrowth, .upside {
+	font-weight: bold;
+}
+
+._3YrPatGrowth i {
+	position: relative;
+	top: 3px;
+}
+
+.brokerRank i {
+	font-size: 13px !important;
+	padding: 0 2px;
+}
+
+.style, .mcap, .sector,
+.since, .awarded, .researchedByCfa,
+.brokerRankLargeCap, .brokerRankMidCap, .brokerRankSmallCap,
+ .priceDate, .pe {
+	font-size: 10px;
+}
+
+.targetPrice {
+	font-weight: bold;
+}
+
+.success {
+	color: #5cb85c;
+}
+
+.danger {
+	color: #d9534f;
+}
+
+.large_font {
+	font-weight: bold;
+}
+
+.tooltip .tooltip-inner {
+	padding: 5px !important;
 }
