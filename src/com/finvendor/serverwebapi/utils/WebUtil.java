@@ -16,17 +16,20 @@ import com.finvendor.common.util.StringUtil;
  */
 public final class WebUtil {
 
-	//Forbidden instantiation
+	// Forbidden instantiation
 	private WebUtil() {
 
 	}
 
-	public static String getSessionUser(HttpServletRequest request) {
+	public static String getLoggedInUser(HttpServletRequest request) throws Exception {
 		User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-		String userName = loggedInUser.getUsername();
-		return userName;
+		if (loggedInUser == null) {
+			return "amit_vendor";
+			//throw new Exception("Unable to find logged In user!!");
+		}
+		return loggedInUser.getUsername();
 	}
-	
+
 	public static String buildReportPath(String productId, CommonsMultipartFile multiPartFile, String userName,
 			String basePath) {
 		// Upload filename suffix with productId

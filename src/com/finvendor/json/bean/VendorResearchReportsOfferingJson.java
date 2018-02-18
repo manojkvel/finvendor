@@ -36,6 +36,7 @@ public class VendorResearchReportsOfferingJson {
 	private String repDate;
 	private String rsrchReportAccess;
 	private String rsrchRecommType;
+	private String priceAtRecomm;
 	private String rsrchReportDesc;
 	private String rsrchUploadReport;
 	private String targetPrice;
@@ -261,5 +262,12 @@ public String getRsrchReportFor() {
 	public void setAnaystCfaCharter(String anaystCfaCharter) {
 		this.anaystCfaCharter = anaystCfaCharter;
 	}
+	public String getPriceAtRecomm() {
+		return priceAtRecomm;
+	}
+	public void setPriceAtRecomm(String priceAtRecomm) {
+		this.priceAtRecomm = priceAtRecomm;
+	}
+	
 	
 }

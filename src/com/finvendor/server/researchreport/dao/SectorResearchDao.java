@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.finvendor.server.researchreport.dao.ifc.AbsResearchReportDao;
 import com.finvendor.server.researchreport.dto.filter.ifc.ResearchReportFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
+import com.finvendor.server.researchreport.dto.result.dashboard.AbsResearchReportDashboardResult;
 
 /**
  * 
@@ -17,7 +18,12 @@ import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
 public class SectorResearchDao extends AbsResearchReportDao {
 
 	@Override
-	public List<EquityResearchResult> findResearchResult(ResearchReportFilter filter) {
+	public List<EquityResearchResult> findResearchReportTableData(ResearchReportFilter filter) {
+		return null;
+	}
+
+	@Override
+	public AbsResearchReportDashboardResult findResearchReportDashboardData(String... params) throws RuntimeException {
 		return null;
 	}
 }

@@ -1,6 +1,7 @@
 package com.finvendor.common.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
@@ -29,24 +30,24 @@ public final class FileUtil {
 	}
 
 	public static void deleteFile(String path) throws IOException {
-		//Delete if report file exists
+		// Delete if report file exists
 		File fileTemp = new File(path);
-		if (fileTemp.exists()){
-		    fileTemp.delete();
+		if (fileTemp.exists()) {
+			fileTemp.delete();
 		}
 
 	}
 
 	public static void validateFileSize(long threshold, long fileSize) throws Exception {
 		if (fileSize > threshold) {
-			//TBD Need to be localized and get it from ENUM
+			// TBD Need to be localized and get it from ENUM
 			throw new Exception("Research report offering file size must not be more than 10 MB");
 		}
 	}
 
 	public static void validateEmptyFile(CommonsMultipartFile multiPartFile) throws Exception {
 		if (multiPartFile == null) {
-			//TBD Need to be localized and get it from ENUM
+			// TBD Need to be localized and get it from ENUM
 			throw new Exception("Research report offering file is empty");
 		}
 	}
@@ -61,5 +62,30 @@ public final class FileUtil {
 			break;
 		}
 		return fileSize;
+	}
+
+	public static byte[] readBytesFromFile(String filePath) throws Exception {
+		FileInputStream fileInputStream = null;
+		byte[] bytesArray = null;
+		try {
+			File file = new File(filePath);
+			bytesArray = new byte[(int) file.length()];
+
+			// read file into bytes[]
+			fileInputStream = new FileInputStream(file);
+			fileInputStream.read(bytesArray);
+
+		} catch (IOException e) {
+			throw new Exception("Unable to convert file to byte array!",e);
+		} finally {
+			if (fileInputStream != null) {
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					throw new Exception("Unable to close IO Stream!",e);
+				}
+			}
+		}
+		return bytesArray;
 	}
 }

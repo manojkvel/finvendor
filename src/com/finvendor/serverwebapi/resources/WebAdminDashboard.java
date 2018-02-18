@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.finvendor.common.enums.SqlEnum;
 import com.finvendor.modelpojo.staticpojo.CompanyDetails;
 import com.finvendor.server.common.dao.ifc.ICommonDao;
 import com.finvendor.serverwebapi.exception.WebApiException;
@@ -20,6 +21,6 @@ public class WebAdminDashboard implements WebAdminDashboardIfc {
 	@Override
 	@Transactional(readOnly = true)
 	public List<CompanyDetails> getCompanyDetails(String researchAreaId) throws WebApiException {
-		return dao.getCompanyDetails(Integer.parseInt(researchAreaId));
+		return dao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(), researchAreaId);
 	}
 }

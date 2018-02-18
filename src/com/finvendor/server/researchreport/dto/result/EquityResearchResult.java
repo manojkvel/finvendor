@@ -8,12 +8,13 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsEquitySectorResearc
  * @author ayush
  * @since 03-Feb-2018
  */
-@JsonPropertyOrder({ "company", "style", "mcap", "sector", "subSector", "broker", "since", "awarded", "researchedByCfa",
+@JsonPropertyOrder({ "companyId", "company", "style", "mcap", "sector", "subSector", "broker", "since", "awarded", "researchedByCfa",
 		"brokerRank", "brokerRankLargeCap", "brokerRankMidCap", "brokerRankSmallCap", "cmp", "priceDate", "pe",
 		"_3YrPatGrowth", "recommType", "targetPrice", "priceAtRecomm", "upside", "report", "researchDate",
 		"analystName" })
 public class EquityResearchResult extends AbsEquitySectorResearchResult {
 
+	private String companyId;
 	private String company;
 	private String style;
 	private String mcap;
@@ -32,6 +33,14 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String targetPrice;
 	private String priceAtRecomm;
 	private String upside;
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
 
 	public String getCompany() {
 		return company;

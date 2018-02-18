@@ -5,25 +5,19 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.finvendor.model.Roles;
 import com.finvendor.modelpojo.staticpojo.CompanyDetails;
-import com.finvendor.server.common.dao.ifc.ICommonDao;
+import com.finvendor.modelpojo.staticpojo.VoVendorDetails;
+import com.finvendor.server.common.dao.ifc.AbsCommonDao;
 
 /**
- * Common dao for quick test
- * 
- * @author ayush
- *
+ * Common Dao
+ * @author ayush on Feb 17, 2018
  */
 @Repository
-public class CommonDao implements ICommonDao {
-
-	@Autowired
-	private SessionFactory sessionFactory;
+public class CommonDao extends AbsCommonDao {
 
 	@SuppressWarnings("unchecked")
 	public List<Roles> executeNamedQuery(String namedQueryname) {
@@ -33,15 +27,27 @@ public class CommonDao implements ICommonDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CompanyDetails> getCompanyDetails(int rsrchAreaId) {
-		String sql = "select company_id, company_name from rsch_sub_area_company_dtls where rsch_sub_area_id in( SELECT research_sub_area_id FROM finvendo_dev.research_sub_area where research_area_id=?)";
+	public List<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) {
 		SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
-		query.setInteger(0, rsrchAreaId);
+		query.setInteger(0, Integer.parseInt(rsrchAreaId));
 		List<Object[]> rows = query.list();
+
 		List<CompanyDetails> results = new ArrayList<>();
 		for (Object[] row : rows) {
-			CompanyDetails companyDetail = new CompanyDetails(Integer.parseInt(row[0].toString()), row[1].toString());
-			results.add(companyDetail);
+			results.add(new CompanyDetails(Integer.parseInt(row[0].toString()), row[1].toString()));
+		}
+		return results;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<VoVendorDetails> getVoVendorDetails(String sql) throws RuntimeException {
+		SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+		List<Object[]> rows = query.list();
+		
+		List<VoVendorDetails> results = new ArrayList<>();
+		for (Object[] row : rows) {
+			results.add(new VoVendorDetails(row[0].toString(), row[1].toString()));
 		}
 		return results;
 	}

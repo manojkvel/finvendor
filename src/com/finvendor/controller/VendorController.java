@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -82,6 +83,8 @@ import com.finvendor.model.VendorTradingApplicationsSoftwareDetails;
 import com.finvendor.model.VendorTradingApplicationsTradingCapability;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
+import com.finvendor.modelpojo.staticpojo.VoVendorDetails;
+import com.finvendor.serverwebapi.resources.ifc.WebUriConstants;
 import com.finvendor.serverwebapi.utils.WebUtil;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
@@ -3024,6 +3027,8 @@ public class VendorController {
 			@RequestParam(value = "vo_datepicker", required = true) String researchReportDate,
 			@RequestParam(value = "vo_target_price", required = true) String researchTargetPrice,
 			@RequestParam(value = "vo_eqrrv_recommendation_type", required = true) String researchRecommendationType,
+			// @RequestParam(value = "vo_price_at_recomm", required = false) String
+			// vo_price_at_recomm,
 			@RequestParam(value = "vo_eqrrv_report_desc", required = true) String researchReportDesc,
 			@RequestParam(value = "vo_eqrrv_report_access", required = false) String researchReportAccess,
 			@RequestParam(value = "vo_analystName", required = false) String analystName,
@@ -3033,7 +3038,7 @@ public class VendorController {
 
 		logger.debug("Entering  - VendorController : addResearchReportsOffering");
 		ModelAndView modelAndView = new ModelAndView("empty");
-
+		String vo_price_at_recomm = "";
 		try {
 			if (request.getSession().getAttribute("loggedInUser") == null) {
 				return new ModelAndView(RequestConstans.Login.HOME);
@@ -3049,8 +3054,8 @@ public class VendorController {
 
 			if (productId == null || "".equals(productId.trim())) {
 				productId = UUID.randomUUID().toString();
-			} 
-			
+			}
+
 			researchReportsOffering.setProductId(productId);
 			researchReportsOffering.setProductName(productName);
 			researchReportsOffering.setProductDescription(productDescription);
@@ -3073,6 +3078,7 @@ public class VendorController {
 			researchDetails.setRsrchReportFor(researchReportFor);
 			researchDetails.setRepDate(researchReportDate);
 			researchDetails.setRsrchRecommType(researchRecommendationType);
+			researchDetails.setPriceAtRecomm(vo_price_at_recomm);
 			researchDetails.setRsrchReportAccess(researchReportAccess);
 			researchDetails.setRsrchReportDesc(researchReportDesc);
 			researchDetails.setTargetPrice(researchTargetPrice);
@@ -3245,6 +3251,9 @@ public class VendorController {
 				// vo_eqrrv_recommendation_type
 				jsonOffering.setRsrchRecommType(offering.getResearchDetails().getRsrchRecommType());
 
+				// vo_price_at_recomm
+				jsonOffering.setPriceAtRecomm(offering.getResearchDetails().getPriceAtRecomm());
+
 				// vo_eqrrv_report_desc
 				jsonOffering.setRsrchReportDesc(offering.getResearchDetails().getRsrchReportDesc());
 
@@ -3291,6 +3300,7 @@ public class VendorController {
 					break;
 				}
 			}
+
 			if (offering == null) {
 				logger.error("Selected Offering does not belong to logged in User !!");
 			} else {
@@ -3334,6 +3344,9 @@ public class VendorController {
 
 					// vo_eqrrv_recommendation_type
 					vendorOffering.setRsrchRecommType(offering.getResearchDetails().getRsrchRecommType());
+
+					// vo_price_at_recomm
+					vendorOffering.setPriceAtRecomm(offering.getResearchDetails().getPriceAtRecomm());
 
 					// vo_eqrrv_report_desc
 					vendorOffering.setRsrchReportDesc(offering.getResearchDetails().getRsrchReportDesc());

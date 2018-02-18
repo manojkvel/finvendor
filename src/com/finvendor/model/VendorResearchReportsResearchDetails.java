@@ -47,6 +47,9 @@ public class VendorResearchReportsResearchDetails
 	
 	@Column(name="rsrch_recomm_type")
 	private String rsrchRecommType;
+	
+	@Column(name="price_at_recomm")
+	private String priceAtRecomm;
 
 	public String getRsrchReportFor() {
 		return rsrchReportFor;
@@ -181,6 +184,15 @@ public class VendorResearchReportsResearchDetails
 		this.repFormat = repFormat;
 	}
 
+	public String getPriceAtRecomm() {
+		return priceAtRecomm;
+	}
+
+	public void setPriceAtRecomm(String priceAtRecomm) {
+		this.priceAtRecomm = priceAtRecomm;
+	}
+
+
 	/*public String getResPeriodMon() {
 		return resPeriodMon;
 	}
@@ -197,4 +209,6 @@ public class VendorResearchReportsResearchDetails
 		this.resPeriodYear = resPeriodYear;
 	}
 	*/
+	
+	
 }
