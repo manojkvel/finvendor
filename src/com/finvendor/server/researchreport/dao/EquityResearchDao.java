@@ -83,8 +83,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 	@Override
 	public AbsResearchReportDashboardResult findResearchReportDashboardData(String... params) throws RuntimeException {
 		try {
-			SQLQuery query = this.sessionFactory.getCurrentSession()
-					.createSQLQuery(SqlEnum.EQUITY_RESEARCH_DASHBOARD.valueOf());
+			SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(SqlEnum.EQUITY_RESEARCH_DASHBOARD.valueOf());
 			query.setString(0, params[0]);
 			List<Object[]> rows = query.list();
 
