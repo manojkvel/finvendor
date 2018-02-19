@@ -751,6 +751,10 @@
 											<input type="text" id="vo_datepicker" name="vo_datepicker" required />
 											<label>Report Date <sup>*</sup></label>
 										</li>
+										<li>
+											<input type="number" name="vo_price_at_recomm" id="vo_price_at_recomm" required />
+											<label>Price at Recomm.<sup>*</sup></label>
+										</li>
 										<li style="display:none;">
 											<input type="number" name="vo_target_price" id="vo_target_price" required />
 											<label>Target Price <sup>*</sup></label>

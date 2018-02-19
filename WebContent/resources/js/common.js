@@ -381,8 +381,10 @@ function getResearchSubAreaMapping(rcResearchAreaSelector, rcResearchSubAreaSele
   	if($("#vendor_my_offerings").is(':visible')){ 
 
 	    if(getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("equity research")) {
+	    	$("#vo_price_at_recomm").parent().show();
 	    	$("#vo_target_price").parent().show();
 	    } else {
+	    	$("#vo_price_at_recomm").parent().hide();
 	    	$("#vo_target_price").parent().hide();
 	    }
   		

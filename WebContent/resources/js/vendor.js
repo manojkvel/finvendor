@@ -1616,6 +1616,7 @@ jQuery(document).ready(function() {
 			//	$("#research_application #vo_upload_report").val(response.rsrchUploadReport);
 				$('#research_application #vo_upload_report_file_name').val(response.rsrchUploadReport);
 				$("#research_application #vo_eqrrv_report_desc").val(response.rsrchReportDesc);
+				$("#research_application #vo_price_at_recomm").val(response.priceAtRecomm);
 				$("#research_application #vo_eqrrv_report_access").selectpicker('val', response.rsrchReportAccess);
 				$("#research_application #vo_analystName").val(response.analystName);
 
@@ -1772,11 +1773,14 @@ jQuery(document).ready(function() {
 		var vo_analystName = $("#research_application #vo_analystName").val().trim();
 		var vo_upload_report_file_name = $('#research_application #vo_upload_report_file_name').val();
 
-
-		
 		var vo_target_price = null;
 		if($('#vo_target_price').is(':visible')) {
 			vo_target_price = $('#research_application #vo_target_price').val();
+		}
+		
+		var vo_price_at_recomm = null;
+		if($('#vo_price_at_recomm').is(':visible')) {
+			vo_price_at_recomm = $('#research_application #vo_price_at_recomm').val();
 		}
 
 
@@ -1861,6 +1865,14 @@ jQuery(document).ready(function() {
 		}
 		
 
+		if(vo_price_at_recomm != '') {
+			$("#research_application #vo_price_at_recomm").removeClass("error_field");
+		} else {
+			$("#research_application #vo_price_at_recomm").addClass("error_field");
+			return false;
+		}
+		
+
 		if(vo_target_price != '') {
 			$("#research_application #vo_target_price").removeClass("error_field");
 		} else {
@@ -1931,6 +1943,7 @@ jQuery(document).ready(function() {
 		rsrch_report_offeringfile.append("rdSubsriptionCostUSDperannum", (costPerAnnum != '') ? costPerAnnum : '0.0');
 		rsrch_report_offeringfile.append('vo_rr_report_for', vo_rr_report_for);
 		rsrch_report_offeringfile.append('vo_datepicker', vo_datepicker);
+		rsrch_report_offeringfile.append('vo_price_at_recomm', vo_price_at_recomm);
 		rsrch_report_offeringfile.append('vo_target_price', vo_target_price);
 		rsrch_report_offeringfile.append('vo_eqrrv_recommendation_type', vo_eqrrv_recommendation_type);
 
@@ -1972,21 +1985,22 @@ jQuery(document).ready(function() {
 				"productId" : productId,
 				"researchReportName" : productName,
 				"researchReportDescription" : productDescription,
+				"launchedYear" : launchedYear,
 				"researchAreaId" : rcResearchArea,
 				"researchSubAreas" : (rcResearchSubArea != null)? ',' + rcResearchSubArea + ',' : '',
-				"launchedYear" : launchedYear,
 				"suitability" : (suitability != null) ? ',' + suitability + ',' : '',
 				"costPerAnnum" : (costPerAnnum != '') ? costPerAnnum : '0.0',
 				'vo_rr_report_for' : vo_rr_report_for,
 				'vo_datepicker' : vo_datepicker,
 				'vo_target_price' : vo_target_price,
 				'vo_eqrrv_recommendation_type' : vo_eqrrv_recommendation_type,
+				'vo_price_at_recomm' : vo_price_at_recomm,
 				'vo_eqrrv_upload_report' : rsrch_report_offeringfile,
 				'vo_eqrrv_report_desc' : vo_eqrrv_report_desc,
-				'vo_eqrrv_report_access' : vo_eqrrv_report_access,
 				'vo_analystName' : vo_analystName,
+				'vo_analystwithawards' : vo_analystwithawards,
 				'vo_analystCfaCharter' : vo_analystCfaCharter,
-				'vo_analystwithawards' : vo_analystwithawards
+				'vo_eqrrv_report_access' : vo_eqrrv_report_access
 			}
 
 			$.ajax({
