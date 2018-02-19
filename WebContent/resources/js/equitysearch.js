@@ -71,7 +71,7 @@ jQuery(document).ready(function() {
 							"<div class='researchedByCfa'>" + response.equity[i].researchedByCfa + "</div>" +
 						"</td>" +
 						"<td>" + 
-							"<div class='brokerRank'>" + borkerRankStarHtml + "</div>" + 
+							"<div class='brokerRank warning '>" + borkerRankStarHtml + "</div>" + 
 							"<div class='brokerRankLargeCap'>" + response.equity[i].brokerRankLargeCap + "</div>" + 
 							"<div class='brokerRankMidCap'>" + response.equity[i].brokerRankMidCap + "</div>" + 
 							"<div class='brokerRankSmallCap'>" + response.equity[i].brokerRankSmallCap + "</div>" +

@@ -117,6 +117,10 @@ body {
 	color: #d9534f;
 }
 
+.warning {
+	color: #f0ad4e;
+}
+
 .large_font {
 	font-weight: bold;
 }
