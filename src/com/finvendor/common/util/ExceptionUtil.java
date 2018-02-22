@@ -13,7 +13,7 @@ public final class ExceptionUtil {
 		throw new FvTechnicalException("ExceptionUtil class instantiation via Reflection is forbidden!");
 	}
 
-	public static final String getRootCauseMessage(Throwable th) {
+	public static final String getRootCause(Throwable th) {
 		return ExceptionUtils.getRootCause(th).getMessage();
 	}
 }

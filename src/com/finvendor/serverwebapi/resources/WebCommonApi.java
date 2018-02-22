@@ -27,7 +27,7 @@ public class WebCommonApi implements WebCommonApiIfc {
 		try {
 			return dao.getVoVendorDetails(SqlEnum.VO_VENDOR_DETAILS.valueOf());
 		} catch (Exception e) {
-			throw new WebApiException("Error in WebCommonApi - getVoVendorDetails(), RootCause- "+ExceptionUtil.getRootCauseMessage(e));
+			throw new WebApiException("Error in WebCommonApi - getVoVendorDetails(), RootCause- "+ExceptionUtil.getRootCause(e));
 		}
 	}
 

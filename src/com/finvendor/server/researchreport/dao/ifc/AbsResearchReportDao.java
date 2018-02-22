@@ -3,14 +3,14 @@ package com.finvendor.server.researchreport.dao.ifc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.finvendor.server.researchreport.dto.filter.ifc.ResearchReportFilter;
+import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
-
 
 /**
  * ResearchReportDao abstract interface
@@ -27,11 +27,7 @@ public abstract class AbsResearchReportDao implements IResearchReportDao {
 	public AbsResearchReportDao() {
 	}
 
-	protected String applyFilter(String query, ResearchReportFilter filter) {
-		return query;
-	}
-	
-	//Dummy data
+	// Dummy data
 	protected List<EquityResearchResult> getEquityDummyData() {
 		List<EquityResearchResult> results = new ArrayList<>();
 		EquityResearchResult equityResearchResult1 = new EquityResearchResult();
