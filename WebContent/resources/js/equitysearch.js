@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
 						"<td>"  +  
 							"<div class='analystName'>" + response.equity[i].analystName + "</div>" + 
 							"<div class='researchDate'>" + response.equity[i].researchDate + "</div>" +
-							"<div class='report' target=''><a href='" + response.equity[i].report + "' data-toggle='tooltip' title='Go to report post'><i class='fa fa-file'></i></a></div>" +
+							"<div class='report' target=''><a href='research-company-report.jsp?id=" + response.equity[i].companyId + "' data-toggle='tooltip' title='Go to report post'><i class='fa fa-file'></i></a></div>" +
 						"</td>" +
 						"</tr>";
 			}
