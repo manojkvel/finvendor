@@ -113,7 +113,9 @@ jQuery(document).ready(function() {
                 mozSystem: true
             });
             httpRequest.timeout = API_TIMEOUT_SMALL;
-            httpRequest.open('GET', url, true);
+            httpRequest.open('POST', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
             httpRequest.ontimeout = function () {
                 reject("" + httpRequest.responseText);
             };
@@ -129,7 +131,9 @@ jQuery(document).ready(function() {
                 }
             };
 
-            httpRequest.send();
+            httpRequest.send(JSON.stringify({
+			  "geo": "1"
+			}));
         });
 	};
 });

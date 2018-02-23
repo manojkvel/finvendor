@@ -777,7 +777,7 @@
 											<label class="default_select">Recommendation Type<sup>*</sup></label>
 										</li>
 										<li>
-											<input type="text" name="vo_eqrrv_report_desc" id="vo_eqrrv_report_desc" maxlength="500" required />
+											<input type="text" name="vo_eqrrv_report_desc" id="vo_eqrrv_report_desc" maxlength="1000" required />
 											<label>Report Desc. <sup>*</sup></label>
 										</li>								
 										<li>
