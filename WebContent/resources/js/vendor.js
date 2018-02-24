@@ -1535,6 +1535,9 @@ jQuery(document).ready(function() {
 			getRegionCountryMapping('rcRegionsCovered', 'rcCountriesCovered');
 			getRegionMapping('rdAnalystRegionofIncorp');
 			getRegionCountryMapping('rdAnalystRegionofIncorp', 'rdAnalystCountryofIncorp');
+			
+			$("#research_application select#vo_rr_report_for").empty();
+			$('.selectpicker').selectpicker('refresh');
 		}
 	}
 
@@ -1577,6 +1580,7 @@ jQuery(document).ready(function() {
 			data: data,
 			cache:false,
 			success : function(response){
+
 				progressLoader(false);
 				$("#research_application").slideDown();
 				$("#research_application_top_card").slideUp();
@@ -1601,10 +1605,20 @@ jQuery(document).ready(function() {
 				}
 
 
-				getResearchReportForMapping('rcResearchArea', 'vo_rr_report_for');
-				setTimeout(function() {
+				getResearchReportList().then(function(responseList) {
+					var responseList = JSON.parse(responseList);
+					var $option='';
+					for (var val in responseList) {
+						$option += "<option value='" + responseList[val].companyId + "'>" + responseList[val].companyName + "</option>";   
+					}
+					$("select#vo_rr_report_for").empty();
+					$("select[name=vo_rr_report_for]").append($option);	
+					$("select[name=vo_rr_report_for]").selectpicker('refresh');
+
 					$("#research_application #vo_rr_report_for").selectpicker('val', response.rsrchReportFor);
-				}, 200);
+				}, function(error) {
+
+				});
 
 				$("#research_application #vo_datepicker").val(response.repDate);
 				
@@ -1704,27 +1718,63 @@ jQuery(document).ready(function() {
 			}
 		});
 	}
+
+	var getResearchReportListNew = function(researchAreaId) {
+
+	};
 	
 
-	function getResearchReportList(researchAreaId) {
-		$.ajax({
-			type: 'GET',
-			url:  "/system/api/companydetails?researchAreaId=" + researchAreaId,
-			cache:false,
-			success : function(response) {
-				var $option='';
-				for (var val in response) {
-					$option += "<option value='" + response[val].companyId + "'>" + response[val].companyName + "</option>";   
+	function getResearchReportList() {
+		var rcResearchAreaId = 0;
+		if($("select[name=rcResearchArea]").length == 0) {
+			rcResearchAreaId = 0;
+		} else {
+			rcResearchAreaId = $("select[name=rcResearchArea]").selectpicker('val');
+		}
+           var url = "/system/api/companydetails?researchAreaId=" + rcResearchAreaId;
+		return new Promise(function(resolve, reject) {
+			var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            httpRequest.open('GET', url, true);
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+
+			/*$.ajax({
+				type: 'GET',
+				url:  "/system/api/companydetails?researchAreaId=" + researchAreaId,
+				cache:false,
+				success : function(response) {
+					var $option='';
+					for (var val in response) {
+						$option += "<option value='" + response[val].companyId + "'>" + response[val].companyName + "</option>";   
+					}
+					$("select#vo_rr_report_for").empty();
+					$("select[name=vo_rr_report_for]").append($option);	
+					$("select[name=vo_rr_report_for]").selectpicker('refresh');
+				},
+				error : function(data, textStatus, jqXHR) {
+					//alert('Error: '+data+':'+textStatus);
 				}
-				$("select#vo_rr_report_for").empty();
-				$("select[name=vo_rr_report_for]").append($option);	
-				$("select[name=vo_rr_report_for]").selectpicker('refresh');
-			},
-			error : function(data, textStatus, jqXHR) {
-				//alert('Error: '+data+':'+textStatus);
-			}
+			});*/
 		});
 	}
+
 
 	function getResearchReportForMapping() {
 		var rcResearchAreaId = 0;
@@ -1734,10 +1784,21 @@ jQuery(document).ready(function() {
 			rcResearchAreaId = $("select[name=rcResearchArea]").selectpicker('val');
 		}
 
-		getResearchReportList(rcResearchAreaId);
-	}
+		getResearchReportList(rcResearchAreaId).then(function(responseList) {
+			var responseList = JSON.parse(responseList);
+			var $option='';
+			for (var val in responseList) {
+				$option += "<option value='" + responseList[val].companyId + "'>" + responseList[val].companyName + "</option>";   
+			}
+			$("select#vo_rr_report_for").empty();
+			$("select[name=vo_rr_report_for]").append($option);	
+			$("select[name=vo_rr_report_for]").selectpicker('refresh');
 
-	getResearchReportForMapping('rcResearchArea', 'vo_rr_report_for');
+			$("#research_application #vo_rr_report_for").selectpicker('val', responseList.rsrchReportFor);
+		}, function(error) {
+
+		});
+	}
 
 	$("#research_application #rcResearchArea").on('change', getResearchReportForMapping);
 

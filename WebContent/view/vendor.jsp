@@ -156,6 +156,7 @@
 																<label>Company Information</label>
 															</li>
 															<li>
+																<input name='companyTypeList' id='companyTypeList' type="hidden" value="${vendor}" />
 																<select class="selectpicker show-tick" name="personal_analyst_type" id="personal_analyst_type">
 																	<option value="">Nothing Selected</option>
 																	<option value="brokers">Brokers</option>

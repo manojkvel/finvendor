@@ -131,9 +131,11 @@ jQuery(document).ready(function() {
                 }
             };
 
-            httpRequest.send(JSON.stringify({
-			  "geo": "1"
-			}));
+            var jsonData = {
+            	"geo": "1"
+            };
+
+            httpRequest.send(JSON.stringify(jsonData));
         });
 	};
 });
