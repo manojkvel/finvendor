@@ -135,4 +135,13 @@ public class EquityResearchDao extends AbsResearchReportDao {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public ResearchReportFilter getFilterValues() {
+		SQLQuery query = this.sessionFactory.getCurrentSession()
+				.createSQLQuery(SqlEnum.EQUITY_RESEARCH_DASHBOARD.valueOf());
+//		query.setString(0, params[0]);
+		List<Object[]> rows = query.list();
+		return null;
+	}
 }

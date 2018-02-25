@@ -42,4 +42,11 @@ public final class StringUtil {
 		String replace = StringUtils.replace(fileNameOnly, "_" + productId, EMPTY_STRING);
 		return replace;
 	}
+	
+	public static String toSentenseCase(String str) {
+		String firstLetter = str.substring(0, 1).toUpperCase();
+		String restLetters = str.substring(1);
+		return firstLetter + restLetters;
+	}
+
 }

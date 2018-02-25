@@ -122,6 +122,7 @@ public class VendorDaoImpl implements VendorDao{
 			 vendorFromDB.setRegionofincorp(vendor.getRegionofincorp());
 			 vendorFromDB.setCountryofincorp(vendor.getCountryofincorp());
 			 vendorFromDB.setVendorSupport(vendor.getVendorSupport());
+			 vendorFromDB.setAnalystType(vendor.getAnalystType());
 			 currentSession.saveOrUpdate(vendorFromDB);
 			// beginTransaction.commit();
 			

@@ -26,4 +26,9 @@ public class MacroResearchDao extends AbsResearchReportDao {
 	public AbsResearchReportDashboardResult findResearchReportDashboardData(String... params) throws RuntimeException {
 		return null;
 	}
+
+	@Override
+	public ResearchReportFilter getFilterValues() {
+		return null;
+	}
 }

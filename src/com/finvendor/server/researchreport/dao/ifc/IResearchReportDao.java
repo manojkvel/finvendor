@@ -15,4 +15,5 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
 public interface IResearchReportDao {
 	List<? extends AbsResearchReportResult> findResearchReportTableData(ResearchReportFilter filter) throws RuntimeException;
 	AbsResearchReportDashboardResult findResearchReportDashboardData(String... params) throws RuntimeException;
+	ResearchReportFilter getFilterValues();
 }

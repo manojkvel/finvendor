@@ -26,4 +26,10 @@ public class SectorResearchDao extends AbsResearchReportDao {
 	public AbsResearchReportDashboardResult findResearchReportDashboardData(String... params) throws RuntimeException {
 		return null;
 	}
+
+	@Override
+	public ResearchReportFilter getFilterValues() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
