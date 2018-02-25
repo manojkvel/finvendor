@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
 						"<td>"  +  
 							"<div class='analystName'>" + response.equity[i].analystName + "</div>" + 
 							"<div class='researchDate'>" + response.equity[i].researchDate + "</div>" +
-							"<div class='report' target=''><a href='" + response.equity[i].report + "' data-toggle='tooltip' title='Go to report post'><i class='fa fa-file'></i></a></div>" +
+							"<div class='report' target=''><a href='research-company-report.jsp?id=" + response.equity[i].companyId + "' data-toggle='tooltip' title='Go to report post'><i class='fa fa-file'></i></a></div>" +
 						"</td>" +
 						"</tr>";
 			}
@@ -113,7 +113,9 @@ jQuery(document).ready(function() {
                 mozSystem: true
             });
             httpRequest.timeout = API_TIMEOUT_SMALL;
-            httpRequest.open('GET', url, true);
+            httpRequest.open('POST', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
             httpRequest.ontimeout = function () {
                 reject("" + httpRequest.responseText);
             };
@@ -129,7 +131,11 @@ jQuery(document).ready(function() {
                 }
             };
 
-            httpRequest.send();
+            var jsonData = {
+            	"geo": "1"
+            };
+
+            httpRequest.send(JSON.stringify(jsonData));
         });
 	};
 });

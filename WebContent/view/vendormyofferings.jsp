@@ -739,17 +739,8 @@
 									<ul>
 										<li>
 											<select class="selectpicker" name="vo_rr_report_for" id="vo_rr_report_for">
-												<option value="All">All</option>
-												<option value="Any">Any</option>
-												<option value="ICICI">ICICI</option>
-												<option value="HDFC Bank">HDFC Bank</option>
-												<option value="Yes Bank">Yes Bank</option>
 											</select>
 											<label class="default_select">Research Report For<sup>*</sup></label>
-										</li>
-										<li>
-											<input type="text" id="vo_datepicker" name="vo_datepicker" required />
-											<label>Report Date <sup>*</sup></label>
 										</li>
 										<li>
 											<input type="number" name="vo_price_at_recomm" id="vo_price_at_recomm" required />
@@ -777,7 +768,11 @@
 											<label class="default_select">Recommendation Type<sup>*</sup></label>
 										</li>
 										<li>
-											<input type="text" name="vo_eqrrv_report_desc" id="vo_eqrrv_report_desc" maxlength="500" required />
+											<input type="text" id="vo_datepicker" name="vo_datepicker" required />
+											<label>Report Date <sup>*</sup></label>
+										</li>
+										<li>
+											<input type="text" name="vo_eqrrv_report_desc" id="vo_eqrrv_report_desc" maxlength="1000" required />
 											<label>Report Desc. <sup>*</sup></label>
 										</li>								
 										<li>
