@@ -18,19 +18,6 @@ public class WebSectorResearchReport implements WebResearchReportIfc {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public Map<String, List<EquityResearchResult>> getResearchResultTableData(EquityResearchFilter equityResearchFilter,
-			String type) throws WebApiException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AbsResearchReportDashboardResult getResearchResultDashboardData(String type, String companyId)
-			throws WebApiException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName)
@@ -39,10 +26,19 @@ public class WebSectorResearchReport implements WebResearchReportIfc {
 
 	}
 
-	@Override
-	public void getReportFilterValue(String type) throws WebApiException {
-		// TODO Auto-generated method stub
 
+	@Override
+	public Map<String, EquityResearchResult> getResearchResultTableData(EquityResearchFilter equityResearchFilter,
+			String type) throws WebApiException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+
+	@Override
+	public Map<String, List<EquityResearchResult>> getResearchResultDashboardData(String type, String companyId,
+			EquityResearchFilter equityResearchFilter) throws WebApiException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

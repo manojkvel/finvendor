@@ -8,6 +8,7 @@ import com.finvendor.server.researchreport.dto.filter.ifc.ResearchReportFilter;
 public class EquityResearchFilter implements ResearchReportFilter {
 	private static final long serialVersionUID = 6430389508253318857L;
 	private String geo;
+	private String companyId;
     private List<String> mcap = null;
     private List<String> style = null;
     private List<String> analystType = null;
@@ -84,4 +85,11 @@ public class EquityResearchFilter implements ResearchReportFilter {
 	public void setUpside(List<String> upside) {
 		this.upside = upside;
 	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	
 }

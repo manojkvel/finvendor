@@ -33,6 +33,8 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String targetPrice;
 	private String priceAtRecomm;
 	private String upside;
+	private String vendorId;
+	private String analystType;
 
 	public String getCompanyId() {
 		return companyId;
@@ -161,4 +163,21 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	public void setUpside(String upside) {
 		this.upside = upside;
 	}
+
+	public String getVendorId() {
+		return vendorId;
+	}
+
+	public void setVendorId(String vendorId) {
+		this.vendorId = vendorId;
+	}
+
+	public String getAnalystType() {
+		return analystType;
+	}
+
+	public void setAnalystType(String analystType) {
+		this.analystType = analystType;
+	}
+	
 }

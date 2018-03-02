@@ -2,11 +2,13 @@ package com.finvendor.serverwebapi.resources.researchreport;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +23,12 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finvendor.common.util.ExceptionUtil;
+import com.finvendor.common.util.JsonUtil;
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
-import com.finvendor.server.researchreport.dto.result.dashboard.AbsResearchReportDashboardResult;
-import com.finvendor.server.researchreport.dto.result.dashboard.EquityResearchResultDashboard;
 import com.finvendor.server.researchreport.service.ifc.IResearchReportService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.ifc.researchreport.WebResearchReportIfc;
@@ -57,32 +60,36 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, List<EquityResearchResult>> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
+	public Map<String,EquityResearchResult> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
 			@RequestParam(value = "type", required = true) String type) throws WebApiException {
 		try {
 			if (equityResearchFilter.getGeo() == null) {
 				throw new Exception("Equity Research filter Error - Geo must not be null !!");
 			}
-
-			List<EquityResearchResult> researchReport = (List<EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
-			Map<String, List<EquityResearchResult>> result = new HashMap<>();
-			result.put(type, researchReport);
-			return result;
+			Map<String,EquityResearchResult> researchReport = (Map<String,EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
+			return researchReport;
 		} catch (Exception e) {
 			logger.error("Web API Error: ", e.getMessage(), e);
 			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultTableData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public AbsResearchReportDashboardResult getResearchResultDashboardData(@RequestParam("type") String type, @RequestParam("companyId") String companyId)
+	public Map<String, List<EquityResearchResult>>  getResearchResultDashboardData(@RequestParam("type") String type, @RequestParam("companyId") String companyId, @RequestBody EquityResearchFilter equityResearchFilter)
 			throws WebApiException {
-		try {
-			return (EquityResearchResultDashboard) equityResearchService.getResearchReportDashboardData(companyId);
-		} catch (Exception e) {
-			logger.error("Web API Error: ", e.getMessage(), e);
-			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultDashboardData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
-		}
+//		try {
+////			return (EquityResearchResultDashboard) equityResearchService.getResearchReportDashboardData(companyId);
+//			equityResearchFilter.setCompanyId(companyId);
+//			List<EquityResearchResult> researchReport = (List<EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
+//			Map<String, List<EquityResearchResult>> result = new HashMap<>();
+//			result.put(type, researchReport);
+//			return result;
+//		} catch (Exception e) {
+//			logger.error("Web API Error: ", e.getMessage(), e);
+//			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultDashboardData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
+//		}
+		return null;
 	}
 
 	@Override
@@ -111,9 +118,9 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 		String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator + reportFileName;
 		return fullyQualifiedReportFilePath;
 	}
-
-	@Override
-	public void getReportFilterValue(@RequestParam(value = "type", required = true) String type) throws WebApiException {
-		
+	
+	public static void main(String[] args) throws IOException {
+		String json ="{\"1\":{\"companyId\":\"1\",\"company\":\"company-1\"},\"2\":{\"companyId\":\"2\",\"company\":\"company-2\"}}";
+		System.out.println(JsonUtil.getJsonNodeString(json, "2"));
 	}
 }

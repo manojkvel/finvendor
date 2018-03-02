@@ -34,7 +34,7 @@ public interface WebResearchReportIfc {
 	//{"geo":"1","mcap":["Large Cap","Mid Cap","Small Cap","Micro Cap","Nano Cap"],"style":["Value","Growth","Income","Blend"],"analystType":["Broker","Independent","Others"],"researchedBroker":["vendor1"],"brokerYearOfInCorp":["<= 3 Yrs","3 - 5 Yrs","5 - 10 Yrs"],"brokerRank":["5","4"],"recommType":["accumulate","Reduce"],"awardWinnig":true,"researchCfa":true,"upside":[""]}
 	@RequestMapping(value = WebUriConstants.ResearchReport.RESEARCH_REPORTS, method = RequestMethod.POST)
 	@ResponseBody
-	Map<String,List<EquityResearchResult>> getResearchResultTableData(EquityResearchFilter equityResearchFilter, String type) throws WebApiException;
+	Map<String,EquityResearchResult> getResearchResultTableData(EquityResearchFilter equityResearchFilter, String type) throws WebApiException;
 	
 	/**
 	 * 
@@ -43,9 +43,9 @@ public interface WebResearchReportIfc {
 	 * @return
 	 * @throws WebApiException
 	 */
-	@RequestMapping(value = WebUriConstants.ResearchReport.DASHBOARD_RESEARCH_REPORTS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = WebUriConstants.ResearchReport.DASHBOARD_RESEARCH_REPORTS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	AbsResearchReportDashboardResult getResearchResultDashboardData(String type, String companyId) throws WebApiException;
+	Map<String, List<EquityResearchResult>>  getResearchResultDashboardData(String type, String companyId,EquityResearchFilter equityResearchFilter) throws WebApiException;
 	
 	/**
 	 * 
@@ -56,15 +56,5 @@ public interface WebResearchReportIfc {
 	@RequestMapping(value = WebUriConstants.ResearchReport.DOWNLOAD_RESEARCH_REPORTS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName) throws WebApiException;
-	
-	/**
-	 * 
-	 * @param reportFilePath
-	 * @return
-	 * @throws WebApiException
-	 */
-	@RequestMapping(value = WebUriConstants.ResearchReport.RESEARCH_REPORT_FILTERS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	void getReportFilterValue(String type) throws WebApiException;
 	
 }

@@ -1,9 +1,7 @@
 package com.finvendor.server.common.dao;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -40,16 +38,7 @@ public class CommonDao extends AbsCommonDao {
 	}
 
 	@Override
-	public String findAll(Class<?> claaz, String[] cols) throws RuntimeException {
-		try {
-			List<?> list = findAll(claaz);
-			Set<List<String>> results = fetchTuples(list, claaz, cols);
-			return transformToJson(claaz.getSimpleName(), results);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+	public String findAll(Class<?> claaz, String[] cols) {
+		return transformToJson(selectAll(claaz), claaz, cols);
 	}
-
-	
-
 }

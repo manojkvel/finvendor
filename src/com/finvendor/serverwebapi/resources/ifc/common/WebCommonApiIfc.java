@@ -28,6 +28,6 @@ public interface WebCommonApiIfc {
 	 */
 	@RequestMapping(value = WebUriConstants.FILTER_DATA_URI, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	String getTableData(@RequestParam("type") String  type) throws WebApiException;
+	String getResearchFilterData(@RequestParam("type") String  type) throws WebApiException;
 
 }

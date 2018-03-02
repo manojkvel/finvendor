@@ -1,6 +1,7 @@
 package com.finvendor.server.researchreport.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,12 +25,11 @@ public class EquityResearchReportService extends AbsResearchReportService {
 	@Qualifier(value = "equityResearchDao")
 	IResearchReportDao equityReserachReportDao;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly = true)
-	public <T extends ResearchReportFilter> List<? extends AbsResearchReportResult> getResearchReportTableData(T rrfilter) throws Exception {
+	public <T extends ResearchReportFilter> Map<String,? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter) throws Exception {
 		try {
-			return (List<EquityResearchResult>) equityReserachReportDao.findResearchReportTableData(rrfilter);
+			return (Map<String,EquityResearchResult>) equityReserachReportDao.findResearchReportTableData(rrfilter);
 		} catch (RuntimeException e) {// TODO need to replace with custom Exception
 			throw new Exception(e);
 		}
