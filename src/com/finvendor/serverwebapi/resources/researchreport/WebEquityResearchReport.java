@@ -79,7 +79,7 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 			}
 			return cachedSearchResult;
 		} catch (Exception e) {
-			e.printStackTrace();
+			cachedSearchFilterHashCode=0;
 			logger.error("Web API Error: ", e.getMessage(), e);
 			throw new WebApiException(
 					"Error has occurred in WebResearchReport -> getResearchResultTableData(...) method, Root Cause:: "
@@ -112,6 +112,7 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 				cachedProductId=prodId;
 			}
 		} catch (Exception e) {
+			cachedDashboardFilterHashCode=0;
 			logger.error("Web API Error: ", e.getMessage(), e);
 			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultDashboardData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
 		}

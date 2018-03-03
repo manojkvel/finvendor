@@ -50,30 +50,19 @@ public class WebCommonApi implements WebCommonApiIfc {
 			} else if ("others".equals(type)) {
 				List<String> ll = new ArrayList<>();
 				Map<String, Object> data = new LinkedHashMap<>();
-				data.put("Award Winning Analyst", "true");
-				data.put("Research Reports by CFA", "true");
+				data.put("Award Winning Analyst", "false");
+				data.put("Research Reports by CFA", "false");
 				json = JsonUtil.createJsonFromParamsMap(data);
 				ll.add(json);
 				json = Arrays.toString(ll.toArray(new String[1]));
-
 				return json;
 			} else if ("upside".equals(type)) {
-
-				List<String> ll = new ArrayList<>();
-				Map<String, Object> data = new LinkedHashMap<>();
-				data.put("20%", "xxxx");
-				data.put("30%", "xxxx");
-
-				json = JsonUtil.createJsonFromParamsMap(data);
-				ll.add(json);
-				json = Arrays.toString(ll.toArray(new String[1]));
-				return json;
-
+				return "[{\"upside\":\"<0%\"},{\"upside\":\"0-20%\"},{\"upside\":\"20-50%\"},{\"upside\":\"50-100\"},{\"upside\":\">100 %\"}]";
 			} else {
 				Class<?> tableName = WebUtil.TABLE_NAME_MAP.get(type);
 				String[] columns = WebUtil.TABLE_NAME_COLUMN_MAP.get(tableName);
 				String[] conditionColumns = WebUtil.TABLE_NAME_COLUMN__CONDITION_MAP.get(tableName);
-				json = commonDao.findAll(tableName, columns,conditionColumns);
+				json = commonDao.findAll(tableName, columns, conditionColumns);
 				String newJson = "";
 				if (json.contains("broker_rank")) {
 					if (json.contains("5star")) {
