@@ -158,8 +158,5 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 		//// EquityResearchResult.class));
 		//// System.out.println(rr);
 
-		Emp e1 = new Emp("1", "A1");
-		System.out.println(e1.hashCode());
-
 	}
 }
