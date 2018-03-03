@@ -80,6 +80,9 @@ public class Vendor implements Serializable {
 	@Column(name="countryofincorp")
 	private String countryofincorp;
 		 	
+	@Column(name="analystType")
+	private String analystType;
+	
 	@OneToOne
 	@JoinColumn(name="username", nullable=false)
 	private FinVendorUser user;
@@ -521,5 +524,12 @@ public class Vendor implements Serializable {
 	public void setResearchReportsOffering(List<VendorResearchReportsOffering> researchReportsOffering) {
 		this.researchReportsOffering = researchReportsOffering;
 	}
-	
+
+	public String getAnalystType() {
+		return analystType;
+	}
+
+	public void setAnalystType(String analystType) {
+		this.analystType = analystType;
+	}
 }

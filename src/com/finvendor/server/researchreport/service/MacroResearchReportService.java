@@ -1,6 +1,7 @@
 package com.finvendor.server.researchreport.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,14 +25,18 @@ public class MacroResearchReportService extends AbsResearchReportService {
 	@Qualifier(value="macroResearchDao")
 	IResearchReportDao macroReserachReportDao;
 
-	@Override
-	public List<? extends AbsResearchReportResult> getResearchReportTableData(ResearchReportFilter rrfilter)
-			throws Exception {
-		return null;
-	}
 
 	@Override
 	public AbsResearchReportDashboardResult getResearchReportDashboardData(String...params) throws Exception {
 		return null;
 	}
+
+
+	@Override
+	public <T extends ResearchReportFilter> List<? extends AbsResearchReportResult> getResearchReportTableData(
+			T rrfilter) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

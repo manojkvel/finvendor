@@ -1054,6 +1054,7 @@ public class VendorController {
 			@RequestParam(value = "venPhoneNum", required = false) String venPhoneNum,
 			@RequestParam(value = "venRegionOfIncorp", required = false) String venRegionOfIncorp,
 			@RequestParam(value = "venCountryOfIncorp", required = false) String venCountryOfIncorp,
+			@RequestParam(value = "venAnalystType", required = false) String venAnalystType,
 			@RequestParam(value = "venCompanyLogo", required = false) String venCompanyLogoFile,
 			@RequestParam(value = "support", required = false) String support,
 			@RequestParam(value = "weekend", required = false) String weekend,
@@ -1065,7 +1066,6 @@ public class VendorController {
 
 		try {
 
-			System.out.println("I'm executing successfully----:");
 			appUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (!venFirstname.equals("")) {
 				vendor.setFirstName(venFirstname);
@@ -1094,7 +1094,7 @@ public class VendorController {
 				 * vendor.setVendorSupport(vendorSupport); }catch(NoSuchMethodException e){
 				 * logger.error("Mehtod not found -- ", e); }
 				 */
-
+				vendor.setAnalystType(venAnalystType);
 				vendorService.updateVendorPersonalInfoTab(vendor, appUser.getUsername());
 				vendor = userService.getUserDetailsByUsername(appUser.getUsername()).getVendor();
 				// vendor = vendorService.getVendorDetails(appUser.getUsername());

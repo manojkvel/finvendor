@@ -8,12 +8,10 @@ import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 import com.finvendor.model.Roles;
-import com.finvendor.modelpojo.staticpojo.CompanyDetails;
-import com.finvendor.modelpojo.staticpojo.VoVendorDetails;
+import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
 import com.finvendor.server.common.dao.ifc.AbsCommonDao;
 
 /**
- * Common Dao
  * @author ayush on Feb 17, 2018
  */
 @Repository
@@ -39,17 +37,8 @@ public class CommonDao extends AbsCommonDao {
 		return results;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<VoVendorDetails> getVoVendorDetails(String sql) throws RuntimeException {
-		SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
-		List<Object[]> rows = query.list();
-		
-		List<VoVendorDetails> results = new ArrayList<>();
-		for (Object[] row : rows) {
-			results.add(new VoVendorDetails(row[0].toString(), row[1].toString()));
-		}
-		return results;
+	public String findAll(Class<?> claaz, String[] cols) {
+		return transformToJson(selectAll(claaz), claaz, cols);
 	}
-
 }

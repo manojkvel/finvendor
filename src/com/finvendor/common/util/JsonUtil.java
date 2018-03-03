@@ -7,11 +7,17 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 
 /**
  * 
@@ -138,5 +144,29 @@ public class JsonUtil {
 			list.add(iter.next().asText());
 		}
 		return list;
+	}
+	
+	public static Object convertJsonToPojo(String jsonStr,Class<?> classz) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		Object readValue = mapper.readValue(jsonStr, classz);
+		return readValue;
+	}
+	
+	public static String addNodeInJsonArray(String jsonString,String key, String value) {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectReader reader = mapper.reader();
+		String newJson="";
+		try {
+			JsonNode node = reader.readTree(jsonString);
+			ArrayNode arrayNode = (ArrayNode) node;
+			ObjectNode counterNode = arrayNode.addObject();
+			counterNode.put(key, value);
+			newJson = node.toString();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return newJson;
 	}
 }

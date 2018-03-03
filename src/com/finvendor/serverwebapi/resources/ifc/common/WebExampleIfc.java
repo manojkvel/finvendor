@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.ifc;
+package com.finvendor.serverwebapi.resources.ifc.common;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;

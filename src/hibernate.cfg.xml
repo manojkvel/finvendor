@@ -65,6 +65,9 @@
         <mapping class="com.finvendor.model.ResearchSubAreaCompanyDetails"></mapping>
         <mapping class="com.finvendor.model.ResearchSubAreaMarketCapType"></mapping>
         <mapping class="com.finvendor.model.IndustrySubType"></mapping>
+        <mapping class="com.finvendor.model.MarketCapDef"></mapping>
+        <mapping class="com.finvendor.model.BrokerAnalyst"></mapping>
+        
       </session-factory>
 	 
 </hibernate-configuration>
