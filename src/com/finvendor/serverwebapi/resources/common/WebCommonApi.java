@@ -29,7 +29,7 @@ import com.finvendor.serverwebapi.utils.WebUtil;
 @Controller
 public class WebCommonApi implements WebCommonApiIfc {
 	private static Logger logger = LoggerFactory.getLogger(WebCommonApi.class);
-	
+
 	@Autowired
 	private ICommonDao commonDao;
 
@@ -45,7 +45,9 @@ public class WebCommonApi implements WebCommonApiIfc {
 		// TODO Ugly code, need to think to make it clean - but it is temporary
 		String json = "";
 		try {
-			if ("others".equals(type)) {
+			if ("brokerYrOfInCorp".endsWith(type)) {
+				return "[{\"brokerYrOfInCorp\":\"<= 3 Yrs\"},{\"brokerYrOfInCorp\":\"3 - 5 Yrs\"},{\"brokerYrOfInCorp\":\"5 - 10 Yrs\"},{\"brokerYrOfInCorp\":\"> 10 Yrs\"}]";
+			} else if ("others".equals(type)) {
 				List<String> ll = new ArrayList<>();
 				Map<String, Object> data = new LinkedHashMap<>();
 				data.put("Award Winning Analyst", "true");
@@ -100,14 +102,16 @@ public class WebCommonApi implements WebCommonApiIfc {
 				} else if (json.contains("stockClassificationName")) {
 					newJson = JsonUtil.addNodeInJsonArray(json, "all", "All");
 				}
-				if ( ! newJson.isEmpty()) {
+				if (!newJson.isEmpty()) {
 					json = newJson;
 				}
 				return json;
 			}
 		} catch (IOException e) {
 			logger.error("Web API Error: ", e.getMessage(), e);
-			throw new WebApiException("Error has occurred in WebCommonApi -> getResearchFilterData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
+			throw new WebApiException(
+					"Error has occurred in WebCommonApi -> getResearchFilterData(...) method, Root Cause:: "
+							+ ExceptionUtil.getRootCause(e));
 		}
 	}
 }
