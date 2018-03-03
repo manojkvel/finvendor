@@ -4,7 +4,7 @@ var API_TIMEOUT_LARGE = 3*60*1000;
 function getDashboardResearchReportLoad(id) {
     getDashboardResearchReport(id).then(function(data) {
         response = JSON.parse(data);
-        
+         
         var htmlData = '';
         htmlData = "<h2>" + response.companyName + " | " + response.reportName + "</h2>" +
                 "<p>" + response.reportSummary + "</p>" +
@@ -13,6 +13,7 @@ function getDashboardResearchReportLoad(id) {
                 
 
         $('#dashboard_report').html(htmlData);
+            $('[data-toggle="tooltip"]').tooltip();
     }, function(error) {
 
     });

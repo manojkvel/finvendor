@@ -128,3 +128,82 @@ body {
 .tooltip .tooltip-inner {
 	padding: 5px !important;
 }
+
+.dashboard_report .companyName {
+	font-weight: bold;
+}
+
+.dashboard_report .currentMarketPrice {
+	display: inherit;
+	text-align: right;
+	font-size: 20px;
+	float: right;
+}
+.dashboard_report .hd {
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.dashboard_report .brokerName {
+	color: #888;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+.dashboard_report .reportDesc {
+	padding-top: 10px;
+	font-size: 13px;
+	color: #575756;
+}
+
+.dashboard_report .recommType {
+	text-align: center;
+	margin-bottom: 10px;
+	padding: 5px 20px !important;
+}
+
+.dashboard_report .bd .reportDetails {
+	background: #eee;
+	min-height: 150px;
+	min-width: 250px;
+	padding: 10px 10px;
+	margin: 0 0 20px 20px;
+	float: right;
+}
+
+.reportDetails .recommType {
+	padding: 0 !important;
+}
+
+.reportDetails .brokerName {
+	text-transform: capitalize;
+}
+
+.reportDetails .targetPrice {
+	font-weight: bold;
+	color: #575756;
+	font-size: 13px;
+}
+
+.reportDetails .upside {
+	font-weight: bold;
+	color: #575756;
+	font-size: 13px;
+}
+
+.reportDetails .dwnldReport {
+	margin-top: 20px;
+	background: #34bf98;
+	border-radius: 20px;
+	padding: 10px 20px;
+	text-align: center;
+}
+
+.reportDetails .dwnldReport a {
+	color: #fff;
+}
+
+.reportDetails .reportTitle {
+	margin-bottom: 30px;
+}
