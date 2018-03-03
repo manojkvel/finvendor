@@ -34,7 +34,7 @@ public interface WebResearchReportIfc {
 	//{"geo":"1","mcap":["Large Cap","Mid Cap","Small Cap","Micro Cap","Nano Cap"],"style":["Value","Growth","Income","Blend"],"analystType":["Broker","Independent","Others"],"researchedBroker":["vendor1"],"brokerYearOfInCorp":["<= 3 Yrs","3 - 5 Yrs","5 - 10 Yrs"],"brokerRank":["5","4"],"recommType":["accumulate","Reduce"],"awardWinnig":true,"researchCfa":true,"upside":[""]}
 	@RequestMapping(value = WebUriConstants.ResearchReport.RESEARCH_REPORTS, method = RequestMethod.POST)
 	@ResponseBody
-	Map<String,EquityResearchResult> getResearchResultTableData(EquityResearchFilter equityResearchFilter, String type) throws WebApiException;
+	Map<String,List<EquityResearchResult>> getResearchResultTableData(EquityResearchFilter equityResearchFilter, String type) throws WebApiException;
 	
 	/**
 	 * 

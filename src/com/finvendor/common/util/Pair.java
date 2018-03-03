@@ -1,4 +1,5 @@
 package com.finvendor.common.util;
+
 /**
  * Holder of pair of object
  * 
@@ -8,6 +9,9 @@ package com.finvendor.common.util;
 public class Pair<E1, E2> {
 	private E1 element1;
 	private E2 element2;
+
+	public Pair() {
+	}
 
 	public Pair(E1 element1, E2 element2) {
 		super();

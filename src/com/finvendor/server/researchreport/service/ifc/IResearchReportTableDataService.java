@@ -11,6 +11,6 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
  * @author ayush on Feb 18, 2018
  */
 public interface IResearchReportTableDataService {
-//	<T extends ResearchReportFilter> List<? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter) throws Exception;
-	<T extends ResearchReportFilter> Map<String,? extends AbsResearchReportResult> getResearchReportTableData(T rrfilter) throws Exception;
+	<T extends ResearchReportFilter> List<? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter) throws Exception;
+//	<T extends ResearchReportFilter> Map<String,? extends AbsResearchReportResult> getResearchReportTableData(T rrfilter) throws Exception;
 }

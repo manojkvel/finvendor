@@ -30,9 +30,9 @@ public class MacroResearchDao extends AbsResearchReportDao {
 	}
 
 	@Override
-	public Map<String, EquityResearchResult> findResearchReportTableData(ResearchReportFilter filter)
-			throws RuntimeException {
+	public List<EquityResearchResult> findResearchReportTableData(ResearchReportFilter filter) throws RuntimeException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

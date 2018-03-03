@@ -31,9 +31,10 @@ public class SectorResearchReportService extends AbsResearchReportService {
 
 
 	@Override
-	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult> getResearchReportTableData(
+	public <T extends ResearchReportFilter> List<? extends AbsResearchReportResult> getResearchReportTableData(
 			T rrfilter) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

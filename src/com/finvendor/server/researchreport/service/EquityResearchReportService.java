@@ -27,9 +27,9 @@ public class EquityResearchReportService extends AbsResearchReportService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public <T extends ResearchReportFilter> Map<String,? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter) throws Exception {
+	public <T extends ResearchReportFilter> List<? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter) throws Exception {
 		try {
-			return (Map<String,EquityResearchResult>) equityReserachReportDao.findResearchReportTableData(rrfilter);
+			return (List<EquityResearchResult>) equityReserachReportDao.findResearchReportTableData(rrfilter);
 		} catch (RuntimeException e) {// TODO need to replace with custom Exception
 			throw new Exception(e);
 		}

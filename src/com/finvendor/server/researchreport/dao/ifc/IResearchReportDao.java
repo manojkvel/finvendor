@@ -14,7 +14,7 @@ import com.finvendor.server.researchreport.dto.result.dashboard.AbsResearchRepor
  * @since 03-Feb-2018
  */
 public interface IResearchReportDao {
-	Map<String,EquityResearchResult> findResearchReportTableData(ResearchReportFilter filter) throws RuntimeException;
+	List<EquityResearchResult> findResearchReportTableData(ResearchReportFilter filter) throws RuntimeException;
 	AbsResearchReportDashboardResult findResearchReportDashboardData(String... params) throws RuntimeException;
 	ResearchReportFilter getFilterValues();
 }

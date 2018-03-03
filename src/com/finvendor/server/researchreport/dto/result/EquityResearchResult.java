@@ -13,7 +13,7 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsEquitySectorResearc
 		"_3YrPatGrowth", "recommType", "targetPrice", "priceAtRecomm", "upside", "report", "researchDate",
 		"analystName" })
 public class EquityResearchResult extends AbsEquitySectorResearchResult {
-
+	private String vendorId;
 	private String companyId;
 	private String company;
 	private String style;
@@ -33,8 +33,8 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String targetPrice;
 	private String priceAtRecomm;
 	private String upside;
-	private String vendorId;
 	private String analystType;
+	private String yrOfInCorp;
 
 	public String getCompanyId() {
 		return companyId;
@@ -179,5 +179,14 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	public void setAnalystType(String analystType) {
 		this.analystType = analystType;
 	}
+
+	public String getYrOfInCorp() {
+		return yrOfInCorp;
+	}
+
+	public void setYrOfInCorp(String yrOfInCorp) {
+		this.yrOfInCorp = yrOfInCorp;
+	}
+
 	
 }

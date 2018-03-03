@@ -48,8 +48,8 @@ public class WebCommonApi implements WebCommonApiIfc {
 			if ("others".equals(type)) {
 				List<String> ll = new ArrayList<>();
 				Map<String, Object> data = new LinkedHashMap<>();
-				data.put("Award Winning Analyst", "N");
-				data.put("Research Reports by CFA", "N");
+				data.put("Award Winning Analyst", "true");
+				data.put("Research Reports by CFA", "true");
 				json = JsonUtil.createJsonFromParamsMap(data);
 				ll.add(json);
 				json = Arrays.toString(ll.toArray(new String[1]));

@@ -58,37 +58,55 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;
 
+	private static int filterHashCodeValue;
+	static Map<String, List<EquityResearchResult>> result = new HashMap<>();
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String,EquityResearchResult> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
+	public Map<String, List<EquityResearchResult>> getResearchResultTableData(
+			@RequestBody EquityResearchFilter equityResearchFilter,
 			@RequestParam(value = "type", required = true) String type) throws WebApiException {
+		
 		try {
 			if (equityResearchFilter.getGeo() == null) {
 				throw new Exception("Equity Research filter Error - Geo must not be null !!");
 			}
-			Map<String,EquityResearchResult> researchReport = (Map<String,EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
-			return researchReport;
+			
+			//Caching
+			if (filterHashCodeValue == 0 || filterHashCodeValue != equityResearchFilter.hashCode()) {
+				filterHashCodeValue = equityResearchFilter.hashCode();
+				List<EquityResearchResult> researchReport = (List<EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
+				result.put(type, researchReport);
+			}
+			return result;
 		} catch (Exception e) {
 			logger.error("Web API Error: ", e.getMessage(), e);
-			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultTableData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
+			throw new WebApiException(
+					"Error has occurred in WebResearchReport -> getResearchResultTableData(...) method, Root Cause:: "
+							+ ExceptionUtil.getRootCause(e));
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, List<EquityResearchResult>>  getResearchResultDashboardData(@RequestParam("type") String type, @RequestParam("companyId") String companyId, @RequestBody EquityResearchFilter equityResearchFilter)
-			throws WebApiException {
-//		try {
-////			return (EquityResearchResultDashboard) equityResearchService.getResearchReportDashboardData(companyId);
-//			equityResearchFilter.setCompanyId(companyId);
-//			List<EquityResearchResult> researchReport = (List<EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
-//			Map<String, List<EquityResearchResult>> result = new HashMap<>();
-//			result.put(type, researchReport);
-//			return result;
-//		} catch (Exception e) {
-//			logger.error("Web API Error: ", e.getMessage(), e);
-//			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultDashboardData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
-//		}
+	public Map<String, List<EquityResearchResult>> getResearchResultDashboardData(@RequestParam("type") String type,
+			@RequestParam("companyId") String companyId, @RequestBody EquityResearchFilter equityResearchFilter)
+					throws WebApiException {
+		// try {
+		//// return (EquityResearchResultDashboard)
+		// equityResearchService.getResearchReportDashboardData(companyId);
+		// equityResearchFilter.setCompanyId(companyId);
+		// List<EquityResearchResult> researchReport =
+		// (List<EquityResearchResult>)
+		// equityResearchService.getResearchReportTableData(equityResearchFilter);
+		// Map<String, List<EquityResearchResult>> result = new HashMap<>();
+		// result.put(type, researchReport);
+		// return result;
+		// } catch (Exception e) {
+		// logger.error("Web API Error: ", e.getMessage(), e);
+		// throw new WebApiException("Error has occurred in WebResearchReport ->
+		// getResearchResultDashboardData(...) method, Root Cause:: " +
+		// ExceptionUtil.getRootCause(e));
+		// }
 		return null;
 	}
 
@@ -108,19 +126,40 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 			}
 		} catch (Exception e) {
 			logger.error("Web API Error: ", e.getMessage(), e);
-			throw new WebApiException("Error has occurred in WebResearchReport -> downloadResearchReport(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
+			throw new WebApiException(
+					"Error has occurred in WebResearchReport -> downloadResearchReport(...) method, Root Cause:: "
+							+ ExceptionUtil.getRootCause(e));
 		}
 	}
 
 	private String buildReportPath(HttpServletRequest request, String reportFileName) throws Exception {
 		String loggedInUser = WebUtil.getLoggedInUser(request);
 		String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
-		String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator + reportFileName;
+		String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator
+				+ reportFileName;
 		return fullyQualifiedReportFilePath;
 	}
-	
+
 	public static void main(String[] args) throws IOException {
-		String json ="{\"1\":{\"companyId\":\"1\",\"company\":\"company-1\"},\"2\":{\"companyId\":\"2\",\"company\":\"company-2\"}}";
-		System.out.println(JsonUtil.getJsonNodeString(json, "2"));
+		//// String str="{\"geo\":\"1\",\"mcap\":[\"Large Cap\",\"Mid
+		//// Cap\",\"Small Cap\",\"Micro Cap\",\"Nano Cap\"]}";
+		//// EquityResearchFilter readValue =(EquityResearchFilter)
+		//// JsonUtil.convertJsonToPojo(str, EquityResearchFilter.class);
+		//// System.out.println(readValue);
+		//
+		// String
+		//// jsonStr="{\"equity\":[{\"vendorId\":\"1\",\"company\":\"x1\"},{\"vendorId\":\"2\",\"company\":\"x2\"}]}";
+		//// EquityResearchResult rr =(EquityResearchResult)
+		//// JsonUtil.convertJsonToPojo(jsonStr, EquityResearchResult.class);
+		// ObjectMapper mapper = new ObjectMapper();
+		// List<String> valueList = JsonUtil.getValueList(jsonStr, "equity");
+		// List<EquityResearchResult> myObjects = mapper.readValue(jsonStr,
+		// mapper.getTypeFactory().constructCollectionType(List.class,
+		//// EquityResearchResult.class));
+		//// System.out.println(rr);
+
+		Emp e1 = new Emp("1", "A1");
+		System.out.println(e1.hashCode());
+
 	}
 }
