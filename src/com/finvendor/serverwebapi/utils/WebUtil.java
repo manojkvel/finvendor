@@ -53,6 +53,11 @@ public final class WebUtil {
 		put(BrokerAnalyst.class, new String[] { "broker_rank" });
 		put(VendorResearchReportsResearchDetails.class, new String[] { "rsrchRecommType" });
 	}};
+	
+	@SuppressWarnings({ "serial" })
+	public static final Map<Class<?>, String[]> TABLE_NAME_COLUMN__CONDITION_MAP = new HashMap<Class<?>, String[]>() {{
+		put(Country.class, new String[] { "name", "India","UK","USA" });
+	}};
 
 	public static String getLoggedInUser(HttpServletRequest request) throws Exception {
 		User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");

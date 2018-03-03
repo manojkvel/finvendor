@@ -38,7 +38,7 @@ public class CommonDao extends AbsCommonDao {
 	}
 
 	@Override
-	public String findAll(Class<?> claaz, String[] cols) {
-		return transformToJson(selectAll(claaz), claaz, cols);
+	public String findAll(Class<?> claaz, String[] cols,String[] conditionColumns) {
+		return transformToJson(selectAll(claaz,conditionColumns), claaz, cols);
 	}
 }

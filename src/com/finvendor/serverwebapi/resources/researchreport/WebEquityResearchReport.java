@@ -2,13 +2,12 @@ package com.finvendor.serverwebapi.resources.researchreport;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +22,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finvendor.common.util.ExceptionUtil;
-import com.finvendor.common.util.JsonUtil;
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
 import com.finvendor.server.researchreport.service.ifc.IResearchReportService;
@@ -58,27 +54,32 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;
 
-	private static int filterHashCodeValue;
-	static Map<String, List<EquityResearchResult>> result = new HashMap<>();
+	private static int cachedSearchFilterHashCode;
+	private static int cachedDashboardFilterHashCode;
+	private static int cachedProductId;
+	
+	private static Map<String, List<EquityResearchResult>> cachedSearchResult = new HashMap<>();
+	private static Map<String, List<EquityResearchResult>> cachedDashboardResult = new HashMap<>();
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, List<EquityResearchResult>> getResearchResultTableData(
-			@RequestBody EquityResearchFilter equityResearchFilter,
+	public Map<String, List<EquityResearchResult>> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
 			@RequestParam(value = "type", required = true) String type) throws WebApiException {
-		
+
 		try {
 			if (equityResearchFilter.getGeo() == null) {
 				throw new Exception("Equity Research filter Error - Geo must not be null !!");
 			}
-			
-			//Caching
-			if (filterHashCodeValue == 0 || filterHashCodeValue != equityResearchFilter.hashCode()) {
-				filterHashCodeValue = equityResearchFilter.hashCode();
+
+			// Caching
+			if (cachedSearchFilterHashCode == 0 || cachedSearchFilterHashCode != equityResearchFilter.hashCode()) {
+				cachedSearchFilterHashCode = equityResearchFilter.hashCode();
 				List<EquityResearchResult> researchReport = (List<EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
-				result.put(type, researchReport);
+				cachedSearchResult.put(type, researchReport);
 			}
-			return result;
+			return cachedSearchResult;
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Web API Error: ", e.getMessage(), e);
 			throw new WebApiException(
 					"Error has occurred in WebResearchReport -> getResearchResultTableData(...) method, Root Cause:: "
@@ -86,28 +87,35 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, List<EquityResearchResult>> getResearchResultDashboardData(@RequestParam("type") String type,
-			@RequestParam("companyId") String companyId, @RequestBody EquityResearchFilter equityResearchFilter)
-					throws WebApiException {
-		// try {
-		//// return (EquityResearchResultDashboard)
-		// equityResearchService.getResearchReportDashboardData(companyId);
-		// equityResearchFilter.setCompanyId(companyId);
-		// List<EquityResearchResult> researchReport =
-		// (List<EquityResearchResult>)
-		// equityResearchService.getResearchReportTableData(equityResearchFilter);
-		// Map<String, List<EquityResearchResult>> result = new HashMap<>();
-		// result.put(type, researchReport);
-		// return result;
-		// } catch (Exception e) {
-		// logger.error("Web API Error: ", e.getMessage(), e);
-		// throw new WebApiException("Error has occurred in WebResearchReport ->
-		// getResearchResultDashboardData(...) method, Root Cause:: " +
-		// ExceptionUtil.getRootCause(e));
-		// }
-		return null;
+	public Map<String, List<EquityResearchResult>> getResearchResultDashboardData(@RequestParam("type") String type, @RequestParam("productId") String productId,
+			@RequestBody EquityResearchFilter equityResearchFilter)	throws WebApiException {
+		int prodId = productId.hashCode();
+		try { 	
+			if (cachedDashboardFilterHashCode == 0 ||
+					(
+							(cachedProductId==0 || cachedProductId != prodId) || cachedDashboardFilterHashCode != equityResearchFilter.hashCode()
+					)
+				) {
+				Map<String, List<EquityResearchResult>> researchResultTableData = getResearchResultTableData(
+						equityResearchFilter, type);
+				List<EquityResearchResult> errList = researchResultTableData.get(type);
+				for (EquityResearchResult err : errList) {
+					if (err.getProductId().equals(productId)) {
+						List<EquityResearchResult> list = new ArrayList<>();
+						list.add(err);
+						cachedDashboardResult.put(type, list);
+						break;
+					}
+				}
+				cachedDashboardFilterHashCode=equityResearchFilter.hashCode();
+				cachedProductId=prodId;
+			}
+		} catch (Exception e) {
+			logger.error("Web API Error: ", e.getMessage(), e);
+			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultDashboardData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
+		}
+		return cachedDashboardResult;
 	}
 
 	@Override
@@ -138,25 +146,5 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 		String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator
 				+ reportFileName;
 		return fullyQualifiedReportFilePath;
-	}
-
-	public static void main(String[] args) throws IOException {
-		//// String str="{\"geo\":\"1\",\"mcap\":[\"Large Cap\",\"Mid
-		//// Cap\",\"Small Cap\",\"Micro Cap\",\"Nano Cap\"]}";
-		//// EquityResearchFilter readValue =(EquityResearchFilter)
-		//// JsonUtil.convertJsonToPojo(str, EquityResearchFilter.class);
-		//// System.out.println(readValue);
-		//
-		// String
-		//// jsonStr="{\"equity\":[{\"vendorId\":\"1\",\"company\":\"x1\"},{\"vendorId\":\"2\",\"company\":\"x2\"}]}";
-		//// EquityResearchResult rr =(EquityResearchResult)
-		//// JsonUtil.convertJsonToPojo(jsonStr, EquityResearchResult.class);
-		// ObjectMapper mapper = new ObjectMapper();
-		// List<String> valueList = JsonUtil.getValueList(jsonStr, "equity");
-		// List<EquityResearchResult> myObjects = mapper.readValue(jsonStr,
-		// mapper.getTypeFactory().constructCollectionType(List.class,
-		//// EquityResearchResult.class));
-		//// System.out.println(rr);
-
 	}
 }

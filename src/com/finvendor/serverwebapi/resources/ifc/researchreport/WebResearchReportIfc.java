@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
-import com.finvendor.server.researchreport.dto.result.dashboard.AbsResearchReportDashboardResult;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.ifc.common.WebUriConstants;
 
@@ -45,7 +44,8 @@ public interface WebResearchReportIfc {
 	 */
 	@RequestMapping(value = WebUriConstants.ResearchReport.DASHBOARD_RESEARCH_REPORTS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	Map<String, List<EquityResearchResult>>  getResearchResultDashboardData(String type, String companyId,EquityResearchFilter equityResearchFilter) throws WebApiException;
+	Map<String, List<EquityResearchResult>>  getResearchResultDashboardData(String type, String productId,
+			EquityResearchFilter equityResearchFilter) throws WebApiException;
 	
 	/**
 	 * 

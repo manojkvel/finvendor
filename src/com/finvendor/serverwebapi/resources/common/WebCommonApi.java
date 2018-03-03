@@ -72,7 +72,8 @@ public class WebCommonApi implements WebCommonApiIfc {
 			} else {
 				Class<?> tableName = WebUtil.TABLE_NAME_MAP.get(type);
 				String[] columns = WebUtil.TABLE_NAME_COLUMN_MAP.get(tableName);
-				json = commonDao.findAll(tableName, columns);
+				String[] conditionColumns = WebUtil.TABLE_NAME_COLUMN__CONDITION_MAP.get(tableName);
+				json = commonDao.findAll(tableName, columns,conditionColumns);
 				String newJson = "";
 				if (json.contains("broker_rank")) {
 					if (json.contains("5star")) {
