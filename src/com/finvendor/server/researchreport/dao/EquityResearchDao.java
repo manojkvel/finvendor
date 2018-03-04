@@ -279,7 +279,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 			appendFilterWithInClause(baseSqlSb, "ven_rsrch_rpt_analyst_prof.anayst_cfa_charter", cfaList);
 		}
 
-		baseSqlSb.append(" order by vendor.username asc,ven_rsrch_rpt_dtls.rep_date desc");
+		baseSqlSb.append(" order by vendor.company asc,ven_rsrch_rpt_dtls.rep_date desc");
 		return baseSqlSb.toString();
 	}
 }
