@@ -37,7 +37,6 @@ import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingApplicationsOffering;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
-import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.VendorEnum;
 
@@ -47,9 +46,6 @@ public class VendorServiceImpl implements VendorService {
 
 	@Autowired
 	private VendorDao vendorDao;
-
-	@Autowired
-	private UserService userService;
 
 	@Override
 	public void saveVendorInfo(Vendor vendor) {
@@ -625,5 +621,10 @@ public class VendorServiceImpl implements VendorService {
 			break;
 		}
 
+	}
+
+	@Override
+	public String getAllVendorOffering(String vendorName) throws ApplicationException {
+		return vendorDao.findAllVendorOffering(vendorName);
 	}
 }

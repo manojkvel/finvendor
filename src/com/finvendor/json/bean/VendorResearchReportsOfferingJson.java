@@ -40,7 +40,9 @@ public class VendorResearchReportsOfferingJson {
 	private String rsrchReportDesc;
 	private String rsrchUploadReport;
 	private String targetPrice;
-
+	private String researchAreaType;
+	private String researchAreaCompanyName;
+	
 public String getRsrchReportDesc() {
 		return rsrchReportDesc;
 	}
@@ -267,6 +269,18 @@ public String getRsrchReportFor() {
 	}
 	public void setPriceAtRecomm(String priceAtRecomm) {
 		this.priceAtRecomm = priceAtRecomm;
+	}
+	public String getResearchAreaType() {
+		return researchAreaType;
+	}
+	public void setResearchAreaType(String researchAreaType) {
+		this.researchAreaType = researchAreaType;
+	}
+	public String getResearchAreaCompanyName() {
+		return researchAreaCompanyName;
+	}
+	public void setResearchAreaCompanyName(String researchAreaCompanyName) {
+		this.researchAreaCompanyName = researchAreaCompanyName;
 	}
 	
 	

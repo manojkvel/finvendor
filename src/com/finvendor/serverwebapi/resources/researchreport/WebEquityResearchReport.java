@@ -3,9 +3,8 @@ package com.finvendor.serverwebapi.resources.researchreport;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.finvendor.common.util.ExceptionUtil;
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
+import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResult;
 import com.finvendor.server.researchreport.service.ifc.IResearchReportService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.ifc.researchreport.WebResearchReportIfc;
@@ -58,12 +58,12 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	private static int cachedDashboardFilterHashCode;
 	private static int cachedProductId;
 	
-	private static Map<String, List<EquityResearchResult>> cachedSearchResult = new HashMap<>();
-	private static Map<String, List<EquityResearchResult>> cachedDashboardResult = new HashMap<>();
+	private static Map<String, Collection<EquityResearchResult>> cachedSearchResult = new HashMap<>();
+	private static Map<String, EquityResearchResult> cachedDashboardResult = new HashMap<>();
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, List<EquityResearchResult>> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
+	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
 			@RequestParam(value = "type", required = true) String type) throws WebApiException {
 
 		try {
@@ -72,10 +72,11 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 			}
 
 			// Caching
-			if (cachedSearchFilterHashCode == 0 || cachedSearchFilterHashCode != equityResearchFilter.hashCode()) {
+			int filterHashCode = equityResearchFilter.hashCode();//244604402
+			if (cachedSearchFilterHashCode == 0 || cachedSearchFilterHashCode != filterHashCode) {
 				cachedSearchFilterHashCode = equityResearchFilter.hashCode();
-				List<EquityResearchResult> researchReport = (List<EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
-				cachedSearchResult.put(type, researchReport);
+				Map<String,EquityResearchResult> researchReport = (Map<String,EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
+				cachedSearchResult.put(type, researchReport.values());
 			}
 			return cachedSearchResult;
 		} catch (Exception e) {
@@ -88,7 +89,7 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	}
 
 	@Override
-	public Map<String, List<EquityResearchResult>> getResearchResultDashboardData(@RequestParam("type") String type, @RequestParam("productId") String productId,
+	public Map<String, EquityResearchResult> getResearchResultDashboardData(@RequestParam("type") String type, @RequestParam("productId") String productId,
 			@RequestBody EquityResearchFilter equityResearchFilter)	throws WebApiException {
 		int prodId = productId.hashCode();
 		try { 	
@@ -96,23 +97,16 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 					(
 							(cachedProductId==0 || cachedProductId != prodId) || cachedDashboardFilterHashCode != equityResearchFilter.hashCode()
 					)
-				) {
-				Map<String, List<EquityResearchResult>> researchResultTableData = getResearchResultTableData(
-						equityResearchFilter, type);
-				List<EquityResearchResult> errList = researchResultTableData.get(type);
-				for (EquityResearchResult err : errList) {
-					if (err.getProductId().equals(productId)) {
-						List<EquityResearchResult> list = new ArrayList<>();
-						list.add(err);
-						cachedDashboardResult.put(type, list);
-						break;
-					}
-				}
-				cachedDashboardFilterHashCode=equityResearchFilter.hashCode();
-				cachedProductId=prodId;
+				) 
+			{
+				 Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService.getResearchReportTableData(equityResearchFilter);
+				 EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData.get(productId);
+				cachedDashboardResult.put(type, absResearchReportResult);
+				cachedDashboardFilterHashCode 	= equityResearchFilter.hashCode();
+				cachedProductId 				= prodId;
 			}
 		} catch (Exception e) {
-			cachedDashboardFilterHashCode=0;
+			cachedDashboardFilterHashCode = 0;
 			logger.error("Web API Error: ", e.getMessage(), e);
 			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultDashboardData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
 		}

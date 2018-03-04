@@ -62,8 +62,7 @@ public final class WebUtil {
 	public static String getLoggedInUser(HttpServletRequest request) throws Exception {
 		User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 		if (loggedInUser == null) {
-			return "amit_vendor";
-			// throw new Exception("Unable to find logged In user!!");
+			 throw new Exception("Unable to find logged In user!!");
 		}
 		return loggedInUser.getUsername();
 	}

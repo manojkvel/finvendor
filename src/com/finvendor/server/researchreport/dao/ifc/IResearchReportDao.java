@@ -1,11 +1,9 @@
 package com.finvendor.server.researchreport.dao.ifc;
 
-import java.util.List;
 import java.util.Map;
 
 import com.finvendor.server.researchreport.dto.filter.ifc.ResearchReportFilter;
-import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
-import com.finvendor.server.researchreport.dto.result.dashboard.AbsResearchReportDashboardResult;
+import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResult;
 
 /**
  * Top level interface
@@ -14,7 +12,5 @@ import com.finvendor.server.researchreport.dto.result.dashboard.AbsResearchRepor
  * @since 03-Feb-2018
  */
 public interface IResearchReportDao {
-	List<EquityResearchResult> findResearchReportTableData(ResearchReportFilter filter) throws RuntimeException;
-	AbsResearchReportDashboardResult findResearchReportDashboardData(String... params) throws RuntimeException;
-	ResearchReportFilter getFilterValues();
+	Map<String,? extends AbsResearchReportResult> findResearchReportTableData(ResearchReportFilter filter) throws RuntimeException;
 }
