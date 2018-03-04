@@ -1,6 +1,6 @@
 package com.finvendor.serverwebapi.resources.ifc.researchreport;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
-import com.finvendor.server.researchreport.dto.result.dashboard.AbsResearchReportDashboardResult;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.ifc.common.WebUriConstants;
 
@@ -34,7 +33,7 @@ public interface WebResearchReportIfc {
 	//{"geo":"1","mcap":["Large Cap","Mid Cap","Small Cap","Micro Cap","Nano Cap"],"style":["Value","Growth","Income","Blend"],"analystType":["Broker","Independent","Others"],"researchedBroker":["vendor1"],"brokerYearOfInCorp":["<= 3 Yrs","3 - 5 Yrs","5 - 10 Yrs"],"brokerRank":["5","4"],"recommType":["accumulate","Reduce"],"awardWinnig":true,"researchCfa":true,"upside":[""]}
 	@RequestMapping(value = WebUriConstants.ResearchReport.RESEARCH_REPORTS, method = RequestMethod.POST)
 	@ResponseBody
-	Map<String,List<EquityResearchResult>> getResearchResultTableData(EquityResearchFilter equityResearchFilter, String type) throws WebApiException;
+	Map<String,Collection<EquityResearchResult>> getResearchResultTableData(EquityResearchFilter equityResearchFilter, String type) throws WebApiException;
 	
 	/**
 	 * 
@@ -45,7 +44,8 @@ public interface WebResearchReportIfc {
 	 */
 	@RequestMapping(value = WebUriConstants.ResearchReport.DASHBOARD_RESEARCH_REPORTS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	Map<String, List<EquityResearchResult>>  getResearchResultDashboardData(String type, String companyId,EquityResearchFilter equityResearchFilter) throws WebApiException;
+	Map<String, EquityResearchResult>  getResearchResultDashboardData(String type, String productId,
+			EquityResearchFilter equityResearchFilter) throws WebApiException;
 	
 	/**
 	 * 

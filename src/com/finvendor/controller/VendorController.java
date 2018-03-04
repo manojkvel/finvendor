@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.finvendor.common.util.ExceptionUtil;
 import com.finvendor.common.util.StringUtil;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.JsonResponseData;
@@ -82,6 +83,7 @@ import com.finvendor.model.VendorTradingApplicationsSoftwareDetails;
 import com.finvendor.model.VendorTradingApplicationsTradingCapability;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
+import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.utils.WebUtil;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
@@ -3179,98 +3181,22 @@ public class VendorController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "listResearchReportsOffering", method = { RequestMethod.POST, RequestMethod.GET })
-	public @ResponseBody List<VendorResearchReportsOfferingJson> listResearchReportsOffering(HttpServletRequest request,
-			HttpServletResponse response) {
-		logger.debug("Entering  - VendorController : listResearchReportsOffering");
-		List<VendorResearchReportsOffering> offerings = null;
-		List<VendorResearchReportsOfferingJson> jsonOfferings = new ArrayList<VendorResearchReportsOfferingJson>();
+	@RequestMapping(value = "listResearchReportsOffering", method = {RequestMethod.GET })
+	@ResponseBody 
+	public String listResearchReportsOffering(HttpServletRequest request,HttpServletResponse response) {
 		String userName = null;
+		String allVendorOffering="{}";
 		try {
 			if (request.getSession().getAttribute("loggedInUser") == null) {
 				request.getRequestDispatcher("/").forward(request, response);
 			}
-			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-			userName = loggedInUser.getUsername();
-			offerings = vendorService.getVendorResearchReportsOffering(userName);
-			populateVendorResearchReportsOfferingJsonList(offerings, jsonOfferings);
+			userName = WebUtil.getLoggedInUser(request);
+			allVendorOffering = vendorService.getAllVendorOffering(userName);
+			return allVendorOffering;
 		} catch (Exception exp) {
 			logger.error("Error Reading Trading Applications Offering for {}", userName, exp);
-
-		}
-		logger.debug("Leaving  - VendorController : listTradingApplicationsOffering");
-		return jsonOfferings;
-	}
-
-	private void populateVendorResearchReportsOfferingJsonList(List<VendorResearchReportsOffering> offerings,
-			List<VendorResearchReportsOfferingJson> jsonOfferings) {
-		for (VendorResearchReportsOffering offering : offerings) {
-			VendorResearchReportsOfferingJson jsonOffering = new VendorResearchReportsOfferingJson();
-
-			// productId
-			jsonOffering.setProductId(offering.getProductId());
-
-			// productName
-			jsonOffering.setProductName(offering.getProductName());
-
-			// productDescription
-			jsonOffering.setProductDescription(offering.getProductDescription());
-
-			// launchedYear
-			jsonOffering.setLaunchedYear(offering.getLaunchedYear());
-
-			// rcResearchArea
-			if (offering.getResearchArea() != null) {
-				jsonOffering.setResearchArea(offering.getResearchArea().getResearchAreaId());
-			}
-
-			// rcResearchSubArea
-			jsonOffering.setResearchSubArea(offering.getResearchSubArea());
-
-			if (offering.getResearchDetails() != null) {
-				// rdSuitability
-				jsonOffering.setSuitability(offering.getResearchDetails().getSuitability());
-
-				// rdSubsriptionCostUSDperannum
-				jsonOffering.setSubCostPy(offering.getResearchDetails().getSubCostPy());
-
-				// vo_rr_report_for
-				jsonOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
-
-				// vo_datepicker
-				jsonOffering.setRepDate(offering.getResearchDetails().getRepDate());
-
-				// vo_target_price
-				jsonOffering.setTargetPrice(offering.getResearchDetails().getTargetPrice());
-
-				// vo_eqrrv_recommendation_type
-				jsonOffering.setRsrchRecommType(offering.getResearchDetails().getRsrchRecommType());
-
-				// vo_price_at_recomm
-				jsonOffering.setPriceAtRecomm(offering.getResearchDetails().getPriceAtRecomm());
-
-				// vo_eqrrv_report_desc
-				jsonOffering.setRsrchReportDesc(offering.getResearchDetails().getRsrchReportDesc());
-
-				// vo_eqrrv_report_access
-				jsonOffering.setRsrchReportAccess(offering.getResearchDetails().getRsrchReportAccess());
-
-				// vo_upload_report - UI does not need path in list response
-				jsonOffering.setRsrchUploadReport(StringUtil.EMPTY_STRING);
-			}
-
-			if (offering.getAnalystProfile() != null) {
-				// vo_analystName
-				jsonOffering.setAnalystName(offering.getAnalystProfile().getAnalystName());
-
-				// vo_analystwithawards
-				jsonOffering.setAnalystAwards(offering.getAnalystProfile().getAnalystAwards());
-
-				// vo_analystCfaCharter
-				jsonOffering.setAnaystCfaCharter(offering.getAnalystProfile().getAnaystCfaCharter());
-			}
-
-			jsonOfferings.add(jsonOffering);
+			throw new WebApiException("Error has occurred in VendorController -> listResearchReportsOffering(...) method,"
+					+ " Root Cause:: " + ExceptionUtil.getRootCause(exp));
 		}
 	}
 

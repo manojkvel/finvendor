@@ -13,13 +13,12 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsEquitySectorResearc
 		"_3YrPatGrowth", "recommType", "targetPrice", "priceAtRecomm", "upside", "report", "researchDate",
 		"analystName" })
 public class EquityResearchResult extends AbsEquitySectorResearchResult {
-	private String vendorId;
+	private String productId;
 	private String companyId;
 	private String company;
 	private String style;
 	private String mcap;
 
-	private String brokerRank;
 	private String brokerRankLargeCap;
 	private String brokerRankMidCap;
 	private String brokerRankSmallCap;
@@ -35,6 +34,15 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String upside;
 	private String analystType;
 	private String yrOfInCorp;
+
+	
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
 
 	public String getCompanyId() {
 		return companyId;
@@ -66,14 +74,6 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 
 	public void setMcap(String mcap) {
 		this.mcap = mcap;
-	}
-
-	public String getBrokerRank() {
-		return brokerRank;
-	}
-
-	public void setBrokerRank(String brokerRank) {
-		this.brokerRank = brokerRank;
 	}
 
 	public String getBrokerRankLargeCap() {
@@ -164,13 +164,6 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 		this.upside = upside;
 	}
 
-	public String getVendorId() {
-		return vendorId;
-	}
-
-	public void setVendorId(String vendorId) {
-		this.vendorId = vendorId;
-	}
 
 	public String getAnalystType() {
 		return analystType;

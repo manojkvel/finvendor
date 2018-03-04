@@ -8,6 +8,10 @@ public class ApplicationException extends Exception{
 		super();
 	}
 	
+	public ApplicationException(Throwable e){
+		super(e);
+	}
+	
 	public ApplicationException(String exceptionMessage){
 		super(exceptionMessage);
 	}

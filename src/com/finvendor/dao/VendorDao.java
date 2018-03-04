@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
+import com.finvendor.json.bean.VendorResearchReportsOfferingJson;
 import com.finvendor.model.Awards;
 import com.finvendor.model.Cost;
 import com.finvendor.model.SolutionTypes;
@@ -306,6 +307,8 @@ public interface VendorDao {
 	public void deleteVendorAnalyticsApplicationsOffering(String productId) throws ApplicationException;
 	public List<VendorAnalyticsApplicationsOffering> getVendorAnalyticsApplicationsOffering(
 			String vendorName) throws ApplicationException;
+	
+	String findAllVendorOffering(String vendorName) throws ApplicationException;
 	/* Vendor Analytics Applications Offering End */
 	
  }
