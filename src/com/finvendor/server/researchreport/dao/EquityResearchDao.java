@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
 		SQLQuery query;
 		List<Object[]> rows;
-		Map<String, EquityResearchResult> resultMap = new HashMap<>();
+		Map<String, EquityResearchResult> resultMap = new LinkedHashMap<>();
 		try {
 			// Step-1 Load Equity Research Area wise Company Details
 			Map<String, EquityResearchResult> equityResearchAreaCompanyDetails = loadEquityResearchAreaCompanyDetails(equityFilter);
@@ -140,7 +141,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 
 	@SuppressWarnings("unchecked")
 	private Map<String, EquityResearchResult> loadEquityResearchAreaCompanyDetails(EquityResearchFilter equityFilter) {
-		Map<String, EquityResearchResult> equityResearchAreaCompanyDetails = new HashMap<>();
+		Map<String, EquityResearchResult> equityResearchAreaCompanyDetails = new LinkedHashMap<>();
 		SQLQuery query;
 		List<Object[]> rows;
 		String companyLevelSQL = "select rsch_sub_area_company_dtls.company_id,rsch_sub_area_company_dtls.company_name,rsch_area_stock_class.stock_class_name STYLE, market_cap_def.mcap_name M_CAP,research_sub_area.description SECTOR,stock_historial_prices.close_price AS CMP,stock_historial_prices.price_date AS PRC_DT,stock_current_info.pe AS PE,stock_current_info.3_yr_path_growth AS 3_YR_PAT_GRTH from rsch_sub_area_company_dtls,rsch_area_stock_class,market_cap_def,research_sub_area,stock_historial_prices,stock_current_info,country where rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = market_cap_def.company_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_historial_prices.stock_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id and rsch_sub_area_company_dtls.rsch_sub_area_id=research_sub_area.research_sub_area_id ";
