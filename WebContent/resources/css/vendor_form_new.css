@@ -1622,6 +1622,8 @@ h2 {
 }
 .container-fluid #sidebar-panel input[type=radio] {
 	float: right;
+	width: 15px;
+	height: 15px;
 }
 
 .widget-group {
@@ -1648,6 +1650,9 @@ h2 {
 
 .widget-group .widget-panel-body {
 	display: none;
+	height: 100px;
+	overflow: auto;
+	margin-bottom: 10px;
 }
 
 .widget-group .widget-panel-body li {

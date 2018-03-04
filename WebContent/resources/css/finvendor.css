@@ -129,6 +129,18 @@ body {
 	padding: 5px !important;
 }
 
+#search_by_geo {
+	
+}
+
+#search_by_recommType, 
+#search_by_analystType {
+	text-transform: capitalize;
+}
+
+
+
+
 .dashboard_report .companyName {
 	font-weight: bold;
 }

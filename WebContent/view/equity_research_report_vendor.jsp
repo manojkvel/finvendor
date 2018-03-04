@@ -35,41 +35,11 @@
 									<span class="fa fa-chevron-down"></span>
 								</div>
 								<div class='widget-panel-body'>
-									<ul>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>India</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='radio' name='geography_type' data-name='India' data-section='' data-value='1' id='filled-in-box-geo-india' />
-													<label for='geo-india'></label>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>UK</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='radio' name='geography_type' data-name='UK' data-section='' data-value='2' id='filled-in-box-geo-uk' />
-													<label for='geo-uk'></label>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>US</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='radio' name='geography_type' data-name='US' data-section='' data-value='3' id='filled-in-box-smallcap-geo-us' />
-													<label for='geo-us'></label>
-												</div>
-											</div>
-										</li>
-									</ul>
+									<div id="search_by_geo">
+										<ul>
+											
+										</ul>
+									</div>
 								</div>
 							</div>
 							<div class='widget widget-panel-default'>
@@ -78,74 +48,11 @@
 									<span class="fa fa-chevron-down"></span>
 								</div>
 								<div class='widget-panel-body'>
-									<ul>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>All</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='All' data-section='' data-value='0' id='filled-in-box-all' />
-													<label for='all'></label>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Large Cap: > $5Bn</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Large Cap' data-section='' data-value='1' id='filled-in-box-largecap' />
-													<label for='largecap'></label>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Mid Cap: $1Bn < & < $5Bn</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Mid Cap' data-section='' data-value='2' id='filled-in-box-midcap' />
-													<label for='midcap'></label>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Small Cap: $300M < & < $1Bn</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Small Cap' data-section='' data-value='3' id='filled-in-box-smallcap' />
-													<label for='smallcap'></label>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Micro Cap: $50M < & < $300M</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Micro Cap' data-section='' data-value='4' id='filled-in-box-microcap' />
-													<label for='microcap'></label>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Nano Cap: < $50M</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Nano Cap' data-section='' data-value='5' id='filled-in-box-nanocap' />
-													<label for='nanocap'></label>
-												</div>
-											</div>
-										</li>
-									</ul>
+									<div id="search_by_marketcapital">
+										<ul>
+											
+										</ul>
+									</div>
 								</div>
 							</div>
 							<div class='widget widget-panel-default'>
@@ -154,49 +61,11 @@
 									<span class="fa fa-chevron-down"></span>
 								</div>
 								<div class='widget-panel-body'>
-									<ul>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>All</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='All' data-section='' data-value='all' id='filled-in-box-all' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Value</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Value' data-section='' data-value='value' id='filled-in-box-value' />
-
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Growth</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Growth' data-section='' data-value='growth' id='filled-in-box-growth' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Income</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Income' data-section='' data-value='income' id='filled-in-box-income' />
-												</div>
-											</div>
-										</li>
-									</ul>
+									<div id="search_by_style">
+										<ul>
+											
+										</ul>
+									</div>
 								</div>
 							</div>
 							<div class='widget widget-panel-default'>
@@ -204,40 +73,13 @@
 									<h3>Analyst Type</h3>
 									<span class="fa fa-chevron-down"></span>
 								</div>
-								<div class='widget-panel-body'>
-									<ul>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Broker</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Broker' data-section='' data-value='broker' id='filled-in-box-broker' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Independent</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Independent' data-section='' data-value='independent' id='filled-in-box-independent' />
 
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Others</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Others' data-section='' data-value='others' id='filled-in-box-others' />
-												</div>
-											</div>
-										</li>
-									</ul>
+								<div class='widget-panel-body'>
+									<div id="search_by_analystType">
+										<ul>
+											
+										</ul>
+									</div>
 								</div>
 							</div>
 							<div class='widget widget-panel-default'>
@@ -249,99 +91,24 @@
 									<div class="widget_search">
 										<input type="text" id="search_broker" onkeyup="getBrokerListByName()" placeholder="Search broker/analyst" />
 									</div>
-									<ul id="search_broker_ul">
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Capital Market</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Capital Market' data-section='' data-value='capital-market' id='filled-in-box-capital-market' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Zerodha</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Zerodha' data-section='' data-value='zerodha' id='filled-in-box-zerodha' />
-
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>HDFC Sec.</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='HDFC Sec.' data-section='' data-value='hdfc-sec' id='filled-in-box-hdfc-sec' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>ICICI Sec.</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='ICICI Sec' data-section='' data-value='icici-sec' id='filled-in-box-icici-sec' />
-												</div>
-											</div>
-										</li>
-									</ul>
+									<div id="search_by_researchbroker">
+										<ul id="search_by_researchbroker_ul">
+											
+										</ul>
+									</div>
 								</div>
 							</div>
 						    <div class='widget widget-panel-default'>
 						    	<div class='widget-panel-heading'>
-						    		<h3>Broker/Analyst YR of InCorp</h3>
+						    		<h3>Broker/Analyst YR of InCorp (Since)</h3>
 						    		<span class="fa fa-chevron-down"></span>
 						    	</div>
 						    	<div class='widget-panel-body'>
-						    		<ul>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span><= 3 Yrs</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='<= 3 Yrs' data-section='' data-value='lessthan3yrs' id='filled-in-box-lessthan3yrs' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>3 - 5 Yrs</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='3 - 5 Yrs' data-section='' data-value='between3and5yrs' id='filled-in-box-between3and5yrs' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>5 - 10 Yrs</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='5 - 10 Yrs' data-section='' data-value='between5and10yrs' id='filled-in-box-between5and10yrs' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>> 10 Yrs</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='> 10 Yrs' data-section='' data-value='morethan10yrs' id='filled-in-box-morethan10yrs' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    		</ul>
+						    		<div id="search_by_brokerAnalystYrOfIncorp">
+										<ul>
+											
+										</ul>
+									</div>
 						    	</div>
 						    </div>
 						    <div class='widget widget-panel-default'>
@@ -350,58 +117,11 @@
 						    		<span class="fa fa-chevron-down"></span>
 						    	</div>
 						    	<div class='widget-panel-body'>
-						    		<ul>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>5 star (Success rate > 80%)</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='5 star' data-section='' data-value='5star' id='filled-in-box-5star' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>4 star (Success rate >= 65% & < 80%)</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='4 star' data-section='' data-value='4star' id='filled-in-box-4star' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>3 star (Success rate >= 50% & < 65%)</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='3 star' data-section='' data-value='3star' id='filled-in-box-3star' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>2 star (Success rate >= 40% & < 50%)</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='2 star' data-section='' data-value='2star' id='filled-in-box-2star' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>1 star (Success rate < 40%)</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='1 star' data-section='' data-value='1star' id='filled-in-box-1star' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    		</ul>
+						    		<div id="search_by_broker_rank">
+										<ul>
+											
+										</ul>
+									</div>
 						    	</div>
 						    </div>
 
@@ -411,149 +131,39 @@
 									<span class="fa fa-chevron-down"></span>
 								</div>
 								<div class='widget-panel-body'>
-									<ul>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Buy</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Buy' data-section='' data-value='buy' id='filled-in-box-buy' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Sell</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Sell' data-section='' data-value='sell' id='filled-in-box-sell' />
-
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Accumulate</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Accumulate' data-section='' data-value='accumulate' id='filled-in-box-accumulate' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Overweight</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Overweight' data-section='' data-value='overweight' id='filled-in-box-overweight' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Underweight</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Underweight' data-section='' data-value='underweight' id='filled-in-box-underweight' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Reduce</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Reduce' data-section='' data-value='reduce' id='filled-in-box-reduce' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Neutral</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Neutral' data-section='' data-value='neutral' id='filled-in-box-neutral' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Hold</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Hold' data-section='' data-value='hold' id='filled-in-box-hold' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Bullish</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Bullish' data-section='' data-value='bullish' id='filled-in-box-bullish' />
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class='row'>
-												<div class='col-xs-9'>
-													<span>Bearish</span>
-												</div>
-												<div class='col-xs-3'>
-													<input type='checkbox' data-name='Bearish' data-section='' data-value='bearish' id='filled-in-box-bearish' />
-												</div>
-											</div>
-										</li>
-									</ul>
+									<div id="search_by_recommType">
+										<ul>
+											
+										</ul>
+									</div>
 								</div>
 							</div>
+
+							<div class='widget widget-panel-default'>
+								<div class='widget-panel-heading'>
+									<h3>Upside</h3>
+									<span class="fa fa-chevron-down"></span>
+								</div>
+								<div class='widget-panel-body'>
+									<div id="search_by_upside">
+										<ul>
+											
+										</ul>
+									</div>
+								</div>
+							</div>
+
 						    <div class='widget widget-panel-default'>
 						    	<div class='widget-panel-heading'>
 						    		<h3>Others</h3>
 						    		<span class="fa fa-chevron-down"></span>
 						    	</div>
 						    	<div class='widget-panel-body'>
-						    		<ul>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>Award Winning Analyst</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='Award winning Analyst' data-section='' data-value='awardwinninganalyst' id='filled-in-box-awardwinninganalyst' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>Research Reports by CFA</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='Research Reports by CFA' data-section='' data-value='researchreportsbyCFA' id='filled-in-box-researchreportsbyCFA' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    			<li>
-						    				<div class='row'>
-						    					<div class='col-xs-9'>
-						    						<span>Upside</span>
-						    					</div>
-						    					<div class='col-xs-3'>
-						    						<input type='checkbox' data-name='Upside' data-section='' data-value='upside' id='filled-in-box-upside' />
-						    					</div>
-						    				</div>
-						    			</li>
-						    		</ul>
+						    		<div id="search_by_others">
+										<ul>
+											
+										</ul>
+									</div>
 						    	</div>
 						    </div>
 						</div>
@@ -815,7 +425,8 @@
     		var input, filter, ul, li, span, i;
 		    input = document.getElementById("search_broker");
 		    filter = input.value.toUpperCase();
-		    ul = document.getElementById("search_broker_ul");
+		    ul = document.getElementById("search_by_researchbroker_ul");
+		    
 		    li = ul.getElementsByTagName("li");
 		    for (i = 0; i < li.length; i++) {
 		        span = li[i].getElementsByTagName("span")[0];
