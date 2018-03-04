@@ -1688,6 +1688,7 @@ jQuery(document).ready(function() {
 			url:  "listResearchReportsOffering",
 			cache:false,
 			success : function(response) {
+				var response = JSON.parse(response);
 				var totalCount = response.length;
 				if(totalCount === 0) {
 					progressLoader(false);
@@ -1698,10 +1699,11 @@ jQuery(document).ready(function() {
 				$('#research_application_top_card .research_application_info').empty();
 				var listResearchReportsOfferingHTML = '';
 				for(var i=0; i < totalCount; i++) {
+					
 					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + getResearchAreaMultipleListById(response[i].researchArea + '') + " | " + response[i].rsrchReportFor + " | " + response[i].launchedYear  + "</h4>" +
-							"<p>" + response[i].productDescription  + "</p>" +
+							"<h4>" + response[i].researchAreaName + " | " + response[i].researchAreaCompanyName + " | " + response[i].lauchedYear  + "</h4>" +
+							"<p>" + response[i].productDesc  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
 								"<a class='btn edit_btn'>Edit</a>" +
