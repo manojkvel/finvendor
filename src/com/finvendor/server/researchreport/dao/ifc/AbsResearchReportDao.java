@@ -26,7 +26,8 @@ public abstract class AbsResearchReportDao implements IResearchReportDao {
 	public AbsResearchReportDao() {
 	}
 
-	protected void appendFilterWithInClause(StringBuffer sqlSb, String filterCondition, List<String> inValues) {
+	protected void appendFilterWithInClause(StringBuffer sqlSb, String filterCondition, List<String> inValues,
+			boolean inClause) {
 		StringBuffer inValueSb = new StringBuffer(100);
 		inValueSb.append("(");
 		for (String inValue : inValues) {
@@ -34,13 +35,36 @@ public abstract class AbsResearchReportDao implements IResearchReportDao {
 		}
 		inValueSb.deleteCharAt(inValueSb.toString().length() - 1);
 		inValueSb.append(")");
-		sqlSb.append(" AND ").append(filterCondition).append(" IN").append(inValueSb);
+		if (inClause) {
+			sqlSb.append(" AND ").append(filterCondition).append(" IN").append(inValueSb);
+		} else {
+			sqlSb.append(" AND ").append(filterCondition).append(" NOT IN").append(inValueSb);
+		}
 	}
-	protected long convertStringToTimestamp(String str_date) throws ParseException {
-	      DateFormat formatter;
-	      formatter = new SimpleDateFormat("MM/dd/yyyy");
-	      Date date = (Date) formatter.parse(str_date);
-	      return date.getTime();
-	  }
 	
+	protected void appendFilterWithBetweenClause(StringBuffer sqlSb,String filterCondition, String firstValue,String secondValue) {
+		StringBuffer betweenClauseSb = new StringBuffer(100);
+		betweenClauseSb.append(" BETWEEN ").append(firstValue).append(" AND ").append(secondValue);
+		sqlSb.append(" and ").append(filterCondition).append(betweenClauseSb);
+	}
+	
+	protected void appendFilterLessThanClause(StringBuffer sqlSb,String filterCondition, String valueString) {
+		StringBuffer lessThanSb = new StringBuffer(100);
+		lessThanSb.append(" < ").append(valueString);
+		sqlSb.append(" AND ").append(filterCondition).append(lessThanSb);
+	}
+	
+	protected void appendFilterGreaterThanClause(StringBuffer sqlSb,String filterCondition, String valueString) {
+		StringBuffer greaterThanSb = new StringBuffer(100);
+		greaterThanSb.append(" > ").append(valueString);
+		sqlSb.append(" AND ").append(filterCondition).append(greaterThanSb);
+	}
+
+	protected long convertStringToTimestamp(String str_date) throws ParseException {
+		DateFormat formatter;
+		formatter = new SimpleDateFormat("MM/dd/yyyy");
+		Date date = (Date) formatter.parse(str_date);
+		return date.getTime();
+	}
+
 }

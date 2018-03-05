@@ -30,7 +30,7 @@ public final class WebUtil {
 	public static final String EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON="[{\"others\":\"Award Winning Analyst\"},{\"others\":\"Research Reports by CFA\"}]";
 	
 	/**Equity Research upside json contants*/
-	public static final String EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON="[{\"upside\":\"<0%\"},{\"upside\":\"0-20%\"},{\"upside\":\"20-50%\"},{\"upside\":\"50-100\"},{\"upside\":\">100%\"}]";
+	public static final String EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON="[{\"upside\":\"<0%\"},{\"upside\":\"0-20%\"},{\"upside\":\"20-50%\"},{\"upside\":\"50-100%\"},{\"upside\":\">100%\"}]";
 
 	// Forbidden instantiation
 	private WebUtil() {
@@ -172,9 +172,7 @@ public final class WebUtil {
 					{ "Micro Cap", "Micro Cap: $50M < & < $300M" } }));
 				}},
 				conitionValueAsNull,
-				new LinkedHashMap<String, Object>() {{
-					put("all", "All");
-				}},
+				firstDefaultParamsMapAsNull,
 				lastDefaultParamsMapAsNull, 
 				columnIndex_1));
 
@@ -204,7 +202,7 @@ public final class WebUtil {
 			
 			//researchBroker as CompanyName - earlier was "UserName" 
 			put("researchBroker",
-				new SqlData("SELECT vendor_id,company FROM vendor where company IS Not null;",
+				new SqlData("SELECT vendor_id,company FROM vendor where company IS Not null",
 				new ArrayList<ColumnNameAndNewValue>() {{
 					add(new ColumnNameAndNewValue("companyName", null));
 				}},
