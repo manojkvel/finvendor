@@ -134,7 +134,7 @@ jQuery(document).ready(function() {
 	};
 
 	window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-	loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+	//loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 
 	function getResearchReportForEquity(jsonData) {
 		var url = "/system/api/researchReports?type=equity";
@@ -245,8 +245,19 @@ jQuery(document).ready(function() {
 		getFilterData('marketcapital').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = '';
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
 			var len = response.length;
+
 			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
 								+ "<div class='row'>"
@@ -267,17 +278,44 @@ jQuery(document).ready(function() {
 		});
 	};
 
-	var MarketCapitalData = [];
+	var marketCapitalData = [];
+
+	var checkForAllData = function(filterData, element) {
+		
+	};
 
     /**
      * Function to get analyst Type from localstorage and get equity list
      */
 	var getMarketCapitalData = function() {
-		addRemoveItemFromArray(MarketCapitalData, $(this).attr('data-value'));
-		
-		localEquitySearchJson.mcap = MarketCapitalData;
 
-		if(MarketCapitalData.length === 0) {
+		addRemoveItemFromArray(marketCapitalData, $(this).attr('data-value'));
+
+
+		if($(this).attr('data-value') == 'all') {
+			marketCapitalData = ['all'];
+			var arr = $("#search_by_marketcapital ul input");
+			for(key in arr) {
+				if (!isNaN(key)) {
+					addRemoveItemFromArray(marketCapitalData, $(arr[key]).attr('data-value'));
+				}
+			}
+
+			if($("#search_by_marketcapital ul input").prop('checked') == true) {
+				$("#search_by_marketcapital ul input").prop('checked', true);
+			} else {
+				$("#search_by_marketcapital ul input").prop('checked', false);
+				marketCapitalData = [];
+			}
+			//$("#search_by_marketcapital ul input").prop('checked', true);
+		} else {
+			$("#search_by_marketcapital ul input").eq(0).prop('checked', false);
+		}
+
+		
+		localEquitySearchJson.mcap = marketCapitalData;
+
+		if(marketCapitalData.length === 0) {
 			delete localEquitySearchJson.recommType;
 		}
 		
