@@ -1219,18 +1219,19 @@ public class VendorDaoImpl implements VendorDao {
 	@Override
 	public String findAllVendorOffering(String vendorName) throws ApplicationException {
 		try {
-			String sql = "SELECT ven_rsrch_rpt_offering.product_name,research_area.description,rsch_sub_area_company_dtls.company_name,ven_rsrch_rpt_offering.launched_year,ven_rsrch_rpt_offering.product_description FROM ven_rsrch_rpt_offering,ven_rsrch_rpt_dtls,rsch_sub_area_company_dtls,vendor,research_area where rsch_sub_area_company_dtls.company_id=ven_rsrch_rpt_dtls.company_id and ven_rsrch_rpt_offering.product_id=ven_rsrch_rpt_dtls.product_id and research_area.research_area_id=ven_rsrch_rpt_offering.research_area and vendor.vendor_id=ven_rsrch_rpt_offering.vendor_id and vendor.username = ?";
+			String sql = "SELECT ven_rsrch_rpt_offering.product_id,ven_rsrch_rpt_offering.product_name,research_area.description,rsch_sub_area_company_dtls.company_name,ven_rsrch_rpt_offering.launched_year,ven_rsrch_rpt_offering.product_description FROM ven_rsrch_rpt_offering,ven_rsrch_rpt_dtls,rsch_sub_area_company_dtls,vendor,research_area where rsch_sub_area_company_dtls.company_id=ven_rsrch_rpt_dtls.company_id and ven_rsrch_rpt_offering.product_id=ven_rsrch_rpt_dtls.product_id and research_area.research_area_id=ven_rsrch_rpt_offering.research_area and vendor.vendor_id=ven_rsrch_rpt_offering.vendor_id and vendor.username = ?";
 			SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 			query.setString(0, vendorName);
 			List<Object[]> rows = query.list();
 			List<Map<String, Object>> listOfMap = new ArrayList<>();
 			for (Object[] row : rows) {
 				Map<String, Object> paramsMap = new LinkedHashMap<>();
-				paramsMap.put("productName", (row[0] != null ? row[0].toString() : ""));
-				paramsMap.put("researchAreaName", (row[1] != null ? row[1].toString() : ""));
-				paramsMap.put("researchAreaCompanyName", (row[2] != null ? row[2].toString() : ""));
-				paramsMap.put("lauchedYear", (row[3] != null ? row[3].toString() : ""));
-				paramsMap.put("productDesc", (row[4] != null ? row[4].toString() : ""));
+				paramsMap.put("productId", (row[0] != null ? row[0].toString() : ""));
+				paramsMap.put("productName", (row[1] != null ? row[1].toString() : ""));
+				paramsMap.put("researchAreaName", (row[2] != null ? row[2].toString() : ""));
+				paramsMap.put("researchAreaCompanyName", (row[3] != null ? row[3].toString() : ""));
+				paramsMap.put("lauchedYear", (row[4] != null ? row[4].toString() : ""));
+				paramsMap.put("productDesc", (row[5] != null ? row[5].toString() : ""));
 				listOfMap.add(paramsMap);
 			}
 			String createJsonFromParamsMap = JsonUtil.createJsonFromObject(listOfMap);
