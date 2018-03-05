@@ -34,16 +34,16 @@ public class WebCommonApi implements WebCommonApiIfc {
 	public String getResearchFilterData(String type) throws WebApiException {
 
 		switch (type) {
-		case "brokerYrOfInCorp":
-			return WebUtil.brokerYrOfInCorpJson;
-		case "others":
-			return WebUtil.othersJson;
-		case "upside":
-			return WebUtil.upsideJson;
+			case "brokerYrOfInCorp":
+				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON;
+			case "others":
+				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON;
+			case "upside":
+				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON;
 		}
 
-		SqlData sqlData = WebUtil.typeMap.get(type);
-		String jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameMap(), sqlData.getConitionValue(),
+		SqlData sqlData 	= WebUtil.typeMap.get(type);
+		String jsonResult 	= commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(), sqlData.getConitionValue(),
 				sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(), sqlData.getColIndex());
 
 		return jsonResult;

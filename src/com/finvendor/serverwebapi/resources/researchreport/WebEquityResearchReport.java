@@ -54,13 +54,6 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;
 
-	private static int cachedSearchFilterHashCode;
-	private static int cachedDashboardFilterHashCode;
-	private static int cachedProductId;
-	
-	private static Map<String, Collection<EquityResearchResult>> cachedSearchResult = new HashMap<>();
-	private static Map<String, EquityResearchResult> cachedDashboardResult = new HashMap<>();
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
@@ -71,16 +64,11 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 				throw new Exception("Equity Research filter Error - Geo must not be null !!");
 			}
 
-			// Caching
-			int filterHashCode = equityResearchFilter.hashCode();//244604402
-			if (cachedSearchFilterHashCode == 0 || cachedSearchFilterHashCode != filterHashCode) {
-				cachedSearchFilterHashCode = equityResearchFilter.hashCode();
-				Map<String,EquityResearchResult> researchReport = (Map<String,EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
-				cachedSearchResult.put(type, researchReport.values());
-			}
-			return cachedSearchResult;
+			Map<String,EquityResearchResult> researchReport = (Map<String,EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
+			Map<String, Collection<EquityResearchResult>> searchResult = new HashMap<>();
+			searchResult.put(type, researchReport.values());
+			return searchResult;
 		} catch (Exception e) {
-			cachedSearchFilterHashCode=0;
 			logger.error("Web API Error: ", e.getMessage(), e);
 			throw new WebApiException(
 					"Error has occurred in WebResearchReport -> getResearchResultTableData(...) method, Root Cause:: "
@@ -91,26 +79,17 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	@Override
 	public Map<String, EquityResearchResult> getResearchResultDashboardData(@RequestParam("type") String type, @RequestParam("productId") String productId,
 			@RequestBody EquityResearchFilter equityResearchFilter)	throws WebApiException {
-		int prodId = productId.hashCode();
 		try { 	
-			if (cachedDashboardFilterHashCode == 0 ||
-					(
-							(cachedProductId==0 || cachedProductId != prodId) || cachedDashboardFilterHashCode != equityResearchFilter.hashCode()
-					)
-				) 
-			{
-				 Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService.getResearchReportTableData(equityResearchFilter);
-				 EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData.get(productId);
-				cachedDashboardResult.put(type, absResearchReportResult);
-				cachedDashboardFilterHashCode 	= equityResearchFilter.hashCode();
-				cachedProductId 				= prodId;
-			}
+		 		Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService.getResearchReportTableData(equityResearchFilter);
+				EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData.get(productId);
+				Map<String, EquityResearchResult> dashboardResult = new HashMap<>();
+				 
+				dashboardResult.put(type, absResearchReportResult);
+				return dashboardResult;
 		} catch (Exception e) {
-			cachedDashboardFilterHashCode = 0;
 			logger.error("Web API Error: ", e.getMessage(), e);
 			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultDashboardData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
 		}
-		return cachedDashboardResult;
 	}
 
 	@Override
