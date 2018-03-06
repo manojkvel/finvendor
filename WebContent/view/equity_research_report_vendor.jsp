@@ -205,7 +205,7 @@
 										</th>
 										<th style="width:15%;">
 											<p class="large_font">
-												<a href="javascript:void(0)">Broker Rank <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)">Broker Rank</a>
 											</p>
 											<p class="small_font">
 												<a href="javascript:void(0)">Large Cap <i class="fa fa-sort"></i></a>

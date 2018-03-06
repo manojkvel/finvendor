@@ -93,7 +93,9 @@ body {
 	top: 3px;
 }
 
-.brokerRank i {
+.brokerRankLargeCap i,
+.brokerRankMidCap i,
+.brokerRankSmallCap i {
 	font-size: 13px !important;
 	padding: 0 2px;
 }

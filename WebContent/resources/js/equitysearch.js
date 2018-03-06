@@ -95,20 +95,55 @@ jQuery(document).ready(function() {
 					upsideClass = "danger";
 				}
 
-				var borkerRankStarClass = "<i class='fa fa-star'></i>";
-				var borkerRankStarHtml = '';
-				if(response.equity[i].brokerRank === 5) {
-					borkerRankStarHtml = borkerRankStarClass + borkerRankStarClass + borkerRankStarClass + borkerRankStarClass + borkerRankStarClass;
-				} else if(response.equity[i].brokerRank === 4) {
-					borkerRankStarHtml = borkerRankStarClass + borkerRankStarClass + borkerRankStarClass + borkerRankStarClass;
-				} else if(response.equity[i].brokerRank === 3) {
-					borkerRankStarHtml = borkerRankStarClass + borkerRankStarClass + borkerRankStarClass;
-				} else if(response.equity[i].brokerRank === 2) {
-					borkerRankStarHtml = borkerRankStarClass + borkerRankStarClass;
-				} else if(response.equity[i].brokerRank === 1) {
-					borkerRankStarHtml = borkerRankStarClass;
+				var brokerRankLargeCapStarClass = "<i class='fa fa-star'></i>";
+				
+				var brokerRankLargeCapStarHtml = '';
+				if(response.equity[i].brokerRankLargeCap === "5") {
+					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+				} else if(response.equity[i].brokerRankLargeCap === "4") {
+					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+				} else if(response.equity[i].brokerRankLargeCap === "3") {
+					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+				} else if(response.equity[i].brokerRankLargeCap === "2") {
+					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+				} else if(response.equity[i].brokerRankLargeCap === "1") {
+					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass;
 				} else {
-					borkerRankStarHtml = borkerRankStarClass + borkerRankStarClass + borkerRankStarClass + borkerRankStarClass + borkerRankStarClass
+					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass
+				}
+
+
+				var brokerRankMidCapStarClass = "<i class='fa fa-star'></i>";
+				var brokerRankMidCapStarHtml = '';
+				if(response.equity[i].brokerRankMidCap === "5") {
+					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+				} else if(response.equity[i].brokerRankMidCap === "4") {
+					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+				} else if(response.equity[i].brokerRankMidCap === "3") {
+					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+				} else if(response.equity[i].brokerRankMidCap === "2") {
+					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+				} else if(response.equity[i].brokerRankMidCap === "1") {
+					brokerRankMidCapStarHtml = brokerRankMidCapStarClass;
+				} else {
+					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass
+				}
+
+
+				var brokerRankSmallCapStarClass = "<i class='fa fa-star'></i>";
+				var brokerRankSmallCapStarHtml = '';
+				if(response.equity[i].brokerRankSmallCap === "5") {
+					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+				} else if(response.equity[i].brokerRankSmallCap === "4") {
+					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+				} else if(response.equity[i].brokerRankSmallCap === "3") {
+					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+				} else if(response.equity[i].brokerRankSmallCap === "2") {
+					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+				} else if(response.equity[i].brokerRankSmallCap === "1") {
+					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass;
+				} else {
+					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass
 				}
 
 				htmlCode = htmlCode + "<tr>" +
@@ -125,10 +160,9 @@ jQuery(document).ready(function() {
 							"<div class='researchedByCfa'>" + response.equity[i].researchedByCfa + "</div>" +
 						"</td>" +
 						"<td>" + 
-							"<div class='brokerRank warning '>" + borkerRankStarHtml + "</div>" + 
-							"<div class='brokerRankLargeCap'>" + response.equity[i].brokerRankLargeCap + "</div>" + 
-							"<div class='brokerRankMidCap'>" + response.equity[i].brokerRankMidCap + "</div>" + 
-							"<div class='brokerRankSmallCap'>" + response.equity[i].brokerRankSmallCap + "</div>" +
+							"<div class='brokerRankLargeCap warning' data-toggle='tooltip' title='Large Cap'>" + brokerRankLargeCapStarHtml + "</div>" + 
+							"<div class='brokerRankMidCap warning' data-toggle='tooltip' title='Mid Cap'>" + brokerRankMidCapStarHtml + "</div>" + 
+							"<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
 						"</td>" +
 						"<td>" + 
 							"<div class='cmp'> Rs. " + response.equity[i].cmp + "</div>" + 
@@ -143,7 +177,7 @@ jQuery(document).ready(function() {
 							"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
 						"</td>" +
 						"<td>"  +  
-							"<div class='analystName'>" + response.equity[i].analystName + "</div>" + 
+							"<div class='analystName' data-toggle='tooltip' title='" + response.equity[i].analystName + "'>" + response.equity[i].analystName + "</div>" + 
 							"<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
 							"<div class='report' target=''><a href='research-company-report.jsp?id=" + response.equity[i].companyId + "' data-toggle='tooltip' title='Go to report post'><i class='fa fa-file'></i></a></div>" +
 						"</td>" +
