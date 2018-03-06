@@ -146,7 +146,7 @@ jQuery(document).ready(function() {
 					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass
 				}
 
-				htmlCode = htmlCode + "<tr>" +
+				htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "'>" +
 						"<td>" + 
 							"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'>" + response.equity[i].company + "</div>" + 
 							"<div class='style'>" + response.equity[i].style + "</div>" + 
@@ -179,7 +179,7 @@ jQuery(document).ready(function() {
 						"<td>"  +  
 							"<div class='analystName' data-toggle='tooltip' title='" + response.equity[i].analystName + "'>" + response.equity[i].analystName + "</div>" + 
 							"<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
-							"<div class='report' target=''><a href='research-company-report.jsp?id=" + response.equity[i].companyId + "' data-toggle='tooltip' title='Go to report post'><i class='fa fa-file'></i></a></div>" +
+							"<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post'><i class='fa fa-file'></i></a></div>" +
 						"</td>" +
 						"</tr>";
 			}
@@ -187,10 +187,21 @@ jQuery(document).ready(function() {
 			$("#broker_table tbody").html(htmlCode);
 
     		$('[data-toggle="tooltip"]').tooltip();
+    		$('#broker_table tbody tr td .report a').on('click', getReport);
 		}, function(error) {
 			console.log(error);
 		});
 	};
+
+	var getReport = function(e) {
+		var productId = $(this).parents('tr').attr('data-id');
+		//console.log(productId);
+		var dasboardReportJson = {
+			equitysearchjson : window.localStorage.getItem("equitysearchjson"),
+			productId : productId
+		}
+		window.localStorage.setItem('dasboardReportJson', JSON.stringify(dasboardReportJson));
+	}
 
 
 
