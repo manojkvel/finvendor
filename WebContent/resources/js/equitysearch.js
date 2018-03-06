@@ -18,7 +18,38 @@ jQuery(document).ready(function() {
 			array.push(item);
 		}
 		return array;
-	}
+	};
+
+	var timeStampToDate = function (ts) {
+        if (ts) {
+            ts = new Date(ts).toString();
+            ts = ts.split(' ').slice(0, 5);
+            ts = /*ts[0] + " " + */ ts[1] + " " + ts[2] + ", " + ts[3]; //+ " " + ts[4];
+            //console.log(ts);
+            return ts;
+        } else {
+            return 'NA';
+        }
+    };
+
+	var checkForAllData = function(filterData, element) {
+		var arr = $(element);
+		for(key in arr) {
+			if (!isNaN(key)) {
+				addRemoveItemFromArray(filterData, $(arr[key]).attr('data-value'));
+			}
+		}
+
+		$(element).prop('checked', !$(element).prop('checked'));
+		if($(element).prop('checked')) {
+			$(element).prop('checked', false);
+			return true;
+		} else {
+			$(element).prop('checked', true);
+		}
+
+		return false;
+	};
 
 	function loadDefaultEquityList(jsonData) {
 		getResearchReportForEquity(jsonData).then(function(serverResponse) {
@@ -101,19 +132,19 @@ jQuery(document).ready(function() {
 						"</td>" +
 						"<td>" + 
 							"<div class='cmp'> Rs. " + response.equity[i].cmp + "</div>" + 
-							"<div class='priceDate'>" + response.equity[i].priceDate + "</div>" + 
+							"<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
 							"<div class='pe'>" + response.equity[i].pe + "</div>" + 
-							"<div class='_3YrPatGrowth " + _3YrPatGrowthClass + "'><i class='fa " + _3YrPatGrowthClass_Caret + "'></i> " + response.equity[i]._3YrPatGrowth + "%</div>" +
+							"<div class='_3YrPatGrowth " + _3YrPatGrowthClass + "'><i class='fa " + _3YrPatGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrPatGrowth != 'NA') ? Math.round(response.equity[i]._3YrPatGrowth * 100) / 100 + '%' : response.equity[i]._3YrPatGrowth) + "</div>" +
 						"</td>" +
 						"<td>" + 
 							"<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
 							"<div class='targetPrice'> Rs. " + response.equity[i].targetPrice + "</div>" + 
 							"<div class='priceAtRecomm'>" + response.equity[i].priceAtRecomm + "</div>" + 
-							"<div class='upside " + upsideClass + "'>" + response.equity[i].upside + "</div>" +
+							"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
 						"</td>" +
 						"<td>"  +  
 							"<div class='analystName'>" + response.equity[i].analystName + "</div>" + 
-							"<div class='researchDate'>" + response.equity[i].researchDate + "</div>" +
+							"<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
 							"<div class='report' target=''><a href='research-company-report.jsp?id=" + response.equity[i].companyId + "' data-toggle='tooltip' title='Go to report post'><i class='fa fa-file'></i></a></div>" +
 						"</td>" +
 						"</tr>";
@@ -134,7 +165,7 @@ jQuery(document).ready(function() {
 	};
 
 	window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-	//loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+	loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 
 	function getResearchReportForEquity(jsonData) {
 		var url = "/system/api/researchReports?type=equity";
@@ -213,7 +244,7 @@ jQuery(document).ready(function() {
 									+ "<span>" + response[i].name + "</span>"
 									+ "</div>"
 									+ "<div class='col-xs-3'>"
-										+ "<input type='radio' name='geography_type' data-name='" + response[i].name + "' data-section='' data-value='" + response[i].country_id + "' />"
+										+ "<input type='radio' name='geography_type' data-name='" + response[i].name + "' data-section='' data-value='" + response[i].countryId + "' />"
 										+ "<label for='geo-india'></label>"
 									+ "</div>"
 								+ "</div>"
@@ -280,10 +311,6 @@ jQuery(document).ready(function() {
 
 	var marketCapitalData = [];
 
-	var checkForAllData = function(filterData, element) {
-		
-	};
-
     /**
      * Function to get analyst Type from localstorage and get equity list
      */
@@ -294,20 +321,9 @@ jQuery(document).ready(function() {
 
 		if($(this).attr('data-value') == 'all') {
 			marketCapitalData = ['all'];
-			var arr = $("#search_by_marketcapital ul input");
-			for(key in arr) {
-				if (!isNaN(key)) {
-					addRemoveItemFromArray(marketCapitalData, $(arr[key]).attr('data-value'));
-				}
-			}
-
-			if($("#search_by_marketcapital ul input").prop('checked') == true) {
-				$("#search_by_marketcapital ul input").prop('checked', true);
-			} else {
-				$("#search_by_marketcapital ul input").prop('checked', false);
+			if(checkForAllData(marketCapitalData, "#search_by_marketcapital ul input")) {
 				marketCapitalData = [];
-			}
-			//$("#search_by_marketcapital ul input").prop('checked', true);
+			} 
 		} else {
 			$("#search_by_marketcapital ul input").eq(0).prop('checked', false);
 		}
@@ -316,7 +332,7 @@ jQuery(document).ready(function() {
 		localEquitySearchJson.mcap = marketCapitalData;
 
 		if(marketCapitalData.length === 0) {
-			delete localEquitySearchJson.recommType;
+			delete localEquitySearchJson.mcap;
 		}
 		
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
@@ -331,7 +347,17 @@ jQuery(document).ready(function() {
 		getFilterData('style').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = '';
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
 			var len = response.length;
 			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
@@ -359,6 +385,15 @@ jQuery(document).ready(function() {
      */
 	var getStyleFilterData = function() {
 		addRemoveItemFromArray(styleFilterData, $(this).attr('data-value'));
+
+		if($(this).attr('data-value') == 'all') {
+			styleFilterData = ['all'];
+			if(checkForAllData(styleFilterData, "#search_by_style ul input")) {
+				styleFilterData = [];
+			} 
+		} else {
+			$("#search_by_style ul input").eq(0).prop('checked', false);
+		}
 		
 		localEquitySearchJson.style = styleFilterData;
 
@@ -432,10 +467,10 @@ jQuery(document).ready(function() {
 				html = html + "<li>"
 								+ "<div class='row'>"
 									+ "<div class='col-xs-9'>"
-									+ "<span>" + response[i].userName + "</span>"
+									+ "<span>" + response[i].companyName + "</span>"
 									+ "</div>"
 									+ "<div class='col-xs-3'>"
-										+ "<input type='checkbox' data-name='" + response[i].userName + "' data-section='' data-value='" + response[i].userName + "' />"
+										+ "<input type='checkbox' data-name='" + response[i].companyName + "' data-section='' data-value='" + response[i].companyName + "' />"
 									+ "</div>"
 								+ "</div>"
 							+ "</li>"
@@ -664,34 +699,19 @@ jQuery(document).ready(function() {
 			//console.log(response);
 			var html = '';
 			var len = response.length;
-			for(key in response) {
-				var newProp = response[key];
-				for(key in newProp) {
-					html = html + "<li>"
-								+ "<div class='row'>"
-									+ "<div class='col-xs-9'>"
-									+ "<span>" + key + "</span>"
-									+ "</div>"
-									+ "<div class='col-xs-3'>"
-										+ "<input type='checkbox' data-name='" + newProp[key] + "' data-section='' data-value='" + newProp[key] + "' />"
-									+ "</div>"
-								+ "</div>"
-							+ "</li>"
-				}
-			}
-			/*for(var i = 0; i < len; i++) {
+			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
 								+ "<div class='row'>"
 									+ "<div class='col-xs-9'>"
-									+ "<span>" + response[i].upside + "</span>"
+									+ "<span>" + response[i].others + "</span>"
 									+ "</div>"
 									+ "<div class='col-xs-3'>"
-										+ "<input type='checkbox' data-name='" + response[i].upside + "' data-section='' data-value='" + response[i].upside + "' />"
+										+ "<input type='checkbox' data-name='" + response[i].others + "' data-section='' data-value='" + response[i].others + "' />"
 										+ "<label for='geo-india'></label>"
 									+ "</div>"
 								+ "</div>"
 							+ "</li>"
-			}*/
+			}
 			$("#search_by_others ul").html(html);
 			$("#search_by_others ul input").on('change', getOthersFilterData);
 		}, function(error) {

@@ -101,7 +101,7 @@ body {
 .style, .mcap, .sector,
 .since, .awarded, .researchedByCfa,
 .brokerRankLargeCap, .brokerRankMidCap, .brokerRankSmallCap,
- .priceDate, .pe {
+ .priceDate, .pe, .researchDate {
 	font-size: 10px;
 }
 
@@ -136,6 +136,20 @@ body {
 #search_by_recommType, 
 #search_by_analystType {
 	text-transform: capitalize;
+}
+
+#search_by_geo,
+#search_by_marketcapital,
+#search_by_style,
+#search_by_analystType,
+#search_by_researchbroker,
+#search_by_brokerAnalystYrOfIncorp,
+#search_by_broker_rank,
+#search_by_recommType,
+#search_by_upside,
+#search_by_others {
+	max-height: 100px;
+	overflow: auto;
 }
 
 
@@ -219,3 +233,4 @@ body {
 .reportDetails .reportTitle {
 	margin-bottom: 30px;
 }
+
