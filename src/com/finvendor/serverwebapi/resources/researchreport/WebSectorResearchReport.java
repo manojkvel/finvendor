@@ -17,11 +17,6 @@ public class WebSectorResearchReport implements WebResearchReportIfc {
 	}
 
 	@Override
-	public void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName)
-			throws WebApiException {
-	}
-
-	@Override
 	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(
 			EquityResearchFilter equityResearchFilter, String type) throws WebApiException {
 		return null;
@@ -31,5 +26,11 @@ public class WebSectorResearchReport implements WebResearchReportIfc {
 	public Map<String, EquityResearchResult> getResearchResultDashboardData(String type, String productId,
 			EquityResearchFilter equityResearchFilter) throws WebApiException {
 		return null;
+	}
+
+
+	@Override
+	public void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName,
+			String vendorName) throws WebApiException {
 	}
 }

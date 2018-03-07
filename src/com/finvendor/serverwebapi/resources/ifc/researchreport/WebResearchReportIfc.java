@@ -55,6 +55,6 @@ public interface WebResearchReportIfc {
 	 */
 	@RequestMapping(value = WebUriConstants.ResearchReport.DOWNLOAD_RESEARCH_REPORTS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName) throws WebApiException;
+	void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName, String vendorName) throws WebApiException;
 	
 }

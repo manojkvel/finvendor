@@ -14,6 +14,11 @@ public final class ExceptionUtil {
 	}
 
 	public static final String getRootCause(Throwable th) {
-		return ExceptionUtils.getRootCause(th).getMessage();
+ 		Throwable rootCause = ExceptionUtils.getRootCause(th);
+		if (rootCause != null) {
+			return rootCause.getMessage();
+		} else {
+			return th.getMessage();
+		}
 	}
 }

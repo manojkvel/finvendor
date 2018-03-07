@@ -94,9 +94,9 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 
 	@Override
 	public void downloadResearchReport(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("reportFileName") String reportFileName) throws WebApiException {
+			@RequestParam("reportFileName") String reportFileName, @RequestParam("vendorName") String vendorName) throws WebApiException {
 		try {
-			String reportPath = buildReportPath(request, reportFileName);
+			String reportPath = buildReportPath(request, reportFileName,vendorName);
 			File file = new File(reportPath);
 			if (!file.exists()) {
 				throw new Exception("Vendor Report Offering File " + reportFileName + " does not exist!!");
@@ -114,8 +114,8 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 		}
 	}
 
-	private String buildReportPath(HttpServletRequest request, String reportFileName) throws Exception {
-		String loggedInUser = WebUtil.getLoggedInUser(request);
+	private String buildReportPath(HttpServletRequest request, String reportFileName,String vendorName) throws Exception {
+		String loggedInUser = vendorName;
 		String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
 		String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator
 				+ reportFileName;

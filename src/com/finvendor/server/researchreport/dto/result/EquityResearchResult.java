@@ -34,6 +34,7 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String upside;
 	private String analystType;
 	private String yrOfInCorp;
+	
 
 	
 	public String getProductId() {
