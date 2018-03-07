@@ -205,7 +205,7 @@
 										</th>
 										<th style="width:15%;">
 											<p class="large_font">
-												<a href="javascript:void(0)">Broker Rank <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)">Broker Rank</a>
 											</p>
 											<p class="small_font">
 												<a href="javascript:void(0)">Large Cap <i class="fa fa-sort"></i></a>
@@ -265,110 +265,6 @@
 											<jsp:include page="common/progressLoader.jsp"></jsp:include>
 										</td>
 									</tr>
-									<!--<tr>
-										<td>Zee Learn Limited</td>
-										<td>Axis Direct</td>
-										<td>5</td>
-										<td>41.45</td>
-										<td>67.35</td>
-										<td>
-											<div style="display:inline-flex">
-												<a href="#" rel="nofollow" data-toggle="tooltip" title="Free login to see report pdf required"><i class="fa fa-file-pdf-o"></i></a>
-												<a href="#" target="" data-toggle="tooltip" title="Go to report post"><i class="fa fa-file"></i></a>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>RIL</td>
-										<td>Angel Broking</td>
-										<td>1</td>
-										<td>1562</td>
-										<td>2200</td>
-										<td>
-											<div style="display:inline-flex">
-												<a href="#" rel="nofollow" data-toggle="tooltip" title="Free login to see report pdf required"><i class="fa fa-file-pdf-o"></i></a>
-												<a href="#" target="" data-toggle="tooltip" title="Go to report post"><i class="fa fa-file"></i></a>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>Zee Learn Limited</td>
-										<td>Axis Direct</td>
-										<td>5</td>
-										<td>41.45</td>
-										<td>67.35</td>
-										<td>
-											<div style="display:inline-flex">
-												<a href="#" rel="nofollow" data-toggle="tooltip" title="Free login to see report pdf required"><i class="fa fa-file-pdf-o"></i></a>
-												<a href="#" target="" data-toggle="tooltip" title="Go to report post"><i class="fa fa-file"></i></a>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>RIL</td>
-										<td>Angel Broking</td>
-										<td>1</td>
-										<td>1562</td>
-										<td>2200</td>
-										<td>
-											<div style="display:inline-flex">
-												<a href="#" rel="nofollow" data-toggle="tooltip" title="Free login to see report pdf required"><i class="fa fa-file-pdf-o"></i></a>
-												<a href="#" target="" data-toggle="tooltip" title="Go to report post"><i class="fa fa-file"></i></a>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>Zee Learn Limited</td>
-										<td>Axis Direct</td>
-										<td>5</td>
-										<td>41.45</td>
-										<td>67.35</td>
-										<td>
-											<div style="display:inline-flex">
-												<a href="#" rel="nofollow" data-toggle="tooltip" title="Free login to see report pdf required"><i class="fa fa-file-pdf-o"></i></a>
-												<a href="#" target="" data-toggle="tooltip" title="Go to report post"><i class="fa fa-file"></i></a>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>RIL</td>
-										<td>Angel Broking</td>
-										<td>1</td>
-										<td>1562</td>
-										<td>2200</td>
-										<td>
-											<div style="display:inline-flex">
-												<a href="#" rel="nofollow" data-toggle="tooltip" title="Free login to see report pdf required"><i class="fa fa-file-pdf-o"></i></a>
-												<a href="#" target="" data-toggle="tooltip" title="Go to report post"><i class="fa fa-file"></i></a>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>Zee Learn Limited</td>
-										<td>Axis Direct</td>
-										<td>5</td>
-										<td>41.45</td>
-										<td>67.35</td>
-										<td>
-											<div style="display:inline-flex">
-												<a href="#" rel="nofollow" data-toggle="tooltip" title="Free login to see report pdf required"><i class="fa fa-file-pdf-o"></i></a>
-												<a href="#" target="" data-toggle="tooltip" title="Go to report post"><i class="fa fa-file"></i></a>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>RIL</td>
-										<td>Angel Broking</td>
-										<td>1</td>
-										<td>1562</td>
-										<td>2200</td>
-										<td>
-											<div style="display:inline-flex">
-												<a href="#" rel="nofollow" data-toggle="tooltip" title="Free login to see report pdf required"><i class="fa fa-file-pdf-o"></i></a>
-												<a href="#" target="" data-toggle="tooltip" title="Go to report post"><i class="fa fa-file"></i></a>
-											</div>
-										</td>
-									</tr>-->
 								</tbody>
 							</table>
 						</div>

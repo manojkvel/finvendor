@@ -1650,8 +1650,6 @@ h2 {
 
 .widget-group .widget-panel-body {
 	display: none;
-	height: 100px;
-	overflow: auto;
 	margin-bottom: 10px;
 }
 
