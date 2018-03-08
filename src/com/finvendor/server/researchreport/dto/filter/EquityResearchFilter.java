@@ -13,7 +13,7 @@ public class EquityResearchFilter implements ResearchReportFilter {
     private List<String> style = null;
     private List<String> analystType = null;
     private List<String> researchedBroker = null;
-    private List<String> brokerYearOfInCorp = null;
+    private List<String> brokerYrOfInCorp = null;
     private List<String> brokerRank = null;
     private List<String> recommType = null;
     private List<String> others = null;
@@ -48,11 +48,12 @@ public class EquityResearchFilter implements ResearchReportFilter {
 	public void setResearchedBroker(List<String> researchedBroker) {
 		this.researchedBroker = researchedBroker;
 	}
-	public List<String> getBrokerYearOfInCorp() {
-		return brokerYearOfInCorp;
+	
+	public List<String> getBrokerYrOfInCorp() {
+		return brokerYrOfInCorp;
 	}
-	public void setBrokerYearOfInCorp(List<String> brokerYearOfInCorp) {
-		this.brokerYearOfInCorp = brokerYearOfInCorp;
+	public void setBrokerYrOfInCorp(List<String> brokerYrOfInCorp) {
+		this.brokerYrOfInCorp = brokerYrOfInCorp;
 	}
 	public List<String> getBrokerRank() {
 		return brokerRank;

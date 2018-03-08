@@ -195,9 +195,7 @@ public final class WebUtil {
 				}},
 				conitionValueAsNull,
 				firstDefaultParamsMapAsNull,
-				new LinkedHashMap<String, Object>() {{
-					put("analystType", "Others");
-				}},
+				lastDefaultParamsMapAsNull,
 				columnIndex_1));
 			
 			//researchBroker as CompanyName - earlier was "UserName" 

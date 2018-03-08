@@ -11,6 +11,7 @@ public abstract class AbsResearchReportResult {
 	protected String researchDate;
 	protected String analystName;
 	protected String vendorName;
+	protected String reportDesc;
 
 	protected String since;
 	protected String awarded;
@@ -51,6 +52,10 @@ public abstract class AbsResearchReportResult {
 	public void setVendorName(String vendorName) {
 		this.vendorName = vendorName;
 	}
-	
-	
+	public String getReportDesc() {
+		return reportDesc;
+	}
+	public void setReportDesc(String reportDesc) {
+		this.reportDesc = reportDesc;
+	}
 }
