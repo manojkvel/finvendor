@@ -22,6 +22,7 @@ jQuery(document).ready(function() {
 		$("#personal_details").slideDown();
 		$("#top-card").slideUp();
 		getCountryRegionMapping('personalvencountryofincorp', 'personalvenregionofincorp');
+		$("#personal_details #personal_analyst_type").selectpicker('val', $("#companyTypeList").val());
 	});
 
 	$("#vendor_profile #tab1 .save").on("click", function() {

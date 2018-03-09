@@ -179,7 +179,7 @@ jQuery(document).ready(function() {
 						"<td>"  +  
 							"<div class='analystName' data-toggle='tooltip' title='" + response.equity[i].analystName + "'>" + response.equity[i].analystName + "</div>" + 
 							"<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
-							"<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post'><i class='fa fa-file'></i></a></div>" +
+							"<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post' data-vendor='" + response.equity[i].vendorName + "'><i class='fa fa-file'></i></a></div>" +
 						"</td>" +
 						"</tr>";
 			}
@@ -194,11 +194,13 @@ jQuery(document).ready(function() {
 	};
 
 	var getReport = function(e) {
+		var vendorName = $(this).attr("data-vendor");
 		var productId = $(this).parents('tr').attr('data-id');
 		//console.log(productId);
 		var dasboardReportJson = {
 			equitysearchjson : window.localStorage.getItem("equitysearchjson"),
-			productId : productId
+			productId : productId,
+			vendorName : vendorName
 		}
 		window.localStorage.setItem('dasboardReportJson', JSON.stringify(dasboardReportJson));
 	}

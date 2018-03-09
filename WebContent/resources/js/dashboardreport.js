@@ -41,13 +41,13 @@ function getDashboardResearchReportLoad() {
                                     + "<div class='upside'>Upside: " + ((response.equity.upside != 'NA') ? Math.round(response.equity.upside * 100) / 100 + '%' : response.equity.upside) + "</div>"
 
                                     + "<div class='dwnldReport'>"
-                                        + "<a target='blank' href='system/api/downloadResearchReports?reportFileName=" + response.equity.report + "'>Download Full Report</a>"
+                                        + "<a target='blank' href='system/api/downloadResearchReports?reportFileName=" + response.equity.report + "&vendorName=" + response.equity.vendorName + "'>Download Full Report</a>"
                                     + "</div>"
                                 + "</div>"
                                 + "<span class='brokerName'>" + response.equity.broker + "</span>"
                                 + "<div class='reportDesc'>"
                                     + "<p>"
-                                        + "HSIL Limited (HSIL) is an Indian company, which offers sanitaryware products, faucets and glass bottles. The companys segments include building products division, packaging products division and others division (retail, consumer, pipes, caps and closures, e tc.) The companys ~46% re venue comes from building products division, ~43% from HSIL Limited (HSIL) is an Indian company, which offers sanitaryware products, faucets and glass bottles. The companys segments include building products division, packaging products division and others division (retail, consumer, pipes, caps and closures, e tc.) The companys ~46% re venue comes from building products division, ~43% from HSIL Limited (HSIL) is an Indian company, which offers sanitaryware products, faucets and glass bottles. The companys segments include building products division, packaging products division and others division (retail, consumer, pipes, caps and closures, e tc.) The companys ~46% re venue comes from building products division, ~43% from HSIL Limited (HSIL) is an Indian company, which offers sanitaryware products, faucets and glass bottles. The companys segments include building products division, packaging products division and others division (retail, consumer, pipes, caps and closures, e tc.) The companys ~46% re venue comes from building products division, ~43% from"
+                                        + response.equity.reportDesc
                                     + "</p>"
                                 + "</div>"
                             + "</div>"
@@ -65,10 +65,12 @@ function getDashboardResearchReportLoad() {
 function getDashboardResearchReport() {
 
     var dasboardReportJson = window.localStorage.getItem("dasboardReportJson");
-    var id = JSON.parse(dasboardReportJson).productId;
-    var jsonData = JSON.parse(dasboardReportJson).equitysearchjson;
+    dasboardReportJson = JSON.parse(dasboardReportJson);
+    var id = dasboardReportJson.productId;
+    var vendorName = dasboardReportJson.vendorName;
+    var jsonData = dasboardReportJson.equitysearchjson;
 
-    var url = "/system/api/dashboardResearchReports?type=equity&productId="+ id;
+    var url = "/system/api/dashboardResearchReports?type=equity&productId="+ id + "&vendorName=" + vendorName;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
