@@ -41,7 +41,7 @@ function getDashboardResearchReportLoad() {
                                     + "<div class='upside'>Upside: " + ((response.equity.upside != 'NA') ? Math.round(response.equity.upside * 100) / 100 + '%' : response.equity.upside) + "</div>"
 
                                     + "<div class='dwnldReport'>"
-                                        + "<a target='blank' href='system/api/downloadResearchReports?reportFileName=" + response.equity.report + "&vendorName=" + response.equity.vendorName + "'>Download Full Report</a>"
+                                        + "<a target='blank' href='/system/api/downloadResearchReports?reportFileName=" + response.equity.report + "&vendorName=" + response.equity.vendorName + "'>Download Full Report</a>"
                                     + "</div>"
                                 + "</div>"
                                 + "<span class='brokerName'>" + response.equity.broker + "</span>"
@@ -70,7 +70,7 @@ function getDashboardResearchReport() {
     var vendorName = dasboardReportJson.vendorName;
     var jsonData = dasboardReportJson.equitysearchjson;
 
-    var url = "/system/api/dashboardResearchReports?type=equity&productId="+ id + "&vendorName=" + vendorName;
+    var url = "/system/api/dashboardResearchReports?type=equity&productId="+ id;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
