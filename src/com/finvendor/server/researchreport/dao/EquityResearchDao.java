@@ -295,7 +295,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 					mcapActualList.add("Nano Cap");
 				}
 			}
-			appendFilterWithInClause(baseSqlSb, "market_cap_def.mcap_name", mcapActualList, true);
+			appendFilterWithInClause(baseSqlSb, "market_cap_def.market_cap_name", mcapActualList, true);
 		}
 
 		// #Style filter applied
