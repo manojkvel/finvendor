@@ -163,7 +163,7 @@ public final class WebUtil {
 
 			//marketcapital
 			put("marketcapital",
-				new SqlData("SELECT company_id, mcap_name FROM market_cap_def group by mcap_name order by mcap_name",
+				new SqlData("select comp_mkt_cap_type.company_id,market_cap_def.market_cap_name from comp_mkt_cap_type,market_cap_def where comp_mkt_cap_type.market_cap_id=market_cap_def.market_cap_id group by market_cap_def.market_cap_name order by comp_mkt_cap_type.company_id",
 				new ArrayList<ColumnNameAndNewValue>() {{
 				add(new ColumnNameAndNewValue("mcap_name",
 					new String[][] { { "Large Cap", "Large Cap: > $5Bn" },
