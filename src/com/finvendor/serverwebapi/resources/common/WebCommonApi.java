@@ -36,6 +36,8 @@ public class WebCommonApi implements WebCommonApiIfc {
 		switch (type) {
 			case "brokerYrOfInCorp":
 				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON;
+			case "brokerRank":
+				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON;
 			case "others":
 				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON;
 			case "upside":

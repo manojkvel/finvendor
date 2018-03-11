@@ -2,7 +2,6 @@ package com.finvendor.server.common.dao.ifc;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,24 +27,13 @@ public abstract class AbsCommonDao implements ICommonDao {
 	@SuppressWarnings("unchecked")
 	public String runSql(String sql, Map<String, Map<String, String>> columnNameMap, Object[] conditionValue,
 			Map<String, Object> firstDefaultParamsMap,Map<String, Object> lastDefaultParamsMap, int colIndex) throws RuntimeException {
-		SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
-		if (conditionValue != null) {
-			for (int i = 0; i < conditionValue.length; i++) {
-				Object object = conditionValue[i];
-				if (object instanceof String) {
-					String stringTypeValue = (String) object;
-					query.setString(i, stringTypeValue);
-				} else {
-					Integer integerTypeValue = (Integer) object;
-					query.setInteger(i, integerTypeValue);
-				}
-			}
-		}
+		SQLQuery query = getSql(sql, conditionValue);
+		List<Object[]> rows = query.list();
+		
 		List<Map<String, Object>> listOfMap = new ArrayList<>();
 		if (firstDefaultParamsMap != null) {
 			listOfMap.add(firstDefaultParamsMap);
 		}
-		List<Object[]> rows = query.list();
 
 		for (Object[] row : rows) {
 			int index=colIndex;
@@ -77,5 +65,22 @@ public abstract class AbsCommonDao implements ICommonDao {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public SQLQuery getSql(String sql, Object[] conditionValue) {
+		SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+		if (conditionValue != null) {
+			for (int i = 0; i < conditionValue.length; i++) {
+				Object object = conditionValue[i];
+				if (object instanceof String) {
+					String stringTypeValue = (String) object;
+					query.setString(i, stringTypeValue);
+				} else {
+					Integer integerTypeValue = (Integer) object;
+					query.setInteger(i, integerTypeValue);
+				}
+			}
+		}
+		return query;
 	}
 }

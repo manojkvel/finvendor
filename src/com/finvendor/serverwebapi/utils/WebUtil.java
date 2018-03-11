@@ -26,6 +26,9 @@ public final class WebUtil {
 	/**Equity Research Broker Year of Incorporation json contants*/
 	public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON="[{\"brokerYrOfInCorp\":\"<= 3 Yrs\"},{\"brokerYrOfInCorp\":\"3 - 5 Yrs\"},{\"brokerYrOfInCorp\":\"5 - 10 Yrs\"},{\"brokerYrOfInCorp\":\"> 10 Yrs\"}]";
 	
+	/**Equity Research upside json contants*/
+	public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON="[{\"broker_rank\":\"5 star (Success rate > 80%)\"},{\"broker_rank\":\"4 star (Success rate >= 65% & < 80%)\"},{\"broker_rank\":\"3 star (Success rate >= 50% & < 65%)\"},{\"broker_rank\":\"2 star (Success rate >= 40% & < 50%)\"},{\"broker_rank\":\"1 star (Success rate < 40%)\"}]";
+
 	/**Equity Research others json contants*/
 	public static final String EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON="[{\"others\":\"Award Winning Analyst\"},{\"others\":\"Research Reports by CFA\"}]";
 	
@@ -211,22 +214,7 @@ public final class WebUtil {
 			
 			//BrokerYrOfInCorp - Constant is defined, See at the top of class
 			
-			//brokerRank
-			put("brokerRank",
-				new SqlData("SELECT broker_id,broker_rank FROM broker_analyst",
-				new ArrayList<ColumnNameAndNewValue>() {{
-					add(new ColumnNameAndNewValue("broker_rank",
-						new String[][] {
-						{ "5star", "5 star (Success rate > 80%)" },
-						{ "4star", "4 star (Success rate >= 65% & < 80%)" },
-						{ "3star", "3 star (Success rate >= 50% & < 65%)" },
-						{ "2star", "2 star (Success rate >= 40% & < 50%)" },
-						{ "1star", "1 star (Success rate < 40%)" }}));
-				}},
-				conitionValueAsNull,
-				firstDefaultParamsMapAsNull,
-				lastDefaultParamsMapAsNull,
-				columnIndex_1));
+			//brokerRank Constant is defined, See at the top of class
 			
 			//recommType
 			put("recommType",
