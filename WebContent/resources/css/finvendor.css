@@ -237,13 +237,19 @@ body {
 	margin-bottom: 30px;
 }
 
+.dashboard_report {
+	min-height: 285px;
+	background: #fff;
+	padding: 10px;
+	overflow: hidden;
+	margin-bottom: 15px;
+}
+
 .ads_space {
 	padding: 10px;
 	margin-bottom: 10px;
 	min-height: 200px;
 	background: #fff;
 	color: #000;
-	margin-left: -15px;
-	margin-right: -15px;
 	text-align: center;
 }

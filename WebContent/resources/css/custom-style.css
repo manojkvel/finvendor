@@ -5,13 +5,13 @@ a:active {
 	outline: none !important;
 }
 
-.container-fluid {
+/*.container-fluid {
 	padding: 0 !important;
 }
 
 .row {
 	margin: 0 !important;
-}
+}*/
 
 body {
 	background: #e6e6e6 !important;	
@@ -1131,6 +1131,7 @@ th{
 #footer {
 	font-size: 13px;
 	margin-top: 20px;
+	padding: 0 15px;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1148,6 +1149,10 @@ th{
 	.header .pull-left {
 		float: right !important;
 		padding: 0 10px 0 20px;
+	}
+
+	.header .logo {
+		padding: 13px 20px;
 	}
 }
 
@@ -1531,6 +1536,10 @@ a#sidemenu:focus {
 .inner-left-wrap {
 	float: none;
 	width: 100%;
+	background: #fff;
+	margin-bottom: 15px;
+	padding: 15px;
+	min-height: 527px;
 }
 
 .inner-sidebar-wrap {

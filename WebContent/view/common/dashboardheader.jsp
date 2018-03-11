@@ -226,7 +226,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 			                                                <div class="input-group">
 			                                                    <input id="txtSearchBox" class="form-control" autocomplete="off" name="query" type="text" placeholder="Free text hint company name">
 			                                                    <input type="hidden" name="form_submitted_from_search" value="1">
-			                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-search"><input class="submit-button" type="submit"></span></div>
+			                                                    <div class="input-group-addon" style="width:40px;"><span class="glyphicon glyphicon-search"><input class="submit-button" type="submit"></span></div>
 			                                                    <div class="input-group-addon close-btn"><span class="glyphicon glyphicon-remove"><a href="javascript:;"></a></span></div>
 			                                                </div>
 			                                                <div class="suggestions" style="display:none" id="tblSuggestions">

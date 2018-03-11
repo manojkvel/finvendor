@@ -203,9 +203,23 @@ jQuery(document).ready(function() {
 			vendorName : vendorName
 		}
 		window.localStorage.setItem('dasboardReportJson', JSON.stringify(dasboardReportJson));
-	}
+	};
 
+	var resetFilters = function(e) {
+		clearSelection();
+		localEquitySearchJson = {
+			"geo": "1"
+		};
+		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+	};
 
+    $('#sidebar-panel .sidebar-heading span').on('click', resetFilters);
+
+    var clearSelection = function() {
+    	$("#sidebar-panel input").prop('checked', false);
+    	$("#search_by_geo input").eq(0).prop('checked', true);
+    };
 
 	var localEquitySearchJson = {
 		"geo": "1"

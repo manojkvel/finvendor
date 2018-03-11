@@ -1529,7 +1529,7 @@ input[type="file"]:focus {
 #fv_equity_research_report_vendor_search {
 	background: #fff;
 	padding: 0;
-	overflow: hidden;
+	overflow: auto;
 	min-height: 400px;
 	margin-bottom: 10px;
 }
@@ -1593,25 +1593,34 @@ h2 {
 	padding: 0;
 }
 
-.container-fluid .col-md-3 {
-	padding-right: 0; 
-}
 
 .container-fluid #sidebar-panel {
 	background: #fff;
 	font-size: 10px;
 	padding: 10px;
+	margin-bottom: 15px;
 }
 
 .container-fluid #sidebar-panel .sidebar-heading {
 	font-size: 1.8rem;
 	font-weight: bold;
+	overflow: hidden;
 }
 
 .container-fluid #sidebar-panel .sidebar-heading h2 {
 	font-size: inherit;
 	font-weight: inherit;
 	margin: 0 0 15px;
+	float: left;
+}
+
+.container-fluid #sidebar-panel .sidebar-heading span {
+	font-size: 11px;
+	font-weight: inherit;
+	padding-top: 5px;
+	float: right;
+	color: #34bf98;
+	cursor: pointer;
 }
 
 .container-fluid #sidebar-panel input[type=checkbox] {

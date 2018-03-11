@@ -11,30 +11,20 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<style type="text/css">
-		.fv_body {
-			background: #fff;
-			padding: 10px;
-		}
-
-		#dashboard_report {
-			min-height: 200px;
-		}
-	</style>
 </head>
 <body>
 	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
 	
 	<div class="container">
-		<div class="col-xs-12 col-sm-9">
-			<div class="fv_body">
+		<div class="row">
+			<div class="col-xs-12 col-sm-9">
 				<div id="dashboard_report">
-					
+
 				</div>
 			</div>
-		</div>
-		<div class="col-xs-12 col-sm-3">
-			<div class="ads_space">Keep Watching this space for ads!!</div>
+			<div class="col-xs-12 col-sm-3">
+				<div class="ads_space">Keep Watching this space for ads!!</div>
+			</div>
 		</div>
 	</div>
 
