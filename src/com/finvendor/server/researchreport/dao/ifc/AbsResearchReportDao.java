@@ -45,19 +45,19 @@ public abstract class AbsResearchReportDao implements IResearchReportDao {
 	protected void appendFilterWithBetweenClause(StringBuffer sqlSb,String filterCondition, String firstValue,String secondValue) {
 		StringBuffer betweenClauseSb = new StringBuffer(100);
 		betweenClauseSb.append(" BETWEEN ").append(firstValue).append(" AND ").append(secondValue);
-		sqlSb.append(" and ").append(filterCondition).append(betweenClauseSb);
+		sqlSb.append(filterCondition).append(betweenClauseSb);
 	}
 	
 	protected void appendFilterLessThanClause(StringBuffer sqlSb,String filterCondition, String valueString) {
 		StringBuffer lessThanSb = new StringBuffer(100);
 		lessThanSb.append(" < ").append(valueString);
-		sqlSb.append(" AND ").append(filterCondition).append(lessThanSb);
+		sqlSb.append(filterCondition).append(lessThanSb);
 	}
 	
 	protected void appendFilterGreaterThanClause(StringBuffer sqlSb,String filterCondition, String valueString) {
 		StringBuffer greaterThanSb = new StringBuffer(100);
 		greaterThanSb.append(" > ").append(valueString);
-		sqlSb.append(" AND ").append(filterCondition).append(greaterThanSb);
+		sqlSb.append(filterCondition).append(greaterThanSb);
 	}
 
 	protected long convertStringToTimestamp(String str_date) throws ParseException {
