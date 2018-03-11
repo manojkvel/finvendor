@@ -1,6 +1,7 @@
 package com.finvendor.server.researchreport.dao;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.VendorResearchReportsOffering;
+import com.finvendor.server.common.dao.ifc.ICommonDao;
 import com.finvendor.server.researchreport.dao.ifc.AbsResearchReportDao;
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.filter.ifc.ResearchReportFilter;
@@ -31,7 +33,9 @@ public class EquityResearchDao extends AbsResearchReportDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-
+	
+	@Autowired
+	private ICommonDao commonDao;
 	/**
 	 * 
 	 * @param filter
@@ -53,7 +57,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 					equityFilter);
 			if (!equityResearchAreaCompanyDetails.isEmpty()) {
 				// Step-2
-				String vendorLevelSQL = "SELECT distinct ven_rsrch_rpt_dtls.company_id,ven_rsrch_rpt_offering.product_id, vendor.company BROKER,broker_analyst.broker_rank BROKER_RANK,ven_rsrch_rpt_dtls.rsrch_recomm_type RECOMM_TYPE, ven_rsrch_rpt_dtls.target_price TGT_PRICE, ven_rsrch_rpt_dtls.price_at_recomm PRICE_AT_RECOMM, ((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100 UPSIDE, ven_rsrch_rpt_dtls.rsrch_upload_report RPT_NAME, ven_rsrch_rpt_dtls.rep_date REP_DT, ven_rsrch_rpt_analyst_prof.analyst_awards, ven_rsrch_rpt_analyst_prof.anayst_cfa_charter, ven_rsrch_rpt_analyst_prof.analyst_name,vendor.analystType,vendor.vendor_id,vendor.username,ven_rsrch_rpt_dtls.rsrch_report_desc FROM ven_rsrch_rpt_offering, ven_rsrch_rpt_dtls, ven_rsrch_rpt_analyst_prof, vendor,broker_analyst WHERE ven_rsrch_rpt_offering.product_id = ven_rsrch_rpt_dtls.product_id and ven_rsrch_rpt_dtls.product_id = ven_rsrch_rpt_analyst_prof.product_id and ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id and vendor.vendor_id=broker_analyst.broker_id";
+				String vendorLevelSQL = "SELECT distinct ven_rsrch_rpt_dtls.company_id,ven_rsrch_rpt_offering.product_id, vendor.company BROKER,broker_analyst.broker_rank BROKER_RANK,ven_rsrch_rpt_dtls.rsrch_recomm_type RECOMM_TYPE, ven_rsrch_rpt_dtls.target_price TGT_PRICE, ven_rsrch_rpt_dtls.price_at_recomm PRICE_AT_RECOMM, ((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100 UPSIDE, ven_rsrch_rpt_dtls.rsrch_upload_report RPT_NAME, ven_rsrch_rpt_dtls.rep_date REP_DT, ven_rsrch_rpt_analyst_prof.analyst_awards, ven_rsrch_rpt_analyst_prof.anayst_cfa_charter, ven_rsrch_rpt_analyst_prof.analyst_name,vendor.analystType,vendor.vendor_id,vendor.username,ven_rsrch_rpt_dtls.rsrch_report_desc FROM ven_rsrch_rpt_offering, ven_rsrch_rpt_dtls, ven_rsrch_rpt_analyst_prof, vendor,broker_analyst WHERE ven_rsrch_rpt_offering.product_id = ven_rsrch_rpt_dtls.product_id and ven_rsrch_rpt_dtls.product_id = ven_rsrch_rpt_analyst_prof.product_id and ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id and vendor.vendor_id=broker_analyst.broker_id AND ven_rsrch_rpt_offering.research_area = 7 ";
 				String vendorLevelSQLWithAppliedFilter = applyVendorLevelFilter(vendorLevelSQL, equityFilter);
 				query = this.sessionFactory.getCurrentSession().createSQLQuery(vendorLevelSQLWithAppliedFilter);
 				rows = query.list();
@@ -79,9 +83,8 @@ public class EquityResearchDao extends AbsResearchReportDao {
 						equityResearchResultNew.setProductId(productId);
 						equityResearchResultNew.setBroker(row[2] != null ? row[2].toString() : "NA");
 						String brokerRank = row[3] != null ? row[3].toString() : "NA";
-						equityResearchResultNew.setBrokerRankLargeCap("5");
-						equityResearchResultNew.setBrokerRankMidCap("4");
-						equityResearchResultNew.setBrokerRankSmallCap("3");
+						
+						
 						equityResearchResultNew.setRecommType(row[4] != null ? row[4].toString() : "NA");
 						equityResearchResultNew.setTargetPrice(row[5] != null ? row[5].toString() : "NA");
 						equityResearchResultNew.setPriceAtRecomm(row[6] != null ? row[6].toString() : "NA");
@@ -121,20 +124,32 @@ public class EquityResearchDao extends AbsResearchReportDao {
 
 						// Since
 						String vendorId = row[14] != null ? row[14].toString() : "";
-						String since = calculateSince(vendorId).getElement1();
+						Pair<String, String> calculatedSince = calculateSince(vendorId);
+						String since = calculatedSince.getElement1();
 						equityResearchResultNew.setSince(since);
 
 						// Year Of InCorporation
-						String yrOfInCorp = calculateSince(vendorId).getElement2();
+						String yrOfInCorp = calculatedSince.getElement2();
 						equityResearchResultNew.setYrOfInCorp(yrOfInCorp);
-						
-						//Vendor Name - will be used in Dashboard
+
+						// Vendor Name - will be used in Dashboard
 						equityResearchResultNew.setVendorName(row[15] != null ? row[15].toString() : "");
-						
-						//Report desc - will be used in Dashboard
+
+						// Report desc - will be used in Dashboard
 						equityResearchResultNew.setReportDesc(row[16] != null ? row[16].toString() : "");
 
 						equityResearchResultNew.setCompanyId(companyId);
+						
+						String[] brokerRanks = getBrokerRank(vendorId);
+						
+						String largeRank=String.valueOf(brokerRanks[0].charAt(0));
+						String midRank=String.valueOf(brokerRanks[1].charAt(0));
+						String smallRank=String.valueOf(brokerRanks[2].charAt(0));
+						
+						equityResearchResultNew.setBrokerRankLargeCap(largeRank);
+						equityResearchResultNew.setBrokerRankMidCap(midRank);
+						equityResearchResultNew.setBrokerRankSmallCap(smallRank);
+						
 						resultMap.put(productId, equityResearchResultNew);
 					}
 				}
@@ -143,46 +158,46 @@ public class EquityResearchDao extends AbsResearchReportDao {
 					filteredResultMap = new LinkedHashMap<>();
 					List<String> brokerYearOfInCorpValueList = equityFilter.getBrokerYrOfInCorp();
 
-					List<String> removeProductIdList=new ArrayList<>();
+					List<String> removeProductIdList = new ArrayList<>();
 					if (brokerYearOfInCorpValueList.contains("<= 3 Yrs")) {
-						for (Entry<String, EquityResearchResult> entry :resultMap.entrySet()) {
+						for (Entry<String, EquityResearchResult> entry : resultMap.entrySet()) {
 							int yrOfInCorp = Integer.parseInt(entry.getValue().getYrOfInCorp());
 							if ((yrOfInCorp < 3)) {
 								filteredResultMap.put(entry.getKey(), entry.getValue());
 								removeProductIdList.add(entry.getKey());
 							}
 						}
-						for(String prodKey:removeProductIdList){
-							resultMap.remove(prodKey);	
+						for (String prodKey : removeProductIdList) {
+							resultMap.remove(prodKey);
 						}
 						removeProductIdList.clear();
 					}
-					
+
 					if (brokerYearOfInCorpValueList.contains("3 - 5 Yrs")) {
-						
-						for (Entry<String, EquityResearchResult> entry :resultMap.entrySet()) {
+
+						for (Entry<String, EquityResearchResult> entry : resultMap.entrySet()) {
 							int yrOfInCorp = Integer.parseInt(entry.getValue().getYrOfInCorp());
 							if (yrOfInCorp >= 3 && yrOfInCorp <= 5) {
 								filteredResultMap.put(entry.getKey(), entry.getValue());
 								removeProductIdList.add(entry.getKey());
 							}
 						}
-						for(String prodKey:removeProductIdList) {
-							resultMap.remove(prodKey);	
+						for (String prodKey : removeProductIdList) {
+							resultMap.remove(prodKey);
 						}
 						removeProductIdList.clear();
 					}
-					
+
 					if (brokerYearOfInCorpValueList.contains("> 10 Yrs")) {
-						for (Entry<String, EquityResearchResult> entry :resultMap.entrySet()) {
+						for (Entry<String, EquityResearchResult> entry : resultMap.entrySet()) {
 							int yrOfInCorp = Integer.parseInt(entry.getValue().getYrOfInCorp());
 							if (yrOfInCorp > 10) {
 								filteredResultMap.put(entry.getKey(), entry.getValue());
 								removeProductIdList.add(entry.getKey());
 							}
 						}
-						for(String prodKey:removeProductIdList){
-							resultMap.remove(prodKey);	
+						for (String prodKey : removeProductIdList) {
+							resultMap.remove(prodKey);
 						}
 						removeProductIdList.clear();
 					}
@@ -190,7 +205,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 			} else {
 				logger.info("!! No companies found for given GEO !!");
 			}
-			
+
 			if (filteredResultMap != null) {
 				resultMap.clear();
 				return filteredResultMap;
@@ -200,6 +215,29 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private String[] getBrokerRank(String brokerId) {
+		String[] brokerRanks=new String[3];
+		String sqlQuery="select broker_analyst.broker_id, broker_analyst.broker_rank, market_cap_def.market_cap_name from broker_analyst,market_cap_def where broker_analyst.market_cap_id=market_cap_def.market_cap_id and broker_analyst.broker_id=?";
+		SQLQuery query = commonDao.getSql(sqlQuery, new String[]{brokerId});
+		List<Object[]> rows = query.list();
+		
+		for (Object[] row : rows) {
+			String rank=row[1] != null ? row[1].toString() : "";
+			String capName=row[2] != null ? row[2].toString() : "";
+			if("Large Cap".equals(capName)) {
+				brokerRanks[0]=rank;
+			}
+			if("Mid Cap".equals(capName)) {
+				brokerRanks[1]=rank;
+			}
+			if("Small Cap".equals(capName)) {
+				brokerRanks[2]=rank;
+			}
+		}
+		return brokerRanks;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -254,8 +292,13 @@ public class EquityResearchDao extends AbsResearchReportDao {
 			List<String> vendorSpecificLaunchedYearList = vendorIdMap.get(vendorId);
 			Collections.sort(vendorSpecificLaunchedYearList);
 			String since = vendorSpecificLaunchedYearList.get(0);
+			int sinceAsInt = Integer.parseInt(since);
+			int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+			
+			//formula for Borker year of incorp=current_year - since
+			int yearOfIncorp=currentYear-sinceAsInt;
 			sinceWithYrOfInCorpPair.setElement1(since);
-			sinceWithYrOfInCorpPair.setElement2(String.valueOf(vendorSpecificLaunchedYearList.size()));
+			sinceWithYrOfInCorpPair.setElement2(String.valueOf(yearOfIncorp));
 		}
 		return sinceWithYrOfInCorpPair;
 	}
@@ -310,7 +353,6 @@ public class EquityResearchDao extends AbsResearchReportDao {
 
 	private String applyVendorLevelFilter(String baseSql, EquityResearchFilter equityFilter) {
 		StringBuffer baseSqlSb = new StringBuffer(baseSql);
-		baseSqlSb.append(" AND ven_rsrch_rpt_offering.research_area = 7");
 
 		// #AnalystType filter applied
 		if (equityFilter.getAnalystType() != null) {
@@ -398,23 +440,46 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		if (equityFilter.getUpside() != null) {
 			List<String> upsideValueList = equityFilter.getUpside();
 			String filterCondition = "((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100";
-			if (upsideValueList.contains("<0%")) {
-				appendFilterLessThanClause(baseSqlSb, filterCondition, "0");
-			}
+			for (String upsideValue : upsideValueList) {
+				if ("<0%".equals(upsideValue)) {
+					appendFilterLessThanClause(baseSqlSb, filterCondition, "0");
+				}
 
-			if (upsideValueList.contains("20-50%")) {
-				appendFilterWithBetweenClause(baseSqlSb, filterCondition, "20", "50");
-			}
+				if ("0-20%".equals(upsideValue)) {
+					appendFilterWithBetweenClause(baseSqlSb, filterCondition, "0", "20");
+				}
 
-			if (upsideValueList.contains("50-100%")) {
-				appendFilterWithBetweenClause(baseSqlSb, filterCondition, "50", "100");
-			}
+				if ("20-50%".equals(upsideValue)) {
+					appendFilterWithBetweenClause(baseSqlSb, filterCondition, "20", "50");
+				}
 
-			if (upsideValueList.contains(">100%")) {
-				appendFilterGreaterThanClause(baseSqlSb, filterCondition, "100");
+				if ("50-100%".equals(upsideValue)) {
+					appendFilterWithBetweenClause(baseSqlSb, filterCondition, "50", "100");
+				}
+
+				if (">100%".equals(upsideValue)) {
+					appendFilterGreaterThanClause(baseSqlSb, filterCondition, "100");
+				}
 			}
 		}
 		baseSqlSb.append(" ORDER BY vendor.company asc,ven_rsrch_rpt_dtls.rep_date DESC");
 		return baseSqlSb.toString();
+	}
+
+	public static void main(String[] args) {
+		List<String> list = new ArrayList<>();
+		list.add("<0%");
+		list.add("0-20%");
+		list.add("20-50%");
+		list.add("50-100%");
+
+		for (String s : list) {
+			if ("<0%".equals(s)) {
+				System.out.println("List contains <0%");
+			}
+			if (list.contains("0-20%")) {
+				System.out.println("List contains 0-20%");
+			}
+		}
 	}
 }
