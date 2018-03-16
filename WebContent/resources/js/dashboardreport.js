@@ -21,16 +21,13 @@ function getDashboardResearchReportLoad() {
          
         var htmlData = "<div class='dashboard_report'>"
                     + "<div class='hd'>"
-                        + "<div class='row'>"
                             + "<span class='companyName'>" + response.equity.company + "</span>"
                             + "<span class='currentMarketPrice'>CMP: " + response.equity.cmp + "</span>"
                             + "<div>"
                                 + "<span data-toggle='tooltip' data-placement='top' title='' data-original-title='" + timeStampToDate(Number(response.equity.priceDate)) + "'>" + timeStampToDate(Number(response.equity.priceDate)) + "</span>"
                             + "</div>"
-                        + "</div>"
                     + "</div>"
                     + "<div class='bd'>"
-                        + "<div class='row'>"
                             + "<div class='reportContainer'>"
                                 + "<div class='reportDetails'>"
                                     + "<div class='reportTitle'>"
@@ -51,7 +48,6 @@ function getDashboardResearchReportLoad() {
                                     + "</p>"
                                 + "</div>"
                             + "</div>"
-                        + "</div>"
                     + "</div>"
                 + "</div>";
         

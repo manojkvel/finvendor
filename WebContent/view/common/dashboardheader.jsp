@@ -71,27 +71,27 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                         <a href="#">Research Reports</a>
                                                                         <ul>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Equity/Company Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
                                                                                     Equity/Company Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Sector Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Sector Research">
                                                                                     Sector Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Macro Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Macro Research">
                                                                                     Macro Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Debt Mkt Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Debt Mkt Research">
                                                                                     Debt Mkt Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Fund/ETF Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Fund/ETF Research">
                                                                                     Fund/ETF Research
                                                                                 </a>
                                                                             </li>
@@ -226,7 +226,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 			                                                <div class="input-group">
 			                                                    <input id="txtSearchBox" class="form-control" autocomplete="off" name="query" type="text" placeholder="Free text hint company name">
 			                                                    <input type="hidden" name="form_submitted_from_search" value="1">
-			                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-search"><input class="submit-button" type="submit"></span></div>
+			                                                    <div class="input-group-addon" style="width:40px;"><span class="glyphicon glyphicon-search"><input class="submit-button" type="submit"></span></div>
 			                                                    <div class="input-group-addon close-btn"><span class="glyphicon glyphicon-remove"><a href="javascript:;"></a></span></div>
 			                                                </div>
 			                                                <div class="suggestions" style="display:none" id="tblSuggestions">
@@ -287,6 +287,39 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                 </c:choose>
                             </li>
                             <li>
+                                <a href="#">Research Reports</a>
+                                <ul class="child-main-menu">
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
+                                            Equity/Company Research
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Sector Research">
+                                            Sector Research
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Macro Research">
+                                            Macro Research
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Debt Mkt Research">
+                                            Debt Mkt Research
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Fund/ETF Research">
+                                            Fund/ETF Research
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Brokers_Analysts">Brokers/Analysts</a>
+                            </li>
+                            <!--<li>
                                 <a href="#">SOLUTIONS <i class="fa fa-chevron-down"></i></a>
                                 <ul class="child-main-menu">
                                     <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=mdvad&RaYUnA=${l:encrypt(username)}">Market
@@ -319,7 +352,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                         Report Services</a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>-->
                             <li>
                                 <a href="javascript:void(0);">MORE <i class="fa fa-chevron-down"></i></a>
                                 <ul class="child-main-menu">

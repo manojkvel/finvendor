@@ -27,6 +27,7 @@
 					<div id="sidebar-panel">
 						<div class="sidebar-heading">
 							<h2>Filters</h2>
+							<span>Reset filters</span>
 						</div>
 						<div class='widget-group'>
 							<div class='widget widget-panel-default'>

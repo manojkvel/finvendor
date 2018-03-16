@@ -2,10 +2,44 @@
     <div class="sidebar-ctn-wrap cnt-ctn-wrap">
         <div class="head">
             <h3>PRODUCTS</h3>
-        </div>
+        </div> 
         <div class="content" id="sidelinks">
             <ul>
-                <li data-div-id="SOLUTIONS"><a href="#">SOLUTIONS</a>
+                <li>
+                    <a href="#">Research Reports</a>
+                    <ul>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Equity/Company Research">
+                                Equity/Company Research
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Sector Research">
+                                Sector Research
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Macro Research">
+                                Macro Research
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Debt Mkt Research">
+                                Debt Mkt Research
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Fund/ETF Research">
+                                Fund/ETF Research
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Brokers_Analysts">Brokers/Analysts</a>
+                </li>
+                <!--<li data-div-id="SOLUTIONS">
+                    <a href="#">SOLUTIONS</a>
                     <ul id="SOLUTIONS_ul">
                         <li data-div-id="SOLUTIONS_frrpd"><a href="#">Free Equity Research
                                         Reports</a></li>
@@ -28,7 +62,7 @@
                         <li data-div-id="SERVICES_rrpdd"><a href="#">Research
 															Report Services</a></li>
                     </ul>
-                </li>
+                </li>-->
                 <li data-div-id="MORE"><a href="#">MORE</a>
                     <ul id="RESOURCES_ul">
                         <li data-div-id="MORE_b"><a href="#">Brochures</a></li>
@@ -62,9 +96,10 @@
         </div>
         <div class="content">
             <ul class="contact">
-                <li class="phone">+65 869 633 21</li>
-                <li class="message"><a href="mailto:enquiry@finvendor.com">enquiry@finvendor.com</a></li>
+                <li class="phone"><span class="fa fa-phone"></span> +65 869 633 21</li>
+                <li class="message"><a href="mailto:enquiry@finvendor.com"><span class="fa fa-envelope"></span> enquiry@finvendor.com</a></li>
                 <li class="location">
+                    <span class="fa fa-map-marker"></span>
                     <span>101, F-Wing, Kailash Gardens, Gauripada, Kalyan(west), Thane, Maharashtra, India, 42130</span>
                 </li>
             </ul>

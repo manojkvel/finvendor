@@ -468,6 +468,7 @@ body {
 	font-size: 29px;
 	font-family: open_sansregular;
 	font-weight: normal;
+	margin: 0;
 }
 
 .inner-left-wrap h2 {
@@ -475,6 +476,7 @@ body {
 	color: #333333;
 	font-family: "open_sansregular";
 	padding: 10px 0 0 0;
+	margin: 0;
 }
 
 .inner-left-wrap p {
@@ -482,6 +484,7 @@ body {
 	padding: 10px 0 0 0;
 	font-size: 13px;
 	line-height: 20px;
+	margin: 0;
 }
 
 .inner-sidebar-wrap {
@@ -564,9 +567,8 @@ body {
 .sidebar-ctn-wrap .content ul.contact li {
 	font-size: 13px;
 	color: #333333;
-	padding: 0 0 15px 25px;
+	padding: 10px;
 	border-bottom: 1px solid #e5e5e5;
-	margin: 10px 0;
 }
 
 .sidebar-ctn-wrap .content ul.contact li a {
@@ -578,13 +580,22 @@ body {
 	line-height: 19px;
 }
 
+.sidebar-ctn-wrap .content ul.contact .fa {
+	float: left;
+	font-size: 16px;
+	padding-right: 10px;
+	position: relative;
+	top: -1px;
+}
+
 .sidebar-ctn-wrap .content ul.contact .phone {
-	background: url(../images/phone.png) no-repeat;
-	background-position: 3px 0px;
+	/*background: url(../images/phone.png) no-repeat;
+	background-position: 3px 0px;*/
+
 }
 
 .sidebar-ctn-wrap .content ul.contact .message {
-	background: url(../images/message.png) no-repeat
+	/*background: url(../images/message.png) no-repeat*/
 }
 
 .sidebar-ctn-wrap .content ul.contact .message a {
@@ -592,7 +603,7 @@ body {
 }
 
 .sidebar-ctn-wrap .content ul.contact .location {
-	background: url(../images/location.png) no-repeat;
+	/*background: url(../images/location.png) no-repeat;*/
 }
 
 .hm-slide {
