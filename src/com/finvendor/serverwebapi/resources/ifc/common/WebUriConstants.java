@@ -14,8 +14,8 @@ public interface WebUriConstants {
 		String DOWNLOAD_RESEARCH_REPORTS = "/downloadResearchReports";
 		String RESEARCH_REPORT_FILTERS = "/researchReportFilters";
 		
-		String PER_PAGE_MAX_RECORD_COUNT = "/researchRepors/perPageMaxRecords";
-		String TOTAL_RECORD_COUNT = "/researchRepors/totalRecordCount";
+		String PER_PAGE_MAX_RECORD_COUNT = "/researchReports/perPageMaxRecords";
+		String TOTAL_RECORD_COUNT = "/researchReports/totalRecordCount";
 	}
 
 	interface AdminDashBoard {
