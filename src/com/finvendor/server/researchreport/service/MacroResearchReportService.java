@@ -26,8 +26,15 @@ public class MacroResearchReportService extends AbsResearchReportService {
 
 	@Override
 	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult> getResearchReportTableData(
-			T rrfilter) throws Exception {
+			T rrfilter,String offset) throws Exception {
 		return null;
+	}
+
+
+	@Override
+	public int getTotalRecordCount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

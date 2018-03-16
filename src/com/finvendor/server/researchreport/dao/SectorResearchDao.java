@@ -17,9 +17,15 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
 public class SectorResearchDao extends AbsResearchReportDao {
 
 	@Override
-	public Map<String, ? extends AbsResearchReportResult> findResearchReportTableData(ResearchReportFilter filter)
+	public Map<String, ? extends AbsResearchReportResult> findResearchReportTableData(ResearchReportFilter filter,
+			String offset)
 			throws RuntimeException {
 		return null;
+	}
+
+	@Override
+	public int geTotalRecords() throws RuntimeException {
+		return 0;
 	}
 
 

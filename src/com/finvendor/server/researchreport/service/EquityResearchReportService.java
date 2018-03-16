@@ -24,11 +24,17 @@ public class EquityResearchReportService extends AbsResearchReportService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter) throws Exception {
+	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter, String offset) throws Exception {
 		try {
-			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao.findResearchReportTableData(rrfilter);
+			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao.findResearchReportTableData(rrfilter, offset);
 		} catch (RuntimeException e) {// TODO need to replace with custom Exception
 			throw new Exception(e);
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public int getTotalRecordCount() {
+		return equityReserachReportDao.geTotalRecords();
 	}
 }

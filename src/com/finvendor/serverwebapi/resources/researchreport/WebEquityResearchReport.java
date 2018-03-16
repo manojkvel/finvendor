@@ -28,7 +28,6 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
 import com.finvendor.server.researchreport.service.ifc.IResearchReportService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.ifc.researchreport.WebResearchReportIfc;
-import com.finvendor.serverwebapi.utils.WebUtil;
 
 /**
  * 
@@ -56,15 +55,18 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
-			@RequestParam(value = "type", required = true) String type) throws WebApiException {
+	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(
+			@RequestBody EquityResearchFilter equityResearchFilter,
+			@RequestParam(value = "type", required = true) String type,
+			@RequestParam(value = "offset", required = true) String offset) throws WebApiException {
 
 		try {
 			if (equityResearchFilter.getGeo() == null) {
 				throw new Exception("Equity Research filter Error - Geo must not be null !!");
 			}
 
-			Map<String,EquityResearchResult> researchReport = (Map<String,EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter);
+			Map<String, EquityResearchResult> researchReport = (Map<String, EquityResearchResult>) equityResearchService
+					.getResearchReportTableData(equityResearchFilter, offset);
 			Map<String, Collection<EquityResearchResult>> searchResult = new HashMap<>();
 			searchResult.put(type, researchReport.values());
 			return searchResult;
@@ -77,26 +79,34 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	}
 
 	@Override
-	public Map<String, EquityResearchResult> getResearchResultDashboardData(@RequestParam("type") String type, @RequestParam("productId") String productId,
-			@RequestBody EquityResearchFilter equityResearchFilter)	throws WebApiException {
-		try { 	
-		 		Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService.getResearchReportTableData(equityResearchFilter);
-				EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData.get(productId);
-				Map<String, EquityResearchResult> dashboardResult = new HashMap<>();
-				 
-				dashboardResult.put(type, absResearchReportResult);
-				return dashboardResult;
+	public Map<String, EquityResearchResult> getResearchResultDashboardData(
+			@RequestParam(value = "type", required = true) String type,
+			@RequestParam(value = "productId", required = true) String productId,
+			@RequestBody EquityResearchFilter equityResearchFilter,
+			@RequestParam(value = "ofPage", required = true) String ofPage) throws WebApiException {
+		try {
+			Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService
+					.getResearchReportTableData(equityResearchFilter, ofPage);
+			EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData
+					.get(productId);
+			Map<String, EquityResearchResult> dashboardResult = new HashMap<>();
+
+			dashboardResult.put(type, absResearchReportResult);
+			return dashboardResult;
 		} catch (Exception e) {
 			logger.error("Web API Error: ", e.getMessage(), e);
-			throw new WebApiException("Error has occurred in WebResearchReport -> getResearchResultDashboardData(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
+			throw new WebApiException(
+					"Error has occurred in WebResearchReport -> getResearchResultDashboardData(...) method, Root Cause:: "
+							+ ExceptionUtil.getRootCause(e));
 		}
 	}
 
 	@Override
 	public void downloadResearchReport(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("reportFileName") String reportFileName, @RequestParam("vendorName") String vendorName) throws WebApiException {
+			@RequestParam("reportFileName") String reportFileName, @RequestParam("vendorName") String vendorName)
+					throws WebApiException {
 		try {
-			String reportPath = buildReportPath(request, reportFileName,vendorName);
+			String reportPath = buildReportPath(request, reportFileName, vendorName);
 			File file = new File(reportPath);
 			if (!file.exists()) {
 				throw new Exception("Vendor Report Offering File " + reportFileName + " does not exist!!");
@@ -120,5 +130,26 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 		String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator
 				+ reportFileName;
 		return fullyQualifiedReportFilePath;
+	}
+
+	@Override
+	public String getTotalRecordCount(@RequestParam(value = "type", required = true) String type) throws WebApiException {
+		try {
+			if (!"equity".equals(type)) {
+				throw new Exception("Research Report type must be equity !!");
+			}
+			
+			int totalRecords = equityResearchService.getTotalRecordCount();
+			return "{\"totalrecordcount\":\"" + totalRecords + "\"}";
+		} catch (Exception e) {
+			logger.error("Web API Error: ", e.getMessage(), e);
+			throw new WebApiException("Error has occurred in WebResearchReport -> getTotalRecordCount(...) method, Root Cause:: " + ExceptionUtil.getRootCause(e));
+		}
+	}
+	
+	@Override
+	public String getPerPageMaxRecordCount(@RequestParam(value = "type", required = true) String type) throws WebApiException {
+		String maxCount = finvendorProperties.getProperty("per_page_max_record_count");
+		return "{\"perpagemaxrecordcount\":\""+maxCount+"\"}";
 	}
 }

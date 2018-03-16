@@ -12,5 +12,6 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
  * @since 03-Feb-2018
  */
 public interface IResearchReportDao {
-	Map<String,? extends AbsResearchReportResult> findResearchReportTableData(ResearchReportFilter filter) throws RuntimeException;
+	int geTotalRecords() throws RuntimeException;
+	Map<String,? extends AbsResearchReportResult> findResearchReportTableData(ResearchReportFilter filter,String offset) throws RuntimeException;
 }

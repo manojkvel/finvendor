@@ -33,7 +33,7 @@ public interface WebResearchReportIfc {
 	//{"geo":"1","mcap":["Large Cap","Mid Cap","Small Cap","Micro Cap","Nano Cap"],"style":["Value","Growth","Income","Blend"],"analystType":["Broker","Independent","Others"],"researchedBroker":["vendor1"],"brokerYearOfInCorp":["<= 3 Yrs","3 - 5 Yrs","5 - 10 Yrs"],"brokerRank":["5","4"],"recommType":["accumulate","Reduce"],"awardWinnig":true,"researchCfa":true,"upside":[""]}
 	@RequestMapping(value = WebUriConstants.ResearchReport.RESEARCH_REPORTS, method = RequestMethod.POST)
 	@ResponseBody
-	Map<String,Collection<EquityResearchResult>> getResearchResultTableData(EquityResearchFilter equityResearchFilter, String type) throws WebApiException;
+	Map<String,Collection<EquityResearchResult>> getResearchResultTableData(EquityResearchFilter equityResearchFilter, String type, String offset) throws WebApiException;
 	
 	/**
 	 * 
@@ -45,7 +45,7 @@ public interface WebResearchReportIfc {
 	@RequestMapping(value = WebUriConstants.ResearchReport.DASHBOARD_RESEARCH_REPORTS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	Map<String, EquityResearchResult>  getResearchResultDashboardData(String type, String productId,
-			EquityResearchFilter equityResearchFilter) throws WebApiException;
+			EquityResearchFilter equityResearchFilter,String ofPage) throws WebApiException;
 	
 	/**
 	 * 
@@ -57,4 +57,22 @@ public interface WebResearchReportIfc {
 	@ResponseBody
 	void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName, String vendorName) throws WebApiException;
 	
+	/**
+	 * 
+	 * @return
+	 * @throws WebApiException
+	 */
+	@RequestMapping(value = WebUriConstants.ResearchReport.TOTAL_RECORD_COUNT, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	String getTotalRecordCount(String type) throws WebApiException;
+	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 * @throws WebApiException
+	 */
+	@RequestMapping(value = WebUriConstants.ResearchReport.PER_PAGE_MAX_RECORD_COUNT, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	String getPerPageMaxRecordCount(String type) throws WebApiException;
 }

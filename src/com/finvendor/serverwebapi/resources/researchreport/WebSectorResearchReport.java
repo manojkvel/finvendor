@@ -18,19 +18,28 @@ public class WebSectorResearchReport implements WebResearchReportIfc {
 
 	@Override
 	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(
-			EquityResearchFilter equityResearchFilter, String type) throws WebApiException {
+			EquityResearchFilter equityResearchFilter, String type,String offset) throws WebApiException {
 		return null;
 	}
-
-	@Override
-	public Map<String, EquityResearchResult> getResearchResultDashboardData(String type, String productId,
-			EquityResearchFilter equityResearchFilter) throws WebApiException {
-		return null;
-	}
-
 
 	@Override
 	public void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName,
 			String vendorName) throws WebApiException {
+	}
+
+	@Override
+	public Map<String, EquityResearchResult> getResearchResultDashboardData(String type, String productId,
+			EquityResearchFilter equityResearchFilter, String ofPage) throws WebApiException {
+		return null;
+	}
+
+	@Override
+	public String getTotalRecordCount(String type) throws WebApiException {
+		return null;
+	}
+
+	@Override
+	public String getPerPageMaxRecordCount(String type) throws WebApiException {
+		return null;
 	}
 }

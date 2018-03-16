@@ -16,6 +16,9 @@ public abstract class AbsResearchReportResult {
 	protected String since;
 	protected String awarded;
 	
+	//current page number
+	protected String offset;
+	
 	public String getReport() {
 		return report;
 	}
@@ -57,5 +60,11 @@ public abstract class AbsResearchReportResult {
 	}
 	public void setReportDesc(String reportDesc) {
 		this.reportDesc = reportDesc;
+	}
+	public String getOffset() {
+		return offset;
+	}
+	public void setOffset(String offset) {
+		this.offset = offset;
 	}
 }
