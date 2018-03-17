@@ -24,8 +24,8 @@ public class SectorResearchDao extends AbsResearchReportDao {
 	}
 
 	@Override
-	public int geTotalRecords() throws RuntimeException {
-		return 0;
+	public String getRecordStatistics() throws RuntimeException {
+		return null;
 	}
 
 

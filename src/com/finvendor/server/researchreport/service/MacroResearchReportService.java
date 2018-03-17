@@ -20,21 +20,19 @@ import com.finvendor.server.researchreport.service.ifc.AbsResearchReportService;
 public class MacroResearchReportService extends AbsResearchReportService {
 
 	@Autowired
-	@Qualifier(value="macroResearchDao")
+	@Qualifier(value = "macroResearchDao")
 	IResearchReportDao macroReserachReportDao;
-
 
 	@Override
 	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult> getResearchReportTableData(
-			T rrfilter,String offset) throws Exception {
+			T rrfilter, String pageNumber) throws Exception {
 		return null;
 	}
 
-
 	@Override
-	public int getTotalRecordCount() {
+	public String getRecordStatistics() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 

@@ -23,9 +23,8 @@ public class MacroResearchDao extends AbsResearchReportDao {
 	}
 
 	@Override
-	public int geTotalRecords() throws RuntimeException {
-		// TODO Auto-generated method stub
-		return 0;
+	public String getRecordStatistics() throws RuntimeException {
+		return null;
 	}
 
 

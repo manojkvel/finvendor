@@ -37,9 +37,4 @@ public class WebSectorResearchReport implements WebResearchReportIfc {
 	public String getTotalRecordCount(String type) throws WebApiException {
 		return null;
 	}
-
-	@Override
-	public String getPerPageMaxRecordCount(String type) throws WebApiException {
-		return null;
-	}
 }

@@ -21,4 +21,20 @@ public final class ExceptionUtil {
 			return th.getMessage();
 		}
 	}
+	
+	public static  String buildErrorMessage(String contextMsg, Exception e) {
+		String errorStackTrace=org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(e);
+		StringBuffer errOutputSb=new StringBuffer(500);
+		errOutputSb.append(System.lineSeparator());
+		errOutputSb.append("User Error - ").append(contextMsg);
+		errOutputSb.append(System.lineSeparator());
+		errOutputSb.append("Error stack trace -> ");
+		errOutputSb.append(System.lineSeparator());
+		errOutputSb.append(errorStackTrace);
+		errOutputSb.append(System.lineSeparator());
+		errOutputSb.append("Please contact Finvendor Admin for support !!");
+		errOutputSb.append(System.lineSeparator());
+		String apiErrorMessage=errOutputSb.toString();
+		return apiErrorMessage;
+	}
 }

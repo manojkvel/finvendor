@@ -24,9 +24,9 @@ public class EquityResearchReportService extends AbsResearchReportService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter, String offset) throws Exception {
+	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter, String pageNumber) throws Exception {
 		try {
-			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao.findResearchReportTableData(rrfilter, offset);
+			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao.findResearchReportTableData(rrfilter, pageNumber);
 		} catch (RuntimeException e) {// TODO need to replace with custom Exception
 			throw new Exception(e);
 		}
@@ -34,7 +34,7 @@ public class EquityResearchReportService extends AbsResearchReportService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public int getTotalRecordCount() {
-		return equityReserachReportDao.geTotalRecords();
+	public String getRecordStatistics() {
+		return equityReserachReportDao.getRecordStatistics();
 	}
 }
