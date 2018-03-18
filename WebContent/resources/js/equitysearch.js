@@ -248,6 +248,8 @@ jQuery(document).ready(function() {
 	};
 
 	function loadDefaultEquityList(jsonData) {
+		isProgressLoader(true);
+
 		getRecordStats("equity", jsonData).then(function(stats) {
 			stats = JSON.parse(stats);
 			firstPageNumber = stats.firstPageNumber;
@@ -258,6 +260,7 @@ jQuery(document).ready(function() {
 				$("#fv_equity_research_report_vendor_search .pager").remove();
 				var response = JSON.parse(serverResponse);
 				getEquityListHtml(response);
+				isProgressLoader(false);
 
 			}, function(error) {
 				console.log(error);
@@ -303,6 +306,7 @@ jQuery(document).ready(function() {
 	loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 
 	function getResearchReport(jsonData, researchType, pageNumber) {
+
 		var url = "/system/api/researchReports?type=" + researchType + "&pageNumber=" + pageNumber;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
@@ -934,6 +938,12 @@ jQuery(document).ready(function() {
 
 	loadDefaultFilterData();
 
-
+	function isProgressLoader(status) {
+		if(status === true) {
+			$("#progressLoader").show();
+		} else {
+			$("#progressLoader").hide();
+		}
+	}
 
 });

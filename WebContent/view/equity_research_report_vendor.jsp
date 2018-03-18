@@ -260,14 +260,12 @@
 										</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td colspan="6">
-											<jsp:include page="common/progressLoader.jsp"></jsp:include>
-										</td>
-									</tr>
+								<tbody>	
 								</tbody>
 							</table>
+							<div id='progressLoader'>
+								<jsp:include page="common/progressLoader.jsp"></jsp:include>
+							</div>
 						</div>
 					</div>
 				</div>

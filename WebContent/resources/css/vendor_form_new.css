@@ -1532,8 +1532,8 @@ input[type="file"]:focus {
 	overflow: auto;
 	min-height: 400px;
 	margin-bottom: 10px;
+	position: relative;
 }
-
 
 #fv_equity_research_report_vendor_search #broker_table {
 	min-height: 200px;

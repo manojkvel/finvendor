@@ -155,6 +155,25 @@ body {
 	overflow: auto;
 }
 
+#progressLoader {
+	display: none;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+
+#fv_equity_research_report_vendor_search #spinner {
+	background: #fff;
+	width: 200px;
+	border-radius: 20px;
+	padding: 20px;
+	top: 35%;
+	position: relative;
+}
+
 .pager li>a, .pager li>a:focus {
 	background: #414b4f;
 	color: #fff;
