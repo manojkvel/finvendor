@@ -155,8 +155,15 @@ body {
 	overflow: auto;
 }
 
+.pager li>a, .pager li>a:focus {
+	background: #414b4f;
+	color: #fff;
+	font-weight: bold;
+}
 
-
+.pager li>a:hover {
+	background: #34bf98;
+}
 
 .dashboard_report .companyName {
 	font-weight: bold;

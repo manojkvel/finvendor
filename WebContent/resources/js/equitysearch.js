@@ -51,145 +51,219 @@ jQuery(document).ready(function() {
 		return false;
 	};
 
+	var getEquityListHtml = function(response) {
+		var len = response.equity.length;
+		var htmlCode = '';
+		var rowHtml = 	"";
+
+		if(len === 0) {
+			$("#broker_table tbody").html("<tr><td colspan='6'>No Matching Records Found</td></tr>");
+			return;
+		}
+
+		for(var i = 0; i < len; i++) {
+
+			var recommTypeClass = "label-warning";
+			if(response.equity[i].recommType == "buy" || response.equity[i].recommType == "accumulate"
+				|| response.equity[i].recommType == "overweight"  || response.equity[i].recommType == "bullish") {
+				recommTypeClass = "label-success";
+			} else if(response.equity[i].recommType == "sell" || response.equity[i].recommType == "underweight"
+				|| response.equity[i].recommType == "reduce"  || response.equity[i].recommType == "bearish") {
+				recommTypeClass = "label-danger";
+			} else {
+				recommTypeClass = "label-warning";
+			}
+
+
+			var _3YrPatGrowthClass = "success";
+			var _3YrPatGrowthClass_Caret = "fa-caret-up";
+			if(response.equity[i]._3YrPatGrowth > 0) {
+				_3YrPatGrowthClass = "success";
+				_3YrPatGrowthClass_Caret = "fa-caret-up";
+			} else {
+				_3YrPatGrowthClass = "danger";
+				_3YrPatGrowthClass_Caret = "fa-caret-down";
+			}
+
+			var upsideClass = "success";
+			if(response.equity[i].upside > 0) {
+				upsideClass = "success";
+			} else {
+				upsideClass = "danger";
+			}
+
+			var brokerRankLargeCapStarClass = "<i class='fa fa-star'></i>";
+
+			var brokerRankLargeCapStarHtml = '';
+			if(response.equity[i].brokerRankLargeCap === "5") {
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+			} else if(response.equity[i].brokerRankLargeCap === "4") {
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+			} else if(response.equity[i].brokerRankLargeCap === "3") {
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+			} else if(response.equity[i].brokerRankLargeCap === "2") {
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+			} else if(response.equity[i].brokerRankLargeCap === "1") {
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass;
+			} else {
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass
+			}
+
+
+			var brokerRankMidCapStarClass = "<i class='fa fa-star'></i>";
+			var brokerRankMidCapStarHtml = '';
+			if(response.equity[i].brokerRankMidCap === "5") {
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+			} else if(response.equity[i].brokerRankMidCap === "4") {
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+			} else if(response.equity[i].brokerRankMidCap === "3") {
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+			} else if(response.equity[i].brokerRankMidCap === "2") {
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+			} else if(response.equity[i].brokerRankMidCap === "1") {
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass;
+			} else {
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass
+			}
+
+
+			var brokerRankSmallCapStarClass = "<i class='fa fa-star'></i>";
+			var brokerRankSmallCapStarHtml = '';
+			if(response.equity[i].brokerRankSmallCap === "5") {
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+			} else if(response.equity[i].brokerRankSmallCap === "4") {
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+			} else if(response.equity[i].brokerRankSmallCap === "3") {
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+			} else if(response.equity[i].brokerRankSmallCap === "2") {
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+			} else if(response.equity[i].brokerRankSmallCap === "1") {
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass;
+			} else {
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass
+			}
+
+			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "'>" +
+			"<td>" + 
+			"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'>" + response.equity[i].company + "</div>" + 
+			"<div class='style'>" + response.equity[i].style + "</div>" + 
+			"<div class='mcap'>" + response.equity[i].mcap + "</div>" + 
+			"<div class='sector'>" + response.equity[i].sector + "</div>" +
+			"</td>" + 
+			"<td>" + 
+			"<div class='broker' data-toggle='tooltip' title='See all reports published by " + response.equity[i].broker + "'>" + response.equity[i].broker + "</div>" + 
+			"<div class='since'>" + response.equity[i].since + "</div>" + 
+			"<div class='awarded'>" + response.equity[i].awarded + "</div>" + 
+			"<div class='researchedByCfa'>" + response.equity[i].researchedByCfa + "</div>" +
+			"</td>" +
+			"<td>" + 
+			"<div class='brokerRankLargeCap warning' data-toggle='tooltip' title='Large Cap'>" + brokerRankLargeCapStarHtml + "</div>" + 
+			"<div class='brokerRankMidCap warning' data-toggle='tooltip' title='Mid Cap'>" + brokerRankMidCapStarHtml + "</div>" + 
+			"<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
+			"</td>" +
+			"<td>" + 
+			"<div class='cmp'> Rs. " + response.equity[i].cmp + "</div>" + 
+			"<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
+			"<div class='pe'>" + response.equity[i].pe + "</div>" + 
+			"<div class='_3YrPatGrowth " + _3YrPatGrowthClass + "'><i class='fa " + _3YrPatGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrPatGrowth != 'NA') ? Math.round(response.equity[i]._3YrPatGrowth * 100) / 100 + '%' : response.equity[i]._3YrPatGrowth) + "</div>" +
+			"</td>" +
+			"<td>" + 
+			"<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
+			"<div class='targetPrice'> Rs. " + response.equity[i].targetPrice + "</div>" + 
+			"<div class='priceAtRecomm'>" + response.equity[i].priceAtRecomm + "</div>" + 
+			"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
+			"</td>" +
+			"<td>"  +  
+			"<div class='analystName' data-toggle='tooltip' title='" + response.equity[i].analystName + "'>" + response.equity[i].analystName + "</div>" + 
+			"<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
+			"<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post' data-vendor='" + response.equity[i].vendorName + "'><i class='fa fa-file'></i></a></div>" +
+			"</td>" +
+			"</tr>";
+		}
+
+		$("#broker_table tbody").html(htmlCode);
+
+		var paginationHtml = 	"<ul class='pager'>"
+								 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
+								 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
+								 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
+								 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
+							 + "</ul>";
+		$("#fv_equity_research_report_vendor_search").append(paginationHtml);
+
+		$('[data-toggle="tooltip"]').tooltip();
+		$('#broker_table tbody tr td .report a').on('click', getReport);
+		$('#fv_equity_research_report_vendor_search .pager a').on('click', getPaginationIndex);
+	}
+
+	var firstPageNumber = 1;
+	var pageNumber = 1;
+	var lastPageNumber = 1;
+
+	var resetPaginationCount = function() {
+		firstPageNumber = 1;
+		pageNumber = 1;
+		lastPageNumber = 1;
+	}
+
+	var getPaginationIndex = function() {
+		var currentNode = $(this).attr('id');
+		if(currentNode == 'last') {
+			getLastPageResearchReport(pageNumber);
+		} else if(currentNode == 'next') {
+			getNextPageResearchReport(pageNumber);
+		} else if(currentNode == 'prev') {
+			getPreviousPageResearchReport(pageNumber);
+		} else if(currentNode == 'first') {
+			getFirstPageResearchReport(pageNumber);
+		}
+	}
+
+	var getFirstPageResearchReport = function(currentNumber) {
+		if(currentNumber != firstPageNumber) {
+			pageNumber = firstPageNumber;
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		}
+	};
+
+	var getLastPageResearchReport = function(currentNumber) {
+		if(currentNumber != lastPageNumber) {
+			pageNumber = lastPageNumber;
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		}
+	};
+
+	var getNextPageResearchReport = function(currentNumber) {
+		if(currentNumber < lastPageNumber) {
+			pageNumber = currentNumber + 1;
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		}
+	};
+
+	var getPreviousPageResearchReport = function(currentNumber) {
+		if(currentNumber > 1) {
+			pageNumber = currentNumber - 1;
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		}
+	};
+
 	function loadDefaultEquityList(jsonData) {
-		getResearchReportForEquity(jsonData).then(function(serverResponse) {
-			//console.log(serverResponse);
-			var response = JSON.parse(serverResponse);
-			var len = response.equity.length;
-			var htmlCode = '';
-			var rowHtml = 	"";
+		getRecordStats("equity", jsonData).then(function(stats) {
+			stats = JSON.parse(stats);
+			firstPageNumber = stats.firstPageNumber;
+			lastPageNumber = stats.lastPageNumber;
+			console.log("pageNumber: " + pageNumber);
+			getResearchReport(jsonData, "equity", pageNumber).then(function(serverResponse) {
+				//console.log(serverResponse);
+				$("#fv_equity_research_report_vendor_search .pager").remove();
+				var response = JSON.parse(serverResponse);
+				getEquityListHtml(response);
 
-			if(len === 0) {
-				$("#broker_table tbody").html("<tr><td colspan='6'>No Matching Records Found</td></tr>");
-				return;
-			}
-
-			for(var i = 0; i < len; i++) {
-
-				var recommTypeClass = "label-warning";
-				if(response.equity[i].recommType == "buy" || response.equity[i].recommType == "accumulate"
-					 || response.equity[i].recommType == "overweight"  || response.equity[i].recommType == "bullish") {
-					recommTypeClass = "label-success";
-				} else if(response.equity[i].recommType == "sell" || response.equity[i].recommType == "underweight"
-					 || response.equity[i].recommType == "reduce"  || response.equity[i].recommType == "bearish") {
-					recommTypeClass = "label-danger";
-				} else {
-					recommTypeClass = "label-warning";
-				}
-
-
-				var _3YrPatGrowthClass = "success";
-				var _3YrPatGrowthClass_Caret = "fa-caret-up";
-				if(response.equity[i]._3YrPatGrowth > 0) {
-					_3YrPatGrowthClass = "success";
-					_3YrPatGrowthClass_Caret = "fa-caret-up";
-				} else {
-					_3YrPatGrowthClass = "danger";
-					_3YrPatGrowthClass_Caret = "fa-caret-down";
-				}
-
-				var upsideClass = "success";
-				if(response.equity[i].upside > 0) {
-					upsideClass = "success";
-				} else {
-					upsideClass = "danger";
-				}
-
-				var brokerRankLargeCapStarClass = "<i class='fa fa-star'></i>";
-				
-				var brokerRankLargeCapStarHtml = '';
-				if(response.equity[i].brokerRankLargeCap === "5") {
-					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
-				} else if(response.equity[i].brokerRankLargeCap === "4") {
-					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
-				} else if(response.equity[i].brokerRankLargeCap === "3") {
-					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
-				} else if(response.equity[i].brokerRankLargeCap === "2") {
-					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
-				} else if(response.equity[i].brokerRankLargeCap === "1") {
-					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass;
-				} else {
-					brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass
-				}
-
-
-				var brokerRankMidCapStarClass = "<i class='fa fa-star'></i>";
-				var brokerRankMidCapStarHtml = '';
-				if(response.equity[i].brokerRankMidCap === "5") {
-					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
-				} else if(response.equity[i].brokerRankMidCap === "4") {
-					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
-				} else if(response.equity[i].brokerRankMidCap === "3") {
-					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
-				} else if(response.equity[i].brokerRankMidCap === "2") {
-					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass;
-				} else if(response.equity[i].brokerRankMidCap === "1") {
-					brokerRankMidCapStarHtml = brokerRankMidCapStarClass;
-				} else {
-					brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass
-				}
-
-
-				var brokerRankSmallCapStarClass = "<i class='fa fa-star'></i>";
-				var brokerRankSmallCapStarHtml = '';
-				if(response.equity[i].brokerRankSmallCap === "5") {
-					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
-				} else if(response.equity[i].brokerRankSmallCap === "4") {
-					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
-				} else if(response.equity[i].brokerRankSmallCap === "3") {
-					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
-				} else if(response.equity[i].brokerRankSmallCap === "2") {
-					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
-				} else if(response.equity[i].brokerRankSmallCap === "1") {
-					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass;
-				} else {
-					brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass
-				}
-
-				htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "'>" +
-						"<td>" + 
-							"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'>" + response.equity[i].company + "</div>" + 
-							"<div class='style'>" + response.equity[i].style + "</div>" + 
-							"<div class='mcap'>" + response.equity[i].mcap + "</div>" + 
-							"<div class='sector'>" + response.equity[i].sector + "</div>" +
-						"</td>" + 
-						"<td>" + 
-							"<div class='broker' data-toggle='tooltip' title='See all reports published by " + response.equity[i].broker + "'>" + response.equity[i].broker + "</div>" + 
-							"<div class='since'>" + response.equity[i].since + "</div>" + 
-							"<div class='awarded'>" + response.equity[i].awarded + "</div>" + 
-							"<div class='researchedByCfa'>" + response.equity[i].researchedByCfa + "</div>" +
-						"</td>" +
-						"<td>" + 
-							"<div class='brokerRankLargeCap warning' data-toggle='tooltip' title='Large Cap'>" + brokerRankLargeCapStarHtml + "</div>" + 
-							"<div class='brokerRankMidCap warning' data-toggle='tooltip' title='Mid Cap'>" + brokerRankMidCapStarHtml + "</div>" + 
-							"<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
-						"</td>" +
-						"<td>" + 
-							"<div class='cmp'> Rs. " + response.equity[i].cmp + "</div>" + 
-							"<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
-							"<div class='pe'>" + response.equity[i].pe + "</div>" + 
-							"<div class='_3YrPatGrowth " + _3YrPatGrowthClass + "'><i class='fa " + _3YrPatGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrPatGrowth != 'NA') ? Math.round(response.equity[i]._3YrPatGrowth * 100) / 100 + '%' : response.equity[i]._3YrPatGrowth) + "</div>" +
-						"</td>" +
-						"<td>" + 
-							"<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
-							"<div class='targetPrice'> Rs. " + response.equity[i].targetPrice + "</div>" + 
-							"<div class='priceAtRecomm'>" + response.equity[i].priceAtRecomm + "</div>" + 
-							"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
-						"</td>" +
-						"<td>"  +  
-							"<div class='analystName' data-toggle='tooltip' title='" + response.equity[i].analystName + "'>" + response.equity[i].analystName + "</div>" + 
-							"<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
-							"<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post' data-vendor='" + response.equity[i].vendorName + "'><i class='fa fa-file'></i></a></div>" +
-						"</td>" +
-						"</tr>";
-			}
-
-			$("#broker_table tbody").html(htmlCode);
-
-    		$('[data-toggle="tooltip"]').tooltip();
-    		$('#broker_table tbody tr td .report a').on('click', getReport);
+			}, function(error) {
+				console.log(error);
+			});
 		}, function(error) {
-			console.log(error);
+
 		});
 	};
 
@@ -228,8 +302,8 @@ jQuery(document).ready(function() {
 	window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 	loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 
-	function getResearchReportForEquity(jsonData) {
-		var url = "/system/api/researchReports?type=equity";
+	function getResearchReport(jsonData, researchType, pageNumber) {
+		var url = "/system/api/researchReports?type=" + researchType + "&pageNumber=" + pageNumber;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -255,6 +329,39 @@ jQuery(document).ready(function() {
 
             httpRequest.send(JSON.stringify(jsonData));
         });
+	};
+
+	/**
+     * Function to start async call to get record stats
+     */
+	function getRecordStats(researchType, jsonData) {
+		var url = "/system/api/researchReports/recordStats?type=" + researchType;
+		return new Promise(function(resolve, reject) {
+			var httpRequest = new XMLHttpRequest({
+				mozSystem: true
+			});
+
+			httpRequest.timeout = API_TIMEOUT_SMALL;
+			httpRequest.open('POST', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+			httpRequest.ontimeout = function () {
+				reject("" + httpRequest.responseText);
+			};
+			httpRequest.onreadystatechange = function () {
+				if (httpRequest.readyState === XMLHttpRequest.DONE) {
+					if (httpRequest.status === 200) {
+						resolve(httpRequest.response);
+					} else {
+						console.log(httpRequest.status + httpRequest.responseText);
+						reject(httpRequest.responseText);
+					}
+				} else {
+				}
+			};
+
+			httpRequest.send(JSON.stringify(jsonData));
+		});
 	};
 
 
@@ -325,6 +432,7 @@ jQuery(document).ready(function() {
 	var getGeoData = function() {
 		localEquitySearchJson.geo = $("input[name=geography_type]:checked").attr('data-value');
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
@@ -396,6 +504,7 @@ jQuery(document).ready(function() {
 			delete localEquitySearchJson.mcap;
 		}
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
@@ -462,6 +571,7 @@ jQuery(document).ready(function() {
 			delete localEquitySearchJson.style;
 		}
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
@@ -510,6 +620,7 @@ jQuery(document).ready(function() {
 			delete localEquitySearchJson.analystType;
 		}
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
@@ -557,6 +668,7 @@ jQuery(document).ready(function() {
 			delete localEquitySearchJson.researchedBroker;
 		}
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
@@ -605,6 +717,7 @@ jQuery(document).ready(function() {
 			delete localEquitySearchJson.brokerYrOfInCorp;
 		}
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
@@ -651,6 +764,7 @@ jQuery(document).ready(function() {
 			delete localEquitySearchJson.brokerRank;
 		}
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
@@ -698,6 +812,7 @@ jQuery(document).ready(function() {
 			delete localEquitySearchJson.recommType;
 		}
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
@@ -746,6 +861,7 @@ jQuery(document).ready(function() {
 			delete localEquitySearchJson.upside;
 		}
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
@@ -794,6 +910,7 @@ jQuery(document).ready(function() {
 			delete localEquitySearchJson.others;
 		}
 		
+		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 	};
