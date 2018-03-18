@@ -61,9 +61,9 @@ public interface WebResearchReportIfc {
 	 * @return
 	 * @throws WebApiException
 	 */
-	@RequestMapping(value = WebUriConstants.ResearchReport.RECORD_STATS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = WebUriConstants.ResearchReport.RECORD_STATS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	String getRecordStatistics(String type) throws WebApiException;
+	String getRecordStatistics(EquityResearchFilter equityResearchFilter, String type) throws WebApiException;
 	
 	
 }

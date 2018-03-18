@@ -23,7 +23,7 @@ public class MacroResearchDao extends AbsResearchReportDao {
 	}
 
 	@Override
-	public String getRecordStatistics() throws RuntimeException {
+	public String getRecordStatistics(ResearchReportFilter filter) throws RuntimeException {
 		return null;
 	}
 

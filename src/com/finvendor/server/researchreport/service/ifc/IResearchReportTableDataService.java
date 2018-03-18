@@ -10,5 +10,5 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
  */
 public interface IResearchReportTableDataService {
 	<T extends ResearchReportFilter> Map<String,? extends AbsResearchReportResult> getResearchReportTableData(T rrfilter, String pageNumber) throws Exception;
-	String getRecordStatistics();
+	<T extends ResearchReportFilter> String getRecordStatistics(T rrfilter);
 }

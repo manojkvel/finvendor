@@ -34,8 +34,7 @@ public class WebSectorResearchReport implements WebResearchReportIfc {
 	}
 
 	@Override
-	public String getRecordStatistics(String type) throws WebApiException {
+	public String getRecordStatistics(EquityResearchFilter equityResearchFilter, String type) throws WebApiException {
 		return null;
 	}
-
 }

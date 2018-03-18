@@ -30,10 +30,7 @@ public class MacroResearchReportService extends AbsResearchReportService {
 	}
 
 	@Override
-	public String getRecordStatistics() {
-		// TODO Auto-generated method stub
+	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter) {
 		return null;
 	}
-
-
 }

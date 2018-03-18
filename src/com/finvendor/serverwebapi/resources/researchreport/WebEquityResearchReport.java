@@ -129,12 +129,12 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	}
 
 	@Override
-	public String getRecordStatistics(@RequestParam(value = "type", required = true) String type) throws WebApiException {
+	public String getRecordStatistics(@RequestBody EquityResearchFilter equityResearchFilter, @RequestParam(value = "type", required = true) String type) throws WebApiException {
 		try {
 			if (!"equity".equals(type)) {
 				throw new Exception("Research Report type must be equity !!");
 			}
-			return equityResearchService.getRecordStatistics();
+			return equityResearchService.getRecordStatistics(equityResearchFilter);
 		} catch (Exception e) {
 			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getTotalRecordCount(...) method", e);
 			logger.error("Web API Error: " + apiErrorMessage);

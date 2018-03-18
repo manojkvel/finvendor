@@ -1,5 +1,9 @@
 package com.finvendor.common.util;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import com.finvendor.common.exception.FvTechnicalException;
@@ -22,7 +26,7 @@ public final class ExceptionUtil {
 		}
 	}
 	
-	public static  String buildErrorMessage(String contextMsg, Exception e) {
+	public static  String buildErrorMessage(String contextMsg, Throwable e) {
 		String errorStackTrace=org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(e);
 		StringBuffer errOutputSb=new StringBuffer(500);
 		errOutputSb.append(System.lineSeparator());
@@ -36,5 +40,18 @@ public final class ExceptionUtil {
 		errOutputSb.append(System.lineSeparator());
 		String apiErrorMessage=errOutputSb.toString();
 		return apiErrorMessage;
+	}
+	
+	public static String buildErrorJson(String contextMsg, Throwable e) {
+		String errorStackTrace=org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(e);
+		Map<String, Object> paramsMap = new LinkedHashMap<>();
+		paramsMap.put("errorCode", "500");
+		paramsMap.put("userMsg", contextMsg);
+		paramsMap.put("errorMsg", errorStackTrace);
+		try {
+			return JsonUtil.createJsonFromObject(paramsMap);
+		} catch (IOException e1) {
+			throw new RuntimeException(e);
+		}
 	}
 }

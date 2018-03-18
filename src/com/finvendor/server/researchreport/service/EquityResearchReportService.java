@@ -34,7 +34,7 @@ public class EquityResearchReportService extends AbsResearchReportService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public String getRecordStatistics() {
-		return equityReserachReportDao.getRecordStatistics();
+	public <T extends ResearchReportFilter> String  getRecordStatistics(T rrfilter) {
+		return equityReserachReportDao.getRecordStatistics(rrfilter);
 	}
 }
