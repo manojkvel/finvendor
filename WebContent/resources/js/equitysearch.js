@@ -284,6 +284,7 @@ jQuery(document).ready(function() {
 
 	var resetFilters = function(e) {
 		clearSelection();
+		resetPaginationCount();
 		localEquitySearchJson = {
 			"geo": "1"
 		};
