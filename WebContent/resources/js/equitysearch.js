@@ -297,6 +297,16 @@ jQuery(document).ready(function() {
     var clearSelection = function() {
     	$("#sidebar-panel input").prop('checked', false);
     	$("#search_by_geo input").eq(0).prop('checked', true);
+
+    	marketCapitalData = [];
+    	styleFilterData = [];
+    	analystTypeFilterData = [];
+    	researchBrokerFilterData = [];
+    	brokerAnalystYrOfIncorpFilterData = [];
+    	brokerRankFilterData = [];
+    	recommTypeData = [];
+    	upsideFilterData = [];
+    	othersFilterData = [];
     };
 
 	var localEquitySearchJson = {
