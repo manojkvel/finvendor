@@ -186,6 +186,7 @@ jQuery(document).ready(function() {
 		var paginationHtml = 	"<ul class='pager'>"
 								 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
 								 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
+								 + "<li><span id='records_stats'></span></li>"
 								 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
 								 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
 							 + "</ul>";
@@ -194,16 +195,31 @@ jQuery(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip();
 		$('#broker_table tbody tr td .report a').on('click', getReport);
 		$('#fv_equity_research_report_vendor_search .pager a').on('click', getPaginationIndex);
+
+		setRecordStats(currentIndex, totalRecords);
 	}
 
 	var firstPageNumber = 1;
 	var pageNumber = 1;
 	var lastPageNumber = 1;
+	var totalRecords = 1;
+	var currentIndex = 1;
+	var perPageMaxRecords = 1;
+
+	var setRecordStats = function(currentIndex, totalRecords) {
+		if(currentIndex > totalRecords) {
+			currentIndex = totalRecords;
+		}
+		$("#records_stats").html(currentIndex + " of " + totalRecords);
+	}
 
 	var resetPaginationCount = function() {
 		firstPageNumber = 1;
 		pageNumber = 1;
 		lastPageNumber = 1;
+		totalRecords = 1;
+		currentIndex = 1;
+		perPageMaxRecords = 1;
 	}
 
 	var getPaginationIndex = function() {
@@ -222,6 +238,7 @@ jQuery(document).ready(function() {
 	var getFirstPageResearchReport = function(currentNumber) {
 		if(currentNumber != firstPageNumber) {
 			pageNumber = firstPageNumber;
+			currentIndex = firstPageNumber;
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 		}
 	};
@@ -229,6 +246,7 @@ jQuery(document).ready(function() {
 	var getLastPageResearchReport = function(currentNumber) {
 		if(currentNumber != lastPageNumber) {
 			pageNumber = lastPageNumber;
+			currentIndex = (pageNumber - 1) * perPageMaxRecords + 1;
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 		}
 	};
@@ -236,6 +254,7 @@ jQuery(document).ready(function() {
 	var getNextPageResearchReport = function(currentNumber) {
 		if(currentNumber < lastPageNumber) {
 			pageNumber = currentNumber + 1;
+			currentIndex = currentIndex + perPageMaxRecords;
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 		}
 	};
@@ -243,6 +262,7 @@ jQuery(document).ready(function() {
 	var getPreviousPageResearchReport = function(currentNumber) {
 		if(currentNumber > 1) {
 			pageNumber = currentNumber - 1;
+			currentIndex = currentIndex - perPageMaxRecords;
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
 		}
 	};
@@ -254,6 +274,8 @@ jQuery(document).ready(function() {
 			stats = JSON.parse(stats);
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
+			totalRecords = stats.totalRecords;
+			perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 			console.log("pageNumber: " + pageNumber);
 			getResearchReport(jsonData, "equity", pageNumber).then(function(serverResponse) {
 				//console.log(serverResponse);
