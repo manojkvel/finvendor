@@ -184,6 +184,12 @@ body {
 	background: #34bf98;
 }
 
+.pager li>span {
+	border: 0;
+	font-weight: bold;
+	font-size: 13px;
+}
+
 .dashboard_report .companyName {
 	font-weight: bold;
 }
