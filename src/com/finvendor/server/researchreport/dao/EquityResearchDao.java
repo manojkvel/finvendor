@@ -92,12 +92,13 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		}
 		
 		//Calculate Last page number
-		int remainder = totalRecords % 2;
+		int maxRecordCountPerPage = Integer.parseInt(finvendorProperties.getProperty("per_page_max_record_count"));
+		int remainder = totalRecords % maxRecordCountPerPage;
 		int lastPageNumber=0;
 		if (remainder == 0) {
-			lastPageNumber = totalRecords / 2;
+			lastPageNumber = totalRecords / maxRecordCountPerPage;
 		} else {
-			lastPageNumber = (totalRecords / 2) + remainder;
+			lastPageNumber = (totalRecords / maxRecordCountPerPage) + 1;
 		}
 		
 		//Prepare Json result
