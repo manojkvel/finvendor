@@ -196,7 +196,7 @@ jQuery(document).ready(function() {
 		$('#broker_table tbody tr td .report a').on('click', getReport);
 		$('#fv_equity_research_report_vendor_search .pager a').on('click', getPaginationIndex);
 
-		setRecordStats(currentIndex, totalRecords);
+		setRecordStats(currentIndex, lastPageNumber);
 	}
 
 	var firstPageNumber = 1;
@@ -206,11 +206,11 @@ jQuery(document).ready(function() {
 	var currentIndex = 1;
 	var perPageMaxRecords = 1;
 
-	var setRecordStats = function(currentIndex, totalRecords) {
-		if(currentIndex > totalRecords) {
-			currentIndex = totalRecords;
+	var setRecordStats = function(currentIndex, lastPageNumber) {
+		if(currentIndex > lastPageNumber) {
+			currentIndex = lastPageNumber;
 		}
-		$("#records_stats").html(currentIndex + " of " + totalRecords);
+		$("#records_stats").html(currentIndex + " of " + lastPageNumber);
 	}
 
 	var resetPaginationCount = function() {
