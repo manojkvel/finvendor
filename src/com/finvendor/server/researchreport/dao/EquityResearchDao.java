@@ -92,13 +92,17 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		}
 		
 		//Calculate Last page number
+		int lastPageNumber = 0;
 		int maxRecordCountPerPage = Integer.parseInt(finvendorProperties.getProperty("per_page_max_record_count"));
-		int remainder = totalRecords % maxRecordCountPerPage;
-		int lastPageNumber=0;
-		if (remainder == 0) {
-			lastPageNumber = totalRecords / maxRecordCountPerPage;
+		if (maxRecordCountPerPage <= totalRecords) {
+			int remainder = totalRecords % maxRecordCountPerPage;
+			if (remainder == 0) {
+				lastPageNumber = totalRecords / maxRecordCountPerPage;
+			} else {
+				lastPageNumber = (totalRecords / maxRecordCountPerPage) + 1;
+			}
 		} else {
-			lastPageNumber = (totalRecords / maxRecordCountPerPage) + 1;
+			lastPageNumber=1;
 		}
 		
 		//Prepare Json result
@@ -213,14 +217,16 @@ public class EquityResearchDao extends AbsResearchReportDao {
 						equityResearchResultNew.setCompanyId(companyId);
 						
 						//Broker Rank 
-						String[] brokerRanks = getBrokerRank(vendorId, equityFilter);
-						String largeRank = String.valueOf("".equals(brokerRanks[0]) ? "" : brokerRanks[0].charAt(0));
-						String midRank = String.valueOf("".equals(brokerRanks[1]) ? "" : brokerRanks[1].charAt(0));
-						String smallRank = String.valueOf("".equals(brokerRanks[2]) ? "" : brokerRanks[2].charAt(0));
+						String[] brokerRanks 	= getBrokerRank(vendorId, equityFilter);
+						String largeRank 		= String.valueOf("".equals(brokerRanks[0]) ? "" : brokerRanks[0].charAt(0));
+						String midRank 			= String.valueOf("".equals(brokerRanks[1]) ? "" : brokerRanks[1].charAt(0));
+						String smallRank 		= String.valueOf("".equals(brokerRanks[2]) ? "" : brokerRanks[2].charAt(0));
+						String microRank 		= String.valueOf("".equals(brokerRanks[3]) ? "" : brokerRanks[3].charAt(0));
 						
 						equityResearchResultNew.setBrokerRankLargeCap(largeRank);
 						equityResearchResultNew.setBrokerRankMidCap(midRank);
 						equityResearchResultNew.setBrokerRankSmallCap(smallRank);
+						equityResearchResultNew.setBrokerRankMicroCap(microRank);
 						
 						//Set Current Page number
 						equityResearchResultNew.setPageNumber(pageNumber);
@@ -347,32 +353,34 @@ public class EquityResearchDao extends AbsResearchReportDao {
 			baseSqlSb.append(" AND country.country_id = ").append(equityFilter.getGeo());
 		}
 
-		//MCap filter applied
-		if (equityFilter.getMcap() != null) {
-			List<String> mcapList = equityFilter.getMcap();
-			List<String> mcapActualList = new ArrayList<>();
-			for (String mcap : mcapList) {
-				if (mcap.contains("Large Cap")) {
-					mcapActualList.add("Large Cap");
-				}
+		if (equityFilter.getBrokerRank() == null) {
+			// MCap filter applied
+			if (equityFilter.getMcap() != null) {
+				List<String> mcapList = equityFilter.getMcap();
+				List<String> mcapActualList = new ArrayList<>();
+				for (String mcap : mcapList) {
+					if (mcap.contains("Large Cap")) {
+						mcapActualList.add("Large Cap");
+					}
 
-				if (mcap.contains("Mid Cap")) {
-					mcapActualList.add("Mid Cap");
-				}
+					if (mcap.contains("Mid Cap")) {
+						mcapActualList.add("Mid Cap");
+					}
 
-				if (mcap.contains("Small Cap")) {
-					mcapActualList.add("Small Cap");
-				}
+					if (mcap.contains("Small Cap")) {
+						mcapActualList.add("Small Cap");
+					}
 
-				if (mcap.contains("Micro Cap")) {
-					mcapActualList.add("Micro Cap");
-				}
+					if (mcap.contains("Micro Cap")) {
+						mcapActualList.add("Micro Cap");
+					}
 
-				if (mcap.contains("Nano Cap")) {
-					mcapActualList.add("Nano Cap");
+					if (mcap.contains("Nano Cap")) {
+						mcapActualList.add("Nano Cap");
+					}
 				}
+				appendFilterWithInClause(baseSqlSb, "market_cap_def.market_cap_name", mcapActualList, true);
 			}
-			appendFilterWithInClause(baseSqlSb, "market_cap_def.market_cap_name", mcapActualList, true);
 		}
 
 		// #Style filter applied
@@ -587,7 +595,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 			}
 		}
 		
-		String[] brokerRanks=new String[3];
+		String[] brokerRanks=new String[4];
 		String sqlQuery="select broker_analyst.broker_id, broker_analyst.broker_rank, market_cap_def.market_cap_name from broker_analyst,market_cap_def where broker_analyst.market_cap_id=market_cap_def.market_cap_id and broker_analyst.broker_id=?";
 		SQLQuery query = commonDao.getSql(sqlQuery, new String[]{brokerId});
 		List<Object[]> rows = query.list();
@@ -613,6 +621,12 @@ public class EquityResearchDao extends AbsResearchReportDao {
 				} else {
 					brokerRanks[2] = "";
 				}
+				
+				if (mcapActualList.contains("Micro Cap")) {
+					brokerRanks[3] = rank;
+				} else {
+					brokerRanks[3] = "";
+				}
 			} else {
 				if ("Large Cap".equals(capName)) {
 					brokerRanks[0] = rank;
@@ -625,6 +639,10 @@ public class EquityResearchDao extends AbsResearchReportDao {
 				if ("Small Cap".equals(capName)) {
 					brokerRanks[2] = rank;
 				}
+				
+				if ("Micro Cap".equals(capName)) {
+					brokerRanks[3] = rank;
+				} 
 			}
 		}
 		return brokerRanks;
