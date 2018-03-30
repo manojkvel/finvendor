@@ -9,7 +9,7 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsEquitySectorResearc
  * @since 03-Feb-2018
  */
 @JsonPropertyOrder({ "companyId", "company", "style", "mcap", "sector", "subSector", "broker", "since", "awarded", "researchedByCfa",
-		"brokerRank", "brokerRankLargeCap", "brokerRankMidCap", "brokerRankSmallCap", "cmp", "priceDate", "pe",
+		"brokerRank", "brokerRankLargeCap", "brokerRankMidCap", "brokerRankSmallCap","brokerRankMicroCap", "cmp", "priceDate", "pe",
 		"_3YrPatGrowth", "recommType", "targetPrice", "priceAtRecomm", "upside", "report", "researchDate",
 		"analystName" })
 public class EquityResearchResult extends AbsEquitySectorResearchResult {
@@ -22,6 +22,7 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String brokerRankLargeCap;
 	private String brokerRankMidCap;
 	private String brokerRankSmallCap;
+	private String brokerRankMicroCap;
 
 	private String cmp;
 	private String priceDate;
@@ -99,6 +100,15 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 
 	public void setBrokerRankSmallCap(String brokerRankSmallCap) {
 		this.brokerRankSmallCap = brokerRankSmallCap;
+	}
+
+	
+	public String getBrokerRankMicroCap() {
+		return brokerRankMicroCap;
+	}
+
+	public void setBrokerRankMicroCap(String brokerRankMicroCap) {
+		this.brokerRankMicroCap = brokerRankMicroCap;
 	}
 
 	public String getCmp() {
