@@ -65,8 +65,9 @@ function getDashboardResearchReport() {
     var id = dasboardReportJson.productId;
     var vendorName = dasboardReportJson.vendorName;
     var jsonData = dasboardReportJson.equitysearchjson;
+    var pageNumber = dasboardReportJson.pageNumber;
 
-    var url = "/system/api/dashboardResearchReports?type=equity&productId="+ id;
+    var url = "/system/api/dashboardResearchReports?type=equity&productId="+ id + "&ofPage="+ pageNumber;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true

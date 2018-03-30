@@ -320,7 +320,8 @@ jQuery(document).ready(function() {
 		var dasboardReportJson = {
 			equitysearchjson : window.localStorage.getItem("equitysearchjson"),
 			productId : productId,
-			vendorName : vendorName
+			vendorName : vendorName,
+			pageNumber : pageNumber
 		}
 		window.localStorage.setItem('dasboardReportJson', JSON.stringify(dasboardReportJson));
 	};
