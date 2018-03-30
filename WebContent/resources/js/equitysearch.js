@@ -92,21 +92,22 @@ jQuery(document).ready(function() {
 				upsideClass = "danger";
 			}
 
+			var brokerRankGenericStarClass = "<i class='fa fa-star default'></i>";
 			var brokerRankLargeCapStarClass = "<i class='fa fa-star'></i>";
 
 			var brokerRankLargeCapStarHtml = '';
 			if(response.equity[i].brokerRankLargeCap === "5") {
 				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
 			} else if(response.equity[i].brokerRankLargeCap === "4") {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankGenericStarClass;
 			} else if(response.equity[i].brokerRankLargeCap === "3") {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else if(response.equity[i].brokerRankLargeCap === "2") {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else if(response.equity[i].brokerRankLargeCap === "1") {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass;
+				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass
+				brokerRankLargeCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			}
 
 
@@ -115,15 +116,15 @@ jQuery(document).ready(function() {
 			if(response.equity[i].brokerRankMidCap === "5") {
 				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
 			} else if(response.equity[i].brokerRankMidCap === "4") {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankGenericStarClass;
 			} else if(response.equity[i].brokerRankMidCap === "3") {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else if(response.equity[i].brokerRankMidCap === "2") {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass;
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else if(response.equity[i].brokerRankMidCap === "1") {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass;
+				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass
+				brokerRankMidCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			}
 
 
@@ -132,15 +133,15 @@ jQuery(document).ready(function() {
 			if(response.equity[i].brokerRankSmallCap === "5") {
 				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
 			} else if(response.equity[i].brokerRankSmallCap === "4") {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankGenericStarClass;
 			} else if(response.equity[i].brokerRankSmallCap === "3") {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else if(response.equity[i].brokerRankSmallCap === "2") {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else if(response.equity[i].brokerRankSmallCap === "1") {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass;
+				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass
+				brokerRankSmallCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			}
 
 			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "'>" +
@@ -183,18 +184,22 @@ jQuery(document).ready(function() {
 
 		$("#broker_table tbody").html(htmlCode);
 
-		var paginationHtml = 	"<ul class='pager'>"
+		var paginationHtml = 	"<div class='paging_container'>"
+								+ "<ul class='pager'>"
 								 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
 								 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
 								 + "<li><span id='records_stats'></span></li>"
 								 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
 								 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
-							 + "</ul>";
+							 	+ "</ul>"
+							 + "</div>";
+
 		$("#fv_equity_research_report_vendor_search").append(paginationHtml);
 
 		$('[data-toggle="tooltip"]').tooltip();
 		$('#broker_table tbody tr td .report a').on('click', getReport);
 		$('#fv_equity_research_report_vendor_search .pager a').on('click', getPaginationIndex);
+
 
 		setRecordStats(currentIndex, lastPageNumber);
 	}
@@ -204,7 +209,8 @@ jQuery(document).ready(function() {
 	var lastPageNumber = 1;
 	var totalRecords = 1;
 	var currentIndex = 1;
-	var perPageMaxRecords = 1;
+	var perPageMaxRecords = 5;
+	var sortByValue = 'priceDate';
 
 	var setRecordStats = function(currentIndex, lastPageNumber) {
 		if(currentIndex > lastPageNumber) {
@@ -219,8 +225,23 @@ jQuery(document).ready(function() {
 		lastPageNumber = 1;
 		totalRecords = 1;
 		currentIndex = 1;
-		perPageMaxRecords = 1;
+		perPageMaxRecords = 5;
 	}
+	
+	var getPerPageMaxRecords = function() {
+		perPageMaxRecords = Number($(this).val());
+		console.log("perPageMaxRecords: " + perPageMaxRecords);
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+	}
+	$('#fv_equity_research_report_vendor_search .max_per_page select').on('change', getPerPageMaxRecords);
+	
+
+	var getSortedByValue = function() {
+		console.log($(this).attr('data-id'));
+		sortByValue = $(this).attr('data-id');
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+	}
+	$('#broker_table thead a').on('click', getSortedByValue);
 
 	var getPaginationIndex = function() {
 		var currentNode = $(this).attr('id');
@@ -275,11 +296,11 @@ jQuery(document).ready(function() {
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
 			totalRecords = stats.totalRecords;
-			perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
+			//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 			console.log("pageNumber: " + pageNumber);
 			getResearchReport(jsonData, "equity", pageNumber).then(function(serverResponse) {
 				//console.log(serverResponse);
-				$("#fv_equity_research_report_vendor_search .pager").remove();
+				$("#fv_equity_research_report_vendor_search .paging_container").remove();
 				var response = JSON.parse(serverResponse);
 				getEquityListHtml(response);
 				isProgressLoader(false);
@@ -340,7 +361,7 @@ jQuery(document).ready(function() {
 
 	function getResearchReport(jsonData, researchType, pageNumber) {
 
-		var url = "/system/api/researchReports?type=" + researchType + "&pageNumber=" + pageNumber;
+		var url = "/system/api/researchReports?type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true

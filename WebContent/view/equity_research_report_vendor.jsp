@@ -173,35 +173,45 @@
 				<div class="col-xs-12 col-md-9">
 					<div class="content-panel">
 						<div id="fv_equity_research_report_vendor_search" class="section">
+							<div class="max_per_page">
+								<span>Records Per Page </span>
+								<select>
+									<option value='5'>5</option>
+									<option value='10'>10</option>
+									<option value='30'>30</option>
+									<option value='50'>50</option>
+									<option value='100'>100</option>
+								</select>
+							</div>
 							<table id='broker_table'>
 								<thead>
 									<tr>
 										<th style="width:20%;">
 											<p class="large_font">
-												<a href="javascript:void(0)">Company <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="company">Company <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Style <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="style">Style <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">M-Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="mcap">M-Cap <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Sector <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="sector">Sector <i class="fa fa-sort"></i></a>
 											</p>
 										</th>
 										<th style="width:20%;">
 											<p class="large_font">
-												<a href="javascript:void(0)">Broker <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="broker">Broker <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Since <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="since">Since <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Awarded <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="awarded">Awarded <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Researched by CFA <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="researchedByCfa">Researched by CFA <i class="fa fa-sort"></i></a>
 											</p>
 										</th>
 										<th style="width:15%;">
@@ -209,53 +219,53 @@
 												<a href="javascript:void(0)">Broker Rank</a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Large Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="brokerRankLargeCap">Large Cap <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Mid Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="brokerRankMidCap">Mid Cap <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Small Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="brokerRankSmallCap">Small Cap <i class="fa fa-sort"></i></a>
 											</p>
 										</th>
 										<th style="width:15%;">
 
 											<p class="large_font">
-												<a href="javascript:void(0)">CMP <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="cmp">CMP <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Price Date <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="priceDate">Price Date <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">P/E <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="pe">P/E <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">3 YR PAT Growth <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="_3YrPatGrowth">3 YR PAT Growth <i class="fa fa-sort"></i></a>
 											</p>
 										</th>
 										<th style="width:15%;">
 											<p class="large_font">
-												<a href="javascript:void(0)">Recom. Type <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="recommType">Recom. Type <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Tgt Price <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="targetPrice">Tgt Price <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Price Recom. <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="priceAtRecomm">Price Recom. <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Upside <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="upside">Upside <i class="fa fa-sort"></i></a>
 											</p>
 										</th>
 										<th style="width:15%;">
 											<p class="large_font">
-												<a href="javascript:void(0)">Report <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="report">Report <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Research Date <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="researchDate">Research Date <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)">Analyst Name <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="analystName">Analyst Name <i class="fa fa-sort"></i></a>
 											</p>
 										</th>
 									</tr>

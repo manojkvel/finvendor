@@ -124,8 +124,30 @@ body {
 	color: #f0ad4e;
 }
 
+.fa-star.default {
+	color: #414b4f;
+}
+
 .large_font {
 	font-weight: bold;
+}
+
+.fa-star.default {
+	color: #414b4f;
+}
+
+.paging_container {
+	padding: 0 15px;
+}
+
+.max_per_page {
+	float: right;
+	font-weight: bold;
+	padding: 10px;
+}
+
+.max_per_page select {
+	width: auto;
 }
 
 .tooltip .tooltip-inner {
