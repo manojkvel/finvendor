@@ -175,9 +175,9 @@ jQuery(document).ready(function() {
 			"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
 			"</td>" +
 			"<td>"  +  
-			"<div class='analystName' data-toggle='tooltip' title='" + response.equity[i].analystName + "'>" + response.equity[i].analystName + "</div>" + 
-			"<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
 			"<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post' data-vendor='" + response.equity[i].vendorName + "'><i class='fa fa-file'></i></a></div>" +
+			"<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
+			"<div class='analystName' data-toggle='tooltip' title='" + response.equity[i].analystName + "'>" + response.equity[i].analystName + "</div>" + 
 			"</td>" +
 			"</tr>";
 		}
@@ -296,6 +296,7 @@ jQuery(document).ready(function() {
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
 			totalRecords = stats.totalRecords;
+			$("#total_records_count").html(totalRecords + " Results");
 			//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 			console.log("pageNumber: " + pageNumber);
 			getResearchReport(jsonData, "equity", pageNumber).then(function(serverResponse) {

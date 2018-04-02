@@ -114,7 +114,7 @@
 						    </div>
 						    <div class='widget widget-panel-default'>
 						    	<div class='widget-panel-heading'>
-						    		<h3>Broker Rank</h3>
+						    		<h3 data-toggle='tooltip' title='This filter option works with "M-Cap". e.g. If you selected M-Cap as "Large Cap" and further if you select broker rank filter as "5 star", then you will get results for those Brokers having "5 star" rank in "Large Cap" equity research category.'>Broker Rank</h3>
 						    		<span class="fa fa-chevron-down"></span>
 						    	</div>
 						    	<div class='widget-panel-body'>
@@ -182,6 +182,8 @@
 									<option value='50'>50</option>
 									<option value='100'>100</option>
 								</select>
+
+								<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
 							</div>
 							<table id='broker_table'>
 								<thead>
