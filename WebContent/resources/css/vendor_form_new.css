@@ -1657,6 +1657,10 @@ h2 {
 	color: #fff;
 }
 
+.widget-group .widget-panel-heading h3 a {
+	color: #fff;
+}
+
 .widget-group .widget-panel-body {
 	display: none;
 	margin-bottom: 10px;
