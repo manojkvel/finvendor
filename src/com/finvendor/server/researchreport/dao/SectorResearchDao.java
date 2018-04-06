@@ -18,15 +18,14 @@ public class SectorResearchDao extends AbsResearchReportDao {
 
 	@Override
 	public Map<String, ? extends AbsResearchReportResult> findResearchReportTableData(ResearchReportFilter filter,
-			String offset)
-			throws RuntimeException {
+			String offset, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
 		return null;
 	}
 
 	@Override
-	public String getRecordStatistics(ResearchReportFilter filter) throws RuntimeException {
+	public String getRecordStatistics(ResearchReportFilter filter, String perPageMaxRecords) throws RuntimeException {
+		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

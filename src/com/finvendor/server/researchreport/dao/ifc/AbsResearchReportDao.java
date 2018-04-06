@@ -26,8 +26,7 @@ public abstract class AbsResearchReportDao implements IResearchReportDao {
 	public AbsResearchReportDao() {
 	}
 
-	protected void appendFilterWithInClause(StringBuffer sqlSb, String filterCondition, List<String> inValues,
-			boolean inClause) {
+	protected void appendFilterWithInClause(StringBuffer sqlSb, String filterCondition, List<String> inValues, boolean inClause) {
 		StringBuffer inValueSb = new StringBuffer(100);
 		inValueSb.append("(");
 		for (String inValue : inValues) {

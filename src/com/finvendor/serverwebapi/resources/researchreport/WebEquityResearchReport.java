@@ -58,19 +58,25 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(
 			@RequestBody EquityResearchFilter equityResearchFilter,
 			@RequestParam(value = "type", required = true) String type,
-			@RequestParam(value = "pageNumber", required = true) String pageNumber) throws WebApiException {
+			@RequestParam(value = "pageNumber", required = true) String pageNumber,
+			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords,
+			@RequestParam(value = "sortBy", required = true) String sortBy,
+			@RequestParam(value = "orderBy", required = true) String orderBy) throws WebApiException {
 
 		try {
 			if (equityResearchFilter.getGeo() == null) {
 				throw new Exception("Equity Research filter Error - Geo must not be null !!");
 			}
 
-			Map<String, EquityResearchResult> researchReport = (Map<String, EquityResearchResult>) equityResearchService.getResearchReportTableData(equityResearchFilter, pageNumber);
+			Map<String, EquityResearchResult> researchReport = (Map<String, EquityResearchResult>) equityResearchService
+					.getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
 			Map<String, Collection<EquityResearchResult>> searchResult = new HashMap<>();
 			searchResult.put(type, researchReport.values());
 			return searchResult;
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getResearchResultTableData(...) method", e);
+			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
+					"Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getResearchResultTableData(...) method",
+					e);
 			logger.error("Web API Error: " + apiErrorMessage);
 			throw new WebApiException(apiErrorMessage);
 		}
@@ -78,13 +84,16 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 
 	@Override
 	public Map<String, EquityResearchResult> getResearchResultDashboardData(
-			@RequestParam(value = "type", required = true) String type,
-			@RequestParam(value = "productId", required = true) String productId,
 			@RequestBody EquityResearchFilter equityResearchFilter,
-			@RequestParam(value = "ofPage", required = true) String ofPage) throws WebApiException {
+			@RequestParam(value = "type", required = true) String type,
+			@RequestParam(value = "pageNumber", required = true) String pageNumber,
+			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords,
+			@RequestParam(value = "sortBy", required = true) String sortBy,
+			@RequestParam(value = "orderBy", required = true) String orderBy,
+			@RequestParam(value = "productId", required = true) String productId) throws WebApiException {
 		try {
 			Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService
-					.getResearchReportTableData(equityResearchFilter, ofPage);
+					.getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
 			EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData
 					.get(productId);
 			Map<String, EquityResearchResult> dashboardResult = new HashMap<>();
@@ -92,7 +101,9 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 			dashboardResult.put(type, absResearchReportResult);
 			return dashboardResult;
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getResearchResultDashboardData(...) method", e);
+			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
+					"Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getResearchResultDashboardData(...) method",
+					e);
 			logger.error("Web API Error: " + apiErrorMessage);
 			throw new WebApiException(apiErrorMessage);
 		}
@@ -114,13 +125,16 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 				FileCopyUtils.copy(in, response.getOutputStream());
 			}
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> downloadResearchReport(...) method", e);
+			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
+					"Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> downloadResearchReport(...) method",
+					e);
 			logger.error("Web API Error: " + apiErrorMessage);
 			throw new WebApiException(apiErrorMessage);
 		}
 	}
 
-	private String buildReportPath(HttpServletRequest request, String reportFileName,String vendorName) throws Exception {
+	private String buildReportPath(HttpServletRequest request, String reportFileName, String vendorName)
+			throws Exception {
 		String loggedInUser = vendorName;
 		String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
 		String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator
@@ -129,14 +143,19 @@ public class WebEquityResearchReport implements WebResearchReportIfc {
 	}
 
 	@Override
-	public String getRecordStatistics(@RequestBody EquityResearchFilter equityResearchFilter, @RequestParam(value = "type", required = true) String type) throws WebApiException {
+	public String getRecordStatistics(@RequestBody EquityResearchFilter equityResearchFilter,
+			@RequestParam(value = "type", required = true) String type,
+			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords)
+					throws WebApiException {
 		try {
 			if (!"equity".equals(type)) {
 				throw new Exception("Research Report type must be equity !!");
 			}
-			return equityResearchService.getRecordStatistics(equityResearchFilter);
+			return equityResearchService.getRecordStatistics(equityResearchFilter, perPageMaxRecords);
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getTotalRecordCount(...) method", e);
+			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
+					"Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getTotalRecordCount(...) method",
+					e);
 			logger.error("Web API Error: " + apiErrorMessage);
 			throw new WebApiException(apiErrorMessage);
 		}

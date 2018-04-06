@@ -24,17 +24,20 @@ public class EquityResearchReportService extends AbsResearchReportService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult>  getResearchReportTableData(T rrfilter, String pageNumber) throws Exception {
+	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult> getResearchReportTableData(
+			T rrfilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
 		try {
-			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao.findResearchReportTableData(rrfilter, pageNumber);
-		} catch (RuntimeException e) {// TODO need to replace with custom Exception
+			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao
+					.findResearchReportTableData(rrfilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
+		} catch (RuntimeException e) {// TODO need to replace with custom
+										// Exception
 			throw new Exception(e);
 		}
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public <T extends ResearchReportFilter> String  getRecordStatistics(T rrfilter) {
-		return equityReserachReportDao.getRecordStatistics(rrfilter);
+	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords) {
+		return equityReserachReportDao.getRecordStatistics(rrfilter,perPageMaxRecords);
 	}
 }

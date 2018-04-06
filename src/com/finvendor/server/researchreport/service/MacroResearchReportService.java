@@ -25,12 +25,12 @@ public class MacroResearchReportService extends AbsResearchReportService {
 
 	@Override
 	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult> getResearchReportTableData(
-			T rrfilter, String pageNumber) throws Exception {
+			T rrfilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
 		return null;
 	}
 
 	@Override
-	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter) {
+	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords) {
 		return null;
 	}
 }

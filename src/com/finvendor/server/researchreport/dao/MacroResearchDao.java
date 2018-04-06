@@ -17,15 +17,15 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
 public class MacroResearchDao extends AbsResearchReportDao {
 
 	@Override
-	public Map<String, ? extends AbsResearchReportResult> findResearchReportTableData(ResearchReportFilter filter,String offset)
-			throws RuntimeException {
+	public Map<String, ? extends AbsResearchReportResult> findResearchReportTableData(ResearchReportFilter filter,
+			String offset, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
 		return null;
 	}
 
 	@Override
-	public String getRecordStatistics(ResearchReportFilter filter) throws RuntimeException {
+	public String getRecordStatistics(ResearchReportFilter filter, String perPageMaxRecords) throws RuntimeException {
+		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

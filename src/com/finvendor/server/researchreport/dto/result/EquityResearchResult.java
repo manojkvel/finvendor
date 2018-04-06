@@ -1,5 +1,8 @@
 package com.finvendor.server.researchreport.dto.result;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.finvendor.server.researchreport.dto.result.ifc.AbsEquitySectorResearchResult;
 
@@ -9,7 +12,7 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsEquitySectorResearc
  * @since 03-Feb-2018
  */
 @JsonPropertyOrder({ "companyId", "company", "style", "mcap", "sector", "subSector", "broker", "since", "awarded", "researchedByCfa",
-		"brokerRank", "brokerRankLargeCap", "brokerRankMidCap", "brokerRankSmallCap","brokerRankMicroCap", "cmp", "priceDate", "pe",
+		"brokerRank", "cmp", "priceDate", "pe",
 		"_3YrPatGrowth", "recommType", "targetPrice", "priceAtRecomm", "upside", "report", "researchDate",
 		"analystName" })
 public class EquityResearchResult extends AbsEquitySectorResearchResult {
@@ -19,10 +22,7 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String style;
 	private String mcap;
 
-	private String brokerRankLargeCap;
-	private String brokerRankMidCap;
-	private String brokerRankSmallCap;
-	private String brokerRankMicroCap;
+	private Map<String,String> brokerRank;
 
 	private String cmp;
 	private String priceDate;
@@ -76,39 +76,6 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 
 	public void setMcap(String mcap) {
 		this.mcap = mcap;
-	}
-
-	public String getBrokerRankLargeCap() {
-		return brokerRankLargeCap;
-	}
-
-	public void setBrokerRankLargeCap(String brokerRankLargeCap) {
-		this.brokerRankLargeCap = brokerRankLargeCap;
-	}
-
-	public String getBrokerRankMidCap() {
-		return brokerRankMidCap;
-	}
-
-	public void setBrokerRankMidCap(String brokerRankMidCap) {
-		this.brokerRankMidCap = brokerRankMidCap;
-	}
-
-	public String getBrokerRankSmallCap() {
-		return brokerRankSmallCap;
-	}
-
-	public void setBrokerRankSmallCap(String brokerRankSmallCap) {
-		this.brokerRankSmallCap = brokerRankSmallCap;
-	}
-
-	
-	public String getBrokerRankMicroCap() {
-		return brokerRankMicroCap;
-	}
-
-	public void setBrokerRankMicroCap(String brokerRankMicroCap) {
-		this.brokerRankMicroCap = brokerRankMicroCap;
 	}
 
 	public String getCmp() {
@@ -190,6 +157,14 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 
 	public void setYrOfInCorp(String yrOfInCorp) {
 		this.yrOfInCorp = yrOfInCorp;
+	}
+
+	public Map<String, String> getBrokerRank() {
+		return brokerRank;
+	}
+
+	public void setBrokerRank(Map<String, String> brokerRank) {
+		this.brokerRank = brokerRank;
 	}
 
 	

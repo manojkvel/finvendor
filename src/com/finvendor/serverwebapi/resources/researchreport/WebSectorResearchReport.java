@@ -17,24 +17,32 @@ public class WebSectorResearchReport implements WebResearchReportIfc {
 	}
 
 	@Override
-	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(
-			EquityResearchFilter equityResearchFilter, String type,String offset) throws WebApiException {
-		return null;
-	}
-
-	@Override
 	public void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName,
 			String vendorName) throws WebApiException {
 	}
 
+
+
 	@Override
-	public Map<String, EquityResearchResult> getResearchResultDashboardData(String type, String productId,
-			EquityResearchFilter equityResearchFilter, String ofPage) throws WebApiException {
+	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(
+			EquityResearchFilter equityResearchFilter, String type, String pageNumber, String perPageMaxRecords,
+			String sortBy, String orderBy) throws WebApiException {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getRecordStatistics(EquityResearchFilter equityResearchFilter, String type) throws WebApiException {
+	public String getRecordStatistics(EquityResearchFilter equityResearchFilter, String type, String perPageMaxRecords)
+			throws WebApiException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, EquityResearchResult> getResearchResultDashboardData(EquityResearchFilter equityResearchFilter,
+			String type, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy, String productId)
+					throws WebApiException {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

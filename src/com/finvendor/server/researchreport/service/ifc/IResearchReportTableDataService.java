@@ -9,6 +9,8 @@ import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResul
  * @author ayush on Feb 18, 2018
  */
 public interface IResearchReportTableDataService {
-	<T extends ResearchReportFilter> Map<String,? extends AbsResearchReportResult> getResearchReportTableData(T rrfilter, String pageNumber) throws Exception;
-	<T extends ResearchReportFilter> String getRecordStatistics(T rrfilter);
+	<T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult> getResearchReportTableData(
+			T rrfilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws Exception;
+
+	<T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords);
 }

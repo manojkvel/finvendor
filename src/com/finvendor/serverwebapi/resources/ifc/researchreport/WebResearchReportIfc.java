@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
@@ -32,8 +33,9 @@ public interface WebResearchReportIfc {
 	 */
 	@RequestMapping(value = WebUriConstants.ResearchReport.RESEARCH_REPORTS, method = RequestMethod.POST)
 	@ResponseBody
-	Map<String,Collection<EquityResearchResult>> getResearchResultTableData(EquityResearchFilter equityResearchFilter, String type, String pageNumber) throws WebApiException;
-	
+	Map<String, Collection<EquityResearchResult>> getResearchResultTableData(EquityResearchFilter equityResearchFilter,
+			String type, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws WebApiException;
+
 	/**
 	 * 
 	 * @param type
@@ -43,9 +45,9 @@ public interface WebResearchReportIfc {
 	 */
 	@RequestMapping(value = WebUriConstants.ResearchReport.DASHBOARD_RESEARCH_REPORTS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	Map<String, EquityResearchResult>  getResearchResultDashboardData(String type, String productId,
-			EquityResearchFilter equityResearchFilter,String ofPage) throws WebApiException;
-	
+	Map<String, EquityResearchResult> getResearchResultDashboardData(EquityResearchFilter equityResearchFilter,
+			String type, String ofPage, String perPageMaxRecords, String sortBy, String orderBy,String productId) throws WebApiException;
+
 	/**
 	 * 
 	 * @param reportFilePath
@@ -54,8 +56,9 @@ public interface WebResearchReportIfc {
 	 */
 	@RequestMapping(value = WebUriConstants.ResearchReport.DOWNLOAD_RESEARCH_REPORTS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName, String vendorName) throws WebApiException;
-	
+	void downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName,
+			String vendorName) throws WebApiException;
+
 	/**
 	 * 
 	 * @return
@@ -63,7 +66,6 @@ public interface WebResearchReportIfc {
 	 */
 	@RequestMapping(value = WebUriConstants.ResearchReport.RECORD_STATS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	String getRecordStatistics(EquityResearchFilter equityResearchFilter, String type) throws WebApiException;
-	
-	
+	String getRecordStatistics(EquityResearchFilter equityResearchFilter, String type, String perPageMaxRecords) throws WebApiException;
+
 }
