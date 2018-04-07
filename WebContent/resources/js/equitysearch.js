@@ -226,10 +226,15 @@ jQuery(document).ready(function() {
 		lastPageNumber = 1;
 		totalRecords = 1;
 		currentIndex = 1;
-		//perPageMaxRecords = 5;
 	}
 	
 	var getPerPageMaxRecords = function() {
+		if(perPageMaxRecords !== Number($(this).val())) {
+			pageNumber = 1;
+			firstPageNumber = 1;
+			lastPageNumber = 1;
+			currentIndex = 1;
+		}
 		perPageMaxRecords = Number($(this).val());
 		console.log("perPageMaxRecords: " + perPageMaxRecords);
 		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
