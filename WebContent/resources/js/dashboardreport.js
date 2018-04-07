@@ -66,8 +66,11 @@ function getDashboardResearchReport() {
     var vendorName = dasboardReportJson.vendorName;
     var jsonData = dasboardReportJson.equitysearchjson;
     var pageNumber = dasboardReportJson.pageNumber;
+    var perPageMaxRecords = dasboardReportJson.perPageMaxRecords;
+    var sortByValue = dasboardReportJson.sortByValue;
+    var orderBy = dasboardReportJson.orderBy;
 
-    var url = "/system/api/dashboardResearchReports?type=equity&productId="+ id + "&ofPage="+ pageNumber;
+    var url = "/system/api/dashboardResearchReports?type=equity" + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true

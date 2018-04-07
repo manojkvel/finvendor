@@ -218,16 +218,16 @@
 										</th>
 										<th style="width:15%;">
 											<p class="large_font">
-												<a href="javascript:void(0)">Broker Rank</a>
+												<a href="javascript:void(0)" data-id="brokerRank">Broker Rank <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="brokerRankLargeCap">Large Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)">Large Cap</a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="brokerRankMidCap">Mid Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)">Mid Cap</a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="brokerRankSmallCap">Small Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)">Small Cap</a>
 											</p>
 										</th>
 										<th style="width:15%;">

@@ -147,6 +147,7 @@ body {
 
 .max_per_page select {
 	width: auto;
+	padding: 0;
 }
 
 .tooltip .tooltip-inner {
@@ -298,6 +299,15 @@ body {
 	margin-bottom: 15px;
 }
 
+.back_btn a {
+	background: #414b4f;
+    color: #fff;
+    border-radius: 15px;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
 .ads_space {
 	padding: 10px;
 	margin-bottom: 10px;
@@ -305,4 +315,11 @@ body {
 	background: #fff;
 	color: #000;
 	text-align: center;
+}
+
+@media only screen and (max-width: 480px) {
+	.dashboard_report .bd .reportDetails {
+		float: none;
+		margin: 0 0 10px 0;
+	}
 }

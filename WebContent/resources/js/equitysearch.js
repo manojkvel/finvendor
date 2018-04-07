@@ -211,6 +211,7 @@ jQuery(document).ready(function() {
 	var currentIndex = 1;
 	var perPageMaxRecords = 5;
 	var sortByValue = 'priceDate';
+	var orderBy = 'desc';
 
 	var setRecordStats = function(currentIndex, lastPageNumber) {
 		if(currentIndex > lastPageNumber) {
@@ -225,21 +226,36 @@ jQuery(document).ready(function() {
 		lastPageNumber = 1;
 		totalRecords = 1;
 		currentIndex = 1;
-		perPageMaxRecords = 5;
+		//perPageMaxRecords = 5;
 	}
 	
 	var getPerPageMaxRecords = function() {
 		perPageMaxRecords = Number($(this).val());
 		console.log("perPageMaxRecords: " + perPageMaxRecords);
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	}
 	$('#fv_equity_research_report_vendor_search .max_per_page select').on('change', getPerPageMaxRecords);
 	
 
 	var getSortedByValue = function() {
-		console.log($(this).attr('data-id'));
+		
+		if($(this).attr('data-id') == undefined) {
+			return;
+		}
+		
+		if($(this).attr('data-id') == sortByValue) {
+			
+			if(orderBy == "desc") {
+				orderBy = "asc";
+			} else if(orderBy == "asc") {
+				orderBy = "desc";
+			}
+		} else {
+			orderBy = "desc";
+		}
+
 		sortByValue = $(this).attr('data-id');
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	}
 	$('#broker_table thead a').on('click', getSortedByValue);
 
@@ -260,7 +276,7 @@ jQuery(document).ready(function() {
 		if(currentNumber != firstPageNumber) {
 			pageNumber = firstPageNumber;
 			currentIndex = firstPageNumber;
-			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		}
 	};
 
@@ -268,7 +284,7 @@ jQuery(document).ready(function() {
 		if(currentNumber != lastPageNumber) {
 			pageNumber = lastPageNumber;
 			currentIndex = (pageNumber - 1) * perPageMaxRecords + 1;
-			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		}
 	};
 
@@ -276,7 +292,7 @@ jQuery(document).ready(function() {
 		if(currentNumber < lastPageNumber) {
 			pageNumber = currentNumber + 1;
 			currentIndex = currentIndex + perPageMaxRecords;
-			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		}
 	};
 
@@ -284,14 +300,14 @@ jQuery(document).ready(function() {
 		if(currentNumber > 1) {
 			pageNumber = currentNumber - 1;
 			currentIndex = currentIndex - perPageMaxRecords;
-			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		}
 	};
 
-	function loadDefaultEquityList(jsonData) {
+	function loadDefaultEquityList(jsonData, perPageMaxRecords) {
 		isProgressLoader(true);
 
-		getRecordStats("equity", jsonData).then(function(stats) {
+		getRecordStats("equity", jsonData, perPageMaxRecords).then(function(stats) {
 			stats = JSON.parse(stats);
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
@@ -322,7 +338,10 @@ jQuery(document).ready(function() {
 			equitysearchjson : window.localStorage.getItem("equitysearchjson"),
 			productId : productId,
 			vendorName : vendorName,
-			pageNumber : pageNumber
+			pageNumber : pageNumber,
+    		perPageMaxRecords : perPageMaxRecords,
+    		sortByValue : sortByValue,
+    		orderBy : orderBy
 		}
 		window.localStorage.setItem('dasboardReportJson', JSON.stringify(dasboardReportJson));
 	};
@@ -334,7 +353,7 @@ jQuery(document).ready(function() {
 			"geo": "1"
 		};
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
     $('#sidebar-panel .sidebar-heading span').on('click', resetFilters);
@@ -359,11 +378,11 @@ jQuery(document).ready(function() {
 	};
 
 	window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-	loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+	loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 
 	function getResearchReport(jsonData, researchType, pageNumber) {
 
-		var url = "/system/api/researchReports?type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue;
+		var url = "/system/api/researchReports?type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -394,8 +413,8 @@ jQuery(document).ready(function() {
 	/**
      * Function to start async call to get record stats
      */
-	function getRecordStats(researchType, jsonData) {
-		var url = "/system/api/researchReports/recordStats?type=" + researchType;
+	function getRecordStats(researchType, jsonData, perPageMaxRecords) {
+		var url = "/system/api/researchReports/recordStats?type=" + researchType + "&perPageMaxRecords=" + perPageMaxRecords;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
@@ -494,7 +513,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
 
@@ -566,7 +585,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
 
@@ -633,7 +652,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
 
@@ -682,7 +701,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
 
@@ -730,7 +749,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
 
@@ -779,7 +798,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
 	/**
@@ -826,7 +845,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
     /**
@@ -874,7 +893,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
 
@@ -923,7 +942,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
 
@@ -972,7 +991,7 @@ jQuery(document).ready(function() {
 		
 		resetPaginationCount();
 		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")));
+		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 	};
 
 

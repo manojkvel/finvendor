@@ -17,6 +17,13 @@
 	
 	<div class="container">
 		<div class="row">
+			<div class="col-xs-12">
+				<div class="back_btn">
+					<a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp"><< Back</a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-xs-12 col-sm-9">
 				<div id="dashboard_report">
 
