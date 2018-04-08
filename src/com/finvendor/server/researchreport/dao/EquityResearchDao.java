@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
@@ -256,7 +258,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 	}
 
 	private Map<String, Integer> prepareVendorSinceData(String sortBy, String orderBy) {
-		Map<String,Integer> sortedVendorIdWithLyMap			= new LinkedHashMap<>();
+		Map<String,Integer> sortedVendorIdWithLyMap	= new LinkedHashMap<>();
 		Map<String, Integer> vendorIdWithLyMap 	= vendorIdWithLyMap(orderBy);
 		if ("since".equals(sortBy)) {
 			List<Entry<String, Integer>> list=new ArrayList<>(vendorIdWithLyMap.entrySet());
@@ -711,14 +713,19 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		return baseSqlSb.toString();
 	}
 
+	private String convertCamelCase(String str){
+		String replace = StringUtils.replace(str, " ", "");
+		replace=replace.substring(0, 1).toLowerCase()+replace.substring(1);
+		return replace;
+	}
 	private Map<String, String> getBrokerRank(List<BrokerRankInfo> brokerRankData, String brokerId,
 			EquityResearchFilter equityFilter) {
 		Map<String, String> brokerRankAndMcapMap = new LinkedHashMap<>();
 		for (BrokerRankInfo brokerRankInfo : brokerRankData) {
 			if (brokerRankInfo.getBrokerId().equals(brokerId)) {
 				String rank = brokerRankInfo.getRank();
-				String capName = brokerRankInfo.getCapName();
-				brokerRankAndMcapMap.put(rank, capName);
+				String capName = convertCamelCase(brokerRankInfo.getCapName());
+				brokerRankAndMcapMap.put(capName,rank.substring(0,1));
 			}
 		}
 		
@@ -727,23 +734,23 @@ public class EquityResearchDao extends AbsResearchReportDao {
 			List<String> mcapList = equityFilter.getMcap();
 			for (String mcap : mcapList) {
 				if (mcap.contains("Large Cap")) {
-					mcapActualList.add("Large Cap");
+					mcapActualList.add("largeCap");
 				}
 
 				if (mcap.contains("Mid Cap")) {
-					mcapActualList.add("Mid Cap");
+					mcapActualList.add("midCap");
 				}
 
 				if (mcap.contains("Small Cap")) {
-					mcapActualList.add("Small Cap");
+					mcapActualList.add("smallCap");
 				}
 
 				if (mcap.contains("Micro Cap")) {
-					mcapActualList.add("Micro Cap");
+					mcapActualList.add("microCap");
 				}
 
 				if (mcap.contains("Nano Cap")) {
-					mcapActualList.add("Nano Cap");
+					mcapActualList.add("nanoCap");
 				}
 			}
 			if (equityFilter.getBrokerRank() != null) {
@@ -752,11 +759,11 @@ public class EquityResearchDao extends AbsResearchReportDao {
 				//filter brokerRankAndMcapMap
 				Map<String, String> filteredbrokerRankAndMcapMap = new LinkedHashMap<>();
 				for(Map.Entry<String, String> entry:brokerRankAndMcapMap.entrySet()){
-					String mcapName = entry.getValue();
-					String rank = entry.getKey();
+					String mcapName = entry.getKey();
+					String rank = entry.getValue();
 					if(mcapActualList.indexOf(mcapName) !=-1) {
 						String string = brokerRankList.toString();
-						if(string.contains(""+rank.charAt(0))){
+						if(string.contains(rank)){
 							filteredbrokerRankAndMcapMap.put(entry.getKey(),entry.getValue());
 						}
 					}
