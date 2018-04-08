@@ -111,7 +111,8 @@ public class EquityResearchDao extends AbsResearchReportDao {
 				equityResult.setMcap(row[3] != null ? row[3].toString() : "");
 				equityResult.setSector(row[4] != null ? row[4].toString() : "");
 				equityResult.setCmp(row[5] != null ? row[5].toString() : "");
-				equityResult.setPriceDate(row[6] != null ? row[6].toString() : "");
+				
+				equityResult.setPriceDate(String.valueOf(convertStringToTimestamp(row[6] != null ? row[6].toString() : "")));
 				equityResult.setPe(row[7] != null ? row[7].toString() : "");
 				equityResult.set_3YrPatGrowth(row[8] != null ? row[8].toString() : "");
 
