@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
@@ -41,7 +40,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 	@Autowired
 	private ICommonDao commonDao;
 	
-	private String mainQuery="select x.comapanyId,x.companyName,x.style,x.mcap,x.sector,x.cmp,x.prcDt,x.pe,x.patGrth,y.companyId,y.prdId,y.broker,y.recommType,y.tgtPrice,y.prcAtRecomm,y.upside,y.rptName,y.rsrchDt,y.award,y.cfa,y.analystName,y.analystType,y.vendorId,y.ly,y.userName,y.rptDesc from(SELECT rsch_sub_area_company_dtls.company_id comapanyId,rsch_sub_area_company_dtls.company_name companyName,rsch_area_stock_class.stock_class_name style,market_cap_def.market_cap_name mcap,research_sub_area.description sector,stock_historial_prices.close_price cmp,stock_historial_prices.price_date prcDt,stock_current_info.pe pe,stock_current_info.3_yr_path_growth patGrth FROM rsch_sub_area_company_dtls,rsch_area_stock_class,market_cap_def,comp_mkt_cap_type,research_sub_area,stock_historial_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_historial_prices.stock_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND research_sub_area.research_area_id = 7 AND country.country_id = ?) x inner join (SELECT distinct ven_rsrch_rpt_dtls.company_id companyId,ven_rsrch_rpt_offering.product_id prdId, vendor.company broker ,ven_rsrch_rpt_dtls.rsrch_recomm_type recommType,ven_rsrch_rpt_dtls.target_price tgtPrice,ven_rsrch_rpt_dtls.price_at_recomm prcAtRecomm,((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100 upside, ven_rsrch_rpt_dtls.rsrch_upload_report rptName,ven_rsrch_rpt_dtls.rep_date rsrchDt,ven_rsrch_rpt_analyst_prof.analyst_awards award,ven_rsrch_rpt_analyst_prof.anayst_cfa_charter cfa, ven_rsrch_rpt_analyst_prof.analyst_name analystName,vendor.analystType analystType,vendor.vendor_id vendorId,ven_rsrch_rpt_offering.launched_year ly,vendor.username userName,ven_rsrch_rpt_dtls.rsrch_report_desc rptDesc FROM ven_rsrch_rpt_offering,ven_rsrch_rpt_dtls,ven_rsrch_rpt_analyst_prof,vendor,broker_analyst WHERE ven_rsrch_rpt_offering.product_id = ven_rsrch_rpt_dtls.product_id and ven_rsrch_rpt_dtls.product_id = ven_rsrch_rpt_analyst_prof.product_id and ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id and vendor.vendor_id = broker_analyst.broker_id AND ven_rsrch_rpt_offering.research_area = 7) y on x.comapanyId = y.companyId";
+	private String mainQuery="select x.comapanyId,x.companyName,x.style,x.mcap,x.sector,x.cmp,x.prcDt,x.pe,x.patGrth,y.companyId,y.prdId,y.broker,y.recommType,y.tgtPrice,y.prcAtRecomm,y.upside,y.rptName,y.rsrchDt,y.award,y.cfa,y.analystName,y.analystType,y.vendorId,y.ly,y.userName,y.rptDesc from(SELECT rsch_sub_area_company_dtls.company_id comapanyId,rsch_sub_area_company_dtls.company_name companyName,rsch_area_stock_class.stock_class_name style,market_cap_def.market_cap_name mcap,research_sub_area.description sector,stock_historial_prices.close_price cmp,stock_historial_prices.price_date prcDt,stock_current_info.pe pe,stock_current_info.3_yr_path_growth patGrth FROM rsch_sub_area_company_dtls,rsch_area_stock_class,market_cap_def,comp_mkt_cap_type,research_sub_area,stock_historial_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_historial_prices.stock_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND research_sub_area.research_area_id = 7 AND country.country_id = ?) x inner join (SELECT distinct ven_rsrch_rpt_dtls.company_id companyId,ven_rsrch_rpt_offering.product_id prdId, vendor.company broker ,ven_rsrch_rpt_dtls.rsrch_recomm_type recommType,ven_rsrch_rpt_dtls.target_price tgtPrice,ven_rsrch_rpt_dtls.price_at_recomm prcAtRecomm,((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100 upside, SUBSTRING_INDEX(ven_rsrch_rpt_dtls.rsrch_upload_report, '/', -1) rptName,ven_rsrch_rpt_dtls.rep_date rsrchDt,ven_rsrch_rpt_analyst_prof.analyst_awards award,ven_rsrch_rpt_analyst_prof.anayst_cfa_charter cfa, ven_rsrch_rpt_analyst_prof.analyst_name analystName,vendor.analystType analystType,vendor.vendor_id vendorId,ven_rsrch_rpt_offering.launched_year ly,vendor.username userName,ven_rsrch_rpt_dtls.rsrch_report_desc rptDesc FROM ven_rsrch_rpt_offering,ven_rsrch_rpt_dtls,ven_rsrch_rpt_analyst_prof,vendor,broker_analyst WHERE ven_rsrch_rpt_offering.product_id = ven_rsrch_rpt_dtls.product_id and ven_rsrch_rpt_dtls.product_id = ven_rsrch_rpt_analyst_prof.product_id and ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id and vendor.vendor_id = broker_analyst.broker_id AND ven_rsrch_rpt_offering.research_area = 7) y on x.comapanyId = y.companyId";
 	
 	enum ColumnType {
 		DECIMAL, DATE, STRING;
@@ -81,9 +80,6 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		put("since", new ColumnNameWithType("y.ly", ColumnType.STRING));
 		put("awarded", new ColumnNameWithType("y.award", ColumnType.STRING));
 		put("researchedByCfa", new ColumnNameWithType("y.cfa", ColumnType.STRING));
-		put("brokerRankLargeCap", null);
-		put("brokerRankMidCap", null);
-		put("brokerRankSmallCap", null);
 		put("cmp", new ColumnNameWithType("x.cmp", ColumnType.DECIMAL));
 		put("priceDate", new ColumnNameWithType("x.prcDt", ColumnType.DATE));
 		put("pe", new ColumnNameWithType("x.pe", ColumnType.DECIMAL));
@@ -92,8 +88,10 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		put("targetPrice", new ColumnNameWithType("y.tgtPrice", ColumnType.DECIMAL));
 		put("priceAtRecomm", new ColumnNameWithType("y.prcAtRecomm", ColumnType.DECIMAL));
 		put("upside", new ColumnNameWithType("y.upside", ColumnType.DECIMAL));
+		put("report", new ColumnNameWithType("y.rptName", ColumnType.STRING));
 		put("researchDate", new ColumnNameWithType("y.rsrchDt", ColumnType.DATE));
 		put("analystName", new ColumnNameWithType("y.analystName", ColumnType.STRING));
+		
 	}};
 	
 	static class BrokerRankInfo {
@@ -139,12 +137,6 @@ public class EquityResearchDao extends AbsResearchReportDao {
 	}
 	
 	private String getOrderByColumnNamesForVendor(String sortBy, String orderBy) {
-		//skip order by for derived column since or brokerRankLargeCap or brokerRankMidCap or brokerRankSmallCap
-//		if (("brokerRankLargeCap".equals(sortBy) || "brokerRankMidCap".equals(sortBy)
-//				|| "brokerRankSmallCap".equals(sortBy))) {
-//			return "";
-//		}
-		
 		String queryOrderByClause;
 		if("asc".equals(orderBy)){
 			queryOrderByClause=" ASC, ";
@@ -257,25 +249,6 @@ public class EquityResearchDao extends AbsResearchReportDao {
 			
 			//brokerRank Sorting
 			List<BrokerRankInfo> brokerRankData = getBrokerRankData(orderBy);
-//			if (("brokerRankLargeCap".equals(sortBy) || "brokerRankMidCap".equals(sortBy)
-//					|| "brokerRankSmallCap".equals(sortBy))) {
-//				if ("asc".equals(orderBy)) {
-//					Collections.sort(brokerRankData, new Comparator<BrokerRankInfo>() {
-//						@Override
-//						public int compare(BrokerRankInfo o1, BrokerRankInfo o2) {
-//							return o1.getRank().compareTo(o2.getRank());
-//						}
-//					});
-//				} else {
-//					Collections.sort(brokerRankData, new Comparator<BrokerRankInfo>() {
-//						@Override
-//						public int compare(BrokerRankInfo o1, BrokerRankInfo o2) {
-//
-//							return o2.getRank().compareTo(o1.getRank());
-//						}
-//					});
-//				}
-//			}
 			
 			String queryWithAppliedFilter = applyFilter(mainQuery, equityFilter);
 			String applyOrderBy = getOrderByColumnNamesForVendor(sortBy, orderBy);
@@ -457,12 +430,8 @@ public class EquityResearchDao extends AbsResearchReportDao {
 	
 	private String applyFilter(String baseSql, EquityResearchFilter equityFilter) {
 		StringBuffer baseSqlSb = new StringBuffer(baseSql);
-		if (equityFilter.getMcap() != null || equityFilter.getStyle() != null || equityFilter.getAnalystType() != null
-				|| equityFilter.getResearchedBroker() != null || equityFilter.getBrokerYrOfInCorp() != null
-				|| equityFilter.getBrokerRank() != null || equityFilter.getRecommType() != null
-				|| equityFilter.getOthers() != null || equityFilter.getUpside() != null) {
-			baseSqlSb.append(" where ");
-		}
+		StringBuffer conditionSqlSb = new StringBuffer();
+		List<String> conditionQuery=new ArrayList<>();
 		if (equityFilter.getBrokerRank() == null) {
 			// MCap filter applied
 			if (equityFilter.getMcap() != null) {
@@ -489,28 +458,38 @@ public class EquityResearchDao extends AbsResearchReportDao {
 						mcapActualList.add("Nano Cap");
 					}
 				}
-				baseSqlSb.append("x.mcap in (").append(getItems(mcapActualList)).append(")");
+				conditionSqlSb.append("x.mcap in (").append(getItems(mcapActualList)).append(")");
+				conditionQuery.add(conditionSqlSb.toString());
+				conditionSqlSb.setLength(0);
 			}
 		}
 
 		// #Style filter applied
 		if (equityFilter.getStyle() != null) {
-			baseSqlSb.append(" and x.style in (").append(getItems(equityFilter.getStyle())).append(")");
+			conditionSqlSb.append(" x.style in (").append(getItems(equityFilter.getStyle())).append(")");
+			conditionQuery.add(conditionSqlSb.toString());
+			conditionSqlSb.setLength(0);
 		}
 		
 		//AnalystType filter applied
 		if (equityFilter.getAnalystType() != null) {
-			baseSqlSb.append(" and y.analystType in (").append(getItems(equityFilter.getAnalystType())).append(")");
+			conditionSqlSb.append(" y.analystType in (").append(getItems(equityFilter.getAnalystType())).append(")");
+			conditionQuery.add(conditionSqlSb.toString());
+			conditionSqlSb.setLength(0);
 		}
 
 		//ResearchBroker filter applied
 		if (equityFilter.getResearchedBroker() != null) {
-			baseSqlSb.append(" and y.broker in (").append(getItems(equityFilter.getResearchedBroker())).append(")");
+			conditionSqlSb.append(" y.broker in (").append(getItems(equityFilter.getResearchedBroker())).append(")");
+			conditionQuery.add(conditionSqlSb.toString());
+			conditionSqlSb.setLength(0);
 		}
 
 		//RecommType filter applied
 		if (equityFilter.getRecommType() != null) {
-			baseSqlSb.append(" and y.recommType in (").append(getItems(equityFilter.getRecommType())).append(")");
+			conditionSqlSb.append(" y.recommType in (").append(getItems(equityFilter.getRecommType())).append(")");
+			conditionQuery.add(conditionSqlSb.toString());
+			conditionSqlSb.setLength(0);
 		}
 
 		//Others filter applied
@@ -522,10 +501,10 @@ public class EquityResearchDao extends AbsResearchReportDao {
 				String otherOption = others.get(0);
 				if (otherOption.contains("Award")) {
 					otherOptionList.add("Y");
-					appendFilterWithInClause(baseSqlSb, "ven_rsrch_rpt_analyst_prof.analyst_awards", otherOptionList,true);
+					conditionSqlSb.append(" y.award in (").append(getItems(otherOptionList)).append(")");
 				} else if (otherOption.contains("CFA")) {
 					otherOptionList.add("Y");
-					appendFilterWithInClause(baseSqlSb, "ven_rsrch_rpt_analyst_prof.anayst_cfa_charter",otherOptionList, true);
+					conditionSqlSb.append(" y.cfa in (").append(getItems(otherOptionList)).append(")");
 				}
 			} else if (others.size() == 2) {
 				String otherOption1 = others.get(0);
@@ -534,24 +513,25 @@ public class EquityResearchDao extends AbsResearchReportDao {
 				// expect following order for others option
 				if (otherOption1 != null && otherOption1.contains("Award")) {
 					otherOptionList.add("Y");
-					appendFilterWithInClause(baseSqlSb, "ven_rsrch_rpt_analyst_prof.analyst_awards", otherOptionList,true);
+					conditionSqlSb.append(" y.award in (").append(getItems(otherOptionList)).append(")");
 				}
 
 				if (otherOption2 != null && otherOption2.contains("CFA")) {
 					otherOptionList.add("Y");
-					appendFilterWithInClause(baseSqlSb, "ven_rsrch_rpt_analyst_prof.anayst_cfa_charter",otherOptionList, true);
+					conditionSqlSb.append(" and y.cfa in (").append(getItems(otherOptionList)).append(")");
 				}
 			} else {
 				// throw Invalid Filter Exception TODO
 			}
+			conditionQuery.add(conditionSqlSb.toString());
+			conditionSqlSb.setLength(0);
 		}
 
 		//Upside filter applied
 		if (equityFilter.getUpside() != null && equityFilter.getUpside().size() > 0) {
 			List<String> upsideValueList = equityFilter.getUpside();
 			//Upside Formula
-			String filterCondition = "((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100";
-			baseSqlSb.append(" AND (");
+			String filterCondition = "y.upside";
 			List<String> upsideConditions=new ArrayList<>();
 			StringBuffer upsideStrSb=new StringBuffer();
 
@@ -589,14 +569,28 @@ public class EquityResearchDao extends AbsResearchReportDao {
 
 			for (int i = 0; i < upsideConditions.size(); i++) {
 				if (i >= 1 && i < upsideConditions.size()) {
-					baseSqlSb.append(" OR " + upsideConditions.get(i));
+					conditionSqlSb.append(" OR " + upsideConditions.get(i));
 				} else {
-					baseSqlSb.append(upsideConditions.get(i));
+					conditionSqlSb.append(upsideConditions.get(i));
 				}
 			}
-			baseSqlSb.append(")");
+			conditionQuery.add(conditionSqlSb.toString());
+			conditionSqlSb.setLength(0);
 		}
-		
+		if (conditionQuery.size() != 0) {
+			conditionSqlSb.append(" where ");
+			if (conditionQuery.size() == 1) {
+				conditionSqlSb.append(conditionQuery.get(0));
+			} else {
+				int i = 0;
+				for (; i < conditionQuery.size() - 1; i++) {
+					conditionSqlSb.append(conditionQuery.get(i)).append(" AND ");
+				}
+				conditionSqlSb.append(conditionQuery.get(i));
+
+			}
+			baseSqlSb.append(conditionSqlSb);
+		}
 		return baseSqlSb.toString();
 	}
 
@@ -719,7 +713,17 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		return baseSqlSb.toString();
 	}
 
-	private Map<String,String> getBrokerRank(List<BrokerRankInfo> brokerRankData ,String brokerId,EquityResearchFilter equityFilter) {
+	private Map<String, String> getBrokerRank(List<BrokerRankInfo> brokerRankData, String brokerId,
+			EquityResearchFilter equityFilter) {
+		Map<String, String> brokerRankAndMcapMap = new LinkedHashMap<>();
+		for (BrokerRankInfo brokerRankInfo : brokerRankData) {
+			if (brokerRankInfo.getBrokerId().equals(brokerId)) {
+				String rank = brokerRankInfo.getRank();
+				String capName = brokerRankInfo.getCapName();
+				brokerRankAndMcapMap.put(rank, capName);
+			}
+		}
+		
 		List<String> mcapActualList = new ArrayList<>();
 		if (equityFilter.getMcap() != null) {
 			List<String> mcapList = equityFilter.getMcap();
@@ -744,15 +748,23 @@ public class EquityResearchDao extends AbsResearchReportDao {
 					mcapActualList.add("Nano Cap");
 				}
 			}
-		}
-		
-		Map<String,String> brokerRankAndMcapMap=new LinkedHashMap<>();
-		for (BrokerRankInfo brokerRankInfo : brokerRankData) {
-			if (brokerRankInfo.getBrokerId().equals(brokerId)) {
-				String rank = brokerRankInfo.getRank();
-				String capName = brokerRankInfo.getCapName();
-				brokerRankAndMcapMap.put(rank, capName);
+			if (equityFilter.getBrokerRank() != null) {
+				List<String> brokerRankList = equityFilter.getBrokerRank();
+				//filter brokerRankAndMcapMap
+				Map<String, String> filteredbrokerRankAndMcapMap = new LinkedHashMap<>();
+				for(Map.Entry<String, String> entry:brokerRankAndMcapMap.entrySet()){
+					String mcapName = entry.getValue();
+					String rank = entry.getKey();
+					if(mcapActualList.indexOf(mcapName) !=-1) {
+						String string = brokerRankList.toString();
+						if(string.contains(""+rank.charAt(0))){
+							filteredbrokerRankAndMcapMap.put(entry.getKey(),entry.getValue());
+						}
+					}
+				}
+				return filteredbrokerRankAndMcapMap;
 			}
+			
 		}
 		return brokerRankAndMcapMap;
 		
