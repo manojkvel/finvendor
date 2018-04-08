@@ -376,6 +376,10 @@ jQuery(document).ready(function() {
     	recommTypeData = [];
     	upsideFilterData = [];
     	othersFilterData = [];
+
+    	/*To clear Research Broker/Analyst*/
+    	$("#search_broker").val('');
+    	$("#search_by_researchbroker_ul li").show();
     };
 
 	var localEquitySearchJson = {
