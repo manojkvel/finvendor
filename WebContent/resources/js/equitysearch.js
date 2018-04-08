@@ -210,7 +210,7 @@ jQuery(document).ready(function() {
 	var totalRecords = 1;
 	var currentIndex = 1;
 	var perPageMaxRecords = 5;
-	var sortByValue = 'priceDate';
+	var sortByValue = 'researchDate';
 	var orderBy = 'desc';
 
 	var setRecordStats = function(currentIndex, lastPageNumber) {
