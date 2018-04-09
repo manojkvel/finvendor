@@ -142,7 +142,7 @@ body {
 
 .max_per_page {
 	float: right;
-	padding: 10px;
+	padding: 2px 10px;
 }
 
 .max_per_page select {
