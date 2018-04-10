@@ -221,13 +221,13 @@
 												<a href="javascript:void(0)">Broker Rank</a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="brokerRankLargeCap">Large Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="brokerRank">Large Cap <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="brokerRankMidCap">Mid Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="brokerRank">Mid Cap <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="brokerRankSmallCap">Small Cap <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="brokerRank">Small Cap <i class="fa fa-sort"></i></a>
 											</p>
 										</th>
 										<th style="width:15%;">
