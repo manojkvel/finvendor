@@ -12,7 +12,6 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
@@ -45,7 +44,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 	public String getRecordStatistics(ResearchReportFilter filter, String perPageMaxRecords) throws RuntimeException {
 		EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
 		
-		String queryWithAppliedFilter = applyFilter(mainQuery, getFilteredQueryPartNew(equityFilter));
+		String queryWithAppliedFilter = applyFilter(mainQuery, getFilteredQueryPart(equityFilter));
 		SQLQuery query = commonDao.getSql(queryWithAppliedFilter,  new String[]{equityFilter.getGeo()});
 		List<Object[]> rows = query.list();
 		int totalRecords=rows.size();
@@ -89,7 +88,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 			List<BrokerRankInfo> brokerRankData = getBrokerRankData(orderBy);
 			
 			//Apply filter in main query
-			String queryWithAppliedFilter 	= applyFilter(mainQuery, getFilteredQueryPartNew(equityFilter));
+			String queryWithAppliedFilter 	= applyFilter(mainQuery, getFilteredQueryPart(equityFilter));
 			
 			//Apply OrderBy
 			String applyOrderBy 			= applyOrderBy(sortBy, orderBy);
@@ -322,7 +321,7 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		return vendorIdMap;
 	}
 	
-	private String getFilteredQueryPartNew(EquityResearchFilter equityFilter) {
+	private String getFilteredQueryPart(EquityResearchFilter equityFilter) {
 		StringBuffer conditionSqlSb 	= 	new StringBuffer();
 		List<String> conditionQueryList	=	new ArrayList<>();
 		
@@ -490,171 +489,6 @@ public class EquityResearchDao extends AbsResearchReportDao {
 		return actualMcapList;
 	}
 	
-	private String getFilteredQueryPart(EquityResearchFilter equityFilter) {
-		StringBuffer conditionSqlSb = new StringBuffer();
-		List<String> conditionQueryList=new ArrayList<>();
-		if (equityFilter.getBrokerRank() == null) {
-			// MCap filter applied
-			if (equityFilter.getMcap() != null) {
-				List<String> mcapList = equityFilter.getMcap();
-				List<String> mcapActualList = new ArrayList<>();
-				for (String mcap : mcapList) {
-					if (mcap.contains("Large Cap")) {
-						mcapActualList.add("Large Cap");
-					}
-
-					if (mcap.contains("Mid Cap")) {
-						mcapActualList.add("Mid Cap");
-					}
-
-					if (mcap.contains("Small Cap")) {
-						mcapActualList.add("Small Cap");
-					}
-
-					if (mcap.contains("Micro Cap")) {
-						mcapActualList.add("Micro Cap");
-					}
-
-					if (mcap.contains("Nano Cap")) {
-						mcapActualList.add("Nano Cap");
-					}
-				}
-				conditionSqlSb.append("x.mcap in (").append(getInClauseItems(mcapActualList)).append(")");
-				conditionQueryList.add(conditionSqlSb.toString());
-				conditionSqlSb.setLength(0);
-			}
-		}
-
-		// #Style filter applied
-		if (equityFilter.getStyle() != null) {
-			conditionSqlSb.append(" x.style in (").append(getInClauseItems(equityFilter.getStyle())).append(")");
-			conditionQueryList.add(conditionSqlSb.toString());
-			conditionSqlSb.setLength(0);
-		}
-		
-		//AnalystType filter applied
-		if (equityFilter.getAnalystType() != null) {
-			conditionSqlSb.append(" y.analystType in (").append(getInClauseItems(equityFilter.getAnalystType())).append(")");
-			conditionQueryList.add(conditionSqlSb.toString());
-			conditionSqlSb.setLength(0);
-		}
-
-		//ResearchBroker filter applied
-		if (equityFilter.getResearchedBroker() != null) {
-			conditionSqlSb.append(" y.broker in (").append(getInClauseItems(equityFilter.getResearchedBroker())).append(")");
-			conditionQueryList.add(conditionSqlSb.toString());
-			conditionSqlSb.setLength(0);
-		}
-
-		//RecommType filter applied
-		if (equityFilter.getRecommType() != null) {
-			conditionSqlSb.append(" y.recommType in (").append(getInClauseItems(equityFilter.getRecommType())).append(")");
-			conditionQueryList.add(conditionSqlSb.toString());
-			conditionSqlSb.setLength(0);
-		}
-
-		//Others filter applied
-		if (equityFilter.getOthers() != null) {
-			List<String> others = equityFilter.getOthers();
-			List<String> otherOptionList = new ArrayList<>();
-
-			if (others.size() == 1) {
-				String otherOption = others.get(0);
-				if (otherOption.contains("Award")) {
-					otherOptionList.add("Y");
-					conditionSqlSb.append(" y.award in (").append(getInClauseItems(otherOptionList)).append(")");
-				} else if (otherOption.contains("CFA")) {
-					otherOptionList.add("Y");
-					conditionSqlSb.append(" y.cfa in (").append(getInClauseItems(otherOptionList)).append(")");
-				}
-			} else if (others.size() == 2) {
-				String otherOption1 = others.get(0);
-				String otherOption2 = others.get(1);
-
-				// expect following order for others option
-				if (otherOption1 != null && otherOption1.contains("Award")) {
-					otherOptionList.add("Y");
-					conditionSqlSb.append(" y.award in (").append(getInClauseItems(otherOptionList)).append(")");
-				}
-
-				if (otherOption2 != null && otherOption2.contains("CFA")) {
-					otherOptionList.add("Y");
-					conditionSqlSb.append(" and y.cfa in (").append(getInClauseItems(otherOptionList)).append(")");
-				}
-			} else {
-				// throw Invalid Filter Exception TODO
-			}
-			conditionQueryList.add(conditionSqlSb.toString());
-			conditionSqlSb.setLength(0);
-		}
-
-		//Upside filter applied
-		if (equityFilter.getUpside() != null && equityFilter.getUpside().size() > 0) {
-			List<String> upsideValueList = equityFilter.getUpside();
-			//Upside Formula
-			String filterCondition = "y.upside";
-			List<String> upsideConditions=new ArrayList<>();
-			StringBuffer upsideStrSb=new StringBuffer();
-
-			for (String upsideValue : upsideValueList) {
-				if ("<0%".equals(upsideValue)) {
-					upsideStrSb.append(filterCondition).append(" < ").append(" 0 ");
-					upsideConditions.add(upsideStrSb.toString());
-					upsideStrSb.setLength(0);
-				}
-
-				if ("0-20%".equals(upsideValue)) {
-					upsideStrSb.append(filterCondition).append(" BETWEEN ").append("0").append(" AND ").append("20");
-					upsideConditions.add(upsideStrSb.toString());
-					upsideStrSb.setLength(0);
-				}
-
-				if ("20-50%".equals(upsideValue)) {
-					upsideStrSb.append(filterCondition).append(" BETWEEN ").append("20").append(" AND ").append("50");
-					upsideConditions.add(upsideStrSb.toString());
-					upsideStrSb.setLength(0);
-				}
-
-				if ("50-100%".equals(upsideValue)) {
-					upsideStrSb.append(filterCondition).append(" BETWEEN ").append("50").append(" AND ").append("100");
-					upsideConditions.add(upsideStrSb.toString());
-					upsideStrSb.setLength(0);
-				}
-
-				if (">100%".equals(upsideValue)) {
-					upsideStrSb.append(filterCondition).append(" > ").append("100");
-					upsideConditions.add(upsideStrSb.toString());
-					upsideStrSb.setLength(0);
-				}
-			}
-
-			for (int i = 0; i < upsideConditions.size(); i++) {
-				if (i >= 1 && i < upsideConditions.size()) {
-					conditionSqlSb.append(" OR " + upsideConditions.get(i));
-				} else {
-					conditionSqlSb.append(upsideConditions.get(i));
-				}
-			}
-			conditionQueryList.add(conditionSqlSb.toString());
-			conditionSqlSb.setLength(0);
-		}
-		if (conditionQueryList.size() != 0) {
-			conditionSqlSb.append(" where ");
-			if (conditionQueryList.size() == 1) {
-				conditionSqlSb.append(conditionQueryList.get(0));
-			} else {
-				int i = 0;
-				for (; i < conditionQueryList.size() - 1; i++) {
-					conditionSqlSb.append(conditionQueryList.get(i)).append(" AND ");
-				}
-				conditionSqlSb.append(conditionQueryList.get(i));
-
-			}
-			conditionSqlSb.append(conditionSqlSb);
-		}
-		
-		return conditionSqlSb.toString();
-	}
 	
 	private String applyFilter(String mainQuery, String filteredQuery) {
 		return  new StringBuffer(mainQuery).append(filteredQuery).toString();
