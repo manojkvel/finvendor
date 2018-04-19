@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.ifc.researchreport;
+package com.finvendor.serverwebapi.resources.researchreport;
 
 import java.util.Collection;
 import java.util.Map;
@@ -9,13 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.ifc.common.WebUriConstants;
+import com.finvendor.serverwebapi.resources.WebUriConstants;
 
 /**
  * 
@@ -23,7 +22,7 @@ import com.finvendor.serverwebapi.resources.ifc.common.WebUriConstants;
  * @since 03-Feb-2018
  */
 @RequestMapping(WebUriConstants.BASE_URI)
-public interface WebResearchReportIfc {
+public interface IWebResearchReport {
 
 	/**
 	 * 

@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.researchreport;
+package com.finvendor.serverwebapi.resources.researchreport.impl;
 
 import java.util.Collection;
 import java.util.Map;
@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.ifc.researchreport.WebResearchReportIfc;
+import com.finvendor.serverwebapi.resources.researchreport.IWebResearchReport;
 
-public class WebSectorResearchReport implements WebResearchReportIfc {
+public class WebSectorResearchReportImpl implements IWebResearchReport {
 
-	public WebSectorResearchReport() {
+	public WebSectorResearchReportImpl() {
 	}
 
 	@Override

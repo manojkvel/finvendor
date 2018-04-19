@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.common.admin;
+package com.finvendor.serverwebapi.resources.admin.impl;
 
 import java.util.Properties;
 
@@ -7,10 +7,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.ifc.admin.WebSystemAdminIfc;
+import com.finvendor.serverwebapi.resources.admin.IWebSystemAdmin;
 
 @Controller
-public class WebSystemAdmin implements WebSystemAdminIfc {
+public class WebSystemAdminImpl implements IWebSystemAdmin {
 	
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;

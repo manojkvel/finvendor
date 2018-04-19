@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.ifc.admin;
+package com.finvendor.serverwebapi.resources.admin;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.ifc.common.WebUriConstants;
+import com.finvendor.serverwebapi.resources.WebUriConstants;
 
 @RequestMapping(WebUriConstants.BASE_URI)
-public interface WebSystemAdminIfc {
+public interface IWebSystemAdmin {
 	
 	/**
 	 * 

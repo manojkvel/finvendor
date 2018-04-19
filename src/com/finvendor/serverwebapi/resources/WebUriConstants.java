@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.ifc.common;
+package com.finvendor.serverwebapi.resources;
 
 public interface WebUriConstants {
 
@@ -16,6 +16,14 @@ public interface WebUriConstants {
 		String DOWNLOAD_RESEARCH_REPORTS = "/downloadResearchReports";
 		String RESEARCH_REPORT_FILTERS = "/researchReportFilters";
 		String RECORD_STATS = "/researchReports/recordStats";
+	}
+	
+	interface HomePageSearch {
+		String COMPANY_DATA_URI = "/homepagesearch";
+		String COMPANY_PROFILE_DATA_URI = "/companyprofile";
+		String COMPANY_RECORD_STATS="/companyrecordstats";
+		String COMPANY_RESEARCH_REPORT="/companyresearchreport";
+		
 	}
 
 	interface AdminDashBoard {

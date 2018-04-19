@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.common;
+package com.finvendor.serverwebapi.resources.common.impl;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.finvendor.common.enums.SqlEnum;
 import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
 import com.finvendor.server.common.dao.ifc.ICommonDao;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.ifc.common.WebCommonApiIfc;
+import com.finvendor.serverwebapi.resources.common.IWebApiCommon;
 import com.finvendor.serverwebapi.utils.WebUtil;
 import com.finvendor.serverwebapi.utils.WebUtil.SqlData;
 
@@ -18,7 +18,7 @@ import com.finvendor.serverwebapi.utils.WebUtil.SqlData;
  * @author ayush on Feb 17, 2018
  */
 @Controller
-public class WebCommonApi implements WebCommonApiIfc {
+public class WebApiCommonImpl implements IWebApiCommon {
 
 	@Autowired
 	private ICommonDao commonDao;

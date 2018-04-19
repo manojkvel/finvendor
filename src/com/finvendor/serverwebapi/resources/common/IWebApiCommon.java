@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.ifc.common;
+package com.finvendor.serverwebapi.resources.common;
 
 import java.util.List;
 
@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
 import com.finvendor.serverwebapi.exception.WebApiException;
+import com.finvendor.serverwebapi.resources.WebUriConstants;
 
 /**
  * @author ayush on Feb 17, 2018
  */
 @RequestMapping(WebUriConstants.BASE_URI)
-public interface WebCommonApiIfc {
+public interface IWebApiCommon {
 	
 	@RequestMapping(value = WebUriConstants.AdminDashBoard.COMPANY_DETAILS_URI, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

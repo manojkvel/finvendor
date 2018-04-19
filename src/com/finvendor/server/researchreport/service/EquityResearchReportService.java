@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.server.researchreport.dao.ifc.IResearchReportDao;
+import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.filter.ifc.ResearchReportFilter;
 import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResult;
 import com.finvendor.server.researchreport.service.ifc.AbsResearchReportService;
+import com.finvendor.server.researchreport.util.ResearchReportUtil;
 
 /**
  * @author ayush on Feb 18, 2018
@@ -27,10 +29,10 @@ public class EquityResearchReportService extends AbsResearchReportService {
 	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult> getResearchReportTableData(
 			T rrfilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
 		try {
-			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao
-					.findResearchReportTableData(rrfilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
-		} catch (RuntimeException e) {// TODO need to replace with custom
-										// Exception
+			String mainQuery = ResearchReportUtil.mainQuery.replace("?", "'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
+			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao.findResearchReportTableData(mainQuery, rrfilter, pageNumber,
+					perPageMaxRecords, sortBy, orderBy);
+		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}
 	}
@@ -38,6 +40,7 @@ public class EquityResearchReportService extends AbsResearchReportService {
 	@Override
 	@Transactional(readOnly = true)
 	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords) {
-		return equityReserachReportDao.getRecordStatistics(rrfilter,perPageMaxRecords);
+		String mainQuery = ResearchReportUtil.mainQuery.replace("?", "'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
+		return equityReserachReportDao.getRecordStatistics(mainQuery, rrfilter, perPageMaxRecords);
 	}
 }

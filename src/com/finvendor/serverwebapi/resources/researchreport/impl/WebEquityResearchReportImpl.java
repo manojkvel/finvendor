@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.researchreport;
+package com.finvendor.serverwebapi.resources.researchreport.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,7 +27,7 @@ import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
 import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResult;
 import com.finvendor.server.researchreport.service.ifc.IResearchReportService;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.ifc.researchreport.WebResearchReportIfc;
+import com.finvendor.serverwebapi.resources.researchreport.IWebResearchReport;
 
 /**
  * 
@@ -35,8 +35,8 @@ import com.finvendor.serverwebapi.resources.ifc.researchreport.WebResearchReport
  */
 @Controller
 // TBD: Later will replace with RestController to avoid @Responsebody annotation
-public class WebEquityResearchReport implements WebResearchReportIfc {
-	private static Logger logger = LoggerFactory.getLogger(WebEquityResearchReport.class);
+public class WebEquityResearchReportImpl implements IWebResearchReport {
+	private static Logger logger = LoggerFactory.getLogger(WebEquityResearchReportImpl.class);
 
 	@Autowired
 	@Qualifier(value = "equityResearchReportService")
