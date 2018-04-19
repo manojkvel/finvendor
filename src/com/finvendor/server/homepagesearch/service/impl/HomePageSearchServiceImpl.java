@@ -24,8 +24,8 @@ public class HomePageSearchServiceImpl implements IHomePageSearchService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public String getCompanyData(String initialHint) throws Exception {
-		return dao.getCompanyData(initialHint);
+	public String getHomePageSearchData(String searchKeyword) throws Exception {
+		return dao.getCompanyData(searchKeyword);
 	}
 
 	@Override

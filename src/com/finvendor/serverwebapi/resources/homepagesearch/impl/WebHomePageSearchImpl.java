@@ -23,10 +23,10 @@ public class WebHomePageSearchImpl implements IWebHomePageSearch {
 
 	//Homepage search
 	@Override
-	public String getCompanyData(@RequestParam(value = "initialHint", required = true) String initialHint)
+	public String getCompanyHomePageSearchData(@RequestParam(value = "searchKeyword", required = true) String searchKeyword)
 			throws WebApiException {
 		try {
-			String jsonStr = homePageSearchService.getCompanyData(initialHint);
+			String jsonStr = homePageSearchService.getHomePageSearchData(searchKeyword);
 			return jsonStr;
 		} catch (Exception e) {
 			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in WebHomePageSearch -> getCompanyData(...) method", e);
@@ -52,11 +52,11 @@ public class WebHomePageSearchImpl implements IWebHomePageSearch {
 	//Tab2 Research Report
 	@Override
 	public String getCompanyRecordStatistics(@RequestParam(value = "isinCode", required = true) String isinCode,
-			@RequestBody EquityResearchFilter rrfilter, @RequestParam(value = "type", required = true) String type,
+			@RequestBody EquityResearchFilter filter, @RequestParam(value = "type", required = true) String type,
 			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords)
 					throws WebApiException {
 		try {
-			String companyRecordStatistics = homePageSearchService.getCompanyRecordStatistics(isinCode, rrfilter, perPageMaxRecords);
+			String companyRecordStatistics = homePageSearchService.getCompanyRecordStatistics(isinCode, filter, perPageMaxRecords);
 			return companyRecordStatistics;
 		} catch (Exception e) {
 			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in WebHomePageSearch -> getCompanyRecordStatistics(...) method", e);
@@ -79,7 +79,7 @@ public class WebHomePageSearchImpl implements IWebHomePageSearch {
 			String companyResearchReportData = homePageSearchService.getCompanyResearchReportData(isinCode, filter, pageNumber, perPageMaxRecords, sortBy, orderBy);
 			return companyResearchReportData;
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in WebHomePageSearch -> getResearchReportDataTab(...) method", e);
+			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in WebHomePageSearch -> getCompanyResearchReportData(...) method", e);
 			logger.error("Web API Error: " + apiErrorMessage);
 			throw new WebApiException(apiErrorMessage);
 		}

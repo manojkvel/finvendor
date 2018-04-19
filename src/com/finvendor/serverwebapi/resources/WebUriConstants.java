@@ -19,7 +19,7 @@ public interface WebUriConstants {
 	}
 	
 	interface HomePageSearch {
-		String COMPANY_DATA_URI = "/homepagesearch";
+		String COMPANY_HOME_PAGE_SEARCH_URI = "/companyhomepagesearch";
 		String COMPANY_PROFILE_DATA_URI = "/companyprofile";
 		String COMPANY_RECORD_STATS="/companyrecordstats";
 		String COMPANY_RESEARCH_REPORT="/companyresearchreport";

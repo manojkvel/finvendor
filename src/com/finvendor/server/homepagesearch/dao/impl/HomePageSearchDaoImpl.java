@@ -42,8 +42,8 @@ public class HomePageSearchDaoImpl implements IHomePageSearchDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getCompanyData(String hint) throws RuntimeException {
-		SQLQuery query = commonDao.getSql(companyDataQuery.replace("?", "'" + hint + "%'"), null);
+	public String getCompanyData(String searchKeyword) throws RuntimeException {
+		SQLQuery query = commonDao.getSql(companyDataQuery.replace("?", "'" + searchKeyword + "%'"), null);
 		List<Object[]> rows = query.list();
 		Map<String, Object> paramsMap = new LinkedHashMap<>();
 		List<CompnyData> companyDataList = new ArrayList<>();
