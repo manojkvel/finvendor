@@ -171,7 +171,7 @@ jQuery(document).ready(function() {
 			"<td>" + 
 			"<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
 			"<div class='targetPrice'> Rs. " + response.equity[i].targetPrice + "</div>" + 
-			"<div class='priceAtRecomm'>" + response.equity[i].priceAtRecomm + "</div>" + 
+			"<div class='priceAtRecomm'>" + ((response.equity[i].priceAtRecomm == '') ? "N/A" : response.equity[i].priceAtRecomm) + "</div>" + 
 			"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
 			"</td>" +
 			"<td>"  +  

@@ -253,7 +253,7 @@
 												<a href="javascript:void(0)" data-id="targetPrice">Tgt Price <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="priceAtRecomm">Price Recom. <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="priceAtRecomm">Price@Recomm <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
 												<a href="javascript:void(0)" data-id="upside">Upside <i class="fa fa-sort"></i></a>
