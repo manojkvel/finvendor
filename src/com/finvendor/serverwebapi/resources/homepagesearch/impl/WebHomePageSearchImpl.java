@@ -23,10 +23,10 @@ public class WebHomePageSearchImpl implements IWebHomePageSearch {
 
 	//Homepage search
 	@Override
-	public String getCompanyHomePageSearchData(@RequestParam(value = "searchKeyword", required = true) String searchKeyword)
+	public String getCompanyHomePageSearchData(@RequestParam(value = "q", required = true) String q)
 			throws WebApiException {
 		try {
-			String jsonStr = homePageSearchService.getHomePageSearchData(searchKeyword);
+			String jsonStr = homePageSearchService.getHomePageSearchData(q);
 			return jsonStr;
 		} catch (Exception e) {
 			String apiErrorMessage = ExceptionUtil.buildErrorMessage("Error has occurred in WebHomePageSearch -> getCompanyData(...) method", e);

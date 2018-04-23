@@ -3,7 +3,7 @@ package com.finvendor.server.homepagesearch.dao;
 import com.finvendor.server.researchreport.dto.filter.ifc.ResearchReportFilter;
 
 public interface IHomePageSearchDao {
-	String companyDataQuery = "SELECT  x.company_name, x.isin_code, x.ticker from rsch_sub_area_company_dtls x where x.company_name like ? order by x.company_name";
+	String companyDataQuery = "SELECT  x.company_name, x.isin_code, x.ticker from rsch_sub_area_company_dtls x where x.company_name like COMPANYNAME or x.isin_code like ISINCODE or x.ticker like TICKER order by x.company_name";
 
 	String companyProfileDataQuery = "SELECT rsch_sub_area_company_dtls.company_name companyName, market_cap_def.market_cap_name mcap, research_sub_area.description sector,stock_historial_prices.close_price cmp FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_historial_prices,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_historial_prices.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND research_sub_area.research_area_id = 7 AND country.country_id = COUNTRYID AND rsch_sub_area_company_dtls.isin_code = ISINCODE";
 

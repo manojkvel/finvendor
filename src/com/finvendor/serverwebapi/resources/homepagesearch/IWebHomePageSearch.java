@@ -20,7 +20,7 @@ public interface IWebHomePageSearch {
 	 */
 	@RequestMapping(value = WebUriConstants.HomePageSearch.COMPANY_HOME_PAGE_SEARCH_URI, method = RequestMethod.GET)
 	@ResponseBody
-	String getCompanyHomePageSearchData(String companyName) throws WebApiException;
+	String getCompanyHomePageSearchData(String q) throws WebApiException;
 	
 	/**
 	 * 

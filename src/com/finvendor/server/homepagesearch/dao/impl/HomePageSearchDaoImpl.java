@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -34,16 +35,18 @@ public class HomePageSearchDaoImpl implements IHomePageSearchDao {
 
 	@Autowired
 	protected SessionFactory sessionFactory;
-	
+
 	@Autowired
 	@Qualifier(value = "equityResearchDao")
 	IResearchReportDao equityDao;
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public String getCompanyData(String searchKeyword) throws RuntimeException {
-		SQLQuery query = commonDao.getSql(companyDataQuery.replace("?", "'" + searchKeyword + "%'"), null);
+		String newQuery = StringUtils.replace(companyDataQuery, "COMPANYNAME", "'" + searchKeyword + "%'");
+		newQuery = StringUtils.replace(newQuery, "ISINCODE", "'" + searchKeyword + "%'");
+		newQuery = StringUtils.replace(newQuery, "TICKER", "'" + searchKeyword + "%'");
+		SQLQuery query = commonDao.getSql(newQuery,null);
 		List<Object[]> rows = query.list();
 		Map<String, Object> paramsMap = new LinkedHashMap<>();
 		List<CompnyData> companyDataList = new ArrayList<>();
@@ -78,27 +81,24 @@ public class HomePageSearchDaoImpl implements IHomePageSearchDao {
 
 			}
 			paramsMap.put("summary", "xxxxx");
-			try {
-				companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
-			} catch (IOException e) {
-				throw new RuntimeException("Error has occured while creating json for company data");
-			}
+			companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
 			return companyProfile;
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException("Error has occured while creating json for company data");
 		}
 	}
 
 	@Override
-	public String getReasearchReportData(String isinCode, String mainQuery, ResearchReportFilter filter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
+	public String getReasearchReportData(String isinCode, String mainQuery, ResearchReportFilter filter,
+			String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
 		Map<String, Object> paramsMap = new LinkedHashMap<>();
 		String companyProfile = "NA";
 		try {
-			Map<String, ? extends AbsResearchReportResult> equityData = equityDao
-					.findResearchReportTableData(mainQuery, filter, pageNumber, perPageMaxRecords, sortBy, orderBy);
-			
+			Map<String, ? extends AbsResearchReportResult> equityData = equityDao.findResearchReportTableData(mainQuery,
+					filter, pageNumber, perPageMaxRecords, sortBy, orderBy);
+
 			Collection<? extends AbsResearchReportResult> equityList = equityData.values();
-			
+
 			paramsMap.put("noOfAnalystReport", equityList.size());
 			// Total Buy Recomm
 			SQLQuery sqlQuery = commonDao.getSql(buyCountQuery, new String[] { "1", isinCode });
@@ -135,7 +135,7 @@ public class HomePageSearchDaoImpl implements IHomePageSearchDao {
 			paramsMap.put("equityResearch", equityList);
 			companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
 		} catch (Exception e) {
-			throw new RuntimeException("Error has occured while creating json for company data");
+			throw new RuntimeException("Error has occured getReasearchReportData()");
 		}
 		return companyProfile;
 	}
