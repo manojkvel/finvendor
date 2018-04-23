@@ -56,7 +56,7 @@ public class HomePageSearchDaoImpl implements IHomePageSearchDao {
 			String ticker = row[2] != null ? row[2].toString() : "";
 			companyDataList.add(new CompnyData(companyName, isinCode, ticker));
 		}
-		paramsMap.put("companySearchHint", companyDataList);
+		paramsMap.put("userHint", companyDataList);
 		try {
 			return JsonUtil.createJsonFromParamsMap(paramsMap);
 		} catch (IOException e) {
