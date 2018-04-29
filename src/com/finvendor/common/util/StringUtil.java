@@ -1,6 +1,7 @@
 package com.finvendor.common.util;
 
 import java.io.File;
+import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.util.StringUtils;
@@ -49,4 +50,11 @@ public final class StringUtil {
 		return firstLetter + restLetters;
 	}
 
+	public static String replaceString(String baseString, Map<String,String> keywords) {
+		String newString=baseString;
+		for(Map.Entry<String, String> keywordEntry:keywords.entrySet()) {
+			newString = StringUtils.replace(newString, keywordEntry.getKey(), "'" + keywordEntry.getValue() + "'");
+		}
+		return newString;
+	}
 }

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
-import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
+import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
+import com.finvendor.server.researchreport.dto.result.impl.EquityResearchResult;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
 

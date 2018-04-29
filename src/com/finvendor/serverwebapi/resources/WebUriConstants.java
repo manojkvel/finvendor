@@ -23,6 +23,7 @@ public interface WebUriConstants {
 		String COMPANY_PROFILE_DATA_URI = "/companyprofile";
 		String COMPANY_RECORD_STATS="/companyrecordstats";
 		String COMPANY_RESEARCH_REPORT="/companyresearchreport";
+		String COMPANY_WATCHLIST_URI = "/companywatchlist";
 		
 	}
 

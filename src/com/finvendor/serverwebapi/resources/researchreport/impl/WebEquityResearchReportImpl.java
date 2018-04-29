@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finvendor.common.util.ExceptionUtil;
-import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
-import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
-import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResult;
-import com.finvendor.server.researchreport.service.ifc.IResearchReportService;
+import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
+import com.finvendor.server.researchreport.dto.result.AbsResearchReportResult;
+import com.finvendor.server.researchreport.dto.result.impl.EquityResearchResult;
+import com.finvendor.server.researchreport.service.IResearchReportService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.researchreport.IWebResearchReport;
 

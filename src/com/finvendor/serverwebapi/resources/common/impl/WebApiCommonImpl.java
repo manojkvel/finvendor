@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.common.enums.SqlEnum;
 import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
-import com.finvendor.server.common.dao.ifc.ICommonDao;
+import com.finvendor.server.common.dao.ICommonDao;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.common.IWebApiCommon;
 import com.finvendor.serverwebapi.utils.WebUtil;
@@ -34,19 +34,20 @@ public class WebApiCommonImpl implements IWebApiCommon {
 	public String getResearchFilterData(String type) throws WebApiException {
 
 		switch (type) {
-			case "brokerYrOfInCorp":
-				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON;
-			case "brokerRank":
-				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON;
-			case "others":
-				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON;
-			case "upside":
-				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON;
+		case "brokerYrOfInCorp":
+			return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON;
+		case "brokerRank":
+			return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON;
+		case "others":
+			return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON;
+		case "upside":
+			return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON;
 		}
 
-		SqlData sqlData 	= WebUtil.typeMap.get(type);
-		String jsonResult 	= commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(), sqlData.getConitionValue(),
-				sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(), sqlData.getColIndex());
+		SqlData sqlData = WebUtil.typeMap.get(type);
+		String jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(),
+				sqlData.getConitionValue(), sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(),
+				sqlData.getColIndex());
 
 		return jsonResult;
 	}
