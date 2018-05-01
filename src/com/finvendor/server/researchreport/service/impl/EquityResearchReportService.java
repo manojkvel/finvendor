@@ -21,7 +21,7 @@ import com.finvendor.server.researchreport.util.ResearchReportUtil;
 public class EquityResearchReportService extends AbsResearchReportService {
 
 	@Autowired
-	@Qualifier(value = "equityResearchDao")
+	@Qualifier(value = "equityResearchDaoImpl")
 	IResearchReportDao equityReserachReportDao;
 
 	@Override
@@ -29,9 +29,10 @@ public class EquityResearchReportService extends AbsResearchReportService {
 	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult> getResearchReportTableData(
 			T rrfilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
 		try {
-			String mainQuery = ResearchReportUtil.mainQuery.replace("?", "'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
-			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao.findResearchReportTableData(mainQuery, rrfilter, pageNumber,
-					perPageMaxRecords, sortBy, orderBy);
+			String mainQuery = ResearchReportUtil.mainQuery.replace("?",
+					"'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
+			return (Map<String, ? extends AbsResearchReportResult>) equityReserachReportDao
+					.findResearchReportTableData(mainQuery, rrfilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}
@@ -40,7 +41,8 @@ public class EquityResearchReportService extends AbsResearchReportService {
 	@Override
 	@Transactional(readOnly = true)
 	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords) {
-		String mainQuery = ResearchReportUtil.mainQuery.replace("?", "'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
+		String mainQuery = ResearchReportUtil.mainQuery.replace("?",
+				"'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
 		return equityReserachReportDao.getRecordStatistics(mainQuery, rrfilter, perPageMaxRecords);
 	}
 }

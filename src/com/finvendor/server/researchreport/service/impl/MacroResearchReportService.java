@@ -20,7 +20,7 @@ import com.finvendor.server.researchreport.service.AbsResearchReportService;
 public class MacroResearchReportService extends AbsResearchReportService {
 
 	@Autowired
-	@Qualifier(value = "macroResearchDao")
+	@Qualifier(value = "macroResearchDaoImpl")
 	IResearchReportDao macroReserachReportDao;
 
 	@Override

@@ -18,7 +18,7 @@ import com.finvendor.server.researchreport.service.AbsResearchReportService;
 public class SectorResearchReportService extends AbsResearchReportService {
 
 	@Autowired
-	@Qualifier(value = "sectorResearchDao")
+	@Qualifier(value = "sectorResearchDaoImpl")
 	IResearchReportDao sectorReserachReportDao;
 
 	@Override

@@ -14,7 +14,7 @@ import com.finvendor.serverwebapi.resources.WebUriConstants;
 /**
  * This interface is for quick testing at web level
  * 
- * @author ayush
+ * @author ayush on April 30, 2018
  */
 @RequestMapping(value = WebUriConstants.BASE_URI)
 public interface IWebExample {
