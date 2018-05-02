@@ -14,11 +14,14 @@ public class StockCurrentPriceDao extends GenericDao<StockCurrentPrice> implemen
 
 	@Override
 	public StockCurrentPricePojo getStockCurrentPriceById(Serializable id) throws RuntimeException {
-		StockCurrentPrice stockCurrentPriceEntity = findById(id);
-		StockCurrentPricePojo pojo = new StockCurrentPricePojo();
-		pojo.setStock_id(stockCurrentPriceEntity.getStock_id());
-		pojo.setClose_price(stockCurrentPriceEntity.getClose_price());
-		return pojo;
+		try {
+			StockCurrentPrice stockCurrentPriceEntity = findById(id);
+			StockCurrentPricePojo pojo = new StockCurrentPricePojo();
+			pojo.setStock_id(stockCurrentPriceEntity.getStock_id());
+			pojo.setClose_price(stockCurrentPriceEntity.getClose_price());
+			return pojo;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
-
 }

@@ -36,30 +36,38 @@ public class CompanyProfileSeriveImpl implements ICompanyProfileService {
 	@Override
 	@Transactional(readOnly = true)
 	public String getProfile(final String isinCode, final EquityResearchFilter filter) throws Exception {
-		String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyProfileDataQuery,
-				new HashMap<String, String>() {
-					{
-						put("COUNTRYID", ((EquityResearchFilter) filter).getGeo());
-						put("ISINCODE", isinCode);
-					}
-				});
+		try {
+			String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyProfileDataQuery,
+					new HashMap<String, String>() {
+						{
+							put("COUNTRYID", ((EquityResearchFilter) filter).getGeo());
+							put("ISINCODE", isinCode);
+						}
+					});
 
-		return companyProfileDao.getProfile(mainQuery);
+			return companyProfileDao.getProfile(mainQuery);
+		} catch (RuntimeException e) {
+			throw new Exception(e);
+		}
 	}
 
 	@SuppressWarnings("serial")
 	@Override
 	@Transactional(readOnly = true)
 	public String getResearchReportRecordStatistics(final String isinCode, final ResearchReportFilter filter,
-			String perPageMaxRecords) {
-		String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyResearchReportQuery,
-				new HashMap<String, String>() {
-					{
-						put("COUNTRYID", ((EquityResearchFilter) filter).getGeo());
-						put("ISINCODE", isinCode);
-					}
-				});
-		return equityResearchReportDao.getRecordStatistics(mainQuery, filter, perPageMaxRecords);
+			String perPageMaxRecords) throws Exception {
+		try {
+			String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyResearchReportQuery,
+					new HashMap<String, String>() {
+						{
+							put("COUNTRYID", ((EquityResearchFilter) filter).getGeo());
+							put("ISINCODE", isinCode);
+						}
+					});
+			return equityResearchReportDao.getRecordStatistics(mainQuery, filter, perPageMaxRecords);
+		} catch (RuntimeException e) {
+			throw new Exception(e);
+		}
 	}
 
 	@SuppressWarnings("serial")
@@ -67,14 +75,18 @@ public class CompanyProfileSeriveImpl implements ICompanyProfileService {
 	@Transactional(readOnly = true)
 	public String getResearchReport(final String isinCode, final ResearchReportFilter filter, String pageNumber,
 			String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
-		String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyResearchReportQuery,
-				new HashMap<String, String>() {
-					{
-						put("COUNTRYID", ((EquityResearchFilter) filter).getGeo());
-						put("ISINCODE", isinCode);
-					}
-				});
-		return companyProfileDao.getReasearchReport(isinCode, mainQuery, filter, pageNumber, perPageMaxRecords,
-				sortBy, orderBy);
+		try {
+			String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyResearchReportQuery,
+					new HashMap<String, String>() {
+						{
+							put("COUNTRYID", ((EquityResearchFilter) filter).getGeo());
+							put("ISINCODE", isinCode);
+						}
+					});
+			return companyProfileDao.getReasearchReport(isinCode, mainQuery, filter, pageNumber, perPageMaxRecords,
+					sortBy, orderBy);
+		} catch (RuntimeException e) {
+			throw new Exception(e);
+		}
 	}
 }

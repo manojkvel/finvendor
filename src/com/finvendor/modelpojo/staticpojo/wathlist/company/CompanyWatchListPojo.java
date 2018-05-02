@@ -2,6 +2,10 @@ package com.finvendor.modelpojo.staticpojo.wathlist.company;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+/**
+ * 
+ * @author ayush on May 01, 2018
+ */
 @JsonPropertyOrder({ "companyId", "companyName", "userName", "cmp", "newCmp", "diffCmp", "currentDate" })
 public class CompanyWatchListPojo extends AbstractHomePageSearchPojo {
 

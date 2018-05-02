@@ -38,34 +38,37 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getRecordStatistics(String mainQuery, ResearchReportFilter filter, String perPageMaxRecords) throws RuntimeException {
-		EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
-
-		String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery, ResearchReportUtil.getFilteredQueryPart(equityFilter));
-		SQLQuery query = commonDao.getSql(queryWithAppliedFilter, null);
-		List<Object[]> rows = query.list();
-		int totalRecords = rows.size();
-
-		// Calculate Last page number
-		int lastPageNumber = 0;
-		int maxRecordCountPerPage = Integer.parseInt(perPageMaxRecords);
-		if (maxRecordCountPerPage <= totalRecords) {
-			int remainder = totalRecords % maxRecordCountPerPage;
-			if (remainder == 0) {
-				lastPageNumber = totalRecords / maxRecordCountPerPage;
-			} else {
-				lastPageNumber = (totalRecords / maxRecordCountPerPage) + 1;
-			}
-		} else {
-			lastPageNumber = 1;
-		}
-
-		// Prepare Json result
-		Map<String, Object> paramsMap = new LinkedHashMap<>();
-		paramsMap.put("firstPageNumber", 1);
-		paramsMap.put("lastPageNumber", lastPageNumber);
-		paramsMap.put("totalRecords", totalRecords);
+	public String getRecordStatistics(String mainQuery, ResearchReportFilter filter, String perPageMaxRecords)
+			throws RuntimeException {
 		try {
+			EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
+
+			String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
+					ResearchReportUtil.getFilteredQueryPart(equityFilter));
+			SQLQuery query = commonDao.getSql(queryWithAppliedFilter, null);
+			List<Object[]> rows = query.list();
+			int totalRecords = rows.size();
+
+			// Calculate Last page number
+			int lastPageNumber = 0;
+			int maxRecordCountPerPage = Integer.parseInt(perPageMaxRecords);
+			if (maxRecordCountPerPage <= totalRecords) {
+				int remainder = totalRecords % maxRecordCountPerPage;
+				if (remainder == 0) {
+					lastPageNumber = totalRecords / maxRecordCountPerPage;
+				} else {
+					lastPageNumber = (totalRecords / maxRecordCountPerPage) + 1;
+				}
+			} else {
+				lastPageNumber = 1;
+			}
+
+			// Prepare Json result
+			Map<String, Object> paramsMap = new LinkedHashMap<>();
+			paramsMap.put("firstPageNumber", 1);
+			paramsMap.put("lastPageNumber", lastPageNumber);
+			paramsMap.put("totalRecords", totalRecords);
+
 			return JsonUtil.createJsonFromObject(paramsMap);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -80,13 +83,16 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 		Map<String, EquityResearchResult> resultMap = new LinkedHashMap<>();
 		try {
 			// Prepare data for Since from db
-			Map<String, Integer> vendorIdWithLaunchedYearDataMap = ResearchReportUtil.prepareVendorSinceData(sessionFactory, sortBy, orderBy);
+			Map<String, Integer> vendorIdWithLaunchedYearDataMap = ResearchReportUtil
+					.prepareVendorSinceData(sessionFactory, sortBy, orderBy);
 
 			// Prepare brokerRank data from db
-			List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil.getBrokerRankData(commonDao, ResearchReportUtil.brokerRankQuery, orderBy);
+			List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil.getBrokerRankData(commonDao,
+					ResearchReportUtil.brokerRankQuery, orderBy);
 
 			// Apply filter in main query
-			String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery, ResearchReportUtil.getFilteredQueryPart(equityFilter));
+			String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
+					ResearchReportUtil.getFilteredQueryPart(equityFilter));
 
 			// Apply OrderBy
 			String applyOrderBy = ResearchReportUtil.applyOrderBy(sortBy, orderBy);
@@ -95,7 +101,8 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 			String applyPagination = ResearchReportUtil.applyPagination(pageNumber, perPageMaxRecords);
 
 			// Prepare final query
-			String finalMainQuery = new StringBuilder(500).append(queryWithAppliedFilter).append(applyOrderBy).append(applyPagination).toString();
+			String finalMainQuery = new StringBuilder(500).append(queryWithAppliedFilter).append(applyOrderBy)
+					.append(applyPagination).toString();
 
 			// Execute Query
 			SQLQuery query = commonDao.getSql(finalMainQuery, null);
@@ -111,7 +118,8 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 				equityResult.setSector(row[5] != null ? row[5].toString() : "");
 				equityResult.setCmp(row[6] != null ? row[6].toString() : "");
 
-				equityResult.setPriceDate(String.valueOf(ResearchReportUtil.convertStringToTimestamp(row[7] != null ? row[7].toString() : "")));
+				equityResult.setPriceDate(String
+						.valueOf(ResearchReportUtil.convertStringToTimestamp(row[7] != null ? row[7].toString() : "")));
 				equityResult.setPe(row[8] != null ? row[8].toString() : "");
 				equityResult.set_3YrPatGrowth(row[9] != null ? row[9].toString() : "");
 
@@ -163,7 +171,8 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 				// Since
 				String vendorId = row[23] != null ? row[23].toString() : "";
 
-				Pair<Integer, String> calculatedSince = ResearchReportUtil.calculateSinceAndYrOfIncorp(vendorIdWithLaunchedYearDataMap, vendorId);
+				Pair<Integer, String> calculatedSince = ResearchReportUtil
+						.calculateSinceAndYrOfIncorp(vendorIdWithLaunchedYearDataMap, vendorId);
 				Integer since = calculatedSince.getElement1();
 				equityResult.setSince(String.valueOf(since));
 
@@ -175,7 +184,8 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 				equityResult.setReportDesc(row[26] != null ? row[26].toString() : "");
 
 				// Broker Rank
-				Map<String, String> brokerRanks = ResearchReportUtil.getBrokerRank(brokerRankData, vendorId, equityFilter);
+				Map<String, String> brokerRanks = ResearchReportUtil.getBrokerRank(brokerRankData, vendorId,
+						equityFilter);
 				equityResult.setBrokerRank(brokerRanks);
 
 				// Set Current Page number
@@ -185,7 +195,8 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 
 			// #BrokerYear Of Incorporation filter applied
 			if (equityFilter.getBrokerYrOfInCorp() != null) {
-				Map<String, EquityResearchResult> filteredYrOfInCorpResultMap = ResearchReportUtil.applyFilterForYearOfInCorp(equityFilter, resultMap);
+				Map<String, EquityResearchResult> filteredYrOfInCorpResultMap = ResearchReportUtil
+						.applyFilterForYearOfInCorp(equityFilter, resultMap);
 				return filteredYrOfInCorpResultMap;
 			}
 		} catch (Exception e) {

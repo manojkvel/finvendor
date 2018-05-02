@@ -26,38 +26,40 @@ public abstract class AbstractCommonDao implements ICommonDao {
 	 */
 	@SuppressWarnings("unchecked")
 	public String runSql(String sql, Map<String, Map<String, String>> columnNameMap, Object[] conditionValue,
-			Map<String, Object> firstDefaultParamsMap,Map<String, Object> lastDefaultParamsMap, int colIndex) throws RuntimeException {
-		SQLQuery query = getSql(sql, conditionValue);
-		List<Object[]> rows = query.list();
-		
-		List<Map<String, Object>> listOfMap = new ArrayList<>();
-		if (firstDefaultParamsMap != null) {
-			listOfMap.add(firstDefaultParamsMap);
-		}
-
-		for (Object[] row : rows) {
-			int index=colIndex;
-			Map<String, Object> paramsMap = new LinkedHashMap<>();
-			for (Entry<String, Map<String, String>> entry : columnNameMap.entrySet()) {
-				String columnName = entry.getKey();
-				Map<String, String> value = entry.getValue();
-				String columnValue = row[index] != null ? row[index].toString() : "";
-				String newValue = "";
-				if (value != null) {
-					newValue = value.get(columnValue);
-					if (newValue == null) {
-						paramsMap.put(columnName, columnValue);
-					} else {
-						paramsMap.put(columnName, newValue);
-					}
-				} else {
-					paramsMap.put(columnName, columnValue);
-				}
-				index++;
-			}
-			listOfMap.add(paramsMap);
-		}
+			Map<String, Object> firstDefaultParamsMap, Map<String, Object> lastDefaultParamsMap, int colIndex)
+					throws RuntimeException {
 		try {
+			SQLQuery query = getSql(sql, conditionValue);
+			List<Object[]> rows = query.list();
+
+			List<Map<String, Object>> listOfMap = new ArrayList<>();
+			if (firstDefaultParamsMap != null) {
+				listOfMap.add(firstDefaultParamsMap);
+			}
+
+			for (Object[] row : rows) {
+				int index = colIndex;
+				Map<String, Object> paramsMap = new LinkedHashMap<>();
+				for (Entry<String, Map<String, String>> entry : columnNameMap.entrySet()) {
+					String columnName = entry.getKey();
+					Map<String, String> value = entry.getValue();
+					String columnValue = row[index] != null ? row[index].toString() : "";
+					String newValue = "";
+					if (value != null) {
+						newValue = value.get(columnValue);
+						if (newValue == null) {
+							paramsMap.put(columnName, columnValue);
+						} else {
+							paramsMap.put(columnName, newValue);
+						}
+					} else {
+						paramsMap.put(columnName, columnValue);
+					}
+					index++;
+				}
+				listOfMap.add(paramsMap);
+			}
+
 			if (lastDefaultParamsMap != null) {
 				listOfMap.add(lastDefaultParamsMap);
 			}

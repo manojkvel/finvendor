@@ -1,15 +1,18 @@
 package com.finvendor.serverwebapi.resources.watchlist.companywatchlist.impl;
 
+import static com.finvendor.common.exception.ExceptionEnum.ADD_WATCHLIST;
+import static com.finvendor.common.exception.ExceptionEnum.FIND_WATCHLIST;
+
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.finvendor.common.util.ExceptionUtil;
+import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyWatchListPojo;
 import com.finvendor.server.watchlist.companywatchlist.service.ICompanyWatchListService;
@@ -22,26 +25,25 @@ import com.finvendor.serverwebapi.resources.watchlist.companywatchlist.IWebCompa
  */
 @Controller
 public class WebCompanyWatchListImpl implements IWebCompanyWatchList {
-	private static Logger logger = LoggerFactory.getLogger(WebCompanyWatchListImpl.class);
 
 	@Autowired
 	ICompanyWatchListService comapnyWatchListService;
 
 	@Override
-	public StatusPojo addCompanyWatchList(@RequestBody CompanyWatchListPojo companyWatchListPojo)
+	public ResponseEntity<?> addCompanyWatchList(@RequestBody CompanyWatchListPojo companyWatchListPojo)
 			throws WebApiException {
 		try {
 			boolean addStatus = comapnyWatchListService.addWatchList(companyWatchListPojo);
 			if (addStatus) {
-				return new StatusPojo("true", "Company Watchlist added successfully.");
+				return new ResponseEntity<StatusPojo>(new StatusPojo("true", "Company Watchlist added successfully."),
+						HttpStatus.CREATED);
 			} else {
-				return new StatusPojo("false", "Company Watchlist already added.");
+				return new ResponseEntity<StatusPojo>(new StatusPojo("false", "Company Watchlist already added."),
+						HttpStatus.FORBIDDEN);
 			}
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil
-					.buildErrorMessage("Error has occurred in WebHomePageSearch -> addCompanyWatchList(...) method", e);
-			logger.error("Web API Error: " + apiErrorMessage);
-			throw new WebApiException(apiErrorMessage);
+			ErrorUtil.logError("CompanyWatchList -> addCompanyWatchList(...) method", e);
+			return ErrorUtil.getError(ADD_WATCHLIST.getCode(), ADD_WATCHLIST.getUserMessage(), e);
 		}
 	}
 
@@ -51,15 +53,14 @@ public class WebCompanyWatchListImpl implements IWebCompanyWatchList {
 	}
 
 	@Override
-	public List<CompanyWatchListPojo> findAllCompanyWatchlist(
-			@RequestParam(value = "userName", required = true) String userName) throws WebApiException {
+	public ResponseEntity<?> findAllCompanyWatchlist(@RequestParam(value = "userName", required = true) String userName)
+			throws WebApiException {
 		try {
-			return comapnyWatchListService.findAllWatchList(userName);
+			List<CompanyWatchListPojo> findAllWatchList = comapnyWatchListService.findAllWatchList(userName);
+			return new ResponseEntity<List<CompanyWatchListPojo>>(findAllWatchList, HttpStatus.OK);
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
-					"Error has occurred in WebHomePageSearch -> findAllcompanywatchlist(...) method", e);
-			logger.error("Web API Error: " + apiErrorMessage);
-			throw new WebApiException(apiErrorMessage);
+			ErrorUtil.logError("CompanyWatchList -> findAllCompanyWatchlist(...) method", e);
+			return ErrorUtil.getError(FIND_WATCHLIST.getCode(), FIND_WATCHLIST.getUserMessage(), e);
 		}
 	}
 }

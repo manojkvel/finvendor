@@ -40,9 +40,14 @@ public class EquityResearchReportService extends AbsResearchReportService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords) {
-		String mainQuery = ResearchReportUtil.mainQuery.replace("?",
-				"'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
-		return equityReserachReportDao.getRecordStatistics(mainQuery, rrfilter, perPageMaxRecords);
+	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords)
+			throws Exception {
+		try {
+			String mainQuery = ResearchReportUtil.mainQuery.replace("?",
+					"'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
+			return equityReserachReportDao.getRecordStatistics(mainQuery, rrfilter, perPageMaxRecords);
+		} catch (RuntimeException e) {
+			throw new Exception(e);
+		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.finvendor.server.alert.pricealert.dto;
+package com.finvendor.server.alert.companypricealert.dto;
 
 /**
  * 

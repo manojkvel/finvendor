@@ -62,7 +62,7 @@ public class StockHomePageSearchDaoImpl extends GenericDao<CompanyWatchList> imp
 			}
 			return convertObjectToJson("searchOutput", companyDataList);
 		} catch (IOException e) {
-			throw new RuntimeException("Error in DAO : ", e);
+			throw new RuntimeException(e);
 		}
 	}
 

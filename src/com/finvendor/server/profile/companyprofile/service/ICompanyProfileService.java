@@ -25,7 +25,8 @@ public interface ICompanyProfileService {
 	 * @param perPageMaxRecords
 	 * @return
 	 */
-	String getResearchReportRecordStatistics(String isinCode, ResearchReportFilter rrfilter, String perPageMaxRecords);
+	String getResearchReportRecordStatistics(String isinCode, ResearchReportFilter rrfilter, String perPageMaxRecords)
+			throws Exception;
 
 	/**
 	 * 

@@ -27,23 +27,31 @@ public class CommonDaoImpl extends AbstractCommonDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) {
-		SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
-		query.setInteger(0, Integer.parseInt(rsrchAreaId));
-		List<Object[]> rows = query.list();
+		try {
+			SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+			query.setInteger(0, Integer.parseInt(rsrchAreaId));
+			List<Object[]> rows = query.list();
 
-		List<CompanyDetails> results = new ArrayList<>();
-		for (Object[] row : rows) {
-			results.add(new CompanyDetails(Integer.parseInt(row[0].toString()), row[1].toString()));
+			List<CompanyDetails> results = new ArrayList<>();
+			for (Object[] row : rows) {
+				results.add(new CompanyDetails(Integer.parseInt(row[0].toString()), row[1].toString()));
+			}
+			return results;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		return results;
 	}
 
 	@Override
 	public Query getNamedQuery(String namedQuery, Map<Object, Object> paramMap) {
-		org.hibernate.Query query = sessionFactory.openSession().getNamedQuery(namedQuery);
-		for (Map.Entry<Object, Object> paramEntry : paramMap.entrySet()) {
-			query.setParameter((String) paramEntry.getKey(), paramEntry.getValue());
+		try {
+			org.hibernate.Query query = sessionFactory.openSession().getNamedQuery(namedQuery);
+			for (Map.Entry<Object, Object> paramEntry : paramMap.entrySet()) {
+				query.setParameter((String) paramEntry.getKey(), paramEntry.getValue());
+			}
+			return query;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		return query;
 	}
 }

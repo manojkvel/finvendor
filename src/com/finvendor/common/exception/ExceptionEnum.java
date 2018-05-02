@@ -1,0 +1,47 @@
+package com.finvendor.common.exception;
+
+public enum ExceptionEnum {
+	ADD_WATCHLIST("FV0001", "Internal error - Unable to add Company WatchList, Please contact Finvendor admin for support!!"), 
+	FIND_WATCHLIST("FV0002", "Internal error - Unable to find Company WatchList for given user, Please contact Finvendor admin for support!!"),
+	
+	EQUITY_RESEARCH_REPORT("FV0003", "Internal error - Unable to find Equity research report, Please contact Finvendor admin for support!!"),
+	EQUITY_RESEARCH_RESULT_DASHBOARD("FV0004", "Internal error - Unable to prepare Equity research report dashboard result, Please contact Finvendor admin for support!!"),
+	EQUITY_RESEARCH_REPORT_DOWNLOAD("FV0005", "Internal error - Unable to download Equity research report, Please contact Finvendor admin for support!!"),
+	EQUITY_RESEARCH_RECORD_STAT("FV0006", "Internal error - Unable find Equity research report record statistics, Please contact Finvendor admin for support!!"),
+	
+	COMPANY_HOMEPAGE_EARCH("FV0007", "Internal error - Unable find company homepage search hint, Please contact Finvendor admin for support!!"),
+	EQUITY_RESEARCH_FILTER("FV0006", "Internal error - Unable to prepare Equity research filter, Please contact Finvendor admin for support!!"),	
+	COMPANY_DETAILS("FV0008", "Internal error - Unable to prepare company details, Please contact Finvendor admin for support!!"),
+	
+	COMPANY_PROFILE("FV0009", "Internal error - Unable to prepare company profile, Please contact Finvendor admin for support!!"),
+	COMPANY_RECORD_STATS("FV0010", "Internal error - Unable to prepare company record statistics, Please contact Finvendor admin for support!!"),
+	COMPANY_RESEARCH_REPORT("FV0011", "Internal error - Unable to prepare company research report, Please contact Finvendor admin for support!!")
+	
+	
+	;
+	
+	private String code;
+	private String userMessage;
+
+	private ExceptionEnum(String code, String userMessage) {
+		this.code = code;
+		this.userMessage = userMessage;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getUserMessage() {
+		return userMessage;
+	}
+
+	public void setUserMessage(String userMessage) {
+		this.userMessage = userMessage;
+	}
+
+}

@@ -1,6 +1,7 @@
 package com.finvendor.serverwebapi.resources.profile.companyprofile;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +26,7 @@ public interface IWebCompnayProfile {
 	 */
 	@RequestMapping(value = "/companyprofile", method = RequestMethod.POST)
 	@ResponseBody
-	String getCompanyProfile(EquityResearchFilter filter, String q) throws WebApiException;
+	ResponseEntity<?> getCompanyProfile(EquityResearchFilter filter, String q) throws WebApiException;
 
 	/**
 	 * 
@@ -38,7 +39,7 @@ public interface IWebCompnayProfile {
 	 */
 	@RequestMapping(value = "/companyrecordstats", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	String getCompanyResearchReportRecordStatistics(EquityResearchFilter filter, String isinCode, String perPageMaxRecords)
+	ResponseEntity<?> getCompanyResearchReportRecordStatistics(EquityResearchFilter filter, String isinCode, String perPageMaxRecords)
 			throws WebApiException;
 
 	/**
@@ -55,7 +56,7 @@ public interface IWebCompnayProfile {
 	 */
 	@RequestMapping(value = "/companyresearchreport", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	String getCompanyResearchReport(EquityResearchFilter filter, String isinCode, String pageNumber, String perPageMaxRecords,
+	ResponseEntity<?> getCompanyResearchReport(EquityResearchFilter filter, String isinCode, String pageNumber, String perPageMaxRecords,
 			String sortBy, String orderBy) throws WebApiException;
 
 	// String getTechnicalDataTab() throws WebApiException;

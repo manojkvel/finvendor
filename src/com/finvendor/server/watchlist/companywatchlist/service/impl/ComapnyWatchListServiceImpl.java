@@ -25,15 +25,24 @@ public class ComapnyWatchListServiceImpl implements ICompanyWatchListService {
 	@Override
 	@Transactional(readOnly = false)
 	public boolean addWatchList(CompanyWatchListPojo companyWatchListPojo) throws Exception {
-		return companyWatchListDao.addWatchList(companyWatchListPojo);
+		boolean addWatchList = false;
+		try {
+			addWatchList = companyWatchListDao.addWatchList(companyWatchListPojo);
+			return addWatchList;
+		} catch (RuntimeException e) {
+			throw new Exception(e);
+		}
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<CompanyWatchListPojo> findAllWatchList(String userName) throws Exception {
-		Map<Object, Object> paramMap = new LinkedHashMap<>();
-		paramMap.put("username", userName);
-		return companyWatchListDao.findAllWatchList(paramMap);
+		try {
+			Map<Object, Object> paramMap = new LinkedHashMap<>();
+			paramMap.put("username", userName);
+			return companyWatchListDao.findAllWatchList(paramMap);
+		} catch (RuntimeException e) {
+			throw new Exception(e);
+		}
 	}
-
 }

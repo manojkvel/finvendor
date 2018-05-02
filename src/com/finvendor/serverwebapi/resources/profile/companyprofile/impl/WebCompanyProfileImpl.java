@@ -1,13 +1,17 @@
 package com.finvendor.serverwebapi.resources.profile.companyprofile.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.finvendor.common.exception.ExceptionEnum.COMPANY_PROFILE;
+import static com.finvendor.common.exception.ExceptionEnum.COMPANY_RECORD_STATS;
+import static com.finvendor.common.exception.ExceptionEnum.COMPANY_RESEARCH_REPORT;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.finvendor.common.util.ExceptionUtil;
+import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.server.profile.companyprofile.service.ICompanyProfileService;
 import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.serverwebapi.exception.WebApiException;
@@ -18,47 +22,41 @@ import com.finvendor.serverwebapi.resources.profile.companyprofile.IWebCompnayPr
  */
 @Controller
 public class WebCompanyProfileImpl implements IWebCompnayProfile {
-	private static Logger logger = LoggerFactory.getLogger(WebCompanyProfileImpl.class);
-
 	@Autowired
 	ICompanyProfileService compnayProfileService;
 
 	// Tab1 - Profile + Summary
 	@Override
-	public String getCompanyProfile(@RequestBody EquityResearchFilter filter,
+	public ResponseEntity<?> getCompanyProfile(@RequestBody EquityResearchFilter filter,
 			@RequestParam(value = "q", required = true) String q) throws WebApiException {
 		try {
 			String companyProfileData = compnayProfileService.getProfile(q, filter);
-			return companyProfileData;
+			return new ResponseEntity<String>(companyProfileData, HttpStatus.OK);
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
-					"Error has occurred in WebHomePageSearch -> getCompanyProfileData(...) method", e);
-			logger.error("Web API Error: " + apiErrorMessage);
-			throw new WebApiException(apiErrorMessage);
+			ErrorUtil.logError("WebCompnayProfile -> getCompanyProfile(...) method", e);
+			return ErrorUtil.getError(COMPANY_PROFILE.getCode(), COMPANY_PROFILE.getUserMessage(), e);
 		}
 	}
 
 	// Tab2 Research Report
 	@Override
-	public String getCompanyResearchReportRecordStatistics(@RequestBody EquityResearchFilter filter,
+	public ResponseEntity<?> getCompanyResearchReportRecordStatistics(@RequestBody EquityResearchFilter filter,
 			@RequestParam(value = "isinCode", required = true) String isinCode,
 			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords)
 					throws WebApiException {
 		try {
 			String companyRecordStatistics = compnayProfileService.getResearchReportRecordStatistics(isinCode, filter,
 					perPageMaxRecords);
-			return companyRecordStatistics;
+			return new ResponseEntity<String>(companyRecordStatistics, HttpStatus.OK);
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
-					"Error has occurred in WebHomePageSearch -> getCompanyRecordStatistics(...) method", e);
-			logger.error("Web API Error: " + apiErrorMessage);
-			throw new WebApiException(apiErrorMessage);
+			ErrorUtil.logError("WebCompnayProfile -> getCompanyResearchReportRecordStatistics(...) method", e);
+			return ErrorUtil.getError(COMPANY_RECORD_STATS.getCode(), COMPANY_RECORD_STATS.getUserMessage(), e);
 		}
 	}
 
 	// Tab2 Research Report
 	@Override
-	public String getCompanyResearchReport(@RequestBody EquityResearchFilter filter,
+	public ResponseEntity<?> getCompanyResearchReport(@RequestBody EquityResearchFilter filter,
 			@RequestParam(value = "isinCode", required = true) String isinCode,
 			@RequestParam(value = "pageNumber", required = true) String pageNumber,
 			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords,
@@ -67,12 +65,10 @@ public class WebCompanyProfileImpl implements IWebCompnayProfile {
 		try {
 			String companyResearchReportData = compnayProfileService.getResearchReport(isinCode, filter, pageNumber,
 					perPageMaxRecords, sortBy, orderBy);
-			return companyResearchReportData;
+			return new ResponseEntity<String>(companyResearchReportData, HttpStatus.OK);
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
-					"Error has occurred in WebHomePageSearch -> getCompanyResearchReportData(...) method", e);
-			logger.error("Web API Error: " + apiErrorMessage);
-			throw new WebApiException(apiErrorMessage);
+			ErrorUtil.logError("WebCompnayProfile -> getCompanyResearchReport(...) method", e);
+			return ErrorUtil.getError(COMPANY_RESEARCH_REPORT.getCode(), COMPANY_RESEARCH_REPORT.getUserMessage(), e);
 		}
 	}
 

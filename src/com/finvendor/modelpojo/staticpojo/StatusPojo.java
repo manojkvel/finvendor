@@ -1,5 +1,9 @@
 package com.finvendor.modelpojo.staticpojo;
 
+/**
+ * 
+ * @author ayush on May 01, 2018
+ */
 public class StatusPojo {
 	private String status;
 	private String messge;

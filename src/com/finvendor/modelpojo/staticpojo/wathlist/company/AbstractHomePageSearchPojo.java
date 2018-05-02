@@ -3,6 +3,10 @@ package com.finvendor.modelpojo.staticpojo.wathlist.company;
 import java.io.Serializable;
 import java.util.Calendar;
 
+/**
+ * 
+ * @author ayush on May 01, 2018
+ */
 public class AbstractHomePageSearchPojo implements Serializable {
 	private static final long serialVersionUID = 5804595566308989887L;
 	protected Integer companyId;

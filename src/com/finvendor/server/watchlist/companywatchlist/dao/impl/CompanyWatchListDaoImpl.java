@@ -32,18 +32,22 @@ public class CompanyWatchListDaoImpl extends GenericDao<CompanyWatchList> implem
 	@Override
 	public boolean addWatchList(CompanyWatchListPojo companyWatchListPojo) throws RuntimeException {
 		boolean addStatus;
-		CompanyWatchList findById = findById(companyWatchListPojo.getCompanyId());
-		if (findById == null) {
-			CompanyWatchList companyWatchListEntity = new CompanyWatchList();
-			companyWatchListEntity.setCompany_id(companyWatchListPojo.getCompanyId());
-			companyWatchListEntity.setCompany_name(companyWatchListPojo.getCompanyName());
-			companyWatchListEntity.setUser_name(companyWatchListPojo.getUserName());
-			companyWatchListEntity.setClose_price(companyWatchListPojo.getCmp());
-			companyWatchListEntity.setCurr_date((String.valueOf(Calendar.getInstance().getTimeInMillis())));
-			save(companyWatchListEntity);
-			addStatus = true;
-		} else {
-			addStatus = false;
+		try {
+			CompanyWatchList findById = findById(companyWatchListPojo.getCompanyId());
+			if (findById == null) {
+				CompanyWatchList companyWatchListEntity = new CompanyWatchList();
+				companyWatchListEntity.setCompany_id(companyWatchListPojo.getCompanyId());
+				companyWatchListEntity.setCompany_name(companyWatchListPojo.getCompanyName());
+				companyWatchListEntity.setUser_name(companyWatchListPojo.getUserName());
+				companyWatchListEntity.setClose_price(companyWatchListPojo.getCmp());
+				companyWatchListEntity.setCurr_date((String.valueOf(Calendar.getInstance().getTimeInMillis())));
+				save(companyWatchListEntity);
+				addStatus = true;
+			} else {
+				addStatus = false;
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 		return addStatus;
 	}
@@ -51,34 +55,39 @@ public class CompanyWatchListDaoImpl extends GenericDao<CompanyWatchList> implem
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CompanyWatchListPojo> findAllWatchList(Map<Object, Object> paramMap) throws RuntimeException {
-		org.hibernate.Query query = commonDao.getNamedQuery(CompanyWatchList.COMPANY_WATCHLIST_BY_USER_NQ, paramMap);
-		List<CompanyWatchList> companyWatchListList = query.list();
+		List<CompanyWatchList> companyWatchListList = null;
+		List<CompanyWatchListPojo> companyWatchListPojoList = null;
+		try {
+			org.hibernate.Query query = commonDao.getNamedQuery(CompanyWatchList.COMPANY_WATCHLIST_BY_USER_NQ,
+					paramMap);
+			companyWatchListList = query.list();
+			companyWatchListPojoList = new ArrayList<>();
 
-		List<CompanyWatchListPojo> companyWatchListPojoList = new ArrayList<>();
+			for (CompanyWatchList companywatchListEntity : companyWatchListList) {
+				Integer company_id = companywatchListEntity.getCompany_id();
+				CompanyWatchListPojo companyWatchListPojo = new CompanyWatchListPojo();
 
-		for (CompanyWatchList companywatchListEntity : companyWatchListList) {
-			Integer company_id = companywatchListEntity.getCompany_id();
-			CompanyWatchListPojo companyWatchListPojo = new CompanyWatchListPojo();
+				companyWatchListPojo.setCompanyId(company_id);
+				companyWatchListPojo.setCompanyName(companywatchListEntity.getCompany_name());
+				companyWatchListPojo.setUserName(companywatchListEntity.getUser_name());
 
-			companyWatchListPojo.setCompanyId(company_id);
-			companyWatchListPojo.setCompanyName(companywatchListEntity.getCompany_name());
-			companyWatchListPojo.setUserName(companywatchListEntity.getUser_name());
+				String closePriceAtTheTimeOfAddingWatchList = companywatchListEntity.getClose_price();
 
-			String closePriceAtTheTimeOfAddingWatchList = companywatchListEntity.getClose_price();
+				StockCurrentPricePojo stockCurrentPricePojo = stockCurrentPriceDao.getStockCurrentPriceById(company_id);
+				String new_close_price = stockCurrentPricePojo.getClose_price();
 
-			StockCurrentPricePojo stockCurrentPricePojo = stockCurrentPriceDao.getStockCurrentPriceById(company_id);
-			String new_close_price = stockCurrentPricePojo.getClose_price();
+				String diff_close_price = String.valueOf(
+						Float.parseFloat(new_close_price) - Float.parseFloat(closePriceAtTheTimeOfAddingWatchList));
 
-			String diff_close_price = String.valueOf(
-					Float.parseFloat(new_close_price) - Float.parseFloat(closePriceAtTheTimeOfAddingWatchList));
-
-			companyWatchListPojo.setCmp(closePriceAtTheTimeOfAddingWatchList);
-			companyWatchListPojo.setNewCmp(new_close_price);
-			companyWatchListPojo.setDiffCmp(diff_close_price);
-			companyWatchListPojo.setCurrentDate(companywatchListEntity.getCurr_date());
-			companyWatchListPojoList.add(companyWatchListPojo);
+				companyWatchListPojo.setCmp(closePriceAtTheTimeOfAddingWatchList);
+				companyWatchListPojo.setNewCmp(new_close_price);
+				companyWatchListPojo.setDiffCmp(diff_close_price);
+				companyWatchListPojo.setCurrentDate(companywatchListEntity.getCurr_date());
+				companyWatchListPojoList.add(companyWatchListPojo);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 		return companyWatchListPojoList;
 	}
-
 }

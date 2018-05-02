@@ -1,5 +1,6 @@
 package com.finvendor.serverwebapi.resources.homepagesearch.stock;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +23,6 @@ public interface IWebStockHomePageSearch {
 	 */
 	@RequestMapping(value = "/search/company", method = RequestMethod.POST)
 	@ResponseBody
-	String getCompanySearchHint(EquityResearchFilter filter, String q) throws WebApiException;
+	ResponseEntity<?> getCompanySearchHint(EquityResearchFilter filter, String q) throws WebApiException;
 
 }

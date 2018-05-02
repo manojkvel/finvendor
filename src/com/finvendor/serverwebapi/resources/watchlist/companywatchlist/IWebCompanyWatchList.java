@@ -3,11 +3,11 @@ package com.finvendor.serverwebapi.resources.watchlist.companywatchlist;
 import java.util.List;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyWatchListPojo;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
@@ -27,7 +27,7 @@ public interface IWebCompanyWatchList {
 	 */
 	@RequestMapping(value = "/companywatchlist", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	StatusPojo addCompanyWatchList(CompanyWatchListPojo companyWatchListPojo) throws WebApiException;
+	ResponseEntity<?> addCompanyWatchList(CompanyWatchListPojo companyWatchListPojo) throws WebApiException;
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public interface IWebCompanyWatchList {
 	 */
 	@RequestMapping(value = "/companywatchlists", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	List<CompanyWatchListPojo> findAllCompanyWatchlist(String userName) throws WebApiException;
+	ResponseEntity<?> findAllCompanyWatchlist(String userName) throws WebApiException;
 
 	/**
 	 * 

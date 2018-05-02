@@ -85,7 +85,7 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao {
 			companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
 			return companyProfile;
 		} catch (IOException e) {
-			throw new RuntimeException("Error has occured while creating json for company data");
+			throw new RuntimeException("Error has occured while creating json for company data", e);
 		}
 	}
 
@@ -136,7 +136,7 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao {
 			paramsMap.put("equityResearch", equityList);
 			companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
 		} catch (Exception e) {
-			throw new RuntimeException("Error has occured getReasearchReportData(), DAO Error:: " + e.getMessage());
+			throw new RuntimeException("Error has occured getReasearchReportData(), DAO Error::", e);
 		}
 		return companyProfile;
 	}

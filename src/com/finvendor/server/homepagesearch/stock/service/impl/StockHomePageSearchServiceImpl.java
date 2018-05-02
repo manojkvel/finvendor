@@ -31,7 +31,7 @@ public class StockHomePageSearchServiceImpl implements IStockHomePageSearchServi
 			paramMap.put("ticker", searchKeyword);
 			stockSearchHintJson = stockHomePageSearchDao.getSearchHint(paramMap);
 		} catch (RuntimeException e) {
-			throw new Exception("Erro in service :: ", e);
+			throw new Exception(e);
 		}
 		return stockSearchHintJson;
 	}

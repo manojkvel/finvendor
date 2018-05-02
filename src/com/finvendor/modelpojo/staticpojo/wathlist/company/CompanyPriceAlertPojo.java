@@ -1,5 +1,9 @@
 package com.finvendor.modelpojo.staticpojo.wathlist.company;
 
+/**
+ * 
+ * @author ayush on May 01, 2018
+ */
 public class CompanyPriceAlertPojo extends AbstractHomePageSearchPojo {
 	private static final long serialVersionUID = -1531614291471423894L;
 	private String close_price;
