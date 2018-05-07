@@ -129,6 +129,7 @@
 		</div>
 	</div>
 </footer>
+
 <script
 	src="${pageContext.request.contextPath}/resources/js/CreateHTML5Elements.js"></script>
 <script
@@ -158,9 +159,11 @@
 <script
 	src="<%=request.getContextPath() %>/resources/js/jquery-migrate-1.2.1.min.js"
 	type="text/javascript"></script>
-<script
-	src="<%=request.getContextPath() %>/resources/plugins/bootstrap/js/bootstrap.min.js"
-	type="text/javascript"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script type="text/javascript"
 	src="<%=request.getContextPath() %>/resources/js/jquery.validate.js"></script>
 <script type="text/javascript"
@@ -183,6 +186,7 @@
 <script
 	src="<%=request.getContextPath() %>/resources/js/loadingpanel-min.js"></script>
 	
+<script src="<%=request.getContextPath() %>/resources/js/jquery.marcopolo.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/common.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/consumer.js"></script>
 <script
@@ -255,7 +259,7 @@
 <script
 	src="${pageContext.request.contextPath}/resources/js/loginmodernizr.js"></script>
 <script>
-		jQuery(document)
+		/*jQuery(document)
 				.ready(function($) {
 							var options = {
 								$AutoPlay : true,
@@ -316,7 +320,7 @@
 							$(window).bind("load", ScaleSlider);
 							$(window).bind("resize", ScaleSlider);
 							$(window).bind("orientationchange", ScaleSlider);
-						});
+						});*/
 		
 		function newConfirmMsg(buttonId, buttonNames){
 			var def = $.Deferred();

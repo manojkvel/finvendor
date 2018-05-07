@@ -1526,65 +1526,6 @@ input[type="file"]:focus {
 	font-size: 13px;
 }
 
-#fv_equity_research_report_vendor_search {
-	background: #fff;
-	padding: 0;
-	overflow: auto;
-	min-height: 400px;
-	margin-bottom: 10px;
-	position: relative;
-}
-
-#fv_equity_research_report_vendor_search #broker_table {
-	min-height: 200px;
-	margin-bottom: 20px;
-	width: 100%;
-}
-
-#fv_equity_research_report_vendor_search #broker_table > thead > tr > th {
-    min-height: 40px;
-    height: 40px;
-    font-weight: 500;
-    background-color: #34bf98;
-    color: #FFFFFF;
-    border: 1px solid #eceeef;
-    border-bottom: 2px solid #eceeef;
-}
-
-#fv_equity_research_report_vendor_search #broker_table td, 
-#fv_equity_research_report_vendor_search #broker_table th {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    vertical-align: middle;
-    font-size: 13px;
-    padding: 10px;
-    text-align: center;
-}
-
-#fv_equity_research_report_vendor_search #broker_table th {
-	vertical-align: top;
-}
-
-
-
-#fv_equity_research_report_vendor_search #broker_table tbody tr:nth-of-type(odd) {
-    background-color: #f9f9f9;
-}
-
-#fv_equity_research_report_vendor_search #broker_table i.fa {
-	font-size: 22px;
-}
-
-#fv_equity_research_report_vendor_search #broker_table i.fa.fa-file-pdf-o {
-	color: #ff0000;
-}
-
-#fv_equity_research_report_vendor_search #broker_table td a:last-child {
-	margin-left:0;
-}
-
-
 
 
 
@@ -1684,30 +1625,6 @@ h2 {
 	border: 1px solid #ddd;
 	margin-bottom: 10px;
 	padding: 10px;
-}
-
-#fv_equity_research_report_vendor_search #broker_table i.fa-sort {
-	font-size: 11px;
-}
-
-#fv_equity_research_report_vendor_search #broker_table i.fa-file {
-	color: #414b4f;
-}
-
-#fv_equity_research_report_vendor_search #broker_table a {
-	color: #fff;
-}
-
-#fv_equity_research_report_vendor_search #broker_table thead th p {
-	margin: 0;
-	text-align: left;
-}
-
-#fv_equity_research_report_vendor_search .large_font a {
-	font-size: 16px;
-}
-#fv_equity_research_report_vendor_search .small_font a {
-	font-size: 13px;
 }
 
 

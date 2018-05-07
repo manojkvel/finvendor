@@ -184,10 +184,12 @@ body {
 	height: 100%;
 	width: 100%;
 	background: rgba(0, 0, 0, 0.6);
+	z-index: 999;
 }
 
 
-#fv_equity_research_report_vendor_search #spinner {
+#fv_equity_research_report_vendor_search #spinner,
+#company_profile #spinner {
 	background: #fff;
 	width: 200px;
 	border-radius: 20px;
@@ -197,7 +199,7 @@ body {
 }
 
 .pager li>a, .pager li>a:focus {
-	background: #414b4f;
+	background: #414b4f !important;
 	color: #fff;
 	font-weight: bold;
 }
@@ -315,6 +317,288 @@ body {
 	background: #fff;
 	color: #000;
 	text-align: center;
+}
+
+.mp_list {
+	margin: 0;
+	position: absolute;
+	top: 38px;
+	right: 0;
+	width: 100%;
+	max-height: 150px;
+	overflow: auto;
+	z-index: 1;
+	box-shadow: 1px 1px 4px #888888;
+}
+
+.mp_list li {
+	background: #fff;
+	padding: 10px 5px;
+	cursor: pointer;
+}
+
+.mp_list li.mp_highlighted {
+	background: #cecece;
+}
+
+#company_profile {
+	background: #fff;
+	min-height: 200px;
+	overflow: hidden;
+	padding: 15px 0;
+	margin-bottom: 15px;
+}
+
+#company_profile .container-fluid {
+	padding: 0;
+	clear: both;
+}
+
+#company_profile .company_details {
+	text-align: left;
+}
+
+#company_profile .func_details {
+	text-align: right;
+}
+
+#company_profile .func_details a {
+	color: #fff;
+	border-radius: 20px;
+	padding: 5px 10px;
+	font-size: 11px;
+	background: #414b4f;
+}
+
+#company_profile .profile_details span {
+	border-right: 1px solid #ccc;
+	padding-right: 10px;
+	padding-left: 5px;
+}
+
+#company_profile .profile_details span:first-child {
+	padding-left: 0;
+}
+
+#company_profile .profile_details span:last-child {
+	border-right: 0;
+	padding-right: 0;
+}
+
+.score_func_details {
+	margin: 20px 0;
+}
+
+.score_func_details .score_block {
+	margin: 0 -15px;
+	min-height: 100px;
+	padding: 10px;
+}
+
+.score_func_details span {
+	display: block;
+	font-size: 11px;
+}
+
+.score_func_details .success {
+	background: #5cb85c;
+	color: #fff;
+}
+
+.score_func_details .warning {
+	background: #f0ad4e;
+	color: #fff;
+}
+
+.score_func_details .danger {
+	background: #d9534f;
+	color: #fff;
+}
+
+.score_func_details p {
+	font-size: 24px;
+	padding: 10px 0;
+}
+
+.panel-default>.panel-heading {
+	color: #fff;
+    background-color: #34bf98;
+    border-color: #000;
+    padding: 0;
+}
+
+.panel-default>.panel-heading a {
+	padding: 10px 15px;
+	display: block;
+}
+
+.c_name {
+	font-weight: bold;
+}
+
+.last_cmp {
+	font-weight: bold;
+}
+
+.nav-tabs {
+	border-bottom: 0 ;
+}
+
+.nav-tabs>li.active>a, 
+.nav-tabs>li.active>a:focus, 
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li>a:hover {
+	background: #34bf98;
+	color: #fff;
+	cursor: pointer;
+}
+
+.nav-tabs>li>a,
+.nav-tabs>li>a:focus {
+	background: #414b4f;
+	color: #fff;
+}
+
+#company_profile .subheader_content {
+	padding: 0;
+}
+
+#company_profile .subheader_content #summary_content,
+#company_profile .subheader_content #technical_content,
+#company_profile .subheader_content #calendar_content,
+#company_profile .subheader_content #shareholding_content {
+	padding: 10px 0;
+}
+
+#company_profile .subheader_content #research_report_content,
+#company_profile .subheader_content #technical_content,
+#company_profile .subheader_content #calendar_content,
+#company_profile .subheader_content #shareholding_content {
+	display: none;
+}
+
+
+
+
+#broker_table {
+	min-height: 200px;
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+#broker_table > thead > tr > th {
+    min-height: 40px;
+    height: 40px;
+    font-weight: 500;
+    background-color: #34bf98;
+    color: #FFFFFF;
+    border: 1px solid #eceeef;
+    border-bottom: 2px solid #eceeef;
+}
+
+#broker_table td, 
+#broker_table th {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    vertical-align: middle;
+    font-size: 13px;
+    padding: 10px;
+    text-align: center;
+}
+
+#broker_table th {
+	vertical-align: top;
+}
+
+
+
+#fv_equity_research_report_vendor_search,
+#research_report_content {
+	background: #fff;
+	padding: 0;
+	overflow: auto;
+	min-height: 400px;
+	margin-bottom: 10px;
+	position: relative;
+}
+
+
+#broker_table tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+#broker_table i.fa {
+	font-size: 22px;
+}
+
+#broker_table i.fa.fa-file-pdf-o {
+	color: #ff0000;
+}
+
+#broker_table td a:last-child {
+	margin-left:0;
+}
+
+#broker_table i.fa-sort {
+	font-size: 11px;
+}
+
+#broker_table i.fa-file {
+	color: #414b4f;
+}
+
+#broker_table a {
+	color: #fff;
+}
+
+#broker_table thead th p {
+	margin: 0;
+	text-align: left;
+}
+
+#broker_table .large_font a {
+	font-size: 16px;
+}
+#broker_table .small_font a {
+	font-size: 13px;
+}
+
+.research_report_score_block {
+	margin: 0 -15px;
+	min-height: 85px;
+	padding: 10px;
+	background: #414b4f;
+	color: #fff;
+	border-right: 1px solid #fff;
+}
+
+.research_report_score_block p {
+	background: #fff;
+	margin: 10px 0;
+	font-size: 10px;
+}
+
+.research_report_score_block p span {
+	display: inline-block;
+	padding: 5px;
+	text-indent: -9999em;
+	width: 50%;
+}
+
+.research_report_score_block .success {
+	background: #5cb85c;
+	color: #fff;
+}
+
+.research_report_score_block .warning {
+	background: #f0ad4e;
+	color: #fff;
+}
+
+.research_report_score_block .danger {
+	background: #d9534f;
+	color: #fff;
 }
 
 @media only screen and (max-width: 480px) {

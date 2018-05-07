@@ -390,3 +390,80 @@ function getResearchSubAreaMapping(rcResearchAreaSelector, rcResearchSubAreaSele
   		
   	} 
 }
+
+function isProgressLoader(status) {
+	if(status === true) {
+		$("#progressLoader").show();
+	} else {
+		$("#progressLoader").hide();
+	}
+}
+
+
+var API_TIMEOUT_SMALL = 30*1000;
+var API_TIMEOUT_LARGE = 3*60*1000;
+
+function getGenericSearchCompanyList(hintVal) {
+
+	var url = "/system/api/companyhomepagesearch?searchKeyword=" + hintVal;
+	return new Promise(function(resolve, reject) {
+		var httpRequest = new XMLHttpRequest({
+			mozSystem: true
+		});
+		httpRequest.timeout = API_TIMEOUT_SMALL;
+		httpRequest.open('GET', url, true);
+		httpRequest.ontimeout = function () {
+			reject("" + httpRequest.responseText);
+		};
+		httpRequest.onreadystatechange = function () {
+			if (httpRequest.readyState === XMLHttpRequest.DONE) {
+				if (httpRequest.status === 200) {
+					resolve(httpRequest.response);
+				} else {
+					console.log(httpRequest.status + httpRequest.responseText);
+					reject(httpRequest.responseText);
+				}
+			} else {
+			}
+		};
+
+		httpRequest.send();
+	});
+};
+
+jQuery(document).ready(function($) {
+
+	function getHeaderSearchCompanyList(e) {
+
+		var hintVal = $("#txtSearchBox").val();
+
+		if(hintVal.length >=2 && e.which == 13) {
+			$('#fv_sub_header input[name = txtSearchBox]').click();
+      		return false;
+		}
+
+		$('#txtSearchBox').marcoPolo({
+			url: '/system/api/companyhomepagesearch',
+			param: 'searchKeyword',
+			minChars: 2,
+			formatData: function (data) {
+				return data.companySearchHint;
+			},
+			formatItem: function (data, $item) {
+				return data.companyName + " (" + data.ticker + ")";
+			},
+			onSelect: function (data, $item) {
+				if(data.companyName != undefined) {
+					var companyProfileJson = {
+						isinCode : data.isinCode,
+					}
+					window.localStorage.setItem('companyProfileJson', JSON.stringify(companyProfileJson));
+					this.val(data.companyName);
+				}
+			},
+			required: true
+		});
+	};
+
+	$("#txtSearchBox").on("keydown", getHeaderSearchCompanyList);
+});
