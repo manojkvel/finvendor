@@ -1,14 +1,20 @@
 package com.finvendor.serverwebapi.resources.common.impl;
 
+import static com.finvendor.common.exception.ExceptionEnum.COMPANY_DETAILS;
+import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_FILTER;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.common.enums.SqlEnum;
+import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
-import com.finvendor.server.common.dao.ifc.ICommonDao;
+import com.finvendor.server.common.dao.ICommonDao;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.common.IWebApiCommon;
 import com.finvendor.serverwebapi.utils.WebUtil;
@@ -25,29 +31,40 @@ public class WebApiCommonImpl implements IWebApiCommon {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<CompanyDetails> getCompanyDetails(String researchAreaId) throws WebApiException {
-		return commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(), researchAreaId);
+	public ResponseEntity<?> getCompanyDetails(String researchAreaId) throws WebApiException {
+		try {
+			List<CompanyDetails> companyDetails = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(),
+					researchAreaId);
+			return new ResponseEntity<List<CompanyDetails>>(companyDetails, HttpStatus.OK);
+		} catch (Exception e) {
+			ErrorUtil.logError("WebApiCommon -> getCompanyDetails(...) method", e);
+			return ErrorUtil.getError(COMPANY_DETAILS.getCode(), COMPANY_DETAILS.getUserMessage(), e);
+		}
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public String getResearchFilterData(String type) throws WebApiException {
-
-		switch (type) {
+	public ResponseEntity<?> getResearchFilterData(String type) throws WebApiException {
+		try {
+			switch (type) {
 			case "brokerYrOfInCorp":
-				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON;
+				return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON, HttpStatus.OK);
 			case "brokerRank":
-				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON;
+				return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON, HttpStatus.OK);
 			case "others":
-				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON;
+				return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON, HttpStatus.OK);
 			case "upside":
-				return WebUtil.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON;
+				return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON, HttpStatus.OK);
+			}
+
+			SqlData sqlData = WebUtil.typeMap.get(type);
+			String jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(),
+					sqlData.getConitionValue(), sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(),
+					sqlData.getColIndex());
+			return new ResponseEntity<String>(jsonResult, HttpStatus.OK);
+		} catch (Exception e) {
+			ErrorUtil.logError("WebApiCommon -> getResearchFilterData(...) method", e);
+			return ErrorUtil.getError(EQUITY_RESEARCH_FILTER.getCode(), EQUITY_RESEARCH_FILTER.getUserMessage(), e);
 		}
-
-		SqlData sqlData 	= WebUtil.typeMap.get(type);
-		String jsonResult 	= commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(), sqlData.getConitionValue(),
-				sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(), sqlData.getColIndex());
-
-		return jsonResult;
 	}
 }

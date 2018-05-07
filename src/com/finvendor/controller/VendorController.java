@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.finvendor.common.util.ExceptionUtil;
+import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.StringUtil;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.JsonResponseData;
@@ -3196,7 +3196,7 @@ public class VendorController {
 		} catch (Exception exp) {
 			logger.error("Error Reading Trading Applications Offering for {}", userName, exp);
 			throw new WebApiException("Error has occurred in VendorController -> listResearchReportsOffering(...) method,"
-					+ " Root Cause:: " + ExceptionUtil.getRootCause(exp));
+					+ " Root Cause:: " + ErrorUtil.getRootCause(exp));
 		}
 	}
 

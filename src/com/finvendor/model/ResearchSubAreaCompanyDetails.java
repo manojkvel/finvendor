@@ -8,43 +8,47 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+@NamedQueries({
+		@NamedQuery(name = ResearchSubAreaCompanyDetails.HOME_PAGE_SEARCH_NQ, query = "from com.finvendor.model.ResearchSubAreaCompanyDetails where country.country_id like:cid and (companyName like:cname or isinCode like:isincode or ticker like:ticker)") })
 @Entity
-@Table(name="rsch_sub_area_company_dtls")
+@Table(name = "rsch_sub_area_company_dtls")
 public class ResearchSubAreaCompanyDetails implements Serializable {
-
 	private static final long serialVersionUID = -3751449132568377457L;
-	
+	public static final String HOME_PAGE_SEARCH_NQ = "homePageSearch";
+
 	@Id
-    @Column(name="id")
+	@Column(name = "id")
 	private String id;
-	
-	@Column(name="company_id")
+
+	@Column(name = "company_id")
 	private String compnayId;
-	
-	@Column(name="company_name")
+
+	@Column(name = "company_name")
 	private String companyName;
-	
-	@ManyToOne(targetEntity=ResearchSubArea.class, fetch=FetchType.EAGER)
-	@JoinColumn(name="rsch_sub_area_id", nullable=false)
+
+	@ManyToOne(targetEntity = ResearchSubArea.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "rsch_sub_area_id", nullable = false)
 	private ResearchSubArea researchSubArea;
-	
-	@ManyToOne(targetEntity=ResearchAreaStockClassification.class, fetch=FetchType.EAGER)
-	@JoinColumn(name="stock_class_type_id", nullable=false)
+
+	@ManyToOne(targetEntity = ResearchAreaStockClassification.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "stock_class_type_id", nullable = false)
 	private ResearchAreaStockClassification researchAreaStockClassification;
-	
-	@ManyToOne(targetEntity=Country.class, fetch=FetchType.EAGER)
-	@JoinColumn(name="country_id", nullable=false)
+
+	@ManyToOne(targetEntity = Country.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "country_id", nullable = false)
 	private Country country;
-	
-	@Column(name="isin_code")
+
+	@Column(name = "isin_code")
 	private String isinCode;
-	
-	@Column(name="ticker")
+
+	@Column(name = "ticker")
 	private String ticker;
-	
-	@Column(name="exchg_code")
+
+	@Column(name = "exchg_code")
 	private String exchgCode;
 
 	public String getCompnayId() {
@@ -79,5 +83,20 @@ public class ResearchSubAreaCompanyDetails implements Serializable {
 		this.researchAreaStockClassification = researchAreaStockClassification;
 	}
 
+	public String getIsinCode() {
+		return isinCode;
+	}
+
+	public void setIsinCode(String isinCode) {
+		this.isinCode = isinCode;
+	}
+
+	public String getTicker() {
+		return ticker;
+	}
+
+	public void setTicker(String ticker) {
+		this.ticker = ticker;
+	}
+
 }
- 

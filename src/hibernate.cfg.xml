@@ -67,6 +67,12 @@
         <mapping class="com.finvendor.model.IndustrySubType"></mapping>
         <mapping class="com.finvendor.model.MarketCapDef"></mapping>
         <mapping class="com.finvendor.model.BrokerAnalyst"></mapping>
+        <mapping class="com.finvendor.model.Example"></mapping>
+        <mapping class="com.finvendor.model.CompanyWatchList"></mapping>
+        <mapping class="com.finvendor.model.CompanyPriceAlert"></mapping>
+        <mapping class="com.finvendor.model.StockHistoricalPrice"></mapping>
+        <mapping class="com.finvendor.model.CompMarketCapType"></mapping>
+        <mapping class="com.finvendor.model.StockCurrentPrice"></mapping>
         
       </session-factory>
 	 

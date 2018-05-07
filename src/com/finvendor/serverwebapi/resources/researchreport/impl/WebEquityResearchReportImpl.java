@@ -1,5 +1,10 @@
 package com.finvendor.serverwebapi.resources.researchreport.impl;
 
+import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_RECORD_STAT;
+import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_REPORT;
+import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_REPORT_DOWNLOAD;
+import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_RESULT_DASHBOARD;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -12,20 +17,21 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.finvendor.common.util.ExceptionUtil;
-import com.finvendor.server.researchreport.dto.filter.EquityResearchFilter;
-import com.finvendor.server.researchreport.dto.result.EquityResearchResult;
-import com.finvendor.server.researchreport.dto.result.ifc.AbsResearchReportResult;
-import com.finvendor.server.researchreport.service.ifc.IResearchReportService;
+import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.modelpojo.staticpojo.StatusPojo;
+import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
+import com.finvendor.server.researchreport.dto.result.AbsResearchReportResult;
+import com.finvendor.server.researchreport.dto.result.impl.EquityResearchResult;
+import com.finvendor.server.researchreport.service.IResearchReportService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.researchreport.IWebResearchReport;
 
@@ -36,7 +42,6 @@ import com.finvendor.serverwebapi.resources.researchreport.IWebResearchReport;
 @Controller
 // TBD: Later will replace with RestController to avoid @Responsebody annotation
 public class WebEquityResearchReportImpl implements IWebResearchReport {
-	private static Logger logger = LoggerFactory.getLogger(WebEquityResearchReportImpl.class);
 
 	@Autowired
 	@Qualifier(value = "equityResearchReportService")
@@ -55,8 +60,7 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Collection<EquityResearchResult>> getResearchResultTableData(
-			@RequestBody EquityResearchFilter equityResearchFilter,
+	public ResponseEntity<?> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
 			@RequestParam(value = "type", required = true) String type,
 			@RequestParam(value = "pageNumber", required = true) String pageNumber,
 			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords,
@@ -72,19 +76,15 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
 					.getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
 			Map<String, Collection<EquityResearchResult>> searchResult = new HashMap<>();
 			searchResult.put(type, researchReport.values());
-			return searchResult;
+			return new ResponseEntity<Map<String, Collection<EquityResearchResult>>>(searchResult, HttpStatus.OK);
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
-					"Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getResearchResultTableData(...) method",
-					e);
-			logger.error("Web API Error: " + apiErrorMessage);
-			throw new WebApiException(apiErrorMessage);
+			ErrorUtil.logError("WebEquityResearchReport -> getResearchResultTableData(...) method", e);
+			return ErrorUtil.getError(EQUITY_RESEARCH_REPORT.getCode(), EQUITY_RESEARCH_REPORT.getUserMessage(), e);
 		}
 	}
 
 	@Override
-	public Map<String, EquityResearchResult> getResearchResultDashboardData(
-			@RequestBody EquityResearchFilter equityResearchFilter,
+	public ResponseEntity<?> getResearchResultDashboardData(@RequestBody EquityResearchFilter equityResearchFilter,
 			@RequestParam(value = "type", required = true) String type,
 			@RequestParam(value = "pageNumber", required = true) String pageNumber,
 			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords,
@@ -99,18 +99,16 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
 			Map<String, EquityResearchResult> dashboardResult = new HashMap<>();
 
 			dashboardResult.put(type, absResearchReportResult);
-			return dashboardResult;
+			return new ResponseEntity<Map<String, EquityResearchResult>>(dashboardResult, HttpStatus.OK);
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
-					"Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getResearchResultDashboardData(...) method",
-					e);
-			logger.error("Web API Error: " + apiErrorMessage);
-			throw new WebApiException(apiErrorMessage);
+			ErrorUtil.logError("WebEquityResearchReport -> getResearchResultDashboardData(...) method", e);
+			return ErrorUtil.getError(EQUITY_RESEARCH_RESULT_DASHBOARD.getCode(),
+					EQUITY_RESEARCH_RESULT_DASHBOARD.getUserMessage(), e);
 		}
 	}
 
 	@Override
-	public void downloadResearchReport(HttpServletRequest request, HttpServletResponse response,
+	public ResponseEntity<?> downloadResearchReport(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("reportFileName") String reportFileName, @RequestParam("vendorName") String vendorName)
 					throws WebApiException {
 		try {
@@ -124,26 +122,17 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
 				response.setHeader("Content-Length", String.valueOf(file.length()));
 				FileCopyUtils.copy(in, response.getOutputStream());
 			}
+			StatusPojo statusPojo = new StatusPojo("true", "Equity research report downloaded successfully.");
+			return new ResponseEntity<StatusPojo>(statusPojo, HttpStatus.OK);
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
-					"Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> downloadResearchReport(...) method",
-					e);
-			logger.error("Web API Error: " + apiErrorMessage);
-			throw new WebApiException(apiErrorMessage);
+			ErrorUtil.logError("WebEquityResearchReport -> downloadResearchReport(...) method", e);
+			return ErrorUtil.getError(EQUITY_RESEARCH_REPORT_DOWNLOAD.getCode(),
+					EQUITY_RESEARCH_REPORT_DOWNLOAD.getUserMessage(), e);
 		}
 	}
 
-	private String buildReportPath(HttpServletRequest request, String reportFileName, String vendorName)
-			throws Exception {
-		String loggedInUser = vendorName;
-		String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
-		String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator
-				+ reportFileName;
-		return fullyQualifiedReportFilePath;
-	}
-
 	@Override
-	public String getRecordStatistics(@RequestBody EquityResearchFilter equityResearchFilter,
+	public ResponseEntity<?> getRecordStatistics(@RequestBody EquityResearchFilter equityResearchFilter,
 			@RequestParam(value = "type", required = true) String type,
 			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords)
 					throws WebApiException {
@@ -151,13 +140,22 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
 			if (!"equity".equals(type)) {
 				throw new Exception("Research Report type must be equity !!");
 			}
-			return equityResearchService.getRecordStatistics(equityResearchFilter, perPageMaxRecords);
+			String recordStatistics = equityResearchService.getRecordStatistics(equityResearchFilter,
+					perPageMaxRecords);
+			return new ResponseEntity<String>(recordStatistics, HttpStatus.OK);
 		} catch (Exception e) {
-			String apiErrorMessage = ExceptionUtil.buildErrorMessage(
-					"Error has occurred in Equity Research -> Equity/Company Research :: WebResearchReport -> getTotalRecordCount(...) method",
-					e);
-			logger.error("Web API Error: " + apiErrorMessage);
-			throw new WebApiException(apiErrorMessage);
+			ErrorUtil.logError("WebEquityResearchReport -> getRecordStatistics(...) method", e);
+			return ErrorUtil.getError(EQUITY_RESEARCH_RECORD_STAT.getCode(),
+					EQUITY_RESEARCH_RECORD_STAT.getUserMessage(), e);
 		}
+	}
+	
+	private String buildReportPath(HttpServletRequest request, String reportFileName, String vendorName)
+			throws Exception {
+		String loggedInUser = vendorName;
+		String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
+		String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator
+				+ reportFileName;
+		return fullyQualifiedReportFilePath;
 	}
 }
