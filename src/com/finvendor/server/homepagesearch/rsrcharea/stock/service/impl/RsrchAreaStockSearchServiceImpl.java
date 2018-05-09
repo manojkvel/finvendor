@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.finvendor.common.util.LocaleUtil;
 import com.finvendor.server.homepagesearch.rsrcharea.stock.dao.IStockHomePageSearchDao;
 import com.finvendor.server.homepagesearch.rsrcharea.stock.service.IRsrchAreaStockSearchService;
 
@@ -18,8 +19,9 @@ public class RsrchAreaStockSearchServiceImpl implements IRsrchAreaStockSearchSer
 
 	@Override
 	@Transactional(readOnly = true)
-	public String getResearchAreaStockSearchHint(String id,String geo, String key) throws Exception {
+	public String getResearchAreaStockSearchHint(String id, String key) throws Exception {
 		String stockSearchHintJson = "NA";
+		final String geo = LocaleUtil.getCurrentGeo();
 		try {
 			Map<Object, Object> paramMap = new LinkedHashMap<>();
 			key = key + "%";

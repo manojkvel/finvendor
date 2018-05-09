@@ -24,10 +24,9 @@ public class WebRsrchAreaStockSearchImpl implements IWebRsrchAreaStockSearch {
 
 	@Override
 	public ResponseEntity<?> getResearchAreaStockSearchHint(@RequestParam(value = "id", required = true) String id,
-			@RequestParam(value = "geo", required = true) String geo,
 			@RequestParam(value = "key", required = true) String key) throws WebApiException {
 		try {
-			String homePageSearchHint = researchAreaStockSearchService.getResearchAreaStockSearchHint(id,geo,key);
+			String homePageSearchHint = researchAreaStockSearchService.getResearchAreaStockSearchHint(id, key);
 			return new ResponseEntity<String>(homePageSearchHint, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("StockHomePageSearch -> getCompanySearchHint(...) method", e);

@@ -13,7 +13,7 @@ public interface IRsrchAreaStockProfileService {
 	 * @return
 	 * @throws Exception
 	 */
-	String getResearchAreaStockProfile(String id, String geo, String isinCode) throws Exception;
+	String getResearchAreaStockProfile(String id, String isinCode) throws Exception;
 
 	/**
 	 * 
@@ -22,7 +22,7 @@ public interface IRsrchAreaStockProfileService {
 	 * @param perPageMaxRecords
 	 * @return
 	 */
-	String getResearchAreaStockRecordStats(String id, String geo, String isinCode,String perPageMaxRecords)
+	String getResearchAreaStockRecordStats(String id, String isinCode,String perPageMaxRecords)
 			throws Exception;
 
 	/**
@@ -36,6 +36,6 @@ public interface IRsrchAreaStockProfileService {
 	 * @return
 	 * @throws Exception
 	 */
-	String getResearchReport(String id, String geo, String isinCode,String pageNumber, String perPageMaxRecords,
+	String getResearchReport(String id, String isinCode,String pageNumber, String perPageMaxRecords,
 			String sortBy, String orderBy) throws Exception;
 }

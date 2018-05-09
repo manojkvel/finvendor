@@ -1,6 +1,7 @@
 package com.finvendor.serverwebapi.resources.watchlist.rsrcharea.stock.impl;
 
 import static com.finvendor.common.exception.ExceptionEnum.ADD_WATCHLIST;
+import static com.finvendor.common.exception.ExceptionEnum.FIND_USER_FROM_SESSION;
 import static com.finvendor.common.exception.ExceptionEnum.FIND_WATCHLIST;
 
 import java.util.List;
@@ -30,13 +31,13 @@ import com.finvendor.serverwebapi.resources.watchlist.rsrcharea.stock.IWebRsrchS
 public class WebRsrchAreaStockWatchListImpl implements IWebRsrchStockWatchList {
 
 	@Autowired
-	IRsrchAreaStockWatchListService researchAreaStcockWatchListService;
+	IRsrchAreaStockWatchListService rsrchAreaStcockWatchListService;
 
 	@Override
 	public ResponseEntity<?> addCompanyWatchList(@RequestBody CompanyWatchListPojo companyWatchListPojo,
 			@RequestParam(value = "id", required = true) String id) throws WebApiException {
 		try {
-			boolean addStatus = researchAreaStcockWatchListService.addStockWatchList(companyWatchListPojo, id);
+			boolean addStatus = rsrchAreaStcockWatchListService.addStockWatchList(companyWatchListPojo, id);
 			if (addStatus) {
 				return new ResponseEntity<StatusPojo>(new StatusPojo("true", "Company Watchlist added successfully."),
 						HttpStatus.CREATED);
@@ -61,10 +62,12 @@ public class WebRsrchAreaStockWatchListImpl implements IWebRsrchStockWatchList {
 		try {
 			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			if (loggedInUser == null) {
-				throw new Exception("Unable to find user name from session");
+				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
 			}
 			String userName = loggedInUser.getUsername();
-			List<CompanyWatchListPojo> findAllWatchList = researchAreaStcockWatchListService.findAllStockWatchList(userName);
+
+			List<CompanyWatchListPojo> findAllWatchList = rsrchAreaStcockWatchListService
+					.findAllStockWatchList(userName);
 			return new ResponseEntity<List<CompanyWatchListPojo>>(findAllWatchList, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("CompanyWatchList -> findAllCompanyWatchlist(...) method", e);

@@ -26,10 +26,9 @@ public class WebRsrchAreaStockProfileImpl implements IWebRsrchAreaStockProfile {
 	// Tab1 - Profile + Summary
 	@Override
 	public ResponseEntity<?> getRsrchAreaStockProfile(@RequestParam(value = "id", required = true) String id,
-			@RequestParam(value = "geo", required = true) String geo,
 			@RequestParam(value = "isinCode", required = true) String isinCode) throws WebApiException {
 		try {
-			String companyProfileData = researchAreaStockProfileService.getResearchAreaStockProfile(id, geo, isinCode);
+			String companyProfileData = researchAreaStockProfileService.getResearchAreaStockProfile(id, isinCode);
 			return new ResponseEntity<String>(companyProfileData, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("WebCompnayProfile -> getCompanyProfile(...) method", e);
@@ -40,11 +39,11 @@ public class WebRsrchAreaStockProfileImpl implements IWebRsrchAreaStockProfile {
 	// Tab2 Research Report
 	@Override
 	public ResponseEntity<?> getRsrchAreaStockRecordStats(@RequestParam(value = "id", required = true) String id,
-			@RequestParam(value = "geo", required = true) String geo,
 			@RequestParam(value = "isinCode", required = true) String isinCode,
-			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords) throws WebApiException {
+			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords)
+					throws WebApiException {
 		try {
-			String companyRecordStatistics = researchAreaStockProfileService.getResearchAreaStockRecordStats(id, geo,
+			String companyRecordStatistics = researchAreaStockProfileService.getResearchAreaStockRecordStats(id,
 					isinCode, perPageMaxRecords);
 			return new ResponseEntity<String>(companyRecordStatistics, HttpStatus.OK);
 		} catch (Exception e) {
@@ -55,17 +54,15 @@ public class WebRsrchAreaStockProfileImpl implements IWebRsrchAreaStockProfile {
 
 	// Tab2 Research Report
 	@Override
-	public ResponseEntity<?> getRsrchAreaStockRsrchReport(
-			@RequestParam(value = "id", required = true) String id,
-			@RequestParam(value = "geo", required = true) String geo,
+	public ResponseEntity<?> getRsrchAreaStockRsrchReport(@RequestParam(value = "id", required = true) String id,
 			@RequestParam(value = "isinCode", required = true) String isinCode,
 			@RequestParam(value = "pageNumber", required = true) String pageNumber,
 			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords,
 			@RequestParam(value = "sortBy", required = true) String sortBy,
 			@RequestParam(value = "orderBy", required = true) String orderBy) throws WebApiException {
 		try {
-			String companyResearchReportData = researchAreaStockProfileService
-					.getResearchReport(id, geo,isinCode, pageNumber, perPageMaxRecords, sortBy, orderBy);
+			String companyResearchReportData = researchAreaStockProfileService.getResearchReport(id, isinCode,
+					pageNumber, perPageMaxRecords, sortBy, orderBy);
 			return new ResponseEntity<String>(companyResearchReportData, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("WebCompnayProfile -> getCompanyResearchReport(...) method", e);

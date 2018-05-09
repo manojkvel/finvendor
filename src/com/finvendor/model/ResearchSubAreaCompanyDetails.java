@@ -13,7 +13,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @NamedQueries({
-		@NamedQuery(name = ResearchSubAreaCompanyDetails.HOME_PAGE_SEARCH_NQ, query = "from com.finvendor.model.ResearchSubAreaCompanyDetails where country.country_id like:cid and (companyName like:cname or isinCode like:isincode or ticker like:ticker)") })
+	@NamedQuery(name = ResearchSubAreaCompanyDetails.HOME_PAGE_SEARCH_NQ, query = "from com.finvendor.model.ResearchSubAreaCompanyDetails where country.country_id like:cid and (companyName like:cname or isinCode like:isincode or ticker like:ticker)")
+})
 @Entity
 @Table(name = "rsch_sub_area_company_dtls")
 public class ResearchSubAreaCompanyDetails implements Serializable {
