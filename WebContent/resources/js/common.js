@@ -443,11 +443,11 @@ jQuery(document).ready(function($) {
 		}
 
 		$('#txtSearchBox').marcoPolo({
-			url: '/system/api/companyhomepagesearch',
-			param: 'searchKeyword',
+			url: '/system/api/search/researcharea?id=1&geo=1',
+			param: 'key',
 			minChars: 2,
 			formatData: function (data) {
-				return data.companySearchHint;
+				return data.searchOutput;
 			},
 			formatItem: function (data, $item) {
 				return data.companyName + " (" + data.ticker + ")";

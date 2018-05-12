@@ -1,7 +1,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@page import="com.finvendor.util.RequestConstans"%>
-<c:set var="researchreport" value="${researchreport}"></c:set>
 <!DOCTYPE html>
 <head>
 	<title>Research Company Profile</title>
@@ -13,7 +12,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 </head>
 <body>
-	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
+	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 	
 	<div class="container-fluid">
 		<div class="row">
@@ -35,8 +34,20 @@
 						</div>
 						<div class="col-xs-12 col-sm-5">
 							<div class="profile_details func_details">
-								<span><a href="#">Add to Watchlist</a></span>
-								<span><a href="#">Set Price Alert</a></span>
+								<c:choose>
+									<c:when test="${sessionScope.loggedInUser != null}">
+									 	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addToWatchlist"><span class="fa fa-eye"></span> Add to Watchlist</button>
+									 	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#setPriceAlert"><span class="fa fa-bell"></span> Set Price Alert</button>
+									</c:when>
+									<c:otherwise>
+										<a href="javascript:inner_login('<%="view/company-profile.jsp"%>')">
+											<span class="fa fa-eye"></span> Add to Watchlist
+										</a>
+										<a href="javascript:inner_login('<%="view/company-profile.jsp"%>')">
+											<span class="fa fa-bell"></span> Set Price Alert
+										</a>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 					</div>
@@ -71,7 +82,7 @@
 						</div>
 					</div>
 
-					<div class="container-fluid">
+					<div class="container-fluid" style="margin-top: 100px;">
 						<div class="col-xs-12">
 							<div class="subheader">
 								<nav>
@@ -93,43 +104,47 @@
 								<div id="research_report_content">
 									<div class="row">
 										<div class="col-xs-12 col-sm-12" style="margin-top: 20px;">
-											<div class="col-xs-12 col-sm-4">
-												<div class="research_report_score_block">
-													<span>Total Buy Recomm.</span>
-													<p>
-														<span class='success'  data-toggle='tooltip' title='10'>10</span>
-													</p>
+											<div class="col-xs-4 col-sm-4">
+												<div id="total_buy_recomm" class="research_report_score_block">
+													<span class='success'></span>
+													<div class="row">
+														<p>Total BUY Recomm.</p>
+													</div>
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-4">
-												<div class="research_report_score_block">
-													<span>Total Neutral Recomm.</span>
-													<p>
-														<span class='warning'  data-toggle='tooltip' title='10'>10</span>
-													</p>
+											<div class="col-xs-4 col-sm-4">
+												<div id="total_neutral_recomm" class="research_report_score_block">
+													<span class='warning'></span>
+													<div class="row">
+														<p>Total NEUTRAL Recomm.</p>
+													</div>
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-4">
-												<div class="research_report_score_block">
-													<span >Total Sell Recomm.</span>
-													<p>
-														<span class='danger'  data-toggle='tooltip' title='10'>10</span>
-													</p>
+											<div class="col-xs-4 col-sm-4">
+												<div id="total_sell_recomm" class="research_report_score_block">
+													<span class='danger'></span>
+													<div class="row">
+														<p>Total SELL Recomm.</p>
+													</div>
 												</div>
 											</div>
 										</div>
 
 										<div class="col-xs-12 col-sm-12" style="margin-top: 20px;">
-											<div class="col-xs-12 col-sm-6">
-												<div class="research_report_score_block success">
-													<span>Average Target Price</span>
-													<p>2200</p>
+											<div class="col-xs-6 col-sm-6">
+												<div id="average_target_price" class="research_report_score_block success">
+													<span>0</span>
+													<div class="row">
+														<p>Average Target Price</p>
+													</div>
 												</div>
 											</div>
-											<div class="col-xs-12 col-sm-6">
-												<div class="research_report_score_block danger">
-													<span>No. of Analyst Report</span>
-													<p>1</p>
+											<div class="col-xs-6 col-sm-6">
+												<div id="no_of_analyst_report" class="research_report_score_block danger">
+													<span>0</span>
+													<div class="row">
+														<p>No. of Analyst Report</p>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -252,16 +267,101 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-md-3">
+			<div class="hidden-xs hidden-sm col-md-3">
 				<div class="ads_space">Keep Watching this space for ads!!</div>
 			</div>
 		</div>
 	</div>
 
+	<jsp:include page="login.jsp"></jsp:include>
     <jsp:include page="common/footer.jsp"></jsp:include>
+
+    <!-- Modal -->
+  <div class="modal fade" id="addToWatchlist" role="dialog">
+    <div class="modal-dialog">
+    
+      <div class="alert alert-success alert-dismissible">
+      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+      	<span>This alert box could indicate a successful or positive action.</span>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="setPriceAlert" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3>Add an alert for a stock that you are interested in. Alerts are delivered to your email. You can configure alerts for price and for new research reports.</h3>
+        </div>
+        <div class="modal-body">
+        	<div class="alert-cards">
+	        	<h4>Price <a class="fa fa-info-circle" href="javascript:void(0);" data-toggle='tooltip' title='Configure alerts for price'></a></h4>
+	          	<table>
+	          		<tr>
+	          			<th>&nbsp;</th>
+	          			<th>Min Price</th>
+	          			<th>Max Price</th>
+	          		</tr>
+	          		<tr>
+	          			<td>Day</td>
+	          			<td>
+	          				<input type="text" name="day_min_price" val="" />
+	          			</td>
+	          			<td>
+	          				<input type="text" name="day_max_price" val="" />
+	          			</td>
+	          		</tr>
+	          		<tr>
+	          			<td>Week</td>
+	          			<td>
+	          				<input type="text" name="week_min_price" val="" />
+	          			</td>
+	          			<td>
+	          				<input type="text" name="week_max_price" val="" />
+	          			</td>
+	          		</tr>
+	          		<tr>
+	          			<td>Month</td>
+	          			<td>
+	          				<input type="text" name="month_min_price" val="" />
+	          			</td>
+	          			<td>
+	          				<input type="text" name="month_max_price" val="" />
+	          			</td>
+	          		</tr>
+	          	</table>
+          	</div>
+          	<div class="alert-cards">
+	        	<h4>Research <a class="fa fa-info-circle" href="javascript:void(0);" data-toggle='tooltip' title='Configure alerts for research reports'></a></h4>
+	        	<table class="research_report">
+	        		<tr>
+	        			<td>
+	          				<input type="checkbox" name="alert_new_research_report" val="" /> 
+	          			</td>
+	        			<td>
+	          				Alert New Research Report
+	          			</td>
+	          		</tr>
+	          	</table>
+          	</div>
+        </div>
+        <div class="modal-footer">
+          	<button type="button" class="btn btn-info btn-lg">Set Alert</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/companyprofile.js"></script>
 	<script type="text/javascript">
 		getCompanyProfileResearchReportLoad();
+		$('[data-toggle="tooltip"]').tooltip();
 	</script>
 </body>
 </html>

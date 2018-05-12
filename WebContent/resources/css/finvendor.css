@@ -347,6 +347,7 @@ body {
 	overflow: hidden;
 	padding: 15px 0;
 	margin-bottom: 15px;
+	font-size: 13px;
 }
 
 #company_profile .container-fluid {
@@ -356,6 +357,8 @@ body {
 
 #company_profile .company_details {
 	text-align: left;
+	margin-bottom: 10px;
+	line-height: 18px;
 }
 
 #company_profile .func_details {
@@ -368,6 +371,17 @@ body {
 	padding: 5px 10px;
 	font-size: 11px;
 	background: #414b4f;
+	margin: 0 0 0 10px;
+}
+
+#company_profile .func_details button {
+
+	color: #fff;
+	border-radius: 20px;
+	padding: 5px 10px;
+	font-size: 11px;
+	background: #414b4f;
+	border: 0;
 }
 
 #company_profile .profile_details span {
@@ -387,6 +401,7 @@ body {
 
 .score_func_details {
 	margin: 20px 0;
+	display: none;
 }
 
 .score_func_details .score_block {
@@ -477,6 +492,10 @@ body {
 	display: none;
 }
 
+#company_profile .max_per_page {
+	margin: 15px 0;
+}
+
 
 
 
@@ -565,45 +584,179 @@ body {
 }
 
 .research_report_score_block {
-	margin: 0 -15px;
+	margin: 0 -10px;
 	min-height: 85px;
 	padding: 10px;
-	background: #414b4f;
-	color: #fff;
-	border-right: 1px solid #fff;
+	background: #e6e6e6;
+	color: #414b4f;
+	padding-bottom: 0;
 }
 
 .research_report_score_block p {
 	background: #fff;
 	margin: 10px 0;
-	font-size: 10px;
+	font-size: 13px;
+	text-align: center;
+	padding: 5px 0;
 }
 
-.research_report_score_block p span {
-	display: inline-block;
-	padding: 5px;
-	text-indent: -9999em;
-	width: 50%;
+.research_report_score_block span {
+	display: block;
+	font-size: 25px;
+	text-align: center;
 }
 
-.research_report_score_block .success {
-	background: #5cb85c;
+
+
+/* The Modal (background) */
+.modal {
+    padding-top: 100px; /* Location of the box */
+}
+
+.modal-header {
+	padding: 0;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+}
+
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+	outline: none;
+}
+
+.modal.in .modal-dialog {
+	width: 80%;
+	margin: 0 auto;
+	max-width: 600px;
+	line-height: 20px;
+}
+
+.modal .close {
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	font-weight: bold;
+	opacity: 1;
 	color: #fff;
+	background: #414b4f;
+	outline: none;
 }
 
-.research_report_score_block .warning {
-	background: #f0ad4e;
-	color: #fff;
-}
-
-.research_report_score_block .danger {
+.modal-content.danger {
 	background: #d9534f;
 	color: #fff;
 }
 
-@media only screen and (max-width: 480px) {
+.modal-content.success {
+	background: #5cb85c;
+	color: #fff;
+}
+
+.alert {
+	font-size: 13px;
+	padding: 20px;
+}
+
+#setPriceAlert .modal-dialog {
+	max-width: 400px;
+}
+
+#setPriceAlert h3 {
+	font-size: 13px;
+	line-height: 20px;
+}
+
+#setPriceAlert .modal-body {
+	padding: 0;
+}
+
+#setPriceAlert .modal-body  h4 {
+	padding: 5px 10px;
+	font-size: 13px;
+	margin: 0;
+	background: #e6e6e6;
+	font-weight: bold;
+}
+
+#setPriceAlert .modal-body  h4 .fa-info-circle {
+	color: #414b4f;
+}
+
+#setPriceAlert .modal-body table {
+	width: 100%;
+	margin: 10px 0;
+	font-size: 13px;
+}
+
+#setPriceAlert .modal-body table.research_report {
+	margin: 0;
+}
+
+#setPriceAlert .modal-body table tr td:nth-of-type(even) {
+	margin: 10px 0;
+	display: inline-block;
+}
+
+#setPriceAlert .modal-body table tr td input[type='checkbox'] {
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: 9px;
+}
+
+#setPriceAlert .modal-footer {
+	padding: 15px 0;
+	border: 0;
+}
+
+#setPriceAlert .modal-footer button {
+	background: #414b4f;
+	border: 0;
+	width: 100%;
+}
+
+@media only screen and (max-width: 479px) {
 	.dashboard_report .bd .reportDetails {
 		float: none;
 		margin: 0 0 10px 0;
+	}
+
+	.research_report_score_block {
+		font-size: 9px;
+	}
+
+	.research_report_score_block p {
+		font-size: 11px;
+	}
+
+	.nav-tabs {
+		font-size: 9px;
+	}
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+	.research_report_score_block {
+		font-size: 11px;
+	}
+
+	.research_report_score_block p {
+		font-size: 11px;
+	}
+
+	.nav-tabs {
+		font-size: 10px;
+	}
+
+	.nav>li>a {
+		padding: 10px 13px;
 	}
 }

@@ -1,6 +1,8 @@
 var API_TIMEOUT_SMALL = 30*1000;
 var API_TIMEOUT_LARGE = 3*60*1000;
 
+var companyProfileObj = {};
+
     var timeStampToDate = function (ts) {
         if (ts) {
             ts = new Date(ts).toString();
@@ -16,7 +18,7 @@ var API_TIMEOUT_LARGE = 3*60*1000;
 
 
     var getEquityListHtml = function(response) {
-        var len = response.equityResearch.length;
+        var len = response.equity.length;
         var htmlCode = '';
         var rowHtml =   "";
 
@@ -28,11 +30,11 @@ var API_TIMEOUT_LARGE = 3*60*1000;
         for(var i = 0; i < len; i++) {
 
             var recommTypeClass = "label-warning";
-            if(response.equityResearch[i].recommType == "buy" || response.equityResearch[i].recommType == "accumulate"
-                || response.equityResearch[i].recommType == "overweight"  || response.equityResearch[i].recommType == "bullish") {
+            if(response.equity[i].recommType == "buy" || response.equity[i].recommType == "accumulate"
+                || response.equity[i].recommType == "overweight"  || response.equity[i].recommType == "bullish") {
                 recommTypeClass = "label-success";
-            } else if(response.equityResearch[i].recommType == "sell" || response.equityResearch[i].recommType == "underweight"
-                || response.equityResearch[i].recommType == "reduce"  || response.equityResearch[i].recommType == "bearish") {
+            } else if(response.equity[i].recommType == "sell" || response.equity[i].recommType == "underweight"
+                || response.equity[i].recommType == "reduce"  || response.equity[i].recommType == "bearish") {
                 recommTypeClass = "label-danger";
             } else {
                 recommTypeClass = "label-warning";
@@ -41,7 +43,7 @@ var API_TIMEOUT_LARGE = 3*60*1000;
 
             var _3YrPatGrowthClass = "success";
             var _3YrPatGrowthClass_Caret = "fa-caret-up";
-            if(response.equityResearch[i]._3YrPatGrowth > 0) {
+            if(response.equity[i]._3YrPatGrowth > 0) {
                 _3YrPatGrowthClass = "success";
                 _3YrPatGrowthClass_Caret = "fa-caret-up";
             } else {
@@ -50,7 +52,7 @@ var API_TIMEOUT_LARGE = 3*60*1000;
             }
 
             var upsideClass = "success";
-            if(response.equityResearch[i].upside > 0) {
+            if(response.equity[i].upside > 0) {
                 upsideClass = "success";
             } else {
                 upsideClass = "danger";
@@ -60,15 +62,15 @@ var API_TIMEOUT_LARGE = 3*60*1000;
             var brokerRankLargeCapStarClass = "<i class='fa fa-star'></i>";
 
             var brokerRankLargeCapStarHtml = '';
-            if(response.equityResearch[i].brokerRank.largeCap === "5") {
+            if(response.equity[i].brokerRank.largeCap === "5") {
                 brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
-            } else if(response.equityResearch[i].brokerRank.largeCap === "4") {
+            } else if(response.equity[i].brokerRank.largeCap === "4") {
                 brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankGenericStarClass;
-            } else if(response.equityResearch[i].brokerRank.largeCap === "3") {
+            } else if(response.equity[i].brokerRank.largeCap === "3") {
                 brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-            } else if(response.equityResearch[i].brokerRank.largeCap === "2") {
+            } else if(response.equity[i].brokerRank.largeCap === "2") {
                 brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-            } else if(response.equityResearch[i].brokerRank.largeCap === "1") {
+            } else if(response.equity[i].brokerRank.largeCap === "1") {
                 brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
             } else {
                 brokerRankLargeCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
@@ -77,15 +79,15 @@ var API_TIMEOUT_LARGE = 3*60*1000;
 
             var brokerRankMidCapStarClass = "<i class='fa fa-star'></i>";
             var brokerRankMidCapStarHtml = '';
-            if(response.equityResearch[i].brokerRank.midCap === "5") {
+            if(response.equity[i].brokerRank.midCap === "5") {
                 brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
-            } else if(response.equityResearch[i].brokerRank.midCap === "4") {
+            } else if(response.equity[i].brokerRank.midCap === "4") {
                 brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankGenericStarClass;
-            } else if(response.equityResearch[i].brokerRank.midCap === "3") {
+            } else if(response.equity[i].brokerRank.midCap === "3") {
                 brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-            } else if(response.equityResearch[i].brokerRank.midCap === "2") {
+            } else if(response.equity[i].brokerRank.midCap === "2") {
                 brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-            } else if(response.equityResearch[i].brokerRank.midCap === "1") {
+            } else if(response.equity[i].brokerRank.midCap === "1") {
                 brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
             } else {
                 brokerRankMidCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
@@ -94,32 +96,32 @@ var API_TIMEOUT_LARGE = 3*60*1000;
 
             var brokerRankSmallCapStarClass = "<i class='fa fa-star'></i>";
             var brokerRankSmallCapStarHtml = '';
-            if(response.equityResearch[i].brokerRank.smallCap === "5") {
+            if(response.equity[i].brokerRank.smallCap === "5") {
                 brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
-            } else if(response.equityResearch[i].brokerRank.smallCap === "4") {
+            } else if(response.equity[i].brokerRank.smallCap === "4") {
                 brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankGenericStarClass;
-            } else if(response.equityResearch[i].brokerRank.smallCap === "3") {
+            } else if(response.equity[i].brokerRank.smallCap === "3") {
                 brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-            } else if(response.equityResearch[i].brokerRank.smallCap === "2") {
+            } else if(response.equity[i].brokerRank.smallCap === "2") {
                 brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-            } else if(response.equityResearch[i].brokerRank.smallCap === "1") {
+            } else if(response.equity[i].brokerRank.smallCap === "1") {
                 brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
             } else {
                 brokerRankSmallCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
             }
 
-            htmlCode = htmlCode + "<tr data-id='" + response.equityResearch[i].productId + "'>" +
+            htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "'>" +
             "<td>" + 
-            "<div class='company' data-toggle='tooltip' title='See all reports for " + response.equityResearch[i].company + "'>" + response.equityResearch[i].company + "</div>" + 
-            "<div class='style'>" + response.equityResearch[i].style + "</div>" + 
-            "<div class='mcap'>" + response.equityResearch[i].mcap + "</div>" + 
-            "<div class='sector'>" + response.equityResearch[i].sector + "</div>" +
+            "<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'>" + response.equity[i].company + "</div>" + 
+            "<div class='style'>" + response.equity[i].style + "</div>" + 
+            "<div class='mcap'>" + response.equity[i].mcap + "</div>" + 
+            "<div class='sector'>" + response.equity[i].sector + "</div>" +
             "</td>" + 
             "<td>" + 
-            "<div class='broker' data-toggle='tooltip' title='See all reports published by " + response.equityResearch[i].broker + "'>" + response.equityResearch[i].broker + "</div>" + 
-            "<div class='since'>" + response.equityResearch[i].since + "</div>" + 
-            "<div class='awarded'>" + response.equityResearch[i].awarded + "</div>" + 
-            "<div class='researchedByCfa'>" + response.equityResearch[i].researchedByCfa + "</div>" +
+            "<div class='broker' data-toggle='tooltip' title='See all reports published by " + response.equity[i].broker + "'>" + response.equity[i].broker + "</div>" + 
+            "<div class='since'>" + response.equity[i].since + "</div>" + 
+            "<div class='awarded'>" + response.equity[i].awarded + "</div>" + 
+            "<div class='researchedByCfa'>" + response.equity[i].researchedByCfa + "</div>" +
             "</td>" +
             "<td>" + 
             "<div class='brokerRankLargeCap warning' data-toggle='tooltip' title='Large Cap'>" + brokerRankLargeCapStarHtml + "</div>" + 
@@ -127,21 +129,21 @@ var API_TIMEOUT_LARGE = 3*60*1000;
             "<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
             "</td>" +
             "<td>" + 
-            "<div class='cmp'> Rs. " + response.equityResearch[i].cmp + "</div>" + 
-            "<div class='priceDate'>" + timeStampToDate(Number(response.equityResearch[i].priceDate)) + "</div>" + 
-            "<div class='pe'>" + response.equityResearch[i].pe + "</div>" + 
-            "<div class='_3YrPatGrowth " + _3YrPatGrowthClass + "'><i class='fa " + _3YrPatGrowthClass_Caret + "'></i> " + ((response.equityResearch[i]._3YrPatGrowth != 'NA') ? Math.round(response.equityResearch[i]._3YrPatGrowth * 100) / 100 + '%' : response.equityResearch[i]._3YrPatGrowth) + "</div>" +
+            "<div class='cmp'> Rs. " + response.equity[i].cmp + "</div>" + 
+            "<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
+            "<div class='pe'>" + response.equity[i].pe + "</div>" + 
+            "<div class='_3YrPatGrowth " + _3YrPatGrowthClass + "'><i class='fa " + _3YrPatGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrPatGrowth != 'NA') ? Math.round(response.equity[i]._3YrPatGrowth * 100) / 100 + '%' : response.equity[i]._3YrPatGrowth) + "</div>" +
             "</td>" +
             "<td>" + 
-            "<div class='recommType " + recommTypeClass + "'>" + response.equityResearch[i].recommType + "</div>" + 
-            "<div class='targetPrice'> Rs. " + response.equityResearch[i].targetPrice + "</div>" + 
-            "<div class='priceAtRecomm'>" + ((response.equityResearch[i].priceAtRecomm == '') ? "N/A" : response.equityResearch[i].priceAtRecomm) + "</div>" + 
-            "<div class='upside " + upsideClass + "'>" + ((response.equityResearch[i].upside != 'NA') ? Math.round(response.equityResearch[i].upside * 100) / 100 + '%' : response.equityResearch[i].upside) + "</div>" +
+            "<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
+            "<div class='targetPrice'> Rs. " + response.equity[i].targetPrice + "</div>" + 
+            "<div class='priceAtRecomm'>" + ((response.equity[i].priceAtRecomm == '') ? "N/A" : response.equity[i].priceAtRecomm) + "</div>" + 
+            "<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
             "</td>" +
             "<td>"  +  
-            "<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post' data-vendor='" + response.equityResearch[i].vendorName + "'><i class='fa fa-file'></i></a></div>" +
-            "<div class='researchDate'>" + timeStampToDate(Number(response.equityResearch[i].researchDate)) + "</div>" +
-            "<div class='analystName' data-toggle='tooltip' title='" + response.equityResearch[i].analystName + "'>" + response.equityResearch[i].analystName + "</div>" + 
+            "<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post' data-vendor='" + response.equity[i].vendorName + "'><i class='fa fa-file'></i></a></div>" +
+            "<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
+            "<div class='analystName' data-toggle='tooltip' title='" + response.equity[i].analystName + "'>" + response.equity[i].analystName + "</div>" + 
             "</td>" +
             "</tr>";
         }
@@ -161,8 +163,18 @@ var API_TIMEOUT_LARGE = 3*60*1000;
         $("#research_report_content").append(paginationHtml);
 
         $('[data-toggle="tooltip"]').tooltip();
+        
         $('#broker_table tbody tr td .report a').on('click', getReport);
         $('#research_report_content .pager a').on('click', getPaginationIndex);
+
+        $("#average_target_price span").text(response.averageTargetPrice);
+        $("#no_of_analyst_report span").text(response.noOfAnalystReport);
+
+        $("#total_buy_recomm span").text((response.totalBuyRecomm/response.noOfAnalystReport)*100+ "%");
+
+        $("#total_neutral_recomm span").text((response.totalNeutralRecomm/response.noOfAnalystReport)*100+ "%");
+
+        $("#total_sell_recomm span").text((response.totalSellRecomm/response.noOfAnalystReport)*100+ "%");
 
 
         setRecordStats(currentIndex, lastPageNumber);
@@ -199,6 +211,7 @@ var API_TIMEOUT_LARGE = 3*60*1000;
             lastPageNumber = 1;
             currentIndex = 1;
         }
+
         perPageMaxRecords = Number($(this).val());
         console.log("perPageMaxRecords: " + perPageMaxRecords);
         loadDefaultResearchReport('equity', perPageMaxRecords);
@@ -275,7 +288,7 @@ var API_TIMEOUT_LARGE = 3*60*1000;
     function loadDefaultResearchReport(researchType, perPageMaxRecords) {
         isProgressLoader(true);
 
-        getCompanyRecordStats(researchType, jsonData, perPageMaxRecords).then(function(stats) {
+        getCompanyRecordStats(researchType, perPageMaxRecords).then(function(stats) {
             stats = JSON.parse(stats);
             firstPageNumber = stats.firstPageNumber;
             lastPageNumber = stats.lastPageNumber;
@@ -283,7 +296,7 @@ var API_TIMEOUT_LARGE = 3*60*1000;
             $("#total_records_count").html(totalRecords + " Results");
             //perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
             console.log("pageNumber: " + pageNumber);
-            getCompanyResearchReport(researchType, jsonData, pageNumber).then(function(serverResponse) {
+            getCompanyResearchReport(researchType, pageNumber).then(function(serverResponse) {
                 //console.log(serverResponse);
                 $("#research_report_content .paging_container").remove();
                 var response = JSON.parse(serverResponse);
@@ -317,18 +330,18 @@ var API_TIMEOUT_LARGE = 3*60*1000;
     /**
      * Function to start async call to get record stats
      */
-    function getCompanyRecordStats(researchType, jsonData, perPageMaxRecords) {
+    function getCompanyRecordStats(researchType, perPageMaxRecords) {
 
         var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
 
-        var url = "/system/api/companyrecordstats?type=" + researchType + "&isinCode=" + companyProfileJson.isinCode + "&perPageMaxRecords=" + perPageMaxRecords;
+        var url = "/system/api/recordstats/reaseacharea?id=1&geo=1&isinCode=" + companyProfileJson.isinCode + "&perPageMaxRecords=" + perPageMaxRecords;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
             });
 
             httpRequest.timeout = API_TIMEOUT_SMALL;
-            httpRequest.open('POST', url, true);
+            httpRequest.open('GET', url, true);
             httpRequest.setRequestHeader('Content-Type',
                 'application/json; charset=UTF-8');
             httpRequest.ontimeout = function () {
@@ -346,7 +359,7 @@ var API_TIMEOUT_LARGE = 3*60*1000;
                 }
             };
 
-            httpRequest.send(jsonData);
+            httpRequest.send();
         });
     };
 
@@ -357,10 +370,15 @@ function getCompanyProfileResearchReportLoad() {
         isProgressLoader(false);
         response = JSON.parse(data);
 
+
+        companyProfileObj['companyId'] = response.companyProfileData.companyId;
+        companyProfileObj['companyName'] = response.companyProfileData.companyName;
+        companyProfileObj['cmp'] = response.companyProfileData.cmp;
+
         var cmp_last_change_class = "success";
         var cmp_last_change_caret = "fa-caret-up";
 
-        var lastChange = response.companyProfileData.cmp;
+        var lastChange = response.companyProfileData.lastChangedCmpInPercentage;
 
         if(lastChange > 0) {
             cmp_last_change_class = "success";
@@ -388,33 +406,22 @@ function getCompanyProfileResearchReportLoad() {
     });
 }
 
-var countryId = 1;
-
-var jsonData = JSON.stringify({
-  geo: countryId
-});
-
 
 function getCompanyProfile() {
     isProgressLoader(true);
 
     var companyProfileJson = window.localStorage.getItem("companyProfileJson");
-    var jsonData = JSON.stringify({
-      geo: '1'
-    });
 
     companyProfileJson = JSON.parse(companyProfileJson);
     var isinCode = companyProfileJson.isinCode;
 
-    var url = "/system/api/companyprofile?isinCode=" + isinCode;
+    var url = "/system/api/profile/researcharea?id=1&geo=1&isinCode=" + isinCode;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
         });
         httpRequest.timeout = API_TIMEOUT_SMALL;
-        httpRequest.open('POST', url, true);
-        httpRequest.setRequestHeader('Content-Type',
-                'application/json; charset=UTF-8');
+        httpRequest.open('GET', url, true);
 
         httpRequest.ontimeout = function () {
             reject("" + httpRequest.responseText);
@@ -431,17 +438,66 @@ function getCompanyProfile() {
             }
         };
 
-        httpRequest.send(JSON.stringify(JSON.parse(jsonData)));
+        httpRequest.send();
     });
 };
 
 
-function getCompanyResearchReport(researchType, jsonData, perPageMaxRecords) {
+function getCompanyResearchReport(researchType, pageNumber) {
     isProgressLoader(true);
 
     var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
 
-    var url = "/system/api/companyresearchreport?isinCode=" + companyProfileJson.isinCode + "&type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
+    var url = "/system/api/researchreport/reaseacharea?id=1&geo=1&isinCode=" + companyProfileJson.isinCode + "&type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
+    return new Promise(function(resolve, reject) {
+        var httpRequest = new XMLHttpRequest({
+            mozSystem: true
+        });
+        httpRequest.timeout = API_TIMEOUT_SMALL;
+        httpRequest.open('GET', url, true);
+        httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+
+        httpRequest.ontimeout = function () {
+            reject("" + httpRequest.responseText);
+        };
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    resolve(httpRequest.response);
+                } else {
+                    console.log(httpRequest.status + httpRequest.responseText);
+                    reject(httpRequest.responseText);
+                }
+            } else {
+            }
+        };
+
+        httpRequest.send();
+    });
+}
+
+function addToMarketWatchlist() {
+    addToMarketWatchlistAPI().then(function(response) {
+        isProgressLoader(false);
+        $("#addToWatchlist .alert").removeClass('alert-danger');
+        $("#addToWatchlist .alert span").text(JSON.parse(response).messge);
+    }, function(error) {
+        isProgressLoader(false);
+        $("#addToWatchlist .alert").addClass('alert-danger');
+        $("#addToWatchlist .alert span").text(JSON.parse(error).messge);
+
+    });
+}
+
+function addToMarketWatchlistAPI() {
+    
+    isProgressLoader(true);
+
+    var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+    companyProfileObj['userName'] = 'amit_vendor';
+
+    var url = "/system/api/watchlist/researcharea?id=1";
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
@@ -466,9 +522,14 @@ function getCompanyResearchReport(researchType, jsonData, perPageMaxRecords) {
             }
         };
 
-        httpRequest.send(JSON.stringify(JSON.parse(jsonData)));
+        httpRequest.send(JSON.stringify(companyProfileObj));
     });
 }
+
+$("#company_profile .profile_details.func_details button").eq(0).on('click', addToMarketWatchlist);
+
+
+
 
 jQuery(document).ready(function() {
 
