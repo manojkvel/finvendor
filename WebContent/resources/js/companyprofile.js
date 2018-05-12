@@ -512,7 +512,7 @@ function addToMarketWatchlistAPI() {
         };
         httpRequest.onreadystatechange = function () {
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                if (httpRequest.status === 200) {
+                if (httpRequest.status === 201) {
                     resolve(httpRequest.response);
                 } else {
                     console.log(httpRequest.status + httpRequest.responseText);
