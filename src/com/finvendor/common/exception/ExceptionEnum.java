@@ -15,7 +15,12 @@ public enum ExceptionEnum {
 	
 	COMPANY_PROFILE("FV0009", "Internal error - Unable to prepare company profile, Please contact Finvendor admin for support!!"),
 	COMPANY_RECORD_STATS("FV0010", "Internal error - Unable to prepare company record statistics, Please contact Finvendor admin for support!!"),
-	COMPANY_RESEARCH_REPORT("FV0011", "Internal error - Unable to prepare company research report, Please contact Finvendor admin for support!!")
+	COMPANY_RESEARCH_REPORT("FV0011", "Internal error - Unable to prepare company research report, Please contact Finvendor admin for support!!"),
+	
+	ADD_COMPANY_PRICE_ALERT("FV0012", "Internal error - Unable to add stock price alert, Please contact Finvendor admin for support!!"),
+	FIND_ALL_COMPANY_PRICE_ALERT("FV0013", "Internal error - Unable to find all stock price alert, Please contact Finvendor admin for support!!"),
+	FIND_USER_FROM_SESSION("FV0014", "Internal error - Unable to find logged in user from current session, Please contact Finvendor admin for support!!")
+	
 	
 	
 	;

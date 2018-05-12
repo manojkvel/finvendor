@@ -35,6 +35,14 @@ public final class ErrorUtil {
 		return exceptionPojo;
 	}
 
+	public static ExceptionPojo buildErrorMessage(String statusCode, String userMessage) {
+		ExceptionPojo exceptionPojo = new ExceptionPojo();
+		exceptionPojo.setStatusCode(statusCode);
+		exceptionPojo.setUserMessage(userMessage);
+		exceptionPojo.setTechnicalMessage("Internal server error!!");
+		return exceptionPojo;
+	}
+	
 	public static void logError(String source, Throwable th) {
 		Throwable res = th;
 		Throwable e = th;
@@ -55,5 +63,8 @@ public final class ErrorUtil {
 	
 	public static ResponseEntity<?> getError(String code, String userMessage, Exception e) {
 		return new ResponseEntity<ExceptionPojo>(ErrorUtil.buildErrorMessage(code, userMessage, e), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	public static ResponseEntity<?> getError(String code, String userMessage) {
+		return new ResponseEntity<ExceptionPojo>(ErrorUtil.buildErrorMessage(code, userMessage), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

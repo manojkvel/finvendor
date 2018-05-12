@@ -25,7 +25,7 @@ public interface IWebRsrchAreaStockProfile {
 	 */
 	@RequestMapping(value = "/profile/researcharea", method = RequestMethod.GET)
 	@ResponseBody
-	ResponseEntity<?> getRsrchAreaStockProfile(String id, String geo, String isinCode) throws WebApiException;
+	ResponseEntity<?> getRsrchAreaStockProfile(String id, String isinCode) throws WebApiException;
 
 	/**
 	 * 
@@ -38,7 +38,7 @@ public interface IWebRsrchAreaStockProfile {
 	 */
 	@RequestMapping(value = "/recordstats/reaseacharea", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> getRsrchAreaStockRecordStats(String id, String geo, String isinCode, String perPageMaxRecords)
+	ResponseEntity<?> getRsrchAreaStockRecordStats(String id, String isinCode, String perPageMaxRecords)
 			throws WebApiException;
 
 	/**
@@ -55,7 +55,7 @@ public interface IWebRsrchAreaStockProfile {
 	 */
 	@RequestMapping(value = "/researchreport/reaseacharea", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> getRsrchAreaStockRsrchReport(String id, String geo, String isinCode, String pageNumber,
+	ResponseEntity<?> getRsrchAreaStockRsrchReport(String id, String isinCode, String pageNumber,
 			String perPageMaxRecords, String sortBy, String orderBy) throws WebApiException;
 
 	// String getTechnicalDataTab() throws WebApiException;

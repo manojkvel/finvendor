@@ -22,6 +22,6 @@ public interface IWebRsrchAreaStockSearch {
 	 */
 	@RequestMapping(value = "/search/researcharea", method = RequestMethod.GET)
 	@ResponseBody
-	ResponseEntity<?> getResearchAreaStockSearchHint(String id, String geo, String key) throws WebApiException;
+	ResponseEntity<?> getResearchAreaStockSearchHint(String id, String key) throws WebApiException;
 
 }

@@ -7,5 +7,5 @@ public interface IRsrchAreaStockSearchService {
 	 * @return
 	 * @throws Exception
 	 */
-	String getResearchAreaStockSearchHint(String id,String geo, String key) throws Exception;
+	String getResearchAreaStockSearchHint(String id, String key) throws Exception;
 }

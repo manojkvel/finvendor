@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.finvendor.common.util.LocaleUtil;
 import com.finvendor.common.util.StringUtil;
 import com.finvendor.server.profile.rsrcharea.stock.dao.ICompanyProfileDao;
 import com.finvendor.server.profile.rsrcharea.stock.dao.impl.CompanyProfileDaoImpl;
@@ -30,12 +31,12 @@ public class RsrchAreaStockProfileSeriveImpl implements IRsrchAreaStockProfileSe
 	@Autowired
 	@Qualifier(value = "equityResearchDaoImpl")
 	IResearchReportDao equityResearchReportDao;
-
+	
 	@SuppressWarnings("serial")
 	@Override
 	@Transactional(readOnly = true)
-	public String getResearchAreaStockProfile(final String id, final String geo, final String isinCode)
-			throws Exception {
+	public String getResearchAreaStockProfile(final String id, final String isinCode) throws Exception {
+		final String geo = LocaleUtil.getCurrentGeo();
 		try {
 			String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyProfileDataQuery,
 					new HashMap<String, String>() {
@@ -54,8 +55,9 @@ public class RsrchAreaStockProfileSeriveImpl implements IRsrchAreaStockProfileSe
 	@SuppressWarnings("serial")
 	@Override
 	@Transactional(readOnly = true)
-	public String getResearchAreaStockRecordStats(final String id, final String geo, final String isinCode,
-			String perPageMaxRecords) throws Exception {
+	public String getResearchAreaStockRecordStats(final String id, final String isinCode, String perPageMaxRecords)
+			throws Exception {
+		final String geo = LocaleUtil.getCurrentGeo();
 		try {
 			String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyResearchReportQuery,
 					new HashMap<String, String>() {
@@ -75,8 +77,9 @@ public class RsrchAreaStockProfileSeriveImpl implements IRsrchAreaStockProfileSe
 	@SuppressWarnings("serial")
 	@Override
 	@Transactional(readOnly = true)
-	public String getResearchReport(final String id, final String geo, final String isinCode, String pageNumber,
-			String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
+	public String getResearchReport(final String id, final String isinCode, String pageNumber, String perPageMaxRecords,
+			String sortBy, String orderBy) throws Exception {
+		final String geo = LocaleUtil.getCurrentGeo();
 		try {
 			String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyResearchReportQuery,
 					new HashMap<String, String>() {

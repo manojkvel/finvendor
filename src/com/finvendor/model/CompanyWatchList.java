@@ -10,10 +10,10 @@ import javax.persistence.Table;
 /**
  * @author ayush on 28-apr-2018
  */
-@NamedQueries({
-	@NamedQuery(name = CompanyWatchList.COMPANY_WATCHLIST_BY_USER_NQ, query = "from com.finvendor.model.CompanyWatchList where user_name like:username") })
 @Entity
 @Table(name="company_watchlist")
+@NamedQueries({
+	@NamedQuery(name = CompanyWatchList.COMPANY_WATCHLIST_BY_USER_NQ, query = "from com.finvendor.model.CompanyWatchList where user_name like:username") })
 public class CompanyWatchList {
 	public static final String COMPANY_WATCHLIST_BY_USER_NQ = "companyWatchListByUser";
 	@Id
