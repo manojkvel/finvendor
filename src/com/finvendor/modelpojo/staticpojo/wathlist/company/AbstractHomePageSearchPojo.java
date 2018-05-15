@@ -12,7 +12,7 @@ public class AbstractHomePageSearchPojo implements Serializable {
 	protected Integer companyId;
 	protected String companyName;
 	protected String userName;
-	protected String currentDate = String.valueOf(Calendar.getInstance().getTimeInMillis());
+	protected String currDate = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
 	public Integer getCompanyId() {
 		return companyId;
@@ -38,11 +38,13 @@ public class AbstractHomePageSearchPojo implements Serializable {
 		this.userName = userName;
 	}
 
-	public String getCurrentDate() {
-		return currentDate;
+	public String getCurrDate() {
+		return currDate;
 	}
 
-	public void setCurrentDate(String currentDate) {
-		this.currentDate = currentDate;
+	public void setCurrDate(String currDate) {
+		this.currDate = currDate;
 	}
+
+	
 }

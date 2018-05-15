@@ -9,7 +9,7 @@ public enum ExceptionEnum {
 	EQUITY_RESEARCH_REPORT_DOWNLOAD("FV0005", "Internal error - Unable to download Equity research report, Please contact Finvendor admin for support!!"),
 	EQUITY_RESEARCH_RECORD_STAT("FV0006", "Internal error - Unable find Equity research report record statistics, Please contact Finvendor admin for support!!"),
 	
-	COMPANY_HOMEPAGE_EARCH("FV0007", "Internal error - Unable find company homepage search hint, Please contact Finvendor admin for support!!"),
+	HOME_PAGE("FV0007", "Internal error - Unable find company homepage search hint, Please contact Finvendor admin for support!!"),
 	EQUITY_RESEARCH_FILTER("FV0006", "Internal error - Unable to prepare Equity research filter, Please contact Finvendor admin for support!!"),	
 	COMPANY_DETAILS("FV0008", "Internal error - Unable to prepare company details, Please contact Finvendor admin for support!!"),
 	
@@ -17,11 +17,15 @@ public enum ExceptionEnum {
 	COMPANY_RECORD_STATS("FV0010", "Internal error - Unable to prepare company record statistics, Please contact Finvendor admin for support!!"),
 	COMPANY_RESEARCH_REPORT("FV0011", "Internal error - Unable to prepare company research report, Please contact Finvendor admin for support!!"),
 	
-	ADD_COMPANY_PRICE_ALERT("FV0012", "Internal error - Unable to add stock price alert, Please contact Finvendor admin for support!!"),
-	FIND_ALL_COMPANY_PRICE_ALERT("FV0013", "Internal error - Unable to find all stock price alert, Please contact Finvendor admin for support!!"),
-	FIND_USER_FROM_SESSION("FV0014", "Internal error - Unable to find logged in user from current session, Please contact Finvendor admin for support!!")
+	ADD_COMPANY_PRICE_ALERT("FV0012", "Internal error - Unable to add company price alert, Please contact Finvendor admin for support!!"),
+	FIND_ALL_COMPANY_PRICE_ALERT("FV0013", "Internal error - Unable to find all company price alert, Please contact Finvendor admin for support!!"),
+	FIND_USER_FROM_SESSION("FV0014", "Internal error - Unable to find logged in user from current session, Please contact Finvendor admin for support!!"),
+	UPDATE_PRICE("FV0015", "Internal error - Unable to update current market price, Please contact Finvendor admin for support!!"),
 	
-	
+	DELETE_WATCHLIST("FV0016", "Internal error - Unable to delete company watchlist, Please contact Finvendor admin for support!!"),
+	UPDATE_COMPANY_PRICE_ALERT("FV0017", "Internal error - Unable to update company price alert, Please contact Finvendor admin for support!!"),
+	DELETE_COMPANY_PRICE_ALERT("FV0018", "Internal error - Unable to delete company price alert, Please contact Finvendor admin for support!!"),
+	FIND_COMPANY_PRICE_ALERT("FV0018", "Internal error - Unable to delete company price alert, Please contact Finvendor admin for support!!")
 	
 	;
 	

@@ -33,4 +33,10 @@ public class WebExampleImpl implements IWebExample {
 	public List<ExamplePojo> findAllExample() throws WebApiException {
 		return exampleService.findAllExample();
 	}
+
+	@Override
+	public void updateExample(@RequestBody ExamplePojo examplePojo) throws WebApiException {
+		exampleService.updateExample(examplePojo);
+		
+	}
 }

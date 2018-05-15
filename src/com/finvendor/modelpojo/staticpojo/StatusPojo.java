@@ -6,27 +6,29 @@ package com.finvendor.modelpojo.staticpojo;
  */
 public class StatusPojo {
 	private String status;
-	private String messge;
+	private String message;
 
-	public StatusPojo(String status, String messge) {
+	public StatusPojo(String status, String message) {
 		super();
 		this.status = status;
-		this.messge = messge;
+		this.message = message;
 	}
 
 	public String getStatus() {
 		return status;
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public String getMessge() {
-		return messge;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
-	public void setMessge(String messge) {
-		this.messge = messge;
-	}
+	
 }

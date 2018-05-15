@@ -13,7 +13,7 @@ public interface ICommonDao {
 
 	List<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) throws RuntimeException;
 
-	SQLQuery getSql(String sql, Object[] conditionValue);
+	SQLQuery getNativeQuery(String sql, Object[] conditionValue);
 
 	String runSql(String sql, Map<String, Map<String, String>> columnNameMap, Object[] conditionValue,
 			Map<String, Object> firstDefaultParamsMap, Map<String, Object> lastDefaultParamsMap, int colIndex)

@@ -24,23 +24,26 @@ public class CompanyPriceAlert {
 	@Column(name = "user_name")
 	private String user_name;
 
-	@Column(name = "min_price")
-	private String min_price;
+	@Column(name = "day_min_price")
+	private String day_min_price;
 
-	@Column(name = "max_price")
-	private String max_price;
+	@Column(name = "day_max_price")
+	private String day_max_price;
 
-	@Column(name = "day_price")
-	private String day_price;
+	@Column(name = "week_min_price")
+	private String week_min_price;
 
-	@Column(name = "week_price")
-	private String week_price;
-
-	@Column(name = "month_price")
-	private String month_price;
-
-	@Column(name = "enable_rsrch_price")
-	private String enable_rsrch_price;
+	@Column(name = "week_max_price")
+	private String week_max_price;
+	
+	@Column(name = "month_min_price")
+	private String month_min_price;
+	
+	@Column(name = "month_max_price")
+	private String month_max_price;
+	
+	@Column(name = "is_research_price")
+	private String is_research_price;
 
 	@Column(name = "curr_date")
 	private String curr_date;
@@ -49,81 +52,87 @@ public class CompanyPriceAlert {
 		return company_id;
 	}
 
-	public void setCompany_id(Integer company_id) {
-		this.company_id = company_id;
-	}
-
 	public String getCompany_name() {
 		return company_name;
-	}
-
-	public void setCompany_name(String company_name) {
-		this.company_name = company_name;
 	}
 
 	public String getUser_name() {
 		return user_name;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public String getDay_min_price() {
+		return day_min_price;
 	}
 
-	public String getMin_price() {
-		return min_price;
+	public String getDay_max_price() {
+		return day_max_price;
 	}
 
-	public void setMin_price(String min_price) {
-		this.min_price = min_price;
+	public String getWeek_min_price() {
+		return week_min_price;
 	}
 
-	public String getMax_price() {
-		return max_price;
+	public String getWeek_max_price() {
+		return week_max_price;
 	}
 
-	public void setMax_price(String max_price) {
-		this.max_price = max_price;
+	public String getMonth_min_price() {
+		return month_min_price;
 	}
 
-	public String getDay_price() {
-		return day_price;
+	public String getMonth_max_price() {
+		return month_max_price;
 	}
 
-	public void setDay_price(String day_price) {
-		this.day_price = day_price;
-	}
-
-	public String getWeek_price() {
-		return week_price;
-	}
-
-	public void setWeek_price(String week_price) {
-		this.week_price = week_price;
-	}
-
-	public String getMonth_price() {
-		return month_price;
-	}
-
-	public void setMonth_price(String month_price) {
-		this.month_price = month_price;
-	}
-
-	public String getEnable_rsrch_price() {
-		return enable_rsrch_price;
-	}
-
-	public void setEnable_rsrch_price(String enable_rsrch_price) {
-		this.enable_rsrch_price = enable_rsrch_price;
+	public String getIs_research_price() {
+		return is_research_price;
 	}
 
 	public String getCurr_date() {
 		return curr_date;
 	}
 
+	public void setCompany_id(Integer company_id) {
+		this.company_id = company_id;
+	}
+
+	public void setCompany_name(String company_name) {
+		this.company_name = company_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public void setDay_min_price(String day_min_price) {
+		this.day_min_price = day_min_price;
+	}
+
+	public void setDay_max_price(String day_max_price) {
+		this.day_max_price = day_max_price;
+	}
+
+	public void setWeek_min_price(String week_min_price) {
+		this.week_min_price = week_min_price;
+	}
+
+	public void setWeek_max_price(String week_max_price) {
+		this.week_max_price = week_max_price;
+	}
+
+	public void setMonth_min_price(String month_min_price) {
+		this.month_min_price = month_min_price;
+	}
+
+	public void setMonth_max_price(String month_max_price) {
+		this.month_max_price = month_max_price;
+	}
+
+	public void setIs_research_price(String is_research_price) {
+		this.is_research_price = is_research_price;
+	}
+
 	public void setCurr_date(String curr_date) {
 		this.curr_date = curr_date;
 	}
-
-	
 }

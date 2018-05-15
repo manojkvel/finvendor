@@ -6,61 +6,73 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * 
  * @author ayush on May 01, 2018
  */
-@JsonPropertyOrder({ "companyId", "companyName", "userName", "minPrice", "maxPrice", "dayPrice","weekPrice","monthPrice","enableRsrchPrice", "currentDate" })
+@JsonPropertyOrder({ "companyId", "companyName", "userName", 
+	"dayMinPrice","dayMaxPrice","weekMinPrice","weekMaxPrice","monthMinPrice","monthMaxPrice",
+	"isResearchReport", "currDate" })
 public class CompanyPriceAlertPojo extends AbstractHomePageSearchPojo {
 	private static final long serialVersionUID = -1531614291471423894L;
-	private String minPrice;
-	private String maxPrice;
-	private String dayPrice;
-	private String weekPrice;
-	private String monthPrice;
-	private String enableRsrchPrice;
+	private String dayMinPrice;
+	private String dayMaxPrice;
+	private String weekMinPrice;
+	private String weekMaxPrice;
+	private String monthMinPrice;
+	private String monthMaxPrice;
+	private String isResearchReport;
 
-	public String getMinPrice() {
-		return minPrice;
+	public String getDayMinPrice() {
+		return dayMinPrice;
 	}
 
-	public String getMaxPrice() {
-		return maxPrice;
+	public String getDayMaxPrice() {
+		return dayMaxPrice;
 	}
 
-	public String getDayPrice() {
-		return dayPrice;
+	public String getWeekMinPrice() {
+		return weekMinPrice;
 	}
 
-	public String getWeekPrice() {
-		return weekPrice;
+	public String getWeekMaxPrice() {
+		return weekMaxPrice;
 	}
 
-	public String getMonthPrice() {
-		return monthPrice;
+	public String getMonthMinPrice() {
+		return monthMinPrice;
 	}
 
-	public String getEnableRsrchPrice() {
-		return enableRsrchPrice;
+	public String getMonthMaxPrice() {
+		return monthMaxPrice;
 	}
 
-	public void setMinPrice(String minPrice) {
-		this.minPrice = minPrice;
+
+	public void setDayMinPrice(String dayMinPrice) {
+		this.dayMinPrice = dayMinPrice;
 	}
 
-	public void setMaxPrice(String maxPrice) {
-		this.maxPrice = maxPrice;
+	public void setDayMaxPrice(String dayMaxPrice) {
+		this.dayMaxPrice = dayMaxPrice;
 	}
 
-	public void setDayPrice(String dayPrice) {
-		this.dayPrice = dayPrice;
+	public void setWeekMinPrice(String weekMinPrice) {
+		this.weekMinPrice = weekMinPrice;
 	}
 
-	public void setWeekPrice(String weekPrice) {
-		this.weekPrice = weekPrice;
+	public void setWeekMaxPrice(String weekMaxPrice) {
+		this.weekMaxPrice = weekMaxPrice;
 	}
 
-	public void setMonthPrice(String monthPrice) {
-		this.monthPrice = monthPrice;
+	public void setMonthMinPrice(String monthMinPrice) {
+		this.monthMinPrice = monthMinPrice;
 	}
 
-	public void setEnableRsrchPrice(String enableRsrchPrice) {
-		this.enableRsrchPrice = enableRsrchPrice;
+	public void setMonthMaxPrice(String monthMaxPrice) {
+		this.monthMaxPrice = monthMaxPrice;
+	}
+
+	public String getIsResearchReport() {
+		return isResearchReport;
+	}
+
+	public void setIsResearchReport(String isResearchReport) {
+		this.isResearchReport = isResearchReport;
 	}
 }

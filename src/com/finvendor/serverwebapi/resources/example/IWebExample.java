@@ -26,5 +26,9 @@ public interface IWebExample {
 	@RequestMapping(value = "/findallexample", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	List<ExamplePojo> findAllExample() throws WebApiException;
+	
+	@RequestMapping(value = "/updateexample", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	void updateExample(ExamplePojo examplePojo) throws WebApiException;
 
 }

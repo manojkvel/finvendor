@@ -16,4 +16,5 @@ public interface IExampleService {
 	void saveOrUpdateExample1(Example class1);
 	Example findExampleById(Serializable id);
 	List<ExamplePojo> findAllExample();
+	void updateExample(ExamplePojo pojo);
 }
