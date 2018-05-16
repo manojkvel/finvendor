@@ -36,7 +36,7 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 			CompanyWatchList findById = findById(companyWatchListPojo.getCompanyId());
 			if (findById == null) {
 				CompanyWatchList companyWatchListEntity = new CompanyWatchList();
-				companyWatchListEntity.setCompany_id(companyWatchListPojo.getCompanyId());
+				companyWatchListEntity.setCompany_id(Integer.parseInt(companyWatchListPojo.getCompanyId()));
 				companyWatchListEntity.setCompany_name(companyWatchListPojo.getCompanyName());
 				companyWatchListEntity.setUser_name(companyWatchListPojo.getUserName());
 				companyWatchListEntity.setClose_price(companyWatchListPojo.getCmp());
@@ -67,7 +67,7 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 				Integer company_id = companywatchListEntity.getCompany_id();
 				CompanyWatchListPojo companyWatchListPojo = new CompanyWatchListPojo();
 
-				companyWatchListPojo.setCompanyId(company_id);
+				companyWatchListPojo.setCompanyId(String.valueOf(company_id));
 				companyWatchListPojo.setCompanyName(companywatchListEntity.getCompany_name());
 				companyWatchListPojo.setUserName(companywatchListEntity.getUser_name());
 
@@ -96,8 +96,8 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 		boolean deleteStatus=true;
 		try {
 			for(CompanyWatchListPojo pojo: pojoList) {
-				Integer companyId = pojo.getCompanyId();
-				CompanyWatchList companyWatchListEntity = findById(companyId);
+				String companyId = pojo.getCompanyId();
+				CompanyWatchList companyWatchListEntity = findById(Integer.parseInt(companyId));
 				delete(companyWatchListEntity);
 			}
 		} catch(Exception e) {

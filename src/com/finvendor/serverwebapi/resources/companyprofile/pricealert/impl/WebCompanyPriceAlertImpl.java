@@ -117,7 +117,11 @@ public class WebCompanyPriceAlertImpl implements IWebCompanyPriceAlert {
 			@RequestParam(value = "companyId", required = true) String companyId) throws WebApiException {
 		LogUtil.logInfo("IWebCompanyPriceAlert -> findCompanyPriceAlert - START");
 		try {
-			String userName = "amit";
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			if (loggedInUser == null) {
+				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
+			}
+			String userName = loggedInUser.getUsername();
 			CompanyPriceAlertPojo pojo = service.findCompanyPriceAlert(companyId, userName);
 			return new ResponseEntity<CompanyPriceAlertPojo>(pojo, HttpStatus.CREATED);
 		} catch (Exception e) {

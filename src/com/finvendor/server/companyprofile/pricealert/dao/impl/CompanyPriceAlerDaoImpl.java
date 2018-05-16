@@ -31,10 +31,10 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 	public boolean addCompanyPriceAlert(CompanyPriceAlertPojo priceAlertPojo) throws RuntimeException {
 		boolean addStatus;
 		try {
-			CompanyPriceAlert findById = findById(priceAlertPojo.getCompanyId());
+			CompanyPriceAlert findById = findById(Integer.parseInt(priceAlertPojo.getCompanyId()));
 			if (findById == null) {
 				CompanyPriceAlert companyPriceAlertEntity = new CompanyPriceAlert();
-				companyPriceAlertEntity.setCompany_id(priceAlertPojo.getCompanyId());
+				companyPriceAlertEntity.setCompany_id(Integer.parseInt(priceAlertPojo.getCompanyId()));
 				companyPriceAlertEntity.setCompany_name(priceAlertPojo.getCompanyName());
 
 				companyPriceAlertEntity.setUser_name(priceAlertPojo.getUserName());
@@ -48,7 +48,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 				companyPriceAlertEntity.setMonth_min_price(priceAlertPojo.getMonthMinPrice());
 				companyPriceAlertEntity.setMonth_max_price(priceAlertPojo.getMonthMaxPrice());
 
-				companyPriceAlertEntity.setIs_research_price(priceAlertPojo.getIsResearchReport());
+				companyPriceAlertEntity.setIs_research_price(String.valueOf(priceAlertPojo.getIsResearchReport().booleanValue()));
 
 				companyPriceAlertEntity.setCurr_date(String.valueOf(Calendar.getInstance().getTimeInMillis()));
 				saveOrUpdate(companyPriceAlertEntity);
@@ -66,7 +66,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 	@Override
 	public boolean updateCompanyPriceAlert(CompanyPriceAlertPojo companyPriceAlertPojo) throws RuntimeException {
 		try {
-			CompanyPriceAlert entity = findById(companyPriceAlertPojo.getCompanyId());
+			CompanyPriceAlert entity = findById(Integer.parseInt(companyPriceAlertPojo.getCompanyId()));
 			
 			if(companyPriceAlertPojo.getCompanyName()!=null) {
 				entity.setCompany_name(companyPriceAlertPojo.getCompanyName());
@@ -100,8 +100,8 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 				entity.setMonth_max_price(companyPriceAlertPojo.getMonthMaxPrice());
 			}
 	
-			if(companyPriceAlertPojo.getIsResearchReport()!=null) {
-				entity.setIs_research_price(companyPriceAlertPojo.getIsResearchReport());
+			if(companyPriceAlertPojo.getIsResearchReport() !=null) {
+				entity.setIs_research_price(String.valueOf(companyPriceAlertPojo.getIsResearchReport().booleanValue()));
 			}
 			entity.setCurr_date(String.valueOf(Calendar.getInstance().getTimeInMillis()));
 			saveOrUpdate(entity);
@@ -116,8 +116,8 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 		boolean deleteStatus=true;
 		try {
 			for(CompanyPriceAlertPojo pojo: pojoList) {
-				Integer companyId = pojo.getCompanyId();
-				CompanyPriceAlert companyPriceAlertEntity = findById(companyId);
+				String companyId = pojo.getCompanyId();
+				CompanyPriceAlert companyPriceAlertEntity = findById(Integer.parseInt(companyId));
 				delete(companyPriceAlertEntity);
 			}
 		} catch(Exception e) {
@@ -156,7 +156,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 
 			String currDate = row[10] != null ? row[10].toString().trim() : "";
 
-			pojo.setCompanyId(Integer.parseInt(companyId));
+			pojo.setCompanyId(companyId);
 			pojo.setCompanyName(companyName);
 			pojo.setUserName(userName);
 			pojo.setDayMinPrice(dayMinPrice);
@@ -165,7 +165,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 			pojo.setWeekMaxPrice(weekMaxPrice);
 			pojo.setMonthMinPrice(monthMinPrice);
 			pojo.setMonthMaxPrice(monthMaxPrice);
-			pojo.setIsResearchReport(isResearchReport);
+			pojo.setIsResearchReport(Boolean.valueOf(isResearchReport));
 			pojo.setCurrDate(currDate);
 		}
 		return pojo;
@@ -182,7 +182,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 
 			for (CompanyPriceAlert companyPriceAlertEntity : companyPriceAlertEnityList) {
 				CompanyPriceAlertPojo pojo = new CompanyPriceAlertPojo();
-				pojo.setCompanyId(companyPriceAlertEntity.getCompany_id());
+				pojo.setCompanyId(String.valueOf(companyPriceAlertEntity.getCompany_id()));
 				pojo.setCompanyName(companyPriceAlertEntity.getCompany_name());
 				pojo.setUserName(companyPriceAlertEntity.getUser_name());
 
@@ -195,7 +195,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 				pojo.setMonthMinPrice(companyPriceAlertEntity.getMonth_min_price());
 				pojo.setMonthMaxPrice(companyPriceAlertEntity.getMonth_max_price());
 
-				pojo.setIsResearchReport(companyPriceAlertEntity.getIs_research_price());
+				pojo.setIsResearchReport(Boolean.valueOf(companyPriceAlertEntity.getIs_research_price()));
 				pojo.setCurrDate(companyPriceAlertEntity.getCurr_date());
 				pojoList.add(pojo);
 			}
@@ -274,7 +274,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 
 			String currDate = row[10] != null ? row[10].toString().trim() : "";
 			CompanyPriceAlertPojo pojo = new CompanyPriceAlertPojo();
-			pojo.setCompanyId(Integer.parseInt(companyId));
+			pojo.setCompanyId(companyId);
 			pojo.setCompanyName(companyName);
 			pojo.setUserName(userName);
 			pojo.setDayMinPrice(dayMinPrice);
@@ -283,7 +283,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 			pojo.setWeekMaxPrice(weekMaxPrice);
 			pojo.setMonthMinPrice(monthMinPrice);
 			pojo.setMonthMaxPrice(monthMaxPrice);
-			pojo.setIsResearchReport(isResearchReport);
+			pojo.setIsResearchReport(Boolean.valueOf(isResearchReport));
 			pojo.setCurrDate(currDate);
 
 			List<CompanyPriceAlertPojo> list = restultMap.get(userName);

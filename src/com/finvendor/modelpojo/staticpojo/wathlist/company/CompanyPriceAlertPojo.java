@@ -17,7 +17,7 @@ public class CompanyPriceAlertPojo extends AbstractHomePageSearchPojo {
 	private String weekMaxPrice;
 	private String monthMinPrice;
 	private String monthMaxPrice;
-	private String isResearchReport;
+	private Boolean isResearchReport;
 
 	public String getDayMinPrice() {
 		return dayMinPrice;
@@ -68,11 +68,11 @@ public class CompanyPriceAlertPojo extends AbstractHomePageSearchPojo {
 		this.monthMaxPrice = monthMaxPrice;
 	}
 
-	public String getIsResearchReport() {
+	public Boolean getIsResearchReport() {
 		return isResearchReport;
 	}
 
-	public void setIsResearchReport(String isResearchReport) {
+	public void setIsResearchReport(Boolean isResearchReport) {
 		this.isResearchReport = isResearchReport;
 	}
 }
