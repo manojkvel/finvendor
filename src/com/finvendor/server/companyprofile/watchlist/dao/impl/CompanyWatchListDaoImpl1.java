@@ -33,7 +33,7 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 	public boolean addCompanyWatchList(CompanyWatchListPojo companyWatchListPojo) throws RuntimeException {
 		boolean addStatus;
 		try {
-			CompanyWatchList findById = findById(companyWatchListPojo.getCompanyId());
+			CompanyWatchList findById = findById(Integer.parseInt(companyWatchListPojo.getCompanyId()));
 			if (findById == null) {
 				CompanyWatchList companyWatchListEntity = new CompanyWatchList();
 				companyWatchListEntity.setCompany_id(Integer.parseInt(companyWatchListPojo.getCompanyId()));

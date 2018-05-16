@@ -195,7 +195,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 				pojo.setMonthMinPrice(companyPriceAlertEntity.getMonth_min_price());
 				pojo.setMonthMaxPrice(companyPriceAlertEntity.getMonth_max_price());
 
-				pojo.setIsResearchReport(Boolean.valueOf(companyPriceAlertEntity.getIs_research_price()));
+				pojo.setIsResearchReport(Boolean.valueOf(companyPriceAlertEntity.getIs_research_price()).booleanValue());
 				pojo.setCurrDate(companyPriceAlertEntity.getCurr_date());
 				pojoList.add(pojo);
 			}
