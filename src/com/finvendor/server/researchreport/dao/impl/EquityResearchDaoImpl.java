@@ -45,7 +45,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 
 			String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
 					ResearchReportUtil.getFilteredQueryPart(equityFilter));
-			SQLQuery query = commonDao.getSql(queryWithAppliedFilter, null);
+			SQLQuery query = commonDao.getNativeQuery(queryWithAppliedFilter, null);
 			List<Object[]> rows = query.list();
 			int totalRecords = rows.size();
 
@@ -105,7 +105,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 					.append(applyPagination).toString();
 
 			// Execute Query
-			SQLQuery query = commonDao.getSql(finalMainQuery, null);
+			SQLQuery query = commonDao.getNativeQuery(finalMainQuery, null);
 			List<Object[]> rows = query.list();
 
 			// Process Result

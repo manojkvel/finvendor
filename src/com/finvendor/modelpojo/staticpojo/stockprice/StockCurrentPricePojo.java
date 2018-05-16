@@ -1,8 +1,12 @@
 package com.finvendor.modelpojo.staticpojo.stockprice;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 /**
  * @author ayush on 28-apr-2018
  */
+@JsonPropertyOrder({ "stock_id", "price_src_code",
+	"price_date", "open_price", "high_price", "low_price", "close_price","last_traded_price"})
 public class StockCurrentPricePojo {
 	
     private Integer stock_id;

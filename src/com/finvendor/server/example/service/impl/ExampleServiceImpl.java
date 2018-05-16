@@ -53,4 +53,11 @@ public class ExampleServiceImpl implements IExampleService {
 		exampleDao.hello();
 		
 	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void updateExample(ExamplePojo pojo) {
+		exampleDao.updateExample(pojo);
+	}
+
 }

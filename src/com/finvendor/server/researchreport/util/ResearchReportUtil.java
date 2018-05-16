@@ -634,7 +634,7 @@ public class ResearchReportUtil {
 	public static List<ResearchReportUtil.BrokerRankInfo> getBrokerRankData(ICommonDao commonDao, String query,
 			String orderBy) {
 		String orderByClause = "asc".equals(orderBy) ? "ASC" : "DESC";
-		SQLQuery sqlQuery = commonDao.getSql(query + orderByClause, null);
+		SQLQuery sqlQuery = commonDao.getNativeQuery(query + orderByClause, null);
 		return ResearchReportUtil.getBrokerInfoList(sqlQuery);
 	}
 }

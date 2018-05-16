@@ -9,16 +9,17 @@ import java.util.Calendar;
  */
 public class AbstractHomePageSearchPojo implements Serializable {
 	private static final long serialVersionUID = 5804595566308989887L;
-	protected Integer companyId;
+	protected String companyId;
 	protected String companyName;
 	protected String userName;
-	protected String currentDate = String.valueOf(Calendar.getInstance().getTimeInMillis());
+	protected String currDate = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
-	public Integer getCompanyId() {
+
+	public String getCompanyId() {
 		return companyId;
 	}
 
-	public void setCompanyId(Integer companyId) {
+	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
 	}
 
@@ -38,11 +39,13 @@ public class AbstractHomePageSearchPojo implements Serializable {
 		this.userName = userName;
 	}
 
-	public String getCurrentDate() {
-		return currentDate;
+	public String getCurrDate() {
+		return currDate;
 	}
 
-	public void setCurrentDate(String currentDate) {
-		this.currentDate = currentDate;
+	public void setCurrDate(String currDate) {
+		this.currDate = currDate;
 	}
+
+	
 }

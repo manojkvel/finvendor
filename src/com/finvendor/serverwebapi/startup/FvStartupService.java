@@ -1,27 +1,42 @@
 package com.finvendor.serverwebapi.startup;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import java.text.ParseException;
 
-public class FvStartupService {
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
-	String message;
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
 
-	public String getMessage() {
-		return message;
+import com.finvendor.server.scheduler.jobs.PriceUpdateJob;
+
+public class FvStartupService implements ServletContextListener {
+
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	@PostConstruct
-	public void initIt() throws Exception {
-		System.out.println("*******"+message);
-	}
-
-	@PreDestroy
-	public void cleanUp() throws Exception {
-		System.out.println("Spring Container is destroy! Customer clean up");
+	@Override
+	public void contextInitialized(ServletContextEvent arg0) {
+		
+		JobDetail job = new JobDetail();
+    	job.setName("PriceAlertJob");
+    	job.setJobClass(PriceUpdateJob.class);
+    	
+    	CronTrigger trigger = new CronTrigger();
+    	trigger.setName("PriceAlert Trigger");
+    	try {
+			trigger.setCronExpression("0 0/5 * * * ?");
+			//schedule it
+	    	Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+//	    	scheduler.start();
+//	    	scheduler.scheduleJob(job, trigger);
+		} catch (ParseException | SchedulerException e) {
+			e.printStackTrace();
+		}
+    	System.out.println("PriceAlert TimerTask started");
 	}
 }

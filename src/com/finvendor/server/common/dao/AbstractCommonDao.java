@@ -29,7 +29,7 @@ public abstract class AbstractCommonDao implements ICommonDao {
 			Map<String, Object> firstDefaultParamsMap, Map<String, Object> lastDefaultParamsMap, int colIndex)
 					throws RuntimeException {
 		try {
-			SQLQuery query = getSql(sql, conditionValue);
+			SQLQuery query = getNativeQuery(sql, conditionValue);
 			List<Object[]> rows = query.list();
 
 			List<Map<String, Object>> listOfMap = new ArrayList<>();
@@ -69,7 +69,7 @@ public abstract class AbstractCommonDao implements ICommonDao {
 		}
 	}
 
-	public SQLQuery getSql(String sql, Object[] conditionValue) {
+	public SQLQuery getNativeQuery(String sql, Object[] conditionValue) {
 		SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		if (conditionValue != null) {
 			for (int i = 0; i < conditionValue.length; i++) {
