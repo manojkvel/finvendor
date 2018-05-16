@@ -449,10 +449,11 @@ body {
 
 .c_name {
 	font-weight: bold;
+	font-size: 20px;
 }
 
 .last_cmp {
-	font-weight: bold;
+	font-size: 20px;
 }
 
 .nav-tabs {
@@ -606,6 +607,16 @@ body {
 	text-align: center;
 }
 
+#home_page_main_search {
+	box-shadow: none;
+	margin: 0 15px;
+}
+
+#home_page_main_search button .htmlvalue ,
+#home_page_main_search input {
+	text-transform: capitalize;
+}
+
 
 
 /* The Modal (background) */
@@ -682,7 +693,7 @@ body {
 	padding: 5px 10px;
 	font-size: 13px;
 	margin: 0;
-	background: #e6e6e6;
+	background: antiquewhite;
 	font-weight: bold;
 }
 
@@ -703,6 +714,17 @@ body {
 #setPriceAlert .modal-body table tr td:nth-of-type(even) {
 	margin: 10px 0;
 	display: inline-block;
+}
+
+#setPriceAlert .modal-body table tr td span {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#setPriceAlert .modal-body table tr td input {
+	font-size: 16px;
+	text-align: center;
+	width: 50px;
 }
 
 #setPriceAlert .modal-body table tr td input[type='checkbox'] {

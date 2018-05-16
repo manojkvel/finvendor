@@ -81,7 +81,7 @@
 					<div class="row m0">
 						<div class="col-md-2 col-sm-2 hiddenn-sm-down col-lg-2"></div>
 						<div class="col-md-8 col-sm-8 hiddenn-sm-down col-lg-8">
-							<form class="navbar-form navbar-input-group input-group p0"
+							<form id="home_page_main_search" class="navbar-form navbar-input-group input-group p0"
 								data-bind="enterkey: submit">
 								<div class="input-group-btn ">
 									<button type="button"
@@ -94,19 +94,19 @@
 									<ul class="dropdown-menu ddselect"
 										data-function="searchValueChange">
 										<li class="dropdown-item"><a data-context="stock"
-											data-placeholder="stocks" class="active">Stocks</a></li>
+											data-placeholder="Search stocks & its quotes" class="active">Stocks</a></li>
 										<li class="dropdown-item"><a data-context="sectors"
-											data-placeholder="sectors">Sectors</a></li>
+											data-placeholder="Sectors">Sectors</a></li>
 										<li class="dropdown-item"><a data-context="macroeconomy"
-											data-placeholder="macroeconomy">Macroeconomy</a></li>
-										<li class="dropdown-item"><a data-context="researchbrokers/analysts"
-											data-placeholder="researchbrokers/analysts">Research Brokers/Analysts</a></li>
+											data-placeholder="Macroeconomy">Macroeconomy</a></li>
+										<li class="dropdown-item"><a data-context="research brokers/analysts"
+											data-placeholder="Research brokers/analysts">Research Brokers/Analysts</a></li>
 									</ul>
 								</div>
 								<input
 									class="form-control mform-control navbar-ac phcenter ui-autocomplete-input"
 									name="search"
-									placeholder="Search for a Stock, Sector or Interest area"
+									placeholder="Search stocks & its quotes"
 									 type="text"
 									autocomplete="off">
 								<div class="input-group-addon splash-search-addon nobdr">

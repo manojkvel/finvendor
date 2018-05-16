@@ -528,7 +528,74 @@ function addToMarketWatchlistAPI() {
 
 $("#company_profile .profile_details.func_details button").eq(0).on('click', addToMarketWatchlist);
 
+function setPriceAlert() {
+    var dayMinPrice = $("#setPriceAlert input[name=day_min_price]").val();
+    var dayMaxPrice = $("#setPriceAlert input[name=day_max_price]").val();
+    var weekMinPrice = $("#setPriceAlert input[name=week_min_price]").val();
+    var weekMaxPrice = $("#setPriceAlert input[name=week_max_price]").val();
+    var monthMinPrice = $("#setPriceAlert input[name=month_min_price]").val();
+    var monthMaxPrice = $("#setPriceAlert input[name=month_max_price]").val();
+    var isResearchReport = $("#setPriceAlert input[name=alert_new_research_report]").prop('checked');
+    var alertJsonObj = {
+        "companyId": companyProfileObj.companyId,
+        "companyName": companyProfileObj.companyName,
+        "userName": "test_vendor",
+        "dayMinPrice": dayMinPrice,
+        "dayMaxPrice": dayMaxPrice,
+        "weekMinPrice": weekMinPrice,
+        "weekMaxPrice": weekMaxPrice,
+        "monthMinPrice": monthMinPrice,
+        "monthMaxPrice": monthMaxPrice,
+        "isResearchReport": isResearchReport
+    };
 
+    setPriceAlertAPI(alertJsonObj).then(function(resolve){
+
+    }, function(error) {
+
+    });
+}
+
+
+function setPriceAlertAPI(alertJsonObj) {
+    
+    isProgressLoader(true);
+
+    var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+    companyProfileObj['userName'] = 'amit_vendor';
+
+
+
+    var url = "/system/api/alert/researcharea?id=1";
+    return new Promise(function(resolve, reject) {
+        var httpRequest = new XMLHttpRequest({
+            mozSystem: true
+        });
+        httpRequest.timeout = API_TIMEOUT_SMALL;
+        httpRequest.open('POST', url, true);
+        httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+
+        httpRequest.ontimeout = function () {
+            reject("" + httpRequest.responseText);
+        };
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 201) {
+                    resolve(httpRequest.response);
+                } else {
+                    console.log(httpRequest.status + httpRequest.responseText);
+                    reject(httpRequest.responseText);
+                }
+            } else {
+            }
+        };
+
+        httpRequest.send(JSON.stringify(alertJsonObj));
+    });
+} 
+
+$("#setPriceAlert button[name=set_alert_btn]").on('click', setPriceAlert);
 
 
 jQuery(document).ready(function() {

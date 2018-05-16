@@ -694,7 +694,6 @@ table {
 .cd-user-modal-container #userRegisterSpan select {
 	width: 60%;
 	text-align: left !important;
-	height: 105px !important;
 	border: 0 !important;
 }
 

@@ -1,5 +1,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="com.finvendor.util.RequestConstans"%>
 <!DOCTYPE html>
 <head>
@@ -34,18 +35,28 @@
 						</div>
 						<div class="col-xs-12 col-sm-5">
 							<div class="profile_details func_details">
+							${sessionScope.loggedInUser.username}
+
+							${sessionScope.loggedInRole}
 								<c:choose>
-									<c:when test="${sessionScope.loggedInUser != null}">
+									<c:when test="${sessionScope.loggedInUser != null  && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 									 	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addToWatchlist"><span class="fa fa-eye"></span> Add to Watchlist</button>
 									 	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#setPriceAlert"><span class="fa fa-bell"></span> Set Price Alert</button>
 									</c:when>
 									<c:otherwise>
-										<a href="javascript:inner_login('<%="view/company-profile.jsp"%>')">
-											<span class="fa fa-eye"></span> Add to Watchlist
-										</a>
-										<a href="javascript:inner_login('<%="view/company-profile.jsp"%>')">
-											<span class="fa fa-bell"></span> Set Price Alert
-										</a>
+										<c:choose>
+											<c:when test="${sessionScope.loggedInUser != null  && (sessionScope.loggedInRole=='ROLE_VENDOR')}">
+											 	
+											</c:when>
+											<c:otherwise>
+												<a href="javascript:inner_login('<%="view/company-profile.jsp"%>')">
+													<span class="fa fa-eye"></span> Add to Watchlist
+												</a>
+												<a href="javascript:inner_login('<%="view/company-profile.jsp"%>')">
+													<span class="fa fa-bell"></span> Set Price Alert
+												</a>
+											</c:otherwise>
+										</c:choose>
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -296,48 +307,60 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3>Add an alert for a stock that you are interested in. Alerts are delivered to your email. You can configure alerts for price and for new research reports.</h3>
+          <h3>Add an alert for a stock for price and new research reports. Alerts are delivered to your email.</h3>
         </div>
         <div class="modal-body">
         	<div class="alert-cards">
-	        	<h4>Price <a class="fa fa-info-circle" href="javascript:void(0);" data-toggle='tooltip' title='Configure alerts for price'></a></h4>
+	        	<h4>Stock Price <a class="fa fa-info-circle" href="javascript:void(0);" data-toggle='tooltip' title='Configure alerts for price'></a></h4>
 	          	<table>
 	          		<tr>
 	          			<th>&nbsp;</th>
-	          			<th>Min Price</th>
-	          			<th>Max Price</th>
+	          			<th>Min % change</th>
+	          			<th>Max % change</th>
 	          		</tr>
 	          		<tr>
 	          			<td>Day</td>
 	          			<td>
-	          				<input type="text" name="day_min_price" val="" />
+	          				<span>-</span>
+	          				<input type="number" name="day_min_price" val="" />
+	          				<span>%</span>
 	          			</td>
 	          			<td>
-	          				<input type="text" name="day_max_price" val="" />
+	          				<span>+</span>
+	          				<input type="number" name="day_max_price" val="" />
+	          				<span>%</span>
 	          			</td>
 	          		</tr>
 	          		<tr>
 	          			<td>Week</td>
 	          			<td>
-	          				<input type="text" name="week_min_price" val="" />
+	          				<span>-</span>
+	          				<input type="number" name="week_min_price" val="" />
+	          				<span>%</span>
 	          			</td>
 	          			<td>
-	          				<input type="text" name="week_max_price" val="" />
+	          				<span>+</span>
+	          				<input type="number" name="week_max_price" val="" />
+	          				<span>%</span>
 	          			</td>
 	          		</tr>
 	          		<tr>
 	          			<td>Month</td>
 	          			<td>
-	          				<input type="text" name="month_min_price" val="" />
+	          				<span>-</span>
+	          				<input type="number" name="month_min_price" val="" />
+	          				<span>%</span>
 	          			</td>
 	          			<td>
-	          				<input type="text" name="month_max_price" val="" />
+	          				<span>+</span>
+	          				<input type="number" name="month_max_price" val="" />
+	          				<span>%</span>
 	          			</td>
 	          		</tr>
 	          	</table>
           	</div>
           	<div class="alert-cards">
-	        	<h4>Research <a class="fa fa-info-circle" href="javascript:void(0);" data-toggle='tooltip' title='Configure alerts for research reports'></a></h4>
+	        	<h4>Research Report <a class="fa fa-info-circle" href="javascript:void(0);" data-toggle='tooltip' title='Configure alerts for research report'></a></h4>
 	        	<table class="research_report">
 	        		<tr>
 	        			<td>
@@ -351,7 +374,7 @@
           	</div>
         </div>
         <div class="modal-footer">
-          	<button type="button" class="btn btn-info btn-lg">Set Alert</button>
+          	<button type="button" name="set_alert_btn" class="btn btn-info btn-lg">Set Alert</button>
         </div>
       </div>
       

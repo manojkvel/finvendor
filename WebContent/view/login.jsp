@@ -122,9 +122,8 @@
 									</li>
 									<li class="normal-line">
 										<label for='companytype'>Company Type</label>
-										<select id="signup-companytype" multi-data-mandatory="Y" name="companytype" class="form-control"   
-										multiple="multiple"> 
-											<option value ="-SELECT-" id="1" selected>-Select Company Type-</option>
+										<select id="signup-companytype" multi-data-mandatory="Y" name="companytype" class="form-control"> 
+											<!--<option value ="-SELECT-" id="1" selected>-Select Company Type-</option>
 											<option value="Individual Investor/Researcher" id="10" title='Individual Investor/Researcher'>Individual Investor/Researcher</option>
 											<option value="Financial Firm - Sell side" id="2" title='Financial Firm - Sell side'>Financial Firm - Sell side</option>
 											<option value="Financial Firm - Buy side" id="3" title='Financial Firm - Buy side'>Financial Firm - Buy side</option>
@@ -133,17 +132,10 @@
 											<option value="Trading Application" id="6" title='Financial Vendor - Trading Applications'>Financial Vendor - Trading Applications</option>
 											<option value="Analytics Application" id="7" title='Financial Vendor - Analytics Applications'>Financial Vendor - Analytics Applications</option>
 											<option value="Research Report" id="8" title='Financial Vendor - Research report Providers'>Financial Vendor - Research report Providers</option>
-											<option value="University/College" id="9" title='University/College'>University/College</option>
-										</select>
-									</li>
-									<li id="register_vendor_area_of_interest" class="normal-line">
-										<label for='vendorareaofinterest'>Vendor Area of Interest</label>
-										<select id="sigup-tags" name="tags" class="form-control" multiple="multiple">
-											<option value ="-SELECT-" selected>-Select Vendor area of Interest-</option>
-											<option value="Data Aggregator" title='Data Aggregator'>Data Aggregator</option>
-											<option value="Trading Application" title='Trading Application'>Trading Application</option>
-											<option value="Analytics Application" title='Analytics Application'>Analytics Application</option>
-											<option value="Research Report" title='Research Report'>Research Report</option>
+											<option value="University/College" id="9" title='University/College'>University/College</option>-->
+											<option value="Individual Investor" id="1" title='Individual Investor' selected="selected">Individual Investor</option>
+											<option value="University/College" id="2" title='University/College'>University/College</option>
+											<option value="Research Broker / Freelancer" id="3" title='Vendor'>Research Broker / Freelancer</option>
 										</select>
 									</li>
 									<li style="clear: both;text-align: center; width: 100%;">

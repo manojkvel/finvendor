@@ -434,7 +434,7 @@ function getGenericSearchCompanyList(hintVal) {
 jQuery(document).ready(function($) {
 
 	function getHeaderSearchCompanyList(e) {
-
+debugger
 		var hintVal = $("#txtSearchBox").val();
 
 		if(hintVal.length >=2 && e.which == 13) {
@@ -466,4 +466,13 @@ jQuery(document).ready(function($) {
 	};
 
 	$("#txtSearchBox").on("keydown", getHeaderSearchCompanyList);
+
+	function selectResearchType (e) {
+		var type = $(this).attr("data-context");
+		var typePlaceHolder = $(this).attr("data-placeholder");
+		$("#home_page_main_search button .htmlvalue").text(type);
+		$("#home_page_main_search input").attr('placeholder', typePlaceHolder);
+	}
+
+	$("#home_page_main_search .ddselect a").on('click', selectResearchType);
 });
