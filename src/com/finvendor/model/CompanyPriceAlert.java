@@ -44,7 +44,10 @@ public class CompanyPriceAlert {
 	
 	@Column(name = "is_research_price")
 	private String is_research_price;
-
+	
+//	@Column(name = "no_time_frame")
+//	private String no_time_frame;
+	
 	@Column(name = "curr_date")
 	private String curr_date;
 
@@ -135,4 +138,12 @@ public class CompanyPriceAlert {
 	public void setCurr_date(String curr_date) {
 		this.curr_date = curr_date;
 	}
+
+//	public String getNo_time_frame() {
+//		return no_time_frame;
+//	}
+//
+//	public void setNo_time_frame(String no_time_frame) {
+//		this.no_time_frame = no_time_frame;
+//	}
 }

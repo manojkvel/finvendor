@@ -1,11 +1,9 @@
 package com.finvendor.server.companyprofile.pricealert.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
 
 /**
@@ -24,11 +22,5 @@ public interface ICompanyPriceAlertService {
 	CompanyPriceAlertPojo findCompanyPriceAlert(String companyId, String userName) throws Exception;
 
 	List<CompanyPriceAlertPojo> findAllCompanyPriceAlert(String userName) throws Exception;
-
-	// for Mail related
-	boolean updatePrice(StockCurrentPricePojo stockCurrentPricePojo) throws Exception;
-
-	Map<String, String> findAllTickerFromDb() throws Exception;
-
-	Map<String, List<CompanyPriceAlertPojo>> fetchAllStockCurrentPrices() throws Exception;
+	
 }

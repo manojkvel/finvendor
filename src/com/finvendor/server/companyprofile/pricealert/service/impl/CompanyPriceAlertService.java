@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
 import com.finvendor.server.companyprofile.pricealert.dao.ICompanyPriceAlertDao;
 import com.finvendor.server.companyprofile.pricealert.service.ICompanyPriceAlertService;
@@ -71,40 +70,6 @@ public class CompanyPriceAlertService implements ICompanyPriceAlertService {
 			Map<Object, Object> paramMap = new LinkedHashMap<>();
 			paramMap.put("username", userName);
 			return dao.findAllCompanyPriceAlerts(paramMap);
-		} catch (RuntimeException e) {
-			throw new Exception(e);
-		}
-	}
-
-	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//Scheduler related
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@Override
-	@Transactional(readOnly = false)
-	public boolean updatePrice(StockCurrentPricePojo stockCurrentPricePojo) throws Exception {
-		try {
-			return dao.updatePrice(stockCurrentPricePojo);
-		} catch (RuntimeException e) {
-			throw new Exception(e);
-		}
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public Map<String,String> findAllTickerFromDb() throws Exception {
-		try {
-			return dao.findAllTickerFromDb();
-		} catch (RuntimeException e) {
-			throw new Exception(e);
-		}
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public Map<String,List<CompanyPriceAlertPojo>> fetchAllStockCurrentPrices() throws Exception {
-		try {
-			return dao.fetchAllStockCurrentPrices();
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}

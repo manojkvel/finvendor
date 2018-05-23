@@ -122,7 +122,8 @@ public class EmailUtil {
 			message.setFrom(new InternetAddress(SALES_EMAIL));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 			message.setSubject(subject);
-			message.setText(content);
+			 message.setContent(content, "text/html; charset=utf-8");
+
 			Transport.send(message);
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
