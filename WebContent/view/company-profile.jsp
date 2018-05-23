@@ -35,9 +35,6 @@
 						</div>
 						<div class="col-xs-12 col-sm-5">
 							<div class="profile_details func_details">
-							${sessionScope.loggedInUser.username}
-
-							${sessionScope.loggedInRole}
 								<c:choose>
 									<c:when test="${sessionScope.loggedInUser != null  && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
 									 	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addToWatchlist"><span class="fa fa-eye"></span> Add to Watchlist</button>
@@ -308,6 +305,9 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h3>Add an alert for a stock for price and new research reports. Alerts are delivered to your email.</h3>
+          <div class="alert alert-success alert-dismissible">
+          	<span>This alert box could indicate a successful or positive action.</span>
+          </div>
         </div>
         <div class="modal-body">
         	<div class="alert-cards">

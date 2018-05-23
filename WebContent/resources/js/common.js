@@ -434,17 +434,17 @@ function getGenericSearchCompanyList(hintVal) {
 jQuery(document).ready(function($) {
 
 	function getHeaderSearchCompanyList(e) {
-debugger
-		var hintVal = $("#txtSearchBox").val();
+
+		var hintVal = $(this).val();
 
 		if(hintVal.length >=2 && e.which == 13) {
-			$('#fv_sub_header input[name = txtSearchBox]').click();
+			 $(this).click();
       		return false;
 		}
 
-		$('#txtSearchBox').marcoPolo({
-			url: '/system/api/search/researcharea?id=1&geo=1',
-			param: 'key',
+		$(this).marcoPolo({
+			url: '/system/api/homepage',
+			param: 'searchKey',
 			minChars: 2,
 			formatData: function (data) {
 				return data.searchOutput;
@@ -466,11 +466,13 @@ debugger
 	};
 
 	$("#txtSearchBox").on("keydown", getHeaderSearchCompanyList);
+	$("input[name=homepagesearch]").on("keydown", getHeaderSearchCompanyList);
 
 	function selectResearchType (e) {
 		var type = $(this).attr("data-context");
 		var typePlaceHolder = $(this).attr("data-placeholder");
 		$("#home_page_main_search button .htmlvalue").text(type);
+		$("input[name=homepagesearch]").val("");
 		$("#home_page_main_search input").attr('placeholder', typePlaceHolder);
 	}
 

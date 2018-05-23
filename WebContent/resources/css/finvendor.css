@@ -335,10 +335,35 @@ body {
 	background: #fff;
 	padding: 10px 5px;
 	cursor: pointer;
+	color: #414b4f;
+	font-size: 10px;
 }
 
 .mp_list li.mp_highlighted {
 	background: #cecece;
+}
+
+#home_page_main_search .mp_list {
+	top: 35px;
+}
+
+#home_page_main_search .splash-search-addon {
+	position: relative;
+}
+
+#home_page_main_search .splash-search-addon input:focus {
+	border: 0;
+}
+
+#home_page_main_search .splash-search-addon input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 0;
+    font-size: 0;
 }
 
 #company_profile {
@@ -500,13 +525,13 @@ body {
 
 
 
-#broker_table {
+table {
 	min-height: 200px;
 	margin-bottom: 20px;
 	width: 100%;
 }
 
-#broker_table > thead > tr > th {
+table > thead > tr > th {
     min-height: 40px;
     height: 40px;
     font-weight: 500;
@@ -516,8 +541,8 @@ body {
     border-bottom: 2px solid #eceeef;
 }
 
-#broker_table td, 
-#broker_table th {
+table td, 
+table th {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
@@ -527,10 +552,64 @@ body {
     text-align: center;
 }
 
-#broker_table th {
+table th {
 	vertical-align: top;
 }
 
+table tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+table i.fa {
+	font-size: 22px;
+}
+
+table i.fa.fa-file-pdf-o {
+	color: #ff0000;
+}
+
+table td a:last-child {
+	margin-left:0;
+}
+
+table i.fa-sort {
+	font-size: 11px;
+}
+
+table i.fa-file {
+	color: #414b4f;
+}
+
+table a {
+	color: #fff;
+}
+
+table thead th p {
+	margin: 0;
+	text-align: left;
+	line-height: 18px;
+}
+
+table .large_font a {
+	font-size: 16px;
+}
+
+table .small_font a {
+	font-size: 13px;
+}
+
+table .normal_font p {
+	font-weight: normal;
+}
+
+#watchlist_table > thead > tr > th {
+	height: auto;
+	min-height: auto;
+}
+
+#watchlist_table > tbody {
+	min-height: 300px;
+}
 
 
 #fv_equity_research_report_vendor_search,
@@ -541,47 +620,6 @@ body {
 	min-height: 400px;
 	margin-bottom: 10px;
 	position: relative;
-}
-
-
-#broker_table tbody tr:nth-of-type(odd) {
-    background-color: #f9f9f9;
-}
-
-#broker_table i.fa {
-	font-size: 22px;
-}
-
-#broker_table i.fa.fa-file-pdf-o {
-	color: #ff0000;
-}
-
-#broker_table td a:last-child {
-	margin-left:0;
-}
-
-#broker_table i.fa-sort {
-	font-size: 11px;
-}
-
-#broker_table i.fa-file {
-	color: #414b4f;
-}
-
-#broker_table a {
-	color: #fff;
-}
-
-#broker_table thead th p {
-	margin: 0;
-	text-align: left;
-}
-
-#broker_table .large_font a {
-	font-size: 16px;
-}
-#broker_table .small_font a {
-	font-size: 13px;
 }
 
 .research_report_score_block {
@@ -610,6 +648,7 @@ body {
 #home_page_main_search {
 	box-shadow: none;
 	margin: 0 15px;
+	padding: 0;
 }
 
 #home_page_main_search button .htmlvalue ,
@@ -743,6 +782,10 @@ body {
 	background: #414b4f;
 	border: 0;
 	width: 100%;
+}
+
+#setPriceAlert .alert {
+	display: none;
 }
 
 @media only screen and (max-width: 479px) {

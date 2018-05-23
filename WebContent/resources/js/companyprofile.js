@@ -334,7 +334,7 @@ var companyProfileObj = {};
 
         var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
 
-        var url = "/system/api/recordstats/reaseacharea?id=1&geo=1&isinCode=" + companyProfileJson.isinCode + "&perPageMaxRecords=" + perPageMaxRecords;
+        var url = "/system/api/companyprofile/recordstat?isinCode=" + companyProfileJson.isinCode + "&perPageMaxRecords=" + perPageMaxRecords;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -415,7 +415,7 @@ function getCompanyProfile() {
     companyProfileJson = JSON.parse(companyProfileJson);
     var isinCode = companyProfileJson.isinCode;
 
-    var url = "/system/api/profile/researcharea?id=1&geo=1&isinCode=" + isinCode;
+    var url = "/system/api/companyprofile?isinCode=" + isinCode;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
@@ -448,7 +448,7 @@ function getCompanyResearchReport(researchType, pageNumber) {
 
     var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
 
-    var url = "/system/api/researchreport/reaseacharea?id=1&geo=1&isinCode=" + companyProfileJson.isinCode + "&type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
+    var url = "/system/api/companyprofile/researchreport?isinCode=" + companyProfileJson.isinCode + "&type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
@@ -481,11 +481,11 @@ function addToMarketWatchlist() {
     addToMarketWatchlistAPI().then(function(response) {
         isProgressLoader(false);
         $("#addToWatchlist .alert").removeClass('alert-danger');
-        $("#addToWatchlist .alert span").text(JSON.parse(response).messge);
+        $("#addToWatchlist .alert span").text(JSON.parse(response).message);
     }, function(error) {
         isProgressLoader(false);
         $("#addToWatchlist .alert").addClass('alert-danger');
-        $("#addToWatchlist .alert span").text(JSON.parse(error).messge);
+        $("#addToWatchlist .alert span").text(JSON.parse(error).message);
 
     });
 }
@@ -497,7 +497,7 @@ function addToMarketWatchlistAPI() {
     var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
     companyProfileObj['userName'] = 'amit_vendor';
 
-    var url = "/system/api/watchlist/researcharea?id=1";
+    var url = "/system/api/companywatchlist/create";
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
@@ -549,10 +549,18 @@ function setPriceAlert() {
         "isResearchReport": isResearchReport
     };
 
-    setPriceAlertAPI(alertJsonObj).then(function(resolve){
-
+    setPriceAlertAPI(alertJsonObj).then(function(response){
+        var response = JSON.parse(response);
+        $("#setPriceAlert h3").hide();
+        $("#setPriceAlert .alert").text(response.message);
+        $("#setPriceAlert .alert").removeClass("alert-danger").show();
+        isProgressLoader(false);
     }, function(error) {
-
+        var response = JSON.parse(error);
+        $("#setPriceAlert h3").hide();
+        $("#setPriceAlert .alert").text(response.message);
+        $("#setPriceAlert .alert").addClass("alert-danger").show();
+        isProgressLoader(false);
     });
 }
 
@@ -566,7 +574,7 @@ function setPriceAlertAPI(alertJsonObj) {
 
 
 
-    var url = "/system/api/alert/researcharea?id=1";
+    var url = "/system/api/companypricealert/create";
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
