@@ -8,6 +8,9 @@ public class StatusPojo {
 	private String status;
 	private String message;
 
+	public StatusPojo() {
+		
+	}
 	public StatusPojo(String status, String message) {
 		super();
 		this.status = status;
@@ -29,6 +32,9 @@ public class StatusPojo {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
+	@Override
+	public String toString() {
+		return "StatusPojo [status=" + status + ", message=" + message + "]";
+	}
 	
 }

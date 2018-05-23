@@ -34,8 +34,14 @@ public class WebCompanyWatchListImpl implements IWebCompanyWatchList {
 	ICompanyWatchListService service;
 
 	@Override
-	public ResponseEntity<?> addCompanyWatchList(@RequestBody CompanyWatchListPojo companyWatchListPojo) throws WebApiException {
+	public ResponseEntity<?> addCompanyWatchList(HttpServletRequest request, @RequestBody CompanyWatchListPojo companyWatchListPojo) throws WebApiException {
 		try {
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			if (loggedInUser == null) {
+				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
+			}
+			String userName = loggedInUser.getUsername();
+			companyWatchListPojo.setUserName(userName);
 			boolean addStatus = service.addCompanyWatchList(companyWatchListPojo);
 			if (addStatus) {
 				return new ResponseEntity<StatusPojo>(new StatusPojo("true", "Company Watchlist added successfully"),

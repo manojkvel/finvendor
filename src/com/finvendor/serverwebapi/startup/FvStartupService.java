@@ -29,7 +29,8 @@ public class FvStartupService implements ServletContextListener {
     	CronTrigger trigger = new CronTrigger();
     	trigger.setName("PriceAlert Trigger");
     	try {
-			trigger.setCronExpression("0 0/5 * * * ?");
+//			trigger.setCronExpression("0/30 * * * * ?");
+    		trigger.setCronExpression("0 0/5 * * * ?");
 			//schedule it
 	    	Scheduler scheduler = new StdSchedulerFactory().getScheduler();
 //	    	scheduler.start();

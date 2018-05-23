@@ -25,7 +25,10 @@ public enum ExceptionEnum {
 	DELETE_WATCHLIST("FV0016", "Internal error - Unable to delete company watchlist, Please contact Finvendor admin for support!!"),
 	UPDATE_COMPANY_PRICE_ALERT("FV0017", "Internal error - Unable to update company price alert, Please contact Finvendor admin for support!!"),
 	DELETE_COMPANY_PRICE_ALERT("FV0018", "Internal error - Unable to delete company price alert, Please contact Finvendor admin for support!!"),
-	FIND_COMPANY_PRICE_ALERT("FV0018", "Internal error - Unable to delete company price alert, Please contact Finvendor admin for support!!")
+	FIND_COMPANY_PRICE_ALERT("FV0018", "Internal error - Unable to delete company price alert, Please contact Finvendor admin for support!!"),
+	
+	PRICE_MAIL("FV0019", "Internal error - Unable to send mail to user for given company, Please contact Finvendor admin for support!!"),
+	RESEARCH_REPORT_MAIL("FV0020", "Internal error - Unable to send research report mail to user for given company, Please contact Finvendor admin for support!!")
 	
 	;
 	

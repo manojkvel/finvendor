@@ -29,7 +29,7 @@ public interface IWebCompanyWatchList {
 	 */
 	@RequestMapping(value = "/companywatchlist/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> addCompanyWatchList(CompanyWatchListPojo companyWatchListPojo) throws WebApiException;
+	ResponseEntity<?> addCompanyWatchList(HttpServletRequest request, CompanyWatchListPojo companyWatchListPojo) throws WebApiException;
 
 	/**
 	 * 

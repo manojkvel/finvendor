@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
@@ -31,7 +30,7 @@ public interface IWebCompanyPriceAlert {
 	 */
 	@RequestMapping(value = "/companypricealert/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> addCompanyPriceAlert(CompanyPriceAlertPojo companyPriceAlertPojo) throws WebApiException;
+	ResponseEntity<?> addCompanyPriceAlert(HttpServletRequest request, CompanyPriceAlertPojo companyPriceAlertPojo) throws WebApiException;
 	
 	//Update
 	/**
@@ -77,12 +76,4 @@ public interface IWebCompanyPriceAlert {
 	@RequestMapping(value = "/companypricealert/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	ResponseEntity<?> findAllCompanyPriceAlert(HttpServletRequest request) throws WebApiException;
-
-	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//Scheduler Related
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@RequestMapping(value = "/alert/researcharea/updateprice", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	ResponseEntity<?> updateStockPrice(StockCurrentPricePojo stockCurrentPricePojo) throws WebApiException;
 }
