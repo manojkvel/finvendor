@@ -74,14 +74,30 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 				String closePriceAtTheTimeOfAddingWatchList = companywatchListEntity.getClose_price();
 
 				StockCurrentPricePojo stockCurrentPricePojo = stockCurrentPriceDao.getStockCurrentPriceById(company_id);
-				String new_close_price = stockCurrentPricePojo.getClose_price();
+				
+				String todaysCmpStr = stockCurrentPricePojo.getClose_price();
+				float todaysCmp = Float.parseFloat(todaysCmpStr);
+				String yesterdayCmpStr = stockCurrentPricePojo.getLast_traded_price();
+				float yesterdayCmp = Float.parseFloat(yesterdayCmpStr);
 
-				String diff_close_price = String.valueOf(
-						Float.parseFloat(new_close_price) - Float.parseFloat(closePriceAtTheTimeOfAddingWatchList));
+				float cmpWhenWasAdded = Float.parseFloat(closePriceAtTheTimeOfAddingWatchList);
 
+				float percentageChangeSinceAdded = (todaysCmp - cmpWhenWasAdded) * 100.0f / cmpWhenWasAdded;
+				String percentageChangeSinceAddedStr = String.valueOf(percentageChangeSinceAdded);
 				companyWatchListPojo.setCmp(closePriceAtTheTimeOfAddingWatchList);
-				companyWatchListPojo.setNewCmp(new_close_price);
-				companyWatchListPojo.setDiffCmp(diff_close_price);
+				companyWatchListPojo.setNewCmp(todaysCmpStr);
+				companyWatchListPojo.setPercentageChangeSinceAdded(percentageChangeSinceAddedStr);
+
+				// Set todaysChange & todaysChangeInPercentage
+				float todaysChange = todaysCmp - yesterdayCmp;
+				String todaysChangeStr = String.valueOf(todaysChange);
+
+				float todaysChangeInPercentage = (todaysCmp - yesterdayCmp) * 100.0f / yesterdayCmp;
+				String todaysChangeInPercentageStr = String.valueOf(todaysChangeInPercentage);
+
+				companyWatchListPojo.setTodaysChange(todaysChangeStr);
+				companyWatchListPojo.setTodaysChangeInPercentage(todaysChangeInPercentageStr);
+
 				companyWatchListPojo.setCurrDate(companywatchListEntity.getCurr_date());
 				companyWatchListPojoList.add(companyWatchListPojo);
 			}

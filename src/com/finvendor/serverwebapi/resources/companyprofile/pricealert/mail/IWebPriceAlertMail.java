@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.scheduler;
+package com.finvendor.serverwebapi.resources.companyprofile.pricealert.mail;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
-import com.finvendor.server.scheduler.dto.UserCompanyMailContent;
+import com.finvendor.server.companyprofile.pricealert.dto.UserCompanyMailContent;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
 
 @RequestMapping(WebUriConstants.BASE_URI)
-public interface IWebScheduler {
+public interface IWebPriceAlertMail {
 
 	/**
 	 * @param stockCurrentPricePojo

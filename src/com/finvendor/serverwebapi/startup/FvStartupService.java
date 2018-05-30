@@ -11,7 +11,8 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 
-import com.finvendor.server.scheduler.jobs.PriceUpdateJob;
+import com.finvendor.server.companyprofile.pricealert.job.PriceUpdateJob;
+
 
 public class FvStartupService implements ServletContextListener {
 
