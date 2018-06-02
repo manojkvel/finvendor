@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingApplicationsOffering;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
+import com.finvendor.server.common.dao.ICommonDao;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.VendorEnum;
 
@@ -46,7 +48,10 @@ public class VendorServiceImpl implements VendorService {
 
 	@Autowired
 	private VendorDao vendorDao;
-
+	
+	@Autowired
+	private ICommonDao commonDao;
+	
 	@Override
 	public void saveVendorInfo(Vendor vendor) {
 		logger.info("saveVendorInfo method---:");
@@ -627,4 +632,21 @@ public class VendorServiceImpl implements VendorService {
 	public String getAllVendorOffering(String vendorName) throws ApplicationException {
 		return vendorDao.findAllVendorOffering(vendorName);
 	}
+
+	@Override
+	@Transactional
+	public String getCompanyName(String companyId) throws ApplicationException {
+		 String companyName ="";
+		SQLQuery nativeQuery = commonDao.getNativeQuery("select company_id, company_name from rsch_sub_area_company_dtls where company_id=?",
+				new String[] {companyId});
+		@SuppressWarnings("unchecked")
+		List<Object[]> rows = nativeQuery.list();
+		for (Object[] row : rows) {
+			 companyName = row[1] != null ? row[1].toString().trim() : "";
+			 break;
+		}
+		return companyName;
+	}
+	
+	
 }

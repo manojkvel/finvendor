@@ -367,7 +367,7 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 		String mailContent="<!DOCTYPE html>\r\n" + 
 				"<html>\r\n" + 
 				"<head>\r\n" + 
-				"<title>Example</title>\r\n" + 
+				"<title></title>\r\n" + 
 				"\r\n" + 
 				"<!-- CSS -->\r\n" + 
 				"<style>\r\n" + 
@@ -398,11 +398,11 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				"<!-- HTML -->\r\n" + 
 				"<table class=\"myTable\">\r\n" + 
 				"	<tr>\r\n" + 
-				"		<th>Company Name</th>\r\n" + 
-				"		<th>Report Alert Triggered</th>\r\n" + 
+				"		<th>Company name</th>\r\n" + 
+				"		<th>Report alert triggered</th>\r\n" + 
 				"	</tr>\r\n" + 
 				"	<tr>\r\n" + 
-				"		<td>COMPANYNAME</td>\r\n" + 
+				"		<td><a href=\"http://dev.finvendor.com/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company%20Research/\">COMPANYNAME</a></td>\r\n" + 
 				"		<td>A New research report added for this stock</td>\r\n" + 
 				"	</tr>\r\n" + 
 				"</table>\r\n" + 
