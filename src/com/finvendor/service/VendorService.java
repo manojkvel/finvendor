@@ -156,5 +156,6 @@ public interface VendorService {
 	boolean uploadFile(VendorEnum type, byte[] bytes, String destPath) throws IOException;
 	void deleteFile(VendorEnum type, String path) throws IOException;
 	String getAllVendorOffering(String vendorName) throws ApplicationException;
+	String getCompanyName(String companyId) throws ApplicationException;
 	
 }

@@ -1,9 +1,7 @@
-package com.finvendor.serverwebapi.resources.scheduler.impl;
+package com.finvendor.serverwebapi.resources.companyprofile.pricealert.mail.impl;
 
-import static com.finvendor.common.exception.ExceptionEnum.PRICE_MAIL;
-import static com.finvendor.common.exception.ExceptionEnum.UPDATE_PRICE;
 import static com.finvendor.common.exception.ExceptionEnum.RESEARCH_REPORT_MAIL;
-
+import static com.finvendor.common.exception.ExceptionEnum.UPDATE_PRICE;
 
 import java.text.DateFormat;
 import java.text.Format;
@@ -26,24 +24,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
+import com.finvendor.common.util.Pair;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
-import com.finvendor.server.scheduler.dto.CompanyEmailContent;
-import com.finvendor.server.scheduler.dto.UserCompanyMailContent;
-import com.finvendor.server.scheduler.service.ISchedulerService;
+import com.finvendor.server.companyprofile.pricealert.dto.CompanyEmailContent;
+import com.finvendor.server.companyprofile.pricealert.dto.UserCompanyMailContent;
+import com.finvendor.server.companyprofile.pricealert.service.IPriceAlertMailService;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.scheduler.IWebScheduler;
+import com.finvendor.serverwebapi.resources.companyprofile.pricealert.mail.IWebPriceAlertMail;
 import com.finvendor.service.UserService;
 import com.finvendor.util.EmailUtil;
 
 @Controller
-public class WebSchedulerImpl implements IWebScheduler {
+public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 
 	private DateFormat bhavDateFormatFromNSESite = new SimpleDateFormat("dd-MMM-yyyy");
 	private Format fvDateFormat = new SimpleDateFormat("MM/dd/yy");
@@ -52,7 +50,7 @@ public class WebSchedulerImpl implements IWebScheduler {
 	private UserService userService;
 
 	@Autowired
-	private ISchedulerService service;
+	private IPriceAlertMailService service;
 
 	@Resource(name = "finvendorProperties")
 	private Properties fvProperties;
@@ -70,8 +68,7 @@ public class WebSchedulerImpl implements IWebScheduler {
 
 			// Get today's Stock market price from NSE site
 			long startTime = System.currentTimeMillis();
-			List<StockCurrentPricePojo> stockCurrentPricePojoList = getTodaysStockPriceFromNSESite(
-					tickerAndCompanyIdMap);
+			List<StockCurrentPricePojo> stockCurrentPricePojoList = getTodaysStockPriceFromNSESite(tickerAndCompanyIdMap);
 
 			boolean isStockPriceNeedToUpdateInDb;
 			if (stockCurrentPricePojoList != null && stockCurrentPricePojoList.size() > 0) {
@@ -123,6 +120,7 @@ public class WebSchedulerImpl implements IWebScheduler {
 
 	private UserCompanyMailContent prepareMail() throws NumberFormatException, Exception {
 		Map<String, List<CompanyEmailContent>> userCompanyMailContentMap = new LinkedHashMap<>();
+		
 		// key is user name and value is CompanyPriceAlerUt List
 		// 1 user can set alert for one or more than one company (1:M)
 		Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap = service.fetchCompanyPriceAlert();
@@ -135,169 +133,203 @@ public class WebSchedulerImpl implements IWebScheduler {
 				// get stock price for given company id
 				String companyId = companyPrice.getCompanyId();
 				StockCurrentPricePojo stockCurrentPrice = stockPriceMap.get(companyId);
-				Float todaysClosePrice = 0.0f;
-				Float yesterdayClosePriceAsLTP=0.0f;
-				if (stockCurrentPrice != null) {
-					String todaysClosePriceFromDb = stockCurrentPrice.getClose_price();
-					if (todaysClosePriceFromDb != null && !todaysClosePriceFromDb.isEmpty()) {
-						todaysClosePrice = Float.parseFloat(todaysClosePriceFromDb);
-					} else {
-						todaysClosePrice = null;
-					}
-					
-					String yesterdayClosePriceAsLTPFromDb=stockCurrentPrice.getLast_traded_price();
-					if (yesterdayClosePriceAsLTPFromDb != null && !yesterdayClosePriceAsLTPFromDb.isEmpty()) {
-						yesterdayClosePriceAsLTP = Float.parseFloat(yesterdayClosePriceAsLTPFromDb);
-					} else {
-						yesterdayClosePriceAsLTP = null;
-					}
-				}
-
+				
+				Pair<Float, Float> todayAndYesterdayPrice = getTodayAndYesterdayPrice(stockCurrentPrice);
+				Float todaysClosePrice = todayAndYesterdayPrice.getElement1();
+				Float yesterdayClosePriceAsLTP = todayAndYesterdayPrice.getElement2();
+				
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				// Daily Price hit checking
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-				float usersDayMinPrice = 0.0f;
-				float usersDayMaxPrice = 0.0f;
-
-				String usersDayMinPriceStr = companyPrice.getDayMinPrice();
-				if (usersDayMinPriceStr != null && !usersDayMinPriceStr.isEmpty()) {
-					usersDayMinPrice = Float.parseFloat(usersDayMinPriceStr);
-				}
-
-				String usersDayMaxPriceStr = companyPrice.getDayMaxPrice();
-				if (usersDayMaxPriceStr != null && !usersDayMaxPriceStr.isEmpty()) {
-					usersDayMaxPrice = Float.parseFloat(usersDayMaxPriceStr);
-				}
-
-				float todaysCmpInPercentage = 0.0f;
-				String todaysCmpInPercentageStr = "";
-				if (todaysClosePrice != null) {
-					if (todaysClosePrice == usersDayMinPrice) {
-						todaysCmpInPercentageStr = "0% daily change";
-					} else if (todaysClosePrice < usersDayMinPrice) {
-						todaysCmpInPercentage = (usersDayMinPrice - todaysClosePrice) * 100 / usersDayMinPrice;
-						todaysCmpInPercentageStr = "-" + todaysCmpInPercentage + " % daily change";
-					} else if (todaysClosePrice == usersDayMaxPrice) {
-						todaysCmpInPercentageStr = "0% daily change";
-					} else if (todaysClosePrice > usersDayMaxPrice) {
-						todaysCmpInPercentage = (todaysClosePrice - usersDayMaxPrice) * 100 / todaysClosePrice;
-						todaysCmpInPercentageStr = "+" + todaysCmpInPercentage + " % daily change";
-					} else {
-						todaysCmpInPercentage = 0.0f;
-						todaysCmpInPercentageStr = "";
-					}
-				} else {
-					todaysCmpInPercentage = 0.0f;
-					todaysCmpInPercentageStr = "";
-				}
+				String todaysCmpInPercentage = checkDailyCMP(companyPrice, todaysClosePrice);
 
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				// Weekly Price hit checking
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				Float lastWeekClosePrice = getLastWeekClosePrice(companyId);
-				float lastWeekCmpInPercentage = 0.0f;
-				String lastWeekCmpInPercentageStr = "";
-				if (lastWeekClosePrice != null) {
-					float usersWeekMinPrice = 0.0f;
-					float usersWeekMaxPrice = 0.0f;
-
-					String usersWeekMinPriceStr = companyPrice.getWeekMinPrice();
-					if (usersWeekMinPriceStr != null && !usersWeekMinPriceStr.isEmpty()) {
-						usersWeekMinPrice = Float.parseFloat(usersWeekMinPriceStr);
-					}
-
-					String usersWeekMaxPriceStr = companyPrice.getWeekMaxPrice();
-					if (usersWeekMaxPriceStr != null && !usersWeekMaxPriceStr.isEmpty()) {
-						usersWeekMaxPrice = Float.parseFloat(usersWeekMaxPriceStr);
-					}
-					
-					if (lastWeekClosePrice == usersWeekMinPrice) {
-						lastWeekCmpInPercentageStr = "0% weekly change";
-					} else if (lastWeekClosePrice < usersWeekMinPrice) {
-						lastWeekCmpInPercentage = (usersDayMinPrice - lastWeekClosePrice) * 100 / usersDayMinPrice;
-						lastWeekCmpInPercentageStr = "-" + lastWeekCmpInPercentage + " % weekly change";
-					} else if (lastWeekClosePrice == usersWeekMaxPrice) {
-						lastWeekCmpInPercentageStr = "0% weekly change";
-					} else if (lastWeekClosePrice > usersWeekMaxPrice) {
-						lastWeekCmpInPercentage = (lastWeekClosePrice - usersWeekMaxPrice) * 100 / lastWeekClosePrice;
-						lastWeekCmpInPercentageStr = "+" + lastWeekCmpInPercentage + " % weekly change";
-					} else {
-						lastWeekCmpInPercentage = 0.0f;
-						lastWeekCmpInPercentageStr = "";
-					}
-				} else {
-					lastWeekCmpInPercentage = 0.0f;
-					lastWeekCmpInPercentageStr = "";
-				}
+				String lastWeekCmpInPercentage = checkWeeklyCMP(companyPrice, lastWeekClosePrice);
 				
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				// Monthly Price hit checking
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				Float lastMonthClosePrice = getLastMonthClosePrice(companyId);
-				float lastMonthCmpInPercentage = 0.0f;
-				String lastMonthCmpInPercentageStr = "";
-				if (lastMonthClosePrice != null) {
-					float usersMonthMinPrice = 0.0f;
-					float usersMonthMaxPrice = 0.0f;
-
-					String usersMonthMinPriceStr = companyPrice.getMonthMinPrice();
-					if (usersMonthMinPriceStr != null && !usersMonthMinPriceStr.isEmpty()) {
-						usersMonthMinPrice = Float.parseFloat(usersMonthMinPriceStr);
-					}
-
-					String usersMonthMaxPriceStr = companyPrice.getMonthMaxPrice();
-					if (usersMonthMaxPriceStr != null && !usersMonthMaxPriceStr.isEmpty()) {
-						usersMonthMaxPrice = Float.parseFloat(usersMonthMaxPriceStr);
-					}
-					
-					if (lastMonthClosePrice == usersMonthMinPrice) {
-						lastMonthCmpInPercentageStr = "0% monthly change";
-					} else if (lastMonthClosePrice < usersMonthMinPrice) {
-						lastMonthCmpInPercentage = (usersMonthMinPrice - lastMonthClosePrice) * 100 / usersMonthMinPrice;
-						lastMonthCmpInPercentageStr = "-" + lastWeekCmpInPercentage + " % monthly change";
-					} else if (lastMonthClosePrice == usersMonthMaxPrice) {
-						lastMonthCmpInPercentageStr = "0% monthly change";
-					} else if (lastMonthClosePrice > usersMonthMaxPrice) {
-						lastMonthCmpInPercentage = (lastMonthClosePrice - usersMonthMaxPrice) * 100 / usersMonthMaxPrice;
-						lastMonthCmpInPercentageStr = "+" + lastMonthCmpInPercentage + " % monthly change";
-					}
-				} else {
-					lastMonthCmpInPercentage = 0.0f;
-					lastMonthCmpInPercentageStr = "";
-				}
+				String lastMonthCmpInPercentage = checkMonthlyCMP(companyPrice, lastMonthClosePrice);
 
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-				// No timeframe checking
+				// No timeframe hit checking
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//				String noTimeFrame = companyPrice.getNoTimeFrame();
-//				if(noTimeFrame!=null) {
-//					
-//				}
-				
+				String noTimeFrameTodaysCmpInPercentage = checkNoTimeFrameCMP(companyPrice, todaysClosePrice);
+
 				CompanyEmailContent companyEmailContent = new CompanyEmailContent();
 				companyEmailContent.setUserName(userName);
 				companyEmailContent.setCompanyName(companyPrice.getCompanyName());
 				companyEmailContent.setPriceDate(stockCurrentPrice.getPrice_date());
 
 				companyEmailContent.setTodaysCmp(todaysClosePrice);
+				
 				companyEmailContent.setYesterdayCmp(yesterdayClosePriceAsLTP);
-				companyEmailContent.setTodaysCmpInPercentageStr(todaysCmpInPercentageStr);
+				companyEmailContent.setTodaysCmpInPercentage(todaysCmpInPercentage);
 
 				if (lastWeekClosePrice != null) {
 					companyEmailContent.setLastWeekCmp(lastWeekClosePrice);
-					companyEmailContent.setLastWeekCmpInPercentageStr(lastWeekCmpInPercentageStr);
+					companyEmailContent.setLastWeekCmpInPercentage(lastWeekCmpInPercentage);
 				}
 
 				if(lastMonthClosePrice!=null) {
 					companyEmailContent.setLastMonthCmp(lastMonthClosePrice);
-					companyEmailContent.setLastMonthCmpInPercentageStr(lastMonthCmpInPercentageStr);
+					companyEmailContent.setLastMonthCmpInPercentage(lastMonthCmpInPercentage);
 				}
+				companyEmailContent.setCmpWhenPriceAlertWasSet(companyPrice.getCmpWhenPriceAlertSet());
+				companyEmailContent.setNoTimeFrameInPercentage(noTimeFrameTodaysCmpInPercentage);
 				
 				companyMailMessageList.add(companyEmailContent);
 			}
 			userCompanyMailContentMap.put(userName, companyMailMessageList);
 		}
 		return new UserCompanyMailContent(userCompanyMailContentMap);
+	}
+
+	private Pair<Float,Float> getTodayAndYesterdayPrice(StockCurrentPricePojo stockCurrentPrice) {
+		Float todaysClosePrice = 0.0f;
+		Float yesterdayClosePriceAsLTP=0.0f;
+		if (stockCurrentPrice != null) {
+			String todaysClosePriceFromDb = stockCurrentPrice.getClose_price();
+			if (todaysClosePriceFromDb != null && !todaysClosePriceFromDb.isEmpty()) {
+				todaysClosePrice = Float.parseFloat(todaysClosePriceFromDb);
+			} else {
+				throw new WebApiException("Unable to find today's close price from DB!!");
+			}
+			
+			String yesterdayClosePriceAsLTPFromDb=stockCurrentPrice.getLast_traded_price();
+			if (yesterdayClosePriceAsLTPFromDb != null && !yesterdayClosePriceAsLTPFromDb.isEmpty()) {
+				yesterdayClosePriceAsLTP = Float.parseFloat(yesterdayClosePriceAsLTPFromDb);
+			} else {
+				throw new WebApiException("Unable to find yesterday's close price from DB!!");
+			}
+		}
+		return new Pair<Float,Float>(todaysClosePrice, yesterdayClosePriceAsLTP);
+	}
+
+	private String checkNoTimeFrameCMP(CompanyPriceAlertPojo companyPrice, Float todaysClosePrice) {
+		String noTimeFrameTodaysCmpInPercentageStr = "";
+		String usersNoTimeFrameMinPriceStr = companyPrice.getNoTimeFrameMinPrice();
+		
+		if (usersNoTimeFrameMinPriceStr != null && !usersNoTimeFrameMinPriceStr.isEmpty()) {
+			float usersNoTimeFrameMinPrice = Float.parseFloat(usersNoTimeFrameMinPriceStr);
+			if (todaysClosePrice < usersNoTimeFrameMinPrice) {
+				float noTimeFrameTodaysCmpInPercentage = (usersNoTimeFrameMinPrice - todaysClosePrice) * 100 / usersNoTimeFrameMinPrice;
+				noTimeFrameTodaysCmpInPercentageStr = "-" + noTimeFrameTodaysCmpInPercentage + " % no time frame change";
+			}
+			if (todaysClosePrice == usersNoTimeFrameMinPrice) {
+				noTimeFrameTodaysCmpInPercentageStr = "0% no time frame change";
+			}
+		}
+
+		String usersnoTimeFrameMaxPriceStr = companyPrice.getNoTimeFrameMaxPrice();
+		if (usersnoTimeFrameMaxPriceStr != null && ! usersnoTimeFrameMaxPriceStr.isEmpty()) {
+			float usersNoTimeFrameMaxPrice = Float.parseFloat(usersnoTimeFrameMaxPriceStr);
+			if (todaysClosePrice > usersNoTimeFrameMaxPrice) {
+				float noTimeFrameTodaysCmpInPercentage = (todaysClosePrice - usersNoTimeFrameMaxPrice) * 100 / todaysClosePrice;
+				noTimeFrameTodaysCmpInPercentageStr = "+" + noTimeFrameTodaysCmpInPercentage + " % no time frame change";
+			}
+			if (todaysClosePrice == usersNoTimeFrameMaxPrice) {
+				noTimeFrameTodaysCmpInPercentageStr = "0% no time frame change";
+			}
+		}
+		return noTimeFrameTodaysCmpInPercentageStr;
+	}
+
+	private String checkMonthlyCMP(CompanyPriceAlertPojo companyPrice, Float lastMonthClosePrice) {
+		String lastMonthCmpInPercentageStr = "";
+		if (lastMonthClosePrice != null) {
+			String usersMonthMinPriceStr = companyPrice.getMonthMinPrice();
+			if (usersMonthMinPriceStr != null && !usersMonthMinPriceStr.isEmpty()) {
+				float usersMonthMinPrice = Float.parseFloat(usersMonthMinPriceStr);
+				if (lastMonthClosePrice < usersMonthMinPrice) {
+					float lastMonthCmpInPercentage = (usersMonthMinPrice - lastMonthClosePrice) * 100 / usersMonthMinPrice;
+					lastMonthCmpInPercentageStr = "-" + lastMonthCmpInPercentage + " % monthly change";
+				}
+				if (lastMonthClosePrice == usersMonthMinPrice) {
+					lastMonthCmpInPercentageStr = "0% monthly change";
+				}
+			}
+			
+			String usersMonthMaxPriceStr = companyPrice.getMonthMaxPrice();
+			if (usersMonthMaxPriceStr != null && !usersMonthMaxPriceStr.isEmpty()) {
+				float usersMonthMaxPrice = Float.parseFloat(usersMonthMaxPriceStr);
+				if (lastMonthClosePrice > usersMonthMaxPrice) {
+					float lastMonthCmpInPercentage = (lastMonthClosePrice - usersMonthMaxPrice) * 100 / usersMonthMaxPrice;
+					lastMonthCmpInPercentageStr = "+" + lastMonthCmpInPercentage + " % monthly change";
+				}
+				if (lastMonthClosePrice == usersMonthMaxPrice) {
+					lastMonthCmpInPercentageStr = "0% monthly change";
+				}
+			}
+		} else {
+			lastMonthCmpInPercentageStr="";
+		}
+		return lastMonthCmpInPercentageStr;
+	}
+
+	private String checkWeeklyCMP(CompanyPriceAlertPojo companyPrice, Float lastWeekClosePrice) {
+		String usersWeekMinPriceStr = companyPrice.getWeekMinPrice();
+		String lastWeekCmpInPercentageStr = "";
+		if (lastWeekClosePrice != null) {
+			if (usersWeekMinPriceStr != null && !usersWeekMinPriceStr.isEmpty()) {
+				float usersWeekMinPrice = Float.parseFloat(usersWeekMinPriceStr);
+				if (lastWeekClosePrice < usersWeekMinPrice) {
+					float lastWeekCmpInPercentage = (usersWeekMinPrice - lastWeekClosePrice) * 100 / usersWeekMinPrice;
+					lastWeekCmpInPercentageStr = "-" + lastWeekCmpInPercentage + " % weekly change";
+				}
+				if (lastWeekClosePrice == usersWeekMinPrice) {
+					lastWeekCmpInPercentageStr = "0% weekly change";
+				}
+			}
+		
+			String usersWeekMaxPriceStr = companyPrice.getWeekMaxPrice();
+			if (usersWeekMaxPriceStr != null && !usersWeekMaxPriceStr.isEmpty()) {
+				float usersWeekMaxPrice = Float.parseFloat(usersWeekMaxPriceStr);
+				if (lastWeekClosePrice > usersWeekMaxPrice) {
+					float lastWeekCmpInPercentage = (lastWeekClosePrice - usersWeekMaxPrice) * 100 / lastWeekClosePrice;
+					lastWeekCmpInPercentageStr = "+" + lastWeekCmpInPercentage + " % weekly change";
+				}
+				if (lastWeekClosePrice == usersWeekMaxPrice) {
+					lastWeekCmpInPercentageStr = "0% weekly change";
+				} 
+			}
+		} else {
+			lastWeekCmpInPercentageStr = "";
+		}
+		return lastWeekCmpInPercentageStr;
+	}
+
+	private String checkDailyCMP(CompanyPriceAlertPojo companyPrice, Float todaysClosePrice) {
+		String todaysCmpInPercentageStr = "";
+
+		String usersDayMinPriceStr = companyPrice.getDayMinPrice();
+		if (usersDayMinPriceStr != null && ! usersDayMinPriceStr.isEmpty()) {
+			float usersDayMinPrice = Float.parseFloat(usersDayMinPriceStr);
+			if (todaysClosePrice < usersDayMinPrice) {
+				float todaysCmpInPercentage = (usersDayMinPrice - todaysClosePrice) * 100 / usersDayMinPrice;
+				todaysCmpInPercentageStr = "-" + todaysCmpInPercentage + " % daily change";
+			}
+			if (todaysClosePrice == usersDayMinPrice) {
+				todaysCmpInPercentageStr = "0% daily change";
+			}
+		}
+		
+		String usersDayMaxPriceStr = companyPrice.getDayMaxPrice();
+		if (usersDayMaxPriceStr != null && ! usersDayMaxPriceStr.isEmpty()) {
+			float usersDayMaxPrice = Float.parseFloat(usersDayMaxPriceStr);
+			if (todaysClosePrice > usersDayMaxPrice) {
+				float todaysCmpInPercentage = (todaysClosePrice - usersDayMaxPrice) * 100 / todaysClosePrice;
+				todaysCmpInPercentageStr = "+" + todaysCmpInPercentage + " % daily change";
+			}
+			if (todaysClosePrice == usersDayMaxPrice) {
+				todaysCmpInPercentageStr = "0% daily change";
+			}
+		}
+		return todaysCmpInPercentageStr;
 	}
 
 	@Override
@@ -335,7 +367,7 @@ public class WebSchedulerImpl implements IWebScheduler {
 		String mailContent="<!DOCTYPE html>\r\n" + 
 				"<html>\r\n" + 
 				"<head>\r\n" + 
-				"<title>Example</title>\r\n" + 
+				"<title></title>\r\n" + 
 				"\r\n" + 
 				"<!-- CSS -->\r\n" + 
 				"<style>\r\n" + 
@@ -366,11 +398,11 @@ public class WebSchedulerImpl implements IWebScheduler {
 				"<!-- HTML -->\r\n" + 
 				"<table class=\"myTable\">\r\n" + 
 				"	<tr>\r\n" + 
-				"		<th>Company Name</th>\r\n" + 
-				"		<th>Report Alert Triggered</th>\r\n" + 
+				"		<th>Company name</th>\r\n" + 
+				"		<th>Report alert triggered</th>\r\n" + 
 				"	</tr>\r\n" + 
 				"	<tr>\r\n" + 
-				"		<td>COMPANYNAME</td>\r\n" + 
+				"		<td><a href=\"http://dev.finvendor.com/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company%20Research/\">COMPANYNAME</a></td>\r\n" + 
 				"		<td>A New research report added for this stock</td>\r\n" + 
 				"	</tr>\r\n" + 
 				"</table>\r\n" + 
@@ -453,6 +485,27 @@ public class WebSchedulerImpl implements IWebScheduler {
 				"        <td>MONTHPRICE</td>\r\n" + 
 				"	</tr>\r\n" + 
 				"</table><br><br>";
+		String noTimeFrameTableContentTemplate="<table class=\"myTable\">\r\n" + 
+				"	<tr>\r\n" + 
+				"		<th>Company name</th>\r\n" + 
+				"        <th>Price when alert was set</th>\r\n" + 
+				"		<th>Alert triggered</th>\r\n" + 
+				"      	<th>Today's price</th>\r\n" + 
+				"      	<th>Previous day price</th>\r\n" + 
+				"        <th>Price a week ago</th>\r\n" + 
+				"        <th>Price a month ago</th>\r\n" + 
+				"	</tr>\r\n" + 
+				"	<tr>\r\n" + 
+				"		<td>COMPANYNAME</td>\r\n" + 
+				"        <td>SINCEPRICE</td>\r\n" + 
+				"		<td>PERCENTAGE</td>\r\n" + 
+				"        <td>TODAYPRICE</td>\r\n" + 
+				"		<td>YESTERDAYPRICE</td>\r\n" + 
+				"        <td>WEEKPRICE</td>\r\n" + 
+				"        <td>MONTHPRICE</td>\r\n" + 
+				"	</tr>\r\n" + 
+				"</table>\r\n" + 
+				"<br><br>";
 		String footerContentTemplate="\r\n" + 
 				"In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.<br><br>\r\n" + 
 				"Thank you once again for setting price alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n" + 
@@ -470,13 +523,13 @@ public class WebSchedulerImpl implements IWebScheduler {
 		
 		String yesterDayPrice = String.valueOf(dto.getYesterdayCmp());
 		String todayPrice = String.valueOf(dto.getTodaysCmp());
-		String todayPriceInPercentage = dto.getTodaysCmpInPercentageStr();
+		String todayPriceInPercentage = dto.getTodaysCmpInPercentage();
 
 		String weeklyPrice = String.valueOf(dto.getLastWeekCmp());
-		String lastWeekPriceInPercentage = dto.getLastWeekCmpInPercentageStr();
+		String lastWeekPriceInPercentage = dto.getLastWeekCmpInPercentage();
 
 		String monthlyPrice = String.valueOf(dto.getLastMonthCmp());
-		String lastMonthPriceInPercentage = dto.getLastMonthCmpInPercentageStr();		
+		String lastMonthPriceInPercentage = dto.getLastMonthCmpInPercentage();		
 		
 		String dayTableContent = "";
 		if (dto.getTodaysCmp() != 0.0f) {
@@ -511,6 +564,18 @@ public class WebSchedulerImpl implements IWebScheduler {
 			monthTableContent = StringUtils.replace(monthTableContent, "MONTHPRICE", monthlyPrice);
 		}
 		
+		String notTimeFrameTableContent = "";
+		if (! dto.getNoTimeFrameInPercentage().equals("N/A")) {
+			notTimeFrameTableContent = noTimeFrameTableContentTemplate;
+			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "COMPANYNAME", companyName);
+			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "SINCEPRICE", dto.getCmpWhenPriceAlertWasSet());
+			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "PERCENTAGE", dto.getNoTimeFrameInPercentage());
+			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "TODAYPRICE", todayPrice);
+			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "YESTERDAYPRICE", yesterDayPrice);
+			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "WEEKPRICE", weeklyPrice);
+			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "MONTHPRICE", monthlyPrice);
+		}
+		
 		String headerContent=headerContentTemplate;
 		headerContent = StringUtils.replace(headerContent, "USERNAME", userName);
 		headerContent = StringUtils.replace(headerContent, "PRICEDATE", priceDate);
@@ -523,6 +588,9 @@ public class WebSchedulerImpl implements IWebScheduler {
 		}
 		if (!monthTableContent.isEmpty()) {
 			tableSb.append(monthTableContent).append("\r\n");
+		}
+		if (!notTimeFrameTableContent.isEmpty()) {
+			tableSb.append(notTimeFrameTableContent).append("\r\n");
 		}
 		String tableContent=tableSb.toString();
 		String footerContent=footerContentTemplate;

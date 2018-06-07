@@ -6,18 +6,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * 
  * @author ayush on May 01, 2018
  */
-@JsonPropertyOrder({ "companyId", "companyName", "userName", "dayMinPrice", "dayMaxPrice", "weekMinPrice",
-		"weekMaxPrice", "monthMinPrice", "monthMaxPrice", "isResearchReport", "currDate" })
+@JsonPropertyOrder({ "companyId", "companyName", "userName", "cmpWhenPriceAlertSet", "dayMinPrice", "dayMaxPrice",
+		"weekMinPrice", "weekMaxPrice", "monthMinPrice", "monthMaxPrice", "noTimeFrameMinPrice", "noTimeFrameMaxPrice",
+		"isResearchReport", "currDate" })
 public class CompanyPriceAlertPojo extends AbstractHomePageSearchPojo {
 	private static final long serialVersionUID = -1531614291471423894L;
+	private String cmpWhenPriceAlertSet;
 	private String dayMinPrice;
 	private String dayMaxPrice;
 	private String weekMinPrice;
 	private String weekMaxPrice;
 	private String monthMinPrice;
 	private String monthMaxPrice;
-//	private String noTimeFrame;
+	private String noTimeFrameMinPrice;
+	private String noTimeFrameMaxPrice;
 	private Boolean isResearchReport;
+
+	public String getCmpWhenPriceAlertSet() {
+		return cmpWhenPriceAlertSet;
+	}
+
+	public void setCmpWhenPriceAlertSet(String cmpWhenPriceAlertSet) {
+		this.cmpWhenPriceAlertSet = cmpWhenPriceAlertSet;
+	}
 
 	public String getDayMinPrice() {
 		return dayMinPrice;
@@ -67,13 +78,21 @@ public class CompanyPriceAlertPojo extends AbstractHomePageSearchPojo {
 		this.monthMaxPrice = monthMaxPrice;
 	}
 
-//	public String getNoTimeFrame() {
-//		return noTimeFrame;
-//	}
-//
-//	public void setNoTimeFrame(String noTimeFrame) {
-//		this.noTimeFrame = noTimeFrame;
-//	}
+	public String getNoTimeFrameMinPrice() {
+		return noTimeFrameMinPrice;
+	}
+
+	public void setNoTimeFrameMinPrice(String noTimeFrameMinPrice) {
+		this.noTimeFrameMinPrice = noTimeFrameMinPrice;
+	}
+
+	public String getNoTimeFrameMaxPrice() {
+		return noTimeFrameMaxPrice;
+	}
+
+	public void setNoTimeFrameMaxPrice(String noTimeFrameMaxPrice) {
+		this.noTimeFrameMaxPrice = noTimeFrameMaxPrice;
+	}
 
 	public Boolean getIsResearchReport() {
 		return isResearchReport;

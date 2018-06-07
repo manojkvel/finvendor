@@ -6,13 +6,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * 
  * @author ayush on May 01, 2018
  */
-@JsonPropertyOrder({ "companyId", "companyName", "userName", "cmp", "newCmp", "diffCmp", "currentDate" })
+@JsonPropertyOrder({ "companyId", "companyName", "userName", "cmp", "newCmp", "percentageChangeSinceAdded",
+		"todaysChange", "todaysChangeInPercentage", "currentDate" })
 public class CompanyWatchListPojo extends AbstractHomePageSearchPojo {
 
 	private static final long serialVersionUID = -5787321024740863643L;
 	private String cmp;
 	private String newCmp;
-	private String diffCmp;
+	private String percentageChangeSinceAdded;
+	private String todaysChange;
+	private String todaysChangeInPercentage;
 
 	public String getCmp() {
 		return cmp;
@@ -30,12 +33,27 @@ public class CompanyWatchListPojo extends AbstractHomePageSearchPojo {
 		this.newCmp = newCmp;
 	}
 
-	public String getDiffCmp() {
-		return diffCmp;
+	public String getPercentageChangeSinceAdded() {
+		return percentageChangeSinceAdded;
 	}
 
-	public void setDiffCmp(String diffCmp) {
-		this.diffCmp = diffCmp;
+	public void setPercentageChangeSinceAdded(String percentageChangeSinceAdded) {
+		this.percentageChangeSinceAdded = percentageChangeSinceAdded;
 	}
 
+	public String getTodaysChange() {
+		return todaysChange;
+	}
+
+	public void setTodaysChange(String todaysChange) {
+		this.todaysChange = todaysChange;
+	}
+
+	public String getTodaysChangeInPercentage() {
+		return todaysChangeInPercentage;
+	}
+
+	public void setTodaysChangeInPercentage(String todaysChangeInPercentage) {
+		this.todaysChangeInPercentage = todaysChangeInPercentage;
+	}
 }

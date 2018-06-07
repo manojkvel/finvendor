@@ -19,6 +19,7 @@ public class StockCurrentPriceDao extends GenericDao<StockCurrentPrice> implemen
 			StockCurrentPricePojo pojo = new StockCurrentPricePojo();
 			pojo.setStock_id(stockCurrentPriceEntity.getStock_id());
 			pojo.setClose_price(stockCurrentPriceEntity.getClose_price());
+			pojo.setLast_traded_price(stockCurrentPriceEntity.getLast_trade_price());
 			return pojo;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
