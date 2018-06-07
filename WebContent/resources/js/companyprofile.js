@@ -495,7 +495,6 @@ function addToMarketWatchlistAPI() {
     isProgressLoader(true);
 
     var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
-    companyProfileObj['userName'] = 'amit_vendor';
 
     var url = "/system/api/companywatchlist/create";
     return new Promise(function(resolve, reject) {

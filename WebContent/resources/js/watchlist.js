@@ -34,48 +34,9 @@ function getCompanyWatchList() {
 
 jQuery(document).ready(function() {
 	getCompanyWatchList().then(function(response) {
-		response = [
-		{
-			"companyId": 2,
-			"companyName": "HDFC Bank Ltd",
-			"userName": "amit",
-			"cmp": "1974.95",
-			"newCmp": "1994.95",
-			"diffCmp": "2.0",
-			"currentDate": "1526352454800"
-		}, 
-		{
-			"companyId": 3,
-			"companyName": "Axis Bank Ltd",
-			"userName": "amit",
-			"cmp": "1924.95",
-			"newCmp": "1974.95",
-			"diffCmp": "-3.1",
-			"currentDate": "1526352454800"
-		},
+		
 
-		{
-			"companyId": 5,
-			"companyName": "HDFC Bank Ltd",
-			"userName": "amit",
-			"cmp": "2974.95",
-			"newCmp": "1974.95",
-			"diffCmp": "7.3",
-			"currentDate": "1526352454800"
-		},
-
-		{
-			"companyId": 4,
-			"companyName": "Yes Bank Ltd",
-			"userName": "amit",
-			"cmp": "1974.95",
-			"newCmp": "1974.95",
-			"diffCmp": "0.0",
-			"currentDate": "1526352454800"
-		}
-	];
-
-		//var response = JSON.parse(response);
+		var response = JSON.parse(response);
 		var len = response.length;
         var htmlCode = '';
         var rowHtml =   "";
@@ -88,20 +49,20 @@ jQuery(document).ready(function() {
         var cmp_last_change_class = "success";
         var cmp_last_change_caret = "fa-caret-up";
 
-        var lastChange = response.diffCmp;
-
-        if(lastChange > 0) {
-            cmp_last_change_class = "success";
-            cmp_last_change_caret = "fa-caret-up";
-        } else if (lastChange < 0) {
-            cmp_last_change_class = "danger";
-            cmp_last_change_caret = "fa-caret-down";
-        } else {
-            cmp_last_change_class = "neutral";
-            cmp_last_change_caret = "";
-        }
-
         for(var i = 0; i < len; i++) {
+
+	        var lastChange = response[i].diffCmp;
+
+	        if(lastChange > 0) {
+	            cmp_last_change_class = "success";
+	            cmp_last_change_caret = "fa-caret-up";
+	        } else if (lastChange < 0) {
+	            cmp_last_change_class = "danger";
+	            cmp_last_change_caret = "fa-caret-down";
+	        } else {
+	            cmp_last_change_class = "neutral";
+	            cmp_last_change_caret = "";
+	        }
 
             
 
