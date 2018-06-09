@@ -1,8 +1,5 @@
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="com.finvendor.util.RequestConstans"%>
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
 	<title>Research Company Profile</title>
 	<meta charset="utf-8" />
@@ -46,10 +43,10 @@
 											 	
 											</c:when>
 											<c:otherwise>
-												<a href="javascript:inner_login('<%="view/company-profile.jsp"%>')">
+												<a href="javascript:inner_login('')">
 													<span class="fa fa-eye"></span> Add to Watchlist
 												</a>
-												<a href="javascript:inner_login('<%="view/company-profile.jsp"%>')">
+												<a href="javascript:inner_login('')">
 													<span class="fa fa-bell"></span> Set Price Alert
 												</a>
 											</c:otherwise>
