@@ -788,6 +788,194 @@ table .normal_font p {
 	display: none;
 }
 
+.watchlist_header ul {
+	float: right;
+}
+
+.watchlist_header ul li{
+	float: left;
+	display: inline;
+}
+
+button {
+	outline: none;
+}
+
+.watchlist_header button {
+	border: 0;
+	background: transparent;
+}
+
+.watchlist_header button[disabled] {
+	opacity: 0.5;
+}
+
+.watchlist_header button.fa {
+	font-size: 27px;
+	position: relative;
+	top: 5px;
+}
+
+#watchlist_search ol li {
+	float: none;
+	display: block;
+}
+
+#watchlist_container {
+	clear: both;
+}
+
+#watchlist_table {
+	background: #fff;
+}
+
+#watchlist_table i {
+	position: relative;
+	top: 2px;
+	padding-right: 5px;
+}
+
+#deleteWatchlist .modal-header {
+	border-bottom: 0;
+}
+
+#deleteWatchlist h3 {
+	font-size: 16px;
+	line-height: 22px;
+}
+
+
+#deleteWatchlist .modal-body {
+	overflow: hidden;
+	padding: 0;
+	margin-top: 40px;
+}
+
+#deleteWatchlist .modal-body .btns {
+	text-align: center;
+}
+
+#deleteWatchlist .modal-body ul li {
+	display: inline;
+	margin: 0 20px;
+}
+
+
+#watchlist_search {
+    display: block;
+    float: right;
+    position: relative;
+    margin-right: 20px;
+}
+
+#watchlist_search form .input-group-addon>span {
+    color: #34bf98;
+    font-size: 23px;
+}
+#watchlist_search form .input-group-addon input, 
+#watchlist_search form .input-group-addon a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 0;
+    font-size: 0;
+}
+
+#watchlist_search form.open .input-group {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0 !important;
+    padding-bottom: 3px;
+    padding-right: 10px;
+}
+@media screen and (min-width: 1200px)
+{
+	#watchlist_search form .input-group {
+		padding-left: 30px;
+	}
+}
+@media screen and (min-width: 992px)
+{
+	#watchlist_search form .input-group {
+		max-width: 310px;
+	}
+
+}
+
+#watchlist_search form .input-group-addon {
+    background-color: white;
+    padding: 0 11px;
+    margin: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    border: none;
+    position: relative;
+    z-index: 11;
+}
+
+#watchlist_search form .form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    -webkit-transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s;
+    border: none;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    height: 34px;
+    color: #0e62ab;
+    font-size: 13px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    /* font-family: "pt_sansregular"; */
+}
+
+
+
+#watchlist_search form .input-group {
+    -moz-transition: max-width .3s ease-in-out;
+    -o-transition: max-width .3s ease-in-out;
+    -webkit-transition: max-width .3s ease-in-out;
+    transition: max-width .3s ease-in-out;
+    float: right;
+    padding-top: 3px;
+}
+
+#watchlist_search form .input-group-addon.close-btn {
+    display: none;
+}
+
+#watchlist_search form.open .form-control {
+    padding-left: 0;
+    border-bottom: 3px solid #34bf98;
+    font-size: 18px;
+    height: 63px;
+    padding: 6px 0 0;
+    box-shadow: none;
+}
+
+#watchlist_search form.open .input-group-addon {
+    display: none;
+}
+
+#watchlist_search form.open .input-group-addon.close-btn {
+    display: table-cell;
+}
+
+
 @media only screen and (max-width: 479px) {
 	.dashboard_report .bd .reportDetails {
 		float: none;
@@ -804,6 +992,10 @@ table .normal_font p {
 
 	.nav-tabs {
 		font-size: 9px;
+	}
+
+	#deleteWatchlist .modal-body ul li {
+		margin-right: 10px;
 	}
 }
 
@@ -823,5 +1015,39 @@ table .normal_font p {
 
 	.nav>li>a {
 		padding: 10px 13px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+
+	#watchlist_container {
+		overflow: auto;
+	}
+
+	#my_watchlist .user_action {
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	#my_watchlist .user_action button {
+		width: 100%;
+		padding: 10px 0;
+	}
+
+	#watchlist_search {
+		margin-right: 0;
+	}
+
+	#watchlist_search {
+		margin-right: 10px;
+	}
+
+	#watchlist_search form .form-control {
+		padding: 6px;
+	}
+
+	#watchlist_search form .input-group-addon {
+		width: 32px;
+		padding: 0 5px;
 	}
 }

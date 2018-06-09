@@ -12,12 +12,37 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 </head>
 <body>
-	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>
+	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true" ></jsp:include>
 	
-	<div class="container">
+	<div class="container" id="my_watchlist">
 		<div class="row">
 			<div class="col-xs-12 col-sm-9">
-				<div id="my_watchlist">
+				<div class="watchlist_header">
+					<ul>
+						<li>
+							<div id="watchlist_search">
+								<form action="#" class="elastic-search desktop_variant" method="GET">
+									<div class="input-group">
+										<input id="watchListSearchBox" name="watchListSearchBox" class="form-control" autocomplete="off" name="searchKeyword" type="text" placeholder="Search to add company">
+										<div class="input-group-addon" style="width:40px;">
+											<span class="fa fa-plus-circle"><input name="watchListSearchBoxSubmit" class="submit-button" type="submit" data-toggle="modal" data-target="#addToWatchlist" /></span>
+										</div>
+										<div class="input-group-addon close-btn"><span class="glyphicon glyphicon-remove"><a href="javascript:;"></a></span></div>
+									</div>
+									<div class="suggestions" style="display:none" id="tblSuggestions">
+										<div id="tableBodyAutocomplete">
+										</div>
+									</div>
+								</form>
+							</div>
+						</li>
+						<li>
+							<button type="button" class="fa fa-trash deleteBtn" title="Delete" disabled  data-toggle="modal" data-target="#deleteWatchlist"></button>
+						</li>
+					</ul>
+				</div>
+				<div id="watchlist_container">
+					
 					<table id='watchlist_table'>
 						<thead>
 							<tr>
@@ -51,6 +76,11 @@
 										% Change
 									</p>
 								</th>
+								<th style="width:15%;">
+									<p class="normal_font">
+										<input name="selectAll" data-id="selectAll" class="submit-button" type="checkbox" />
+									</p>
+								</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -65,6 +95,40 @@
 	</div>
 
     <jsp:include page="common/footer.jsp"></jsp:include>
+
+    <!-- Modal -->
+  <div class="modal fade" id="addToWatchlist" role="dialog">
+    <div class="modal-dialog">
+    
+      <div class="alert alert-success alert-dismissible">
+      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+      	<span>This alert box could indicate a successful or positive action.</span>
+      </div>
+      
+    </div>
+  </div>
+
+       <!-- Modal -->
+	  <div class="modal fade" id="deleteWatchlist" role="dialog">
+	    <div class="modal-dialog">
+	    	<!-- Modal content-->
+	    	<div class="modal-content">
+	    		<div class="modal-header">
+	    			<button type="button" class="close" data-dismiss="modal">&times;</button>
+	    			<h3>Are you sure you want to delete from watchlist?</h3>
+	    		</div>
+	    		<div class="modal-body">
+	    			<div class="btns">
+	    				<ul>
+	    					<li><button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Cancel</button></li>
+	    					<li><button type="button" class="btn btn-lg btn-primary deleteBtn">Delete</button></li>
+	    				</ul>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+	  </div>
+
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/watchlist.js"></script>
 </body>
 </html>

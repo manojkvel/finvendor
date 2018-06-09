@@ -216,16 +216,29 @@ h4 {
 	font-weight: bold;
 }
 
+.profile-card table {
+	width: auto;
+	margin-bottom: 0;
+	min-height: auto;
+}
+
+.profile-card table,
+.profile-card table tbody tr:nth-of-type(odd) {
+	background: transparent;
+}
+
 .profile-card th {
 	font-size: 11px;
 	color: #999;
 	vertical-align: top;
 	padding: 2px 20px 0 0;
 	white-space: nowrap;
+	text-align: left;
 }
 
 .profile-card th+td {
 	padding-top: 2px;
+	text-align: left;
 }
 
 #awards_top_card {
@@ -1282,6 +1295,12 @@ textarea:valid ~ label {
 	font-size: 24px;
 }
 
+#user_profile_details table {
+	min-height: auto;
+	margin-bottom: 0;
+	width: auto;
+}
+
 
 
 #user_profile_details th {
@@ -1290,10 +1309,20 @@ textarea:valid ~ label {
 	vertical-align: top;
 	padding: 2px 20px 0 0;
 	white-space: nowrap;
+	text-align: left;
 }
 
 #user_profile_details th+td {
 	padding-top: 2px;
+	text-align: left;
+}
+
+#user_profile_details table tbody tr:nth-of-type(odd) {
+	background: transparent;
+}
+
+#user_profile_details table a {
+	color: #000;
 }
 
 #fin_vendor_videos {

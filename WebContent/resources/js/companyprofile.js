@@ -378,7 +378,7 @@ function getCompanyProfileResearchReportLoad() {
         var cmp_last_change_class = "success";
         var cmp_last_change_caret = "fa-caret-up";
 
-        var lastChange = response.companyProfileData.lastChangedCmpInPercentage;
+        var lastChange = parseFloat(response.companyProfileData.lastChangedCmpInPercentage).toFixed();
 
         if(lastChange > 0) {
             cmp_last_change_class = "success";
@@ -485,7 +485,7 @@ function addToMarketWatchlist() {
     }, function(error) {
         isProgressLoader(false);
         $("#addToWatchlist .alert").addClass('alert-danger');
-        $("#addToWatchlist .alert span").text(JSON.parse(error).message);
+        $("#addToWatchlist .alert span").text(JSON.parse(error).userMessage);
 
     });
 }
