@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Repository;
 
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.CompanyWatchList;
-import com.finvendor.model.ResearchSubAreaCompanyDetails;
 import com.finvendor.server.common.dao.ICommonDao;
 import com.finvendor.server.common.dao.infra.GenericDao;
 import com.finvendor.server.homepage.dao.IHomePageSearchDao;
@@ -38,27 +39,21 @@ public class HomePageSearchDaoImpl extends GenericDao<CompanyWatchList> implemen
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
-	public String getHomePageSearchHint(Map<Object, Object> paramMap) throws RuntimeException {
+	public String getHomePageSearchHint(String searchKey) throws RuntimeException {
 		try {
-			// String hql="from com.finvendor.model.CompanyWatchList where
-			// user_name like:username";
-			// Map<Object,Object> paramMap1=new LinkedHashMap<>();
-			//
-			// paramMap1.put("username", "amit");
-			// org.hibernate.Query query1 =
-			// commonDao.getNamedQuery(CompanyWatchList.COMPANY_WATCHLIST_BY_USER_NQ,paramMap1);
-			// List<CompanyWatchList> ll=query1.list();
-
-			org.hibernate.Query query = commonDao.getNamedQuery(ResearchSubAreaCompanyDetails.HOME_PAGE_SEARCH_NQ,
-					paramMap);
-			List<ResearchSubAreaCompanyDetails> researchSubAreaCompanyDetailsList = query.list();
-
+			String query=IHomePageSearchDao.SEARCH_HINT_QUERY;
+			
+			query = StringUtils.replace(query, "SEARCHKEY", "'%"+searchKey+"%'");
+			SQLQuery sqlQuery = commonDao.getNativeQuery(query, null);
+			List<Object[]> rows = sqlQuery.list();
 			List<CompnyData> companyDataList = new ArrayList<>();
-			for (ResearchSubAreaCompanyDetails researchSubAreaCompanyDetails : researchSubAreaCompanyDetailsList) {
-				String companyName = researchSubAreaCompanyDetails.getCompanyName();
-				String isinCode = researchSubAreaCompanyDetails.getIsinCode();
-				String ticker = researchSubAreaCompanyDetails.getTicker();
-				companyDataList.add(new CompnyData(companyName, isinCode, ticker));
+			for (Object[] row : rows) {
+				String companyId = row[0] != null ? row[0].toString().trim() : "";
+				String companyName = row[1] != null ? row[1].toString().trim() : "";
+				String isin = row[2] != null ? row[2].toString().trim() : "";
+				String ticker = row[3] != null ? row[3].toString().trim() : "";
+				String cmp = row[4] != null ? row[4].toString().trim() : "";
+				companyDataList.add(new CompnyData(companyId,companyName, isin, ticker,cmp));
 			}
 			return convertObjectToJson("searchOutput", companyDataList);
 		} catch (IOException e) {
