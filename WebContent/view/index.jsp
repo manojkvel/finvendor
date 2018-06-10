@@ -81,8 +81,7 @@
 					<div class="row m0">
 						<div class="col-md-2 col-sm-2 hiddenn-sm-down col-lg-2"></div>
 						<div class="col-md-8 col-sm-8 hiddenn-sm-down col-lg-8">
-							<form id="home_page_main_search" class="navbar-form navbar-input-group input-group p0"
-								data-bind="enterkey: submit">
+							<form id="home_page_main_search" class="navbar-form navbar-input-group input-group p0" data-bind="enterkey: submit" action="/view/company-profile.jsp" method="GET">
 								<div class="input-group-btn ">
 									<button type="button"
 										class="norbdr pr05r splash-search-addon btn  dropdown-toggle"
@@ -105,12 +104,14 @@
 								</div>
 								<input
 									class="form-control mform-control navbar-ac phcenter ui-autocomplete-input"
-									name="search"
+									name="homepagesearch"
 									placeholder="Search stocks & its quotes"
 									 type="text"
 									autocomplete="off">
 								<div class="input-group-addon splash-search-addon nobdr">
-									<i class="fa fa-search  "></i>
+									<i class="fa fa-search">
+										<input name="txtSearchBox" class="submit-button" type="submit">
+									</i>
 								</div>
 							</form>
 						</div>

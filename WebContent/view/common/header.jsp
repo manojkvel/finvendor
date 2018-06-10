@@ -169,6 +169,10 @@
                                                                         <li>
                                                                             <a href="#" id='my_profile'>My Profile</a>
                                                                         </li>
+                                                                        
+                                                                        <li>
+                                                                            <a href="${pageContext.request.contextPath}/view/my-watchlist.jsp" id='view_my_watchlist'>My Watchlist</a>
+                                                                        </li>
                                                                         <li>
                                                                             <a href="#" id='my_subscription'>Subscribe</a>
                                                                         </li>
@@ -285,6 +289,10 @@
 							                                            </li>
                                                                         <li>
                                                                             <a href="#" id='my_profile'>My Profile</a>
+                                                                        </li>
+                                                                        
+                                                                        <li>
+                                                                            <a href="${pageContext.request.contextPath}/view/my-watchlist.jsp" id='view_my_watchlist'>My Watchlist</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="#" id='my_subscription'>Subscribe</a>
