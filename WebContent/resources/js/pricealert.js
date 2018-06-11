@@ -1,6 +1,6 @@
 var API_TIMEOUT_SMALL = 30*1000;
 var API_TIMEOUT_LARGE = 3*60*1000;
-var marketListArray = [];
+var priceAlertListArray = [];
 var companyProfileObj = {};
 
 function getCompanyPriceAlertsApi() {
@@ -127,20 +127,20 @@ function getCompanyPriceAlerts() {
 		if(!$(this).prop('checked')) {
 			$('#my_pricealert #pricealert_table input[name=selectAll]').prop('checked', false);
 		}
-		addRemoveItemFromArray(marketListArray, id);	
-		if(marketListArray.length != 0) {
+		addRemoveItemFromArray(priceAlertListArray, id);	
+		if(priceAlertListArray.length != 0) {
 			$("#my_pricealert .deleteBtn").removeAttr("disabled");
 		} else {
 			$("#my_pricealert .deleteBtn").attr("disabled", "disabled");
 		}
 
-		if(marketListArray.length == 1) {
+		if(priceAlertListArray.length == 1) {
 			$("#my_pricealert .editBtn").removeAttr("disabled");
 		} else {
 			$("#my_pricealert .editBtn").attr("disabled", "disabled");
 		}
 
-		console.log(marketListArray);
+		console.log(priceAlertListArray);
 	}
 
 	function selectAllWatchList() {
@@ -154,34 +154,34 @@ function getCompanyPriceAlerts() {
 			$(inputList).prop('checked', false);
 			for(key in inputList) {
 				if (!isNaN(key)) {
-					addRemoveItemFromArray(marketListArray, $(inputList[key]).parents('tr').attr('data-id'));
+					addRemoveItemFromArray(priceAlertListArray, $(inputList[key]).parents('tr').attr('data-id'));
 				}
 			}
 		} else {
 			$('#my_pricealert #pricealert_table input[name=selectAll]').prop('checked', true);
 			$(inputList).prop('checked', true);
-			marketListArray = [];
+			priceAlertListArray = [];
 			for(key in inputList) {
 				if (!isNaN(key)) {
-					addRemoveItemFromArray(marketListArray, $(inputList[key]).parents('tr').attr('data-id'));
+					addRemoveItemFromArray(priceAlertListArray, $(inputList[key]).parents('tr').attr('data-id'));
 				}
 			}
 		}
 
-		if(marketListArray.length != 0) {
+		if(priceAlertListArray.length != 0) {
 			$("#my_pricealert .deleteBtn").removeAttr("disabled");
 		} else {
 			$("#my_pricealert .deleteBtn").attr("disabled", "disabled");
 		}
-		console.log(marketListArray);
+		console.log(priceAlertListArray);
 	}
 
 	function deletePriceAlert() {
 
 		var jsonObj = [];
-		for(var i=0; i < marketListArray.length; i++) {
+		for(var i=0; i < priceAlertListArray.length; i++) {
 			jsonObj.push({
-				companyId : marketListArray[i]
+				companyId : priceAlertListArray[i]
 			});
 		}
 
@@ -189,6 +189,7 @@ function getCompanyPriceAlerts() {
 
 
 		deletePriceAlertApi(jsonObj).then(function(response) {
+			priceAlertListArray = [];
 			getCompanyPriceAlerts();
 			$('#deletePriceAlert').modal('hide');
 		}, function(error) {
@@ -228,82 +229,82 @@ function getCompanyPriceAlerts() {
 	}
 
 	function setPriceAlert() {
-    var dayMinPrice = $("#setPriceAlert input[name=day_min_price]").val();
-    var dayMaxPrice = $("#setPriceAlert input[name=day_max_price]").val();
-    var weekMinPrice = $("#setPriceAlert input[name=week_min_price]").val();
-    var weekMaxPrice = $("#setPriceAlert input[name=week_max_price]").val();
-    var monthMinPrice = $("#setPriceAlert input[name=month_min_price]").val();
-    var monthMaxPrice = $("#setPriceAlert input[name=month_max_price]").val();
-    var noTimeFrameMinPrice = $("#setPriceAlert input[name=noTimeFrame_min_price]").val();
-    var noTimeFrameMaxPrice = $("#setPriceAlert input[name=noTimeFrame_max_price]").val();
-    var isResearchReport = $("#setPriceAlert input[name=alert_new_research_report]").prop('checked');
-    var alertJsonObj = {
-        "companyId": companyProfileObj.companyId,
-        "companyName": companyProfileObj.companyName,
-        "cmpWhenPriceAlertSet": "278",
-        "dayMinPrice": dayMinPrice,
-        "dayMaxPrice": dayMaxPrice,
-        "weekMinPrice": weekMinPrice,
-        "weekMaxPrice": weekMaxPrice,
-        "monthMinPrice": monthMinPrice,
-        "monthMaxPrice": monthMaxPrice,
-        "noTimeFrameMinPrice": noTimeFrameMinPrice,
-        "noTimeFrameMaxPrice": noTimeFrameMaxPrice,
-        "isResearchReport": isResearchReport
-    };
+	    var dayMinPrice = $("#setPriceAlert input[name=day_min_price]").val();
+	    var dayMaxPrice = $("#setPriceAlert input[name=day_max_price]").val();
+	    var weekMinPrice = $("#setPriceAlert input[name=week_min_price]").val();
+	    var weekMaxPrice = $("#setPriceAlert input[name=week_max_price]").val();
+	    var monthMinPrice = $("#setPriceAlert input[name=month_min_price]").val();
+	    var monthMaxPrice = $("#setPriceAlert input[name=month_max_price]").val();
+	    var noTimeFrameMinPrice = $("#setPriceAlert input[name=noTimeFrame_min_price]").val();
+	    var noTimeFrameMaxPrice = $("#setPriceAlert input[name=noTimeFrame_max_price]").val();
+	    var isResearchReport = $("#setPriceAlert input[name=alert_new_research_report]").prop('checked');
+	    var companyId = priceAlertListArray[0];
+	    var alertJsonObj = {
+	        "companyId": companyId,
+	        "cmpWhenPriceAlertSet": "278",
+	        "dayMinPrice": dayMinPrice,
+	        "dayMaxPrice": dayMaxPrice,
+	        "weekMinPrice": weekMinPrice,
+	        "weekMaxPrice": weekMaxPrice,
+	        "monthMinPrice": monthMinPrice,
+	        "monthMaxPrice": monthMaxPrice,
+	        "noTimeFrameMinPrice": noTimeFrameMinPrice,
+	        "noTimeFrameMaxPrice": noTimeFrameMaxPrice,
+	        "isResearchReport": isResearchReport
+	    };
 
-    setPriceAlertAPI(alertJsonObj).then(function(response){
-        var response = JSON.parse(response);
-        $("#setPriceAlert h3").hide();
-        $("#setPriceAlert .alert").text(response.message);
-        $("#setPriceAlert .alert").removeClass("alert-danger").show();
-        isProgressLoader(false);
-    }, function(error) {
-        var response = JSON.parse(error);
-        $("#setPriceAlert h3").hide();
-        $("#setPriceAlert .alert").text(response.message);
-        $("#setPriceAlert .alert").addClass("alert-danger").show();
-        isProgressLoader(false);
-    });
-}
+	    setPriceAlertAPI(alertJsonObj).then(function(response){
+	        var response = JSON.parse(response);
+	        $("#setPriceAlert h3").hide();
+	        $("#setPriceAlert .alert").text(response.message);
+	        $("#setPriceAlert .alert").removeClass("alert-danger").show();
+	        isProgressLoader(false);
+	    }, function(error) {
+	        var response = JSON.parse(error);
+	        $("#setPriceAlert h3").hide();
+	        $("#setPriceAlert .alert").text(response.message);
+	        $("#setPriceAlert .alert").addClass("alert-danger").show();
+	        isProgressLoader(false);
+	    });
+	}
 
 
-function setPriceAlertAPI(alertJsonObj) {
-    
-    isProgressLoader(true);
+	function setPriceAlertAPI(alertJsonObj) {
+	    
+	    isProgressLoader(true);
 
-    var url = "/system/api/companypricealert/update";
-    var method = 'PUT';
-    
-    return new Promise(function(resolve, reject) {
-        var httpRequest = new XMLHttpRequest({
-            mozSystem: true
-        });
-        httpRequest.timeout = API_TIMEOUT_SMALL;
-        httpRequest.open(method, url, true);
-        httpRequest.setRequestHeader('Content-Type',
-                'application/json; charset=UTF-8');
+	    var url = "/system/api/companypricealert/update";
+	    var method = 'PUT';
+	    
+	    return new Promise(function(resolve, reject) {
+	        var httpRequest = new XMLHttpRequest({
+	            mozSystem: true
+	        });
+	        httpRequest.timeout = API_TIMEOUT_SMALL;
+	        httpRequest.open(method, url, true);
+	        httpRequest.setRequestHeader('Content-Type',
+	                'application/json; charset=UTF-8');
 
-        httpRequest.ontimeout = function () {
-            reject("" + httpRequest.responseText);
-        };
-        httpRequest.onreadystatechange = function () {
-            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                if (httpRequest.status === 200 || httpRequest.status === 201) {
-                    resolve(httpRequest.response);
-                } else {
-                    console.log(httpRequest.status + httpRequest.responseText);
-                    reject(httpRequest.responseText);
-                }
-            } else {
-            }
-        };
+	        httpRequest.ontimeout = function () {
+	            reject("" + httpRequest.responseText);
+	        };
+	        httpRequest.onreadystatechange = function () {
+	            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+	                if (httpRequest.status === 200 || httpRequest.status === 201) {
+	                    resolve(httpRequest.response);
+	                } else {
+	                    console.log(httpRequest.status + httpRequest.responseText);
+	                    reject(httpRequest.responseText);
+	                }
+	            } else {
+	            }
+	        };
 
-        httpRequest.send(JSON.stringify(alertJsonObj));
-    });
-} 
+	        httpRequest.send(JSON.stringify(alertJsonObj));
+	    });
+	} 
 
-$("#setPriceAlert button[name=set_alert_btn]").on('click', setPriceAlert);
+	$("#setPriceAlert button[name=set_alert_btn]").on('click', setPriceAlert);
 
 
 	$("#my_pricealert .pricealert_header button.editBtn").on('click', openPriceAlertForm);
@@ -311,7 +312,8 @@ $("#setPriceAlert button[name=set_alert_btn]").on('click', setPriceAlert);
 	function openPriceAlertForm() {
 		$("#setPriceAlert .modal-header h3").show();
 		$("#setPriceAlert .modal-header .alert").hide();
-		getPriceAlertAPI(1).then(function(response) {
+		var id = priceAlertListArray[0];
+		getPriceAlertAPI(id).then(function(response) {
 			isProgressLoader(false);
 
 			var response = JSON.parse(response);

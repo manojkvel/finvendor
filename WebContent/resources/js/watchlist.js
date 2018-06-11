@@ -211,6 +211,7 @@ function getCompanyWatchList() {
 
 
 		deleteWatchListApi(jsonObj).then(function(response) {
+			marketListArray = [];
 			getCompanyWatchList();
 			$('#deleteWatchlist').modal('hide');
 		}, function(error) {

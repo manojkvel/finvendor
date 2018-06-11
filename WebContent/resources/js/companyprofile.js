@@ -615,7 +615,8 @@ $("#company_profile .profile_details.func_details button").eq(1).on('click', ope
 function openPriceAlertForm() {
     $("#setPriceAlert .modal-header h3").show();
     $("#setPriceAlert .modal-header .alert").hide();
-    getPriceAlertAPI(1).then(function(response) {
+    var companyId = companyProfileObj.companyId;
+    getPriceAlertAPI(companyId).then(function(response) {
         isProgressLoader(false);
 
         var response = JSON.parse(response);
