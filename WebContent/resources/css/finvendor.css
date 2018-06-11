@@ -327,7 +327,7 @@ body {
 	width: 100%;
 	max-height: 150px;
 	overflow: auto;
-	z-index: 1;
+	z-index: 111;
 	box-shadow: 1px 1px 4px #888888;
 }
 
@@ -602,12 +602,14 @@ table .normal_font p {
 	font-weight: normal;
 }
 
-#watchlist_table > thead > tr > th {
+#watchlist_table > thead > tr > th,
+#pricealert_table > thead > tr > th, {
 	height: auto;
 	min-height: auto;
 }
 
-#watchlist_table > tbody {
+#watchlist_table > tbody,
+#pricealert_table > tbody {
 	min-height: 300px;
 }
 
@@ -744,6 +746,17 @@ table .normal_font p {
 	width: 100%;
 	margin: 10px 0;
 	font-size: 13px;
+	min-height: auto;
+}
+
+#setPriceAlert .modal-body table tbody tr:nth-of-type(odd) {
+	background: transparent;
+}
+
+#setPriceAlert table td, #setPriceAlert table th {
+	padding: 0;
+	vertical-align: baseline;
+	text-align: left;
 }
 
 #setPriceAlert .modal-body table.research_report {
@@ -764,13 +777,14 @@ table .normal_font p {
 	font-size: 16px;
 	text-align: center;
 	width: 50px;
+	border: 1px solid #eee;
 }
 
 #setPriceAlert .modal-body table tr td input[type='checkbox'] {
-	width: 30px;
-	height: 30px;
+	width: 20px;
+	height: 20px;
 	position: relative;
-	top: 9px;
+	top: 6px;
 }
 
 #setPriceAlert .modal-footer {
@@ -788,11 +802,13 @@ table .normal_font p {
 	display: none;
 }
 
-.watchlist_header ul {
+.watchlist_header ul,
+.pricealert_header ul {
 	float: right;
 }
 
-.watchlist_header ul li{
+.watchlist_header ul li,
+.pricealert_header ul li {
 	float: left;
 	display: inline;
 }
@@ -801,19 +817,26 @@ button {
 	outline: none;
 }
 
-.watchlist_header button {
+.watchlist_header button,
+.pricealert_header button {
 	border: 0;
 	background: transparent;
 }
 
-.watchlist_header button[disabled] {
+.watchlist_header button[disabled],
+.pricealert_header button[disabled] {
 	opacity: 0.5;
 }
 
-.watchlist_header button.fa {
+.watchlist_header button.fa,
+.pricealert_header button.fa {
 	font-size: 27px;
 	position: relative;
 	top: 5px;
+}
+
+.pricealert_header button.editBtn.fa {
+	top: 7px;
 }
 
 #watchlist_search ol li {
@@ -821,41 +844,49 @@ button {
 	display: block;
 }
 
-#watchlist_container {
+#watchlist_container,
+#pricealert_container {
 	clear: both;
 }
 
-#watchlist_table {
+#watchlist_table,
+#pricealert_table {
 	background: #fff;
 }
 
-#watchlist_table i {
+#watchlist_table i,
+#pricealert_table i {
 	position: relative;
 	top: 2px;
 	padding-right: 5px;
 }
 
-#deleteWatchlist .modal-header {
+#deleteWatchlist .modal-header,
+#deletePriceAlert .modal-header {
 	border-bottom: 0;
 }
 
-#deleteWatchlist h3 {
+#deleteWatchlist h3,
+#deletePriceAlert h3 {
 	font-size: 16px;
 	line-height: 22px;
 }
 
 
-#deleteWatchlist .modal-body {
+#deleteWatchlist .modal-body,
+#deletePriceAlert .modal-body {
 	overflow: hidden;
 	padding: 0;
 	margin-top: 40px;
 }
 
-#deleteWatchlist .modal-body .btns {
+#deleteWatchlist .modal-body .btns,
+#deletePriceAlert .modal-body .btns {
 	text-align: center;
 }
 
-#deleteWatchlist .modal-body ul li {
+#deleteWatchlist .modal-body ul li,
+#deletePriceAlert .modal-body ul li {
 	display: inline;
 	margin: 0 20px;
 }
@@ -891,6 +922,8 @@ button {
     padding-bottom: 3px;
     padding-right: 10px;
 }
+
+
 @media screen and (min-width: 1200px)
 {
 	#watchlist_search form .input-group {
@@ -975,6 +1008,12 @@ button {
     display: table-cell;
 }
 
+#watchlist_table input[type='checkbox'],
+#pricealert_table input[type='checkbox'] {
+	width: 20px;
+	height: 20px;
+}
+
 
 @media only screen and (max-width: 479px) {
 	.dashboard_report .bd .reportDetails {
@@ -994,8 +1033,13 @@ button {
 		font-size: 9px;
 	}
 
-	#deleteWatchlist .modal-body ul li {
+	#deleteWatchlist .modal-body ul li,
+	#deletePriceAlert .modal-body ul li {
 		margin-right: 10px;
+	}
+
+	#setPriceAlert table td, #setPriceAlert table th {
+		font-size: 11px;
 	}
 }
 
@@ -1020,18 +1064,9 @@ button {
 
 @media only screen and (max-width: 767px) {
 
-	#watchlist_container {
+	#watchlist_container,
+	#pricealert_container {
 		overflow: auto;
-	}
-
-	#my_watchlist .user_action {
-		margin: 0 auto;
-		text-align: center;
-	}
-
-	#my_watchlist .user_action button {
-		width: 100%;
-		padding: 10px 0;
 	}
 
 	#watchlist_search {

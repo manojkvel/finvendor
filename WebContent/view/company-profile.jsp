@@ -312,8 +312,8 @@
 	          	<table>
 	          		<tr>
 	          			<th>&nbsp;</th>
-	          			<th>Min % change</th>
-	          			<th>Max % change</th>
+	          			<th>% change (-ve)</th>
+	          			<th>% change (+ve)</th>
 	          		</tr>
 	          		<tr>
 	          			<td>Day</td>
@@ -351,6 +351,19 @@
 	          			<td>
 	          				<span>+</span>
 	          				<input type="number" name="month_max_price" val="" />
+	          				<span>%</span>
+	          			</td>
+	          		</tr>
+	          		<tr>
+	          			<td>No Timeframe</td>
+	          			<td>
+	          				<span>-</span>
+	          				<input type="number" name="noTimeFrame_min_price" val="" />
+	          				<span>%</span>
+	          			</td>
+	          			<td>
+	          				<span>+</span>
+	          				<input type="number" name="noTimeFrame_max_price" val="" />
 	          				<span>%</span>
 	          			</td>
 	          		</tr>

@@ -169,10 +169,17 @@
                                                                         <li>
                                                                             <a href="#" id='my_profile'>My Profile</a>
                                                                         </li>
-                                                                        
-                                                                        <li>
-                                                                            <a href="${pageContext.request.contextPath}/view/my-watchlist.jsp" id='view_my_watchlist'>My Watchlist</a>
-                                                                        </li>
+                                                                        <c:choose>
+                                                                            <c:when test="${sessionScope.loggedInRole == 'ROLE_CONSUMER' }">
+                                                                            <li>
+                                                                                <a href="${pageContext.request.contextPath}/view/my-watchlist.jsp" id='view_my_watchlist'>My Watchlist</a>
+                                                                            </li>
+                                                                            
+                                                                            <li>
+                                                                                <a href="${pageContext.request.contextPath}/view/my-price-alert.jsp" id='view_my_pricealert'>My Alerts</a>
+                                                                            </li>
+                                                                            </c:when>
+                                                                        </c:choose>
                                                                         <li>
                                                                             <a href="#" id='my_subscription'>Subscribe</a>
                                                                         </li>
@@ -290,10 +297,16 @@
                                                                         <li>
                                                                             <a href="#" id='my_profile'>My Profile</a>
                                                                         </li>
-                                                                        
+                                                                        <c:choose>
+                                                                            <c:when test="${sessionScope.loggedInRole == 'ROLE_CONSUMER' }">
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/view/my-watchlist.jsp" id='view_my_watchlist'>My Watchlist</a>
+                                                                        </li> 
+                                                                        <li>
+                                                                            <a href="${pageContext.request.contextPath}/view/my-price-alert.jsp" id='view_my_pricealert'>My Alerts</a>
                                                                         </li>
+                                                                        </c:when>
+                                                                        </c:choose>
                                                                         <li>
                                                                             <a href="#" id='my_subscription'>Subscribe</a>
                                                                         </li>
