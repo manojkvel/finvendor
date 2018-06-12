@@ -16,11 +16,14 @@ import com.finvendor.server.companyprofile.pricealert.job.PriceUpdateJob;
 
 public class FvStartupService implements ServletContextListener {
 
+	private static final String EVERY_DAY_AT_7_PM = "0 0 19 1/1 * ? *";
+
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 	}
 
 	@Override
+	
 	public void contextInitialized(ServletContextEvent arg0) {
 		
 		JobDetail job = new JobDetail();
@@ -31,11 +34,11 @@ public class FvStartupService implements ServletContextListener {
     	trigger.setName("PriceAlert Trigger");
     	try {
 //			trigger.setCronExpression("0/30 * * * * ?");
-    		trigger.setCronExpression("0 0/5 * * * ?");
+    		trigger.setCronExpression(EVERY_DAY_AT_7_PM);
 			//schedule it
 	    	Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-//	    	scheduler.start();
-//	    	scheduler.scheduleJob(job, trigger);
+	    	scheduler.start();
+	    	scheduler.scheduleJob(job, trigger);
 		} catch (ParseException | SchedulerException e) {
 			e.printStackTrace();
 		}
