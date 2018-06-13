@@ -14,8 +14,8 @@ import com.finvendor.server.companyprofile.pricealert.dto.UserCompanyMailContent
  * @author ayush on May 12, 2018
  */
 public class PriceUpdateJob implements Job {
-	public static final String UPDATE_PRICE_URI = "http://localhost:8080/system/api/updatestockprice";
-	public static final String SEND_PRICE_ALERT_MAIL_URI = "http://localhost:8080/system/api/sendpricealertmail";
+	public static final String UPDATE_PRICE_URI = "http://dev.finvendor.com/system/api/updatestockprice";
+	public static final String SEND_PRICE_ALERT_MAIL_URI = "http://dev.finvendor.com/system/api/sendpricealertmail";
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {

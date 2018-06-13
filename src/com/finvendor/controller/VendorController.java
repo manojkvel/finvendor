@@ -86,6 +86,7 @@ import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
 import com.finvendor.server.common.dao.ICommonDao;
+import com.finvendor.server.companyprofile.pricealert.service.ICompanyPriceAlertService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.companyprofile.pricealert.mail.IWebPriceAlertMail;
 import com.finvendor.serverwebapi.utils.WebUtil;
@@ -124,6 +125,9 @@ public class VendorController {
 
 	@Autowired
 	private IWebPriceAlertMail priceAlertMail;
+	
+	@Autowired
+	private ICompanyPriceAlertService priceService;
 	
 	@RequestMapping(value = "vendorMyStats", method = RequestMethod.GET)
 	public ModelAndView vendorMyStats(HttpServletRequest request) {
@@ -3117,7 +3121,9 @@ public class VendorController {
 					logger.info("Research Reports Offering file uploaded file successfully at server path:"
 							+ rsrchUploadRptPath);
 					String companyName = vendorService.getCompanyName(researchReportFor);
-					priceAlertMail.sendMailForResearchReport(userName, companyName);
+					if(priceService.isResearchPriceSet(companyName)) {
+						priceAlertMail.sendMailForResearchReport(userName, companyName);
+					}
 				}
 			} else {
 				String voUploadFilePath = "";

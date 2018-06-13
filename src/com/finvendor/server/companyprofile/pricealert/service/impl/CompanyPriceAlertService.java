@@ -74,4 +74,10 @@ public class CompanyPriceAlertService implements ICompanyPriceAlertService {
 			throw new Exception(e);
 		}
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isResearchPriceSet(String companyName) throws Exception {
+		return dao.isResearchPriceSet(companyName);
+	}
 }

@@ -21,4 +21,6 @@ public interface ICompanyPriceAlertDao {
 	CompanyPriceAlertPojo findCompanyPriceAlert(String companyId, String userName) throws RuntimeException;
 	
 	List<CompanyPriceAlertPojo> findAllCompanyPriceAlerts(Map<Object, Object> paramMap)throws RuntimeException;
+	
+	boolean isResearchPriceSet(String companyName) throws RuntimeException;
 }

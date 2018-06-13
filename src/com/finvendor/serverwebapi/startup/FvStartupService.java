@@ -16,7 +16,7 @@ import com.finvendor.server.companyprofile.pricealert.job.PriceUpdateJob;
 
 public class FvStartupService implements ServletContextListener {
 
-	private static final String EVERY_DAY_AT_7_PM = "0 0 19 1/1 * ? *";
+	private static final String EVERY_DAY_AT_7_PM = "0 0 19 * * ?";
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {

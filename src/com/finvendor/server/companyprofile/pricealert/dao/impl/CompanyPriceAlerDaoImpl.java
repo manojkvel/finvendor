@@ -36,9 +36,9 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 				companyPriceAlertEntity.setCompany_name(priceAlertPojo.getCompanyName());
 
 				companyPriceAlertEntity.setUser_name(priceAlertPojo.getUserName());
-				
+
 				companyPriceAlertEntity.setCmp_when_price_alert_set(priceAlertPojo.getCmpWhenPriceAlertSet());
-				
+
 				companyPriceAlertEntity.setDay_min_price(priceAlertPojo.getDayMinPrice());
 				companyPriceAlertEntity.setDay_max_price(priceAlertPojo.getDayMaxPrice());
 
@@ -52,10 +52,10 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 					companyPriceAlertEntity
 							.setIs_research_price(String.valueOf(priceAlertPojo.getIsResearchReport().booleanValue()));
 				}
-				
+
 				companyPriceAlertEntity.setNo_time_frame_min_price(priceAlertPojo.getNoTimeFrameMinPrice());
 				companyPriceAlertEntity.setNo_time_frame_max_price(priceAlertPojo.getNoTimeFrameMaxPrice());
-				
+
 				companyPriceAlertEntity.setCurr_date(String.valueOf(Calendar.getInstance().getTimeInMillis()));
 				saveOrUpdate(companyPriceAlertEntity);
 				addStatus = true;
@@ -73,61 +73,61 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 	public boolean updateCompanyPriceAlert(CompanyPriceAlertPojo companyPriceAlertPojo) throws RuntimeException {
 		try {
 			CompanyPriceAlert entity = findById(Integer.parseInt(companyPriceAlertPojo.getCompanyId()));
-			
+
 			if (entity == null) {
 				return false;
 			}
-			if(companyPriceAlertPojo.getCompanyName()!=null) {
+			if (companyPriceAlertPojo.getCompanyName() != null) {
 				entity.setCompany_name(companyPriceAlertPojo.getCompanyName());
 			}
-			
-			if(companyPriceAlertPojo.getUserName()!=null) {
+
+			if (companyPriceAlertPojo.getUserName() != null) {
 				entity.setUser_name(companyPriceAlertPojo.getUserName());
 			}
-			
-			if(companyPriceAlertPojo.getCmpWhenPriceAlertSet()!=null) {
+
+			if (companyPriceAlertPojo.getCmpWhenPriceAlertSet() != null) {
 				entity.setCmp_when_price_alert_set(companyPriceAlertPojo.getCmpWhenPriceAlertSet());
 			}
-			
-			if(companyPriceAlertPojo.getDayMinPrice()!=null) {
+
+			if (companyPriceAlertPojo.getDayMinPrice() != null) {
 				entity.setDay_min_price(companyPriceAlertPojo.getDayMinPrice());
 			}
-			
-			if(companyPriceAlertPojo.getDayMaxPrice()!=null) {
+
+			if (companyPriceAlertPojo.getDayMaxPrice() != null) {
 				entity.setDay_max_price(companyPriceAlertPojo.getDayMaxPrice());
 			}
-	
-			if(companyPriceAlertPojo.getWeekMinPrice()!=null) {
+
+			if (companyPriceAlertPojo.getWeekMinPrice() != null) {
 				entity.setWeek_min_price(companyPriceAlertPojo.getWeekMinPrice());
 			}
-			
-			if(companyPriceAlertPojo.getWeekMaxPrice()!=null) {
+
+			if (companyPriceAlertPojo.getWeekMaxPrice() != null) {
 				entity.setWeek_max_price(companyPriceAlertPojo.getWeekMaxPrice());
 			}
-	
-			if(companyPriceAlertPojo.getMonthMinPrice()!=null) {
+
+			if (companyPriceAlertPojo.getMonthMinPrice() != null) {
 				entity.setMonth_min_price(companyPriceAlertPojo.getMonthMinPrice());
 			}
-			
-			if(companyPriceAlertPojo.getMonthMaxPrice()!=null) {
+
+			if (companyPriceAlertPojo.getMonthMaxPrice() != null) {
 				entity.setMonth_max_price(companyPriceAlertPojo.getMonthMaxPrice());
 			}
-	
-			if(companyPriceAlertPojo.getIsResearchReport() !=null) {
+
+			if (companyPriceAlertPojo.getIsResearchReport() != null) {
 				entity.setIs_research_price(String.valueOf(companyPriceAlertPojo.getIsResearchReport().booleanValue()));
 			}
-			
-			if(companyPriceAlertPojo.getNoTimeFrameMinPrice() !=null) {
+
+			if (companyPriceAlertPojo.getNoTimeFrameMinPrice() != null) {
 				entity.setNo_time_frame_min_price(companyPriceAlertPojo.getNoTimeFrameMinPrice());
 			}
-			
-			if(companyPriceAlertPojo.getNoTimeFrameMaxPrice() !=null) {
+
+			if (companyPriceAlertPojo.getNoTimeFrameMaxPrice() != null) {
 				entity.setNo_time_frame_max_price(companyPriceAlertPojo.getNoTimeFrameMaxPrice());
 			}
-			
+
 			entity.setCurr_date(String.valueOf(Calendar.getInstance().getTimeInMillis()));
 			saveOrUpdate(entity);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 		return true;
@@ -135,15 +135,15 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 
 	@Override
 	public boolean deleteCompanyPriceAlerts(List<CompanyPriceAlertPojo> pojoList) throws RuntimeException {
-		boolean deleteStatus=true;
+		boolean deleteStatus = true;
 		try {
-			for(CompanyPriceAlertPojo pojo: pojoList) {
+			for (CompanyPriceAlertPojo pojo : pojoList) {
 				String companyId = pojo.getCompanyId();
 				CompanyPriceAlert companyPriceAlertEntity = findById(Integer.parseInt(companyId));
 				delete(companyPriceAlertEntity);
 			}
-		} catch(Exception e) {
-			deleteStatus=false;
+		} catch (Exception e) {
+			deleteStatus = false;
 		}
 		return deleteStatus;
 	}
@@ -164,9 +164,9 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 			String companyId = row[0] != null ? row[0].toString().trim() : "";
 			String companyName = row[1] != null ? row[1].toString().trim() : "";
 			String userName = row[2] != null ? row[2].toString().trim() : "";
-			
+
 			String cmpWhenPriceAlertWasSet = row[3] != null ? row[3].toString().trim() : "";
-			
+
 			String dayMinPrice = row[4] != null ? row[4].toString().trim() : "";
 			String dayMaxPrice = row[5] != null ? row[5].toString().trim() : "";
 
@@ -215,7 +215,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 				pojo.setCompanyName(companyPriceAlertEntity.getCompany_name());
 				pojo.setUserName(companyPriceAlertEntity.getUser_name());
 				pojo.setCmpWhenPriceAlertSet(companyPriceAlertEntity.getCmp_when_price_alert_set());
-				
+
 				pojo.setDayMinPrice(companyPriceAlertEntity.getDay_min_price());
 				pojo.setDayMaxPrice(companyPriceAlertEntity.getDay_max_price());
 
@@ -225,7 +225,8 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 				pojo.setMonthMinPrice(companyPriceAlertEntity.getMonth_min_price());
 				pojo.setMonthMaxPrice(companyPriceAlertEntity.getMonth_max_price());
 
-				pojo.setIsResearchReport(Boolean.valueOf(companyPriceAlertEntity.getIs_research_price()).booleanValue());
+				pojo.setIsResearchReport(
+						Boolean.valueOf(companyPriceAlertEntity.getIs_research_price()).booleanValue());
 				pojo.setCurrDate(companyPriceAlertEntity.getCurr_date());
 				pojo.setNoTimeFrameMinPrice(companyPriceAlertEntity.getNo_time_frame_min_price());
 				pojo.setNoTimeFrameMaxPrice(companyPriceAlertEntity.getNo_time_frame_max_price());
@@ -235,5 +236,27 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean isResearchPriceSet(String companyName) throws RuntimeException {
+		try {
+			SQLQuery query = commonDao.getNativeQuery(
+					"SELECT company_id,is_research_price FROM company_price_alert where company_name=?",
+					new String[] { companyName });
+
+			List<Object[]> rows = query.list();
+			for (Object[] row : rows) {
+				String companyId = row[0] != null ? row[0].toString().trim() : "";
+				String isResearchPrice = row[1] != null ? row[1].toString().trim() : "";
+				if (isResearchPrice.equals("true")) {
+					return true;
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return false;
 	}
 }

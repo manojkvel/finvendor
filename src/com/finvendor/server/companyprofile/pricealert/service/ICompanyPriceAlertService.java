@@ -23,4 +23,5 @@ public interface ICompanyPriceAlertService {
 
 	List<CompanyPriceAlertPojo> findAllCompanyPriceAlert(String userName) throws Exception;
 	
+	boolean isResearchPriceSet(String companyName) throws Exception;
 }
