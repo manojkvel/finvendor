@@ -11,12 +11,13 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 
+import com.finvendor.common.util.LogUtil;
 import com.finvendor.server.companyprofile.pricealert.job.PriceUpdateJob;
 
 
 public class FvStartupService implements ServletContextListener {
 
-	private static final String EVERY_DAY_AT_7_PM = "0 0 19 * * ?";
+	private static final String EVERY_DAY_AT_8_PM = "0 0 20 * * ?";
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -33,15 +34,14 @@ public class FvStartupService implements ServletContextListener {
     	CronTrigger trigger = new CronTrigger();
     	trigger.setName("PriceAlert Trigger");
     	try {
-//			trigger.setCronExpression("0/30 * * * * ?");
-    		trigger.setCronExpression(EVERY_DAY_AT_7_PM);
+    		trigger.setCronExpression(EVERY_DAY_AT_8_PM);
 			//schedule it
 	    	Scheduler scheduler = new StdSchedulerFactory().getScheduler();
 	    	scheduler.start();
 	    	scheduler.scheduleJob(job, trigger);
 		} catch (ParseException | SchedulerException e) {
-			e.printStackTrace();
+			LogUtil.logError("*** Error in FvStartupService (Startup Task) - ErrMsg="+e.getMessage());
 		}
-    	System.out.println("PriceAlert TimerTask started");
+    	LogUtil.logInfo("*** PriceAlert TimerTask started ***");
 	}
 }

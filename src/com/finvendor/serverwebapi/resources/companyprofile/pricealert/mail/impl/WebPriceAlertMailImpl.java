@@ -637,6 +637,8 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 					// In case if no price data found for given ticker
 					if (rows.size() == 1) {
 						LogUtil.logWarn("No price record found for Ticker=" + tickerFromDb + "!!!!");
+					} else {
+						LogUtil.logInfo("*** Todays PRICE record found for Ticker=" + tickerFromDb);
 					}
 
 					for (int i = 1; i < rows.size();) {
@@ -645,22 +647,28 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 
 						String symbleAsTicker = cols.get(0).text();
 						String companyId = tickerAndCompanyIdMap.get(symbleAsTicker.trim()).trim();
-
+						LogUtil.logInfo("***companyId(From NSE)="+companyId);
+						
 						String priceDate = cols.get(2).text();
 						String priceDateInMMDDYY = fvDateFormat.format(bhavDateFormatFromNSESite.parse(priceDate));
-
+						LogUtil.logInfo("***priceDateInMMDDYY(From NSE)="+priceDateInMMDDYY);
+						
 						String openPrice = cols.get(4).text();
 						openPrice = StringUtils.replace(openPrice, ",", "");
+						LogUtil.logInfo("***openPrice(From NSE)="+openPrice);
 
 						String highPrice = cols.get(5).text();
 						highPrice = StringUtils.replace(highPrice, ",", "");
-
+						LogUtil.logInfo("***highPrice(From NSE)="+highPrice);
+						
 						String lowPrice = cols.get(6).text();
 						lowPrice = StringUtils.replace(lowPrice, ",", "");
-
+						LogUtil.logInfo("***lowPrice(From NSE)="+lowPrice);
+						
 						String closePrice = cols.get(8).text();
 						closePrice = StringUtils.replace(closePrice, ",", "");
-
+						LogUtil.logInfo("***closePrice(From NSE)="+closePrice);
+						
 						StockCurrentPricePojo pojo = new StockCurrentPricePojo();
 						pojo.setStock_id(Integer.parseInt(companyId));
 						pojo.setPrice_date(priceDateInMMDDYY);

@@ -6,6 +6,7 @@ import org.quartz.JobExecutionException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
 import com.finvendor.server.companyprofile.pricealert.dto.UserCompanyMailContent;
@@ -25,18 +26,19 @@ public class PriceUpdateJob implements Job {
 			ResponseEntity<UserCompanyMailContent> response = restTemplate.postForEntity(UPDATE_PRICE_URI,
 					new StockCurrentPricePojo(), UserCompanyMailContent.class);
 
-			// Step-2 Sent Mail
+			// Step-2 Send Mail
 			UserCompanyMailContent userCompanyMailContent = response.getBody();
 
 			if (userCompanyMailContent.getPerUserCompanyMailMessageMap().size() != 0) {
 				ResponseEntity<StatusPojo> response1 = restTemplate.postForEntity(SEND_PRICE_ALERT_MAIL_URI,
 						userCompanyMailContent, StatusPojo.class);
-				System.out.println("***response1=" + response1.getBody().getMessage());
+				LogUtil.logInfo("*** Price Alert Mail Response code:"+response1.getStatusCode());
+				LogUtil.logInfo("*** Price Alert Mail Body:"+response1.getBody().toString());
 			} else {
-				System.out.println("We did not update price from NSE so cannot send mail....");
+				LogUtil.logWarn("*** We did not update price from NSE so send mail forbidden!!!");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.logError("*** Error in PriceUpdateJob - ErrMsg="+e.getMessage());
 		}
 	}
 }
