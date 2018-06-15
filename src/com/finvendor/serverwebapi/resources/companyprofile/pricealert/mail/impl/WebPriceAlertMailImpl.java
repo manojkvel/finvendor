@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,8 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				+ "Update Stock Price  (NSE) - START\n"
 				+ "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		try {
+			Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap = service.fetchCompanyPriceAlert();
+			
 			// Get ticker and companyId from database
 			Map<String, String> tickerAndCompanyIdMap = service.findAllTickerFromDb();
 			LogUtil.logInfo("UpdateStockPrice-> TickerAndCompanyIdMap data\n" + tickerAndCompanyIdMap + "\n");
@@ -102,8 +105,16 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 
 				if (updateStatus) {
 					LogUtil.logInfo("UpdateStockPrice-> CMP price updated in db is completed");
-					UserCompanyMailContent userCompaniesMailContent = prepareMail();
-					return new ResponseEntity<UserCompanyMailContent>(userCompaniesMailContent, HttpStatus.OK);
+					if (companyPriceAlertMap != null && companyPriceAlertMap.size() == 0) {
+						LogUtil.logInfo("*** Unable to send price alert As No price Alert set!!");
+						UserCompanyMailContent userCompaniesMailContent = new UserCompanyMailContent();
+						Map<String, List<CompanyEmailContent>> emptyPerUserCompanyMailMessageMap = new HashMap<>();
+						userCompaniesMailContent.setPerUserCompanyMailMessageMap(emptyPerUserCompanyMailMessageMap);
+						return new ResponseEntity<UserCompanyMailContent>(userCompaniesMailContent, HttpStatus.OK);
+					} else {
+						UserCompanyMailContent userCompaniesMailContent = prepareMail(companyPriceAlertMap);
+						return new ResponseEntity<UserCompanyMailContent>(userCompaniesMailContent, HttpStatus.OK);
+					}
 				} else {
 					return new ResponseEntity<UserCompanyMailContent>(new UserCompanyMailContent(),
 							HttpStatus.INTERNAL_SERVER_ERROR);
@@ -118,12 +129,12 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 		}
 	}
 
-	private UserCompanyMailContent prepareMail() throws NumberFormatException, Exception {
+	private UserCompanyMailContent prepareMail(Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap) throws NumberFormatException, Exception {
 		Map<String, List<CompanyEmailContent>> userCompanyMailContentMap = new LinkedHashMap<>();
 		
 		// key is user name and value is CompanyPriceAlerUt List
 		// 1 user can set alert for one or more than one company (1:M)
-		Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap = service.fetchCompanyPriceAlert();
+//		Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap = service.fetchCompanyPriceAlert();
 		Map<String, StockCurrentPricePojo> stockPriceMap = service.fetchAllStockPrice();
 		for (Map.Entry<String, List<CompanyPriceAlertPojo>> entry : companyPriceAlertMap.entrySet()) {
 			String userName = entry.getKey();

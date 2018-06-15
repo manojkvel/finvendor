@@ -35,7 +35,8 @@ public class PriceUpdateJob implements Job {
 				LogUtil.logInfo("*** Price Alert Mail Response code:"+response1.getStatusCode());
 				LogUtil.logInfo("*** Price Alert Mail Body:"+response1.getBody().toString());
 			} else {
-				LogUtil.logWarn("*** We did not update price from NSE so send mail forbidden!!!");
+				LogUtil.logWarn("*** Unable to send mail as Price ALERT did not SET !!!!");
+				LogUtil.logWarn("*** Set Price ALERT to get Email Alert !!");
 			}
 		} catch (Exception e) {
 			LogUtil.logError("*** Error in PriceUpdateJob - ErrMsg="+e.getMessage());
