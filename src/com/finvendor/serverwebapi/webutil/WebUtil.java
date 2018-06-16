@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.utils;
+package com.finvendor.serverwebapi.webutil;
 
 import java.util.ArrayList;
 import java.util.HashMap;

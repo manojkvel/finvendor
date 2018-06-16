@@ -14,17 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.finvendor.common.enums.SqlEnum;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
-import com.finvendor.server.common.dao.ICommonDao;
+import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.common.IWebApiCommon;
-import com.finvendor.serverwebapi.utils.WebUtil;
-import com.finvendor.serverwebapi.utils.WebUtil.SqlData;
+import com.finvendor.serverwebapi.resources.common.IWebCommon;
+import com.finvendor.serverwebapi.webutil.WebUtil;
+import com.finvendor.serverwebapi.webutil.WebUtil.SqlData;
 
 /**
  * @author ayush on Feb 17, 2018
  */
 @Controller
-public class WebApiCommonImpl implements IWebApiCommon {
+public class WebCommonImpl implements IWebCommon {
 
 	@Autowired
 	private ICommonDao commonDao;

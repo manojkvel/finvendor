@@ -21,7 +21,7 @@ import org.hibernate.SessionFactory;
 
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.VendorResearchReportsOffering;
-import com.finvendor.server.common.dao.ICommonDao;
+import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.impl.EquityResearchResult;
 

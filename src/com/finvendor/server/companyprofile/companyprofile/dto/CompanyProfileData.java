@@ -1,4 +1,4 @@
-package com.finvendor.server.companyprofile.dto;
+package com.finvendor.server.companyprofile.companyprofile.dto;
 
 /**
  * 

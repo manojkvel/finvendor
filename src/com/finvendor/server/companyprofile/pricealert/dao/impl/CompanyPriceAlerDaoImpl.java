@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.finvendor.model.CompanyPriceAlert;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
-import com.finvendor.server.common.dao.ICommonDao;
-import com.finvendor.server.common.dao.infra.GenericDao;
+import com.finvendor.server.common.commondao.GenericDao;
+import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.companyprofile.pricealert.dao.ICompanyPriceAlertDao;
 
 /**

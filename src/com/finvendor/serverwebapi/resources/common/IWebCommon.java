@@ -14,7 +14,7 @@ import com.finvendor.serverwebapi.resources.WebUriConstants;
  * @author ayush on Feb 17, 2018
  */
 @RequestMapping(WebUriConstants.BASE_URI)
-public interface IWebApiCommon {
+public interface IWebCommon {
 	
 	@RequestMapping(value = WebUriConstants.AdminDashBoard.COMPANY_DETAILS_URI, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

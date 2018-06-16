@@ -19,7 +19,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.server.companyprofile.pricealert.job.PriceUpdateJob;
 
-public class FvStartupService implements ServletContextListener {
+public class WebStartup implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {

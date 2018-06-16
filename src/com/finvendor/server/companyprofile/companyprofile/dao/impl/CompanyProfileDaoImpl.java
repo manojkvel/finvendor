@@ -1,4 +1,4 @@
-package com.finvendor.server.companyprofile.dao.impl;
+package com.finvendor.server.companyprofile.companyprofile.dao.impl;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -16,9 +16,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.finvendor.common.util.JsonUtil;
-import com.finvendor.server.common.dao.ICommonDao;
-import com.finvendor.server.companyprofile.dao.ICompanyProfileDao1;
-import com.finvendor.server.companyprofile.dto.CompanyProfileData;
+import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.server.companyprofile.companyprofile.dao.ICompanyProfileDao1;
+import com.finvendor.server.companyprofile.companyprofile.dto.CompanyProfileData;
 import com.finvendor.server.researchreport.dao.IResearchReportDao;
 import com.finvendor.server.researchreport.dto.filter.ResearchReportFilter;
 import com.finvendor.server.researchreport.dto.result.AbsResearchReportResult;
@@ -90,8 +90,8 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 	}
 
 	@Override
-	public String getCompanyProfileReasearchReport(String isinCode, String mainQuery, ResearchReportFilter filter, String pageNumber,
-			String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
+	public String getCompanyProfileReasearchReport(String isinCode, String mainQuery, ResearchReportFilter filter,
+			String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
 		Map<String, Object> paramsMap = new LinkedHashMap<>();
 		String companyProfile = "NA";
 		try {

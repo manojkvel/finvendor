@@ -1,4 +1,4 @@
-package com.finvendor.server.common.dao.infra;
+package com.finvendor.server.common.commondao;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;

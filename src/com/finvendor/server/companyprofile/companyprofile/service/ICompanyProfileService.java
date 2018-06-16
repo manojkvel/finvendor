@@ -1,4 +1,4 @@
-package com.finvendor.server.companyprofile.service;
+package com.finvendor.server.companyprofile.companyprofile.service;
 
 /**
  * 
@@ -22,7 +22,7 @@ public interface ICompanyProfileService {
 	 * @param perPageMaxRecords
 	 * @return
 	 */
-	String getCompanyProfileRecordStat(String isinCode,String perPageMaxRecords) throws Exception;
+	String getCompanyProfileRecordStat(String isinCode, String perPageMaxRecords) throws Exception;
 
 	/**
 	 * 
@@ -35,6 +35,6 @@ public interface ICompanyProfileService {
 	 * @return
 	 * @throws Exception
 	 */
-	String getCompanyProfileResearchReport(String isinCode,String pageNumber, String perPageMaxRecords,
-			String sortBy, String orderBy) throws Exception;
+	String getCompanyProfileResearchReport(String isinCode, String pageNumber, String perPageMaxRecords, String sortBy,
+			String orderBy) throws Exception;
 }

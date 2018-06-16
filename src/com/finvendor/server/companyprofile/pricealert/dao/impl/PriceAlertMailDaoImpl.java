@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
-import com.finvendor.server.common.dao.ICommonDao;
+import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.companyprofile.pricealert.dao.IPriceAlertMailDao;
 
 @Repository

@@ -1,4 +1,4 @@
-package com.finvendor.server.common.dao;
+package com.finvendor.server.common.commondao;
 
 import java.util.List;
 import java.util.Map;

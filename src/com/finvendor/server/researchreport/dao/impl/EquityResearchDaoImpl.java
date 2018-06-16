@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
-import com.finvendor.server.common.dao.ICommonDao;
+import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.researchreport.dao.IResearchReportDao;
 import com.finvendor.server.researchreport.dto.filter.ResearchReportFilter;
 import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;

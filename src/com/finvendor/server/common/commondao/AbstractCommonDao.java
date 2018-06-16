@@ -1,4 +1,4 @@
-package com.finvendor.server.common.dao;
+package com.finvendor.server.common.commondao;
 
 import java.io.IOException;
 import java.util.ArrayList;

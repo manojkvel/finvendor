@@ -1,4 +1,4 @@
-package com.finvendor.server.companyprofile.dao;
+package com.finvendor.server.companyprofile.companyprofile.dao;
 
 import com.finvendor.server.researchreport.dto.filter.ResearchReportFilter;
 
@@ -28,6 +28,6 @@ public interface ICompanyProfileDao1 {
 	 * @return
 	 * @throws RuntimeException
 	 */
-	String getCompanyProfileReasearchReport(String isinCode, String query, ResearchReportFilter filter, String pageNumber,
-			String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException;
+	String getCompanyProfileReasearchReport(String isinCode, String query, ResearchReportFilter filter,
+			String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException;
 }

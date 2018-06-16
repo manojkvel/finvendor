@@ -38,7 +38,7 @@ import com.finvendor.model.VendorSupport;
 import com.finvendor.model.VendorTradingApplicationsOffering;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
-import com.finvendor.server.common.dao.ICommonDao;
+import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.VendorEnum;
 

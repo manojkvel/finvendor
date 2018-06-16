@@ -1,4 +1,4 @@
-package com.finvendor.server.companyprofile.service.impl;
+package com.finvendor.server.companyprofile.companyprofile.service.impl;
 
 import java.util.HashMap;
 
@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.common.util.LocaleUtil;
 import com.finvendor.common.util.StringUtil;
-import com.finvendor.server.companyprofile.dao.ICompanyProfileDao1;
-import com.finvendor.server.companyprofile.dao.impl.CompanyProfileDaoImpl;
-import com.finvendor.server.companyprofile.service.ICompanyProfileService;
+import com.finvendor.server.companyprofile.companyprofile.dao.ICompanyProfileDao1;
+import com.finvendor.server.companyprofile.companyprofile.dao.impl.CompanyProfileDaoImpl;
+import com.finvendor.server.companyprofile.companyprofile.service.ICompanyProfileService;
 import com.finvendor.server.researchreport.dao.IResearchReportDao;
 import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
 
@@ -31,7 +31,7 @@ public class CompanyProfileSeriveImpl implements ICompanyProfileService {
 	@Autowired
 	@Qualifier(value = "equityResearchDaoImpl")
 	IResearchReportDao equityResearchReportDao;
-	
+
 	@SuppressWarnings("serial")
 	@Override
 	@Transactional(readOnly = true)
@@ -55,8 +55,7 @@ public class CompanyProfileSeriveImpl implements ICompanyProfileService {
 	@SuppressWarnings("serial")
 	@Override
 	@Transactional(readOnly = true)
-	public String getCompanyProfileRecordStat(final String isinCode, String perPageMaxRecords)
-			throws Exception {
+	public String getCompanyProfileRecordStat(final String isinCode, String perPageMaxRecords) throws Exception {
 		final String geo = LocaleUtil.getCurrentGeo();
 		try {
 			String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyResearchReportQuery,

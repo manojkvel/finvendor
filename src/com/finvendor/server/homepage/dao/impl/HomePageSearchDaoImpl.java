@@ -17,8 +17,8 @@ import org.springframework.stereotype.Repository;
 
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.CompanyWatchList;
-import com.finvendor.server.common.dao.ICommonDao;
-import com.finvendor.server.common.dao.infra.GenericDao;
+import com.finvendor.server.common.commondao.GenericDao;
+import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.homepage.dao.IHomePageSearchDao;
 import com.finvendor.server.homepage.dto.CompnyData;
 import com.finvendor.server.researchreport.dao.IResearchReportDao;
@@ -41,9 +41,9 @@ public class HomePageSearchDaoImpl extends GenericDao<CompanyWatchList> implemen
 	@Override
 	public String getHomePageSearchHint(String searchKey) throws RuntimeException {
 		try {
-			String query=IHomePageSearchDao.SEARCH_HINT_QUERY;
-			
-			query = StringUtils.replace(query, "SEARCHKEY", "'%"+searchKey+"%'");
+			String query = IHomePageSearchDao.SEARCH_HINT_QUERY;
+
+			query = StringUtils.replace(query, "SEARCHKEY", "'%" + searchKey + "%'");
 			SQLQuery sqlQuery = commonDao.getNativeQuery(query, null);
 			List<Object[]> rows = sqlQuery.list();
 			List<CompnyData> companyDataList = new ArrayList<>();
@@ -53,7 +53,7 @@ public class HomePageSearchDaoImpl extends GenericDao<CompanyWatchList> implemen
 				String isin = row[2] != null ? row[2].toString().trim() : "";
 				String ticker = row[3] != null ? row[3].toString().trim() : "";
 				String cmp = row[4] != null ? row[4].toString().trim() : "";
-				companyDataList.add(new CompnyData(companyId,companyName, isin, ticker,cmp));
+				companyDataList.add(new CompnyData(companyId, companyName, isin, ticker, cmp));
 			}
 			return convertObjectToJson("searchOutput", companyDataList);
 		} catch (IOException e) {
