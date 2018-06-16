@@ -1,6 +1,7 @@
 package com.finvendor.server.companyprofile.pricealert.job;
 
 import org.quartz.Job;
+import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +16,12 @@ import com.finvendor.server.companyprofile.pricealert.dto.UserCompanyMailContent
  * @author ayush on May 12, 2018
  */
 public class PriceUpdateJob implements Job {
-	public static final String UPDATE_PRICE_URI = "http://dev.finvendor.com/system/api/updatestockprice";
-	public static final String SEND_PRICE_ALERT_MAIL_URI = "http://dev.finvendor.com/system/api/sendpricealertmail";
-
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
+		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 		try {
+			String UPDATE_PRICE_URI=(String) jobDataMap.get("priceUpdateUrl");
+			String SEND_PRICE_ALERT_MAIL_URI=(String) jobDataMap.get("price_alert_uri");
 			// Step-1 Update Price
 			RestTemplate restTemplate = new RestTemplate();
 			ResponseEntity<UserCompanyMailContent> response = restTemplate.postForEntity(UPDATE_PRICE_URI,

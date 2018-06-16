@@ -104,7 +104,7 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 						+ " second(s)!!!");
 
 				if (updateStatus) {
-					LogUtil.logInfo("UpdateStockPrice-> CMP price updated in db is completed");
+					LogUtil.logInfo("UpdateStockPrice-> CMP price updated in db is completed updateStatus=" + updateStatus);
 					if (companyPriceAlertMap != null && companyPriceAlertMap.size() == 0) {
 						LogUtil.logInfo("*** Unable to send price alert As No price Alert set!!");
 						UserCompanyMailContent userCompaniesMailContent = new UserCompanyMailContent();
@@ -120,7 +120,7 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 							HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			} else {
-				LogUtil.logWarn("UpdateStockPrice-> Unable to get stock price from NSE Site!!!");
+				LogUtil.logWarn("*** UpdateStockPrice-> Unable to get stock price from NSE Site due to non business day!!!");
 				return new ResponseEntity<UserCompanyMailContent>(new UserCompanyMailContent(), HttpStatus.OK);
 			}
 		} catch (Exception e) {
@@ -222,11 +222,15 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 	}
 
 	private String checkNoTimeFrameCMP(CompanyPriceAlertPojo companyPrice, Float todaysClosePrice) {
+		LogUtil.logInfo("checkNoTimeFrameCMP - START");
 		String noTimeFrameTodaysCmpInPercentageStr = "";
 		String usersNoTimeFrameMinPriceStr = companyPrice.getNoTimeFrameMinPrice();
 		
 		if (usersNoTimeFrameMinPriceStr != null && !usersNoTimeFrameMinPriceStr.isEmpty()) {
 			float usersNoTimeFrameMinPrice = Float.parseFloat(usersNoTimeFrameMinPriceStr);
+			
+			LogUtil.logInfo("todaysClosePrice="+todaysClosePrice);
+			LogUtil.logInfo("usersNoTimeFrameMinPrice="+usersNoTimeFrameMinPrice);
 			if (todaysClosePrice < usersNoTimeFrameMinPrice) {
 				float noTimeFrameTodaysCmpInPercentage = (usersNoTimeFrameMinPrice - todaysClosePrice) * 100 / usersNoTimeFrameMinPrice;
 				noTimeFrameTodaysCmpInPercentageStr = "-" + noTimeFrameTodaysCmpInPercentage + " % no time frame change";
@@ -234,11 +238,15 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 			if (todaysClosePrice == usersNoTimeFrameMinPrice) {
 				noTimeFrameTodaysCmpInPercentageStr = "0% no time frame change";
 			}
+		} else {
+			LogUtil.logInfo("checkNoTimeFrameCMP - usersNoTimeFrameMinPriceStr is "+usersNoTimeFrameMinPriceStr);
 		}
 
 		String usersnoTimeFrameMaxPriceStr = companyPrice.getNoTimeFrameMaxPrice();
 		if (usersnoTimeFrameMaxPriceStr != null && ! usersnoTimeFrameMaxPriceStr.isEmpty()) {
 			float usersNoTimeFrameMaxPrice = Float.parseFloat(usersnoTimeFrameMaxPriceStr);
+			LogUtil.logInfo("todaysClosePrice="+todaysClosePrice);
+			LogUtil.logInfo("usersNoTimeFrameMaxPrice="+usersNoTimeFrameMaxPrice);
 			if (todaysClosePrice > usersNoTimeFrameMaxPrice) {
 				float noTimeFrameTodaysCmpInPercentage = (todaysClosePrice - usersNoTimeFrameMaxPrice) * 100 / todaysClosePrice;
 				noTimeFrameTodaysCmpInPercentageStr = "+" + noTimeFrameTodaysCmpInPercentage + " % no time frame change";
@@ -246,16 +254,21 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 			if (todaysClosePrice == usersNoTimeFrameMaxPrice) {
 				noTimeFrameTodaysCmpInPercentageStr = "0% no time frame change";
 			}
+		} else {
+			LogUtil.logInfo("checkNoTimeFrameCMP - usersnoTimeFrameMaxPriceStr is " + usersnoTimeFrameMaxPriceStr);
 		}
 		return noTimeFrameTodaysCmpInPercentageStr;
 	}
 
 	private String checkMonthlyCMP(CompanyPriceAlertPojo companyPrice, Float lastMonthClosePrice) {
+		LogUtil.logInfo("checkMonthlyCMP - START");
 		String lastMonthCmpInPercentageStr = "";
 		if (lastMonthClosePrice != null) {
 			String usersMonthMinPriceStr = companyPrice.getMonthMinPrice();
 			if (usersMonthMinPriceStr != null && !usersMonthMinPriceStr.isEmpty()) {
 				float usersMonthMinPrice = Float.parseFloat(usersMonthMinPriceStr);
+				LogUtil.logInfo("lastMonthClosePrice="+lastMonthClosePrice);
+				LogUtil.logInfo("usersMonthMinPrice="+usersMonthMinPrice);
 				if (lastMonthClosePrice < usersMonthMinPrice) {
 					float lastMonthCmpInPercentage = (usersMonthMinPrice - lastMonthClosePrice) * 100 / usersMonthMinPrice;
 					lastMonthCmpInPercentageStr = "-" + lastMonthCmpInPercentage + " % monthly change";
@@ -268,6 +281,8 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 			String usersMonthMaxPriceStr = companyPrice.getMonthMaxPrice();
 			if (usersMonthMaxPriceStr != null && !usersMonthMaxPriceStr.isEmpty()) {
 				float usersMonthMaxPrice = Float.parseFloat(usersMonthMaxPriceStr);
+				LogUtil.logInfo("lastMonthClosePrice="+lastMonthClosePrice);
+				LogUtil.logInfo("usersMonthMaxPrice="+usersMonthMaxPrice);
 				if (lastMonthClosePrice > usersMonthMaxPrice) {
 					float lastMonthCmpInPercentage = (lastMonthClosePrice - usersMonthMaxPrice) * 100 / usersMonthMaxPrice;
 					lastMonthCmpInPercentageStr = "+" + lastMonthCmpInPercentage + " % monthly change";
@@ -277,17 +292,21 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				}
 			}
 		} else {
+			LogUtil.logInfo("checkMonthlyCMP - lastMonthClosePrice is "+lastMonthClosePrice);
 			lastMonthCmpInPercentageStr="";
 		}
 		return lastMonthCmpInPercentageStr;
 	}
 
 	private String checkWeeklyCMP(CompanyPriceAlertPojo companyPrice, Float lastWeekClosePrice) {
+		LogUtil.logInfo("checkWeeklyCMP - START");
 		String usersWeekMinPriceStr = companyPrice.getWeekMinPrice();
 		String lastWeekCmpInPercentageStr = "";
 		if (lastWeekClosePrice != null) {
 			if (usersWeekMinPriceStr != null && !usersWeekMinPriceStr.isEmpty()) {
 				float usersWeekMinPrice = Float.parseFloat(usersWeekMinPriceStr);
+				LogUtil.logInfo("lastWeekClosePrice="+lastWeekClosePrice);
+				LogUtil.logInfo("usersWeekMinPrice="+usersWeekMinPrice);
 				if (lastWeekClosePrice < usersWeekMinPrice) {
 					float lastWeekCmpInPercentage = (usersWeekMinPrice - lastWeekClosePrice) * 100 / usersWeekMinPrice;
 					lastWeekCmpInPercentageStr = "-" + lastWeekCmpInPercentage + " % weekly change";
@@ -300,6 +319,8 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 			String usersWeekMaxPriceStr = companyPrice.getWeekMaxPrice();
 			if (usersWeekMaxPriceStr != null && !usersWeekMaxPriceStr.isEmpty()) {
 				float usersWeekMaxPrice = Float.parseFloat(usersWeekMaxPriceStr);
+				LogUtil.logInfo("lastWeekClosePrice="+lastWeekClosePrice);
+				LogUtil.logInfo("usersWeekMaxPrice="+usersWeekMaxPrice);
 				if (lastWeekClosePrice > usersWeekMaxPrice) {
 					float lastWeekCmpInPercentage = (lastWeekClosePrice - usersWeekMaxPrice) * 100 / lastWeekClosePrice;
 					lastWeekCmpInPercentageStr = "+" + lastWeekCmpInPercentage + " % weekly change";
@@ -309,17 +330,22 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				} 
 			}
 		} else {
+			LogUtil.logInfo("checkWeeklyCMP - lastWeekClosePrice is "+lastWeekClosePrice);
 			lastWeekCmpInPercentageStr = "";
 		}
 		return lastWeekCmpInPercentageStr;
 	}
 
 	private String checkDailyCMP(CompanyPriceAlertPojo companyPrice, Float todaysClosePrice) {
+		LogUtil.logInfo("checkDailyCMP - START");
 		String todaysCmpInPercentageStr = "";
 
 		String usersDayMinPriceStr = companyPrice.getDayMinPrice();
 		if (usersDayMinPriceStr != null && ! usersDayMinPriceStr.isEmpty()) {
 			float usersDayMinPrice = Float.parseFloat(usersDayMinPriceStr);
+			LogUtil.logInfo("todaysClosePrice=" + todaysClosePrice);
+			LogUtil.logInfo("usersDayMinPrice=" + usersDayMinPrice);
+			
 			if (todaysClosePrice < usersDayMinPrice) {
 				float todaysCmpInPercentage = (usersDayMinPrice - todaysClosePrice) * 100 / usersDayMinPrice;
 				todaysCmpInPercentageStr = "-" + todaysCmpInPercentage + " % daily change";
@@ -327,11 +353,16 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 			if (todaysClosePrice == usersDayMinPrice) {
 				todaysCmpInPercentageStr = "0% daily change";
 			}
+		} else {
+			LogUtil.logInfo("checkDailyCMP - usersDayMinPriceStr is Empty where usersDayMinPriceStr="+usersDayMinPriceStr);
 		}
 		
 		String usersDayMaxPriceStr = companyPrice.getDayMaxPrice();
 		if (usersDayMaxPriceStr != null && ! usersDayMaxPriceStr.isEmpty()) {
 			float usersDayMaxPrice = Float.parseFloat(usersDayMaxPriceStr);
+			LogUtil.logInfo("todaysClosePrice=" + todaysClosePrice);
+			LogUtil.logInfo("usersDayMaxPrice=" + usersDayMaxPrice);
+			
 			if (todaysClosePrice > usersDayMaxPrice) {
 				float todaysCmpInPercentage = (todaysClosePrice - usersDayMaxPrice) * 100 / todaysClosePrice;
 				todaysCmpInPercentageStr = "+" + todaysCmpInPercentage + " % daily change";
@@ -413,7 +444,7 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				"		<th>Report alert triggered</th>\r\n" + 
 				"	</tr>\r\n" + 
 				"	<tr>\r\n" + 
-				"		<td><a href=\"http://dev.finvendor.com/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company%20Research/\">COMPANYNAME</a></td>\r\n" + 
+				"		<td><a href=\"http://dev.finvendor.com/view/company-profile.jsp?searchKeyword="+companyName+"&txtSearchBox=Submit/\">COMPANYNAME</a></td>\r\n" + 
 				"		<td>A New research report added for this stock</td>\r\n" + 
 				"	</tr>\r\n" + 
 				"</table>\r\n" + 

@@ -28,6 +28,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.common.util.LogUtil;
 import com.finvendor.common.util.StringUtil;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.JsonResponseData;
@@ -3123,6 +3124,8 @@ public class VendorController {
 					String companyName = vendorService.getCompanyName(researchReportFor);
 					if(priceService.isResearchPriceSet(companyName)) {
 						priceAlertMail.sendMailForResearchReport(userName, companyName);
+					} else {
+						LogUtil.logInfo("***Research Resport Alert is not set for comapny="+companyName);
 					}
 				}
 			} else {

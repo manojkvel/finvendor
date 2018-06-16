@@ -71,6 +71,9 @@
 				      		<li data-div-id="OTHER_industrysubtype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=industrysubtype">Industry Sub Type</a></li>
 				      		<li data-div-id="OTHER_analytsolutiotype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=analytsolutiotype">Analytical Solution Type</a></li>
 				      		<li data-div-id="OTHER_analytsolutiosubtype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=analytsolutiosubtype">Analytical Solution Sub Type</a></li>
+				      		<li data-div-id="OTHER_analytsolutiosubtype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=marketcapdef">Market  Cap Def</a></li>
+				      		<li data-div-id="OTHER_analytsolutiosubtype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=brokeranalyst">Broker Analyst</a></li>
+				      		<li data-div-id="OTHER_analytsolutiosubtype"><a href="/adminReferenceDataDetails?nav=OTHER&subNav=stockcurrentinfo">Stock Current Info</a></li>
 				      	</ul>
      				</li>
    				</ul>
