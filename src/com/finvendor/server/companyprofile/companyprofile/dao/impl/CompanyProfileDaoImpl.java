@@ -99,14 +99,14 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 				String revenue = row[16] != null ? row[16].toString().trim() : "";
 				String face_value = row[17] != null ? row[17].toString().trim() : "";
 				String bv_share = row[18] != null ? row[18].toString().trim() : "";
-				String row_ = row[19] != null ? row[19].toString().trim() : "";
+				String roe = row[19] != null ? row[19].toString().trim() : "";
 				String pat = row[19] != null ? row[20].toString().trim() : "";
 				String recent_qtr = row[19] != null ? row[21].toString().trim() : "";
 
 				paramsMap.put("companyProfileData",
 						new CompanyProfileData(companyId, companyName, industry, mcap, cmp, absoluteLastChangedCmp,
 								lastChangedCmpInPercentage, pe, pb, dividen_yield, eps_ttm, _52w_high, _52w_low, beta,
-								share_outstanding, mkt_cap, revenue, face_value, bv_share, row_, pat, recent_qtr));
+								share_outstanding, mkt_cap, revenue, face_value, bv_share, roe, pat, recent_qtr));
 
 			}
 			paramsMap.put("summary", "To be available soon!!");
