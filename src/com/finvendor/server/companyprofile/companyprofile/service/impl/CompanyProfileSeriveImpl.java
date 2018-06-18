@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.finvendor.common.util.LocaleUtil;
+import com.finvendor.common.util.Pair;
 import com.finvendor.common.util.StringUtil;
+import com.finvendor.server.common.commondao.DaoUtils;
 import com.finvendor.server.companyprofile.companyprofile.dao.ICompanyProfileDao1;
 import com.finvendor.server.companyprofile.companyprofile.dao.impl.CompanyProfileDaoImpl;
 import com.finvendor.server.companyprofile.companyprofile.service.ICompanyProfileService;
@@ -36,16 +38,18 @@ public class CompanyProfileSeriveImpl implements ICompanyProfileService {
 	@Override
 	@Transactional(readOnly = true)
 	public String getCompanyProfile(final String isinCode) throws Exception {
-		final String geo = LocaleUtil.getCurrentGeo();
 		try {
-			String mainQuery = StringUtil.replaceString(CompanyProfileDaoImpl.companyProfileDataQuery,
-					new HashMap<String, String>() {
-						{
-							put("COUNTRYID", geo);
-							put("ISINCODE", isinCode);
-						}
-					});
-
+			int researchAreaId = 7; // TDB: Ayush : get id 7 (Equity) from db based on ISINCODE
+			int countryId = 1;
+			if (isinCode.contains("IN")) {
+				countryId = 1;
+			}
+			// Future work
+			// else if (isinCode.contains("UK")) {
+			// } else {
+			// }
+			String mainQuery = DaoUtils.getParamertizedQuery(new Pair<>(CompanyProfileDaoImpl.companyProfileDataQuery,
+					new Object[] { researchAreaId, countryId, isinCode }));
 			return dao.getCompanyProfile(mainQuery);
 		} catch (RuntimeException e) {
 			throw new Exception(e);

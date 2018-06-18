@@ -248,7 +248,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 
 			List<Object[]> rows = query.list();
 			for (Object[] row : rows) {
-				String companyId = row[0] != null ? row[0].toString().trim() : "";
+				// String companyId = row[0] != null ? row[0].toString().trim() : "";
 				String isResearchPrice = row[1] != null ? row[1].toString().trim() : "";
 				if (isResearchPrice.equals("true")) {
 					return true;

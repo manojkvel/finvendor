@@ -64,14 +64,15 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				+ "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		try {
 			Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap = service.fetchCompanyPriceAlert();
-			
+
 			// Get ticker and companyId from database
 			Map<String, String> tickerAndCompanyIdMap = service.findAllTickerFromDb();
 			LogUtil.logInfo("UpdateStockPrice-> TickerAndCompanyIdMap data\n" + tickerAndCompanyIdMap + "\n");
 
 			// Get today's Stock market price from NSE site
 			long startTime = System.currentTimeMillis();
-			List<StockCurrentPricePojo> stockCurrentPricePojoList = getTodaysStockPriceFromNSESite(tickerAndCompanyIdMap);
+			List<StockCurrentPricePojo> stockCurrentPricePojoList = getTodaysStockPriceFromNSESite(
+					tickerAndCompanyIdMap);
 
 			boolean isStockPriceNeedToUpdateInDb;
 			if (stockCurrentPricePojoList != null && stockCurrentPricePojoList.size() > 0) {
@@ -104,7 +105,8 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 						+ " second(s)!!!");
 
 				if (updateStatus) {
-					LogUtil.logInfo("UpdateStockPrice-> CMP price updated in db is completed updateStatus=" + updateStatus);
+					LogUtil.logInfo(
+							"UpdateStockPrice-> CMP price updated in db is completed updateStatus=" + updateStatus);
 					if (companyPriceAlertMap != null && companyPriceAlertMap.size() == 0) {
 						LogUtil.logInfo("*** Unable to send price alert As No price Alert set!!");
 						UserCompanyMailContent userCompaniesMailContent = new UserCompanyMailContent();
@@ -120,7 +122,8 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 							HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			} else {
-				LogUtil.logWarn("*** UpdateStockPrice-> Unable to get stock price from NSE Site due to non business day!!!");
+				LogUtil.logWarn(
+						"*** UpdateStockPrice-> Unable to get stock price from NSE Site due to non business day!!!");
 				return new ResponseEntity<UserCompanyMailContent>(new UserCompanyMailContent(), HttpStatus.OK);
 			}
 		} catch (Exception e) {
@@ -129,12 +132,14 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 		}
 	}
 
-	private UserCompanyMailContent prepareMail(Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap) throws NumberFormatException, Exception {
+	private UserCompanyMailContent prepareMail(Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap)
+			throws NumberFormatException, Exception {
 		Map<String, List<CompanyEmailContent>> userCompanyMailContentMap = new LinkedHashMap<>();
-		
+
 		// key is user name and value is CompanyPriceAlerUt List
 		// 1 user can set alert for one or more than one company (1:M)
-//		Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap = service.fetchCompanyPriceAlert();
+		// Map<String, List<CompanyPriceAlertPojo>> companyPriceAlertMap =
+		// service.fetchCompanyPriceAlert();
 		Map<String, StockCurrentPricePojo> stockPriceMap = service.fetchAllStockPrice();
 		for (Map.Entry<String, List<CompanyPriceAlertPojo>> entry : companyPriceAlertMap.entrySet()) {
 			String userName = entry.getKey();
@@ -144,11 +149,11 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				// get stock price for given company id
 				String companyId = companyPrice.getCompanyId();
 				StockCurrentPricePojo stockCurrentPrice = stockPriceMap.get(companyId);
-				
+
 				Pair<Float, Float> todayAndYesterdayPrice = getTodayAndYesterdayPrice(stockCurrentPrice);
 				Float todaysClosePrice = todayAndYesterdayPrice.getElement1();
 				Float yesterdayClosePriceAsLTP = todayAndYesterdayPrice.getElement2();
-				
+
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				// Daily Price hit checking
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -159,7 +164,7 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				Float lastWeekClosePrice = getLastWeekClosePrice(companyId);
 				String lastWeekCmpInPercentage = checkWeeklyCMP(companyPrice, lastWeekClosePrice);
-				
+
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				// Monthly Price hit checking
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -177,7 +182,7 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				companyEmailContent.setPriceDate(stockCurrentPrice.getPrice_date());
 
 				companyEmailContent.setTodaysCmp(todaysClosePrice);
-				
+
 				companyEmailContent.setYesterdayCmp(yesterdayClosePriceAsLTP);
 				companyEmailContent.setTodaysCmpInPercentage(todaysCmpInPercentage);
 
@@ -186,13 +191,13 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 					companyEmailContent.setLastWeekCmpInPercentage(lastWeekCmpInPercentage);
 				}
 
-				if(lastMonthClosePrice!=null) {
+				if (lastMonthClosePrice != null) {
 					companyEmailContent.setLastMonthCmp(lastMonthClosePrice);
 					companyEmailContent.setLastMonthCmpInPercentage(lastMonthCmpInPercentage);
 				}
 				companyEmailContent.setCmpWhenPriceAlertWasSet(companyPrice.getCmpWhenPriceAlertSet());
 				companyEmailContent.setNoTimeFrameInPercentage(noTimeFrameTodaysCmpInPercentage);
-				
+
 				companyMailMessageList.add(companyEmailContent);
 			}
 			userCompanyMailContentMap.put(userName, companyMailMessageList);
@@ -200,9 +205,9 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 		return new UserCompanyMailContent(userCompanyMailContentMap);
 	}
 
-	private Pair<Float,Float> getTodayAndYesterdayPrice(StockCurrentPricePojo stockCurrentPrice) {
+	private Pair<Float, Float> getTodayAndYesterdayPrice(StockCurrentPricePojo stockCurrentPrice) {
 		Float todaysClosePrice = 0.0f;
-		Float yesterdayClosePriceAsLTP=0.0f;
+		Float yesterdayClosePriceAsLTP = 0.0f;
 		if (stockCurrentPrice != null) {
 			String todaysClosePriceFromDb = stockCurrentPrice.getClose_price();
 			if (todaysClosePriceFromDb != null && !todaysClosePriceFromDb.isEmpty()) {
@@ -210,46 +215,50 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 			} else {
 				throw new WebApiException("Unable to find today's close price from DB!!");
 			}
-			
-			String yesterdayClosePriceAsLTPFromDb=stockCurrentPrice.getLast_traded_price();
+
+			String yesterdayClosePriceAsLTPFromDb = stockCurrentPrice.getLast_traded_price();
 			if (yesterdayClosePriceAsLTPFromDb != null && !yesterdayClosePriceAsLTPFromDb.isEmpty()) {
 				yesterdayClosePriceAsLTP = Float.parseFloat(yesterdayClosePriceAsLTPFromDb);
 			} else {
 				throw new WebApiException("Unable to find yesterday's close price from DB!!");
 			}
 		}
-		return new Pair<Float,Float>(todaysClosePrice, yesterdayClosePriceAsLTP);
+		return new Pair<Float, Float>(todaysClosePrice, yesterdayClosePriceAsLTP);
 	}
 
 	private String checkNoTimeFrameCMP(CompanyPriceAlertPojo companyPrice, Float todaysClosePrice) {
 		LogUtil.logInfo("checkNoTimeFrameCMP - START");
 		String noTimeFrameTodaysCmpInPercentageStr = "";
 		String usersNoTimeFrameMinPriceStr = companyPrice.getNoTimeFrameMinPrice();
-		
+
 		if (usersNoTimeFrameMinPriceStr != null && !usersNoTimeFrameMinPriceStr.isEmpty()) {
 			float usersNoTimeFrameMinPrice = Float.parseFloat(usersNoTimeFrameMinPriceStr);
-			
-			LogUtil.logInfo("todaysClosePrice="+todaysClosePrice);
-			LogUtil.logInfo("usersNoTimeFrameMinPrice="+usersNoTimeFrameMinPrice);
+
+			LogUtil.logInfo("todaysClosePrice=" + todaysClosePrice);
+			LogUtil.logInfo("usersNoTimeFrameMinPrice=" + usersNoTimeFrameMinPrice);
 			if (todaysClosePrice < usersNoTimeFrameMinPrice) {
-				float noTimeFrameTodaysCmpInPercentage = (usersNoTimeFrameMinPrice - todaysClosePrice) * 100 / usersNoTimeFrameMinPrice;
-				noTimeFrameTodaysCmpInPercentageStr = "-" + noTimeFrameTodaysCmpInPercentage + " % no time frame change";
+				float noTimeFrameTodaysCmpInPercentage = (usersNoTimeFrameMinPrice - todaysClosePrice) * 100
+						/ usersNoTimeFrameMinPrice;
+				noTimeFrameTodaysCmpInPercentageStr = "-" + noTimeFrameTodaysCmpInPercentage
+						+ " % no time frame change";
 			}
 			if (todaysClosePrice == usersNoTimeFrameMinPrice) {
 				noTimeFrameTodaysCmpInPercentageStr = "0% no time frame change";
 			}
 		} else {
-			LogUtil.logInfo("checkNoTimeFrameCMP - usersNoTimeFrameMinPriceStr is "+usersNoTimeFrameMinPriceStr);
+			LogUtil.logInfo("checkNoTimeFrameCMP - usersNoTimeFrameMinPriceStr is " + usersNoTimeFrameMinPriceStr);
 		}
 
 		String usersnoTimeFrameMaxPriceStr = companyPrice.getNoTimeFrameMaxPrice();
-		if (usersnoTimeFrameMaxPriceStr != null && ! usersnoTimeFrameMaxPriceStr.isEmpty()) {
+		if (usersnoTimeFrameMaxPriceStr != null && !usersnoTimeFrameMaxPriceStr.isEmpty()) {
 			float usersNoTimeFrameMaxPrice = Float.parseFloat(usersnoTimeFrameMaxPriceStr);
-			LogUtil.logInfo("todaysClosePrice="+todaysClosePrice);
-			LogUtil.logInfo("usersNoTimeFrameMaxPrice="+usersNoTimeFrameMaxPrice);
+			LogUtil.logInfo("todaysClosePrice=" + todaysClosePrice);
+			LogUtil.logInfo("usersNoTimeFrameMaxPrice=" + usersNoTimeFrameMaxPrice);
 			if (todaysClosePrice > usersNoTimeFrameMaxPrice) {
-				float noTimeFrameTodaysCmpInPercentage = (todaysClosePrice - usersNoTimeFrameMaxPrice) * 100 / todaysClosePrice;
-				noTimeFrameTodaysCmpInPercentageStr = "+" + noTimeFrameTodaysCmpInPercentage + " % no time frame change";
+				float noTimeFrameTodaysCmpInPercentage = (todaysClosePrice - usersNoTimeFrameMaxPrice) * 100
+						/ todaysClosePrice;
+				noTimeFrameTodaysCmpInPercentageStr = "+" + noTimeFrameTodaysCmpInPercentage
+						+ " % no time frame change";
 			}
 			if (todaysClosePrice == usersNoTimeFrameMaxPrice) {
 				noTimeFrameTodaysCmpInPercentageStr = "0% no time frame change";
@@ -267,24 +276,26 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 			String usersMonthMinPriceStr = companyPrice.getMonthMinPrice();
 			if (usersMonthMinPriceStr != null && !usersMonthMinPriceStr.isEmpty()) {
 				float usersMonthMinPrice = Float.parseFloat(usersMonthMinPriceStr);
-				LogUtil.logInfo("lastMonthClosePrice="+lastMonthClosePrice);
-				LogUtil.logInfo("usersMonthMinPrice="+usersMonthMinPrice);
+				LogUtil.logInfo("lastMonthClosePrice=" + lastMonthClosePrice);
+				LogUtil.logInfo("usersMonthMinPrice=" + usersMonthMinPrice);
 				if (lastMonthClosePrice < usersMonthMinPrice) {
-					float lastMonthCmpInPercentage = (usersMonthMinPrice - lastMonthClosePrice) * 100 / usersMonthMinPrice;
+					float lastMonthCmpInPercentage = (usersMonthMinPrice - lastMonthClosePrice) * 100
+							/ usersMonthMinPrice;
 					lastMonthCmpInPercentageStr = "-" + lastMonthCmpInPercentage + " % monthly change";
 				}
 				if (lastMonthClosePrice == usersMonthMinPrice) {
 					lastMonthCmpInPercentageStr = "0% monthly change";
 				}
 			}
-			
+
 			String usersMonthMaxPriceStr = companyPrice.getMonthMaxPrice();
 			if (usersMonthMaxPriceStr != null && !usersMonthMaxPriceStr.isEmpty()) {
 				float usersMonthMaxPrice = Float.parseFloat(usersMonthMaxPriceStr);
-				LogUtil.logInfo("lastMonthClosePrice="+lastMonthClosePrice);
-				LogUtil.logInfo("usersMonthMaxPrice="+usersMonthMaxPrice);
+				LogUtil.logInfo("lastMonthClosePrice=" + lastMonthClosePrice);
+				LogUtil.logInfo("usersMonthMaxPrice=" + usersMonthMaxPrice);
 				if (lastMonthClosePrice > usersMonthMaxPrice) {
-					float lastMonthCmpInPercentage = (lastMonthClosePrice - usersMonthMaxPrice) * 100 / usersMonthMaxPrice;
+					float lastMonthCmpInPercentage = (lastMonthClosePrice - usersMonthMaxPrice) * 100
+							/ usersMonthMaxPrice;
 					lastMonthCmpInPercentageStr = "+" + lastMonthCmpInPercentage + " % monthly change";
 				}
 				if (lastMonthClosePrice == usersMonthMaxPrice) {
@@ -292,8 +303,8 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				}
 			}
 		} else {
-			LogUtil.logInfo("checkMonthlyCMP - lastMonthClosePrice is "+lastMonthClosePrice);
-			lastMonthCmpInPercentageStr="";
+			LogUtil.logInfo("checkMonthlyCMP - lastMonthClosePrice is " + lastMonthClosePrice);
+			lastMonthCmpInPercentageStr = "";
 		}
 		return lastMonthCmpInPercentageStr;
 	}
@@ -305,8 +316,8 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 		if (lastWeekClosePrice != null) {
 			if (usersWeekMinPriceStr != null && !usersWeekMinPriceStr.isEmpty()) {
 				float usersWeekMinPrice = Float.parseFloat(usersWeekMinPriceStr);
-				LogUtil.logInfo("lastWeekClosePrice="+lastWeekClosePrice);
-				LogUtil.logInfo("usersWeekMinPrice="+usersWeekMinPrice);
+				LogUtil.logInfo("lastWeekClosePrice=" + lastWeekClosePrice);
+				LogUtil.logInfo("usersWeekMinPrice=" + usersWeekMinPrice);
 				if (lastWeekClosePrice < usersWeekMinPrice) {
 					float lastWeekCmpInPercentage = (usersWeekMinPrice - lastWeekClosePrice) * 100 / usersWeekMinPrice;
 					lastWeekCmpInPercentageStr = "-" + lastWeekCmpInPercentage + " % weekly change";
@@ -315,22 +326,22 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 					lastWeekCmpInPercentageStr = "0% weekly change";
 				}
 			}
-		
+
 			String usersWeekMaxPriceStr = companyPrice.getWeekMaxPrice();
 			if (usersWeekMaxPriceStr != null && !usersWeekMaxPriceStr.isEmpty()) {
 				float usersWeekMaxPrice = Float.parseFloat(usersWeekMaxPriceStr);
-				LogUtil.logInfo("lastWeekClosePrice="+lastWeekClosePrice);
-				LogUtil.logInfo("usersWeekMaxPrice="+usersWeekMaxPrice);
+				LogUtil.logInfo("lastWeekClosePrice=" + lastWeekClosePrice);
+				LogUtil.logInfo("usersWeekMaxPrice=" + usersWeekMaxPrice);
 				if (lastWeekClosePrice > usersWeekMaxPrice) {
 					float lastWeekCmpInPercentage = (lastWeekClosePrice - usersWeekMaxPrice) * 100 / lastWeekClosePrice;
 					lastWeekCmpInPercentageStr = "+" + lastWeekCmpInPercentage + " % weekly change";
 				}
 				if (lastWeekClosePrice == usersWeekMaxPrice) {
 					lastWeekCmpInPercentageStr = "0% weekly change";
-				} 
+				}
 			}
 		} else {
-			LogUtil.logInfo("checkWeeklyCMP - lastWeekClosePrice is "+lastWeekClosePrice);
+			LogUtil.logInfo("checkWeeklyCMP - lastWeekClosePrice is " + lastWeekClosePrice);
 			lastWeekCmpInPercentageStr = "";
 		}
 		return lastWeekCmpInPercentageStr;
@@ -341,11 +352,11 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 		String todaysCmpInPercentageStr = "";
 
 		String usersDayMinPriceStr = companyPrice.getDayMinPrice();
-		if (usersDayMinPriceStr != null && ! usersDayMinPriceStr.isEmpty()) {
+		if (usersDayMinPriceStr != null && !usersDayMinPriceStr.isEmpty()) {
 			float usersDayMinPrice = Float.parseFloat(usersDayMinPriceStr);
 			LogUtil.logInfo("todaysClosePrice=" + todaysClosePrice);
 			LogUtil.logInfo("usersDayMinPrice=" + usersDayMinPrice);
-			
+
 			if (todaysClosePrice < usersDayMinPrice) {
 				float todaysCmpInPercentage = (usersDayMinPrice - todaysClosePrice) * 100 / usersDayMinPrice;
 				todaysCmpInPercentageStr = "-" + todaysCmpInPercentage + " % daily change";
@@ -354,15 +365,16 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 				todaysCmpInPercentageStr = "0% daily change";
 			}
 		} else {
-			LogUtil.logInfo("checkDailyCMP - usersDayMinPriceStr is Empty where usersDayMinPriceStr="+usersDayMinPriceStr);
+			LogUtil.logInfo(
+					"checkDailyCMP - usersDayMinPriceStr is Empty where usersDayMinPriceStr=" + usersDayMinPriceStr);
 		}
-		
+
 		String usersDayMaxPriceStr = companyPrice.getDayMaxPrice();
-		if (usersDayMaxPriceStr != null && ! usersDayMaxPriceStr.isEmpty()) {
+		if (usersDayMaxPriceStr != null && !usersDayMaxPriceStr.isEmpty()) {
 			float usersDayMaxPrice = Float.parseFloat(usersDayMaxPriceStr);
 			LogUtil.logInfo("todaysClosePrice=" + todaysClosePrice);
 			LogUtil.logInfo("usersDayMaxPrice=" + usersDayMaxPrice);
-			
+
 			if (todaysClosePrice > usersDayMaxPrice) {
 				float todaysCmpInPercentage = (todaysClosePrice - usersDayMaxPrice) * 100 / todaysClosePrice;
 				todaysCmpInPercentageStr = "+" + todaysCmpInPercentage + " % daily change";
@@ -391,6 +403,7 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 					String mailBody = prepareMailBody(companyEmailContent);
 					try {
 						EmailUtil.sendMail(to, subject, mailBody);
+						LogUtil.logInfo("***Email has been sent to user:" + to);
 					} catch (RuntimeException e) {
 						LogUtil.logError("Unable to send mail to this company :" + companyName);
 					}
@@ -405,64 +418,30 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 	}
 
 	@Override
-	public ResponseEntity<?> sendMailForResearchReport(String userName,String companyName) throws WebApiException {
-		String mailContent="<!DOCTYPE html>\r\n" + 
-				"<html>\r\n" + 
-				"<head>\r\n" + 
-				"<title></title>\r\n" + 
-				"\r\n" + 
-				"<!-- CSS -->\r\n" + 
-				"<style>\r\n" + 
-				".myTable { \r\n" + 
-				"  width: 100%;\r\n" + 
-				"  text-align: left;\r\n" + 
-				"  background-color: white;\r\n" + 
-				"  border-collapse: collapse; \r\n" + 
-				"  }\r\n" + 
-				".myTable th { \r\n" + 
-				"  background-color: mediumaquamarine;\r\n" + 
-				"  color: white; \r\n" + 
-				"  }\r\n" + 
-				".myTable td, \r\n" + 
-				".myTable th { \r\n" + 
-				"  padding: 10px;\r\n" + 
-				"  border: 1px solid mediumaquamarine; \r\n" + 
-				"  }\r\n" + 
-				"</style>\r\n" + 
-				"\r\n" + 
-				"</head>\r\n" + 
-				"<body>\r\n" + 
-				"Dear USERNAME<br> <br>\r\n" + 
-				"\r\n" + 
-				"Thank you for choosing \"Finvendor Corp.\" as your preferred investment partner.<br><br>\r\n" + 
-				"\r\n" + 
-				"Alert on stock research report<br><br>\r\n" + 
-				"<!-- HTML -->\r\n" + 
-				"<table class=\"myTable\">\r\n" + 
-				"	<tr>\r\n" + 
-				"		<th>Company name</th>\r\n" + 
-				"		<th>Report alert triggered</th>\r\n" + 
-				"	</tr>\r\n" + 
-				"	<tr>\r\n" + 
-				"		<td><a href=\"http://dev.finvendor.com/view/company-profile.jsp?searchKeyword="+companyName+"&txtSearchBox=Submit/\">COMPANYNAME</a></td>\r\n" + 
-				"		<td>A New research report added for this stock</td>\r\n" + 
-				"	</tr>\r\n" + 
-				"</table>\r\n" + 
-				"<br><br>\r\n" + 
-				"In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.\r\n" + 
-				"Thank you once again for setting research report alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n" + 
-				"<br><br>\r\n" + 
-				"\r\n" + 
-				"Assuring you the best of services.\r\n" + 
-				"<br><br>\r\n" + 
-				"Regards<br>\r\n" + 
-				"Finvendor Corp.<br><br>\r\n" + 
-				"</body>\r\n" + 
-				"</html>";
-		
+	public ResponseEntity<?> sendMailForResearchReport(String userName, String companyName) throws WebApiException {
+		String mailContent = "<!DOCTYPE html>\r\n" + "<html>\r\n" + "<head>\r\n" + "<title></title>\r\n" + "\r\n"
+				+ "<!-- CSS -->\r\n" + "<style>\r\n" + ".myTable { \r\n" + "  width: 100%;\r\n"
+				+ "  text-align: left;\r\n" + "  background-color: white;\r\n" + "  border-collapse: collapse; \r\n"
+				+ "  }\r\n" + ".myTable th { \r\n" + "  background-color: mediumaquamarine;\r\n"
+				+ "  color: white; \r\n" + "  }\r\n" + ".myTable td, \r\n" + ".myTable th { \r\n"
+				+ "  padding: 10px;\r\n" + "  border: 1px solid mediumaquamarine; \r\n" + "  }\r\n" + "</style>\r\n"
+				+ "\r\n" + "</head>\r\n" + "<body>\r\n" + "Dear USERNAME<br> <br>\r\n" + "\r\n"
+				+ "Thank you for choosing \"Finvendor Corp.\" as your preferred investment partner.<br><br>\r\n"
+				+ "\r\n" + "Alert on stock research report<br><br>\r\n" + "<!-- HTML -->\r\n"
+				+ "<table class=\"myTable\">\r\n" + "	<tr>\r\n" + "		<th>Company name</th>\r\n"
+				+ "		<th>Report alert triggered</th>\r\n" + "	</tr>\r\n" + "	<tr>\r\n"
+				+ "		<td><a href=\"http://dev.finvendor.com/view/company-profile.jsp?searchKeyword=" + companyName
+				+ "&txtSearchBox=Submit/\">COMPANYNAME</a></td>\r\n"
+				+ "		<td>A New research report added for this stock</td>\r\n" + "	</tr>\r\n" + "</table>\r\n"
+				+ "<br><br>\r\n"
+				+ "In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.\r\n"
+				+ "Thank you once again for setting research report alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n"
+				+ "<br><br>\r\n" + "\r\n" + "Assuring you the best of services.\r\n" + "<br><br>\r\n"
+				+ "Regards<br>\r\n" + "Finvendor Corp.<br><br>\r\n" + "</body>\r\n" + "</html>";
+
 		mailContent = StringUtils.replace(mailContent, "USERNAME", userName);
 		mailContent = StringUtils.replace(mailContent, "COMPANYNAME", companyName);
-		
+
 		String to;
 		try {
 			to = userService.getUserDetailsByUsername(userName).getEmail();
@@ -478,91 +457,42 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 	}
 
 	private String prepareMailBody(CompanyEmailContent dto) {
-		String headerContentTemplate="<!DOCTYPE html>\r\n" + 
-				"<html>\r\n" + 
-				"<head>\r\n" + 
-				"<title>Example</title>\r\n" + 
-				"\r\n" + 
-				"<!-- CSS -->\r\n" + 
-				"<style>\r\n" + 
-				".myTable { \r\n" + 
-				"  width: 100%;\r\n" + 
-				"  text-align: left;\r\n" + 
-				"  background-color: white;\r\n" + 
-				"  border-collapse: collapse; \r\n" + 
-				"  }\r\n" + 
-				".myTable th { \r\n" + 
-				"  background-color: mediumaquamarine;\r\n" + 
-				"  color: white; \r\n" + 
-				"  }\r\n" + 
-				".myTable td, \r\n" + 
-				".myTable th { \r\n" + 
-				"  padding: 10px;\r\n" + 
-				"  border: 1px solid mediumaquamarine; \r\n" + 
-				"  }\r\n" + 
-				"</style>\r\n" + 
-				"\r\n" + 
-				"</head>\r\n" + 
-				"<body>\r\n" + 
-				"Dear USERNAME<br> <br>\r\n" + 
-				"\r\n" + 
-				"Thank you for choosing \"Finvendor Corp.\" as your preferred investment partner.<br><br>\r\n" + 
-				"\r\n" + 
-				"Alert on stock as on PRICEDATE<br><br>";
-		String tableContentTemplate="<table class=\"myTable\">\r\n" + 
-				"	<tr>\r\n" + 
-				"		<th>Company name</th>\r\n" + 
-				"		<th>Alert triggered</th>\r\n" + 
-				"      	<th>Today's price</th>\r\n" + 
-				"      	<th>Previous day price</th>\r\n" + 
-				"        <th>Price a week ago</th>\r\n" + 
-				"        <th>Price a month ago</th>\r\n" + 
-				"	</tr>\r\n" + 
-				"	<tr>\r\n" + 
-				"		<td>COMPANYNAME</td>\r\n" + 
-				"		<td>PERCENTAGE</td>\r\n" + 
-				"        <td>TODAYPRICE</td>\r\n" + 
-				"		<td>YESTERDAYPRICE</td>\r\n" + 
-				"        <td>WEEKPRICE</td>\r\n" + 
-				"        <td>MONTHPRICE</td>\r\n" + 
-				"	</tr>\r\n" + 
-				"</table><br><br>";
-		String noTimeFrameTableContentTemplate="<table class=\"myTable\">\r\n" + 
-				"	<tr>\r\n" + 
-				"		<th>Company name</th>\r\n" + 
-				"        <th>Price when alert was set</th>\r\n" + 
-				"		<th>Alert triggered</th>\r\n" + 
-				"      	<th>Today's price</th>\r\n" + 
-				"      	<th>Previous day price</th>\r\n" + 
-				"        <th>Price a week ago</th>\r\n" + 
-				"        <th>Price a month ago</th>\r\n" + 
-				"	</tr>\r\n" + 
-				"	<tr>\r\n" + 
-				"		<td>COMPANYNAME</td>\r\n" + 
-				"        <td>SINCEPRICE</td>\r\n" + 
-				"		<td>PERCENTAGE</td>\r\n" + 
-				"        <td>TODAYPRICE</td>\r\n" + 
-				"		<td>YESTERDAYPRICE</td>\r\n" + 
-				"        <td>WEEKPRICE</td>\r\n" + 
-				"        <td>MONTHPRICE</td>\r\n" + 
-				"	</tr>\r\n" + 
-				"</table>\r\n" + 
-				"<br><br>";
-		String footerContentTemplate="\r\n" + 
-				"In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.<br><br>\r\n" + 
-				"Thank you once again for setting price alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n" + 
-				"<br><br>\r\n" + 
-				"\r\n" + 
-				"Assuring you the best of services.\r\n" + 
-				"<br><br>\r\n" + 
-				"Regards<br>\r\n" + 
-				"Finvendor Corp.<br><br>\r\n" + 
-				"</body>\r\n" + 
-				"</html>";
-		String userName=dto.getUserName();
-		String priceDate=dto.getPriceDate();
-		String companyName=dto.getCompanyName();
-		
+		String headerContentTemplate = "<!DOCTYPE html>\r\n" + "<html>\r\n" + "<head>\r\n"
+				+ "<title>Example</title>\r\n" + "\r\n" + "<!-- CSS -->\r\n" + "<style>\r\n" + ".myTable { \r\n"
+				+ "  width: 100%;\r\n" + "  text-align: left;\r\n" + "  background-color: white;\r\n"
+				+ "  border-collapse: collapse; \r\n" + "  }\r\n" + ".myTable th { \r\n"
+				+ "  background-color: mediumaquamarine;\r\n" + "  color: white; \r\n" + "  }\r\n" + ".myTable td, \r\n"
+				+ ".myTable th { \r\n" + "  padding: 10px;\r\n" + "  border: 1px solid mediumaquamarine; \r\n"
+				+ "  }\r\n" + "</style>\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "Dear USERNAME<br> <br>\r\n"
+				+ "\r\n"
+				+ "Thank you for choosing \"Finvendor Corp.\" as your preferred investment partner.<br><br>\r\n"
+				+ "\r\n" + "Alert on stock as on PRICEDATE<br><br>";
+		String tableContentTemplate = "<table class=\"myTable\">\r\n" + "	<tr>\r\n"
+				+ "		<th>Company name</th>\r\n" + "		<th>Alert triggered</th>\r\n"
+				+ "      	<th>Today's price</th>\r\n" + "      	<th>Previous day price</th>\r\n"
+				+ "        <th>Price a week ago</th>\r\n" + "        <th>Price a month ago</th>\r\n" + "	</tr>\r\n"
+				+ "	<tr>\r\n" + "		<td>COMPANYNAME</td>\r\n" + "		<td>PERCENTAGE</td>\r\n"
+				+ "        <td>TODAYPRICE</td>\r\n" + "		<td>YESTERDAYPRICE</td>\r\n"
+				+ "        <td>WEEKPRICE</td>\r\n" + "        <td>MONTHPRICE</td>\r\n" + "	</tr>\r\n"
+				+ "</table><br><br>";
+		String noTimeFrameTableContentTemplate = "<table class=\"myTable\">\r\n" + "	<tr>\r\n"
+				+ "		<th>Company name</th>\r\n" + "        <th>Price when alert was set</th>\r\n"
+				+ "		<th>Alert triggered</th>\r\n" + "      	<th>Today's price</th>\r\n"
+				+ "      	<th>Previous day price</th>\r\n" + "        <th>Price a week ago</th>\r\n"
+				+ "        <th>Price a month ago</th>\r\n" + "	</tr>\r\n" + "	<tr>\r\n"
+				+ "		<td>COMPANYNAME</td>\r\n" + "        <td>SINCEPRICE</td>\r\n" + "		<td>PERCENTAGE</td>\r\n"
+				+ "        <td>TODAYPRICE</td>\r\n" + "		<td>YESTERDAYPRICE</td>\r\n"
+				+ "        <td>WEEKPRICE</td>\r\n" + "        <td>MONTHPRICE</td>\r\n" + "	</tr>\r\n" + "</table>\r\n"
+				+ "<br><br>";
+		String footerContentTemplate = "\r\n"
+				+ "In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.<br><br>\r\n"
+				+ "Thank you once again for setting price alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n"
+				+ "<br><br>\r\n" + "\r\n" + "Assuring you the best of services.\r\n" + "<br><br>\r\n"
+				+ "Regards<br>\r\n" + "Finvendor Corp.<br><br>\r\n" + "</body>\r\n" + "</html>";
+		String userName = dto.getUserName();
+		String priceDate = dto.getPriceDate();
+		String companyName = dto.getCompanyName();
+
 		String yesterDayPrice = String.valueOf(dto.getYesterdayCmp());
 		String todayPrice = String.valueOf(dto.getTodaysCmp());
 		String todayPriceInPercentage = dto.getTodaysCmpInPercentage();
@@ -571,8 +501,8 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 		String lastWeekPriceInPercentage = dto.getLastWeekCmpInPercentage();
 
 		String monthlyPrice = String.valueOf(dto.getLastMonthCmp());
-		String lastMonthPriceInPercentage = dto.getLastMonthCmpInPercentage();		
-		
+		String lastMonthPriceInPercentage = dto.getLastMonthCmpInPercentage();
+
 		String dayTableContent = "";
 		if (dto.getTodaysCmp() != 0.0f) {
 			dayTableContent = tableContentTemplate;
@@ -605,20 +535,22 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 			monthTableContent = StringUtils.replace(monthTableContent, "WEEKPRICE", weeklyPrice);
 			monthTableContent = StringUtils.replace(monthTableContent, "MONTHPRICE", monthlyPrice);
 		}
-		
+
 		String notTimeFrameTableContent = "";
-		if (! dto.getNoTimeFrameInPercentage().equals("N/A")) {
+		if (!dto.getNoTimeFrameInPercentage().equals("N/A")) {
 			notTimeFrameTableContent = noTimeFrameTableContentTemplate;
 			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "COMPANYNAME", companyName);
-			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "SINCEPRICE", dto.getCmpWhenPriceAlertWasSet());
-			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "PERCENTAGE", dto.getNoTimeFrameInPercentage());
+			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "SINCEPRICE",
+					dto.getCmpWhenPriceAlertWasSet());
+			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "PERCENTAGE",
+					dto.getNoTimeFrameInPercentage());
 			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "TODAYPRICE", todayPrice);
 			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "YESTERDAYPRICE", yesterDayPrice);
 			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "WEEKPRICE", weeklyPrice);
 			notTimeFrameTableContent = StringUtils.replace(notTimeFrameTableContent, "MONTHPRICE", monthlyPrice);
 		}
-		
-		String headerContent=headerContentTemplate;
+
+		String headerContent = headerContentTemplate;
 		headerContent = StringUtils.replace(headerContent, "USERNAME", userName);
 		headerContent = StringUtils.replace(headerContent, "PRICEDATE", priceDate);
 		StringBuffer tableSb = new StringBuffer(900);
@@ -634,13 +566,11 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 		if (!notTimeFrameTableContent.isEmpty()) {
 			tableSb.append(notTimeFrameTableContent).append("\r\n");
 		}
-		String tableContent=tableSb.toString();
-		String footerContent=footerContentTemplate;
+		String tableContent = tableSb.toString();
+		String footerContent = footerContentTemplate;
 		footerContent = StringUtils.replace(footerContent, "COMPANYNAME", companyName);
-		String finalMailContent = new StringBuffer(1000)
-				.append(headerContent).append("\n")
-				.append(tableContent).append("\n")
-				.append(footerContent).append("\n").toString();
+		String finalMailContent = new StringBuffer(1000).append(headerContent).append("\n").append(tableContent)
+				.append("\n").append(footerContent).append("\n").toString();
 		return finalMailContent;
 	}
 
@@ -689,28 +619,28 @@ public class WebPriceAlertMailImpl implements IWebPriceAlertMail {
 
 						String symbleAsTicker = cols.get(0).text();
 						String companyId = tickerAndCompanyIdMap.get(symbleAsTicker.trim()).trim();
-						LogUtil.logInfo("***companyId(From NSE)="+companyId);
-						
+						LogUtil.logInfo("***companyId(From NSE)=" + companyId);
+
 						String priceDate = cols.get(2).text();
 						String priceDateInMMDDYY = fvDateFormat.format(bhavDateFormatFromNSESite.parse(priceDate));
-						LogUtil.logInfo("***priceDateInMMDDYY(From NSE)="+priceDateInMMDDYY);
-						
+						LogUtil.logInfo("***priceDateInMMDDYY(From NSE)=" + priceDateInMMDDYY);
+
 						String openPrice = cols.get(4).text();
 						openPrice = StringUtils.replace(openPrice, ",", "");
-						LogUtil.logInfo("***openPrice(From NSE)="+openPrice);
+						LogUtil.logInfo("***openPrice(From NSE)=" + openPrice);
 
 						String highPrice = cols.get(5).text();
 						highPrice = StringUtils.replace(highPrice, ",", "");
-						LogUtil.logInfo("***highPrice(From NSE)="+highPrice);
-						
+						LogUtil.logInfo("***highPrice(From NSE)=" + highPrice);
+
 						String lowPrice = cols.get(6).text();
 						lowPrice = StringUtils.replace(lowPrice, ",", "");
-						LogUtil.logInfo("***lowPrice(From NSE)="+lowPrice);
-						
+						LogUtil.logInfo("***lowPrice(From NSE)=" + lowPrice);
+
 						String closePrice = cols.get(8).text();
 						closePrice = StringUtils.replace(closePrice, ",", "");
-						LogUtil.logInfo("***closePrice(From NSE)="+closePrice);
-						
+						LogUtil.logInfo("***closePrice(From NSE)=" + closePrice);
+
 						StockCurrentPricePojo pojo = new StockCurrentPricePojo();
 						pojo.setStock_id(Integer.parseInt(companyId));
 						pojo.setPrice_date(priceDateInMMDDYY);

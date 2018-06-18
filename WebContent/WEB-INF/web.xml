@@ -40,8 +40,8 @@
   </listener>
   <listener>
 	<listener-class>
-            com.finvendor.serverwebapi.startup.FvStartupService 
-        </listener-class>
+            com.finvendor.serverwebapi.startup.WebStartup 
+    </listener-class>
    </listener>
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
