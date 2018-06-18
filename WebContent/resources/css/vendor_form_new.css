@@ -32,6 +32,10 @@ h4 {
     content: "\f077";
 }
 
+.inner-breadcrumb {
+	display: none;
+}
+
 #vendor_profile h1,
 #vendor_profile h2,
 #vendor_profile h3,
@@ -76,9 +80,6 @@ h4 {
 	border-top: 0 !important;
 }
 
-.inner-breadcrumb {
-	display: none;
-}
 
 
 #footer .container {
@@ -682,9 +683,8 @@ textarea:valid ~ label {
 
 #vendor_my_offerings .top_card .list .action_btn {
 	position: absolute;
-	top: 50%;
+	top: 0;
 	right: 0;
-	transform: translateY(-50%);
 }
 
 #vendor_my_offerings .top_card .list .action_btn .btn {
@@ -752,10 +752,15 @@ textarea:valid ~ label {
 
 
 #consumer_profile {
-	background: #fff;
-	padding: 10px;
 	overflow: hidden;
 }
+
+#consumer_profile #consumer_details {
+	overflow: hidden;
+	background: #fff;
+	padding: 10px;
+}
+
 #consumer_profile #business_needs {
 	display: none;
 }

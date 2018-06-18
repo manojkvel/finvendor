@@ -20,13 +20,13 @@
     </script>
 </head>
 <body>
-	<jsp:include page="common/header.jsp"></jsp:include>
+	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
 	<div class="container">
 		<div class="row">
-			<div class="col-xs-12 col-sm-8 col-md-9">
+			<div class="col-xs-12 col-sm-9">
 				<div id="consumer_profile">
-					<ul class="nav nav-tabs">
+					<!--<ul class="nav nav-tabs">
 						<li class="active">
 							<a class="consumer_details" href="#consumer_details" data-toggle="tab" >
 								Company Details
@@ -37,7 +37,10 @@
 								My Business Needs
 							</a>
 						</li>
-					</ul>
+					</ul>-->
+					<div class="inner_breadcrumb">
+						<h5>My Profile</h5>
+					</div>
 					<jsp:include page="common/progressLoader.jsp"></jsp:include>
 					<div class="tab-pane" id="consumer_details">
 						<div id="top-card">
@@ -201,20 +204,9 @@
 		<div class="tab-pane" id="business_needs">Coming Soon</div>
 		</div>
 	</div>
-		<div class="col-xs-12 col-sm-4 col-md-3">
-			<div class="inner-sidebar-wrap" style="display: none;">
-				<div class="sidebar-ctn-wrap cnt-ctn-wrap">
-					<div class="head">
-						<h3>Search New Vendor</h3>
-					</div>
-					<div class="content" id="sidelinks">
-						<input type="hidden" value="${consumer.tags}" />
-						<ul id="SOLUTIONS_ul">
-
-						</ul>
-					</div>
-				</div>
-			</div>
+		
+		<div class="col-xs-12 col-sm-3">
+			<div class="ads_space">Keep Watching this space for ads!!</div>
 		</div>
 	</div>
 </div>
@@ -222,26 +214,6 @@
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	<script type="text/javascript">
 		progressLoader(false);
-		var tags = $(".inner-sidebar-wrap #sidelinks input").val().split(',');
-		var li = '';
-		var link = '#';
-		for(i in tags) {
-			if(tags[i] == 'Data Aggregator') {
-				link = '/marketaggregators';
-			} else if(tags[i] == 'Trading Application') {
-				link = '/tradingapplicationvendor';
-			} else if(tags[i] == 'Analytics Application') {
-				link = '/financialanalyticsapplicationvendor';
-			} else if(tags[i] == 'Research Report') {
-				link = '/researchreportprovidersvendor';
-			}
-			li = li + "<li data-div-id='SOLUTIONS_frrpd'>"
-					+	"<a href='" + link + "''>" + tags[i] + "</a>"
-					+ "</li>";			
-		}
-		$("#SOLUTIONS_ul").append(li);
-
-		$(".inner-sidebar-wrap").css({"display": "block"});
 	</script>
 	
   

@@ -146,7 +146,7 @@ jQuery(document).ready(function() {
 
 			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "'>" +
 			"<td>" + 
-			"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'>" + response.equity[i].company + "</div>" + 
+			"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'><a href='/view/company-profile.jsp?isinCode=" + response.equity[i].isinCode + "'>" + response.equity[i].company + "</a></div>" + 
 			"<div class='style'>" + response.equity[i].style + "</div>" + 
 			"<div class='mcap'>" + response.equity[i].mcap + "</div>" + 
 			"<div class='sector'>" + response.equity[i].sector + "</div>" +

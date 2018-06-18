@@ -336,11 +336,19 @@ body {
 	padding: 10px 5px;
 	cursor: pointer;
 	color: #414b4f;
-	font-size: 10px;
+	font-size: 13px;
+	line-height: 20px;
+}
+
+.mp_list li em {
+	font-style: normal;
+	font-size: 13px;
 }
 
 .mp_list li.mp_highlighted {
-	background: #cecece;
+	background: #34bf98;
+	color: #fff;
+	font-weight: normal;
 }
 
 #home_page_main_search .mp_list {
@@ -582,6 +590,10 @@ table i.fa-file {
 
 table a {
 	color: #fff;
+}
+
+table td a {
+	color: #000;
 }
 
 table thead th p {
@@ -1014,6 +1026,10 @@ button {
 	height: 20px;
 }
 
+.inner_breadcrumb h5 {
+	font-weight: bold;
+}
+
 
 @media only screen and (max-width: 479px) {
 	.dashboard_report .bd .reportDetails {
@@ -1086,3 +1102,50 @@ button {
 		padding: 0 5px;
 	}
 }
+
+
+
+/*----------admin css-----------*/
+
+#userAccountDetails_wrapper table a {
+	color: #337ab7;
+}
+
+#admin_dashboard .inner-left-wrap {
+	background: transparent;
+	margin-bottom: 0;
+	padding: 0;
+	min-height: auto;
+}
+
+#admin_dashboard .inner-left-wrap table {
+	margin-bottom: 0;
+}
+
+#admin_dashboard .inner-left-wrap table > thead > tr > th {
+	min-height: auto;
+	height: auto;
+	background: transparent;
+	border: 0;
+}
+
+#userAccountDetails {
+	min-height: auto;
+}
+
+#userAccountDetails th {
+	color: #000;
+	text-align: left;
+	padding: 10px 0;
+}
+
+#Add_Account #userAccountDetails td {
+	text-align: left;
+	padding: 0;
+}
+
+#userAccountDetails tbody tr:nth-of-type(odd) {
+	background: transparent;
+}
+
+/*----------admin css-----------*/
