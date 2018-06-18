@@ -232,7 +232,7 @@
                                            <form action="/view/company-profile.jsp" class="elastic-search desktop_variant" method="GET">
                                                <div class="input-group">
                                                    <input id="txtSearchBox" class="form-control" autocomplete="off" name="searchKeyword" type="text" placeholder="Search stocks & its quote">
-                                                   <div class="input-group-addon" style="width:40px;"><span class="glyphicon glyphicon-search"><input name="txtSearchBox" class="submit-button" type="submit"></span></div>
+                                                   <div class="input-group-addon" style="width:40px;"><span class="glyphicon glyphicon-search"><input disabled="disabled" name="txtSearchBox" class="submit-button" type="submit" /></span></div>
                                                    <div class="input-group-addon close-btn"><span class="glyphicon glyphicon-remove"><a href="javascript:;"></a></span></div>
                                                </div>
                                                <div class="suggestions" style="display:none" id="tblSuggestions">

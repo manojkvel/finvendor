@@ -107,10 +107,10 @@
 									name="homepagesearch"
 									placeholder="Search stocks & its quotes"
 									 type="text"
-									autocomplete="off">
+									autocomplete="off"/>
 								<div class="input-group-addon splash-search-addon nobdr">
 									<i class="fa fa-search">
-										<input name="txtSearchBox" class="submit-button" type="submit">
+										<input name="txtSearchBox" class="submit-button" type="submit" disabled="disabled"/>
 									</i>
 								</div>
 							</form>
