@@ -468,6 +468,30 @@ body {
 	padding: 10px 0;
 }
 
+#company_profile .market_details {
+	margin: 10px 0;
+}
+
+.md_p {
+	line-height: 33px;
+	overflow: hidden;
+	border-bottom: 1px solid #E9E9E9;
+}
+
+.md_p .fl {
+	float: left;
+}
+
+.md_p .fr {
+	float: right;
+}
+
+.fv_indicators {
+	line-height: 24px;
+	padding: 10px 0;
+	float: right;
+}
+
 .panel-default>.panel-heading {
 	color: #fff;
     background-color: #34bf98;
