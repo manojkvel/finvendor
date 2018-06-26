@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,11 +84,9 @@ import com.finvendor.model.VendorTradingApplicationsSoftwareDetails;
 import com.finvendor.model.VendorTradingApplicationsTradingCapability;
 import com.finvendor.model.VendorTradingCapabilitiesSupported;
 import com.finvendor.model.VendorTradingSoftwareDetails;
-import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
-import com.finvendor.server.common.commondao.ICommonDao;
-import com.finvendor.server.companyprofile.pricealert.service.ICompanyPriceAlertService;
+import com.finvendor.server.companyprofile.pricealert.service.IConsumerPriceAlertService;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.companyprofile.pricealert.mail.IWebPriceAlertMail;
+import com.finvendor.serverwebapi.resources.companyprofile.pricealert.IWebConsumerPriceAlertMail;
 import com.finvendor.serverwebapi.webutil.WebUtil;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
@@ -125,11 +122,11 @@ public class VendorController {
 	private Properties finvendorProperties;
 
 	@Autowired
-	private IWebPriceAlertMail priceAlertMail;
-	
+	private IWebConsumerPriceAlertMail priceAlertMail;
+
 	@Autowired
-	private ICompanyPriceAlertService priceService;
-	
+	private IConsumerPriceAlertService priceService;
+
 	@RequestMapping(value = "vendorMyStats", method = RequestMethod.GET)
 	public ModelAndView vendorMyStats(HttpServletRequest request) {
 		logger.debug("Entering VendorController : vendorMyStats");
@@ -3122,10 +3119,10 @@ public class VendorController {
 					logger.info("Research Reports Offering file uploaded file successfully at server path:"
 							+ rsrchUploadRptPath);
 					String companyName = vendorService.getCompanyName(researchReportFor);
-					if(priceService.isResearchPriceSet(companyName)) {
-						priceAlertMail.sendMailForResearchReport(userName, companyName);
+					if (priceService.isResearchPriceSet(companyName)) {
+						priceAlertMail.sendResearchReportAlertMail(userName, companyName);
 					} else {
-						LogUtil.logInfo("***Research Resport Alert is not set for comapny="+companyName);
+						LogUtil.logInfo("***Research Resport Alert is not set for comapny=" + companyName);
 					}
 				}
 			} else {

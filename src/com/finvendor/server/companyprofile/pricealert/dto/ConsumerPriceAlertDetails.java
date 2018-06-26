@@ -1,30 +1,33 @@
 package com.finvendor.server.companyprofile.pricealert.dto;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Ayush on 20-May-2018
  */
-public class CompanyEmailContent {
+public class ConsumerPriceAlertDetails implements Serializable {
 
+	private static final long serialVersionUID = 6609147669257981719L;
 	private String userName;
 	private String companyName;
 	private String priceDate;
 
 	private String cmpWhenPriceAlertWasSet;
-	
+
 	private float todaysCmp;
 	private float yesterdayCmp;
 
-	private String todaysCmpInPercentage = "N/A";
+	private String todaysCmpInPercentage = "NA";
 
 	private float lastWeekCmp;
-	private String lastWeekCmpInPercentage = "N/A";
+	private String lastWeekCmpInPercentage = "NA";
 
 	private float lastMonthCmp;
-	private String lastMonthCmpInPercentage = "N/A";
+	private String lastMonthCmpInPercentage = "NA";
 
 	private float noTimeFrame;
-	private String noTimeFrameInPercentage = "N/A";
+	private String noTimeFrameInPercentage = "NA";
 
 	public String getUserName() {
 		return userName;

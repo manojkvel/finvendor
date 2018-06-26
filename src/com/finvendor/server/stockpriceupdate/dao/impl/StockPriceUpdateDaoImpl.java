@@ -1,4 +1,4 @@
-package com.finvendor.server.companyprofile.pricealert.dao.impl;
+package com.finvendor.server.stockpriceupdate.dao.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,19 +10,19 @@ import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
-import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
+import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
+import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
 import com.finvendor.server.common.commondao.ICommonDao;
-import com.finvendor.server.companyprofile.pricealert.dao.IPriceAlertMailDao;
+import com.finvendor.server.stockpriceupdate.dao.IStockPriceUpdateDao;
 
 @Repository
-public class PriceAlertMailDaoImpl implements IPriceAlertMailDao {
-	
+public class StockPriceUpdateDaoImpl implements IStockPriceUpdateDao {
+
 	@Autowired
 	private ICommonDao commonDao;
 
 	@Override
-	public boolean updatePrice(StockCurrentPricePojo stockCurrentPricePojo) throws RuntimeException {
+	public boolean updatePrice(StockCurrentPriceDTO stockCurrentPricePojo) throws RuntimeException {
 		boolean priceUpdateStatus = false;
 		String insertIntoHistoricalTableQuery = "INSERT INTO `stock_historical_prices` SELECT d.* FROM stock_current_prices d WHERE stock_id = ?";
 		String updateLTPInCurrentPriceTableQuery = "update stock_current_prices as t1 inner join (select close_price from stock_current_prices where stock_id = ?) as t2 set t1.last_trade_price = t2.close_price where t1.stock_id=?";
@@ -34,7 +34,7 @@ public class PriceAlertMailDaoImpl implements IPriceAlertMailDao {
 		String high_price = stockCurrentPricePojo.getHigh_price();
 		String low_price = stockCurrentPricePojo.getLow_price();
 		String close_price = stockCurrentPricePojo.getClose_price();
-		
+
 		// TDB rollback if any update failed
 		SQLQuery insertIntoHistoricalTableSqlQuery = commonDao.getNativeQuery(insertIntoHistoricalTableQuery,
 				new String[] { stock_id_str });
@@ -60,23 +60,23 @@ public class PriceAlertMailDaoImpl implements IPriceAlertMailDao {
 		if (executeUpdate1 > 0 & executeUpdate2 > 0 & executeUpdate3 > 0) {
 			priceUpdateStatus = true;
 		}
-		
-		//get ltp
+
+		// get ltp
 		return priceUpdateStatus;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, List<CompanyPriceAlertPojo>> fetchAllCompanyPriceAlert() {
+	public Map<String, List<ConsumerPriceAlertDTO>> fetchAllConsumerPriceAlert() {
 		SQLQuery query = commonDao.getNativeQuery("select * from company_price_alert", null);
 		List<Object[]> rows = query.list();
-		Map<String, List<CompanyPriceAlertPojo>> restultMap = new HashMap<>();
+		Map<String, List<ConsumerPriceAlertDTO>> restultMap = new HashMap<>();
 
 		for (Object[] row : rows) {
 			String companyId = row[0] != null ? row[0].toString().trim() : "";
 			String companyName = row[1] != null ? row[1].toString().trim() : "";
 			String userName = row[2] != null ? row[2].toString().trim() : "";
-			String cmpWhenPriceAlertWasSet=row[3] != null ? row[3].toString().trim() : "";
+			String cmpWhenPriceAlertWasSet = row[3] != null ? row[3].toString().trim() : "";
 			String dayMinPrice = row[4] != null ? row[4].toString().trim() : "";
 			String dayMaxPrice = row[5] != null ? row[5].toString().trim() : "";
 
@@ -90,30 +90,30 @@ public class PriceAlertMailDaoImpl implements IPriceAlertMailDao {
 			String noTimeFrameMinPrice = row[11] != null ? row[11].toString().trim() : "";
 			String noTimeFrameMaxPrice = row[12] != null ? row[12].toString().trim() : "";
 			String currDate = row[13] != null ? row[13].toString().trim() : "";
-			CompanyPriceAlertPojo pojo = new CompanyPriceAlertPojo();
-			pojo.setCompanyId(companyId);
-			pojo.setCompanyName(companyName);
-			pojo.setUserName(userName);
-			pojo.setCmpWhenPriceAlertSet(cmpWhenPriceAlertWasSet);
-			pojo.setDayMinPrice(dayMinPrice);
-			pojo.setDayMaxPrice(dayMaxPrice);
-			pojo.setWeekMinPrice(weekMinPrice);
-			pojo.setWeekMaxPrice(weekMaxPrice);
-			pojo.setMonthMinPrice(monthMinPrice);
-			pojo.setMonthMaxPrice(monthMaxPrice);
-			pojo.setIsResearchReport(Boolean.valueOf(isResearchReport));
-			pojo.setNoTimeFrameMinPrice(noTimeFrameMinPrice);
-			pojo.setNoTimeFrameMaxPrice(noTimeFrameMaxPrice);
-			pojo.setCurrDate(currDate);
+			ConsumerPriceAlertDTO dto = new ConsumerPriceAlertDTO();
+			dto.setCompanyId(companyId);
+			dto.setCompanyName(companyName);
+			dto.setUserName(userName);
+			dto.setCmpWhenPriceAlertSet(cmpWhenPriceAlertWasSet);
+			dto.setDayMinPrice(dayMinPrice);
+			dto.setDayMaxPrice(dayMaxPrice);
+			dto.setWeekMinPrice(weekMinPrice);
+			dto.setWeekMaxPrice(weekMaxPrice);
+			dto.setMonthMinPrice(monthMinPrice);
+			dto.setMonthMaxPrice(monthMaxPrice);
+			dto.setIsResearchReport(Boolean.valueOf(isResearchReport));
+			dto.setNoTimeFrameMinPrice(noTimeFrameMinPrice);
+			dto.setNoTimeFrameMaxPrice(noTimeFrameMaxPrice);
+			dto.setCurrDate(currDate);
 
-			List<CompanyPriceAlertPojo> list = restultMap.get(userName);
+			List<ConsumerPriceAlertDTO> list = restultMap.get(userName);
 			if (list == null) {
-				List<CompanyPriceAlertPojo> newList = new ArrayList<>();
-				newList.add(pojo);
+				List<ConsumerPriceAlertDTO> newList = new ArrayList<>();
+				newList.add(dto);
 				restultMap.put(userName, newList);
 			} else {
 				// append
-				list.add(pojo);
+				list.add(dto);
 				restultMap.put(userName, list);
 			}
 		}
@@ -137,25 +137,24 @@ public class PriceAlertMailDaoImpl implements IPriceAlertMailDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, StockCurrentPricePojo> fetchAllStockPrice() throws RuntimeException {
+	public Map<String, StockCurrentPriceDTO> fetchAllStockCurrentPrice() throws RuntimeException {
 		try {
-			SQLQuery query = commonDao.getNativeQuery(
-					"SELECT * FROM stock_current_prices ORDER BY stock_id", null);
+			SQLQuery query = commonDao.getNativeQuery("SELECT * FROM stock_current_prices ORDER BY stock_id", null);
 			List<Object[]> rows = query.list();
-			Map<String, StockCurrentPricePojo> stockPriceMap = new LinkedHashMap<>();
+			Map<String, StockCurrentPriceDTO> stockPriceMap = new LinkedHashMap<>();
 			for (Object[] row : rows) {
 				String stockId = row[0] != null ? row[0].toString().trim() : "";
 				String priceDate = row[2] != null ? row[2].toString().trim() : "";
 				String closePrice = row[6] != null ? row[6].toString().trim() : "";
 				String ltp = row[7] != null ? row[7].toString().trim() : "";
-				StockCurrentPricePojo pojo = new StockCurrentPricePojo();
+				StockCurrentPriceDTO pojo = new StockCurrentPriceDTO();
 				pojo.setStock_id(Integer.parseInt(stockId));
 				pojo.setPrice_date(priceDate);
 				pojo.setClose_price(closePrice);
 				pojo.setLast_traded_price(ltp);
 				stockPriceMap.put(stockId, pojo);
 			}
-			
+
 			return stockPriceMap;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -164,12 +163,13 @@ public class PriceAlertMailDaoImpl implements IPriceAlertMailDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StockCurrentPricePojo getLastWeekPrice(String stockId) throws RuntimeException {
+	public StockCurrentPriceDTO getLastWeekPrice(String stockId) throws RuntimeException {
 		try {
 			SQLQuery query = commonDao.getNativeQuery(
-					"SELECT * FROM stock_historical_prices where stock_id=? ORDER BY price_date DESC limit 5 ,1", new String[] {stockId});
+					"SELECT * FROM stock_historical_prices where stock_id=? ORDER BY price_date DESC limit 5 ,1",
+					new String[] { stockId });
 			List<Object[]> rows = query.list();
-			StockCurrentPricePojo pojo = getStockPricePojo(rows);
+			StockCurrentPriceDTO pojo = getStockPricePojo(rows);
 			return pojo;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -178,20 +178,21 @@ public class PriceAlertMailDaoImpl implements IPriceAlertMailDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StockCurrentPricePojo getLastMonthPrice(String stockId) throws RuntimeException {
+	public StockCurrentPriceDTO getLastMonthPrice(String stockId) throws RuntimeException {
 		try {
 			SQLQuery query = commonDao.getNativeQuery(
-					"SELECT * FROM stock_historical_prices where stock_id=? ORDER BY price_date DESC limit 30 ,1",new String[] {stockId});
+					"SELECT * FROM stock_historical_prices where stock_id=? ORDER BY price_date DESC limit 30 ,1",
+					new String[] { stockId });
 			List<Object[]> rows = query.list();
-			StockCurrentPricePojo pojo = getStockPricePojo(rows);
+			StockCurrentPriceDTO pojo = getStockPricePojo(rows);
 			return pojo;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private StockCurrentPricePojo getStockPricePojo(List<Object[]> rows) {
-		StockCurrentPricePojo pojo = new StockCurrentPricePojo();
+	private StockCurrentPriceDTO getStockPricePojo(List<Object[]> rows) {
+		StockCurrentPriceDTO pojo = new StockCurrentPriceDTO();
 		for (Object[] row : rows) {
 			String stockId = row[0] != null ? row[0].toString().trim() : "";
 			String priceDate = row[2] != null ? row[2].toString().trim() : "";
@@ -205,23 +206,23 @@ public class PriceAlertMailDaoImpl implements IPriceAlertMailDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StockCurrentPricePojo fetchStockPrice() throws RuntimeException {
+	public StockCurrentPriceDTO fetchStockPrice() throws RuntimeException {
 		try {
-			SQLQuery query = commonDao.getNativeQuery(
-					"SELECT * FROM stock_current_prices ORDER BY stock_id limit 1 offset 0", null);
+			SQLQuery query = commonDao
+					.getNativeQuery("SELECT * FROM stock_current_prices ORDER BY stock_id limit 1 offset 0", null);
 			List<Object[]> rows = query.list();
-			StockCurrentPricePojo pojo = new StockCurrentPricePojo();
+			StockCurrentPriceDTO pojo = new StockCurrentPriceDTO();
 			for (Object[] row : rows) {
 				String stockId = row[0] != null ? row[0].toString().trim() : "";
 				String priceDate = row[2] != null ? row[2].toString().trim() : "";
 				String closePrice = row[6] != null ? row[6].toString().trim() : "";
-				
+
 				pojo.setStock_id(Integer.parseInt(stockId));
 				pojo.setPrice_date(priceDate);
 				pojo.setClose_price(closePrice);
 				break;
 			}
-			
+
 			return pojo;
 		} catch (Exception e) {
 			throw new RuntimeException(e);

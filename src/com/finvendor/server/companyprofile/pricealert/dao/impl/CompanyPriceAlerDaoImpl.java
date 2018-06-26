@@ -10,23 +10,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.finvendor.model.CompanyPriceAlert;
-import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
+import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
 import com.finvendor.server.common.commondao.GenericDao;
 import com.finvendor.server.common.commondao.ICommonDao;
-import com.finvendor.server.companyprofile.pricealert.dao.ICompanyPriceAlertDao;
+import com.finvendor.server.companyprofile.pricealert.dao.IConsumerPriceAlertDao;
 
 /**
  * 
  * @author ayush on May 01, 2018
  */
 @Repository
-public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> implements ICompanyPriceAlertDao {
+public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> implements IConsumerPriceAlertDao {
 
 	@Autowired
 	private ICommonDao commonDao;
 
 	@Override
-	public boolean addCompanyPriceAlert(CompanyPriceAlertPojo priceAlertPojo) throws RuntimeException {
+	public boolean addConsumerPriceAlert(ConsumerPriceAlertDTO priceAlertPojo) throws RuntimeException {
 		boolean addStatus;
 		try {
 			CompanyPriceAlert findById = findById(Integer.parseInt(priceAlertPojo.getCompanyId()));
@@ -70,7 +70,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 	}
 
 	@Override
-	public boolean updateCompanyPriceAlert(CompanyPriceAlertPojo companyPriceAlertPojo) throws RuntimeException {
+	public boolean updateConsumerPriceAlert(ConsumerPriceAlertDTO companyPriceAlertPojo) throws RuntimeException {
 		try {
 			CompanyPriceAlert entity = findById(Integer.parseInt(companyPriceAlertPojo.getCompanyId()));
 
@@ -134,10 +134,10 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 	}
 
 	@Override
-	public boolean deleteCompanyPriceAlerts(List<CompanyPriceAlertPojo> pojoList) throws RuntimeException {
+	public boolean deleteConsumerPriceAlerts(List<ConsumerPriceAlertDTO> pojoList) throws RuntimeException {
 		boolean deleteStatus = true;
 		try {
-			for (CompanyPriceAlertPojo pojo : pojoList) {
+			for (ConsumerPriceAlertDTO pojo : pojoList) {
 				String companyId = pojo.getCompanyId();
 				CompanyPriceAlert companyPriceAlertEntity = findById(Integer.parseInt(companyId));
 				delete(companyPriceAlertEntity);
@@ -150,13 +150,13 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public CompanyPriceAlertPojo findCompanyPriceAlert(String companyIdInputParam, String userNameInputParam)
+	public ConsumerPriceAlertDTO findConsumerPriceAlert(String companyIdInputParam, String userNameInputParam)
 			throws RuntimeException {
 		SQLQuery query = commonDao.getNativeQuery(
 				"SELECT * FROM company_price_alert where company_id=? and user_name=?",
 				new String[] { companyIdInputParam, userNameInputParam });
 		List<Object[]> rows = query.list();
-		CompanyPriceAlertPojo pojo = new CompanyPriceAlertPojo();
+		ConsumerPriceAlertDTO pojo = new ConsumerPriceAlertDTO();
 		if (rows.size() == 0) {
 			pojo.setCurrDate(null);
 		}
@@ -202,15 +202,15 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CompanyPriceAlertPojo> findAllCompanyPriceAlerts(Map<Object, Object> paramMap) throws RuntimeException {
+	public List<ConsumerPriceAlertDTO> findAllConsumerPriceAlerts(Map<Object, Object> paramMap) throws RuntimeException {
 		try {
 			org.hibernate.Query query = commonDao.getNamedQuery(CompanyPriceAlert.COMPANY_PRICEALERT_BY_USER_NQ,
 					paramMap);
 			List<CompanyPriceAlert> companyPriceAlertEnityList = query.list();
-			List<CompanyPriceAlertPojo> pojoList = new ArrayList<>();
+			List<ConsumerPriceAlertDTO> pojoList = new ArrayList<>();
 
 			for (CompanyPriceAlert companyPriceAlertEntity : companyPriceAlertEnityList) {
-				CompanyPriceAlertPojo pojo = new CompanyPriceAlertPojo();
+				ConsumerPriceAlertDTO pojo = new ConsumerPriceAlertDTO();
 				pojo.setCompanyId(String.valueOf(companyPriceAlertEntity.getCompany_id()));
 				pojo.setCompanyName(companyPriceAlertEntity.getCompany_name());
 				pojo.setUserName(companyPriceAlertEntity.getUser_name());

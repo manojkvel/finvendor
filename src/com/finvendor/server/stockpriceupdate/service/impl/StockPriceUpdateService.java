@@ -1,4 +1,4 @@
-package com.finvendor.server.companyprofile.pricealert.service.impl;
+package com.finvendor.server.stockpriceupdate.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -7,23 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
-import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
-import com.finvendor.server.companyprofile.pricealert.dao.IPriceAlertMailDao;
-import com.finvendor.server.companyprofile.pricealert.service.IPriceAlertMailService;
+import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
+import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
+import com.finvendor.server.stockpriceupdate.dao.IStockPriceUpdateDao;
+import com.finvendor.server.stockpriceupdate.service.IStockPriceUpdateService;
 
 @Service
-public class PriceAlertMailServiceImpl implements IPriceAlertMailService {
+public class StockPriceUpdateService implements IStockPriceUpdateService {
 
 	@Autowired
-	private IPriceAlertMailDao dao;
+	private IStockPriceUpdateDao dao;
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	// Scheduler related
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@Override
 	@Transactional(readOnly = false)
-	public boolean updatePrice(StockCurrentPricePojo stockCurrentPricePojo) throws Exception {
+	public boolean updatePrice(StockCurrentPriceDTO stockCurrentPricePojo) throws Exception {
 		try {
 			return dao.updatePrice(stockCurrentPricePojo);
 		} catch (RuntimeException e) {
@@ -43,9 +40,9 @@ public class PriceAlertMailServiceImpl implements IPriceAlertMailService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, List<CompanyPriceAlertPojo>> fetchCompanyPriceAlert() throws Exception {
+	public Map<String, List<ConsumerPriceAlertDTO>> fetchConsumerPriceAlert() throws Exception {
 		try {
-			return dao.fetchAllCompanyPriceAlert();
+			return dao.fetchAllConsumerPriceAlert();
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}
@@ -53,9 +50,9 @@ public class PriceAlertMailServiceImpl implements IPriceAlertMailService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, StockCurrentPricePojo> fetchAllStockPrice() throws Exception {
+	public Map<String, StockCurrentPriceDTO> fetchAllStockCurrentPrice() throws Exception {
 		try {
-			return dao.fetchAllStockPrice();
+			return dao.fetchAllStockCurrentPrice();
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}
@@ -63,7 +60,7 @@ public class PriceAlertMailServiceImpl implements IPriceAlertMailService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public StockCurrentPricePojo getLastWeekPrice(String stockId) throws Exception {
+	public StockCurrentPriceDTO getLastWeekPrice(String stockId) throws Exception {
 		try {
 			return dao.getLastWeekPrice(stockId);
 		} catch (RuntimeException e) {
@@ -73,7 +70,7 @@ public class PriceAlertMailServiceImpl implements IPriceAlertMailService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public StockCurrentPricePojo getLastMonthPrice(String stockId) throws Exception {
+	public StockCurrentPriceDTO getLastMonthPrice(String stockId) throws Exception {
 		try {
 			return dao.getLastMonthPrice(stockId);
 		} catch (RuntimeException e) {
@@ -83,7 +80,7 @@ public class PriceAlertMailServiceImpl implements IPriceAlertMailService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public StockCurrentPricePojo fetchStockPrice() throws Exception {
+	public StockCurrentPriceDTO fetchStockPrice() throws Exception {
 		try {
 			return dao.fetchStockPrice();
 		} catch (RuntimeException e) {

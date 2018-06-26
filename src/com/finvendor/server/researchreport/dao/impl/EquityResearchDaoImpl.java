@@ -113,6 +113,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 				EquityResearchResult equityResult = new EquityResearchResult();
 				equityResult.setCompanyId(row[0] != null ? row[0].toString() : "");
 				equityResult.setCompany(row[1] != null ? row[1].toString() : "");
+				equityResult.setIsinCode(row[2] != null ? row[2].toString() : "");
 				equityResult.setStyle(row[3] != null ? row[3].toString() : "");
 				equityResult.setMcap(row[4] != null ? row[4].toString() : "");
 				equityResult.setSector(row[5] != null ? row[5].toString() : "");

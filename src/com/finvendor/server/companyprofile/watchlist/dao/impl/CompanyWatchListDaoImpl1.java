@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.finvendor.model.CompanyWatchList;
-import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPricePojo;
+import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyWatchListPojo;
 import com.finvendor.server.common.commondao.GenericDao;
 import com.finvendor.server.common.commondao.ICommonDao;
@@ -73,7 +73,7 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 
 				String closePriceAtTheTimeOfAddingWatchList = companywatchListEntity.getClose_price();
 
-				StockCurrentPricePojo stockCurrentPricePojo = stockCurrentPriceDao.getStockCurrentPriceById(company_id);
+				StockCurrentPriceDTO stockCurrentPricePojo = stockCurrentPriceDao.getStockCurrentPriceById(company_id);
 
 				String todaysCmpStr = stockCurrentPricePojo.getClose_price();
 				float todaysCmp = Float.parseFloat(todaysCmpStr);
