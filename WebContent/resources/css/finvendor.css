@@ -473,13 +473,14 @@ body {
 }
 
 .md_p {
-	line-height: 33px;
+	line-height: 27px;
 	overflow: hidden;
 	border-bottom: 1px solid #E9E9E9;
 }
 
 .md_p .fl {
 	float: left;
+	font-size: 11px;
 }
 
 .md_p .fr {
@@ -1050,8 +1051,18 @@ button {
 	height: 20px;
 }
 
+.inner_breadcrumb {
+	margin-bottom: 20px;
+	background: #414b4f;
+	padding: 10px;
+	color: #fff;
+	display: inline-block;
+	min-width: 200px;
+}
+
 .inner_breadcrumb h5 {
-	font-weight: bold;
+	color: #fff;
+	margin: 0;
 }
 
 

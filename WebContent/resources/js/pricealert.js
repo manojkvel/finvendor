@@ -43,10 +43,13 @@ function getCompanyPriceAlerts() {
 
         if(len === 0) {
             $("tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
-        	$("#my_watchlist .deleteBtn").attr("disabled", "disabled");
-			$('#my_watchlist #watchlist_table input[name=selectAll]').prop('checked', false);
+        	$("#my_pricealert .deleteBtn").attr("disabled", "disabled");
+        	$("#my_pricealert .editBtn").attr("disabled", "disabled");
+			$('#my_pricealert #pricealert_table input[name=selectAll]').prop('checked', false);
             return;
         }
+		
+		$('#my_pricealert #pricealert_table input[name=selectAll]').prop('checked', false);
 
         for(var i = 0; i < len; i++) {
 
@@ -168,10 +171,15 @@ function getCompanyPriceAlerts() {
 			}
 		}
 
-		if(priceAlertListArray.length != 0) {
+		if(priceAlertListArray.length == 1) {
+			$("#my_pricealert .editBtn").removeAttr("disabled");
 			$("#my_pricealert .deleteBtn").removeAttr("disabled");
+		} else if(priceAlertListArray.length != 0) {
+			$("#my_pricealert .deleteBtn").removeAttr("disabled");
+			$("#my_pricealert .editBtn").attr("disabled", "disabled");
 		} else {
 			$("#my_pricealert .deleteBtn").attr("disabled", "disabled");
+			$("#my_pricealert .editBtn").attr("disabled", "disabled");
 		}
 		console.log(priceAlertListArray);
 	}
@@ -240,8 +248,9 @@ function getCompanyPriceAlerts() {
 	    var isResearchReport = $("#setPriceAlert input[name=alert_new_research_report]").prop('checked');
 	    var companyId = priceAlertListArray[0];
 	    var alertJsonObj = {
-	        "companyId": companyId,
-	        "cmpWhenPriceAlertSet": "278",
+	        "companyId": companyProfileObj.companyId,
+	        "companyName": companyProfileObj.companyName,
+	        "cmpWhenPriceAlertSet": companyProfileObj.cmp,
 	        "dayMinPrice": dayMinPrice,
 	        "dayMaxPrice": dayMaxPrice,
 	        "weekMinPrice": weekMinPrice,
@@ -259,6 +268,10 @@ function getCompanyPriceAlerts() {
 	        $("#setPriceAlert .alert").text(response.message);
 	        $("#setPriceAlert .alert").removeClass("alert-danger").show();
 	        isProgressLoader(false);
+	        $("#setPriceAlert").modal("hide");
+	        priceAlertListArray = [];
+	        $("#my_pricealert .editBtn").attr("disabled", "disabled");
+	        getCompanyPriceAlerts();
 	    }, function(error) {
 	        var response = JSON.parse(error);
 	        $("#setPriceAlert h3").hide();
@@ -317,6 +330,11 @@ function getCompanyPriceAlerts() {
 			isProgressLoader(false);
 
 			var response = JSON.parse(response);
+
+
+			companyProfileObj['companyId'] = response.companyId;
+			companyProfileObj['companyName'] = response.companyName;
+			companyProfileObj['cmp'] = response.cmpWhenPriceAlertSet;
 
 			$("#setPriceAlert input[name=day_min_price]").val(response.dayMinPrice);
 			$("#setPriceAlert input[name=day_max_price]").val(response.dayMaxPrice);

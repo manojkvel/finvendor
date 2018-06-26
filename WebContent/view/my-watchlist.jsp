@@ -15,6 +15,9 @@
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true" ></jsp:include>
 	
 	<div class="container" id="my_watchlist">
+		<div class="inner_breadcrumb">
+			<h5>My Watchlist</h5>
+		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-9">
 				<div class="watchlist_header">
