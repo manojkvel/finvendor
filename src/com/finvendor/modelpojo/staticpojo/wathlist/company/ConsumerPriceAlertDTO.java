@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "companyId", "companyName", "userName", "cmpWhenPriceAlertSet", "dayMinPrice", "dayMaxPrice",
 		"weekMinPrice", "weekMaxPrice", "monthMinPrice", "monthMaxPrice", "noTimeFrameMinPrice", "noTimeFrameMaxPrice",
 		"isResearchReport", "currDate" })
-public class CompanyPriceAlertPojo extends AbstractHomePageSearchPojo {
+public class ConsumerPriceAlertDTO extends AbstractHomePageSearchPojo {
 	private static final long serialVersionUID = -1531614291471423894L;
 	private String cmpWhenPriceAlertSet;
 	private String dayMinPrice;

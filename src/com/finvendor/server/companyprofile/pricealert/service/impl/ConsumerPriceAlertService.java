@@ -8,36 +8,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyPriceAlertPojo;
-import com.finvendor.server.companyprofile.pricealert.dao.ICompanyPriceAlertDao;
-import com.finvendor.server.companyprofile.pricealert.service.ICompanyPriceAlertService;
+import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
+import com.finvendor.server.companyprofile.pricealert.dao.IConsumerPriceAlertDao;
+import com.finvendor.server.companyprofile.pricealert.service.IConsumerPriceAlertService;
 
 /**
  * 
  * @author ayush on May 01, 2018
  */
 @Service
-public class CompanyPriceAlertService implements ICompanyPriceAlertService {
+public class ConsumerPriceAlertService implements IConsumerPriceAlertService {
 
 	@Autowired
-	private ICompanyPriceAlertDao dao;
+	private IConsumerPriceAlertDao dao;
 
 	@Override
 	@Transactional(readOnly = false)
-	public boolean addCompanyPriceAlert(CompanyPriceAlertPojo pojo) throws Exception {
+	public boolean addConsumerPriceAlert(ConsumerPriceAlertDTO pojo) throws Exception {
 		try {
-			boolean status = dao.addCompanyPriceAlert(pojo);
+			boolean status = dao.addConsumerPriceAlert(pojo);
 			return status;
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}
 	}
-	
+
 	@Override
 	@Transactional(readOnly = false)
-	public boolean updateCompanyPriceAlert(CompanyPriceAlertPojo companyPriceAlertPojo) throws Exception {
+	public boolean updateConsumerPriceAlert(ConsumerPriceAlertDTO companyPriceAlertPojo) throws Exception {
 		try {
-			return dao.updateCompanyPriceAlert(companyPriceAlertPojo);
+			return dao.updateConsumerPriceAlert(companyPriceAlertPojo);
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}
@@ -45,31 +45,31 @@ public class CompanyPriceAlertService implements ICompanyPriceAlertService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public boolean deleteCompanyPriceAlerts(List<CompanyPriceAlertPojo> pojoList) throws Exception {
+	public boolean deleteConsumerPriceAlerts(List<ConsumerPriceAlertDTO> pojoList) throws Exception {
 		try {
-			return dao.deleteCompanyPriceAlerts(pojoList);
+			return dao.deleteConsumerPriceAlerts(pojoList);
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
-	public CompanyPriceAlertPojo findCompanyPriceAlert(String companyId, String userName) throws Exception {
+	public ConsumerPriceAlertDTO findConsumerPriceAlert(String companyId, String userName) throws Exception {
 		try {
-			return dao.findCompanyPriceAlert(companyId, userName);
+			return dao.findConsumerPriceAlert(companyId, userName);
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
-	public List<CompanyPriceAlertPojo> findAllCompanyPriceAlert(String userName) throws Exception {
+	public List<ConsumerPriceAlertDTO> findAllConsumerPriceAlert(String userName) throws Exception {
 		try {
 			Map<Object, Object> paramMap = new LinkedHashMap<>();
 			paramMap.put("username", userName);
-			return dao.findAllCompanyPriceAlerts(paramMap);
+			return dao.findAllConsumerPriceAlerts(paramMap);
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}

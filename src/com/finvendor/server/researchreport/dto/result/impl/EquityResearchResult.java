@@ -10,18 +10,18 @@ import com.finvendor.server.researchreport.dto.result.AbsEquitySectorResearchRes
  * @author ayush
  * @since 03-Feb-2018
  */
-@JsonPropertyOrder({ "companyId", "company", "style", "mcap", "sector", "subSector", "broker", "since", "awarded", "researchedByCfa",
-		"brokerRank", "cmp", "priceDate", "pe",
-		"_3YrPatGrowth", "recommType", "targetPrice", "priceAtRecomm", "upside", "report", "researchDate",
-		"analystName" })
+@JsonPropertyOrder({ "companyId", "company", "style", "mcap", "sector", "subSector", "broker", "since", "awarded",
+		"researchedByCfa", "brokerRank", "cmp", "priceDate", "pe", "_3YrPatGrowth", "recommType", "targetPrice",
+		"priceAtRecomm", "upside", "report", "researchDate", "analystName" })
 public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String productId;
 	private String companyId;
 	private String company;
+	private String isinCode;
 	private String style;
 	private String mcap;
 
-	private Map<String,String> brokerRank;
+	private Map<String, String> brokerRank;
 
 	private String cmp;
 	private String priceDate;
@@ -34,9 +34,7 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String upside;
 	private String analystType;
 	private String yrOfInCorp;
-	
 
-	
 	public String getProductId() {
 		return productId;
 	}
@@ -141,7 +139,6 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 		this.upside = upside;
 	}
 
-
 	public String getAnalystType() {
 		return analystType;
 	}
@@ -166,5 +163,12 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 		this.brokerRank = brokerRank;
 	}
 
-	
+	public String getIsinCode() {
+		return isinCode;
+	}
+
+	public void setIsinCode(String isinCode) {
+		this.isinCode = isinCode;
+	}
+
 }

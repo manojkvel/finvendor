@@ -1,27 +1,25 @@
-package com.finvendor.serverwebapi.resources.homepage;
+package com.finvendor.serverwebapi.resources.stockupdate;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
 
-/**
- * 
- * @author ayush on April 30, 2018
- */
 @RequestMapping(WebUriConstants.BASE_URI)
-public interface IWebHomePage {
+public interface IWebStockCurrentPriceUpdate {
 
 	/**
-	 * @param companyName
+	 * @param stockCurrentPricePojo
 	 * @return
 	 * @throws WebApiException
 	 */
-	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
+	@RequestMapping(value = "/updatestockprice", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> getHomePageSearchHint(String searchKey) throws WebApiException;
+	ResponseEntity<?> updateStockPrice(StockCurrentPriceDTO stockCurrentPricePojo) throws WebApiException;
 
 }

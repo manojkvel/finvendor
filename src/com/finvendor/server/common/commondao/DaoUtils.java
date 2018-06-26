@@ -1,16 +1,12 @@
 package com.finvendor.server.common.commondao;
 
-import com.finvendor.common.util.Pair;
-
 public final class DaoUtils {
 	private DaoUtils() {
 	}
 
 	// TDB: Bit Static way, need to think for dynamic approach:ayush
-	public static String getParamertizedQuery(Pair<String, Object[]> pair) {
+	public static String getParamertizedQuery(String qry, Object[] params) {
 		String query = "";
-		String qry = pair.getElement1();
-		Object[] params = pair.getElement2();
 
 		int len = params.length;
 		switch (len) {
