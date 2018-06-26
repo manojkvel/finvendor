@@ -164,13 +164,13 @@
                                                                             <span>${sessionScope.loggedInUser.username}</span>
                                                                         </a>
                                                                         <ul>
-                                                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
-							                                            </li>
+                                                                            <!--<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+							                                            </li>-->
                                                                         <li>
-                                                                            <a href="#" id='my_profile'>My Profile</a>
+                                                                            <a href="${pageContext.request.contextPath}/welcometodashboards" id='my_profile'>My Profile</a>
                                                                         </li>
                                                                         <c:choose>
-                                                                            <c:when test="${sessionScope.loggedInRole == 'ROLE_CONSUMER' }">
+                                                                            <c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
                                                                             <li>
                                                                                 <a href="${pageContext.request.contextPath}/view/my-watchlist.jsp" id='view_my_watchlist'>My Watchlist</a>
                                                                             </li>
@@ -232,7 +232,7 @@
                                            <form action="/view/company-profile.jsp" class="elastic-search desktop_variant" method="GET">
                                                <div class="input-group">
                                                    <input id="txtSearchBox" class="form-control" autocomplete="off" name="searchKeyword" type="text" placeholder="Search stocks & its quote">
-                                                   <div class="input-group-addon" style="width:40px;"><span class="glyphicon glyphicon-search"><input name="txtSearchBox" class="submit-button" type="submit"></span></div>
+                                                   <div class="input-group-addon" style="width:40px;"><span class="glyphicon glyphicon-search"><input disabled="disabled" name="txtSearchBox" class="submit-button" type="submit" /></span></div>
                                                    <div class="input-group-addon close-btn"><span class="glyphicon glyphicon-remove"><a href="javascript:;"></a></span></div>
                                                </div>
                                                <div class="suggestions" style="display:none" id="tblSuggestions">
@@ -292,13 +292,13 @@
 
                                         <i class="fa fa-chevron-down"></i>
                                         <ul class="child-main-menu">
-                                        		<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
-							                                            </li>
+                                        		<!--<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+							                                            </li>-->
                                                                         <li>
-                                                                            <a href="#" id='my_profile'>My Profile</a>
+                                                                            <a href="${pageContext.request.contextPath}/welcometodashboards" id='my_profile'>My Profile</a>
                                                                         </li>
                                                                         <c:choose>
-                                                                            <c:when test="${sessionScope.loggedInRole == 'ROLE_CONSUMER' }">
+                                                                            <c:when test="${sessionScope.loggedInUser != null && (sessionScope.loggedInRole=='ROLE_CONSUMER' || sessionScope.loggedInRole=='ROLE_ADMIN')}">
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/view/my-watchlist.jsp" id='view_my_watchlist'>My Watchlist</a>
                                                                         </li> 

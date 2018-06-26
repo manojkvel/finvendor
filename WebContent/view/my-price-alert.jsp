@@ -15,7 +15,7 @@
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true" ></jsp:include>
 	
 	<div class="container" id="my_pricealert">
-		<div class="inner-breadcrumb">
+		<div class="inner_breadcrumb">
 			<h5>Price / Research Report Alerts</h5>
 		</div>
 		<div class="row">

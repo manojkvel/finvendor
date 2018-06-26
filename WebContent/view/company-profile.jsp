@@ -87,6 +87,100 @@
 						</div>
 					</div>
 
+					<div class="container-fluid market_details">
+						<div class="row">
+							<div class="col-xs-12 col-sm-7">
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="mkt_cap_value">
+										<div class="fl">MKT CAP</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="face_value">
+										<div class="fl">Face Value</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-7">
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="pe_value">
+										<div class="fl">P/E (x)</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="eps_value">
+										<div class="fl">EPS-TTM</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-7">
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="pb_value">
+										<div class="fl">P/B (x)</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="bv_value">
+										<div class="fl">BV/share</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-7">
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="div_yield_value">
+										<div class="fl">Div Yield (%)</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="year_l_h_value">
+										<div class="fl">52wk L/H</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-7">
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="beta_value">
+										<div class="fl">BETA</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="roe_value">
+										<div class="fl">ROE(%)</div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-7">
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="revenue_value">
+										<div class="fl">Revenue<sup>*</sup></div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<div class="md_p" id="pat_value">
+										<div class="fl">PAT<sup>*</sup></div>
+										<div class="fr">NA</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-7">
+								<div class="col-xs-12 col-sm-12">
+									<div class="fv_indicators">* indicates recent qtr</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<div class="container-fluid" style="margin-top: 100px;">
 						<div class="col-xs-12">
 							<div class="subheader">
