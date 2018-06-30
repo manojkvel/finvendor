@@ -435,7 +435,7 @@ function getCompanyProfileResearchReportLoad() {
         $(".market_details #revenue_value .fr").html(response.companyProfileData.revenue + " <i class='fa " + revenueValue_caret + "'></i> ");
 
 
-        $(".market_details #face_value .fr").text(response.companyProfileData.mkt_cap);
+        $(".market_details #face_value .fr").text(response.companyProfileData.face_value);
         $(".market_details #eps_value .fr").text(response.companyProfileData.pe);
         $(".market_details #bv_value .fr").text(response.companyProfileData.pb);
         $(".market_details #year_l_h_value .fr").text(response.companyProfileData._52w_low + " / " + response.companyProfileData._52w_high);
@@ -585,7 +585,7 @@ function setPriceAlert() {
     var alertJsonObj = {
         "companyId": companyProfileObj.companyId,
         "companyName": companyProfileObj.companyName,
-        "cmpWhenPriceAlertSet": "278",
+        "cmpWhenPriceAlertSet": companyProfileObj.cmp,
         "dayMinPrice": dayMinPrice,
         "dayMaxPrice": dayMaxPrice,
         "weekMinPrice": weekMinPrice,

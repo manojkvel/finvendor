@@ -92,7 +92,7 @@
 							<div class="col-xs-12 col-sm-7">
 								<div class="col-xs-12 col-sm-6">
 									<div class="md_p" id="mkt_cap_value">
-										<div class="fl">MKT CAP</div>
+										<div class="fl">MKT CAP (cr)</div>
 										<div class="fr">NA</div>
 									</div>
 								</div>
@@ -106,7 +106,7 @@
 							<div class="col-xs-12 col-sm-7">
 								<div class="col-xs-12 col-sm-6">
 									<div class="md_p" id="pe_value">
-										<div class="fl">P/E (x)</div>
+										<div class="fl">P/E (ttm)</div>
 										<div class="fr">NA</div>
 									</div>
 								</div>
@@ -120,7 +120,7 @@
 							<div class="col-xs-12 col-sm-7">
 								<div class="col-xs-12 col-sm-6">
 									<div class="md_p" id="pb_value">
-										<div class="fl">P/B (x)</div>
+										<div class="fl">P/B</div>
 										<div class="fr">NA</div>
 									</div>
 								</div>
@@ -162,13 +162,13 @@
 							<div class="col-xs-12 col-sm-7">
 								<div class="col-xs-12 col-sm-6">
 									<div class="md_p" id="revenue_value">
-										<div class="fl">Revenue<sup>*</sup></div>
+										<div class="fl">Revenue (cr)<sup>*</sup></div>
 										<div class="fr">NA</div>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-6">
 									<div class="md_p" id="pat_value">
-										<div class="fl">PAT<sup>*</sup></div>
+										<div class="fl">PAT (cr)<sup>*</sup></div>
 										<div class="fr">NA</div>
 									</div>
 								</div>
@@ -181,7 +181,7 @@
 						</div>
 					</div>
 
-					<div class="container-fluid" style="margin-top: 100px;">
+					<div class="container-fluid">
 						<div class="col-xs-12">
 							<div class="subheader">
 								<nav>
