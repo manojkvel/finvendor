@@ -20,8 +20,8 @@ import com.finvendor.serverwebapi.resources.WebUriConstants;
  */
 @RequestMapping(WebUriConstants.BASE_URI)
 public interface IWebConsumerPriceAlert {
-	
-	//Create
+
+	// Create
 	/**
 	 * 
 	 * @param companyPriceAlertPojo
@@ -30,9 +30,10 @@ public interface IWebConsumerPriceAlert {
 	 */
 	@RequestMapping(value = "/companypricealert/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> addCompanyPriceAlert(HttpServletRequest request, ConsumerPriceAlertDTO companyPriceAlertPojo) throws WebApiException;
-	
-	//Update
+	ResponseEntity<?> addCompanyPriceAlert(HttpServletRequest request, ConsumerPriceAlertDTO companyPriceAlertPojo)
+			throws WebApiException;
+
+	// Update
 	/**
 	 * 
 	 * @param companyPriceAlertPojo
@@ -41,9 +42,10 @@ public interface IWebConsumerPriceAlert {
 	 */
 	@RequestMapping(value = "/companypricealert/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> updateCompanyPriceAlert(ConsumerPriceAlertDTO companyPriceAlertPojo) throws WebApiException;
-	
-	//Delete
+	ResponseEntity<?> updateCompanyPriceAlert(HttpServletRequest request, ConsumerPriceAlertDTO companyPriceAlertPojo)
+			throws WebApiException;
+
+	// Delete
 	/**
 	 * 
 	 * @param pojoList
@@ -52,9 +54,10 @@ public interface IWebConsumerPriceAlert {
 	 */
 	@RequestMapping(value = "/companypricealert/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> deleteCompanyPriceAlert(List<ConsumerPriceAlertDTO> pojoList) throws WebApiException;
-	
-	//Find
+	ResponseEntity<?> deleteCompanyPriceAlert(HttpServletRequest request, List<ConsumerPriceAlertDTO> pojoList)
+			throws WebApiException;
+
+	// Find
 	/**
 	 * 
 	 * @param request
@@ -65,8 +68,8 @@ public interface IWebConsumerPriceAlert {
 	@RequestMapping(value = "/companypricealert", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	ResponseEntity<?> findCompanyPriceAlert(HttpServletRequest request, String companyId) throws WebApiException;
-	
-	//Find All
+
+	// Find All
 	/**
 	 * 
 	 * @param request

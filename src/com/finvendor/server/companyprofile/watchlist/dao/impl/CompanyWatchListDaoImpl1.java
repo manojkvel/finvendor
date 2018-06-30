@@ -40,6 +40,7 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 			paramMap.put("companyId", Integer.parseInt(companyWatchListPojo.getCompanyId()));
 			org.hibernate.Query query = getEntityByNamedQuery(CompanyWatchList.COMPANY_ID__AND_USER_NAME_NAMED_QUERY,
 					paramMap);
+			
 			List<CompanyWatchList> companyWatchListEntityList = query.list();
 
 			if (companyWatchListEntityList.size() == 0) {

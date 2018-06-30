@@ -63,10 +63,16 @@ public class WebConsumerPriceAlertImpl implements IWebConsumerPriceAlert {
 
 	// Update
 	@Override
-	public ResponseEntity<?> updateCompanyPriceAlert(@RequestBody ConsumerPriceAlertDTO companyPriceAlertPojo)
-			throws WebApiException {
+	public ResponseEntity<?> updateCompanyPriceAlert(HttpServletRequest request,
+			@RequestBody ConsumerPriceAlertDTO companyPriceAlertPojo) throws WebApiException {
 		LogUtil.logInfo("IWebCompanyPriceAlert -> updateCompanyPriceAlert - START");
 		try {
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			if (loggedInUser == null) {
+				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
+			}
+			String userName = loggedInUser.getUsername();
+			companyPriceAlertPojo.setUserName(userName);
 			boolean updatePriceAlertStatus = consumerPriceAlertService.updateConsumerPriceAlert(companyPriceAlertPojo);
 			if (updatePriceAlertStatus) {
 				return new ResponseEntity<StatusPojo>(
@@ -84,10 +90,18 @@ public class WebConsumerPriceAlertImpl implements IWebConsumerPriceAlert {
 
 	// Delete
 	@Override
-	public ResponseEntity<?> deleteCompanyPriceAlert(@RequestBody List<ConsumerPriceAlertDTO> pojoList)
-			throws WebApiException {
+	public ResponseEntity<?> deleteCompanyPriceAlert(HttpServletRequest request,
+			@RequestBody List<ConsumerPriceAlertDTO> pojoList) throws WebApiException {
 		LogUtil.logInfo("IWebCompanyPriceAlert -> deleteCompanyPriceAlert - START");
 		try {
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			if (loggedInUser == null) {
+				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
+			}
+			String userName = loggedInUser.getUsername();
+			for (ConsumerPriceAlertDTO dto : pojoList) {
+				dto.setUserName(userName);
+			}
 			boolean deletePriceAlertStatus = consumerPriceAlertService.deleteConsumerPriceAlerts(pojoList);
 			if (deletePriceAlertStatus) {
 				return new ResponseEntity<StatusPojo>(
