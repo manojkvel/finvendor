@@ -4,6 +4,7 @@
 bin/
 .settings/
 WebContent/WEB-INF/jdbc.properties
+WebContent/WEB-INF/.gitignore
 WebContent/WEB-INF/finvendor.properties
 /bin/
 /bin/

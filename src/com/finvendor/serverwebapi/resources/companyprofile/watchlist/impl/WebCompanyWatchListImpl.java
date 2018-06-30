@@ -34,7 +34,8 @@ public class WebCompanyWatchListImpl implements IWebCompanyWatchList {
 	ICompanyWatchListService service;
 
 	@Override
-	public ResponseEntity<?> addCompanyWatchList(HttpServletRequest request, @RequestBody CompanyWatchListPojo companyWatchListPojo) throws WebApiException {
+	public ResponseEntity<?> addCompanyWatchList(HttpServletRequest request,
+			@RequestBody CompanyWatchListPojo companyWatchListPojo) throws WebApiException {
 		try {
 			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
 			if (loggedInUser == null) {
@@ -57,13 +58,22 @@ public class WebCompanyWatchListImpl implements IWebCompanyWatchList {
 	}
 
 	@Override
-	public ResponseEntity<?> deleteCompanyWatchlist(@RequestBody List<CompanyWatchListPojo> companyWatchListPojoList) throws WebApiException {
-		
+	public ResponseEntity<?> deleteCompanyWatchlist(HttpServletRequest request,
+			@RequestBody List<CompanyWatchListPojo> companyWatchListPojoList) throws WebApiException {
+
 		try {
+			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			if (loggedInUser == null) {
+				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
+			}
+			String userName = loggedInUser.getUsername();
+			for (CompanyWatchListPojo pojo : companyWatchListPojoList) {
+				pojo.setUserName(userName);
+			}
 			boolean deleteStatus = service.deleteCompnayWatchList(companyWatchListPojoList);
 			if (deleteStatus) {
-				return new ResponseEntity<StatusPojo>(new StatusPojo("true", "All company watchlist deleted successfully"),
-						HttpStatus.OK);
+				return new ResponseEntity<StatusPojo>(
+						new StatusPojo("true", "All company watchlist deleted successfully"), HttpStatus.OK);
 			} else {
 				return new ResponseEntity<StatusPojo>(new StatusPojo("false", "Unable to delete company watchlist"),
 						HttpStatus.INTERNAL_SERVER_ERROR);

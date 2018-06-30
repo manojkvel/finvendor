@@ -2,6 +2,7 @@ package com.finvendor.server.companyprofile.watchlist.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,12 +30,19 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 	@Autowired
 	private ICommonDao commonDao;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean addCompanyWatchList(CompanyWatchListPojo companyWatchListPojo) throws RuntimeException {
 		boolean addStatus;
 		try {
-			CompanyWatchList findById = findById(Integer.parseInt(companyWatchListPojo.getCompanyId()));
-			if (findById == null) {
+			Map<Object, Object> paramMap = new HashMap<>();
+			paramMap.put("username", companyWatchListPojo.getUserName());
+			paramMap.put("companyId", Integer.parseInt(companyWatchListPojo.getCompanyId()));
+			org.hibernate.Query query = getEntityByNamedQuery(CompanyWatchList.COMPANY_ID__AND_USER_NAME_NAMED_QUERY,
+					paramMap);
+			List<CompanyWatchList> companyWatchListEntityList = query.list();
+
+			if (companyWatchListEntityList.size() == 0) {
 				CompanyWatchList companyWatchListEntity = new CompanyWatchList();
 				companyWatchListEntity.setCompany_id(Integer.parseInt(companyWatchListPojo.getCompanyId()));
 				companyWatchListEntity.setCompany_name(companyWatchListPojo.getCompanyName());
@@ -52,13 +60,18 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 		return addStatus;
 	}
 
+	private org.hibernate.Query getEntityByNamedQuery(String namedQuery, Map<Object, Object> paramMap) {
+		org.hibernate.Query query = commonDao.getNamedQuery(namedQuery, paramMap);
+		return query;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CompanyWatchListPojo> findAllCompanyWatchList(Map<Object, Object> paramMap) throws RuntimeException {
 		List<CompanyWatchList> companyWatchListList = null;
 		List<CompanyWatchListPojo> companyWatchListPojoList = null;
 		try {
-			org.hibernate.Query query = commonDao.getNamedQuery(CompanyWatchList.COMPANY_WATCHLIST_BY_USER_NQ,
+			org.hibernate.Query query = commonDao.getNamedQuery(CompanyWatchList.COMPANY_WATCHLIST_BY_USER_NAMED_QUERY,
 					paramMap);
 			companyWatchListList = query.list();
 			companyWatchListPojoList = new ArrayList<>();
@@ -107,14 +120,24 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 		return companyWatchListPojoList;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean deleteCompanyWatchList(List<CompanyWatchListPojo> pojoList) throws RuntimeException {
 		boolean deleteStatus = true;
 		try {
+			Map<Object, Object> paramMap = new HashMap<>();
 			for (CompanyWatchListPojo pojo : pojoList) {
-				String companyId = pojo.getCompanyId();
-				CompanyWatchList companyWatchListEntity = findById(Integer.parseInt(companyId));
-				delete(companyWatchListEntity);
+				paramMap.put("username", pojo.getUserName());
+				paramMap.put("companyId", Integer.parseInt(pojo.getCompanyId()));
+				org.hibernate.Query query = getEntityByNamedQuery(
+						CompanyWatchList.COMPANY_ID__AND_USER_NAME_NAMED_QUERY, paramMap);
+				List<CompanyWatchList> companyWatchListEntityList = query.list();
+				if (companyWatchListEntityList != null && companyWatchListEntityList.size() == 1) {
+					delete(companyWatchListEntityList.get(0));
+					paramMap.clear();
+				} else {
+					throw new Exception("Unable to delete company wath list!!");
+				}
 			}
 		} catch (Exception e) {
 			deleteStatus = false;

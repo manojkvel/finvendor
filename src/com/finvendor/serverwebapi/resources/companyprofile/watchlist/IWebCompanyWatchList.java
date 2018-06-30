@@ -29,7 +29,8 @@ public interface IWebCompanyWatchList {
 	 */
 	@RequestMapping(value = "/companywatchlist/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> addCompanyWatchList(HttpServletRequest request, CompanyWatchListPojo companyWatchListPojo) throws WebApiException;
+	ResponseEntity<?> addCompanyWatchList(HttpServletRequest request, CompanyWatchListPojo companyWatchListPojo)
+			throws WebApiException;
 
 	/**
 	 * 
@@ -39,7 +40,8 @@ public interface IWebCompanyWatchList {
 	 */
 	@RequestMapping(value = "/companywatchlist/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> deleteCompanyWatchlist(List<CompanyWatchListPojo> companyWatchListPojoList) throws WebApiException;
+	ResponseEntity<?> deleteCompanyWatchlist(HttpServletRequest request,
+			List<CompanyWatchListPojo> companyWatchListPojoList) throws WebApiException;
 
 	/**
 	 * 
