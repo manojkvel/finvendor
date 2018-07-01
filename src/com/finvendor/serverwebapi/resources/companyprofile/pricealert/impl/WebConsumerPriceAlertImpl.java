@@ -129,7 +129,7 @@ public class WebConsumerPriceAlertImpl implements IWebConsumerPriceAlert {
 			}
 			String userName = loggedInUser.getUsername();
 			ConsumerPriceAlertDTO pojo = consumerPriceAlertService.findConsumerPriceAlert(companyId, userName);
-			return new ResponseEntity<ConsumerPriceAlertDTO>(pojo, HttpStatus.CREATED);
+			return new ResponseEntity<ConsumerPriceAlertDTO>(pojo, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("IWebCompanyPriceAlert -> findCompanyPriceAlert(...) method", e);
 			return ErrorUtil.getError(FIND_COMPANY_PRICE_ALERT.getCode(), FIND_COMPANY_PRICE_ALERT.getUserMessage(), e);

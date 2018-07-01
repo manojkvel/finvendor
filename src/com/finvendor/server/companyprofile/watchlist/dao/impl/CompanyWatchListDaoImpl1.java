@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.finvendor.model.CompanyWatchList;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyWatchListPojo;
-import com.finvendor.server.common.commondao.GenericDao;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.common.commondao.IStockCurrentPriceDao;
 import com.finvendor.server.companyprofile.watchlist.dao.ICompanyWatchListDao1;
@@ -22,7 +21,8 @@ import com.finvendor.server.companyprofile.watchlist.dao.ICompanyWatchListDao1;
  * @author ayush on May 01, 2018
  */
 @Repository
-public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> implements ICompanyWatchListDao1 {
+public class CompanyWatchListDaoImpl1 extends com.finvendor.server.common.commondao.GenericDao<CompanyWatchList>
+		implements ICompanyWatchListDao1 {
 
 	@Autowired
 	private IStockCurrentPriceDao stockCurrentPriceDao;
@@ -40,7 +40,7 @@ public class CompanyWatchListDaoImpl1 extends GenericDao<CompanyWatchList> imple
 			paramMap.put("companyId", Integer.parseInt(companyWatchListPojo.getCompanyId()));
 			org.hibernate.Query query = getEntityByNamedQuery(CompanyWatchList.COMPANY_ID__AND_USER_NAME_NAMED_QUERY,
 					paramMap);
-			
+
 			List<CompanyWatchList> companyWatchListEntityList = query.list();
 
 			if (companyWatchListEntityList.size() == 0) {
