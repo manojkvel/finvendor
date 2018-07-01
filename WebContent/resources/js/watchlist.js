@@ -306,7 +306,7 @@ function addToMarketWatchlist() {
     }, function(error) {
         isProgressLoader(false);
         $("#addToWatchlist .alert").addClass('alert-danger');
-        $("#addToWatchlist .alert span").text(JSON.parse(error).userMessage
+        $("#addToWatchlist .alert span").text(JSON.parse(error).message
 	);
 
     });
