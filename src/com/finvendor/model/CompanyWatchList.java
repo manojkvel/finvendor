@@ -2,6 +2,7 @@ package com.finvendor.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -11,26 +12,32 @@ import javax.persistence.Table;
  * @author ayush on 28-apr-2018
  */
 @Entity
-@Table(name="company_watchlist")
+@Table(name = "company_watchlist")
 @NamedQueries({
-	@NamedQuery(name = CompanyWatchList.COMPANY_WATCHLIST_BY_USER_NQ, query = "from com.finvendor.model.CompanyWatchList where user_name like:username") })
+		@NamedQuery(name = CompanyWatchList.COMPANY_WATCHLIST_BY_USER_NAMED_QUERY, query = "from com.finvendor.model.CompanyWatchList where user_name like:username"),
+		@NamedQuery(name = CompanyWatchList.COMPANY_ID__AND_USER_NAME_NAMED_QUERY, query = "from com.finvendor.model.CompanyWatchList where company_id like:companyId and user_name like:username") })
 public class CompanyWatchList {
-	public static final String COMPANY_WATCHLIST_BY_USER_NQ = "companyWatchListByUser";
+	public static final String COMPANY_WATCHLIST_BY_USER_NAMED_QUERY = "companyWatchListByUser";
+	public static final String COMPANY_ID__AND_USER_NAME_NAMED_QUERY = "companyWatchListByCompanyIdAndUserName";
 	@Id
-    @Column(name="company_id")
-    private Integer company_id;
-	
-    @Column(name="company_name")
-    private String company_name;
-    
-    @Column(name="user_name")
-    private String user_name;
-    
-    @Column(name="close_price")
-    private String close_price;
-    
-    @Column(name="curr_date")
-    private String curr_date;
+	@GeneratedValue
+	@Column(name = "id")
+	private Integer id;
+
+	@Column(name = "company_id")
+	private Integer company_id;
+
+	@Column(name = "company_name")
+	private String company_name;
+
+	@Column(name = "user_name")
+	private String user_name;
+
+	@Column(name = "close_price")
+	private String close_price;
+
+	@Column(name = "curr_date")
+	private String curr_date;
 
 	public Integer getCompany_id() {
 		return company_id;
@@ -72,4 +79,11 @@ public class CompanyWatchList {
 		this.curr_date = curr_date;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 }

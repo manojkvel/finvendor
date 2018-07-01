@@ -2,6 +2,7 @@ package com.finvendor.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -10,11 +11,17 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "company_price_alert")
 @NamedQueries({
-		@NamedQuery(name = CompanyPriceAlert.COMPANY_PRICEALERT_BY_USER_NQ, query = "from com.finvendor.model.CompanyPriceAlert where user_name like:username") })
+		@NamedQuery(name = CompanyPriceAlert.COMPANY_PRICEALERT_BY_USER_NQ, query = "from com.finvendor.model.CompanyPriceAlert where user_name like:username"),
+		@NamedQuery(name = CompanyPriceAlert.COMPANY_PRICE_ALERT_BY_COMPANY_ID_AND_USER_NAME_NAMED_QUERY, query = "from com.finvendor.model.CompanyPriceAlert where user_name like:username and company_id like:companyId") })
 
 public class CompanyPriceAlert {
 	public static final String COMPANY_PRICEALERT_BY_USER_NQ = "companyPriceAlertByUser";
+	public static final String COMPANY_PRICE_ALERT_BY_COMPANY_ID_AND_USER_NAME_NAMED_QUERY = "companyPriceAlertByUserAndCompanyId";
 	@Id
+	@GeneratedValue
+	@Column(name = "id")
+	private Integer id;
+
 	@Column(name = "company_id")
 	private Integer company_id;
 
@@ -167,5 +174,13 @@ public class CompanyPriceAlert {
 
 	public void setCurr_date(String curr_date) {
 		this.curr_date = curr_date;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }

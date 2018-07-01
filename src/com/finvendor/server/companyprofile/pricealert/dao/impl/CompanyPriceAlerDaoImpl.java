@@ -2,6 +2,7 @@ package com.finvendor.server.companyprofile.pricealert.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.finvendor.model.CompanyPriceAlert;
+import com.finvendor.model.CompanyWatchList;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
 import com.finvendor.server.common.commondao.GenericDao;
 import com.finvendor.server.common.commondao.ICommonDao;
@@ -25,12 +27,20 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 	@Autowired
 	private ICommonDao commonDao;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean addConsumerPriceAlert(ConsumerPriceAlertDTO priceAlertPojo) throws RuntimeException {
 		boolean addStatus;
 		try {
-			CompanyPriceAlert findById = findById(Integer.parseInt(priceAlertPojo.getCompanyId()));
-			if (findById == null) {
+			Map<Object, Object> paramMap = new HashMap<>();
+			paramMap.put("username", priceAlertPojo.getUserName());
+			paramMap.put("companyId", Integer.parseInt(priceAlertPojo.getCompanyId()));
+
+			org.hibernate.Query query = commonDao.getNamedQuery(
+					CompanyPriceAlert.COMPANY_PRICE_ALERT_BY_COMPANY_ID_AND_USER_NAME_NAMED_QUERY, paramMap);
+			List<CompanyWatchList> companyPriceAlertEntityList = query.list();
+
+			if (companyPriceAlertEntityList.size() == 0) {
 				CompanyPriceAlert companyPriceAlertEntity = new CompanyPriceAlert();
 				companyPriceAlertEntity.setCompany_id(Integer.parseInt(priceAlertPojo.getCompanyId()));
 				companyPriceAlertEntity.setCompany_name(priceAlertPojo.getCompanyName());
@@ -69,25 +79,22 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean updateConsumerPriceAlert(ConsumerPriceAlertDTO companyPriceAlertPojo) throws RuntimeException {
 		try {
-			CompanyPriceAlert entity = findById(Integer.parseInt(companyPriceAlertPojo.getCompanyId()));
+			Map<Object, Object> paramMap = new HashMap<>();
+			paramMap.put("username", companyPriceAlertPojo.getUserName());
+			paramMap.put("companyId", Integer.parseInt(companyPriceAlertPojo.getCompanyId()));
 
-			if (entity == null) {
+			org.hibernate.Query query = commonDao.getNamedQuery(
+					CompanyPriceAlert.COMPANY_PRICE_ALERT_BY_COMPANY_ID_AND_USER_NAME_NAMED_QUERY, paramMap);
+			List<CompanyPriceAlert> companyPriceAlertEntityList = query.list();
+
+			if (companyPriceAlertEntityList == null || companyPriceAlertEntityList.size() == 0) {
 				return false;
 			}
-			if (companyPriceAlertPojo.getCompanyName() != null) {
-				entity.setCompany_name(companyPriceAlertPojo.getCompanyName());
-			}
-
-			if (companyPriceAlertPojo.getUserName() != null) {
-				entity.setUser_name(companyPriceAlertPojo.getUserName());
-			}
-
-			if (companyPriceAlertPojo.getCmpWhenPriceAlertSet() != null) {
-				entity.setCmp_when_price_alert_set(companyPriceAlertPojo.getCmpWhenPriceAlertSet());
-			}
+			CompanyPriceAlert entity = companyPriceAlertEntityList.get(0);
 
 			if (companyPriceAlertPojo.getDayMinPrice() != null) {
 				entity.setDay_min_price(companyPriceAlertPojo.getDayMinPrice());
@@ -133,14 +140,25 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean deleteConsumerPriceAlerts(List<ConsumerPriceAlertDTO> pojoList) throws RuntimeException {
 		boolean deleteStatus = true;
 		try {
+			Map<Object, Object> paramMap = new HashMap<>();
+
 			for (ConsumerPriceAlertDTO pojo : pojoList) {
-				String companyId = pojo.getCompanyId();
-				CompanyPriceAlert companyPriceAlertEntity = findById(Integer.parseInt(companyId));
-				delete(companyPriceAlertEntity);
+				paramMap.put("username", pojo.getUserName());
+				paramMap.put("companyId", Integer.parseInt(pojo.getCompanyId()));
+				org.hibernate.Query query = commonDao.getNamedQuery(
+						CompanyPriceAlert.COMPANY_PRICE_ALERT_BY_COMPANY_ID_AND_USER_NAME_NAMED_QUERY, paramMap);
+				List<CompanyPriceAlert> companyPriceAlertEntityList = query.list();
+				if (companyPriceAlertEntityList != null && companyPriceAlertEntityList.size() == 1) {
+					delete(companyPriceAlertEntityList.get(0));
+					paramMap.clear();
+				} else {
+					throw new Exception("Unable to delete company price alert !!");
+				}
 			}
 		} catch (Exception e) {
 			deleteStatus = false;
@@ -161,26 +179,26 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 			pojo.setCurrDate(null);
 		}
 		for (Object[] row : rows) {
-			String companyId = row[0] != null ? row[0].toString().trim() : "";
-			String companyName = row[1] != null ? row[1].toString().trim() : "";
-			String userName = row[2] != null ? row[2].toString().trim() : "";
+			String companyId = row[1] != null ? row[1].toString().trim() : "";
+			String companyName = row[2] != null ? row[2].toString().trim() : "";
+			String userName = row[3] != null ? row[3].toString().trim() : "";
 
-			String cmpWhenPriceAlertWasSet = row[3] != null ? row[3].toString().trim() : "";
+			String cmpWhenPriceAlertWasSet = row[4] != null ? row[4].toString().trim() : "";
 
-			String dayMinPrice = row[4] != null ? row[4].toString().trim() : "";
-			String dayMaxPrice = row[5] != null ? row[5].toString().trim() : "";
+			String dayMinPrice = row[5] != null ? row[5].toString().trim() : "";
+			String dayMaxPrice = row[6] != null ? row[6].toString().trim() : "";
 
-			String weekMinPrice = row[6] != null ? row[6].toString().trim() : "";
-			String weekMaxPrice = row[7] != null ? row[7].toString().trim() : "";
+			String weekMinPrice = row[7] != null ? row[7].toString().trim() : "";
+			String weekMaxPrice = row[8] != null ? row[8].toString().trim() : "";
 
-			String monthMinPrice = row[8] != null ? row[8].toString().trim() : "";
-			String monthMaxPrice = row[9] != null ? row[9].toString().trim() : "";
+			String monthMinPrice = row[9] != null ? row[9].toString().trim() : "";
+			String monthMaxPrice = row[10] != null ? row[10].toString().trim() : "";
 
-			String isResearchReport = row[10] != null ? row[10].toString().trim() : "";
-			String noTimeFrameMinPrice = row[11] != null ? row[11].toString().trim() : "";
-			String noTimeFrameMaxPrice = row[12] != null ? row[12].toString().trim() : "";
+			String isResearchReport = row[11] != null ? row[11].toString().trim() : "";
+			String noTimeFrameMinPrice = row[12] != null ? row[12].toString().trim() : "";
+			String noTimeFrameMaxPrice = row[13] != null ? row[13].toString().trim() : "";
 
-			String currDate = row[13] != null ? row[13].toString().trim() : "";
+			String currDate = row[14] != null ? row[14].toString().trim() : "";
 
 			pojo.setCompanyId(companyId);
 			pojo.setCompanyName(companyName);
@@ -202,7 +220,8 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ConsumerPriceAlertDTO> findAllConsumerPriceAlerts(Map<Object, Object> paramMap) throws RuntimeException {
+	public List<ConsumerPriceAlertDTO> findAllConsumerPriceAlerts(Map<Object, Object> paramMap)
+			throws RuntimeException {
 		try {
 			org.hibernate.Query query = commonDao.getNamedQuery(CompanyPriceAlert.COMPANY_PRICEALERT_BY_USER_NQ,
 					paramMap);
@@ -250,7 +269,7 @@ public class CompanyPriceAlerDaoImpl extends GenericDao<CompanyPriceAlert> imple
 			for (Object[] row : rows) {
 				// String companyId = row[0] != null ? row[0].toString().trim() : "";
 				String isResearchPrice = row[1] != null ? row[1].toString().trim() : "";
-				if (isResearchPrice.equals("true")) {
+				if ("true".equals(isResearchPrice)) {
 					return true;
 				}
 			}
