@@ -158,7 +158,7 @@ public class WebStockCurrentPriceUpdateImpl implements IWebStockCurrentPriceUpda
 				try {
 					doc = connection.get();
 					NSE_URL_HIT_STATUS = true;
-					if (NSE_URL_HIT_STATUS) {
+					if (NSE_URL_HIT_STATUS && doc.toString().contains("Close Price")) {
 						LogUtil.logInfo("** Hit success Nse url=" + NSE_PRICE_URI);
 						return doc;
 					} else {

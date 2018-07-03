@@ -80,16 +80,29 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 				String absoluteLastChangedCmp = String.valueOf(cmpAsFloat - ltpAsFloat);
 				String lastChangedCmpInPercentage = String.valueOf((cmpAsFloat - ltpAsFloat) * 100 / cmpAsFloat);
 
-				String pe = row[6] != null ? row[6].toString().trim() : "";
-				String pb = row[7] != null ? row[7].toString().trim() : "";
+				// cmp/epsttm if eps is 0 then N/A
+				// String pe = row[6] != null ? row[6].toString().trim() : "";
+
+				// cmp/bv_share if bv_share is 0 then na
+				// String pb = row[7] != null ? row[7].toString().trim() : "";
+
 				String dividen_yield = row[8] != null ? row[8].toString().trim() : "";
+
+				// static and it will updated quaterly
 				String eps_ttm = row[9] != null ? row[9].toString().trim() : "";
+				float eps_ttm_as_float = Float.parseFloat(eps_ttm);
+
+				// temp and we will get from vendor feed
 				String _52w_high = row[10] != null ? row[10].toString().trim() : "";
+				// temp and we will get from vendor feed
 				String _52w_low = row[11] != null ? row[11].toString().trim() : "";
+
+				// static and it will updated quaterly
 				String beta = row[12] != null ? row[12].toString().trim() : "";
 				// String as_of_date = row[13] != null ? row[13].toString().trim() : "";
 
-				String share_outstanding = row[14] != null ? row[14].toString().trim() : "";
+				// static and it will updated quaterly
+				String share_outstanding = row[14] != null ? row[14].toString().trim() : "";// static
 				float shareOutStandingAsFloat = Float.parseFloat(share_outstanding);
 
 				// market cap needs to be calculated daily using below formula:
@@ -97,17 +110,49 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 				String mkt_cap = String.valueOf(shareOutStandingAsFloat * cmpAsFloat);// row[15] != null ?
 																						// row[15].toString().trim() :
 																						// "";
-				String revenue = row[16] != null ? row[16].toString().trim() : "";
-				String face_value = row[17] != null ? row[17].toString().trim() : "";
-				String bv_share = row[18] != null ? row[18].toString().trim() : "";
-				String roe = row[19] != null ? row[19].toString().trim() : "";
-				String pat = row[19] != null ? row[20].toString().trim() : "";
+
+				// static and it will updated quaterly
+				String revenue = row[16] != null ? row[16].toString().trim() : "";// static
+
+				// static and it will updated quaterly
+				String face_value = row[17] != null ? row[17].toString().trim() : "";// static
+
+				// static and it will updated quaterly
+				String bv_share = row[18] != null ? row[18].toString().trim() : "";// static
+				float bv_share_as_float = Float.parseFloat(bv_share);
+
+				// static and it will updated quaterly
+				String roe = row[19] != null ? row[19].toString().trim() : "";// static update qtrly
+
+				// static and it will updated quaterly
+				String pat = row[19] != null ? row[20].toString().trim() : "";// static
 				String recent_qtr = row[19] != null ? row[21].toString().trim() : "";
+
+				// PE calculation PE=cmp/eps-ttm
+				String newPeStr = "";
+				float newPe = 0.0f;
+				if (eps_ttm_as_float == 0.0f) {
+					newPeStr = "N/A";
+				} else {
+					newPe = cmpAsFloat / eps_ttm_as_float;
+					newPeStr = String.valueOf(newPe);
+				}
+
+				// PB Calculation PB=cmp/bv_share
+				String newPBStr = "";
+				float newPB = 0.0f;
+				if (bv_share_as_float == 0.0f) {
+					newPBStr = "N/A";
+				} else {
+					newPB = cmpAsFloat / bv_share_as_float;
+					newPBStr = String.valueOf(newPB);
+				}
 
 				paramsMap.put("companyProfileData",
 						new CompanyProfileData(companyId, companyName, industry, mcap, cmp, absoluteLastChangedCmp,
-								lastChangedCmpInPercentage, pe, pb, dividen_yield, eps_ttm, _52w_high, _52w_low, beta,
-								share_outstanding, mkt_cap, revenue, face_value, bv_share, roe, pat, recent_qtr));
+								lastChangedCmpInPercentage, newPeStr, newPBStr, dividen_yield, eps_ttm, _52w_high,
+								_52w_low, beta, share_outstanding, mkt_cap, revenue, face_value, bv_share, roe, pat,
+								recent_qtr));
 
 			}
 			paramsMap.put("summary", "To be available soon!!");

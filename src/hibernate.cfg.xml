@@ -73,6 +73,7 @@
         <mapping class="com.finvendor.model.StockHistoricalPrice"></mapping>
         <mapping class="com.finvendor.model.CompMarketCapType"></mapping>
         <mapping class="com.finvendor.model.StockCurrentPrice"></mapping>
+        <mapping class="com.finvendor.model.Metrics"></mapping>
         
       </session-factory>
 	 
