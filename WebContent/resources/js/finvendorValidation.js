@@ -234,7 +234,7 @@ $(document).ready(function(){
 	$('#userRegisterSpan select[name="companytype"]').change(function() {
 		var selectedCompanyType =$(this).val(); 
 		selectedCompanyType = selectedCompanyType + "";
-		if (selectedCompanyType.substr(0, 14) == 'Financial Firm' || 
+		/*if (selectedCompanyType.substr(0, 14) == 'Financial Firm' || 
 				selectedCompanyType.substr(0, 10) == 'University') {
 			$('#register_vendor_area_of_interest').show();
 			$("#register_vendor_area_of_interest option:selected").removeAttr("selected");
@@ -242,14 +242,14 @@ $(document).ready(function(){
 		}else{
 			$('#register_vendor_area_of_interest').hide();
 			$('#sigup-tags-mandatory-check').hide();
-		}
+		}*/
 		vendorSelected = false;
 		consumerSelected = false;
 		$('#signup-companytype :selected').each(function(i, selectedElement) {
 			companyType = $(selectedElement).val();
 			companyType = companyType + "";
-			if (companyType.substr(0, 14) == 'Financial Firm' || 
-					companyType.substr(0, 10) == 'University'){
+			if (companyType.substr(0, 14) == 'Individual Investor' || 
+					companyType.substr(0, 10) == 'University/Phd Student'){
 				consumerSelected = true;
 			}else{
 				vendorSelected = true;

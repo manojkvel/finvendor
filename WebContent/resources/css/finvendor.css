@@ -78,6 +78,10 @@ body {
 	font-weight: bold;
 }
 
+#broker_table .company {
+	cursor: pointer;
+}
+
 .recommType {
 	border-radius: 20px;
 	color: #fff;

@@ -144,9 +144,9 @@ jQuery(document).ready(function() {
 				brokerRankSmallCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			}
 
-			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "'>" +
+			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "' data-code='" + response.equity[i].isinCode + "'>" +
 			"<td>" + 
-			"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'><a href='/view/company-profile.jsp?isinCode=" + response.equity[i].isinCode + "'>" + response.equity[i].company + "</a></div>" + 
+			"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'>" + response.equity[i].company + "</div>" + 
 			"<div class='style'>" + response.equity[i].style + "</div>" + 
 			"<div class='mcap'>" + response.equity[i].mcap + "</div>" + 
 			"<div class='sector'>" + response.equity[i].sector + "</div>" +
@@ -197,6 +197,7 @@ jQuery(document).ready(function() {
 		$("#fv_equity_research_report_vendor_search").append(paginationHtml);
 
 		$('[data-toggle="tooltip"]').tooltip();
+		$('#broker_table tbody tr td .company').on('click', getCompanyProfile);
 		$('#broker_table tbody tr td .report a').on('click', getReport);
 		$('#fv_equity_research_report_vendor_search .pager a').on('click', getPaginationIndex);
 
@@ -333,6 +334,15 @@ jQuery(document).ready(function() {
 		}, function(error) {
 
 		});
+	};
+
+	var getCompanyProfile = function(e) {
+		var isinCode = $(this).parents('tr').attr('data-code');
+		var companyProfileJson = {
+			isinCode : isinCode,
+		}
+		window.localStorage.setItem('companyProfileJson', JSON.stringify(companyProfileJson));
+		window.location.href = "/view/company-profile.jsp";
 	};
 
 	var getReport = function(e) {

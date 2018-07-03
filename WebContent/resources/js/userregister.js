@@ -334,7 +334,7 @@ function userRegisteration() {
 			return false;
 		}
 	});
-	vendorSelected = false;
+	/*vendorSelected = false;
 	if(consumerSelected) {
 		$('#sigup-tags :selected').each(function(i, selectedElement) {
 			vendorSelected = true;
@@ -344,7 +344,7 @@ function userRegisteration() {
 			$('#generic-error-message').html('Please select vendor area of interest');
 			return false;
 		}
-	}
+	}*/
 
 	if(termsAndCondition != null && termsAndCondition != '' && 
 			$('#accept-terms').prop('checked') && 
@@ -352,7 +352,8 @@ function userRegisteration() {
 		$('#loadingrg').show();
 		$.ajax({
 			type: 'POST',
-			url:  "registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype+"&NoR="+tags,
+			//url:  "registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype+"&NoR="+tags,
+			url:  "registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype,
 			cache: false,
 			success: function(output) {
 				$('#loadingrg').hide();
@@ -379,7 +380,7 @@ function updateUserRegisteration() {
 	var username = $("#userName").val().trim();
 	var email = $("#email").val().trim();
 	var companytype = $("#companyType").selectpicker('val');
-	var tags = $("#vendorAreaOfInterest").selectpicker('val');
+	//var tags = $("#vendorAreaOfInterest").selectpicker('val');
 
 	var userRole = $("#account_details .action_btn").attr("data");
 

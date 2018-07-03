@@ -134,8 +134,9 @@
 											<option value="Research Report" id="8" title='Financial Vendor - Research report Providers'>Financial Vendor - Research report Providers</option>
 											<option value="University/College" id="9" title='University/College'>University/College</option>-->
 											<option value="Individual Investor" id="1" title='Individual Investor' selected="selected">Individual Investor</option>
-											<option value="University/College" id="2" title='University/College'>University/College</option>
-											<option value="Research Broker / Freelancer" id="3" title='Vendor'>Research Broker / Freelancer</option>
+											<option value="Independent Research Analyst" id="2" title='Independent Research Analyst'>Independent Research Analyst</option>
+											<option value="Research Broker" id="3" title='Vendor'>Research Broker</option>
+											<option value="University/Phd Student" id="4" title='University/Phd Student'>University/Phd Student</option>
 										</select>
 									</li>
 									<li style="clear: both;text-align: center; width: 100%;">
@@ -148,12 +149,12 @@
 													governing the use of Finvendors.
 												</label>
 											</p>
-											<p style="clear: both;">
+											<!--<p style="clear: both;">
 												<input type="checkbox" id="newslettersAndAlerts" class="user-checkbox" name="newslettersAndAlerts" value="newslettersAndAlerts" /> 
 												<label for="newslettersAndAlerts" >
 													&nbsp;I wish to get regular newsletters & alerts
 												</label>
-											</p>											
+											</p>-->											
 										</div>
 									</li>
 									<li style="width:100%;">
