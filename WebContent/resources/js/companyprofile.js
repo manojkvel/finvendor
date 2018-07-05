@@ -436,8 +436,8 @@ function getCompanyProfileResearchReportLoad() {
 
 
         $(".market_details #face_value .fr").text(response.companyProfileData.face_value);
-        $(".market_details #eps_value .fr").text(response.companyProfileData.pe);
-        $(".market_details #bv_value .fr").text(response.companyProfileData.pb);
+        $(".market_details #eps_value .fr").text(response.companyProfileData.eps_ttm);
+        $(".market_details #bv_value .fr").text(response.companyProfileData.bv_share);
         $(".market_details #year_l_h_value .fr").text(response.companyProfileData._52w_low + " / " + response.companyProfileData._52w_high);
         $(".market_details #roe_value .fr").text(response.companyProfileData.roe);
 
