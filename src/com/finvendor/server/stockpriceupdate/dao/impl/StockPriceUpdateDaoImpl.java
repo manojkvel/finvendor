@@ -73,23 +73,23 @@ public class StockPriceUpdateDaoImpl implements IStockPriceUpdateDao {
 		Map<String, List<ConsumerPriceAlertDTO>> restultMap = new HashMap<>();
 
 		for (Object[] row : rows) {
-			String companyId = row[0] != null ? row[0].toString().trim() : "";
-			String companyName = row[1] != null ? row[1].toString().trim() : "";
-			String userName = row[2] != null ? row[2].toString().trim() : "";
-			String cmpWhenPriceAlertWasSet = row[3] != null ? row[3].toString().trim() : "";
-			String dayMinPrice = row[4] != null ? row[4].toString().trim() : "";
-			String dayMaxPrice = row[5] != null ? row[5].toString().trim() : "";
+			String companyId = row[1] != null ? row[1].toString().trim() : "";
+			String companyName = row[2] != null ? row[2].toString().trim() : "";
+			String userName = row[3] != null ? row[3].toString().trim() : "";
+			String cmpWhenPriceAlertWasSet = row[4] != null ? row[4].toString().trim() : "";
+			String dayMinPrice = row[5] != null ? row[5].toString().trim() : "";
+			String dayMaxPrice = row[6] != null ? row[6].toString().trim() : "";
 
-			String weekMinPrice = row[6] != null ? row[6].toString().trim() : "";
-			String weekMaxPrice = row[7] != null ? row[7].toString().trim() : "";
+			String weekMinPrice = row[7] != null ? row[7].toString().trim() : "";
+			String weekMaxPrice = row[8] != null ? row[8].toString().trim() : "";
 
-			String monthMinPrice = row[8] != null ? row[8].toString().trim() : "";
-			String monthMaxPrice = row[9] != null ? row[9].toString().trim() : "";
+			String monthMinPrice = row[9] != null ? row[9].toString().trim() : "";
+			String monthMaxPrice = row[10] != null ? row[10].toString().trim() : "";
 
-			String isResearchReport = row[10] != null ? row[10].toString().trim() : "";
-			String noTimeFrameMinPrice = row[11] != null ? row[11].toString().trim() : "";
-			String noTimeFrameMaxPrice = row[12] != null ? row[12].toString().trim() : "";
-			String currDate = row[13] != null ? row[13].toString().trim() : "";
+			String isResearchReport = row[11] != null ? row[11].toString().trim() : "";
+			String noTimeFrameMinPrice = row[12] != null ? row[12].toString().trim() : "";
+			String noTimeFrameMaxPrice = row[13] != null ? row[13].toString().trim() : "";
+			String currDate = row[14] != null ? row[14].toString().trim() : "";
 			ConsumerPriceAlertDTO dto = new ConsumerPriceAlertDTO();
 			dto.setCompanyId(companyId);
 			dto.setCompanyName(companyName);

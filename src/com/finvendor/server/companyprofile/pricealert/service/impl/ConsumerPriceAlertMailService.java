@@ -83,18 +83,24 @@ public class ConsumerPriceAlertMailService implements IConsumerPriceAlertMailSer
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				consumerMinMaxPrice = consumerMinMaxPrice(PriceDurationEnum.WEEKLY, consumerPriceAlertDto);
 				Float lastWeekClosePrice = getLastWeekClosePrice(companyId);
-				priceDiffInPercentage = (todaysClosePrice - lastWeekClosePrice) * 100 / lastWeekClosePrice;
-				String weekPriceChange = checkPriceChange(PriceDurationEnum.WEEKLY, consumerMinMaxPrice,
-						priceDiffInPercentage);
+				String weekPriceChange = "";
+				if (lastWeekClosePrice != null) {
+					priceDiffInPercentage = (todaysClosePrice - lastWeekClosePrice) * 100 / lastWeekClosePrice;
+					weekPriceChange = checkPriceChange(PriceDurationEnum.WEEKLY, consumerMinMaxPrice,
+							priceDiffInPercentage);
+				}
 
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				// Monthly Price hit checking
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				consumerMinMaxPrice = consumerMinMaxPrice(PriceDurationEnum.MONTHLY, consumerPriceAlertDto);
 				Float lastMonthClosePrice = getLastMonthClosePrice(companyId);
-				priceDiffInPercentage = (todaysClosePrice - lastMonthClosePrice) * 100 / lastMonthClosePrice;
-				String monthPriceChange = checkPriceChange(PriceDurationEnum.MONTHLY, consumerMinMaxPrice,
-						priceDiffInPercentage);
+				String monthPriceChange = "";
+				if (lastMonthClosePrice != null) {
+					priceDiffInPercentage = (todaysClosePrice - lastMonthClosePrice) * 100 / lastMonthClosePrice;
+					monthPriceChange = checkPriceChange(PriceDurationEnum.MONTHLY, consumerMinMaxPrice,
+							priceDiffInPercentage);
+				}
 
 				// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 				// No timeframe hit checking
