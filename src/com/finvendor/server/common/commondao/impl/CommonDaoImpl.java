@@ -54,4 +54,19 @@ public class CommonDaoImpl extends AbstractCommonDao {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public int insert(String sql, Map<Integer, Object> params) throws RuntimeException {
+		try {
+			SQLQuery insertQuery = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
+			for (Map.Entry<Integer, Object> entry : params.entrySet()) {
+				Integer index = entry.getKey();
+				Object value = entry.getValue();
+				insertQuery.setParameter(index, value);
+			}
+			return insertQuery.executeUpdate();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

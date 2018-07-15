@@ -17,6 +17,9 @@ public interface ICommonDao {
 
 	String runSql(String sql, Map<String, Map<String, String>> columnNameMap, Object[] conditionValue,
 			Map<String, Object> firstDefaultParamsMap, Map<String, Object> lastDefaultParamsMap, int colIndex)
-					throws RuntimeException;
-	org.hibernate.Query getNamedQuery(String namedQuery, Map<Object,Object> paramMap);
+			throws RuntimeException;
+
+	org.hibernate.Query getNamedQuery(String namedQuery, Map<Object, Object> paramMap);
+
+	int insert(String sql, Map<Integer, Object> params) throws RuntimeException;
 }

@@ -1,6 +1,5 @@
 package com.finvendor.server.companyprofile.companyprofile.dao.impl;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.companyprofile.companyprofile.dao.ICompanyProfileDao1;
@@ -35,7 +35,7 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 	public static final String companyDataQuery = "SELECT distinct(x.company_id), x.company_name, x.isin_code, x.ticker from rsch_sub_area_company_dtls x, country y where x.country_id=y.country_id  and x.country_id = %1$d and x.company_name like '%2$s' or x.isin_code like '%3$s' or x.ticker like '%4$s' order by x.company_name";
 
 	/** Company Profile Query */
-	public static final String companyProfileDataQuery = "SELECT distinct rsch_sub_area_company_dtls.company_id companyId,rsch_sub_area_company_dtls.company_name companyName, market_cap_def.market_cap_name mcap, research_sub_area.description sector,stock_current_prices.close_price cmp, stock_current_prices.last_trade_price ltp,stock_current_info.pe,stock_current_info.pb,stock_current_info.dividend_yield,stock_current_info.eps_ttm,stock_current_info.52w_high,stock_current_info.52w_low,stock_current_info.beta,stock_current_info.as_of_date,stock_current_info.shares_outstanding,stock_current_info.mkt_cap,stock_current_info.revenue,stock_current_info.face_value,stock_current_info.bv_share,stock_current_info.roe,stock_current_info.pat,stock_current_info.recent_qtr FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND research_sub_area.research_area_id = %1$d AND country.country_id = %2$d AND rsch_sub_area_company_dtls.isin_code = '%3$s'";
+	public static final String companyProfileDataQuery = "SELECT distinct rsch_sub_area_company_dtls.company_id companyId,rsch_sub_area_company_dtls.company_name companyName, market_cap_def.market_cap_name mcap, research_sub_area.description sector,stock_current_prices.close_price cmp, stock_current_prices.last_trade_price ltp,stock_current_info.pe,stock_current_info.pb,stock_current_info.dividend_yield,stock_current_info.eps_ttm,stock_current_info.52w_high,stock_current_info.52w_low,stock_current_info.beta,stock_current_info.as_of_date,stock_current_info.shares_outstanding,stock_current_info.mkt_cap,stock_current_info.revenue,stock_current_info.face_value,stock_current_info.bv_share,stock_current_info.roe,stock_current_info.pat,stock_current_info.recent_qtr,stock_current_prices.price_date FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND research_sub_area.research_area_id = %1$d AND country.country_id = %2$d AND rsch_sub_area_company_dtls.isin_code = '%3$s'";
 
 	/** Company Profile Other Query */
 	public static final String buyCountQuery = "select count(*) from (SELECT rsch_sub_area_company_dtls.company_id comapanyId,rsch_sub_area_company_dtls.company_name companyName,rsch_sub_area_company_dtls.isin_code isinCode, rsch_area_stock_class.stock_class_name style,market_cap_def.market_cap_name mcap,research_sub_area.description sector,stock_current_prices.close_price cmp, stock_current_prices.price_date prcDt,stock_current_info.pe pe,stock_current_info.3_yr_path_growth patGrth FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id  AND research_sub_area.research_area_id = 7 AND country.country_id = ?) x inner join (SELECT distinct ven_rsrch_rpt_dtls.company_id companyId, ven_rsrch_rpt_offering.product_id prdId, vendor.company broker,ven_rsrch_rpt_dtls.rsrch_recomm_type recommType, ven_rsrch_rpt_dtls.target_price tgtPrice,ven_rsrch_rpt_dtls.price_at_recomm prcAtRecomm, ((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100 upside, SUBSTRING_INDEX(ven_rsrch_rpt_dtls.rsrch_upload_report, '/', - 1) rptName, ven_rsrch_rpt_dtls.rep_date rsrchDt, ven_rsrch_rpt_analyst_prof.analyst_awards award,ven_rsrch_rpt_analyst_prof.anayst_cfa_charter cfa,ven_rsrch_rpt_analyst_prof.analyst_name analystName, vendor.analystType analystType,vendor.vendor_id vendorId,ven_rsrch_rpt_offering.launched_year ly,vendor.username userName,ven_rsrch_rpt_dtls.rsrch_report_desc rptDesc FROM ven_rsrch_rpt_offering, ven_rsrch_rpt_dtls, ven_rsrch_rpt_analyst_prof, vendor, broker_analyst WHERE ven_rsrch_rpt_offering.product_id = ven_rsrch_rpt_dtls.product_id and ven_rsrch_rpt_dtls.product_id = ven_rsrch_rpt_analyst_prof.product_id and ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id and vendor.vendor_id = broker_analyst.broker_id AND ven_rsrch_rpt_offering.research_area = 7) y ON x.comapanyId = y.companyId where x.isinCode=? and y.recommType='buy'";
@@ -125,9 +125,11 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 				String roe = row[19] != null ? row[19].toString().trim() : "";// static update qtrly
 
 				// static and it will updated quaterly
-				String pat = row[19] != null ? row[20].toString().trim() : "";// static
-				String recent_qtr = row[19] != null ? row[21].toString().trim() : "";
-
+				String pat = row[20] != null ? row[20].toString().trim() : "";// static
+				String recent_qtr = row[21] != null ? row[21].toString().trim() : "";
+				String price_date = row[22] != null ? row[22].toString().trim() : "";
+				//fv date format MM/dd/yy
+				String price_date_in_millis = String.valueOf(DateUtil.convertStringToTimestamp(price_date));
 				// PE calculation PE=cmp/eps-ttm
 				String newPeStr = "";
 				float newPe = 0.0f;
@@ -152,13 +154,13 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 						new CompanyProfileData(companyId, companyName, industry, mcap, cmp, absoluteLastChangedCmp,
 								lastChangedCmpInPercentage, newPeStr, newPBStr, dividen_yield, eps_ttm, _52w_high,
 								_52w_low, beta, share_outstanding, mkt_cap, revenue, face_value, bv_share, roe, pat,
-								recent_qtr));
+								recent_qtr,price_date_in_millis));
 
 			}
 			paramsMap.put("summary", "To be available soon!!");
 			companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
 			return companyProfile;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RuntimeException("Error has occured while creating json for company profile data", e);
 		}
 	}

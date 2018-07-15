@@ -21,7 +21,8 @@ public interface IStockPriceUpdateService {
 	 * @throws Exception
 	 */
 	Map<String, String> findAllTickerFromDb() throws Exception;
-
+	String findIsinFromDb(String companyId) throws Exception;
+	
 	/**
 	 * 
 	 * @return

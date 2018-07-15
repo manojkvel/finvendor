@@ -119,21 +119,25 @@ public class ConsumerPriceAlertMailService implements IConsumerPriceAlertMailSer
 				companyEmailContent.setCompanyName(consumerPriceAlertDto.getCompanyName());
 				companyEmailContent.setPriceDate(stockCurrentPrice.getPrice_date());
 
-				companyEmailContent.setTodaysCmp(todaysClosePrice);
-				companyEmailContent.setYesterdayCmp(yesterdayClosePrice);
-				companyEmailContent.setTodaysCmpInPercentage(dayPriceChange);
+				if (!StringUtils.isEmpty(dayPriceChange)) {
+					companyEmailContent.setTodaysCmp(todaysClosePrice);
+					companyEmailContent.setYesterdayCmp(yesterdayClosePrice);
+					companyEmailContent.setTodaysCmpInPercentage(dayPriceChange);
+				}
 
-				if (lastWeekClosePrice != null) {
+				if (lastWeekClosePrice != null && !StringUtils.isEmpty(weekPriceChange)) {
 					companyEmailContent.setLastWeekCmp(lastWeekClosePrice);
 					companyEmailContent.setLastWeekCmpInPercentage(weekPriceChange);
 				}
 
-				if (lastMonthClosePrice != null) {
+				if (lastMonthClosePrice != null && !StringUtils.isEmpty(monthPriceChange)) {
 					companyEmailContent.setLastMonthCmp(lastMonthClosePrice);
 					companyEmailContent.setLastMonthCmpInPercentage(monthPriceChange);
 				}
-				companyEmailContent.setCmpWhenPriceAlertWasSet(consumerPriceAlertDto.getCmpWhenPriceAlertSet());
-				companyEmailContent.setNoTimeFrameInPercentage(noTimeFramePriceChange);
+				if (!StringUtils.isEmpty(noTimeFramePriceChange)) {
+					companyEmailContent.setCmpWhenPriceAlertWasSet(consumerPriceAlertDto.getCmpWhenPriceAlertSet());
+					companyEmailContent.setNoTimeFrameInPercentage(noTimeFramePriceChange);
+				}
 
 				companyMailMessageList.add(companyEmailContent);
 			}
@@ -161,12 +165,12 @@ public class ConsumerPriceAlertMailService implements IConsumerPriceAlertMailSer
 		if (consumerMaxPrice != null) {
 			if (priceDiffInPercentage > (consumerMaxPrice.floatValue() / 100.00f)) {
 				priceChange = "+" + consumerMaxPrice + priceDurationEnum.getValue();
-				if (priceDiffInPercentage == (consumerMaxPrice / 100.00f)) {
-					priceChange = consumerMaxPrice + priceDurationEnum.getValue();
-				}
-			} else {
-				LogUtil.logInfo(priceDurationEnum.name() + " Min Price alert was not set by consumer!!");
 			}
+			if (priceDiffInPercentage == (consumerMaxPrice / 100.00f)) {
+				priceChange = consumerMaxPrice + priceDurationEnum.getValue();
+			}
+		} else {
+			LogUtil.logInfo(priceDurationEnum.name() + " Max Price alert was not set by consumer!!");
 		}
 		return priceChange;
 	}
@@ -206,7 +210,7 @@ public class ConsumerPriceAlertMailService implements IConsumerPriceAlertMailSer
 			}
 
 			if (StringUtils.isNotEmpty(consumerDayMaxPrice)) {
-				consumerMinMaxPricePair.setElement1(Float.parseFloat(consumerDayMaxPrice));
+				consumerMinMaxPricePair.setElement2(Float.parseFloat(consumerDayMaxPrice));
 			} else {
 				consumerMinMaxPricePair.setElement2(null);
 			}
@@ -222,7 +226,7 @@ public class ConsumerPriceAlertMailService implements IConsumerPriceAlertMailSer
 			}
 
 			if (StringUtils.isNotEmpty(consumerWeekMaxPrice)) {
-				consumerMinMaxPricePair.setElement1(Float.parseFloat(consumerWeekMaxPrice));
+				consumerMinMaxPricePair.setElement2(Float.parseFloat(consumerWeekMaxPrice));
 			} else {
 				consumerMinMaxPricePair.setElement2(null);
 			}
@@ -238,7 +242,7 @@ public class ConsumerPriceAlertMailService implements IConsumerPriceAlertMailSer
 			}
 
 			if (StringUtils.isNotEmpty(consumerMonthMaxPrice)) {
-				consumerMinMaxPricePair.setElement1(Float.parseFloat(consumerMonthMaxPrice));
+				consumerMinMaxPricePair.setElement2(Float.parseFloat(consumerMonthMaxPrice));
 			} else {
 				consumerMinMaxPricePair.setElement2(null);
 			}
@@ -254,7 +258,7 @@ public class ConsumerPriceAlertMailService implements IConsumerPriceAlertMailSer
 			}
 
 			if (StringUtils.isNotEmpty(consumerNoTimeFrameMaxPrice)) {
-				consumerMinMaxPricePair.setElement1(Float.parseFloat(consumerNoTimeFrameMaxPrice));
+				consumerMinMaxPricePair.setElement2(Float.parseFloat(consumerNoTimeFrameMaxPrice));
 			} else {
 				consumerMinMaxPricePair.setElement2(null);
 			}
@@ -284,5 +288,11 @@ public class ConsumerPriceAlertMailService implements IConsumerPriceAlertMailSer
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public String getIsinCode(String companyId) throws Exception {
+		String isin = stockPriceUpdateService.findIsinFromDb(companyId);
+		return isin;
 	}
 }

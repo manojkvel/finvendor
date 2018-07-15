@@ -88,4 +88,14 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
 		}
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public String findIsinFromDb(String companyId) throws Exception {
+		try {
+			return dao.findIsinFromDb(companyId);
+		} catch (RuntimeException e) {
+			throw new Exception(e);
+		}
+	}
+
 }

@@ -3120,7 +3120,7 @@ public class VendorController {
 							+ rsrchUploadRptPath);
 					String companyName = vendorService.getCompanyName(researchReportFor);
 					if (priceService.isResearchPriceSet(companyName)) {
-						priceAlertMail.sendResearchReportAlertMail(userName, companyName);
+						priceAlertMail.sendResearchReportAlertMail(userName, researchReportFor, companyName);
 					} else {
 						LogUtil.logInfo("***Research Resport Alert is not set for comapny=" + companyName);
 					}

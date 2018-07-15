@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
 
@@ -20,7 +21,7 @@ public interface IWebConsumerPriceAlertMail {
 	 */
 	@RequestMapping(value = "/sendpricealertmail", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> sendPriceAlertMail(Boolean status) throws WebApiException;
+	ResponseEntity<?> sendPriceAlertMail(StatusPojo statusPojo) throws WebApiException;
 
 	/**
 	 * Research Report Alert Mail
@@ -30,5 +31,5 @@ public interface IWebConsumerPriceAlertMail {
 	 */
 	@RequestMapping(value = "/sendrsearchreportmail", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> sendResearchReportAlertMail(String userName, String companyName) throws WebApiException;
+	ResponseEntity<?> sendResearchReportAlertMail(String userName, String companyId, String companyName) throws WebApiException;
 }

@@ -4,4 +4,5 @@ import com.finvendor.server.companyprofile.pricealert.dto.ConsumerPriceAlertDeta
 
 public interface IConsumerPriceAlertMailService {
 	ConsumerPriceAlertDetailsWrapper buildConsumerPriceAlertDetails() throws Exception;
+	String getIsinCode(String companyId) throws Exception;
 }

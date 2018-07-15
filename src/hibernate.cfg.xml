@@ -73,8 +73,9 @@
         <mapping class="com.finvendor.model.StockHistoricalPrice"></mapping>
         <mapping class="com.finvendor.model.CompMarketCapType"></mapping>
         <mapping class="com.finvendor.model.StockCurrentPrice"></mapping>
-        <mapping class="com.finvendor.model.Metrics"></mapping>
-        
+        <mapping class="com.finvendor.model.metrics.EqtyResearchReportsMetrics"></mapping>
+        <mapping class="com.finvendor.model.metrics.DownloadEqtyResearchReportsMetrics"></mapping>
+                
       </session-factory>
 	 
 </hibernate-configuration>
