@@ -29,12 +29,15 @@
 
                             $(document).mouseup(function() {
                                 $(".profilepicsubmenu").hide();
-                                $(".account").attr('id', '');
+                                $(".account").attr('id', ''); 
                             });
                         });
                     </script>
                     <c:set var="username" value="${finVen:decrypt(param.RaYUnA)}"></c:set>
                     <c:set var="myusername" value="${myusername}"></c:set>
+                    <div id='getLoggedInUser' style="display: none;">
+                        <input type="hidden" name="isLoggedInUser" value=${sessionScope.loggedInUser} />
+                    </div>
                     <header>
                         <div class="container-fluid" >
                             <div class="row">
