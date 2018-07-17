@@ -229,4 +229,15 @@ public class StockPriceUpdateDaoImpl implements IStockPriceUpdateDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public String findIsinFromDb(String companyId) throws Exception {
+		SQLQuery query = commonDao.getNativeQuery("select company_id, isin_code from rsch_sub_area_company_dtls where company_id=?", new String[] { companyId });
+		List<Object[]> rows = query.list();
+		for (Object[] row : rows) {
+			return  row[1] != null ? row[1].toString().trim() : "";
+		}
+		return "";
+	}
+
 }

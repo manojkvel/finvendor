@@ -10,6 +10,7 @@ public interface IStockPriceUpdateDao {
 	boolean updatePrice(StockCurrentPriceDTO stockCurrentPricePojo) throws RuntimeException;
 
 	Map<String, String> findAllTickerFromDb() throws Exception;
+	String findIsinFromDb(String companyId) throws Exception;
 
 	Map<String, List<ConsumerPriceAlertDTO>> fetchAllConsumerPriceAlert() throws RuntimeException;
 

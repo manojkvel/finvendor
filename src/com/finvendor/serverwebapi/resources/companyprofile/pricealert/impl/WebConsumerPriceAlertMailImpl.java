@@ -40,7 +40,7 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
 	private IConsumerPriceAlertMailService consumerPriceAlertMailService;
 
 	@Override
-	public ResponseEntity<?> sendPriceAlertMail(@RequestBody Boolean status) throws WebApiException {
+	public ResponseEntity<?> sendPriceAlertMail(@RequestBody StatusPojo statusPojo) throws WebApiException {
 		try {
 			Map<String, List<ConsumerPriceAlertDetails>> consumerPriceAlertDetailsMap = consumerPriceAlertMailService
 					.buildConsumerPriceAlertDetails().getConsumerPriceAlertDetailsMap();
@@ -53,6 +53,7 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
 				List<ConsumerPriceAlertDetails> ConsumerPriceAlertDetails = entry.getValue();
 
 				String to = userService.getUserDetailsByUsername(userName).getEmail();
+				// Each user can set multiple price alert
 				for (ConsumerPriceAlertDetails consumerPriceAlertDetail : ConsumerPriceAlertDetails) {
 					String companyName = consumerPriceAlertDetail.getCompanyName();
 					String subject = "Stock Price Alert Triggered for:" + companyName;
@@ -194,39 +195,42 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
 	}
 
 	@Override
-	public ResponseEntity<?> sendResearchReportAlertMail(String userName, String companyName) throws WebApiException {
-		String mailContent = "<!DOCTYPE html>\r\n" + "<html>\r\n" + "<head>\r\n" + "<title></title>\r\n" + "\r\n"
-				+ "<!-- CSS -->\r\n" + "<style>\r\n" + ".myTable { \r\n" + "  width: 100%;\r\n"
-				+ "  text-align: left;\r\n" + "  background-color: white;\r\n" + "  border-collapse: collapse; \r\n"
-				+ "  }\r\n" + ".myTable th { \r\n" + "  background-color: mediumaquamarine;\r\n"
-				+ "  color: white; \r\n" + "  }\r\n" + ".myTable td, \r\n" + ".myTable th { \r\n"
-				+ "  padding: 10px;\r\n" + "  border: 1px solid mediumaquamarine; \r\n" + "  }\r\n" + "</style>\r\n"
-				+ "\r\n" + "</head>\r\n" + "<body>\r\n" + "Dear USERNAME<br> <br>\r\n" + "\r\n"
-				+ "Thank you for choosing \"Finvendor Corp.\" as your preferred investment partner.<br><br>\r\n"
-				+ "\r\n" + "Alert on stock research report<br><br>\r\n" + "<!-- HTML -->\r\n"
-				+ "<table class=\"myTable\">\r\n" + "	<tr>\r\n" + "		<th>Company name</th>\r\n"
-				+ "		<th>Report alert triggered</th>\r\n" + "	</tr>\r\n" + "	<tr>\r\n"
-				+ "		<td><a href=\"http://dev.finvendor.com/view/company-profile.jsp?searchKeyword=" + companyName
-				+ "&txtSearchBox=Submit/\">COMPANYNAME</a></td>\r\n"
-				+ "		<td>A New research report added for this stock</td>\r\n" + "	</tr>\r\n" + "</table>\r\n"
-				+ "<br><br>\r\n"
-				+ "In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.\r\n"
-				+ "Thank you once again for setting research report alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n"
-				+ "<br><br>\r\n" + "\r\n" + "Assuring you the best of services.\r\n" + "<br><br>\r\n"
-				+ "Regards<br>\r\n" + "Finvendor Corp.<br><br>\r\n" + "</body>\r\n" + "</html>";
-
-		mailContent = StringUtils.replace(mailContent, "USERNAME", userName);
-		mailContent = StringUtils.replace(mailContent, "COMPANYNAME", companyName);
-
-		String to;
+	public ResponseEntity<?> sendResearchReportAlertMail(String userName, String companyId,String companyName) throws WebApiException {
 		try {
+			String isinCode = consumerPriceAlertMailService.getIsinCode(companyId);
+			LogUtil.logInfo("sendResearchReportAlertMail-> isinCode="+isinCode+", companyName="+companyName);
+			String mailContent = "<!DOCTYPE html>\r\n" + "<html>\r\n" + "<head>\r\n" + "<title></title>\r\n" + "\r\n"
+					+ "<!-- CSS -->\r\n" + "<style>\r\n" + ".myTable { \r\n" + "  width: 100%;\r\n"
+					+ "  text-align: left;\r\n" + "  background-color: white;\r\n" + "  border-collapse: collapse; \r\n"
+					+ "  }\r\n" + ".myTable th { \r\n" + "  background-color: mediumaquamarine;\r\n"
+					+ "  color: white; \r\n" + "  }\r\n" + ".myTable td, \r\n" + ".myTable th { \r\n"
+					+ "  padding: 10px;\r\n" + "  border: 1px solid mediumaquamarine; \r\n" + "  }\r\n" + "</style>\r\n"
+					+ "\r\n" + "</head>\r\n" + "<body>\r\n" + "Dear USERNAME<br> <br>\r\n" + "\r\n"
+					+ "Thank you for choosing \"Finvendor Corp.\" as your preferred investment partner.<br><br>\r\n"
+					+ "\r\n" + "Alert on stock research report<br><br>\r\n" + "<!-- HTML -->\r\n"
+					+ "<table class=\"myTable\">\r\n" + "	<tr>\r\n" + "		<th>Company name</th>\r\n"
+					+ "		<th>Report alert triggered</th>\r\n" + "	</tr>\r\n" + "	<tr>\r\n"
+					+ "		<td><a href=\"http://dev.finvendor.com/view/company-profile.jsp?isinCode=" + isinCode
+					+ "&txtSearchBox=Submit/\">COMPANYNAME</a></td>\r\n"
+					+ "		<td>A New research report added for this stock</td>\r\n" + "	</tr>\r\n" + "</table>\r\n"
+					+ "<br><br>\r\n"
+					+ "In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.\r\n"
+					+ "Thank you once again for setting research report alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n"
+					+ "<br><br>\r\n" + "\r\n" + "Assuring you the best of services.\r\n" + "<br><br>\r\n"
+					+ "Regards<br>\r\n" + "Finvendor Corp.<br><br>\r\n" + "</body>\r\n" + "</html>";
+
+			mailContent = StringUtils.replace(mailContent, "USERNAME", userName);
+			mailContent = StringUtils.replace(mailContent, "COMPANYNAME", companyName);
+
+			String to;
+
 			to = userService.getUserDetailsByUsername(userName).getEmail();
 			String subject = "Stock Price Alert Triggered for:" + companyName;
 			String mailBody = mailContent;
 			EmailUtil.sendMail(to, subject, mailBody);
 			return new ResponseEntity<StatusPojo>(
 					new StatusPojo("true", "Research report mail sent to user successfully"), HttpStatus.OK);
-		} catch (RuntimeException | ApplicationException e1) {
+		} catch (Exception e1) {
 			ErrorUtil.logError("WebScheduler -> sendMailForResearchReport(...) method", e1);
 			return ErrorUtil.getError(RESEARCH_REPORT_MAIL.getCode(), RESEARCH_REPORT_MAIL.getUserMessage(), e1);
 		}

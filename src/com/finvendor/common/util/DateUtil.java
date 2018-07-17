@@ -1,5 +1,7 @@
 package com.finvendor.common.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +25,7 @@ public class DateUtil {
 	}
 	
 	public static boolean isHoliday(Calendar cal) {
-	    int year = cal.get(Calendar.YEAR);
+	   // int year = cal.get(Calendar.YEAR);
 	    int month = cal.get(Calendar.MONTH) + 1;
 	    int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
@@ -55,6 +57,13 @@ public class DateUtil {
         calendar.setTime(prevWorkingDate);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 		return dayOfMonth;
+	}
+	
+	public static long convertStringToTimestamp(String str_date) throws ParseException {
+		DateFormat formatter;
+		formatter = new SimpleDateFormat("MM/dd/yy");
+		Date date = (Date) formatter.parse(str_date);
+		return date.getTime();
 	}
 	
 	public static void main(String[] args) {

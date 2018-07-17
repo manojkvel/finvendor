@@ -9,14 +9,10 @@ import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
 
 @RequestMapping(WebUriConstants.BASE_URI)
-public interface IWebMetric {
+public interface IWebMetrics {
 
-	@RequestMapping(value = "/metrics/equityresearchreport", method = RequestMethod.GET)
+	@RequestMapping(value = "/metrics", method = RequestMethod.GET)
 	@ResponseBody
-	ResponseEntity<?> getEquityResearchReportMetrics() throws WebApiException;
-
-	@RequestMapping(value = "/metrics/researchreportdownload", method = RequestMethod.GET)
-	@ResponseBody
-	ResponseEntity<?> getEquityResearchReportDownloadMetrics() throws WebApiException;
+	ResponseEntity<?> getRequestMetrics(String type) throws WebApiException;
 
 }

@@ -38,8 +38,10 @@ public class PriceUpdateJob implements Job {
 
 			// Step-2 Send Mail
 			Boolean updateStatus = stockPriceUpdateResponse.getBody();
+			StatusPojo statusPojo=new StatusPojo();
 			if (updateStatus.booleanValue()) {
-				ResponseEntity<StatusPojo> mailResponse = restTemplate.postForEntity(PRICE_ALERT_MAIL_URI, updateStatus,
+				statusPojo.setStatus("true");
+				ResponseEntity<StatusPojo> mailResponse = restTemplate.postForEntity(PRICE_ALERT_MAIL_URI, statusPojo,
 						StatusPojo.class);
 				LogUtil.logInfo("*** Price Alert Mail Response code:" + mailResponse.getStatusCode());
 				LogUtil.logInfo("*** Price Alert Mail Body:" + mailResponse.getBody().toString());
