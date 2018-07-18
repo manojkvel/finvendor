@@ -27,6 +27,8 @@ public class PriceUpdateJob implements Job {
 			String NSE_PRICE_URI = (String) jobDataMap.get("price_update_uri");
 			String PRICE_ALERT_MAIL_URI = (String) jobDataMap.get("price_alert_uri");
 			LocalDateTime now = LocalDateTime.now();
+			LogUtil.logInfo("***NSE_PRICE_URI="+NSE_PRICE_URI);
+			LogUtil.logInfo("***PRICE_ALERT_MAIL_URI="+PRICE_ALERT_MAIL_URI);
 			LogUtil.logInfo("**********************************");
 			LogUtil.logInfo("***Scheulder Time:" + dtf.format(now));
 			LogUtil.logInfo("**********************************");
@@ -49,7 +51,7 @@ public class PriceUpdateJob implements Job {
 				LogUtil.logWarn("*** Unable to send mail due to either Price ALERT did not SET or holiday !!!!");
 			}
 		} catch (Exception e) {
-			LogUtil.logError("*** Error in PriceUpdateJob - ErrMsg=" + e.getMessage());
+			LogUtil.logError("*** Error in PriceUpdateJob - ErrMsg=" + e);
 		}
 	}
 }

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
-import com.finvendor.exception.ApplicationException;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.server.companyprofile.pricealert.dto.ConsumerPriceAlertDetails;
 import com.finvendor.server.companyprofile.pricealert.service.IConsumerPriceAlertMailService;

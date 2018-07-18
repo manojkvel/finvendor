@@ -1,7 +1,5 @@
 package com.finvendor.serverwebapi.resources.metrics;
 
-import static com.finvendor.common.exception.ExceptionEnum.FIND_USER_FROM_SESSION;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.server.metrics.service.MetricService;
 import com.finvendor.server.metrics.service.MetricsType;
 
