@@ -399,6 +399,21 @@ function isProgressLoader(status) {
 	}
 }
 
+function isLoggedInUser() {
+	var isLoggedInUser = $("#getLoggedInUser input[name=isLoggedInUser]").val();
+	if(isLoggedInUser == '/') {
+		return true;
+	}
+
+	return false;
+}
+
+function getHostUrl() {
+	var http = location.protocol;
+	var slashes = http.concat("//");
+	var urlPrefix = slashes.concat(window.location.host).concat("/");
+	return urlPrefix;
+}
 
 var API_TIMEOUT_SMALL = 30*1000;
 var API_TIMEOUT_LARGE = 3*60*1000;
@@ -482,4 +497,5 @@ jQuery(document).ready(function($) {
 	}
 
 	$("#home_page_main_search .ddselect a").on('click', selectResearchType);
+
 });
