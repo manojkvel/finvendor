@@ -366,19 +366,25 @@ jQuery(document).ready(function() {
 	};
 
 	var getReport = function(e) {
-		var vendorName = $(this).attr("data-vendor");
-		var productId = $(this).parents('tr').attr('data-id');
-		//console.log(productId);
-		var dasboardReportJson = {
-			equitysearchjson : window.localStorage.getItem("equitysearchjson"),
-			productId : productId,
-			vendorName : vendorName,
-			pageNumber : pageNumber,
-    		perPageMaxRecords : perPageMaxRecords,
-    		sortByValue : sortByValue,
-    		orderBy : orderBy
+		if(!isLoggedInUser()) {
+			var vendorName = $(this).attr("data-vendor");
+			var productId = $(this).parents('tr').attr('data-id');
+			//console.log(productId);
+			var dasboardReportJson = {
+				equitysearchjson : window.localStorage.getItem("equitysearchjson"),
+				productId : productId,
+				vendorName : vendorName,
+				pageNumber : pageNumber,
+				perPageMaxRecords : perPageMaxRecords,
+				sortByValue : sortByValue,
+				orderBy : orderBy
+			}
+			window.localStorage.setItem('dasboardReportJson', JSON.stringify(dasboardReportJson));
+		} else {
+			e.preventDefault();
+			e.stopPropagation();
+			inner_login('view/equity_research_report_vendor.jsp');
 		}
-		window.localStorage.setItem('dasboardReportJson', JSON.stringify(dasboardReportJson));
 	};
 
 	var resetFilters = function(e) {
