@@ -1,15 +1,15 @@
 package com.finvendor.server.metrics.service;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.finvendor.common.util.JsonUtil;
 import com.finvendor.server.metrics.dao.IMetricsDao;
-import com.finvendor.server.metrics.dto.MetricsDto;
 
 @Service
 public class MetricService {
@@ -39,11 +39,13 @@ public class MetricService {
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<MetricsDto> getRequestMetrics(String type) throws Exception {
+	public String getRequestMetrics(String type) throws Exception {
 		try {
-			List<MetricsDto> eqtyMetrics=equityResearchReportMetricsDao.getRequestMetrics();
-			eqtyMetrics.addAll(downloadEquityResearchReportMetricsDao.getRequestMetrics());
-			return eqtyMetrics;
+			Map<String, Object> paramsMap = new LinkedHashMap<>();
+			paramsMap.put("equityResearchReportHitData", equityResearchReportMetricsDao.getRequestMetrics());
+			paramsMap.put("dowloadEquityResearchReportHitData", downloadEquityResearchReportMetricsDao.getRequestMetrics());
+			String createJsonFromObject = JsonUtil.createJsonFromObject(paramsMap);
+			return createJsonFromObject;
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}
