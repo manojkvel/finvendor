@@ -10,10 +10,14 @@
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<script type="text/javascript">
-		var companyProfileJson = {
-			isinCode : "<%= request.getParameter("isinCode")%>",
+		var isinCode = "<%= request.getParameter("isinCode")%>";
+		
+		if(isinCode != "null") {
+			var companyProfileJson = {
+				isinCode : isinCode,
+			}
+			window.localStorage.setItem('companyProfileJson', JSON.stringify(companyProfileJson));
 		}
-		window.localStorage.setItem('companyProfileJson', JSON.stringify(companyProfileJson));
 	</script>
 </head>
 <body>
