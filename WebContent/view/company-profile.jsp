@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <head>
 	<title>Research Company Profile</title>
 	<meta charset="utf-8" />
@@ -8,6 +9,12 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<script type="text/javascript">
+		var companyProfileJson = {
+			isinCode : "<%= request.getParameter("isinCode")%>",
+		}
+		window.localStorage.setItem('companyProfileJson', JSON.stringify(companyProfileJson));
+	</script>
 </head>
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
