@@ -349,7 +349,7 @@ jQuery(document).ready(function() {
 				isProgressLoader(false);
 
 			}, function(error) {
-				console.log(error);
+				//console.log(error);
 			});
 		}, function(error) {
 
@@ -447,7 +447,7 @@ jQuery(document).ready(function() {
                     if (httpRequest.status === 200) {
                         resolve(httpRequest.response);
                     } else {
-                        console.log(httpRequest.status + httpRequest.responseText);
+                        //console.log(httpRequest.status + httpRequest.responseText);
                         reject(httpRequest.responseText);
                     }
                 } else {
@@ -480,7 +480,7 @@ jQuery(document).ready(function() {
 					if (httpRequest.status === 200) {
 						resolve(httpRequest.response);
 					} else {
-						console.log(httpRequest.status + httpRequest.responseText);
+						//console.log(httpRequest.status + httpRequest.responseText);
 						reject(httpRequest.responseText);
 					}
 				} else {
@@ -512,7 +512,7 @@ jQuery(document).ready(function() {
 					if (httpRequest.status === 200) {
 						resolve(httpRequest.response);
 					} else {
-						console.log(httpRequest.status + httpRequest.responseText);
+						//console.log(httpRequest.status + httpRequest.responseText);
 						reject(httpRequest.responseText);
 					}
 				} else {
@@ -549,7 +549,7 @@ jQuery(document).ready(function() {
 			$('#search_by_geo ul input[name=geography_type]').eq(0).prop('checked', true);
 			$("#search_by_geo ul input[name=geography_type]").on('change', getGeoData);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 
@@ -607,7 +607,7 @@ jQuery(document).ready(function() {
 			$("#search_by_marketcapital ul input").on('change', getMarketCapitalData);
 			$("#search_by_marketcapital ul input").eq(0).prop('checked', true);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 
@@ -683,7 +683,7 @@ jQuery(document).ready(function() {
 			$("#search_by_style ul input").on('change', getStyleFilterData);
 			$("#search_by_style ul input").eq(0).prop('checked', true);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 
@@ -748,7 +748,7 @@ jQuery(document).ready(function() {
 			$("#search_by_analystType ul input").on('change', getAnalystTypeFilterData);
 			$("#search_by_analystType ul input").eq(0).prop('checked', true);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 
@@ -802,7 +802,7 @@ jQuery(document).ready(function() {
 			$("#search_by_researchbroker ul").html(html);
 			$("#search_by_researchbroker ul input").on('change', getResearchBrokerFilterData);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 
@@ -858,7 +858,7 @@ jQuery(document).ready(function() {
 			$("#search_by_brokerAnalystYrOfIncorp ul input").on('change', getBrokerAnalystYrOfIncorpFilterData);
 			$("#search_by_brokerAnalystYrOfIncorp ul input").eq(0).prop('checked', true);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 
@@ -912,7 +912,7 @@ jQuery(document).ready(function() {
 			$("#search_by_broker_rank ul input").on('change', getBrokerRankFilterData);
 			$("#search_by_broker_rank ul input").eq(0).prop('checked', true);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 
@@ -967,7 +967,7 @@ jQuery(document).ready(function() {
 			$("#search_by_recommType ul input").on('change', getRecommendationTypeData);
 			$("#search_by_recommType ul input").eq(0).prop('checked', true);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 
@@ -1023,7 +1023,7 @@ jQuery(document).ready(function() {
 			$("#search_by_upside ul input").on('change', getUpsideFilterData);
 			$("#search_by_upside ul input").eq(0).prop('checked', true);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 
@@ -1079,7 +1079,7 @@ jQuery(document).ready(function() {
 			$("#search_by_others ul input").on('change', getOthersFilterData);
 			$("#search_by_others ul input").eq(0).prop('checked', true);
 		}, function(error) {
-			console.log(error);
+			//console.log(error);
 		});
 	};
 

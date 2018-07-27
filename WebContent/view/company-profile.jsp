@@ -54,10 +54,10 @@
 											 	
 											</c:when>
 											<c:otherwise>
-												<a href="javascript:inner_login('')">
+												<a href="javascript:inner_login('view/company-profile.jsp')">
 													<span class="fa fa-eye"></span> Add to Watchlist
 												</a>
-												<a href="javascript:inner_login('')">
+												<a href="javascript:inner_login('view/company-profile.jsp')">
 													<span class="fa fa-bell"></span> Set Price Alert
 												</a>
 											</c:otherwise>

@@ -9,27 +9,27 @@
                     <a href="#">Research Reports</a>
                     <ul>
                         <li>
-                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Equity/Company Research">
+                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
                                 Equity/Company Research
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Sector Research">
+                            <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Sector_Research">
                                 Sector Research
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Macro Research">
+                            <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Macro_Research">
                                 Macro Research
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Debt Mkt Research">
+                            <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Debt_Mkt_Research">
                                 Debt Mkt Research
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportTyepe=Fund/ETF Research">
+                            <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Fund_ETF_Research">
                                 Fund/ETF Research
                             </a>
                         </li>

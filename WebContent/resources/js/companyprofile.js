@@ -353,7 +353,7 @@ var priceAlertStatus = 'N';
                     if (httpRequest.status === 200) {
                         resolve(httpRequest.response);
                     } else {
-                        console.log(httpRequest.status + httpRequest.responseText);
+                        //console.log(httpRequest.status + httpRequest.responseText);
                         reject(httpRequest.responseText);
                     }
                 } else {
@@ -476,7 +476,7 @@ function getCompanyProfile() {
                 if (httpRequest.status === 200) {
                     resolve(httpRequest.response);
                 } else {
-                    console.log(httpRequest.status + httpRequest.responseText);
+                    //console.log(httpRequest.status + httpRequest.responseText);
                     reject(httpRequest.responseText);
                 }
             } else {
@@ -511,7 +511,7 @@ function getCompanyResearchReport(researchType, pageNumber) {
                 if (httpRequest.status === 200) {
                     resolve(httpRequest.response);
                 } else {
-                    console.log(httpRequest.status + httpRequest.responseText);
+                    //console.log(httpRequest.status + httpRequest.responseText);
                     reject(httpRequest.responseText);
                 }
             } else {
@@ -534,6 +534,7 @@ function addToMarketWatchlist() {
 
     });
 }
+    $("#company_profile .profile_details.func_details button").eq(0).on('click', addToMarketWatchlist);
 
 function addToMarketWatchlistAPI() {
     
@@ -559,7 +560,7 @@ function addToMarketWatchlistAPI() {
                 if (httpRequest.status === 201) {
                     resolve(httpRequest.response);
                 } else {
-                    console.log(httpRequest.status + httpRequest.responseText);
+                    //console.log(httpRequest.status + httpRequest.responseText);
                     reject(httpRequest.responseText);
                 }
             } else {
@@ -569,8 +570,6 @@ function addToMarketWatchlistAPI() {
         httpRequest.send(JSON.stringify(companyProfileObj));
     });
 }
-
-$("#company_profile .profile_details.func_details button").eq(0).on('click', addToMarketWatchlist);
 
 function setPriceAlert() {
     var dayMinPrice = $("#setPriceAlert input[name=day_min_price]").val();
@@ -612,6 +611,7 @@ function setPriceAlert() {
     });
 }
 
+    $("#setPriceAlert button[name=set_alert_btn]").on('click', setPriceAlert);
 
 function setPriceAlertAPI(alertJsonObj) {
     
@@ -641,7 +641,7 @@ function setPriceAlertAPI(alertJsonObj) {
                 if (httpRequest.status === 200 || httpRequest.status === 201) {
                     resolve(httpRequest.response);
                 } else {
-                    console.log(httpRequest.status + httpRequest.responseText);
+                    //console.log(httpRequest.status + httpRequest.responseText);
                     reject(httpRequest.responseText);
                 }
             } else {
@@ -652,13 +652,10 @@ function setPriceAlertAPI(alertJsonObj) {
     });
 } 
 
-$("#setPriceAlert button[name=set_alert_btn]").on('click', setPriceAlert);
-
-$("#company_profile .profile_details.func_details button").eq(1).on('click', openPriceAlertForm);
-
 function openPriceAlertForm() {
     $("#setPriceAlert .modal-header h3").show();
     $("#setPriceAlert .modal-header .alert").hide();
+    
     var companyId = companyProfileObj.companyId;
     getPriceAlertAPI(companyId).then(function(response) {
         isProgressLoader(false);
@@ -684,6 +681,8 @@ function openPriceAlertForm() {
     });
 }
 
+$("#company_profile .profile_details.func_details button").eq(1).on('click', openPriceAlertForm);
+
 function getPriceAlertAPI(companyId) {
     
     isProgressLoader(true);
@@ -701,10 +700,10 @@ function getPriceAlertAPI(companyId) {
         };
         httpRequest.onreadystatechange = function () {
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                if (httpRequest.status === 201) {
+                if (httpRequest.status === 200) {
                     resolve(httpRequest.response);
                 } else {
-                    console.log(httpRequest.status + httpRequest.responseText);
+                    //console.log(httpRequest.status + httpRequest.responseText);
                     reject(httpRequest.responseText);
                 }
             } else {
@@ -714,7 +713,6 @@ function getPriceAlertAPI(companyId) {
         httpRequest.send();
     });
 }
-
 
 jQuery(document).ready(function() {
 
