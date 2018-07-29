@@ -314,6 +314,26 @@
     <h2>To Be Available soon</h2>
 </div>
 
+<div class="inner-left-wrap" id="Sector_Research">
+    <h1>Sector Research</h1>
+    <h2>To Be Available soon</h2>
+</div>
+
+<div class="inner-left-wrap" id="Macro_Research">
+    <h1>Macro Research</h1>
+    <h2>To Be Available soon</h2>
+</div>
+
+<div class="inner-left-wrap" id="Debt_Mkt_Research">
+    <h1>Debt Mkt Research</h1>
+    <h2>To Be Available soon</h2>
+</div>
+
+<div class="inner-left-wrap" id="Fund_ETF_Research">
+    <h1>Fund/ETF Research</h1>
+    <h2>To Be Available soon</h2>
+</div>
+
 <div class="inner-left-wrap" id="MORE">
     <h1>MORE</h1>
     <h2>To Be Available soon</h2>

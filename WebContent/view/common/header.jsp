@@ -63,22 +63,22 @@
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Sector Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Sector_Research">
                                                                                     Sector Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Macro Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Macro_Research">
                                                                                     Macro Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Debt Mkt Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Debt_Mkt_Research">
                                                                                     Debt Mkt Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Fund/ETF Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Fund_ETF_Research">
                                                                                     Fund/ETF Research
                                                                                 </a>
                                                                             </li>
@@ -168,7 +168,7 @@
                                                                         </a>
                                                                         <ul>
                                                                             <!--<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
-							                                            </li>-->
+                                                                        </li>-->
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/welcometodashboards" id='my_profile'>My Profile</a>
                                                                         </li>
@@ -190,7 +190,7 @@
                                                                             <a href="#" id='my_portfolio'>My Portfolio</a>
                                                                         </li>
                                                                         <li>
-                                                                        	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                            <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
@@ -231,7 +231,7 @@
                                             </div>
                                             </div>
                                                     </div>
-	                                    <div id="fv_sub_header">
+                                        <div id="fv_sub_header">
                                            <form action="/view/company-profile.jsp" class="elastic-search desktop_variant" method="GET">
                                                <div class="input-group">
                                                    <input id="txtSearchBox" class="form-control" autocomplete="off" name="searchKeyword" type="text" placeholder="Search stocks & its quote">
@@ -243,7 +243,7 @@
                                                    </div>
                                                </div>
                                            </form>
-	                                    </div>
+                                        </div>
                                                     <div class="clearfix"></div>
                                                 </div>
                                         </div>
@@ -295,8 +295,8 @@
 
                                         <i class="fa fa-chevron-down"></i>
                                         <ul class="child-main-menu">
-                                        		<!--<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
-							                                            </li>-->
+                                                <!--<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+                                                                        </li>-->
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/welcometodashboards" id='my_profile'>My Profile</a>
                                                                         </li>
@@ -317,7 +317,7 @@
                                                                             <a href="#" id='my_portfolio'>My Portfolio</a>
                                                                         </li>
                                                                         <li>
-                                                                        	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                            <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
@@ -340,27 +340,27 @@
                                 <a href="#">Research Reports</a>
                                 <ul class="child-main-menu">
                                     <li>
-                                    <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
+                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
                                             Equity/Company Research
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Sector Research">
+                                        <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Sector_Research">
                                             Sector Research
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Macro Research">
+                                        <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Macro_Research">
                                             Macro Research
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Debt Mkt Research">
+                                        <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Debt_Mkt_Research">
                                             Debt Mkt Research
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Fund/ETF Research">
+                                        <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Fund_ETF_Research">
                                             Fund/ETF Research
                                         </a>
                                     </li>

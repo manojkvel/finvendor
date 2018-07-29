@@ -1542,6 +1542,14 @@ a#sidemenu:focus {
 	min-height: 527px;
 }
 
+#fv_admin .inner-left-wrap {
+
+	background: transparent;
+	margin-bottom: 0;
+	padding: 0;
+	min-height: auto;
+}
+
 .inner-sidebar-wrap {
 	float: none;
 	width: 100%;		

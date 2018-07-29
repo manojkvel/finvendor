@@ -73,7 +73,7 @@
 					
 		</script>		
 	</head>
-	<body>
+	<body id="fv_admin">
 		<jsp:include page="common/head.jsp"></jsp:include>
 		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 		<div class="container">
