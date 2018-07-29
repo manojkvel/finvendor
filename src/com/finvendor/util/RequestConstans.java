@@ -393,6 +393,12 @@ public class RequestConstans {
 	public static final String CHANGE_PASSWORD = "Please Change your password";
 	public static final String LOGIN_AFTER_CHANGE_PASSWORD = "Change Password is successful. Please login again with new password.";
 	public static final String UNSUCCESSFUL_ATTEMPTS = "" + MAX_UNSUCCESSFUL_ATTEMPTS + " unsuccessfull password attempts. Account is disabled";
-	public static final int REGISTRATION_LINK_EXPIRY = 48;	
+	public static final int REGISTRATION_LINK_EXPIRY = 48;
+	
+	public static final String INDEPENDENT_RESEARCH_ANALYST = "Independent Research Analyst";
+	public static final String RESEARCH_BROKER = "Research Broker";
+	
+	public static final String INDIVIDUAL_INVESTOR = "Individual Investor";
+	public static final String UNIVERSITY_OR_PHD_STUDENT = "University/Phd Student";
 		
 }
