@@ -40,10 +40,8 @@ public class RegistrationController {
 
 	private static Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 	
-	String[] vendorTypes = {RequestConstans.Vendor.DATA_AGGREGATOR, RequestConstans.Vendor.TRADING_APPLICATION, 
-			RequestConstans.Vendor.ANALYTICS_APPLICATION, RequestConstans.Vendor.RESEARCH_REPORT};
-	String[] consumerTypes = {RequestConstans.Consumer.FIN_CONSUMER_COMPANY_SELL_SIDE, RequestConstans.Consumer.FIN_CONSUMER_COMPANY_BUY_SIDE, 
-			RequestConstans.Consumer.FIN_CONSUMER_COMPANY_OTHERS, RequestConstans.Consumer.CONSUMER_UNIVERSITY, RequestConstans.Consumer.CONSUMER_OTHER_FIRM};
+	String[] vendorTypes = {RequestConstans.INDEPENDENT_RESEARCH_ANALYST, RequestConstans.RESEARCH_BROKER};
+	String[] consumerTypes = {RequestConstans.INDIVIDUAL_INVESTOR,RequestConstans.UNIVERSITY_OR_PHD_STUDENT};
 	List<String> vendorTypesList = Arrays.asList(vendorTypes);
 	List<String> consumerTypesList = Arrays.asList(consumerTypes);
 	
