@@ -316,7 +316,7 @@ public class VendorController {
 							RequestConstans.Vendor.ANALYTICS_APPLICATION);
 					modelAndView.addObject("analyticsapplication", vendormyofferingtags);
 				}
-				if (vendormyofferingtags.equals(RequestConstans.Vendor.RESEARCH_REPORT)) {
+				if (vendormyofferingtags.equals( RequestConstans.RESEARCH_BROKER)) {
 					logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.RESEARCH_REPORT);
 					modelAndView.addObject("researchreport", vendormyofferingtags);
 				}
