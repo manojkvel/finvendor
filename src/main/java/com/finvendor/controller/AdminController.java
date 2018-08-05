@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.exception.ApplicationException;
-import com.finvendor.model.Consumer;
 import com.finvendor.model.Country;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.ReferenceData;
@@ -37,7 +36,6 @@ import com.finvendor.service.ConsumerService;
 import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
-import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 

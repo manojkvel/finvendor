@@ -43,7 +43,6 @@ import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
-import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 

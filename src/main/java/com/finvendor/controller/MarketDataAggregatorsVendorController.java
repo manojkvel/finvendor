@@ -5,7 +5,6 @@ package com.finvendor.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -44,7 +43,6 @@ import com.finvendor.model.VendorSearchResult;
 import com.finvendor.service.MarketDataAggregatorsService;
 import com.finvendor.util.AssetSecurityTypes.Assets;
 import com.finvendor.util.AssetSecurityTypes.SecurityTypes;
-import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
 
 /**

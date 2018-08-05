@@ -31,7 +31,6 @@ import com.finvendor.model.Vendor;
 import com.finvendor.service.ConsumerService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
-import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 

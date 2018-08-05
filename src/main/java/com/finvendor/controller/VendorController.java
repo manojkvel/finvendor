@@ -13,7 +13,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.Base64;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
-import com.finvendor.common.util.StringUtil;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.JsonResponseData;
 import com.finvendor.form.VendorAnalystProfileForm;
@@ -96,10 +94,9 @@ import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.RfpService;
 import com.finvendor.service.UserService;
 import com.finvendor.service.VendorService;
-import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
-import com.finvendor.util.VendorEnum;
 import com.google.gson.Gson;
+
 
 @Controller
 public class VendorController {
