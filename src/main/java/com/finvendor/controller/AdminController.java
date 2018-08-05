@@ -13,6 +13,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.finvendor.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -278,7 +279,7 @@ public class AdminController {
 					country = (Country)referenceDataService.getModelObjectById(
 							Country.class, new Integer(user.getVendor().getCountryofincorp()));
 					}
-				CommonUtils.populateVendorProfileRequest(user.getVendor(), 
+				CommonUtils.populateVendorProfileRequest(user.getVendor(),
 						vendorService, modelAndView);
 				marketDataOfferings = vendorService.
 						getMarketDataVendorOfferingsForProfile(user.getVendor().getId());

@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.finvendor.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -512,7 +513,7 @@ public class RegistrationController {
 				CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
 			}else if(user.getConsumer() != null) {				
 				userService.updateConsumerAccountSettings(userName, companyType, tags, email);
-				CommonUtils.populateConsumerProfileRequest(user.getConsumer(), consumerService, 
+				CommonUtils.populateConsumerProfileRequest(user.getConsumer(), consumerService,
 						modelAndView);	
 			}
 			modelAndView.addObject("status", "true");
