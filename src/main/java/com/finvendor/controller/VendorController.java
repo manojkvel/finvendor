@@ -317,7 +317,8 @@ public class VendorController {
 							RequestConstans.Vendor.ANALYTICS_APPLICATION);
 					modelAndView.addObject("analyticsapplication", vendormyofferingtags);
 				}
-				if (vendormyofferingtags.equals( RequestConstans.RESEARCH_BROKER)) {
+				if (vendormyofferingtags.equals( RequestConstans.RESEARCH_BROKER)
+						|| vendormyofferingtags.equals( RequestConstans.INDEPENDENT_RESEARCH_ANALYST)) {
 					logger.debug("Set My Offerings tab of {} for {}", username, RequestConstans.Vendor.RESEARCH_REPORT);
 					modelAndView.addObject("researchreport", vendormyofferingtags);
 				}
@@ -332,7 +333,6 @@ public class VendorController {
 			modelAndView.addObject("solutions", solutions);
 
 		} catch (Exception exp) {
-			exp.printStackTrace();
 			logger.error("VendorController : vendorMyOfferings - Error reading details", exp);
 		}
 
