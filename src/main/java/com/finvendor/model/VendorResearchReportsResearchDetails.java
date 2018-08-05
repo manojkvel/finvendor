@@ -1,17 +1,17 @@
 package com.finvendor.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="ven_rsrch_rpt_dtls")
-public class VendorResearchReportsResearchDetails 
-	implements Serializable {
-	
+@NamedQueries({
+		@NamedQuery(name = VendorResearchReportsResearchDetails.RESEARCH_REPORT_DETAILS_NAMED_QUERY, query = "from com.finvendor.model.VendorResearchReportsResearchDetails where productId like:productId")
+		 })
+public class VendorResearchReportsResearchDetails implements Serializable {
+	public static final String RESEARCH_REPORT_DETAILS_NAMED_QUERY = "researchReportDetail";
 	private static final long serialVersionUID = 03012017230601L;
 	
 	@Id
@@ -91,13 +91,7 @@ public class VendorResearchReportsResearchDetails
 		this.rsrchReportDesc = rsrchReportDesc;
 	}
 
-	public String getRsrchUploadReport() {
-		return rsrchUploadReport;
-	}
 
-	public void setRsrchUploadReport(String rsrchUploadReport) {
-		this.rsrchUploadReport = rsrchUploadReport;
-	}
 
 	public String getTargetPrice() {
 		return targetPrice;
@@ -115,19 +109,29 @@ public class VendorResearchReportsResearchDetails
 	private String rsrchReportDesc;
 	
 	@Column(name="rsrch_upload_report")
-	private String rsrchUploadReport;
+	@Lob
+	private Blob rsrchUploadReport;
 	
 	@Column(name="target_price")
 	private String targetPrice;
-	
-	
-	
-/*	@Column(name="res_period_mon")
-	private String resPeriodMon;
-	
-	@Column(name="res_period_year")
-	private String resPeriodYear;
-*/
+
+	@Column(name="report_name")
+	private String reportName;
+
+	public Blob getRsrchUploadReport() {
+		return rsrchUploadReport;
+	}
+
+	public void setRsrchUploadReport(Blob rsrchUploadReport) {
+		this.rsrchUploadReport = rsrchUploadReport;
+	}
+
+	/*	@Column(name="res_period_mon")
+        private String resPeriodMon;
+
+        @Column(name="res_period_year")
+        private String resPeriodYear;
+    */
 	public String getProductId() {
 		return productId;
 	}
@@ -209,6 +213,12 @@ public class VendorResearchReportsResearchDetails
 		this.resPeriodYear = resPeriodYear;
 	}
 	*/
-	
-	
+
+	public String getReportName() {
+		return reportName;
+	}
+
+	public void setReportName(String reportName) {
+		this.reportName = reportName;
+	}
 }

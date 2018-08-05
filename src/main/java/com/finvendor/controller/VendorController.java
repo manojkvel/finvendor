@@ -1,6 +1,7 @@
 package com.finvendor.controller;
 
 import java.io.IOException;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -837,7 +840,7 @@ public class VendorController {
 		return JsonResponseData;
 	}
 
-	@RequestMapping(value = RequestConstans.Vendor.DELETE_VENDOR_SOLUTION, method = (RequestMethod.POST))
+	@RequestMapping(value = RequestConstans.Vendor.DELETE_VENDOR_SOLUTION,  method = RequestMethod.POST)
 	public @ResponseBody Set<JsonResponseData> deleteVendorSolution(
 			@RequestParam(value = "objectVar", required = false) String objectVar) {
 		vendorService.deleteVendorSolution(objectVar);
@@ -864,7 +867,7 @@ public class VendorController {
 		return JsonResponseData;
 	}
 
-	@RequestMapping(value = RequestConstans.Vendor.DELETE_RECORD, method = (RequestMethod.GET))
+	@RequestMapping(value = RequestConstans.Vendor.DELETE_RECORD,  method = RequestMethod.GET)
 	public @ResponseBody Set<JsonResponseData> deleteRecord(
 			@RequestParam(value = "recordId", required = false) String objectVar,
 			@RequestParam(value = "recordName", required = false) String recordName) {
@@ -3098,44 +3101,32 @@ public class VendorController {
 			// Build Vendor research report offering file path using logged in user name
 			String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
 			if (multiPartFile != null && multiPartFile.getSize() > 0L) {
-				String rsrchUploadRptPath = WebUtil.buildReportPath(productId, multiPartFile, userName, basePath);
-				researchDetails.setRsrchUploadReport(rsrchUploadRptPath);
-
+				byte[] fileContent=multiPartFile.getBytes();
+				Blob blob = Hibernate.createBlob(fileContent);
+				researchDetails.setRsrchUploadReport(blob);
+				researchDetails.setReportName(multiPartFile.getOriginalFilename());
 				researchReportsOffering.setResearchDetails(researchDetails);
+
 				vendorService.addVendorResearchReportsOffering(researchReportsOffering);
 
-				/*
-				 * upload Vendor Research Report Offering file to server. We store upload report
-				 * file on server with base path like
-				 * /home/finvendo/<loggedIn-username>/research_report/xyz.pdf
-				 */
-				boolean uploadFileStatus = vendorService.uploadFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING,
-						multiPartFile.getBytes(), rsrchUploadRptPath);
-
-				// Upon Upload file failed revert from ven_rsrch_rpt_offering table
-				if (!uploadFileStatus) {
-					vendorService.deleteVendorResearchReportsOffering(productId);
+				//Send mail to logged in user if vendor upload new report
+				String companyName = vendorService.getCompanyName(researchReportFor);
+				if (priceService.isResearchPriceSet(companyName)) {
+					priceAlertMail.sendResearchReportAlertMail(userName, researchReportFor, companyName);
 				} else {
-					logger.info("Research Reports Offering file uploaded file successfully at server path:"
-							+ rsrchUploadRptPath);
-					String companyName = vendorService.getCompanyName(researchReportFor);
-					if (priceService.isResearchPriceSet(companyName)) {
-						priceAlertMail.sendResearchReportAlertMail(userName, researchReportFor, companyName);
-					} else {
-						LogUtil.logInfo("***Research Resport Alert is not set for comapny=" + companyName);
-					}
+					LogUtil.logInfo("***Research Resport Alert is not set for comapny=" + companyName);
 				}
 			} else {
-				String voUploadFilePath = "";
+				Blob blob =null;
 				VendorResearchReportsResearchDetails existingResearchDetails = vendorService
 						.fetchVendorResearchReportsOffering(productId).getResearchDetails();
 				if (existingResearchDetails != null) {
-					voUploadFilePath = existingResearchDetails.getRsrchUploadReport();
+					blob = existingResearchDetails.getRsrchUploadReport();
 				} else {
 					throw new Exception("Existing ResearchDetails found null!");
 				}
 
-				researchDetails.setRsrchUploadReport(voUploadFilePath);
+				researchDetails.setRsrchUploadReport(blob);
 				researchReportsOffering.setResearchDetails(researchDetails);
 				vendorService.addVendorResearchReportsOffering(researchReportsOffering);
 			}
@@ -3168,19 +3159,11 @@ public class VendorController {
 			for (VendorResearchReportsOffering offering : offerings) {
 				if (offering.getProductId().equals(productId)) {
 					matchFound = true;
-					if (offering.getResearchDetails() != null) {
-						voFilePath = offering.getResearchDetails().getRsrchUploadReport();
-					} else {
-						logger.error("Research upload path is empty as details found null");
-					}
 					break;
 				}
 			}
 			if (matchFound) {
 				vendorService.deleteVendorResearchReportsOffering(productId);
-				if (voFilePath != null && !voFilePath.isEmpty()) {
-					vendorService.deleteFile(VendorEnum.VENDOR_RESEARCH_REPORT_OFFERING, voFilePath);
-				}
 				modelAndView.addObject("status", "Successfully deleted Offering record");
 			} else {
 				logger.error("Selected Offering does not belong to logged in User !!");
@@ -3289,9 +3272,13 @@ public class VendorController {
 					// vo_eqrrv_report_access
 					vendorOffering.setRsrchReportAccess(offering.getResearchDetails().getRsrchReportAccess());
 
-					// vo_upload_report
-					vendorOffering.setRsrchUploadReport(StringUtil.getFileNameWithoutProductId(productId,
-							offering.getResearchDetails().getRsrchUploadReport()));
+					// vo_upload_report blob
+//					Blob rsrchUploadReport = offering.getResearchDetails().getRsrchUploadReport();
+//					byte[] bytes = rsrchUploadReport.getBytes(1, (int) rsrchUploadReport.length());
+//					String base64String = Base64.encodeBase64String(bytes);
+//					byte[] backToBytes = Base64.decodeBase64(base64String);
+					vendorOffering.setRsrchUploadReport(null);
+					vendorOffering.setReportName(offering.getResearchDetails().getReportName());
 				}
 
 				if (offering.getAnalystProfile() != null) {

@@ -1,5 +1,6 @@
 package com.finvendor.server.researchreport.service.impl;
 
+import java.io.InputStream;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,4 +51,5 @@ public class EquityResearchReportService extends AbsResearchReportService {
 			throw new Exception(e);
 		}
 	}
+
 }

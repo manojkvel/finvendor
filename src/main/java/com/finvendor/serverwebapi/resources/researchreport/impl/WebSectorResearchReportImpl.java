@@ -14,11 +14,6 @@ public class WebSectorResearchReportImpl implements IWebResearchReport {
 	public WebSectorResearchReportImpl() {
 	}
 
-	@Override
-	public ResponseEntity<?> downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String reportFileName,
-			String vendorName) throws WebApiException {
-				return null;
-	}
 
 
 
@@ -39,6 +34,11 @@ public class WebSectorResearchReportImpl implements IWebResearchReport {
 	public ResponseEntity<?> getResearchResultDashboardData(EquityResearchFilter equityResearchFilter,
 			String type, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy, String productId)
 					throws WebApiException {
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<?> downloadResearchReport(HttpServletRequest request, HttpServletResponse response, String productId, String reportName) throws WebApiException {
 		return null;
 	}
 }

@@ -1,5 +1,7 @@
 package com.finvendor.json.bean;
 
+import java.sql.Blob;
+
 public class VendorResearchReportsOfferingJson {
 
 	private String productId; 	
@@ -38,21 +40,21 @@ public class VendorResearchReportsOfferingJson {
 	private String rsrchRecommType;
 	private String priceAtRecomm;
 	private String rsrchReportDesc;
-	private String rsrchUploadReport;
+	private byte[] rsrchUploadReport;
 	private String targetPrice;
 	private String researchAreaType;
 	private String researchAreaCompanyName;
-	
+	private String reportName;
 public String getRsrchReportDesc() {
 		return rsrchReportDesc;
 	}
 	public void setRsrchReportDesc(String rsrchReportDesc) {
 		this.rsrchReportDesc = rsrchReportDesc;
 	}
-	public String getRsrchUploadReport() {
+	public byte[] getRsrchUploadReport() {
 		return rsrchUploadReport;
 	}
-	public void setRsrchUploadReport(String rsrchUploadReport) {
+	public void setRsrchUploadReport(byte[] rsrchUploadReport) {
 		this.rsrchUploadReport = rsrchUploadReport;
 	}
 	public String getTargetPrice() {
@@ -282,6 +284,12 @@ public String getRsrchReportFor() {
 	public void setResearchAreaCompanyName(String researchAreaCompanyName) {
 		this.researchAreaCompanyName = researchAreaCompanyName;
 	}
-	
-	
+
+	public String getReportName() {
+		return reportName;
+	}
+
+	public void setReportName(String reportName) {
+		this.reportName = reportName;
+	}
 }
