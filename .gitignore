@@ -1,4 +1,5 @@
 .classpath
+.idea
 .project
 .DS_Store
 bin/
@@ -9,3 +10,4 @@ WebContent/WEB-INF/finvendor.properties
 /bin/
 /bin/
 /bin/
+/target/

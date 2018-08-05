@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+ 
+<hibernate-configuration>
+	<session-factory>
+		<!-- <property name="hbm2ddl.auto">update</property> -->
+		<mapping class="com.finvendor.model.FinVendorUser"></mapping>
+        <mapping class="com.finvendor.model.Roles"></mapping>
+        <mapping class="com.finvendor.model.UserRole"></mapping> 
+        <mapping class="com.finvendor.model.Vendor"></mapping>
+        <mapping class="com.finvendor.model.Consumer"></mapping>
+        <mapping class="com.finvendor.model.AssetClass"></mapping>
+        <mapping class="com.finvendor.model.SecurityType"></mapping>
+        <mapping class="com.finvendor.model.AssetClassSecurityMap"></mapping>
+        <mapping class="com.finvendor.model.Region"></mapping>
+        <mapping class="com.finvendor.model.Country"></mapping>
+        <mapping class="com.finvendor.model.RegionCountryMap"></mapping>
+        <mapping class="com.finvendor.model.Exchange"></mapping>
+        <mapping class="com.finvendor.model.CountryExchangeMap"></mapping>
+        <mapping class="com.finvendor.model.SolutionTypes"></mapping>
+        <mapping class="com.finvendor.model.Solutions"></mapping>
+        <mapping class="com.finvendor.model.VendorOffering"></mapping>
+        <mapping class="com.finvendor.model.VendorRegionCountryExchangeMap"></mapping>
+        <mapping class="com.finvendor.model.VendorSolution"></mapping>
+        <mapping class="com.finvendor.model.Support"></mapping>
+        <mapping class="com.finvendor.model.VendorSupport"></mapping>
+        <mapping class="com.finvendor.model.Currency"></mapping>
+        <mapping class="com.finvendor.model.Cost"></mapping>
+        <mapping class="com.finvendor.model.DistributionMode"></mapping>
+        <mapping class="com.finvendor.model.VendorDistribution"></mapping>
+        <mapping class="com.finvendor.model.Awards"></mapping>
+        <mapping class="com.finvendor.model.VendorAwardsMap"></mapping>
+        <mapping class="com.finvendor.model.AssetClassDataDetails"></mapping>
+        <mapping class="com.finvendor.model.OfferingFiles"></mapping>
+        <mapping class="com.finvendor.model.FileFields"></mapping>
+        <mapping class="com.finvendor.model.VendorDataCoverage"></mapping>
+        <mapping class="com.finvendor.model.VendorAnalystProfile"></mapping>
+        <mapping class="com.finvendor.model.VendorAnalyticsfeaturesSupported"></mapping>
+        <mapping class="com.finvendor.model.VendorResearchCoverage"></mapping>
+        <mapping class="com.finvendor.model.VendorTradingCapabilitiesSupported"></mapping>
+        <mapping class="com.finvendor.model.VendorTradingSoftwareDetails"></mapping>
+        <mapping class="com.finvendor.model.VendorAnalyticsSoftwareDetails"></mapping>
+        <mapping class="com.finvendor.model.VendorResearchDetails"></mapping>
+        <mapping class="com.finvendor.model.CompanySubType"></mapping>
+        <mapping class="com.finvendor.model.VendorDataAggregatorsOffering"></mapping>
+        <mapping class="com.finvendor.model.VendorDataAggregatorsOfferingCoverage"></mapping>
+        <mapping class="com.finvendor.model.VendorDataAggregatorsOfferingDistribution"></mapping>
+        <mapping class="com.finvendor.model.VendorTradingApplicationsOffering"></mapping>
+        <mapping class="com.finvendor.model.VendorTradingApplicationsSoftwareDetails"></mapping>
+        <mapping class="com.finvendor.model.VendorTradingApplicationsTradingCapability"></mapping>
+        <mapping class="com.finvendor.model.AnalyticalSolutionType"></mapping>
+        <mapping class="com.finvendor.model.AnalyticalSolutionSubType"></mapping>
+        <mapping class="com.finvendor.model.ResearchArea"></mapping>
+        <mapping class="com.finvendor.model.ResearchSubArea"></mapping>
+        <mapping class="com.finvendor.model.VendorResearchReportsOffering"></mapping>
+        <mapping class="com.finvendor.model.VendorResearchReportsCoverageDetails"></mapping>
+        <mapping class="com.finvendor.model.VendorResearchReportsResearchDetails"></mapping>
+        <mapping class="com.finvendor.model.VendorResearchReportsAnalystProfile"></mapping>
+        <mapping class="com.finvendor.model.VendorAnalyticsApplicationsOffering"></mapping>
+        <mapping class="com.finvendor.model.VendorAnalyticsApplicationsSoftwareDetails"></mapping>
+        <mapping class="com.finvendor.model.ResearchAreaStockClassification"></mapping>
+        <mapping class="com.finvendor.model.ResearchSubAreaCompanyDetails"></mapping>
+        <mapping class="com.finvendor.model.ResearchSubAreaMarketCapType"></mapping>
+        <mapping class="com.finvendor.model.IndustrySubType"></mapping>
+        <mapping class="com.finvendor.model.MarketCapDef"></mapping>
+        <mapping class="com.finvendor.model.BrokerAnalyst"></mapping>
+        <mapping class="com.finvendor.model.Example"></mapping>
+        <mapping class="com.finvendor.model.CompanyWatchList"></mapping>
+        <mapping class="com.finvendor.model.CompanyPriceAlert"></mapping>
+        <mapping class="com.finvendor.model.StockHistoricalPrice"></mapping>
+        <mapping class="com.finvendor.model.CompMarketCapType"></mapping>
+        <mapping class="com.finvendor.model.StockCurrentPrice"></mapping>
+        <mapping class="com.finvendor.model.metrics.EqtyResearchReportsMetrics"></mapping>
+        <mapping class="com.finvendor.model.metrics.DownloadEqtyResearchReportsMetrics"></mapping>
+                
+      </session-factory>
+	 
+</hibernate-configuration>
