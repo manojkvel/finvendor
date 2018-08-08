@@ -18,8 +18,12 @@ public interface IWebStockCurrentPriceUpdate {
 	 * @return
 	 * @throws WebApiException
 	 */
-	@RequestMapping(value = "/updatestockprice", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updatestockpricebyvendor", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> updateStockPrice(StockCurrentPriceDTO stockCurrentPricePojo) throws WebApiException;
+	ResponseEntity<?> updateStockPriceByVendor(StockCurrentPriceDTO stockCurrentPricePojo) throws WebApiException;
+
+	@RequestMapping(value = "/updatestockpricebybhavcopy", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	ResponseEntity<?> updateStockPriceByBhavCopy() throws WebApiException;
 
 }

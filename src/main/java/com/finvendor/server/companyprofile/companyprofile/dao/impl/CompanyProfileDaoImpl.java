@@ -153,8 +153,8 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 
 				paramsMap.put("companyProfileData",
 						new CompanyProfileData(companyId, companyName, industry, mcap, cmp, absoluteLastChangedCmp,
-								lastChangedCmpInPercentage, newPeStr, newPBStr, dividen_yield, eps_ttm, _52w_high,
-								_52w_low, beta, share_outstanding, mkt_cap, revenue, face_value, String.valueOf(bv_share_as_float), roe, pat,
+								lastChangedCmpInPercentage, newPeStr, "-", dividen_yield, eps_ttm, _52w_high,
+								_52w_low, beta, share_outstanding, mkt_cap, revenue, face_value, "-", roe, pat,
 								recent_qtr,price_date_in_millis));
 
 			}
