@@ -391,13 +391,13 @@ function updateUserRegisteration() {
 	}
 
 	if(companytype != null) {
-		companytype = companytype.join();
+		//companytype = companytype.join();
 		$("#account_details #companyType").parent().find("button").removeClass("error_field");
 	} else {
 		$("#account_details #companyType").parent().find("button").addClass("error_field");
 	}
 
-	if(userRole == "userConsumer") {
+	/*if(userRole == "userConsumer") {
 		if(tags != null) {
 			tags = tags.join();
 			$("#account_details #vendorAreaOfInterest").parent().find("button").removeClass("error_field");
@@ -406,7 +406,8 @@ function updateUserRegisteration() {
 			$("#account_details .generic_message .alert").removeClass("alert-success").addClass("alert-danger").text('Please enter mandatory fields').show();
 			return false;
 		}
-	}
+	}*/
+	tags = null;
 
 	if(email != '' && companytype != null) {
 

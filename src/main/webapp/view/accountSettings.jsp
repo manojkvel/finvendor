@@ -6,7 +6,7 @@
 <un:useConstants className="com.finvendor.util.RequestConstans" var="requestConstants"/>
 <html>
 <head>
-	<title>Account Settings</title>
+	<title>Account Settings - Finvendor</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
 	<meta name="description" content="" />
@@ -47,7 +47,7 @@
 											</c:if>
 										</td>
 									</tr>
-									<c:if test="${user.consumer != null}">
+									<!--<c:if test="${user.consumer != null}">
 									<tr>
 										<th>Vendor Area of Interest</th>
 										<td class="tags">										
@@ -56,7 +56,7 @@
 											</c:if>
 										</td>
 									</tr>
-									</c:if>
+									</c:if>-->
 								</table>
 							</div>
 						</div>
@@ -82,145 +82,58 @@
 							<label class="default_select">Email</label>
 						</li>
 						<li>
-							<select class="selectpicker select_multiple" name="companyType" multiple="multiple" id="companyType">
+							<select class="selectpicker select_multiple" name="companyType" id="companyType">
+							<c:if test="${user.consumer != null}">
+											${user.consumer.companyType}
+											</c:if>
 										<c:if test="${user.consumer != null}">
 											<c:choose>
-												<c:when test="${finConsumerCompanySellSide != null}">
-													<option value="Financial Firm - Sell side" id="2" selected>Financial Firm - Sell side</option>
+												<c:when test="${user.consumer.companyType == 'Individual Investor'}">
+													<option value="Individual Investor" id="1" selected>Individual Investor</option>
 												</c:when>
 												<c:otherwise>
-													<option value="Financial Firm - Sell side" id="2">Financial Firm - Sell side</option>
+													<option value="Individual Investor" id="1">Individual Investor</option>
 												</c:otherwise>
 											</c:choose>
 											<c:choose>
-												<c:when test="${finConsumerCompanyBuySide != null}">
-													<option value="Financial Firm - Buy side" id="3" selected>Financial Firm - Buy side</option>
+												<c:when test="${user.consumer.companyType == 'University/Phd Student'}">
+													<option value="University/Phd Student" id="4" selected>University/Phd Student</option>
 												</c:when>
 												<c:otherwise>
-													<option value="Financial Firm - Buy side" id="3" >Financial Firm - Buy side</option>
-												</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${finConsumerCompanyOther != null}">
-													<option value="Financial Firm - Others" id="4" selected>Financial Firm - Others</option>
-												</c:when>
-												<c:otherwise>
-													<option value="Financial Firm - Others" id="4">Financial Firm - Others</option>
+													<option value="University/Phd Student" id="4">University/Phd Student</option>
 												</c:otherwise>
 											</c:choose>
 										</c:if>
 										<c:if test="${user.vendor != null}">
 											<c:choose>
-												<c:when test="${dataaggregator != null}">
-													<option value="Data Aggregator" id="5" selected>Financial Vendor - Data Aggregators</option> 
+												<c:when test="${user.vendor.companyType == 'Independent Research Analyst'}">
+													<option value="Independent Research Analyst" id="2" selected>Independent Research Analyst</option>
 												</c:when>
 												<c:otherwise>
-													<option value="Data Aggregator" id="5">Financial Vendor - Data Aggregators</option>
+													<option value="Independent Research Analyst" id="2">Independent Research Analyst</option>
 												</c:otherwise>
 											</c:choose>
 											<c:choose>
-												<c:when test="${tradingapplication != null}">
-													<option value="Trading Application" id="6" selected>Financial Vendor - Trading Applications</option>
+												<c:when test="${user.vendor.companyType == 'Research Broker'}">
+													<option value="Research Broker" id="3" selected>Research Broker</option>
 												</c:when>
 												<c:otherwise>
-													<option value="Trading Application" id="6">Financial Vendor - Trading Applications</option>
+													<option value="Research Broker" id="3">Research Broker</option>
 												</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${analyticsapplication != null}">
-													<option value="Analytics Application" id="7" selected>Financial Vendor - Analytics Applications</option>
-												</c:when>
-												<c:otherwise>
-													<option value="Analytics Application" id="7">Financial Vendor - Analytics Applications</option>
-												</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${researchreport != null}">
-													<option value="Research Report" id="8" selected>Financial Vendor - Research report Providers</option>
-												</c:when>
-												<c:otherwise>
-													<option value="Research Report" id="8">Financial Vendor - Research report Providers</option>
-												</c:otherwise>
-											</c:choose>										
-										</c:if>							
-										<c:if test="${user.consumer != null}">
-											<c:choose>
-												<c:when test="${consumerCompanyUniversity != null}">
-													<option value="University/College" id="9" selected>University/College</option>
-												</c:when>
-												<c:otherwise>
-													<option value="University/College" id="9">University/College</option>
-												</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${consumerCompanyOtherFirm != null}">
-													<option value="Other Firm" id="10" selected>Other firm</option>
-												</c:when>
-												<c:otherwise>
-													<option value="Other Firm" id="10">Other firm</option>
-												</c:otherwise>
-											</c:choose>										
-										</c:if>	
+											</c:choose>								
+										</c:if>
 							</select>
 							<label class="default_select">Company Type</label>
 						</li>
-						<c:if test="${user.consumer != null}">
-						<li id="vendor_area_of_interest">
-							<select class="selectpicker select_multiple" name="vendorAreaOfInterest" multiple="multiple" id="vendorAreaOfInterest">
-										<c:if test="${user.consumer != null}">
-											<c:choose>
-												<c:when test="${user.consumer.marketDataPreference == 'true'}">
-													<option value="Data Aggregator" selected>Data Aggregator</option>
-												</c:when>
-												<c:otherwise>
-													<option value="Data Aggregator">Data Aggregator</option>
-												</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${user.consumer.tradingAppPreference == 'true'}">
-													<option value="Trading Application" selected>Trading Application</option>
-												</c:when>
-												<c:otherwise>
-													<option value="Trading Application">Trading Application</option>
-												</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${user.consumer.analyticsAppPreference == 'true'}">
-													<option value="Analytics Application" selected>Analytics Application</option>
-												</c:when>
-												<c:otherwise>
-													<option value="Analytics Application">Analytics Application</option>
-												</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${user.consumer.researchReportPreference == 'true'}">
-													<option value="Research Report" selected>Research Report</option>
-												</c:when>
-												<c:otherwise>
-													<option value="Research Report">Research Report</option>
-												</c:otherwise>
-											</c:choose>										
-										</c:if>
-							</select>
-							<label class="default_select">Vendor Area of Interest</label>
-						</li>
-						</c:if>
 					</ul>
-					<div id="newslettersAndAlerts1">
-						<input type="checkbox" id="newslettersAndAlerts" name="newslettersAndAlerts" value="newslettersAndAlerts" style="float:left;"/> 							
-							<p>
-								&nbsp;I wish to get regular 
-								Newsletters & Alerts
-							</p>
-					</div>
 
 					<c:if test="${user.consumer != null}">
-						<p class="action_btn" data="userConsumer">
+						<p class="action_btn" data="userConsumer" style="clear:both;">
 							<a class="submit_btn save" data-toggle="tab">Save</a>
 						</p>
 					</c:if>
 					<c:if test="${user.vendor != null}">
-						<p class="action_btn" data="userVendor">
+						<p class="action_btn" data="userVendor" style="clear:both;">
 							<a class="submit_btn save" data-toggle="tab">Save</a>
 						</p>
 					</c:if>

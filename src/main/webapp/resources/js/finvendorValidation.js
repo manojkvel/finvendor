@@ -183,13 +183,13 @@ $(document).ready(function(){
 		validateNotNull(this,'signupCompanyErrorMsg');
 	});
 
-	$('#signup-companytype').on('blur', function(){
+	/*$('#signup-companytype').on('blur', function(){
 		validateSelectNotNull(this,'signupCompanyTypeErrorMsg');
 	});
 
 	$('#sigup-tags').on('blur', function(){
 		validateSelectNotNull(this,'signupVendorAreaOfInterestErrorMsg');
-	});
+	});*/
 
 	$('#userRegisterSpan .submit-btn').on('click', function(){
 		if(validateSpanElements('userRegisterSpan')) {

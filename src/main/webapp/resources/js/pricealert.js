@@ -201,7 +201,7 @@ function getCompanyPriceAlerts() {
 			getCompanyPriceAlerts();
 			$('#deletePriceAlert').modal('hide');
 		}, function(error) {
-
+			$('#deletePriceAlert').modal('hide');
 		});
 	}
 
@@ -303,7 +303,7 @@ function getCompanyPriceAlerts() {
 	        };
 	        httpRequest.onreadystatechange = function () {
 	            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-	                if (httpRequest.status === 200 || httpRequest.status === 201) {
+	                if (httpRequest.status === 200) {
 	                    resolve(httpRequest.response);
 	                } else {
 	                    console.log(httpRequest.status + httpRequest.responseText);
@@ -368,7 +368,7 @@ function getCompanyPriceAlerts() {
 			};
 			httpRequest.onreadystatechange = function () {
 				if (httpRequest.readyState === XMLHttpRequest.DONE) {
-					if (httpRequest.status === 201) {
+					if (httpRequest.status === 200) {
 						resolve(httpRequest.response);
 					} else {
 						console.log(httpRequest.status + httpRequest.responseText);
