@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.finvendor.common.util.Pair;
+import com.finvendor.server.common.infra.parser.StockPrice;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -123,7 +125,7 @@ public class StockPriceUpdateDaoImpl implements IStockPriceUpdateDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, String> findAllTickerFromDb() throws Exception {
+	public Map<String, String> findAllTickerFromDb()  {
 		SQLQuery query = commonDao.getNativeQuery("select company_id, ticker from rsch_sub_area_company_dtls", null);
 		List<Object[]> rows = query.list();
 		Map<String, String> companyIdAndisinCodeMap = new HashMap<>();
@@ -231,7 +233,7 @@ public class StockPriceUpdateDaoImpl implements IStockPriceUpdateDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String findIsinFromDb(String companyId) throws Exception {
+	public String findIsin(String companyId) throws Exception {
 		SQLQuery query = commonDao.getNativeQuery("select company_id, isin_code from rsch_sub_area_company_dtls where company_id=?", new String[] { companyId });
 		List<Object[]> rows = query.list();
 		for (Object[] row : rows) {
@@ -240,4 +242,50 @@ public class StockPriceUpdateDaoImpl implements IStockPriceUpdateDao {
 		return "";
 	}
 
+
+	public List<Pair<String,String>> findAllIsin() throws Exception {
+		SQLQuery query = commonDao.getNativeQuery("select company_id, isin_code from rsch_sub_area_company_dtls", null);
+		List<Object[]> rows = query.list();
+		List<Pair<String,String>> isinList= new ArrayList<>();
+		for (Object[] row : rows) {
+			String companyId = row[0] != null ? row[0].toString().trim() : "";
+			String isin = row[1] != null ? row[1].toString().trim() : "";
+			isinList.add(new Pair<>(companyId,isin));
+		}
+		return isinList;
+	}
+
+	@Override
+	public int updateStockPrice(String stockId, StockPrice stockPrice1,String priceDate) throws RuntimeException {
+		String open_price=stockPrice1.getOpen();
+		String high_price=stockPrice1.getHigh();
+		String low_price=stockPrice1.getLow();
+		String close_price=stockPrice1.getClose();
+
+		String insertIntoHistoricalTableQuery = "INSERT INTO `stock_historical_prices` SELECT d.* FROM stock_current_prices d WHERE stock_id = ?";
+		String updateLTPInCurrentPriceTableQuery = "update stock_current_prices as t1 inner join (select close_price from stock_current_prices where stock_id = ?) as t2 set t1.last_trade_price = t2.close_price where t1.stock_id=?";
+		String updateCMPInCurrentPriceTableQuery = "update stock_current_prices set price_date=? , open_price=? , high_price=? , low_price=? , close_price=? where stock_id=?";
+
+		SQLQuery insertIntoHistoricalTableSqlQuery = commonDao.getNativeQuery(insertIntoHistoricalTableQuery, new String[] { stockId });
+		int executeUpdate1 = insertIntoHistoricalTableSqlQuery.executeUpdate();
+		if (executeUpdate1 == 0) {
+			throw new RuntimeException("Unable to update stock_historial_prices table");
+		}
+
+		SQLQuery updateLTPInCurrentPriceTableSqlQuery = commonDao.getNativeQuery(updateLTPInCurrentPriceTableQuery, new String[] { stockId, stockId });
+		int executeUpdate2 = updateLTPInCurrentPriceTableSqlQuery.executeUpdate();
+		if (executeUpdate2 == 0) {
+			throw new RuntimeException("Unable to update stock_current_prices table");
+		}
+
+		updateLTPInCurrentPriceTableSqlQuery = commonDao.getNativeQuery(updateCMPInCurrentPriceTableQuery,
+				new String[] { priceDate, open_price, high_price, low_price, close_price, stockId });
+
+		int executeUpdate3  = updateLTPInCurrentPriceTableSqlQuery.executeUpdate();
+		if (executeUpdate3 == 0) {
+			throw new RuntimeException("Unable to update stock)current_prices table");
+		}
+
+		return 1;
+	}
 }

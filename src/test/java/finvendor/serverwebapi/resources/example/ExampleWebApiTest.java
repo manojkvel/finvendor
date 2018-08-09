@@ -1,9 +1,9 @@
 //package finvendor.serverwebapi.resources.example;//package com.finvendor.serverwebapi.resources.example;
 //
-//import com.finvendor.server.example.service.impl.ExampleServiceImpl;
+//import com.finvendor.server.example.service.service.ExampleServiceImpl;
 //import com.finvendor.server.example.staticpojo.ExamplePojo;
 //import com.finvendor.serverwebapi.resources.example.IWebExample;
-//import com.finvendor.serverwebapi.resources.example.impl.WebExampleImpl;
+//import com.finvendor.serverwebapi.resources.example.service.WebExampleImpl;
 //import com.google.gson.Gson;
 //import org.junit.Before;
 //import org.junit.Test;
