@@ -103,7 +103,7 @@
 							<div class="col-xs-12 col-sm-7">
 								<div class="col-xs-12 col-sm-6">
 									<div class="md_p" id="mkt_cap_value">
-										<div class="fl">MKT CAP (cr)</div>
+										<div class="fl">Market Cap (cr)</div>
 										<div class="fr">NA</div>
 									</div>
 								</div>
@@ -123,7 +123,7 @@
 								</div>
 								<div class="col-xs-12 col-sm-6">
 									<div class="md_p" id="eps_value">
-										<div class="fl">EPS-TTM</div>
+										<div class="fl">EPS (ttm)</div>
 										<div class="fr">NA</div>
 									</div>
 								</div>
@@ -328,7 +328,7 @@
 														<a href="javascript:void(0)" data-id="pe">P/E <i class="fa fa-sort"></i></a>
 													</p>
 													<p class="small_font">
-														<a href="javascript:void(0)" data-id="_3YrPatGrowth">3 YR PAT Growth <i class="fa fa-sort"></i></a>
+														<a href="javascript:void(0)" data-id="_3YrPatGrowth">3-YR EPS growth<i class="fa fa-sort"></i></a>
 													</p>
 												</th>
 												<th style="width:15%;">

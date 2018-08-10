@@ -379,7 +379,7 @@ function getCompanyProfileResearchReportLoad() {
         var cmp_last_change_class = "success";
         var cmp_last_change_caret = "fa-caret-up";
 
-        var lastChange = parseFloat(response.companyProfileData.lastChangedCmpInPercentage).toFixed();
+        var lastChange = parseFloat(response.companyProfileData.lastChangedCmpInPercentage).toFixed(2);
 
         if(lastChange > 0) {
             cmp_last_change_class = "success";
@@ -392,7 +392,7 @@ function getCompanyProfileResearchReportLoad() {
             cmp_last_change_caret = "";
         }
 
-        var patValue = parseFloat(response.companyProfileData.pat).toFixed();
+        var patValue = parseFloat(response.companyProfileData.pat).toFixed(2);
         if(patValue > 0) {
             patValue_class = "success";
             patValue_caret = "fa-caret-up";
@@ -404,7 +404,7 @@ function getCompanyProfileResearchReportLoad() {
             patValue_caret = "";
         }
 
-        var revenueValue = parseFloat(response.companyProfileData.revenue).toFixed();
+        var revenueValue = parseFloat(response.companyProfileData.revenue).toFixed(2);
         if(revenueValue > 0) {
             revenueValue_class = "success";
             revenueValue_caret = "fa-caret-up";
@@ -416,6 +416,14 @@ function getCompanyProfileResearchReportLoad() {
             revenueValue_caret = "";
         }
 
+        var mkt_cap = (response.companyProfileData.mkt_cap > 0) ? parseFloat(response.companyProfileData.mkt_cap).toFixed(2) : '-';
+        var pb = (response.companyProfileData.pb > 0) ? parseFloat(response.companyProfileData.pb).toFixed(2) : '-';
+        var _52w_low = (response.companyProfileData._52w_low > 0) ? parseFloat(response.companyProfileData._52w_low).toFixed(2) : '-';
+        var _52w_high = (response.companyProfileData._52w_high > 0) ? parseFloat(response.companyProfileData._52w_high).toFixed(2) : '-';
+        var pe =  (response.companyProfileData.pe != '-') ? parseFloat(response.companyProfileData.pe).toFixed(2) : '-';
+        var beta = (response.companyProfileData.beta != '-') ? parseFloat(response.companyProfileData.beta).toFixed(2) : '-';
+        var dividen_yield = (response.companyProfileData.dividen_yield != '-') ? parseFloat(response.companyProfileData.dividen_yield).toFixed(2) : '-';
+
         $(".company_details .c_name").text(response.companyProfileData.companyName);
         $(".company_details .ind_name").text(response.companyProfileData.industry);
         $(".company_details .mcap_name").text(response.companyProfileData.mcap);
@@ -424,25 +432,25 @@ function getCompanyProfileResearchReportLoad() {
         $(".company_details .last_cmp").addClass(cmp_last_change_class);
         $(".company_details .last_cmp").html(lastCmp);
 
-        $(".market_details #mkt_cap_value .fr").text(response.companyProfileData.mkt_cap);
-        $(".market_details #pe_value .fr").text(response.companyProfileData.pe);
-        $(".market_details #pb_value .fr").text(response.companyProfileData.pb);
-        $(".market_details #div_yield_value .fr").text(response.companyProfileData.dividen_yield);
-        $(".market_details #beta_value .fr").text(response.companyProfileData.beta);
+        $(".market_details #mkt_cap_value .fr").text(mkt_cap);
+        $(".market_details #pe_value .fr").text(pe);
+        $(".market_details #pb_value .fr").text(pb);
+        $(".market_details #div_yield_value .fr").text(dividen_yield);
+        $(".market_details #beta_value .fr").text(beta);
 
 
-        $(".market_details #revenue_value .fr").addClass(revenueValue_class);
-        $(".market_details #revenue_value .fr").html(response.companyProfileData.revenue + " <i class='fa " + revenueValue_caret + "'></i> ");
+        //$(".market_details #revenue_value .fr").addClass(revenueValue_class);
+        $(".market_details #revenue_value .fr").html(revenueValue);
 
 
         $(".market_details #face_value .fr").text(response.companyProfileData.face_value);
         $(".market_details #eps_value .fr").text(response.companyProfileData.eps_ttm);
         $(".market_details #bv_value .fr").text(response.companyProfileData.bv_share);
-        $(".market_details #year_l_h_value .fr").text(response.companyProfileData._52w_low + " / " + response.companyProfileData._52w_high);
+        $(".market_details #year_l_h_value .fr").text(_52w_low + " / " + _52w_high);
         $(".market_details #roe_value .fr").text(response.companyProfileData.roe);
 
-        $(".market_details #pat_value .fr").addClass(patValue_class);
-        $(".market_details #pat_value .fr").html(response.companyProfileData.pat + " <i class='fa " + patValue_caret + "'></i> ");
+        //$(".market_details #pat_value .fr").addClass(patValue_class);
+        $(".market_details #pat_value .fr").html(patValue);
 
         $("#summary_content .summary").text(response.summary);
 
