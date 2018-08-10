@@ -22,7 +22,7 @@ public interface IWebStockCurrentPriceUpdate {
 	@ResponseBody
 	ResponseEntity<?> updateStockPriceByVendor(StockCurrentPriceDTO stockCurrentPricePojo) throws WebApiException;
 
-	@RequestMapping(value = "/updatestockpricebybhavcopy", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updatestockpricebybhavcopy", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	ResponseEntity<?> updateStockPriceByBhavCopy() throws WebApiException;
 

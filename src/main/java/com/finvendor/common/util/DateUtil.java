@@ -1,5 +1,7 @@
 package com.finvendor.common.util;
 
+import com.finvendor.common.constant.AppConstant;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,7 +67,14 @@ public class DateUtil {
 		Date date = (Date) formatter.parse(str_date);
 		return date.getTime();
 	}
-	
+
+	public static long convertFvPriceDateToTimestamp(String str_date) throws ParseException {
+		DateFormat formatter;
+		formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+		Date date = (Date) formatter.parse(str_date);
+		return date.getTime();
+	}
+
 	public static void main(String[] args) {
 		int dayOfMonth = getPreviousDayOfMonthAsInteger(getPreviousWorkingDay(Calendar.getInstance().getTime()));
 		System.out.println(dayOfMonth); 

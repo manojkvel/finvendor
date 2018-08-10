@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.finvendor.common.util.DateUtil;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -120,7 +121,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 				equityResult.setCmp(row[6] != null ? row[6].toString() : "");
 
 				equityResult.setPriceDate(String
-						.valueOf(ResearchReportUtil.convertStringToTimestamp(row[7] != null ? row[7].toString() : "")));
+						.valueOf(DateUtil.convertFvPriceDateToTimestamp(row[7] != null ? row[7].toString() : "")));
 				equityResult.setPe(row[8] != null ? row[8].toString() : "");
 				equityResult.set_3YrPatGrowth(row[9] != null ? row[9].toString() : "");
 
