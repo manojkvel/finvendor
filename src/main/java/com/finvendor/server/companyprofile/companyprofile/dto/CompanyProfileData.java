@@ -29,12 +29,13 @@ public class CompanyProfileData {
 	private String pat;
 	private String recent_qtr;
 	private String price_date;
+	private String price_src_code;
 
 	public CompanyProfileData(String companyId, String companyName, String industry, String mcap, String cmp,
 			String absoluteLastChangedCmp, String lastChangedCmpInPercentage, String pe, String pb,
 			String dividen_yield, String eps_ttm, String _52w_high, String _52w_low, String beta,
 			String share_outstanding, String mkt_cap, String revenue, String face_value, String bv_share, String roe,
-			String pat, String recent_qtr,String price_date) {
+			String pat, String recent_qtr,String price_date,String price_src_code) {
 		super();
 		this.companyId = companyId;
 		this.companyName = companyName;
@@ -59,6 +60,7 @@ public class CompanyProfileData {
 		this.pat = pat;
 		this.recent_qtr = recent_qtr;
 		this.price_date = price_date;
+		this.price_src_code = price_src_code;
 	}
 
 	public String getCompanyId() {
@@ -243,5 +245,13 @@ public class CompanyProfileData {
 
 	public void setPrice_date(String price_date) {
 		this.price_date = price_date;
+	}
+
+	public String getPrice_src_code() {
+		return price_src_code;
+	}
+
+	public void setPrice_src_code(String price_src_code) {
+		this.price_src_code = price_src_code;
 	}
 }

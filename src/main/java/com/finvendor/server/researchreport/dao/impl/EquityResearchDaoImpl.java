@@ -85,7 +85,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 		try {
 			// Prepare data for Since from db
 			Map<String, Integer> vendorIdWithLaunchedYearDataMap = ResearchReportUtil
-					.prepareVendorSinceData(sessionFactory, sortBy, orderBy);
+					.prepareVendorSinceData(commonDao, sortBy, orderBy);
 
 			// Prepare brokerRank data from db
 			List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil.getBrokerRankData(commonDao,
@@ -118,11 +118,14 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 				equityResult.setStyle(row[3] != null ? row[3].toString() : "");
 				equityResult.setMcap(row[4] != null ? row[4].toString() : "");
 				equityResult.setSector(row[5] != null ? row[5].toString() : "");
-				equityResult.setCmp(row[6] != null ? row[6].toString() : "");
-
+				String cmp=row[6] != null ? row[6].toString().trim() : "";
+				float cmpAsFloat=Float.parseFloat(cmp);
+				equityResult.setCmp(cmp);
+				String priceDate=row[7] != null ? row[7].toString() : "";
+				System.out.println("+++++++++priceDate="+priceDate);
 				equityResult.setPriceDate(String
-						.valueOf(DateUtil.convertFvPriceDateToTimestamp(row[7] != null ? row[7].toString() : "")));
-				equityResult.setPe(row[8] != null ? row[8].toString() : "");
+						.valueOf(DateUtil.convertFvPriceDateToTimestamp(priceDate)));
+				//equityResult.setPe(row[8] != null ? row[8].toString() : "");
 				equityResult.set_3YrPatGrowth(row[9] != null ? row[9].toString() : "");
 
 				String productId = row[11] != null ? row[11].toString() : "";
@@ -183,8 +186,20 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 				equityResult.setYrOfInCorp(yrOfInCorp);
 
 				equityResult.setVendorName(row[25] != null ? row[25].toString() : "");
-				equityResult.setReportDesc(row[26] != null ? row[26].toString() : "");
+    			equityResult.setReportDesc(row[26] != null ? row[26].toString() : "");
+                equityResult.set_3YrEpsGrowth(row[27] != null ? row[27].toString() : "");
+                float eps_ttm_as_float=Float.parseFloat(row[28] != null ? row[28].toString().trim() : "");
 
+                //calculation of PE
+                String newPeStr = "";
+                float newPe = 0.0f;
+                if (eps_ttm_as_float == 0.0f) {
+                    newPeStr = "N/A";
+                } else {
+                    newPe = cmpAsFloat / eps_ttm_as_float;
+                    newPeStr = String.valueOf(newPe);
+                }
+                equityResult.setPe(newPeStr);
 				// Broker Rank
 				Map<String, String> brokerRanks = ResearchReportUtil.getBrokerRank(brokerRankData, vendorId,
 						equityFilter);

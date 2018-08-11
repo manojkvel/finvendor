@@ -34,6 +34,7 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String upside;
 	private String analystType;
 	private String yrOfInCorp;
+	private String _3YrEpsGrowth;
 
 	public String getProductId() {
 		return productId;
@@ -171,4 +172,11 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 		this.isinCode = isinCode;
 	}
 
+	public String get_3YrEpsGrowth() {
+		return _3YrEpsGrowth;
+	}
+
+	public void set_3YrEpsGrowth(String _3YrEpsGrowth) {
+		this._3YrEpsGrowth = _3YrEpsGrowth;
+	}
 }
