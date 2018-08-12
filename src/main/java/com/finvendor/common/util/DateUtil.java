@@ -71,7 +71,8 @@ public class DateUtil {
 	public static long convertFvPriceDateToTimestamp(String str_date) throws ParseException {
 		DateFormat formatter;
 		formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
-		Date date = (Date) formatter.parse(str_date);
+		formatter.setTimeZone(TimeZone.getTimeZone("IST"));
+		Date date = formatter.parse(str_date);
 		return date.getTime();
 	}
 

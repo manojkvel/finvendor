@@ -95,6 +95,10 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
                                                             @RequestParam(value = "orderBy", required = true) String orderBy,
                                                             @RequestParam(value = "productId", required = true) String productId) throws WebApiException {
         try {
+            if(equityResearchFilter==null){
+                equityResearchFilter=new EquityResearchFilter();
+                equityResearchFilter.setGeo("1");
+            }
             Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService
                     .getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
             EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData
