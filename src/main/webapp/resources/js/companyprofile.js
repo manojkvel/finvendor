@@ -416,6 +416,7 @@ function getCompanyProfileResearchReportLoad() {
             revenueValue_caret = "";
         }
 
+        var cmp = (response.companyProfileData.cmp > 0) ? parseFloat(response.companyProfileData.cmp).toFixed(2) : '-';
         var mkt_cap = (response.companyProfileData.mkt_cap > 0) ? parseFloat(response.companyProfileData.mkt_cap).toFixed(2) : '-';
         var pb = (response.companyProfileData.pb > 0) ? parseFloat(response.companyProfileData.pb).toFixed(2) : '-';
         var _52w_low = (response.companyProfileData._52w_low > 0) ? parseFloat(response.companyProfileData._52w_low).toFixed(2) : '-';
@@ -428,7 +429,7 @@ function getCompanyProfileResearchReportLoad() {
         $(".company_details .ind_name").text(response.companyProfileData.industry);
         $(".company_details .mcap_name").text(response.companyProfileData.mcap);
 
-        var lastCmp = response.companyProfileData.cmp + " (<i class='fa " + cmp_last_change_caret + "'></i> "  + lastChange + "%)";
+        var lastCmp = cmp + " (<i class='fa " + cmp_last_change_caret + "'></i> "  + lastChange + "%)";
         $(".company_details .last_cmp").addClass(cmp_last_change_class);
         $(".company_details .last_cmp").html(lastCmp);
 
