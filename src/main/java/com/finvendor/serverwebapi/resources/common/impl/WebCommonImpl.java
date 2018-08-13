@@ -4,6 +4,7 @@ import static com.finvendor.common.exception.ExceptionEnum.COMPANY_DETAILS;
 import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_FILTER;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,9 @@ public class WebCommonImpl implements IWebCommon {
 	@Transactional(readOnly = true)
 	public ResponseEntity<?> getCompanyDetails(String researchAreaId) throws WebApiException {
 		try {
-			List<CompanyDetails> companyDetails = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(),
+			Set<CompanyDetails> companyDetails = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(),
 					researchAreaId);
-			return new ResponseEntity<List<CompanyDetails>>(companyDetails, HttpStatus.OK);
+			return new ResponseEntity<>(companyDetails, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("WebApiCommon -> getCompanyDetails(...) method", e);
 			return ErrorUtil.getError(COMPANY_DETAILS.getCode(), COMPANY_DETAILS.getUserMessage(), e);

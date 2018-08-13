@@ -118,8 +118,8 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
     @Override
     @Transactional(readOnly = false)
     public void updateStockPrice() throws Exception {
-//		String downloadDirectory="/home/finvendo/dev";
-        String downloadDirectory = "d:\\ayush\\dev";
+        String downloadDirectory="/home/finvendo/dev";
+//        String downloadDirectory = "d:\\ayush\\dev";
         long startTime = System.currentTimeMillis();
         System.out.println("**********************************************************************************");
         System.out.println("******* STOCK PRICE UPDATE - START");
