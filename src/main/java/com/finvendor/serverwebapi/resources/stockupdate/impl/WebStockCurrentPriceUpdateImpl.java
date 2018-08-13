@@ -60,10 +60,10 @@ public class WebStockCurrentPriceUpdateImpl implements IWebStockCurrentPriceUpda
 	public ResponseEntity<?> updateStockPriceByBhavCopy() throws WebApiException {
 		try {
 			stockPriceUpdateService.updateStockPrice();
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			return new ResponseEntity<>(true, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("*** UpdateStockPrice(...) method", e);
-			return ErrorUtil.getError(UPDATE_PRICE.getCode(), UPDATE_PRICE.getUserMessage(), e);
+			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
 		}
 	}
 

@@ -24,32 +24,32 @@ public class PriceUpdateJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 		try {
-			String NSE_PRICE_URI = (String) jobDataMap.get("price_update_uri");
+			String NSE_PRICE_UPDATE_URI = (String) jobDataMap.get("price_update_uri");
 			String PRICE_ALERT_MAIL_URI = (String) jobDataMap.get("price_alert_uri");
 			LocalDateTime now = LocalDateTime.now();
-			LogUtil.logInfo("***NSE_PRICE_URI="+NSE_PRICE_URI);
-			LogUtil.logInfo("***PRICE_ALERT_MAIL_URI="+PRICE_ALERT_MAIL_URI);
-			LogUtil.logInfo("**********************************");
-			LogUtil.logInfo("***Scheulder Time:" + dtf.format(now));
+			System.out.println("***NSE_PRICE_UPDATE_URI="+NSE_PRICE_UPDATE_URI);
+			System.out.println("***PRICE_ALERT_MAIL_URI="+PRICE_ALERT_MAIL_URI);
+			System.out.println("**********************************");
+			System.out.println("***Scheulder Time:" + dtf.format(now));
 			LogUtil.logInfo("**********************************");
 
 			// Step-1 Update Price
-			RestTemplate restTemplate = new RestTemplate();
-			ResponseEntity<Boolean> stockPriceUpdateResponse = restTemplate.postForEntity(NSE_PRICE_URI,
-					new StockCurrentPriceDTO(), Boolean.class);
-
-			// Step-2 Send Mail
-			Boolean updateStatus = stockPriceUpdateResponse.getBody();
-			StatusPojo statusPojo=new StatusPojo();
-			if (updateStatus.booleanValue()) {
-				statusPojo.setStatus("true");
-				ResponseEntity<StatusPojo> mailResponse = restTemplate.postForEntity(PRICE_ALERT_MAIL_URI, statusPojo,
-						StatusPojo.class);
-				LogUtil.logInfo("*** Price Alert Mail Response code:" + mailResponse.getStatusCode());
-				LogUtil.logInfo("*** Price Alert Mail Body:" + mailResponse.getBody().toString());
-			} else {
-				LogUtil.logWarn("*** Unable to send mail due to either Price ALERT did not SET or holiday !!!!");
-			}
+//			RestTemplate restTemplate = new RestTemplate();
+//			ResponseEntity<Boolean> stockPriceUpdateResponse = restTemplate.postForEntity(NSE_PRICE_UPDATE_URI,
+//					new StockCurrentPriceDTO(), Boolean.class);
+//
+//			// Step-2 Send Mail
+//			Boolean updateStatus = stockPriceUpdateResponse.getBody();
+//			StatusPojo statusPojo=new StatusPojo();
+//			if (updateStatus.booleanValue()) {
+//				statusPojo.setStatus("true");
+//				ResponseEntity<StatusPojo> mailResponse = restTemplate.postForEntity(PRICE_ALERT_MAIL_URI, statusPojo,
+//						StatusPojo.class);
+//				LogUtil.logInfo("*** Price Alert Mail Response code:" + mailResponse.getStatusCode());
+//				LogUtil.logInfo("*** Price Alert Mail Body:" + mailResponse.getBody().toString());
+//			} else {
+//				LogUtil.logWarn("*** Unable to send mail due to either Price ALERT did not SET or holiday !!!!");
+//			}
 		} catch (Exception e) {
 			LogUtil.logError("*** Error in PriceUpdateJob - ErrMsg=" + e);
 		}
