@@ -122,7 +122,6 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 				float cmpAsFloat=Float.parseFloat(cmp);
 				equityResult.setCmp(cmp);
 				String priceDate=row[7] != null ? row[7].toString() : "";
-				System.out.println("+++++++++priceDate="+priceDate);
 				equityResult.setPriceDate(String
 						.valueOf(DateUtil.convertFvPriceDateToTimestamp(priceDate)));
 				//equityResult.setPe(row[8] != null ? row[8].toString() : "");
