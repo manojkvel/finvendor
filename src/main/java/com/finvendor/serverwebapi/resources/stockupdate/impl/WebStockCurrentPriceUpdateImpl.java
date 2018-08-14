@@ -67,4 +67,15 @@ public class WebStockCurrentPriceUpdateImpl implements IWebStockCurrentPriceUpda
 		}
 	}
 
+	@Override
+	public ResponseEntity<?> updateCompanyDescription() throws WebApiException {
+		try {
+			stockPriceUpdateService.updateCompanyDescription();
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		} catch (Exception e) {
+			ErrorUtil.logError("*** UpdateStockPrice(...) method", e);
+			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }

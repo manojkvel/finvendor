@@ -25,4 +25,5 @@ public interface IStockPriceUpdateDao {
 
 	StockCurrentPriceDTO getLastMonthPrice(String stockId) throws RuntimeException;
 	int updateStockPrice(String stockId, StockPrice stockPrice1,String priceDate)  throws RuntimeException;
+	void updateCompanyDesc(String isin,String desc)  throws RuntimeException;
 }

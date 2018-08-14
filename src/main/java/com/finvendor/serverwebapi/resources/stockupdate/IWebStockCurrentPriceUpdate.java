@@ -26,4 +26,9 @@ public interface IWebStockCurrentPriceUpdate {
 	@ResponseBody
 	ResponseEntity<?> updateStockPriceByBhavCopy() throws WebApiException;
 
+	@RequestMapping(value = "/updatecompanydescription", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	ResponseEntity<?> updateCompanyDescription() throws WebApiException;
+
+
 }
