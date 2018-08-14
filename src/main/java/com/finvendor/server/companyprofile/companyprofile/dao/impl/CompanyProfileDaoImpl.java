@@ -130,6 +130,7 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 
 				// static and it will updated quaterly
 				String pat = row[20] != null ? row[20].toString().trim() : "";// static
+				pat= StringUtils.remove(pat,",");
 				String recent_qtr = row[21] != null ? row[21].toString().trim() : "";
 
 				// date is comming in this format "dd/MMM/yy HH:mm:ss"
