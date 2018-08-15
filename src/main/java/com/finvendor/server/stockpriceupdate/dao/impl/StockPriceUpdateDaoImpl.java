@@ -288,4 +288,12 @@ public class StockPriceUpdateDaoImpl implements IStockPriceUpdateDao {
 
 		return 1;
 	}
+
+	@Override
+	public void updateCompanyDesc(String isin,String desc) throws RuntimeException {
+		SQLQuery nativeQuery = commonDao.getNativeQuery("update rsch_sub_area_company_dtls set company_desc=? where isin_code=? ",
+				new String[]{desc, isin});
+
+		nativeQuery.executeUpdate();
+	}
 }

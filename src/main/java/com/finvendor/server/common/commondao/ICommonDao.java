@@ -2,6 +2,7 @@ package com.finvendor.server.common.commondao;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.SQLQuery;
 
@@ -11,7 +12,7 @@ import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
 public interface ICommonDao {
 	List<Roles> executeNamedQuery(String namedQueryname) throws RuntimeException;
 
-	List<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) throws RuntimeException;
+	Set<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) throws RuntimeException;
 
 	SQLQuery getNativeQuery(String sql, Object[] conditionValue);
 

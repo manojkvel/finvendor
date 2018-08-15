@@ -1,8 +1,6 @@
 package com.finvendor.server.common.commondao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -26,13 +24,13 @@ public class CommonDaoImpl extends AbstractCommonDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) {
+	public Set<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) {
 		try {
 			SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 			query.setInteger(0, Integer.parseInt(rsrchAreaId));
 			List<Object[]> rows = query.list();
 
-			List<CompanyDetails> results = new ArrayList<>();
+			Set<CompanyDetails> results = new TreeSet<>();
 			for (Object[] row : rows) {
 				results.add(new CompanyDetails(Integer.parseInt(row[0].toString()), row[1].toString()));
 			}

@@ -1,20 +1,28 @@
 package com.finvendor.server.stockpriceupdate.service.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.finvendor.common.constant.AppConstant;
-import com.finvendor.common.util.LogUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.infra.download.service.URLReader;
 import com.finvendor.server.common.infra.parser.StockPrice;
 import com.finvendor.server.common.infra.parser.service.IFileParser;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,8 +126,8 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
     @Override
     @Transactional(readOnly = false)
     public void updateStockPrice() throws Exception {
-//		String downloadDirectory="/home/finvendo/dev";
-        String downloadDirectory = "d:\\ayush\\dev";
+        String downloadDirectory = "/home/finvendo/dev";
+//        String downloadDirectory = "d:\\ayush\\dev";
         long startTime = System.currentTimeMillis();
         System.out.println("**********************************************************************************");
         System.out.println("******* STOCK PRICE UPDATE - START");
@@ -196,5 +204,83 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
         System.out.println("******* STOCK PRICE UPDATE - all price updated successfully...");
         System.out.println("**********************************************************************************");
         System.out.println("****STOCK PRICE UPDATE -  Time taken=" + (System.currentTimeMillis() - startTime) / 1000L + " secs");
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void updateCompanyDescription() throws Exception {
+        Map<String, String> descMap = new LinkedHashMap<>();
+        FileInputStream file=null;
+        try {
+//            String pathname="D:\\ayush\\1-Fin-vendor\\feature\\desc.xls";
+            String pathname="/home/finvendo/dev/desc.xls";
+            file = new FileInputStream(new File(pathname));
+
+            //Create Workbook instance holding reference to .xlsx file
+            HSSFWorkbook wb = new HSSFWorkbook(file);
+
+            HSSFSheet sheet=wb.getSheetAt(0);
+            HSSFRow row;
+
+            Iterator<Row> rows = sheet.iterator();
+            while (rows.hasNext()) {
+                row =(HSSFRow) rows.next();
+                //For each row, iterate through all the columns
+                Iterator cells = row.cellIterator();
+
+                while (cells.hasNext()) {
+                    HSSFCell cell3 = (HSSFCell)cells.next();
+                    HSSFCell cell5 = (HSSFCell)cells.next();
+
+                    String desc ="";
+                    if (cell3.getCellType() == HSSFCell.CELL_TYPE_STRING)
+                    {
+                        desc = cell3.getStringCellValue();
+                    }
+                    else if(cell3.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
+                    {
+                        desc = cell3.getNumericCellValue()+"";
+                    }
+
+                    String isin="";
+                    if (cell5.getCellType() == HSSFCell.CELL_TYPE_STRING)
+                    {
+                        isin = cell5.getStringCellValue();
+                    }
+                    else if(cell5.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
+                    {
+                        isin = cell5.getNumericCellValue()+"";
+                    }
+
+                    if(desc.equals("Company Desc")){
+                       continue;
+                    }
+
+                    if(! "".equals(desc)) {
+                        descMap.put(isin, desc);
+                    }
+                    //break;
+                }
+            }
+            List<Pair<String, String>> allIsin = dao.findAllIsin();
+            for (int i = 0; i < allIsin.size(); i++) {
+                Pair<String, String> stringStringPair = allIsin.get(i);
+                String isinFromDb = stringStringPair.getElement2();
+                String desc = descMap.get(isinFromDb);
+                if (desc != null) {
+                    dao.updateCompanyDesc(isinFromDb, desc);
+                }else{
+                    System.out.println("~~~~~~~~no desc found in xls file for isin="+isinFromDb);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if(file!=null){
+                file.close();
+            }
+        }
+
+
     }
 }

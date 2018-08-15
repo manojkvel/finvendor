@@ -59,4 +59,5 @@ public interface IStockPriceUpdateService {
 	StockCurrentPriceDTO getLastMonthPrice(String stockId) throws Exception;
 
 	void updateStockPrice() throws Exception;
+	void updateCompanyDescription() throws Exception;
 }
