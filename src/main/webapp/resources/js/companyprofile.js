@@ -130,15 +130,15 @@ var priceAlertStatus = 'N';
             "<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
             "</td>" +
             "<td>" + 
-            "<div class='cmp'> Rs. " + response.equity[i].cmp + "</div>" + 
+            "<div class='cmp'> Rs. " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" + 
             "<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
-            "<div class='pe'>" + response.equity[i].pe + "</div>" + 
+            "<div class='pe'>" + parseFloat(response.equity[i].pe).toFixed(2) + "</div>" + 
             "<div class='_3YrPatGrowth " + _3YrPatGrowthClass + "'><i class='fa " + _3YrPatGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrPatGrowth != 'NA') ? Math.round(response.equity[i]._3YrPatGrowth * 100) / 100 + '%' : response.equity[i]._3YrPatGrowth) + "</div>" +
             "</td>" +
             "<td>" + 
             "<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
-            "<div class='targetPrice'> Rs. " + response.equity[i].targetPrice + "</div>" + 
-            "<div class='priceAtRecomm'>" + ((response.equity[i].priceAtRecomm == '') ? "N/A" : response.equity[i].priceAtRecomm) + "</div>" + 
+            "<div class='targetPrice'> Rs. " + parseFloat(response.equity[i].targetPrice).toFixed(2) + "</div>" + 
+            "<div class='priceAtRecomm'>" + ((response.equity[i].priceAtRecomm == '') ? "N/A" : parseFloat(response.equity[i].priceAtRecomm).toFixed(2)) + "</div>" + 
             "<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
             "</td>" +
             "<td>"  +  
@@ -150,6 +150,7 @@ var priceAlertStatus = 'N';
         }
 
         $("#research_report_content tbody").html(htmlCode);
+
 
         var paginationHtml =    "<div class='paging_container'>"
                                 + "<ul class='pager'>"
@@ -168,14 +169,14 @@ var priceAlertStatus = 'N';
         $('#broker_table tbody tr td .report a').on('click', getReport);
         $('#research_report_content .pager a').on('click', getPaginationIndex);
 
-        $("#average_target_price span").text(response.averageTargetPrice);
+        $("#average_target_price span").text(parseFloat(response.averageTargetPrice).toFixed(2));
         $("#no_of_analyst_report span").text(response.noOfAnalystReport);
 
-        $("#total_buy_recomm span").text((response.totalBuyRecomm/response.noOfAnalystReport)*100+ "%");
+        $("#total_buy_recomm span").text(parseFloat((response.totalBuyRecomm/response.noOfAnalystReport)*100).toFixed(2) + "%");
 
-        $("#total_neutral_recomm span").text((response.totalNeutralRecomm/response.noOfAnalystReport)*100+ "%");
+        $("#total_neutral_recomm span").text(parseFloat((response.totalNeutralRecomm/response.noOfAnalystReport)*100).toFixed(2) + "%");
 
-        $("#total_sell_recomm span").text((response.totalSellRecomm/response.noOfAnalystReport)*100+ "%");
+        $("#total_sell_recomm span").text(parseFloat((response.totalSellRecomm/response.noOfAnalystReport)*100).toFixed(2) + "%");
 
 
         setRecordStats(currentIndex, lastPageNumber);
