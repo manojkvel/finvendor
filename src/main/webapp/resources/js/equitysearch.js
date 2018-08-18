@@ -75,14 +75,14 @@ jQuery(document).ready(function() {
 			}
 
 
-			var _3YrPatGrowthClass = "success";
-			var _3YrPatGrowthClass_Caret = "fa-caret-up";
-			if(response.equity[i]._3YrPatGrowth > 0) {
-				_3YrPatGrowthClass = "success";
-				_3YrPatGrowthClass_Caret = "fa-caret-up";
+			var _3YrEpsGrowthClass = "success";
+			var _3YrEpsGrowthClass_Caret = "fa-caret-up";
+			if(response.equity[i]._3YrEpsGrowth > 0) {
+				_3YrEpsGrowthClass = "success";
+				_3YrEpsGrowthClass_Caret = "fa-caret-up";
 			} else {
-				_3YrPatGrowthClass = "danger";
-				_3YrPatGrowthClass_Caret = "fa-caret-down";
+				_3YrEpsGrowthClass = "danger";
+				_3YrEpsGrowthClass_Caret = "fa-caret-down";
 			}
 
 			var upsideClass = "success";
@@ -163,16 +163,16 @@ jQuery(document).ready(function() {
 			"<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
 			"</td>" +
 			"<td>" + 
-			"<div class='cmp'> Rs. " + response.equity[i].cmp + "</div>" + 
+			"<div class='cmp'> Rs. " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" + 
 			"<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
-			"<div class='pe'>" + response.equity[i].pe + "</div>" + 
-			"<div class='_3YrPatGrowth " + _3YrPatGrowthClass + "'><i class='fa " + _3YrPatGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrPatGrowth != 'NA') ? Math.round(response.equity[i]._3YrPatGrowth * 100) / 100 + '%' : response.equity[i]._3YrPatGrowth) + "</div>" +
+			"<div class='pe'>" + parseFloat(response.equity[i].pe).toFixed(2) + "</div>" + 
+			"<div class='_3YrEpsGrowth " + _3YrEpsGrowthClass + "'><i class='fa " + _3YrEpsGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrEpsGrowth != 'NA') ? parseFloat(Math.round(response.equity[i]._3YrEpsGrowth * 100) / 100).toFixed(2) + '%' : response.equity[i]._3YrEpsGrowth) + "</div>" +
 			"</td>" +
 			"<td>" + 
 			"<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
-			"<div class='targetPrice'> Rs. " + response.equity[i].targetPrice + "</div>" + 
-			"<div class='priceAtRecomm'>" + ((response.equity[i].priceAtRecomm == '') ? "N/A" : response.equity[i].priceAtRecomm) + "</div>" + 
-			"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
+			"<div class='targetPrice'> Rs. " + parseFloat(response.equity[i].targetPrice).toFixed(2) + "</div>" + 
+			"<div class='priceAtRecomm'>" + ((response.equity[i].priceAtRecomm == '') ? "N/A" : parseFloat(response.equity[i].priceAtRecomm)).toFixed(2) + "</div>" + 
+			"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? parseFloat(Math.round(response.equity[i].upside * 100) / 100).toFixed(2) + '%' : response.equity[i].upside) + "</div>" +
 			"</td>" +
 			"<td>"  +  
 			"<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post' data-vendor='" + response.equity[i].vendorName + "'><i class='fa fa-file'></i></a></div>" +

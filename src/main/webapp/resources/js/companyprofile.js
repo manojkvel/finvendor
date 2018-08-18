@@ -16,6 +16,16 @@ var priceAlertStatus = 'N';
         }
     };
 
+    var timeStampToDateNew = function (ts) {
+        if (ts) {
+            ts = new Date(ts).toString();
+            ts = ts.split(' ').slice(0, 5);
+            //console.log(ts);
+            return ts;
+        } else {
+            return 'NA';
+        }
+    };
 
 
     var getEquityListHtml = function(response) {
@@ -42,14 +52,14 @@ var priceAlertStatus = 'N';
             }
 
 
-            var _3YrPatGrowthClass = "success";
-            var _3YrPatGrowthClass_Caret = "fa-caret-up";
-            if(response.equity[i]._3YrPatGrowth > 0) {
-                _3YrPatGrowthClass = "success";
-                _3YrPatGrowthClass_Caret = "fa-caret-up";
+            var _3YrEpsGrowthClass = "success";
+            var _3YrEpsGrowthClass_Caret = "fa-caret-up";
+            if(response.equity[i]._3YrEpsGrowth > 0) {
+                _3YrEpsGrowthClass = "success";
+                __3YrEpsGrowthClass_Caret = "fa-caret-up";
             } else {
-                _3YrPatGrowthClass = "danger";
-                _3YrPatGrowthClass_Caret = "fa-caret-down";
+                _3YrEpsGrowthClass = "danger";
+                _3YrEpsGrowthClass_Caret = "fa-caret-down";
             }
 
             var upsideClass = "success";
@@ -133,7 +143,7 @@ var priceAlertStatus = 'N';
             "<div class='cmp'> Rs. " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" + 
             "<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
             "<div class='pe'>" + parseFloat(response.equity[i].pe).toFixed(2) + "</div>" + 
-            "<div class='_3YrPatGrowth " + _3YrPatGrowthClass + "'><i class='fa " + _3YrPatGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrPatGrowth != 'NA') ? Math.round(response.equity[i]._3YrPatGrowth * 100) / 100 + '%' : response.equity[i]._3YrPatGrowth) + "</div>" +
+            "<div class='_3YrEpsGrowth " + _3YrEpsGrowthClass + "'><i class='fa " + _3YrEpsGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrEpsGrowth != 'NA') ? Math.round(response.equity[i]._3YrEpsGrowth * 100) / 100 + '%' : response.equity[i]._3YrEpsGrowth) + "</div>" +
             "</td>" +
             "<td>" + 
             "<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
@@ -433,6 +443,9 @@ function getCompanyProfileResearchReportLoad() {
         var lastCmp = cmp + " (<i class='fa " + cmp_last_change_caret + "'></i> "  + lastChange + "%)";
         $(".company_details .last_cmp").addClass(cmp_last_change_class);
         $(".company_details .last_cmp").html(lastCmp);
+
+        var price_date = timeStampToDateNew(Number(response.companyProfileData.price_date))[2] + "-" + timeStampToDateNew(Number(response.companyProfileData.price_date))[1] + "-" + timeStampToDateNew(Number(response.companyProfileData.price_date))[3];
+        $(".company_details .price_date").text(response.companyProfileData.price_src_code + " | " + price_date + " | " + timeStampToDateNew(Number(response.companyProfileData.price_date))[4]);
 
         $(".market_details #mkt_cap_value .fr").text(mkt_cap);
         $(".market_details #pe_value .fr").text(pe);

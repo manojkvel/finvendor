@@ -40,6 +40,9 @@
 							<div class="profile_details company_details">
 								<span class='last_cmp'>CMP (Last change)</span>
 							</div>
+							<div class="profile_details company_details">
+								<span class="price_date">NA</span>
+							</div>
 						</div>
 						<div class="col-xs-12 col-sm-5">
 							<div class="profile_details func_details">
@@ -165,7 +168,7 @@
 								</div>
 								<div class="col-xs-12 col-sm-6">
 									<div class="md_p" id="roe_value">
-										<div class="fl">ROE(%)</div>
+										<div class="fl">ROE (%)</div>
 										<div class="fr">NA</div>
 									</div>
 								</div>

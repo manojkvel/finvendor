@@ -242,7 +242,7 @@
 												<a href="javascript:void(0)" data-id="pe">P/E <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="_3YrPatGrowth">3 YR PAT Growth <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="_3YrPatGrowth">3 YR EPS Growth <i class="fa fa-sort"></i></a>
 											</p>
 										</th>
 										<th style="width:15%;">
