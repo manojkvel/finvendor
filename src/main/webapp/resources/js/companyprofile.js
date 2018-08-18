@@ -331,7 +331,7 @@ var priceAlertStatus = 'N';
             "geo": "1"
         };
         window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-        
+
         //console.log(productId);
         var dasboardReportJson = {
             equitysearchjson : window.localStorage.getItem("equitysearchjson"),
@@ -386,6 +386,7 @@ function getCompanyProfileResearchReportLoad() {
 
     getCompanyProfile().then(function(data) {
         isProgressLoader(false);
+        $("#company_profile .company_profile_details").show();
         response = JSON.parse(data);
 
 

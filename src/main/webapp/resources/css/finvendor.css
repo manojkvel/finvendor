@@ -387,6 +387,10 @@ body {
 	font-size: 13px;
 }
 
+#company_profile .company_profile_details {
+	display: none;
+}
+
 #company_profile .container-fluid {
 	padding: 0;
 	clear: both;
