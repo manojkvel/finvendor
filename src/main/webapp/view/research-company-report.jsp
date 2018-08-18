@@ -19,7 +19,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="back_btn">
-					<a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp"><< Back</a>
+					<a href="javascript:void(0);"><< Back</a>
 				</div>
 			</div>
 		</div>

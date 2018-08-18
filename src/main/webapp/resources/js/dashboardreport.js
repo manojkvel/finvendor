@@ -15,48 +15,56 @@ var API_TIMEOUT_LARGE = 3*60*1000;
         }
     };
 
+$(".back_btn").on('click', function(){
+    window.history.back();
+});
 
 function getDashboardResearchReportLoad() {
 
     getDashboardResearchReport().then(function(data) {
         response = JSON.parse(data);
+
+        if(response.equity != null) {
          
-        var htmlData = "<div class='dashboard_report'>"
-                    + "<div class='hd'>"
-                            + "<span class='companyName'>" + response.equity.company + "</span>"
-                            + "<span class='currentMarketPrice'>CMP: " + response.equity.cmp + "</span>"
-                            + "<div>"
-                                + "<span data-toggle='tooltip' data-placement='top' title='' data-original-title='" + timeStampToDate(Number(response.equity.priceDate)) + "'>" + timeStampToDate(Number(response.equity.priceDate)) + "</span>"
-                            + "</div>"
-                    + "</div>"
-                    + "<div class='bd'>"
-                            + "<div class='reportContainer'>"
-                                + "<div class='reportDetails'>"
-                                    + "<div class='reportTitle'>"
-                                        + "<span class='recommType success'>" + response.equity.recommType + ":</span> " + response.equity.company
-                                        + "<div class='brokerName'>by " + response.equity.analystName + "</div>"
-                                    + "</div>"
-                                    + "<div class='targetPrice'>Target: " + response.equity.targetPrice + "</div>"
-                                    + "<div class='upside'>Upside: " + ((response.equity.upside != 'NA') ? Math.round(response.equity.upside * 100) / 100 + '%' : response.equity.upside) + "</div>"
+            var htmlData = "<div class='dashboard_report'>"
+                        + "<div class='hd'>"
+                                + "<span class='companyName'>" + response.equity.company + "</span>"
+                                + "<span class='currentMarketPrice'>CMP: " + response.equity.cmp + "</span>"
+                                + "<div>"
+                                    + "<span data-toggle='tooltip' data-placement='top' title='' data-original-title='" + timeStampToDate(Number(response.equity.priceDate)) + "'>" + timeStampToDate(Number(response.equity.priceDate)) + "</span>"
+                                + "</div>"
+                        + "</div>"
+                        + "<div class='bd'>"
+                                + "<div class='reportContainer'>"
+                                    + "<div class='reportDetails'>"
+                                        + "<div class='reportTitle'>"
+                                            + "<span class='recommType success'>" + response.equity.recommType + ":</span> " + response.equity.company
+                                            + "<div class='brokerName'>by " + response.equity.analystName + "</div>"
+                                        + "</div>"
+                                        + "<div class='targetPrice'>Target: " + response.equity.targetPrice + "</div>"
+                                        + "<div class='upside'>Upside: " + ((response.equity.upside != 'NA') ? Math.round(response.equity.upside * 100) / 100 + '%' : response.equity.upside) + "</div>"
 
-                                    + "<div class='dwnldReport'>"
-                                        + "<a target='blank' href='/system/api/downloadResearchReports?productId=" + response.equity.productId + "&reportName=" + response.equity.report + "'>Download Full Report</a>"
+                                        + "<div class='dwnldReport'>"
+                                            + "<a target='blank' href='/system/api/downloadResearchReports?productId=" + response.equity.productId + "&reportName=" + response.equity.report + "'>Download Full Report</a>"
+                                        + "</div>"
+                                    + "</div>"
+                                    + "<span class='brokerName'>" + response.equity.broker + "</span>"
+                                    + "<div class='reportDesc'>"
+                                        + "<p>"
+                                            + response.equity.reportDesc
+                                        + "</p>"
                                     + "</div>"
                                 + "</div>"
-                                + "<span class='brokerName'>" + response.equity.broker + "</span>"
-                                + "<div class='reportDesc'>"
-                                    + "<p>"
-                                        + response.equity.reportDesc
-                                    + "</p>"
-                                + "</div>"
-                            + "</div>"
-                    + "</div>"
-                + "</div>";
-        
-        $('#dashboard_report').html(htmlData);
-        $('[data-toggle="tooltip"]').tooltip();
+                        + "</div>"
+                    + "</div>";
+            
+            $('#dashboard_report').html(htmlData);
+            $('[data-toggle="tooltip"]').tooltip();
+        } else {
+             $('#dashboard_report').html("<div class='dashboard_report'>We are unable to download Report, please try again later</div>");
+        }
     }, function(error) {
-
+             $('#dashboard_report').html("<div class='dashboard_report'>We are unable to download Report, please try again later</div>");
     });
 }
 
