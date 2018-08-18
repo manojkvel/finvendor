@@ -1033,7 +1033,20 @@ textarea:valid ~ label {
 	padding: 10px 20px 20px;
 }
 
-#what_we_do h2,
+#home section {
+	padding: 10px 0 20px;
+}
+
+#home section:nth-child(odd) {
+	background: #fff;
+}
+
+#home section:nth-child(even) {
+	background: transparent;
+}
+
+
+#home section h2,
 #faq_list h2,
 #slider-home h2 {
 	font-size: 24px;
@@ -1043,13 +1056,13 @@ textarea:valid ~ label {
 	line-height: 24px;
 }
 
-#what_we_do .index-icon {
+#home section .index-icon {
 	font-size: 24px;
 	float: left;
 	margin-top: 3px;
 }
 
-#what_we_do .index-list-wrapper {
+#home section .index-list-wrapper {
 	font-size: 15px;
 	text-align: left;
 	margin-bottom: 10px;
@@ -1058,15 +1071,15 @@ textarea:valid ~ label {
 	padding-left: 50px;
 }
 
-#what_we_do h2 {
+#home section h2 {
 	margin-bottom: 40px;
 }
 
-#what_we_do p {
+#home section p {
 	text-align: center;
 }
 
-#what_we_do .row > div
+#home section .row > div
 {
 	margin-bottom: 20px;
 }
@@ -1076,6 +1089,7 @@ textarea:valid ~ label {
 	text-align: left;
 	margin-bottom: 10px;
 	list-style-type: disc;
+	list-style-position: inside;
 	line-height: 20px;
 }
 
@@ -1087,7 +1101,7 @@ textarea:valid ~ label {
 	text-decoration: underline !important;
 }
 
-#what_we_do span.know-more a {
+#home section span.know-more a {
     font-size: 20px;
     border: 3px solid #0072b9;
     border-radius: 35px;
@@ -1339,7 +1353,7 @@ textarea:valid ~ label {
 	height: 315px;
 }
 
-#user_interest_info {
+/*#user_interest_info {
 	margin-top: 40px;
 }
 
@@ -1360,7 +1374,7 @@ textarea:valid ~ label {
 
 #user_interest_info .fv_signup_newsletter .submit_btn {
 	font-size: 20px;
-}
+}*/
 
 
 

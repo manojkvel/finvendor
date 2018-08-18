@@ -205,7 +205,7 @@ var priceAlertStatus = 'N';
         if(currentIndex > lastPageNumber) {
             currentIndex = lastPageNumber;
         }
-        $("#records_stats").html(currentIndex + " of " + lastPageNumber);
+        $("#records_stats").html(pageNumber + " of " + lastPageNumber);
     }
 
     var resetPaginationCount = function() {
@@ -317,9 +317,12 @@ var priceAlertStatus = 'N';
 
             }, function(error) {
                 console.log(error);
+                isProgressLoader(false);
+                $("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
             });
         }, function(error) {
-
+            isProgressLoader(false);
+            $("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
         });
     };
 

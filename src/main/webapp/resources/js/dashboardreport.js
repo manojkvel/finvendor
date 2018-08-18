@@ -25,11 +25,15 @@ function getDashboardResearchReportLoad() {
         response = JSON.parse(data);
 
         if(response.equity != null) {
+
+            var cmp = parseFloat(response.equity.cmp).toFixed(2);
+            var targetPrice = parseFloat(response.equity.targetPrice).toFixed(2);
+            var upside = (response.equity.upside != 'NA') ? parseFloat(Math.round(response.equity.upside * 100) / 100).toFixed(2) + '%' : response.equity.upside;
          
             var htmlData = "<div class='dashboard_report'>"
                         + "<div class='hd'>"
                                 + "<span class='companyName'>" + response.equity.company + "</span>"
-                                + "<span class='currentMarketPrice'>CMP: " + response.equity.cmp + "</span>"
+                                + "<span class='currentMarketPrice'>CMP: " + cmp + "</span>"
                                 + "<div>"
                                     + "<span data-toggle='tooltip' data-placement='top' title='' data-original-title='" + timeStampToDate(Number(response.equity.priceDate)) + "'>" + timeStampToDate(Number(response.equity.priceDate)) + "</span>"
                                 + "</div>"
@@ -41,8 +45,8 @@ function getDashboardResearchReportLoad() {
                                             + "<span class='recommType success'>" + response.equity.recommType + ":</span> " + response.equity.company
                                             + "<div class='brokerName'>by " + response.equity.analystName + "</div>"
                                         + "</div>"
-                                        + "<div class='targetPrice'>Target: " + response.equity.targetPrice + "</div>"
-                                        + "<div class='upside'>Upside: " + ((response.equity.upside != 'NA') ? Math.round(response.equity.upside * 100) / 100 + '%' : response.equity.upside) + "</div>"
+                                        + "<div class='targetPrice'>Target: " + targetPrice + "</div>"
+                                        + "<div class='upside'>Upside: " + upside + "</div>"
 
                                         + "<div class='dwnldReport'>"
                                             + "<a target='blank' href='/system/api/downloadResearchReports?productId=" + response.equity.productId + "&reportName=" + response.equity.report + "'>Download Full Report</a>"

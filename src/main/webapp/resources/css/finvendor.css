@@ -1,5 +1,6 @@
 body {
 	font-family: 'Roboto', sans-serif, Arial;
+	line-height: normal;
 }
 
 .errorMessage {
@@ -12,6 +13,7 @@ body {
 	background: rgba(0, 114, 185, 0.8);
 	color: #fff;
 	min-height: 300px;
+	padding: 10px;
 }
 
 .splash-title {
@@ -27,6 +29,10 @@ body {
 
 .splash-search-bar {
 	margin-top: 70px;
+}
+
+.splash-search-bar .row {
+	margin: 0;
 }
 
 .splash-content .form-control {
@@ -385,6 +391,10 @@ body {
 	padding: 15px 0;
 	margin-bottom: 15px;
 	font-size: 13px;
+}
+
+#company_profile .subheader .nav-tabs>li {
+	margin-bottom: 3px;
 }
 
 #company_profile .company_profile_details {
@@ -1136,6 +1146,18 @@ button {
 
 @media only screen and (max-width: 767px) {
 
+	.splash-title {
+		font-size: 19px;
+	}
+
+	#home section h2 {
+		font-size: 19px;
+	}
+
+	.research_report_score_block span {
+		font-size: 15px;
+	}
+
 	#watchlist_container,
 	#pricealert_container {
 		overflow: auto;
@@ -1156,6 +1178,14 @@ button {
 	#watchlist_search form .input-group-addon {
 		width: 32px;
 		padding: 0 5px;
+	}
+
+	table .large_font a {
+		font-size: 13px;
+	}
+
+	table .small_font a {
+		font-size: 11px;
 	}
 }
 
