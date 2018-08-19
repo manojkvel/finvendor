@@ -1,11 +1,7 @@
 package com.finvendor.server.metrics.dao.impl;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +26,8 @@ public class EquityResearchReportMetricsDaoImpl extends GenericDao<EqtyResearchR
 	@SuppressWarnings("unchecked")
 	@Override
 	public void increaseCount(String userName, String request) throws RuntimeException {
-		String localDate = DateTimeFormatter.ofPattern(LOCAL_DATE_FORMAT_YYY_MM_DD).format(LocalDate.now());
+		SimpleDateFormat formatter=new SimpleDateFormat(LOCAL_DATE_FORMAT_YYY_MM_DD);
+		String localDate = formatter.format(Calendar.getInstance().getTime());
 		Map<Object, Object> paramMap = new HashMap<>();
 		paramMap.put("webrequest", request);
 		org.hibernate.Query query = commonDao

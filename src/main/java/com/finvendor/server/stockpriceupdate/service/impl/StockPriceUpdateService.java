@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.finvendor.common.constant.AppConstant;
@@ -143,7 +141,9 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
         } else {
             dayString = String.valueOf(day);
         }
-        final String priceDate = DateTimeFormatter.ofPattern(AppConstant.FV_PRICE_DATE_FORMAT).format(LocalDateTime.now());
+        SimpleDateFormat formatter=new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+        String priceDate = formatter.format(Calendar.getInstance().getTime());
+//        final String priceDate = DateTimeFormatter.ofPattern(AppConstant.FV_PRICE_DATE_FORMAT).format(LocalDateTime.now());
 
         cal.set(year, month, day);
         java.util.Date d = new java.util.Date(cal.getTimeInMillis());
