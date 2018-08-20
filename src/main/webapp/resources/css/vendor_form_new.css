@@ -776,16 +776,19 @@ textarea:valid ~ label {
 	display: none;
 }
 
-#account_details.custom_form ul {
+#account_details.custom_form ul,
+#contact_us .custom_form ul {
 	float: none;
 	width: auto;
 	margin: 0;
 }
-#account_details.custom_form ul > li {
+#account_details.custom_form ul > li,
+#contact_us .custom_form ul > li {
     width: 48.5%;
     margin-right: 1.5%;
 }
-#account_details.custom_form div {
+#account_details.custom_form div,
+#contact_us .custom_form div {
 	clear: both;
 	width: 100%;
 }
@@ -796,7 +799,8 @@ textarea:valid ~ label {
 	margin-bottom: 0;
 }
 
-#account_details.custom_form .btn {
+#account_details.custom_form .btn,
+#contact_us .custom_form .btn {
     float: none;
     padding: 0;
     color: #333;

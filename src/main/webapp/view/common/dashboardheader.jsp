@@ -76,88 +76,47 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Sector Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/sector-research.jsp">
                                                                                     Sector Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Macro Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/macro-research.jsp">
                                                                                     Macro Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Debt Mkt Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/debt-market-research.jsp">
                                                                                     Debt Mkt Research
                                                                                 </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Fund/ETF Research">
+                                                                                <a href="${pageContext.request.contextPath}/view/fund-etf-research.jsp">
                                                                                     Fund/ETF Research
                                                                                 </a>
                                                                             </li>
                                                                         </ul>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Brokers_Analysts">Brokers/Analysts</a>
+                                                                        <a href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">Brokers/Analysts</a>
                                                                     </li>
-                                                                <!--<li><a href="#">SOLUTIONS</a>
-                                                                    <ul>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=mdvad&RaYUnA=${l:encrypt(username)}">Market
-														Data Vendors</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=tavd&RaYUnA=${l:encrypt(username)}">Trading
-															Application Vendors</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=faavd&RaYUnA=${l:encrypt(username)}">Analytics
-																Application Vendors</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=frrpd&RaYUnA=${l:encrypt(username)}">Research
-																	Report Providers</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
-                                                                <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES">SERVICES</a>
-                                                                    <ul>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES&subNav=dadd">Data
-																			Aggregator Services</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES&subNav=tapdd">Trading
-																				Application Services</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES&subNav=aapdd">Analytics
-																					Application Services</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES&subNav=rrpdd">Research
-																						Report Services</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>-->
-                                                                <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE">More</a>
-                                                                    <ul>
-
-                                                                        <c:if test="${sessionScope.loggedInRole == 'ROLE_CONSUMER'}">
-                                                                            <li><a href="${pageContext.request.contextPath}/<%=RequestConstans.Vendor.VENDOR_RFP_INBOX%>">RFP
-																								Inbox </a>
+                                                                    <li><a href="javascript:void(0);">More</a>
+                                                                        <ul>
+                                                                            <li><a href="${pageContext.request.contextPath}/view/brochures.jsp">Brochures</a>
                                                                             </li>
-                                                                            <li><a href="${pageContext.request.contextPath}/<%=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER%>">Search
-																								Vendors</a>
+                                                                            <li><a href="${pageContext.request.contextPath}/view/white-papers.jsp">Whitepapers</a>
                                                                             </li>
-                                                                        </c:if>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=b">Brochures</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=w">Whitepapers</a>
-                                                                        </li>
 
-                                                                        <li>
-                                                                            <a target="_blank" href="http://blog.finvendor.com">Blogs</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=cs">Case
-																							Studies</a>
-                                                                        </li>
-                                                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=s">Spotlights</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
+                                                                            <li>
+                                                                                <a target="_blank" href="http://blog.finvendor.com">Blogs</a>
+                                                                            </li>
+                                                                            <li><a href="${pageContext.request.contextPath}/view/case-studies.jsp">Case
+                                                                                Studies</a>
+                                                                            </li>
+                                                                            <li><a href="${pageContext.request.contextPath}/view/spotlights.jsp">Spotlights</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
                                                                 <li class="user_activity">
                                                                     <c:choose>
                                                                         <c:when test="${sessionScope.loggedInUser != null }">
@@ -297,88 +256,45 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Sector Research">
+                                        <a href="${pageContext.request.contextPath}/view/sector-research.jsp">
                                             Sector Research
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Macro Research">
+                                        <a href="${pageContext.request.contextPath}/view/macro-research.jsp">
                                             Macro Research
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Debt Mkt Research">
+                                        <a href="${pageContext.request.contextPath}/view/debt-market-research.jsp">
                                             Debt Mkt Research
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Fund/ETF Research">
+                                        <a href="${pageContext.request.contextPath}/view/fund-etf-research.jsp">
                                             Fund/ETF Research
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Brokers_Analysts">Brokers/Analysts</a>
+                                <a href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">Brokers/Analysts</a>
                             </li>
-                            <!--<li>
-                                <a href="#">SOLUTIONS <i class="fa fa-chevron-down"></i></a>
-                                <ul class="child-main-menu">
-                                    <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=mdvad&RaYUnA=${l:encrypt(username)}">Market
-                                        Data Vendors</a>
+                            <li><a href="javascript:void(0);">More</a>
+                            <ul class="child-main-menu">
+                                    <li><a href="${pageContext.request.contextPath}/view/brochures.jsp">Brochures</a>
                                     </li>
-                                    <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=tavd&RaYUnA=${l:encrypt(username)}">Trading
-                                        Application Vendors</a>
+                                    <li><a href="${pageContext.request.contextPath}/view/white-papers.jsp">Whitepapers</a>
                                     </li>
-                                    <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=faavd&RaYUnA=${l:encrypt(username)}">Analytics
-                                        Application Vendors</a>
-                                    </li>
-                                    <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS&subNav=frrpd&RaYUnA=${l:encrypt(username)}">Research
-                                        Report Providers</a>
-                                    </li>
-                                </ul>
-                            </li>           
-                            <li>
-                                <a href="javascript:void(0);">SERVICES <i class="fa fa-chevron-down"></i></a>
-                                <ul class="child-main-menu">
-                                    <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES&subNav=dadd">Data
-                                        Aggregator Services</a>
-                                    </li>
-                                    <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES&subNav=tapdd">Trading
-                                        Application Services</a>
-                                    </li>
-                                    <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES&subNav=aapdd">Analytics
-                                        Application Services</a>
-                                    </li>
-                                    <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES&subNav=rrpdd">Research
-                                        Report Services</a>
-                                    </li>
-                                </ul>
-                            </li>-->
-                            <li>
-                                <a href="javascript:void(0);">MORE <i class="fa fa-chevron-down"></i></a>
-                                <ul class="child-main-menu">
-                                    <c:if test="${sessionScope.loggedInRole == 'ROLE_CONSUMER'}">
-                                        <li><a href="${pageContext.request.contextPath}/<%=RequestConstans.Vendor.VENDOR_RFP_INBOX%>">RFP
-                                                        Inbox </a>
-                                        </li>
-                                        <li><a href="${pageContext.request.contextPath}/<%=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER%>">Search
-                                                        Vendors</a>
-                                        </li>
-                                    </c:if>
-                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=b">Brochures</a>
-                                        </li>
-                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=w">Whitepapers</a>
-                                        </li>
 
-                                        <li>
-                                            <a target="_blank" href="http://blog.finvendor.com">Blogs</a>
-                                        </li>
-                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=cs">Case
+                                    <li>
+                                        <a target="_blank" href="http://blog.finvendor.com">Blogs</a>
+                                    </li>
+                                    <li><a href="${pageContext.request.contextPath}/view/case-studies.jsp">Case
                                         Studies</a>
-                                        </li>
-                                        <li><a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=MORE&subNav=s">Spotlights</a>
-                                        </li>
+                                    </li>
+                                    <li><a href="${pageContext.request.contextPath}/view/spotlights.jsp">Spotlights</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

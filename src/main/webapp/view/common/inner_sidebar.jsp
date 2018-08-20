@@ -4,9 +4,14 @@
             <h3>PRODUCTS</h3>
         </div> 
         <div class="content" id="sidelinks">
-            <ul>
-                <li>
-                    <a href="#">Research Reports</a>
+            <dl class="accordion">
+                <dt>
+                    <a href="#">
+                        Research Reports
+                        <span class="fa fa-angle-right"></span>
+                    </a>
+                </dt>
+                <dd>
                     <ul>
                         <li>
                             <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
@@ -14,67 +19,58 @@
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Sector_Research">
+                            <a href="${pageContext.request.contextPath}/view/sector-research.jsp">
                                 Sector Research
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Macro_Research">
+                            <a href="${pageContext.request.contextPath}/view/macro-research.jsp">
                                 Macro Research
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Debt_Mkt_Research">
+                            <a href="${pageContext.request.contextPath}/view/debt-market-research.jsp">
                                 Debt Mkt Research
                             </a>
                         </li>
                         <li>
-                            <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Fund_ETF_Research">
+                            <a href="${pageContext.request.contextPath}/view/fund-etf-research.jsp">
                                 Fund/ETF Research
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Brokers_Analysts">Brokers/Analysts</a>
-                </li>
-                <!--<li data-div-id="SOLUTIONS">
-                    <a href="#">SOLUTIONS</a>
-                    <ul id="SOLUTIONS_ul">
-                        <li data-div-id="SOLUTIONS_frrpd"><a href="#">Free Equity Research
-                                        Reports</a></li>
-                        <li data-div-id="SOLUTIONS_mdvad"><a href="#">Market
-							Data Providers</a></li>
-                        <li data-div-id="SOLUTIONS_tavd"><a href="#">Trading
-								Application Vendors</a></li>
-                        <li data-div-id="SOLUTIONS_faavd" style="display: none;"><a href="#">Analytics
-									Platforms</a></li>
+                </dd>
+                <ul class="parent_link">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">
+                            Brokers/Analysts
+                        </a>
+                    </li>
+                </ul>
+                <dt>
+                    <a href="#">
+                        More
+                        <span class="fa fa-angle-right"></span>
+                    </a>
+                </dt>
+                <dd>
+                    <ul class="accordion">
+                        <li><a href="${pageContext.request.contextPath}/view/brochures.jsp">Brochures</a>
+                        </li>
+                        <li><a href="${pageContext.request.contextPath}/view/white-papers.jsp">Whitepapers</a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="http://blog.finvendor.com">Blogs</a>
+                        </li>
+                        <li><a href="${pageContext.request.contextPath}/view/case-studies.jsp">Case
+                            Studies</a>
+                        </li>
+                        <li><a href="${pageContext.request.contextPath}/view/spotlights.jsp">Spotlights</a>
+                        </li>
                     </ul>
-                </li>
-                <li data-div-id="SERVICES"><a href="#">SERVICES</a>
-                    <ul id="SERVICES_ul">
-                        <li data-div-id="SERVICES_dadd"><a href="#">Data
-												Aggregator Services</a></li>
-                        <li data-div-id="SERVICES_tapdd"><a href="#">Trading
-													Application Services</a></li>
-                        <li data-div-id="SERVICES_aapdd"><a href="#">Analytics
-														Application Services</a></li>
-                        <li data-div-id="SERVICES_rrpdd"><a href="#">Research
-															Report Services</a></li>
-                    </ul>
-                </li>-->
-                <li data-div-id="MORE"><a href="#">MORE</a>
-                    <ul id="RESOURCES_ul">
-                        <li data-div-id="MORE_b"><a href="#">Brochures</a></li>
-                        <li data-div-id="MORE_w"><a href="#">Whitepapers</a></li>
-                        <!-- data-div-id="RESOURCES_blgs" -->
-                        <li><a href="http://blog.finvendor.com" target="_blank">Blogs</a></li>
-                        <li data-div-id="MORE_cs"><a href="#">Case
-																	Studies</a></li>
-                        <li data-div-id="MORE_s"><a href="#">Spotlights</a></li>
-                    </ul>
-                </li>
-            </ul>
+                </dd>
+            </dl>
         </div>
     </div>
     <div class="sidebar-ctn-wrap cnt-ctn-wrap">
@@ -83,10 +79,10 @@
         </div>
         <div class="content" id="sidelinks">
             <ul>
-                <li data-div-id="About"><a href="#">About Us</a></li>
-                <li data-div-id="Advisory"><a href="#">Advisory Team</a></li>
-                <li data-div-id="Management"><a href="#">Management Team</a></li>
-                <li data-div-id="Vision"><a href="#">Vision Statement</a></li>
+                <li><a href="${pageContext.request.contextPath}/view/about-us.jsp">About Us</a></li>
+                <li style="display:none;"><a href="${pageContext.request.contextPath}/view/advisory-team.jsp">Advisory Team</a></li>
+                <li data-div-id="Management"><a href="${pageContext.request.contextPath}/view/management-team.jsp">Management Team</a></li>
+                <li data-div-id="Vision"><a href="${pageContext.request.contextPath}/view/vision-statement.jsp">Vision Statement</a></li>
             </ul>
         </div>
     </div>
@@ -107,3 +103,22 @@
     </div>
 </div>
 <div class="clearfix"></div>
+<script type="text/javascript">
+    (function($) {
+
+        var allPanels = $('.accordion > dd').hide();
+
+      $('.accordion > dt > a').click(function() {
+        allPanels.slideUp();
+
+        if($(this).parent().next().is(':visible')) {
+            $(this).parent().next().slideUp();
+
+        } else {
+            $(this).parent().next().slideDown();
+        }
+        return false;
+    });
+
+  })(jQuery);
+</script>

@@ -1097,97 +1097,6 @@ button {
 }
 
 
-@media only screen and (max-width: 479px) {
-	.dashboard_report .bd .reportDetails {
-		float: none;
-		margin: 0 0 10px 0;
-	}
-
-	.research_report_score_block {
-		font-size: 9px;
-	}
-
-	.research_report_score_block p {
-		font-size: 11px;
-	}
-
-	.nav-tabs {
-		font-size: 9px;
-	}
-
-	#deleteWatchlist .modal-body ul li,
-	#deletePriceAlert .modal-body ul li {
-		margin-right: 10px;
-	}
-
-	#setPriceAlert table td, #setPriceAlert table th {
-		font-size: 11px;
-	}
-}
-
-@media only screen and (min-width: 480px) and (max-width: 767px) {
-
-	.research_report_score_block {
-		font-size: 11px;
-	}
-
-	.research_report_score_block p {
-		font-size: 11px;
-	}
-
-	.nav-tabs {
-		font-size: 10px;
-	}
-
-	.nav>li>a {
-		padding: 10px 13px;
-	}
-}
-
-@media only screen and (max-width: 767px) {
-
-	.splash-title {
-		font-size: 19px;
-	}
-
-	#home section h2 {
-		font-size: 19px;
-	}
-
-	.research_report_score_block span {
-		font-size: 15px;
-	}
-
-	#watchlist_container,
-	#pricealert_container {
-		overflow: auto;
-	}
-
-	#watchlist_search {
-		margin-right: 0;
-	}
-
-	#watchlist_search {
-		margin-right: 10px;
-	}
-
-	#watchlist_search form .form-control {
-		padding: 6px;
-	}
-
-	#watchlist_search form .input-group-addon {
-		width: 32px;
-		padding: 0 5px;
-	}
-
-	table .large_font a {
-		font-size: 13px;
-	}
-
-	table .small_font a {
-		font-size: 11px;
-	}
-}
 
 
 
@@ -1249,3 +1158,205 @@ button {
 }
 
 /*----------admin css-----------*/
+
+#contact_us_form {
+	width: 350px;
+}
+
+#contact_us_form .form-group {
+	text-align: left;
+}
+
+#contact_us_form .form-group .form-control {
+	border-bottom: 1px solid #d3d6d5;
+	position: relative;
+    vertical-align: middle;
+    margin: 0 0 10px;
+    border: 0;
+    outline: none;
+    color: #2f323a;
+    border-radius: 0;
+    transition: all 0.2s linear;
+    padding: 16px 0 0;
+    border-bottom: 1px solid #d3d6d5;
+    width: 100%;
+    height: 40px;
+    box-shadow: none;
+    font-size: 12px;
+}
+
+.sidebar-ctn-wrap .content dl dt a {
+    font-size: 13px;
+    color: #333333;
+    display: block;
+    padding: 10px;
+    font-weight: normal;
+}
+
+.sidebar-ctn-wrap .content dl dt {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.sidebar-ctn-wrap .content dl dt a span {
+	font-size: 20px;
+	float: right;
+	font-weight: bold;
+}
+
+.sidebar-ctn-wrap .content .parent_link {
+	margin-bottom: 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.default_template {
+	background: #fff;    
+	margin-bottom: 15px;
+    padding: 15px;
+    min-height: 515px;
+    text-align: center;
+}
+
+.default_template .icon {
+	font-size: 100px;
+	color: #000;
+	display: block;
+}
+
+.default_template h3 {
+	font-size: 30px;
+}
+
+.default_template p {
+	font-size: 17px;
+}
+
+.default_template .content {
+	text-align: left;
+	font-family: 'open_sansregular';
+}
+
+#privacy_policy .content h2,
+#disclaimer .content h2 {
+	text-align: center;
+}
+
+.default_template .content p {
+	font-size: 13px;
+	line-height: 23px;
+}
+
+#sitemap .default_template .content ul li {
+	font-size: 13px;
+    color: #333333;
+    display: block;
+    padding: 10px;
+    font-weight: normal;
+}
+
+#sitemap .default_template .content ul li a {
+    color: #333333;
+}
+
+#sitemap .default_template .content ul li a:hover {
+    color: #34bf98;
+}
+
+@media only screen and (max-width: 479px) {
+	.dashboard_report .bd .reportDetails {
+		float: none;
+		margin: 0 0 10px 0;
+	}
+
+	.research_report_score_block {
+		font-size: 9px;
+	}
+
+	.research_report_score_block p {
+		font-size: 11px;
+	}
+
+	.nav-tabs {
+		font-size: 9px;
+	}
+
+	#deleteWatchlist .modal-body ul li,
+	#deletePriceAlert .modal-body ul li {
+		margin-right: 10px;
+	}
+
+	#setPriceAlert table td, #setPriceAlert table th {
+		font-size: 11px;
+	}
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+	.research_report_score_block {
+		font-size: 11px;
+	}
+
+	.research_report_score_block p {
+		font-size: 11px;
+	}
+
+	.nav-tabs {
+		font-size: 10px;
+	}
+
+	.nav>li>a {
+		padding: 10px 13px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+
+	#contact_us_form {
+		width: 100%;
+	}
+
+	.splash-title {
+		font-size: 19px;
+	}
+
+	#home section h2 {
+		font-size: 19px;
+	}
+
+	.research_report_score_block span {
+		font-size: 15px;
+	}
+
+	#watchlist_container,
+	#pricealert_container {
+		overflow: auto;
+	}
+
+	#watchlist_search {
+		margin-right: 0;
+	}
+
+	#watchlist_search {
+		margin-right: 10px;
+	}
+
+	#watchlist_search form .form-control {
+		padding: 6px;
+	}
+
+	#watchlist_search form .input-group-addon {
+		width: 32px;
+		padding: 0 5px;
+	}
+
+	table .large_font a {
+		font-size: 13px;
+	}
+
+	table .small_font a {
+		font-size: 11px;
+	}
+
+	.default_template {
+		min-height: auto;
+	}
+}

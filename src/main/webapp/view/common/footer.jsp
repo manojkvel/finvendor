@@ -8,11 +8,7 @@
 						<div class="section_one">
 							<h3>About Us</h3>
 							<p>
-								FinVendor acts as a bridge between financial vendors and its end
-								users.<br>
-								<br> Our platform supports 4 different vendor types -
-								Financial Market Data Vendors, Trading Application Vendors,
-								Analytics Application Vendors and Research Report Providers.
+								Finvendor strives for democratizing the inventor's community. Finvendor endeavours to help retail and institutional investors make a well-informed investment decisions. <br />Finvendor sources the equity, sector, macroeconomic and debt research reports for Indian markets from the registered Brokers, economists and other sell-side independent research Analysts.
 							</p>
 							<ul class="social">
 								<li><a href="https://www.facebook.com/finvendor"
@@ -38,27 +34,23 @@
 							<h3>Quick Links</h3>
 							<ul>
 								<li><a
-									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SOLUTIONS">
-										<span class="fa fa-chevron-right"></span> Solutions
+									href="${pageContext.request.contextPath}/view/research-reports.jsp">
+										<span class="fa fa-chevron-right"></span> Research Reports
 								</a></li>
 								<li><a
-									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=SERVICES">
-										<span class="fa fa-chevron-right"></span> Services
-								</a></li>
-								<li><a
-									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=RESOURCES">
-										<span class="fa fa-chevron-right"></span> Resources
+									href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">
+										<span class="fa fa-chevron-right"></span> Brokers/Analysts
 								</a></li>
 								<li><a
 									href="${finVen:resolveContextPath(pageContext.request.contextPath)}">
 										<span class="fa fa-chevron-right"></span> home
 								</a></li>
 								<li><a
-									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=About">
+									href="${pageContext.request.contextPath}/view/about-us.jsp">
 										<span class="fa fa-chevron-right"></span> About Us
 								</a></li>
 								<li><a
-									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=CONTACT">
+									href="${pageContext.request.contextPath}/view/contact-us.jsp">
 										<span class="fa fa-chevron-right"></span> Contact
 								</a></li>
 							</ul>
@@ -112,13 +104,13 @@
 							<div class="pull-right xs-pull-left hidden-sm hidden-xs">
 								<ul class="footer_menu heading_font clearfix">
 									<li><a
-										href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Privacy_Policy">
+										href="${pageContext.request.contextPath}/view/privacy-policy.jsp">
 											Privacy Policy </a></li>
 									<li><a href="#"> Advertise </a></li>
 									<li><a
-										href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Disclaimer">
+										href="${pageContext.request.contextPath}/view/disclaimer.jsp">
 											Disclaimer </a></li>
-									<li><a href="<%=request.getContextPath()%>/sitemap">Sitemap</a>
+									<li><a href="<%=request.getContextPath()%>/view/sitemap.jsp">Sitemap</a>
 									</li>
 								</ul>
 							</div>
