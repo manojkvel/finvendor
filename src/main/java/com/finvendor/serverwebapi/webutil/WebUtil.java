@@ -24,7 +24,7 @@ public final class WebUtil {
 	private static final String LOGGED_IN_USER = "loggedInUser";
 	
 	/**Equity Research Broker Year of Incorporation json contants*/
-	public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON="[{\"brokerYrOfInCorp\":\"< 3 Month\"},{\"brokerYrOfInCorp\":\"3 - 6 Month\"},{\"brokerYrOfInCorp\":\"6 - 12 Month\"},{\"brokerYrOfInCorp\":\"> 1 Yrs\"}]";
+	public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON="[{\"brokerYrOfInCorp\":\"< 3 months\"},{\"brokerYrOfInCorp\":\"3 - 6 months\"},{\"brokerYrOfInCorp\":\"6 - 12 months\"},{\"brokerYrOfInCorp\":\"> 12 months\"}]";
 	
 	/**Equity Research upside json contants*/
 	public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON="[{\"broker_rank\":\"5 star (Success rate > 80%)\"},{\"broker_rank\":\"4 star (Success rate >= 65% & < 80%)\"},{\"broker_rank\":\"3 star (Success rate >= 50% & < 65%)\"},{\"broker_rank\":\"2 star (Success rate >= 40% & < 50%)\"},{\"broker_rank\":\"1 star (Success rate < 40%)\"}]";
@@ -36,7 +36,7 @@ public final class WebUtil {
 	public static final String EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON="[{\"upside\":\"<0%\"},{\"upside\":\"0-20%\"},{\"upside\":\"20-50%\"},{\"upside\":\"50-100%\"},{\"upside\":\">100%\"}]";
 
 	/**Equity Research AnalystType json contants*/
-	public static final String EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON="[{\"analystType\":\"Indendent Research Analyst\"},{\"analystType\":\"Research Broker\"}]";
+	public static final String EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON="[{\"analystType\":\"Independent Research Analyst\"},{\"analystType\":\"Research Broker\"}]";
 
 	// Forbidden instantiation
 	private WebUtil() {
@@ -195,7 +195,7 @@ public final class WebUtil {
 
 			//researchBroker as CompanyName - earlier was "UserName"
 			put("researchBroker",
-				new SqlData("SELECT ven_rsrch_rpt_offering.vendor_id,vendor.company FROM ven_rsrch_rpt_offering,vendor where ven_rsrch_rpt_offering.vendor_id=vendor.vendor_id  group by ven_rsrch_rpt_offering.vendor_id",
+				new SqlData("SELECT ven_rsrch_rpt_offering.vendor_id,vendor.company FROM ven_rsrch_rpt_offering,vendor where ven_rsrch_rpt_offering.vendor_id=vendor.vendor_id  group by ven_rsrch_rpt_offering.vendor_id order by vendor.company",
 				new ArrayList<ColumnNameAndNewValue>() {{
 					add(new ColumnNameAndNewValue("companyName", null));
 				}},
