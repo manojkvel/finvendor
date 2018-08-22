@@ -3106,7 +3106,6 @@ public class VendorController {
             researchReportsOffering.setAnalystProfile(analystProfile);
 
             // Build Vendor research report offering file path using logged in user name
-            String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
             if (multiPartFile != null && multiPartFile.getSize() > 0L) {
                 byte[] fileContent = multiPartFile.getBytes();
                 Blob blob = Hibernate.createBlob(fileContent);

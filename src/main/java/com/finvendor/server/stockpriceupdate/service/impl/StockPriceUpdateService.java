@@ -125,7 +125,7 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
     @Transactional(readOnly = false)
     public void updateStockPrice() throws Exception {
         String downloadDirectory = "/home/finvendo/dev";
-//        String downloadDirectory = "d:\\ayush\\dev";
+        //String downloadDirectory = "d:\\ayush\\dev";
         long startTime = System.currentTimeMillis();
         System.out.println("**********************************************************************************");
         System.out.println("******* STOCK PRICE UPDATE - START");
@@ -143,7 +143,6 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
         }
         SimpleDateFormat formatter=new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
         String priceDate = formatter.format(Calendar.getInstance().getTime());
-//        final String priceDate = DateTimeFormatter.ofPattern(AppConstant.FV_PRICE_DATE_FORMAT).format(LocalDateTime.now());
 
         cal.set(year, month, day);
         java.util.Date d = new java.util.Date(cal.getTimeInMillis());
@@ -153,6 +152,7 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
         String bhavCsvFileName = "cm" + dayString + "" + mmm.toUpperCase() + "" + year + "bhav.csv";
         String bhavCsvZipFileName = "cm" + dayString + "" + mmm.toUpperCase() + "" + year + "bhav.csv.zip";
 
+        //https://www.nseindia.com/content/historical/EQUITIES/2018/AUG/cm21AUG2018bhav.csv.zip
         String sUrl = "https://www.nseindia.com/content/historical/EQUITIES/" + year + "/" + mmm.toUpperCase() + "/" + bhavCsvZipFileName;
         System.out.println("******* STOCK PRICE UPDATE - BhavCopy NSE URL:" + sUrl);
         URL url = new URL(sUrl);
