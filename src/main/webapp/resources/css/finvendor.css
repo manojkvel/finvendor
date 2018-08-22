@@ -549,9 +549,11 @@ body {
 .nav-tabs>li.active>a:focus, 
 .nav-tabs>li.active>a:hover,
 .nav-tabs>li>a:hover {
-	background: #34bf98;
+	/*background: #34bf98;*/
+	background: #414b4f;
 	color: #fff;
 	cursor: pointer;
+	font-size: 12px;
 }
 
 .nav-tabs>li>a,
@@ -1259,6 +1261,25 @@ button {
 
 #sitemap .default_template .content ul li a:hover {
     color: #34bf98;
+}
+
+#vendor_my_offerings .custom_form #research_report_for_info .bootstrap-select ul li {
+	padding: 0 3%;
+	margin: 0 !important;
+	width: 94%;
+	margin: 0 auto;
+	font-size: 11px;
+	box-sizing: content-box;
+}
+
+#vendor_my_offerings .custom_form #research_report_for_info .bootstrap-select.btn-group .dropdown-menu li a {
+	padding: 7px 10px;
+}
+
+#vendor_my_offerings .custom_form #research_report_for_info .dropdown-menu>.active>a, 
+#vendor_my_offerings .custom_form #research_report_for_info .dropdown-menu>.active>a:focus, 
+#vendor_my_offerings .custom_form #research_report_for_info .dropdown-menu>.active>a:hover {
+	background-color: #34bf98;
 }
 
 @media only screen and (max-width: 479px) {

@@ -738,7 +738,7 @@
 									</div>
 									<ul>
 										<li>
-											<select class="selectpicker" name="vo_rr_report_for" id="vo_rr_report_for">
+											<select class="selectpicker" data-live-search="true" name="vo_rr_report_for" id="vo_rr_report_for">
 											</select>
 											<label class="default_select">Research Report For<sup>*</sup></label>
 										</li>

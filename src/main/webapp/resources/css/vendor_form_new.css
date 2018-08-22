@@ -819,7 +819,7 @@ textarea:valid ~ label {
 
 .custom_form .bootstrap-select .dropdown-menu.open {
 	position: absolute;
-	max-height: 110px !important;
+	/*max-height: 110px !important;*/
 }
 
 .custom_form .bootstrap-select .dropdown-menu.inner {
