@@ -29,7 +29,9 @@ public enum ExceptionEnum {
 	
 	PRICE_MAIL("FV0019", "Internal error - Unable to send mail to user for given company, Please contact Finvendor admin for support!!"),
 	RESEARCH_REPORT_MAIL("FV0020", "Internal error - Unable to send research report mail to user for given company, Please contact Finvendor admin for support!!"),
-	REQUEST_METRICS("FV0021", "Internal error - Unable to get metrics, Please contact Finvendor admin for support!!")
+	REQUEST_METRICS("FV0021", "Internal error - Unable to get metrics, Please contact Finvendor admin for support!!"),
+	REQUEST_ANALYST_TYPE("FV0022", "Internal error - Unable to get Analyst Type, Please contact Finvendor admin for support!!"),
+	REQUEST_UPDATE_ANALYST_TYPE("FV0022", "Internal error - Unable to update Analyst Type, Please contact Finvendor admin for support!!")
 	
 	;
 	
