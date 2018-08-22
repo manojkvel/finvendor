@@ -8,22 +8,22 @@
 <html>
 <head>
 <title>FinVendor - Market Place for Financial Research Report
-	Providers, Market Data Vendors and Trading Platform.</title>
+	Providers, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research.</title>
 <meta charset="utf-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
 
 <meta name="description"
-	content="Search Free and Quality Equity Research Reports, Market Data Providers, Trading Platforms">
+	content="Search Free and Quality Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research">
 <meta name="keywords"
-	content="Finvendor, Free Equity Research Reports, Market Data Providers, Trading Platforms, Analytics Report">
+	content="Finvendor, Free Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research">
 
 <meta property="og:title"
-	content="FinVendor - Search Free and Quality Equity Research Reports, Market Data Providers, Trading Platforms" />
+	content="FinVendor - Search Free and Quality Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research" />
 <meta property="og:type" content='website' />
 <meta property="og:url" content="https://www.finvendor.com" />
 <meta property="og:description"
-	content="Search Free and Quality Equity Research Reports, Market Data Providers, Trading Platforms" />
+	content="Search Free and Quality Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research" />
 <meta property="og:image"
 	content="../resources/images/company-logo-header.jpg" />
 <meta property="og:site_name" content="JioCloud" />
@@ -31,11 +31,11 @@
 
 <meta name="twitter:url" content="https://www.finvendor.com" />
 <meta name="twitter:title"
-	content="FinVendor - Search Free and Quality Equity Research Reports, Market Data Providers, Trading Platforms" />
+	content="FinVendor - Search Free and Quality Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research" />
 <meta name="twitter:image"
 	content="../resources/images/company-logo-header.jpg" />
 <meta name="twitter:description"
-	content="Search Free and Quality Equity Research Reports, Market Data Providers, Trading Platforms" />
+	content="Search Free and Quality Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research" />
 <meta name="twitter:creator" content="google" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <link href="https://www.finvendor.com" rel="canonical" />
@@ -197,7 +197,7 @@
 				</div>
 				<p>
 					<span class="know-more"><a
-						href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Sector_Research">Get Started</a></span>
+						href="${pageContext.request.contextPath}/view/sector-research.jsp">Get Started</a></span>
 				</p>
 			</div>
 		</section>
@@ -233,7 +233,7 @@
 				</div>
 				<p>
 					<span class="know-more"><a
-						href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=Macro_Research">Get Started</a></span>
+						href="${pageContext.request.contextPath}/view/macro-research.jsp">Get Started</a></span>
 				</p>
 			</div>
 		</section>

@@ -1144,6 +1144,8 @@ th{
 	}
 	#fv_sub_header {
 		margin-right: 0;
+		float: none;
+		padding-top: 12px;
 	}
 	
 	.header .pull-left {

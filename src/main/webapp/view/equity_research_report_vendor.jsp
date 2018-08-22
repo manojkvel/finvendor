@@ -45,7 +45,7 @@
 							</div>
 							<div class='widget widget-panel-default'>
 								<div class='widget-panel-heading'>
-									<h3>M-Cap</h3>
+									<h3>Market Capitalisation</h3>
 									<span class="fa fa-chevron-down"></span>
 								</div>
 								<div class='widget-panel-body'>
@@ -101,7 +101,7 @@
 							</div>
 						    <div class='widget widget-panel-default'>
 						    	<div class='widget-panel-heading'>
-						    		<h3>Broker/Analyst YR of InCorp (Since)</h3>
+						    		<h3>Research Date</h3>
 						    		<span class="fa fa-chevron-down"></span>
 						    	</div>
 						    	<div class='widget-panel-body'>
@@ -128,7 +128,7 @@
 
 							<div class='widget widget-panel-default'>
 								<div class='widget-panel-heading'>
-									<h3>Recomm. Type</h3>
+									<h3>Recommendation Type</h3>
 									<span class="fa fa-chevron-down"></span>
 								</div>
 								<div class='widget-panel-body'>
@@ -142,7 +142,7 @@
 
 							<div class='widget widget-panel-default'>
 								<div class='widget-panel-heading'>
-									<h3>Upside</h3>
+									<h3>Upside Potential (%)</h3>
 									<span class="fa fa-chevron-down"></span>
 								</div>
 								<div class='widget-panel-body'>
