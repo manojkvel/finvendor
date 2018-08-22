@@ -60,10 +60,11 @@ public class WebStockCurrentPriceUpdateImpl implements IWebStockCurrentPriceUpda
 	public ResponseEntity<?> updateStockPriceByBhavCopy() throws WebApiException {
 		try {
 			stockPriceUpdateService.updateStockPrice();
-			return new ResponseEntity<>(true, HttpStatus.OK);
+			return new ResponseEntity<>("{\"priceUpdateStatus\":\"Today's NSE Price updated successfully\"}", HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("*** UpdateStockPrice(...) method", e);
-			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+            System.out.println("\n\n^^^^^^^^^^ Ghrrrrrrr.......UNABLE TO UPDATE STOCK PRICE ON HOLIDAY ^^^^^^^^^^^^^");
+			return new ResponseEntity<>("{\"priceUpdateStatus\":\"--Ghrrrrrrr.......UNABLE TO UPDATE STOCK PRICE ON HOLIDAY!!!!!\"}", HttpStatus.FORBIDDEN);
 		}
 	}
 

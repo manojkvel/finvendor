@@ -153,7 +153,6 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
         String bhavCsvFileName = "cm" + dayString + "" + mmm.toUpperCase() + "" + year + "bhav.csv";
         String bhavCsvZipFileName = "cm" + dayString + "" + mmm.toUpperCase() + "" + year + "bhav.csv.zip";
 
-        //Example:https://www.nseindia.com/content/historical/EQUITIES/2018/AUG/cm07AUG2018bhav.csv.zip
         String sUrl = "https://www.nseindia.com/content/historical/EQUITIES/" + year + "/" + mmm.toUpperCase() + "/" + bhavCsvZipFileName;
         System.out.println("******* STOCK PRICE UPDATE - BhavCopy NSE URL:" + sUrl);
         URL url = new URL(sUrl);
