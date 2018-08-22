@@ -154,13 +154,4 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
                     EQUITY_RESEARCH_RECORD_STAT.getUserMessage(), e);
         }
     }
-
-    private String buildReportPath(HttpServletRequest request, String reportFileName, String vendorName)
-            throws Exception {
-        String loggedInUser = vendorName;
-        String basePath = finvendorProperties.getProperty("research_report_offering_file_basepath");
-        String fullyQualifiedReportFilePath = basePath + File.separator + loggedInUser + File.separator
-                + reportFileName;
-        return fullyQualifiedReportFilePath;
-    }
 }

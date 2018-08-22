@@ -24,7 +24,7 @@ public final class WebUtil {
 	private static final String LOGGED_IN_USER = "loggedInUser";
 	
 	/**Equity Research Broker Year of Incorporation json contants*/
-	public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON="[{\"brokerYrOfInCorp\":\"<= 3 Yrs\"},{\"brokerYrOfInCorp\":\"3 - 5 Yrs\"},{\"brokerYrOfInCorp\":\"5 - 10 Yrs\"},{\"brokerYrOfInCorp\":\"> 10 Yrs\"}]";
+	public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON="[{\"brokerYrOfInCorp\":\"< 3 months\"},{\"brokerYrOfInCorp\":\"3 - 6 months\"},{\"brokerYrOfInCorp\":\"6 - 12 months\"},{\"brokerYrOfInCorp\":\"> 12 months\"}]";
 	
 	/**Equity Research upside json contants*/
 	public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON="[{\"broker_rank\":\"5 star (Success rate > 80%)\"},{\"broker_rank\":\"4 star (Success rate >= 65% & < 80%)\"},{\"broker_rank\":\"3 star (Success rate >= 50% & < 65%)\"},{\"broker_rank\":\"2 star (Success rate >= 40% & < 50%)\"},{\"broker_rank\":\"1 star (Success rate < 40%)\"}]";
@@ -34,6 +34,9 @@ public final class WebUtil {
 	
 	/**Equity Research upside json contants*/
 	public static final String EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON="[{\"upside\":\"<0%\"},{\"upside\":\"0-20%\"},{\"upside\":\"20-50%\"},{\"upside\":\"50-100%\"},{\"upside\":\">100%\"}]";
+
+	/**Equity Research AnalystType json contants*/
+	public static final String EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON="[{\"analystType\":\"Independent Research Analyst\"},{\"analystType\":\"Research Broker\"}]";
 
 	// Forbidden instantiation
 	private WebUtil() {
@@ -190,20 +193,9 @@ public final class WebUtil {
 				lastDefaultParamsMapAsNull,
 				columnIndex_1));
 
-			//analystType
-			put("analystType",
-				new SqlData("SELECT vendor_id,analystType FROM vendor where analystType IS Not null",
-				new ArrayList<ColumnNameAndNewValue>() {{
-					add(new ColumnNameAndNewValue("analystType", null));
-				}},
-				conitionValueAsNull,
-				firstDefaultParamsMapAsNull,
-				lastDefaultParamsMapAsNull,
-				columnIndex_1));
-			
-			//researchBroker as CompanyName - earlier was "UserName" 
+			//researchBroker as CompanyName - earlier was "UserName"
 			put("researchBroker",
-				new SqlData("SELECT vendor_id,company FROM vendor where company IS Not null",
+				new SqlData("SELECT ven_rsrch_rpt_offering.vendor_id,vendor.company FROM ven_rsrch_rpt_offering,vendor where ven_rsrch_rpt_offering.vendor_id=vendor.vendor_id  group by ven_rsrch_rpt_offering.vendor_id order by vendor.company",
 				new ArrayList<ColumnNameAndNewValue>() {{
 					add(new ColumnNameAndNewValue("companyName", null));
 				}},
