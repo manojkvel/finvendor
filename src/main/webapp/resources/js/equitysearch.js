@@ -404,9 +404,6 @@ jQuery(document).ready(function() {
     var clearSelection = function() {
     	$("#sidebar-panel input").prop('checked', false);
     	$("#search_by_geo input").eq(0).prop('checked', true);
-		$("#search_by_marketcapital ul input").eq(0).prop('checked', true);
-		$("#search_by_style ul input").eq(0).prop('checked', true);
-		$("#search_by_analystType ul input").eq(0).prop('checked', true);
 
     	marketCapitalData = [];
     	styleFilterData = [];
@@ -607,7 +604,7 @@ jQuery(document).ready(function() {
 			}
 			$("#search_by_marketcapital ul").html(html);
 			$("#search_by_marketcapital ul input").on('change', getMarketCapitalData);
-			$("#search_by_marketcapital ul input").eq(0).prop('checked', true);
+			// $("#search_by_marketcapital ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
@@ -645,7 +642,7 @@ jQuery(document).ready(function() {
 		} else {
 			inner_login('view/equity_research_report_vendor.jsp');
 			$("#search_by_marketcapital ul input").prop('checked', false);
-			$("#search_by_marketcapital ul input").eq(0).prop('checked', true);
+			// $("#search_by_marketcapital ul input").eq(0).prop('checked', true);
 		}
 	};
 
@@ -683,7 +680,7 @@ jQuery(document).ready(function() {
 			}
 			$("#search_by_style ul").html(html);
 			$("#search_by_style ul input").on('change', getStyleFilterData);
-			$("#search_by_style ul input").eq(0).prop('checked', true);
+			// $("#search_by_style ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
@@ -719,7 +716,7 @@ jQuery(document).ready(function() {
 		} else {
 			inner_login('view/equity_research_report_vendor.jsp');
 			$("#search_by_style ul input").prop('checked', false);
-			$("#search_by_style ul input").eq(0).prop('checked', true);
+			// $("#search_by_style ul input").eq(0).prop('checked', true);
 		}
 	};
 
@@ -731,7 +728,17 @@ jQuery(document).ready(function() {
 		getFilterData('analystType').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = '';
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
 			var len = response.length;
 			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
@@ -748,7 +755,7 @@ jQuery(document).ready(function() {
 			}
 			$("#search_by_analystType ul").html(html);
 			$("#search_by_analystType ul input").on('change', getAnalystTypeFilterData);
-			$("#search_by_analystType ul input").eq(0).prop('checked', true);
+			// $("#search_by_analystType ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
@@ -761,7 +768,19 @@ jQuery(document).ready(function() {
      */
 	var getAnalystTypeFilterData = function() {
 		if(!isLoggedInUser()) {
+
 			addRemoveItemFromArray(analystTypeFilterData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				analystTypeFilterData = ['all'];
+				if(checkForAllData(analystTypeFilterData, "#search_by_analystType ul input")) {
+					analystTypeFilterData = [];
+				} 
+			} else {
+				$("#search_by_analystType ul input").eq(0).prop('checked', false);
+			}
+
 			
 			localEquitySearchJson.analystType = analystTypeFilterData;
 
@@ -775,7 +794,7 @@ jQuery(document).ready(function() {
 		} else {
 			inner_login('view/equity_research_report_vendor.jsp');
 			$("#search_by_analystType ul input").prop('checked', false);
-			$("#search_by_analystType ul input").eq(0).prop('checked', true);
+			// $("#search_by_analystType ul input").eq(0).prop('checked', true);
 		}
 	};
 
@@ -787,7 +806,17 @@ jQuery(document).ready(function() {
 		getFilterData('researchBroker').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = '';
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
 			var len = response.length;
 			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
@@ -816,6 +845,17 @@ jQuery(document).ready(function() {
 	var getResearchBrokerFilterData = function() {
 		if(!isLoggedInUser()) {
 			addRemoveItemFromArray(researchBrokerFilterData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				researchBrokerFilterData = ['all'];
+				if(checkForAllData(researchBrokerFilterData, "#search_by_researchbroker ul input")) {
+					researchBrokerFilterData = [];
+				} 
+			} else {
+				$("#search_by_researchbroker ul input").eq(0).prop('checked', false);
+			}
+
 			
 			localEquitySearchJson.researchedBroker = researchBrokerFilterData;
 
@@ -829,7 +869,7 @@ jQuery(document).ready(function() {
 		} else {
 			inner_login('view/equity_research_report_vendor.jsp');
 			$("#search_by_researchbroker ul input").prop('checked', false);
-			$("#search_by_researchbroker ul input").eq(0).prop('checked', true);
+			// $("#search_by_researchbroker ul input").eq(0).prop('checked', true);
 		}
 	};
 
@@ -841,7 +881,17 @@ jQuery(document).ready(function() {
 		getFilterData('brokerYrOfInCorp').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = '';
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
 			var len = response.length;
 			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
@@ -858,7 +908,7 @@ jQuery(document).ready(function() {
 			}
 			$("#search_by_brokerAnalystYrOfIncorp ul").html(html);
 			$("#search_by_brokerAnalystYrOfIncorp ul input").on('change', getBrokerAnalystYrOfIncorpFilterData);
-			$("#search_by_brokerAnalystYrOfIncorp ul input").eq(0).prop('checked', true);
+			// $("#search_by_brokerAnalystYrOfIncorp ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
@@ -872,6 +922,17 @@ jQuery(document).ready(function() {
 	var getBrokerAnalystYrOfIncorpFilterData = function() {
 		if(!isLoggedInUser()) {
 			addRemoveItemFromArray(brokerAnalystYrOfIncorpFilterData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				brokerAnalystYrOfIncorpFilterData = ['all'];
+				if(checkForAllData(brokerAnalystYrOfIncorpFilterData, "#search_by_brokerAnalystYrOfIncorp ul input")) {
+					brokerAnalystYrOfIncorpFilterData = [];
+				} 
+			} else {
+				$("#search_by_brokerAnalystYrOfIncorp ul input").eq(0).prop('checked', false);
+			}
+
 			
 			localEquitySearchJson.brokerYrOfInCorp = brokerAnalystYrOfIncorpFilterData;
 
@@ -885,7 +946,7 @@ jQuery(document).ready(function() {
 		} else {
 			inner_login('view/equity_research_report_vendor.jsp');
 			$("#search_by_brokerAnalystYrOfIncorp ul input").prop('checked', false);
-			$("#search_by_brokerAnalystYrOfIncorp ul input").eq(0).prop('checked', true);
+			// $("#search_by_brokerAnalystYrOfIncorp ul input").eq(0).prop('checked', true);
 		}
 	};
 
@@ -896,7 +957,17 @@ jQuery(document).ready(function() {
 		getFilterData('brokerRank').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = '';
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
 			var len = response.length;
 			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
@@ -905,14 +976,14 @@ jQuery(document).ready(function() {
 									+ "<span>" + response[i].broker_rank + "</span>"
 									+ "</div>"
 									+ "<div class='col-xs-3'>"
-										+ "<input type='checkbox' data-name='" + response[i].broker_rank + "' data-section='' data-value='" + response[i].broker_rank + "' />"
+										+ "<input type='checkbox' data-name='" + response[i].broker_rank + "' data-section='' data-value='" + response[i].broker_rank + "' disabled='disabled' />"
 									+ "</div>"
 								+ "</div>"
 							+ "</li>"
 			}
 			$("#search_by_broker_rank ul").html(html);
 			$("#search_by_broker_rank ul input").on('change', getBrokerRankFilterData);
-			$("#search_by_broker_rank ul input").eq(0).prop('checked', true);
+			// $("#search_by_broker_rank ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
@@ -926,6 +997,17 @@ jQuery(document).ready(function() {
 	var getBrokerRankFilterData = function() {
 		if(!isLoggedInUser()) {
 			addRemoveItemFromArray(brokerRankFilterData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				brokerRankFilterData = ['all'];
+				if(checkForAllData(brokerRankFilterData, "#search_by_broker_rank ul input")) {
+					brokerRankFilterData = [];
+				} 
+			} else {
+				$("#search_by_broker_rank ul input").eq(0).prop('checked', false);
+			}
+
 			
 			localEquitySearchJson.brokerRank = brokerRankFilterData;
 
@@ -939,7 +1021,7 @@ jQuery(document).ready(function() {
 		} else {
 			inner_login('view/equity_research_report_vendor.jsp');
 			$("#search_by_broker_rank ul input").prop('checked', false);
-			$("#search_by_broker_rank ul input").eq(0).prop('checked', true);
+			// $("#search_by_broker_rank ul input").eq(0).prop('checked', true);
 		}
 	};
 
@@ -950,7 +1032,17 @@ jQuery(document).ready(function() {
 		getFilterData('recommType').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = '';
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
 			var len = response.length;
 			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
@@ -967,7 +1059,7 @@ jQuery(document).ready(function() {
 			}
 			$("#search_by_recommType ul").html(html);
 			$("#search_by_recommType ul input").on('change', getRecommendationTypeData);
-			$("#search_by_recommType ul input").eq(0).prop('checked', true);
+			// $("#search_by_recommType ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
@@ -981,6 +1073,17 @@ jQuery(document).ready(function() {
 	var getRecommendationTypeData = function() {
 		if(!isLoggedInUser()) {
 			addRemoveItemFromArray(recommTypeData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				recommTypeData = ['all'];
+				if(checkForAllData(recommTypeData, "#search_by_recommType ul input")) {
+					recommTypeData = [];
+				} 
+			} else {
+				$("#search_by_recommType ul input").eq(0).prop('checked', false);
+			}
+
 			
 			localEquitySearchJson.recommType = recommTypeData;
 
@@ -994,7 +1097,7 @@ jQuery(document).ready(function() {
 		} else {
 			inner_login('view/equity_research_report_vendor.jsp');
 			$("#search_by_recommType ul input").prop('checked', false);
-			$("#search_by_recommType ul input").eq(0).prop('checked', true);
+			// $("#search_by_recommType ul input").eq(0).prop('checked', true);
 		}
 	};
 
@@ -1006,7 +1109,17 @@ jQuery(document).ready(function() {
 		getFilterData('upside').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = '';
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
 			var len = response.length;
 			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
@@ -1023,7 +1136,7 @@ jQuery(document).ready(function() {
 			}
 			$("#search_by_upside ul").html(html);
 			$("#search_by_upside ul input").on('change', getUpsideFilterData);
-			$("#search_by_upside ul input").eq(0).prop('checked', true);
+			// $("#search_by_upside ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
@@ -1037,6 +1150,17 @@ jQuery(document).ready(function() {
 	var getUpsideFilterData = function() {
 		if(!isLoggedInUser()) {
 			addRemoveItemFromArray(upsideFilterData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				upsideFilterData = ['all'];
+				if(checkForAllData(upsideFilterData, "#search_by_upside ul input")) {
+					upsideFilterData = [];
+				} 
+			} else {
+				$("#search_by_upside ul input").eq(0).prop('checked', false);
+			}
+
 			
 			localEquitySearchJson.upside = upsideFilterData;
 
@@ -1050,7 +1174,7 @@ jQuery(document).ready(function() {
 		} else {
 			inner_login('view/equity_research_report_vendor.jsp');
 			$("#search_by_upside ul input").prop('checked', false);
-			$("#search_by_upside ul input").eq(0).prop('checked', true);
+			// $("#search_by_upside ul input").eq(0).prop('checked', true);
 		}
 	};
 
@@ -1062,7 +1186,17 @@ jQuery(document).ready(function() {
 		getFilterData('others').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = '';
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
 			var len = response.length;
 			for(var i = 0; i < len; i++) {
 				html = html + "<li>"
@@ -1079,7 +1213,7 @@ jQuery(document).ready(function() {
 			}
 			$("#search_by_others ul").html(html);
 			$("#search_by_others ul input").on('change', getOthersFilterData);
-			$("#search_by_others ul input").eq(0).prop('checked', true);
+			// $("#search_by_others ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
@@ -1093,6 +1227,17 @@ jQuery(document).ready(function() {
 	var getOthersFilterData = function() {
 		if(!isLoggedInUser()) {
 			addRemoveItemFromArray(othersFilterData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				othersFilterData = ['all'];
+				if(checkForAllData(othersFilterData, "#search_by_others ul input")) {
+					othersFilterData = [];
+				} 
+			} else {
+				$("#search_by_others ul input").eq(0).prop('checked', false);
+			}
+
 			
 			localEquitySearchJson.others = othersFilterData;
 
@@ -1103,10 +1248,11 @@ jQuery(document).ready(function() {
 			resetPaginationCount();
 			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
+
 		} else {
 			inner_login('view/equity_research_report_vendor.jsp');
 			$("#search_by_others ul input").prop('checked', false);
-			$("#search_by_others ul input").eq(0).prop('checked', true);
+			// $("#search_by_others ul input").eq(0).prop('checked', true);
 		}
 	};
 

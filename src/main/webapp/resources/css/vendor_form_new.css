@@ -1661,6 +1661,7 @@ h2 {
 
 .widget-group .widget-panel-body li {
 	padding: 5px 0;
+	overflow: hidden;
 }
 
 
