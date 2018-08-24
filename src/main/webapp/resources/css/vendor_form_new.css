@@ -540,7 +540,7 @@ textarea:valid ~ label {
 
 	.custom_form ul li {
 		float: none;
-		overflow: hidden;
+		/*overflow: hidden;*/
 	}
 
 	.custom_form ul li:nth-child(odd) {

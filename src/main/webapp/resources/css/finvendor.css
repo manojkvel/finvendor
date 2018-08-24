@@ -1272,6 +1272,12 @@ button {
 	box-sizing: content-box;
 }
 
+#vendor_my_offerings .custom_form #research_report_for_info .bootstrap-select ul li.no-results {
+	padding: 3% 1%;
+	text-indent: 5px;
+	margin: 0 auto !important;
+}
+
 #vendor_my_offerings .custom_form #research_report_for_info .bootstrap-select.btn-group .dropdown-menu li a {
 	padding: 7px 10px;
 }
