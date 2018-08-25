@@ -24,7 +24,6 @@ import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
 import com.finvendor.server.companyprofile.pricealert.service.IConsumerPriceAlertService;
-import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.companyprofile.pricealert.IWebConsumerPriceAlert;
 
 /**
@@ -36,23 +35,26 @@ public class WebConsumerPriceAlertImpl implements IWebConsumerPriceAlert {
 	@Autowired
 	private IConsumerPriceAlertService consumerPriceAlertService;
 
+	private static final String LOGGED_IN_USER="loggedInUser";
+	private static final String FALSE_STATUS="false";
+
 	@Override
 	public ResponseEntity<?> addCompanyPriceAlert(HttpServletRequest request,
-			@RequestBody ConsumerPriceAlertDTO companyPriceAlertPojo) throws WebApiException {
+												  @RequestBody ConsumerPriceAlertDTO companyPriceAlertPojo)  {
 		LogUtil.logInfo("IWebCompanyPriceAlert -> addCompanyPriceAlert - START");
 		try {
-			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			final User loggedInUser = (User) request.getSession().getAttribute(LOGGED_IN_USER);
 			if (loggedInUser == null) {
 				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
 			}
-			String userName = loggedInUser.getUsername();
+			final String userName = loggedInUser.getUsername();
 			companyPriceAlertPojo.setUserName(userName);
-			boolean addStatus = consumerPriceAlertService.addConsumerPriceAlert(companyPriceAlertPojo);
+			final boolean addStatus = consumerPriceAlertService.addConsumerPriceAlert(companyPriceAlertPojo);
 			if (addStatus) {
-				return new ResponseEntity<StatusPojo>(new StatusPojo("true", "Company price alert added successfully."),
+				return new ResponseEntity<>(new StatusPojo("true", "Company price alert added successfully."),
 						HttpStatus.CREATED);
 			} else {
-				return new ResponseEntity<StatusPojo>(new StatusPojo("false", "Company price alert already added."),
+				return new ResponseEntity<>(new StatusPojo(FALSE_STATUS, "Company price alert already added."),
 						HttpStatus.FORBIDDEN);
 			}
 		} catch (Exception e) {
@@ -64,21 +66,21 @@ public class WebConsumerPriceAlertImpl implements IWebConsumerPriceAlert {
 	// Update
 	@Override
 	public ResponseEntity<?> updateCompanyPriceAlert(HttpServletRequest request,
-			@RequestBody ConsumerPriceAlertDTO companyPriceAlertPojo) throws WebApiException {
+													 @RequestBody ConsumerPriceAlertDTO companyPriceAlertPojo) {
 		LogUtil.logInfo("IWebCompanyPriceAlert -> updateCompanyPriceAlert - START");
 		try {
-			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			final User loggedInUser = (User) request.getSession().getAttribute(LOGGED_IN_USER);
 			if (loggedInUser == null) {
 				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
 			}
-			String userName = loggedInUser.getUsername();
+			final String userName = loggedInUser.getUsername();
 			companyPriceAlertPojo.setUserName(userName);
-			boolean updatePriceAlertStatus = consumerPriceAlertService.updateConsumerPriceAlert(companyPriceAlertPojo);
+			final boolean updatePriceAlertStatus = consumerPriceAlertService.updateConsumerPriceAlert(companyPriceAlertPojo);
 			if (updatePriceAlertStatus) {
-				return new ResponseEntity<StatusPojo>(
+				return new ResponseEntity<>(
 						new StatusPojo("true", "Company price alert updated successfully"), HttpStatus.OK);
 			} else {
-				return new ResponseEntity<StatusPojo>(new StatusPojo("false", "Unable to update company price alert"),
+				return new ResponseEntity<>(new StatusPojo(FALSE_STATUS, "Unable to update company price alert"),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} catch (Exception e) {
@@ -91,23 +93,23 @@ public class WebConsumerPriceAlertImpl implements IWebConsumerPriceAlert {
 	// Delete
 	@Override
 	public ResponseEntity<?> deleteCompanyPriceAlert(HttpServletRequest request,
-			@RequestBody List<ConsumerPriceAlertDTO> pojoList) throws WebApiException {
+													 @RequestBody List<ConsumerPriceAlertDTO> pojoList) {
 		LogUtil.logInfo("IWebCompanyPriceAlert -> deleteCompanyPriceAlert - START");
 		try {
-			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			final User loggedInUser = (User) request.getSession().getAttribute(LOGGED_IN_USER);
 			if (loggedInUser == null) {
 				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
 			}
-			String userName = loggedInUser.getUsername();
-			for (ConsumerPriceAlertDTO dto : pojoList) {
+			final String userName = loggedInUser.getUsername();
+			for (final ConsumerPriceAlertDTO dto : pojoList) {
 				dto.setUserName(userName);
 			}
-			boolean deletePriceAlertStatus = consumerPriceAlertService.deleteConsumerPriceAlerts(pojoList);
+			final boolean deletePriceAlertStatus = consumerPriceAlertService.deleteConsumerPriceAlerts(pojoList);
 			if (deletePriceAlertStatus) {
-				return new ResponseEntity<StatusPojo>(
+				return new ResponseEntity<>(
 						new StatusPojo("true", "All company price alert deleted successfully"), HttpStatus.OK);
 			} else {
-				return new ResponseEntity<StatusPojo>(new StatusPojo("false", "Unable to delete company price alert"),
+				return new ResponseEntity<>(new StatusPojo(FALSE_STATUS, "Unable to delete company price alert"),
 						HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} catch (Exception e) {
@@ -120,16 +122,16 @@ public class WebConsumerPriceAlertImpl implements IWebConsumerPriceAlert {
 	// Find
 	@Override
 	public ResponseEntity<?> findCompanyPriceAlert(HttpServletRequest request,
-			@RequestParam(value = "companyId", required = true) String companyId) throws WebApiException {
+												   @RequestParam(value = "companyId") String companyId)  {
 		LogUtil.logInfo("IWebCompanyPriceAlert -> findCompanyPriceAlert - START");
 		try {
-			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			final User loggedInUser = (User) request.getSession().getAttribute(LOGGED_IN_USER);
 			if (loggedInUser == null) {
 				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
 			}
-			String userName = loggedInUser.getUsername();
-			ConsumerPriceAlertDTO pojo = consumerPriceAlertService.findConsumerPriceAlert(companyId, userName);
-			return new ResponseEntity<ConsumerPriceAlertDTO>(pojo, HttpStatus.OK);
+			final String userName = loggedInUser.getUsername();
+			final ConsumerPriceAlertDTO pojo = consumerPriceAlertService.findConsumerPriceAlert(companyId, userName);
+			return new ResponseEntity<>(pojo, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("IWebCompanyPriceAlert -> findCompanyPriceAlert(...) method", e);
 			return ErrorUtil.getError(FIND_COMPANY_PRICE_ALERT.getCode(), FIND_COMPANY_PRICE_ALERT.getUserMessage(), e);
@@ -138,16 +140,16 @@ public class WebConsumerPriceAlertImpl implements IWebConsumerPriceAlert {
 
 	// Fina All
 	@Override
-	public ResponseEntity<?> findAllCompanyPriceAlert(HttpServletRequest request) throws WebApiException {
+	public ResponseEntity<?> findAllCompanyPriceAlert(HttpServletRequest request) {
 		LogUtil.logInfo("IWebCompanyPriceAlert -> findAllCompanyPriceAlert - START");
 		try {
-			User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+			final User loggedInUser = (User) request.getSession().getAttribute(LOGGED_IN_USER);
 			if (loggedInUser == null) {
 				return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
 			}
-			String userName = loggedInUser.getUsername();
-			List<ConsumerPriceAlertDTO> allPriceAlert = consumerPriceAlertService.findAllConsumerPriceAlert(userName);
-			return new ResponseEntity<List<ConsumerPriceAlertDTO>>(allPriceAlert, HttpStatus.OK);
+			final String userName = loggedInUser.getUsername();
+			final List<ConsumerPriceAlertDTO> allPriceAlert = consumerPriceAlertService.findAllConsumerPriceAlert(userName);
+			return new ResponseEntity<>(allPriceAlert, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("IWebCompanyPriceAlert -> findAllCompanyPriceAlert(...) method", e);
 			return ErrorUtil.getError(FIND_ALL_COMPANY_PRICE_ALERT.getCode(),

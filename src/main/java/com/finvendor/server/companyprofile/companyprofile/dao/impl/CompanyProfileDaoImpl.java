@@ -1,7 +1,9 @@
 package com.finvendor.server.companyprofile.companyprofile.dao.impl;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -169,7 +171,7 @@ public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
 			paramsMap.put("summary", summary);
 			companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
 			return companyProfile;
-		} catch (Exception e) {
+		} catch (ParseException | IOException e) {
 			throw new RuntimeException("Error has occured while creating json for company profile data", e);
 		}
 	}

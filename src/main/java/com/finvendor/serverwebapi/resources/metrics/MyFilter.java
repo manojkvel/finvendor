@@ -43,13 +43,13 @@ public class MyFilter implements Filter {
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-        HttpServletRequest httpRequest = ((HttpServletRequest) servletRequest);
-        String req = httpRequest.getRequestURI();///system/api/researchReports
+        final HttpServletRequest httpRequest = ((HttpServletRequest) servletRequest);
+        final String req = httpRequest.getRequestURI();///system/api/researchReports
         String reqTag = req.substring(req.lastIndexOf("/") + 1);
         reqTag = reqTag.isEmpty() ? HOME_PAGE : reqTag;
-        MetricsType metricsType = requestMap.get(reqTag);
+        final MetricsType metricsType = requestMap.get(reqTag);
         if (metricsType != null) {
-            User loggedInUser = (User) httpRequest.getSession().getAttribute("loggedInUser");
+            final User loggedInUser = (User) httpRequest.getSession().getAttribute("loggedInUser");
             String userName;
             if (loggedInUser == null) {
                 userName = "UNKNOWN";

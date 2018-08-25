@@ -25,7 +25,7 @@ public class WebHomePageImpl implements IWebHomePage {
 	@Override
 	public ResponseEntity<?> getHomePageSearchHint(@RequestParam(value = "searchKey", required = true) String searchKey) throws WebApiException {
 		try {
-			String homePageSearchHint = service.getHomePageSearchHint(searchKey);
+			final String homePageSearchHint = service.getHomePageSearchHint(searchKey);
 			return new ResponseEntity<String>(homePageSearchHint, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("IWebHomePage -> getHomePageSearchHint(...) method", e);

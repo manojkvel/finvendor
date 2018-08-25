@@ -24,10 +24,10 @@ public class WebCompanyProfileImpl implements IWebCompanyProfile {
 
 	// Tab1 - Profile + Summary
 	@Override
-	public ResponseEntity<?> getCompanyProfile(@RequestParam(value = "isinCode", required = true) String isinCode)
+	public ResponseEntity<?> getCompanyProfile(@RequestParam(value = "isinCode", required = true) final String isinCode)
 			throws WebApiException {
 		try {
-			String companyProfileData = service.getCompanyProfile(isinCode);
+			final String companyProfileData = service.getCompanyProfile(isinCode);
 			return new ResponseEntity<String>(companyProfileData, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("IWebCompanyProfile -> getCompanyProfile(...) method", e);
@@ -42,7 +42,7 @@ public class WebCompanyProfileImpl implements IWebCompanyProfile {
 			@RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords)
 			throws WebApiException {
 		try {
-			String companyProfileRecordStat = service.getCompanyProfileRecordStat(isinCode, perPageMaxRecords);
+			final String companyProfileRecordStat = service.getCompanyProfileRecordStat(isinCode, perPageMaxRecords);
 			return new ResponseEntity<String>(companyProfileRecordStat, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("IWebCompanyProfile -> getCompanyProfileRecordStats(...) method", e);
@@ -59,7 +59,7 @@ public class WebCompanyProfileImpl implements IWebCompanyProfile {
 			@RequestParam(value = "sortBy", required = true) String sortBy,
 			@RequestParam(value = "orderBy", required = true) String orderBy) throws WebApiException {
 		try {
-			String companyResearchReportData = service.getCompanyProfileResearchReport(isinCode, pageNumber,
+			final String companyResearchReportData = service.getCompanyProfileResearchReport(isinCode, pageNumber,
 					perPageMaxRecords, sortBy, orderBy);
 			return new ResponseEntity<String>(companyResearchReportData, HttpStatus.OK);
 		} catch (Exception e) {

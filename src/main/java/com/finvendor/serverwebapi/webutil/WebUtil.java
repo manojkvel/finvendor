@@ -92,12 +92,12 @@ public final class WebUtil {
 			this.colIndex = colIndex;
 			columnNameAndNewValueMap = new LinkedHashMap<>();
 			for (ColumnNameAndNewValue colVal : replaceColumnValueWithNewValue) {
-				String colName = colVal.getColName();
+				final String colName = colVal.getColName();
 				String[][] newValues = colVal.getNewValues();
 
 				if (newValues != null) {
-					Map<String, String> replaceColumnValueWithNewValueMap = new HashMap<>();
-					for (String[] newValuesStrArr : newValues) {
+					final Map<String, String> replaceColumnValueWithNewValueMap = new HashMap<>();
+					for (final String[] newValuesStrArr : newValues) {
 						replaceColumnValueWithNewValueMap.put(newValuesStrArr[0], newValuesStrArr[1]);
 					}
 					columnNameAndNewValueMap.put(colName, replaceColumnValueWithNewValueMap);
@@ -143,11 +143,11 @@ public final class WebUtil {
 	@SuppressWarnings("serial")
 	public static Map<String, SqlData> typeMap = new LinkedHashMap<String, SqlData>() {
 		{
-			Object[] conitionValueAsNull 								= null;
-			LinkedHashMap<String, Object> firstDefaultParamsMapAsNull 	= null;
-			LinkedHashMap<String, Object> lastDefaultParamsMapAsNull	= null;
-			int columnIndex_0	=	0;
-			int columnIndex_1	=	1;
+			final Object[] conitionValueAsNull 								= null;
+			final LinkedHashMap<String, Object> firstDefaultParamsMapAsNull 	= null;
+			final LinkedHashMap<String, Object> lastDefaultParamsMapAsNull	= null;
+			final int columnIndex_0	=	0;
+			final int columnIndex_1	=	1;
 			
 			/*
 			 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -249,7 +249,7 @@ public final class WebUtil {
 	 * 
 	 * */
 	public static String getLoggedInUser(HttpServletRequest request) throws Exception {
-		User loggedInUser = (User) request.getSession().getAttribute(LOGGED_IN_USER);
+		final User loggedInUser = (User) request.getSession().getAttribute(LOGGED_IN_USER);
 		if (loggedInUser == null) {
 			throw new Exception("Unable to find logged In user!!");
 		}
@@ -260,12 +260,12 @@ public final class WebUtil {
 			String basePath) {
 		// Upload filename suffix with productId
 		// Reason: loggedIn user can upload multiple file while upload
-		Pair<String, String> fileNameAndExtention = StringUtil
+		final Pair<String, String> fileNameAndExtention = StringUtil
 				.getFileNameAndExtention(multiPartFile.getOriginalFilename());
 
-		String uploadFileNameOnly = fileNameAndExtention.getElement1() + "_" + productId
+		final String uploadFileNameOnly = fileNameAndExtention.getElement1() + "_" + productId
 				+ fileNameAndExtention.getElement2();
-		String reportResearchOfferingFilePath = StringUtil.builtPath(uploadFileNameOnly, basePath, userName);
+		final String reportResearchOfferingFilePath = StringUtil.builtPath(uploadFileNameOnly, basePath, userName);
 		return reportResearchOfferingFilePath;
 	}
 	

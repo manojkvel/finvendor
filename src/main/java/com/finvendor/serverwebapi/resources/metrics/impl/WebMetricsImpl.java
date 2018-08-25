@@ -23,7 +23,7 @@ public class WebMetricsImpl implements IWebMetrics {
 	@Override
 	public ResponseEntity<?> getAllMetrics(@RequestParam(value = "type") String type) throws WebApiException {
 		try {
-			String requestMetrics = metricsService.getRequestMetrics(type);
+			final String requestMetrics = metricsService.getRequestMetrics(type);
 			return new ResponseEntity<String>(requestMetrics, HttpStatus.OK);
 		} catch (Exception e) {
 			ErrorUtil.logError("IWebMetrics -> getAllMetrics(...) method", e);

@@ -15,15 +15,15 @@ public class WebApiException extends FvRootRuntimeException {
         super();
     }
  
-    public WebApiException(String message) {
+    public WebApiException(final String message) {
         super(message);
     }
 
-    public WebApiException(String message, Throwable cause) {
+    public WebApiException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public WebApiException(Throwable cause) {
+    public WebApiException(final Throwable cause) {
         super(cause);
     }
 

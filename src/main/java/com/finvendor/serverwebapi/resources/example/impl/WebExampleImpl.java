@@ -24,7 +24,7 @@ public class WebExampleImpl implements IWebExample {
 
 	@Override
 	public void saveExample(@RequestBody ExamplePojo example1Pojo) throws WebApiException {
-		Example example1Entity = new Example();
+		final Example example1Entity = new Example();
 		example1Entity.setName(example1Pojo.getName());
 		exampleService.saveOrUpdateExample1(example1Entity);
 	}
