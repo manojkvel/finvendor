@@ -1,25 +1,19 @@
 package com.finvendor.model.metrics;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "download_eqty_research_report_metrics")
+@Table(name = "home_page_metrics")
 @NamedQueries({
-		@NamedQuery(name = DownloadEqtyResearchReportsMetrics.LOCAL_DATE_NAMED_QUERY, query = "from com.finvendor.model.metrics.DownloadEqtyResearchReportsMetrics t where t.local_date like:localdate and t.user_name like:username order by t.id desc") })
-public class DownloadEqtyResearchReportsMetrics {
-	public static final String LOCAL_DATE_NAMED_QUERY = "downloadReportMetricsByLocalDate";
+		@NamedQuery(name = HomePageMetrics.LOCAL_DATE_NAMED_QUERY, query = "from com.finvendor.model.metrics.HomePageMetrics t where t.local_date like:localdate and t.user_name like:username order by t.id desc") })
+public class HomePageMetrics {
+	public static final String LOCAL_DATE_NAMED_QUERY = "homePageMetricsByLocalDate";
 
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
 	protected String id;
-
+	
 	@Column(name = "user_name")
 	private String user_name;
 	

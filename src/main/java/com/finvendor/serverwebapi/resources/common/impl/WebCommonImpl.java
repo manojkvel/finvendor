@@ -97,6 +97,15 @@ public class WebCommonImpl implements IWebCommon {
                     analystTypePojoList.add(analystType);
                 }
             }
+
+            if (analystTypePojoList.size() == 1) {
+                if (("Independent Research Analyst").equals(analystTypePojoList.get(0))) {
+                    analystTypePojoList.add("Research Broker");
+                } else {
+                    analystTypePojoList.add("Independent Research Analyst");
+                }
+            }
+
             paramsMap.put("analystType", analystTypePojoList);
             String jsonFromParamsMap = JsonUtil.createJsonFromParamsMap(paramsMap);
             return new ResponseEntity<>(jsonFromParamsMap, HttpStatus.OK);

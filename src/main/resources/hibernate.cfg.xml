@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
-    "-//Hibernate/Hibernate Configuration DTD//EN"
-    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
- 
+
 <hibernate-configuration>
-	<session-factory>
-		<!-- <property name="hbm2ddl.auto">update</property> -->
-		<mapping class="com.finvendor.model.FinVendorUser"></mapping>
+    <session-factory>
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+        <mapping class="com.finvendor.model.FinVendorUser"></mapping>
         <mapping class="com.finvendor.model.Roles"></mapping>
-        <mapping class="com.finvendor.model.UserRole"></mapping> 
+        <mapping class="com.finvendor.model.UserRole"></mapping>
         <mapping class="com.finvendor.model.Vendor"></mapping>
         <mapping class="com.finvendor.model.Consumer"></mapping>
         <mapping class="com.finvendor.model.AssetClass"></mapping>
@@ -75,7 +75,9 @@
         <mapping class="com.finvendor.model.StockCurrentPrice"></mapping>
         <mapping class="com.finvendor.model.metrics.EqtyResearchReportsMetrics"></mapping>
         <mapping class="com.finvendor.model.metrics.DownloadEqtyResearchReportsMetrics"></mapping>
-                
-      </session-factory>
-	 
+        <mapping class="com.finvendor.model.metrics.HomePageMetrics"></mapping>
+
+
+    </session-factory>
+
 </hibernate-configuration>

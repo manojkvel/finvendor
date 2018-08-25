@@ -62,6 +62,7 @@ public class WebStockCurrentPriceUpdateImpl implements IWebStockCurrentPriceUpda
 			stockPriceUpdateService.updateStockPrice();
 			return new ResponseEntity<>("{\"priceUpdateStatus\":\"Today's NSE Price updated successfully\"}", HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			ErrorUtil.logError("*** UpdateStockPrice(...) method", e);
             System.out.println("\n\n^^^^^^^^^^ Ghrrrrrrr.......UNABLE TO UPDATE STOCK PRICE ON HOLIDAY ^^^^^^^^^^^^^");
 			return new ResponseEntity<>("{\"priceUpdateStatus\":\"--Ghrrrrrrr.......UNABLE TO UPDATE STOCK PRICE ON HOLIDAY!!!!!\"}", HttpStatus.FORBIDDEN);
