@@ -1205,7 +1205,7 @@ jQuery(document).ready(function() {
 									+ "<span>" + response[i].others + "</span>"
 									+ "</div>"
 									+ "<div class='col-xs-3'>"
-										+ "<input type='checkbox' data-name='" + response[i].others + "' data-section='' data-value='" + response[i].others + "' />"
+										+ "<input type='checkbox' data-name='" + response[i].others + "' data-section='' data-value='" + response[i].others + "' disabled='disabled' />"
 										+ "<label for='geo-india'></label>"
 									+ "</div>"
 								+ "</div>"

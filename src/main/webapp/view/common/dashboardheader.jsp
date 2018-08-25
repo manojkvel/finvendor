@@ -131,10 +131,10 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                             <a href="#" id='my_profile'>My Profile</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="#" id='my_subscription'>Subscribe</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>Subscribe</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="#" id='my_portfolio'>My Portfolio</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/my-portfolio.jsp" id='my_portfolio'>My Portfolio</a>
                                                                         </li>
                                                                         <li>
                                                                         	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
@@ -222,10 +222,10 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                             <a href="${pageContext.request.contextPath}/view/my-watchlist.jsp" id='view_my_watchlist'>My Watchlist</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="#" id='my_subscription'>Subscribe</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>Subscribe</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="#" id='my_portfolio'>My Portfolio</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/my-portfolio.jsp" id='my_portfolio'>My Portfolio</a>
                                                                         </li>
                                                                         <li>
                                                                         	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>

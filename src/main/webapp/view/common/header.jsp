@@ -136,10 +136,10 @@
                                                                             </c:when>
                                                                         </c:choose>
                                                                         <li>
-                                                                            <a href="#" id='my_subscription'>Subscribe</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>Subscribe</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="#" id='my_portfolio'>My Portfolio</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/my-portfolio.jsp" id='my_portfolio'>My Portfolio</a>
                                                                         </li>
                                                                         <li>
                                                                             <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
@@ -263,10 +263,10 @@
                                                                         </c:when>
                                                                         </c:choose>
                                                                         <li>
-                                                                            <a href="#" id='my_subscription'>Subscribe</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>Subscribe</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="#" id='my_portfolio'>My Portfolio</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/my-portfolio.jsp" id='my_portfolio'>My Portfolio</a>
                                                                         </li>
                                                                         <li>
                                                                             <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>

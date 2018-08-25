@@ -193,13 +193,13 @@
 												<a href="javascript:void(0)" data-id="company">Company <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="style">Style <i class="fa fa-sort"></i></a>
+												Style
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="mcap">M-Cap <i class="fa fa-sort"></i></a>
+												M-Cap
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="sector">Sector <i class="fa fa-sort"></i></a>
+												Sector
 											</p>
 										</th>
 										<th style="width:20%;">
@@ -207,27 +207,27 @@
 												<a href="javascript:void(0)" data-id="broker">Broker <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="since">Since <i class="fa fa-sort"></i></a>
+												Since
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="awarded">Awarded <i class="fa fa-sort"></i></a>
+												Awarded
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="researchedByCfa">Researched by CFA <i class="fa fa-sort"></i></a>
+												Researched by CFA
 											</p>
 										</th>
 										<th style="width:15%;">
-											<p class="large_font">
-												<a href="javascript:void(0)">Broker Rank</a>
+											<p class="large_font" style="font-size: 16px;">
+												Broker Rank
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="brokerRank">Large Cap <i class="fa fa-sort"></i></a>
+												Large Cap
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="brokerRank">Mid Cap <i class="fa fa-sort"></i></a>
+												Mid Cap
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="brokerRank">Small Cap <i class="fa fa-sort"></i></a>
+												Small Cap
 											</p>
 										</th>
 										<th style="width:15%;">
@@ -236,13 +236,13 @@
 												<a href="javascript:void(0)" data-id="cmp">CMP <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="priceDate">Price Date <i class="fa fa-sort"></i></a>
+												Price Date
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="pe">P/E <i class="fa fa-sort"></i></a>
+												P/E
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="_3YrPatGrowth">3 YR EPS Growth <i class="fa fa-sort"></i></a>
+												3 YR EPS Growth
 											</p>
 										</th>
 										<th style="width:15%;">
@@ -250,13 +250,13 @@
 												<a href="javascript:void(0)" data-id="recommType">Recom. Type <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="targetPrice">Tgt Price <i class="fa fa-sort"></i></a>
+												Tgt Price
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="priceAtRecomm">Price@Recomm <i class="fa fa-sort"></i></a>
+												Price@Recomm
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="upside">Upside <i class="fa fa-sort"></i></a>
+												Upside Potential
 											</p>
 										</th>
 										<th style="width:15%;">
@@ -264,10 +264,10 @@
 												<a href="javascript:void(0)" data-id="report">Report <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="researchDate">Research Date <i class="fa fa-sort"></i></a>
+												Research Date
 											</p>
 											<p class="small_font">
-												<a href="javascript:void(0)" data-id="analystName">Analyst Name <i class="fa fa-sort"></i></a>
+												Analyst Name
 											</p>
 										</th>
 									</tr>
