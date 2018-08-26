@@ -28,11 +28,11 @@ public class EmailUtil {
 	static {
 		mailProp.put("mail.smtp.auth", "true");
 		mailProp.put("mail.smtp.host", "mail.finvendor.com");
-		mailProp.put("mail.smtp.port", "2525");
 	}
 
-	public static final String EMAIL_USERNAME = "finvendo";
-	public static final String EMAIL_PASSWORD = "amit_mv";
+	public static final String EMAIL_USERNAME = "sales@finvendor.com";
+	public static final String EMAIL_PASSWORD = "FinVendor@dmin";
+
 	public static final String REGISTRATION_LINK = "http://www.finvendor.com/validateRegistrationEmail";
 	// public static final String REGISTRATION_LINK =
 	// "http://localhost:8080/validateRegistrationEmail";
@@ -134,10 +134,10 @@ public class EmailUtil {
 
 		Session session = getMailSession();
 		try {
-
+			String to = "sample@gmail.com";
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("sales@finvendor.com"));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(""));
+			message.setFrom(new InternetAddress(EMAIL_USERNAME));
+			message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
 			message.setSubject("Testing Subject");
 			message.setText("Test mail," + "\n\n Mochahost registration");
 
@@ -284,5 +284,4 @@ public class EmailUtil {
 		logger.debug("Leaving EmailUtil:sendRfpMoreInfoNotification for {}, Consumer : {}", rfpBean.getRfpTitle(),
 				consumer.getCompany());
 	}
-
 }
