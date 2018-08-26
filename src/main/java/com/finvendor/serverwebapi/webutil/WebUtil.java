@@ -157,12 +157,12 @@ public final class WebUtil {
 			 * */
 			// Country
 			put("country",
-				new SqlData("select country_id, name from country where name in (?,?,?)",
+				new SqlData("select country_id, name from country where name in (?)",
 				new ArrayList<ColumnNameAndNewValue>() {{
 					add(new ColumnNameAndNewValue("countryId", null));
 					add(new ColumnNameAndNewValue("name", null));
 				}},
-				new Object[] { "India", "USA", "UK" },
+				new Object[] { "India" },
 				firstDefaultParamsMapAsNull,
 				lastDefaultParamsMapAsNull, 
 				columnIndex_0));
