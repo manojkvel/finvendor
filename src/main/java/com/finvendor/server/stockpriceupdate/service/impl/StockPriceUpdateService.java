@@ -141,7 +141,7 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
         } else {
             dayString = String.valueOf(day);
         }
-        SimpleDateFormat formatter=new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+        SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
         String priceDate = formatter.format(Calendar.getInstance().getTime());
 
         cal.set(year, month, day);
@@ -196,7 +196,7 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
                     System.out.println("******** FAILED - Update price for this isin =" + isin + " and stockId=" + stringStringPair.getElement1());
                 }
             } else {
-                System.out.println("^^^^^^isin=" + isin + " does not found in Bhav file");
+                System.out.println("++++++ isin=" + isin + " does not found in Bhav file");
             }
         }
         System.out.println("**********************************************************************************");
@@ -208,78 +208,79 @@ public class StockPriceUpdateService implements IStockPriceUpdateService {
     @Override
     @Transactional(readOnly = false)
     public void updateCompanyDescription() throws Exception {
-        Map<String, String> descMap = new LinkedHashMap<>();
-        FileInputStream file=null;
-        try {
-//            String pathname="D:\\ayush\\1-Fin-vendor\\feature\\desc.xls";
-            String pathname="/home/finvendo/dev/desc.xls";
-            file = new FileInputStream(new File(pathname));
-
-            //Create Workbook instance holding reference to .xlsx file
-            HSSFWorkbook wb = new HSSFWorkbook(file);
-
-            HSSFSheet sheet=wb.getSheetAt(0);
-            HSSFRow row;
-
-            Iterator<Row> rows = sheet.iterator();
-            while (rows.hasNext()) {
-                row =(HSSFRow) rows.next();
-                //For each row, iterate through all the columns
-                Iterator cells = row.cellIterator();
-
-                while (cells.hasNext()) {
-                    HSSFCell cell3 = (HSSFCell)cells.next();
-                    HSSFCell cell5 = (HSSFCell)cells.next();
-
-                    String desc ="";
-                    if (cell3.getCellType() == HSSFCell.CELL_TYPE_STRING)
-                    {
-                        desc = cell3.getStringCellValue();
-                    }
-                    else if(cell3.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
-                    {
-                        desc = cell3.getNumericCellValue()+"";
-                    }
-
-                    String isin="";
-                    if (cell5.getCellType() == HSSFCell.CELL_TYPE_STRING)
-                    {
-                        isin = cell5.getStringCellValue();
-                    }
-                    else if(cell5.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
-                    {
-                        isin = cell5.getNumericCellValue()+"";
-                    }
-
-                    if(desc.equals("Company Desc")){
-                       continue;
-                    }
-
-                    if(! "".equals(desc)) {
-                        descMap.put(isin, desc);
-                    }
-                    //break;
-                }
-            }
-            List<Pair<String, String>> allIsin = dao.findAllIsin();
-            for (int i = 0; i < allIsin.size(); i++) {
-                Pair<String, String> stringStringPair = allIsin.get(i);
-                String isinFromDb = stringStringPair.getElement2();
-                String desc = descMap.get(isinFromDb);
-                if (desc != null) {
-                    dao.updateCompanyDesc(isinFromDb, desc);
-                }else{
-                    System.out.println("~~~~~~~~no desc found in xls file for isin="+isinFromDb);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            if(file!=null){
-                file.close();
-            }
-        }
-
-
+//        Map<String, String> descMap = new LinkedHashMap<>();
+//        FileInputStream file=null;
+//        HSSFWorkbook wb=null;
+//        try {
+////            String pathname="D:\\ayush\\1-Fin-vendor\\feature\\desc.xls";
+//            String pathname="/home/finvendo/dev/desc.xls";
+//            file = new FileInputStream(new File(pathname));
+//
+//            //Create Workbook instance holding reference to .xlsx file
+//            wb = new HSSFWorkbook(file);
+//
+//            HSSFSheet sheet=wb.getSheetAt(0);
+//            HSSFRow row;
+//
+//            Iterator<Row> rows = sheet.iterator();
+//            while (rows.hasNext()) {
+//                row =(HSSFRow) rows.next();
+//                //For each row, iterate through all the columns
+//                Iterator cells = row.cellIterator();
+//
+//                while (cells.hasNext()) {
+//                    HSSFCell cell3 = (HSSFCell)cells.next();
+//                    HSSFCell cell5 = (HSSFCell)cells.next();
+//
+//                    String desc ="";
+//                    if (cell3.getCellType() == HSSFCell.CELL_TYPE_STRING)
+//                    {
+//                        desc = cell3.getStringCellValue();
+//                    }
+//                    else if(cell3.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
+//                    {
+//                        desc = cell3.getNumericCellValue()+"";
+//                    }
+//
+//                    String isin="";
+//                    if (cell5.getCellType() == HSSFCell.CELL_TYPE_STRING)
+//                    {
+//                        isin = cell5.getStringCellValue();
+//                    }
+//                    else if(cell5.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
+//                    {
+//                        isin = cell5.getNumericCellValue()+"";
+//                    }
+//
+//                    if(desc.equals("Company Desc")){
+//                       continue;
+//                    }
+//
+//                    if(! "".equals(desc)) {
+//                        descMap.put(isin, desc);
+//                    }
+//                }
+//            }
+//            List<Pair<String, String>> allIsin = dao.findAllIsin();
+//            for (int i = 0; i < allIsin.size(); i++) {
+//                Pair<String, String> stringStringPair = allIsin.get(i);
+//                String isinFromDb = stringStringPair.getElement2();
+//                String desc = descMap.get(isinFromDb);
+//                if (desc != null) {
+//                    dao.updateCompanyDesc(isinFromDb, desc);
+//                }else{
+//                    System.out.println("~~~~~~~~no desc found in xls file for isin="+isinFromDb);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }finally {
+//            if(file!=null){
+//                file.close();
+//            }
+//            if(wb!=null){
+//                wb.close();
+//            }
+//        }
     }
 }
