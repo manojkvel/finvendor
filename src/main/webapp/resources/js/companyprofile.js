@@ -192,6 +192,8 @@ var priceAlertStatus = 'N';
         setRecordStats(currentIndex, lastPageNumber);
     }
 
+    $("#research_report_content .max_per_page select").val($("#research_report_content .max_per_page select option:first").val());
+
     var firstPageNumber = 1;
     var pageNumber = 1;
     var lastPageNumber = 1;

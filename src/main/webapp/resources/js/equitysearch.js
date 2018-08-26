@@ -205,6 +205,8 @@ jQuery(document).ready(function() {
 		setRecordStats(currentIndex, lastPageNumber);
 	}
 
+	$("#fv_equity_research_report_vendor_search .max_per_page select").val($("#fv_equity_research_report_vendor_search .max_per_page select option:first").val());
+
 	var firstPageNumber = 1;
 	var pageNumber = 1;
 	var lastPageNumber = 1;

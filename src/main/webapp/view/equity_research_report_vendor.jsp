@@ -196,7 +196,7 @@
 												Style
 											</p>
 											<p class="small_font">
-												M-Cap
+												Market Capitalisation
 											</p>
 											<p class="small_font">
 												Sector
@@ -247,7 +247,7 @@
 										</th>
 										<th style="width:15%;">
 											<p class="large_font">
-												<a href="javascript:void(0)" data-id="recommType">Recom. Type <i class="fa fa-sort"></i></a>
+												<a href="javascript:void(0)" data-id="recommType">Recommendation Type <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
 												Tgt Price
