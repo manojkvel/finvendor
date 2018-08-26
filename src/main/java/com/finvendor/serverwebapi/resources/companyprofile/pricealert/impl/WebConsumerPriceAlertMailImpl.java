@@ -47,19 +47,19 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
 			/*
 			 * For each consumer send email
 			 */
-			for (Map.Entry<String, List<ConsumerPriceAlertDetails>> entry : consumerPriceAlertDetailsMap.entrySet()) {
+			for (final Map.Entry<String, List<ConsumerPriceAlertDetails>> entry : consumerPriceAlertDetailsMap.entrySet()) {
 				String userName = entry.getKey();
 				List<ConsumerPriceAlertDetails> ConsumerPriceAlertDetails = entry.getValue();
 
-				String to = userService.getUserDetailsByUsername(userName).getEmail();
+				String toRecipient = userService.getUserDetailsByUsername(userName).getEmail();
 				// Each user can set multiple price alert
 				for (ConsumerPriceAlertDetails consumerPriceAlertDetail : ConsumerPriceAlertDetails) {
 					String companyName = consumerPriceAlertDetail.getCompanyName();
-					String subject = "Stock Price Alert Triggered for:" + companyName;
-					String mailBody = prepareMailBody(consumerPriceAlertDetail);
+					final String subject = "Stock Price Alert Triggered for:" + companyName;
+					final String mailBody = prepareMailBody(consumerPriceAlertDetail);
 					try {
-						EmailUtil.sendMail(to, subject, mailBody);
-						LogUtil.logInfo("***Email has been sent to user:" + to);
+						EmailUtil.sendMail(toRecipient, subject, mailBody);
+						LogUtil.logInfo("***Email has been sent to user:" + toRecipient);
 					} catch (RuntimeException e) {
 						LogUtil.logError("Unable to send mail to this company :" + companyName);
 					}
@@ -101,24 +101,24 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
 				+ "        <td>TODAYPRICE</td>\r\n" + "		<td>YESTERDAYPRICE</td>\r\n"
 				+ "        <td>WEEKPRICE</td>\r\n" + "        <td>MONTHPRICE</td>\r\n" + "	</tr>\r\n" + "</table>\r\n"
 				+ "<br><br>";
-		String footerContentTemplate = "\r\n"
+		final String footerContentTemplate = "\r\n"
 				+ "In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.<br><br>\r\n"
 				+ "Thank you once again for setting price alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n"
 				+ "<br><br>\r\n" + "\r\n" + "Assuring you the best of services.\r\n" + "<br><br>\r\n"
 				+ "Regards<br>\r\n" + "Finvendor Corp.<br><br>\r\n" + "</body>\r\n" + "</html>";
-		String userName = dto.getUserName();
-		String priceDate = dto.getPriceDate();
-		String companyName = dto.getCompanyName();
+		final String userName = dto.getUserName();
+		final String priceDate = dto.getPriceDate();
+		final String companyName = dto.getCompanyName();
 
-		String yesterDayPrice = String.valueOf(dto.getYesterdayCmp());
-		String todayPrice = String.valueOf(dto.getTodaysCmp());
-		String todayPriceInPercentage = dto.getTodaysCmpInPercentage();
+		final String yesterDayPrice = String.valueOf(dto.getYesterdayCmp());
+		final String todayPrice = String.valueOf(dto.getTodaysCmp());
+		final String todayPriceInPercentage = dto.getTodaysCmpInPercentage();
 
-		String weeklyPrice = String.valueOf(dto.getLastWeekCmp());
-		String lastWeekPriceInPercentage = dto.getLastWeekCmpInPercentage();
+		final String weeklyPrice = String.valueOf(dto.getLastWeekCmp());
+		final String lastWeekPriceInPercentage = dto.getLastWeekCmpInPercentage();
 
-		String monthlyPrice = String.valueOf(dto.getLastMonthCmp());
-		String lastMonthPriceInPercentage = dto.getLastMonthCmpInPercentage();
+		final String monthlyPrice = String.valueOf(dto.getLastMonthCmp());
+		final String lastMonthPriceInPercentage = dto.getLastMonthCmpInPercentage();
 
 		String dayTableContent = "";
 		if (!"NA".equals(dto.getTodaysCmpInPercentage())) {
@@ -183,12 +183,12 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
 		if (!notTimeFrameTableContent.isEmpty()) {
 			tableSb.append(notTimeFrameTableContent).append("\r\n");
 		}
-		String tableContent = tableSb.toString();
+		final String tableContent = tableSb.toString();
 
 		String footerContent = footerContentTemplate;
 		footerContent = StringUtils.replace(footerContent, "COMPANYNAME", companyName);
 
-		String finalMailContent = new StringBuffer(1000).append(headerContent).append("\n").append(tableContent)
+		final String finalMailContent = new StringBuffer(1000).append(headerContent).append("\n").append(tableContent)
 				.append("\n").append(footerContent).append("\n").toString();
 		return finalMailContent;
 	}
@@ -196,7 +196,7 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
 	@Override
 	public ResponseEntity<?> sendResearchReportAlertMail(String userName, String companyId,String companyName) throws WebApiException {
 		try {
-			String isinCode = consumerPriceAlertMailService.getIsinCode(companyId);
+			final String isinCode = consumerPriceAlertMailService.getIsinCode(companyId);
 			LogUtil.logInfo("sendResearchReportAlertMail-> isinCode="+isinCode+", companyName="+companyName);
 			String mailContent = "<!DOCTYPE html>\r\n" + "<html>\r\n" + "<head>\r\n" + "<title></title>\r\n" + "\r\n"
 					+ "<!-- CSS -->\r\n" + "<style>\r\n" + ".myTable { \r\n" + "  width: 100%;\r\n"
@@ -221,12 +221,12 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
 			mailContent = StringUtils.replace(mailContent, "USERNAME", userName);
 			mailContent = StringUtils.replace(mailContent, "COMPANYNAME", companyName);
 
-			String to;
+			String toRecipient;
 
-			to = userService.getUserDetailsByUsername(userName).getEmail();
+			toRecipient = userService.getUserDetailsByUsername(userName).getEmail();
 			String subject = "Stock Price Alert Triggered for:" + companyName;
 			String mailBody = mailContent;
-			EmailUtil.sendMail(to, subject, mailBody);
+			EmailUtil.sendMail(toRecipient, subject, mailBody);
 			return new ResponseEntity<StatusPojo>(
 					new StatusPojo("true", "Research report mail sent to user successfully"), HttpStatus.OK);
 		} catch (Exception e1) {

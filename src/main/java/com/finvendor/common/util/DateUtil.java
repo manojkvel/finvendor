@@ -76,9 +76,6 @@ public class DateUtil {
 		return date.getTime();
 	}
 
-	public static void main(String[] args) {
-		int dayOfMonth = getPreviousDayOfMonthAsInteger(getPreviousWorkingDay(Calendar.getInstance().getTime()));
-		System.out.println(dayOfMonth); 
-	}
+
 
 }

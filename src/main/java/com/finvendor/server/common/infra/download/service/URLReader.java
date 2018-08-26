@@ -12,7 +12,7 @@ public class URLReader {
     public static void copyURLToFile(URL url, File file) throws IOException {
 
         InputStream input = null;
-        FileOutputStream output=null;
+        FileOutputStream output = null;
         try {
             input = url.openStream();
             if (file.exists()) {
@@ -46,11 +46,15 @@ public class URLReader {
                     LogUtil.logError(e.getMessage());
                 }
             }
-            try {
-                output.close();
-            } catch (IOException e) {
-                LogUtil.logError(e.getMessage());
+
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    LogUtil.logError(e.getMessage());
+                }
             }
+
         }
     }
 

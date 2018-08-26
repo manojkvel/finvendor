@@ -583,7 +583,7 @@ public class ResearchReportUtil {
             Integer lYr = null;
             int newLy = Integer.parseInt(ly);
             if (exitsingLaunchedYrListFromMap == null) {
-                lYr = new Integer(newLy);
+                lYr = Integer.valueOf(newLy);
                 vendorIdMap.put(vId, lYr);
             } else {
                 lYr = vendorIdMap.get(vId);

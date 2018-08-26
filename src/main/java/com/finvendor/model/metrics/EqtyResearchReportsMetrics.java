@@ -11,9 +11,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "eqty_research_report_metrics")
 @NamedQueries({
-		@NamedQuery(name = EqtyResearchReportsMetrics.METIRCS_BY_REQUEST_NAME_NAMED_QUERY, query = "from com.finvendor.model.metrics.EqtyResearchReportsMetrics t where t.web_request like:webrequest order by t.id desc") })
+		@NamedQuery(name = EqtyResearchReportsMetrics.LOCAL_DATE_NAMED_QUERY, query = "from com.finvendor.model.metrics.EqtyResearchReportsMetrics t where t.local_date like:localdate and t.user_name like:username order by t.id desc") })
 public class EqtyResearchReportsMetrics {
-	public static final String METIRCS_BY_REQUEST_NAME_NAMED_QUERY = "metricsByRequest";
+	public static final String LOCAL_DATE_NAMED_QUERY = "eqtyResearchReportMetricsByLocalDate";
 
 	@Id
 	@GeneratedValue
@@ -23,14 +23,14 @@ public class EqtyResearchReportsMetrics {
 	@Column(name = "user_name")
 	private String user_name;
 	
-	@Column(name = "web_request")
-	private String web_request;
-
 	@Column(name = "count")
 	private String count;
 
 	@Column(name = "local_date")
 	private String local_date;
+
+	@Column(name = "ip_address")
+	private String ip_address;
 
 	public String getId() {
 		return id;
@@ -46,14 +46,6 @@ public class EqtyResearchReportsMetrics {
 
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
-	}
-
-	public String getWeb_request() {
-		return web_request;
-	}
-
-	public void setWeb_request(String web_request) {
-		this.web_request = web_request;
 	}
 
 	public String getCount() {
@@ -72,5 +64,11 @@ public class EqtyResearchReportsMetrics {
 		this.local_date = local_date;
 	}
 
+	public String getIp_address() {
+		return ip_address;
+	}
 
+	public void setIp_address(String ip_address) {
+		this.ip_address = ip_address;
+	}
 }

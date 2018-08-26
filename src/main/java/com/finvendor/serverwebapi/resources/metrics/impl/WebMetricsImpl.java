@@ -21,14 +21,34 @@ public class WebMetricsImpl implements IWebMetrics {
 	private MetricService metricsService;
 
 	@Override
-	public ResponseEntity<?> getRequestMetrics(@RequestParam(value = "type", required = false) String type) throws WebApiException {
+	public ResponseEntity<?> getAllMetrics(@RequestParam(value = "type") String type) throws WebApiException {
 		try {
-			String requestMetrics = metricsService.getRequestMetrics(type);
+			final String requestMetrics = metricsService.getRequestMetrics(type);
 			return new ResponseEntity<String>(requestMetrics, HttpStatus.OK);
 		} catch (Exception e) {
-			ErrorUtil.logError("IWebMetrics -> getRequestMetrics(...) method", e);
+			ErrorUtil.logError("IWebMetrics -> getAllMetrics(...) method", e);
 			return ErrorUtil.getError(REQUEST_METRICS.getCode(), REQUEST_METRICS.getUserMessage(), e);
 		}
 	}
 
+	@Override
+	public ResponseEntity<?> getYearMetrics(@RequestParam(value = "type") String type,
+											@RequestParam(value = "year") String year) throws WebApiException {
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<?> getMonthMetrics(@RequestParam(value = "type") String type,
+											 @RequestParam(value = "year") String year,
+											 @RequestParam(value = "month") String month) throws WebApiException {
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<?> getDayMetrics(@RequestParam(value = "type") String type,
+										   @RequestParam(value = "year") String year,
+										   @RequestParam(value = "month") String month,
+										   @RequestParam(value = "day") String day) throws WebApiException {
+		return null;
+	}
 }

@@ -14,40 +14,59 @@ import com.finvendor.server.metrics.dao.IMetricsDao;
 @Service
 public class MetricService {
 
-	public MetricService() {
-	}
+    public MetricService() {
+    }
 
-	@Autowired
-	@Qualifier(value = "equityResearchReportMetricsDaoImpl")
-	private IMetricsDao equityResearchReportMetricsDao;
+    @Autowired
+    @Qualifier(value = "equityResearchReportMetricsDaoImpl")
+    private IMetricsDao equityResearchReportMetricsDao;
 
-	@Autowired
-	@Qualifier(value = "downloadEquityResearchReportMetricsDaoImpl")
-	private IMetricsDao downloadEquityResearchReportMetricsDao;
-	
-	@Transactional(readOnly = false)
-	public void increaseCount(String userName, MetricsType metricsType) {
-		
-		switch (metricsType) {
-		case EQTY_RESEARCH:
-			equityResearchReportMetricsDao.increaseCount(userName, metricsType.getValue());
-			break;
-		case DOWNLOAD_EQTY_RESEARCH:
-			downloadEquityResearchReportMetricsDao.increaseCount(userName,metricsType.getValue());
-			break;
-		}
-	}
+    @Autowired
+    @Qualifier(value = "downloadEquityResearchReportMetricsDaoImpl")
+    private IMetricsDao downloadEquityResearchReportMetricsDao;
 
-	@Transactional(readOnly = true)
-	public String getRequestMetrics(String type) throws Exception {
-		try {
-			Map<String, Object> paramsMap = new LinkedHashMap<>();
-			paramsMap.put("equityResearchReportHitData", equityResearchReportMetricsDao.getRequestMetrics());
-			paramsMap.put("dowloadEquityResearchReportHitData", downloadEquityResearchReportMetricsDao.getRequestMetrics());
-			String createJsonFromObject = JsonUtil.createJsonFromObject(paramsMap);
-			return createJsonFromObject;
-		} catch (RuntimeException e) {
-			throw new Exception(e);
-		}
-	}
+    @Autowired
+    @Qualifier(value = "homePageMetricsDaoImpl")
+    private IMetricsDao homePageMetricsDao;
+
+    @Transactional(readOnly = false)
+    public void increaseCount(String userName, MetricsType metricsType) {
+
+        switch (metricsType) {
+            case EQTY_RESEARCH:
+                equityResearchReportMetricsDao.increaseCount(userName);
+                break;
+            case DOWNLOAD_EQTY_RESEARCH:
+                downloadEquityResearchReportMetricsDao.increaseCount(userName);
+                break;
+            case HOME_PAGE:
+                homePageMetricsDao.increaseCount(userName);
+                break;
+
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public String getRequestMetrics(String type) throws Exception {
+        try {
+            Map<String, Object> paramsMap = new LinkedHashMap<>();
+            if (type.equals("equityResearch")) {
+                paramsMap.put("equityResearchReportMetrics", equityResearchReportMetricsDao.getAllMetrics());
+            } else if (type.equals("downloadEquityResearch")) {
+                paramsMap.put("downloadEquityResearchReportMetrics", downloadEquityResearchReportMetricsDao.getAllMetrics());
+            } else if (type.equals("homePage")) {
+                paramsMap.put("homePageMetrics", homePageMetricsDao.getAllMetrics());
+            }else{
+                Map<String, Object> allMap = new LinkedHashMap<>();
+                allMap.put("homePage", homePageMetricsDao.getAllMetrics());
+                allMap.put("equityResearchReport", equityResearchReportMetricsDao.getAllMetrics());
+                allMap.put("downloadEquityResearchReport", downloadEquityResearchReportMetricsDao.getAllMetrics());
+                paramsMap.put("metrics", allMap);
+            }
+            String createJsonFromObject = JsonUtil.createJsonFromObject(paramsMap);
+            return createJsonFromObject;
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
 }

@@ -41,9 +41,9 @@ public class WebCommonImpl implements IWebCommon {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getCompanyDetails(String researchAreaId) throws WebApiException {
+    public ResponseEntity<?> getCompanyDetails(final String researchAreaId)  {
         try {
-            Set<CompanyDetails> companyDetails = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(),
+            final List<CompanyDetails> companyDetails = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(),
                     researchAreaId);
             return new ResponseEntity<>(companyDetails, HttpStatus.OK);
         } catch (Exception e) {
@@ -54,7 +54,7 @@ public class WebCommonImpl implements IWebCommon {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getResearchFilterData(String type) throws WebApiException {
+    public ResponseEntity<?> getResearchFilterData(final String type) {
         try {
             switch (type) {
                 case "brokerYrOfInCorp":
@@ -69,11 +69,11 @@ public class WebCommonImpl implements IWebCommon {
                     return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON, HttpStatus.OK);
             }
 
-            SqlData sqlData = WebUtil.typeMap.get(type);
-            String jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(),
+            final SqlData sqlData = WebUtil.typeMap.get(type);
+            final String jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(),
                     sqlData.getConitionValue(), sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(),
                     sqlData.getColIndex());
-            return new ResponseEntity<String>(jsonResult, HttpStatus.OK);
+            return new ResponseEntity<>(jsonResult, HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("WebApiCommon -> getResearchFilterData(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_FILTER.getCode(), EQUITY_RESEARCH_FILTER.getUserMessage(), e);
@@ -82,23 +82,32 @@ public class WebCommonImpl implements IWebCommon {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getAnalystType() throws WebApiException {
+    public ResponseEntity<?> getAnalystType() {
         try {
-            SQLQuery nativeQuery = commonDao.getNativeQuery("SELECT distinct analystType FROM vendor", null);
-            List<Object> rows = (List<Object>) nativeQuery.list();
-            Map<String, Object> paramsMap = new LinkedHashMap<>();
-            List<String> analystTypePojoList = new ArrayList<>();
-            Iterator<Object> itr = rows.iterator();
+            final SQLQuery nativeQuery = commonDao.getNativeQuery("SELECT distinct analystType FROM vendor", null);
+            final List<Object> rows = (List<Object>) nativeQuery.list();
+            final Map<String, Object> paramsMap = new LinkedHashMap<>();
+            final List<String> analystTypePojos = new ArrayList<>();
+            final Iterator<Object> itr = rows.iterator();
             while (itr.hasNext()) {
-                Object array = itr.next();
+                final Object array = itr.next();
                 if (array instanceof String) {
-                    String v = (String) array;
-                    String analystType = v != null ? v : "";
-                    analystTypePojoList.add(analystType);
+                    final String analystTypeStr = (String) array;
+                    final String analystType = analystTypeStr != null ? analystTypeStr : "";
+                    analystTypePojos.add(analystType);
                 }
             }
-            paramsMap.put("analystType", analystTypePojoList);
-            String jsonFromParamsMap = JsonUtil.createJsonFromParamsMap(paramsMap);
+
+            if (analystTypePojos.size() == 1) {
+                if ("Independent Research Analyst".equals(analystTypePojos.get(0))) {
+                    analystTypePojos.add("Research Broker");
+                } else {
+                    analystTypePojos.add("Independent Research Analyst");
+                }
+            }
+
+            paramsMap.put("analystType", analystTypePojos);
+            final String jsonFromParamsMap = JsonUtil.createJsonFromParamsMap(paramsMap);
             return new ResponseEntity<>(jsonFromParamsMap, HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("WebApiCommon -> getAnalystType(...) method", e);
@@ -108,17 +117,17 @@ public class WebCommonImpl implements IWebCommon {
 
     @Override
     @Transactional(readOnly = false)
-    public ResponseEntity<?> updateAnalystyType(HttpServletRequest request, String analystType) throws WebApiException {
+    public ResponseEntity<?> updateAnalystyType(final HttpServletRequest request, final String analystType) throws WebApiException {
         try {
-            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+            final User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
             if (loggedInUser == null) {
                 return ErrorUtil.getError(FIND_USER_FROM_SESSION.getCode(), FIND_USER_FROM_SESSION.getUserMessage());
             }
-            String userName = loggedInUser.getUsername();
-            FinVendorUser userDetailsByUsername = userService.getUserDetailsByUsername(userName);
-            String vendorId = userDetailsByUsername.getVendor().getId();
-            SQLQuery nativeQuery = commonDao.getNativeQuery("update vendor set analystType=? where vendor_id=?", new String[]{analystType, vendorId});
-            int update = nativeQuery.executeUpdate();
+            final String userName = loggedInUser.getUsername();
+            final FinVendorUser userDetailsByName = userService.getUserDetailsByUsername(userName);
+            final String vendorId = userDetailsByName.getVendor().getId();
+            final SQLQuery nativeQuery = commonDao.getNativeQuery("update vendor set analystType=? where vendor_id=?", new String[]{analystType, vendorId});
+            final int update = nativeQuery.executeUpdate();
 
             if (update == 1) {
                 return new ResponseEntity<>("{\"staus\":\"AnalystType updated successfully\"}", HttpStatus.OK);

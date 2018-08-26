@@ -24,13 +24,13 @@ public class CommonDaoImpl extends AbstractCommonDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) {
+	public List<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) {
 		try {
 			SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 			query.setInteger(0, Integer.parseInt(rsrchAreaId));
 			List<Object[]> rows = query.list();
 
-			Set<CompanyDetails> results = new TreeSet<>();
+			List<CompanyDetails> results = new ArrayList<>();
 			for (Object[] row : rows) {
 				results.add(new CompanyDetails(Integer.parseInt(row[0].toString()), row[1].toString()));
 			}

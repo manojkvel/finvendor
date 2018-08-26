@@ -75,9 +75,9 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
                 throw new Exception("Equity Research filter Error - Geo must not be null !!");
             }
 
-            Map<String, EquityResearchResult> researchReport = (Map<String, EquityResearchResult>) equityResearchService
+            final Map<String, EquityResearchResult> researchReport = (Map<String, EquityResearchResult>) equityResearchService
                     .getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
-            Map<String, Collection<EquityResearchResult>> searchResult = new HashMap<>();
+            final Map<String, Collection<EquityResearchResult>> searchResult = new HashMap<>();
             searchResult.put(type, researchReport.values());
             return new ResponseEntity<Map<String, Collection<EquityResearchResult>>>(searchResult, HttpStatus.OK);
         } catch (Exception e) {
@@ -99,11 +99,11 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
                 equityResearchFilter=new EquityResearchFilter();
                 equityResearchFilter.setGeo("1");
             }
-            Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService
+            final Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService
                     .getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
-            EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData
+            final EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData
                     .get(productId);
-            Map<String, EquityResearchResult> dashboardResult = new HashMap<>();
+            final Map<String, EquityResearchResult> dashboardResult = new HashMap<>();
 
             dashboardResult.put(type, absResearchReportResult);
             return new ResponseEntity<Map<String, EquityResearchResult>>(dashboardResult, HttpStatus.OK);
@@ -119,7 +119,7 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
                                                     @RequestParam("productId") String productId,
                                                     @RequestParam("reportName") String reportName) throws WebApiException {
         try {
-            Pair<Long, InputStream> download = downloadService.download(productId);
+            final Pair<Long, InputStream> download = downloadService.download(productId);
             if (download.getElement2() == null) {
                 throw new Exception("Vendor Report Offering File does not exist for product id=" + productId);
             } else {
@@ -127,7 +127,7 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
                 response.setHeader("Content-Length", String.valueOf(download.getElement1()));
                 FileCopyUtils.copy(download.getElement2(), response.getOutputStream());
             }
-            StatusPojo statusPojo = new StatusPojo("true", "Equity research report downloaded successfully.");
+            final StatusPojo statusPojo = new StatusPojo("true", "Equity research report downloaded successfully.");
             return new ResponseEntity<>(statusPojo, HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("WebEquityResearchReport -> downloadResearchReport(...) method", e);
@@ -145,7 +145,7 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
             if (!"equity".equals(type)) {
                 throw new Exception("Research Report type must be equity !!");
             }
-            String recordStatistics = equityResearchService.getRecordStatistics(equityResearchFilter,
+            final String recordStatistics = equityResearchService.getRecordStatistics(equityResearchFilter,
                     perPageMaxRecords);
             return new ResponseEntity<String>(recordStatistics, HttpStatus.OK);
         } catch (Exception e) {

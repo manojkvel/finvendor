@@ -1,6 +1,7 @@
 package com.finvendor.server.researchreport.dao.impl;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -215,7 +216,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 						.applyFilterForYearOfInCorp(equityFilter, resultMap);
 				return filteredYrOfInCorpResultMap;
 			}
-		} catch (Exception e) {
+		} catch (ParseException e) {
 			throw new RuntimeException(e);
 		}
 		return resultMap;

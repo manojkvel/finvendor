@@ -10,14 +10,15 @@ import com.finvendor.serverwebapi.resources.WebUriConstants;
 
 @RequestMapping(WebUriConstants.BASE_URI)
 public interface IWebSystemAdmin {
-	
+
 	/**
-	 * 
-	 * @param type
+	 *
 	 * @return
+	 * 	PerPageMaxRecordCount as string
 	 * @throws WebApiException
+	 * 		if error occurred
 	 */
 	@RequestMapping(value = WebUriConstants.FinvendorAdmin.PER_PAGE_MAX_RECORD_COUNT, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	String getPerPageMaxRecordCount() throws WebApiException;
+	String getPerPageMaxRecordCount() ;
 }
