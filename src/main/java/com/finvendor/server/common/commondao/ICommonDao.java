@@ -12,7 +12,7 @@ import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
 public interface ICommonDao {
 	List<Roles> executeNamedQuery(String namedQueryname) throws RuntimeException;
 
-	Set<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) throws RuntimeException;
+	List<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) throws RuntimeException;
 
 	SQLQuery getNativeQuery(String sql, Object[] conditionValue);
 

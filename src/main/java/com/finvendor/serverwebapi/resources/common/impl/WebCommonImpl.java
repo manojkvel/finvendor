@@ -43,7 +43,7 @@ public class WebCommonImpl implements IWebCommon {
     @Transactional(readOnly = true)
     public ResponseEntity<?> getCompanyDetails(final String researchAreaId)  {
         try {
-            final Set<CompanyDetails> companyDetails = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(),
+            final List<CompanyDetails> companyDetails = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(),
                     researchAreaId);
             return new ResponseEntity<>(companyDetails, HttpStatus.OK);
         } catch (Exception e) {

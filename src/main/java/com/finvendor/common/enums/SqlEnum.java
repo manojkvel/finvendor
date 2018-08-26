@@ -6,7 +6,7 @@ public enum SqlEnum {
 	EQUITY_RESEARCH_DASHBOARD("select rsch_sub_area_company_dtls.company_name,ven_rsrch_rpt_offering.product_name,ven_rsrch_rpt_dtls.rsrch_report_desc,ven_rsrch_rpt_dtls.rsrch_upload_report from ven_rsrch_rpt_offering,rsch_sub_area_company_dtls, ven_rsrch_rpt_dtls where rsch_sub_area_company_dtls.company_id = ven_rsrch_rpt_dtls.company_id and ven_rsrch_rpt_offering.product_id=ven_rsrch_rpt_dtls.product_id and rsch_sub_area_company_dtls.company_id=?"),
 	SECTOR_RESEARCH(""),
 	MACRO_RESEARCH(""),
-	VO_COMPANY_DETAILS("select company_id, company_name from rsch_sub_area_company_dtls where rsch_sub_area_id in( SELECT research_sub_area_id FROM finvendo_dev.research_sub_area where research_area_id=?)"),
+	VO_COMPANY_DETAILS("select company_id, company_name from rsch_sub_area_company_dtls where rsch_sub_area_id in( SELECT research_sub_area_id FROM research_sub_area where research_area_id=?)  order by company_name"),
 	VO_VENDOR_DETAILS("SELECT distinct(ven_rsrch_rpt_offering.vendor_id), vendor.username FROM ven_rsrch_rpt_offering,vendor where ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id");
 	
 	private String sqlQuery;
