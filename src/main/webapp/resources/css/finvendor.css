@@ -672,6 +672,10 @@ table .normal_font p {
 	font-weight: normal;
 }
 
+.ui-datepicker th {
+	background: transparent;
+}
+
 #watchlist_table > thead > tr > th,
 #pricealert_table > thead > tr > th, {
 	height: auto;
@@ -1287,6 +1291,44 @@ button {
 #vendor_my_offerings .custom_form #research_report_for_info .dropdown-menu>.active>a:hover {
 	background-color: #34bf98;
 }
+
+/*----------------Start of Dashboard Metrics---------------*/
+
+#metrics_dashboard .card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 0 solid transparent;
+	border-radius: 0;
+	margin-bottom: 20px;
+	padding: 10px;
+}
+
+#metrics_dashboard .total_count {
+	text-align: center;
+	font-size: 17px;
+}
+
+
+#metrics_dashboard .total_count h4 {
+	font-size: 25px;
+}
+
+#metrics_dashboard #global_dashboard .total_count {
+	border: 1px solid #000;
+}
+
+#myChart,
+.chartjs-size-monitor {
+	width: 400px !important;
+	height: 400px !important;
+}
+
+/*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {
 	.dashboard_report .bd .reportDetails {

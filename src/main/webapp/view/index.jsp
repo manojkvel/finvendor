@@ -96,12 +96,12 @@
 												data-function="searchValueChange">
 												<li class="dropdown-item"><a data-context="stock"
 													data-placeholder="Search stocks & its quotes" class="active">Stocks</a></li>
-												<li class="dropdown-item"><a data-context="sectors"
+												<!--<li class="dropdown-item"><a data-context="sectors"
 													data-placeholder="Sectors">Sectors</a></li>
 												<li class="dropdown-item"><a data-context="macroeconomy"
 													data-placeholder="Macroeconomy">Macroeconomy</a></li>
 												<li class="dropdown-item"><a data-context="research brokers/analysts"
-													data-placeholder="Research brokers/analysts">Research Brokers/Analysts</a></li>
+													data-placeholder="Research brokers/analysts">Research Brokers/Analysts</a></li>-->
 											</ul>
 										</div>
 										<input
