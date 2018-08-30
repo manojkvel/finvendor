@@ -845,13 +845,7 @@
     	$(document).ready( function () {
     		$("#vendor_my_offerings .nav-tabs li:first").addClass("active");
     		var selected = $("#vendor_my_offerings .nav-tabs li:first a").text();
-    		if(selected.indexOf("Data Aggregator") != -1) {
-    			listDataAggregatorOffering();
-    		} else if(selected.indexOf("Trading Application") != -1) {
-    			listTradeApplicationOffering();
-    		} else if(selected.indexOf("Analytics Application") != -1) {
-    			listAnalyticsApplicationOffering();
-    		} else if(selected.indexOf("Research Reporting") != -1) {
+    		if(selected.indexOf("Research Reporting") != -1) {
     			listResearchReportsOffering();
     		}
 

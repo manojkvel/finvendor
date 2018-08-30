@@ -205,6 +205,8 @@ jQuery(document).ready(function() {
 		setRecordStats(currentIndex, lastPageNumber);
 	}
 
+	$("#fv_equity_research_report_vendor_search .max_per_page select").val($("#fv_equity_research_report_vendor_search .max_per_page select option:first").val());
+
 	var firstPageNumber = 1;
 	var pageNumber = 1;
 	var lastPageNumber = 1;
@@ -1205,7 +1207,7 @@ jQuery(document).ready(function() {
 									+ "<span>" + response[i].others + "</span>"
 									+ "</div>"
 									+ "<div class='col-xs-3'>"
-										+ "<input type='checkbox' data-name='" + response[i].others + "' data-section='' data-value='" + response[i].others + "' />"
+										+ "<input type='checkbox' data-name='" + response[i].others + "' data-section='' data-value='" + response[i].others + "' disabled='disabled' />"
 										+ "<label for='geo-india'></label>"
 									+ "</div>"
 								+ "</div>"
