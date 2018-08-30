@@ -764,6 +764,10 @@
 												<option value="target_hit">Target Hit</option>
 												<option value="bullish">Bullish</option>
 												<option value="bearish">Bearish</option>
+    											<option value="marketperformer">Market-Performer</option>
+												<option value="outperformer">Out-Performer</option>
+												<option value="underperformer">Under-Performer</option>
+												<option value="add">Add</option>
 											</select>
 											<label class="default_select">Recommendation Type<sup>*</sup></label>
 										</li>
