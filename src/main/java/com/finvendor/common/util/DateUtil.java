@@ -76,6 +76,31 @@ public class DateUtil {
 		return date.getTime();
 	}
 
+	public static boolean isDateValid(String dateToValidate, String dateFromat){
 
+		if(dateToValidate == null){
+			return false;
+		}
+
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFromat);
+		sdf.setLenient(false);
+
+		try {
+			//if not valid, it will throw ParseException
+			Date date = sdf.parse(dateToValidate);
+
+		} catch (ParseException e) {
+			return false;
+		}
+
+		return true;
+	}
+	public static void main(String args[]){
+		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
+		System.out.println(thisDateValid);
+
+		thisDateValid = isDateValid("12/23/2011", "dd/MM/yyyy");
+		System.out.println(thisDateValid);
+	}
 
 }

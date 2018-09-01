@@ -13,6 +13,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.finvendor.common.constant.AppConstant;
+import com.finvendor.common.util.DateUtil;
 import com.finvendor.util.CommonUtils;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -3055,6 +3057,13 @@ public class VendorController {
 
         logger.debug("Entering  - VendorController : addResearchReportsOffering");
         ModelAndView modelAndView = new ModelAndView("empty");
+
+        //Date Format Validation - It should be in "dd/MM/yyyy" format
+        if (! DateUtil.isDateValid(researchReportDate, AppConstant.FV_PRICE_DATE_ONLY_FORMAT)) {
+            modelAndView.addObject("status", "Error Updating Offering details, cause: Invalid Research Report Date format found, send date in format : " + AppConstant.FV_PRICE_DATE_ONLY_FORMAT);
+            return modelAndView;
+        }
+
         try {
             if (request.getSession().getAttribute("loggedInUser") == null) {
                 return new ModelAndView(RequestConstans.Login.HOME);

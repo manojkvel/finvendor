@@ -17,6 +17,7 @@ public class EquityResearchFilter implements ResearchReportFilter {
     private List<String> recommType = null;
     private List<String> others = null;
     private List<String> upside = null;
+	private List<String> industry = null; //which is sector
 	public String getGeo() {
 		return geo;
 	}
@@ -84,5 +85,13 @@ public class EquityResearchFilter implements ResearchReportFilter {
 	}
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
+	}
+
+	public List<String> getIndustry() {
+		return industry;
+	}
+
+	public void setIndustry(List<String> industry) {
+		this.industry = industry;
 	}
 }
