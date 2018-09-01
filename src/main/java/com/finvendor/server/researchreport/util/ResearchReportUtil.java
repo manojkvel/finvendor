@@ -545,6 +545,7 @@ public class ResearchReportUtil {
         } else {
             vendorIdMap = new TreeMap<>(Collections.reverseOrder());
         }
+        //select vendor_id,launched_year from ven_rsrch_rpt_offering group by vendor_id order by vendor_id
         String query = "select vendor_id,launched_year from ven_rsrch_rpt_offering";
         SQLQuery query1 = commonDao.getNativeQuery(query, null);
         List<Object[]> rows = query1.list();
