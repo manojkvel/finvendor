@@ -850,7 +850,9 @@
 
     <script>
     	$( function() {
-    		$( "#vo_datepicker" ).datepicker();
+    		$( "#vo_datepicker" ).datepicker({
+    			dateFormat: 'dd/mm/yy'
+    		});
     	} );
     </script>
     <!--<script src="<%=request.getContextPath() %>/resources/js/research_report_for_vendor.js"></script>-->

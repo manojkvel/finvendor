@@ -75,7 +75,7 @@ var metricsDashboard = {
         var ctx = document.getElementById("myChart").getContext('2d');
  
         var piechart = new Chart(ctx, {
-            type: 'pie',
+            type: 'bar',
             data: {
                 labels: ["Home", "Equity Search", "Download Report"],
                 datasets: [{
