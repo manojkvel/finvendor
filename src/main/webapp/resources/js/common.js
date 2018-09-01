@@ -479,6 +479,7 @@ jQuery(document).ready(function($) {
 					}
 					window.localStorage.setItem('companyProfileJson', JSON.stringify(companyProfileJson));
 					this.val(data.companyName);
+					this.parents('form').find(".submit-button").trigger('click');
 				}
 			},
 			required: true
