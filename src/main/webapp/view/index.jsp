@@ -14,16 +14,16 @@
 	content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
 
 <meta name="description"
-	content="Search Free and Quality Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research">
+	content="Finvendor strives for democratizing the inventor's community. Finvendor endeavours to help retail and institutional investors make a well-informed investment decisions.">
 <meta name="keywords"
-	content="Finvendor, Free Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research">
+	content="Finvendor, Free Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research, Stock Markets, Stock Price, Target Price, Equity Market, Research Reports, Buy Recommendation, Growth Stocks, Value Stocks, Value Investing, Large Cap Stocks, Mid Cap Stocks, Multibagger, Stock Analyst, Research Analyst, Sensex, Nifty, Indian Stock Markets">
 
 <meta property="og:title"
 	content="FinVendor - Search Free and Quality Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research" />
 <meta property="og:type" content='website' />
 <meta property="og:url" content="https://www.finvendor.com" />
 <meta property="og:description"
-	content="Search Free and Quality Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research" />
+	content="Finvendor strives for democratizing the inventor's community. Finvendor endeavours to help retail and institutional investors make a well-informed investment decisions." />
 <meta property="og:image"
 	content="../resources/images/company-logo-header.jpg" />
 <meta property="og:site_name" content="JioCloud" />
@@ -35,7 +35,7 @@
 <meta name="twitter:image"
 	content="../resources/images/company-logo-header.jpg" />
 <meta name="twitter:description"
-	content="Search Free and Quality Equity Research Reports, Sector Research, Macro Research, Debt Market Research, Fund/ETF Research" />
+	content="Finvendor strives for democratizing the inventor's community. Finvendor endeavours to help retail and institutional investors make a well-informed investment decisions." />
 <meta name="twitter:creator" content="google" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <link href="https://www.finvendor.com" rel="canonical" />
