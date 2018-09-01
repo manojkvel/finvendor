@@ -182,7 +182,8 @@ body {
 #search_by_broker_rank,
 #search_by_recommType,
 #search_by_upside,
-#search_by_others {
+#search_by_others,
+#search_by_industry {
 	max-height: 100px;
 	overflow: auto;
 }
@@ -318,6 +319,16 @@ body {
     padding: 5px 10px;
     margin-bottom: 20px;
     display: inline-block;
+}
+
+.back_btn a span {
+	font-size: 12px;
+	position: relative;
+	top: -1px;
+}
+
+.back_btn a i {
+	font-size: 17px;
 }
 
 .ads_space {
@@ -553,7 +564,8 @@ body {
 	background: #414b4f;
 	color: #fff;
 	cursor: pointer;
-	font-size: 12px;
+	font-size: 13px;
+	font-weight: bold;
 }
 
 .nav-tabs>li>a,
@@ -1427,5 +1439,14 @@ button {
 
 	.default_template {
 		min-height: auto;
+	}
+
+	.large_font {
+		font-size: 13px !important;
+	}
+
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover, .nav-tabs>li>a:hover {
+		font-weight: bold;
+		font-size: 9px;
 	}
 }

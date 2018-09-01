@@ -289,7 +289,7 @@
 															Market Capitalisation
 														</p>
 														<p class="small_font">
-															Sector
+															Industry
 														</p>
 													</th>
 													<th style="width:20%;">
@@ -340,7 +340,7 @@
 															<a href="javascript:void(0)" data-id="recommType">Recommendation Type <i class="fa fa-sort"></i></a>
 														</p>
 														<p class="small_font">
-															Tgt Price
+															Target Price
 														</p>
 														<p class="small_font">
 															Price@Recomm
