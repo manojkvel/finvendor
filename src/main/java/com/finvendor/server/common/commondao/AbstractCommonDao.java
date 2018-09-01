@@ -22,7 +22,7 @@ public abstract class AbstractCommonDao implements ICommonDao {
 	}
 
 	/**
-	 * Generic Code- Donot change as it is sensitive
+	 * Generic Code- Do not change as it is sensitive
 	 */
 	@SuppressWarnings("unchecked")
 	public String runSql(String sql, Map<String, Map<String, String>> columnNameMap, Object[] conditionValue,

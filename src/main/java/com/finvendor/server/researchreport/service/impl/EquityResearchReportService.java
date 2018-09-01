@@ -1,6 +1,5 @@
 package com.finvendor.server.researchreport.service.impl;
 
-import java.io.InputStream;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class EquityResearchReportService extends AbsResearchReportService {
 	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult> getResearchReportTableData(
 			T rrfilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
 		try {
-			String mainQuery = ResearchReportUtil.mainQuery.replace("?",
+			String mainQuery = ResearchReportUtil.MAIN_QUERY.replace("?",
 					"'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
 			return equityReserachReportDao
 					.findResearchReportTableData(mainQuery, rrfilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
@@ -44,7 +43,7 @@ public class EquityResearchReportService extends AbsResearchReportService {
 	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords)
 			throws Exception {
 		try {
-			String mainQuery = ResearchReportUtil.mainQuery.replace("?",
+			String mainQuery = ResearchReportUtil.MAIN_QUERY.replace("?",
 					"'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
 			return equityReserachReportDao.getRecordStatistics(mainQuery, rrfilter, perPageMaxRecords);
 		} catch (RuntimeException e) {

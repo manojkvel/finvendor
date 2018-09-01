@@ -90,7 +90,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 
 			// Prepare brokerRank data from db
 			List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil.getBrokerRankData(commonDao,
-					ResearchReportUtil.brokerRankQuery, orderBy);
+					ResearchReportUtil.BROKER_RANK_SELECT_QUERY, orderBy);
 
 			// Apply filter in main query
 			String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
@@ -103,8 +103,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 			String applyPagination = ResearchReportUtil.applyPagination(pageNumber, perPageMaxRecords);
 
 			// Prepare final query
-			String finalMainQuery = new StringBuilder(500).append(queryWithAppliedFilter).append(applyOrderBy)
-					.append(applyPagination).toString();
+			String finalMainQuery = queryWithAppliedFilter + applyOrderBy + applyPagination;
 
 			// Execute Query
 			SQLQuery query = commonDao.getNativeQuery(finalMainQuery, null);
@@ -139,7 +138,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 				equityResult.setUpside(row[16] != null ? row[16].toString() : "");
 
 				String reportName = row[17] != null ? row[17].toString() : "";
-				reportName = reportName.substring(reportName.lastIndexOf("/") + 1);
+				reportName = reportName.substring(reportName.lastIndexOf('/') + 1);
 				equityResult.setReport(reportName);
 
 				String researchDate = row[18] != null ? row[18].toString() : "";
@@ -183,20 +182,20 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 
 				// Year Of InCorporation
 				String yrOfInCorp = calculatedSince.getElement2();
-				equityResult.setYrOfInCorp(yrOfInCorp);
+				equityResult.setYrOfInCorp(String.valueOf(Integer.parseInt(yrOfInCorp)*12));
 
 				equityResult.setVendorName(row[25] != null ? row[25].toString() : "");
     			equityResult.setReportDesc(row[26] != null ? row[26].toString() : "");
                 equityResult.set_3YrEpsGrowth(row[27] != null ? row[27].toString() : "");
-                float eps_ttm_as_float=Float.parseFloat(row[28] != null ? row[28].toString().trim() : "");
+                float epsTtmAsFloat=Float.parseFloat(row[28] != null ? row[28].toString().trim() : "");
 
                 //calculation of PE
-                String newPeStr = "";
-                float newPe = 0.0f;
-                if (eps_ttm_as_float == 0.0f) {
+                String newPeStr;
+                float newPe;
+                if (epsTtmAsFloat == 0.0f) {
                     newPeStr = "N/A";
                 } else {
-                    newPe = cmpAsFloat / eps_ttm_as_float;
+                    newPe = cmpAsFloat / epsTtmAsFloat;
                     newPeStr = String.valueOf(newPe);
                 }
                 equityResult.setPe(newPeStr);
@@ -212,9 +211,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 
 			// #BrokerYear Of Incorporation filter applied
 			if (equityFilter.getBrokerYrOfInCorp() != null) {
-				Map<String, EquityResearchResult> filteredYrOfInCorpResultMap = ResearchReportUtil
-						.applyFilterForYearOfInCorp(equityFilter, resultMap);
-				return filteredYrOfInCorpResultMap;
+				return ResearchReportUtil.applyFilterForYearOfInCorp(equityFilter, resultMap);
 			}
 		} catch (ParseException e) {
 			throw new RuntimeException(e);

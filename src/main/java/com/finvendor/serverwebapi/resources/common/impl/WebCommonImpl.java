@@ -68,8 +68,7 @@ public class WebCommonImpl implements IWebCommon {
                 case "analystType":
                     return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON, HttpStatus.OK);
             }
-
-            final SqlData sqlData = WebUtil.typeMap.get(type);
+            final SqlData sqlData = WebUtil.filterTypeMap.get(type);
             final String jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(),
                     sqlData.getConitionValue(), sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(),
                     sqlData.getColIndex());
