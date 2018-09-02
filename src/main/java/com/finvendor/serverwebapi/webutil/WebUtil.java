@@ -136,7 +136,7 @@ public final class WebUtil {
 
         //Research Sub Area (Sub Sector or Sub-Industry)
         filterTypeMap.put("industry",
-                new SqlData("select research_area_id, description from  research_sub_area where research_area_id='7' order by description;",
+                new SqlData("select research_area_id, description from  research_sub_area where research_area_id='7' and description not like 'All Sectors' order by description",
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("description", null));
                         }},

@@ -44,13 +44,13 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 	public String getRecordStatistics(String mainQuery, ResearchReportFilter filter, String perPageMaxRecords)
 			throws RuntimeException {
 		try {
-//			EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
-//
-//			String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
-//					ResearchReportUtil.getFilteredQueryPart(equityFilter));
-//			SQLQuery query = commonDao.getNativeQuery(queryWithAppliedFilter, null);
-            SQLQuery query = commonDao.getNativeQuery("SELECT count(product_id) FROM ven_rsrch_rpt_dtls", null);
-            long totalRecords = ((BigInteger) ((List<Object>) query.list()).get(0)).longValue();
+			EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
+
+			String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
+					ResearchReportUtil.getFilteredQueryPart(equityFilter));
+			SQLQuery query = commonDao.getNativeQuery(queryWithAppliedFilter, null);
+			List<Object[]> rows = query.list();
+			int totalRecords = rows.size();
 
 			// Calculate Last page number
             long lastPageNumber = 0;
