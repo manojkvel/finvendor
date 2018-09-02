@@ -80,7 +80,7 @@
 									</li>
 
 									<li>
-										<a target="_blank" href="${pageContext.request.contextPath}/view/blogs.jsp">
+										<a href="${pageContext.request.contextPath}/view/blogs.jsp">
 											<span class="fa fa-chevron-right"></span> Blogs
 										</a>
 									</li>
