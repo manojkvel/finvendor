@@ -1,6 +1,6 @@
 body {
 	font-family: 'Roboto', sans-serif, Arial;
-	line-height: normal;
+	line-height: 21px;
 }
 
 .errorMessage {
@@ -224,6 +224,8 @@ body {
 	font-weight: bold;
 	font-size: 13px;
 }
+
+.dashboard_report 
 
 .dashboard_report .companyName {
 	font-weight: bold;

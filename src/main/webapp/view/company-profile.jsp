@@ -220,7 +220,7 @@
 											<div class="col-xs-12 col-sm-12" style="margin-top: 20px;">
 												<div class="col-xs-4 col-sm-4">
 													<div id="total_buy_recomm" class="research_report_score_block">
-														<span class='success'></span>
+														<span class='success'>0</span>
 														<div class="row">
 															<p>Total BUY Recomm.</p>
 														</div>
@@ -228,7 +228,7 @@
 												</div>
 												<div class="col-xs-4 col-sm-4">
 													<div id="total_neutral_recomm" class="research_report_score_block">
-														<span class='warning'></span>
+														<span class='warning'>0</span>
 														<div class="row">
 															<p>Total NEUTRAL Recomm.</p>
 														</div>
@@ -236,7 +236,7 @@
 												</div>
 												<div class="col-xs-4 col-sm-4">
 													<div id="total_sell_recomm" class="research_report_score_block">
-														<span class='danger'></span>
+														<span class='danger'>0</span>
 														<div class="row">
 															<p>Total SELL Recomm.</p>
 														</div>

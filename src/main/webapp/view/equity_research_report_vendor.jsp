@@ -118,7 +118,7 @@
 						    		<span class="fa fa-chevron-down"></span>
 						    	</div>
 						    	<div class='widget-panel-body'>
-						    		<div id="search_by_brokerAnalystYrOfIncorp">
+						    		<div id="search_by_researchDate">
 										<ul>
 											
 										</ul>

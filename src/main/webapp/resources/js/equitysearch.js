@@ -210,7 +210,7 @@ jQuery(document).ready(function() {
 	var firstPageNumber = 1;
 	var pageNumber = 1;
 	var lastPageNumber = 1;
-	var totalRecords = 1;
+	var totalRecords = 0;
 	var currentIndex = 1;
 	var perPageMaxRecords = 5;
 	var sortByValue = 'researchDate';
@@ -227,7 +227,7 @@ jQuery(document).ready(function() {
 		firstPageNumber = 1;
 		pageNumber = 1;
 		lastPageNumber = 1;
-		totalRecords = 1;
+		totalRecords = 0;
 		currentIndex = 1;
 	}
 	
