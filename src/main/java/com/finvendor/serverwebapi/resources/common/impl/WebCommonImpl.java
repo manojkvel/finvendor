@@ -83,7 +83,7 @@ public class WebCommonImpl implements IWebCommon {
     @Transactional(readOnly = true)
     public ResponseEntity<?> getAnalystType() {
         try {
-            final SQLQuery nativeQuery = commonDao.getNativeQuery("SELECT distinct analystType FROM vendor", null);
+            final SQLQuery nativeQuery = commonDao.getNativeQuery("SELECT distinct analystType FROM vendor where analystType is not null", null);
             final List<Object> rows = (List<Object>) nativeQuery.list();
             final Map<String, Object> paramsMap = new LinkedHashMap<>();
             final List<String> analystTypePojos = new ArrayList<>();
