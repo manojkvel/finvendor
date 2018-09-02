@@ -1258,6 +1258,83 @@ jQuery(document).ready(function() {
 		}
 	};
 
+	/**
+     * Function to set Industry from filter data API.
+     */
+	var setIndustryFilterData = function() {
+		getFilterData('industry').then(function(response) {
+			response = JSON.parse(response);
+			//console.log(response);
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
+			var len = response.length;
+			for(var i = 0; i < len; i++) {
+				html = html + "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>" + response[i].description + "</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='" + response[i].description + "' data-section='' data-value='" + response[i].description + "' />"
+										+ "<label for='industry'></label>"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>"
+			}
+			$("#search_by_industry ul").html(html);
+			$("#search_by_industry ul input").on('change', getIndustryFilterData);
+			// $("#search_by_industry ul input").eq(0).prop('checked', true);
+		}, function(error) {
+			//console.log(error);
+		});
+	};
+
+	var industryFilterData = [];
+
+    /**
+     * Function to get Others from localstorage and get equity list
+     */
+	var getIndustryFilterData = function() {
+		if(!isLoggedInUser()) {
+			addRemoveItemFromArray(industryFilterData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				industryFilterData = ['all'];
+				if(checkForAllData(industryFilterData, "#search_by_industry ul input")) {
+					industryFilterData = [];
+				} 
+			} else {
+				$("#search_by_industry ul input").eq(0).prop('checked', false);
+			}
+
+			
+			localEquitySearchJson.industry = industryFilterData;
+
+			if(industryFilterData.length === 0) {
+				delete localEquitySearchJson.industry;
+			}
+			
+			resetPaginationCount();
+			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
+
+		} else {
+			inner_login('view/equity_research_report_vendor.jsp');
+			$("#search_by_industry ul input").prop('checked', false);
+			// $("#search_by_industry ul input").eq(0).prop('checked', true);
+		}
+	};
+
 
     /**
      * Function to start async call to filter data API and set response.
@@ -1266,6 +1343,7 @@ jQuery(document).ready(function() {
 		setGeoData();
 		setMarketCapitalData();
 		setStyleData();
+		setIndustryFilterData();
 		setAnalystTypeFilterData();
 		setResearchBrokerData();
 		setBrokerAnalystYrOfIncorpFilterData();

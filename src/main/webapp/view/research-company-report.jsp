@@ -19,7 +19,10 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="back_btn">
-					<a href="javascript:void(0);"><< Back</a>
+					<a href="javascript:void(0);">
+						<i class="fa fa-angle-double-left"></i>
+						<span>Back</span>
+					</a>
 				</div>
 			</div>
 		</div>

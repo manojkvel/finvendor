@@ -71,6 +71,19 @@
 							</div>
 							<div class='widget widget-panel-default'>
 								<div class='widget-panel-heading'>
+									<h3>Industry</h3>
+									<span class="fa fa-chevron-down"></span>
+								</div>
+								<div class='widget-panel-body'>
+									<div id="search_by_industry">
+										<ul>
+											
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class='widget widget-panel-default'>
+								<div class='widget-panel-heading'>
 									<h3>Analyst Type</h3>
 									<span class="fa fa-chevron-down"></span>
 								</div>
@@ -199,7 +212,7 @@
 												Market Capitalisation
 											</p>
 											<p class="small_font">
-												Sector
+												Industry
 											</p>
 										</th>
 										<th style="width:20%;">
@@ -250,7 +263,7 @@
 												<a href="javascript:void(0)" data-id="recommType">Recommendation Type <i class="fa fa-sort"></i></a>
 											</p>
 											<p class="small_font">
-												Tgt Price
+												Target Price
 											</p>
 											<p class="small_font">
 												Price@Recomm
