@@ -71,9 +71,14 @@ public class DateUtil {
 	public static long convertFvPriceDateToTimestamp(String str_date) throws ParseException {
 		DateFormat formatter;
 		formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
-		formatter.setTimeZone(TimeZone.getTimeZone("IST"));
+		formatter.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
 		Date date = formatter.parse(str_date);
-		return date.getTime();
+
+		Calendar reserchDateCalendar = Calendar.getInstance();
+		reserchDateCalendar.setTime(date);
+		reserchDateCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+
+		return reserchDateCalendar.getTimeInMillis();
 	}
 
 	public static boolean isDateValid(String dateToValidate, String dateFromat){
@@ -95,12 +100,25 @@ public class DateUtil {
 
 		return true;
 	}
-	public static void main(String args[]){
-		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
-		System.out.println(thisDateValid);
+	public static void main(String args[]) throws ParseException {
+//		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
+//		System.out.println(thisDateValid);
+//
+//		thisDateValid = isDateValid("12/23/2011", "dd/MM/yyyy");
+//		System.out.println(thisDateValid);
 
-		thisDateValid = isDateValid("12/23/2011", "dd/MM/yyyy");
-		System.out.println(thisDateValid);
+		String americaTime="14/Aug/18 08:16:47";
+		DateFormat formatter;
+		formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+		formatter.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+		Date date = formatter.parse(americaTime);
+
+		Calendar reserchDateCalendar = Calendar.getInstance();
+		reserchDateCalendar.setTime(date);
+		reserchDateCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+		System.out.println(reserchDateCalendar.getTime());
+
+
 	}
 
 }

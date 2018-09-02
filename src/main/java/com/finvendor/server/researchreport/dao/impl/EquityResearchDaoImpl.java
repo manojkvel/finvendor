@@ -1,7 +1,6 @@
 package com.finvendor.server.researchreport.dao.impl;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.finvendor.common.util.JsonUtil;
-import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.researchreport.dao.IResearchReportDao;
 import com.finvendor.server.researchreport.dto.filter.ResearchReportFilter;
@@ -44,13 +42,13 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 	public String getRecordStatistics(String mainQuery, ResearchReportFilter filter, String perPageMaxRecords)
 			throws RuntimeException {
 		try {
-//			EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
-//
-//			String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
-//					ResearchReportUtil.getFilteredQueryPart(equityFilter));
-//			SQLQuery query = commonDao.getNativeQuery(queryWithAppliedFilter, null);
-            SQLQuery query = commonDao.getNativeQuery("SELECT count(product_id) FROM ven_rsrch_rpt_dtls", null);
-            long totalRecords = ((BigInteger) ((List<Object>) query.list()).get(0)).longValue();
+			EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
+
+			String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
+					ResearchReportUtil.getFilteredQueryPart(equityFilter));
+			SQLQuery query = commonDao.getNativeQuery(queryWithAppliedFilter, null);
+			List<Object[]> rows = query.list();
+			int totalRecords = rows.size();
 
 			// Calculate Last page number
             long lastPageNumber = 0;
@@ -87,12 +85,6 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 		try {
             //long start=0L;
             //long end=0L;
-		    //start=System.currentTimeMillis();
-			// Prepare data for Since from db
-			Map<String, Integer> vendorIdWithLaunchedYearDataMap = ResearchReportUtil
-					.prepareVendorSinceData(commonDao, sortBy, orderBy);
-            //System.out.println("*******Since Step-1:"+(System.currentTimeMillis()-start)/1000L);
-
             //start=System.currentTimeMillis();
             // Prepare brokerRank data from db
 			List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil.getBrokerRankData(commonDao,
@@ -186,15 +178,8 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 
 				// Since
 				String vendorId = row[23] != null ? row[23].toString() : "";
-
-				Pair<Integer, String> calculatedSince = ResearchReportUtil
-						.calculateSinceAndYrOfIncorp(vendorIdWithLaunchedYearDataMap, vendorId);
-				Integer since = calculatedSince.getElement1();
-				equityResult.setSince(String.valueOf(since));
-
-				// Year Of InCorporation
-				String yrOfInCorp = calculatedSince.getElement2();
-				equityResult.setYrOfInCorp(String.valueOf(Integer.parseInt(yrOfInCorp)*12));
+				String vendorSince = row[24] != null ? row[24].toString() : "";
+				equityResult.setSince(vendorSince);
 
 				equityResult.setVendorName(row[25] != null ? row[25].toString() : "");
     			equityResult.setReportDesc(row[26] != null ? row[26].toString() : "");
@@ -218,11 +203,14 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
 
 				// Set Current Page number
 				equityResult.setPageNumber(pageNumber);
+
+				String productNameAsReportName = row[29] != null ? row[29].toString() : "";
+				equityResult.setReportName(productNameAsReportName);
 				resultMap.put(productId, equityResult);
 			}
-			// #BrokerYear Of Incorporation filter applied
-            if (equityFilter.getBrokerYrOfInCorp() != null) {
-                return ResearchReportUtil.applyFilterForYearOfInCorp(equityFilter, resultMap);
+			// #Research Date filter applied
+            if (equityFilter.getResearchDate() != null) {
+                return ResearchReportUtil.applyFilterForResearchDate(equityFilter, resultMap);
             }
            // System.out.println("Result Preparation Step-5:"+(System.currentTimeMillis()-start)/1000L);
 		} catch (ParseException e) {

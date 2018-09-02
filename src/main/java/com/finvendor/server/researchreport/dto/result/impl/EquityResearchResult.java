@@ -35,6 +35,7 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String analystType;
 	private String yrOfInCorp;
 	private String _3YrEpsGrowth;
+	private String reportName;
 
 	public String getProductId() {
 		return productId;
@@ -178,5 +179,13 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 
 	public void set_3YrEpsGrowth(String _3YrEpsGrowth) {
 		this._3YrEpsGrowth = _3YrEpsGrowth;
+	}
+
+	public String getReportName() {
+		return reportName;
+	}
+
+	public void setReportName(String reportName) {
+		this.reportName = reportName;
 	}
 }

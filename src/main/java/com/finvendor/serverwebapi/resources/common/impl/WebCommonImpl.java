@@ -57,8 +57,8 @@ public class WebCommonImpl implements IWebCommon {
     public ResponseEntity<?> getResearchFilterData(final String type) {
         try {
             switch (type) {
-                case "brokerYrOfInCorp":
-                    return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON, HttpStatus.OK);
+                case "researchDate":
+                    return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON, HttpStatus.OK);
                 case "brokerRank":
                     return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON, HttpStatus.OK);
                 case "others":
@@ -83,7 +83,7 @@ public class WebCommonImpl implements IWebCommon {
     @Transactional(readOnly = true)
     public ResponseEntity<?> getAnalystType() {
         try {
-            final SQLQuery nativeQuery = commonDao.getNativeQuery("SELECT distinct analystType FROM vendor", null);
+            final SQLQuery nativeQuery = commonDao.getNativeQuery("SELECT distinct analystType FROM vendor where analystType is not null", null);
             final List<Object> rows = (List<Object>) nativeQuery.list();
             final Map<String, Object> paramsMap = new LinkedHashMap<>();
             final List<String> analystTypePojos = new ArrayList<>();
