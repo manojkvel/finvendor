@@ -32,7 +32,7 @@ function getDashboardResearchReportLoad() {
          
             var htmlData = "<div class='dashboard_report'>"
                         + "<div class='hd'>"
-                                + "<span class='companyName'>" + response.equity.company + "</span>"
+                                + "<span class='reportName'>" + response.equity.reportName + "</span>"
                                 + "<span class='currentMarketPrice'>CMP: " + cmp + "</span>"
                                 + "<div>"
                                     + "<span data-toggle='tooltip' data-placement='top' title='' data-original-title='" + timeStampToDate(Number(response.equity.priceDate)) + "'>" + timeStampToDate(Number(response.equity.priceDate)) + "</span>"

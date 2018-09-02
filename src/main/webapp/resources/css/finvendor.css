@@ -314,6 +314,10 @@ body {
 	margin-bottom: 15px;
 }
 
+.dashboard_report .reportName {
+	font-weight: bold;
+}
+
 .back_btn a {
 	background: #414b4f;
     color: #fff;
