@@ -57,8 +57,8 @@ public class WebCommonImpl implements IWebCommon {
     public ResponseEntity<?> getResearchFilterData(final String type) {
         try {
             switch (type) {
-                case "brokerYrOfInCorp":
-                    return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON, HttpStatus.OK);
+                case "researchDate":
+                    return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON, HttpStatus.OK);
                 case "brokerRank":
                     return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON, HttpStatus.OK);
                 case "others":

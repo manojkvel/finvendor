@@ -24,9 +24,9 @@ public final class WebUtil {
     private static final String LOGGED_IN_USER = "loggedInUser";
 
     /**
-     * Equity Research Broker Year of Incorporation json contants
+     * Equity Research Broker Year of Incorporation json constants
      */
-    public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_YR_OF_IN_CORP_JSON = "[{\"brokerYrOfInCorp\":\"< 3 months\"},{\"brokerYrOfInCorp\":\"3 - 6 months\"},{\"brokerYrOfInCorp\":\"6 - 12 months\"},{\"brokerYrOfInCorp\":\"> 12 months\"}]";
+    public static final String EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON = "[{\"researchDate\":\"< 3 months\"},{\"researchDate\":\"3 - 6 months\"},{\"researchDate\":\"6 - 12 months\"},{\"researchDate\":\"> 12 months\"}]";
 
     /**
      * Equity Research upside json contants
