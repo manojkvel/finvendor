@@ -875,6 +875,82 @@ jQuery(document).ready(function() {
 		}
 	};
 
+	/**
+     * Function to set ResearchDate from filter data API.
+     */
+	var setResearchDateFilterData = function() {
+		getFilterData('researchDate').then(function(response) {
+			response = JSON.parse(response);
+			//console.log(response);
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
+			var len = response.length;
+			for(var i = 0; i < len; i++) {
+				html = html + "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>" + response[i].researchDate + "</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='" + response[i].researchDate + "' data-section='' data-value='" + response[i].researchDate + "' />"
+										+ "<label for='geo-india'></label>"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>"
+			}
+			$("#search_by_researchDate ul").html(html);
+			$("#search_by_researchDate ul input").on('change', getResearchDateFilterData);
+			// $("#search_by_researchDate ul input").eq(0).prop('checked', true);
+		}, function(error) {
+			//console.log(error);
+		});
+	};
+
+	var researchDateFilterData = [];
+
+    /**
+     * Function to get ResearchDate from localstorage and get equity list
+     */
+	var getResearchDateFilterData = function() {
+		if(!isLoggedInUser()) {
+			addRemoveItemFromArray(researchDateFilterData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				researchDateFilterData = ['all'];
+				if(checkForAllData(researchDateFilterData, "#search_by_brokerAnalystYrOfIncorp ul input")) {
+					researchDateFilterData = [];
+				} 
+			} else {
+				$("#search_by_researchDate ul input").eq(0).prop('checked', false);
+			}
+
+			
+			localEquitySearchJson.researchDate = researchDateFilterData;
+
+			if(researchDateFilterData.length === 0) {
+				delete localEquitySearchJson.researchDate;
+			}
+			
+			resetPaginationCount();
+			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
+		} else {
+			inner_login('view/equity_research_report_vendor.jsp');
+			$("#search_by_researchDate ul input").prop('checked', false);
+			// $("#search_by_researchDate ul input").eq(0).prop('checked', true);
+		}
+	};
+
 
 	/**
      * Function to set Broker Analyst Yr Of Incorp from filter data API.
@@ -1346,7 +1422,8 @@ jQuery(document).ready(function() {
 		setIndustryFilterData();
 		setAnalystTypeFilterData();
 		setResearchBrokerData();
-		setBrokerAnalystYrOfIncorpFilterData();
+		// setBrokerAnalystYrOfIncorpFilterData();
+		setResearchDateFilterData();
 		setBrokerRankFilterData();
 		setRecommendationTypeData();
 		setUpsideFilterData();
