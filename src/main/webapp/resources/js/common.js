@@ -500,3 +500,18 @@ jQuery(document).ready(function($) {
 	$("#home_page_main_search .ddselect a").on('click', selectResearchType);
 
 });
+
+function validateDate(date) {
+	var currentDate = moment().format('L');
+
+	var localDate = moment(date, 'DD/MM/YYYY');
+	localDate =  moment(localDate).format("MM/DD/YYYY");
+	localDate = new Date(localDate);
+
+	var today = new Date(currentDate);
+
+	if(localDate <= today) {
+		return true;
+	}
+	return false;
+}

@@ -578,6 +578,7 @@ body {
 .nav-tabs>li>a:focus {
 	background: #414b4f;
 	color: #fff;
+	line-height: 20px;
 }
 
 #company_profile .subheader_content {

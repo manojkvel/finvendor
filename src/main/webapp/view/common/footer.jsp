@@ -178,6 +178,7 @@
 	src="<%=request.getContextPath() %>/resources/js/loadingpanel-min.js"></script>
 	
 <script src="<%=request.getContextPath() %>/resources/js/jquery.marcopolo.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/moment.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/common.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/consumer.js"></script>
 <script
