@@ -61,7 +61,7 @@
                         </li>
 
                         <li>
-                            <a target="_blank" href="http://blog.finvendor.com">Blogs</a>
+                            <a href="${pageContext.request.contextPath}/view/blogs.jsp">Blogs</a>
                         </li>
                         <li><a href="${pageContext.request.contextPath}/view/case-studies.jsp">Case
                             Studies</a>

@@ -1890,10 +1890,15 @@ jQuery(document).ready(function() {
 		} else {
 			$("#research_application #vo_rr_report_for").parent().find("button").addClass("error_field");
 		}
-		
+
 
 		if(vo_datepicker != '') {
-			$("#research_application #vo_datepicker").removeClass("error_field");
+			var isValidDate = validateDate(vo_datepicker);
+			if(isValidDate) {
+				$("#research_application #vo_datepicker").removeClass("error_field");
+			} else {
+				$("#research_application #vo_datepicker").addClass("error_field");
+			}
 		} else {
 			$("#research_application #vo_datepicker").addClass("error_field");
 		}

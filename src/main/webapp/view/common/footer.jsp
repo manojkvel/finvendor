@@ -178,6 +178,7 @@
 	src="<%=request.getContextPath() %>/resources/js/loadingpanel-min.js"></script>
 	
 <script src="<%=request.getContextPath() %>/resources/js/jquery.marcopolo.js"></script>
+<script src="<%=request.getContextPath() %>/resources/js/moment.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/common.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/consumer.js"></script>
 <script
@@ -215,13 +216,13 @@
 	        $( "#loading" ).hide();
 	     });
 		$(document).ready(function() {
-			/*$('.slider2').bxSlider({
+			$('.slider2').bxSlider({
 				slideWidth : 740,
 				minSlides : 1,
 				maxSlides : 1,
 				slideMargin : 15,
 				auto : true,
-			});*/
+			});
 		});
 	</script>
 <script

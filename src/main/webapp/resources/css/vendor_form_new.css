@@ -1357,7 +1357,14 @@ textarea:valid ~ label {
 	height: 315px;
 }
 
-/*#user_interest_info {
+#user_interest_info .bx-wrapper {
+	background: #fff;
+	padding: 15px;
+	border-radius: 15px;
+}
+
+/*
+#user_interest_info {
 	margin-top: 40px;
 }
 

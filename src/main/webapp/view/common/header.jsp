@@ -95,7 +95,7 @@
                                                                             </li>
 
                                                                             <li>
-                                                                                <a target="_blank" href="${pageContext.request.contextPath}/view/blogs.jsp">Blogs</a>
+                                                                                <a href="${pageContext.request.contextPath}/view/blogs.jsp">Blogs</a>
                                                                             </li>
                                                                             <li><a href="${pageContext.request.contextPath}/view/case-studies.jsp">Case
                                                                                 Studies</a>
@@ -330,7 +330,7 @@
                                     </li>
 
                                     <li>
-                                        <a target="_blank" href="${pageContext.request.contextPath}/view/blogs.jsp">Blogs</a>
+                                        <a href="${pageContext.request.contextPath}/view/blogs.jsp">Blogs</a>
                                     </li>
                                     <li><a href="${pageContext.request.contextPath}/view/case-studies.jsp">Case
                                         Studies</a>

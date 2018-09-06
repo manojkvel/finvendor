@@ -578,6 +578,7 @@ body {
 .nav-tabs>li>a:focus {
 	background: #414b4f;
 	color: #fff;
+	line-height: 20px;
 }
 
 #company_profile .subheader_content {
@@ -1236,7 +1237,7 @@ button {
 	background: #fff;    
 	margin-bottom: 15px;
     padding: 15px;
-    min-height: 515px;
+    min-height: 552px;
     text-align: center;
 }
 
