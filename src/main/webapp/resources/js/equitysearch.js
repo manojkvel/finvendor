@@ -927,7 +927,7 @@ jQuery(document).ready(function() {
 
 			if($(this).attr('data-value') == 'all') {
 				researchDateFilterData = ['all'];
-				if(checkForAllData(researchDateFilterData, "#search_by_brokerAnalystYrOfIncorp ul input")) {
+				if(checkForAllData(researchDateFilterData, "#search_by_researchDate ul input")) {
 					researchDateFilterData = [];
 				} 
 			} else {
