@@ -1,24 +1,24 @@
 package com.finvendor.serverwebapi.resources.companyprofile.companyprofile;
 
-import static com.finvendor.common.exception.ExceptionEnum.COMPANY_PROFILE;
-import static com.finvendor.common.exception.ExceptionEnum.COMPANY_RECORD_STATS;
-import static com.finvendor.common.exception.ExceptionEnum.COMPANY_RESEARCH_REPORT;
-
+import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.server.companyprofile.companyprofile.service.ICompanyProfileService;
+import com.finvendor.serverwebapi.exception.WebApiException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.server.companyprofile.companyprofile.service.ICompanyProfileService;
-import com.finvendor.serverwebapi.exception.WebApiException;
+import static com.finvendor.common.exception.ExceptionEnum.*;
 
 /**
  * @author ayush on April 30, 2018
  */
 @Controller
 public class WebCompanyProfileImpl implements IWebCompanyProfile {
+	private static Logger logger = LoggerFactory.getLogger(WebCompanyProfileImpl.class);
 	@Autowired
 	ICompanyProfileService service;
 
@@ -30,7 +30,7 @@ public class WebCompanyProfileImpl implements IWebCompanyProfile {
 			final String companyProfileData = service.getCompanyProfile(isinCode);
 			return new ResponseEntity<String>(companyProfileData, HttpStatus.OK);
 		} catch (Exception e) {
-			ErrorUtil.logError("IWebCompanyProfile -> getCompanyProfile(...) method", e);
+			logger.error("IWebCompanyProfile -> getCompanyProfile(...) method", e);
 			return ErrorUtil.getError(COMPANY_PROFILE.getCode(), COMPANY_PROFILE.getUserMessage(), e);
 		}
 	}
@@ -45,7 +45,7 @@ public class WebCompanyProfileImpl implements IWebCompanyProfile {
 			final String companyProfileRecordStat = service.getCompanyProfileRecordStat(isinCode, perPageMaxRecords);
 			return new ResponseEntity<String>(companyProfileRecordStat, HttpStatus.OK);
 		} catch (Exception e) {
-			ErrorUtil.logError("IWebCompanyProfile -> getCompanyProfileRecordStats(...) method", e);
+			logger.error("IWebCompanyProfile -> getCompanyProfileRecordStats(...) method", e);
 			return ErrorUtil.getError(COMPANY_RECORD_STATS.getCode(), COMPANY_RECORD_STATS.getUserMessage(), e);
 		}
 	}
@@ -63,7 +63,7 @@ public class WebCompanyProfileImpl implements IWebCompanyProfile {
 					perPageMaxRecords, sortBy, orderBy);
 			return new ResponseEntity<String>(companyResearchReportData, HttpStatus.OK);
 		} catch (Exception e) {
-			ErrorUtil.logError("IWebCompanyProfile -> getCompanyProfileResearchReport(...) method", e);
+			logger.error("IWebCompanyProfile -> getCompanyProfileResearchReport(...) method", e);
 			return ErrorUtil.getError(COMPANY_RESEARCH_REPORT.getCode(), COMPANY_RESEARCH_REPORT.getUserMessage(), e);
 		}
 	}

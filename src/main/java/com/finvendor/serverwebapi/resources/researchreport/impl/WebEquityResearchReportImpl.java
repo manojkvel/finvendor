@@ -7,10 +7,7 @@ import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_RESUL
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -99,6 +96,12 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
                 equityResearchFilter=new EquityResearchFilter();
                 equityResearchFilter.setGeo("1");
             }
+
+            //This product Id will be used in filter when user click pdf report from CompanyProfile->ResearchReport tab in UI
+            List<String> productList=new ArrayList<>();
+            productList.add(productId);
+            equityResearchFilter.setProductId(productList);
+
             final Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityResearchService
                     .getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
             final EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData

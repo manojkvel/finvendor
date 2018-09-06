@@ -1,5 +1,6 @@
 package com.finvendor.server.companyprofile.companyprofile.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class CompanyProfileSeriveImpl implements ICompanyProfileService {
 			// }
 			String mainQuery = DaoUtils.getParamertizedQuery(CompanyProfileDaoImpl.companyResearchReportQuery,
 					new Object[] { researchAreaId, countryId, researchAreaId, isinCode });
+			mainQuery = StringUtils.replace(mainQuery,"dateformat","%d/%m/%Y");
 			EquityResearchFilter filter = new EquityResearchFilter();
 			filter.setGeo(geo);
 			return equityResearchReportDao.getRecordStatistics(mainQuery, filter, perPageMaxRecords);
@@ -92,6 +94,7 @@ public class CompanyProfileSeriveImpl implements ICompanyProfileService {
 			// }
 			String mainQuery = DaoUtils.getParamertizedQuery(CompanyProfileDaoImpl.companyResearchReportQuery,
 					new Object[] { researchAreaId, countryId, researchAreaId, isinCode });
+			mainQuery = StringUtils.replace(mainQuery,"dateformat","%d/%m/%Y");
 			EquityResearchFilter filter = new EquityResearchFilter();
 			filter.setGeo(geo);
 			return dao.getCompanyProfileReasearchReport(isinCode, mainQuery, filter, pageNumber, perPageMaxRecords,

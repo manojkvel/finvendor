@@ -5,7 +5,6 @@ import com.finvendor.common.constant.AppConstant;
 import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
-import com.finvendor.server.researchreport.dto.result.impl.EquityResearchResult;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 
@@ -13,11 +12,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Map.Entry;
 
 public class ResearchReportUtil {
 
-    public static final String MAIN_QUERY = "select x.comapanyId,x.companyName,x.isinCode, x.style,x.mcap,x.sector,x.cmp,x.prcDt,x.pe,x.patGrth,y.companyId,y.prdId,y.broker,y.recommType,y.tgtPrice,y.prcAtRecomm,y.upside,y.rptName,y.rsrchDt,y.award,y.cfa,y.analystName,y.analystType,y.vendorId,y.ly,y.userName,y.rptDesc,x.epsGrth,x.epsttm,y.productNameAsReportName from(SELECT rsch_sub_area_company_dtls.company_id comapanyId,rsch_sub_area_company_dtls.company_name companyName,rsch_sub_area_company_dtls.isin_code isinCode,rsch_area_stock_class.stock_class_name style,market_cap_def.market_cap_name mcap,research_sub_area.description sector,stock_current_prices.close_price cmp,stock_current_prices.price_date prcDt,stock_current_info.pe pe,stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth,stock_current_info.eps_ttm epsttm FROM rsch_sub_area_company_dtls,rsch_area_stock_class,market_cap_def,comp_mkt_cap_type,research_sub_area,stock_current_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND research_sub_area.research_area_id = 7 AND country.country_id = ?) x inner join (SELECT distinct ven_rsrch_rpt_dtls.company_id companyId,ven_rsrch_rpt_offering.product_id prdId, vendor.company broker ,ven_rsrch_rpt_dtls.rsrch_recomm_type recommType,ven_rsrch_rpt_dtls.target_price tgtPrice,ven_rsrch_rpt_dtls.price_at_recomm prcAtRecomm,((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100 upside, ven_rsrch_rpt_dtls.report_name rptName,ven_rsrch_rpt_dtls.rep_date rsrchDt,ven_rsrch_rpt_analyst_prof.analyst_awards award,ven_rsrch_rpt_analyst_prof.anayst_cfa_charter cfa, ven_rsrch_rpt_analyst_prof.analyst_name analystName,vendor.analystType analystType,vendor.vendor_id vendorId,ven_rsrch_rpt_offering.launched_year ly,vendor.username userName,ven_rsrch_rpt_dtls.rsrch_report_desc rptDesc,ven_rsrch_rpt_offering.product_name productNameAsReportName FROM ven_rsrch_rpt_offering,ven_rsrch_rpt_dtls,ven_rsrch_rpt_analyst_prof,vendor,broker_analyst WHERE ven_rsrch_rpt_offering.product_id = ven_rsrch_rpt_dtls.product_id and ven_rsrch_rpt_dtls.product_id = ven_rsrch_rpt_analyst_prof.product_id and ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id and vendor.vendor_id = broker_analyst.broker_id AND ven_rsrch_rpt_offering.research_area = 7) y on x.comapanyId = y.companyId";
+    public static final String MAIN_QUERY = "select x.comapanyId,x.companyName,x.isinCode, x.style,x.mcap,x.sector,x.cmp,x.prcDt,x.pe,x.patGrth,y.companyId,y.prdId,y.broker,y.recommType,y.tgtPrice,y.prcAtRecomm,y.upside,y.rptName,y.rsrchDt,y.award,y.cfa,y.analystName,y.analystType,y.vendorId,y.ly,y.userName,y.rptDesc,x.epsGrth,x.epsttm,y.productNameAsReportName,y.days_diff from(SELECT rsch_sub_area_company_dtls.company_id comapanyId,rsch_sub_area_company_dtls.company_name companyName,rsch_sub_area_company_dtls.isin_code isinCode,rsch_area_stock_class.stock_class_name style,market_cap_def.market_cap_name mcap,research_sub_area.description sector,stock_current_prices.close_price cmp,stock_current_prices.price_date prcDt,stock_current_info.pe pe,stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth,stock_current_info.eps_ttm epsttm FROM rsch_sub_area_company_dtls,rsch_area_stock_class,market_cap_def,comp_mkt_cap_type,research_sub_area,stock_current_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND research_sub_area.research_area_id = 7 AND country.country_id = ?) x inner join (SELECT distinct ven_rsrch_rpt_dtls.company_id companyId,ven_rsrch_rpt_offering.product_id prdId, vendor.company broker ,ven_rsrch_rpt_dtls.rsrch_recomm_type recommType,ven_rsrch_rpt_dtls.target_price tgtPrice,ven_rsrch_rpt_dtls.price_at_recomm prcAtRecomm,((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100 upside, ven_rsrch_rpt_dtls.report_name rptName,ven_rsrch_rpt_dtls.rep_date rsrchDt,ven_rsrch_rpt_analyst_prof.analyst_awards award,ven_rsrch_rpt_analyst_prof.anayst_cfa_charter cfa, ven_rsrch_rpt_analyst_prof.analyst_name analystName,vendor.analystType analystType,vendor.vendor_id vendorId,ven_rsrch_rpt_offering.launched_year ly,vendor.username userName,ven_rsrch_rpt_dtls.rsrch_report_desc rptDesc,ven_rsrch_rpt_offering.product_name productNameAsReportName,datediff(curdate(),STR_TO_DATE(ven_rsrch_rpt_dtls.rep_date, '%d/%m/%Y')) days_diff FROM ven_rsrch_rpt_offering,ven_rsrch_rpt_dtls,ven_rsrch_rpt_analyst_prof,vendor,broker_analyst WHERE ven_rsrch_rpt_offering.product_id = ven_rsrch_rpt_dtls.product_id and ven_rsrch_rpt_dtls.product_id = ven_rsrch_rpt_analyst_prof.product_id and ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id and vendor.vendor_id = broker_analyst.broker_id AND ven_rsrch_rpt_offering.research_area = 7) y on x.comapanyId = y.companyId";
     public static final String BROKER_RANK_SELECT_QUERY = "select broker_analyst.broker_id,broker_analyst.broker_rank,market_cap_def.market_cap_name from broker_analyst,market_cap_def where broker_analyst.market_cap_id = market_cap_def.market_cap_id order by broker_id asc, broker_rank ";
 
     private static final String LARGE_CAP = "Large Cap";
@@ -129,7 +127,6 @@ public class ResearchReportUtil {
     }
 
 
-
     public static String applyOrderBy(String sortBy, String orderBy) {
         String queryOrderByClause;
         if ("asc".equals(orderBy)) {
@@ -187,7 +184,7 @@ public class ResearchReportUtil {
 
         // MCap filter applied
         if (equityFilter.getBrokerRank() == null) {
-            if(equityFilter.getMcap() != null) {
+            if (equityFilter.getMcap() != null) {
                 conditionQueryList.add(getConditionQuery("x.mcap", getActualMCapList(equityFilter.getMcap())));
             }
         }
@@ -303,7 +300,46 @@ public class ResearchReportUtil {
             conditionQueryList.add(getConditionQuery("x.sector", equityFilter.getIndustry()));
         }
 
-        return mergeConditionQuery(conditionQueryList);
+        //Filter Company Profile Page->Research Report Tab - This is very specific filter when you click on pdf report from Company Profile Page->Research Report Tab in UI
+        if(equityFilter.getProductId()!=null){
+            conditionQueryList.add(getConditionQuery("y.prdId", equityFilter.getProductId()));
+        }
+
+        String mergeConditionQuery = mergeConditionQuery(conditionQueryList);
+
+        //Research Date Filter
+        List<String> researchDateList = equityFilter.getResearchDate();
+        StringBuilder mergeConditionQuerySb = new StringBuilder(mergeConditionQuery);
+        if (researchDateList != null) {
+            mergeConditionQuerySb.append(" and (");
+            boolean needOR = false;
+            if (researchDateList.contains("< 3 months")) {
+                mergeConditionQuerySb.append("(days_diff<90)");
+                needOR = true;
+            }
+            if (researchDateList.contains("3 - 6 months")) {
+                if (needOR) {
+                    mergeConditionQuerySb.append(" OR ");
+                }
+                mergeConditionQuerySb.append("(days_diff >=90 and days_diff<180)");
+                needOR = true;
+            }
+            if (researchDateList.contains("6 - 12 months")) {
+                if (needOR) {
+                    mergeConditionQuerySb.append(" OR ");
+                }
+                mergeConditionQuerySb.append("(days_diff >=180 and days_diff<720)");
+                needOR = true;
+            }
+            if (researchDateList.contains("> 12 months")) {
+                if (needOR) {
+                    mergeConditionQuerySb.append(" OR ");
+                }
+                mergeConditionQuerySb.append("(days_diff >=720)");
+            }
+            mergeConditionQuerySb.append(")");
+        }
+        return mergeConditionQuerySb.toString();
     }
 
     private static String getConditionQuery(String columnName, List<String> valueList) {
@@ -461,64 +497,6 @@ public class ResearchReportUtil {
 
         }
         return brokerRankAndMcapMap;
-    }
-
-    public static Map<String, EquityResearchResult> applyFilterForResearchDate(EquityResearchFilter equityFilter,
-                                                                               Map<String, EquityResearchResult> resultMap) {
-        Map<String, EquityResearchResult> filteredResearchDateResultMap = new LinkedHashMap<>();
-        List<String> researchDateList = equityFilter.getResearchDate();
-
-        if (researchDateList.contains("< 3 months")) {
-            for (Entry<String, EquityResearchResult> entry : resultMap.entrySet()) {
-                long researchDateInMillis = Long.parseLong(entry.getValue().getResearchDate().trim());
-                Calendar reserchDateCalendar = Calendar.getInstance();
-                reserchDateCalendar.setTimeInMillis(researchDateInMillis);
-                int monthsDiff = Calendar.getInstance().get(Calendar.MONTH) - reserchDateCalendar.get(Calendar.MONTH);
-
-                if ((monthsDiff < 3)) {
-                    filteredResearchDateResultMap.put(entry.getKey(), entry.getValue());
-                }
-            }
-        }
-
-        if (researchDateList.contains("3 - 6 months")) {
-            for (Entry<String, EquityResearchResult> entry : resultMap.entrySet()) {
-                long researchDateInMillis = Long.parseLong(entry.getValue().getResearchDate().trim());
-                Calendar reserchDateCalendar = Calendar.getInstance();
-                reserchDateCalendar.setTimeInMillis(researchDateInMillis);
-                int monthsDiff = Calendar.getInstance().get(Calendar.MONTH) - reserchDateCalendar.get(Calendar.MONTH);
-                if (monthsDiff >= 3 && monthsDiff < 6) {
-                    filteredResearchDateResultMap.put(entry.getKey(), entry.getValue());
-                }
-            }
-        }
-
-        if (researchDateList.contains("6 - 12 months")) {
-            for (Entry<String, EquityResearchResult> entry : resultMap.entrySet()) {
-                long researchDateInMillis = Long.parseLong(entry.getValue().getResearchDate().trim());
-                Calendar reserchDateCalendar = Calendar.getInstance();
-                reserchDateCalendar.setTimeInMillis(researchDateInMillis);
-                int monthsDiff = Calendar.getInstance().get(Calendar.MONTH) - reserchDateCalendar.get(Calendar.MONTH);
-                if (monthsDiff >= 6 && monthsDiff < 12) {
-                    filteredResearchDateResultMap.put(entry.getKey(), entry.getValue());
-                }
-            }
-        }
-
-        if (researchDateList.contains("> 12 months")) {
-            for (Entry<String, EquityResearchResult> entry : resultMap.entrySet()) {
-                long researchDateInMillis = Long.parseLong(entry.getValue().getResearchDate().trim());
-                Calendar reserchDateCalendar = Calendar.getInstance();
-                reserchDateCalendar.setTimeInMillis(researchDateInMillis);
-                int monthsDiff = Calendar.getInstance().get(Calendar.MONTH) - reserchDateCalendar.get(Calendar.MONTH);
-                if (monthsDiff > 12) {
-                    filteredResearchDateResultMap.put(entry.getKey(), entry.getValue());
-                }
-            }
-        }
-
-        resultMap.clear(); // release memory
-        return filteredResearchDateResultMap;
     }
 
     public static List<ResearchReportUtil.BrokerRankInfo> getBrokerRankData(ICommonDao commonDao, String query,

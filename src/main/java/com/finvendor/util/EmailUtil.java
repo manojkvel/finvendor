@@ -11,6 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.finvendor.common.util.PasswordUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,8 @@ import com.finvendor.model.Vendor;
 
 public class EmailUtil {
 
+	public static final String ENCRYPTED_PASSWORD = "19C4959349A54C0A1D64131B267B8095";
+	public static final String PASSWORD_KEY = "9511C92BC87D016F241841EAAA85D67B";
 	private static Logger logger = LoggerFactory.getLogger(EmailUtil.class);
 
 	private static Properties mailProp = new Properties();
@@ -31,7 +34,7 @@ public class EmailUtil {
 	}
 
 	public static final String EMAIL_USERNAME = "sales@finvendor.com";
-	public static final String EMAIL_PASSWORD = "FinVendor@dmin";
+
 
 	public static final String REGISTRATION_LINK = "http://www.finvendor.com/validateRegistrationEmail";
 	// public static final String REGISTRATION_LINK =
@@ -107,12 +110,20 @@ public class EmailUtil {
 	}
 
 	private static Session getMailSession() {
-		Session session = Session.getInstance(mailProp, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(EMAIL_USERNAME, EMAIL_PASSWORD);
-			}
-		});
-		return session;
+		final String EMAIL_PASSWORD;
+		try {
+			EMAIL_PASSWORD = PasswordUtil.generatePassword(PASSWORD_KEY, ENCRYPTED_PASSWORD);
+			Session session = Session.getInstance(mailProp, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(EMAIL_USERNAME, EMAIL_PASSWORD);
+				}
+			});
+			return session;
+		} catch (Exception e) {
+			logger.error("Error - Unable to generate mail password");
+		}
+
+		return null;
 	}
 
 	public static void sendMail(String to, String subject, String content) {

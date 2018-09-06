@@ -31,6 +31,7 @@ public class EquityResearchReportService extends AbsResearchReportService {
 		try {
 			String mainQuery = ResearchReportUtil.MAIN_QUERY.replace("?",
 					"'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
+
 			return equityReserachReportDao
 					.findResearchReportTableData(mainQuery, rrfilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
 		} catch (RuntimeException e) {

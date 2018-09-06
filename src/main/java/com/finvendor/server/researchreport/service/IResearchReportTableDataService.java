@@ -1,9 +1,9 @@
 package com.finvendor.server.researchreport.service;
 
-import java.util.Map;
-
 import com.finvendor.server.researchreport.dto.filter.ResearchReportFilter;
 import com.finvendor.server.researchreport.dto.result.AbsResearchReportResult;
+
+import java.util.Map;
 
 
 /**
