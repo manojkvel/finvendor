@@ -138,12 +138,13 @@ body {
 	color: #414b4f;
 }
 
-.large_font {
-	font-weight: bold;
-}
-
+.fa-star,
 .fa-star.default {
 	color: #ccc;
+}
+
+.large_font {
+	font-weight: bold;
 }
 
 .paging_container {
