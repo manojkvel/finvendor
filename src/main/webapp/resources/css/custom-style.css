@@ -1156,6 +1156,10 @@ th{
 	.header .logo {
 		padding: 13px 20px;
 	}
+
+	#footer .pull-right {
+		float: none !important;
+	}
 }
 
 @media only screen and (max-width: 765px) {

@@ -101,7 +101,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="pull-right xs-pull-left hidden-sm hidden-xs">
+							<div class="pull-right xs-pull-left">
 								<ul class="footer_menu heading_font clearfix">
 									<li><a
 										href="${pageContext.request.contextPath}/view/privacy-policy.jsp">
