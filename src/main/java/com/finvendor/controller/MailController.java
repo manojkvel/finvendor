@@ -61,7 +61,7 @@ public class MailController {
 
         String htmlMsg = "<h3> Enquiry from " + name + "( " + email + " )" + "</h3> <br> Name: " + name + "<br> Phone: " + phone + "<br> Email: " + email + "<br><br><br> Message: " + msg +
                 "<br><br><h3>This is an Automated Mail from www.finvendor.com</h3>";
-        EmailUtil.sendMail(email, "Enquiry - " + name + " - " + email, htmlMsg);
+        EmailUtil.sendMail("enquiry@finvendor.com", "Enquiry - " + name + " - " + email, htmlMsg);
         return "Your Mail has been sent. Thank you for taking interest in our services.";
     }
 }
