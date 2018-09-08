@@ -34,7 +34,7 @@
 							<h3>Quick Links</h3>
 							<ul>
 								<li><a
-									href="${pageContext.request.contextPath}/view/research-reports.jsp">
+									href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp">
 										<span class="fa fa-chevron-right"></span> Research Reports
 								</a></li>
 								<li><a

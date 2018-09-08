@@ -141,14 +141,10 @@
 									</li>
 									<li style="clear: both;text-align: center; width: 100%;">
 										<div id="checkbox">
-											<p>
-												<input type="checkbox" id="accept-terms" class="user-checkbox" name="acceptterms" value="acceptterms" /> 
-												<label for="accept-terms" >
-													&nbsp;I agree to the 
-													<a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/termsAndConditions.jsp', 'termsAndConditions', 800, 600)">Terms & Conditions</a>
-													governing the use of Finvendors.
-												</label>
-											</p>
+											<input type="checkbox" id="accept-terms" class="user-checkbox" name="acceptterms" value="acceptterms" /> 
+											<label for="accept-terms" >
+												&nbsp;I agree to the  <a href="#" onClick="openPopupCenter('${pageContext.request.contextPath}/view/termsAndConditions.jsp', 'termsAndConditions', 800, 600)">Terms & Conditions</a> governing the use of Finvendors.
+											</label>
 											<!--<p style="clear: both;">
 												<input type="checkbox" id="newslettersAndAlerts" class="user-checkbox" name="newslettersAndAlerts" value="newslettersAndAlerts" /> 
 												<label for="newslettersAndAlerts" >

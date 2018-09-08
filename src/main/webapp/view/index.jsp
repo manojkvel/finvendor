@@ -262,6 +262,12 @@
 					<li><strong>We need more paying clients, can you help
 							with increasing our sales?</strong> <br />Yes, we can help you increase
 						your sales. We can also provide you valuation leads.</li>
+
+					<li>
+						<strong>I am a representative of a listed company, I need help in finding sell-side research houses to cover my company OR in increasing the research coverage of my company.</strong>
+						<br />Yes, we do help such listed companies. Please shoot us an email with current coverage details and target coverage info to <a
+						href="mailto: sales@finvendor.com">sales@finvendor.com</a>
+					</li>
 				</ul>
 			</div>
 		</section>
@@ -269,8 +275,6 @@
 		<section id="user_interest_info">
 			<div class="container">
 				<div class="col-xs-12 col-sm-12 slider-home" id="slider-home">
-					<!--<img src="<%=request.getContextPath()%>/resources/images/hear.png"
-							alt="" title="" class="slider-hr" />-->
 					<h2>Interactive and Collaborative Services</h2>
 					<div class="slider2">
 						<div class="slide">
@@ -293,18 +297,6 @@
 							<p>Focus on emerging trends, success stories, user recommended
 								research and highlights from across the industry to help our
 								customers be updated on the current industry spotlight</p>
-
-						</div>
-						<div class="slide">
-							<p class="signature">
-								<strong>Case studies</strong> <span>Observe, Identify and
-									Implement</span>
-							</p>
-							<br>
-							<p>Information on case studies conducted on various topics
-								relevant to our industry aimed to provide insights to our
-								customers for them to identify similar circumstances and adopt the
-								implementation if applicable.</p>
 
 						</div>
 					</div>

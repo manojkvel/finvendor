@@ -383,7 +383,7 @@
 				</div>
 			</div>
 			<div class="hidden-xs hidden-sm col-md-3">
-				<div class="ads_space">Keep Watching this space for ads!!</div>
+				<jsp:include page="common/inner_sidebar.jsp"></jsp:include>
 			</div>
 		</div>
 	</div>

@@ -650,9 +650,6 @@ table {
 	font-weight: bold;
 }
 
-.cd-user-modal-container .normal-line label {
-	line-height: normal;
-}
 
 .cd-user-modal-container input {
 	width: 50% !important;
@@ -661,6 +658,7 @@ table {
 	border: 0 !important;
 	display: inline-block;
 	padding: 3px 6px;
+	margin-top: 2px;
 }
 
 .form-wrapper p {
@@ -708,6 +706,10 @@ table {
 
 .cd-user-modal-container #checkbox {
 	display: inline-block;
+}
+
+.cd-user-modal-container #checkbox span {
+	display: none !important;
 }
 
 .cd-user-modal-container #checkbox  .user-checkbox {
@@ -803,4 +805,32 @@ table {
 	text-align: center;
 	padding: 0 20px;
 	margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+
+	.cd-user-modal-container #userRegisterSpan li {
+		width: 100%;
+	}
+
+	.cd-user-modal-container #checkbox .user-checkbox {
+		width: 15% !important;
+	}
+
+	.cd-user-modal-container #checkbox label {
+		line-height: 20px;
+		padding-left: 0%;
+		font-size: 11px;
+		text-align: left;
+		width: 85% !important;
+		margin: 0;
+	}
+}
+
+
+
+@media only screen and (max-width: 359px) {
+	.cd-user-modal-container .normal-line label {
+		line-height: 20px;
+	}
 }

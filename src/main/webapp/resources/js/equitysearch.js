@@ -1264,26 +1264,24 @@ jQuery(document).ready(function() {
 		getFilterData('others').then(function(response) {
 			response = JSON.parse(response);
 			//console.log(response);
-			var html = "<li>"
-								+ "<div class='row'>"
-									+ "<div class='col-xs-9'>"
-									+ "<span>All</span>"
-									+ "</div>"
-									+ "<div class='col-xs-3'>"
-										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
-									+ "</div>"
-								+ "</div>"
-							+ "</li>";
+			var html = "";
+			var disabled = "disabled";
 
 			var len = response.length;
 			for(var i = 0; i < len; i++) {
+				if(response[i].others == "Research Reports by CFA") {
+					disabled = "";
+				} else {
+					disabled = "disabled";
+				}
+
 				html = html + "<li>"
 								+ "<div class='row'>"
 									+ "<div class='col-xs-9'>"
 									+ "<span>" + response[i].others + "</span>"
 									+ "</div>"
 									+ "<div class='col-xs-3'>"
-										+ "<input type='checkbox' data-name='" + response[i].others + "' data-section='' data-value='" + response[i].others + "' disabled='disabled' />"
+										+ "<input type='checkbox' data-name='" + response[i].others + "' data-section='' data-value='" + response[i].others + "' " + disabled + " />"
 										+ "<label for='geo-india'></label>"
 									+ "</div>"
 								+ "</div>"

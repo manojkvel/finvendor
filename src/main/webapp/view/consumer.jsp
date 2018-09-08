@@ -206,7 +206,7 @@
 	</div>
 		
 		<div class="col-xs-12 col-sm-3">
-			<div class="ads_space">Keep Watching this space for ads!!</div>
+			<jsp:include page="common/inner_sidebar.jsp"></jsp:include>
 		</div>
 	</div>
 </div>
