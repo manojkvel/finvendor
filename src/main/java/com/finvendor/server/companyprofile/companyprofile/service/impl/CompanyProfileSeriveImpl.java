@@ -1,13 +1,5 @@
 package com.finvendor.server.companyprofile.companyprofile.service.impl;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.finvendor.common.util.LocaleUtil;
 import com.finvendor.server.common.commondao.DaoUtils;
 import com.finvendor.server.companyprofile.companyprofile.dao.ICompanyProfileDao1;
@@ -15,6 +7,13 @@ import com.finvendor.server.companyprofile.companyprofile.dao.impl.CompanyProfil
 import com.finvendor.server.companyprofile.companyprofile.service.ICompanyProfileService;
 import com.finvendor.server.researchreport.dao.IResearchReportDao;
 import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -22,8 +21,8 @@ import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
  */
 @Service
 public class CompanyProfileSeriveImpl implements ICompanyProfileService {
-	public static Logger logger = LoggerFactory.getLogger(CompanyProfileSeriveImpl.class);
 
+	private static final Logger logger = LogManager.getLogger(CompanyProfileSeriveImpl.class.getName());
 	@Autowired
 	ICompanyProfileDao1 dao;
 

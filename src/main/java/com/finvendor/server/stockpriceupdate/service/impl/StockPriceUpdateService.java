@@ -1,40 +1,30 @@
 package com.finvendor.server.stockpriceupdate.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import com.finvendor.common.constant.AppConstant;
 import com.finvendor.common.util.Pair;
+import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
+import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
 import com.finvendor.server.common.infra.download.service.URLReader;
 import com.finvendor.server.common.infra.parser.StockPrice;
 import com.finvendor.server.common.infra.parser.service.IFileParser;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.finvendor.server.stockpriceupdate.dao.IStockPriceUpdateDao;
+import com.finvendor.server.stockpriceupdate.service.IStockPriceUpdateService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
-import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
-import com.finvendor.server.stockpriceupdate.dao.IStockPriceUpdateDao;
-import com.finvendor.server.stockpriceupdate.service.IStockPriceUpdateService;
+import java.io.File;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class StockPriceUpdateService implements IStockPriceUpdateService {
-    private static Logger logger = LoggerFactory.getLogger(StockPriceUpdateService.class);
+    private static final Logger logger = LogManager.getLogger(StockPriceUpdateService.class.getName());
     @Autowired
     private IStockPriceUpdateDao dao;
 

@@ -1,40 +1,25 @@
 package com.finvendor.serviceimpl;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.finvendor.dao.MarketDataAggregatorsDao;
 import com.finvendor.form.FinancialAnalyticsApplicationVendorSearchForm;
 import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
 import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
 import com.finvendor.form.TradingApplicationVendorSearchForm;
-import com.finvendor.model.AssetClass;
-import com.finvendor.model.AssetClassDataDetails;
-import com.finvendor.model.AssetClassSecurityMap;
-import com.finvendor.model.Awards;
-import com.finvendor.model.CompanySubType;
-import com.finvendor.model.Cost;
-import com.finvendor.model.Country;
-import com.finvendor.model.CountryExchangeMap;
-import com.finvendor.model.Exchange;
-import com.finvendor.model.FileFields;
-import com.finvendor.model.OfferingFiles;
-import com.finvendor.model.Region;
-import com.finvendor.model.RegionCountryMap;
-import com.finvendor.model.SecurityType;
-import com.finvendor.model.Support;
-import com.finvendor.model.VendorOffering;
+import com.finvendor.model.*;
 import com.finvendor.service.MarketDataAggregatorsService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsService{
 
-	private static Logger logger = Logger.getLogger(MarketDataAggregatorsServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(MarketDataAggregatorsServiceImpl.class.getName());
 
 	@Autowired
 	private MarketDataAggregatorsDao marketDataAggregatorsDao;

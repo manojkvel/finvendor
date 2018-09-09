@@ -1,110 +1,49 @@
 package com.finvendor.controller;
 
-import java.io.IOException;
-import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.finvendor.common.constant.AppConstant;
 import com.finvendor.common.util.DateUtil;
-import com.finvendor.util.CommonUtils;
-import org.hibernate.Hibernate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.exception.ApplicationException;
-import com.finvendor.form.JsonResponseData;
-import com.finvendor.form.VendorAnalystProfileForm;
-import com.finvendor.form.VendorAnalyticsSoftwareDetailsForm;
-import com.finvendor.form.VendorResearchCoverageForm;
-import com.finvendor.form.VendorResearchDetailsForm;
-import com.finvendor.form.VendorTradingCapabilitiesSupportedForm;
-import com.finvendor.form.VendorTradingSoftwareDetailsForm;
+import com.finvendor.form.*;
 import com.finvendor.json.bean.VendorAnalyticsApplicationsOfferingJson;
 import com.finvendor.json.bean.VendorDataAggregatorsOfferingJson;
 import com.finvendor.json.bean.VendorResearchReportsOfferingJson;
 import com.finvendor.json.bean.VendorTradingApplicationsOfferingJson;
-import com.finvendor.model.AnalyticalSolutionType;
-import com.finvendor.model.AssetClass;
-import com.finvendor.model.AssetClassSecurityMap;
-import com.finvendor.model.Awards;
-import com.finvendor.model.Consumer;
-import com.finvendor.model.Cost;
-import com.finvendor.model.Country;
-import com.finvendor.model.Exchange;
-import com.finvendor.model.FileFields;
-import com.finvendor.model.OfferingFiles;
-import com.finvendor.model.Region;
-import com.finvendor.model.ResearchArea;
-import com.finvendor.model.RfpBean;
-import com.finvendor.model.SecurityType;
-import com.finvendor.model.SolutionTypes;
-import com.finvendor.model.Solutions;
-import com.finvendor.model.Support;
-import com.finvendor.model.Vendor;
-import com.finvendor.model.VendorAnalystProfile;
-import com.finvendor.model.VendorAnalyticsApplicationsOffering;
-import com.finvendor.model.VendorAnalyticsApplicationsSoftwareDetails;
-import com.finvendor.model.VendorAnalyticsSoftwareDetails;
-import com.finvendor.model.VendorAwardsMap;
-import com.finvendor.model.VendorDataAggregatorsOffering;
-import com.finvendor.model.VendorDataAggregatorsOfferingCoverage;
-import com.finvendor.model.VendorDataAggregatorsOfferingDistribution;
+import com.finvendor.model.*;
 import com.finvendor.model.VendorDataCoverage;
 import com.finvendor.model.VendorDistribution;
-import com.finvendor.model.VendorMyofferingsDataCoverage;
-import com.finvendor.model.VendorOffering;
-import com.finvendor.model.VendorResearchCoverage;
-import com.finvendor.model.VendorResearchDetails;
-import com.finvendor.model.VendorResearchReportsAnalystProfile;
-import com.finvendor.model.VendorResearchReportsCoverageDetails;
-import com.finvendor.model.VendorResearchReportsOffering;
-import com.finvendor.model.VendorResearchReportsResearchDetails;
-import com.finvendor.model.VendorSolution;
-import com.finvendor.model.VendorSupport;
-import com.finvendor.model.VendorTradingApplicationsOffering;
-import com.finvendor.model.VendorTradingApplicationsSoftwareDetails;
-import com.finvendor.model.VendorTradingApplicationsTradingCapability;
-import com.finvendor.model.VendorTradingCapabilitiesSupported;
-import com.finvendor.model.VendorTradingSoftwareDetails;
 import com.finvendor.server.companyprofile.pricealert.service.IConsumerPriceAlertService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.companyprofile.pricealert.IWebConsumerPriceAlertMail;
 import com.finvendor.serverwebapi.webutil.WebUtil;
-import com.finvendor.service.MarketDataAggregatorsService;
-import com.finvendor.service.ReferenceDataService;
-import com.finvendor.service.RfpService;
-import com.finvendor.service.UserService;
-import com.finvendor.service.VendorService;
+import com.finvendor.service.*;
+import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
 import com.google.gson.Gson;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Blob;
+import java.util.*;
 
 
 @Controller
 public class VendorController {
 
-    private static Logger logger = LoggerFactory.getLogger(VendorController.class);
+    private static final Logger logger = LogManager.getLogger(VendorController.class.getName());
 
     @Resource(name = "userService")
     private UserService userService;
@@ -3059,7 +2998,7 @@ public class VendorController {
         ModelAndView modelAndView = new ModelAndView("empty");
 
         //Date Format Validation - It should be in "dd/MM/yyyy" format
-        if (! DateUtil.isDateValid(researchReportDate, AppConstant.FV_PRICE_DATE_ONLY_FORMAT)) {
+        if (!DateUtil.isDateValid(researchReportDate, AppConstant.FV_PRICE_DATE_ONLY_FORMAT)) {
             modelAndView.addObject("status", "Error Updating Offering details, cause: Invalid Research Report Date format found, send date in format : " + AppConstant.FV_PRICE_DATE_ONLY_FORMAT);
             return modelAndView;
         }

@@ -1,19 +1,18 @@
 package com.finvendor.common.util;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import com.finvendor.common.exception.FvTechnicalException;
 import com.finvendor.modelpojo.staticpojo.exception.ExceptionPojo;
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 /**
  * @author ayush
  */
 public final class ErrorUtil {
-	private static Logger logger = LoggerFactory.getLogger(ErrorUtil.class);
+	private static final Logger logger = LogManager.getLogger(ErrorUtil.class.getName());
 	private ErrorUtil() throws FvTechnicalException {
 		throw new FvTechnicalException("ExceptionUtil class instantiation via Reflection is forbidden!");
 	}

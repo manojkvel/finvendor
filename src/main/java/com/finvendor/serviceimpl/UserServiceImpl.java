@@ -1,14 +1,5 @@
 package com.finvendor.serviceimpl;
 
-import java.util.List;
-import java.util.UUID;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.finvendor.dao.ConsumerDao;
 import com.finvendor.dao.UserDao;
 import com.finvendor.dao.VendorDao;
@@ -18,10 +9,18 @@ import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.UserRole;
 import com.finvendor.service.UserService;
 import com.finvendor.util.RandomPasswordGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
 
 public class UserServiceImpl implements UserService{
-	
-	private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+	private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
 
 	@Autowired
 	private UserDao userDao;

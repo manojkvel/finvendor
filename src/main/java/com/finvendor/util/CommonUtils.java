@@ -1,27 +1,26 @@
 package com.finvendor.util;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.Consumer;
 import com.finvendor.model.UserRole;
 import com.finvendor.model.Vendor;
 import com.finvendor.service.ConsumerService;
 import com.finvendor.service.VendorService;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CommonUtils {
 
 	/**logger*/
-	private static Logger logger = LoggerFactory.getLogger(CommonUtils.class);
+	private static final Logger logger = LogManager.getLogger(CommonUtils.class.getName());
 
 	public static String encrypt(String str) {
         logger.debug("CommonUtils : encrypt");

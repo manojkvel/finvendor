@@ -1,19 +1,13 @@
 package com.finvendor.controller;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.finvendor.bean.ConsumerMyProfileBusinessNeedMarketData;
+import com.finvendor.model.*;
+import com.finvendor.service.*;
 import com.finvendor.util.CommonUtils;
+import com.finvendor.util.RequestConstans;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -24,33 +18,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.finvendor.bean.ConsumerMyProfileBusinessNeedMarketData;
-import com.finvendor.model.AssetClass;
-import com.finvendor.model.AssetClassSecurityMap;
-import com.finvendor.model.Awards;
-import com.finvendor.model.CompanySubType;
-import com.finvendor.model.Consumer;
-import com.finvendor.model.Cost;
-import com.finvendor.model.Country;
-import com.finvendor.model.Exchange;
-import com.finvendor.model.FinVendorUser;
-import com.finvendor.model.Region;
-import com.finvendor.model.RfpBean;
-import com.finvendor.model.SecurityType;
-import com.finvendor.model.Support;
-import com.finvendor.model.Vendor;
-import com.finvendor.service.ConsumerService;
-import com.finvendor.service.MarketDataAggregatorsService;
-import com.finvendor.service.ReferenceDataService;
-import com.finvendor.service.RfpService;
-import com.finvendor.service.UserService;
-import com.finvendor.util.RequestConstans;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Controller
 public class ConsumerController {
 
-	private static Logger logger = LoggerFactory.getLogger(
-			ConsumerController.class);
+	private static final Logger logger = LogManager.getLogger(ConsumerController.class.getName());
 	
 	@Resource(name="userService")
 	private UserService userService;

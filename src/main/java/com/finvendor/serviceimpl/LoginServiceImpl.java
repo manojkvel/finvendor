@@ -3,20 +3,20 @@
  */
 package com.finvendor.serviceimpl;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.finvendor.dao.LoginDao;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.service.LoginService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author rayulu vemula
  *
  */
 public class LoginServiceImpl implements LoginService{
-	
-	private static Logger logger = Logger.getLogger(LoginServiceImpl.class);
+
+	private static final Logger logger = LogManager.getLogger(LoginServiceImpl.class.getName());
 	
 	@Autowired
 	private LoginDao loginDao;

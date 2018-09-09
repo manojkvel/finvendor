@@ -19,7 +19,7 @@ package com.finvendor.server.researchreport.dao;
 // * @since 03-Feb-2018
 // */
 //public abstract class AbsResearchReportDao implements IResearchReportDao {
-//	protected static Logger logger = LoggerFactory.getLogger(AbsResearchReportDao.class);
+//private static final Logger logger = LogManager.getLogger(AbsResearchReportDao.class.getName());
 //	
 //	@Autowired
 //	protected ICommonDao commonDao;

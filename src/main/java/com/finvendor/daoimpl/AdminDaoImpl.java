@@ -1,22 +1,21 @@
 package com.finvendor.daoimpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.hibernate.SQLQuery;
-import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.finvendor.dao.AdminDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.ReferenceData;
 import com.finvendor.model.TableColumn;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.SQLQuery;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminDaoImpl implements AdminDao {
 
-	private static Logger logger = LoggerFactory.getLogger(AdminDaoImpl.class);
+	private static final Logger logger = LogManager.getLogger(AdminDaoImpl.class.getName());
 	
 	@Autowired
 	private SessionFactory sessionFactory;

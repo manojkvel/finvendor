@@ -1,50 +1,27 @@
 package com.finvendor.serviceimpl;
 
+import com.finvendor.common.util.FileUtil;
+import com.finvendor.dao.VendorDao;
+import com.finvendor.exception.ApplicationException;
+import com.finvendor.form.FileDetails;
+import com.finvendor.model.*;
+import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.service.VendorService;
+import com.finvendor.util.VendorEnum;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.SQLQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-import org.hibernate.SQLQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.finvendor.common.util.FileUtil;
-import com.finvendor.dao.VendorDao;
-import com.finvendor.exception.ApplicationException;
-import com.finvendor.form.FileDetails;
-import com.finvendor.model.Awards;
-import com.finvendor.model.Cost;
-import com.finvendor.model.SolutionTypes;
-import com.finvendor.model.Solutions;
-import com.finvendor.model.Support;
-import com.finvendor.model.Vendor;
-import com.finvendor.model.VendorAnalystProfile;
-import com.finvendor.model.VendorAnalyticsApplicationsOffering;
-import com.finvendor.model.VendorAnalyticsSoftwareDetails;
-import com.finvendor.model.VendorAnalyticsfeaturesSupported;
-import com.finvendor.model.VendorAwardsMap;
-import com.finvendor.model.VendorDataAggregatorsOffering;
-import com.finvendor.model.VendorDataCoverage;
-import com.finvendor.model.VendorDistribution;
-import com.finvendor.model.VendorOffering;
-import com.finvendor.model.VendorRegionCountryExchangeMap;
-import com.finvendor.model.VendorResearchCoverage;
-import com.finvendor.model.VendorResearchDetails;
-import com.finvendor.model.VendorResearchReportsOffering;
-import com.finvendor.model.VendorSolution;
-import com.finvendor.model.VendorSupport;
-import com.finvendor.model.VendorTradingApplicationsOffering;
-import com.finvendor.model.VendorTradingCapabilitiesSupported;
-import com.finvendor.model.VendorTradingSoftwareDetails;
-import com.finvendor.server.common.commondao.ICommonDao;
-import com.finvendor.service.VendorService;
-import com.finvendor.util.VendorEnum;
-
 public class VendorServiceImpl implements VendorService {
 
-	private static Logger logger = Logger.getLogger(VendorServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(VendorServiceImpl.class.getName());
 
 	@Autowired
 	private VendorDao vendorDao;

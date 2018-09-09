@@ -1,21 +1,16 @@
 package com.finvendor.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.UUID;
-
-import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.finvendor.exception.ApplicationException;
+import com.finvendor.model.Country;
+import com.finvendor.model.FinVendorUser;
+import com.finvendor.model.ReferenceData;
+import com.finvendor.model.TableColumn;
+import com.finvendor.service.*;
 import com.finvendor.util.CommonUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.finvendor.util.EmailUtil;
+import com.finvendor.util.RequestConstans;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -27,41 +22,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.finvendor.exception.ApplicationException;
-import com.finvendor.model.Country;
-import com.finvendor.model.FinVendorUser;
-import com.finvendor.model.ReferenceData;
-import com.finvendor.model.TableColumn;
-import com.finvendor.service.AdminService;
-import com.finvendor.service.ConsumerService;
-import com.finvendor.service.ReferenceDataService;
-import com.finvendor.service.UserService;
-import com.finvendor.service.VendorService;
-import com.finvendor.util.EmailUtil;
-import com.finvendor.util.RequestConstans;
+import javax.annotation.Resource;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Controller
 public class AdminController {
-	
+	private static final Logger logger = LogManager.getLogger(AdminController.class.getName());
+
 	@Resource(name="userService")
 	private UserService userService;
-	
+
 	@Resource(name="adminService")
 	private AdminService adminService;
-	
+
 	@Resource(name="vendorService")
 	private VendorService vendorService;
-	
+
 	@Resource(name="consumerService")
 	private ConsumerService consumerService;
-	
+
 	@Resource(name="referenceDataService")
 	private ReferenceDataService referenceDataService;
-	
+
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;
-				
-	private static Logger logger = LoggerFactory.getLogger(AdminController.class);
+
 	private static final String KEY_PREFIX = "admin_ref_data_";
 	
 	@RequestMapping(value="adminViewUserDetails", method=RequestMethod.GET)

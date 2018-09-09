@@ -11,6 +11,8 @@ import com.finvendor.serverwebapi.resources.common.IWebCommon;
 import com.finvendor.serverwebapi.webutil.WebUtil;
 import com.finvendor.serverwebapi.webutil.WebUtil.SqlData;
 import com.finvendor.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,8 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  */
 @Controller
 public class WebCommonImpl implements IWebCommon {
+
+    private static final Logger logger = LogManager.getLogger(WebCommonImpl.class.getName());
 
     @Autowired
     private ICommonDao commonDao;
@@ -137,5 +141,10 @@ public class WebCommonImpl implements IWebCommon {
             ErrorUtil.logError("WebApiCommon -> updateAnalystyType(...) method", e);
             return ErrorUtil.getError(REQUEST_UPDATE_ANALYST_TYPE.getCode(), REQUEST_UPDATE_ANALYST_TYPE.getUserMessage(), e);
         }
+    }
+
+    public static void main(String[] args) {
+        logger.info("Hello INFO");
+        logger.info("Hello ERROR");
     }
 }

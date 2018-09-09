@@ -3,17 +3,15 @@
  */
 package com.finvendor.controller;
 
-import java.util.List;
-
+import com.finvendor.util.RequestConstans;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.finvendor.util.RequestConstans;
 
 /**
  * @author rayulu vemula
@@ -22,8 +20,7 @@ import com.finvendor.util.RequestConstans;
 @Controller
 public class DocumentController {
 
-	private static Logger logger = Logger.getLogger(DocumentController.class);
-	
+	private static final Logger logger = LogManager.getLogger(DocumentController.class.getName());
 	
 	/**
 	 * method to download local documents

@@ -3,15 +3,12 @@
  */
 package com.finvendor.controller;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.finvendor.form.FinancialAnalyticsApplicationVendorSearchForm;
+import com.finvendor.model.*;
+import com.finvendor.service.MarketDataAggregatorsService;
+import com.finvendor.util.RequestConstans;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,18 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.finvendor.form.FinancialAnalyticsApplicationVendorSearchForm;
-import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
-import com.finvendor.model.AssetClass;
-import com.finvendor.model.Awards;
-import com.finvendor.model.Cost;
-import com.finvendor.model.Country;
-import com.finvendor.model.Exchange;
-import com.finvendor.model.FinVendorUser;
-import com.finvendor.model.Region;
-import com.finvendor.model.Support;
-import com.finvendor.service.MarketDataAggregatorsService;
-import com.finvendor.util.RequestConstans;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author rayulu vemula
@@ -39,8 +29,8 @@ import com.finvendor.util.RequestConstans;
  */
 @Controller
 public class FinancialAnalyticsApplicationVendorController {
-	
-	private static Logger logger = LoggerFactory.getLogger(FinancialAnalyticsApplicationVendorController.class);
+
+	private static final Logger logger = LogManager.getLogger(FinancialAnalyticsApplicationVendorController.class.getName());
 	
 	
 	@Autowired
