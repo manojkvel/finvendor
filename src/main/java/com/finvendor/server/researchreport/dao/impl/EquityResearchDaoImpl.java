@@ -45,7 +45,9 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
             String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
                     ResearchReportUtil.getFilteredQueryPart(equityFilter));
             SQLQuery query = commonDao.getNativeQuery(queryWithAppliedFilter, null);
+            long strt=System.currentTimeMillis();
             List<Object[]> rows = query.list();
+            logger.info("EquityResearchDaoImpl - getRecordStatistics - Total time record stat:"+(System.currentTimeMillis()-strt)/1000L+" sec");
             int totalRecords = rows.size();
 
             // Calculate Last page number

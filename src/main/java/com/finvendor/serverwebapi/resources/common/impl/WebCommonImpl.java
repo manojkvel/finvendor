@@ -1,9 +1,15 @@
 package com.finvendor.serverwebapi.resources.common.impl;
 
-import java.util.*;
-
+import com.finvendor.common.enums.SqlEnum;
+import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.FinVendorUser;
+import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
+import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.serverwebapi.exception.WebApiException;
+import com.finvendor.serverwebapi.resources.common.IWebCommon;
+import com.finvendor.serverwebapi.webutil.WebUtil;
+import com.finvendor.serverwebapi.webutil.WebUtil.SqlData;
 import com.finvendor.service.UserService;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +19,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.common.enums.SqlEnum;
-import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
-import com.finvendor.server.common.commondao.ICommonDao;
-import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.common.IWebCommon;
-import com.finvendor.serverwebapi.webutil.WebUtil;
-import com.finvendor.serverwebapi.webutil.WebUtil.SqlData;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
@@ -58,15 +56,17 @@ public class WebCommonImpl implements IWebCommon {
         try {
             switch (type) {
                 case "researchDate":
-                    return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON, HttpStatus.OK);
                 case "brokerRank":
-                    return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON, HttpStatus.OK);
                 case "others":
-                    return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON, HttpStatus.OK);
                 case "upside":
-                    return new ResponseEntity<String>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON, HttpStatus.OK);
                 case "analystType":
                     return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON, HttpStatus.OK);
+                case "marketcapital":
+                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_MCAP_JSON, HttpStatus.OK);
             }
             final SqlData sqlData = WebUtil.filterTypeMap.get(type);
             final String jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(),

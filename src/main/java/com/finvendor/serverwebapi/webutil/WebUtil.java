@@ -1,17 +1,15 @@
 package com.finvendor.serverwebapi.webutil;
 
+import com.finvendor.common.util.Pair;
+import com.finvendor.common.util.StringUtil;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.security.core.userdetails.User;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import com.finvendor.common.util.Pair;
-import com.finvendor.common.util.StringUtil;
 
 /**
  * Web Utility class
@@ -39,15 +37,20 @@ public final class WebUtil {
     public static final String EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON = "[{\"others\":\"Award Winning Analyst\"},{\"others\":\"Research Reports by CFA\"}]";
 
     /**
-     * Equity Research upside json contants
+     * Equity Research upside json constant
      */
     public static final String EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON = "[{\"upside\":\"<0%\"},{\"upside\":\"0-20%\"},{\"upside\":\"20-50%\"},{\"upside\":\"50-100%\"},{\"upside\":\">100%\"}]";
 
     /**
-     * Equity Research AnalystType json contants
+     * Equity Research AnalystType json constant
      */
     public static final String EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON = "[{\"analystType\":\"Independent Research Analyst\"},{\"analystType\":\"Research Broker\"}]";
 
+    /**
+     * Equity Research Market Capitalisation json constant
+     */
+
+    public static final String EQUITY_RESEARCH_FILTER_VALUE_MCAP_JSON = "[{\"mcap_name\":\"Large Cap: > $5Bn\"},{\"mcap_name\":\"Mid Cap: > $1Bn & < $5Bn\"},{\"mcap_name\":\"Small Cap: > $300M & < $1Bn\"},{\"mcap_name\":\"Micro Cap: > $50M  & < $300M\"}]";
     /**
      * Sql Data holder map
      * <p>
@@ -99,7 +102,7 @@ public final class WebUtil {
 
         // Style
         filterTypeMap.put("style",
-                new SqlData("SELECT stock_class_type_id,stock_class_name FROM rsch_area_stock_class",
+                new SqlData("SELECT stock_class_type_id,stock_class_name FROM rsch_area_stock_class  ORDER BY stock_class_name",
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("stockClassificationName", null));
                         }},
