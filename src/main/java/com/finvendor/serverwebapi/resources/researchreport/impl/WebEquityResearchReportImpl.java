@@ -1,20 +1,17 @@
 package com.finvendor.serverwebapi.resources.researchreport.impl;
 
-import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_RECORD_STAT;
-import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_REPORT;
-import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_REPORT_DOWNLOAD;
-import static com.finvendor.common.exception.ExceptionEnum.EQUITY_RESEARCH_RESULT_DASHBOARD;
-
-import java.io.File;
-import java.io.InputStream;
-import java.util.*;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
+import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.server.common.infra.download.service.IDownloadService;
+import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
+import com.finvendor.server.researchreport.dto.result.AbsResearchReportResult;
+import com.finvendor.server.researchreport.dto.result.impl.EquityResearchResult;
+import com.finvendor.server.researchreport.service.IResearchReportService;
+import com.finvendor.serverwebapi.exception.WebApiException;
+import com.finvendor.serverwebapi.resources.researchreport.IWebResearchReport;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -24,14 +21,13 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.modelpojo.staticpojo.StatusPojo;
-import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
-import com.finvendor.server.researchreport.dto.result.AbsResearchReportResult;
-import com.finvendor.server.researchreport.dto.result.impl.EquityResearchResult;
-import com.finvendor.server.researchreport.service.IResearchReportService;
-import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.researchreport.IWebResearchReport;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+import java.util.*;
+
+import static com.finvendor.common.exception.ExceptionEnum.*;
 
 /**
  * @author ayush on Feb 21, 2018
@@ -39,6 +35,7 @@ import com.finvendor.serverwebapi.resources.researchreport.IWebResearchReport;
 @Controller
 // TBD: Later will replace with RestController to avoid @Responsebody annotation
 public class WebEquityResearchReportImpl implements IWebResearchReport {
+    private static final Logger logger = LogManager.getLogger(WebEquityResearchReportImpl.class.getName());
 
     @Autowired
     @Qualifier(value = "equityResearchReportService")
@@ -78,7 +75,7 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
             searchResult.put(type, researchReport.values());
             return new ResponseEntity<Map<String, Collection<EquityResearchResult>>>(searchResult, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("WebEquityResearchReport -> getResearchResultTableData(...) method", e);
+            logger.error("WebEquityResearchReport -> getResearchResultTableData(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_REPORT.getCode(), EQUITY_RESEARCH_REPORT.getUserMessage(), e);
         }
     }
@@ -111,7 +108,7 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
             dashboardResult.put(type, absResearchReportResult);
             return new ResponseEntity<Map<String, EquityResearchResult>>(dashboardResult, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("WebEquityResearchReport -> getResearchResultDashboardData(...) method", e);
+            logger.error("WebEquityResearchReport -> getResearchResultDashboardData(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_RESULT_DASHBOARD.getCode(),
                     EQUITY_RESEARCH_RESULT_DASHBOARD.getUserMessage(), e);
         }
@@ -133,7 +130,7 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
             final StatusPojo statusPojo = new StatusPojo("true", "Equity research report downloaded successfully.");
             return new ResponseEntity<>(statusPojo, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("WebEquityResearchReport -> downloadResearchReport(...) method", e);
+            logger.error("WebEquityResearchReport -> downloadResearchReport(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_REPORT_DOWNLOAD.getCode(),
                     EQUITY_RESEARCH_REPORT_DOWNLOAD.getUserMessage(), e);
         }
@@ -152,7 +149,7 @@ public class WebEquityResearchReportImpl implements IWebResearchReport {
                     perPageMaxRecords);
             return new ResponseEntity<String>(recordStatistics, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("WebEquityResearchReport -> getRecordStatistics(...) method", e);
+            logger.error("WebEquityResearchReport -> getRecordStatistics(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_RECORD_STAT.getCode(),
                     EQUITY_RESEARCH_RECORD_STAT.getUserMessage(), e);
         }

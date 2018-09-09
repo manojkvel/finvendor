@@ -77,16 +77,20 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
     public Map<String, EquityResearchResult> findResearchReportTableData(String mainQuery, ResearchReportFilter filter,
                                                                          String pageNumber,
                                                                          String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
+        logger.debug("findResearchReportTableData - START");
         EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
         Map<String, EquityResearchResult> resultMap = new LinkedHashMap<>();
+        long start;
         try {
             // Prepare brokerRank data from db
             List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil.getBrokerRankData(commonDao,
                     ResearchReportUtil.BROKER_RANK_SELECT_QUERY, orderBy);
 
             // Apply filter in main query
+            start=System.currentTimeMillis();
             String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
                     ResearchReportUtil.getFilteredQueryPart(equityFilter));
+            logger.info("Time Metrics- findResearchReportTableData - Total time taken to apply filter: "+(System.currentTimeMillis()-start)/1000 +" sec");
 
             // Apply OrderBy
             String applyOrderBy = ResearchReportUtil.applyOrderBy(sortBy, orderBy);
@@ -97,11 +101,18 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
             // Prepare final query
             String finalMainQuery = queryWithAppliedFilter + applyOrderBy + applyPagination;
 
+            logger.info("Equity Research Report Quert: {}", finalMainQuery);
+
             // Execute Query
             SQLQuery query = commonDao.getNativeQuery(finalMainQuery, null);
+
+            start=System.currentTimeMillis();
             List<Object[]> rows = query.list();
+            logger.info("Time Metrics- findResearchReportTableData - Total time taken to fetch Equity Research Report: "+(System.currentTimeMillis()-start)/1000 +" sec");
+
             List<String> researchDateList = equityFilter.getResearchDate();
             // Process Result
+            start=System.currentTimeMillis();
             for (Object[] row : rows) {
                 EquityResearchResult equityResult = new EquityResearchResult();
                 equityResult.setCompanyId(row[0] != null ? row[0].toString() : "");
@@ -199,6 +210,8 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+        logger.info("Time Metrics- findResearchReportTableData - Total time taken to process Equity Research Report: "+(System.currentTimeMillis()-start)/1000 +" sec");
+        logger.debug("findResearchReportTableData - END");
         return resultMap;
     }
 }
