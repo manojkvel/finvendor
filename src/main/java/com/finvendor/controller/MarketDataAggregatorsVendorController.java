@@ -10,8 +10,8 @@ import com.finvendor.util.AssetSecurityTypes.Assets;
 import com.finvendor.util.AssetSecurityTypes.SecurityTypes;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,7 +30,7 @@ import java.util.*;
 @Controller
 public class MarketDataAggregatorsVendorController {
 
-	private static final Logger logger = LogManager.getLogger(MarketDataAggregatorsVendorController.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsVendorController.class.getName());
 	
 	@Autowired
 	private MarketDataAggregatorsService marketDataAggregatorsService;

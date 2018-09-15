@@ -25,8 +25,8 @@
   </context-param>
   <context-param>
 	<param-name>webAppRootKey</param-name>
-	<param-value>dev.finvendor.com</param-value>
-    <!--<param-value>finvendor.com</param-value>-->
+	<!--<param-value>dev.finvendor.com</param-value>-->
+    <param-value>finvendor.com</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

@@ -3,12 +3,12 @@ package com.finvendor.daoimpl;
 import com.finvendor.dao.ReferenceDataDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -17,7 +17,7 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class ReferenceDataDaoImpl implements ReferenceDataDao {
 
-    private static final Logger logger = LogManager.getLogger(ReferenceDataDaoImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ReferenceDataDaoImpl.class.getName());
 
     @Autowired
     private SessionFactory sessionFactory;

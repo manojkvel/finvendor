@@ -9,8 +9,8 @@ import com.finvendor.server.common.infra.parser.StockPrice;
 import com.finvendor.server.common.infra.parser.service.IFileParser;
 import com.finvendor.server.stockpriceupdate.dao.IStockPriceUpdateDao;
 import com.finvendor.server.stockpriceupdate.service.IStockPriceUpdateService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Service
 public class StockPriceUpdateService implements IStockPriceUpdateService {
-    private static final Logger logger = LogManager.getLogger(StockPriceUpdateService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(StockPriceUpdateService.class.getName());
     @Autowired
     private IStockPriceUpdateDao dao;
 

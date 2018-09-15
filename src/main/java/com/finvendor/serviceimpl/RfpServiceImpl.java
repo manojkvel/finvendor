@@ -6,8 +6,8 @@ import com.finvendor.model.RfpBean;
 import com.finvendor.model.Vendor;
 import com.finvendor.service.RfpService;
 import com.finvendor.util.EmailUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RfpServiceImpl implements RfpService {
 
-    private static final Logger logger = LogManager.getLogger(RfpServiceImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RfpServiceImpl.class.getName());
 
     @Autowired
     private RfpDao rfpDao;

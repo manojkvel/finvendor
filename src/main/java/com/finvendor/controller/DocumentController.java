@@ -5,8 +5,8 @@ package com.finvendor.controller;
 
 import com.finvendor.util.RequestConstans;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class DocumentController {
 
-	private static final Logger logger = LogManager.getLogger(DocumentController.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(DocumentController.class.getName());
 	
 	/**
 	 * method to download local documents

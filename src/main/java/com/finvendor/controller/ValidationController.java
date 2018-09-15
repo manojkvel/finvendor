@@ -2,8 +2,8 @@ package com.finvendor.controller;
 
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.service.UserService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +16,7 @@ import java.io.IOException;
 @Controller
 public class ValidationController {
 
-	private static final Logger logger = LogManager.getLogger(ValidationController.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(ValidationController.class.getName());
 	
 	@Resource(name="userService")
 	private UserService userService;

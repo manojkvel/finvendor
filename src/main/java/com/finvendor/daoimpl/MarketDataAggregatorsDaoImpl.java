@@ -6,14 +6,14 @@ import com.finvendor.form.MarketDataAggregatorsVendorSearchForm;
 import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
 import com.finvendor.form.TradingApplicationVendorSearchForm;
 import com.finvendor.model.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +23,7 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
 
-    private static final Logger logger = LogManager.getLogger(MarketDataAggregatorsDaoImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsDaoImpl.class.getName());
 
     @Autowired
     private SessionFactory sessionFactory;

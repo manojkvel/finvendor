@@ -9,8 +9,8 @@ import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.UserRole;
 import com.finvendor.service.UserService;
 import com.finvendor.util.RandomPasswordGenerator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 public class UserServiceImpl implements UserService{
 
-	private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class.getName());
 
 	@Autowired
 	private UserDao userDao;

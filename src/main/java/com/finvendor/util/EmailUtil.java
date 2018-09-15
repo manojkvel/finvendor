@@ -5,8 +5,8 @@ import com.finvendor.model.Consumer;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.RfpBean;
 import com.finvendor.model.Vendor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class EmailUtil {
-    private static final Logger logger = LogManager.getLogger(EmailUtil.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(EmailUtil.class.getName());
 
     public static final String ENCRYPTED_PASSWORD = "19C4959349A54C0A1D64131B267B8095";
     public static final String PASSWORD_KEY = "9511C92BC87D016F241841EAAA85D67B";

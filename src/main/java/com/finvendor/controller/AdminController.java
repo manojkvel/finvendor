@@ -9,8 +9,8 @@ import com.finvendor.service.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -30,7 +30,7 @@ import java.util.*;
 
 @Controller
 public class AdminController {
-	private static final Logger logger = LogManager.getLogger(AdminController.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(AdminController.class.getName());
 
 	@Resource(name="userService")
 	private UserService userService;

@@ -2,10 +2,10 @@ package com.finvendor.daoimpl;
 
 import com.finvendor.dao.RfpDao;
 import com.finvendor.model.RfpBean;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class RfpDaoImpl implements RfpDao {
 
-    private static final Logger logger = LogManager.getLogger(RfpDaoImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RfpDaoImpl.class.getName());
 
     @Autowired
     private SessionFactory sessionFactory;

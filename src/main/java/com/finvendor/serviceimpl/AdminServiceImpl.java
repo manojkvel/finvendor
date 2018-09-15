@@ -4,15 +4,15 @@ import com.finvendor.dao.AdminDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.model.ReferenceData;
 import com.finvendor.service.AdminService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 public class AdminServiceImpl implements AdminService {
-    private static final Logger logger = LogManager.getLogger(AdminServiceImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class.getName());
 
     @Resource(name = "adminDao")
     private AdminDao adminDao;

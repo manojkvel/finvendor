@@ -10,8 +10,8 @@ import com.finvendor.server.researchreport.dto.result.impl.EquityResearchResult;
 import com.finvendor.server.researchreport.service.IResearchReportService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.researchreport.IWebResearchReport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -35,7 +35,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
 @Controller
 // TBD: Later will replace with RestController to avoid @Responsebody annotation
 public class WebEquityResearchReportImpl implements IWebResearchReport {
-    private static final Logger logger = LogManager.getLogger(WebEquityResearchReportImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(WebEquityResearchReportImpl.class.getName());
 
     @Autowired
     @Qualifier(value = "equityResearchReportService")

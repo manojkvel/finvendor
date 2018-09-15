@@ -1,10 +1,10 @@
 package com.finvendor.common.util;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LogUtil {
-	private static final Logger logger = LogManager.getLogger(LogUtil.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(LogUtil.class.getName());
 
 	public static void logInfo(String message) {
 		if (logger.isInfoEnabled()) {

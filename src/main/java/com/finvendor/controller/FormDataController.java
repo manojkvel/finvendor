@@ -6,9 +6,9 @@ import com.finvendor.model.SecurityType;
 import com.finvendor.service.ReferenceDataService;
 import com.finvendor.service.UserService;
 import com.finvendor.util.RequestConstans;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,7 @@ import java.util.List;
 @Controller
 public class FormDataController {
 
-    private static final Logger logger = LogManager.getLogger(FormDataController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(FormDataController.class.getName());
 
     @Resource(name = "referenceDataService")
     private ReferenceDataService referenceDataService;

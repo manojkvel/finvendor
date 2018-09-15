@@ -11,9 +11,9 @@ import com.finvendor.serverwebapi.resources.common.IWebCommon;
 import com.finvendor.serverwebapi.webutil.WebUtil;
 import com.finvendor.serverwebapi.webutil.WebUtil.SqlData;
 import com.finvendor.service.UserService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.SQLQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
 @Controller
 public class WebCommonImpl implements IWebCommon {
 
-    private static final Logger logger = LogManager.getLogger(WebCommonImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(WebCommonImpl.class.getName());
 
     @Autowired
     private ICommonDao commonDao;

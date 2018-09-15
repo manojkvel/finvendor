@@ -5,14 +5,14 @@ import com.finvendor.dao.VendorDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
 import com.finvendor.model.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,7 @@ import java.util.*;
 
 public class VendorDaoImpl implements VendorDao {
 
-	private static final Logger logger = LogManager.getLogger(VendorDaoImpl.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(VendorDaoImpl.class.getName());
 	private static final String RECORD_ALREADY_EXISTS = "Record Already Exist";
 
 	@Autowired

@@ -8,8 +8,8 @@ import com.finvendor.service.VendorService;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 @Controller
 public class RegistrationController {
 
-    private static final Logger logger = LogManager.getLogger(RegistrationController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class.getName());
 
     String[] vendorTypes = {RequestConstans.INDEPENDENT_RESEARCH_ANALYST, RequestConstans.RESEARCH_BROKER};
     String[] consumerTypes = {RequestConstans.INDIVIDUAL_INVESTOR, RequestConstans.UNIVERSITY_OR_PHD_STUDENT};
@@ -423,6 +423,7 @@ public class RegistrationController {
             modelAndView.addObject("errorMessage", "Error validation registration Id : " + exp.getMessage());
         }
         logger.debug("Leaving RegistrationController:validateRegistrationEmail for {}", regId);
+
         return modelAndView;
     }
 
@@ -507,5 +508,4 @@ public class RegistrationController {
         }
         return false;
     }
-
 }

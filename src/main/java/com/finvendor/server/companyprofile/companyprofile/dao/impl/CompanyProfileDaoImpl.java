@@ -9,10 +9,10 @@ import com.finvendor.server.researchreport.dao.IResearchReportDao;
 import com.finvendor.server.researchreport.dto.filter.ResearchReportFilter;
 import com.finvendor.server.researchreport.dto.result.AbsResearchReportResult;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Repository
 public class CompanyProfileDaoImpl implements ICompanyProfileDao1 {
-    private static final Logger logger = LogManager.getLogger(CompanyProfileDaoImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(CompanyProfileDaoImpl.class.getName());
 
     /**
      * Company Search Query

@@ -7,8 +7,8 @@ import com.finvendor.model.Vendor;
 import com.finvendor.service.ConsumerService;
 import com.finvendor.service.VendorService;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.MessageDigest;
@@ -20,7 +20,7 @@ import java.util.Set;
 public class CommonUtils {
 
 	/**logger*/
-	private static final Logger logger = LogManager.getLogger(CommonUtils.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(CommonUtils.class.getName());
 
 	public static String encrypt(String str) {
         logger.debug("CommonUtils : encrypt");

@@ -8,9 +8,9 @@ import com.finvendor.model.*;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.VendorEnum;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.SQLQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class VendorServiceImpl implements VendorService {
 
-	private static final Logger logger = LogManager.getLogger(VendorServiceImpl.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(VendorServiceImpl.class.getName());
 
 	@Autowired
 	private VendorDao vendorDao;

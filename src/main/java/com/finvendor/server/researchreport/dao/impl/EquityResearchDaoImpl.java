@@ -8,9 +8,9 @@ import com.finvendor.server.researchreport.dto.filter.ResearchReportFilter;
 import com.finvendor.server.researchreport.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.server.researchreport.dto.result.impl.EquityResearchResult;
 import com.finvendor.server.researchreport.util.ResearchReportUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.SQLQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Repository
 public class EquityResearchDaoImpl implements IResearchReportDao {
-    private static final Logger logger = LogManager.getLogger(EquityResearchDaoImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(EquityResearchDaoImpl.class.getName());
 
     @Autowired
     private ICommonDao commonDao;

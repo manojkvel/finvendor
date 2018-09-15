@@ -5,8 +5,8 @@ import com.finvendor.exception.ApplicationException;
 import com.finvendor.json.bean.ReferenceDataJson;
 import com.finvendor.model.*;
 import com.finvendor.service.ReferenceDataService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ReferenceDataServiceImpl implements ReferenceDataService {
 
-    private static final Logger logger = LogManager.getLogger(ReferenceDataServiceImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ReferenceDataServiceImpl.class.getName());
 
     @Autowired
     private ReferenceDataDao referenceDataDao;

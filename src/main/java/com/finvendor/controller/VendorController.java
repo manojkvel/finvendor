@@ -21,9 +21,9 @@ import com.finvendor.service.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
 import com.google.gson.Gson;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -43,7 +43,7 @@ import java.util.*;
 @Controller
 public class VendorController {
 
-    private static final Logger logger = LogManager.getLogger(VendorController.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(VendorController.class.getName());
 
     @Resource(name = "userService")
     private UserService userService;

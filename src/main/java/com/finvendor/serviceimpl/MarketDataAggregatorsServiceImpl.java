@@ -7,8 +7,8 @@ import com.finvendor.form.ResearchReportProvidersVendorSearchForm;
 import com.finvendor.form.TradingApplicationVendorSearchForm;
 import com.finvendor.model.*;
 import com.finvendor.service.MarketDataAggregatorsService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsService{
 
-	private static final Logger logger = LogManager.getLogger(MarketDataAggregatorsServiceImpl.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsServiceImpl.class.getName());
 
 	@Autowired
 	private MarketDataAggregatorsDao marketDataAggregatorsDao;

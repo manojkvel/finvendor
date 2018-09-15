@@ -7,10 +7,10 @@ import com.finvendor.form.FileDetails;
 import com.finvendor.model.CompanySubType;
 import com.finvendor.model.Consumer;
 import com.finvendor.service.ConsumerService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class ConsumerServiceImpl implements ConsumerService {
 
-    private static final Logger logger = LogManager.getLogger(ConsumerServiceImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ConsumerServiceImpl.class.getName());
 
     @Autowired
     private ConsumerDao consumerDao;

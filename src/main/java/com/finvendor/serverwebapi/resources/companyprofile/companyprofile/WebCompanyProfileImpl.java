@@ -3,8 +3,8 @@ package com.finvendor.serverwebapi.resources.companyprofile.companyprofile;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.server.companyprofile.companyprofile.service.ICompanyProfileService;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  */
 @Controller
 public class WebCompanyProfileImpl implements IWebCompanyProfile {
-    private static final Logger logger = LogManager.getLogger(WebCompanyProfileImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(WebCompanyProfileImpl.class.getName());
 
     @Autowired
     ICompanyProfileService service;
