@@ -1,24 +1,20 @@
 package com.finvendor.serverwebapi.resources.metrics;
 
+import com.finvendor.server.metrics.service.MetricService;
+import com.finvendor.server.metrics.service.MetricsType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.security.core.userdetails.User;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.finvendor.server.metrics.service.MetricService;
-import com.finvendor.server.metrics.service.MetricsType;
-
 public class MyFilter implements Filter {
+    private static final Logger logger = LoggerFactory.getLogger(MyFilter.class.getName());
     private static Map<String, MetricsType> requestMap;
     private static final String RESEARCH_REPORTS = "researchReports";
     private static final String DOWNLOAD_RESEARCH_REPORTS = "downloadResearchReports";
@@ -56,7 +52,11 @@ public class MyFilter implements Filter {
             } else {
                 userName = loggedInUser.getUsername();
             }
-            metricService.increaseCount(userName, metricsType);
+            try {
+                metricService.increaseCount(userName, metricsType);
+            } catch (Exception e) {
+                logger.error("MyFilter -> Metrics Count  - Error has occurred while inserting request count to db", e);
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
