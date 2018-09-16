@@ -44,7 +44,7 @@ public class ValidationController {
 		logger.info("Validate existing User : " + username);		
 		try{
 			if(userService.validateUsername(username)){
-				response.getWriter().print("Username is already registered !");
+				response.getWriter().print("");
 			}
 		}catch (IOException exp) {
 			logger.error("Error checking Username : " + exp);

@@ -207,7 +207,7 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
                     + "\r\n" + "Alert on stock research report<br><br>\r\n" + "<!-- HTML -->\r\n"
                     + "<table class=\"myTable\">\r\n" + "	<tr>\r\n" + "		<th>Company name</th>\r\n"
                     + "		<th>Report alert triggered</th>\r\n" + "	</tr>\r\n" + "	<tr>\r\n"
-                    + "		<td><a href=\"http://dev.finvendor.com/view/company-profile.jsp?isinCode=" + isinCode
+                    + "		<td><a href=\"https://finvendor.com/view/company-profile.jsp?isinCode=" + isinCode
                     + "&txtSearchBox=Submit/\">COMPANYNAME</a></td>\r\n"
                     + "		<td>A New research report added for this stock</td>\r\n" + "	</tr>\r\n" + "</table>\r\n"
                     + "<br><br>\r\n"

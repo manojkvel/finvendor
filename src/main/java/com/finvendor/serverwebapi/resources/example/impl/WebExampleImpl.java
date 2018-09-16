@@ -1,16 +1,17 @@
 package com.finvendor.serverwebapi.resources.example.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import com.finvendor.model.Example;
 import com.finvendor.server.example.service.IExampleService;
 import com.finvendor.server.example.staticpojo.ExamplePojo;
 import com.finvendor.serverwebapi.exception.WebApiException;
+import com.finvendor.serverwebapi.resources.example.Contact;
 import com.finvendor.serverwebapi.resources.example.IWebExample;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 /**
  * 
@@ -34,9 +35,22 @@ public class WebExampleImpl implements IWebExample {
 		return exampleService.findAllExample();
 	}
 
-	@Override
+    @Override
+    public ExamplePojo findExample() throws WebApiException {
+	    ExamplePojo pojo=new ExamplePojo();
+	    pojo.setId(1);
+	    pojo.setName("Dummy");
+        return pojo;
+    }
+
+    @Override
 	public void updateExample(@RequestBody ExamplePojo examplePojo) throws WebApiException {
 		exampleService.updateExample(examplePojo);
 		
 	}
+
+    public Contact contact(@PathVariable("id") Integer id) {
+        // mimics a call to a business service
+        return new Contact(1,"Test Firstname","Test Lastname");
+    }
 }

@@ -6,14 +6,9 @@ import com.finvendor.server.common.commondao.GenericDao;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.homepage.dao.IHomePageSearchDao;
 import com.finvendor.server.homepage.dto.CompnyData;
-import com.finvendor.server.researchreport.dao.IResearchReportDao;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
-import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -24,17 +19,9 @@ import java.util.Map;
 
 @Repository
 public class HomePageSearchDaoImpl extends GenericDao<CompanyWatchList> implements IHomePageSearchDao {
-    private static final Logger logger = LoggerFactory.getLogger(HomePageSearchDaoImpl.class.getName());
 
     @Autowired
     private ICommonDao commonDao;
-
-    @Autowired
-    protected SessionFactory sessionFactory;
-
-    @Autowired
-    @Qualifier(value = "equityResearchDaoImpl")
-    private IResearchReportDao equityDao;
 
     @SuppressWarnings({"unchecked"})
     @Override

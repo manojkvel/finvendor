@@ -1,23 +1,18 @@
 package com.finvendor.server.example.dao.impl;
 
-import org.hibernate.SQLQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import com.finvendor.model.Example;
 import com.finvendor.server.common.commondao.GenericDao;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.example.dao.IExampleDao;
 import com.finvendor.server.example.staticpojo.ExamplePojo;
+import org.hibernate.SQLQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class ExampleDaoImpl extends GenericDao<Example> implements IExampleDao {
 	@Autowired
 	private ICommonDao commonDao;
-
-	public void hello() {
-		System.out.println("Hello Sir...");
-	}
 
 	@Override
 	public void updateExample(ExamplePojo pojo) {

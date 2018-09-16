@@ -1,18 +1,16 @@
 package com.finvendor.server.example.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
 import com.finvendor.model.Example;
 import com.finvendor.server.example.dao.impl.ExampleDaoImpl;
 import com.finvendor.server.example.service.IExampleService;
 import com.finvendor.server.example.staticpojo.ExamplePojo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ExampleServiceImpl implements IExampleService {
@@ -31,7 +29,6 @@ public class ExampleServiceImpl implements IExampleService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<ExamplePojo> findAllExample() {
-		exampleDao.hello();
 		List<Example> allEntity = exampleDao.findAll();
 		List<ExamplePojo> exmaple1PojoList = new ArrayList<>();
 		for (Example e : allEntity) {
@@ -49,11 +46,7 @@ public class ExampleServiceImpl implements IExampleService {
 		return null;
 	}
 
-	@Override
-	public void hello() {
-		exampleDao.hello();
-		
-	}
+
 
 	@Override
 	@Transactional(readOnly = false)
