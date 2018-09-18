@@ -1,22 +1,22 @@
 package com.finvendor.serverwebapi.resources.metrics.impl;
 
-import static com.finvendor.common.exception.ExceptionEnum.REQUEST_METRICS;
-
-
+import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.server.metrics.service.MetricService;
+import com.finvendor.serverwebapi.exception.WebApiException;
+import com.finvendor.serverwebapi.resources.metrics.IWebMetrics;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.server.metrics.service.MetricService;
-import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.metrics.IWebMetrics;
+import static com.finvendor.common.exception.ExceptionEnum.REQUEST_METRICS;
 
 @Controller
 public class WebMetricsImpl implements IWebMetrics {
-
+	private static final Logger logger = LoggerFactory.getLogger(WebMetricsImpl.class.getName());
 	@Autowired
 	private MetricService metricsService;
 
@@ -24,9 +24,9 @@ public class WebMetricsImpl implements IWebMetrics {
 	public ResponseEntity<?> getAllMetrics(@RequestParam(value = "type") String type) throws WebApiException {
 		try {
 			final String requestMetrics = metricsService.getRequestMetrics(type);
-			return new ResponseEntity<String>(requestMetrics, HttpStatus.OK);
+			return new ResponseEntity<>(requestMetrics, HttpStatus.OK);
 		} catch (Exception e) {
-			ErrorUtil.logError("IWebMetrics -> getAllMetrics(...) method", e);
+			logger.error("Error has occurred while getting metrics, error - ", e);
 			return ErrorUtil.getError(REQUEST_METRICS.getCode(), REQUEST_METRICS.getUserMessage(), e);
 		}
 	}

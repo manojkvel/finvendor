@@ -1,13 +1,10 @@
 package com.finvendor.server.metrics.dao;
 
-import java.util.List;
 import java.util.Map;
-
-import com.finvendor.server.metrics.dto.MetricsDto;
 
 public interface IMetricsDao {
 
-    void increaseCount(String userName) throws RuntimeException;
+    void increaseCount(String userName, String clientIp) throws RuntimeException;
 
     Map<String, Object> getAllMetrics() throws RuntimeException;
 

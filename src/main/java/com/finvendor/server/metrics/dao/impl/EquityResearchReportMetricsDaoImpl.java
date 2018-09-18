@@ -1,27 +1,22 @@
 package com.finvendor.server.metrics.dao.impl;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import org.hibernate.SQLQuery;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.finvendor.model.metrics.EqtyResearchReportsMetrics;
+import com.finvendor.server.metrics.dao.IMetricsDao;
 import org.springframework.stereotype.Repository;
 
-import com.finvendor.model.metrics.EqtyResearchReportsMetrics;
-import com.finvendor.server.common.commondao.ICommonDao;
-import com.finvendor.server.metrics.dao.IMetricsDao;
-import com.finvendor.server.metrics.dto.MetricsDto;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class EquityResearchReportMetricsDaoImpl extends AbstractMetricsDao<EqtyResearchReportsMetrics> implements IMetricsDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void increaseCount(String userName) throws RuntimeException {
+	public void increaseCount(String userName,String clientIp) throws RuntimeException {
 		try {
-			InetAddress inetAddress = InetAddress.getLocalHost();
 			SimpleDateFormat formatter=new SimpleDateFormat(LOCAL_DATE_FORMAT_YYY_MM_DD);
 			String localDate = formatter.format(Calendar.getInstance().getTime());
 			Map<Object, Object> paramMap = new HashMap<>();
@@ -36,7 +31,7 @@ public class EquityResearchReportMetricsDaoImpl extends AbstractMetricsDao<EqtyR
 				metricsEntity.setUser_name(userName);
 				metricsEntity.setCount("1");
 				metricsEntity.setLocal_date(localDate);
-				metricsEntity.setIp_address(inetAddress.getHostAddress());
+				metricsEntity.setIp_address(clientIp);
 			} else {
 				metricsEntity = metricsEntityList.get(0);
 				if (!metricsEntity.getLocal_date().equals(localDate)) {
@@ -49,7 +44,7 @@ public class EquityResearchReportMetricsDaoImpl extends AbstractMetricsDao<EqtyR
 				metricsEntity.setUser_name(userName);
 				metricsEntity.setCount(String
 						.valueOf(Integer.parseInt(metricsEntity.getCount() != null ? metricsEntity.getCount() : "0") + 1));
-				metricsEntity.setIp_address(inetAddress.getHostAddress());
+				metricsEntity.setIp_address(clientIp);
 			}
 			saveOrUpdate(metricsEntity);
 		} catch (Exception e) {

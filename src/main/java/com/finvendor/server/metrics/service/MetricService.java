@@ -1,15 +1,14 @@
 package com.finvendor.server.metrics.service;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
+import com.finvendor.common.util.JsonUtil;
+import com.finvendor.server.metrics.dao.IMetricsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.finvendor.common.util.JsonUtil;
-import com.finvendor.server.metrics.dao.IMetricsDao;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 public class MetricService {
@@ -30,17 +29,17 @@ public class MetricService {
     private IMetricsDao homePageMetricsDao;
 
     @Transactional(readOnly = false)
-    public void increaseCount(String userName, MetricsType metricsType) {
+    public void increaseCount(String userName, MetricsType metricsType, String clientIp) {
 
         switch (metricsType) {
             case EQTY_RESEARCH:
-                equityResearchReportMetricsDao.increaseCount(userName);
+                equityResearchReportMetricsDao.increaseCount(userName, clientIp);
                 break;
             case DOWNLOAD_EQTY_RESEARCH:
-                downloadEquityResearchReportMetricsDao.increaseCount(userName);
+                downloadEquityResearchReportMetricsDao.increaseCount(userName, clientIp);
                 break;
             case HOME_PAGE:
-                homePageMetricsDao.increaseCount(userName);
+                homePageMetricsDao.increaseCount(userName, clientIp);
                 break;
 
         }
@@ -56,7 +55,7 @@ public class MetricService {
                 paramsMap.put("downloadEquityResearchReportMetrics", downloadEquityResearchReportMetricsDao.getAllMetrics());
             } else if (type.equals("homePage")) {
                 paramsMap.put("homePageMetrics", homePageMetricsDao.getAllMetrics());
-            }else{
+            } else {
                 Map<String, Object> allMap = new LinkedHashMap<>();
                 allMap.put("homePage", homePageMetricsDao.getAllMetrics());
                 allMap.put("equityResearchReport", equityResearchReportMetricsDao.getAllMetrics());

@@ -53,12 +53,26 @@ public class MyFilter implements Filter {
                 userName = loggedInUser.getUsername();
             }
             try {
-                metricService.increaseCount(userName, metricsType);
+                String clientIp = getClientIp(httpRequest);
+                metricService.increaseCount(userName, metricsType,clientIp);
             } catch (Exception e) {
                 logger.error("MyFilter -> Metrics Count  - Error has occurred while inserting request count to db", e);
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private static String getClientIp(HttpServletRequest request) {
+        String remoteAddr = "";
+
+        if (request != null) {
+            remoteAddr = request.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || "".equals(remoteAddr)) {
+                remoteAddr = request.getRemoteAddr();
+            }
+        }
+
+        return remoteAddr;
     }
 
 }
