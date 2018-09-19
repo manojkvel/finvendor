@@ -30,6 +30,28 @@
 						<p>FinVendor strives for democratizing the inventor's community. FinVendor endeavours to help retail and institutional investors make a well-informed investment decisions.</p> 
 
 						<p>FinVendor provides a unique platform of most up to date equity research reports for public listed companies at indian stock exchanges. Finvendor sources the equity research reports from the registered Brokers and other sell-side independent research Analysts.</p>
+
+						<p><strong>In our current state, we provide 6 main functionalities:</strong></p>
+						<ol>
+							<li>
+								<strong>Search company:</strong> Search any company by name or NSE stock tickers. 
+							</li>
+							<li>
+								<strong>Company Profile access:</strong> See company profile page and quick snapshot of the company. Go to its in "research report" Tab and find how many renowned Brokers are covering this stock and with what target price (%upside potential ) and average target price. 
+							</li>
+							<li>
+								<strong>WatchList:</strong> Put your Favourite stocks under watchlist.
+							</li>
+							<li>
+								<strong>Set Price Alert:</strong> Set the % price alert on any stocks that you want to invest in future (+ve price alert) OR you have invested recently(-ve price alert). If this alert is triggered you will be informed. 
+							</li>
+							<li>
+								<strong>Track New Research Report:</strong> Market, at times, becomes so volatile. In such scenario, you would like to track any new research report which has changed its earlier stock recommendations. Set new research report addition alert on any company that you own or intend to own. If any new reports with revised price target is uploaded on website, you will be informed through email alert.
+							</li>
+							<li>
+								<strong>Find stocks worthy of investment:</strong> Go to research report -> company research menu. you will see 10+ filters to shortlist the stocks to invest. Those companies (tracked by 20+ research Brokers) having upside potential is > 50% and company is Large cap and research date less than 3 months. You can get the results in single click.
+							</li>
+						</ol>
 					</div>
 				</div>
 			</div>

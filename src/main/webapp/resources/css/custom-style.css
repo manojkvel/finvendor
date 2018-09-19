@@ -1340,10 +1340,11 @@ a#sidemenu:focus {
 
 .side-menu .user_activity .fa-chevron-down {
 	color: #000;
-	top: 35px;
+	top: 13px;
 	font-size: 15px;
 	position: absolute;
 	right: 0;
+	padding: 20px;
 }
 
 .side-menu .hd-right a {

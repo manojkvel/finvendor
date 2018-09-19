@@ -1259,6 +1259,12 @@ button {
 .default_template .content {
 	text-align: left;
 	font-family: 'open_sansregular';
+	font-size: 13px;
+}
+
+.default_template .content ol li {
+	list-style: decimal;
+	list-style-position: inside;
 }
 
 #privacy_policy .content h2,
@@ -1346,6 +1352,21 @@ button {
 .chartjs-size-monitor {
 	width: 400px !important;
 	height: 400px !important;
+}
+
+.profile-banner {
+	background: url("../images/banner/profile-bg.jpg") repeat-x;
+	width: 100%;
+	height: 300px;
+	display: inline-block;
+}
+
+#personal_details .action_btn .submit_btn:last-child {
+	clear: both;
+}
+
+#personal_details ul li {
+	overflow: hidden;
 }
 
 /*-----------------End of Dashboard Metrics----------------*/
@@ -1456,5 +1477,13 @@ button {
 	.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover, .nav-tabs>li>a:hover {
 		font-weight: bold;
 		font-size: 9px;
+	}
+
+	.profile-banner {
+		height: 150px;
+	}
+
+	#personal_details .action_btn .submit_btn:last-child {
+		width: 100%;
 	}
 }

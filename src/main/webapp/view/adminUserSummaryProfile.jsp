@@ -30,7 +30,7 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
 		<div class="row" style="margin: -20px 0;">
-			<img src="${pageContext.request.contextPath}/resources/images/banner/profile-banner.svg" />
+			<span class="profile-banner"></span>
 		</div>
 		<div class="container" id="user_profile_details">
 			<div class="row">
@@ -96,7 +96,7 @@
 								<table class="company-details">
 									<tr>
 										<c:if test="${user.consumer.companyType != null}">
-											<th>Comany Type</th>
+											<th>Company Type</th>
 											<td class="url">
 												${user.consumer.companyType}
 											</td>
@@ -104,7 +104,7 @@
 									</tr>
 									<tr>
 										<c:if test="${consumer.companyUrl != null}">
-											<th>Comany Url</th>
+											<th>Company Url</th>
 											<td class="url">
 												${consumer.companyUrl}
 											</td>
@@ -282,44 +282,8 @@
 						</c:when>
 					</c:choose>
 				</div>
-				<div class="col-xs-12 col-sm-4 col-md-3">
-					<div class="inner-sidebar-wrap" style="display: none;margin-top: 23px;">
-						<div class="sidebar-ctn-wrap cnt-ctn-wrap">
-							<div class="head">
-								<c:if test="${user.consumer != null}">
-									<h3>Search New Vendor</h3>
-								</c:if>
-								<c:if test="${user.vendor != null}">
-									<h3>Review Vendor Offerings</h3>
-								</c:if>
-							</div>
-							<div class="content" id="sidelinks">
-								<c:if test="${user.consumer != null}">
-									<input type="hidden" user-type="consumer" value="${user.consumer.tags}" />
-								</c:if>
-								<c:if test="${user.vendor != null}">
-									<input type="hidden" user-type="vendor" value="${user.vendor.companyType}" />
-								</c:if>
-								
-								<ul id="SOLUTIONS_ul">
-
-								</ul>
-							</div>
-						</div>
-						<div class="sidebar-ctn-wrap cnt-ctn-wrap">
-							<div class="head">
-								<h3>Need More Info</h3>
-							</div>
-							<div class="content">
-								<ul>
-									<li><a
-									href="${pageContext.request.contextPath}/view/common/inner.jsp?nav=CONTACT">
-										<span class="fa fa-chevron-right"></span> Contact Us
-								</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
+				<div class="col-xs-12 col-sm-4 col-md-3" style="margin-top:23px;">
+					<jsp:include page="common/inner_sidebar.jsp"></jsp:include>
 				</div>
 			</div>
 		</div>

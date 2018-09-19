@@ -125,6 +125,14 @@ function updateConsumerProfileCompanyDetails() {
 	if(companySubType != null) {
 		companySubType = companySubType.join();
 	}
+
+	if(telephoneCode == '+91' || telephoneCode == '91') {
+		if(telephoneNumber.length == 10) {
+			$("#personal_details #consumerProfilePhoneNumber").removeClass("error_field");
+		} else {
+			$("#personal_details #consumerProfilePhoneNumber").addClass("error_field");
+		}
+	}
 	
 	//return;
 	var phoneNumber = telephoneCode + " " + telephoneNumber;

@@ -62,13 +62,13 @@
 											</h4>
 											<table class="company-details">
 												<tr>
-													<th>Comany Url</th>
+													<th>Company Url</th>
 													<td class="url">
 														${consumer.companyUrl}
 													</td>
 												</tr>
 												<tr>
-													<th>Comany Information</th>
+													<th>Company Information</th>
 													<td class="info">
 														${consumer.companyInfo}
 													</td>
@@ -196,7 +196,7 @@
 					</ul>
 					<p class="action_btn">
 						<a class="submit_btn save" data-toggle="tab">Save</a>
-						<a class="submit_btn next" data-toggle="tab" href="#tab3">Next</a>
+						<!--<a class="submit_btn next" data-toggle="tab" href="#tab3">Next</a>-->
 					</p>
 				</form>
 			</div>

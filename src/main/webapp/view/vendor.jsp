@@ -103,19 +103,19 @@
 																		</h4>
 																		<table class="company-details">
 																			<tr>
-																				<th>Comany Url</th>
+																				<th>Company Url</th>
 																				<td class="url">
 																					${vendor.companyUrl}
 																				</td>
 																			</tr>
 																			<tr>
-																				<th>Comany Information</th>
+																				<th>Company Information</th>
 																				<td class="info">
 																					${vendor.companyInfo}
 																				</td>
 																			</tr>
 																			<tr>
-																				<th>Comany Type</th>
+																				<th>Company Type</th>
 																				<td class="info" style="text-transform: capitalize;">
 																					${vendor.analystType}
 																				</td>
