@@ -27,7 +27,7 @@
 			<div class="col-xs-12 col-sm-8 col-md-9">
 				<div class="default_template">
 					<div class="content">
-						<p>FinVendor has been founded by an individual having more than 12+ yrs of  experience at big-league global investment banks. Founding members possess experience across various vendor types - Reference data vendors, Trading application vendors and Financial analytical application vendors and Research report providers. FinVendor team understands the different nature of financial vendor products that is needed by End Users and the challenges involved in doing the due-diligence process of selecting a right financial vendor.</p>
+						<p>FinVendor has been founded by an individual having more than 12+ yrs of  experience at big-league global investment banks.</p>
 					</div>
 				</div>
 			</div>
