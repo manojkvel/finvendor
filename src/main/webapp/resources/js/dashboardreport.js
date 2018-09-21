@@ -64,6 +64,9 @@ function getDashboardResearchReportLoad() {
             
             $('#dashboard_report').html(htmlData);
             $('[data-toggle="tooltip"]').tooltip();
+            $('.dwnldReport a').on('click', function() {
+                sendGAevents('DownloadPdfReport', 'Download Full Report Click', 'Download Full Report');
+            });
         } else {
              $('#dashboard_report').html("<div class='dashboard_report'>We are unable to download Report, please try again later</div>");
         }

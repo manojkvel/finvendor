@@ -480,6 +480,16 @@ jQuery(document).ready(function($) {
 					window.localStorage.setItem('companyProfileJson', JSON.stringify(companyProfileJson));
 					this.val(data.companyName);
 					this.parents('form').find(".submit-button").trigger('click');
+
+					
+					if(e.target.name == 'homepagesearch') {
+
+						sendGAevents('HomePageSearch', 'Search Stocks onKeyDown', 'Search Stocks & its Quotes');
+
+					} else if(e.target.name == 'searchKeyword') {
+
+						sendGAevents('TopHeaderSearch', 'Search Stocks onKeyDown', 'Search Stocks & its Quotes');
+					}
 				}
 			},
 			required: true
@@ -514,4 +524,13 @@ function validateDate(date) {
 		return true;
 	}
 	return false;
+}
+
+function sendGAevents(eCategory, eAction, eLabel) {
+	ga('gtag_UA_126103767_1.send', {
+		hitType: 'event',
+		eventCategory: eCategory,
+		eventAction: eAction,
+		eventLabel: eLabel
+	});
 }
