@@ -81,10 +81,10 @@ function updateConsumerProfileCompanyDetails() {
 		$("#personal_details #consumerProfileCompanyInfo").addClass("error_field");
 	}
 
-	if(companySubType != '') {
-		$("#personal_details #consumerProfileCompanySubType").removeClass("error_field");
+	if(companySubType != '' && companySubType != null) {
+		$("#personal_details #consumerProfileCompanySubType").parent().find("button").removeClass("error_field");
 	} else {
-		$("#personal_details #consumerProfileCompanySubType").addClass("error_field");
+		$("#personal_details #consumerProfileCompanySubType").parent().find("button").addClass("error_field");
 	}
 
 	if(telephoneCode != '') {
@@ -138,7 +138,7 @@ function updateConsumerProfileCompanyDetails() {
 	var phoneNumber = telephoneCode + " " + telephoneNumber;
 
 	if(designation != "" && designation != null && company != null && companyUrl != null &&
-		companyInfo != "" && telephoneNumber.length >= 10 && countryOfIncorporation != null && yearOfIncorporation != null) {
+		companyInfo != "" && companySubType != null && telephoneNumber.length >= 10 && countryOfIncorporation != null && yearOfIncorporation != null) {
 
 		var data = {
 				"consumerProfileLastName":lastName,

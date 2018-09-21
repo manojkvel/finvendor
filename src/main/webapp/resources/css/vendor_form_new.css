@@ -637,6 +637,7 @@ textarea:valid ~ label {
 #personal_details.custom_form div {
     clear: both;
     width: 100%;
+    position: relative;
 }
 
 #award_details.custom_form .btn,

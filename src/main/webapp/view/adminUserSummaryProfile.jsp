@@ -182,7 +182,7 @@
 								<table class="company-details">
 									<tr>
 										<c:if test="${user.vendor.companyType != null}">
-											<th>Comany Type</th>
+											<th>Company Type</th>
 											<td class="url">
 												${user.vendor.companyType}
 											</td>
@@ -190,7 +190,7 @@
 									</tr>
 									<tr>
 										<c:if test="${vendor.companyUrl != null}">
-											<th>Comany Url</th>
+											<th>Company Url</th>
 											<td class="url">
 												${vendor.companyUrl}
 											</td>
