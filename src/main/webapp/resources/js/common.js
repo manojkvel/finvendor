@@ -525,12 +525,3 @@ function validateDate(date) {
 	}
 	return false;
 }
-
-function sendGAevents(eCategory, eAction, eLabel) {
-	ga('gtag_UA_126103767_1.send', {
-		hitType: 'event',
-		eventCategory: eCategory,
-		eventAction: eAction,
-		eventLabel: eLabel
-	});
-}

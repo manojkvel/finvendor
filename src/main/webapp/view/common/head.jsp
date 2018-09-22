@@ -23,9 +23,27 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-126103767-1"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-126103767-1');
+
+	var gaCode = '';
+	if (!/dev.finvendor.com|localhost/.test(window.location.hostname)) {
+		gaCode = 'UA-126103767-1';
+	} else {
+		gaCode = 'UA-111111111-1';
+	}
+
+	function sendGAevents(eCategory, eAction, eLabel) {
+		ga('gtag_' + gaCode.replace(/-/g, '_') + '.send', {
+			hitType: 'event',
+			eventCategory: eCategory,
+			eventAction: eAction,
+			eventLabel: eLabel
+		});
+	}
+
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', gaCode);
 </script>
