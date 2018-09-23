@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
 
@@ -124,13 +125,13 @@ public class EmailUtil {
         Session session = getMailSession();
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(SALES_EMAIL));
+            message.setFrom(new InternetAddress(SALES_EMAIL,"FinVendor Team"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject(subject);
             message.setContent(content, "text/html; charset=utf-8");
 
             Transport.send(message);
-        } catch (MessagingException e) {
+        } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }

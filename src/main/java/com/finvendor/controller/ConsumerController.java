@@ -99,6 +99,9 @@ public class ConsumerController {
             if (yearOfIncorporation != null) {
                 consumer.setYearOfIncorporation(yearOfIncorporation);
             }
+            if(companySubType==0) {
+                companySubType = 2;
+            }
             consumer.setCompanySubType(consumerService.
                     getCompanySubType(companySubType));
             user.setConsumer(consumer);

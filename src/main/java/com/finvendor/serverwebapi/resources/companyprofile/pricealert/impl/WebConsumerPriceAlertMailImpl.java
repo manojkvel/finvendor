@@ -9,6 +9,8 @@ import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.companyprofile.pricealert.IWebConsumerPriceAlertMail;
 import com.finvendor.service.UserService;
 import com.finvendor.util.EmailUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ import static com.finvendor.common.exception.ExceptionEnum.UPDATE_PRICE;
 
 @Controller
 public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail {
+    private static final Logger logger = LoggerFactory.getLogger(WebConsumerPriceAlertMailImpl.class.getName());
 
     @Resource(name = "userService")
     private UserService userService;
@@ -52,6 +55,13 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
                     final String subject = "Stock Price Alert Triggered for:" + companyName;
                     final String mailBody = prepareMailBody(consumerPriceAlertDetail);
                     try {
+//                        if (mailBody.isEmpty()) {
+//                            logger.warn("Unable to send mail to user {} due to Price Alert hit not occurred " +
+//                                    "for Day,Week,Month or NoTimeFrame",userName);
+//                        } else {
+//                            EmailUtil.sendMail(toRecipient, subject, mailBody);
+//                            LogUtil.logInfo("***Email has been sent to user:" + toRecipient);
+//                        }
                         EmailUtil.sendMail(toRecipient, subject, mailBody);
                         LogUtil.logInfo("***Email has been sent to user:" + toRecipient);
                     } catch (RuntimeException e) {
@@ -76,7 +86,7 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
                 + ".myTable th { \r\n" + "  padding: 10px;\r\n" + "  border: 1px solid mediumaquamarine; \r\n"
                 + "  }\r\n" + "</style>\r\n" + "\r\n" + "</head>\r\n" + "<body>\r\n" + "Dear USERNAME<br> <br>\r\n"
                 + "\r\n"
-                + "Thank you for choosing \"Finvendor Corp.\" as your preferred investment partner.<br><br>\r\n"
+                + "Thank you for choosing <a href=\"www.finvendor.com\">Finvendor</a> as your preferred investment partner.<br><br>\r\n"
                 + "\r\n" + "Alert on stock as on PRICEDATE<br><br>";
         String tableContentTemplate = "<table class=\"myTable\">\r\n" + "	<tr>\r\n"
                 + "		<th>Company name</th>\r\n" + "		<th>Alert triggered</th>\r\n"
@@ -99,20 +109,26 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
                 + "In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.<br><br>\r\n"
                 + "Thank you once again for setting price alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n"
                 + "<br><br>\r\n" + "\r\n" + "Assuring you the best of services.\r\n" + "<br><br>\r\n"
-                + "Regards<br>\r\n" + "Finvendor Corp.<br><br>\r\n" + "</body>\r\n" + "</html>";
+                + "Regards<br>\r\n" + "<a href=\"www.finvendor.com\">Finvendor</a> <br><br>\r\n" + "</body>\r\n" + "</html>";
         final String userName = dto.getUserName();
         final String priceDate = dto.getPriceDate();
         final String companyName = dto.getCompanyName();
 
-        final String yesterDayPrice = String.valueOf(dto.getYesterdayCmp());
-        final String todayPrice = String.valueOf(dto.getTodaysCmp());
+        String yesterDayPrice = String.valueOf(dto.getYesterdayCmp());
+        String todayPrice = String.valueOf(dto.getTodaysCmp());
         final String todayPriceInPercentage = dto.getTodaysCmpInPercentage();
 
-        final String weeklyPrice = String.valueOf(dto.getLastWeekCmp());
+        String weeklyPrice = String.valueOf(dto.getLastWeekCmp());
         final String lastWeekPriceInPercentage = dto.getLastWeekCmpInPercentage();
 
-        final String monthlyPrice = String.valueOf(dto.getLastMonthCmp());
+        String monthlyPrice = String.valueOf(dto.getLastMonthCmp());
         final String lastMonthPriceInPercentage = dto.getLastMonthCmpInPercentage();
+
+        //Set - (hyphen) if price is 0.0
+        todayPrice = "0.0".equals(todayPrice.trim()) ? "-" : todayPrice;
+        yesterDayPrice = "0.0".equals(yesterDayPrice.trim()) ? "-" : yesterDayPrice;
+        weeklyPrice = "0.0".equals(weeklyPrice.trim()) ? "-" : weeklyPrice;
+        monthlyPrice = "0.0".equals(monthlyPrice.trim()) ? "-" : monthlyPrice;
 
         String dayTableContent = "";
         if (!"NA".equals(dto.getTodaysCmpInPercentage())) {
@@ -171,8 +187,10 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
         if (!notTimeFrameTableContent.isEmpty()) {
             tableSb.append(notTimeFrameTableContent).append("\r\n");
         }
-        final String tableContent = tableSb.toString();
-
+        String tableContent = tableSb.toString();
+        if (tableContent.isEmpty()) {
+            tableContent="NA";
+        }
         String footerContent = footerContentTemplate;
         footerContent = StringUtils.replace(footerContent, "COMPANYNAME", companyName);
 
@@ -203,7 +221,7 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
                     + "  color: white; \r\n" + "  }\r\n" + ".myTable td, \r\n" + ".myTable th { \r\n"
                     + "  padding: 10px;\r\n" + "  border: 1px solid mediumaquamarine; \r\n" + "  }\r\n" + "</style>\r\n"
                     + "\r\n" + "</head>\r\n" + "<body>\r\n" + "Dear USERNAME<br> <br>\r\n" + "\r\n"
-                    + "Thank you for choosing \"Finvendor Corp.\" as your preferred investment partner.<br><br>\r\n"
+                    + "Thank you for choosing <a href=\"www.finvendor.com\">Finvendor</a> as your preferred investment partner.<br><br>\r\n"
                     + "\r\n" + "Alert on stock research report<br><br>\r\n" + "<!-- HTML -->\r\n"
                     + "<table class=\"myTable\">\r\n" + "	<tr>\r\n" + "		<th>Company name</th>\r\n"
                     + "		<th>Report alert triggered</th>\r\n" + "	</tr>\r\n" + "	<tr>\r\n"
@@ -214,7 +232,7 @@ public class WebConsumerPriceAlertMailImpl implements IWebConsumerPriceAlertMail
                     + "In case of any further queries or any assistance feel free to write us mail at sales@finvendor.com	 or contact our Customer support.\r\n"
                     + "Thank you once again for setting research report alert for company COMPANYNAME and look forward to be rewarding and continued relationship.\r\n"
                     + "<br><br>\r\n" + "\r\n" + "Assuring you the best of services.\r\n" + "<br><br>\r\n"
-                    + "Regards<br>\r\n" + "Finvendor Corp.<br><br>\r\n" + "</body>\r\n" + "</html>";
+                    + "Regards<br>\r\n" + "<a href=\"www.finvendor.com\">Finvendor</a><br><br>\r\n" + "</body>\r\n" + "</html>";
 
             mailContent = StringUtils.replace(mailContent, "USERNAME", userName);
             mailContent = StringUtils.replace(mailContent, "COMPANYNAME", companyName);
