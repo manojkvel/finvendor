@@ -372,7 +372,7 @@ jQuery(document).ready(function() {
 	var getReport = function(e) {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchPdfReport', 'Equity Search Report Click', 'Equity Search Report');
+			sendGAevents('Equity Research', 'Report Click', 'Report');
 
 			var vendorName = $(this).attr("data-vendor");
 			var productId = $(this).parents('tr').attr('data-id');
@@ -563,7 +563,7 @@ jQuery(document).ready(function() {
 	var getGeoData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByGeo', 'Filter by Geo onClick', 'Filter by Geo');
+			sendGAevents('Equity Research', 'Filter by Geo onClick', 'Filter by Geo');
 
 			localEquitySearchJson.geo = $("input[name=geography_type]:checked").attr('data-value');
 			
@@ -626,7 +626,7 @@ jQuery(document).ready(function() {
 	var getMarketCapitalData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByMarketCapital', 'Filter by MarketCapital onClick', 'Filter by MarketCapital');
+			sendGAevents('Equity Research', 'Filter by MarketCapital onClick', 'Filter by MarketCapital');
 
 			addRemoveItemFromArray(marketCapitalData, $(this).attr('data-value'));
 
@@ -705,7 +705,7 @@ jQuery(document).ready(function() {
 	var getStyleFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByStyle', 'Filter by Style onClick', 'Filter by Style');
+			sendGAevents('Equity Research', 'Filter by Style onClick', 'Filter by Style');
 
 			addRemoveItemFromArray(styleFilterData, $(this).attr('data-value'));
 
@@ -783,7 +783,7 @@ jQuery(document).ready(function() {
 	var getAnalystTypeFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByAnalystType', 'Filter by AnalystType onClick', 'Filter by AnalystType');
+			sendGAevents('Equity Research', 'Filter by AnalystType onClick', 'Filter by AnalystType');
 
 			addRemoveItemFromArray(analystTypeFilterData, $(this).attr('data-value'));
 
@@ -861,7 +861,7 @@ jQuery(document).ready(function() {
 	var getResearchBrokerFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByResearchBroker', 'Filter by ResearchBroker onClick', 'Filter by ResearchBroker');
+			sendGAevents('Equity Research', 'Filter by ResearchBroker onClick', 'Filter by ResearchBroker');
 
 			addRemoveItemFromArray(researchBrokerFilterData, $(this).attr('data-value'));
 
@@ -940,7 +940,7 @@ jQuery(document).ready(function() {
 	var getResearchDateFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByResearchDate', 'Filter by ResearchDate onClick', 'Filter by ResearchDate');
+			sendGAevents('Equity Research', 'Filter by ResearchDate onClick', 'Filter by ResearchDate');
 
 			addRemoveItemFromArray(researchDateFilterData, $(this).attr('data-value'));
 
@@ -1020,7 +1020,7 @@ jQuery(document).ready(function() {
 	var getBrokerAnalystYrOfIncorpFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByBrokerAnalystYrOfIncorp', 'Filter by BrokerAnalystYrOfIncorp onClick', 'Filter by BrokerAnalystYrOfIncorp');
+			sendGAevents('Equity Research', 'Filter by BrokerAnalystYrOfIncorp onClick', 'Filter by BrokerAnalystYrOfIncorp');
 
 			addRemoveItemFromArray(brokerAnalystYrOfIncorpFilterData, $(this).attr('data-value'));
 
@@ -1098,7 +1098,7 @@ jQuery(document).ready(function() {
 	var getBrokerRankFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByBrokerRank', 'Filter by BrokerRank onClick', 'Filter by BrokerRank');
+			sendGAevents('Equity Research', 'Filter by BrokerRank onClick', 'Filter by BrokerRank');
 
 			addRemoveItemFromArray(brokerRankFilterData, $(this).attr('data-value'));
 
@@ -1177,7 +1177,7 @@ jQuery(document).ready(function() {
 	var getRecommendationTypeData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByRecommendationType', 'Filter by RecommendationType onClick', 'Filter by RecommendationType');
+			sendGAevents('Equity Research', 'Filter by RecommendationType onClick', 'Filter by RecommendationType');
 
 			addRemoveItemFromArray(recommTypeData, $(this).attr('data-value'));
 
@@ -1257,7 +1257,7 @@ jQuery(document).ready(function() {
 	var getUpsideFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByUpside', 'Filter by Upside onClick', 'Filter by Upside');
+			sendGAevents('Equity Research', 'Filter by Upside onClick', 'Filter by Upside');
 
 			addRemoveItemFromArray(upsideFilterData, $(this).attr('data-value'));
 
@@ -1335,7 +1335,7 @@ jQuery(document).ready(function() {
 	var getOthersFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByOthers', 'Filter by Others onClick', 'Filter by Others');
+			sendGAevents('Equity Research', 'Filter by Others onClick', 'Filter by Others');
 
 			addRemoveItemFromArray(othersFilterData, $(this).attr('data-value'));
 
@@ -1415,7 +1415,7 @@ jQuery(document).ready(function() {
 	var getIndustryFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('EquitySearchByIndustry', 'Filter by Industry onClick', 'Filter by Industry');
+			sendGAevents('Equity Research', 'Filter by Industry onClick', 'Filter by Industry');
 
 			addRemoveItemFromArray(industryFilterData, $(this).attr('data-value'));
 
