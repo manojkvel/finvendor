@@ -25,4 +25,16 @@ public interface IWebMetrics {
     @RequestMapping(value = "/yearmonthdaymetrics", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getDayMetrics(String type, String year, String month, String day) throws WebApiException;
+
+    @RequestMapping(value = "/consumeranalysticsrecordstats", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getConsumerAnalyticsRecordStats(String type, String perPageMaxRecords) throws WebApiException;
+
+
+
+    @RequestMapping(value = "/consumeranalystics", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getConsumerAnalytics(String type, String pageNumber, String perPageMaxRecords) throws WebApiException;
+
+
 }

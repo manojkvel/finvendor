@@ -1,6 +1,7 @@
 package com.finvendor.server.metrics.service;
 
 import com.finvendor.common.util.JsonUtil;
+import com.finvendor.server.metrics.dao.IConsumerAnalyticsDao;
 import com.finvendor.server.metrics.dao.IMetricsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,6 +28,9 @@ public class MetricService {
     @Autowired
     @Qualifier(value = "homePageMetricsDaoImpl")
     private IMetricsDao homePageMetricsDao;
+
+    @Autowired
+    IConsumerAnalyticsDao iConsumerAnalyticsDao;
 
     @Transactional(readOnly = false)
     public void increaseCount(String userName, MetricsType metricsType, String clientIp) {
@@ -64,6 +68,36 @@ public class MetricService {
             }
             String createJsonFromObject = JsonUtil.createJsonFromObject(paramsMap);
             return createJsonFromObject;
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public String getConsumerAnalyticsRecordStats(String type, String perPageMaxRecords) throws Exception {
+        String consumerAnalyticsRecordStats = "";
+        try {
+            if (type.equals("equityResearch")) {
+                consumerAnalyticsRecordStats = iConsumerAnalyticsDao.getRecordStats(perPageMaxRecords);
+            } else {
+                throw new Exception("Other type is not supported, please provice type as \"equityResearch\"");
+            }
+            return consumerAnalyticsRecordStats;
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public String getConsumerAnalytics(String type, String pageNumber, String perPageMaxRecords) throws Exception {
+        String consumerAnalytics = "";
+        try {
+            if (type.equals("equityResearch")) {
+                consumerAnalytics = iConsumerAnalyticsDao.getConsumerAnalytics(type, pageNumber, perPageMaxRecords);
+            } else {
+                throw new Exception("Other type is not supported, please provice type as \"equityResearch\"");
+            }
+            return consumerAnalytics;
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
