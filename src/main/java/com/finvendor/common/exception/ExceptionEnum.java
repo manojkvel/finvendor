@@ -32,7 +32,8 @@ public enum ExceptionEnum {
 	REQUEST_METRICS("FV0021", "Internal error - Unable to get metrics, Please contact Finvendor admin for support!!"),
 	REQUEST_ANALYST_TYPE("FV0022", "Internal error - Unable to get Analyst Type, Please contact Finvendor admin for support!!"),
 	REQUEST_UPDATE_ANALYST_TYPE("FV0022", "Internal error - Unable to update Analyst Type, Please contact Finvendor admin for support!!"),
-	CONSUMER_ANALYTICS_EQTY_RESEARCH("FV0023", "Internal error - Unable to get Consumer Analytics for Equity Research type, Please contact Finvendor admin for support!!")
+	CONSUMER_ANALYTICS_EQTY_RESEARCH("FV0023", "Internal error - Unable to get Consumer Analytics for Equity Research type, Please contact Finvendor admin for support!!"),
+	CONSUMER_ANALYTICS_DOWNLOAD("FV0024", "Internal error - Unable to download Consumer Analytics for Equity Research type, Please contact Finvendor admin for support!!")
 	
 	;
 	

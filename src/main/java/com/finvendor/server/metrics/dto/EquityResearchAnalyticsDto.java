@@ -4,44 +4,23 @@ import java.util.Objects;
 
 public class EquityResearchAnalyticsDto extends ConsumerAnalytics {
     /**Research Report filter count*/
-    private String rfCount;
-    private String rfBreach;
+    private String hitCount;
+    private String breachFlag;
 
-
-    /**Research Report Download filter count*/
-    private String dCount;
-    private String dBreach;
-
-    public String getRfCount() {
-        return rfCount;
+    public String getHitCount() {
+        return hitCount;
     }
 
-    public void setRfCount(String rfCount) {
-        this.rfCount = rfCount;
+    public void setHitCount(String hitCount) {
+        this.hitCount = hitCount;
     }
 
-    public String getdCount() {
-        return dCount;
+    public String getBreachFlag() {
+        return breachFlag;
     }
 
-    public void setdCount(String dCount) {
-        this.dCount = dCount;
-    }
-
-    public String getRfBreach() {
-        return rfBreach;
-    }
-
-    public void setRfBreach(String rfBreach) {
-        this.rfBreach = rfBreach;
-    }
-
-    public String getdBreach() {
-        return dBreach;
-    }
-
-    public void setdBreach(String dBreach) {
-        this.dBreach = dBreach;
+    public void setBreachFlag(String breachFlag) {
+        this.breachFlag = breachFlag;
     }
 
     @Override
@@ -50,24 +29,20 @@ public class EquityResearchAnalyticsDto extends ConsumerAnalytics {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         EquityResearchAnalyticsDto that = (EquityResearchAnalyticsDto) o;
-        return Objects.equals(rfCount, that.rfCount) &&
-                Objects.equals(rfBreach, that.rfBreach) &&
-                Objects.equals(dCount, that.dCount) &&
-                Objects.equals(dBreach, that.dBreach);
+        return Objects.equals(hitCount, that.hitCount) &&
+                Objects.equals(breachFlag, that.breachFlag);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), rfCount, rfBreach, dCount, dBreach);
+        return Objects.hash(super.hashCode(), hitCount, breachFlag);
     }
 
     @Override
     public String toString() {
         return "EquityResearchAnalyticsDto{" +
-                "rfCount='" + rfCount + '\'' +
-                ", rfBreach='" + rfBreach + '\'' +
-                ", dCount='" + dCount + '\'' +
-                ", dBreach='" + dBreach + '\'' +
+                "hitCount='" + hitCount + '\'' +
+                ", breachFlag='" + breachFlag + '\'' +
                 ", userName='" + userName + '\'' +
                 ", registrationDate='" + registrationDate + '\'' +
                 ", lastLogin='" + lastLogin + '\'' +

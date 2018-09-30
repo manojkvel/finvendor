@@ -1,6 +1,8 @@
 package com.finvendor.serverwebapi.resources.metrics.impl;
 
 import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.common.util.Pair;
+import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.server.metrics.service.MetricService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.metrics.IWebMetrics;
@@ -10,10 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import static com.finvendor.common.exception.ExceptionEnum.CONSUMER_ANALYTICS_EQTY_RESEARCH;
-import static com.finvendor.common.exception.ExceptionEnum.REQUEST_METRICS;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+
+import static com.finvendor.common.exception.ExceptionEnum.*;
 
 @Controller
 public class WebMetricsImpl implements IWebMetrics {
@@ -54,9 +60,20 @@ public class WebMetricsImpl implements IWebMetrics {
     }
 
     @Override
-    public ResponseEntity<?> getConsumerAnalyticsRecordStats(@RequestParam(value = "type") String type,@RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) throws WebApiException {
+    public ResponseEntity<?> getConsumerAnalyticsRecordStats(@RequestParam(value = "type") String type,
+                                                             @RequestParam(value = "subType") String subType,
+                                                             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) throws WebApiException {
         try {
-            String consumerAnalyticsRecordStats = metricsService.getConsumerAnalyticsRecordStats(type, perPageMaxRecords);
+            if (!("equity".equals(type))) {
+                throw new Exception("type QueryParam should be equity");
+            }
+
+            if (!("rf".equals(subType) || "d".equals(subType))) {
+                throw new Exception("subType QueryParam should be either rf|d");
+            }
+
+            String consumerAnalyticsRecordStats = metricsService.getConsumerAnalyticsRecordStats(type, subType, perPageMaxRecords);
+
             return new ResponseEntity<>(consumerAnalyticsRecordStats, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while getting ConsumerAnalytics, error - ", e);
@@ -66,14 +83,56 @@ public class WebMetricsImpl implements IWebMetrics {
 
     @Override
     public ResponseEntity<?> getConsumerAnalytics(@RequestParam(value = "type") String type,
+                                                  @RequestParam(value = "subType") String subType,
                                                   @RequestParam(value = "pageNumber") String pageNumber,
-                                                  @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) throws WebApiException {
+                                                  @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
+                                                  @RequestParam(value = "breachFlag", required = false) String breachFlag) throws WebApiException {
         try {
-            String consumerAnalytics = metricsService.getConsumerAnalytics(type, pageNumber, perPageMaxRecords);
+            if (!("equity".equals(type))) {
+                throw new Exception("type QueryParam should be equity");
+            }
+
+            if (!("rf".equals(subType) || "d".equals(subType))) {
+                throw new Exception("subType QueryParam should be either rf|d");
+            }
+
+            if (breachFlag != null && (!(breachFlag.equals("Y") || breachFlag.equals("N")))) {
+                throw new Exception("If breachFlag is part of QueryParam then value should be either Y|N");
+            }
+
+            String consumerAnalytics = metricsService.getConsumerAnalytics(type, subType, pageNumber, perPageMaxRecords, breachFlag);
             return new ResponseEntity<>(consumerAnalytics, HttpStatus.OK);
+
         } catch (Exception e) {
             logger.error("Error has occurred while getting ConsumerAnalytics, error - ", e);
             return ErrorUtil.getError(CONSUMER_ANALYTICS_EQTY_RESEARCH.getCode(), CONSUMER_ANALYTICS_EQTY_RESEARCH.getUserMessage(), e);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> downloadConsumerAnalytics(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "type") String type,
+                                                       @RequestParam(value = "subType") String subType) throws WebApiException {
+        try {
+            if (!("equity".equals(type))) {
+                throw new Exception("type QueryParam should be equity");
+            }
+
+            if (!("rf".equals(subType) || "d".equals(subType))) {
+                throw new Exception("subType QueryParam should be either rf|d");
+            }
+
+            final Pair<Long, InputStream> download = metricsService.downloadConsumerAnalytics(type, subType);
+            if (download == null || download.getElement2() == null) {
+                throw new Exception("Unable to download Customer Analytics Report");
+            }
+            response.setHeader("Content-Disposition", "attachment; filename=" + "ConsumerAnalyticsReport.csv");
+            response.setHeader("Content-Length", String.valueOf(download.getElement1()));
+            FileCopyUtils.copy(download.getElement2(), response.getOutputStream());
+            final StatusPojo statusPojo = new StatusPojo("true", "Consumer Analytics report downloaded successfully.");
+            return new ResponseEntity<>(statusPojo, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("WebMetricsImpl -> downloadConsumerAnalytics(...) method", e);
+            return ErrorUtil.getError(CONSUMER_ANALYTICS_DOWNLOAD.getCode(), CONSUMER_ANALYTICS_DOWNLOAD.getUserMessage(), e);
         }
     }
 }
