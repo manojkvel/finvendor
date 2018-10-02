@@ -1369,6 +1369,30 @@ button {
 	overflow: hidden;
 }
 
+#consumer_analytics .tab-pane {
+	background: #fff;
+}
+
+#consumer_analytics .nav-tabs>li {
+	float: none;
+}
+
+#consumer_analytics .nav-tabs>li>a {
+	border-radius: 0;
+}
+
+#consumer_analytics .nav-tabs>li.active>a, 
+#consumer_analytics .nav-tabs>li.active>a:focus, 
+#consumer_analytics .nav-tabs>li.active>a:hover {
+	background: #34bf98;
+}
+
+#consumer_analytics .nav-tabs>li>a,
+#consumer_analytics .nav-tabs>li>a:hover {
+	font-size: 13px;
+	border: 0;	
+}
+
 /*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {

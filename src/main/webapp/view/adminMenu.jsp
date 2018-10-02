@@ -40,6 +40,20 @@
 	<div class="inner-sidebar-wrap">
 		<div class="sidebar-ctn-wrap cnt-ctn-wrap">
  				<div class="head">
+   				<h3>User Analytics</h3>
+ 				</div>
+ 				<div class="content" id="sidelinksAdmin">
+  	 				<ul>
+			    	<li data-div-id="consumer_analytics"><a href="#">Consumer Analytics</a>
+						<ul id="consumer_analytics_ul">
+							<li data-div-id="consumer_analytics_equity"><a href="/view/consumer-analytics-equity.jsp">Equity Research</a></li>
+						</ul>
+			      	</li>
+			      	</ul>
+			    </div>
+		</div>
+		<div class="sidebar-ctn-wrap cnt-ctn-wrap">
+ 				<div class="head">
    				<h3>Reference Data</h3>
  				</div>
  				<div class="content" id="sidelinksAdmin">
@@ -96,6 +110,7 @@
 	<div class="clearfix"></div>
 
 <script>
+	$('#consumer_analytics_ul').slideUp();
 	$('#ASSET_ul').slideUp();
 	$('#GEOGRAPHICAL_ul').slideUp();
 	$('#OTHER_ul').slideUp();
