@@ -420,23 +420,6 @@ public class ResearchReportUtil {
         return sinceWithYrOfInCorpPair;
     }
 
-    /**
-     * Pagination Algorithm ~~~~~~~~~~~~~~~~~~~~~ IF maxRecordCountPerPage=2
-     * THEN IF pageNumber=1 THEN offset=(pageNumber - 1) * maxRecordCountPerPage
-     * //0
-     * <p>
-     * IF pageNumber=2 THEN offset=(pageNumber - 1) * maxRecordCountPerPage //2
-     * <p>
-     * IF pageNumber=3 THEN offset=(pageNumber - 1) * maxRecordCountPerPage //4
-     * ENDIF ------- ------- ENDIF
-     **/
-    public static String applyPagination(String pageNumber, String perPageMaxRecords) {
-        int pageNumberAsInt = Integer.parseInt(pageNumber);
-        int maxRecordCountPerPageAsLimit = Integer.parseInt(perPageMaxRecords);
-        int offset = (pageNumberAsInt - 1) * maxRecordCountPerPageAsLimit;
-        return " limit " + maxRecordCountPerPageAsLimit + " offset " + offset;
-    }
-
     private static String convertCamelCase(String str) {
         String replace = StringUtils.replace(str, " ", "");
         replace = replace.substring(0, 1).toLowerCase() + replace.substring(1);

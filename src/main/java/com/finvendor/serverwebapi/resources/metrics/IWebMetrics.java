@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RequestMapping(WebUriConstants.BASE_URI)
 public interface IWebMetrics {
 
@@ -25,4 +28,21 @@ public interface IWebMetrics {
     @RequestMapping(value = "/yearmonthdaymetrics", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getDayMetrics(String type, String year, String month, String day) throws WebApiException;
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //
+    // ~~~~~~~        Consumer Analytics API     ~~~~~~~~
+    //
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    @RequestMapping(value = "/consumeranalystics/recordstats", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getConsumerAnalyticsRecordStats(String type, String subType, String perPageMaxRecords) throws WebApiException;
+
+    @RequestMapping(value = "/consumeranalystics", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> getConsumerAnalytics(String type, String subType, String pageNumber, String perPageMaxRecords, String breachFlag) throws WebApiException;
+
+    @RequestMapping(value = "/consumeranalystics/download", method = RequestMethod.GET)
+    @ResponseBody
+    ResponseEntity<?> downloadConsumerAnalytics(HttpServletRequest request, HttpServletResponse response, String type, String subType) throws WebApiException;
 }

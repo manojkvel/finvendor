@@ -1,12 +1,15 @@
 package com.finvendor.server.metrics.service;
 
 import com.finvendor.common.util.JsonUtil;
+import com.finvendor.common.util.Pair;
+import com.finvendor.server.metrics.dao.IConsumerAnalyticsDao;
 import com.finvendor.server.metrics.dao.IMetricsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -27,6 +30,9 @@ public class MetricService {
     @Autowired
     @Qualifier(value = "homePageMetricsDaoImpl")
     private IMetricsDao homePageMetricsDao;
+
+    @Autowired
+    IConsumerAnalyticsDao iConsumerAnalyticsDao;
 
     @Transactional(readOnly = false)
     public void increaseCount(String userName, MetricsType metricsType, String clientIp) {
@@ -64,6 +70,47 @@ public class MetricService {
             }
             String createJsonFromObject = JsonUtil.createJsonFromObject(paramsMap);
             return createJsonFromObject;
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public String getConsumerAnalyticsRecordStats(String type, String subType, String perPageMaxRecords) throws Exception {
+        String consumerAnalyticsRecordStats = "";
+        try {
+            if (type.equals("equityResearch")) {
+                consumerAnalyticsRecordStats = iConsumerAnalyticsDao.getRecordStats(type, subType, perPageMaxRecords);
+            } else {
+                throw new Exception("Other type is not supported, please provice type as \"equityResearch\"");
+            }
+            return consumerAnalyticsRecordStats;
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public String getConsumerAnalytics(String type, String subType, String pageNumber, String perPageMaxRecords,String breachFlag) throws Exception {
+        String consumerAnalytics = "";
+        try {
+            if (type.equals("equity")) {
+                consumerAnalytics = iConsumerAnalyticsDao.getConsumerAnalytics(type, subType, pageNumber, perPageMaxRecords, breachFlag);
+            }
+            return consumerAnalytics;
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Pair<Long, InputStream> downloadConsumerAnalytics(String type, String subType) throws Exception {
+        Pair<Long, InputStream> customerAnalyticsDownloadData = null;
+        try {
+            if (type.equals("equity")) {
+                customerAnalyticsDownloadData = iConsumerAnalyticsDao.downloadConsumerAnalytics(type, subType);
+            }
+            return customerAnalyticsDownloadData;
         } catch (RuntimeException e) {
             throw new Exception(e);
         }

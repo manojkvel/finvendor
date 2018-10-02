@@ -1,5 +1,6 @@
 package com.finvendor.server.researchreport.dao.impl;
 
+import com.finvendor.common.util.CommonUtil;
 import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.server.common.commondao.ICommonDao;
@@ -47,18 +48,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
             int totalRecords = rows.size();
 
             // Calculate Last page number
-            long lastPageNumber = 0;
-            long maxRecordCountPerPage = Integer.parseInt(perPageMaxRecords);
-            if (maxRecordCountPerPage <= totalRecords) {
-                long remainder = totalRecords % maxRecordCountPerPage;
-                if (remainder == 0) {
-                    lastPageNumber = totalRecords / maxRecordCountPerPage;
-                } else {
-                    lastPageNumber = (totalRecords / maxRecordCountPerPage) + 1;
-                }
-            } else {
-                lastPageNumber = 1;
-            }
+            long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
 
             // Prepare Json result
             Map<String, Object> paramsMap = new LinkedHashMap<>();
@@ -96,7 +86,7 @@ public class EquityResearchDaoImpl implements IResearchReportDao {
             String applyOrderBy = ResearchReportUtil.applyOrderBy(sortBy, orderBy);
 
             // Apply Pagination
-            String applyPagination = ResearchReportUtil.applyPagination(pageNumber, perPageMaxRecords);
+            String applyPagination = CommonUtil.applyPagination(pageNumber, perPageMaxRecords);
 
             // Prepare final query
             String finalMainQuery = queryWithAppliedFilter + applyOrderBy + applyPagination;

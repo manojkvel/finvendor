@@ -14,7 +14,7 @@ import java.util.Map;
 @Service
 public class CsvFileParser extends AbstractFileParser {
     @Override
-    public Map parse(String fileName) throws Exception {
+    public Map<String, StockPrice> parse(String fileName) throws Exception {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
