@@ -293,7 +293,7 @@ jQuery(document).ready(function() {
 	function loadDefaultEquityList(jsonData, perPageMaxRecords) {
 		isProgressLoader(true);
 
-		getRecordStats("equity", jsonData, perPageMaxRecords).then(function(stats) {
+		getRecordStats("equity", "d", jsonData, perPageMaxRecords).then(function(stats) {
 			stats = JSON.parse(stats);
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
@@ -329,6 +329,9 @@ jQuery(document).ready(function() {
 	};
 	$('#sidebar-panel .sidebar-heading span').on('click', resetFilters);
 
+
+	loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
+
 	function getResearchReport(jsonData, researchType, pageNumber) {
 
 		var url = "/system/api/researchReports?type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
@@ -362,15 +365,15 @@ jQuery(document).ready(function() {
 	/**
      * Function to start async call to get record stats
      */
-	function getRecordStats(researchType, jsonData, perPageMaxRecords) {
-		var url = "/system/api/researchReports/recordStats?type=" + researchType + "&perPageMaxRecords=" + perPageMaxRecords;
+	function getRecordStats(researchType, subType, jsonData, perPageMaxRecords) {
+		var url = "/system/api/consumeranalystics/recordstats?type=" + researchType + "&subType=" + subType + "&perPageMaxRecords=" + perPageMaxRecords;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
 			});
 
 			httpRequest.timeout = API_TIMEOUT_SMALL;
-			httpRequest.open('POST', url, true);
+			httpRequest.open('GET', url, true);
             httpRequest.setRequestHeader('Content-Type',
                 'application/json; charset=UTF-8');
 			httpRequest.ontimeout = function () {
@@ -390,5 +393,5 @@ jQuery(document).ready(function() {
 
 			httpRequest.send(JSON.stringify(jsonData));
 		});
-	};
-}):
+	}
+});
