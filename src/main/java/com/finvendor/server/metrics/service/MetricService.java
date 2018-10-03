@@ -79,10 +79,8 @@ public class MetricService {
     public String getConsumerAnalyticsRecordStats(String type, String subType, String perPageMaxRecords) throws Exception {
         String consumerAnalyticsRecordStats = "";
         try {
-            if (type.equals("equityResearch")) {
+            if ("equity".equals(type)) {
                 consumerAnalyticsRecordStats = iConsumerAnalyticsDao.getRecordStats(type, subType, perPageMaxRecords);
-            } else {
-                throw new Exception("Other type is not supported, please provice type as \"equityResearch\"");
             }
             return consumerAnalyticsRecordStats;
         } catch (RuntimeException e) {
@@ -94,7 +92,7 @@ public class MetricService {
     public String getConsumerAnalytics(String type, String subType, String pageNumber, String perPageMaxRecords,String breachFlag) throws Exception {
         String consumerAnalytics = "";
         try {
-            if (type.equals("equity")) {
+            if ("equity".equals(type)) {
                 consumerAnalytics = iConsumerAnalyticsDao.getConsumerAnalytics(type, subType, pageNumber, perPageMaxRecords, breachFlag);
             }
             return consumerAnalytics;
@@ -107,7 +105,7 @@ public class MetricService {
     public Pair<Long, InputStream> downloadConsumerAnalytics(String type, String subType) throws Exception {
         Pair<Long, InputStream> customerAnalyticsDownloadData = null;
         try {
-            if (type.equals("equity")) {
+            if ("equity".equals(type)) {
                 customerAnalyticsDownloadData = iConsumerAnalyticsDao.downloadConsumerAnalytics(type, subType);
             }
             return customerAnalyticsDownloadData;
