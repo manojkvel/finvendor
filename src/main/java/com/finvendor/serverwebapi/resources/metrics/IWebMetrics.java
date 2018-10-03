@@ -34,15 +34,15 @@ public interface IWebMetrics {
     // ~~~~~~~        Consumer Analytics API     ~~~~~~~~
     //
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    @RequestMapping(value = "/consumeranalystics/recordstats", method = RequestMethod.GET)
+    @RequestMapping(value = "/consumeranalytics/recordstats", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getConsumerAnalyticsRecordStats(String type, String subType, String perPageMaxRecords) throws WebApiException;
 
-    @RequestMapping(value = "/consumeranalystics", method = RequestMethod.GET)
+    @RequestMapping(value = "/consumeranalytics", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> getConsumerAnalytics(String type, String subType, String pageNumber, String perPageMaxRecords, String breachFlag) throws WebApiException;
 
-    @RequestMapping(value = "/consumeranalystics/download", method = RequestMethod.GET)
+    @RequestMapping(value = "/consumeranalstics/download", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> downloadConsumerAnalytics(HttpServletRequest request, HttpServletResponse response, String type, String subType) throws WebApiException;
 }
