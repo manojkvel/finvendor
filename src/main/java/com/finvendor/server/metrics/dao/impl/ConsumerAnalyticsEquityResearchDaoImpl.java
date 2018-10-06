@@ -27,13 +27,13 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
      * RF-Research Filter
      */
     private static final String RF_COUNT_QUERY = "SELECT count(a.user_name) FROM eqty_research_report_metrics a where a.user_name != 'UNKNOWN' group by a.user_name";
-    private static final String RF_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) rf_count, if(sum(a.count)>15,'Y','N') rf_breach from eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name";
+    private static final String RF_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) rf_count, if(sum(a.count)>15,'y','n') rf_breach from eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name";
 
     /**
      * D-Report Download
      */
     private static final String D_COUNT_QUERY = "SELECT count(a.user_name) FROM download_eqty_research_report_metrics a where a.user_name != 'UNKNOWN' group by a.user_name";
-    private static final String D_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) d_count, if(sum(a.count)>8,'Y','N') d_breach from download_eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name";
+    private static final String D_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) d_count, if(sum(a.count)>8,'y','n') d_breach from download_eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name";
     public static final String NA = "NA";
 
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
