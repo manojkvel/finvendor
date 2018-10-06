@@ -86,7 +86,7 @@ public class WebMetricsImpl implements IWebMetrics {
                                                   @RequestParam(value = "subType") String subType,
                                                   @RequestParam(value = "pageNumber") String pageNumber,
                                                   @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
-                                                  @RequestParam(value = "breachFlag", required = false) String breachFlag) throws WebApiException {
+                                                  @RequestParam(value = "breachFlag") String breachFlag) throws WebApiException {
         try {
             if (!("equity".equals(type))) {
                 throw new Exception("type QueryParam should be equity");
@@ -96,8 +96,8 @@ public class WebMetricsImpl implements IWebMetrics {
                 throw new Exception("subType QueryParam should be either rf|d");
             }
 
-            if (breachFlag != null && (!(breachFlag.equals("Y") || breachFlag.equals("N")))) {
-                throw new Exception("If breachFlag is part of QueryParam then value should be either Y|N");
+            if (breachFlag != null && !("y".equals(breachFlag) || "n".equals(breachFlag) || "all".equals(breachFlag))) {
+                throw new Exception("breachFlag value should be y|n|all");
             }
 
             String consumerAnalytics = metricsService.getConsumerAnalytics(type, subType, pageNumber, perPageMaxRecords, breachFlag);
