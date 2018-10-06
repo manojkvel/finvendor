@@ -70,6 +70,11 @@ body {
 	margin:0;
 }
 
+.broker_content {
+	overflow: auto;
+	width: 100%;
+}
+
 #broker_table div {
 	padding: 3px 0;
 }
@@ -712,7 +717,7 @@ table .normal_font p {
 #research_report_content {
 	background: #fff;
 	padding: 0;
-	overflow: auto;
+	overflow: hidden;
 	min-height: 400px;
 	margin-bottom: 10px;
 	position: relative;
@@ -1369,8 +1374,15 @@ button {
 	overflow: hidden;
 }
 
+#consumer_analytics .analytics_content {
+	overflow: auto;
+	width: 100%;
+}
+
 #consumer_analytics .tab-pane {
 	background: #fff;
+	padding: 20px 0;
+	overflow: auto;
 }
 
 #consumer_analytics .nav-tabs>li {

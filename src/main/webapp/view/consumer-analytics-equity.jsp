@@ -44,58 +44,71 @@
 								<div class="content-panel">
 									<div class="tab-content">
 										<div id="d_breach_tab" class="tab-pane fade in active">
-											
-											<div class="max_per_page">
-												<span>Records Per Page </span>
-												<select>
-													<option value='5'>5</option>
-													<option value='10'>10</option>
-													<option value='30'>30</option>
-													<option value='50'>50</option>
-													<option value='100'>100</option>
-												</select>
+											<div class="breach_hd">
+												<div class="breach_level" style="float: left;">
+													<span>Breach Level </span>
+													<select style="width: 40px;margin-left: 5px;">
+														<option value='All'>All</option>
+														<option value='Y'>Y</option>
+														<option value='N'>N</option>
+													</select>
+												</div>
+												<div class="max_per_page">
 
-												<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+
+													<span>Records Per Page </span>
+													<select>
+														<option value='5'>5</option>
+														<option value='10'>10</option>
+														<option value='30'>30</option>
+														<option value='50'>50</option>
+														<option value='100'>100</option>
+													</select>
+
+													<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+												</div>
 											</div>
-											<table id='equity_analytics_table'>
-												<thead>
-													<tr>
-														<th style="width:20%;">
-															<p class="large_font">
-																<a href="javascript:void(0)" data-id="user_id">User ID <i class="fa fa-sort"></i></a>
-															</p>
-														</th>
-														<th style="width:20%;">
-															<p class="large_font">
-																<a href="javascript:void(0)" data-id="regist_date">Regis. Date <i class="fa fa-sort"></i></a>
-															</p>
-														</th>
-														<th style="width:15%;">
-															<p class="large_font">
-																<a href="javascript:void(0)" data-id="last_login">Last Login <i class="fa fa-sort"></i></a>
-															</p>
-														</th>
-														<th style="width:15%;">
+											<div class="analytics_content">
+												<table id='equity_analytics_table'>
+													<thead>
+														<tr>
+															<th style="width:20%;">
+																<p class="large_font">
+																	<a href="javascript:void(0)" data-id="user_id">User ID <i class="fa fa-sort"></i></a>
+																</p>
+															</th>
+															<th style="width:20%;">
+																<p class="large_font">
+																	<a href="javascript:void(0)" data-id="regist_date">Regis. Date <i class="fa fa-sort"></i></a>
+																</p>
+															</th>
+															<th style="width:15%;">
+																<p class="large_font">
+																	<a href="javascript:void(0)" data-id="last_login">Last Login <i class="fa fa-sort"></i></a>
+																</p>
+															</th>
+															<th style="width:15%;">
 
-															<p class="large_font">
-																<a href="javascript:void(0)" data-id="ip_address">IP Address <i class="fa fa-sort"></i></a>
-															</p>
-														</th>
-														<th style="width:15%;">
-															<p class="large_font">
-																<a href="javascript:void(0)" data-id="recommType">Report Download(D Count) <i class="fa fa-sort"></i></a>
-															</p>
-														</th>
-														<th style="width:15%;">
-															<p class="large_font">
-																<a href="javascript:void(0)" data-id="report">D Breach <i class="fa fa-sort"></i></a>
-															</p>
-														</th>
-													</tr>
-												</thead>
-												<tbody>	
-												</tbody>
-											</table>
+																<p class="large_font">
+																	<a href="javascript:void(0)" data-id="ip_address">IP Address <i class="fa fa-sort"></i></a>
+																</p>
+															</th>
+															<th style="width:15%;">
+																<p class="large_font">
+																	<a href="javascript:void(0)" data-id="recommType">Report Download(D Count) <i class="fa fa-sort"></i></a>
+																</p>
+															</th>
+															<th style="width:15%;">
+																<p class="large_font">
+																	<a href="javascript:void(0)" data-id="report">D Breach <i class="fa fa-sort"></i></a>
+																</p>
+															</th>
+														</tr>
+													</thead>
+													<tbody>	
+													</tbody>
+												</table>
+											</div>
 											<div id='progressLoader'>
 												<jsp:include page="common/progressLoader.jsp"></jsp:include>
 											</div>

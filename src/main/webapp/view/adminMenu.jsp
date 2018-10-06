@@ -4,6 +4,19 @@
 <%@taglib uri="/WEB-INF/finvendor.tld" prefix="finven"%>
 <%@taglib uri="http://jakarta.apache.org/taglibs/unstandard-1.0" prefix="un"%>
 <un:useConstants className="com.finvendor.util.RequestConstans" var="requestConstants"/>
+
+</!DOCTYPE html>
+<html>
+<head>
+<title>Equity Research Analytics - Finvendor</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta name="description" content="" />
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="author" content="" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+</head>
+<body>
 <script>
 	(function( $ ) {									
 		$( document ).ready(function() {					
@@ -126,3 +139,5 @@
 	 </c:choose>
 	$('#${nav}_ul').slideDown();			
 </script>
+</body>
+</html>

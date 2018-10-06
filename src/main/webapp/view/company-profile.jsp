@@ -275,96 +275,98 @@
 
 											<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
 										</div>
-										<table id='broker_table'>
-											<thead>
-												<tr>
-													<th style="width:20%;">
-														<p class="large_font">
-															<a href="javascript:void(0)" data-id="company">Company <i class="fa fa-sort"></i></a>
-														</p>
-														<p class="small_font">
-															Style
-														</p>
-														<p class="small_font">
-															Market Capitalisation
-														</p>
-														<p class="small_font">
-															Industry
-														</p>
-													</th>
-													<th style="width:20%;">
-														<p class="large_font">
-															<a href="javascript:void(0)" data-id="broker">Broker <i class="fa fa-sort"></i></a>
-														</p>
-														<p class="small_font">
-															Since
-														</p>
-														<p class="small_font">
-															Awarded
-														</p>
-														<p class="small_font">
-															Researched by CFA
-														</p>
-													</th>
-													<th style="width:15%;">
-														<p class="large_font" style="font-size: 16px;">
-															Broker Rank
-														</p>
-														<p class="small_font">
-															Large Cap
-														</p>
-														<p class="small_font">
-															Mid Cap
-														</p>
-														<p class="small_font">
-															Small Cap
-														</p>
-													</th>
-													<th style="width:15%;">
+										<div class="broker_content">
+											<table id='broker_table'>
+												<thead>
+													<tr>
+														<th style="width:20%;">
+															<p class="large_font">
+																<a href="javascript:void(0)" data-id="company">Company <i class="fa fa-sort"></i></a>
+															</p>
+															<p class="small_font">
+																Style
+															</p>
+															<p class="small_font">
+																Market Capitalisation
+															</p>
+															<p class="small_font">
+																Industry
+															</p>
+														</th>
+														<th style="width:20%;">
+															<p class="large_font">
+																<a href="javascript:void(0)" data-id="broker">Broker <i class="fa fa-sort"></i></a>
+															</p>
+															<p class="small_font">
+																Since
+															</p>
+															<p class="small_font">
+																Awarded
+															</p>
+															<p class="small_font">
+																Researched by CFA
+															</p>
+														</th>
+														<th style="width:15%;">
+															<p class="large_font" style="font-size: 16px;">
+																Broker Rank
+															</p>
+															<p class="small_font">
+																Large Cap
+															</p>
+															<p class="small_font">
+																Mid Cap
+															</p>
+															<p class="small_font">
+																Small Cap
+															</p>
+														</th>
+														<th style="width:15%;">
 
-														<p class="large_font">
-															<a href="javascript:void(0)" data-id="cmp">CMP <i class="fa fa-sort"></i></a>
-														</p>
-														<p class="small_font">
-															Price Date
-														</p>
-														<p class="small_font">
-															P/E
-														</p>
-														<p class="small_font">
-															3 YR EPS Growth
-														</p>
-													</th>
-													<th style="width:15%;">
-														<p class="large_font">
-															<a href="javascript:void(0)" data-id="recommType">Recommendation Type <i class="fa fa-sort"></i></a>
-														</p>
-														<p class="small_font">
-															Target Price
-														</p>
-														<p class="small_font">
-															Price@Recomm
-														</p>
-														<p class="small_font">
-															Upside Potential
-														</p>
-													</th>
-													<th style="width:15%;">
-														<p class="large_font">
-															<a href="javascript:void(0)" data-id="report">Report <i class="fa fa-sort"></i></a>
-														</p>
-														<p class="small_font">
-															Research Date
-														</p>
-														<p class="small_font">
-															Analyst Name
-														</p>
-													</th>
-												</tr>
-											</thead>
-											<tbody>	
-											</tbody>
-										</table>
+															<p class="large_font">
+																<a href="javascript:void(0)" data-id="cmp">CMP <i class="fa fa-sort"></i></a>
+															</p>
+															<p class="small_font">
+																Price Date
+															</p>
+															<p class="small_font">
+																P/E
+															</p>
+															<p class="small_font">
+																3 YR EPS Growth
+															</p>
+														</th>
+														<th style="width:15%;">
+															<p class="large_font">
+																<a href="javascript:void(0)" data-id="recommType">Recommendation Type <i class="fa fa-sort"></i></a>
+															</p>
+															<p class="small_font">
+																Target Price
+															</p>
+															<p class="small_font">
+																Price@Recomm
+															</p>
+															<p class="small_font">
+																Upside Potential
+															</p>
+														</th>
+														<th style="width:15%;">
+															<p class="large_font">
+																<a href="javascript:void(0)" data-id="report">Report <i class="fa fa-sort"></i></a>
+															</p>
+															<p class="small_font">
+																Research Date
+															</p>
+															<p class="small_font">
+																Analyst Name
+															</p>
+														</th>
+													</tr>
+												</thead>
+												<tbody>	
+												</tbody>
+											</table>
+										</div>
 									</div>
 									<div id="technical_content">
 									<div>
