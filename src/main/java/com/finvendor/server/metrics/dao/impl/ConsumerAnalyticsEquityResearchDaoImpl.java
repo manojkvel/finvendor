@@ -97,11 +97,11 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
                 dto.setIpAddress(ipAddress);
                 dto.setHitCount(String.valueOf((int) Float.parseFloat(hitCount)));
                 dto.setBreachFlag(breachFlagFromDB);
-                if (breachFlag == null) {
+                if ("all".equals(breachFlag)) {
                     equityResearchAnalyticsDtoList.add(dto);
-                } else if ("N".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
+                } else if ("n".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
                     equityResearchAnalyticsDtoList.add(dto);
-                } else if ("Y".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
+                } else if ("y".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
                     equityResearchAnalyticsDtoList.add(dto);
                 }
             }
