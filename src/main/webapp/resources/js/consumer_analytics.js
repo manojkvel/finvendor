@@ -94,9 +94,12 @@ jQuery(document).ready(function() {
 	var lastPageNumber = 1;
 	var totalRecords = 0;
 	var currentIndex = 1;
-	var perPageMaxRecords = 5;
+	var perPageMaxRecords = 1;
 	var sortByValue = 'researchDate';
 	var orderBy = 'desc';
+	var type = 'equity';
+	var breachType = 'd';
+	var breachLevel = 'all';
 
 	var setRecordStats = function(currentIndex, lastPageNumber) {
 		if(currentIndex > lastPageNumber) {
@@ -114,21 +117,22 @@ jQuery(document).ready(function() {
 	}
 	
 	var getPerPageMaxRecords = function() {
-		if(!isLoggedInUser()) {
-			if(perPageMaxRecords !== Number($(this).val())) {
-				pageNumber = 1;
-				firstPageNumber = 1;
-				lastPageNumber = 1;
-				currentIndex = 1;
-			}
-			perPageMaxRecords = Number($(this).val());
-			// console.log("perPageMaxRecords: " + perPageMaxRecords);
-			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
-		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+		if(perPageMaxRecords !== Number($(this).val())) {
+			pageNumber = 1;
+			firstPageNumber = 1;
+			lastPageNumber = 1;
+			currentIndex = 1;
 		}
+		perPageMaxRecords = Number($(this).val());
+		loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 	}
-	$('#fv_equity_research_report_vendor_search .max_per_page select').on('change', getPerPageMaxRecords);
+	$('#consumer_analytics .max_per_page select').on('change', getPerPageMaxRecords);
+
+	var getBreachLevelStatus = function() {
+		breachLevel = $(this).val();
+		loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
+	}
+	$('#consumer_analytics .breach_level select').on('change', getBreachLevelStatus);
 	
 	var getPaginationIndex = function() {
 		var currentNode = $(this).attr('id');
@@ -144,57 +148,41 @@ jQuery(document).ready(function() {
 	}
 
 	var getFirstPageResearchReport = function(currentNumber) {
-		if(!isLoggedInUser()) {
-			if(currentNumber != firstPageNumber) {
-				pageNumber = firstPageNumber;
-				currentIndex = firstPageNumber;
-				loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
-			}
-		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+		if(currentNumber != firstPageNumber) {
+			pageNumber = firstPageNumber;
+			currentIndex = firstPageNumber;
+			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 		}
 	};
 
 	var getLastPageResearchReport = function(currentNumber) {
-		if(!isLoggedInUser()) {
-			if(currentNumber != lastPageNumber) {
-				pageNumber = lastPageNumber;
-				currentIndex = (pageNumber - 1) * perPageMaxRecords + 1;
-				loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
-			}
-		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+		if(currentNumber != lastPageNumber) {
+			pageNumber = lastPageNumber;
+			currentIndex = (pageNumber - 1) * perPageMaxRecords + 1;
+			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 		}
 	};
 
 	var getNextPageResearchReport = function(currentNumber) {
-		if(!isLoggedInUser()) {
-			if(currentNumber < lastPageNumber) {
-				pageNumber = currentNumber + 1;
-				currentIndex = currentIndex + perPageMaxRecords;
-				loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
-			}
-		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+		if(currentNumber < lastPageNumber) {
+			pageNumber = currentNumber + 1;
+			currentIndex = currentIndex + perPageMaxRecords;
+			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 		}
 	};
 
 	var getPreviousPageResearchReport = function(currentNumber) {
-		if(!isLoggedInUser()) {
-			if(currentNumber > 1) {
-				pageNumber = currentNumber - 1;
-				currentIndex = currentIndex - perPageMaxRecords;
-				loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
-			}
-		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+		if(currentNumber > 1) {
+			pageNumber = currentNumber - 1;
+			currentIndex = currentIndex - perPageMaxRecords;
+			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 		}
 	};
 
-	function loadDefaultEquityList(jsonData, perPageMaxRecords) {
+	function loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords) {
 		isProgressLoader(true);
 
-		getRecordStats("equity", "d", jsonData, perPageMaxRecords).then(function(stats) {
+		getRecordStats(type, breachType, perPageMaxRecords).then(function(stats) {
 			stats = JSON.parse(stats);
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
@@ -202,9 +190,9 @@ jQuery(document).ready(function() {
 			$("#total_records_count").html(totalRecords + " Results");
 			//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 			console.log("pageNumber: " + pageNumber);
-			getResearchReport(jsonData, "equity", "d", pageNumber, 'all').then(function(serverResponse) {
+			getConsumerAnalyticsReport(type, breachType, breachLevel, pageNumber).then(function(serverResponse) {
 				//console.log(serverResponse);
-				$("#fv_equity_research_report_vendor_search .paging_container").remove();
+				$("#consumer_analytics .paging_container").remove();
 				var response = JSON.parse(serverResponse);
 				getEquityListHtml(response);
 				isProgressLoader(false);
@@ -220,22 +208,18 @@ jQuery(document).ready(function() {
 	};
 
 	var resetFilters = function(e) {
-		clearSelection();
 		resetPaginationCount();
-		localEquitySearchJson = {
-			"geo": "1"
-		};
-		window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-		loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
+		loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 	};
+
 	$('#sidebar-panel .sidebar-heading span').on('click', resetFilters);
 
 
-	loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
+	loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 
-	function getResearchReport(jsonData, researchType, subType, pageNumber, breachFlag) {
+	function getConsumerAnalyticsReport(researchType, subType, breachLevel, pageNumber) {
 
-		var url = "/system/api/consumeranalytics?type=" + researchType + "&subType=" + subType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&breachFlag=" + breachFlag;
+		var url = "/system/api/consumeranalytics?type=" + researchType + "&subType=" + subType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&breachFlag=" + breachLevel;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -266,7 +250,7 @@ jQuery(document).ready(function() {
 	/**
      * Function to start async call to get record stats
      */
-	function getRecordStats(researchType, subType, jsonData, perPageMaxRecords) {
+	function getRecordStats(researchType, subType, perPageMaxRecords) {
 		var url = "/system/api/consumeranalytics/recordstats?type=" + researchType + "&subType=" + subType + "&perPageMaxRecords=" + perPageMaxRecords;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({

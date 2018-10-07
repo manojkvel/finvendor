@@ -48,16 +48,16 @@
 												<div class="breach_level" style="float: left;">
 													<span>Breach Level </span>
 													<select style="width: 40px;margin-left: 5px;">
-														<option value='All'>All</option>
-														<option value='Y'>Y</option>
-														<option value='N'>N</option>
+														<option value='all'>All</option>
+														<option value='y'>Yes</option>
+														<option value='n'>No</option>
 													</select>
 												</div>
 												<div class="max_per_page">
-
-
 													<span>Records Per Page </span>
 													<select>
+														<option value='1'>1</option>
+														<option value='2'>2</option>
 														<option value='5'>5</option>
 														<option value='10'>10</option>
 														<option value='30'>30</option>

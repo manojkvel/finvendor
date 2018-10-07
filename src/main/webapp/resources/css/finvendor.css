@@ -1405,6 +1405,11 @@ button {
 	border: 0;	
 }
 
+#consumer_analytics .breach_hd {
+	padding: 0 10px 10px;
+	overflow: hidden;
+}
+
 /*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {
