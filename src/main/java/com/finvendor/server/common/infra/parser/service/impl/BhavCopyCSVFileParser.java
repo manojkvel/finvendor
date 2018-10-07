@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class CsvFileParser extends AbstractFileParser {
+public class BhavCopyCSVFileParser extends AbstractFileParser {
     @Override
     public Map<String, StockPrice> parse(String fileName) throws Exception {
         BufferedReader br = null;
@@ -24,14 +24,24 @@ public class CsvFileParser extends AbstractFileParser {
             br = new BufferedReader(new FileReader(fileName));
             br.readLine();
             while ((line = br.readLine()) != null) {
-                String[] country = line.split(cvsSplitBy);
-                String open = country[2];
-                String high = country[3];
-                String low = country[4];
-                String close = country[5];
-                String ltp = country[6];
-                String isin = country[12];
-                stockPriceMap.put(isin, new StockPrice(open, high, low, close, ltp));
+                String[] bhavColumns = line.split(cvsSplitBy);
+                String symbol = bhavColumns[0];
+                String series = bhavColumns[1];
+
+                String open = bhavColumns[2];
+                String high = bhavColumns[3];
+                String low = bhavColumns[4];
+                String close = bhavColumns[5];
+                String last = bhavColumns[6];
+
+                String prevClose = bhavColumns[7];
+                String totTrdQty = bhavColumns[8];
+                String totTrdVal = bhavColumns[9];
+                String timestamp = bhavColumns[10];
+                String totalTrades = bhavColumns[11];
+                String isin = bhavColumns[12];
+
+                stockPriceMap.put(isin, new StockPrice(symbol, series, open, high, low, close, last, prevClose, totTrdQty, totTrdVal, timestamp, totalTrades, isin));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

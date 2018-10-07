@@ -1,6 +1,7 @@
 package com.finvendor.common.util;
 
 import com.finvendor.common.constant.AppConstant;
+import org.apache.commons.lang.StringUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -100,6 +101,42 @@ public class DateUtil {
 
 		return true;
 	}
+
+	public static String getDayNumber(){
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		String dayString = "";
+		if (String.valueOf(day).length() == 1) {
+			dayString = "0" + day;
+		} else {
+			dayString = String.valueOf(day);
+		}
+		return dayString;
+	}
+
+	public static String getThreeLetterMonthName(){
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		cal.set(year, month, day);
+		java.util.Date d = new java.util.Date(cal.getTimeInMillis());
+		String mmm = new SimpleDateFormat("MMM").format(d).toUpperCase();
+
+		return mmm;
+	}
+
+	public static String getYear(){
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+
+		return String.valueOf(year);
+	}
+
+
+
 	public static void main(String args[]) throws ParseException {
 //		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
 //		System.out.println(thisDateValid);
@@ -107,17 +144,25 @@ public class DateUtil {
 //		thisDateValid = isDateValid("12/23/2011", "dd/MM/yyyy");
 //		System.out.println(thisDateValid);
 
-		String americaTime="14/Aug/18 08:16:47";
-		DateFormat formatter;
-		formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
-		formatter.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
-		Date date = formatter.parse(americaTime);
+//		String americaTime="14/Aug/18 08:16:47";
+//		DateFormat formatter;
+//		formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+//		formatter.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+//		Date date = formatter.parse(americaTime);
+//
+//		Calendar reserchDateCalendar = Calendar.getInstance();
+//		reserchDateCalendar.setTime(date);
+//		reserchDateCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+//		System.out.println(reserchDateCalendar.getTime());
 
-		Calendar reserchDateCalendar = Calendar.getInstance();
-		reserchDateCalendar.setTime(date);
-		reserchDateCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
-		System.out.println(reserchDateCalendar.getTime());
-
+		String bhavUrl="https://www.nseindia.com/content/historical/EQUITIES/$YEAR/$MON/cm$DAY$MON$YEARbhav.csv.zip";
+		String dayNumber = getDayNumber();
+		String threeLetterMonthName = getThreeLetterMonthName();
+		String year = getYear();
+		bhavUrl=StringUtils.replace(bhavUrl, "$DAY", dayNumber);
+		bhavUrl=StringUtils.replace(bhavUrl, "$MON", threeLetterMonthName);
+		bhavUrl=StringUtils.replace(bhavUrl, "$YEAR", year);
+		System.out.println(bhavUrl);
 
 	}
 

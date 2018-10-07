@@ -2,7 +2,7 @@ package com.finvendor.common.util;
 
 public final class CommonUtil {
 
-    public static long calculatePaginationLastPage(String perPageMaxRecords, int totalRecords) {
+    public static long calculatePaginationLastPage(String perPageMaxRecords, long totalRecords) {
         long lastPageNumber;
         long perPageMaxRecordCount = Integer.parseInt(perPageMaxRecords);
         if (perPageMaxRecordCount <= totalRecords) {

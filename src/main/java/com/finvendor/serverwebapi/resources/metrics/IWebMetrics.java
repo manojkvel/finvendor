@@ -36,7 +36,7 @@ public interface IWebMetrics {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @RequestMapping(value = "/consumeranalytics/recordstats", method = RequestMethod.GET)
     @ResponseBody
-    ResponseEntity<?> getConsumerAnalyticsRecordStats(String type, String subType, String perPageMaxRecords) throws WebApiException;
+    ResponseEntity<?> getConsumerAnalyticsRecordStats(String type, String subType, String perPageMaxRecords, String breachFlag) throws WebApiException;
 
     @RequestMapping(value = "/consumeranalytics", method = RequestMethod.GET)
     @ResponseBody
