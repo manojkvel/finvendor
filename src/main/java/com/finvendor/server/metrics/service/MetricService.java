@@ -76,11 +76,11 @@ public class MetricService {
     }
 
     @Transactional(readOnly = true)
-    public String getConsumerAnalyticsRecordStats(String type, String subType, String perPageMaxRecords) throws Exception {
+    public String getConsumerAnalyticsRecordStats(String type, String subType, String perPageMaxRecords,String breachFlag) throws Exception {
         String consumerAnalyticsRecordStats = "";
         try {
             if ("equity".equals(type)) {
-                consumerAnalyticsRecordStats = iConsumerAnalyticsDao.getRecordStats(type, subType, perPageMaxRecords);
+                consumerAnalyticsRecordStats = iConsumerAnalyticsDao.getRecordStats(type, subType, perPageMaxRecords,breachFlag);
             }
             return consumerAnalyticsRecordStats;
         } catch (RuntimeException e) {

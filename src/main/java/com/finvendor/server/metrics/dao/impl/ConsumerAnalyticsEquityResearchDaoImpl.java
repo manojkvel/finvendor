@@ -42,25 +42,45 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
     ICommonDao commonDao;
 
     @Override
-    public String getRecordStats(String type, String subType, String perPageMaxRecords) throws RuntimeException {
-        int totalRecords;
+    public String getRecordStats(String type, String subType, String perPageMaxRecords, String breachFlag) throws RuntimeException {
+        long totalRecordsForBreachFlagAll = 0L;
         String statsJson;
+        long totalRecordsForBreachFlagYes = 0L;
+        long totalRecordsForBreachFlagNo = 0L;
         try {
             String countQuery = "rf".equals(subType) ? RF_COUNT_QUERY : D_COUNT_QUERY;
             SQLQuery query1 = commonDao.getNativeQuery(countQuery, null);
 
             List<Object[]> rows = query1.list();
-            if (rows != null) {
-                totalRecords = rows.size();
+            for (Object[] row : rows) {
+                String breachFlagFromDB = row[5] != null ? row[5].toString().trim() : "";
+                if ("all".equals(breachFlag)) {
+                    totalRecordsForBreachFlagAll++;
+                } else if ("n".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
+                    totalRecordsForBreachFlagNo++;
+                } else if ("y".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
+                    totalRecordsForBreachFlagYes++;
+                }
+            }
 
+            long actualTotalRecords;
+            if (totalRecordsForBreachFlagAll != 0L) {
+                actualTotalRecords = totalRecordsForBreachFlagAll;
+            } else if (totalRecordsForBreachFlagNo != 0L) {
+                actualTotalRecords = totalRecordsForBreachFlagNo;
+            } else {
+                actualTotalRecords = totalRecordsForBreachFlagYes;
+            }
+
+            if (actualTotalRecords != 0L) {
                 // Calculate Last page number
-                long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+                long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, actualTotalRecords);
 
                 // Prepare Json result
                 Map<String, Object> paramsMap = new LinkedHashMap<>();
                 paramsMap.put("firstPageNumber", 1);
                 paramsMap.put("lastPageNumber", lastPageNumber);
-                paramsMap.put("totalRecords", totalRecords);
+                paramsMap.put("totalRecords", actualTotalRecords);
                 statsJson = JsonUtil.createJsonFromObject(paramsMap);
             } else {
                 statsJson = "0";
@@ -178,7 +198,7 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
             return new Pair<>(length, inputStream);
         } catch (IOException e) {
             throw new RuntimeException("Error has occurred while downloading customer analytics data for equity research", e);
-        }finally {
+        } finally {
 
         }
     }

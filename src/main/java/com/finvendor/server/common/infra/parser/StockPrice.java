@@ -1,22 +1,56 @@
 package com.finvendor.server.common.infra.parser;
 
-import java.util.Objects;
 /**
  *
  * Ayush on 8-Aug-2018
  * */
 public class StockPrice {
+    private String symbol;
+    private String series;
+
     private String open;
     private String high;
     private String low;
     private String close;
     private String ltp; /**last traded price*/
-    public StockPrice(String open, String high, String low, String close, String ltp) {
+
+    private String prevclose;
+    private String totalTrdQty;
+    private String totalTrdVal;
+    private String timestamp;
+    private String totalTrades;
+    private String isin;
+
+    public StockPrice(String symbol, String series, String open, String high, String low, String close, String ltp, String prevclose, String totalTrdQty, String totalTrdVal, String timestamp, String totalTrades, String isin) {
+        this.symbol = symbol;
+        this.series = series;
         this.open = open;
         this.high = high;
         this.low = low;
         this.close = close;
         this.ltp = ltp;
+        this.prevclose = prevclose;
+        this.totalTrdQty = totalTrdQty;
+        this.totalTrdVal = totalTrdVal;
+        this.timestamp = timestamp;
+        this.totalTrades = totalTrades;
+        this.isin = isin;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String series) {
+        this.series = series;
     }
 
     public String getOpen() {
@@ -59,31 +93,70 @@ public class StockPrice {
         this.ltp = ltp;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StockPrice that = (StockPrice) o;
-        return Objects.equals(open, that.open) &&
-                Objects.equals(high, that.high) &&
-                Objects.equals(low, that.low) &&
-                Objects.equals(close, that.close) &&
-                Objects.equals(ltp, that.ltp);
+    public String getPrevclose() {
+        return prevclose;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(open, high, low, close, ltp);
+    public void setPrevclose(String prevclose) {
+        this.prevclose = prevclose;
+    }
+
+    public String getTotalTrdQty() {
+        return totalTrdQty;
+    }
+
+    public void setTotalTrdQty(String totalTrdQty) {
+        this.totalTrdQty = totalTrdQty;
+    }
+
+    public String getTotalTrdVal() {
+        return totalTrdVal;
+    }
+
+    public void setTotalTrdVal(String totalTrdVal) {
+        this.totalTrdVal = totalTrdVal;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getTotalTrades() {
+        return totalTrades;
+    }
+
+    public void setTotalTrades(String totalTrades) {
+        this.totalTrades = totalTrades;
+    }
+
+    public String getIsin() {
+        return isin;
+    }
+
+    public void setIsin(String isin) {
+        this.isin = isin;
     }
 
     @Override
     public String toString() {
         return "StockPrice{" +
-                "open='" + open + '\'' +
+                "symbol='" + symbol + '\'' +
+                ", series='" + series + '\'' +
+                ", open='" + open + '\'' +
                 ", high='" + high + '\'' +
                 ", low='" + low + '\'' +
                 ", close='" + close + '\'' +
                 ", ltp='" + ltp + '\'' +
+                ", prevclose='" + prevclose + '\'' +
+                ", totalTrdQty='" + totalTrdQty + '\'' +
+                ", totalTrdVal='" + totalTrdVal + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", totalTrades='" + totalTrades + '\'' +
+                ", isin='" + isin + '\'' +
                 '}';
     }
 }

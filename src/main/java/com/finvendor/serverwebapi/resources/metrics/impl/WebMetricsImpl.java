@@ -62,7 +62,8 @@ public class WebMetricsImpl implements IWebMetrics {
     @Override
     public ResponseEntity<?> getConsumerAnalyticsRecordStats(@RequestParam(value = "type") String type,
                                                              @RequestParam(value = "subType") String subType,
-                                                             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) throws WebApiException {
+                                                             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
+                                                             @RequestParam(value = "breachFlag") String breachFlag) throws WebApiException {
         try {
             if (!("equity".equals(type))) {
                 throw new Exception("type QueryParam should be equity");
@@ -72,7 +73,7 @@ public class WebMetricsImpl implements IWebMetrics {
                 throw new Exception("subType QueryParam should be either rf|d");
             }
 
-            String consumerAnalyticsRecordStats = metricsService.getConsumerAnalyticsRecordStats(type, subType, perPageMaxRecords);
+            String consumerAnalyticsRecordStats = metricsService.getConsumerAnalyticsRecordStats(type, subType, perPageMaxRecords,breachFlag);
 
             return new ResponseEntity<>(consumerAnalyticsRecordStats, HttpStatus.OK);
         } catch (Exception e) {
