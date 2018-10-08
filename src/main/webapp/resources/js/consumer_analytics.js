@@ -32,7 +32,7 @@ jQuery(document).ready(function() {
 		return false;
 	};
 
-	var getEquityListHtml = function(response) {
+	var getBreachAnalyticsHtml = function(response) {
 		var len = response.ConsumerAnalytics.length;
 		var htmlCode = '';
 		var rowHtml = 	"";
@@ -182,7 +182,7 @@ jQuery(document).ready(function() {
 	function loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords) {
 		isProgressLoader(true);
 
-		getRecordStats(type, breachType, perPageMaxRecords).then(function(stats) {
+		getRecordStats(type, breachType, breachLevel, perPageMaxRecords).then(function(stats) {
 			stats = JSON.parse(stats);
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
@@ -194,7 +194,7 @@ jQuery(document).ready(function() {
 				//console.log(serverResponse);
 				$("#consumer_analytics .paging_container").remove();
 				var response = JSON.parse(serverResponse);
-				getEquityListHtml(response);
+				getBreachAnalyticsHtml(response);
 				isProgressLoader(false);
 
 			}, function(error) {
@@ -216,6 +216,19 @@ jQuery(document).ready(function() {
 
 
 	loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
+
+	$("#consumer_analytics .nav-tabs").on('click', function() {
+		if($(this).find('.active').siblings().find('a').attr('href') == '#d_breach_tab') {
+			breachType = 'd';
+			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
+		} else if($(this).find('.active').siblings().find('a').attr('href') == '#rf_breach_tab') {
+			breachType = 'rf';
+			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
+		} else {
+			breachType = 'd';
+			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
+		}
+	});
 
 	function getConsumerAnalyticsReport(researchType, subType, breachLevel, pageNumber) {
 
@@ -250,8 +263,8 @@ jQuery(document).ready(function() {
 	/**
      * Function to start async call to get record stats
      */
-	function getRecordStats(researchType, subType, perPageMaxRecords) {
-		var url = "/system/api/consumeranalytics/recordstats?type=" + researchType + "&subType=" + subType + "&perPageMaxRecords=" + perPageMaxRecords;
+	function getRecordStats(researchType, subType, breachLevel, perPageMaxRecords) {
+		var url = "/system/api/consumeranalytics/recordstats?type=" + researchType + "&subType=" + subType + "&breachFlag=" + breachLevel + "&perPageMaxRecords=" + perPageMaxRecords;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
