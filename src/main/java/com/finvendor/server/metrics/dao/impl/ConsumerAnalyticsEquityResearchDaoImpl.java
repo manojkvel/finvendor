@@ -18,7 +18,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalyticsDao {
@@ -26,13 +29,11 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
     /**
      * RF-Research Filter
      */
-    private static final String RF_COUNT_QUERY = "SELECT count(a.user_name) FROM eqty_research_report_metrics a where a.user_name != 'UNKNOWN' group by a.user_name";
     private static final String RF_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) rf_count, if(sum(a.count)>15,'y','n') rf_breach from eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name";
 
     /**
      * D-Report Download
      */
-    private static final String D_COUNT_QUERY = "SELECT count(a.user_name) FROM download_eqty_research_report_metrics a where a.user_name != 'UNKNOWN' group by a.user_name";
     private static final String D_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) d_count, if(sum(a.count)>8,'y','n') d_breach from download_eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name";
     public static final String NA = "NA";
 
@@ -48,7 +49,7 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
         long totalRecordsForBreachFlagYes = 0L;
         long totalRecordsForBreachFlagNo = 0L;
         try {
-            String countQuery = "rf".equals(subType) ? RF_COUNT_QUERY : D_COUNT_QUERY;
+            String countQuery = "rf".equals(subType) ? RF_QUERY : D_QUERY;
             SQLQuery query1 = commonDao.getNativeQuery(countQuery, null);
 
             List<Object[]> rows = query1.list();
@@ -75,13 +76,7 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
             if (actualTotalRecords != 0L) {
                 // Calculate Last page number
                 long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, actualTotalRecords);
-
-                // Prepare Json result
-                Map<String, Object> paramsMap = new LinkedHashMap<>();
-                paramsMap.put("firstPageNumber", 1);
-                paramsMap.put("lastPageNumber", lastPageNumber);
-                paramsMap.put("totalRecords", actualTotalRecords);
-                statsJson = JsonUtil.createJsonFromObject(paramsMap);
+                statsJson = CommonUtil.getRecordStatsJson(actualTotalRecords,lastPageNumber);
             } else {
                 statsJson = "0";
             }

@@ -1,18 +1,13 @@
 package com.finvendor.model.metrics;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "eqty_research_report_metrics")
 @NamedQueries({
 		@NamedQuery(name = EqtyResearchReportsMetrics.LOCAL_DATE_NAMED_QUERY, query = "from com.finvendor.model.metrics.EqtyResearchReportsMetrics t where t.local_date like:localdate and t.user_name like:username order by t.id desc") })
-public class EqtyResearchReportsMetrics {
+public class EqtyResearchReportsMetrics implements Serializable {
 	public static final String LOCAL_DATE_NAMED_QUERY = "eqtyResearchReportMetricsByLocalDate";
 
 	@Id

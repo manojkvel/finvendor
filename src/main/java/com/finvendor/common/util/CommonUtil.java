@@ -1,5 +1,9 @@
 package com.finvendor.common.util;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public final class CommonUtil {
 
     public static long calculatePaginationLastPage(String perPageMaxRecords, long totalRecords) {
@@ -34,4 +38,14 @@ public final class CommonUtil {
         int offset = (pageNumberAsInt - 1) * maxRecordCountPerPageAsLimit;
         return " limit " + maxRecordCountPerPageAsLimit + " offset " + offset;
     }
+
+    public static String getRecordStatsJson(long totalRecords, long lastPageNumber) throws IOException {
+        Map<String, Object> paramsMap = new LinkedHashMap<>();
+        paramsMap.put("firstPageNumber", 1);
+        paramsMap.put("lastPageNumber", lastPageNumber);
+        paramsMap.put("totalRecords", totalRecords);
+        String recordStatsJson = JsonUtil.createJsonFromObject(paramsMap);
+        return recordStatsJson;
+    }
+
 }

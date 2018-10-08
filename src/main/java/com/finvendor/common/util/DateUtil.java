@@ -164,6 +164,8 @@ public class DateUtil {
 		bhavUrl=StringUtils.replace(bhavUrl, "$YEAR", year);
 		System.out.println(bhavUrl);
 
+		System.out.println(StringUtils.replace(StringUtils.substring(bhavUrl,bhavUrl.lastIndexOf("/")+1),".zip",""));
+
 	}
 
 }
