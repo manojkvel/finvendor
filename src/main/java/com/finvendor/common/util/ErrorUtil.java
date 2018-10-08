@@ -62,10 +62,10 @@ public final class ErrorUtil {
     }
 
     public static ResponseEntity<?> getError(String code, String userMessage, Exception e) {
-        return new ResponseEntity<ExceptionPojo>(ErrorUtil.buildErrorMessage(code, userMessage, e), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ErrorUtil.buildErrorMessage(code, userMessage, e), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     public static ResponseEntity<?> getError(String code, String userMessage) {
-        return new ResponseEntity<ExceptionPojo>(ErrorUtil.buildErrorMessage(code, userMessage), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ErrorUtil.buildErrorMessage(code, userMessage), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -73,7 +73,10 @@ public class WebMetricsImpl implements IWebMetrics {
                 throw new Exception("subType QueryParam should be either rf|d");
             }
 
-            String consumerAnalyticsRecordStats = metricsService.getConsumerAnalyticsRecordStats(type, subType, perPageMaxRecords,breachFlag);
+            if (breachFlag != null && !("y".equals(breachFlag) || "n".equals(breachFlag) || "all".equals(breachFlag))) {
+                throw new Exception("breachFlag value should be y|n|all");
+            }
+            String consumerAnalyticsRecordStats = metricsService.getConsumerAnalyticsRecordStats(type, subType, perPageMaxRecords, breachFlag);
 
             return new ResponseEntity<>(consumerAnalyticsRecordStats, HttpStatus.OK);
         } catch (Exception e) {

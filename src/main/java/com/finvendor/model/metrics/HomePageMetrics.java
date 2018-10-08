@@ -1,12 +1,13 @@
 package com.finvendor.model.metrics;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "home_page_metrics")
 @NamedQueries({
 		@NamedQuery(name = HomePageMetrics.LOCAL_DATE_NAMED_QUERY, query = "from com.finvendor.model.metrics.HomePageMetrics t where t.local_date like:localdate and t.user_name like:username order by t.id desc") })
-public class HomePageMetrics {
+public class HomePageMetrics implements Serializable {
 	public static final String LOCAL_DATE_NAMED_QUERY = "homePageMetricsByLocalDate";
 
 	@Id
