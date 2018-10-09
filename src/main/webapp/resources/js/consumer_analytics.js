@@ -38,7 +38,7 @@ jQuery(document).ready(function() {
 		var rowHtml = 	"";
 
 		if(len === 0) {
-			$("#equity_analytics_table tbody").html("<tr><td colspan='6'>No Matching Records Found</td></tr>");
+			$("#consumer_analytics .tab-content .active #equity_analytics_table tbody").html("<tr><td colspan='6'>No Matching Records Found</td></tr>");
 			return;
 		}
 
@@ -68,7 +68,7 @@ jQuery(document).ready(function() {
 			"</tr>";
 		}
 
-		$("#equity_analytics_table tbody").html(htmlCode);
+		$("#consumer_analytics .tab-content .active #equity_analytics_table tbody").html(htmlCode);
 
 		var paginationHtml = 	"<div class='paging_container'>"
 								+ "<ul class='pager'>"
@@ -80,23 +80,19 @@ jQuery(document).ready(function() {
 							 	+ "</ul>"
 							 + "</div>";
 
-		$("#d_breach_tab").append(paginationHtml);
-		$('#d_breach_tab .pager a').on('click', getPaginationIndex);
+		$("#consumer_analytics .tab-content .active").append(paginationHtml);
+		$('#consumer_analytics .tab-content .active .pager a').on('click', getPaginationIndex);
 
 
 		setRecordStats(currentIndex, lastPageNumber);
 	}
-
-	$("#d_breach_tab .max_per_page select").val($("#d_breach_tab .max_per_page select option:first").val());
 
 	var firstPageNumber = 1;
 	var pageNumber = 1;
 	var lastPageNumber = 1;
 	var totalRecords = 0;
 	var currentIndex = 1;
-	var perPageMaxRecords = 1;
-	var sortByValue = 'researchDate';
-	var orderBy = 'desc';
+	var perPageMaxRecords = 5;
 	var type = 'equity';
 	var breachType = 'd';
 	var breachLevel = 'all';
@@ -114,6 +110,9 @@ jQuery(document).ready(function() {
 		lastPageNumber = 1;
 		totalRecords = 0;
 		currentIndex = 1;
+		perPageMaxRecords = 5;
+
+		$("#consumer_analytics .tab-content .active .max_per_page select").val($("#consumer_analytics .tab-content .active .max_per_page select option:first").val());
 	}
 	
 	var getPerPageMaxRecords = function() {
@@ -130,6 +129,7 @@ jQuery(document).ready(function() {
 
 	var getBreachLevelStatus = function() {
 		breachLevel = $(this).val();
+		resetPaginationCount();
 		loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 	}
 	$('#consumer_analytics .breach_level select').on('change', getBreachLevelStatus);
@@ -187,7 +187,7 @@ jQuery(document).ready(function() {
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
 			totalRecords = stats.totalRecords;
-			$("#total_records_count").html(totalRecords + " Results");
+			$("#consumer_analytics .tab-content .active #total_records_count").html(totalRecords + " Results");
 			//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 			console.log("pageNumber: " + pageNumber);
 			getConsumerAnalyticsReport(type, breachType, breachLevel, pageNumber).then(function(serverResponse) {
@@ -209,6 +209,9 @@ jQuery(document).ready(function() {
 
 	var resetFilters = function(e) {
 		resetPaginationCount();
+		breachLevel = 'all';
+		$('#consumer_analytics .tab-content .active .breach_level select').val($("#consumer_analytics .tab-content .active .breach_level select option:first").val());
+		$("#consumer_analytics .tab-content .active .max_per_page select").val($("#consumer_analytics .tab-content .active .max_per_page select option:first").val());
 		loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 	};
 

@@ -47,7 +47,7 @@
 											<div class="breach_hd">
 												<div class="breach_level" style="float: left;">
 													<span>Breach Level </span>
-													<select style="width: 40px;margin-left: 5px;">
+													<select style="width: 50px;margin-left: 5px;">
 														<option value='all'>All</option>
 														<option value='y'>Yes</option>
 														<option value='n'>No</option>
@@ -56,9 +56,9 @@
 												<div class="max_per_page">
 													<span>Records Per Page </span>
 													<select>
+														<option value='5'>5</option>
 														<option value='1'>1</option>
 														<option value='2'>2</option>
-														<option value='5'>5</option>
 														<option value='10'>10</option>
 														<option value='30'>30</option>
 														<option value='50'>50</option>
@@ -115,17 +115,29 @@
 										</div>
 										<div id="rf_breach_tab" class="tab-pane fade">
 											
-											<div class="max_per_page">
-												<span>Records Per Page </span>
-												<select>
-													<option value='5'>5</option>
-													<option value='10'>10</option>
-													<option value='30'>30</option>
-													<option value='50'>50</option>
-													<option value='100'>100</option>
-												</select>
+											<div class="breach_hd">
+												<div class="breach_level" style="float: left;">
+													<span>Breach Level </span>
+													<select style="width: 50px;margin-left: 5px;">
+														<option value='all'>All</option>
+														<option value='y'>Yes</option>
+														<option value='n'>No</option>
+													</select>
+												</div>
+												<div class="max_per_page">
+													<span>Records Per Page </span>
+													<select>
+														<option value='5'>5</option>
+														<option value='1'>1</option>
+														<option value='2'>2</option>
+														<option value='10'>10</option>
+														<option value='30'>30</option>
+														<option value='50'>50</option>
+														<option value='100'>100</option>
+													</select>
 
-												<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+													<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+												</div>
 											</div>
 											<table id='equity_analytics_table'>
 												<thead>
