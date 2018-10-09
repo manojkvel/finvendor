@@ -50,8 +50,33 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
         long totalRecordsForBreachFlagYes = 0L;
         long totalRecordsForBreachFlagNo = 0L;
         try {
-            String countQuery = "rf".equals(subType) ? RF_QUERY : D_QUERY;
-            SQLQuery query1 = commonDao.getNativeQuery(countQuery, null);
+            String mainQuery;
+            if ("rf".equals(subType)) {
+                mainQuery=RF_QUERY;
+                if ("y".equals(breachFlag)) {
+                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>15 ");
+                }
+                if ("n".equals(breachFlag)) {
+                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=15 ");
+                }
+                if ("all".equals(breachFlag)) {
+                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
+                }
+            } else {
+                mainQuery=D_QUERY;
+                if ("y".equals(breachFlag)) {
+                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>8 ");
+                }
+                if ("n".equals(breachFlag)) {
+                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=8 ");
+                }
+                if ("all".equals(breachFlag)) {
+                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
+                }
+            }
+
+
+            SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
 
             List<Object[]> rows = query1.list();
             for (Object[] row : rows) {
@@ -90,8 +115,9 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
 
     @Override
     public String getConsumerAnalytics(String type, String subType, String pageNumber, String perPageMaxRecords, String breachFlag) throws RuntimeException {
-        String mainQuery = "rf".equals(subType) ? RF_QUERY : D_QUERY;
+        String mainQuery;
         if ("rf".equals(subType)) {
+            mainQuery=RF_QUERY;
             if ("y".equals(breachFlag)) {
                 mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>15 ");
             }
@@ -102,6 +128,7 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
                 mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
             }
         } else {
+            mainQuery=D_QUERY;
             if ("y".equals(breachFlag)) {
                 mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>8 ");
             }
