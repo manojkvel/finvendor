@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -29,12 +30,12 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
     /**
      * RF-Research Filter
      */
-    private static final String RF_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) rf_count, if(sum(a.count)>15,'y','n') rf_breach from eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name";
+    private static final String RF_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) rf_count, if(sum(a.count)>15,'y','n') rf_breach from eqty_research_report_metrics a, users b where a.user_name=b.username and_COUNT group by a.user_name";
 
     /**
      * D-Report Download
      */
-    private static final String D_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) d_count, if(sum(a.count)>8,'y','n') d_breach from download_eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name";
+    private static final String D_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) d_count, if(sum(a.count)>8,'y','n') d_breach from download_eqty_research_report_metrics a, users b where a.user_name=b.username  and_COUNT group by a.user_name";
     public static final String NA = "NA";
 
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
@@ -76,7 +77,7 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
             if (actualTotalRecords != 0L) {
                 // Calculate Last page number
                 long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, actualTotalRecords);
-                statsJson = CommonUtil.getRecordStatsJson(actualTotalRecords,lastPageNumber);
+                statsJson = CommonUtil.getRecordStatsJson(actualTotalRecords, lastPageNumber);
             } else {
                 statsJson = "0";
             }
@@ -90,6 +91,28 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
     @Override
     public String getConsumerAnalytics(String type, String subType, String pageNumber, String perPageMaxRecords, String breachFlag) throws RuntimeException {
         String mainQuery = "rf".equals(subType) ? RF_QUERY : D_QUERY;
+        if ("rf".equals(subType)) {
+            if ("y".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>15 ");
+            }
+            if ("n".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=15 ");
+            }
+            if ("all".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
+            }
+        } else {
+            if ("y".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>8 ");
+            }
+            if ("n".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=8 ");
+            }
+            if ("all".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
+            }
+        }
+
         String mainQueryWithPagintion = mainQuery + CommonUtil.applyPagination(pageNumber, perPageMaxRecords);
         SQLQuery query1 = commonDao.getNativeQuery(mainQueryWithPagintion, null);
         List<Object[]> rows = query1.list();
