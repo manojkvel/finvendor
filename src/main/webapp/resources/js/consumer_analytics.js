@@ -38,7 +38,7 @@ jQuery(document).ready(function() {
 		var rowHtml = 	"";
 
 		if(len === 0) {
-			$("#consumer_analytics .tab-content .active #equity_analytics_table tbody").html("<tr><td colspan='6'>No Matching Records Found</td></tr>");
+			$("#consumer_analytics .tab-content #" + id + " #equity_analytics_table tbody").html("<tr><td colspan='6'>No Matching Records Found</td></tr>");
 			return;
 		}
 
@@ -68,7 +68,7 @@ jQuery(document).ready(function() {
 			"</tr>";
 		}
 
-		$("#consumer_analytics .tab-content .active #equity_analytics_table tbody").html(htmlCode);
+		$("#consumer_analytics .tab-content #" + id + " #equity_analytics_table tbody").html(htmlCode);
 
 		var paginationHtml = 	"<div class='paging_container'>"
 								+ "<ul class='pager'>"
@@ -80,8 +80,8 @@ jQuery(document).ready(function() {
 							 	+ "</ul>"
 							 + "</div>";
 
-		$("#consumer_analytics .tab-content .active").append(paginationHtml);
-		$('#consumer_analytics .tab-content .active .pager a').on('click', getPaginationIndex);
+		$("#consumer_analytics .tab-content #" + id + "").append(paginationHtml);
+		$("#consumer_analytics .tab-content #" + id + " .pager a").on('click', getPaginationIndex);
 
 
 		setRecordStats(currentIndex, lastPageNumber);
@@ -112,7 +112,7 @@ jQuery(document).ready(function() {
 		currentIndex = 1;
 		perPageMaxRecords = 5;
 
-		$("#consumer_analytics .tab-content .active .max_per_page select").val($("#consumer_analytics .tab-content .active .max_per_page select option:first").val());
+		$("#consumer_analytics .tab-content  #" + id + " .max_per_page select").val($("#consumer_analytics .tab-content #" + id + " .max_per_page select option:first").val());
 	}
 	
 	var getPerPageMaxRecords = function() {
@@ -187,13 +187,14 @@ jQuery(document).ready(function() {
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
 			totalRecords = stats.totalRecords;
-			$("#consumer_analytics .tab-content .active #total_records_count").html(totalRecords + " Results");
+			$("#consumer_analytics .tab-content #" + id + " #total_records_count").html(totalRecords + " Results");
 			//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 			console.log("pageNumber: " + pageNumber);
 			getConsumerAnalyticsReport(type, breachType, breachLevel, pageNumber).then(function(serverResponse) {
 				//console.log(serverResponse);
 				$("#consumer_analytics .paging_container").remove();
 				var response = JSON.parse(serverResponse);
+				
 				getBreachAnalyticsHtml(response);
 				isProgressLoader(false);
 
@@ -210,8 +211,9 @@ jQuery(document).ready(function() {
 	var resetFilters = function(e) {
 		resetPaginationCount();
 		breachLevel = 'all';
-		$('#consumer_analytics .tab-content .active .breach_level select').val($("#consumer_analytics .tab-content .active .breach_level select option:first").val());
-		$("#consumer_analytics .tab-content .active .max_per_page select").val($("#consumer_analytics .tab-content .active .max_per_page select option:first").val());
+		$("#consumer_analytics .tab-content  #" + id + " .breach_level select").val($("#consumer_analytics .tab-content #" + id + " .breach_level select option:first").val());
+		$("#consumer_analytics .tab-content  #" + id + " .max_per_page select").val($("#consumer_analytics .tab-content #" + id + " .max_per_page select option:first").val());
+		
 		loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
 	};
 
@@ -219,19 +221,6 @@ jQuery(document).ready(function() {
 
 
 	loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
-
-	$("#consumer_analytics .nav-tabs").on('click', function() {
-		if($(this).find('.active').siblings().find('a').attr('href') == '#d_breach_tab') {
-			breachType = 'd';
-			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
-		} else if($(this).find('.active').siblings().find('a').attr('href') == '#rf_breach_tab') {
-			breachType = 'rf';
-			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
-		} else {
-			breachType = 'd';
-			loadDefaultBreachReport(type, breachType, breachLevel, perPageMaxRecords);
-		}
-	});
 
 	function getConsumerAnalyticsReport(researchType, subType, breachLevel, pageNumber) {
 
@@ -295,4 +284,27 @@ jQuery(document).ready(function() {
 			httpRequest.send();
 		});
 	}
+	
+	var newIndex = 0;
+
+
+	var id = "d_breach_tab";
+	$(".nav-tabs li").on("click", function() {
+		if($(this).index() == 0 && !$(this).hasClass('active')) {
+			id = "d_breach_tab";
+			newIndex = 0;
+			breachType = 'd';
+			resetFilters();
+		} else if($(this).index() == 1 && !$(this).hasClass('active')) {
+			id = "rf_breach_tab";
+			newIndex = 1;
+			breachType = 'rf';
+			resetFilters();
+		}
+
+		$('.modal-content .nav-tabs li').removeClass('active');
+		$('.modal-content .nav-tabs li').eq(newIndex).addClass('active');
+		$('.modal-content .tab-content .tab-pane').removeClass('active in');
+		$('.modal-content .tab-content .tab-pane').eq(newIndex).addClass('active in');
+	});
 });
