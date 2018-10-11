@@ -190,7 +190,9 @@
 				</section>
 			</c:when>
 			<c:otherwise>
-				
+				<script type="text/javascript">
+					window.location.href = '/';
+				</script>
 			</c:otherwise>
 		</c:choose>
 
