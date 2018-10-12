@@ -136,8 +136,8 @@ public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
         SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
         List<Object[]> rows = query1.list();
 
-//        String fileName = "/home/finvendo/tmp/ConsumerAnalyticsReport.csv";
-        String fileName = "d:\\tmp\\ConsumerAnalyticsReport.csv";
+        String fileName = "/home/finvendo/tmp/ConsumerAnalyticsReport.csv";
+//        String fileName = "d:\\tmp\\ConsumerAnalyticsReport.csv";
         File csvFile = new File(fileName);
         FileWriter fw = null;
         try {
