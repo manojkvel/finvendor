@@ -47,7 +47,7 @@
 											<div class="breach_hd">
 												<div class="breach_level" style="float: left;">
 													<span>Breach Level </span>
-													<select style="width: 50px;margin-left: 5px;">
+													<select style="width: 50px;margin-left: 5px; padding: 0 5px;">
 														<option value='all'>All</option>
 														<option value='y'>Yes</option>
 														<option value='n'>No</option>
@@ -66,6 +66,9 @@
 													</select>
 
 													<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+												</div>
+												<div class="download_report" style="margin-left: 5px; padding: 5px; float: right; cursor: pointer;" title="Download Report">
+													<span class="fa fa-arrow-circle-down" style="font-size: 30px;"></span>
 												</div>
 											</div>
 											<div class="analytics_content">
@@ -137,6 +140,9 @@
 													</select>
 
 													<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+												</div>
+												<div class="download_report" style="margin-left: 5px; padding: 5px; float: right; cursor: pointer;" title="Download Report">
+													<span class="fa fa-arrow-circle-down" style="font-size: 30px;"></span>
 												</div>
 											</div>
 											<table id='equity_analytics_table'>

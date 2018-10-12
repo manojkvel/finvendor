@@ -82,6 +82,7 @@ jQuery(document).ready(function() {
 
 		$("#consumer_analytics .tab-content #" + id + "").append(paginationHtml);
 		$("#consumer_analytics .tab-content #" + id + " .pager a").on('click', getPaginationIndex);
+		$("#consumer_analytics .tab-content #" + id + " .download_report").on('click', downloadReport);
 
 
 		setRecordStats(currentIndex, lastPageNumber);
@@ -284,9 +285,46 @@ jQuery(document).ready(function() {
 			httpRequest.send();
 		});
 	}
+
+	/**
+     * Function to start async call to get Analytics Report
+     */
+	function getAnalyticsReport(researchType, subType) {
+		var url = "/system/api/consumeranalytics/download?type=" + researchType + "&subType=" + subType;
+		return new Promise(function(resolve, reject) {
+			var httpRequest = new XMLHttpRequest({
+				mozSystem: true
+			});
+
+			httpRequest.timeout = API_TIMEOUT_SMALL;
+			httpRequest.open('GET', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+			httpRequest.ontimeout = function () {
+				reject("" + httpRequest.responseText);
+			};
+			httpRequest.onreadystatechange = function () {
+				if (httpRequest.readyState === XMLHttpRequest.DONE) {
+					if (httpRequest.status === 200) {
+						resolve(httpRequest.response);
+					} else {
+						//console.log(httpRequest.status + httpRequest.responseText);
+						reject(httpRequest.responseText);
+					}
+				} else {
+				}
+			};
+
+			httpRequest.send();
+		});
+	}
+
+	var downloadReport = function() {
+		getAnalyticsReport(type, breachType);
+	}
+
 	
 	var newIndex = 0;
-
 
 	var id = "d_breach_tab";
 	$(".nav-tabs li").on("click", function() {
