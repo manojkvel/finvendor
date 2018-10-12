@@ -45,59 +45,13 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
 
     @Override
     public String getRecordStats(String type, String subType, String perPageMaxRecords, String breachFlag) throws RuntimeException {
-        long totalRecordsForBreachFlagAll = 0L;
         String statsJson;
-        long totalRecordsForBreachFlagYes = 0L;
-        long totalRecordsForBreachFlagNo = 0L;
         try {
-            String mainQuery;
-            if ("rf".equals(subType)) {
-                mainQuery=RF_QUERY;
-                if ("y".equals(breachFlag)) {
-                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>15 ");
-                }
-                if ("n".equals(breachFlag)) {
-                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=15 ");
-                }
-                if ("all".equals(breachFlag)) {
-                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
-                }
-            } else {
-                mainQuery=D_QUERY;
-                if ("y".equals(breachFlag)) {
-                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>8 ");
-                }
-                if ("n".equals(breachFlag)) {
-                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=8 ");
-                }
-                if ("all".equals(breachFlag)) {
-                    mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
-                }
-            }
-
-
+            String mainQuery = applyFilter(subType, breachFlag);
             SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
 
             List<Object[]> rows = query1.list();
-            for (Object[] row : rows) {
-                String breachFlagFromDB = row[5] != null ? row[5].toString().trim() : "";
-                if ("all".equals(breachFlag)) {
-                    totalRecordsForBreachFlagAll++;
-                } else if ("n".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
-                    totalRecordsForBreachFlagNo++;
-                } else if ("y".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
-                    totalRecordsForBreachFlagYes++;
-                }
-            }
-
-            long actualTotalRecords;
-            if (totalRecordsForBreachFlagAll != 0L) {
-                actualTotalRecords = totalRecordsForBreachFlagAll;
-            } else if (totalRecordsForBreachFlagNo != 0L) {
-                actualTotalRecords = totalRecordsForBreachFlagNo;
-            } else {
-                actualTotalRecords = totalRecordsForBreachFlagYes;
-            }
+            long actualTotalRecords=rows.size();
 
             if (actualTotalRecords != 0L) {
                 // Calculate Last page number
@@ -112,34 +66,9 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
         return statsJson;
     }
 
-
     @Override
     public String getConsumerAnalytics(String type, String subType, String pageNumber, String perPageMaxRecords, String breachFlag) throws RuntimeException {
-        String mainQuery;
-        if ("rf".equals(subType)) {
-            mainQuery=RF_QUERY;
-            if ("y".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>15 ");
-            }
-            if ("n".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=15 ");
-            }
-            if ("all".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
-            }
-        } else {
-            mainQuery=D_QUERY;
-            if ("y".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>8 ");
-            }
-            if ("n".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=8 ");
-            }
-            if ("all".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
-            }
-        }
-
+        String mainQuery = applyFilter(subType, breachFlag);
         String mainQueryWithPagintion = mainQuery + CommonUtil.applyPagination(pageNumber, perPageMaxRecords);
         SQLQuery query1 = commonDao.getNativeQuery(mainQueryWithPagintion, null);
         List<Object[]> rows = query1.list();
@@ -162,13 +91,7 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
                 dto.setIpAddress(ipAddress);
                 dto.setHitCount(String.valueOf((int) Float.parseFloat(hitCount)));
                 dto.setBreachFlag(breachFlagFromDB);
-                if ("all".equals(breachFlag)) {
-                    equityResearchAnalyticsDtoList.add(dto);
-                } else if ("n".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
-                    equityResearchAnalyticsDtoList.add(dto);
-                } else if ("y".equals(breachFlag) && breachFlag.equals(breachFlagFromDB)) {
-                    equityResearchAnalyticsDtoList.add(dto);
-                }
+                equityResearchAnalyticsDtoList.add(dto);
             }
             resultMap.put("ConsumerAnalytics", equityResearchAnalyticsDtoList);
             resultString = JsonUtil.createJsonFromParamsMap(resultMap);
@@ -176,6 +99,34 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
             throw new RuntimeException(e);
         }
         return resultString;
+    }
+
+    private String applyFilter(String subType, String breachFlag) {
+        String mainQuery;
+        if ("rf".equals(subType)) {
+            mainQuery = RF_QUERY;
+            if ("y".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>15 ");
+            }
+            if ("n".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=15 ");
+            }
+            if ("all".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
+            }
+        } else {
+            mainQuery = D_QUERY;
+            if ("y".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>8 ");
+            }
+            if ("n".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=8 ");
+            }
+            if ("all".equals(breachFlag)) {
+                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
+            }
+        }
+        return mainQuery;
     }
 
     @Override
