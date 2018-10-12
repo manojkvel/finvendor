@@ -25,17 +25,17 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalyticsDao {
-    private static final Logger logger = LoggerFactory.getLogger(ConsumerAnalyticsEquityResearchDaoImpl.class.getName());
+public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
+    private static final Logger logger = LoggerFactory.getLogger(ConsumerAnalyticsDaoImpl.class.getName());
     /**
      * RF-Research Filter
      */
-    private static final String RF_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) rf_count, if(sum(a.count)>15,'y','n') rf_breach from eqty_research_report_metrics a, users b where a.user_name=b.username and_COUNT group by a.user_name";
+    private static final String RF_QUERY = "select a.user_name, b.registration_date, b.last_login, a.ip_address, sum(a.count) rf_count, if(sum(a.count)>15,'y','n') rf_breach  from eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name CONDITION";
 
     /**
      * D-Report Download
      */
-    private static final String D_QUERY = "select a.user_name,b.registration_date,b.last_login, a.ip_address,sum(a.count) d_count, if(sum(a.count)>8,'y','n') d_breach from download_eqty_research_report_metrics a, users b where a.user_name=b.username  and_COUNT group by a.user_name";
+    private static final String D_QUERY = "select a.user_name,b.registration_date, b.last_login, a.ip_address,sum(a.count) d_count, if(sum(a.count)>8,'y','n') d_breach from download_eqty_research_report_metrics a, users b where a.user_name=b.username group by a.user_name CONDITION";
     public static final String NA = "NA";
 
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
@@ -106,24 +106,24 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
         if ("rf".equals(subType)) {
             mainQuery = RF_QUERY;
             if ("y".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>15 ");
+                mainQuery = StringUtils.replace(mainQuery, "CONDITION", " having rf_count>15 ");
             }
             if ("n".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=15 ");
+                mainQuery = StringUtils.replace(mainQuery, "CONDITION", " having rf_count<=15 ");
             }
             if ("all".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
+                mainQuery = StringUtils.replace(mainQuery, "CONDITION", "");
             }
         } else {
             mainQuery = D_QUERY;
             if ("y".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count>8 ");
+                mainQuery = StringUtils.replace(mainQuery, "CONDITION", " having d_count>8 ");
             }
             if ("n".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", " and a.count<=8 ");
+                mainQuery = StringUtils.replace(mainQuery, "CONDITION", " having d_count<=8 ");
             }
             if ("all".equals(breachFlag)) {
-                mainQuery = StringUtils.replace(mainQuery, "and_COUNT", "");
+                mainQuery = StringUtils.replace(mainQuery, "CONDITION", "");
             }
         }
         return mainQuery;
@@ -132,11 +132,12 @@ public class ConsumerAnalyticsEquityResearchDaoImpl implements IConsumerAnalytic
     @Override
     public Pair<Long, InputStream> downloadConsumerAnalytics(String type, String subType) throws RuntimeException {
         String mainQuery = "rf".equals(subType) ? RF_QUERY : D_QUERY;
+        mainQuery = applyFilter(subType, "all");
         SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
         List<Object[]> rows = query1.list();
 
-        String fileName = "/home/finvendo/tmp/ConsumerAnalyticsReport.csv";
-//        String fileName = "d:\\tmp\\ConsumerAnalyticsReport.csv";
+//        String fileName = "/home/finvendo/tmp/ConsumerAnalyticsReport.csv";
+        String fileName = "d:\\tmp\\ConsumerAnalyticsReport.csv";
         File csvFile = new File(fileName);
         FileWriter fw = null;
         try {

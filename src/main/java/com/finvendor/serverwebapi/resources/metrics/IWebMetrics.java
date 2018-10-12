@@ -42,7 +42,7 @@ public interface IWebMetrics {
     @ResponseBody
     ResponseEntity<?> getConsumerAnalytics(String type, String subType, String pageNumber, String perPageMaxRecords, String breachFlag) throws WebApiException;
 
-    @RequestMapping(value = "/consumeranalstics/download", method = RequestMethod.GET)
+    @RequestMapping(value = "/consumeranalytics/download", method = RequestMethod.GET)
     @ResponseBody
     ResponseEntity<?> downloadConsumerAnalytics(HttpServletRequest request, HttpServletResponse response, String type, String subType) throws WebApiException;
 }
