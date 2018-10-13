@@ -123,7 +123,7 @@
 											<div class="breach_hd">
 												<div class="breach_level" style="float: left;">
 													<span>Breach Level </span>
-													<select style="width: 50px;margin-left: 5px;">
+													<select style="width: 50px;margin-left: 5px; padding: 0 5px;">
 														<option value='all'>All</option>
 														<option value='y'>Yes</option>
 														<option value='n'>No</option>
