@@ -14,15 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
@@ -40,6 +38,9 @@ public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
 
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS");
 
+    @Resource(name = "finvendorProperties")
+    private Properties finvendorProperties;
+
     @Autowired
     ICommonDao commonDao;
 
@@ -51,7 +52,7 @@ public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
             SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
 
             List<Object[]> rows = query1.list();
-            long actualTotalRecords=rows.size();
+            long actualTotalRecords = rows.size();
 
             if (actualTotalRecords != 0L) {
                 // Calculate Last page number
@@ -86,8 +87,8 @@ public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
 
                 EquityResearchAnalyticsDto dto = new EquityResearchAnalyticsDto();
                 dto.setUserName(userName);
-                dto.setRegistrationDate(String.valueOf(formatter.parse(registrationDate).getTime()));
-                dto.setLastLogin(String.valueOf(formatter.parse(lastLogin).getTime()));
+                dto.setRegistrationDate(!StringUtils.isEmpty(registrationDate) ? String.valueOf(formatter.parse(registrationDate).getTime()) : "NA");
+                dto.setLastLogin(!StringUtils.isEmpty(lastLogin) ? String.valueOf(formatter.parse(lastLogin).getTime()) : "NA");
                 dto.setIpAddress(ipAddress);
                 dto.setHitCount(String.valueOf((int) Float.parseFloat(hitCount)));
                 dto.setBreachFlag(breachFlagFromDB);
@@ -131,13 +132,11 @@ public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
 
     @Override
     public Pair<Long, InputStream> downloadConsumerAnalytics(String type, String subType) throws RuntimeException {
-        String mainQuery = "rf".equals(subType) ? RF_QUERY : D_QUERY;
-        mainQuery = applyFilter(subType, "all");
+        String mainQuery = applyFilter(subType, "all");
         SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
         List<Object[]> rows = query1.list();
+        String fileName = finvendorProperties.getProperty("metrics_download_path");
 
-        String fileName = "/home/finvendo/tmp/ConsumerAnalyticsReport.csv";
-//        String fileName = "d:\\tmp\\ConsumerAnalyticsReport.csv";
         File csvFile = new File(fileName);
         FileWriter fw = null;
         try {
@@ -165,9 +164,9 @@ public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
                 String breachFlag = row[5] != null ? row[5].toString().trim() : NA;
                 fw.append(userName);
                 fw.append(',');
-                fw.append(String.valueOf(formatter.parse(registrationDate).getTime()));
+                fw.append(registrationDate);
                 fw.append(',');
-                fw.append(String.valueOf(formatter.parse(lastLogin).getTime()));
+                fw.append(lastLogin);
                 fw.append(',');
                 fw.append(ipAddress);
                 fw.append(',');
@@ -195,8 +194,6 @@ public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
             return new Pair<>(length, inputStream);
         } catch (IOException e) {
             throw new RuntimeException("Error has occurred while downloading customer analytics data for equity research", e);
-        } finally {
-
         }
     }
 }
