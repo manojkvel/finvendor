@@ -68,7 +68,9 @@
 													<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
 												</div>
 												<div class="download_report" style="margin-left: 5px; padding: 5px; float: right; cursor: pointer;" title="Download Report">
-													<span class="fa fa-arrow-circle-down" style="font-size: 30px;"></span>
+													<a target="_blank" href="#">
+														<span class="fa fa-arrow-circle-down" style="font-size: 30px;"></span>
+													</a>
 												</div>
 											</div>
 											<div class="analytics_content">
@@ -142,7 +144,9 @@
 													<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
 												</div>
 												<div class="download_report" style="margin-left: 5px; padding: 5px; float: right; cursor: pointer;" title="Download Report">
-													<span class="fa fa-arrow-circle-down" style="font-size: 30px;"></span>
+													<a target="_blank" href="#">
+														<span class="fa fa-arrow-circle-down" style="font-size: 30px;"></span>
+													</a>
 												</div>
 											</div>
 											<table id='equity_analytics_table'>

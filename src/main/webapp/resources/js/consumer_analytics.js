@@ -69,6 +69,8 @@ jQuery(document).ready(function() {
 		}
 
 		$("#consumer_analytics .tab-content #" + id + " #equity_analytics_table tbody").html(htmlCode);
+		$("#consumer_analytics .tab-content #" + id + " .download_report a").attr('href', '/system/api/consumeranalytics/download?type=' + type + '&subType=' + breachType);
+
 
 		var paginationHtml = 	"<div class='paging_container'>"
 								+ "<ul class='pager'>"
@@ -82,11 +84,11 @@ jQuery(document).ready(function() {
 
 		$("#consumer_analytics .tab-content #" + id + "").append(paginationHtml);
 		$("#consumer_analytics .tab-content #" + id + " .pager a").on('click', getPaginationIndex);
-		$("#consumer_analytics .tab-content #" + id + " .download_report").on('click', downloadReport);
 
 
 		setRecordStats(currentIndex, lastPageNumber);
 	}
+		$("#consumer_analytics .tab-content .download_report").on('click', downloadReport);
 
 	var firstPageNumber = 1;
 	var pageNumber = 1;
