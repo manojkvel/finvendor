@@ -164,9 +164,9 @@ public class ConsumerAnalyticsDaoImpl implements IConsumerAnalyticsDao {
                 String breachFlag = row[5] != null ? row[5].toString().trim() : NA;
                 fw.append(userName);
                 fw.append(',');
-                fw.append(registrationDate);
+                fw.append(registrationDate.substring(0,registrationDate.indexOf(" ")));
                 fw.append(',');
-                fw.append(lastLogin);
+                fw.append(lastLogin.substring(0,lastLogin.indexOf(" ")));
                 fw.append(',');
                 fw.append(ipAddress);
                 fw.append(',');
