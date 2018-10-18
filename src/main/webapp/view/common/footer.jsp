@@ -8,7 +8,7 @@
 						<div class="section_one">
 							<h3>About Us</h3>
 							<p>
-								Finvendor strives for democratizing the inventor's community. Finvendor endeavours to help retail and institutional investors make a well-informed investment decisions. <br />Finvendor sources the equity, sector, macroeconomic and debt research reports for Indian markets from the registered Brokers, economists and other sell-side independent research Analysts.
+								Finvendor strives for democratizing the investor's community. Finvendor endeavours to help retail and institutional investors make a well-informed investment decisions. <br />Finvendor sources the equity, sector, macroeconomic and debt research reports for Indian markets from the registered Brokers, economists and other sell-side independent research Analysts.
 							</p>
 							<ul class="social">
 								<li><a href="https://www.facebook.com/finvendor"
@@ -65,10 +65,10 @@
 								<br /><cite>(CIN - U74999MH2016PTC284691)</cite>
 							</p>
 							<p>
-								<span class="fa fa-phone"></span> +65 869 633 21
+								<span class="fa fa-phone"></span> +91-7519312003
 							</p>
 							<p>
-								<span class="fa fa-fax"></span> +65 869 633 21
+								<span class="fa fa-fax"></span> +91-7519312003
 							</p>
 							<p>
 								<span class="fa fa-envelope"></span> enquiry@finvendor.com
