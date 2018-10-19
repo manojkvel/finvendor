@@ -1374,40 +1374,64 @@ button {
 	overflow: hidden;
 }
 
-#consumer_analytics .analytics_content {
+.tabulative-container .bd {
 	overflow: auto;
 	width: 100%;
 }
 
-#consumer_analytics .tab-pane {
+.tabulative-container .tab-pane {
 	background: #fff;
 	padding: 20px 0;
 	overflow: auto;
 }
 
-#consumer_analytics .nav-tabs>li {
+.tabulative-container .nav-tabs>li {
 	float: none;
 }
 
-#consumer_analytics .nav-tabs>li>a {
+.tabulative-container .nav-tabs>li>a {
 	border-radius: 0;
+	border: 0;
+	border-top: 1px solid #fff;
 }
 
-#consumer_analytics .nav-tabs>li.active>a, 
-#consumer_analytics .nav-tabs>li.active>a:focus, 
-#consumer_analytics .nav-tabs>li.active>a:hover {
+.tabulative-container .nav-tabs>li.active>a, 
+.tabulative-container .nav-tabs>li.active>a:focus, 
+.tabulative-container .nav-tabs>li.active>a:hover {
 	background: #34bf98;
 }
 
-#consumer_analytics .nav-tabs>li>a,
-#consumer_analytics .nav-tabs>li>a:hover {
+.tabulative-container .nav-tabs>li>a,
+.tabulative-container .nav-tabs>li>a:hover {
 	font-size: 13px;
-	border: 0;	
 }
 
-#consumer_analytics .breach_hd {
+.tabulative-container .hd {
 	padding: 0 10px 10px;
 	overflow: hidden;
+}
+
+#consumer_market #sidebar-panel .sidebar-heading span {
+	font-size: 13px;
+	float: none;
+	color: #000;
+	padding: 10px 0;
+	display: block;
+	cursor: default;
+}
+
+#consumer_market .max_per_page {
+	float: none;
+	text-align: right;
+}
+
+#consumer_market table .large_font a {
+	font-size: 13px;
+}
+
+#consumer_market table .large_font a:hover,
+#consumer_market table .large_font a:focus {
+	color: #fff;
 }
 
 /*-----------------End of Dashboard Metrics----------------*/
