@@ -76,8 +76,9 @@
         <mapping class="com.finvendor.model.metrics.EqtyResearchReportsMetrics"></mapping>
         <mapping class="com.finvendor.model.metrics.DownloadEqtyResearchReportsMetrics"></mapping>
         <mapping class="com.finvendor.model.metrics.HomePageMetrics"></mapping>
-        <mapping class="com.finvendor.model.BhavPrice"></mapping>
-
+        <mapping class="com.finvendor.model.Markets"></mapping>
+        <mapping class="com.finvendor.model.IndexCompDetails"></mapping>
+        <mapping class="com.finvendor.model.IndexDetails"></mapping>
 
     </session-factory>
 

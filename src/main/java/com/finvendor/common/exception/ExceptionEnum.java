@@ -35,7 +35,7 @@ public enum ExceptionEnum {
 	CONSUMER_ANALYTICS_EQTY_RESEARCH("FV0023", "Internal error - Unable to get Consumer Analytics for Equity Research type, Please contact Finvendor admin for support!!"),
 	CONSUMER_ANALYTICS_DOWNLOAD("FV0024", "Internal error - Unable to download Consumer Analytics for Equity Research type, Please contact Finvendor admin for support!!"),
 	BHAV_COPY_DOWNLOAD("FV0024", "Internal error - Unable to download Bhav Copy, Please contact Finvendor admin for support!!"),
-	BHAV_COPY_PERSIST("FV0024", "Internal error - Unable to Persist Bhav Copy, Please contact Finvendor admin for support!!")
+	MARKETS_PERSIST("FV0024", "Internal error - Unable to Persist Bhav Copy, Please contact Finvendor admin for support!!")
 
 	;
 	

@@ -1,4 +1,4 @@
-package com.finvendor.server.bhavprice.service;
+package com.finvendor.server.markets.service;
 
 import com.finvendor.server.common.infra.download.service.URLReader;
 import com.finvendor.server.common.infra.upload.IFileUpload;
@@ -11,8 +11,8 @@ import java.io.File;
 import java.net.URL;
 
 @Service
-public class BhavCopyCsvFileUploadService implements IFileUpload {
-    private static final Logger logger = LoggerFactory.getLogger(BhavCopyCsvFileUploadService.class.getName());
+public class MarketsFileUploadService implements IFileUpload {
+    private static final Logger logger = LoggerFactory.getLogger(MarketsFileUploadService.class.getName());
 
     @Override
     public String upload(String fromPath, String toPath) throws Exception {

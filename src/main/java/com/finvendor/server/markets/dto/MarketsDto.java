@@ -1,8 +1,11 @@
-package com.finvendor.server.bhavprice.dto;
+package com.finvendor.server.markets.dto;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 
-public class BhavPriceDto implements Serializable {
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
+public class MarketsDto implements Serializable {
 
     private Long id;
 
@@ -10,17 +13,17 @@ public class BhavPriceDto implements Serializable {
 
     private String series;
 
-    private String open;
+    protected String open;
 
-    private String high;
+    protected String high;
 
-    private String low;
+    protected String low;
 
-    private String close;
+    protected String close;
 
-    private String last;
+    protected String last;
 
-    private String prevColse;
+    protected String prevColse;
 
     private String totalTradeQuantity;
 

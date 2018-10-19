@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="bhav_price_details")
-public class BhavPrice implements Serializable {
+public class Markets implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

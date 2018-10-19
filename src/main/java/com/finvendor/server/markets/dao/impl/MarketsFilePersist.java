@@ -1,7 +1,7 @@
-package com.finvendor.server.bhavprice.dao.impl;
+package com.finvendor.server.markets.dao.impl;
 
-import com.finvendor.model.BhavPrice;
-import com.finvendor.server.bhavprice.dao.AbstractBhavCopyCsvFilePersist;
+import com.finvendor.model.Markets;
+import com.finvendor.server.markets.dao.AbstractMarketsFilePersist;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 @Repository
-public class BhavCopyCsvFilePersist extends AbstractBhavCopyCsvFilePersist<BhavPrice> {
+public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
 
     @Override
     @Transactional(readOnly = false)
@@ -41,7 +41,7 @@ public class BhavCopyCsvFilePersist extends AbstractBhavCopyCsvFilePersist<BhavP
                 String totalTrades = bhavColumns[11];
                 String isin = bhavColumns[12];
 
-                BhavPrice bhavPrice=new BhavPrice();
+                Markets bhavPrice=new Markets();
                 bhavPrice.setSymbol(symbol);
                 bhavPrice.setSeries(series);
                 bhavPrice.setOpen(open);
