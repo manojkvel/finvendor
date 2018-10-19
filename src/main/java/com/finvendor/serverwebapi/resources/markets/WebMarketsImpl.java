@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.Resource;
 import java.util.Properties;
 
-import static com.finvendor.common.exception.ExceptionEnum.MARKETS_PERSIST;
+import static com.finvendor.common.exception.ExceptionEnum.*;
 
 @Controller
 public class WebMarketsImpl implements IWebMarkets {
@@ -48,7 +48,7 @@ public class WebMarketsImpl implements IWebMarkets {
             return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while get record stats, error - ", e);
-            return ErrorUtil.getError(MARKETS_PERSIST.getCode(), MARKETS_PERSIST.getUserMessage(), e);
+            return ErrorUtil.getError(MARKETS_RECORD_STATS.getCode(), MARKETS_RECORD_STATS.getUserMessage(), e);
         }
     }
 
@@ -63,7 +63,7 @@ public class WebMarketsImpl implements IWebMarkets {
             return new ResponseEntity<>(markets, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while get record stats, error - ", e);
-            return ErrorUtil.getError(MARKETS_PERSIST.getCode(), MARKETS_PERSIST.getUserMessage(), e);
+            return ErrorUtil.getError(MARKETS.getCode(), MARKETS.getUserMessage(), e);
         }
     }
 
