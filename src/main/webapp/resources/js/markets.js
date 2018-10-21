@@ -34,7 +34,7 @@ jQuery(document).ready(function() {
 	};
 
 	var getMarketsCommonHtml = function(response) {
-		var len = response.ConsumerAnalytics.length;
+		var len = response.marketData.length;
 		var htmlCode = '';
 		var rowHtml = 	"";
 
@@ -49,29 +49,40 @@ jQuery(document).ready(function() {
 
 			htmlCode = htmlCode + "<tr>" +
 			"<td>" + 
-				response.ConsumerAnalytics[i].userName +
+				response.marketData[i].companyName +
 			"</td>" + 
 			"<td>" + 
-				timeStampToDate(Number(response.ConsumerAnalytics[i].registrationDate)) +
+				response.marketData[i].high +
 			"</td>" +
 			"<td>" + 
-				timeStampToDate(Number(response.ConsumerAnalytics[i].lastLogin)) +
+				response.marketData[i].low +
 			"</td>" +
 			"<td>" + 
-				response.ConsumerAnalytics[i].ipAddress +
+				response.marketData[i].close +
 			"</td>" +
 			"<td>" + 
-				response.ConsumerAnalytics[i].hitCount +
+				response.marketData[i].last +
 			"</td>" +
 			"<td>" + 
-				response.ConsumerAnalytics[i].breachFlag +
+				response.marketData[i]._52wHigh +
+			"</td>" +
+			"<td>" + 
+				response.marketData[i]._52wLow +
+			"</td>" +
+			"<td>" + 
+				response.marketData[i].change +
+			"</td>" +
+			"<td>" + 
+				response.marketData[i].percentChange +
+			"</td>" +
+			"<td>" + 
+				response.marketData[i].tradeQty +
 			"</td>" +
 			"</tr>";
 		}
 
 		$("#consumer_market .tab-content #" + id + " table tbody").html(htmlCode);
-		$("#consumer_market .tab-content #" + id + " .download_report a").attr('href', '/system/api/consumeranalytics/download?type=' + type + '&subType=' + breachType);
-
+		
 
 		var paginationHtml = 	"<div class='paging_container'>"
 								+ "<ul class='pager'>"
@@ -97,8 +108,7 @@ jQuery(document).ready(function() {
 	var currentIndex = 1;
 	var perPageMaxRecords = 5;
 	var type = 'equity';
-	var breachType = 'd';
-	var breachLevel = 'all';
+	var indexFilter = 'all';
 
 	var setRecordStats = function(currentIndex, lastPageNumber) {
 		if(currentIndex > lastPageNumber) {
@@ -126,7 +136,7 @@ jQuery(document).ready(function() {
 			currentIndex = 1;
 		}
 		perPageMaxRecords = Number($(this).val());
-		loadDefaultMarketsReport(type, breachType, breachLevel, perPageMaxRecords);
+		loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords);
 	}
 	$('#consumer_market .max_per_page select').on('change', getPerPageMaxRecords);
 
@@ -148,7 +158,7 @@ jQuery(document).ready(function() {
 		if(currentNumber != firstPageNumber) {
 			pageNumber = firstPageNumber;
 			currentIndex = firstPageNumber;
-			loadDefaultMarketsReport(type, breachType, breachLevel, perPageMaxRecords);
+			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords);
 		}
 	};
 
@@ -156,7 +166,7 @@ jQuery(document).ready(function() {
 		if(currentNumber != lastPageNumber) {
 			pageNumber = lastPageNumber;
 			currentIndex = (pageNumber - 1) * perPageMaxRecords + 1;
-			loadDefaultMarketsReport(type, breachType, breachLevel, perPageMaxRecords);
+			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords);
 		}
 	};
 
@@ -164,7 +174,7 @@ jQuery(document).ready(function() {
 		if(currentNumber < lastPageNumber) {
 			pageNumber = currentNumber + 1;
 			currentIndex = currentIndex + perPageMaxRecords;
-			loadDefaultMarketsReport(type, breachType, breachLevel, perPageMaxRecords);
+			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords);
 		}
 	};
 
@@ -172,14 +182,14 @@ jQuery(document).ready(function() {
 		if(currentNumber > 1) {
 			pageNumber = currentNumber - 1;
 			currentIndex = currentIndex - perPageMaxRecords;
-			loadDefaultMarketsReport(type, breachType, breachLevel, perPageMaxRecords);
+			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords);
 		}
 	};
 
-	function loadDefaultMarketsReport(type, breachType, breachLevel, perPageMaxRecords) {
+	function loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords) {
 		isProgressLoader(true);
 
-		getRecordStats(type, breachType, breachLevel, perPageMaxRecords).then(function(stats) {
+		getRecordStats(indexFilter, perPageMaxRecords).then(function(stats) {
 			stats = JSON.parse(stats);
 			firstPageNumber = stats.firstPageNumber;
 			lastPageNumber = stats.lastPageNumber;
@@ -187,7 +197,7 @@ jQuery(document).ready(function() {
 			$("#consumer_market .tab-content #" + id + " #total_records_count").html(totalRecords + " Results");
 			//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 			console.log("pageNumber: " + pageNumber);
-			getMarketsApi(type, breachType, breachLevel, pageNumber).then(function(serverResponse) {
+			getMarketsApi(indexFilter, type, pageNumber).then(function(serverResponse) {
 				//console.log(serverResponse);
 				$("#consumer_market .paging_container").remove();
 				var response = JSON.parse(serverResponse);
@@ -209,17 +219,17 @@ jQuery(document).ready(function() {
 		resetPaginationCount();
 		$("#consumer_market .tab-content  #" + id + " .max_per_page select").val($("#consumer_market .tab-content #" + id + " .max_per_page select option:first").val());
 		
-		loadDefaultMarketsReport(type, breachType, breachLevel, perPageMaxRecords);
+		loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords);
 	};
 
 	$('#sidebar-panel .sidebar-heading span').on('click', resetFilters);
 
 
-	loadDefaultMarketsReport(type, breachType, breachLevel, perPageMaxRecords);
+	loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords);
 
-	function getMarketsApi(researchType, subType, breachLevel, pageNumber) {
+	function getMarketsApi(indexFilter, type, pageNumber) {
 
-		var url = "/system/api/consumeranalytics?type=" + researchType + "&subType=" + subType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&breachFlag=" + breachLevel;
+		var url = "/system/api/markets?indexFilter=" + indexFilter + "&type=" + type +  "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -250,8 +260,8 @@ jQuery(document).ready(function() {
 	/**
      * Function to start async call to get record stats
      */
-	function getRecordStats(researchType, subType, breachLevel, perPageMaxRecords) {
-		var url = "/system/api/consumeranalytics/recordstats?type=" + researchType + "&subType=" + subType + "&breachFlag=" + breachLevel + "&perPageMaxRecords=" + perPageMaxRecords;
+	function getRecordStats(indexFilter, perPageMaxRecords) {
+		var url = "/system/api/markets/recordstats?indexFilter=" + indexFilter + "&perPageMaxRecords=" + perPageMaxRecords;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
@@ -285,15 +295,41 @@ jQuery(document).ready(function() {
 
 	var id = "market_all_stocks";
 	$(".nav-tabs li").on("click", function() {
-		if($(this).index() == 0 && !$(this).hasClass('active')) {
+		
+		if($(this).children().attr('href').substring(1) == 'market_all_stocks' && !$(this).hasClass('active')) {
 			id = "market_all_stocks";
 			newIndex = 0;
-			breachType = 'd';
+			indexFilter = 'all';
 			resetFilters();
-		} else if($(this).index() == 1 && !$(this).hasClass('active')) {
+		} else if($(this).children().attr('href').substring(1) == 'market_sensex' && !$(this).hasClass('active')) {
 			id = "market_sensex";
 			newIndex = 1;
-			breachType = 'rf';
+			type='';
+			indexFilter = 'sensex';
+			resetFilters();
+		} else if($(this).children().attr('href').substring(1) == 'market_nifty_50' && !$(this).hasClass('active')) {
+			id = "market_nifty_50";
+			newIndex = 1;
+			type='';
+			indexFilter = 'nifty50';
+			resetFilters();
+		} else if($(this).children().attr('href').substring(1) == 'market_nifty_mid_cap' && !$(this).hasClass('active')) {
+			id = "market_nifty_mid_cap";
+			newIndex = 1;
+			type='';
+			indexFilter = 'niftyMidCap';
+			resetFilters();
+		} else if($(this).children().attr('href').substring(1) == 'market_nifty_small_cap' && !$(this).hasClass('active')) {
+			id = "market_nifty_small_cap";
+			newIndex = 1;
+			type='';
+			indexFilter = 'niftySmallCap';
+			resetFilters();
+		} else if($(this).children().attr('href').substring(1) == 'market_nifty_500' && !$(this).hasClass('active')) {
+			id = "market_nifty_500";
+			newIndex = 1;
+			type='';
+			indexFilter = 'nifty500';
 			resetFilters();
 		}
 

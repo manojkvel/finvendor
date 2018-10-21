@@ -92,7 +92,7 @@
         </div>
         <div class="content">
             <ul class="contact">
-                <li class="phone"><span class="fa fa-phone"></span> +65 869 633 21</li>
+                <li class="phone"><span class="fa fa-phone"></span> +91-7519312003</li>
                 <li class="message"><a href="mailto:enquiry@finvendor.com"><span class="fa fa-envelope"></span> enquiry@finvendor.com</a></li>
                 <li class="location">
                     <span class="fa fa-map-marker"></span>
