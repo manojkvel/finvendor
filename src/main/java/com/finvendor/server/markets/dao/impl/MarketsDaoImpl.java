@@ -2,6 +2,7 @@ package com.finvendor.server.markets.dao.impl;
 
 import com.finvendor.common.util.CommonUtil;
 import com.finvendor.common.util.JsonUtil;
+import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.server.markets.dao.IMarketsDao;
 import com.finvendor.server.markets.dto.CustomMarketsDto;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.*;
@@ -19,7 +21,7 @@ import java.util.*;
 public class MarketsDaoImpl implements IMarketsDao {
     private static final Logger logger = LoggerFactory.getLogger(MarketsDaoImpl.class.getName());
 
-    private static final String INDEX_NAME_QUERY = "select indice.index_id, indice.name from indice";
+    private static final String INDEX_NAME_QUERY = "select indice.index_id, indice.name,indice.family from indice";
     private static final String INDEX_SUMMARY_QUERY = "select distinct b.closing, B.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
     private static final String MARKET_ANALYTICS_QUERY = "select cast(f.`52w_low` as DECIMAL) \"52wlow\",cast(f.`52w_high` as DECIMAL) \"52whigh\",CAST(c.tot_trd_qty as DECIMAL) \"trade_qty\",CAST(((c.close-c.prev_close)*100/c.prev_close) as DECIMAL) \"percentChange\", e.index_id \"indexid\" From rsch_sub_area_company_dtls a, bhav_price_details c, index_comp_details e, stock_current_info f where a.isin_code=c.isin and a.company_id=e.company_id and a.company_id=f.stock_id group by a.company_name";
 
@@ -27,6 +29,16 @@ public class MarketsDaoImpl implements IMarketsDao {
 
     @Autowired
     private ICommonDao commonDao;
+
+    private static Map<String, String> bseIndexNameCodeMap = new HashMap<>();
+
+    static {
+        bseIndexNameCodeMap.put("SENSEX", "22");
+        bseIndexNameCodeMap.put("BSE Bharat 22 Index", "22");
+        bseIndexNameCodeMap.put("BSE Capital Goods", "22");
+        bseIndexNameCodeMap.put("BSE Consumer Durables", "22");
+        bseIndexNameCodeMap.put("BSE Metals", "22");
+    }
 
     @Override
     public String getIndexNames() throws RuntimeException {
@@ -50,26 +62,27 @@ public class MarketsDaoImpl implements IMarketsDao {
         return indexNamesJson;
     }
 
-
     @Override
     public String getIndexSummary(String indexName) throws RuntimeException {
-        String indexId = getIndexId(indexName);
+        String indexId = getIndexId(indexName).getElement1();
+        String family = getIndexId(indexName).getElement2();
         String indexNamesJson;
         try {
-            logger.info("INDEX_SUMMARY_QUERY:{}", INDEX_SUMMARY_QUERY);
-            SQLQuery query1 = commonDao.getNativeQuery(INDEX_SUMMARY_QUERY, new String[]{indexId});
-            List<Object[]> rows = query1.list();
             Map<String, Object> indexSummaryMap = new LinkedHashMap<>();
             Map<String, Object> dataMap = new LinkedHashMap<>();
-            for (Object[] row : rows) {
-                String closing = row[0] != null ? row[0].toString().trim() : "";
-                String pointChange = row[1] != null ? row[1].toString().trim() : "";
-                String percentChange = row[2] != null ? row[2].toString().trim() : "";
-                String high = row[3] != null ? row[3].toString().trim() : "";
-                String low = row[4] != null ? row[4].toString().trim() : "";
-                String pe = row[5] != null ? row[5].toString().trim() : "";
-                String pb = row[6] != null ? row[6].toString().trim() : "";
-                String divYield = row[7] != null ? row[7].toString().trim() : "";
+            if ("BSE".equals(family)) {
+                RestTemplate restTemplate = new RestTemplate();
+                String code = bseIndexNameCodeMap.get(indexName);
+                String uri = "https://api.bseindia.com/BseIndiaAPI/api/GetLinknew/w?code=" + code;
+                String result = restTemplate.getForObject(uri, String.class);
+                String closing = JsonUtil.getValue(result, "CurrValue");
+                String pointChange = JsonUtil.getValue(result, "Chg");
+                String percentChange = JsonUtil.getValue(result, "ChgPer");
+                String high = JsonUtil.getValue(result, "High");
+                String low = JsonUtil.getValue(result, "Low");
+                String pe = "-";
+                String pb = "-";
+                String divYield = "-";
                 indexSummaryMap.put("closing", closing);
                 indexSummaryMap.put("pointChange", pointChange);
                 indexSummaryMap.put("percentChange", percentChange);
@@ -79,7 +92,29 @@ public class MarketsDaoImpl implements IMarketsDao {
                 indexSummaryMap.put("pb", pb);
                 indexSummaryMap.put("divYield", divYield);
                 indexSummaryMap.put("date", Calendar.getInstance().getTimeInMillis());
-
+            } else {
+                logger.info("INDEX_SUMMARY_QUERY:{}", INDEX_SUMMARY_QUERY);
+                SQLQuery query1 = commonDao.getNativeQuery(INDEX_SUMMARY_QUERY, new String[]{indexId});
+                List<Object[]> rows = query1.list();
+                for (Object[] row : rows) {
+                    String closing = row[0] != null ? row[0].toString().trim() : "";
+                    String pointChange = row[1] != null ? row[1].toString().trim() : "";
+                    String percentChange = row[2] != null ? row[2].toString().trim() : "";
+                    String high = row[3] != null ? row[3].toString().trim() : "";
+                    String low = row[4] != null ? row[4].toString().trim() : "";
+                    String pe = row[5] != null ? row[5].toString().trim() : "";
+                    String pb = row[6] != null ? row[6].toString().trim() : "";
+                    String divYield = row[7] != null ? row[7].toString().trim() : "";
+                    indexSummaryMap.put("closing", closing);
+                    indexSummaryMap.put("pointChange", pointChange);
+                    indexSummaryMap.put("percentChange", percentChange);
+                    indexSummaryMap.put("high", high);
+                    indexSummaryMap.put("low", low);
+                    indexSummaryMap.put("pe", pe);
+                    indexSummaryMap.put("pb", pb);
+                    indexSummaryMap.put("divYield", divYield);
+                    indexSummaryMap.put("date", Calendar.getInstance().getTimeInMillis());
+                }
             }
             dataMap.put("indexSummary", indexSummaryMap);
             indexNamesJson = JsonUtil.createJsonFromParamsMap(dataMap);
@@ -195,7 +230,7 @@ public class MarketsDaoImpl implements IMarketsDao {
                     unchanged = defaultAnalytics[0];
                 }
             } else {
-                String indexId = getIndexId(indexFilter);
+                String indexId = getIndexId(indexFilter).getElement1();
                 logger.info("indexId:{} for indexFilter:{}", indexId, indexFilter);
                 mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange >0.0 and e.index_id = ? order by \"percentChange\" desc";
                 logger.info("gainerQuery:{}", mainQuery);
@@ -284,14 +319,15 @@ public class MarketsDaoImpl implements IMarketsDao {
         if (indexFilter.equals("all")) {
             mainQuery = MARKETS_QUERY;
         } else {
-            String indexId = getIndexId(indexFilter);
+            String indexId = getIndexId(indexFilter).getElement1();
             mainQuery = MARKETS_QUERY + " having indexid='" + indexId + "' ";
         }
         return mainQuery;
     }
 
-    private String getIndexId(String indexName) {
+    private Pair<String, String> getIndexId(String indexName) {
         String indexId = "";
+        String family = "";
         try {
             String mainQuery = INDEX_NAME_QUERY + " where indice.name=?";
             logger.info("getIndexId-> mainQuery:{}", mainQuery);
@@ -300,12 +336,13 @@ public class MarketsDaoImpl implements IMarketsDao {
             for (Object[] row : rows) {
                 indexId = row[0] != null ? row[0].toString().trim() : "";
                 String indexName1 = row[1] != null ? row[1].toString().trim() : "";
+                family = row[2] != null ? row[2].toString().trim() : "";
 
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return indexId;
+        return new Pair<>(indexId, family);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.finvendor.common.util;
 
 import com.finvendor.common.constant.AppConstant;
-import org.apache.commons.lang.StringUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -49,6 +48,15 @@ public class DateUtil {
 	public static String getCurrentMonth() {
 		return new SimpleDateFormat("MMM").format(new java.util.Date(Calendar.getInstance().getTimeInMillis()))
 				.toUpperCase();
+	}
+
+	public static String getCurrentMonthDigit() {
+		int monthNumber = Calendar.getInstance().get(Calendar.MONTH);
+		String monthDigit = String.valueOf(monthNumber+1);
+		if(monthDigit.length()==1){
+			monthDigit="0"+monthDigit;
+		}
+		return monthDigit;
 	}
 
 	public static String getCurrentDay() {
@@ -155,16 +163,22 @@ public class DateUtil {
 //		reserchDateCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
 //		System.out.println(reserchDateCalendar.getTime());
 
-		String bhavUrl="https://www.nseindia.com/content/historical/EQUITIES/$YEAR/$MON/cm$DAY$MON$YEARbhav.csv.zip";
-		String dayNumber = getDayNumber();
-		String threeLetterMonthName = getThreeLetterMonthName();
-		String year = getYear();
-		bhavUrl=StringUtils.replace(bhavUrl, "$DAY", dayNumber);
-		bhavUrl=StringUtils.replace(bhavUrl, "$MON", threeLetterMonthName);
-		bhavUrl=StringUtils.replace(bhavUrl, "$YEAR", year);
-		System.out.println(bhavUrl);
+//		String bhavUrl="https://www.nseindia.com/content/historical/EQUITIES/$YEAR/$MON/cm$DAY$MON$YEARbhav.csv.zip";
+//		String dayNumber = getDayNumber();
+//		String threeLetterMonthName = getThreeLetterMonthName();
+//		String year = getYear();
+//		bhavUrl=StringUtils.replace(bhavUrl, "$DAY", dayNumber);
+//		bhavUrl=StringUtils.replace(bhavUrl, "$MON", threeLetterMonthName);
+//		bhavUrl=StringUtils.replace(bhavUrl, "$YEAR", year);
+//		System.out.println(bhavUrl);
+//
+//		System.out.println(StringUtils.replace(StringUtils.substring(bhavUrl,bhavUrl.lastIndexOf("/")+1),".zip",""));
 
-		System.out.println(StringUtils.replace(StringUtils.substring(bhavUrl,bhavUrl.lastIndexOf("/")+1),".zip",""));
+
+//		String currentDay = getCurrentDay();
+//		String currentMonth = getCurrentMonthDigit();
+//		String currentYear = getCurrentYear();
+//		System.out.println(currentDay+currentMonth+currentYear);
 
 	}
 

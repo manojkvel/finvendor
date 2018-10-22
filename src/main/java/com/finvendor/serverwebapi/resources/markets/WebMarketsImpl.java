@@ -54,7 +54,7 @@ public class WebMarketsImpl implements IWebMarkets {
             return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while get index names, error - ", e);
-            return ErrorUtil.getError(MARKETS_RECORD_STATS.getCode(), MARKETS_RECORD_STATS.getUserMessage(), e);
+            return ErrorUtil.getError(INDEX_NAMES.getCode(), INDEX_NAMES.getUserMessage(), e);
         }
     }
 
@@ -65,7 +65,7 @@ public class WebMarketsImpl implements IWebMarkets {
             return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while get index summary, error - ", e);
-            return ErrorUtil.getError(MARKETS_RECORD_STATS.getCode(), MARKETS_RECORD_STATS.getUserMessage(), e);
+            return ErrorUtil.getError(INDEX_SUMMARY.getCode(), INDEX_SUMMARY.getUserMessage(), e);
         }
     }
 
@@ -76,7 +76,7 @@ public class WebMarketsImpl implements IWebMarkets {
             return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while get index summary, error - ", e);
-            return ErrorUtil.getError(MARKETS_RECORD_STATS.getCode(), MARKETS_RECORD_STATS.getUserMessage(), e);
+            return ErrorUtil.getError(MARKET_ANALYTICS.getCode(), MARKET_ANALYTICS.getUserMessage(), e);
         }
     }
 
@@ -127,7 +127,7 @@ public class WebMarketsImpl implements IWebMarkets {
     @Override
     public ResponseEntity<?> persistNiftyIndices() throws WebApiException {
         try {
-            String niftyIndicesPriceUrl = "http://www.niftyindices.com/Daily_Snapshot/ind_close_all_19102018.csv";//getNiftyIndicesPriceUrl();
+            String niftyIndicesPriceUrl = getNiftyIndicesPriceUrl();
             logger.info("persistNiftyIndices-> niftyIndicesPriceUrl:{}", niftyIndicesPriceUrl);
 
             String toPath = finvendorProperties.getProperty("finvendo_tmp_path");
@@ -142,7 +142,7 @@ public class WebMarketsImpl implements IWebMarkets {
             return new ResponseEntity<>("Nifty Indices persisted into finvendor database successfully with total records:" + persistCount, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while persist Nifty Indices from finvendor tmp path, error - ", e);
-            return ErrorUtil.getError(MARKETS_PERSIST.getCode(), MARKETS_PERSIST.getUserMessage(), e);
+            return ErrorUtil.getError(NIFTY_INDICES_PERSIST.getCode(), NIFTY_INDICES_PERSIST.getUserMessage(), e);
         }
     }
 
@@ -160,10 +160,11 @@ public class WebMarketsImpl implements IWebMarkets {
 
     private String getNiftyIndicesPriceUrl() {
         String niftyIndicesSourceUrl = finvendorProperties.getProperty("nifty_indices_source_path");
-        String day = DateUtil.getDayNumber();
-        String month = DateUtil.getCurrentMonth();
-        String year = DateUtil.getCurrentYear();
-        String dateForUrl = day + month + year;
+        String currentDay = DateUtil.getCurrentDay();
+        String currentMonth = DateUtil.getCurrentMonthDigit();
+        String currentYear = DateUtil.getCurrentYear();
+        String dateForUrl=currentDay+currentMonth+currentYear;
+        System.out.println(dateForUrl);
         niftyIndicesSourceUrl = StringUtils.replace(niftyIndicesSourceUrl, "DATE", dateForUrl);
         return niftyIndicesSourceUrl;
     }
