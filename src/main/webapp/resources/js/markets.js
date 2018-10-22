@@ -338,4 +338,12 @@ jQuery(document).ready(function() {
 		$('.modal-content .tab-content .tab-pane').removeClass('active in');
 		$('.modal-content .tab-content .tab-pane').eq(newIndex).addClass('active in');
 	});
+
+	var getSidePanelListAPI = function() {
+		
+	};
+
+	var getListSidePanel = function() {
+
+	};
 });
