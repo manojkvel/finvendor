@@ -4,19 +4,20 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonPropertyOrder({ "companyId", "companyName", "open", "high", "low", "close",
-        "last", "tradeQty", "trades",
+        "prevColse", "volume", "trades",
         "change", "percentChange", "_52wLow", "_52wHigh", "indexName" })
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class CustomMarketsDto extends MarketsDto {
     private String companyId;
     private String companyName;
-    private String tradeQty;
+    private String volume;
     private String trades;
     private String change;
     private String percentChange;
     private String _52wLow;
     private String _52wHigh;
     private String indexName;
+    private String date;
 
     public String getCompanyName() {
         return companyName;
@@ -26,12 +27,12 @@ public class CustomMarketsDto extends MarketsDto {
         this.companyName = companyName;
     }
 
-    public String getTradeQty() {
-        return tradeQty;
+    public String getVolume() {
+        return volume;
     }
 
-    public void setTradeQty(String tradeQty) {
-        this.tradeQty = tradeQty;
+    public void setVolume(String volume) {
+        this.volume = volume;
     }
 
     public String getTrades() {
@@ -88,5 +89,13 @@ public class CustomMarketsDto extends MarketsDto {
 
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

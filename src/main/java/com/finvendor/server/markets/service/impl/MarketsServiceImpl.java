@@ -14,11 +14,39 @@ public class MarketsServiceImpl implements IMarketsService {
 
     @Override
     @Transactional(readOnly = true)
-    public String getMarketsRecordStats(String indexFilter, String perPageMaxRecords)
-            throws Exception {
+    public String getIndexNames() throws Exception {
         try {
-            String bhavPriceRecordStats = dao.getMarketsRecordStats(indexFilter, perPageMaxRecords);
-            return bhavPriceRecordStats;
+            return dao.getIndexNames();
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getIndexSummary(String indexFilter) throws Exception {
+        try {
+            return dao.getIndexSummary(indexFilter);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getMarketsAnalytics(String indexFilter, String type) throws Exception {
+        try {
+            return dao.getMarketsAnalytics(indexFilter,type);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getMarketsRecordStats(String indexFilter, String perPageMaxRecords) throws Exception {
+        try {
+            return dao.getMarketsRecordStats(indexFilter, perPageMaxRecords);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
