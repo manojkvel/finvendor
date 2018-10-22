@@ -36,8 +36,13 @@ public enum ExceptionEnum {
 	CONSUMER_ANALYTICS_DOWNLOAD("FV0024", "Internal error - Unable to download Consumer Analytics for Equity Research type, Please contact Finvendor admin for support!!"),
 	BHAV_COPY_DOWNLOAD("FV0024", "Internal error - Unable to download Bhav Copy, Please contact Finvendor admin for support!!"),
 	MARKETS_PERSIST("FV0024", "Internal error - Unable to Persist Bhav Copy, Please contact Finvendor admin for support!!"),
-    MARKETS("FV0025", "Internal error - Unable to Get Markets, Please contact Finvendor admin for support!!"),
-    MARKETS_RECORD_STATS("FV0025", "Internal error - Unable to Get Markets Record Stats, Please contact Finvendor admin for support!!")
+    MARKETS("FV0025", "Internal error - Unable to Get Markets data, Please contact Finvendor admin for support!!"),
+    MARKETS_RECORD_STATS("FV0026", "Internal error - Unable to Get Markets Record Stats, Please contact Finvendor admin for support!!"),
+    INDEX_NAMES("FV0027", "Internal error - Unable to get Index Names, Please contact Finvendor admin for support!!"),
+    INDEX_SUMMARY("FV0028", "Internal error - Unable to get Index Summary, Please contact Finvendor admin for support!!"),
+    MARKET_ANALYTICS("FV0029", "Internal error - Unable to get Market Analytics data, Please contact Finvendor admin for support!!"),
+	NIFTY_INDICES_PERSIST("FV0030", "Internal error - Unable to Persist NIFTY Indices, Please contact Finvendor admin for support!!"),
+
 
 	;
 	

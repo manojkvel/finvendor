@@ -33,12 +33,52 @@ public class WebMarketsImpl implements IWebMarkets {
     IFileUpload marketsFileUploadService;
 
     @Autowired
+    @Qualifier(value = "niftyIndicesFileUploadService")
+    IFileUpload niftyIndicesFileUploadService;
+
+    @Autowired
     @Qualifier(value = "marketsFilePersist")
     IFilePersist marketsFilePersist;
 
     @Autowired
+    @Qualifier(value = "niftyIndicesFilePersist")
+    IFilePersist niftyIndicesFilePersist;
+
+    @Autowired
     private IMarketsService marketsServiceImpl;
 
+    @Override
+    public ResponseEntity<?> getIndexNames() throws WebApiException {
+        try {
+            String marketsRecordStatsJson = marketsServiceImpl.getIndexNames();
+            return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error has occurred while get index names, error - ", e);
+            return ErrorUtil.getError(INDEX_NAMES.getCode(), INDEX_NAMES.getUserMessage(), e);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> getIndexSummary(@RequestParam("indexFilter") String indexFilter) throws WebApiException {
+        try {
+            String marketsRecordStatsJson = marketsServiceImpl.getIndexSummary(indexFilter);
+            return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error has occurred while get index summary, error - ", e);
+            return ErrorUtil.getError(INDEX_SUMMARY.getCode(), INDEX_SUMMARY.getUserMessage(), e);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> getMarketsAnalytics(String indexFilter, String type) throws WebApiException {
+        try {
+            String marketsRecordStatsJson = marketsServiceImpl.getMarketsAnalytics(indexFilter,type);
+            return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error has occurred while get index summary, error - ", e);
+            return ErrorUtil.getError(MARKET_ANALYTICS.getCode(), MARKET_ANALYTICS.getUserMessage(), e);
+        }
+    }
 
     @Override
     public ResponseEntity<?> getMarketsRecordStats(@RequestParam("indexFilter") String indexFilter,
@@ -58,8 +98,7 @@ public class WebMarketsImpl implements IWebMarkets {
                                         @RequestParam("pageNumber") String pageNumber,
                                         @RequestParam("perPageMaxRecords") String perPageMaxRecords) throws WebApiException {
         try {
-            String markets = marketsServiceImpl.getMarkets(indexFilter, type, pageNumber,
-                    perPageMaxRecords);
+            String markets = marketsServiceImpl.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords);
             return new ResponseEntity<>(markets, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while get record stats, error - ", e);
@@ -72,7 +111,7 @@ public class WebMarketsImpl implements IWebMarkets {
         try {
             String nseBhavCopyPriceUrl = getBhavCopyPriceUrl();
             logger.info("persistFileToDb-> nseBhavCopyPriceUrl:{}", nseBhavCopyPriceUrl);
-            String toPath = "d:\\ayush\\bhav";//AppConstant.FINVENDO_TMP_PATH;
+            String toPath = finvendorProperties.getProperty("finvendo_tmp_path");
             String filePath = marketsFileUploadService.upload(nseBhavCopyPriceUrl, toPath);
             logger.info("filePath:{}", filePath);
 
@@ -85,6 +124,29 @@ public class WebMarketsImpl implements IWebMarkets {
         }
     }
 
+    @Override
+    public ResponseEntity<?> persistNiftyIndices() throws WebApiException {
+        try {
+            String niftyIndicesPriceUrl = getNiftyIndicesPriceUrl();
+            logger.info("persistNiftyIndices-> niftyIndicesPriceUrl:{}", niftyIndicesPriceUrl);
+
+            String toPath = finvendorProperties.getProperty("finvendo_tmp_path");
+
+            //Upload to server
+            String filePath = niftyIndicesFileUploadService.upload(niftyIndicesPriceUrl, toPath);
+            logger.info("filePath:{}", filePath);
+
+            //Persist To Db
+            long persistCount = (long) this.niftyIndicesFilePersist.persist(filePath);
+            logger.info("persistCount:{}", persistCount);
+            return new ResponseEntity<>("Nifty Indices persisted into finvendor database successfully with total records:" + persistCount, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error has occurred while persist Nifty Indices from finvendor tmp path, error - ", e);
+            return ErrorUtil.getError(NIFTY_INDICES_PERSIST.getCode(), NIFTY_INDICES_PERSIST.getUserMessage(), e);
+        }
+    }
+
+
     private String getBhavCopyPriceUrl() {
         String bhavCopyPriceUrl = finvendorProperties.getProperty("nse_bhav_copy_price_url");
         String dayNumber = DateUtil.getDayNumber();
@@ -96,5 +158,14 @@ public class WebMarketsImpl implements IWebMarkets {
         return bhavCopyPriceUrl;
     }
 
-
+    private String getNiftyIndicesPriceUrl() {
+        String niftyIndicesSourceUrl = finvendorProperties.getProperty("nifty_indices_source_path");
+        String currentDay = DateUtil.getCurrentDay();
+        String currentMonth = DateUtil.getCurrentMonthDigit();
+        String currentYear = DateUtil.getCurrentYear();
+        String dateForUrl=currentDay+currentMonth+currentYear;
+        System.out.println(dateForUrl);
+        niftyIndicesSourceUrl = StringUtils.replace(niftyIndicesSourceUrl, "DATE", dateForUrl);
+        return niftyIndicesSourceUrl;
+    }
 }
