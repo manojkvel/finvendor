@@ -86,8 +86,7 @@ public class MarketsDaoImpl implements IMarketsDao {
                 indexSummaryMap.put("closing", closing);
                 indexSummaryMap.put("pointChange", pointChange);
                 indexSummaryMap.put("percentChange", percentChange);
-                indexSummaryMap.put("indexName", indexName);
-                indexSummaryMap.put("dayOpen", "-");
+                indexSummaryMap.put("open", "-");
                 indexSummaryMap.put("high", high);
                 indexSummaryMap.put("low", low);
                 indexSummaryMap.put("pe", pe);
