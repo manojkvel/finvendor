@@ -1,13 +1,11 @@
 package com.finvendor.server.common.commondao;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.hibernate.SQLQuery;
-
 import com.finvendor.model.Roles;
 import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
+import org.hibernate.SQLQuery;
+
+import java.util.List;
+import java.util.Map;
 
 public interface ICommonDao {
 	List<Roles> executeNamedQuery(String namedQueryname) throws RuntimeException;
@@ -23,4 +21,5 @@ public interface ICommonDao {
 	org.hibernate.Query getNamedQuery(String namedQuery, Map<Object, Object> paramMap);
 
 	int insert(String sql, Map<Integer, Object> params) throws RuntimeException;
+	String getRecordStats(String query, String perPageMaxRecords) throws RuntimeException;
 }

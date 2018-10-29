@@ -1,14 +1,17 @@
 package com.finvendor.server.common.commondao.impl;
 
-import java.util.*;
-
+import com.finvendor.common.util.CommonUtil;
+import com.finvendor.model.Roles;
+import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
+import com.finvendor.server.common.commondao.AbstractCommonDao;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
-import com.finvendor.model.Roles;
-import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
-import com.finvendor.server.common.commondao.AbstractCommonDao;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author ayush on Feb 17, 2018
@@ -66,5 +69,26 @@ public class CommonDaoImpl extends AbstractCommonDao {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public String getRecordStats(String query, String perPageMaxRecords) throws RuntimeException {
+		String recordStatsJson;
+		long totalRecords;
+		try {
+
+			SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(query);
+			List<Object[]> rows = sqlQuery.list();
+			totalRecords = rows.size();
+			if (totalRecords != 0L) {
+				long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+				recordStatsJson = CommonUtil.getRecordStatsJson(totalRecords, lastPageNumber);
+			} else {
+				recordStatsJson = "";
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Error while processing record stats", e);
+		}
+		return recordStatsJson;
 	}
 }
