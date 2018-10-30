@@ -14,6 +14,17 @@ jQuery(document).ready(function() {
         }
     };
 
+    var timeStampToDateNew = function (ts) {
+    	if (ts) {
+    		ts = new Date(ts).toString();
+    		ts = ts.split(' ').slice(0, 5);
+            //console.log(ts);
+            return ts;
+        } else {
+        	return 'NA';
+        }
+    };
+
 	var checkForAllData = function(filterData, element) {
 		var arr = $(element);
 		for(key in arr) {
@@ -39,11 +50,23 @@ jQuery(document).ready(function() {
 		var rowHtml = 	"";
 
 		if(len === 0) {
-			$("#consumer_market .tab-content #" + id + " table tbody").html("<tr><td colspan='6'>No Matching Records Found</td></tr>");
+			$("#consumer_market .tab-content #market_data_output table#market_index_data tbody").html("<tr><td colspan='10'>No Matching Records Found</td></tr>");
 			return;
 		}
 
 		for(var i = 0; i < len; i++) {
+
+			var percentChange = parseFloat(response.marketData[i].percentChange).toFixed(2);
+
+			var percentChangeClass = "success";
+			var percentChangeClass_Caret = "fa-caret-up";
+			if(percentChange > 0) {
+				percentChangeClass = "success";
+				percentChangeClass_Caret = "fa-caret-up";
+			} else {
+				percentChangeClass = "danger";
+				percentChangeClass_Caret = "fa-caret-down";
+			}
 
 
 
@@ -61,7 +84,7 @@ jQuery(document).ready(function() {
 				response.marketData[i].close +
 			"</td>" +
 			"<td>" + 
-				response.marketData[i].last +
+				response.marketData[i].prevColse +
 			"</td>" +
 			"<td>" + 
 				response.marketData[i]._52wHigh +
@@ -73,15 +96,15 @@ jQuery(document).ready(function() {
 				response.marketData[i].change +
 			"</td>" +
 			"<td>" + 
-				response.marketData[i].percentChange +
+				"<div class='percentChange " + percentChangeClass + "'><i class='fa " + percentChangeClass_Caret + "'></i> " + ((percentChange != '-') ? percentChange + '%' : percentChange) + "</div>" +
 			"</td>" +
 			"<td>" + 
-				response.marketData[i].tradeQty +
+				response.marketData[i].volume +
 			"</td>" +
 			"</tr>";
 		}
 
-		$("#consumer_market .tab-content #" + id + " table tbody").html(htmlCode);
+		$("#consumer_market .tab-content #market_data_output table#market_index_data tbody").html(htmlCode);
 		
 
 		var paginationHtml = 	"<div class='paging_container'>"
@@ -93,9 +116,8 @@ jQuery(document).ready(function() {
 								 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
 							 	+ "</ul>"
 							 + "</div>";
-
-		$("#consumer_market .tab-content #" + id + "").append(paginationHtml);
-		$("#consumer_market .tab-content #" + id + " .pager a").on('click', getPaginationIndex);
+		$("#consumer_market .tab-content #market_data_output").append(paginationHtml);
+		$("#consumer_market .tab-content #market_data_output .pager a").on('click', getPaginationIndex);
 
 
 		setRecordStats(currentIndex, lastPageNumber);
@@ -125,7 +147,7 @@ jQuery(document).ready(function() {
 		currentIndex = 1;
 		perPageMaxRecords = 5;
 
-		$("#consumer_market .tab-content  #" + id + " .max_per_page select").val($("#consumer_market .tab-content #" + id + " .max_per_page select option:first").val());
+		$("#consumer_market .tab-content  #market_data_output .max_per_page select").val($("#consumer_market .tab-content #market_data_output .max_per_page select option:first").val());
 	}
 	
 	var getPerPageMaxRecords = function() {
@@ -190,28 +212,38 @@ jQuery(document).ready(function() {
 		isProgressLoader(true);
 
 		getRecordStats(indexFilter, perPageMaxRecords).then(function(stats) {
-			stats = JSON.parse(stats);
-			firstPageNumber = stats.firstPageNumber;
-			lastPageNumber = stats.lastPageNumber;
-			totalRecords = stats.totalRecords;
-			$("#consumer_market .tab-content #" + id + " #total_records_count").html(totalRecords + " Results");
-			//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
-			console.log("pageNumber: " + pageNumber);
-			getMarketsApi(indexFilter, type, pageNumber).then(function(serverResponse) {
-				//console.log(serverResponse);
-				$("#consumer_market .paging_container").remove();
-				var response = JSON.parse(serverResponse);
-				
-				getMarketsCommonHtml(response);
-				isProgressLoader(false);
+			if(stats != ""){
 
-			}, function(error) {
+				stats = JSON.parse(stats);
+				firstPageNumber = stats.firstPageNumber;
+				lastPageNumber = stats.lastPageNumber;
+				totalRecords = stats.totalRecords;
+				$("#consumer_market .tab-content #market_data_output #total_records_count").html(totalRecords + " Results");
+				//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
+				console.log("pageNumber: " + pageNumber);
+				getMarketsApi(indexFilter, type, pageNumber).then(function(serverResponse) {
+					//console.log(serverResponse);
+					$("#consumer_market .paging_container").remove();
+					var response = JSON.parse(serverResponse);
+					
+					getMarketsCommonHtml(response);
+					isProgressLoader(false);
+
+				}, function(error) {
+					isProgressLoader(false);
+					$("#market_data_output table#market_index_data tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+				});
+			} else {
 				isProgressLoader(false);
-				$("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
-			});
+				resetPaginationCount();
+				$("#consumer_market .tab-content #market_data_output #total_records_count").html('0 Results');
+				$("#market_data_output table#market_index_data tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+				$("#consumer_market .paging_container").empty();
+			}
 		}, function(error) {
 			isProgressLoader(false);
-			$("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
+			$("#market_data_output table#market_index_data tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+			$("#consumer_market .paging_container").empty();
 		});
 	};
 
@@ -291,7 +323,7 @@ jQuery(document).ready(function() {
 	}
 
 	
-	var newIndex = 0;
+	/*var newIndex = 0;
 
 	var id = "market_all_stocks";
 	$(".nav-tabs li").on("click", function() {
@@ -337,13 +369,191 @@ jQuery(document).ready(function() {
 		$('.modal-content .nav-tabs li').eq(newIndex).addClass('active');
 		$('.modal-content .tab-content .tab-pane').removeClass('active in');
 		$('.modal-content .tab-content .tab-pane').eq(newIndex).addClass('active in');
-	});
+	});*/
 
-	var getSidePanelListAPI = function() {
-		
+	function getMarketIndexSummaryAPI() {
+		var url = "/system/api/markets/index/summary?indexFilter=" + indexFilter + "&type=''";
+		return new Promise(function(resolve, reject) {
+			var httpRequest = new XMLHttpRequest({
+				mozSystem: true
+			});
+
+			httpRequest.timeout = API_TIMEOUT_SMALL;
+			httpRequest.open('GET', url, true);
+			httpRequest.ontimeout = function () {
+				reject("" + httpRequest.responseText);
+			};
+			httpRequest.onreadystatechange = function () {
+				if (httpRequest.readyState === XMLHttpRequest.DONE) {
+					if (httpRequest.status === 200) {
+						resolve(httpRequest.response);
+					} else {
+						reject(httpRequest.responseText);
+					}
+				} else {
+				}
+			};
+
+			httpRequest.send();
+		});
 	};
 
-	var getListSidePanel = function() {
+	function setMarketIndexSummary() {
+		getMarketIndexSummaryAPI().then(function(response) {
+			response = JSON.parse(response);
+			console.log(response);
 
+			var closing = response.indexSummary.closing;
+
+			var cmp_last_change_class = "success";
+			var cmp_pointChange_caret = "fa-caret-up";
+
+			var pointChange = response.indexSummary.pointChange;
+
+			if(pointChange > 0) {
+				cmp_pointChange_class = "success";
+				cmp_pointChange_caret = "fa-caret-up";
+			} else if (pointChange < 0) {
+				cmp_pointChange_class = "danger";
+				cmp_pointChange_caret = "fa-caret-down";
+			} else {
+				cmp_pointChange_class = "neutral";
+				cmp_pointChange_caret = "";
+			}
+			var percentChange = '0';
+			if(response.indexSummary.percentChange != '-') {
+				percentChange = response.indexSummary.percentChange
+			}
+			 
+
+			var lastCmp = closing + " <em class='" + cmp_pointChange_class + "'><i class='fa " + cmp_pointChange_caret + "'></i> " + pointChange +  "</em> <cite>(" + percentChange + "%)</cite>";
+			
+			$(".company_details .last_cmp").html(lastCmp);
+
+			var price_date = timeStampToDate(response.indexSummary.date);
+			$(".company_details .price_date").text(price_date + " | " + timeStampToDateNew(Number(response.indexSummary.date))[4]);
+
+
+			var divYield = (response.indexSummary.divYield == 0) ? response.indexSummary.divYield : response.indexSummary.divYield + "%";
+			var open = (response.indexSummary.open == undefined) ? '-' : response.indexSummary.open;
+
+			$('.last_cmp').html();
+			$('.index_name').text(indexFilter);
+			$("#day_open_value .fr").html(open);
+			$("#day_h_l_value .fr").html(response.indexSummary.high + " / " + response.indexSummary.low);
+			$("#pe_value .fr").html(response.indexSummary.pe);
+			$("#pb_value .fr").html(response.indexSummary.pb);
+			$("#div_yield_value .fr").html(divYield);
+			
+			
+		}, function(error) {
+
+		});
+	}
+
+
+
+	function getMarketIndexAnalyticsAPI() {
+		var url = "/system/api/markets/analytics?indexFilter=" + indexFilter + "&type=''";
+		return new Promise(function(resolve, reject) {
+			var httpRequest = new XMLHttpRequest({
+				mozSystem: true
+			});
+
+			httpRequest.timeout = API_TIMEOUT_SMALL;
+			httpRequest.open('GET', url, true);
+			httpRequest.ontimeout = function () {
+				reject("" + httpRequest.responseText);
+			};
+			httpRequest.onreadystatechange = function () {
+				if (httpRequest.readyState === XMLHttpRequest.DONE) {
+					if (httpRequest.status === 200) {
+						resolve(httpRequest.response);
+					} else {
+						reject(httpRequest.responseText);
+					}
+				} else {
+				}
+			};
+
+			httpRequest.send();
+		});
 	};
+
+	function setMarketIndexAnalytics() {
+		getMarketIndexAnalyticsAPI().then(function(response) {
+			var response = JSON.parse(response);
+			$("#market_index_analytics .success").text(response.constituentAnalytics.gainer);
+			$("#market_index_analytics .danger").text(response.constituentAnalytics.looser);
+			$("#market_index_analytics .neutral").text(response.constituentAnalytics.unchanged);
+
+		}, function(error) {
+
+		});
+	}
+
+	function getSidePanelListAPI() {
+		var url = "/system/api/markets/index/names";
+		return new Promise(function(resolve, reject) {
+			var httpRequest = new XMLHttpRequest({
+				mozSystem: true
+			});
+
+			httpRequest.timeout = API_TIMEOUT_SMALL;
+			httpRequest.open('GET', url, true);
+			httpRequest.ontimeout = function () {
+				reject("" + httpRequest.responseText);
+			};
+			httpRequest.onreadystatechange = function () {
+				if (httpRequest.readyState === XMLHttpRequest.DONE) {
+					if (httpRequest.status === 200) {
+						resolve(httpRequest.response);
+					} else {
+						reject(httpRequest.responseText);
+					}
+				} else {
+				}
+			};
+
+			httpRequest.send();
+		});
+	};
+
+	var setListSidePanel = function() {
+		getSidePanelListAPI().then(function(response) {
+			response = JSON.parse(response);
+			//console.log(response);
+			var html = '';
+			var len = response.indexNames.length;
+			for(var i = 0; i < len; i++) {
+				html = html + "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>" + response.indexNames[i] + "</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='radio' name='market_index_type' data-name='" + response.indexNames[i] + "' data-section='' />"
+										+ "<label for='geo-india'></label>"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>"
+			}
+			$("#search_by_market_index ul").html(html);
+			//$('#search_by_market_index ul input[name=market_index_type]').eq(0).prop('checked', true);
+			$("#search_by_market_index ul input[name=market_index_type]").on('change', getMarketIndexData);
+		}, function(error) {
+
+		});
+	};
+
+	var getMarketIndexData = function() {
+		resetPaginationCount();
+		indexFilter = $(this).attr("data-name");
+
+		setMarketIndexSummary();
+		setMarketIndexAnalytics();
+		loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords);
+	};
+
+	setListSidePanel();
 });
