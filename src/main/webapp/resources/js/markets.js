@@ -128,7 +128,7 @@ jQuery(document).ready(function() {
 	var lastPageNumber = 1;
 	var totalRecords = 0;
 	var currentIndex = 1;
-	var perPageMaxRecords = 5;
+	var perPageMaxRecords = 50;
 	var type = 'equity';
 	var indexFilter = 'all';
 
@@ -145,9 +145,9 @@ jQuery(document).ready(function() {
 		lastPageNumber = 1;
 		totalRecords = 0;
 		currentIndex = 1;
-		perPageMaxRecords = 5;
+		perPageMaxRecords = 50;
 
-		$("#consumer_market .tab-content  #market_data_output .max_per_page select").val($("#consumer_market .tab-content #market_data_output .max_per_page select option:first").val());
+		$("#consumer_market .tab-content  #market_data_output .max_per_page select").val($("#consumer_market .tab-content #market_data_output .max_per_page select option").eq(3).val());
 	}
 	
 	var getPerPageMaxRecords = function() {
@@ -249,7 +249,7 @@ jQuery(document).ready(function() {
 
 	var resetFilters = function(e) {
 		resetPaginationCount();
-		$("#consumer_market .tab-content  #" + id + " .max_per_page select").val($("#consumer_market .tab-content #" + id + " .max_per_page select option:first").val());
+		$("#consumer_market .tab-content  #market_data_output .max_per_page select").val($("#consumer_market .tab-content #market_data_output .max_per_page select option").eq(3).val());
 		
 		loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords);
 	};

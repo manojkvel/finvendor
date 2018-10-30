@@ -22,7 +22,7 @@
 
 
 				<div class="inner_breadcrumb" style="margin-left: 15px;">
-					<h5>Markets</h5>
+					<h5>Index Performance</h5>
 				</div>
 				<section>
 					<div class="container-fluid tabulative-container" id="consumer_market">
@@ -35,7 +35,7 @@
 									<div class="widget-group">
 										<div class='widget widget-panel-default'>
 											<div class='widget-panel-heading'>
-												<h3>Index Constituients Performance</h3>
+												<h3>Indices</h3>
 											</div>
 											<div class='widget-panel-body'>
 												<div class="widget_search">
@@ -55,10 +55,9 @@
 								<div class="content-panel">
 									<div class="tab-content">
 										<div id="market_data_output" class="tab-pane fade">
-											
 												<div class="container-fluid market_details">
 													<div class="row">
-														<div class="col-xs-12">
+														<div class="col-xs-12 col-sm-4">
 															<div class="company_profile_details">
 																<div class="profile_details company_details">
 																	<span class='index_name'>Index Name</span>
@@ -70,13 +69,7 @@
 																	<span class="price_date">NA</span>
 																</div>
 															</div>
-														</div>
-													</div>
-												</div>
-												<div class="container-fluid market_details">
-													<div class="row">
-														<div class="col-xs-12 col-sm-6">
-
+															<br />
 															<div class="md_p" id="day_open_value">
 																<div class="fl">Day open</div>
 																<div class="fr">-</div>
@@ -97,14 +90,14 @@
 																<div class="fl">Div Yield (%)</div>
 																<div class="fr">NA</div>
 															</div>
-															<div class="fv_indicators">* indicates recent qtr</div>
 														</div>
-														<div class="col-xs-12 col-sm-6">
+														<div class="col-xs-12 col-sm-3">&nbsp;</div>
+														<div class="col-xs-12 col-sm-5">
 															<div id="market_index_analytics">
 																<table>
 																	<thead>
 																		<th>Gainers</th>
-																		<th>Loosers</th>
+																		<th>Losers</th>
 																		<th>Unchanged</th>
 																	</thead>
 																	<tr>
@@ -118,13 +111,14 @@
 													</div>
 												</div>
 											<div class="hd">
+												<h3>Constituents</h3>
 												<div class="max_per_page">
 													<span>Records Per Page </span>
 													<select>
 														<option value='5'>5</option>
 														<option value='10'>10</option>
 														<option value='30'>30</option>
-														<option value='50'>50</option>
+														<option selected="selected" value='50'>50</option>
 														<option value='100'>100</option>
 													</select>
 
