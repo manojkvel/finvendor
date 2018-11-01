@@ -28,4 +28,13 @@ public class SectorService {
             throw new Exception(e);
         }
     }
+
+    public String getSectorReports(SectorFilter sectorFilter, String pageNumber,String perPageMaxRecords,String sortBy,String orderBy)
+            throws Exception {
+            try {
+            return dao.getSectorReport(sectorFilter, pageNumber, perPageMaxRecords,sortBy,orderBy);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
 }

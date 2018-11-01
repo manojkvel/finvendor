@@ -22,4 +22,5 @@ public interface ICommonDao {
 
 	int insert(String sql, Map<Integer, Object> params) throws RuntimeException;
 	String getRecordStats(String query, String perPageMaxRecords) throws RuntimeException;
+	String applyPagination(String pageNumber, String perPageMaxRecords);
 }

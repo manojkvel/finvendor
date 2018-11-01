@@ -91,4 +91,9 @@ public class CommonDaoImpl extends AbstractCommonDao {
 		}
 		return recordStatsJson;
 	}
+
+	@Override
+	public String applyPagination(String pageNumber, String perPageMaxRecords) {
+		return CommonUtil.applyPagination(pageNumber,perPageMaxRecords);
+	}
 }

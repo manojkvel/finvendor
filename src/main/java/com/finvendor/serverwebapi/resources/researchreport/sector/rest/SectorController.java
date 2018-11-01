@@ -29,9 +29,10 @@ public class SectorController {
     @RequestMapping(value = "/sectorresearch/filters", method = RequestMethod.GET)
     public ResponseEntity<?> getFilterValue(@RequestParam("type") String type) throws WebApiException {
         try {
+            logger.info("type:{}", type);
             return new ResponseEntity<>(service.getFilterValue(type), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("WebEquityResearchReport -> getResearchResultTableData(...) method", e);
+            logger.error("Error has occurred while getting filter value, Error:", e);
             return ErrorUtil.getError(SECTOR_RESEARCH_FILTER.getCode(), SECTOR_RESEARCH_FILTER.getUserMessage(), e);
         }
     }
@@ -40,24 +41,34 @@ public class SectorController {
     public ResponseEntity<?> getRecordStats(@RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
                                             @RequestBody SectorFilter sectorFilter) throws WebApiException {
         try {
+            logger.info("perPageMaxRecords:{}", perPageMaxRecords);
+            logger.info("sectorFilter:{}", sectorFilter.toString());
+
             return new ResponseEntity<>(service.getRecordStats(sectorFilter, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("WebEquityResearchReport -> getResearchResultTableData(...) method", e);
+            logger.error("Error has occurred while getting record stats, Error:", e);
             return ErrorUtil.getError(SECTOR_RECORD_STATS.getCode(), SECTOR_RECORD_STATS.getUserMessage(), e);
         }
     }
 
     @RequestMapping(value = "/researchreports", method = RequestMethod.POST)
-    public ResponseEntity<?> getSectorResearchReports(
-            @RequestParam(value = "type") String type,
+    public ResponseEntity<?> getSectorResearchReports(@RequestParam(value = "type") String type,
             @RequestParam(value = "pageNumber") String pageNumber,
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
             @RequestParam(value = "sortBy") String sortBy,
             @RequestParam(value = "orderBy") String orderBy,
             @RequestBody SectorFilter sectorFilter) {
         try {
+            logger.info("type:{}", type);
+            logger.info("pageNumber:{}", pageNumber);
+            logger.info("perPageMaxRecords:{}", perPageMaxRecords);
+            logger.info("sortBy:{}", sortBy);
+            logger.info("orderBy:{}", orderBy);
+            logger.info("sectorFilter:{}", sectorFilter.toString());
 
-            return new ResponseEntity<>("", HttpStatus.OK);
+            String sectorReportResult = service.getSectorReports(sectorFilter, pageNumber, perPageMaxRecords, sortBy,
+                    orderBy);
+            return new ResponseEntity<>(sectorReportResult, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("WebEquityResearchReport -> getResearchResultTableData(...) method", e);
             return ErrorUtil.getError(SECTOR_RESEARCH_REPORT.getCode(), SECTOR_RESEARCH_REPORT.getUserMessage(), e);

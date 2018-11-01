@@ -12,6 +12,8 @@ public class SectorFilter implements Serializable {
     private List<String> researchDates;
     private List<String> reportTones;
     private List<String> reportFrequency;
+    private List<String> analystNames;
+
 
     public String getGeo() {
         return geo;
@@ -75,5 +77,28 @@ public class SectorFilter implements Serializable {
 
     public void setReportFrequency(List<String> reportFrequency) {
         this.reportFrequency = reportFrequency;
+    }
+
+    public List<String> getAnalystNames() {
+        return analystNames;
+    }
+
+    public void setAnalystNames(List<String> analystNames) {
+        this.analystNames = analystNames;
+    }
+
+    @Override
+    public String toString() {
+        return "SectorFilter{" +
+                "geo='" + geo + '\'' +
+                ", sectorTypes=" + sectorTypes +
+                ", sectorSubTypes=" + sectorSubTypes +
+                ", analystTypes=" + analystTypes +
+                ", researchedBy=" + researchedBy +
+                ", researchDates=" + researchDates +
+                ", reportTones=" + reportTones +
+                ", reportFrequency=" + reportFrequency +
+                ", analystNames=" + analystNames +
+                '}';
     }
 }
