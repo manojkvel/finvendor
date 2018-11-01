@@ -2,7 +2,7 @@ package com.finvendor.serverwebapi.resources.researchreport.sector.dto;
 
 import java.io.Serializable;
 
-public class SectorDto implements Serializable {
+public class SectorReportDto implements Serializable {
     private String productId;
     private String sectorType;
     private String sectorSubType;

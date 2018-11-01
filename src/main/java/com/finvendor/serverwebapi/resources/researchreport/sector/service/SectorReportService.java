@@ -1,17 +1,17 @@
 package com.finvendor.serverwebapi.resources.researchreport.sector.service;
 
-import com.finvendor.serverwebapi.resources.researchreport.sector.dao.SectorDao;
-import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorFilter;
+import com.finvendor.serverwebapi.resources.researchreport.sector.dao.SectorReportDao;
+import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorReportFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class SectorService {
+public class SectorReportService {
 
     @Autowired
-    private SectorDao dao;
+    private SectorReportDao dao;
 
     public String getFilterValue(String type) throws Exception {
         try {
@@ -21,7 +21,7 @@ public class SectorService {
         }
     }
 
-    public String getRecordStats(SectorFilter filter, String perPageMaxRecords) throws Exception {
+    public String getRecordStats(SectorReportFilter filter, String perPageMaxRecords) throws Exception {
         try {
             return dao.getRecordStats(filter, perPageMaxRecords);
         } catch (RuntimeException e) {
@@ -29,7 +29,7 @@ public class SectorService {
         }
     }
 
-    public String getSectorReports(SectorFilter sectorFilter, String pageNumber,String perPageMaxRecords,String sortBy,String orderBy)
+    public String getSectorReports(SectorReportFilter sectorFilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy)
             throws Exception {
             try {
             return dao.getSectorReport(sectorFilter, pageNumber, perPageMaxRecords,sortBy,orderBy);

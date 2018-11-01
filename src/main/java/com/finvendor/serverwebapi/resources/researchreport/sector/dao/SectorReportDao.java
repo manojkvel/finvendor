@@ -2,9 +2,9 @@ package com.finvendor.serverwebapi.resources.researchreport.sector.dao;
 
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.server.common.commondao.ICommonDao;
-import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorDto;
-import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorFilter;
-import com.finvendor.serverwebapi.resources.researchreport.sector.enums.SectorFilterTypeEnums;
+import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorReportDto;
+import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorReportFilter;
+import com.finvendor.serverwebapi.resources.researchreport.sector.enums.SectorReportFilterTypes;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class SectorDao {
-    private static final Logger log = LoggerFactory.getLogger(SectorDao.class.getName());
+public class SectorReportDao {
+    private static final Logger log = LoggerFactory.getLogger(SectorReportDao.class.getName());
     private final String SECTOR_TYPE_QUERY = "select a.research_area_id, a.description from research_sub_area a where a.research_area_id=2 and a.description!='All sectors' order by a.description";
     private final String SECTOR_SUB_TYPE_QUERY = "select a.rsch_area_id, a.industry_sub_type_name from industry_sub_type a where a.rsch_area_id=2 order by a.industry_sub_type_name;";
     private final String ANALYST_TYPE_QUERY = "select b.vendor_id,b.analystType from ven_rsrch_rpt_offering a,vendor b where a.research_area=2 and a.vendor_id=b.vendor_id";
@@ -43,7 +43,7 @@ public class SectorDao {
     }
 
 
-    public String getRecordStats(SectorFilter filter, String perPageMaxRecords) throws RuntimeException {
+    public String getRecordStats(SectorReportFilter filter, String perPageMaxRecords) throws RuntimeException {
         log.info("filter:{}", filter);
         log.info("perPageMaxRecords:{}", perPageMaxRecords);
         String recordStatsJson;
@@ -57,7 +57,7 @@ public class SectorDao {
         return recordStatsJson;
     }
 
-    public String getSectorReport(SectorFilter sectorFilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy)
+    public String getSectorReport(SectorReportFilter sectorFilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy)
             throws RuntimeException {
         try {
             String resultJson;
@@ -69,7 +69,7 @@ public class SectorDao {
 
                 SQLQuery nativeQuery = commonDao.getNativeQuery(filteredQuery, null);
                 List<Object[]> rows = nativeQuery.list();
-                List<SectorDto> sectorReports = new ArrayList<>();
+                List<SectorReportDto> sectorReports = new ArrayList<>();
 
                 for (Object[] row : rows) {
                     String productId = row[0] != null ? row[0].toString().trim() : null;
@@ -83,7 +83,7 @@ public class SectorDao {
                     String reportDate = row[8] != null ? row[8].toString().trim() : null;
                     String analystName = row[9] != null ? row[9].toString().trim() : null;
 
-                    SectorDto dto = new SectorDto();
+                    SectorReportDto dto = new SectorReportDto();
                     dto.setProductId(productId);
                     dto.setSectorType(sectorType);
                     dto.setSectorSubType(sectorSubType);
@@ -109,19 +109,19 @@ public class SectorDao {
 
     private String applyOrderBy(String query, String sortBy, String orderByMode) {
         String field = "";
-        if (SectorFilterTypeEnums.SECTOR_TYPE.getType().equals(sortBy)) {
+        if (SectorReportFilterTypes.SECTOR_TYPE.getType().equals(sortBy)) {
             field = "a.description";
-        } else if (SectorFilterTypeEnums.SECTOR_SUB_TYPE.getType().equals(sortBy)) {
+        } else if (SectorReportFilterTypes.SECTOR_SUB_TYPE.getType().equals(sortBy)) {
             field = SECTOR_SUB_TYPE_QUERY;
-        } else if (SectorFilterTypeEnums.ANALYTST_TYPE.getType().equals(sortBy)) {
+        } else if (SectorReportFilterTypes.ANALYTST_TYPE.getType().equals(sortBy)) {
             field = "b.industry_sub_type_name";
-        } else if (SectorFilterTypeEnums.RESEARCHED_BY.getType().equals(sortBy)) {
+        } else if (SectorReportFilterTypes.RESEARCHED_BY.getType().equals(sortBy)) {
             field = "f.username";
-        } else if (SectorFilterTypeEnums.RESEARCH_DATE.getType().equals(sortBy)) {
+        } else if (SectorReportFilterTypes.RESEARCH_DATE.getType().equals(sortBy)) {
             field = "d.rep_date";
-        } else if (SectorFilterTypeEnums.REPORT_TONE.getType().equals(sortBy)) {
+        } else if (SectorReportFilterTypes.REPORT_TONE.getType().equals(sortBy)) {
             field = "d.rsrch_recomm_type";
-        } else if (SectorFilterTypeEnums.REPORT_FREQUENCY.getType().equals(sortBy)) {
+        } else if (SectorReportFilterTypes.REPORT_FREQUENCY.getType().equals(sortBy)) {
             field = "c.product_name";
         } else {
             field = "";
@@ -135,7 +135,7 @@ public class SectorDao {
         return filteredQuery;
     }
 
-    private String applyFilter(SectorFilter filter) {
+    private String applyFilter(SectorReportFilter filter) {
         String filteredQuery = "";
         if (filter == null) {
             filteredQuery = SECTOR_REPORT_MAIN_QUERY;
@@ -204,19 +204,19 @@ public class SectorDao {
 
     private String getQueryBasedOnType(String type) {
         String query;
-        if (SectorFilterTypeEnums.SECTOR_TYPE.getType().equals(type)) {
+        if (SectorReportFilterTypes.SECTOR_TYPE.getType().equals(type)) {
             query = SECTOR_TYPE_QUERY;
-        } else if (SectorFilterTypeEnums.SECTOR_SUB_TYPE.getType().equals(type)) {
+        } else if (SectorReportFilterTypes.SECTOR_SUB_TYPE.getType().equals(type)) {
             query = SECTOR_SUB_TYPE_QUERY;
-        } else if (SectorFilterTypeEnums.ANALYTST_TYPE.getType().equals(type)) {
+        } else if (SectorReportFilterTypes.ANALYTST_TYPE.getType().equals(type)) {
             query = ANALYST_TYPE_QUERY;
-        } else if (SectorFilterTypeEnums.RESEARCHED_BY.getType().equals(type)) {
+        } else if (SectorReportFilterTypes.RESEARCHED_BY.getType().equals(type)) {
             query = RESEARCHED_BY_QUERY;
-        } else if (SectorFilterTypeEnums.RESEARCH_DATE.getType().equals(type)) {
+        } else if (SectorReportFilterTypes.RESEARCH_DATE.getType().equals(type)) {
             query = RESEARCH_DATE_QUERY;
-        } else if (SectorFilterTypeEnums.REPORT_TONE.getType().equals(type)) {
+        } else if (SectorReportFilterTypes.REPORT_TONE.getType().equals(type)) {
             query = REPORT_TONE_QUERY;
-        } else if (SectorFilterTypeEnums.REPORT_FREQUENCY.getType().equals(type)) {
+        } else if (SectorReportFilterTypes.REPORT_FREQUENCY.getType().equals(type)) {
             query = REPORT_FREQUENCY_QUERY;
         } else {
             query = "";

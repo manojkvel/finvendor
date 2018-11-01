@@ -1,10 +1,10 @@
-package com.finvendor.serverwebapi.resources.researchreport.sector.rest;
+package com.finvendor.serverwebapi.resources.researchreport.sector.controller;
 
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
-import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorFilter;
-import com.finvendor.serverwebapi.resources.researchreport.sector.service.SectorService;
+import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorReportFilter;
+import com.finvendor.serverwebapi.resources.researchreport.sector.service.SectorReportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,11 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
 
 @Controller
 @RequestMapping(WebUriConstants.BASE_URI)
-public class SectorController {
-    private static final Logger logger = LoggerFactory.getLogger(SectorController.class.getName());
+public class SectorReportController {
+    private static final Logger logger = LoggerFactory.getLogger(SectorReportController.class.getName());
 
     @Autowired
-    private SectorService service;
+    private SectorReportService service;
 
     @RequestMapping(value = "/sectorresearch/filters", method = RequestMethod.GET)
     public ResponseEntity<?> getFilterValue(@RequestParam("type") String type) throws WebApiException {
@@ -39,7 +39,7 @@ public class SectorController {
 
     @RequestMapping(value = "/sectorresearch/recordstats", method = RequestMethod.POST)
     public ResponseEntity<?> getRecordStats(@RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
-                                            @RequestBody SectorFilter sectorFilter) throws WebApiException {
+                                            @RequestBody SectorReportFilter sectorFilter) throws WebApiException {
         try {
             logger.info("perPageMaxRecords:{}", perPageMaxRecords);
             logger.info("sectorFilter:{}", sectorFilter.toString());
@@ -57,7 +57,7 @@ public class SectorController {
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
             @RequestParam(value = "sortBy") String sortBy,
             @RequestParam(value = "orderBy") String orderBy,
-            @RequestBody SectorFilter sectorFilter) {
+            @RequestBody SectorReportFilter sectorFilter) {
         try {
             logger.info("type:{}", type);
             logger.info("pageNumber:{}", pageNumber);

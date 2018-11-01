@@ -1,6 +1,6 @@
 package com.finvendor.serverwebapi.resources.researchreport.sector.enums;
 
-public enum SectorFilterTypeEnums {
+public enum SectorReportFilterTypes {
     SECTOR_TYPE("sectorType"),
     SECTOR_SUB_TYPE("sectorSubType"),
     ANALYTST_TYPE("analystType"),
@@ -11,7 +11,7 @@ public enum SectorFilterTypeEnums {
 
     private String type;
 
-    SectorFilterTypeEnums(String type) {
+    SectorReportFilterTypes(String type) {
         this.type = type;
     }
 

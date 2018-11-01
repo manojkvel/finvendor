@@ -13,9 +13,9 @@ import com.finvendor.json.bean.VendorTradingApplicationsOfferingJson;
 import com.finvendor.model.*;
 import com.finvendor.model.VendorDataCoverage;
 import com.finvendor.model.VendorDistribution;
-import com.finvendor.server.companyprofile.pricealert.service.IConsumerPriceAlertService;
 import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.companyprofile.pricealert.IWebConsumerPriceAlertMail;
+import com.finvendor.serverwebapi.resources.companyprofile.pricealert.controller.ConsumerPriceAlertMailController;
+import com.finvendor.serverwebapi.resources.companyprofile.pricealert.service.ConsumerPriceAlertService;
 import com.finvendor.serverwebapi.webutil.WebUtil;
 import com.finvendor.service.*;
 import com.finvendor.util.CommonUtils;
@@ -64,10 +64,10 @@ public class VendorController {
     private Properties finvendorProperties;
 
     @Autowired
-    private IWebConsumerPriceAlertMail priceAlertMail;
+    private ConsumerPriceAlertMailController consumerPriceAlertMailController;
 
     @Autowired
-    private IConsumerPriceAlertService priceService;
+    private ConsumerPriceAlertService consumerPriceAlertService;
 
     @RequestMapping(value = "vendorMyStats", method = RequestMethod.GET)
     public ModelAndView vendorMyStats(HttpServletRequest request) {
@@ -3065,8 +3065,8 @@ public class VendorController {
 
                 //Send mail to logged in user if vendor upload new report
                 String companyName = vendorService.getCompanyName(researchReportFor);
-                if (priceService.isResearchPriceSet(companyName)) {
-                    priceAlertMail.sendResearchReportAlertMail(userName, researchReportFor, companyName);
+                if (consumerPriceAlertService.isResearchPriceSet(companyName)) {
+                    consumerPriceAlertMailController.sendResearchReportAlertMail(userName, researchReportFor, companyName);
                 } else {
                     LogUtil.logInfo("***Research Resport Alert is not set for comapny=" + companyName);
                 }

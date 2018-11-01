@@ -3,7 +3,7 @@ package com.finvendor.serverwebapi.resources.researchreport.sector.dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class SectorFilter implements Serializable {
+public class SectorReportFilter implements Serializable {
     private String geo;
     private List<String> sectorTypes;
     private List<String> sectorSubTypes;
@@ -89,7 +89,7 @@ public class SectorFilter implements Serializable {
 
     @Override
     public String toString() {
-        return "SectorFilter{" +
+        return "SectorReportFilter{" +
                 "geo='" + geo + '\'' +
                 ", sectorTypes=" + sectorTypes +
                 ", sectorSubTypes=" + sectorSubTypes +
