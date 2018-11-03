@@ -1,6 +1,6 @@
 package com.finvendor.serverwebapi.resources.markets.service;
 
-import com.finvendor.server.common.infra.download.service.URLReader;
+import com.finvendor.server.common.infra.download.URLReader;
 import com.finvendor.server.common.infra.upload.IFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

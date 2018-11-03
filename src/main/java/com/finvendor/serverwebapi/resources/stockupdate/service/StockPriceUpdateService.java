@@ -4,7 +4,7 @@ import com.finvendor.common.constant.AppConstant;
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
-import com.finvendor.server.common.infra.download.service.URLReader;
+import com.finvendor.server.common.infra.download.URLReader;
 import com.finvendor.server.common.infra.parser.StockPrice;
 import com.finvendor.server.common.infra.parser.service.IFileParser;
 import com.finvendor.serverwebapi.resources.stockupdate.dao.StockPriceUpdateDao;

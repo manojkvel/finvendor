@@ -3,13 +3,13 @@ package com.finvendor.serverwebapi.resources.researchreport.equity.controller;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
-import com.finvendor.server.common.infra.download.service.IDownloadService;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
 import com.finvendor.serverwebapi.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.serverwebapi.resources.researchreport.equity.dto.result.AbsResearchReportResult;
 import com.finvendor.serverwebapi.resources.researchreport.equity.dto.result.impl.EquityResearchResult;
 import com.finvendor.serverwebapi.resources.researchreport.equity.service.EquityReportService;
+import com.finvendor.serverwebapi.webutil.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
@@ -36,7 +34,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  */
 @Controller
 @RequestMapping(WebUriConstants.BASE_URI)
-public class EquityReportController  {
+public class EquityReportController {
     private static final Logger logger = LoggerFactory.getLogger(EquityReportController.class.getName());
 
 //    @Autowired
@@ -54,11 +52,11 @@ public class EquityReportController  {
     @Autowired
     private EquityReportService equityReportService;
 
-    @Autowired
-    private IDownloadService downloadService;
+//   @Autowired
+//    private IDownloadService downloadService;
 
-    @Resource(name = "finvendorProperties")
-    private Properties finvendorProperties;
+//    @Resource(name = "finvendorProperties")
+//    private Properties finvendorProperties;
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = WebUriConstants.ResearchReport.RESEARCH_REPORTS, method = RequestMethod.POST)
@@ -94,13 +92,13 @@ public class EquityReportController  {
                                                             @RequestParam(value = "orderBy", required = true) String orderBy,
                                                             @RequestParam(value = "productId", required = true) String productId) throws WebApiException {
         try {
-            if(equityResearchFilter==null){
-                equityResearchFilter=new EquityResearchFilter();
+            if (equityResearchFilter == null) {
+                equityResearchFilter = new EquityResearchFilter();
                 equityResearchFilter.setGeo("1");
             }
 
             //This product Id will be used in filter when user click pdf report from CompanyProfile->ResearchReport tab in UI
-            List<String> productList=new ArrayList<>();
+            List<String> productList = new ArrayList<>();
             productList.add(productId);
             equityResearchFilter.setProductId(productList);
 
@@ -124,16 +122,18 @@ public class EquityReportController  {
                                                     @RequestParam("productId") String productId,
                                                     @RequestParam("reportName") String reportName) throws WebApiException {
         try {
-            final Pair<Long, InputStream> download = downloadService.download(productId);
-            if (download.getElement2() == null) {
-                throw new Exception("Vendor Report Offering File does not exist for product id=" + productId);
-            } else {
-                response.setHeader("Content-Disposition", "attachment; filename=" + reportName);
-                response.setHeader("Content-Length", String.valueOf(download.getElement1()));
-                FileCopyUtils.copy(download.getElement2(), response.getOutputStream());
-            }
-            final StatusPojo statusPojo = new StatusPojo("true", "Equity research report downloaded successfully.");
-            return new ResponseEntity<>(statusPojo, HttpStatus.OK);
+            final Pair<Long, InputStream> download = equityReportService.download(productId);
+//            if (download.getElement2() == null) {
+//                throw new Exception("Vendor Report Offering File does not exist for product id=" + productId);
+//            } else {
+//                response.setHeader("Content-Disposition", "attachment; filename=" + reportName);
+//                response.setHeader("Content-Length", String.valueOf(download.getElement1()));
+//                FileCopyUtils.copy(download.getElement2(), response.getOutputStream());
+//            }
+            WebUtil.processDownload(response, productId, reportName, download);
+            return new ResponseEntity<>(
+                    new StatusPojo("true",
+                            "Equity research report downloaded successfully."), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("WebEquityResearchReport -> downloadResearchReport(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_REPORT_DOWNLOAD.getCode(),

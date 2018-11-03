@@ -7,7 +7,10 @@ public enum SectorReportFilterTypes {
     RESEARCHED_BY("researchedBy"),
     RESEARCH_DATE("researchDate"),
     REPORT_TONE("reportTone"),
-    REPORT_FREQUENCY("reportFrequency");
+    REPORT_FREQUENCY("reportFrequency"),
+    REPORT_NAME("reportName"),
+    OTHERS("others"),
+    ;
 
     private String type;
 

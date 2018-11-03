@@ -1,10 +1,13 @@
 package com.finvendor.serverwebapi.resources.researchreport.sector.controller;
 
 import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.common.util.Pair;
+import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
 import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorReportFilter;
 import com.finvendor.serverwebapi.resources.researchreport.sector.service.SectorReportService;
+import com.finvendor.serverwebapi.webutil.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
@@ -27,7 +36,7 @@ public class SectorReportController {
     private SectorReportService service;
 
     @RequestMapping(value = "/sectorreports/filtervalue", method = RequestMethod.GET)
-    public ResponseEntity<?> getFilterValue(@RequestParam("type") String type) throws WebApiException {
+    public ResponseEntity<?> getSectorFilterValue(@RequestParam("type") String type) throws WebApiException {
         try {
             logger.info("type:{}", type);
             return new ResponseEntity<>(service.getFilterValue(type), HttpStatus.OK);
@@ -38,7 +47,7 @@ public class SectorReportController {
     }
 
     @RequestMapping(value = "/sectorreports/recordstats", method = RequestMethod.POST)
-    public ResponseEntity<?> getRecordStats(@RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
+    public ResponseEntity<?> getSectorRecordStats(@RequestParam("perPageMaxRecords") String perPageMaxRecords,
                                             @RequestBody SectorReportFilter sectorFilter) throws WebApiException {
         try {
             logger.info("perPageMaxRecords:{}", perPageMaxRecords);
@@ -52,11 +61,11 @@ public class SectorReportController {
     }
 
     @RequestMapping(value = "/sectorreports", method = RequestMethod.POST)
-    public ResponseEntity<?> getSectorResearchReports(@RequestParam(value = "pageNumber") String pageNumber,
-            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
-            @RequestParam(value = "sortBy") String sortBy,
-            @RequestParam(value = "orderBy") String orderBy,
-            @RequestBody SectorReportFilter sectorFilter) {
+    public ResponseEntity<?> getSectorResearchReports(@RequestParam("pageNumber") String pageNumber,
+                                                      @RequestParam("perPageMaxRecords") String perPageMaxRecords,
+                                                      @RequestParam("sortBy") String sortBy,
+                                                      @RequestParam("orderBy") String orderBy,
+                                                      @RequestBody SectorReportFilter sectorFilter) throws WebApiException {
         try {
             logger.info("pageNumber:{}", pageNumber);
             logger.info("perPageMaxRecords:{}", perPageMaxRecords);
@@ -69,6 +78,45 @@ public class SectorReportController {
             return new ResponseEntity<>(sectorReportResult, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while getting sector reports, Error:{}", e);
+            return ErrorUtil.getError(SECTOR_RESEARCH_REPORT.getCode(), SECTOR_RESEARCH_REPORT.getUserMessage(), e);
+        }
+    }
+
+    @RequestMapping(value = "/sectorreports/dashboard", method = RequestMethod.POST)
+    public ResponseEntity<?> getResearchReportDashboardData(@RequestParam("pageNumber") String pageNumber,
+                                                @RequestParam("perPageMaxRecords") String perPageMaxRecords,
+                                                @RequestParam("sortBy") String sortBy,
+                                                @RequestParam("orderBy") String orderBy,
+                                                @RequestBody SectorReportFilter sectorFilter,
+                                                @RequestParam("productId") String productId) throws WebApiException {
+        try {
+            List<String> productIdList=new ArrayList<>();
+            productIdList.add(productId);
+
+            sectorFilter.setProductIds(productIdList);
+
+
+            String sectorReportDashBoardData = service.getReportDashboard(sectorFilter, pageNumber, perPageMaxRecords, sortBy,
+                    orderBy);
+            return new ResponseEntity<>(sectorReportDashBoardData, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error has occurred while getting sector reports, Error:{}", e);
+            return ErrorUtil.getError(SECTOR_RESEARCH_REPORT.getCode(), SECTOR_RESEARCH_REPORT.getUserMessage(), e);
+        }
+    }
+
+    @RequestMapping(value = "/sectorreports/download", method = RequestMethod.GET)
+    public ResponseEntity<?> downloadResearchReport(HttpServletRequest request, HttpServletResponse response,
+                                            @RequestParam("productId") String productId,
+                                            @RequestParam("reportName") String reportName) throws WebApiException {
+        try {
+            Pair<Long, InputStream> download = service.download(productId);
+            WebUtil.processDownload(response, productId, reportName, download);
+            return new ResponseEntity<>(
+                    new StatusPojo("true",
+                            "Sector research report downloaded successfully."), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error has occurred while downloadin sector reports, Error:{}", e);
             return ErrorUtil.getError(SECTOR_RESEARCH_REPORT.getCode(), SECTOR_RESEARCH_REPORT.getUserMessage(), e);
         }
     }

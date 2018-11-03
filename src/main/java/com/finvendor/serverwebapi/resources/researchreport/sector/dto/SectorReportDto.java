@@ -1,7 +1,10 @@
 package com.finvendor.serverwebapi.resources.researchreport.sector.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SectorReportDto implements Serializable {
     private String productId;
     private String sectorType;
@@ -13,6 +16,9 @@ public class SectorReportDto implements Serializable {
     private String reportName;
     private String reportDate;
     private String analystName;
+    private String reportDescription;
+    private String researchReportByCfa;
+
 
     public String getProductId() {
         return productId;
@@ -92,5 +98,21 @@ public class SectorReportDto implements Serializable {
 
     public void setAnalystName(String analystName) {
         this.analystName = analystName;
+    }
+
+    public String getReportDescription() {
+        return reportDescription;
+    }
+
+    public void setReportDescription(String reportDescription) {
+        this.reportDescription = reportDescription;
+    }
+
+    public String getResearchReportByCfa() {
+        return researchReportByCfa;
+    }
+
+    public void setResearchReportByCfa(String researchReportByCfa) {
+        this.researchReportByCfa = researchReportByCfa;
     }
 }

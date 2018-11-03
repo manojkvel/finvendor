@@ -13,6 +13,8 @@ public class SectorReportFilter implements Serializable {
     private List<String> reportTones;
     private List<String> reportFrequency;
     private List<String> analystNames;
+    private List<String> productIds;
+    private List<String> others;
 
 
     public String getGeo() {
@@ -87,18 +89,19 @@ public class SectorReportFilter implements Serializable {
         this.analystNames = analystNames;
     }
 
-    @Override
-    public String toString() {
-        return "SectorReportFilter{" +
-                "geo='" + geo + '\'' +
-                ", sectorTypes=" + sectorTypes +
-                ", sectorSubTypes=" + sectorSubTypes +
-                ", analystTypes=" + analystTypes +
-                ", researchedBy=" + researchedBy +
-                ", researchDates=" + researchDates +
-                ", reportTones=" + reportTones +
-                ", reportFrequency=" + reportFrequency +
-                ", analystNames=" + analystNames +
-                '}';
+    public List<String> getProductIds() {
+        return productIds;
+    }
+
+    public void setProductIds(List<String> productIds) {
+        this.productIds = productIds;
+    }
+
+    public List<String> getOthers() {
+        return others;
+    }
+
+    public void setOthers(List<String> others) {
+        this.others = others;
     }
 }

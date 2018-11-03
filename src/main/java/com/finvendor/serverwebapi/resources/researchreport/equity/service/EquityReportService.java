@@ -1,5 +1,6 @@
 package com.finvendor.serverwebapi.resources.researchreport.equity.service;
 
+import com.finvendor.common.util.Pair;
 import com.finvendor.serverwebapi.resources.researchreport.equity.dao.EquityReportDao;
 import com.finvendor.serverwebapi.resources.researchreport.equity.dto.filter.ResearchReportFilter;
 import com.finvendor.serverwebapi.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -51,4 +53,12 @@ public class EquityReportService {//extends AbsResearchReportService {
 		}
 	}
 
+
+	public Pair<Long,InputStream> download(String productId) throws Exception {
+		try {
+			return equityReportDao.download(productId);
+		}catch (RuntimeException e){
+			throw new Exception(e);
+		}
+	}
 }

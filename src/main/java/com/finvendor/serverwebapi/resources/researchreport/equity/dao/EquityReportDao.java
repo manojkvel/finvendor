@@ -3,6 +3,7 @@ package com.finvendor.serverwebapi.resources.researchreport.equity.dao;
 import com.finvendor.common.util.CommonUtil;
 import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
+import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.serverwebapi.resources.researchreport.equity.dto.filter.ResearchReportFilter;
 import com.finvendor.serverwebapi.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
@@ -15,10 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.finvendor.model.VendorResearchReportsResearchDetails.RESEARCH_REPORT_DETAILS_NAMED_QUERY;
 
 /**
  * @author ayush
@@ -202,5 +207,16 @@ public class EquityReportDao {//implements IResearchReportDao {
         logger.info("Time Metrics- findResearchReportTableData - Total time taken to process Equity Research Report: "+(System.currentTimeMillis()-start)/1000 +" sec");
         logger.debug("findResearchReportTableData - END");
         return resultMap;
+    }
+
+    public Pair<Long, InputStream> download(String productId) throws RuntimeException {
+        Map<Object, Object> paramMap = new HashMap<>();
+        paramMap.put("productId", productId);
+        try {
+            Pair<Long, InputStream> longInputStreamPair = commonDao.fetchBlobFromTable(RESEARCH_REPORT_DETAILS_NAMED_QUERY, paramMap);
+            return longInputStreamPair;
+        } catch (Exception e) {
+            throw new RuntimeException("Error has occurred while fetching blob from table", e);
+        }
     }
 }

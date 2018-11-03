@@ -3,9 +3,12 @@ package com.finvendor.serverwebapi.webutil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.util.StringUtil;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -290,4 +293,16 @@ public final class WebUtil {
     }
 
 
+    public static void processDownload(HttpServletResponse response, String productId,
+                                       String fileName, Pair<Long, InputStream> download) throws Exception {
+        InputStream fileInputStream = download.getElement2();
+        Long fileLength = download.getElement1();
+        if (fileInputStream == null) {
+            throw new Exception("File does not exist for id=" + productId);
+        } else {
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.setHeader("Content-Length", String.valueOf(fileLength));
+            FileCopyUtils.copy(fileInputStream, response.getOutputStream());
+        }
+    }
 }
