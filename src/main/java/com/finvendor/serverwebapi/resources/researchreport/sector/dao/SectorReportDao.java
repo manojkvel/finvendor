@@ -44,12 +44,12 @@ public class SectorReportDao {
 
 
     public String getRecordStats(SectorReportFilter filter, String perPageMaxRecords) throws RuntimeException {
-        log.info("filter:{}", filter);
+        log.info("filter: {}", filter);
         log.info("perPageMaxRecords:{}", perPageMaxRecords);
         String recordStatsJson;
         try {
             String filteredQuery = applyFilter(filter);
-            log.info("filteredQuery:{}", filteredQuery);
+            log.info("filteredQuery: {}", filteredQuery);
             recordStatsJson = commonDao.getRecordStats(filteredQuery, perPageMaxRecords);
         } catch (Exception e) {
             throw new RuntimeException("Error while processing record stats", e);
@@ -62,7 +62,7 @@ public class SectorReportDao {
         try {
             String resultJson;
             try {
-                String filteredQuery = SECTOR_REPORT_MAIN_QUERY + applyFilter(sectorFilter);
+                String filteredQuery = applyFilter(sectorFilter);
                 filteredQuery = applyOrderBy(filteredQuery, sortBy, orderBy);
                 filteredQuery = applyPagination(pageNumber, perPageMaxRecords, filteredQuery);
                 log.info("finalFilteredQuery:{}", filteredQuery);
@@ -186,6 +186,10 @@ public class SectorReportDao {
             if (analystNames != null) {
                 String inClauseValues = getInClauseValues(analystNames);
                 filteredQuery = filteredQuery + " AND  e.analyst_name IN " + inClauseValues;
+            }
+
+            if(filteredQuery.isEmpty()){
+                filteredQuery = SECTOR_REPORT_MAIN_QUERY;
             }
         }
         return filteredQuery;
