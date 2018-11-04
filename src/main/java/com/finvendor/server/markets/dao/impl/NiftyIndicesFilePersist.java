@@ -2,7 +2,7 @@
 //
 //import com.finvendor.model.Indice;
 //import com.finvendor.model.IndiceDetails;
-//import com.finvendor.server.markets.dao.AbstractNiftyFilePersist;
+//import com.finvendor.server.markets.dao.AbstractMfFilePersist;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 //import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@
 //import java.io.IOException;
 //
 //@Repository
-//public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
+//public class NiftyIndicesFilePersist extends AbstractMfFilePersist<Indice> {
 //    private static final Logger logger = LoggerFactory.getLogger(NiftyIndicesFilePersist.class.getName());
 //    @Override
 //    @Transactional

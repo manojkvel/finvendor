@@ -15,10 +15,10 @@
 //
 //	@Override
 //	@Transactional(readOnly = true)
-//	public String getHomePageSearchHint(String searchKey) throws Exception {
+//	public String getHomePageSearchResult(String searchKey) throws Exception {
 //		String stockSearchHintJson = "NA";
 //		try {
-//			stockSearchHintJson = dao.getHomePageSearchHint(searchKey);
+//			stockSearchHintJson = dao.getHomePageSearchResult(searchKey);
 //		} catch (RuntimeException e) {
 //			throw new Exception(e);
 //		}

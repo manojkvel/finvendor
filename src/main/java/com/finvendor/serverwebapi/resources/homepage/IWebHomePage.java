@@ -22,6 +22,6 @@
 //	 */
 //	@RequestMapping(value = "/homepage", method = RequestMethod.GET)
 //	@ResponseBody
-//	ResponseEntity<?> getHomePageSearchHint(String searchKey) throws WebApiException;
+//	ResponseEntity<?> getHomePageSearchResult(String searchKey) throws WebApiException;
 //
 //}

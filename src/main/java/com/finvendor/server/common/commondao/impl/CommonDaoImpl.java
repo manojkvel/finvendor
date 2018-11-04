@@ -1,6 +1,6 @@
 package com.finvendor.server.common.commondao.impl;
 
-import com.finvendor.common.util.CommonUtil;
+import com.finvendor.common.util.CommonCodeUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.Roles;
 import com.finvendor.model.VendorResearchReportsResearchDetails;
@@ -85,8 +85,8 @@ public class CommonDaoImpl extends AbstractCommonDao {
 			List<Object[]> rows = sqlQuery.list();
 			totalRecords = rows.size();
 			if (totalRecords != 0L) {
-				long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
-				recordStatsJson = CommonUtil.getRecordStatsJson(totalRecords, lastPageNumber);
+				long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+				recordStatsJson = CommonCodeUtil.getRecordStatsJson(totalRecords, lastPageNumber);
 			} else {
 				recordStatsJson = "";
 			}
@@ -98,7 +98,7 @@ public class CommonDaoImpl extends AbstractCommonDao {
 
 	@Override
 	public String applyPagination(String pageNumber, String perPageMaxRecords) {
-		return CommonUtil.applyPagination(pageNumber,perPageMaxRecords);
+		return CommonCodeUtil.applyPagination(pageNumber,perPageMaxRecords);
 	}
 
 	@Override

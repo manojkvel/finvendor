@@ -1,6 +1,6 @@
 package com.finvendor.serverwebapi.resources.markets.dao;
 
-import com.finvendor.common.util.CommonUtil;
+import com.finvendor.common.util.CommonCodeUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
@@ -301,8 +301,8 @@ public class MarketsDao  {
             totalRecords = rows.size();
             logger.info("totalRecords:{}", totalRecords);
             if (totalRecords != 0L) {
-                long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
-                recordStatsJson = CommonUtil.getRecordStatsJson(totalRecords, lastPageNumber);
+                long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+                recordStatsJson = CommonCodeUtil.getRecordStatsJson(totalRecords, lastPageNumber);
             } else {
                 recordStatsJson = "";
             }
@@ -352,7 +352,7 @@ public class MarketsDao  {
 
         String mainQuery = applyFilter(indexFilter);
         mainQuery = mainQuery + applyOrderBy(type);
-        mainQuery = mainQuery + CommonUtil.applyPagination(pageNumber, perPageMaxRecords);
+        mainQuery = mainQuery + CommonCodeUtil.applyPagination(pageNumber, perPageMaxRecords);
         logger.info("mainQuery:{}", mainQuery);
 
         SQLQuery query = commonDao.getNativeQuery(mainQuery, null);

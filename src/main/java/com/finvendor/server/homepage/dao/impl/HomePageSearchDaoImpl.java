@@ -25,7 +25,7 @@
 //
 //    @SuppressWarnings({"unchecked"})
 //    @Override
-//    public String getHomePageSearchHint(String searchKey) throws RuntimeException {
+//    public String getHomePageSearchResult(String searchKey) throws RuntimeException {
 //        try {
 //            String query = IHomePageSearchDao.SEARCH_HINT_QUERY;
 //

@@ -19,17 +19,15 @@ import static com.finvendor.common.exception.ExceptionEnum.HOME_PAGE;
  */
 @Controller
 @RequestMapping(WebUriConstants.BASE_URI)
-public class HomePageController {//implements IWebHomePage {
-
+public class HomePageController {
     @Autowired
     HomePageService homePageService;
 
-    //	@Override
     @RequestMapping(value = "/homepage", method = RequestMethod.GET)
-    public ResponseEntity<?> getHomePageSearchHint(@RequestParam(value = "searchKey", required = true) String searchKey) throws WebApiException {
+    public ResponseEntity<?> getHomePageSearchHint(@RequestParam(value = "searchKey") String searchKey) throws WebApiException {
         try {
             final String homePageSearchHint = homePageService.getHomePageSearchHint(searchKey);
-            return new ResponseEntity<String>(homePageSearchHint, HttpStatus.OK);
+            return new ResponseEntity<>(homePageSearchHint, HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("IWebHomePage -> getHomePageSearchHint(...) method", e);
             return ErrorUtil.getError(HOME_PAGE.getCode(), HOME_PAGE.getUserMessage(), e);

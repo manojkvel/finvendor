@@ -1,6 +1,6 @@
 package com.finvendor.serverwebapi.resources.homepage.dto;
 
-public class CompnyData {
+public class CompnyData extends HomePageSearchData {
 	private String companyId;
 	private String companyName;
 	private String isinCode;

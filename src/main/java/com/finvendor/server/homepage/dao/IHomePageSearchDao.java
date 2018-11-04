@@ -9,5 +9,5 @@
 //	 * @return
 //	 * @throws RuntimeException
 //	 */
-//	String getHomePageSearchHint(String searchKey) throws RuntimeException;
+//	String getHomePageSearchResult(String searchKey) throws RuntimeException;
 //}

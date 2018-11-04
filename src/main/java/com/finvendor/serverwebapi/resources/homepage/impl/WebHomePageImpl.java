@@ -27,12 +27,12 @@
 //	IHomePageService service;
 //
 //	@Override
-//	public ResponseEntity<?> getHomePageSearchHint(@RequestParam(value = "searchKey", required = true) String searchKey) throws WebApiException {
+//	public ResponseEntity<?> getHomePageSearchResult(@RequestParam(value = "searchKey", required = true) String searchKey) throws WebApiException {
 //		try {
-//			final String homePageSearchHint = service.getHomePageSearchHint(searchKey);
+//			final String homePageSearchHint = service.getHomePageSearchResult(searchKey);
 //			return new ResponseEntity<String>(homePageSearchHint, HttpStatus.OK);
 //		} catch (Exception e) {
-//			ErrorUtil.logError("IWebHomePage -> getHomePageSearchHint(...) method", e);
+//			ErrorUtil.logError("IWebHomePage -> getHomePageSearchResult(...) method", e);
 //			return ErrorUtil.getError(HOME_PAGE.getCode(), HOME_PAGE.getUserMessage(), e);
 //		}
 //	}

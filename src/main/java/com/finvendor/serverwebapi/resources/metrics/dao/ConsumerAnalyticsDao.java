@@ -1,6 +1,6 @@
 package com.finvendor.serverwebapi.resources.metrics.dao;
 
-import com.finvendor.common.util.CommonUtil;
+import com.finvendor.common.util.CommonCodeUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
@@ -54,8 +54,8 @@ public class ConsumerAnalyticsDao {
 
             if (actualTotalRecords != 0L) {
                 // Calculate Last page number
-                long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, actualTotalRecords);
-                statsJson = CommonUtil.getRecordStatsJson(actualTotalRecords, lastPageNumber);
+                long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, actualTotalRecords);
+                statsJson = CommonCodeUtil.getRecordStatsJson(actualTotalRecords, lastPageNumber);
             } else {
                 statsJson = "0";
             }
@@ -67,7 +67,7 @@ public class ConsumerAnalyticsDao {
 
     public String getConsumerAnalytics(String type, String subType, String pageNumber, String perPageMaxRecords, String breachFlag) throws RuntimeException {
         String mainQuery = applyFilter(subType, breachFlag);
-        String mainQueryWithPagintion = mainQuery + CommonUtil.applyPagination(pageNumber, perPageMaxRecords);
+        String mainQueryWithPagintion = mainQuery + CommonCodeUtil.applyPagination(pageNumber, perPageMaxRecords);
         SQLQuery query1 = commonDao.getNativeQuery(mainQueryWithPagintion, null);
         List<Object[]> rows = query1.list();
         String resultString = "NA";

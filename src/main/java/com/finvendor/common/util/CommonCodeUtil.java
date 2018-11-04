@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class CommonUtil {
+public final class CommonCodeUtil {
 
     public static long calculatePaginationLastPage(String perPageMaxRecords, long totalRecords) {
         long lastPageNumber;
@@ -48,4 +48,9 @@ public final class CommonUtil {
         return recordStatsJson;
     }
 
+    public static  String convertObjectToJson(String key, Object companyDataList) throws IOException {
+        Map<String, Object> paramsMap = new LinkedHashMap<>();
+        paramsMap.put(key, companyDataList);
+        return JsonUtil.createJsonFromParamsMap(paramsMap);
+    }
 }

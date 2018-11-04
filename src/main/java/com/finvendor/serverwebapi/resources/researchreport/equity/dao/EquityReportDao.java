@@ -1,6 +1,6 @@
 package com.finvendor.serverwebapi.resources.researchreport.equity.dao;
 
-import com.finvendor.common.util.CommonUtil;
+import com.finvendor.common.util.CommonCodeUtil;
 import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
@@ -52,7 +52,7 @@ public class EquityReportDao {//implements IResearchReportDao {
             int totalRecords = rows.size();
 
             // Calculate Last page number
-            long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+            long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
 
             // Prepare Json result
             Map<String, Object> paramsMap = new LinkedHashMap<>();
@@ -90,7 +90,7 @@ public class EquityReportDao {//implements IResearchReportDao {
             String applyOrderBy = ResearchReportUtil.applyOrderBy(sortBy, orderBy);
 
             // Apply Pagination
-            String applyPagination = CommonUtil.applyPagination(pageNumber, perPageMaxRecords);
+            String applyPagination = CommonCodeUtil.applyPagination(pageNumber, perPageMaxRecords);
 
             // Prepare final query
             String finalMainQuery = queryWithAppliedFilter + applyOrderBy + applyPagination;

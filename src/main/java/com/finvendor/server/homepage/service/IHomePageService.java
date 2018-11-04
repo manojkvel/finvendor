@@ -2,5 +2,5 @@
 //
 //public interface IHomePageService {
 //
-//	String getHomePageSearchHint(String searchKey) throws Exception;
+//	String getHomePageSearchResult(String searchKey) throws Exception;
 //}

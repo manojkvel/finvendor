@@ -1,6 +1,6 @@
 //package com.finvendor.server.researchreport.dao.impl;
 //
-//import com.finvendor.common.util.CommonUtil;
+//import com.finvendor.common.util.CommonCodeUtil;
 //import com.finvendor.common.util.DateUtil;
 //import com.finvendor.common.util.JsonUtil;
 //import com.finvendor.server.common.commondao.ICommonDao;
@@ -48,7 +48,7 @@
 //            int totalRecords = rows.size();
 //
 //            // Calculate Last page number
-//            long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+//            long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
 //
 //            // Prepare Json result
 //            Map<String, Object> paramsMap = new LinkedHashMap<>();
@@ -86,7 +86,7 @@
 //            String applyOrderBy = ResearchReportUtil.applyOrderBy(sortBy, orderBy);
 //
 //            // Apply Pagination
-//            String applyPagination = CommonUtil.applyPagination(pageNumber, perPageMaxRecords);
+//            String applyPagination = CommonCodeUtil.applyPagination(pageNumber, perPageMaxRecords);
 //
 //            // Prepare final query
 //            String finalMainQuery = queryWithAppliedFilter + applyOrderBy + applyPagination;

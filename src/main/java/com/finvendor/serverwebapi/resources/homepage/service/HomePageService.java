@@ -15,7 +15,7 @@ public class HomePageService {
 	public String getHomePageSearchHint(String searchKey) throws Exception {
 		String stockSearchHintJson;
 		try {
-			stockSearchHintJson = homePageDao.getHomePageSearchHint(searchKey);
+			stockSearchHintJson = homePageDao.getHomePageSearchResult(searchKey);
 		} catch (RuntimeException e) {
 			throw new Exception(e);
 		}

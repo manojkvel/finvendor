@@ -6,7 +6,7 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hbm2ddl.auto">update</property>
+        <!--<property name="hbm2ddl.auto">update</property>-->
         <mapping class="com.finvendor.model.FinVendorUser"></mapping>
         <mapping class="com.finvendor.model.Roles"></mapping>
         <mapping class="com.finvendor.model.UserRole"></mapping>
@@ -80,6 +80,7 @@
         <mapping class="com.finvendor.model.IndexCompDetails"></mapping>
         <mapping class="com.finvendor.model.Indice"></mapping>
         <mapping class="com.finvendor.model.IndiceDetails"></mapping>
+        <mapping class="com.finvendor.model.MutualFundMaster"></mapping>
 
     </session-factory>
 
