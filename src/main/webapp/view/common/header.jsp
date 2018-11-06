@@ -85,7 +85,7 @@
                                                                         </ul>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">Brokers/Analysts</a>
+                                                                        <a href="${pageContext.request.contextPath}/view/markets.jsp">Markets</a>
                                                                     </li>
                                                                     <li><a href="javascript:void(0);">More</a>
                                                                         <ul>
@@ -319,7 +319,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">Brokers/Analysts</a>
+                                <a href="${pageContext.request.contextPath}/view/markets.jsp">Markets</a>
                             </li>
                             <li>
                                 <a href="javascript:void(0);">More <i class="fa fa-chevron-down"></i></a>

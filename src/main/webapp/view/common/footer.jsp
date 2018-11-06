@@ -38,8 +38,8 @@
 										<span class="fa fa-chevron-right"></span> Research Reports
 								</a></li>
 								<li><a
-									href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">
-										<span class="fa fa-chevron-right"></span> Brokers/Analysts
+									href="${pageContext.request.contextPath}/view/markets.jsp">
+										<span class="fa fa-chevron-right"></span> Markets
 								</a></li>
 								<li><a
 									href="${finVen:resolveContextPath(pageContext.request.contextPath)}">

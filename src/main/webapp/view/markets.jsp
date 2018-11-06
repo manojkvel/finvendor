@@ -54,7 +54,262 @@
 							<div class="col-xs-12 col-md-9">
 								<div class="content-panel">
 									<div class="tab-content">
-										<div id="market_data_output" class="tab-pane fade">
+										<div id="market_data_all" class="tab-pane">
+											<div class="container-fluid market_details">
+												<div class="row">
+													<div class="col-xs-12 col-sm-4">
+														<div class="company_profile_details">
+															<div class="profile_details company_details">
+																<span class='index_name'>Today's Market Snapshot</span>
+															</div>
+															<div class="profile_details company_details">
+																<span class="price_date">NA</span>
+															</div>
+														</div>
+													</div>
+													<div class="col-xs-12 col-sm-3">&nbsp;</div>
+													<div class="col-xs-12 col-sm-5">
+														<div id="market_index_analytics">
+															<table>
+																<thead>
+																	<th>Gainers</th>
+																	<th>Losers</th>
+																	<th>Unchanged</th>
+																</thead>
+																<tr>
+																	<td class="success">0</td>
+																	<td class="danger">0</td>
+																	<td class="neutral">0</td>
+																</tr>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="hd">
+												
+											</div>
+											<div class="bd">
+												<div class="container-fluid market_details">
+													<div class="row">
+														<div class="col-xs-12 col-sm-4">
+															<h3>Today's Winners</h3>
+															<table id="market_index_winners">
+																<thead>
+																	<tr>
+																		<th style="width:20%;">
+																			<p class="large_font">
+																				Company Name
+																			</p>
+																		</th>
+																		<th style="width:7%;">
+																			<p class="large_font">
+																				CMP
+																			</p>
+																		</th>
+																		<th style="width:10%;">
+																			<p class="large_font">
+																				% Change
+																			</p>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody></tbody>
+																<tfoot></tfoot>
+															</table>
+														</div>
+														<div class="col-xs-12 col-sm-4">
+															<h3>Today's Losers</h3>
+															<table id="market_index_loosers">
+																<thead>
+																	<tr>
+																		<th style="width:20%;">
+																			<p class="large_font">
+																				Company Name
+																			</p>
+																		</th>
+																		<th style="width:7%;">
+																			<p class="large_font">
+																				CMP
+																			</p>
+																		</th>
+																		<th style="width:10%;">
+																			<p class="large_font">
+																				% Change
+																			</p>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody></tbody>
+																<tfoot></tfoot>
+															</table>
+														</div>
+														<div class="col-xs-12 col-sm-4">
+															<h3>Most Active Today (By Total Trade Volume)</h3>
+															<table id="market_index_active">
+																<thead>
+																	<tr>
+																		<th style="width:20%;">
+																			<p class="large_font">
+																				Company Name
+																			</p>
+																		</th>
+																		<th style="width:7%;">
+																			<p class="large_font">
+																				CMP
+																			</p>
+																		</th>
+																		<th style="width:10%;">
+																			<p class="large_font">
+																				Volume
+																			</p>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody></tbody>
+																<tfoot></tfoot>
+															</table>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-xs-12 col-sm-4">
+															<h3>52 Weeks High</h3>
+															<table id="market_index_52wHigh">
+																<thead>
+																	<tr>
+																		<th style="width:20%;">
+																			<p class="large_font">
+																				Company Name
+																			</p>
+																		</th>
+																		<th style="width:7%;">
+																			<p class="large_font">
+																				CMP
+																			</p>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody></tbody>
+																<tfoot></tfoot>
+															</table>
+														</div>
+														<div class="col-xs-12 col-sm-4">
+															<h3>52 Weeks Low</h3>
+															<table id="market_index_52wLow">
+																<thead>
+																	<tr>
+																		<th style="width:20%;">
+																			<p class="large_font">
+																				Company Name
+																			</p>
+																		</th>
+																		<th style="width:7%;">
+																			<p class="large_font">
+																				CMP
+																			</p>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody></tbody>
+																<tfoot></tfoot>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div id='progressLoader'>
+												<jsp:include page="common/progressLoader.jsp"></jsp:include>
+											</div>
+										</div>
+
+
+
+										<div id="market_data_see_all" class="tab-pane">
+											<div class="back_btn">
+												<a href="javascript:void(0);"><span class="fa fa-angle-double-left"></span></a>
+											</div>
+											<div class="hd">
+												<h3>Constituents</h3>
+												<div class="max_per_page">
+													<span>Records Per Page </span>
+													<select>
+														<option value='5'>5</option>
+														<option value='10'>10</option>
+														<option value='30'>30</option>
+														<option selected="selected" value='50'>50</option>
+														<option value='100'>100</option>
+													</select>
+
+													<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+												</div>
+											</div>
+											<div class="bd">
+												<table id="market_see_all_data">
+													<thead>
+														<tr>
+															<th style="width:20%;">
+																<p class="large_font">
+																	<a href="javascript:void(0)" data-id="user_id">Company Name <i class="fa fa-sort"></i></a>
+																</p>
+															</th>
+															<th style="width:7%;">
+																<p class="large_font">
+																	High
+																</p>
+															</th>
+															<th style="width:7%;">
+																<p class="large_font">
+																	Low
+																</p>
+															</th>
+															<th style="width:8%;">
+
+																<p class="large_font">
+																	Close
+																</p>
+															</th>
+															<th style="width:8%;">
+																<p class="large_font">
+																	Previous Close
+																</p>
+															</th>
+															<th style="width:8%;">
+																<p class="large_font">
+																	52w High
+																</p>
+															</th>
+															<th style="width:8%;">
+																<p class="large_font">
+																	52w Low
+																</p>
+															</th>
+															<th style="width:8%;">
+																<p class="large_font">
+																	Change
+																</p>
+															</th>
+															<th style="width:10%;">
+																<p class="large_font">
+																	<a href="javascript:void(0)" data-id="report">% Change <i class="fa fa-sort"></i></a>
+																</p>
+															</th>
+															<th style="width:16%;">
+																<p class="large_font">
+																	<a href="javascript:void(0)" data-id="recommType">Volume <i class="fa fa-sort"></i></a>
+																</p>
+															</th>
+														</tr>
+													</thead>
+													<tbody>	
+													</tbody>
+												</table>
+											</div>
+											<div id='progressLoader'>
+												<jsp:include page="common/progressLoader.jsp"></jsp:include>
+											</div>
+										</div>
+
+										<div id="market_data_output" class="tab-pane">
 												<div class="container-fluid market_details">
 													<div class="row">
 														<div class="col-xs-12 col-sm-4">
@@ -190,7 +445,6 @@
 												<jsp:include page="common/progressLoader.jsp"></jsp:include>
 											</div>
 										</div>
-
 									</div>
 								</div>
 							</div>

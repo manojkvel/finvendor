@@ -1475,9 +1475,6 @@ button {
 	display: block;
 }
 
-#consumer_market .tab-content>.tab-pane.fade {
-	opacity: 1;
-}
 
 #consumer_market #sidebar-panel input[type=radio] {
 	float: left;
@@ -1540,6 +1537,36 @@ button {
 #market_index_analytics table {
 	min-height: auto;
 	height: 100px;
+}
+
+#consumer_market .widget-group .widget-panel-heading {
+	cursor: auto;
+}
+
+#consumer_market #market_data_output,
+#consumer_market #market_data_see_all {
+	display: none;
+}
+
+#consumer_market #market_data_all h3 {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+#consumer_market #market_data_all tfoot span {
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#consumer_market .back_btn a {
+	background: #34bf98;
+	border-radius: 10px;
+	color: #fff;
+	margin: 10px;
+}
+
+#consumer_market .back_btn span {
+	font-size: 25px;
 }
 
 /*-----------------End of Dashboard Metrics----------------*/

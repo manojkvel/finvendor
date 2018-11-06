@@ -98,7 +98,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                         </ul>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">Brokers/Analysts</a>
+                                                                        <a href="${pageContext.request.contextPath}/view/markets.jsp">Markets</a>
                                                                     </li>
                                                                     <li><a href="javascript:void(0);">More</a>
                                                                         <ul>
@@ -278,7 +278,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                 </ul>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">Brokers/Analysts</a>
+                                <a href="${pageContext.request.contextPath}/view/markets.jsp">Markets</a>
                             </li>
                             <li><a href="javascript:void(0);">More</a>
                             <ul class="child-main-menu">
