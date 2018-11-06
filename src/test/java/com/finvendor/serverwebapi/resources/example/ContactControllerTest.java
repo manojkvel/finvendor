@@ -99,8 +99,8 @@
 //
 ////    @Test
 //////    public void examples() throws Exception {
-//////        List<ExamplePojo> list = new ArrayList<>();
-//////        ExamplePojo pojo1 = new ExamplePojo();
+//////        List<ExampleDto> list = new ArrayList<>();
+//////        ExampleDto pojo1 = new ExampleDto();
 //////        pojo1.setId(1);
 //////        pojo1.setName("TEST");
 //////        list.add(pojo1);

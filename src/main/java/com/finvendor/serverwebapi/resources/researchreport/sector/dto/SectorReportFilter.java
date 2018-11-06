@@ -3,7 +3,7 @@ package com.finvendor.serverwebapi.resources.researchreport.sector.dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class SectorFilter implements Serializable {
+public class SectorReportFilter implements Serializable {
     private String geo;
     private List<String> sectorTypes;
     private List<String> sectorSubTypes;
@@ -12,6 +12,10 @@ public class SectorFilter implements Serializable {
     private List<String> researchDates;
     private List<String> reportTones;
     private List<String> reportFrequency;
+    private List<String> analystNames;
+    private List<String> productIds;
+    private List<String> others;
+
 
     public String getGeo() {
         return geo;
@@ -75,5 +79,29 @@ public class SectorFilter implements Serializable {
 
     public void setReportFrequency(List<String> reportFrequency) {
         this.reportFrequency = reportFrequency;
+    }
+
+    public List<String> getAnalystNames() {
+        return analystNames;
+    }
+
+    public void setAnalystNames(List<String> analystNames) {
+        this.analystNames = analystNames;
+    }
+
+    public List<String> getProductIds() {
+        return productIds;
+    }
+
+    public void setProductIds(List<String> productIds) {
+        this.productIds = productIds;
+    }
+
+    public List<String> getOthers() {
+        return others;
+    }
+
+    public void setOthers(List<String> others) {
+        this.others = others;
     }
 }

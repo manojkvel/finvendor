@@ -44,7 +44,7 @@ public enum ExceptionEnum {
 	NIFTY_INDICES_PERSIST("FV0030", "Internal error - Unable to Persist NIFTY Indices, Please contact Finvendor admin for support!!"),
 
 	SECTOR_RESEARCH_FILTER("FV0031", "Internal error - Unable to filter value for Sector Research, Please contact Finvendor admin for support!!"),
-	SECTOR_RECORD_STATS("FV0032", "Internal error - Unable to record stats for Sector Research, Please contact Finvendor admin for support!!"),
+	SECTOR_RECORD_STATS("FV0032", "Internal error - Unable to get record stats for Sector Research, Please contact Finvendor admin for support!!"),
 	SECTOR_RESEARCH_REPORT("FV0033", "Internal error - Unable to get Sector Research Report, Please contact Finvendor admin for support!!"),
 
 

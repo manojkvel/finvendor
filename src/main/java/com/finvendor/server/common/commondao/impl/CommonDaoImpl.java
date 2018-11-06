@@ -1,7 +1,9 @@
 package com.finvendor.server.common.commondao.impl;
 
-import com.finvendor.common.util.CommonUtil;
+import com.finvendor.common.util.CommonCodeUtil;
+import com.finvendor.common.util.Pair;
 import com.finvendor.model.Roles;
+import com.finvendor.model.VendorResearchReportsResearchDetails;
 import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
 import com.finvendor.server.common.commondao.AbstractCommonDao;
 import org.hibernate.Query;
@@ -9,6 +11,8 @@ import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -81,8 +85,8 @@ public class CommonDaoImpl extends AbstractCommonDao {
 			List<Object[]> rows = sqlQuery.list();
 			totalRecords = rows.size();
 			if (totalRecords != 0L) {
-				long lastPageNumber = CommonUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
-				recordStatsJson = CommonUtil.getRecordStatsJson(totalRecords, lastPageNumber);
+				long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+				recordStatsJson = CommonCodeUtil.getRecordStatsJson(totalRecords, lastPageNumber);
 			} else {
 				recordStatsJson = "";
 			}
@@ -90,5 +94,30 @@ public class CommonDaoImpl extends AbstractCommonDao {
 			throw new RuntimeException("Error while processing record stats", e);
 		}
 		return recordStatsJson;
+	}
+
+	@Override
+	public String applyPagination(String pageNumber, String perPageMaxRecords) {
+		return CommonCodeUtil.applyPagination(pageNumber,perPageMaxRecords);
+	}
+
+	@Override
+	public Pair<Long, InputStream> fetchBlobFromTable(String namedQuery,Map<Object, Object> paramMap) throws RuntimeException {
+		org.hibernate.Query query = getNamedQuery(namedQuery, paramMap);
+		List<VendorResearchReportsResearchDetails> researchDetailsList = query.list();
+
+		InputStream inputStream=null;
+		Long length = null;
+		try {
+			for (VendorResearchReportsResearchDetails researchReportsResearchDetails : researchDetailsList) {
+				Blob rsrchUploadReportBlob = researchReportsResearchDetails.getRsrchUploadReport();
+				inputStream = rsrchUploadReportBlob.getBinaryStream();
+				length= rsrchUploadReportBlob.length();
+				break;
+			}
+			return new Pair<>(length,inputStream);
+		} catch (Exception e) {
+			throw new RuntimeException("Error has occurred while fetching blob from table", e);
+		}
 	}
 }
