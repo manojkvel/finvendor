@@ -84,7 +84,7 @@
 								<div class="col-md-2 col-sm-2 hiddenn-sm-down col-lg-2"></div>
 								<div class="col-md-8 col-sm-8 hiddenn-sm-down col-lg-8">
 									<form id="home_page_main_search" class="navbar-form navbar-input-group input-group p0" data-bind="enterkey: submit" action="/view/company-profile.jsp" method="GET">
-										<div class="input-group-btn ">
+										<!--<div class="input-group-btn ">
 											<button type="button"
 												class="norbdr pr05r splash-search-addon btn  dropdown-toggle"
 												data-toggle="dropdown" aria-haspopup="true"
@@ -96,14 +96,14 @@
 												data-function="searchValueChange">
 												<li class="dropdown-item"><a data-context="stock"
 													data-placeholder="Search stocks & its quotes" class="active">Stocks</a></li>
-												<!--<li class="dropdown-item"><a data-context="sectors"
+												<li class="dropdown-item"><a data-context="sectors"
 													data-placeholder="Sectors">Sectors</a></li>
 												<li class="dropdown-item"><a data-context="macroeconomy"
 													data-placeholder="Macroeconomy">Macroeconomy</a></li>
 												<li class="dropdown-item"><a data-context="research brokers/analysts"
-													data-placeholder="Research brokers/analysts">Research Brokers/Analysts</a></li>-->
+													data-placeholder="Research brokers/analysts">Research Brokers/Analysts</a></li>
 											</ul>
-										</div>
+										</div>-->
 										<input
 											class="form-control mform-control navbar-ac phcenter ui-autocomplete-input"
 											name="homepagesearch"

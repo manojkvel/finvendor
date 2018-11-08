@@ -462,12 +462,13 @@ jQuery(document).ready(function($) {
 			param: 'searchKey',
 			minChars: 2,
 			formatData: function (data) {
-				if(data.searchOutput.length == 0) {
+
+				if(data.stock.length == 0) {
 					$("input[name=txtSearchBox]").attr("disabled", "disabled");
 					return;
 				}
 				$("input[name=txtSearchBox]").removeAttr("disabled");
-				return data.searchOutput;
+				return data.stock;
 			},
 			formatItem: function (data, $item) {
 				return data.companyName + " (" + data.ticker + ")";
