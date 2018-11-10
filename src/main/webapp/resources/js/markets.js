@@ -160,7 +160,7 @@ jQuery(document).ready(function() {
 			currentIndex = 1;
 		}
 		perPageMaxRecords = Number($(this).val());
-		loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id);
+		loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 	$('#consumer_market .max_per_page select').on('change', getPerPageMaxRecords);
 
@@ -182,7 +182,7 @@ jQuery(document).ready(function() {
 		if(currentNumber != firstPageNumber) {
 			pageNumber = firstPageNumber;
 			currentIndex = firstPageNumber;
-			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id);
+			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 		}
 	};
 
@@ -190,7 +190,7 @@ jQuery(document).ready(function() {
 		if(currentNumber != lastPageNumber) {
 			pageNumber = lastPageNumber;
 			currentIndex = (pageNumber - 1) * perPageMaxRecords + 1;
-			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id);
+			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 		}
 	};
 
@@ -198,7 +198,7 @@ jQuery(document).ready(function() {
 		if(currentNumber < lastPageNumber) {
 			pageNumber = currentNumber + 1;
 			currentIndex = currentIndex + perPageMaxRecords;
-			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id);
+			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 		}
 	};
 
@@ -206,11 +206,11 @@ jQuery(document).ready(function() {
 		if(currentNumber > 1) {
 			pageNumber = currentNumber - 1;
 			currentIndex = currentIndex - perPageMaxRecords;
-			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id);
+			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 		}
 	};
 
-	function loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id) {
+	function loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy) {
 		isProgressLoader(true);
 
 		getRecordStats(indexFilter, type, perPageMaxRecords).then(function(stats) {
@@ -253,7 +253,7 @@ jQuery(document).ready(function() {
 		resetPaginationCount();
 		$("#consumer_market .tab-content  #market_data_output .max_per_page select").val($("#consumer_market .tab-content #market_data_output .max_per_page select option").eq(3).val());
 		
-		loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id);
+		loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	};
 
 	$('#sidebar-panel .sidebar-heading span').on('click', resetFilters);
@@ -383,7 +383,7 @@ jQuery(document).ready(function() {
 			
 			$(".company_details .last_cmp").html(lastCmp);
 
-			var price_date = timeStampToDate(response.indexSummary.date);
+			var price_date = timeStampToDate(Number(response.indexSummary.date));
 			$(".company_details .price_date").text(price_date + " | " + timeStampToDateNew(Number(response.indexSummary.date))[4]);
 
 
@@ -510,6 +510,7 @@ jQuery(document).ready(function() {
 
 	var getMarketIndexData = function() {
 		resetPaginationCount();
+		type = '';
 		indexFilter = $(this).attr("data-name");
 
 		if(indexFilter == 'all') {
@@ -524,7 +525,7 @@ jQuery(document).ready(function() {
 			$("#market_data_see_all").hide();
 			setMarketIndexSummary();
 			setMarketIndexAnalytics();
-			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id);
+			loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 		}
 	};
 
@@ -535,7 +536,7 @@ jQuery(document).ready(function() {
 		type = 'winners';
 		perPageMaxRecords = 5;
 		id ="market_index_winners";
-		loadDefaultMarketsWinLooseReport(indexFilter, type, perPageMaxRecords, id);
+		loadDefaultMarketsWinLooseReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 
 	var getMarketsWinnersHtml = function(response, id) {
@@ -588,10 +589,10 @@ jQuery(document).ready(function() {
 	
 	}
 
-	function loadDefaultMarketsWinLooseReport(indexFilter, type, perPageMaxRecords, id) {
+	function loadDefaultMarketsWinLooseReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy) {
 		isProgressLoader(true);
 
-		getMarketsApi(indexFilter, type, pageNumber, sortBy).then(function(serverResponse) {
+		getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy).then(function(serverResponse) {
 			var response = JSON.parse(serverResponse);
 
 			getMarketsWinnersHtml(response, id);
@@ -649,10 +650,10 @@ jQuery(document).ready(function() {
 	
 	}
 
-	function loadDefaultMostActiveTodayReport(indexFilter, type, perPageMaxRecords, id) {
+	function loadDefaultMostActiveTodayReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy) {
 		isProgressLoader(true);
 
-		getMarketsApi(indexFilter, type, pageNumber, sortBy).then(function(serverResponse) {
+		getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy).then(function(serverResponse) {
 			var response = JSON.parse(serverResponse);
 
 			getMostActiveTodayHtml(response, id);
@@ -671,7 +672,7 @@ jQuery(document).ready(function() {
 		type = 'active';
 		perPageMaxRecords = 5;
 		id = "market_index_active";
-		loadDefaultMostActiveTodayReport(indexFilter, type, perPageMaxRecords, id);
+		loadDefaultMostActiveTodayReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 
 	var get52wHighLowHtml = function(response, id) {
@@ -788,7 +789,7 @@ jQuery(document).ready(function() {
 		setRecordStats(currentIndex, lastPageNumber);
 	}
 
-	function loadDefaultSeeAllMarketReport(indexFilter, type, perPageMaxRecords) {
+	function loadDefaultSeeAllMarketReport(indexFilter, type, perPageMaxRecords, sortBy, orderBy) {
 		isProgressLoader(true);
 
 		getRecordStats(indexFilter, type, perPageMaxRecords).then(function(stats) {
@@ -801,7 +802,7 @@ jQuery(document).ready(function() {
 				$("#consumer_market .tab-content #market_data_see_all #total_records_count").html(totalRecords + " Results");
 				//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 				console.log("pageNumber: " + pageNumber);
-				getMarketsApi(indexFilter, type, pageNumber, sortBy).then(function(serverResponse) {
+				getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy).then(function(serverResponse) {
 					//console.log(serverResponse);
 					$("#consumer_market .paging_container").remove();
 					var response = JSON.parse(serverResponse);
@@ -836,13 +837,13 @@ jQuery(document).ready(function() {
 		type = $(this).parent('table').parent().attr('id').replace('market_index_', '');//'52wHigh';
 		perPageMaxRecords = 50;
 		id ="market_data_see_all";
-		loadDefaultSeeAllMarketReport(indexFilter, type, perPageMaxRecords);
+		loadDefaultSeeAllMarketReport(indexFilter, type, perPageMaxRecords, sortBy, orderBy);
 	}
 
-	function loadDefault52wHighLowReport(indexFilter, type, perPageMaxRecords, id) {
+	function loadDefault52wHighLowReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy) {
 		isProgressLoader(true);
 
-		getMarketsApi(indexFilter, type, pageNumber, sortBy).then(function(serverResponse) {
+		getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy).then(function(serverResponse) {
 			var response = JSON.parse(serverResponse);
 
 			get52wHighLowHtml(response, id);
@@ -859,7 +860,7 @@ jQuery(document).ready(function() {
 		type = '52wHigh';
 		perPageMaxRecords = 5;
 		id ="market_index_52wHigh";
-		loadDefault52wHighLowReport(indexFilter, type, perPageMaxRecords, id);
+		loadDefault52wHighLowReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 
 	function get52wLowData() {
@@ -867,7 +868,7 @@ jQuery(document).ready(function() {
 		type = '52wLow';
 		perPageMaxRecords = 5;
 		id ="market_index_52wLow";
-		loadDefault52wHighLowReport(indexFilter, type, perPageMaxRecords, id);
+		loadDefault52wHighLowReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 
 	function setAllStocksData() {
