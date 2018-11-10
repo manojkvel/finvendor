@@ -106,8 +106,8 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                 markets.setHigh(high);
                 markets.setLow(low);
                 markets.setClose(close);
-                markets.setPrevColse(prevClose.trim());
-                markets.setPriceChange(prevCloseAsDouble);
+                markets.setPrevColse(prevClose);
+                markets.setPriceChange(priceChange);
                 markets.setPricePercentChange(priceChangeInPercent);
                 markets.set_52wLow(_52wLowAsDouble);
                 markets.set_52wHigh(_52wHighAsDouble);
