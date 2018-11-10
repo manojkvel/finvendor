@@ -139,7 +139,7 @@ public class MarketsDao {
     private String getDateFromDB(String sql) throws ParseException {
         SQLQuery nativeQuery = commonDao.getNativeQuery(sql, null);
         List<Object[]> rows = nativeQuery.list();
-        String date_in_millis="0";
+        String date_in_millis = "0";
         for (Object[] row : rows) {
             String id = row[0] != null ? row[0].toString().trim() : "";
             String date = row[1] != null ? row[1].toString().trim() : "";
@@ -391,7 +391,7 @@ public class MarketsDao {
                 }
             });
             Map<String, Object> resultMap = new HashMap<>();
-            resultMap.put("title", getMarketDataTitle(type));
+            resultMap.put("title", "".equals(type) ? indexFilter : getMarketDataTitle(type));
             resultMap.put("marketData", markets);
             resultString = JsonUtil.createJsonFromParamsMap(resultMap);
             logger.info("resultString:{}", resultString);
@@ -421,23 +421,24 @@ public class MarketsDao {
         return result;
     }
 
-    private String getMarketDataTitle(String indexFilter) {
+    private String getMarketDataTitle(String type) {
         String title = "";
-        if ("winners".equals(indexFilter) || "winner".equals(indexFilter)) {
+        if ("winners".equals(type) || "winner".equals(type)) {
             title = "Today's Winners";
         }
-        if ("loosers".equals(indexFilter) || "looser".equals(indexFilter)) {
+        if ("loosers".equals(type) || "looser".equals(type)) {
             title = "Today's Loosers";
         }
-        if ("active".equals(indexFilter)) {
+        if ("active".equals(type)) {
             title = "Most Active Today (By Total Trade Volume)";
         }
-        if ("52wHigh".equals(indexFilter)) {
+        if ("52wHigh".equals(type)) {
             title = "52 Weeks High";
         }
-        if ("52wLow".equals(indexFilter)) {
+        if ("52wLow".equals(type)) {
             title = "52 Weeks Low";
         }
+
         return title;
     }
 }
