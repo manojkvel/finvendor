@@ -19,7 +19,7 @@ public class MarketsDto implements Serializable {
 
     protected String prevColse;
 
-    private String volume;
+    private Integer volume;
 
     public Long getId() {
         return id;
@@ -69,11 +69,11 @@ public class MarketsDto implements Serializable {
         this.prevColse = prevColse;
     }
 
-    public String getVolume() {
+    public Integer getVolume() {
         return volume;
     }
 
-    public void setVolume(String volume) {
+    public void setVolume(Integer volume) {
         this.volume = volume;
     }
 }

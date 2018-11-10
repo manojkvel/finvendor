@@ -74,9 +74,11 @@ public class MarketsController {
     public ResponseEntity<?> getMarkets(@RequestParam("indexFilter") String indexFilter,
                                         @RequestParam("type") String type,
                                         @RequestParam("pageNumber") String pageNumber,
-                                        @RequestParam("perPageMaxRecords") String perPageMaxRecords) throws WebApiException {
+                                        @RequestParam("perPageMaxRecords") String perPageMaxRecords,
+                                        @RequestParam("sortBy") String sortBy,
+                                        @RequestParam("orderBy") String orderBy) throws WebApiException {
         try {
-            String markets = marketsService.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords);
+            String markets = marketsService.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords,sortBy,orderBy);
             return new ResponseEntity<>(markets, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while get record stats, error - ", e);

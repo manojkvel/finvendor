@@ -46,9 +46,9 @@ public class MarketsService {
     }
 
     public String getMarkets(String indexFilter, String type, String pageNumber,
-                             String perPageMaxRecords) throws Exception {
+                             String perPageMaxRecords,String sortBy,String orderBy) throws Exception {
         try {
-            return dao.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords);
+            return dao.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords,sortBy,orderBy);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }

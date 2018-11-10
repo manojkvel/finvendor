@@ -10,7 +10,7 @@ public class CustomMarketsDto extends MarketsDto {
     private String companyId;
     private String companyName;
     private String change;
-    private String percentChange;
+    private Double percentChange;
     private String _52wLow;
     private String _52wHigh;
     private String indexName;
@@ -40,11 +40,11 @@ public class CustomMarketsDto extends MarketsDto {
         this.change = change;
     }
 
-    public String getPercentChange() {
+    public Double getPercentChange() {
         return percentChange;
     }
 
-    public void setPercentChange(String percentChange) {
+    public void setPercentChange(double percentChange) {
         this.percentChange = percentChange;
     }
 
