@@ -277,13 +277,6 @@ public class MarketsDao {
     private String applyFilter(String indexFilter) {
         String mainQuery = "";
         if ("all".equals(indexFilter)) {
-//            if ("winners".equals(type)) {
-//                mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty from markets a where a.price_percent_change>0.0 order by a.price_percent_change desc";
-//            } else if ("loosers".equals(type)) {
-//                mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty from markets a where a.price_percent_change<0.0 order by a.price_percent_change asc";
-//            } else {
-//                mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty from markets a";
-//            }
             mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty from markets a ";
         } else {
             String indexId = getIndexId(indexFilter).getElement1();
@@ -369,7 +362,7 @@ public class MarketsDao {
                 dto.set_52wLow(_52wLow);
                 dto.set_52wHigh(_52wHigh);
                 dto.setVolume(totalTradeQtyAsInteger);
-                dto.setDate(String.valueOf(Calendar.getInstance().getTimeInMillis()));
+
                 markets.add(dto);
             }
             Collections.sort(markets, new Comparator<CustomMarketsDto>() {
