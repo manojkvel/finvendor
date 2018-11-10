@@ -14,7 +14,6 @@ public class CustomMarketsDto extends MarketsDto {
     private String _52wLow;
     private String _52wHigh;
     private String indexName;
-    private String date;
 
     public String getCompanyId() {
         return companyId;
@@ -70,13 +69,5 @@ public class CustomMarketsDto extends MarketsDto {
 
     public void setIndexName(String indexName) {
         this.indexName = indexName;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 }

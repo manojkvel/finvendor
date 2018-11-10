@@ -1,5 +1,6 @@
 package com.finvendor.serverwebapi.resources.markets.dao;
 
+import com.finvendor.common.constant.AppConstant;
 import com.finvendor.model.Indice;
 import com.finvendor.model.IndiceDetails;
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @Repository
 public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
@@ -24,13 +27,15 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
         int idCounter = 1;
         long totalBsePriceInserted = 0L;
         try {
+            SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+            String indexDateAsPerFvFormat= formatter.format(Calendar.getInstance().getTime());
             br = new BufferedReader(new FileReader(fromFilePath));
             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] niftyColumns = line.split(cvsSplitBy);
                 String indexId = "";
                 String indexName = niftyColumns[0];
-                String indexDate = niftyColumns[1];
+                String indexDate = indexDateAsPerFvFormat;//niftyColumns[1];
 
                 String openIndex = niftyColumns[2];
                 String highIndex = niftyColumns[3];
