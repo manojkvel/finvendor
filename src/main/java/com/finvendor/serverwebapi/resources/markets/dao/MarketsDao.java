@@ -1,6 +1,7 @@
 package com.finvendor.serverwebapi.resources.markets.dao;
 
 import com.finvendor.common.util.CommonCodeUtil;
+import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.util.*;
 
 @Repository
@@ -67,8 +69,10 @@ public class MarketsDao {
         try {
             if ("all".equals(indexFilter)) {
                 indexSummaryMap.put("title", "Today's Market Snapshot");
-                indexSummaryMap.put("date", Calendar.getInstance().getTimeInMillis());
+                String date_in_millis = getDateFromDB("select a.id, a.date from markets a where a.id=1");
+                indexSummaryMap.put("date", date_in_millis);
             } else {
+                String date_in_millis = getDateFromDB("select a.indice_details_id,a.date from indice_details a where a.indice_details_id=1");
                 Pair<String, String> indexIdFamilyPair = getIndexId(indexFilter);
                 String indexId = indexIdFamilyPair.getElement1();
                 String family = indexIdFamilyPair.getElement2();
@@ -95,7 +99,7 @@ public class MarketsDao {
                     indexSummaryMap.put("pe", pe);
                     indexSummaryMap.put("pb", pb);
                     indexSummaryMap.put("divYield", divYield);
-                    indexSummaryMap.put("date", Calendar.getInstance().getTimeInMillis());
+                    indexSummaryMap.put("date", date_in_millis);
                 } else {
                     logger.info("INDEX_SUMMARY_QUERY:{}", INDEX_SUMMARY_QUERY);
                     SQLQuery query1 = commonDao.getNativeQuery(INDEX_SUMMARY_QUERY, new String[]{indexId});
@@ -120,7 +124,7 @@ public class MarketsDao {
                         indexSummaryMap.put("pe", pe);
                         indexSummaryMap.put("pb", pb);
                         indexSummaryMap.put("divYield", divYield);
-                        indexSummaryMap.put("date", Calendar.getInstance().getTimeInMillis());
+                        indexSummaryMap.put("date", date_in_millis);
                     }
                 }
             }
@@ -130,6 +134,19 @@ public class MarketsDao {
             throw new RuntimeException(e);
         }
         return indexNamesJson;
+    }
+
+    private String getDateFromDB(String sql) throws ParseException {
+        SQLQuery nativeQuery = commonDao.getNativeQuery(sql, null);
+        List<Object[]> rows = nativeQuery.list();
+        String date_in_millis="0";
+        for (Object[] row : rows) {
+            String id = row[0] != null ? row[0].toString().trim() : "";
+            String date = row[1] != null ? row[1].toString().trim() : "";
+            date_in_millis = String.valueOf(DateUtil.convertFvPriceDateToTimestamp(date));
+            break;
+        }
+        return date_in_millis;
     }
 
     public String getMarketsAnalytics(String indexFilter, String type) throws RuntimeException {

@@ -53,6 +53,11 @@ public class Markets implements Serializable {
     @Column(name="tot_trd_qty")
     private Integer totalTradeQty;
 
+    @Column(name="date")
+    private String date;
+
+
+
     public Long getId() {
         return id;
     }
@@ -163,5 +168,13 @@ public class Markets implements Serializable {
 
     public void setTotalTradeQty(Integer totalTradeQty) {
         this.totalTradeQty = totalTradeQty;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

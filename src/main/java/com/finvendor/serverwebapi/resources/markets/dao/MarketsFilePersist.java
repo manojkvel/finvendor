@@ -1,5 +1,6 @@
 package com.finvendor.serverwebapi.resources.markets.dao;
 
+import com.finvendor.common.constant.AppConstant;
 import com.finvendor.model.Markets;
 import com.finvendor.server.common.commondao.ICommonDao;
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -31,6 +34,8 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
         String cvsSplitBy = ",";
         long totalPriceInserted = 0L;
         try {
+            SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+            String bhavPriceDateAsPerFvFormat= formatter.format(Calendar.getInstance().getTime());
             br = new BufferedReader(new FileReader(fromFilePath));
             br.readLine();
             long id = 1L;
@@ -107,6 +112,7 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                 markets.set_52wLow(_52wLowAsDouble);
                 markets.set_52wHigh(_52wHighAsDouble);
                 markets.setTotalTradeQty(Integer.parseInt(totTrdQty));
+                markets.setDate(bhavPriceDateAsPerFvFormat);
                 saveOrUpdate(markets);
                 id++;
                 totalPriceInserted++;
