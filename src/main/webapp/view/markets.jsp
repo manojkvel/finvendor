@@ -93,126 +93,136 @@
 												<div class="container-fluid market_details">
 													<div class="row">
 														<div class="col-xs-12 col-sm-4">
-															<h3>Today's Winners</h3>
-															<table id="market_index_winners">
-																<thead>
-																	<tr>
-																		<th style="width:20%;">
-																			<p class="large_font">
-																				Company Name
-																			</p>
-																		</th>
-																		<th style="width:7%;">
-																			<p class="large_font">
-																				CMP
-																			</p>
-																		</th>
-																		<th style="width:10%;">
-																			<p class="large_font">
-																				% Change
-																			</p>
-																		</th>
-																	</tr>
-																</thead>
-																<tbody></tbody>
-																<tfoot></tfoot>
-															</table>
+															<div id="market_index_winners">
+																<h3>Today's Winners</h3>
+																<table>
+																	<thead>
+																		<tr>
+																			<th style="width:20%;">
+																				<p class="large_font">
+																					Company Name
+																				</p>
+																			</th>
+																			<th style="width:7%;">
+																				<p class="large_font">
+																					CMP
+																				</p>
+																			</th>
+																			<th style="width:10%;">
+																				<p class="large_font">
+																					% Change
+																				</p>
+																			</th>
+																		</tr>
+																	</thead>
+																	<tbody></tbody>
+																	<tfoot></tfoot>
+																</table>
+															</div>
 														</div>
 														<div class="col-xs-12 col-sm-4">
-															<h3>Today's Losers</h3>
-															<table id="market_index_loosers">
-																<thead>
-																	<tr>
-																		<th style="width:20%;">
-																			<p class="large_font">
-																				Company Name
-																			</p>
-																		</th>
-																		<th style="width:7%;">
-																			<p class="large_font">
-																				CMP
-																			</p>
-																		</th>
-																		<th style="width:10%;">
-																			<p class="large_font">
-																				% Change
-																			</p>
-																		</th>
-																	</tr>
-																</thead>
-																<tbody></tbody>
-																<tfoot></tfoot>
-															</table>
+															<div id="market_index_loosers">
+																<h3>Today's Loosers</h3>
+																<table>
+																	<thead>
+																		<tr>
+																			<th style="width:20%;">
+																				<p class="large_font">
+																					Company Name
+																				</p>
+																			</th>
+																			<th style="width:7%;">
+																				<p class="large_font">
+																					CMP
+																				</p>
+																			</th>
+																			<th style="width:10%;">
+																				<p class="large_font">
+																					% Change
+																				</p>
+																			</th>
+																		</tr>
+																	</thead>
+																	<tbody></tbody>
+																	<tfoot></tfoot>
+																</table>
+															</div>
 														</div>
 														<div class="col-xs-12 col-sm-4">
-															<h3>Most Active Today (By Total Trade Volume)</h3>
-															<table id="market_index_active">
-																<thead>
-																	<tr>
-																		<th style="width:20%;">
-																			<p class="large_font">
-																				Company Name
-																			</p>
-																		</th>
-																		<th style="width:7%;">
-																			<p class="large_font">
-																				CMP
-																			</p>
-																		</th>
-																		<th style="width:10%;">
-																			<p class="large_font">
-																				Volume
-																			</p>
-																		</th>
-																	</tr>
-																</thead>
-																<tbody></tbody>
-																<tfoot></tfoot>
-															</table>
+															<div id="market_index_active">
+																<h3>Most Active Today (By Total Trade Volume)</h3>
+																<table>
+																	<thead>
+																		<tr>
+																			<th style="width:20%;">
+																				<p class="large_font">
+																					Company Name
+																				</p>
+																			</th>
+																			<th style="width:7%;">
+																				<p class="large_font">
+																					CMP
+																				</p>
+																			</th>
+																			<th style="width:10%;">
+																				<p class="large_font">
+																					Volume
+																				</p>
+																			</th>
+																		</tr>
+																	</thead>
+																	<tbody></tbody>
+																	<tfoot></tfoot>
+																</table>
+															</div>
 														</div>
 													</div>
 													<div class="row">
 														<div class="col-xs-12 col-sm-4">
-															<h3>52 Weeks High</h3>
-															<table id="market_index_52wHigh">
-																<thead>
-																	<tr>
-																		<th style="width:20%;">
-																			<p class="large_font">
-																				Company Name
-																			</p>
-																		</th>
-																		<th style="width:7%;">
-																			<p class="large_font">
-																				CMP
-																			</p>
-																		</th>
-																	</tr>
-																</thead>
-																<tbody></tbody>
-																<tfoot></tfoot>
-															</table>
+															<div id="market_index_52wHigh">
+																<h3>52 Weeks High</h3>
+																<table>
+																	<thead>
+																		<tr>
+																			<th style="width:20%;">
+																				<p class="large_font">
+																					Company Name
+																				</p>
+																			</th>
+																			<th style="width:7%;">
+																				<p class="large_font">
+																					CMP
+																				</p>
+																			</th>
+																		</tr>
+																	</thead>
+																	<tbody></tbody>
+																	<tfoot></tfoot>
+																</table>
+															</div>
 														</div>
 														<div class="col-xs-12 col-sm-4">
-															<h3>52 Weeks Low</h3>
-															<table id="market_index_52wLow">
-																<thead>
-																	<tr>
-																		<th style="width:20%;">
-																			<p class="large_font">
-																				Company Name
-																			</p>
-																		</th>
-																		<th style="width:7%;">
-																			<p class="large_font">
-																				CMP
-																			</p>
-																		</th>
-																	</tr>
-																</thead>
-																<tbody></tbody>
-																<tfoot></tfoot>
-															</table>
+															<div id="market_index_52wLow">
+																<h3>52 Weeks Low</h3>
+																<table>
+																	<thead>
+																		<tr>
+																			<th style="width:20%;">
+																				<p class="large_font">
+																					Company Name
+																				</p>
+																			</th>
+																			<th style="width:7%;">
+																				<p class="large_font">
+																					CMP
+																				</p>
+																			</th>
+																		</tr>
+																	</thead>
+																	<tbody></tbody>
+																	<tfoot></tfoot>
+																</table>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -227,6 +237,7 @@
 										<div id="market_data_see_all" class="tab-pane">
 											<div class="back_btn">
 												<a href="javascript:void(0);"><span class="fa fa-angle-double-left"></span></a>
+												<span class="title"></span>
 											</div>
 											<div class="hd">
 												<h3>Constituents</h3>
