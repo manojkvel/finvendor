@@ -1,22 +1,27 @@
 package com.finvendor.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name="bhav_price_details")
+@Table(name="markets")
 public class Markets implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
     private Long id;
 
-    @Column(name="symbol")
-    private String symbol;
+    @Column(name="company_id")
+    private String companyId;
 
-    @Column(name="series")
-    private String series;
+    @Column(name="company_name")
+    private String companyName;
+
+    @Column(name="isin")
+    private String isin;
 
     @Column(name="open")
     private String open;
@@ -30,26 +35,23 @@ public class Markets implements Serializable {
     @Column(name="close")
     private String close;
 
-    @Column(name="last")
-    private String last;
-
     @Column(name="prev_close")
     private String prevColse;
 
+    @Column(name="price_change")
+    private Double priceChange;
+
+    @Column(name="price_percent_change")
+    private Double pricePercentChange;
+
+    @Column(name="52w_low")
+    private Double _52wLow;
+
+    @Column(name="52w_high")
+    private Double _52wHigh;
+
     @Column(name="tot_trd_qty")
-    private String totalTradeQuantity;
-
-    @Column(name="tot_trd_val")
-    private String totalTradeValue;
-
-    @Column(name="timestamp")
-    private String timeStamp;
-
-    @Column(name="total_trades")
-    private String totalTrades;
-
-    @Column(name="isin")
-    private String isin;
+    private Integer totalTradeQty;
 
     public Long getId() {
         return id;
@@ -59,20 +61,28 @@ public class Markets implements Serializable {
         this.id = id;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public String getCompanyId() {
+        return companyId;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 
-    public String getSeries() {
-        return series;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setSeries(String series) {
-        this.series = series;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getIsin() {
+        return isin;
+    }
+
+    public void setIsin(String isin) {
+        this.isin = isin;
     }
 
     public String getOpen() {
@@ -107,14 +117,6 @@ public class Markets implements Serializable {
         this.close = close;
     }
 
-    public String getLast() {
-        return last;
-    }
-
-    public void setLast(String last) {
-        this.last = last;
-    }
-
     public String getPrevColse() {
         return prevColse;
     }
@@ -123,43 +125,43 @@ public class Markets implements Serializable {
         this.prevColse = prevColse;
     }
 
-    public String getTotalTradeQuantity() {
-        return totalTradeQuantity;
+    public Double getPriceChange() {
+        return priceChange;
     }
 
-    public void setTotalTradeQuantity(String totalTradeQuantity) {
-        this.totalTradeQuantity = totalTradeQuantity;
+    public void setPriceChange(Double priceChange) {
+        this.priceChange = priceChange;
     }
 
-    public String getTotalTradeValue() {
-        return totalTradeValue;
+    public Double getPricePercentChange() {
+        return pricePercentChange;
     }
 
-    public void setTotalTradeValue(String totalTradeValue) {
-        this.totalTradeValue = totalTradeValue;
+    public void setPricePercentChange(Double pricePercentChange) {
+        this.pricePercentChange = pricePercentChange;
     }
 
-    public String getTotalTrades() {
-        return totalTrades;
+    public Double get_52wLow() {
+        return _52wLow;
     }
 
-    public void setTotalTrades(String totalTrades) {
-        this.totalTrades = totalTrades;
+    public void set_52wLow(Double _52wLow) {
+        this._52wLow = _52wLow;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public Double get_52wHigh() {
+        return _52wHigh;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void set_52wHigh(Double _52wHigh) {
+        this._52wHigh = _52wHigh;
     }
 
-    public String getIsin() {
-        return isin;
+    public Integer getTotalTradeQty() {
+        return totalTradeQty;
     }
 
-    public void setIsin(String isin) {
-        this.isin = isin;
+    public void setTotalTradeQty(Integer totalTradeQty) {
+        this.totalTradeQty = totalTradeQty;
     }
 }

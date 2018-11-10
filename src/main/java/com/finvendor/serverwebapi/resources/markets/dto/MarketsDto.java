@@ -9,10 +9,6 @@ public class MarketsDto implements Serializable {
 
     private Long id;
 
-    private String symbol;
-
-    private String series;
-
     protected String open;
 
     protected String high;
@@ -21,18 +17,9 @@ public class MarketsDto implements Serializable {
 
     protected String close;
 
-    protected String last;
-
     protected String prevColse;
 
-    private String totalTradeQuantity;
-
-    private String totalTradeValue;
-
-    private String totalTrades;
-
-    private String timeStamp;
-    private String isin;
+    private String volume;
 
     public Long getId() {
         return id;
@@ -40,22 +27,6 @@ public class MarketsDto implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public String getSeries() {
-        return series;
-    }
-
-    public void setSeries(String series) {
-        this.series = series;
     }
 
     public String getOpen() {
@@ -90,14 +61,6 @@ public class MarketsDto implements Serializable {
         this.close = close;
     }
 
-    public String getLast() {
-        return last;
-    }
-
-    public void setLast(String last) {
-        this.last = last;
-    }
-
     public String getPrevColse() {
         return prevColse;
     }
@@ -106,43 +69,11 @@ public class MarketsDto implements Serializable {
         this.prevColse = prevColse;
     }
 
-    public String getTotalTradeQuantity() {
-        return totalTradeQuantity;
+    public String getVolume() {
+        return volume;
     }
 
-    public void setTotalTradeQuantity(String totalTradeQuantity) {
-        this.totalTradeQuantity = totalTradeQuantity;
-    }
-
-    public String getTotalTradeValue() {
-        return totalTradeValue;
-    }
-
-    public void setTotalTradeValue(String totalTradeValue) {
-        this.totalTradeValue = totalTradeValue;
-    }
-
-    public String getTotalTrades() {
-        return totalTrades;
-    }
-
-    public void setTotalTrades(String totalTrades) {
-        this.totalTrades = totalTrades;
-    }
-
-    public String getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public String getIsin() {
-        return isin;
-    }
-
-    public void setIsin(String isin) {
-        this.isin = isin;
+    public void setVolume(String volume) {
+        this.volume = volume;
     }
 }

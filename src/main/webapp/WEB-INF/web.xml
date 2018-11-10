@@ -23,11 +23,11 @@
     				/WEB-INF/finvendor-security.xml
    	</param-value>
   </context-param>
-  <context-param>
+<!--  <context-param>
 	<param-name>webAppRootKey</param-name>
-	<!--<param-value>dev.finvendor.com</param-value>-->
+	&lt;!&ndash;<param-value>dev.finvendor.com</param-value>&ndash;&gt;
     <param-value>finvendor.com</param-value>
-  </context-param>
+  </context-param>-->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>

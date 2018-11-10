@@ -17,12 +17,11 @@ import java.io.IOException;
 import java.util.*;
 
 @Repository
-public class MarketsDao  {
+public class MarketsDao {
     private static final Logger logger = LoggerFactory.getLogger(MarketsDao.class.getName());
 
     private static final String INDEX_NAME_QUERY = "select indice.index_id, indice.name,indice.family from indice";
-    private static final String INDEX_SUMMARY_QUERY = "select distinct b.closing, B.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
-    private static final String MARKET_ANALYTICS_QUERY = "select cast(f.`52w_low` as DECIMAL) \"52wlow\",cast(f.`52w_high` as DECIMAL) \"52whigh\",CAST(c.tot_trd_qty as DECIMAL) \"trade_qty\",CAST(((c.close-c.prev_close)*100/c.prev_close) as DECIMAL) \"percentChange\", e.index_id \"indexid\" From rsch_sub_area_company_dtls a, bhav_price_details c, index_comp_details e, stock_current_info f where a.isin_code=c.isin and a.company_id=e.company_id and a.company_id=f.stock_id group by a.company_name";
+    private static final String INDEX_SUMMARY_QUERY = "select b.closing, B.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
 
     private static final String MARKETS_QUERY = "select distinct a.company_id, a.company_name, c.open, c.high, c.low, c.close, c.prev_close, CAST(c.tot_trd_qty as DECIMAL) \"trade_qty\", CAST(c.total_trades as DECIMAL) \"trades\", CAST((c.close-c.prev_close) AS DECIMAL) \"change\", concat(CAST(((c.close-c.prev_close)*100/c.prev_close) as DECIMAL),'%') \"percentChange\", cast(f.`52w_low` as DECIMAL) \"wlow\" ,cast(f.`52w_high` as DECIMAL) \"whigh\", e.index_id indexid from   rsch_sub_area_company_dtls a,   bhav_price_details c,   index_comp_details e,   stock_current_info f where   a.isin_code=c.isin   and a.company_id=e.company_id   and a.company_id=f.stock_id group by a.company_name";
 
@@ -61,8 +60,9 @@ public class MarketsDao  {
     }
 
     public String getIndexSummary(String indexName) throws RuntimeException {
-        String indexId = getIndexId(indexName).getElement1();
-        String family = getIndexId(indexName).getElement2();
+        Pair<String, String> indexIdFamilyPair = getIndexId(indexName);
+        String indexId = indexIdFamilyPair.getElement1();
+        String family = indexIdFamilyPair.getElement2();
         String indexNamesJson;
         try {
             Map<String, Object> indexSummaryMap = new LinkedHashMap<>();
@@ -128,122 +128,36 @@ public class MarketsDao  {
         logger.info("indexFilter:{}", indexFilter);
         logger.info("type:{}", type);
         String analyticsJson;
-        long gainer;
-        long looser;
-        long unchanged;
+        long gainer = 0L;
+        long looser = 0L;
+        long unchanged = 0L;
         try {
             SQLQuery query1;
             String mainQuery;
             if ("all".equals(indexFilter)) {
-                if ("all".equals(type)) {
+                if ("all".equals(type) || "winner".equals(type) || "looser".equals(type) || "active".equals(type)
+                        || "52wHigh".equals(type) || "52wLow".equals(type) || "''".equals(type)) {
                     long[] defaultAnalytics = getDefaultAnalytics();
                     gainer = defaultAnalytics[0];
-                    looser = defaultAnalytics[0];
-                    unchanged = defaultAnalytics[0];
-                } else if ("winner".equals(type)) {
-                    long[] defaultAnalytics = getDefaultAnalytics();
-                    gainer = defaultAnalytics[0];
-                    looser = defaultAnalytics[0];
-                    unchanged = defaultAnalytics[0];
-                } else if ("looser".equals(type)) {
-                    logger.info("type:{}", "looser");
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange >0.0 order by \"percentChange\" asc";
-                    logger.info("gainerQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    List<Object[]> rows = query1.list();
-                    gainer = rows.size();
-
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange <0.0 order by \"percentChange\" asc";
-                    logger.info("looserQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    rows = query1.list();
-                    looser = rows.size();
-
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange =0.0 order by \"percentChange\" asc";
-                    logger.info("unchangedQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    rows = query1.list();
-                    unchanged = rows.size();
-                } else if ("active".equals(type)) {
-                    logger.info("type:{}", "active");
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange >0.0 order by \"trade_qty\" desc";
-                    logger.info("gainerQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    List<Object[]> rows = query1.list();
-                    gainer = rows.size();
-
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange <0.0 order by \"trade_qty\" desc";
-                    logger.info("looserQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    rows = query1.list();
-                    looser = rows.size();
-
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange =0.0 order by \"trade_qty\" desc";
-                    logger.info("unchangedQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    rows = query1.list();
-                    unchanged = rows.size();
-                } else if ("52wHigh".equals(type)) {
-                    logger.info("type:{}", "52wHigh");
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange >0.0 order by \"52wHigh\" desc";
-                    logger.info("gainerQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    List<Object[]> rows = query1.list();
-                    gainer = rows.size();
-
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange <0.0 order by \"52wHigh\" desc";
-                    logger.info("looserQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    rows = query1.list();
-                    looser = rows.size();
-
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange =0.0 order by \"52wHigh\" desc";
-                    logger.info("unchangedQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    rows = query1.list();
-                    unchanged = rows.size();
-                } else if ("52wLow".equals(type)) {
-                    logger.info("type:{}", "52wLow");
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange >0.0 order by \"52wlow\" desc";
-                    logger.info("gainerQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    List<Object[]> rows = query1.list();
-                    gainer = rows.size();
-
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange <0.0 order by \"52wlow\" desc";
-                    logger.info("looserQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    rows = query1.list();
-                    looser = rows.size();
-
-                    mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange =0.0 order by \"52wlow\" desc";
-                    logger.info("unchangedQuery:{}", mainQuery);
-                    query1 = commonDao.getNativeQuery(mainQuery, null);
-                    rows = query1.list();
-                    unchanged = rows.size();
-                } else {
-                    logger.info("type:{}", "all");
-                    long[] defaultAnalytics = getDefaultAnalytics();
-                    gainer = defaultAnalytics[0];
-                    looser = defaultAnalytics[0];
-                    unchanged = defaultAnalytics[0];
+                    looser = defaultAnalytics[1];
+                    unchanged = defaultAnalytics[2];
                 }
             } else {
                 String indexId = getIndexId(indexFilter).getElement1();
                 logger.info("indexId:{} for indexFilter:{}", indexId, indexFilter);
-                mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange >0.0 and e.index_id = ? order by \"percentChange\" desc";
+                mainQuery = "select count(a.price_percent_change) from markets a, index_comp_details b where a.company_id=b.company_id and b.index_id=? and a.price_percent_change>0.0";
                 logger.info("gainerQuery:{}", mainQuery);
                 query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexId});
                 List<Object[]> rows = query1.list();
                 gainer = rows.size();
 
-                mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange <0.0 and e.index_id = ? order by \"percentChange\" desc";
+                mainQuery = "select count(a.price_percent_change) from markets a, index_comp_details b where a.company_id=b.company_id and b.index_id=? and a.price_percent_change<0.0";
                 logger.info("looserQuery:{}", mainQuery);
                 query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexId});
                 rows = query1.list();
                 looser = rows.size();
 
-                mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange =0.0 and e.index_id = ? order by \"percentChange\" desc";
+                mainQuery = "select count(a.price_percent_change) from markets a, index_comp_details b where a.company_id=b.company_id and b.index_id=? and a.price_percent_change=0.0";
                 logger.info("unchangedQuery:{}", mainQuery);
                 query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexId});
                 rows = query1.list();
@@ -267,19 +181,19 @@ public class MarketsDao  {
         long gainer;
         long looser;
         long unchanged;
-        String mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange >0.0 order by \"percentChange\" desc";
+        String mainQuery = "select count(a.price_percent_change) from markets a where a.price_percent_change>0.0";
         logger.info("getDefaultAnalytics - gainerQuery:{}", mainQuery);
         SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
         List<Object[]> rows = query1.list();
         gainer = rows.size();
 
-        mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange <0.0 order by \"percentChange\" desc";
+        mainQuery = "select count(a.price_percent_change) from markets a where a.price_percent_change<0.0";
         logger.info("getDefaultAnalytics - looserQuery:{}", mainQuery);
         query1 = commonDao.getNativeQuery(mainQuery, null);
         rows = query1.list();
         looser = rows.size();
 
-        mainQuery = MARKET_ANALYTICS_QUERY + " having percentChange =0.0 order by \"percentChange\" desc";
+        mainQuery = "select count(a.price_percent_change) from markets a where a.price_percent_change=0.0";
         logger.info("getDefaultAnalytics - unchangedQuery:{}", mainQuery);
         query1 = commonDao.getNativeQuery(mainQuery, null);
         rows = query1.list();
@@ -287,14 +201,15 @@ public class MarketsDao  {
         return new long[]{gainer, looser, unchanged};
     }
 
-    public String getMarketsRecordStats(String indexFilter, String perPageMaxRecords) throws RuntimeException {
+    public String getMarketsRecordStats(String indexFilter, String type, String perPageMaxRecords) throws RuntimeException {
         logger.info("indexFilter:{}", indexFilter);
         logger.info("perPageMaxRecords:{}", perPageMaxRecords);
         String recordStatsJson;
         long totalRecords;
         String mainQuery;
         try {
-            mainQuery = applyFilter(indexFilter);
+            mainQuery = applyFilter(indexFilter,type);
+            mainQuery = mainQuery + applyOrderBy(type);
             logger.info("mainQuery:{}", mainQuery);
             SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
             List<Object[]> rows = query1.list();
@@ -312,13 +227,20 @@ public class MarketsDao  {
         return recordStatsJson;
     }
 
-    private String applyFilter(String indexFilter) {
-        String mainQuery;
-        if (indexFilter.equals("all")) {
-            mainQuery = MARKETS_QUERY;
+    private String applyFilter(String indexFilter, String type) {
+        String mainQuery="";
+        if ("all".equals(indexFilter)) {
+//            if ("winners".equals(type)) {
+//                mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty from markets a where a.price_percent_change>0.0 order by a.price_percent_change desc";
+//            } else if ("loosers".equals(type)) {
+//                mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty from markets a where a.price_percent_change<0.0 order by a.price_percent_change asc";
+//            } else {
+//                mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty from markets a";
+//            }
+            mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty from markets a ";
         } else {
             String indexId = getIndexId(indexFilter).getElement1();
-            mainQuery = MARKETS_QUERY + " having indexid='" + indexId + "' ";
+            mainQuery = "select a.company_id,a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty,b.index_id from markets a,index_comp_details b where a.company_id=b.company_id and b.index_id='" + indexId + "'";
         }
         return mainQuery;
     }
@@ -350,7 +272,7 @@ public class MarketsDao  {
         logger.info("pageNumber:{}", pageNumber);
         logger.info("perPageMaxRecords:{}", perPageMaxRecords);
 
-        String mainQuery = applyFilter(indexFilter);
+        String mainQuery = applyFilter(indexFilter, type);
         mainQuery = mainQuery + applyOrderBy(type);
         mainQuery = mainQuery + CommonCodeUtil.applyPagination(pageNumber, perPageMaxRecords);
         logger.info("mainQuery:{}", mainQuery);
@@ -370,12 +292,12 @@ public class MarketsDao  {
                 String low = row[4] != null ? row[4].toString().trim() : "";
                 String close = row[5] != null ? row[5].toString().trim() : "";
                 String prevClose = row[6] != null ? row[6].toString().trim() : "";
-                String volume = row[7] != null ? row[7].toString().trim() : "";
-                String trades = row[8] != null ? row[8].toString().trim() : "";
-                String change = row[9] != null ? row[9].toString().trim() : "";
-                String percentChange = row[10] != null ? row[10].toString().trim() : "";
-                String _52wLow = row[11] != null ? row[11].toString().trim() : "";
-                String _52wHigh = row[12] != null ? row[12].toString().trim() : "";
+                String change = row[7] != null ? row[7].toString().trim() : "";
+                String percentChange = row[8] != null ? row[8].toString().trim() : "";
+                String _52wLow = row[9] != null ? row[9].toString().trim() : "";
+                String _52wHigh = row[10] != null ? row[10].toString().trim() : "";
+                String totalTradeQty = row[11] != null ? row[11].toString().trim() : "";
+
                 //String indexId= row[13] != null ? row[13].toString().trim() : "";
                 CustomMarketsDto dto = new CustomMarketsDto();
                 dto.setCompanyId(companyId);
@@ -385,12 +307,11 @@ public class MarketsDao  {
                 dto.setLow(low);
                 dto.setClose(close);
                 dto.setPrevColse(prevClose);
-                dto.setVolume(volume);
-                dto.setTrades(trades);
                 dto.setChange(change);
                 dto.setPercentChange(percentChange);
                 dto.set_52wLow(_52wLow);
                 dto.set_52wHigh(_52wHigh);
+                dto.setVolume(totalTradeQty);
                 dto.setDate(String.valueOf(Calendar.getInstance().getTimeInMillis()));
                 markets.add(dto);
             }
@@ -405,27 +326,21 @@ public class MarketsDao  {
     }
 
     private String applyOrderBy(String indexFilter) {
-        String result;
-        switch (indexFilter) {
-            case "winner":
-                result = " order by \"percentChange\" desc";
-                break;
-            case "looser":
-                result = " order by \"percentChange\" asc";
-                break;
-            case "active":
-                result = " order by \"trade_qty\" desc ";
-                break;
-            case "wHigh":
-                result = " order by \"whigh\" desc";
-                break;
-            case "wLow":
-                result = " order by \"wLow\" desc";
-                break;
-            default:
-                result = " order by \"percentChange\" desc";
-                break;
-
+        String result = "";
+        if ("winners".equals(indexFilter) || "winner".equals(indexFilter)) {
+            result = " where a.price_percent_change>0.0 order by a.price_percent_change desc";
+        }
+        if ("loosers".equals(indexFilter) || "looser".equals(indexFilter)) {
+            result = " where a.price_percent_change<0.0 order by a.price_percent_change asc";
+        }
+        if ("active".equals(indexFilter)) {
+            result = " order by a.tot_trd_qty desc";
+        }
+        if ("52wHigh".equals(indexFilter)) {
+            result = " order by a.52w_high desc";
+        }
+        if ("52wLow".equals(indexFilter)) {
+            result = " order by a.52w_low desc";
         }
         return result;
     }
