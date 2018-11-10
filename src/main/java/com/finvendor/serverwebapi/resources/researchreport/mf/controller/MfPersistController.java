@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import static com.finvendor.common.exception.ExceptionEnum.SECTOR_RESEARCH_FILTER;
 
@@ -33,10 +33,11 @@ public class MfPersistController {
      * Persist Static Data on Weekly Basis
      */
     @RequestMapping(value = "/mutualfund/persist/master", method = RequestMethod.GET)
-    public ResponseEntity<?> persistData(@RequestParam("type") String type) throws WebApiException {
+    public ResponseEntity<?> persistData() throws WebApiException {
         try {
-            logger.info("type:{}", type);
-            return null;
+            Long persistCount = (Long)mfStaticDataFilePersist.persist("d:\\tmp\\mf.csv");
+            logger.info("persistCount:{}", persistCount);
+            return new ResponseEntity<>("MF Master persisted into database successfully with total records:" + persistCount, HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("Error has occurred while getting filter value, Error:{}", e);
             return ErrorUtil.getError(SECTOR_RESEARCH_FILTER.getCode(), SECTOR_RESEARCH_FILTER.getUserMessage(), e);

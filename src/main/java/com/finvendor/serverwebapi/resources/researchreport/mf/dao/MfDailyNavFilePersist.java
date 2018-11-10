@@ -1,6 +1,6 @@
 package com.finvendor.serverwebapi.resources.researchreport.mf.dao;
 
-import com.finvendor.model.MutualFundMaster;
+import com.finvendor.model.MutualFundDailyNav;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Repository
 @Transactional
-public class MfDailyNavFilePersist extends AbstractMfFilePersist<MutualFundMaster> {
+public class MfDailyNavFilePersist extends AbstractMfFilePersist<MutualFundDailyNav> {
     private static final Logger logger = LoggerFactory.getLogger(MfDailyNavFilePersist.class.getName());
 
     @Override
@@ -33,30 +33,9 @@ public class MfDailyNavFilePersist extends AbstractMfFilePersist<MutualFundMaste
                 String schemeName = mfColumns[2];
                 String schemeType = mfColumns[3];
                 String schemeCategory = mfColumns[4];
-                String schemeSubCategory = mfColumns[5];
-                String schemeNavName = mfColumns[6];
 
-                String schemeMinAmt = mfColumns[7];
-                String launchDate = mfColumns[8];
-                String closureDate = mfColumns[9];
-                String isinDivPayout = mfColumns[10];
-                String isinDivReInvest = mfColumns[11];
-
-                MutualFundMaster mfMasterEntity = new MutualFundMaster();
-                mfMasterEntity.setAmcName(amc);
-                mfMasterEntity.setAmfiCode(code);
-                mfMasterEntity.setSchemeName(schemeName);
-                mfMasterEntity.setSchemeType(schemeType);
-                mfMasterEntity.setSchemeCategory(schemeCategory);
-                mfMasterEntity.setSchemeSubCategory(schemeSubCategory);
-                mfMasterEntity.setSchemeNavName(schemeNavName);
-                mfMasterEntity.setSchemeMinAmount(schemeMinAmt);
-                mfMasterEntity.setSchemeLauchDate(launchDate);
-                mfMasterEntity.setSchemeClosureDt(closureDate);
-                mfMasterEntity.setIsinDivPayout(isinDivPayout);
-                mfMasterEntity.setIsinDivReInvest(isinDivReInvest);
-
-                save(mfMasterEntity);
+                MutualFundDailyNav mutualFundDailyNav = new MutualFundDailyNav();
+                save(mutualFundDailyNav);
                 totalRecordInserted++;
             }
         } catch (Exception e) {

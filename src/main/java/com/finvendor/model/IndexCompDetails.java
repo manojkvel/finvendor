@@ -1,9 +1,6 @@
 package com.finvendor.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -12,9 +9,10 @@ public class IndexCompDetails implements Serializable {
 
     @Id
     @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
-    @Column(name="indexc_id")
+    @Column(name="index_id")
     private String indexId;
 
     @Column(name="company_id")

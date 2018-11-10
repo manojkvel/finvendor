@@ -112,8 +112,6 @@ public class DateUtil {
 
 	public static String getDayNumber(){
 		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		String dayString = "";
 		if (String.valueOf(day).length() == 1) {
