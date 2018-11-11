@@ -6,27 +6,27 @@ import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.serverwebapi.resources.markets.dto.CustomMarketsDto;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.*;
 
 @Repository
 public class MarketsDao {
     private static final Logger logger = LoggerFactory.getLogger(MarketsDao.class.getName());
-
     private static final String INDEX_NAME_QUERY = "select indice.index_id, indice.name,indice.family from indice";
     private static final String INDEX_SUMMARY_QUERY = "select b.closing, B.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
-
-    private static final String MARKETS_QUERY = "select distinct a.company_id, a.company_name, c.open, c.high, c.low, c.close, c.prev_close, CAST(c.tot_trd_qty as DECIMAL) \"trade_qty\", CAST(c.total_trades as DECIMAL) \"trades\", CAST((c.close-c.prev_close) AS DECIMAL) \"change\", concat(CAST(((c.close-c.prev_close)*100/c.prev_close) as DECIMAL),'%') \"percentChange\", cast(f.`52w_low` as DECIMAL) \"wlow\" ,cast(f.`52w_high` as DECIMAL) \"whigh\", e.index_id indexid from   rsch_sub_area_company_dtls a,   bhav_price_details c,   index_comp_details e,   stock_current_info f where   a.isin_code=c.isin   and a.company_id=e.company_id   and a.company_id=f.stock_id group by a.company_name";
 
     @Autowired
     private ICommonDao commonDao;
@@ -34,18 +34,18 @@ public class MarketsDao {
     private static Map<String, String> bseIndexNameCodeMap = new HashMap<>();
 
     static {
-        bseIndexNameCodeMap.put("SENSEX", "22");
-        bseIndexNameCodeMap.put("BSE Bharat 22 Index", "22");
-        bseIndexNameCodeMap.put("BSE Capital Goods", "22");
-        bseIndexNameCodeMap.put("BSE Consumer Durables", "22");
-        bseIndexNameCodeMap.put("BSE Metals", "22");
+        bseIndexNameCodeMap.put("SENSEX", "SENSEX");
+        bseIndexNameCodeMap.put("BSE Bharat 22 Index", "SPBSB2IP");
+        bseIndexNameCodeMap.put("BSE Capital Goods", "SI0200");
+        bseIndexNameCodeMap.put("BSE Consumer Durables", "SI0400");
+        bseIndexNameCodeMap.put("BSE Metals", "SI1200");
     }
 
     public String getIndexNames() throws RuntimeException {
         String indexNamesJson;
         try {
             SQLQuery query1 = commonDao.getNativeQuery(INDEX_NAME_QUERY, null);
-            logger.info("INDEX_NAME_QUERY:{}", INDEX_NAME_QUERY);
+            logger.info("*** Index Name Query:\n{}\n", INDEX_NAME_QUERY);
             List<Object[]> rows = query1.list();
             Map<String, Object> dataMap = new LinkedHashMap<>();
             List<String> indexNames = new ArrayList<>();
@@ -77,23 +77,47 @@ public class MarketsDao {
                 String indexId = indexIdFamilyPair.getElement1();
                 String family = indexIdFamilyPair.getElement2();
                 if ("BSE".equals(family)) {
-                    RestTemplate restTemplate = new RestTemplate();
-                    String code = bseIndexNameCodeMap.get(indexFilter);
-                    String uri = "https://api.bseindia.com/BseIndiaAPI/api/GetLinknew/w?code=" + code;
-                    String result = restTemplate.getForObject(uri, String.class);
-                    String closing = JsonUtil.getValue(result, "CurrValue");
-                    String pointChange = JsonUtil.getValue(result, "Chg");
-                    String percentChange = JsonUtil.getValue(result, "ChgPer");
-                    String high = JsonUtil.getValue(result, "High");
-                    String low = JsonUtil.getValue(result, "Low");
-                    String pe = "-";
-                    String pb = "-";
-                    String divYield = "-";
+                    String indexName = bseIndexNameCodeMap.get(indexFilter);
+                    String uri = getBseIndiaUri(indexName);
+                    logger.info("*** BSE India URI:\n{}\n", INDEX_NAME_QUERY);
+                    //uri = "https://api.bseindia.com/BseIndiaAPI/api/IndexArchDaily/w?index=SENSEX&period=D&fmdt=09%2F11%2F2018&todt=09%2F11%2F2018";
+                    String result = readUri(uri);
+                    String closing;
+                    String pointChange = "-";
+                    String percentChange = "-";
+                    String high;
+                    String low;
+                    String pe;
+                    String pb;
+                    String divYield;
+                    String open;
+
+                    String i_close = JsonUtil.getValue(result, "I_close");
+                    closing = i_close.isEmpty() ? "-" : i_close;
+
+                    String i_open = JsonUtil.getValue(result, "I_open");
+                    open = i_open.isEmpty() ? "-" : i_open;
+
+                    String i_high = JsonUtil.getValue(result, "I_high");
+                    high = i_high.isEmpty() ? "-" : i_high;
+
+                    String i_low = JsonUtil.getValue(result, "I_low");
+                    low = i_low.isEmpty() ? "-" : i_low;
+
+                    String i_pe = JsonUtil.getValue(result, "I_pe");
+                    pe = i_pe.isEmpty() ? "-" : i_pe;
+
+                    String i_pb = JsonUtil.getValue(result, "I_pb");
+                    pb = i_pb.isEmpty() ? "-" : i_pb;
+
+                    String i_yl = JsonUtil.getValue(result, "I_yl");
+                    divYield = i_yl.isEmpty() ? "-" : i_yl;
+
                     indexSummaryMap.put("title", indexFilter);
                     indexSummaryMap.put("closing", closing);
                     indexSummaryMap.put("pointChange", pointChange);
                     indexSummaryMap.put("percentChange", percentChange);
-                    indexSummaryMap.put("open", "-");
+                    indexSummaryMap.put("open", open);
                     indexSummaryMap.put("high", high);
                     indexSummaryMap.put("low", low);
                     indexSummaryMap.put("pe", pe);
@@ -136,6 +160,26 @@ public class MarketsDao {
         return indexNamesJson;
     }
 
+    private String getBseIndiaUri(String indexName) {
+        String uri = "https://api.bseindia.com/BseIndiaAPI/api/IndexArchDaily/w?index=INDEX_NAME&period=D&fmdt=FROM_DATE&todt=TO_DATE";
+        uri = StringUtils.replace(uri, "INDEX_NAME", indexName);
+        String currentDay = DateUtil.getDayNumber();
+        String currentMonth = DateUtil.getCurrentMonthDigit();
+        String currentYear = DateUtil.getCurrentYear();
+        //%2F means / (forward slash)
+        String currDate = currentDay + "%2F" + currentMonth + "%2F" + currentYear;
+        uri = StringUtils.replace(uri, "FROM_DATE", currDate);
+        uri = StringUtils.replace(uri, "TO_DATE", currDate);
+        logger.info("BSE URL:{}", uri);
+        return uri;
+    }
+
+    private String readUri(String uri) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(uri).openStream()))) {
+            return reader.readLine();
+        }
+    }
+
     private String getDateFromDB(String sql) throws ParseException {
         SQLQuery nativeQuery = commonDao.getNativeQuery(sql, null);
         List<Object[]> rows = nativeQuery.list();
@@ -161,7 +205,7 @@ public class MarketsDao {
             String mainQuery;
             if ("all".equals(indexFilter)) {
                 if ("all".equals(type) || "winner".equals(type) || "looser".equals(type) || "active".equals(type)
-                        || "52wHigh".equals(type) || "52wLow".equals(type) || "''".equals(type)) {
+                        || "52wHigh".equals(type) || "52wLow".equals(type) || "''".equals(type) || "".equals(type)) {
                     long[] defaultAnalytics = getDefaultAnalytics();
                     gainer = defaultAnalytics[0];
                     looser = defaultAnalytics[1];
@@ -171,7 +215,7 @@ public class MarketsDao {
                 String indexId = getIndexId(indexFilter).getElement1();
                 logger.info("indexId:{} for indexFilter:{}", indexId, indexFilter);
                 mainQuery = "select count(a.price_percent_change) from markets a, index_comp_details b where a.company_id=b.company_id and b.index_id=? and a.price_percent_change>0.0";
-                logger.info("gainerQuery:{}", mainQuery);
+                logger.info("*** Gainer Query:\n{}\n", mainQuery);
                 query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexId});
                 Object object = query1.list().get(0);
                 if (object instanceof BigInteger) {
@@ -180,7 +224,7 @@ public class MarketsDao {
                 }
 
                 mainQuery = "select count(a.price_percent_change) from markets a, index_comp_details b where a.company_id=b.company_id and b.index_id=? and a.price_percent_change<0.0";
-                logger.info("looserQuery:{}", mainQuery);
+                logger.info("*** Looser Query:\n{}\n", mainQuery);
                 query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexId});
                 object = query1.list().get(0);
                 if (object instanceof BigInteger) {
@@ -189,7 +233,7 @@ public class MarketsDao {
                 }
 
                 mainQuery = "select count(a.price_percent_change) from markets a, index_comp_details b where a.company_id=b.company_id and b.index_id=? and a.price_percent_change=0.0";
-                logger.info("unchangedQuery:{}", mainQuery);
+                logger.info("*** Unchanged Query:\n{}\n", mainQuery);
                 query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexId});
                 object = query1.list().get(0);
                 if (object instanceof BigInteger) {
@@ -255,11 +299,11 @@ public class MarketsDao {
         try {
             mainQuery = applyFilter(indexFilter);
             mainQuery = mainQuery + applyOrderBy(type);
-            logger.info("mainQuery:{}", mainQuery);
+            logger.info("*** Markets RecordStats Query:\n{}\n", mainQuery);
             SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
             List<Object[]> rows = query1.list();
             totalRecords = rows.size();
-            logger.info("totalRecords:{}", totalRecords);
+
             if (totalRecords != 0L) {
                 long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
                 recordStatsJson = CommonCodeUtil.getRecordStatsJson(totalRecords, lastPageNumber);
@@ -315,7 +359,7 @@ public class MarketsDao {
         String mainQuery = applyFilter(indexFilter);
         mainQuery = mainQuery + applyOrderBy(type);
         mainQuery = mainQuery + CommonCodeUtil.applyPagination(pageNumber, perPageMaxRecords);
-        logger.info("mainQuery:{}", mainQuery);
+        logger.info("*** Markets Query:\n{}\n", mainQuery);
 
         SQLQuery query = commonDao.getNativeQuery(mainQuery, null);
         List<Object[]> rows = query.list();
@@ -394,7 +438,6 @@ public class MarketsDao {
             resultMap.put("title", "".equals(type) ? indexFilter : getMarketDataTitle(type));
             resultMap.put("marketData", markets);
             resultString = JsonUtil.createJsonFromParamsMap(resultMap);
-            logger.info("resultString:{}", resultString);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
