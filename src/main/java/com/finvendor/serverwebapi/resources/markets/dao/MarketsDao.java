@@ -78,40 +78,31 @@ public class MarketsDao {
                 String family = indexIdFamilyPair.getElement2();
                 if ("BSE".equals(family)) {
                     String indexName = bseIndexNameCodeMap.get(indexFilter);
-                    String uri = getBseIndiaUri(indexName);
-                    logger.info("*** BSE India URI:\n{}\n", INDEX_NAME_QUERY);
-                    //uri = "https://api.bseindia.com/BseIndiaAPI/api/IndexArchDaily/w?index=SENSEX&period=D&fmdt=09%2F11%2F2018&todt=09%2F11%2F2018";
-                    String result = readUri(uri);
-                    String closing;
-                    String pointChange = "-";
-                    String percentChange = "-";
-                    String high;
-                    String low;
-                    String pe;
-                    String pb;
-                    String divYield;
-                    String open;
+                    String result = getPriceFromBSE(indexName);
 
                     String i_close = JsonUtil.getValue(result, "I_close");
-                    closing = i_close.isEmpty() ? "-" : i_close;
+                    String  closing = i_close.isEmpty() ? "-" : i_close;
 
                     String i_open = JsonUtil.getValue(result, "I_open");
-                    open = i_open.isEmpty() ? "-" : i_open;
+                    String open = i_open.isEmpty() ? "-" : i_open;
 
                     String i_high = JsonUtil.getValue(result, "I_high");
-                    high = i_high.isEmpty() ? "-" : i_high;
+                    String high = i_high.isEmpty() ? "-" : i_high;
 
                     String i_low = JsonUtil.getValue(result, "I_low");
-                    low = i_low.isEmpty() ? "-" : i_low;
+                    String low = i_low.isEmpty() ? "-" : i_low;
 
                     String i_pe = JsonUtil.getValue(result, "I_pe");
-                    pe = i_pe.isEmpty() ? "-" : i_pe;
+                    String pe = i_pe.isEmpty() ? "-" : i_pe;
 
                     String i_pb = JsonUtil.getValue(result, "I_pb");
-                    pb = i_pb.isEmpty() ? "-" : i_pb;
+                    String pb = i_pb.isEmpty() ? "-" : i_pb;
 
                     String i_yl = JsonUtil.getValue(result, "I_yl");
-                    divYield = i_yl.isEmpty() ? "-" : i_yl;
+                    String divYield = i_yl.isEmpty() ? "-" : i_yl;
+
+                    String pointChange = "-";
+                    String percentChange = "-";
 
                     indexSummaryMap.put("title", indexFilter);
                     indexSummaryMap.put("closing", closing);
@@ -160,17 +151,54 @@ public class MarketsDao {
         return indexNamesJson;
     }
 
-    private String getBseIndiaUri(String indexName) {
-        String uri = "https://api.bseindia.com/BseIndiaAPI/api/IndexArchDaily/w?index=INDEX_NAME&period=D&fmdt=FROM_DATE&todt=TO_DATE";
-        uri = StringUtils.replace(uri, "INDEX_NAME", indexName);
+    /**
+     * BSE URL : "https://api.bseindia.com/BseIndiaAPI/api/IndexArchDaily/w?index=SENSEX&period=D&fmdt=09%2F11%2F2018&todt=09%2F11%2F2018";
+     */
+    private String getPriceFromBSE(String indexName) throws IOException {
+        int attempt = 1;
+        String result = "";
+
         String currentDay = DateUtil.getDayNumber();
         String currentMonth = DateUtil.getCurrentMonthDigit();
         String currentYear = DateUtil.getCurrentYear();
-        //%2F means / (forward slash)
-        String currDate = currentDay + "%2F" + currentMonth + "%2F" + currentYear;
+
+        /**
+         * Algo:
+         * When BSE PRice is empty on current Day (i.e. vacation/holiday) then we try to hit BSE Site on
+         * last working day. When we get price of last working day then we stop hitting BSE Site
+         */
+        while (attempt <= 10) {
+            String currDate = currentDay + "%2F" + currentMonth + "%2F" + currentYear;//%2F means / (forward slash)
+            result = readUri(getBseIndiaUri(indexName, currDate));
+
+            if ("{\"Table\":[]}".equals(result)) {
+
+                //This is rare - Lets beake loop after 10 attempts and we still did not get price from BSE
+                if (attempt == 11) {
+                    logger.info("*** !!! Shit !!!...System could not found price from BSE in max attempts: {}," +
+                            " Please report to Finvendor admin", attempt);
+                    break;
+                }
+                attempt++;
+
+                //Now reduce day number by 1 to attempt with prev day again
+                currentDay = String.valueOf(Integer.parseInt(currentDay) - 1);
+
+                /*Add 0 before day number when day <10 i.e. convert 9 to 09*/
+                currentDay = currentDay.length() == 1 ? "0" + currentDay : currentDay;
+            } else {
+                logger.info("*** Before Vacation - BSE price Found on date:{} in attempt: {}", currDate.replace("%2F", "/"), attempt);
+                break;
+            }
+        }
+        return result;
+    }
+
+    private String getBseIndiaUri(String indexName, String currDate) {
+        String uri = "https://api.bseindia.com/BseIndiaAPI/api/IndexArchDaily/w?index=INDEX_NAME&period=D&fmdt=FROM_DATE&todt=TO_DATE";
+        uri = StringUtils.replace(uri, "INDEX_NAME", indexName);
         uri = StringUtils.replace(uri, "FROM_DATE", currDate);
         uri = StringUtils.replace(uri, "TO_DATE", currDate);
-        logger.info("BSE URL:{}", uri);
         return uri;
     }
 
