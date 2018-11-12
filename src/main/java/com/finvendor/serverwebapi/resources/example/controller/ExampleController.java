@@ -6,7 +6,9 @@ import com.finvendor.serverwebapi.resources.WebUriConstants;
 import com.finvendor.serverwebapi.resources.example.dto.ExampleDto;
 import com.finvendor.serverwebapi.resources.example.service.ExampleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,8 +35,9 @@ public class ExampleController {
 	}
 
 	@RequestMapping(value = "/findallexample", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<ExampleDto> findAllExample() throws WebApiException {
-		return exampleService.findAllExample();
+	public ResponseEntity<List<ExampleDto>> findAllExample() throws WebApiException {
+		List<ExampleDto> allExample = exampleService.findAllExample();
+		return new ResponseEntity<>(allExample, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/findexample", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
