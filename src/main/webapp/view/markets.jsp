@@ -260,7 +260,7 @@
 														<tr>
 															<th style="width:20%;">
 																<p class="large_font">
-																	<a href="javascript:void(0)" data-id="user_id">Company Name <i class="fa fa-sort"></i></a>
+																	<a href="javascript:void(0)" data-id="company_name">Company Name <i class="fa fa-sort"></i></a>
 																</p>
 															</th>
 															<th style="width:7%;">
@@ -301,12 +301,12 @@
 															</th>
 															<th style="width:10%;">
 																<p class="large_font">
-																	<a href="javascript:void(0)" data-id="report">% Change <i class="fa fa-sort"></i></a>
+																	<a href="javascript:void(0)" data-id="percent_change">% Change <i class="fa fa-sort"></i></a>
 																</p>
 															</th>
 															<th style="width:16%;">
 																<p class="large_font">
-																	<a href="javascript:void(0)" data-id="recommType">Volume <i class="fa fa-sort"></i></a>
+																	<a href="javascript:void(0)" data-id="volume">Volume <i class="fa fa-sort"></i></a>
 																</p>
 															</th>
 														</tr>
@@ -397,7 +397,7 @@
 														<tr>
 															<th style="width:20%;">
 																<p class="large_font">
-																	<a href="javascript:void(0)" data-id="user_id">Company Name <i class="fa fa-sort"></i></a>
+																	<a href="javascript:void(0)" data-id="company_name">Company Name <i class="fa fa-sort"></i></a>
 																</p>
 															</th>
 															<th style="width:7%;">
@@ -438,12 +438,12 @@
 															</th>
 															<th style="width:10%;">
 																<p class="large_font">
-																	<a href="javascript:void(0)" data-id="report">% Change <i class="fa fa-sort"></i></a>
+																	<a href="javascript:void(0)" data-id="percent_change">% Change <i class="fa fa-sort"></i></a>
 																</p>
 															</th>
 															<th style="width:16%;">
 																<p class="large_font">
-																	<a href="javascript:void(0)" data-id="recommType">Volume <i class="fa fa-sort"></i></a>
+																	<a href="javascript:void(0)" data-id="volume">Volume <i class="fa fa-sort"></i></a>
 																</p>
 															</th>
 														</tr>
