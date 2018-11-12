@@ -391,7 +391,7 @@ jQuery(document).ready(function() {
 			var open = (response.indexSummary.open == undefined) ? '-' : response.indexSummary.open;
 
 			$('.last_cmp').html();
-			$('.index_name').text(indexFilter);
+			$('.index_name').text(response.indexSummary.title);
 			$("#day_open_value .fr").html(open);
 			$("#day_h_l_value .fr").html(response.indexSummary.high + " / " + response.indexSummary.low);
 			$("#pe_value .fr").html(response.indexSummary.pe);
@@ -622,7 +622,7 @@ jQuery(document).ready(function() {
 		$("#consumer_market .tab-content #market_data_all #" + id + " h3").text(response.title);
 
 		if(len === 0) {
-			$("#consumer_market .tab-content #market_data_all #market_index_active table tbody").html("<tr><td colspan='10'>No Matching Records Found</td></tr>");
+			$("#consumer_market .tab-content #market_data_all #" + id + " table tbody").html("<tr><td colspan='10'>No Matching Records Found</td></tr>");
 			return;
 		}
 
@@ -641,11 +641,11 @@ jQuery(document).ready(function() {
 			"</tr>";
 		}
 
-		$("#consumer_market .tab-content #market_data_all #market_index_active table tbody").html(htmlCode);
+		$("#consumer_market .tab-content #market_data_all #" + id + " table tbody").html(htmlCode);
 
 		var footerHtml = "";
 		footerHtml = "<tr><td colspan='3'><span>See All (+)</span></td></tr>"
-		$("#consumer_market .tab-content #market_data_all #market_index_active table tfoot").html(footerHtml);
+		$("#consumer_market .tab-content #market_data_all #" + id + " table tfoot").html(footerHtml);
 		$("#consumer_market .tab-content #market_data_all #" + id + " table tfoot").one('click', getSeeAllReport);
 	
 	}
@@ -879,9 +879,9 @@ jQuery(document).ready(function() {
 		setMarketIndexAnalytics();
 		getAllWinnersData();
 		getAllLoosersData();
-		getMostActiveTodayData();
-		get52wHighData();
-		get52wLowData();
+		//getMostActiveTodayData();
+		//get52wHighData();
+		//get52wLowData();
 	}
 
 	$("#market_data_all").show();
