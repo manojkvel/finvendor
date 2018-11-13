@@ -1454,6 +1454,18 @@ button {
 	line-height: 21px;
 }
 
+#consumer_market table tbody td {
+	text-align: right;
+}
+
+#consumer_market table tbody td:first-child {
+	text-align: left;
+}
+
+#consumer_market table tbody td.center {
+	text-align: center;
+}
+
 #consumer_market table th {
 	font-weight: bold;
 }

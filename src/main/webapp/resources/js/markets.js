@@ -50,7 +50,7 @@ jQuery(document).ready(function() {
 		var rowHtml = 	"";
 
 		if(len === 0) {
-			$("#consumer_market .tab-content #" + id + " .bd table tbody").html("<tr><td colspan='10'>No Matching Records Found</td></tr>");
+			$("#consumer_market .tab-content #" + id + " .bd table tbody").html("<tr><td colspan='10' class='center'>No Matching Records Found</td></tr>");
 			return;
 		}
 
@@ -233,18 +233,18 @@ jQuery(document).ready(function() {
 
 				}, function(error) {
 					isProgressLoader(false);
-					$("#" + id + " .bd table tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+					$("#" + id + " .bd table tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 				});
 			} else {
 				isProgressLoader(false);
 				resetPaginationCount();
 				$("#consumer_market .tab-content #" + id + " #total_records_count").html('0 Results');
-				$("#" + id + " .bd table tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+				$("#" + id + " .bd table tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 				$("#consumer_market #" + id + " .paging_container").empty();
 			}
 		}, function(error) {
 			isProgressLoader(false);
-			$("#" + id + " .bd table tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+			$("#" + id + " .bd table tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 			$("#consumer_market #" + id + " .paging_container").empty();
 		});
 	};
@@ -547,7 +547,7 @@ jQuery(document).ready(function() {
 		$("#consumer_market .tab-content #market_data_all #" + id + " h3").text(response.title);
 
 		if(len === 0) {
-			$("#consumer_market .tab-content #market_data_all #" + id + " table tbody").html("<tr><td colspan='10'>No Matching Records Found</td></tr>");
+			$("#consumer_market .tab-content #market_data_all #" + id + " table tbody").html("<tr><td colspan='10' class='center'>No Matching Records Found</td></tr>");
 			return;
 		}
 
@@ -601,7 +601,7 @@ jQuery(document).ready(function() {
 
 		}, function(error) {
 			isProgressLoader(false);
-			$("#market_data_all #" + id + " table tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+			$("#market_data_all #" + id + " table tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 		});
 	};
 
@@ -623,7 +623,7 @@ jQuery(document).ready(function() {
 		$("#consumer_market .tab-content #market_data_all #" + id + " h3").text(response.title);
 
 		if(len === 0) {
-			$("#consumer_market .tab-content #market_data_all #" + id + " table tbody").html("<tr><td colspan='10'>No Matching Records Found</td></tr>");
+			$("#consumer_market .tab-content #market_data_all #" + id + " table tbody").html("<tr><td colspan='10' class='center'>No Matching Records Found</td></tr>");
 			return;
 		}
 
@@ -663,7 +663,7 @@ jQuery(document).ready(function() {
 
 		}, function(error) {
 			isProgressLoader(false);
-			$("#market_data_all #market_index_active table tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+			$("#market_data_all #market_index_active table tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 		});
 	};
 
@@ -685,7 +685,7 @@ jQuery(document).ready(function() {
 		$("#consumer_market .tab-content #market_data_all #" + id + " h3").text(response.title);
 
 		if(len === 0) {
-			$("#consumer_market .tab-content #market_data_all #" + id + " table tbody").html("<tr><td colspan='10'>No Matching Records Found</td></tr>");
+			$("#consumer_market .tab-content #market_data_all #" + id + " table tbody").html("<tr><td colspan='10' class='center'>No Matching Records Found</td></tr>");
 			return;
 		}
 
@@ -719,7 +719,7 @@ jQuery(document).ready(function() {
 		$("#consumer_market #market_data_see_all .back_btn span.title").text(response.title);
 
 		if(len === 0) {
-			$("#consumer_market .tab-content #market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10'>No Matching Records Found</td></tr>");
+			$("#consumer_market .tab-content #market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10' class='center'>No Matching Records Found</td></tr>");
 			return;
 		}
 
@@ -819,18 +819,18 @@ jQuery(document).ready(function() {
 					isProgressLoader(false);
 					$("#market_data_all").hide();
 					$("#market_data_see_all").show();
-					$("#market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+					$("#market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 				});
 			} else {
 				isProgressLoader(false);
 				resetPaginationCount();
 				$("#consumer_market .tab-content #market_data_see_all #total_records_count").html('0 Results');
-				$("#market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+				$("#market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 				$("#consumer_market #market_see_all_data .paging_container").empty();
 			}
 		}, function(error) {
 			isProgressLoader(false);
-			$("#market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+			$("#market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 			$("#consumer_market #market_see_all_data .paging_container").empty();
 		});
 	};
@@ -854,7 +854,7 @@ jQuery(document).ready(function() {
 
 		}, function(error) {
 			isProgressLoader(false);
-			$("#market_data_all table#" + id + " tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+			$("#market_data_all table#" + id + " tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 		});
 	};
 
