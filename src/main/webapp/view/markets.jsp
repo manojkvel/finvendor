@@ -77,9 +77,9 @@
 																	<th>Unchanged</th>
 																</thead>
 																<tr>
-																	<td class="success">0</td>
-																	<td class="danger">0</td>
-																	<td class="neutral">0</td>
+																	<td class="center success">0</td>
+																	<td class="center danger">0</td>
+																	<td class="center neutral">0</td>
 																</tr>
 															</table>
 														</div>
@@ -367,9 +367,9 @@
 																		<th>Unchanged</th>
 																	</thead>
 																	<tr>
-																		<td class="success">0</td>
-																		<td class="danger">0</td>
-																		<td class="neutral">0</td>
+																		<td class="center success">0</td>
+																		<td class="center danger">0</td>
+																		<td class="center neutral">0</td>
 																	</tr>
 																</table>
 															</div>
