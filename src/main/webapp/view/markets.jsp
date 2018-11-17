@@ -122,7 +122,7 @@
 														</div>
 														<div class="col-xs-12 col-sm-4">
 															<div id="market_index_loosers">
-																<h3>Today's Loosers</h3>
+																<h3>Today's Losers</h3>
 																<table>
 																	<thead>
 																		<tr>
@@ -240,7 +240,7 @@
 												<span class="title"></span>
 											</div>
 											<div class="hd">
-												<h3>Constituents</h3>
+												<!--<h3>Constituents</h3>-->
 												<div class="max_per_page">
 													<span>Records Per Page </span>
 													<select>

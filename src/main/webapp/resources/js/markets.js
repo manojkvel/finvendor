@@ -674,6 +674,7 @@ jQuery(document).ready(function() {
 		type = 'active';
 		perPageMaxRecords = 5;
 		id = "market_index_active";
+		var sortBy = 'volume';
 		loadDefaultMostActiveTodayReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 

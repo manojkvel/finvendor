@@ -1581,6 +1581,11 @@ button {
 	font-size: 25px;
 }
 
+#consumer_market .md_p .fl,
+#consumer_market .md_p .fr {
+	font-size: 13px;
+}
+
 /*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {
