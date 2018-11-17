@@ -44,13 +44,13 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                 String symbol = bhavColumns[0];
                 String series = bhavColumns[1];
 
-                String open = bhavColumns[2].trim();
-                String high = bhavColumns[3].trim();
-                String low = bhavColumns[4].trim();
-                String close = bhavColumns[5].trim();
-                String last = bhavColumns[6];
+                String open = String.valueOf(Double.parseDouble(bhavColumns[2].trim()));
+                String high = String.valueOf(Double.parseDouble(bhavColumns[3].trim()));
+                String low = String.valueOf(Double.parseDouble(bhavColumns[4].trim()));
+                String close = String.valueOf(Double.parseDouble(bhavColumns[5].trim()));
+                String last = String.valueOf(Double.parseDouble(bhavColumns[6]));
 
-                String prevClose = bhavColumns[7].trim();
+                String prevClose = String.valueOf(Double.parseDouble(bhavColumns[7].trim()));
                 String totTrdQty = bhavColumns[8].trim();
 
                 String totTrdVal = bhavColumns[9];
@@ -60,7 +60,8 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
 
                 //calculate priceChange & percentPriceChange
                 double prevCloseAsDouble = Double.parseDouble(prevClose.trim());
-                double priceChange = Double.parseDouble(close.trim()) - prevCloseAsDouble;
+                double closePriceAsDouble = Double.parseDouble(close.trim());
+                double priceChange = closePriceAsDouble - prevCloseAsDouble;
                 double priceChangeInPercent = (priceChange) * 100d / prevCloseAsDouble;
 
 

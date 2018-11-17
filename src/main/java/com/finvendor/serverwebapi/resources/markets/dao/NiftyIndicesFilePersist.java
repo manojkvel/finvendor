@@ -3,6 +3,7 @@ package com.finvendor.serverwebapi.resources.markets.dao;
 import com.finvendor.common.constant.AppConstant;
 import com.finvendor.model.Indice;
 import com.finvendor.model.IndiceDetails;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -28,7 +29,7 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
         long totalBsePriceInserted = 0L;
         try {
             SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
-            String indexDateAsPerFvFormat= formatter.format(Calendar.getInstance().getTime());
+            String indexDateAsPerFvFormat = formatter.format(Calendar.getInstance().getTime());
             br = new BufferedReader(new FileReader(fromFilePath));
             br.readLine();
             while ((line = br.readLine()) != null) {
@@ -40,15 +41,43 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
                 String openIndex = niftyColumns[2];
                 String highIndex = niftyColumns[3];
                 String lowIndex = niftyColumns[4];
-                String closingIndex = niftyColumns[5];
-                String pointChange = niftyColumns[6];
 
-                String percentChange = niftyColumns[7];
+                String closingIndex = "";
+                if (!StringUtils.isEmpty(niftyColumns[5].trim()) && !niftyColumns[5].trim().equals("-")) {
+                    closingIndex = String.valueOf(Double.parseDouble(niftyColumns[5].trim()));
+                }
+
+                String pointChange = "";
+                if (!StringUtils.isEmpty(niftyColumns[6].trim()) && !niftyColumns[6].trim().equals("-")) {
+                    pointChange = String.valueOf(Double.parseDouble(niftyColumns[6].trim()));
+                }
+
+                String percentChange = "";
+                if (!StringUtils.isEmpty(niftyColumns[7].trim()) && !niftyColumns[7].trim().equals("-")) {
+                    percentChange = String.valueOf(Double.parseDouble(niftyColumns[7].trim()));
+                }
+
                 String volume = niftyColumns[8];
-                String turnoverInCrore = niftyColumns[9];
-                String pe = niftyColumns[10];
-                String pb = niftyColumns[11];
-                String divYield = niftyColumns[12];
+
+                String turnoverInCrore = "";
+                if (!StringUtils.isEmpty(niftyColumns[9].trim()) && !niftyColumns[9].trim().equals("-")) {
+                    turnoverInCrore = String.valueOf(Double.parseDouble(niftyColumns[9].trim()));
+                }
+
+                String pe = "";
+                if (!StringUtils.isEmpty(niftyColumns[10].trim()) && !niftyColumns[10].trim().equals("-")) {
+                    pe = String.valueOf(Double.parseDouble(niftyColumns[10].trim()));
+                }
+
+                String pb = "";
+                if (!StringUtils.isEmpty(niftyColumns[11].trim()) && !niftyColumns[11].trim().equals("-")) {
+                    pb = String.valueOf(Double.parseDouble(niftyColumns[11].trim()));
+                }
+
+                String divYield = "";
+                if (!StringUtils.isEmpty(niftyColumns[12].trim()) && !niftyColumns[12].trim().equals("-")) {
+                    divYield = String.valueOf(Double.parseDouble(niftyColumns[12].trim()));
+                }
                 String type = "";
                 String family = "NSE";
                 Indice indice;

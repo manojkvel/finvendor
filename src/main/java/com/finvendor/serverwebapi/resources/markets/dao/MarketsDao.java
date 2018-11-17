@@ -26,7 +26,7 @@ import java.util.*;
 public class MarketsDao {
     private static final Logger logger = LoggerFactory.getLogger(MarketsDao.class.getName());
     private static final String INDEX_NAME_QUERY = "select indice.index_id, indice.name,indice.family from indice";
-    private static final String INDEX_SUMMARY_QUERY = "select b.closing, B.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
+    private static final String INDEX_SUMMARY_QUERY = "select b.closing, b.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
 
     @Autowired
     private ICommonDao commonDao;
@@ -81,7 +81,7 @@ public class MarketsDao {
                     String result = getPriceFromBSE(indexName);
 
                     String i_close = JsonUtil.getValue(result, "I_close");
-                    String  closing = i_close.isEmpty() ? "-" : i_close;
+                    String closing = i_close.isEmpty() ? "-" : i_close;
 
                     String i_open = JsonUtil.getValue(result, "I_open");
                     String open = i_open.isEmpty() ? "-" : i_open;
@@ -326,7 +326,7 @@ public class MarketsDao {
         String mainQuery;
         try {
             mainQuery = applyFilter(indexFilter);
-            mainQuery = mainQuery + applyOrderBy(type);
+            mainQuery = mainQuery + applyOrderBy(type, "", "");
             logger.info("*** Markets RecordStats Query:\n{}\n", mainQuery);
             SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
             List<Object[]> rows = query1.list();
@@ -379,13 +379,16 @@ public class MarketsDao {
 
     public String getMarkets(String indexFilter, String type, String pageNumber,
                              String perPageMaxRecords, final String sortBy, final String orderBy) throws RuntimeException {
-        logger.info("indexFilter:{}", indexFilter);
-        logger.info("type:{}", type);
-        logger.info("pageNumber:{}", pageNumber);
-        logger.info("perPageMaxRecords:{}", perPageMaxRecords);
+        logger.info("MarketsDao-> getMarkets() - START");
+        logger.info("indexFilter: {}", indexFilter);
+        logger.info("type: {}", type);
+        logger.info("pageNumber: {}", pageNumber);
+        logger.info("perPageMaxRecords: {}", perPageMaxRecords);
+        logger.info("sortBy: {}", sortBy);
+        logger.info("orderBy: {}", orderBy);
 
         String mainQuery = applyFilter(indexFilter);
-        mainQuery = mainQuery + applyOrderBy(type);
+        mainQuery = mainQuery + applyOrderBy(type, sortBy, orderBy);
         mainQuery = mainQuery + CommonCodeUtil.applyPagination(pageNumber, perPageMaxRecords);
         logger.info("*** Markets Query:\n{}\n", mainQuery);
 
@@ -406,14 +409,14 @@ public class MarketsDao {
                 String prevClose = row[6] != null ? row[6].toString().trim() : "";
                 String change = row[7] != null ? row[7].toString().trim() : "";
                 Object percentChangeObject = row[8] != null ? row[8] : null;
-                Double percentChangeAsDouble = 0.0D;
+                double percentChangeAsDouble = 0.0D;
                 if (percentChangeObject instanceof BigDecimal) {
                     BigDecimal percentChangeBigDecimal = (BigDecimal) percentChangeObject;
                     percentChangeAsDouble = percentChangeBigDecimal.doubleValue();
                 }
                 String _52wLow = row[9] != null ? row[9].toString().trim() : "";
                 String _52wHigh = row[10] != null ? row[10].toString().trim() : "";
-                Integer totalTradeQtyAsInteger = 0;
+                int totalTradeQtyAsInteger = 0;
                 Object totalTradeQtyAsObject = row[11] != null ? row[11] : null;
                 if (totalTradeQtyAsObject instanceof Integer) {
                     Integer totalTradeQtyAsBigDecimal = (Integer) totalTradeQtyAsObject;
@@ -437,31 +440,7 @@ public class MarketsDao {
 
                 markets.add(dto);
             }
-            Collections.sort(markets, new Comparator<CustomMarketsDto>() {
-                @Override
-                public int compare(CustomMarketsDto o1, CustomMarketsDto o2) {
-                    if ("companyName".equals(sortBy)) {
-                        if (orderBy.equals("asc")) {
-                            return o1.getCompanyName().compareTo(o2.getCompanyName());
-                        } else {
-                            return o2.getCompanyName().compareTo(o1.getCompanyName());
-                        }
-                    } else if ("percentChange".equals(sortBy)) {
-                        if (orderBy.equals("asc")) {
-                            return o1.getPercentChange().compareTo(o2.getPercentChange());
-                        } else {
-                            return o2.getPercentChange().compareTo(o1.getPercentChange());
-                        }
-                    } else if ("volume".equals(sortBy)) {
-                        if (orderBy.equals("asc")) {
-                            return o1.getVolume().compareTo(o2.getVolume());
-                        } else {
-                            return o2.getVolume().compareTo(o1.getVolume());
-                        }
-                    }
-                    return 0;
-                }
-            });
+
             Map<String, Object> resultMap = new HashMap<>();
             resultMap.put("title", "".equals(type) ? indexFilter : getMarketDataTitle(type));
             resultMap.put("marketData", markets);
@@ -472,22 +451,51 @@ public class MarketsDao {
         return resultString;
     }
 
-    private String applyOrderBy(String indexFilter) {
+    private String applyOrderBy(String indexFilter, String sortBy, String orderBy) {
         String result = "";
+        if ("companyName".equals(sortBy)) {
+            sortBy = "a.company_name";
+        } else if ("percentChange".equals(sortBy)) {
+            sortBy = "a.price_percent_change";
+        } else if ("volume".equals(sortBy)) {
+            sortBy = "a.tot_trd_qty";
+        } else {
+            sortBy = "a.price_percent_change";
+            orderBy = "desc";
+        }
         if ("winners".equals(indexFilter) || "winner".equals(indexFilter)) {
-            result = " where a.price_percent_change>0.0 order by a.price_percent_change desc";
-        }
-        if ("loosers".equals(indexFilter) || "looser".equals(indexFilter)) {
-            result = " where a.price_percent_change<0.0 order by a.price_percent_change asc";
-        }
-        if ("active".equals(indexFilter)) {
-            result = " order by a.tot_trd_qty desc";
-        }
-        if ("52wHigh".equals(indexFilter)) {
-            result = " order by a.52w_high desc";
-        }
-        if ("52wLow".equals(indexFilter)) {
-            result = " order by a.52w_low desc";
+            if (sortBy.isEmpty()) {
+                result = " where a.price_percent_change > 0.0 order by a.price_percent_change desc";
+            } else {
+                result = " where a.price_percent_change > 0.0 order by " + sortBy + " " + orderBy;
+            }
+        } else if ("loosers".equals(indexFilter) || "looser".equals(indexFilter)) {
+            if (sortBy.isEmpty()) {
+                result = " where a.price_percent_change < 0.0 order by a.price_percent_change asc";
+            } else {
+                result = " where a.price_percent_change < 0.0 order by " + sortBy + " " + orderBy;
+
+            }
+        } else if ("active".equals(indexFilter)) {
+            if (sortBy.isEmpty()) {
+                result = " order by a.tot_trd_qty desc";
+            } else {
+                result = " order by " + sortBy + " " + orderBy;
+            }
+        } else if ("52wHigh".equals(indexFilter)) {
+            if (sortBy.isEmpty()) {
+                result = " where cast(a.close as DECIMAL) > cast(a.`52w_high` as decimal)  order by a.52w_high desc";
+            } else {
+                result = " where cast(a.close as DECIMAL) > cast(a.`52w_high` as decimal)  order by " + sortBy + " " + orderBy;
+            }
+        } else if ("52wLow".equals(indexFilter)) {
+            if (sortBy.isEmpty()) {
+                result = " where cast(a.close as DECIMAL) < cast(a.`52w_low` as decimal) order by a.52w_low desc";
+            } else {
+                result = " where cast(a.close as DECIMAL) < cast(a.`52w_low` as decimal) order by " + sortBy + " " + orderBy;
+            }
+        } else {
+            result = " order by " + sortBy + " " + orderBy;
         }
         return result;
     }

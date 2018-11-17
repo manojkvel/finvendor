@@ -30,7 +30,7 @@ public class MarketsController {
             String marketsRecordStatsJson = marketsService.getIndexNames();
             return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Error has occurred while get index names, error - ", e);
+            ErrorUtil.logError("Error in MarketsController - getIndexNames() ", e);
             return ErrorUtil.getError(INDEX_NAMES.getCode(), INDEX_NAMES.getUserMessage(), e);
         }
     }
@@ -38,34 +38,43 @@ public class MarketsController {
     @RequestMapping(value = "/markets/index/summary", method = RequestMethod.GET)
     public ResponseEntity<?> getIndexSummary(@RequestParam("indexFilter") String indexFilter) throws WebApiException {
         try {
+            logger.info("MarketsController-> getIndexSummary()::");
+            logger.info("indexFilter: {}", indexFilter);
             String marketsRecordStatsJson = marketsService.getIndexSummary(indexFilter);
             return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Error has occurred while get index summary, error - ", e);
+            ErrorUtil.logError("Error in MarketsController - getIndexSummary() ", e);
             return ErrorUtil.getError(INDEX_SUMMARY.getCode(), INDEX_SUMMARY.getUserMessage(), e);
         }
     }
 
     @RequestMapping(value = "/markets/analytics", method = RequestMethod.GET)
-    public ResponseEntity<?> getMarketsAnalytics(@RequestParam("indexFilter") String indexFilter, @RequestParam("type")  String type) throws WebApiException {
+    public ResponseEntity<?> getMarketsAnalytics(@RequestParam("indexFilter") String indexFilter, @RequestParam("type") String type) throws WebApiException {
         try {
-            String marketsRecordStatsJson = marketsService.getMarketsAnalytics(indexFilter,type);
+            logger.info("MarketsController-> getMarketsAnalytics()::");
+            logger.info("indexFilter: {}", indexFilter);
+            logger.info("type: {}", type);
+            String marketsRecordStatsJson = marketsService.getMarketsAnalytics(indexFilter, type);
             return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Error has occurred while get index summary, error - ", e);
+            ErrorUtil.logError("Error in MarketsController - getMarketsAnalytics() ", e);
             return ErrorUtil.getError(MARKET_ANALYTICS.getCode(), MARKET_ANALYTICS.getUserMessage(), e);
         }
     }
 
     @RequestMapping(value = "/markets/recordstats", method = RequestMethod.GET)
     public ResponseEntity<?> getMarketsRecordStats(@RequestParam("indexFilter") String indexFilter,
-                                                   @RequestParam("type")  String type,
+                                                   @RequestParam("type") String type,
                                                    @RequestParam("perPageMaxRecords") String perPageMaxRecords) throws WebApiException {
         try {
-            String marketsRecordStatsJson = marketsService.getMarketsRecordStats(indexFilter,type, perPageMaxRecords);
+            logger.info("MarketsController-> getMarketsRecordStats()::");
+            logger.info("indexFilter: {}", indexFilter);
+            logger.info("type: {}", type);
+            logger.info("perPageMaxRecords:{}", perPageMaxRecords);
+            String marketsRecordStatsJson = marketsService.getMarketsRecordStats(indexFilter, type, perPageMaxRecords);
             return new ResponseEntity<>(marketsRecordStatsJson, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Error has occurred while get record stats, error - ", e);
+            ErrorUtil.logError("Error in MarketsController - getMarketsRecordStats() ", e);
             return ErrorUtil.getError(MARKETS_RECORD_STATS.getCode(), MARKETS_RECORD_STATS.getUserMessage(), e);
         }
     }
@@ -78,10 +87,11 @@ public class MarketsController {
                                         @RequestParam("sortBy") String sortBy,
                                         @RequestParam("orderBy") String orderBy) throws WebApiException {
         try {
-            String markets = marketsService.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords,sortBy,orderBy);
+
+            String markets = marketsService.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords, sortBy, orderBy);
             return new ResponseEntity<>(markets, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Error has occurred while get record stats, error - ", e);
+            ErrorUtil.logError("Error in MarketsController - getMarkets() ", e);
             return ErrorUtil.getError(MARKETS.getCode(), MARKETS.getUserMessage(), e);
         }
     }
