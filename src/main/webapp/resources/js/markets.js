@@ -72,7 +72,7 @@ jQuery(document).ready(function() {
 
 			htmlCode = htmlCode + "<tr>" +
 			"<td>" + 
-				response.marketData[i].companyName +
+				"<a href='/view/company-profile.jsp?isinCode=" + response.marketData[i].isinCode + "'>" + response.marketData[i].companyName + "</a>" +
 			"</td>" + 
 			"<td>" + 
 				response.marketData[i].high +
@@ -569,7 +569,7 @@ jQuery(document).ready(function() {
 
 			htmlCode = htmlCode + "<tr>" +
 			"<td>" + 
-				response.marketData[i].companyName +
+				"<a href='/view/company-profile.jsp?isinCode=" + response.marketData[i].isinCode + "'>" + response.marketData[i].companyName + "</a>" +
 			"</td>" + 
 			"<td>" + 
 				response.marketData[i].close +
@@ -631,7 +631,7 @@ jQuery(document).ready(function() {
 
 			htmlCode = htmlCode + "<tr>" +
 			"<td>" + 
-				response.marketData[i].companyName +
+				"<a href='/view/company-profile.jsp?isinCode=" + response.marketData[i].isinCode + "'>" + response.marketData[i].companyName + "</a>" +
 			"</td>" + 
 			"<td>" + 
 				response.marketData[i].close +
@@ -694,7 +694,7 @@ jQuery(document).ready(function() {
 
 			htmlCode = htmlCode + "<tr>" +
 			"<td>" + 
-				response.marketData[i].companyName +
+				"<a href='/view/company-profile.jsp?isinCode=" + response.marketData[i].isinCode + "'>" + response.marketData[i].companyName + "</a>" +
 			"</td>" + 
 			"<td>" + 
 				response.marketData[i].close +
@@ -742,7 +742,7 @@ jQuery(document).ready(function() {
 
 			htmlCode = htmlCode + "<tr>" +
 			"<td>" + 
-				response.marketData[i].companyName +
+				"<a href='/view/company-profile.jsp?isinCode=" + response.marketData[i].isinCode + "'>" + response.marketData[i].companyName + "</a>" +
 			"</td>" + 
 			"<td>" + 
 				response.marketData[i].high +
