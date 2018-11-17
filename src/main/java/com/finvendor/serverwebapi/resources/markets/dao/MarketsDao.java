@@ -349,10 +349,10 @@ public class MarketsDao {
     private String applyFilter(String indexFilter) {
         String mainQuery = "";
         if ("all".equals(indexFilter)) {
-            mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty from markets a ";
+            mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty,a.isin from markets a ";
         } else {
             String indexId = getIndexId(indexFilter).getElement1();
-            mainQuery = "select a.company_id,a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty,b.index_id from markets a,index_comp_details b where a.company_id=b.company_id and b.index_id='" + indexId + "'";
+            mainQuery = "select a.company_id,a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty,b.index_id,a.isin from markets a,index_comp_details b where a.company_id=b.company_id and b.index_id='" + indexId + "'";
         }
         return mainQuery;
     }
@@ -422,6 +422,13 @@ public class MarketsDao {
                     Integer totalTradeQtyAsBigDecimal = (Integer) totalTradeQtyAsObject;
                     totalTradeQtyAsInteger = totalTradeQtyAsBigDecimal.intValue();
                 }
+                String isinCode = "";
+                if ("all".equals(indexFilter)) {
+                    isinCode = row[12] != null ? row[12].toString().trim() : "";
+                } else {
+                    String indexId = row[12] != null ? row[12].toString().trim() : "";
+                    isinCode = row[13] != null ? row[13].toString().trim() : "";
+                }
 
                 //String indexId= row[13] != null ? row[13].toString().trim() : "";
                 CustomMarketsDto dto = new CustomMarketsDto();
@@ -437,7 +444,7 @@ public class MarketsDao {
                 dto.set_52wLow(_52wLow);
                 dto.set_52wHigh(_52wHigh);
                 dto.setVolume(totalTradeQtyAsInteger);
-
+                dto.setIsinCode(isinCode);
                 markets.add(dto);
             }
 

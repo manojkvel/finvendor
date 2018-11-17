@@ -35,7 +35,7 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
         long totalPriceInserted = 0L;
         try {
             SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
-            String bhavPriceDateAsPerFvFormat= formatter.format(Calendar.getInstance().getTime());
+            String bhavPriceDateAsPerFvFormat = formatter.format(Calendar.getInstance().getTime());
             br = new BufferedReader(new FileReader(fromFilePath));
             br.readLine();
             long id = 1L;
@@ -75,21 +75,17 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                 SQLQuery nativeQuery = commonDao.getNativeQuery(query, new String[]{isin.trim()});
                 List<Object[]> rows = nativeQuery.list();
 
-                if(rows.size()==0){
+                if (rows.size() == 0) {
                     continue;
                 }
 
                 for (Object[] row : rows) {
                     companyId = row[0] != null ? row[0].toString().trim() : "";
                     companyName = row[1] != null ? row[1].toString().trim() : "";
-                    if(!StringUtils.isEmpty(row[2].toString())) {
-                        String row2=row[2].toString();
-                        System.out.println("row2="+row2);
+                    if (!StringUtils.isEmpty(row[2].toString())) {
                         _52wLowAsDouble = Double.parseDouble(row[2].toString());
                     }
-                    if(!StringUtils.isEmpty(row[3].toString())) {
-                        String row3=row[3].toString();
-                        System.out.println("row3="+row3);
+                    if (!StringUtils.isEmpty(row[3].toString())) {
                         _52wHighAsDouble = Double.parseDouble(row[3].toString());
                     }
                     break;

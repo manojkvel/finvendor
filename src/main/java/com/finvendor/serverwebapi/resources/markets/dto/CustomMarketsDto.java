@@ -14,6 +14,7 @@ public class CustomMarketsDto extends MarketsDto {
     private String _52wLow;
     private String _52wHigh;
     private String indexName;
+    private String isinCode;
 
     public String getCompanyId() {
         return companyId;
@@ -69,5 +70,17 @@ public class CustomMarketsDto extends MarketsDto {
 
     public void setIndexName(String indexName) {
         this.indexName = indexName;
+    }
+
+    public void setPercentChange(Double percentChange) {
+        this.percentChange = percentChange;
+    }
+
+    public String getIsinCode() {
+        return isinCode;
+    }
+
+    public void setIsinCode(String isinCode) {
+        this.isinCode = isinCode;
     }
 }
