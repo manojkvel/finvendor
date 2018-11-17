@@ -459,10 +459,16 @@ public class MarketsDao {
             sortBy = "a.price_percent_change";
         } else if ("volume".equals(sortBy)) {
             sortBy = "a.tot_trd_qty";
+        } else if ("52wHigh".equals(sortBy)) {
+            sortBy = "a.high";
+        } else if ("52wLow".equals(sortBy)) {
+            sortBy = "a.low";
         } else {
             sortBy = "a.price_percent_change";
             orderBy = "desc";
         }
+
+
         if ("winners".equals(indexFilter) || "winner".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
                 result = " where a.price_percent_change > 0.0 order by a.price_percent_change desc";
