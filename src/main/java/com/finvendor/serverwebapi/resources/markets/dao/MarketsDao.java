@@ -519,7 +519,7 @@ public class MarketsDao {
             title = "Today's Winners";
         }
         if ("loosers".equals(type) || "looser".equals(type)) {
-            title = "Today's Loosers";
+            title = "Today's Losers";
         }
         if ("active".equals(type)) {
             title = "Most Active Today (By Total Trade Volume)";
