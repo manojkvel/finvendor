@@ -77,7 +77,8 @@ public class SectorReportController {
                     orderBy);
             return new ResponseEntity<>(sectorReportResult, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Error has occurred while getting sector reports, Error:{}", e);
+            e.printStackTrace();
+            ErrorUtil.logError("Error in SectorReportController - getSectorResearchReports()", e);
             return ErrorUtil.getError(SECTOR_RESEARCH_REPORT.getCode(), SECTOR_RESEARCH_REPORT.getUserMessage(), e);
         }
     }
