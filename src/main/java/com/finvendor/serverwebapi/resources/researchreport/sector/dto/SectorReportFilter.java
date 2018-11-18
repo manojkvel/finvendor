@@ -104,4 +104,21 @@ public class SectorReportFilter implements Serializable {
     public void setOthers(List<String> others) {
         this.others = others;
     }
+
+    @Override
+    public String toString() {
+        return "SectorReportFilter{" +
+                "geo='" + geo + '\'' +
+                ", sectorTypes=" + sectorTypes +
+                ", sectorSubTypes=" + sectorSubTypes +
+                ", analystTypes=" + analystTypes +
+                ", researchedBy=" + researchedBy +
+                ", researchDates=" + researchDates +
+                ", reportTones=" + reportTones +
+                ", reportFrequency=" + reportFrequency +
+                ", analystNames=" + analystNames +
+                ", productIds=" + productIds +
+                ", others=" + others +
+                '}';
+    }
 }

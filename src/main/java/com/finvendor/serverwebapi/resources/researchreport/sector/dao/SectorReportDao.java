@@ -24,19 +24,33 @@ public class SectorReportDao {
     private static final Logger log = LoggerFactory.getLogger(SectorReportDao.class.getName());
     private final String SECTOR_TYPE_QUERY = "select a.research_area_id, a.description from research_sub_area a where a.research_area_id=2 and a.description!='All sectors' order by a.description";
     private final String SECTOR_SUB_TYPE_QUERY = "select a.rsch_area_id, a.industry_sub_type_name from industry_sub_type a where a.rsch_area_id=2 order by a.industry_sub_type_name;";
-    private final String ANALYST_TYPE_QUERY = "select b.vendor_id,b.analystType from ven_rsrch_rpt_offering a,vendor b where a.research_area=2 and a.vendor_id=b.vendor_id";
     private final String RESEARCHED_BY_QUERY = "select b.vendor_id,b.username from ven_rsrch_rpt_offering a,vendor b where a.research_area=2 and a.vendor_id=b.vendor_id";
-    private final String RESEARCH_DATE_QUERY = "select b.product_id, UNIX_TIMESTAMP(DATE_FORMAT(STR_TO_DATE(  b.rep_date, '%d/%m/%Y'), '%Y-%m-%d')) dateinmillis from ven_rsrch_rpt_offering a,ven_rsrch_rpt_dtls b where a.research_area=2 and a.product_id=b.product_id";
+    private final String ANALYST_TYPE_QUERY = "select b.vendor_id,b.analystType from ven_rsrch_rpt_offering a,vendor b where a.research_area=2 and a.vendor_id=b.vendor_id";
     private final String REPORT_TONE_QUERY = "select b.product_id,b.rsrch_recomm_type from ven_rsrch_rpt_offering a,ven_rsrch_rpt_dtls b where a.research_area=2 and a.product_id=b.product_id ";//and b.rsrch_recomm_type !='none'";
     private final String REPORT_FREQUENCY_QUERY = "select b.product_id, b.report_name from ven_rsrch_rpt_offering a,ven_rsrch_rpt_dtls b where a.research_area=2 and a.product_id=b.product_id";
-    private final String SECTOR_REPORT_MAIN_QUERY = "select c.product_id, a.description Industry, b.industry_sub_type_name IndustrySubType, f.username ResearchedBy, f.analystType AnalystType, d.rsrch_recomm_type Tones, c.product_name frequency, d.report_name reportName, d.rep_date ReportDate, e.analyst_name AnalystName, d.rsrch_report_desc, e.anayst_cfa_charter from research_sub_area a, industry_sub_type b, ven_rsrch_rpt_offering c, ven_rsrch_rpt_dtls d, ven_rsrch_rpt_analyst_prof e, vendor f  where a.research_sub_area_id=b.rsch_sub_area_id and b.rsch_area_id=c.research_area and b.id=c.industry_subtype_id and c.product_id=d.product_id and c.vendor_id=f.vendor_id and d.product_id=e.product_id";
+    private final String RESEARCH_DATE_QUERY = "select b.product_id, UNIX_TIMESTAMP(DATE_FORMAT(STR_TO_DATE(  b.rep_date, '%d/%m/%Y'), '%Y-%m-%d')) dateinmillis from ven_rsrch_rpt_offering a,ven_rsrch_rpt_dtls b where a.research_area=2 and a.product_id=b.product_id";
+
+    private final String INDUSTRY_SUB_TYPE_NAMES = "select c.id,trim(c.industry_sub_type_name) from research_area a, research_sub_area b, industry_sub_type c where a.research_area_id=b.research_area_id and c.rsch_sub_area_id=b.research_sub_area_id and  b.research_area_id=? order by trim(c.industry_sub_type_name) asc";
+    private final String SECTOR_REPORT_MAIN_QUERY = "select d.product_id,b.description SectorType, c.industry_sub_type_name SectorSubType, g.username RESEARCHEDBY, g.analystType ANALYSTTYPE, e.rsrch_recomm_type REPORT_TONE, e.report_name REPORT_FREQUENCY, e.report_name REPORT, e.rep_date RESEARCH_DATE, f.analyst_name ANALYST_NAME,e.rsrch_report_desc,f.anayst_cfa_charter from research_area a, research_sub_area b, industry_sub_type c, ven_rsrch_rpt_offering d, ven_rsrch_rpt_dtls e, ven_rsrch_rpt_analyst_prof f, vendor g where a.research_area_id=b.research_area_id    and c.rsch_sub_area_id=b.research_sub_area_id and c.id=d.industry_subtype_id and d.product_id=e.product_id and d.product_id=f.product_id and d.vendor_id=g.vendor_id and b.research_area_id=2";
 
     @Autowired
     private ICommonDao commonDao;
 
     private Map<String, Object> dataMap = new LinkedHashMap<>();
 
+    public String getIndustrySubTypeNames(String researchArea) throws RuntimeException {
+        log.info("getRecordStats - START");
+        log.info("***MAIN QUERY-INDUSTRY_SUB_TYPE_NAMES: {}", INDUSTRY_SUB_TYPE_NAMES);
+        try {
+            return getQueryResult(INDUSTRY_SUB_TYPE_NAMES, new String[]{researchArea});
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String getFilterValue(String type) throws RuntimeException {
+        log.info("getRecordStats - START");
+        log.info("type: {}", type);
         try {
             if (SectorReportFilterTypes.OTHERS.getType().equals(type)) {
                 List<String> othersValueList = new ArrayList<>();
@@ -44,21 +58,21 @@ public class SectorReportDao {
                 dataMap.put("data", othersValueList);
                 return JsonUtil.createJsonFromParamsMap(dataMap);
             } else {
-                return getQueryResult(getQueryBasedOnType(type));
+                return getQueryResult(getQueryBasedOnType(type),null);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-
     public String getRecordStats(SectorReportFilter filter, String perPageMaxRecords) throws RuntimeException {
+        log.info("getRecordStats - START");
         log.info("filter: {}", filter);
         log.info("perPageMaxRecords:{}", perPageMaxRecords);
         String recordStatsJson;
         try {
             String filteredQuery = applyFilter(filter);
-            log.info("filteredQuery: {}", filteredQuery);
+            log.info("***MAIN QUERY: Record Stats - {}", filteredQuery);
             recordStatsJson = commonDao.getRecordStats(filteredQuery, perPageMaxRecords);
         } catch (Exception e) {
             throw new RuntimeException("Error while processing record stats", e);
@@ -69,13 +83,19 @@ public class SectorReportDao {
     public List<SectorReportDto> getSectorReports(SectorReportFilter sectorFilter, String pageNumber,
                                                   String perPageMaxRecords, String sortBy, String orderBy)
             throws RuntimeException {
+        log.info("getSectorReports - START");
+        log.info("sectorFilter: {}", sectorFilter);
+        log.info("pageNumber: {}", pageNumber);
+        log.info("perPageMaxRecords: {}", perPageMaxRecords);
+        log.info("sortBy: {}", sortBy);
+        log.info("orderBy: {}", orderBy);
         try {
             List<SectorReportDto> sectorReports = new ArrayList<>();
             try {
                 String filteredQuery = applyFilter(sectorFilter);
                 filteredQuery = applyOrderBy(filteredQuery, sortBy, orderBy);
                 filteredQuery = applyPagination(pageNumber, perPageMaxRecords, filteredQuery);
-                log.info("finalFilteredQuery:{}", filteredQuery);
+                log.info("***MAIN QUERY: SECTOR Report - {}", filteredQuery);
 
                 SQLQuery nativeQuery = commonDao.getNativeQuery(filteredQuery, null);
                 List<Object[]> rows = nativeQuery.list();
@@ -91,7 +111,10 @@ public class SectorReportDao {
                     String reportName = row[7] != null ? row[7].toString().trim() : null;
                     String reportDate = row[8] != null ? row[8].toString().trim() : null;
                     String analystName = row[9] != null ? row[9].toString().trim() : null;
+                    //we need to display report description when user click on Pdf report button
                     String reportDesc = row[10] != null ? row[10].toString().trim() : null;
+
+
                     String byCfa = row[11] != null ? row[11].toString().trim() : null;
 
                     SectorReportDto dto = new SectorReportDto();
@@ -106,9 +129,9 @@ public class SectorReportDao {
                     dto.setReportDate(reportDate);
                     dto.setAnalystName(analystName);
 
-                    if(byCfa.isEmpty()){
+                    if (byCfa.isEmpty()) {
                         dto.setResearchReportByCfa(null);
-                    }else {
+                    } else {
                         dto.setResearchReportByCfa(byCfa);
                     }
 
@@ -146,7 +169,7 @@ public class SectorReportDao {
 //            field = "a.description";
 //        }
         if (SectorReportFilterTypes.SECTOR_SUB_TYPE.getType().equals(sortBy)) {
-            field = "b.industry_sub_type_name";
+            field = "c.industry_sub_type_name";
         }
 
 //        if (SectorReportFilterTypes.ANALYTST_TYPE.getType().equals(sortBy)) {
@@ -154,7 +177,7 @@ public class SectorReportDao {
 //        }
 
         if (SectorReportFilterTypes.RESEARCHED_BY.getType().equals(sortBy)) {
-            field = "f.username";
+            field = "g.username";
         }
 
 //        if (SectorReportFilterTypes.RESEARCH_DATE.getType().equals(sortBy)) {
@@ -162,11 +185,11 @@ public class SectorReportDao {
 //        }
 
         if (SectorReportFilterTypes.REPORT_TONE.getType().equals(sortBy)) {
-            field = "d.rsrch_recomm_type";
+            field = "e.rsrch_recomm_type";
         }
 
         if (SectorReportFilterTypes.REPORT_NAME.getType().equals(sortBy)) {
-            field = "d.report_name";
+            field = "e.report_name";
         }
 
         query = query + " order by " + field + " " + orderByMode;
@@ -287,15 +310,17 @@ public class SectorReportDao {
         return query;
     }
 
-    private String getQueryResult(String query) throws IOException {
-        SQLQuery nativeQuery = commonDao.getNativeQuery(query, null);
+    private String getQueryResult(String query, String[] values) throws IOException {
+        log.info("***MAIN QUERY: Filter Value - {}", query);
+
+        SQLQuery nativeQuery = commonDao.getNativeQuery(query, values);
         List<Object[]> rows = nativeQuery.list();
-        List<String> sectorTypes = new ArrayList<>();
+        List<String> filterValues = new ArrayList<>();
         for (Object[] row : rows) {
             String filterValue = row[1] != null ? row[1].toString().trim() : null;
-            sectorTypes.add(filterValue);
+            filterValues.add(filterValue);
         }
-        dataMap.put("data", sectorTypes);
+        dataMap.put("data", filterValues);
         return JsonUtil.createJsonFromParamsMap(dataMap);
     }
 }

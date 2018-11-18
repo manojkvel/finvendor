@@ -35,6 +35,16 @@ public class SectorReportController {
     @Autowired
     private SectorReportService service;
 
+    @RequestMapping(value = "/industrysubtypes", method = RequestMethod.GET)
+    public ResponseEntity<?> getIndustrySubTypes(@RequestParam("researchArea") String researchArea) throws WebApiException {
+        try {
+            return new ResponseEntity<>(service.getIndustrySubTypeName(researchArea), HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorUtil.logError("Error in Sector Report , Error:{}", e);
+            return ErrorUtil.getError(SECTOR_RESEARCH_FILTER.getCode(), SECTOR_RESEARCH_FILTER.getUserMessage(), e);
+        }
+    }
+
     @RequestMapping(value = "/sectorreports/filtervalue", method = RequestMethod.GET)
     public ResponseEntity<?> getSectorFilterValue(@RequestParam("type") String type) throws WebApiException {
         try {

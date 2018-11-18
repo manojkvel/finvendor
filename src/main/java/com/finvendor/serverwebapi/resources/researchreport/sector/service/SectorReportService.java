@@ -22,6 +22,14 @@ public class SectorReportService {
     @Autowired
     private SectorReportDao dao;
 
+    public String getIndustrySubTypeName(String researchArea) throws Exception {
+        try {
+            return dao.getIndustrySubTypeNames(researchArea);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
     public String getFilterValue(String type) throws Exception {
         try {
             return dao.getFilterValue(type);
