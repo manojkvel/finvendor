@@ -3,6 +3,7 @@ package com.finvendor.serverwebapi.resources.researchreport.sector.dao;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.serverwebapi.resources.researchreport.sector.dto.IndustrySubTypeNameDto;
 import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorReportDto;
 import com.finvendor.serverwebapi.resources.researchreport.sector.dto.SectorReportFilter;
 import com.finvendor.serverwebapi.resources.researchreport.sector.enums.SectorReportFilterTypes;
@@ -42,7 +43,7 @@ public class SectorReportDao {
         log.info("getRecordStats - START");
         log.info("***MAIN QUERY-INDUSTRY_SUB_TYPE_NAMES: {}", INDUSTRY_SUB_TYPE_NAMES);
         try {
-            return getQueryResult(INDUSTRY_SUB_TYPE_NAMES, new String[]{researchArea});
+            return getIndustrySubTypes(INDUSTRY_SUB_TYPE_NAMES, new String[]{researchArea});
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -321,6 +322,23 @@ public class SectorReportDao {
             filterValues.add(filterValue);
         }
         dataMap.put("data", filterValues);
+        return JsonUtil.createJsonFromParamsMap(dataMap);
+    }
+
+    private String getIndustrySubTypes(String query, String[] values) throws IOException {
+        log.info("***MAIN QUERY: IndustrySubTypes - {}", query);
+        SQLQuery nativeQuery = commonDao.getNativeQuery(query, values);
+        List<Object[]> rows = nativeQuery.list();
+        List<IndustrySubTypeNameDto> industrySubTypes = new ArrayList<>();
+        for (Object[] row : rows) {
+            String id = row[0] != null ? row[0].toString().trim() : null;
+            String value = row[1] != null ? row[1].toString().trim() : null;
+            IndustrySubTypeNameDto dto = new IndustrySubTypeNameDto();
+            dto.setId(Integer.parseInt(id));
+            dto.setName(value);
+            industrySubTypes.add(dto);
+        }
+        dataMap.put("data", industrySubTypes);
         return JsonUtil.createJsonFromParamsMap(dataMap);
     }
 }

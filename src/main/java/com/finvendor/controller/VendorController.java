@@ -3028,6 +3028,7 @@ public class VendorController {
                     .getModelObjectById(ResearchArea.class, researchAreaId);
             researchReportsOffering.setResearchArea(researchArea);
             researchReportsOffering.setResearchSubArea(researchSubAreas);
+            researchReportsOffering.setIndustrySubTypeId(researchReportFor);
             researchReportsOffering.setVendor(vendor);
 
             coverageDetails.setProductId(productId);
