@@ -41,6 +41,9 @@ public class VendorResearchReportsOffering
 	
 	@Column(name="research_sub_area")
 	private String researchSubArea;
+
+	@Column(name="industry_subtype_id")
+	private String industrySubTypeId;
 	
 	@Column(name="stock_fund_issue_covered")
 	private String stocksFundsIssuesCovered;
@@ -143,5 +146,13 @@ public class VendorResearchReportsOffering
 
 	public void setAnalystProfile(VendorResearchReportsAnalystProfile analystProfile) {
 		this.analystProfile = analystProfile;
+	}
+
+	public String getIndustrySubTypeId() {
+		return industrySubTypeId;
+	}
+
+	public void setIndustrySubTypeId(String industrySubTypeId) {
+		this.industrySubTypeId = industrySubTypeId;
 	}
 }
