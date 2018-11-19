@@ -841,6 +841,10 @@ jQuery(document).ready(function() {
 		type = $(this).parent('table').parent().attr('id').replace('market_index_', '');//'52wHigh';
 		perPageMaxRecords = 50;
 		id ="market_data_see_all";
+		var sortBy = type;
+		if(type == 'active') {
+			var sortBy = 'volume';
+		}
 		loadDefaultSeeAllMarketReport(indexFilter, type, perPageMaxRecords, sortBy, orderBy);
 	}
 
@@ -864,6 +868,7 @@ jQuery(document).ready(function() {
 		type = '52wHigh';
 		perPageMaxRecords = 5;
 		id ="market_index_52wHigh";
+		var sortBy = type;
 		loadDefault52wHighLowReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 
@@ -872,6 +877,7 @@ jQuery(document).ready(function() {
 		type = '52wLow';
 		perPageMaxRecords = 5;
 		id ="market_index_52wLow";
+		var sortBy = type;
 		loadDefault52wHighLowReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 

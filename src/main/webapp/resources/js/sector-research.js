@@ -53,7 +53,7 @@ jQuery(document).ready(function() {
 	};
 
 	var getEquityListHtml = function(response) {
-		var len = response.equity.length;
+		var len = response.data.length;
 		var htmlCode = '';
 		var rowHtml = 	"";
 
@@ -65,120 +65,34 @@ jQuery(document).ready(function() {
 		for(var i = 0; i < len; i++) {
 
 			var recommTypeClass = "label-warning";
-			if(response.equity[i].recommType == "buy" || response.equity[i].recommType == "accumulate"
-				|| response.equity[i].recommType == "overweight"  || response.equity[i].recommType == "bullish") {
+			if(response.data[i].reportTone == "buy" || response.data[i].reportTone == "accumulate"
+				|| response.data[i].reportTone == "overweight"  || response.data[i].reportTone == "bullish") {
 				recommTypeClass = "label-success";
-			} else if(response.equity[i].recommType == "sell" || response.equity[i].recommType == "underweight"
-				|| response.equity[i].recommType == "reduce"  || response.equity[i].recommType == "bearish") {
+			} else if(response.data[i].reportTone == "sell" || response.data[i].reportTone == "underweight"
+				|| response.data[i].reportTone == "reduce"  || response.data[i].reportTone == "bearish") {
 				recommTypeClass = "label-danger";
 			} else {
 				recommTypeClass = "label-warning";
 			}
 
 
-			var _3YrEpsGrowthClass = "success";
-			var _3YrEpsGrowthClass_Caret = "fa-caret-up";
-			if(response.equity[i]._3YrEpsGrowth > 0) {
-				_3YrEpsGrowthClass = "success";
-				_3YrEpsGrowthClass_Caret = "fa-caret-up";
-			} else {
-				_3YrEpsGrowthClass = "danger";
-				_3YrEpsGrowthClass_Caret = "fa-caret-down";
-			}
-
-			var upsideClass = "success";
-			if(response.equity[i].upside > 0) {
-				upsideClass = "success";
-			} else {
-				upsideClass = "danger";
-			}
-
-			var brokerRankGenericStarClass = "<i class='fa fa-star default'></i>";
-			var brokerRankLargeCapStarClass = "<i class='fa fa-star'></i>";
-
-			var brokerRankLargeCapStarHtml = '';
-			if(response.equity[i].brokerRank.largeCap === "5") {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass;
-			} else if(response.equity[i].brokerRank.largeCap === "4") {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankGenericStarClass;
-			} else if(response.equity[i].brokerRank.largeCap === "3") {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			} else if(response.equity[i].brokerRank.largeCap === "2") {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankLargeCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			} else if(response.equity[i].brokerRank.largeCap === "1") {
-				brokerRankLargeCapStarHtml = brokerRankLargeCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			} else {
-				brokerRankLargeCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			}
-
-
-			var brokerRankMidCapStarClass = "<i class='fa fa-star'></i>";
-			var brokerRankMidCapStarHtml = '';
-			if(response.equity[i].brokerRank.midCap === "5") {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass;
-			} else if(response.equity[i].brokerRank.midCap === "4") {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankGenericStarClass;
-			} else if(response.equity[i].brokerRank.midCap === "3") {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			} else if(response.equity[i].brokerRank.midCap === "2") {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankMidCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			} else if(response.equity[i].brokerRank.midCap === "1") {
-				brokerRankMidCapStarHtml = brokerRankMidCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			} else {
-				brokerRankMidCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			}
-
-
-			var brokerRankSmallCapStarClass = "<i class='fa fa-star'></i>";
-			var brokerRankSmallCapStarHtml = '';
-			if(response.equity[i].brokerRank.smallCap === "5") {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass;
-			} else if(response.equity[i].brokerRank.smallCap === "4") {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankGenericStarClass;
-			} else if(response.equity[i].brokerRank.smallCap === "3") {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			} else if(response.equity[i].brokerRank.smallCap === "2") {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			} else if(response.equity[i].brokerRank.smallCap === "1") {
-				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			} else {
-				brokerRankSmallCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			}
-
-			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "' data-code='" + response.equity[i].isinCode + "'>" +
+			htmlCode = htmlCode + "<tr data-id='" + response.data[i].productId + "' data-code='" + response.data[i].isinCode + "'>" +
 			"<td>" + 
-			"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'><a href='/view/company-profile.jsp?isinCode=" + response.equity[i].isinCode + "'>" + response.equity[i].company + "</a></div>" + 
-			"<div class='style'>" + response.equity[i].style + "</div>" + 
-			"<div class='mcap'>" + response.equity[i].mcap + "</div>" + 
-			"<div class='sector'>" + response.equity[i].sector + "</div>" +
+			"<div class='company' data-toggle='tooltip'>" + response.data[i].sectorSubType + "</div>" + 
+			"<div class='sector'>" + response.data[i].sectorType + "</div>" +
 			"</td>" + 
 			"<td>" + 
-			"<div class='broker' data-toggle='tooltip' title='See all reports published by " + response.equity[i].broker + "'>" + response.equity[i].broker + "</div>" + 
-			"<div class='since'>" + response.equity[i].since + "</div>" + 
-			"<div class='awarded'>" + response.equity[i].awarded + "</div>" + 
-			"<div class='researchedByCfa'>" + response.equity[i].researchedByCfa + "</div>" +
+			"<div class='broker' data-toggle='tooltip'>" + response.data[i].researchedBy + "</div>" + 
+			"<div class='since'>" + response.data[i].analystType + "</div>" + 
 			"</td>" +
 			"<td>" + 
-			"<div class='brokerRankLargeCap warning' data-toggle='tooltip' title='Large Cap'>" + brokerRankLargeCapStarHtml + "</div>" + 
-			"<div class='brokerRankMidCap warning' data-toggle='tooltip' title='Mid Cap'>" + brokerRankMidCapStarHtml + "</div>" + 
-			"<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
-			"</td>" +
-			"<td>" + 
-			"<div class='cmp'> Rs. " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" + 
-			"<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
-			"<div class='pe'>" + parseFloat(response.equity[i].pe).toFixed(2) + "</div>" + 
-			"<div class='_3YrEpsGrowth " + _3YrEpsGrowthClass + "'><i class='fa " + _3YrEpsGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrEpsGrowth != 'NA') ? parseFloat(Math.round(response.equity[i]._3YrEpsGrowth * 100) / 100).toFixed(2) + '%' : response.equity[i]._3YrEpsGrowth) + "</div>" +
-			"</td>" +
-			"<td>" + 
-			"<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
-			"<div class='targetPrice'> Rs. " + parseFloat(response.equity[i].targetPrice).toFixed(2) + "</div>" + 
-			"<div class='priceAtRecomm'>" + ((response.equity[i].priceAtRecomm == '') ? "N/A" : parseFloat(response.equity[i].priceAtRecomm)).toFixed(2) + "</div>" + 
-			"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? parseFloat(Math.round(response.equity[i].upside * 100) / 100).toFixed(2) + '%' : response.equity[i].upside) + "</div>" +
+			"<div class='recommType " + recommTypeClass + "'>" + response.data[i].reportTone + "</div>" + 
+			"<div class='priceDate'>" + response.data[i].reportFrequency + "</div>" + 
 			"</td>" +
 			"<td>"  +  
-			"<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post' data-vendor='" + response.equity[i].vendorName + "'><i class='fa fa-file'></i></a></div>" +
-			"<div class='researchDate'>" + timeStampToDate(Number(response.equity[i].researchDate)) + "</div>" +
-			"<div class='analystName' data-toggle='tooltip' title='" + response.equity[i].analystName + "'>" + response.equity[i].analystName + "</div>" + 
+			"<div class='report' target=''><a href='research-company-report.jsp' data-toggle='tooltip' title='Go to report post' data-vendor='" + response.data[i].reportName + "'><i class='fa fa-file'></i></a></div>" +
+			"<div class='researchDate'>" + timeStampToDate(Number(response.data[i].reportDate)) + "</div>" +
+			"<div class='analystName' data-toggle='tooltip' title='" + response.data[i].analystName + "'>" + response.data[i].analystName + "</div>" + 
 			"</td>" +
 			"</tr>";
 		}
@@ -214,7 +128,7 @@ jQuery(document).ready(function() {
 	var totalRecords = 0;
 	var currentIndex = 1;
 	var perPageMaxRecords = 5;
-	var sortByValue = 'researchDate';
+	var sortByValue = 'researchedBy';
 	var orderBy = 'asc';
 
 	var setRecordStats = function(currentIndex, lastPageNumber) {
@@ -373,7 +287,7 @@ jQuery(document).ready(function() {
 	var getReport = function(e) {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('Equity Research', 'Report Click', 'Report');
+			sendGAevents('Sector Research', 'Report Click', 'Report');
 
 			var vendorName = $(this).attr("data-vendor");
 			var productId = $(this).parents('tr').attr('data-id');
@@ -391,7 +305,7 @@ jQuery(document).ready(function() {
 		} else {
 			e.preventDefault();
 			e.stopPropagation();
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 		}
 	};
 
@@ -809,7 +723,7 @@ jQuery(document).ready(function() {
 			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 			$("#search_by_analystType ul input").prop('checked', false);
 			// $("#search_by_analystType ul input").eq(0).prop('checked', true);
 		}
@@ -887,7 +801,7 @@ jQuery(document).ready(function() {
 			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 			$("#search_by_researchbroker ul input").prop('checked', false);
 			// $("#search_by_researchbroker ul input").eq(0).prop('checked', true);
 		}
@@ -966,7 +880,7 @@ jQuery(document).ready(function() {
 			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 			$("#search_by_researchDate ul input").prop('checked', false);
 			// $("#search_by_researchDate ul input").eq(0).prop('checked', true);
 		}
@@ -1045,7 +959,7 @@ jQuery(document).ready(function() {
 			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 			$("#search_by_recommType ul input").prop('checked', false);
 			// $("#search_by_recommType ul input").eq(0).prop('checked', true);
 		}
@@ -1125,7 +1039,7 @@ jQuery(document).ready(function() {
 			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 			$("#search_by_upside ul input").prop('checked', false);
 			// $("#search_by_upside ul input").eq(0).prop('checked', true);
 		}
@@ -1204,7 +1118,7 @@ jQuery(document).ready(function() {
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 			$("#search_by_others ul input").prop('checked', false);
 			// $("#search_by_others ul input").eq(0).prop('checked', true);
 		}

@@ -181,7 +181,7 @@
 										<tr>
 											<th style="width:30%;">
 												<p class="large_font">
-													<a href="javascript:void(0)" data-id="sector_subtype">Sector SubType <i class="fa fa-sort"></i></a>
+													<a href="javascript:void(0)" data-id="sectorSubtype">Sector SubType <i class="fa fa-sort"></i></a>
 												</p>
 												<p class="small_font">
 													Sector Type
@@ -189,7 +189,7 @@
 											</th>
 											<th style="width:20%;">
 												<p class="large_font">
-													<a href="javascript:void(0)" data-id="researched_by">Researched By <i class="fa fa-sort"></i></a>
+													<a href="javascript:void(0)" data-id="researchedBy">Researched By <i class="fa fa-sort"></i></a>
 												</p>
 												<p class="small_font">
 													Analyst Type
@@ -205,7 +205,7 @@
 											</th>
 											<th style="width:25%;">
 												<p class="large_font">
-													<a href="javascript:void(0)" data-id="report">Report <i class="fa fa-sort"></i></a>
+													<a href="javascript:void(0)" data-id="reportName">Report <i class="fa fa-sort"></i></a>
 												</p>
 												<p class="small_font">
 													Research Date
@@ -237,36 +237,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/sector-research.js"></script>
-    <script type='text/javascript'>
-    	$('#myofferings1').on('click', function() {
-    		$('#tab1').show();
-    		$('#tab2').hide();
-    	});
-
-    	$('#myofferings2').on('click', function() {
-    		$('#tab2').show();
-    		$('#tab1').hide();
-    	});
-
-
-		$("#fv_equity_research_report_vendor .action_btn .save").on("click", function() {
-			$('#fv_equity_research_report_vendor_search').show();
-			$("#fv_equity_research_report_vendor .header p").slideToggle();
-			$("#fv_equity_research_report_vendor .body").slideToggle();
-			$("#fv_equity_research_report_vendor .header h3 span").toggleClass("fa-chevron-up");
-			$("#fv_equity_research_report_vendor .header h3 span").toggleClass("fa-chevron-down");
-		});
-
-		$("#fv_equity_research_report_vendor .header p").on("click", function() {
-			if($('#fv_equity_research_report_vendor_search').is(':visible')) {
-				$("#fv_equity_research_report_vendor .header p").slideToggle();
-				$("#fv_equity_research_report_vendor .body").slideToggle();
-				$("#fv_equity_research_report_vendor .header h3 span").toggleClass("fa-chevron-up");
-				$("#fv_equity_research_report_vendor .header h3 span").toggleClass("fa-chevron-down");
-			}
-		});
-
-    </script>
+    
 
     <script type="text/javascript">
     	$("#sidebar-panel .widget-panel-heading").on('click', function(e) {
