@@ -30,6 +30,9 @@ public class MutualFundMaster implements Serializable {
     @Column(name="scheme_sub_category")
     private String schemeSubCategory;
 
+    @Column(name="benchmark_index")
+    private String benchMarkIndex;
+
     @Column(name="scheme_nav_name")
     private String schemeNavName;
 
@@ -150,5 +153,13 @@ public class MutualFundMaster implements Serializable {
 
     public void setIsinDivReInvest(String isinDivReInvest) {
         this.isinDivReInvest = isinDivReInvest;
+    }
+
+    public String getBenchMarkIndex() {
+        return benchMarkIndex;
+    }
+
+    public void setBenchMarkIndex(String benchMarkIndex) {
+        this.benchMarkIndex = benchMarkIndex;
     }
 }

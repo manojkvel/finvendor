@@ -17,11 +17,12 @@ public class MfMasterFilePersist extends AbstractMfFilePersist<MutualFundMaster>
 
     @Override
     public Long persist(String filePath) throws RuntimeException {
-        logger.info("filePath: {}",filePath);
+        logger.info("filePath: {}", filePath);
         BufferedReader br = null;
         String line;
         String cvsSplitBy = ",";
         long totalRecordInserted = 0L;
+        long id=1;
         try {
             br = new BufferedReader(new FileReader(filePath));
             br.readLine();
@@ -34,30 +35,40 @@ public class MfMasterFilePersist extends AbstractMfFilePersist<MutualFundMaster>
                 String schemeType = mfColumns[3];
                 String schemeCategory = mfColumns[4];
                 String schemeSubCategory = mfColumns[5];
-                String schemeNavName = mfColumns[6];
+                String benchmarkIndex = mfColumns[6];
+                String schemeNavName = mfColumns[7];
 
-                String schemeMinAmt = mfColumns[7];
-                String launchDate = mfColumns[8];
-                String closureDate = mfColumns[9];
-                String isinDivPayout = mfColumns[10];
-                String isinDivReInvest = mfColumns[11];
-
-                MutualFundMaster mfMasterEntity = new MutualFundMaster();
-                mfMasterEntity.setAmcName(amc);
-                mfMasterEntity.setAmfiCode(code);
-                mfMasterEntity.setSchemeName(schemeName);
-                mfMasterEntity.setSchemeType(schemeType);
-                mfMasterEntity.setSchemeCategory(schemeCategory);
-                mfMasterEntity.setSchemeSubCategory(schemeSubCategory);
-                mfMasterEntity.setSchemeNavName(schemeNavName);
-                mfMasterEntity.setSchemeMinAmount(schemeMinAmt);
-                mfMasterEntity.setSchemeLauchDate(launchDate);
-                mfMasterEntity.setSchemeClosureDt(closureDate);
-                mfMasterEntity.setIsinDivPayout(isinDivPayout);
-                mfMasterEntity.setIsinDivReInvest(isinDivReInvest);
-
-                save(mfMasterEntity);
+                String schemeMinAmt = mfColumns[8];
+                String launchDate = mfColumns[9];
+                String closureDate = mfColumns[10];
+                String isinDivPayout = mfColumns[11];
+                String isinDivReInvest;
+                if (mfColumns.length == 13) {
+                    isinDivReInvest = mfColumns[12];
+                } else {
+                    isinDivReInvest = "";
+                }
+                MutualFundMaster mfMasterEntity = findById(id);
+                if(mfMasterEntity==null) {
+                    mfMasterEntity = new MutualFundMaster();
+                }else {
+                    mfMasterEntity.setAmcName(amc);
+                    mfMasterEntity.setAmfiCode(code);
+                    mfMasterEntity.setSchemeName(schemeName);
+                    mfMasterEntity.setSchemeType(schemeType);
+                    mfMasterEntity.setSchemeCategory(schemeCategory);
+                    mfMasterEntity.setSchemeSubCategory(schemeSubCategory);
+                    mfMasterEntity.setBenchMarkIndex(benchmarkIndex);
+                    mfMasterEntity.setSchemeNavName(schemeNavName);
+                    mfMasterEntity.setSchemeMinAmount(schemeMinAmt);
+                    mfMasterEntity.setSchemeLauchDate(launchDate);
+                    mfMasterEntity.setSchemeClosureDt(closureDate);
+                    mfMasterEntity.setIsinDivPayout(isinDivPayout);
+                    mfMasterEntity.setIsinDivReInvest(isinDivReInvest);
+                }
+                saveOrUpdate(mfMasterEntity);
                 totalRecordInserted++;
+                id++;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -71,7 +82,7 @@ public class MfMasterFilePersist extends AbstractMfFilePersist<MutualFundMaster>
                 }
             }
         }
-        logger.info("totalRecordInserted: {}",totalRecordInserted);
+        logger.info("totalRecordInserted: {}", totalRecordInserted);
         return totalRecordInserted;
     }
 }

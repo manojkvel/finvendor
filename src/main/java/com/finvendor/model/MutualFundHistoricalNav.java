@@ -14,6 +14,9 @@ public class MutualFundHistoricalNav implements Serializable {
     @Column(name="id")
     private Long id;
 
+    @Column(name="amfi_code")
+    private String amfiCode;
+
     @Column(name="date")
     private String date;
 
@@ -23,7 +26,7 @@ public class MutualFundHistoricalNav implements Serializable {
     @Column(name="re_purchase_price")
     private String rePurchasePrice;
 
-    @Column(name="salePrice")
+    @Column(name="sale_price")
     private String salePrice;
 
     public Long getId() {
