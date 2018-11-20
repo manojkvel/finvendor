@@ -467,9 +467,9 @@ public class MarketsDao {
         } else if ("volume".equals(sortBy)) {
             sortBy = "a.tot_trd_qty";
         } else if ("52wHigh".equals(sortBy)) {
-            sortBy = "a.high";
+            sortBy = "a.52w_high";
         } else if ("52wLow".equals(sortBy)) {
-            sortBy = "a.low";
+            sortBy = "a.52w_low";
         } else {
             sortBy = "a.price_percent_change";
             orderBy = "desc";
@@ -497,13 +497,13 @@ public class MarketsDao {
             }
         } else if ("52wHigh".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where cast(a.close as DECIMAL) > cast(a.`52w_high` as decimal)  order by a.52w_high desc";
+                result = " where cast(a.close as DECIMAL) > cast(a.`52w_high` as decimal)  order by a.close desc";
             } else {
                 result = " where cast(a.close as DECIMAL) > cast(a.`52w_high` as decimal)  order by " + sortBy + " " + orderBy;
             }
         } else if ("52wLow".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where cast(a.close as DECIMAL) < cast(a.`52w_low` as decimal) order by a.52w_low desc";
+                result = " where cast(a.close as DECIMAL) < cast(a.`52w_low` as decimal) order by a.close desc";
             } else {
                 result = " where cast(a.close as DECIMAL) < cast(a.`52w_low` as decimal) order by " + sortBy + " " + orderBy;
             }

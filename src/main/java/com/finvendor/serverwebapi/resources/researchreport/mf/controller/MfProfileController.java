@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +33,7 @@ public class MfProfileController {
     /**
      * Get MF (Mutual Fund) Profile Data
      */
-    @RequestMapping(value = "/mutualfund/profiles", method = RequestMethod.GET)
+    @GetMapping(value = "/mutualfund/profiles")
     public ResponseEntity<?> getMfProfiles(@RequestParam("schemeNavName") String schemeNavName) throws WebApiException {
         logger.info("schemeNavName: {}", schemeNavName);
         try {

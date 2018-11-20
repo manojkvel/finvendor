@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,7 +34,7 @@ public class MfPersistController {
     /**
      * Persist Static Data on Weekly Basis
      */
-    @RequestMapping(value = "/mf/persist/master", method = RequestMethod.GET)
+    @GetMapping(value = "/mf/persist/master")
     public ResponseEntity<?> persistData() throws WebApiException {
         try {
             Long persistCount = (Long)mfStaticDataFilePersist.persist(MF_MASTER_FILE);
@@ -48,7 +49,7 @@ public class MfPersistController {
     /**
      * Persist NAV Historical Data - One Time
      */
-    @RequestMapping(value = "/mf/persist/historicalnav", method = RequestMethod.GET)
+    @GetMapping(value = "/mf/persist/historicalnav")
     public ResponseEntity<?> persistMutualFundHistoricalNav() throws WebApiException {
         try {
 
@@ -62,7 +63,7 @@ public class MfPersistController {
     /**
      * Persist NAV Data - Daily Basis
      */
-    @RequestMapping(value = "/mf/persist/dailynav", method = RequestMethod.GET)
+    @GetMapping(value = "/mf/persist/dailynav")
     public ResponseEntity<?> persistDailyData() throws WebApiException {
         try {
             return null;
@@ -75,7 +76,7 @@ public class MfPersistController {
     /**
      * Persist NAV Data - Benchmark Return
      */
-    @RequestMapping(value = "/mf/persist/benchmark", method = RequestMethod.GET)
+    @GetMapping(value = "/mf/persist/benchmark")
     public ResponseEntity<?> persistBenchMarkReturn() throws WebApiException {
         try {
             return null;
@@ -89,7 +90,7 @@ public class MfPersistController {
     /**
      * Persist NAV Data - Risk Free
      */
-    @RequestMapping(value = "/mf/persist/riskfree", method = RequestMethod.GET)
+    @GetMapping(value = "/mf/persist/riskfree")
     public ResponseEntity<?> persistRiskFree() throws WebApiException {
         try {
             return null;
