@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class MarketsService {
@@ -54,9 +56,9 @@ public class MarketsService {
         }
     }
 
-    public String getStockMarqueeData() throws Exception {
+    public String getStockMarqueeDataForIndex(List<String> indexName) throws Exception {
         try {
-            return dao.getStockMarqueeData();
+            return dao.getStockMarqueeDataForIndex(indexName);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }

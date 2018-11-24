@@ -29,6 +29,8 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
     @Override
     public Long persist(String fromFilePath) throws RuntimeException {
         String query = "select a.company_id,a.company_name,b.52w_low,b.52w_high from rsch_sub_area_company_dtls a, stock_current_info b where a.company_id=b.stock_id and a.isin_code=?";
+        String update52WeekLowQuery = "update stock_current_info set `52w_low`=? where stock_id=?";
+        String update52WeekHighQuery = "update stock_current_info set `52w_high`=? where stock_id=?";
         BufferedReader br = null;
         String line;
         String cvsSplitBy = ",";
@@ -45,8 +47,13 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                 String series = bhavColumns[1];
 
                 String open = String.valueOf(Double.parseDouble(bhavColumns[2].trim()));
-                String high = String.valueOf(Double.parseDouble(bhavColumns[3].trim()));
-                String low = String.valueOf(Double.parseDouble(bhavColumns[4].trim()));
+
+                double highAsDouble = Double.parseDouble(bhavColumns[3].trim());
+                String high = String.valueOf(highAsDouble);
+
+                double lowAsDouble = Double.parseDouble(bhavColumns[4].trim());
+                String low = String.valueOf(lowAsDouble);
+
                 String close = String.valueOf(Double.parseDouble(bhavColumns[5].trim()));
                 String last = String.valueOf(Double.parseDouble(bhavColumns[6]));
 
@@ -69,8 +76,10 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                 // table using bhav copy isin
                 String companyId = "";
                 String companyName = "";
-                double _52wLowAsDouble = 0.0d;
-                double _52wHighAsDouble = 0.0d;
+                double _52wLowAsDoubleFromStockCurrenInfoTable = 0.0d;
+                String _52wLowChangeStatus = "";
+                double _52wHighAsDoubleFromStockCurrenInfoTable = 0.0d;
+                String _52wHighChangeStatus = "";
 
                 SQLQuery nativeQuery = commonDao.getNativeQuery(query, new String[]{isin.trim()});
                 List<Object[]> rows = nativeQuery.list();
@@ -83,12 +92,33 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                     companyId = row[0] != null ? row[0].toString().trim() : "";
                     companyName = row[1] != null ? row[1].toString().trim() : "";
                     if (!StringUtils.isEmpty(row[2].toString())) {
-                        _52wLowAsDouble = Double.parseDouble(row[2].toString());
+                        _52wLowAsDoubleFromStockCurrenInfoTable = Double.parseDouble(row[2].toString());
+
                     }
                     if (!StringUtils.isEmpty(row[3].toString())) {
-                        _52wHighAsDouble = Double.parseDouble(row[3].toString());
+                        _52wHighAsDoubleFromStockCurrenInfoTable = Double.parseDouble(row[3].toString());
                     }
                     break;
+                }
+
+                if (lowAsDouble > _52wLowAsDoubleFromStockCurrenInfoTable) {
+                    _52wLowAsDoubleFromStockCurrenInfoTable = lowAsDouble;
+                    _52wLowChangeStatus = "Y";
+                    //update this 52wLow in stockCurrentInfo table
+                    nativeQuery = commonDao.getNativeQuery(update52WeekLowQuery, new String[]{String.valueOf(_52wLowAsDoubleFromStockCurrenInfoTable), companyId.trim()});
+                    nativeQuery.executeUpdate();
+                } else {
+                    _52wLowChangeStatus = "N";
+                }
+
+                if (highAsDouble > _52wHighAsDoubleFromStockCurrenInfoTable) {
+                    _52wHighAsDoubleFromStockCurrenInfoTable = highAsDouble;
+                    _52wHighChangeStatus="Y";
+                    //update this 52wHigh in stockCurrentInfo table
+                    nativeQuery = commonDao.getNativeQuery(update52WeekHighQuery, new String[]{String.valueOf(_52wHighAsDoubleFromStockCurrenInfoTable), companyId.trim()});
+                    nativeQuery.executeUpdate();
+                } else {
+                    _52wHighChangeStatus="N";
                 }
 
                 Markets markets = findById(id);
@@ -106,8 +136,10 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                 markets.setPrevColse(prevClose);
                 markets.setPriceChange(priceChange);
                 markets.setPricePercentChange(priceChangeInPercent);
-                markets.set_52wLow(_52wLowAsDouble);
-                markets.set_52wHigh(_52wHighAsDouble);
+                markets.set_52wLow(_52wLowAsDoubleFromStockCurrenInfoTable);
+                markets.set_52wLowChange(_52wLowChangeStatus);
+                markets.set_52wHigh(_52wHighAsDoubleFromStockCurrenInfoTable);
+                markets.set_52wHighChange(_52wHighChangeStatus);
                 markets.setTotalTradeQty(Integer.parseInt(totTrdQty));
                 markets.setDate(bhavPriceDateAsPerFvFormat);
                 saveOrUpdate(markets);

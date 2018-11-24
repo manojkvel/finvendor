@@ -47,8 +47,14 @@ public class Markets implements Serializable {
     @Column(name="52w_low")
     private Double _52wLow;
 
+    @Column(name="52w_low_change")
+    private String _52wLowChange;
+
     @Column(name="52w_high")
     private Double _52wHigh;
+
+    @Column(name="52w_high_change")
+    private String _52wHighChange;
 
     @Column(name="tot_trd_qty")
     private Integer totalTradeQty;
@@ -176,5 +182,21 @@ public class Markets implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String get_52wLowChange() {
+        return _52wLowChange;
+    }
+
+    public void set_52wLowChange(String _52wLowChange) {
+        this._52wLowChange = _52wLowChange;
+    }
+
+    public String get_52wHighChange() {
+        return _52wHighChange;
+    }
+
+    public void set_52wHighChange(String _52wHighChange) {
+        this._52wHighChange = _52wHighChange;
     }
 }
