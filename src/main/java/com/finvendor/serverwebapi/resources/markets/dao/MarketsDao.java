@@ -6,6 +6,7 @@ import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.serverwebapi.resources.markets.dto.CustomMarketsDto;
+import com.finvendor.serverwebapi.resources.markets.dto.IndexDto;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
@@ -27,6 +28,8 @@ public class MarketsDao {
     private static final Logger logger = LoggerFactory.getLogger(MarketsDao.class.getName());
     private static final String INDEX_NAME_QUERY = "select indice.index_id, indice.name,indice.family from indice";
     private static final String INDEX_SUMMARY_QUERY = "select b.closing, b.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
+    private static final String INDEX_MARQUEE_QUERY = "select a.name,b.closing,b.point_change,b.percent_change from indice a,indice_details b where a.index_details_id=b.indice_details_id order by a.name";
+    private static final String STOCK_MARQUEE_QUERY = "select company_name,isin, close, price_change, price_percent_change from markets order by company_name";
 
     @Autowired
     private ICommonDao commonDao;
@@ -451,6 +454,65 @@ public class MarketsDao {
             Map<String, Object> resultMap = new HashMap<>();
             resultMap.put("title", "".equals(type) ? indexFilter : getMarketDataTitle(type));
             resultMap.put("marketData", markets);
+            resultString = JsonUtil.createJsonFromParamsMap(resultMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return resultString;
+    }
+
+    public String getStockMarqueeData() throws RuntimeException {
+        SQLQuery query = commonDao.getNativeQuery(STOCK_MARQUEE_QUERY, null);
+        logger.info("*** Stock Marquee Query:\n{}\n", query);
+        List<Object[]> rows = query.list();
+        String resultString;
+        try {
+            List<CustomMarketsDto> markets = new ArrayList<>();
+            for (Object[] row : rows) {
+                String companyName = row[0] != null ? row[0].toString().trim() : "";
+                String isin = row[1] != null ? row[1].toString().trim() : "";
+                String close = row[2] != null ? row[2].toString().trim() : "";
+                String priceChange = row[3] != null ? row[3].toString().trim() : "";
+                String pricePercentChange = row[4] != null ? row[4].toString().trim() : "";
+                CustomMarketsDto dto = new CustomMarketsDto();
+                dto.setCompanyName(companyName);
+                dto.setIsinCode(isin);
+                dto.setClose(close);
+                dto.setChange(priceChange);
+                dto.setPercentChange(Double.parseDouble(pricePercentChange.trim()));
+                markets.add(dto);
+            }
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("data", markets);
+            resultString = JsonUtil.createJsonFromParamsMap(resultMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return resultString;
+    }
+
+
+    public String getIndexMarqueeData() throws RuntimeException {
+        SQLQuery query = commonDao.getNativeQuery(INDEX_MARQUEE_QUERY, null);
+        logger.info("*** Index Marquee Query:\n{}\n", query);
+        List<Object[]> rows = query.list();
+        String resultString;
+        try {
+            List<IndexDto> indexDtos=new ArrayList<>();
+            for (Object[] row : rows) {
+                String indexName = row[0] != null ? row[0].toString().trim() : "";
+                String level = row[1] != null ? row[1].toString().trim() : "";
+                String pointChange = row[2] != null ? row[2].toString().trim() : "";
+                String percentChange = row[3] != null ? row[3].toString().trim() : "";
+                IndexDto dto=new IndexDto();
+                dto.setIndexName(indexName);
+                dto.setClosing(level);
+                dto.setPointChange(pointChange);
+                dto.setPercentChange(percentChange);
+                indexDtos.add(dto);
+            }
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("data", indexDtos);
             resultString = JsonUtil.createJsonFromParamsMap(resultMap);
         } catch (Exception e) {
             throw new RuntimeException(e);

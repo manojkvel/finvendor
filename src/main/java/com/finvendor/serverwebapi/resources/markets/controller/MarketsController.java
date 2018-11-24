@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import springfox.documentation.service.ResponseMessage;
 
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
@@ -91,8 +93,30 @@ public class MarketsController {
             String markets = marketsService.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords, sortBy, orderBy);
             return new ResponseEntity<>(markets, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("Error in MarketsController - getMarkets() ", e);
+            ErrorUtil.logError("Error in MarketsController - getMarkets ", e);
             return ErrorUtil.getError(MARKETS.getCode(), MARKETS.getUserMessage(), e);
+        }
+    }
+
+    @GetMapping(value="/markets/marquee/stock")
+    public ResponseEntity<?> getStockMarqueeData() throws WebApiException {
+        try{
+            String stockMarqueeData = marketsService.getStockMarqueeData();
+            return new ResponseEntity<>(stockMarqueeData,HttpStatus.OK);
+        }catch (Exception e){
+            ErrorUtil.logError("Error in MarketsController - Get Stock Marquee ",e);
+            return ErrorUtil.getError(MARQUEE_ERROR.getCode(), MARQUEE_ERROR.getUserMessage(), e);
+        }
+    }
+
+    @GetMapping(value="/markets/marquee/index")
+    public ResponseEntity<?> getIndexMarqueeData() throws WebApiException {
+        try{
+            String indexMarqueeData = marketsService.getIndexMarqueeData();
+            return new ResponseEntity<>(indexMarqueeData,HttpStatus.OK);
+        }catch (Exception e){
+            ErrorUtil.logError("Error in MarketsController - Get Index Marquee ",e);
+            return ErrorUtil.getError(MARQUEE_ERROR.getCode(), MARQUEE_ERROR.getUserMessage(), e);
         }
     }
 }

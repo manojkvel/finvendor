@@ -53,4 +53,20 @@ public class MarketsService {
             throw new Exception(e);
         }
     }
+
+    public String getStockMarqueeData() throws Exception {
+        try {
+            return dao.getStockMarqueeData();
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String getIndexMarqueeData() throws Exception {
+        try {
+            return dao.getIndexMarqueeData();
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
 }
