@@ -223,18 +223,21 @@ jQuery(document).ready(function() {
 				$("#consumer_market .tab-content #" + id + " #total_records_count").html(totalRecords + " Results");
 				//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 				console.log("pageNumber: " + pageNumber);
-				getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy).then(function(serverResponse) {
-					//console.log(serverResponse);
-					$("#consumer_market #" + id + " .paging_container").remove();
-					var response = JSON.parse(serverResponse);
-					
-					getMarketsCommonHtml(response);
-					isProgressLoader(false);
+				setTimeout(function() {
 
-				}, function(error) {
-					isProgressLoader(false);
-					$("#" + id + " .bd table tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
-				});
+					getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy).then(function(serverResponse) {
+						//console.log(serverResponse);
+						$("#consumer_market #" + id + " .paging_container").remove();
+						var response = JSON.parse(serverResponse);
+						
+						getMarketsCommonHtml(response);
+						isProgressLoader(false);
+
+					}, function(error) {
+						isProgressLoader(false);
+						$("#" + id + " .bd table tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
+					});
+				}, 300);
 			} else {
 				isProgressLoader(false);
 				resetPaginationCount();
@@ -536,6 +539,7 @@ jQuery(document).ready(function() {
 		type = 'winners';
 		perPageMaxRecords = 5;
 		id ="market_index_winners";
+		var sortBy = "percentChange";
 		loadDefaultMarketsWinLooseReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 
@@ -612,7 +616,8 @@ jQuery(document).ready(function() {
 		type = 'loosers';
 		perPageMaxRecords = 5;
 		id ="market_index_loosers";
-		loadDefaultMarketsWinLooseReport(indexFilter, type, perPageMaxRecords, id);
+		var sortBy = "percentChange";
+		loadDefaultMarketsWinLooseReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 
 	var getMostActiveTodayHtml = function(response, id) {
@@ -806,22 +811,25 @@ jQuery(document).ready(function() {
 				$("#consumer_market .tab-content #market_data_see_all #total_records_count").html(totalRecords + " Results");
 				//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
 				console.log("pageNumber: " + pageNumber);
-				getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy).then(function(serverResponse) {
-					//console.log(serverResponse);
-					$("#consumer_market .paging_container").remove();
-					var response = JSON.parse(serverResponse);
-					
-					getMarketsSeeAllCommonHtml(response);
-					$("#market_data_all").hide();
-					$("#market_data_see_all").show();
-					isProgressLoader(false);
+				setTimeout(function() {
+					getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy).then(function(serverResponse) {
+						//console.log(serverResponse);
+						$("#consumer_market .paging_container").remove();
+						var response = JSON.parse(serverResponse);
+						
+						getMarketsSeeAllCommonHtml(response);
+						$("#market_data_all").hide();
+						$("#market_data_see_all").show();
+						isProgressLoader(false);
 
-				}, function(error) {
-					isProgressLoader(false);
-					$("#market_data_all").hide();
-					$("#market_data_see_all").show();
-					$("#market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
-				});
+					}, function(error) {
+						isProgressLoader(false);
+						$("#market_data_all").hide();
+						$("#market_data_see_all").show();
+						$("#market_data_see_all table#market_see_all_data tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
+					});
+
+				}, 300);
 			} else {
 				isProgressLoader(false);
 				resetPaginationCount();
@@ -843,7 +851,9 @@ jQuery(document).ready(function() {
 		id ="market_data_see_all";
 		var sortBy = type;
 		if(type == 'active') {
-			var sortBy = 'volume';
+			sortBy = 'volume';
+		} else if(type == 'loosers' || type == 'winners') {
+			sortBy = 'percentChange';
 		}
 		loadDefaultSeeAllMarketReport(indexFilter, type, perPageMaxRecords, sortBy, orderBy);
 	}
@@ -885,8 +895,8 @@ jQuery(document).ready(function() {
 		getMarketIndexSummaryAPI().then(function(response) {
 			response = JSON.parse(response);
 
-
 			$("#consumer_market #market_data_see_all .index_name").text(response.indexSummary.title);
+			$("#consumer_market #market_data_all .index_name").text(response.indexSummary.title);
 			var price_date = timeStampToDate(Number(response.indexSummary.date));
 			$("#market_data_all .company_details .price_date").text(price_date + " | " + timeStampToDateNew(Number(response.indexSummary.date))[4]);
 			

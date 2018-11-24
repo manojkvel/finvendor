@@ -1586,6 +1586,11 @@ button {
 	font-size: 13px;
 }
 
+#consumer_market #spinner {
+	color: #fff;
+	margin-top: 15%;
+}
+
 /*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {
