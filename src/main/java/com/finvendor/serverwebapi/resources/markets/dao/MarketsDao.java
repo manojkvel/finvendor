@@ -7,6 +7,7 @@ import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.serverwebapi.resources.markets.dto.CustomMarketsDto;
 import com.finvendor.serverwebapi.resources.markets.dto.IndexDto;
+import com.finvendor.serverwebapi.resources.markets.dto.indexstock.IndexData;
 import com.finvendor.serverwebapi.resources.markets.dto.indexstock.StockData;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
@@ -468,6 +469,7 @@ public class MarketsDao {
             Map<String, Object> resultMap = new HashMap<>();
             Map<String, Object> stockMap = new LinkedHashMap<>();
             String date_in_millis = getDateFromDB("select a.indice_details_id,a.date from indice_details a where a.indice_details_id=1");
+            stockMap.put("stockTitle", "Stock Price (at close)");
             stockMap.put("stockDate", date_in_millis);
             List<StockData> stockDataList = new ArrayList<>();
             for (String indexName : indexNames) {
@@ -493,7 +495,7 @@ public class MarketsDao {
                     dto.setPercentChange(Double.parseDouble(pricePercentChange.trim()));
                     markets.add(dto);
                 }
-                stockDataList.add(new StockData(indexName, markets));
+                stockDataList.add(new StockData(indexName + " Constituents", markets));
             }
             stockMap.put("stockData", stockDataList);
             resultMap.put("data", stockMap);
@@ -524,8 +526,9 @@ public class MarketsDao {
                 dto.setPercentChange(percentChange);
                 indexDtos.add(dto);
             }
+            String date_in_millis = getDateFromDB("select a.indice_details_id,a.date from indice_details a where a.indice_details_id=1");
             Map<String, Object> resultMap = new HashMap<>();
-            resultMap.put("data", indexDtos);
+            resultMap.put("data", new IndexData("Index Level (at close)", date_in_millis, indexDtos));
             resultString = JsonUtil.createJsonFromParamsMap(resultMap);
         } catch (Exception e) {
             throw new RuntimeException(e);
