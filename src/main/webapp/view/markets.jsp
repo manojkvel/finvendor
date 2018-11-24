@@ -227,9 +227,6 @@
 													</div>
 												</div>
 											</div>
-											<div id='progressLoader'>
-												<jsp:include page="common/progressLoader.jsp"></jsp:include>
-											</div>
 										</div>
 
 
@@ -314,9 +311,6 @@
 													<tbody>	
 													</tbody>
 												</table>
-											</div>
-											<div id='progressLoader'>
-												<jsp:include page="common/progressLoader.jsp"></jsp:include>
 											</div>
 										</div>
 
@@ -452,9 +446,11 @@
 													</tbody>
 												</table>
 											</div>
-											<div id='progressLoader'>
-												<jsp:include page="common/progressLoader.jsp"></jsp:include>
-											</div>
+										</div>
+
+
+										<div id='progressLoader'>
+											<jsp:include page="common/progressLoader.jsp"></jsp:include>
 										</div>
 									</div>
 								</div>
