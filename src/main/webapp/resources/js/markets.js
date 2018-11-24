@@ -129,7 +129,7 @@ jQuery(document).ready(function() {
 	var totalRecords = 0;
 	var currentIndex = 1;
 	var perPageMaxRecords = 50;
-	var type = 'equity';
+	var type = '';
 	var indexFilter = 'all';
 	var sortBy = 'percentChange';
 	var orderBy = 'desc';
@@ -256,7 +256,17 @@ jQuery(document).ready(function() {
 		resetPaginationCount();
 		$("#consumer_market .tab-content  #market_data_output .max_per_page select").val($("#consumer_market .tab-content #market_data_output .max_per_page select option").eq(3).val());
 		
-		loadDefaultMarketsReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
+
+		indexFilter = 'all';
+		type = '';
+		sortBy = 'percentChange';
+		orderBy = 'desc';
+		
+		$('#search_by_market_index ul input[name=market_index_type]').eq(0).prop('checked', true);
+
+		$("#market_data_all").show();
+		$("#market_data_output").hide();
+		setAllStocksData();
 	};
 
 	$('#sidebar-panel .sidebar-heading span').on('click', resetFilters);
