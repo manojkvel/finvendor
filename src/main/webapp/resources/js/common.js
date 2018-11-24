@@ -526,3 +526,33 @@ function validateDate(date) {
 	}
 	return false;
 }
+
+function getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy) {
+
+	var url = "/system/api/markets?indexFilter=" + indexFilter + "&type=" + type +  "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortBy + "&orderBy=" + orderBy;
+	return new Promise(function(resolve, reject) {
+		var httpRequest = new XMLHttpRequest({
+			mozSystem: true
+		});
+		httpRequest.timeout = API_TIMEOUT_SMALL;
+		httpRequest.open('GET', url, true);
+		httpRequest.setRequestHeader('Content-Type',
+			'application/json; charset=UTF-8');
+		httpRequest.ontimeout = function () {
+			reject("" + httpRequest.responseText);
+		};
+		httpRequest.onreadystatechange = function () {
+			if (httpRequest.readyState === XMLHttpRequest.DONE) {
+				if (httpRequest.status === 200) {
+					resolve(httpRequest.response);
+				} else {
+                        //console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+};

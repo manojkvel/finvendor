@@ -127,6 +127,18 @@
 				</div>
 			</div>
 		</div>
+		<div id="marquee_container">
+			<div class="marquee stock_price">
+				<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+					Go on... hover over me to see Stock!
+				</marquee>
+			</div>
+			<div class="marquee index_price">
+				<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+					Go on... hover over me to see Index!
+				</marquee>
+			</div>
+		</div>
 		<section>
 			<div class="container">
 				<h2>Search Free and Quality Equity Research Reports</h2>

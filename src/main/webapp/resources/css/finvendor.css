@@ -1591,6 +1591,13 @@ button {
 	margin-top: 15%;
 }
 
+
+#marquee_container .marquee {
+	padding: 10px 0;
+	font-size: 13px;
+	border-bottom: 1px solid #ccc;
+}
+
 /*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {
