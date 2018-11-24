@@ -3,16 +3,16 @@ package com.finvendor.serverwebapi.resources.markets.controller;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.WebUriConstants;
+import com.finvendor.serverwebapi.resources.markets.dto.indexstock.IndexFilter;
 import com.finvendor.serverwebapi.resources.markets.service.MarketsService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
@@ -91,8 +91,23 @@ public class MarketsController {
             String markets = marketsService.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords, sortBy, orderBy);
             return new ResponseEntity<>(markets, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("Error in MarketsController - getMarkets() ", e);
+            ErrorUtil.logError("Error in MarketsController - getMarkets ", e);
             return ErrorUtil.getError(MARKETS.getCode(), MARKETS.getUserMessage(), e);
+        }
+    }
+
+    @PostMapping(value = "/markets/marquee/index")
+    public ResponseEntity<?> getIndexMarqueeData(@RequestBody(required = false) IndexFilter indexFilter)
+            throws WebApiException {
+        try {
+            if (indexFilter == null) {
+                return new ResponseEntity<>(marketsService.getIndexMarqueeData(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(marketsService.getStockMarqueeDataForIndex(indexFilter.getIndexNames()), HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            ErrorUtil.logError("Error in MarketsController - Get Marquee Data ", e);
+            return ErrorUtil.getError(MARQUEE_ERROR.getCode(), MARQUEE_ERROR.getUserMessage(), e);
         }
     }
 }

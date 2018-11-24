@@ -10,6 +10,12 @@ import java.util.List;
 public class HomePageMFSearch extends AbstractHomePageSearch {
     private static final String SEARCH_HINT_QUERY = "";
 
+    /**
+     * search from mf-master table of scheme_nav_name
+     * we have to return schem_nav_name from mf_master table
+     *
+     * we will use like keyword to find the scheme nav name
+     */
     @Override
     List<MutualFundData> getSearchResult(String hint) throws RuntimeException {
         List<MutualFundData> companyDataList = new ArrayList<>();

@@ -6,6 +6,8 @@ import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.serverwebapi.resources.markets.dto.CustomMarketsDto;
+import com.finvendor.serverwebapi.resources.markets.dto.IndexDto;
+import com.finvendor.serverwebapi.resources.markets.dto.indexstock.StockData;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
@@ -27,6 +29,8 @@ public class MarketsDao {
     private static final Logger logger = LoggerFactory.getLogger(MarketsDao.class.getName());
     private static final String INDEX_NAME_QUERY = "select indice.index_id, indice.name,indice.family from indice";
     private static final String INDEX_SUMMARY_QUERY = "select b.closing, b.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
+    private static final String INDEX_MARQUEE_QUERY = "select a.name,b.closing,b.point_change,b.percent_change from indice a,indice_details b where a.index_details_id=b.indice_details_id order by a.name";
+    private static final String STOCK_MARQUEE_QUERY_FOR_INDEX = "select a.company_id,a.company_name,a.close,a.price_change,a.price_percent_change,a.isin from markets a,index_comp_details b where a.company_id=b.company_id and b.index_id=? order by a.company_name";
 
     @Autowired
     private ICommonDao commonDao;
@@ -458,6 +462,77 @@ public class MarketsDao {
         return resultString;
     }
 
+    public String getStockMarqueeDataForIndex(List<String> indexNames) throws RuntimeException {
+        String resultString;
+        try {
+            Map<String, Object> resultMap = new HashMap<>();
+            Map<String, Object> stockMap = new LinkedHashMap<>();
+            String date_in_millis = getDateFromDB("select a.indice_details_id,a.date from indice_details a where a.indice_details_id=1");
+            stockMap.put("stockDate", date_in_millis);
+            List<StockData> stockDataList = new ArrayList<>();
+            for (String indexName : indexNames) {
+                String indexId = getIndexId(indexName).getElement1();
+                SQLQuery query = commonDao.getNativeQuery(STOCK_MARQUEE_QUERY_FOR_INDEX, new String[]{indexId});
+                logger.info("*** Stock Marquee Query:\n{}\n", query);
+                List<Object[]> rows = query.list();
+
+                List<CustomMarketsDto> markets = new ArrayList<>();
+
+                for (Object[] row : rows) {
+                    String companyId = row[0] != null ? row[0].toString().trim() : "";
+                    String companyName = row[1] != null ? row[1].toString().trim() : "";
+                    String close = row[2] != null ? row[2].toString().trim() : "";
+                    String priceChange = row[3] != null ? row[3].toString().trim() : "";
+                    String pricePercentChange = row[4] != null ? row[4].toString().trim() : "";
+                    String isin = row[5] != null ? row[5].toString().trim() : "";
+                    CustomMarketsDto dto = new CustomMarketsDto();
+                    dto.setCompanyName(companyName);
+                    dto.setIsinCode(isin);
+                    dto.setClose(close);
+                    dto.setChange(priceChange);
+                    dto.setPercentChange(Double.parseDouble(pricePercentChange.trim()));
+                    markets.add(dto);
+                }
+                stockDataList.add(new StockData(indexName, markets));
+            }
+            stockMap.put("stockData", stockDataList);
+            resultMap.put("data", stockMap);
+            resultString = JsonUtil.createJsonFromParamsMap(resultMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return resultString;
+    }
+
+
+    public String getIndexMarqueeData() throws RuntimeException {
+        SQLQuery query = commonDao.getNativeQuery(INDEX_MARQUEE_QUERY, null);
+        logger.info("*** Index Marquee Query:\n{}\n", query);
+        List<Object[]> rows = query.list();
+        String resultString;
+        try {
+            List<IndexDto> indexDtos = new ArrayList<>();
+            for (Object[] row : rows) {
+                String indexName = row[0] != null ? row[0].toString().trim() : "";
+                String level = row[1] != null ? row[1].toString().trim() : "";
+                String pointChange = row[2] != null ? row[2].toString().trim() : "";
+                String percentChange = row[3] != null ? row[3].toString().trim() : "";
+                IndexDto dto = new IndexDto();
+                dto.setIndexName(indexName);
+                dto.setClosing(level);
+                dto.setPointChange(pointChange);
+                dto.setPercentChange(percentChange);
+                indexDtos.add(dto);
+            }
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("data", indexDtos);
+            resultString = JsonUtil.createJsonFromParamsMap(resultMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return resultString;
+    }
+
     private String applyOrderBy(String indexFilter, String sortBy, String orderBy) {
         String result = "";
         if ("companyName".equals(sortBy)) {
@@ -467,9 +542,9 @@ public class MarketsDao {
         } else if ("volume".equals(sortBy)) {
             sortBy = "a.tot_trd_qty";
         } else if ("52wHigh".equals(sortBy)) {
-            sortBy = "a.high";
+            sortBy = "a.52w_high";
         } else if ("52wLow".equals(sortBy)) {
-            sortBy = "a.low";
+            sortBy = "a.52w_low";
         } else {
             sortBy = "a.price_percent_change";
             orderBy = "desc";
@@ -497,15 +572,15 @@ public class MarketsDao {
             }
         } else if ("52wHigh".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where cast(a.close as DECIMAL) > cast(a.`52w_high` as decimal)  order by a.52w_high desc";
+                result = " where a.`52w_high_change`='Y' order by a.close desc";
             } else {
-                result = " where cast(a.close as DECIMAL) > cast(a.`52w_high` as decimal)  order by " + sortBy + " " + orderBy;
+                result = " where a.`52w_high_change`='Y' order by " + sortBy + " " + orderBy;
             }
         } else if ("52wLow".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where cast(a.close as DECIMAL) < cast(a.`52w_low` as decimal) order by a.52w_low desc";
+                result = " where a.`52w_low_change`='Y' order by a.close desc";
             } else {
-                result = " where cast(a.close as DECIMAL) < cast(a.`52w_low` as decimal) order by " + sortBy + " " + orderBy;
+                result = " where a.`52w_low_change`='Y' order by " + sortBy + " " + orderBy;
             }
         } else {
             result = " order by " + sortBy + " " + orderBy;

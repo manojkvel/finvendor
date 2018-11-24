@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class MarketsService {
@@ -49,6 +51,22 @@ public class MarketsService {
                              String perPageMaxRecords,String sortBy,String orderBy) throws Exception {
         try {
             return dao.getMarkets(indexFilter, type, pageNumber, perPageMaxRecords,sortBy,orderBy);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String getStockMarqueeDataForIndex(List<String> indexName) throws Exception {
+        try {
+            return dao.getStockMarqueeDataForIndex(indexName);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String getIndexMarqueeData() throws Exception {
+        try {
+            return dao.getIndexMarqueeData();
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
