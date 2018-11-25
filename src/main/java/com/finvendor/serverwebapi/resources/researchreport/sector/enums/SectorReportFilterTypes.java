@@ -1,6 +1,7 @@
 package com.finvendor.serverwebapi.resources.researchreport.sector.enums;
 
 public enum SectorReportFilterTypes {
+    COUNTRY("country"),
     SECTOR_TYPE("sectorType"),
     SECTOR_SUB_TYPE("sectorSubType"),
     ANALYTST_TYPE("analystType"),

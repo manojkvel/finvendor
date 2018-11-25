@@ -9,7 +9,7 @@ public class SectorReportFilter implements Serializable {
     private List<String> sectorSubTypes;
     private List<String> analystTypes;
     private List<String> researchedBy;
-    private List<String> researchDates;
+    private List<String> researchDate;
     private List<String> reportTones;
     private List<String> reportFrequency;
     private List<String> analystNames;
@@ -57,15 +57,7 @@ public class SectorReportFilter implements Serializable {
         this.researchedBy = researchedBy;
     }
 
-    public List<String> getResearchDates() {
-        return researchDates;
-    }
-
-    public void setResearchDates(List<String> researchDates) {
-        this.researchDates = researchDates;
-    }
-
-    public List<String> getReportTones() {
+public List<String> getReportTones() {
         return reportTones;
     }
 
@@ -105,20 +97,11 @@ public class SectorReportFilter implements Serializable {
         this.others = others;
     }
 
-    @Override
-    public String toString() {
-        return "SectorReportFilter{" +
-                "geo='" + geo + '\'' +
-                ", sectorTypes=" + sectorTypes +
-                ", sectorSubTypes=" + sectorSubTypes +
-                ", analystTypes=" + analystTypes +
-                ", researchedBy=" + researchedBy +
-                ", researchDates=" + researchDates +
-                ", reportTones=" + reportTones +
-                ", reportFrequency=" + reportFrequency +
-                ", analystNames=" + analystNames +
-                ", productIds=" + productIds +
-                ", others=" + others +
-                '}';
+    public List<String> getResearchDate() {
+        return researchDate;
+    }
+
+    public void setResearchDate(List<String> researchDate) {
+        this.researchDate = researchDate;
     }
 }

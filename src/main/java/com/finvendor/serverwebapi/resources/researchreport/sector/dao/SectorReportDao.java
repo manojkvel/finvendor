@@ -33,11 +33,12 @@ public class SectorReportDao {
 
     private final String INDUSTRY_SUB_TYPE_NAMES = "select c.id,trim(c.industry_sub_type_name) from research_area a, research_sub_area b, industry_sub_type c where a.research_area_id=b.research_area_id and c.rsch_sub_area_id=b.research_sub_area_id and  b.research_area_id=? order by trim(c.industry_sub_type_name) asc";
     private final String SECTOR_REPORT_MAIN_QUERY = "select d.product_id,b.description SectorType, c.industry_sub_type_name SectorSubType, g.username RESEARCHEDBY, g.analystType ANALYSTTYPE, e.rsrch_recomm_type REPORT_TONE, e.report_name REPORT_FREQUENCY, e.report_name REPORT, e.rep_date RESEARCH_DATE, f.analyst_name ANALYST_NAME,e.rsrch_report_desc,f.anayst_cfa_charter from research_area a, research_sub_area b, industry_sub_type c, ven_rsrch_rpt_offering d, ven_rsrch_rpt_dtls e, ven_rsrch_rpt_analyst_prof f, vendor g where a.research_area_id=b.research_area_id    and c.rsch_sub_area_id=b.research_sub_area_id and c.id=d.industry_subtype_id and d.product_id=e.product_id and d.product_id=f.product_id and d.vendor_id=g.vendor_id and b.research_area_id=2";
+    public static final String SECTOR_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON = "[{\"researchDate\":\"< 3 months\"},{\"researchDate\":\"3 - 6 months\"},{\"researchDate\":\"6 - 12 months\"},{\"researchDate\":\"> 12 months\"}]";
 
     @Autowired
     private ICommonDao commonDao;
 
-    private Map<String, Object> dataMap = new LinkedHashMap<>();
+
 
     public String getIndustrySubTypeNames(String researchArea) throws RuntimeException {
         log.info("getRecordStats - START");
@@ -54,12 +55,18 @@ public class SectorReportDao {
         log.info("type: {}", type);
         try {
             if (SectorReportFilterTypes.OTHERS.getType().equals(type)) {
+                Map<String, Object> dataMap = new LinkedHashMap<>();
                 List<String> othersValueList = new ArrayList<>();
                 othersValueList.add("Research Reports by CFA");
                 dataMap.put("data", othersValueList);
                 return JsonUtil.createJsonFromParamsMap(dataMap);
+            } else if (SectorReportFilterTypes.COUNTRY.getType().equals(type)) {
+                return "[{\"countryId\":\"1\",\"name\":\"India\"}]";
+            } else if (SectorReportFilterTypes.RESEARCH_DATE.getType().equals(type)) {
+                return SECTOR_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON;
             } else {
-                return getQueryResult(getQueryBasedOnType(type),null);
+                String queryBasedOnType = getQueryBasedOnType(type);
+                return getQueryResult(queryBasedOnType, null);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -241,7 +248,7 @@ public class SectorReportDao {
             filteredQuery = filteredQuery + " AND  c.product_name IN " + inClauseValues;
         }
 
-        List<String> reportDateList = filter.getResearchDates();
+        List<String> reportDateList = filter.getResearchDate();
         if (reportDateList != null) {
             String inClauseValues = getInClauseValues(reportDateList);
             filteredQuery = filteredQuery + " AND  d.rep_date IN " + inClauseValues;
@@ -299,8 +306,6 @@ public class SectorReportDao {
             query = ANALYST_TYPE_QUERY;
         } else if (SectorReportFilterTypes.RESEARCHED_BY.getType().equals(type)) {
             query = RESEARCHED_BY_QUERY;
-        } else if (SectorReportFilterTypes.RESEARCH_DATE.getType().equals(type)) {
-            query = RESEARCH_DATE_QUERY;
         } else if (SectorReportFilterTypes.REPORT_TONE.getType().equals(type)) {
             query = REPORT_TONE_QUERY;
         } else if (SectorReportFilterTypes.REPORT_FREQUENCY.getType().equals(type)) {
@@ -313,10 +318,10 @@ public class SectorReportDao {
 
     private String getQueryResult(String query, String[] values) throws IOException {
         log.info("***MAIN QUERY: Filter Value - {}", query);
-
+        Map<String, Object> dataMap = new LinkedHashMap<>();
         SQLQuery nativeQuery = commonDao.getNativeQuery(query, values);
         List<Object[]> rows = nativeQuery.list();
-        List<String> filterValues = new ArrayList<>();
+        Set<String> filterValues = new TreeSet<>();
         for (Object[] row : rows) {
             String filterValue = row[1] != null ? row[1].toString().trim() : null;
             filterValues.add(filterValue);
@@ -330,6 +335,7 @@ public class SectorReportDao {
         SQLQuery nativeQuery = commonDao.getNativeQuery(query, values);
         List<Object[]> rows = nativeQuery.list();
         List<IndustrySubTypeNameDto> industrySubTypes = new ArrayList<>();
+        Map<String, Object> dataMap = new LinkedHashMap<>();
         for (Object[] row : rows) {
             String id = row[0] != null ? row[0].toString().trim() : null;
             String value = row[1] != null ? row[1].toString().trim() : null;
