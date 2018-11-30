@@ -129,14 +129,26 @@
 		</div>
 		<div id="marquee_container">
 			<div class="marquee stock_price">
-				<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-					Go on... hover over me to see Stock!
-				</marquee>
+				<div class="hd">
+					<h4 class="title"></h4>
+					<span class="last_updated_date"></span>
+				</div>
+				<div class="bd">
+					<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+						<ul></ul>
+					</marquee>
+				</div>
 			</div>
 			<div class="marquee index_price">
-				<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-					Go on... hover over me to see Index!
-				</marquee>
+				<div class="hd">
+					<h4 class="title"></h4>
+					<span class="last_updated_date"></span>
+				</div>
+				<div class="bd">
+					<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+						<ul></ul>
+					</marquee>
+				</div>
 			</div>
 		</div>
 		<section>
