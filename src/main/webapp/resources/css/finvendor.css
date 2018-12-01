@@ -1591,6 +1591,65 @@ button {
 	margin-top: 15%;
 }
 
+
+#marquee_container .marquee {
+	padding: 10px;
+	font-size: 13px;
+	border-bottom: 1px solid #ccc;
+}
+
+#marquee_container .title {
+	font-size: 13px;
+	font-weight: bold;
+	margin: 0;
+}
+
+#marquee_container .last_updated_date {
+	font-size: 11px;
+}
+
+#marquee_container .marquee a,
+#marquee_container .marquee a:active,
+#marquee_container .marquee a:focus {
+	color: #000;
+}
+
+#marquee_container .marquee a:hover {
+	color: #2f889a;
+}
+
+#marquee_container .marquee .bd .title {
+	line-height: 30px;
+	color: #2f889a;
+}
+
+#marquee_container .marquee span {
+	font-weight: bold;
+}
+
+#marquee_container .marquee a:hover span:first-child {
+	color: #000;
+}
+
+#marquee_container .marquee.stock_price {
+	background: #fff;
+}
+
+#marquee_container .marquee marquee {
+	height: 30px;
+	line-height: 30px;
+}
+
+#marquee_container .marquee ul {
+	display: inline-flex;
+}
+
+#marquee_container .marquee ul li {
+	float: left;
+	display: inline;
+	padding: 0 10px;
+}
+
 /*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {

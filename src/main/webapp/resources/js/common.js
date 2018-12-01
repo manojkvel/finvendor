@@ -418,6 +418,18 @@ function getHostUrl() {
 var API_TIMEOUT_SMALL = 30*1000;
 var API_TIMEOUT_LARGE = 3*60*1000;
 
+var timeStampToDate = function (ts) {
+	if (ts) {
+		ts = new Date(ts).toString();
+		ts = ts.split(' ').slice(0, 5);
+            ts = /*ts[0] + " " + */ ts[1] + " " + ts[2] + ", " + ts[3]; //+ " " + ts[4];
+            //console.log(ts);
+            return ts;
+        } else {
+        	return 'NA';
+        }
+    };
+
 function getGenericSearchCompanyList(hintVal) {
 
 	var url = "/system/api/companyhomepagesearch?searchKeyword=" + hintVal;
@@ -526,3 +538,145 @@ function validateDate(date) {
 	}
 	return false;
 }
+
+function getStockMarquee() {
+	var jsonBody = {
+		"indexNames":["Nifty 50", "Nifty 100"]
+	};
+
+	getMarqueeApi(jsonBody).then(function(response) {
+		var response = JSON.parse(response);
+
+		var stockDataLength = response.data.stockData.length;
+
+		$("#marquee_container .marquee.stock_price .hd .title").text(response.data.stockTitle);
+		$("#marquee_container .marquee.stock_price .hd .last_updated_date").text(timeStampToDate(Number(response.data.stockDate)));
+
+		var html = "";
+
+		for(var i = 0; i < stockDataLength; i++) {
+
+			var len = response.data.stockData[i].stocks.length;
+
+			html = html + "<li>"
+						+ "<h4 class='title'>" + response.data.stockData[i].title + ": </h4>"
+						+ "</li>";
+
+			for(var j = 0; j < len; j++) {
+
+				var percentChange = parseFloat(response.data.stockData[i].stocks[j].percentChange).toFixed(2);
+
+				var percentChangeClass = "success";
+				var percentChangeClass_Caret = "fa-caret-up";
+				if(percentChange > 0) {
+					percentChangeClass = "success";
+					percentChangeClass_Caret = "fa-caret-up";
+				} else {
+					percentChangeClass = "danger";
+					percentChangeClass_Caret = "fa-caret-down";
+				}
+
+				html = html + "<li>" 
+							+ "<a href='/view/company-profile.jsp?isinCode=" + response.data.stockData[i].stocks[j].isinCode + "'>"  
+							+ response.data.stockData[i].stocks[j].companyName 
+							+ " <span>" + response.data.stockData[i].stocks[j].close + "</span>"
+							+ " <span class='percentChange " + percentChangeClass + "'><i class='fa " + percentChangeClass_Caret + "'></i> " + response.data.stockData[i].stocks[j].change + "</span>"
+							+ " <span class='percentChange " + percentChangeClass + "'>(" + ((percentChange != '-') ? percentChange + '%' : percentChange) + ")</span>"
+							+ "</a>"
+							+ "</li>";
+
+			}
+		}
+		$("#marquee_container .marquee.stock_price marquee ul").html(html);
+
+	}, function(error) {
+
+	});
+}
+
+function getIndexMarquee() {
+	getMarqueeApi().then(function(response) {
+		var response = JSON.parse(response);
+
+		var len = response.data.indexes.length;
+
+		$("#marquee_container .marquee.index_price .hd .title").text(response.data.title);
+		$("#marquee_container .marquee.index_price .hd .last_updated_date").text(timeStampToDate(Number(response.data.indexDate)));
+
+		var html = "";
+
+		for(var j = 0; j < len; j++) {
+
+			var percentChange = response.data.indexes[j].percentChange;
+
+			if(percentChange == '-') {
+				percentChange == response.data.indexes[j].percentChange;
+			} else {
+				percentChange = parseFloat(response.data.indexes[j].percentChange).toFixed(2);
+			}
+
+			var percentChangeClass = "success";
+			var percentChangeClass_Caret = "fa-caret-up";
+			if(percentChange > 0) {
+				percentChangeClass = "success";
+				percentChangeClass_Caret = "fa-caret-up";
+			} else {
+				percentChangeClass = "danger";
+				percentChangeClass_Caret = "fa-caret-down";
+			}
+
+			html = html + "<li>" 
+			+ "<a href='/view/markets.jsp' data-indexName='" + response.data.indexes[j].indexName + "'>"  
+			+ response.data.indexes[j].indexName 
+			+ " <span>" + response.data.indexes[j].closing + "</span>"
+			+ " <span class='percentChange " + percentChangeClass + "'><i class='fa " + percentChangeClass_Caret + "'></i> " + response.data.indexes[j].pointChange + "</span>"
+			+ " <span class='percentChange " + percentChangeClass + "'>(" + ((percentChange != '-') ? percentChange + '%' : percentChange) + ")</span>"
+			+ "</a>"
+			+ "</li>";
+
+		}
+		$("#marquee_container .marquee.index_price marquee ul").html(html);
+		$("#marquee_container .marquee.index_price ul a").on('click', getMarketIndexData);
+		
+	}, function(error) {
+		
+	});
+}
+
+getStockMarquee();
+getIndexMarquee();
+
+function getMarketIndexData() {
+	localStorage.setItem('indexName', $(this).attr('data-indexName'));
+}
+
+
+function getMarqueeApi(jsonBody) {
+
+	var url = "/system/api/markets/marquee/index";
+	return new Promise(function(resolve, reject) {
+		var httpRequest = new XMLHttpRequest({
+			mozSystem: true
+		});
+		httpRequest.timeout = API_TIMEOUT_SMALL;
+		httpRequest.open('POST', url, true);
+		httpRequest.setRequestHeader('Content-Type',
+			'application/json; charset=UTF-8');
+		httpRequest.ontimeout = function () {
+			reject("" + httpRequest.responseText);
+		};
+		httpRequest.onreadystatechange = function () {
+			if (httpRequest.readyState === XMLHttpRequest.DONE) {
+				if (httpRequest.status === 200) {
+					resolve(httpRequest.response);
+				} else {
+                        //console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send(JSON.stringify(jsonBody));
+        });
+};

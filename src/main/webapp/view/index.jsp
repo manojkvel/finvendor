@@ -127,6 +127,30 @@
 				</div>
 			</div>
 		</div>
+		<div id="marquee_container">
+			<div class="marquee stock_price">
+				<div class="hd">
+					<h4 class="title"></h4>
+					<span class="last_updated_date"></span>
+				</div>
+				<div class="bd">
+					<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+						<ul></ul>
+					</marquee>
+				</div>
+			</div>
+			<div class="marquee index_price">
+				<div class="hd">
+					<h4 class="title"></h4>
+					<span class="last_updated_date"></span>
+				</div>
+				<div class="bd">
+					<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
+						<ul></ul>
+					</marquee>
+				</div>
+			</div>
+		</div>
 		<section>
 			<div class="container">
 				<h2>Search Free and Quality Equity Research Reports</h2>
