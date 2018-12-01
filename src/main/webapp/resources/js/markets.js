@@ -524,7 +524,13 @@ jQuery(document).ready(function() {
 	var getMarketIndexData = function() {
 		resetPaginationCount();
 		type = '';
-		indexFilter = $(this).attr("data-name");
+		indexFilter = window.localStorage.getItem('indexName');
+		
+		if(indexFilter != undefined) {
+			indexFilter = window.localStorage.getItem('indexName');
+		} else {
+			indexFilter = $(this).attr("data-name");
+		}
 
 		if(indexFilter == 'all') {
 			$("#market_data_all").show();
@@ -928,7 +934,13 @@ jQuery(document).ready(function() {
 
 	$("#market_data_all").show();
 	$("#market_data_output").hide();
-	setAllStocksData();
+
+	if(window.localStorage.getItem('indexName') != undefined) {
+		getMarketIndexData();
+		window.localStorage.removeItem('indexName');
+	} else {
+		setAllStocksData();
+	}
 
 	$("#market_data_see_all .back_btn a").on('click', function() {
 		$("#market_data_all").show();

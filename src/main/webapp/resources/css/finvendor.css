@@ -1556,7 +1556,8 @@ button {
 }
 
 #consumer_market #market_data_output,
-#consumer_market #market_data_see_all {
+#consumer_market #market_data_see_all ,
+#consumer_market #market_data_all {
 	display: none;
 }
 
