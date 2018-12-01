@@ -461,7 +461,7 @@
 
 	<jsp:include page="login.jsp"></jsp:include>
 	<jsp:include page="common/footer.jsp"></jsp:include>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/markets.js"></script>
 	<script type="text/javascript">
 
