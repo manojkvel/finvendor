@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.researchreport.mf.dao;
+package com.finvendor.serverwebapi.resources.researchreport.mf.dao.filedao;
 
 import com.finvendor.server.common.commondao.GenericDao;
 import com.finvendor.server.common.commondao.ICommonDao;

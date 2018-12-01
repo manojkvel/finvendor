@@ -1,9 +1,6 @@
 package com.finvendor.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -14,11 +11,8 @@ public class MutualFundHistoricalNav implements Serializable {
     @Column(name="id")
     private Long id;
 
-    @Column(name="amfi_code")
-    private String amfiCode;
-
-    @Column(name="date")
-    private String date;
+    @Column(name="scheme_code")
+    private String schemeCode;
 
     @Column(name="net_asset_value")
     private String netAssetValue;
@@ -29,6 +23,9 @@ public class MutualFundHistoricalNav implements Serializable {
     @Column(name="sale_price")
     private String salePrice;
 
+    @Column(name="date")
+    private String date;
+
     public Long getId() {
         return id;
     }
@@ -37,12 +34,12 @@ public class MutualFundHistoricalNav implements Serializable {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
+    public String getSchemeCode() {
+        return schemeCode;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setSchemeCode(String schemeCode) {
+        this.schemeCode = schemeCode;
     }
 
     public String getNetAssetValue() {
@@ -67,5 +64,13 @@ public class MutualFundHistoricalNav implements Serializable {
 
     public void setSalePrice(String salePrice) {
         this.salePrice = salePrice;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

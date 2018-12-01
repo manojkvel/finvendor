@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class MutualFundMaster implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
     private Long id;
 

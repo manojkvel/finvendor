@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.io.File;
+
+import static com.finvendor.common.exception.ExceptionEnum.MF_PERSIST;
 import static com.finvendor.common.exception.ExceptionEnum.SECTOR_RESEARCH_FILTER;
 
 /**
@@ -25,45 +27,56 @@ import static com.finvendor.common.exception.ExceptionEnum.SECTOR_RESEARCH_FILTE
 public class MfPersistController {
 
     private static final Logger logger = LoggerFactory.getLogger(MfPersistController.class.getName());
-    public static final String MF_MASTER_FILE = "d:\\tmp\\MF_Master_SchemeData1410181926SS_V2.0.csv";
+    public static final String MF_MASTER_FILE = "D:\\tmp\\master\\mfv2.0.csv";
+    public static final String MF_HISTORICAL_FOLDER_PATH = "D:\\tmp\\master\\historical";
 
     @Autowired
-    @Qualifier(value = "mfMasterFilePersist")
-    IFilePersist mfStaticDataFilePersist;
+    @Qualifier(value = "mfMasterDataPersist")
+    IFilePersist mfMasterDataPersist;
+
+    @Autowired
+    @Qualifier(value = "mfHistoricalDataPersist")
+    IFilePersist mfHistoricalDataPersist;
 
     /**
-     * Persist Static Data on Weekly Basis
+     * Persist Master Data -  Weekly
      */
     @GetMapping(value = "/mf/persist/master")
     public ResponseEntity<?> persistData() throws WebApiException {
         try {
-            Long persistCount = (Long)mfStaticDataFilePersist.persist(MF_MASTER_FILE);
+            Long persistCount = (Long) mfMasterDataPersist.persist(MF_MASTER_FILE);
             logger.info("persistCount:{}", persistCount);
-            return new ResponseEntity<>("MF Master persisted into database successfully with total records:" + persistCount, HttpStatus.OK);
+            return new ResponseEntity<>("MF Master record inserted count: " + persistCount, HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("Error has occurred while getting filter value, Error:{}", e);
-            return ErrorUtil.getError(SECTOR_RESEARCH_FILTER.getCode(), SECTOR_RESEARCH_FILTER.getUserMessage(), e);
+            return ErrorUtil.getError(MF_PERSIST.getCode(), MF_PERSIST.getUserMessage(), e);
         }
     }
 
     /**
-     * Persist NAV Historical Data - One Time
+     * Persist Historical Data - One Time
      */
-    @GetMapping(value = "/mf/persist/historicalnav")
+    @GetMapping(value = "/mf/persist/historical")
     public ResponseEntity<?> persistMutualFundHistoricalNav() throws WebApiException {
         try {
-
-            return null;
+            long totalHistoricalRecordCount = 0L;
+            File folder = new File(MF_HISTORICAL_FOLDER_PATH);
+            for (File filePath : folder.listFiles()) {
+                Long persistCount = (Long) mfHistoricalDataPersist.persist(filePath.getPath());
+                totalHistoricalRecordCount += persistCount;
+                logger.info("persistCount:{} for file: {} ", persistCount, filePath);
+            }
+            return new ResponseEntity<>("MF Histrocial record inserted count: " + totalHistoricalRecordCount, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Error has occurred while getting filter value, Error:{}", e);
-            return ErrorUtil.getError(SECTOR_RESEARCH_FILTER.getCode(), SECTOR_RESEARCH_FILTER.getUserMessage(), e);
+            return ErrorUtil.getError(MF_PERSIST.getCode(), MF_PERSIST.getUserMessage(), e);
         }
     }
 
     /**
      * Persist NAV Data - Daily Basis
      */
-    @GetMapping(value = "/mf/persist/dailynav")
+    @GetMapping(value = "/mf/persist/daily")
     public ResponseEntity<?> persistDailyData() throws WebApiException {
         try {
             return null;
