@@ -81,6 +81,7 @@
         <mapping class="com.finvendor.model.Indice"></mapping>
         <mapping class="com.finvendor.model.IndiceDetails"></mapping>
         <mapping class="com.finvendor.model.MutualFundMaster"></mapping>
+        <mapping class="com.finvendor.model.MutualFundHistoricalNav"></mapping>
 
     </session-factory>
 

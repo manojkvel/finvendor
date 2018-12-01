@@ -1,4 +1,4 @@
-package com.finvendor.serverwebapi.resources.researchreport.mf.dao;
+package com.finvendor.serverwebapi.resources.researchreport.mf.dao.filedao;
 
 import com.finvendor.model.MutualFundMaster;
 import org.slf4j.Logger;
@@ -12,8 +12,8 @@ import java.io.IOException;
 
 @Repository
 @Transactional
-public class MfMasterFilePersist extends AbstractMfFilePersist<MutualFundMaster> {
-    private static final Logger logger = LoggerFactory.getLogger(MfMasterFilePersist.class.getName());
+public class MfMasterDataPersist extends AbstractMfFilePersist<MutualFundMaster> {
+    private static final Logger logger = LoggerFactory.getLogger(MfMasterDataPersist.class.getName());
 
     @Override
     public Long persist(String filePath) throws RuntimeException {
@@ -22,7 +22,7 @@ public class MfMasterFilePersist extends AbstractMfFilePersist<MutualFundMaster>
         String line;
         String cvsSplitBy = ",";
         long totalRecordInserted = 0L;
-        long id=1;
+        long id = 1L;
         try {
             br = new BufferedReader(new FileReader(filePath));
             br.readLine();
@@ -38,34 +38,58 @@ public class MfMasterFilePersist extends AbstractMfFilePersist<MutualFundMaster>
                 String benchmarkIndex = mfColumns[6];
                 String schemeNavName = mfColumns[7];
 
-                String schemeMinAmt = mfColumns[8];
-                String launchDate = mfColumns[9];
-                String closureDate = mfColumns[10];
-                String isinDivPayout = mfColumns[11];
+                String schemeMinAmt;
+                if (mfColumns.length >= 9) {
+                    schemeMinAmt = mfColumns[8];
+                } else {
+                    schemeMinAmt = "-";
+                }
+
+                String launchDate;
+                if (mfColumns.length >= 10) {
+                    launchDate = mfColumns[9];
+                } else {
+                    launchDate = "-";
+                }
+
+                String closureDate;
+                if (mfColumns.length >= 11) {
+                    closureDate = mfColumns[10];
+                } else {
+                    closureDate = "-";
+                }
+                String isinDivPayout;
                 String isinDivReInvest;
-                if (mfColumns.length == 13) {
+                if (mfColumns.length >= 12) {
+                    isinDivPayout = mfColumns[11];
+                } else {
+                    isinDivPayout = "-";
+                }
+
+                if (mfColumns.length >= 13) {
                     isinDivReInvest = mfColumns[12];
                 } else {
-                    isinDivReInvest = "";
+                    isinDivReInvest = "-";
                 }
                 MutualFundMaster mfMasterEntity = findById(id);
-                if(mfMasterEntity==null) {
+                if (mfMasterEntity == null) {
                     mfMasterEntity = new MutualFundMaster();
-                }else {
-                    mfMasterEntity.setAmcName(amc);
-                    mfMasterEntity.setAmfiCode(code);
-                    mfMasterEntity.setSchemeName(schemeName);
-                    mfMasterEntity.setSchemeType(schemeType);
-                    mfMasterEntity.setSchemeCategory(schemeCategory);
-                    mfMasterEntity.setSchemeSubCategory(schemeSubCategory);
-                    mfMasterEntity.setBenchMarkIndex(benchmarkIndex);
-                    mfMasterEntity.setSchemeNavName(schemeNavName);
-                    mfMasterEntity.setSchemeMinAmount(schemeMinAmt);
-                    mfMasterEntity.setSchemeLauchDate(launchDate);
-                    mfMasterEntity.setSchemeClosureDt(closureDate);
-                    mfMasterEntity.setIsinDivPayout(isinDivPayout);
-                    mfMasterEntity.setIsinDivReInvest(isinDivReInvest);
+                    mfMasterEntity.setId(id);
                 }
+                mfMasterEntity.setAmcName(amc);
+                mfMasterEntity.setAmfiCode(code);
+                mfMasterEntity.setSchemeName(schemeName);
+                mfMasterEntity.setSchemeType(schemeType);
+                mfMasterEntity.setSchemeCategory(schemeCategory);
+                mfMasterEntity.setSchemeSubCategory(schemeSubCategory);
+                mfMasterEntity.setBenchMarkIndex(benchmarkIndex);
+                mfMasterEntity.setSchemeNavName(schemeNavName);
+                mfMasterEntity.setSchemeMinAmount(schemeMinAmt);
+                mfMasterEntity.setSchemeLauchDate(launchDate);
+                mfMasterEntity.setSchemeClosureDt(closureDate);
+                mfMasterEntity.setIsinDivPayout(isinDivPayout);
+                mfMasterEntity.setIsinDivReInvest(isinDivReInvest);
+
                 saveOrUpdate(mfMasterEntity);
                 totalRecordInserted++;
                 id++;

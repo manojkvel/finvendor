@@ -1,6 +1,6 @@
-package com.finvendor.serverwebapi.resources.researchreport.mf.dao;
+package com.finvendor.serverwebapi.resources.researchreport.mf.dao.filedao;
 
-import com.finvendor.model.MutualFundHistoricalNav;
+import com.finvendor.model.MutualFundDailyNav;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -12,8 +12,8 @@ import java.io.IOException;
 
 @Repository
 @Transactional
-public class MfHistoricalNavFilePersist extends AbstractMfFilePersist<MutualFundHistoricalNav> {
-    private static final Logger logger = LoggerFactory.getLogger(MfHistoricalNavFilePersist.class.getName());
+public class MfDailyDataPersist extends AbstractMfFilePersist<MutualFundDailyNav> {
+    private static final Logger logger = LoggerFactory.getLogger(MfDailyDataPersist.class.getName());
 
     @Override
     public Long persist(String filePath) throws RuntimeException {
@@ -33,9 +33,9 @@ public class MfHistoricalNavFilePersist extends AbstractMfFilePersist<MutualFund
                 String schemeName = mfColumns[2];
                 String schemeType = mfColumns[3];
                 String schemeCategory = mfColumns[4];
-                MutualFundHistoricalNav mutualFundHistoricalNav = new MutualFundHistoricalNav();
 
-                save(mutualFundHistoricalNav);
+                MutualFundDailyNav mutualFundDailyNav = new MutualFundDailyNav();
+                save(mutualFundDailyNav);
                 totalRecordInserted++;
             }
         } catch (Exception e) {

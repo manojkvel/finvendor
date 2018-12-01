@@ -48,6 +48,7 @@ public enum ExceptionEnum {
 	SECTOR_RESEARCH_REPORT("FV0033", "Internal error - Unable to get Sector Research Report, Please contact Finvendor admin for support!!"),
 	MF_PROFILE("FV0034", "Internal error - Unable to get Mutual Fund Profile data, Please contact Finvendor admin for support!!"),
 	MARQUEE_ERROR("FV0035", "Internal error - Unable to get Marquee data, Please contact Finvendor admin for support!!"),
+	MF_PERSIST("FV0036", "Internal error - Unable to isnert Mututal Fund file data, Please contact Finvendor admin for support!!"),
 
 
 	;
