@@ -245,6 +245,7 @@ jQuery(document).ready(function() {
 				$("#" + id + " .bd table tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
 				$("#consumer_market #" + id + " .paging_container").empty();
 			}
+
 		}, function(error) {
 			isProgressLoader(false);
 			$("#" + id + " .bd table tbody").html("<tr><td colspan='10' class='center'>We are not able to get the info, please try again later.</td></tr>");
@@ -528,6 +529,9 @@ jQuery(document).ready(function() {
 		
 		if(indexFilter != undefined) {
 			indexFilter = window.localStorage.getItem('indexName');
+			setTimeout(function() {
+				$("#search_by_market_index_ul li input[data-name = '" + indexFilter + "']").prop('checked', true);
+			}, 300);
 		} else {
 			indexFilter = $(this).attr("data-name");
 		}

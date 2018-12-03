@@ -541,7 +541,7 @@ function validateDate(date) {
 
 function getStockMarquee() {
 	var jsonBody = {
-		"indexNames":["Nifty 50", "Nifty 100"]
+		"indexNames":["Nifty 50"]
 	};
 
 	getMarqueeApi(jsonBody).then(function(response) {
