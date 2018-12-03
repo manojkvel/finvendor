@@ -97,6 +97,7 @@ public String getRsrchReportFor() {
 	private String analystYearOfExp;*/
 	private String analystAwards;
 	private String anaystCfaCharter;
+	private String industrySubTypeId;
 	
 	public String getProductId() {
 		return productId;
@@ -291,5 +292,13 @@ public String getRsrchReportFor() {
 
 	public void setReportName(String reportName) {
 		this.reportName = reportName;
+	}
+
+	public String getIndustrySubTypeId() {
+		return industrySubTypeId;
+	}
+
+	public void setIndustrySubTypeId(String industrySubTypeId) {
+		this.industrySubTypeId = industrySubTypeId;
 	}
 }
