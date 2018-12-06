@@ -1735,7 +1735,9 @@ jQuery(document).ready(function() {
 		} else {
 			rcResearchAreaId = $("select[name=rcResearchArea]").selectpicker('val');
 		}
-           var url = "/system/api/companydetails?researchAreaId=" + rcResearchAreaId;
+        
+		var url = "/system/api/researchreportfor?researchAreaId=" + rcResearchAreaId;
+		
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -1774,7 +1776,7 @@ jQuery(document).ready(function() {
 			var responseList = JSON.parse(responseList);
 			var $option='';
 			for (var val in responseList) {
-				$option += "<option value='" + responseList[val].companyId + "'>" + responseList[val].companyName + "</option>";   
+				$option += "<option value='" + responseList[val].id + "'>" + responseList[val].name + "</option>";   
 			}
 			$("select#vo_rr_report_for").empty();
 			$("select[name=vo_rr_report_for]").append($option);	
