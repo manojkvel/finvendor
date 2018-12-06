@@ -587,7 +587,8 @@ function getStockMarquee() {
 
 			}
 		}
-		$("#marquee_container .marquee.stock_price marquee ul").html(html);
+
+		$("#marquee_container .marquee.stock_price .bd").html("<marquee behavior='scroll' direction='left' onmouseover='this.stop();' onmouseout='this.start();'><ul>" + html + "</ul></marquee>");
 
 	}, function(error) {
 
@@ -635,7 +636,7 @@ function getIndexMarquee() {
 			+ "</li>";
 
 		}
-		$("#marquee_container .marquee.index_price marquee ul").html(html);
+		$("#marquee_container .marquee.index_price .bd").html("<marquee behavior='scroll' direction='left' onmouseover='this.stop();' onmouseout='this.start();'><ul>" + html + "</ul></marquee>");
 		$("#marquee_container .marquee.index_price ul a").on('click', getMarketIndexData);
 		
 	}, function(error) {

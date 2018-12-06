@@ -57,6 +57,7 @@
 <!-- This is deep minimized code which works independently. -->
 <!--<script type="text/javascript"
 	src="</%=request.getContextPath()%>/resources/js/jssor_deep_minified.js"></script> -->
+	<script src=”https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <script async
 	src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
@@ -134,9 +135,6 @@
 					<span class="last_updated_date"></span>
 				</div>
 				<div class="bd">
-					<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-						<ul></ul>
-					</marquee>
 				</div>
 			</div>
 			<div class="marquee index_price">
@@ -145,9 +143,6 @@
 					<span class="last_updated_date"></span>
 				</div>
 				<div class="bd">
-					<marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-						<ul></ul>
-					</marquee>
 				</div>
 			</div>
 		</div>
