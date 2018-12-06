@@ -33,6 +33,6 @@ public interface WebUriConstants {
 	}
 
 	interface AdminDashBoard {
-		String COMPANY_DETAILS_URI = "/companydetails";
+		String COMPANY_DETAILS_URI = "/researchreportfor";
 	}
 }

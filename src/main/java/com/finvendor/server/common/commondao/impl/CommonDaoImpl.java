@@ -1,11 +1,13 @@
 package com.finvendor.server.common.commondao.impl;
 
 import com.finvendor.common.util.CommonCodeUtil;
+import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.Roles;
 import com.finvendor.model.VendorResearchReportsResearchDetails;
-import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
+import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
 import com.finvendor.server.common.commondao.AbstractCommonDao;
+import com.finvendor.serverwebapi.resources.researchreport.sector.dto.IndustrySubTypeNameDto;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,20 +34,34 @@ public class CommonDaoImpl extends AbstractCommonDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) {
+	public List<ResearchReportFor> getCompanyDetails(String sql, String rsrchAreaId) {
 		try {
 			SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 			query.setInteger(0, Integer.parseInt(rsrchAreaId));
 			List<Object[]> rows = query.list();
 
-			List<CompanyDetails> results = new ArrayList<>();
+			List<ResearchReportFor> results = new ArrayList<>();
 			for (Object[] row : rows) {
-				results.add(new CompanyDetails(Integer.parseInt(row[0].toString()), row[1].toString()));
+				results.add(new ResearchReportFor(Integer.parseInt(row[0].toString()), row[1].toString()));
 			}
 			return results;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public List<ResearchReportFor>  getIndustrySubTypes(String query, String[] values) throws IOException {
+		SQLQuery nativeQuery = getNativeQuery(query, values);
+		List<Object[]> rows = nativeQuery.list();
+		List<ResearchReportFor> industrySubTypes = new ArrayList<>();
+		Map<String, Object> dataMap = new LinkedHashMap<>();
+		for (Object[] row : rows) {
+			String id = row[0] != null ? row[0].toString().trim() : null;
+			String value = row[1] != null ? row[1].toString().trim() : null;
+			ResearchReportFor dto = new ResearchReportFor(Integer.parseInt(id),value);
+			industrySubTypes.add(dto);
+		}
+		return industrySubTypes;
 	}
 
 	@Override

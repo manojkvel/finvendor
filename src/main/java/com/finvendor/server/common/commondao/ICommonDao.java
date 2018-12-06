@@ -2,9 +2,11 @@ package com.finvendor.server.common.commondao;
 
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.Roles;
-import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
+import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
+import com.finvendor.serverwebapi.resources.researchreport.sector.dto.IndustrySubTypeNameDto;
 import org.hibernate.SQLQuery;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +14,8 @@ import java.util.Map;
 public interface ICommonDao {
 	List<Roles> executeNamedQuery(String namedQueryname) throws RuntimeException;
 
-	List<CompanyDetails> getCompanyDetails(String sql, String rsrchAreaId) throws RuntimeException;
-
+	List<ResearchReportFor> getCompanyDetails(String sql, String rsrchAreaId) throws RuntimeException;
+	List<ResearchReportFor>  getIndustrySubTypes(String query, String[] values) throws IOException;
 	SQLQuery getNativeQuery(String sql, Object[] conditionValue);
 
 	String runSql(String sql, Map<String, Map<String, String>> columnNameMap, Object[] conditionValue,
