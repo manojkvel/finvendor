@@ -4,7 +4,7 @@ import com.finvendor.common.enums.SqlEnum;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.FinVendorUser;
-import com.finvendor.modelpojo.staticpojo.admindashboard.CompanyDetails;
+import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
 import com.finvendor.server.common.commondao.ICommonDao;
 import com.finvendor.serverwebapi.exception.WebApiException;
 import com.finvendor.serverwebapi.resources.common.IWebCommon;
@@ -43,13 +43,19 @@ public class WebCommonImpl implements IWebCommon {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getCompanyDetails(final String researchAreaId)  {
+    public ResponseEntity<?> getResearchReportFor(final String researchAreaId) {
         try {
-            final List<CompanyDetails> companyDetails = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(),
-                    researchAreaId);
-            return new ResponseEntity<>(companyDetails, HttpStatus.OK);
+            List<ResearchReportFor> researchReportFor = new ArrayList<>();
+            if ("7".equals(researchAreaId)) {
+                researchReportFor = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(),
+                        researchAreaId);
+            } else if ("2".equals(researchAreaId)) {
+                String INDUSTRY_SUB_TYPE_NAMES = "select c.id,trim(c.industry_sub_type_name) from research_area a, research_sub_area b, industry_sub_type c where a.research_area_id=b.research_area_id and c.rsch_sub_area_id=b.research_sub_area_id and  b.research_area_id=? order by trim(c.industry_sub_type_name) asc";
+                researchReportFor = commonDao.getIndustrySubTypes(INDUSTRY_SUB_TYPE_NAMES, new String[]{researchAreaId});
+            }
+            return new ResponseEntity<>(researchReportFor, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("WebApiCommon -> getCompanyDetails(...) method", e);
+            ErrorUtil.logError("WebApiCommon -> getResearchReportFor(...) method", e);
             return ErrorUtil.getError(COMPANY_DETAILS.getCode(), COMPANY_DETAILS.getUserMessage(), e);
         }
     }

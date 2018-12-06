@@ -11,7 +11,7 @@ public enum ExceptionEnum {
 	
 	HOME_PAGE("FV0007", "Internal error - Unable find company homepage search hint, Please contact Finvendor admin for support!!"),
 	EQUITY_RESEARCH_FILTER("FV0006", "Internal error - Unable to prepare Equity research filter, Please contact Finvendor admin for support!!"),	
-	COMPANY_DETAILS("FV0008", "Internal error - Unable to prepare company details, Please contact Finvendor admin for support!!"),
+	COMPANY_DETAILS("FV0008", "Internal error - Unable to prepare ResearchReportFor details, Please contact Finvendor admin for support!!"),
 	
 	COMPANY_PROFILE("FV0009", "Internal error - Unable to prepare company profile, Please contact Finvendor admin for support!!"),
 	COMPANY_RECORD_STATS("FV0010", "Internal error - Unable to prepare company record statistics, Please contact Finvendor admin for support!!"),

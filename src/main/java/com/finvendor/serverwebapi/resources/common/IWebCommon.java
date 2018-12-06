@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(WebUriConstants.BASE_URI)
 public interface IWebCommon {
 	
-	@RequestMapping(value = WebUriConstants.AdminDashBoard.COMPANY_DETAILS_URI, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value ="/researchreportfor", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	ResponseEntity<?> getCompanyDetails(@RequestParam("researchAreaId") String researchAreaId) throws WebApiException;
+	ResponseEntity<?> getResearchReportFor(@RequestParam("researchAreaId") String researchAreaId) throws WebApiException;
 	
 	/**
 	 * 

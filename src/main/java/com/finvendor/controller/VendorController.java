@@ -3040,7 +3040,11 @@ public class VendorController {
                 researchDetails.setSubCostPy(Float.parseFloat(costPerAnnum));
             }
 
-            researchDetails.setRsrchReportFor(researchReportFor);
+            if (researchArea.getResearchAreaId() == 2) {
+                researchDetails.setRsrchReportFor("");
+            } else {
+                researchDetails.setRsrchReportFor(researchReportFor);
+            }
             researchDetails.setRepDate(researchReportDate);
             researchDetails.setRsrchRecommType(researchRecommendationType);
             researchDetails.setPriceAtRecomm(vo_price_at_recomm);
@@ -3207,6 +3211,8 @@ public class VendorController {
 
                     // rdSubsriptionCostUSDperannum
                     vendorOffering.setSubCostPy(offering.getResearchDetails().getSubCostPy());
+
+                    vendorOffering.setIndustrySubTypeId(offering.getIndustrySubTypeId());
 
                     // vo_rr_report_for
                     vendorOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());
