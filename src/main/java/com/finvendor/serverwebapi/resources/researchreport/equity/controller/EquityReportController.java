@@ -37,36 +37,17 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
 public class EquityReportController {
     private static final Logger logger = LoggerFactory.getLogger(EquityReportController.class.getName());
 
-//    @Autowired
-//    @Qualifier(value = "equityResearchReportService")
-//    private IResearchReportService equityResearchService;
-//
-//    @Autowired
-//    @Qualifier(value = "sectorResearchReportService")
-//    private IResearchReportService sectorResearchService;
-//
-//    @Autowired
-//    @Qualifier(value = "macroResearchReportService")
-//    private IResearchReportService macroResearchService;
-
     @Autowired
     private EquityReportService equityReportService;
-
-//   @Autowired
-//    private IDownloadService downloadService;
-
-//    @Resource(name = "finvendorProperties")
-//    private Properties finvendorProperties;
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = WebUriConstants.ResearchReport.RESEARCH_REPORTS, method = RequestMethod.POST)
     public ResponseEntity<?> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
-                                                        @RequestParam(value = "type", required = true) String type,
-                                                        @RequestParam(value = "pageNumber", required = true) String pageNumber,
-                                                        @RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords,
-                                                        @RequestParam(value = "sortBy", required = true) String sortBy,
-                                                        @RequestParam(value = "orderBy", required = true) String orderBy) throws WebApiException {
-
+                                                        @RequestParam(value = "type") String type,
+                                                        @RequestParam(value = "pageNumber") String pageNumber,
+                                                        @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
+                                                        @RequestParam(value = "sortBy") String sortBy,
+                                                        @RequestParam(value = "orderBy") String orderBy) throws WebApiException {
         try {
             if (equityResearchFilter.getGeo() == null) {
                 throw new Exception("Equity Research filter Error - Geo must not be null !!");
@@ -76,7 +57,7 @@ public class EquityReportController {
                     .getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
             final Map<String, Collection<EquityResearchResult>> searchResult = new HashMap<>();
             searchResult.put(type, researchReport.values());
-            return new ResponseEntity<Map<String, Collection<EquityResearchResult>>>(searchResult, HttpStatus.OK);
+            return new ResponseEntity<>(searchResult, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("WebEquityResearchReport -> getResearchResultTableData(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_REPORT.getCode(), EQUITY_RESEARCH_REPORT.getUserMessage(), e);
@@ -85,18 +66,17 @@ public class EquityReportController {
 
     @RequestMapping(value = WebUriConstants.ResearchReport.DASHBOARD_RESEARCH_REPORTS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getResearchResultDashboardData(@RequestBody EquityResearchFilter equityResearchFilter,
-                                                            @RequestParam(value = "type", required = true) String type,
-                                                            @RequestParam(value = "pageNumber", required = true) String pageNumber,
-                                                            @RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords,
-                                                            @RequestParam(value = "sortBy", required = true) String sortBy,
-                                                            @RequestParam(value = "orderBy", required = true) String orderBy,
-                                                            @RequestParam(value = "productId", required = true) String productId) throws WebApiException {
+                                                            @RequestParam(value = "type") String type,
+                                                            @RequestParam(value = "pageNumber") String pageNumber,
+                                                            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
+                                                            @RequestParam(value = "sortBy") String sortBy,
+                                                            @RequestParam(value = "orderBy") String orderBy,
+                                                            @RequestParam(value = "productId") String productId) throws WebApiException {
         try {
             if (equityResearchFilter == null) {
                 equityResearchFilter = new EquityResearchFilter();
                 equityResearchFilter.setGeo("1");
             }
-
             //This product Id will be used in filter when user click pdf report from CompanyProfile->ResearchReport tab in UI
             List<String> productList = new ArrayList<>();
             productList.add(productId);
@@ -111,7 +91,7 @@ public class EquityReportController {
             dashboardResult.put(type, absResearchReportResult);
             return new ResponseEntity<Map<String, EquityResearchResult>>(dashboardResult, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("WebEquityResearchReport -> getResearchResultDashboardData(...) method", e);
+            ErrorUtil.logError("WebEquityResearchReport -> getResearchResultDashboardData(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_RESULT_DASHBOARD.getCode(),
                     EQUITY_RESEARCH_RESULT_DASHBOARD.getUserMessage(), e);
         }
@@ -123,19 +103,11 @@ public class EquityReportController {
                                                     @RequestParam("reportName") String reportName) throws WebApiException {
         try {
             final Pair<Long, InputStream> download = equityReportService.download(productId);
-//            if (download.getElement2() == null) {
-//                throw new Exception("Vendor Report Offering File does not exist for product id=" + productId);
-//            } else {
-//                response.setHeader("Content-Disposition", "attachment; filename=" + reportName);
-//                response.setHeader("Content-Length", String.valueOf(download.getElement1()));
-//                FileCopyUtils.copy(download.getElement2(), response.getOutputStream());
-//            }
             WebUtil.processDownload(response, productId, reportName, download);
-            return new ResponseEntity<>(
-                    new StatusPojo("true",
+            return new ResponseEntity<>(new StatusPojo("true",
                             "Equity research report downloaded successfully."), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("WebEquityResearchReport -> downloadResearchReport(...) method", e);
+            ErrorUtil.logError("WebEquityResearchReport -> downloadResearchReport(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_REPORT_DOWNLOAD.getCode(),
                     EQUITY_RESEARCH_REPORT_DOWNLOAD.getUserMessage(), e);
         }
@@ -143,8 +115,8 @@ public class EquityReportController {
 
     @RequestMapping(value = WebUriConstants.ResearchReport.RECORD_STATS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRecordStatistics(@RequestBody EquityResearchFilter equityResearchFilter,
-                                                 @RequestParam(value = "type", required = true) String type,
-                                                 @RequestParam(value = "perPageMaxRecords", required = true) String perPageMaxRecords)
+                                                 @RequestParam(value = "type") String type,
+                                                 @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords)
             throws WebApiException {
         try {
             if (!"equity".equals(type)) {
@@ -154,7 +126,7 @@ public class EquityReportController {
                     perPageMaxRecords);
             return new ResponseEntity<String>(recordStatistics, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("WebEquityResearchReport -> getRecordStatistics(...) method", e);
+            ErrorUtil.logError("WebEquityResearchReport -> getRecordStatistics(...) method", e);
             return ErrorUtil.getError(EQUITY_RESEARCH_RECORD_STAT.getCode(),
                     EQUITY_RESEARCH_RECORD_STAT.getUserMessage(), e);
         }

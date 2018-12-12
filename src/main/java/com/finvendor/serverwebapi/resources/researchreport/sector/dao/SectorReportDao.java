@@ -32,8 +32,10 @@ public class SectorReportDao {
     private final String RESEARCH_DATE_QUERY = "select b.product_id, UNIX_TIMESTAMP(DATE_FORMAT(STR_TO_DATE(  b.rep_date, '%d/%m/%Y'), '%Y-%m-%d')) dateinmillis from ven_rsrch_rpt_offering a,ven_rsrch_rpt_dtls b where a.research_area=2 and a.product_id=b.product_id";
 
     private final String INDUSTRY_SUB_TYPE_NAMES = "select c.id,trim(c.industry_sub_type_name) from research_area a, research_sub_area b, industry_sub_type c where a.research_area_id=b.research_area_id and c.rsch_sub_area_id=b.research_sub_area_id and  b.research_area_id=? order by trim(c.industry_sub_type_name) asc";
-    private final String SECTOR_REPORT_MAIN_QUERY = "select d.product_id,b.description SectorType, c.industry_sub_type_name SectorSubType, g.username RESEARCHEDBY, g.analystType ANALYSTTYPE, e.rsrch_recomm_type REPORT_TONE, e.report_name REPORT_FREQUENCY, e.report_name REPORT, e.rep_date RESEARCH_DATE, f.analyst_name ANALYST_NAME,e.rsrch_report_desc,f.anayst_cfa_charter from research_area a, research_sub_area b, industry_sub_type c, ven_rsrch_rpt_offering d, ven_rsrch_rpt_dtls e, ven_rsrch_rpt_analyst_prof f, vendor g where a.research_area_id=b.research_area_id    and c.rsch_sub_area_id=b.research_sub_area_id and c.id=d.industry_subtype_id and d.product_id=e.product_id and d.product_id=f.product_id and d.vendor_id=g.vendor_id and b.research_area_id=2";
     public static final String SECTOR_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON = "[{\"researchDate\":\"< 3 months\"},{\"researchDate\":\"3 - 6 months\"},{\"researchDate\":\"6 - 12 months\"},{\"researchDate\":\"> 12 months\"}]";
+
+    /**Sector Main query*/
+    private final String SECTOR_REPORT_MAIN_QUERY = "select d.product_id, b.description SectorType, c.industry_sub_type_name SectorSubType, d.vendor_name RESEARCHEDBY,d.vendor_analyst_type ANALYSTTYPE, d.rsrch_recomm_type REPORT_TONE,d.report_name REPORT_FREQUENCY,d.report_name REPORT,d.report_date RESEARCH_DATE,d.analyst_name ANALYST_NAME,d.rsrch_report_desc DESCR,d.anayst_cfa_charter cfa from industry_sub_type c,research_sub_area b,vendor_report_data d where c.rsch_sub_area_id=b.research_sub_area_id and c.id=d.research_report_for_id and d.research_area_id=2";
 
     @Autowired
     private ICommonDao commonDao;
@@ -137,7 +139,7 @@ public class SectorReportDao {
                     dto.setReportDate(reportDate);
                     dto.setAnalystName(analystName);
 
-                    if (byCfa.isEmpty()) {
+                    if (StringUtils.isEmpty(byCfa)) {
                         dto.setResearchReportByCfa(null);
                     } else {
                         dto.setResearchReportByCfa(byCfa);
@@ -185,7 +187,7 @@ public class SectorReportDao {
 //        }
 
         if (SectorReportFilterTypes.RESEARCHED_BY.getType().equals(sortBy)) {
-            field = "g.username";
+            field = "d.vendor_name";
         }
 
 //        if (SectorReportFilterTypes.RESEARCH_DATE.getType().equals(sortBy)) {
@@ -193,11 +195,11 @@ public class SectorReportDao {
 //        }
 
         if (SectorReportFilterTypes.REPORT_TONE.getType().equals(sortBy)) {
-            field = "e.rsrch_recomm_type";
+            field = "d.rsrch_recomm_type";
         }
 
         if (SectorReportFilterTypes.REPORT_NAME.getType().equals(sortBy)) {
-            field = "e.report_name";
+            field = "d.report_name";
         }
 
         query = query + " order by " + field + " " + orderByMode;

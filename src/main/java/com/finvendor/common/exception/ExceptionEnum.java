@@ -50,6 +50,9 @@ public enum ExceptionEnum {
 	MARQUEE_ERROR("FV0035", "Internal error - Unable to get Marquee data, Please contact Finvendor admin for support!!"),
 	MF_PERSIST("FV0036", "Internal error - Unable to isnert Mututal Fund file data, Please contact Finvendor admin for support!!"),
 
+	VO_OP("FV0037", "Internal error - Unable to perform VO operation like Save|Delete|Update|Find|FindAll, Please contact Finvendor admin for support!!"),
+
+
 
 	;
 	

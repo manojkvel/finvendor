@@ -18,47 +18,41 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class EquityReportService {//extends AbsResearchReportService {
+public class EquityReportService {
 
-	@Autowired
-//	@Qualifier(value = "equityResearchDaoImpl")
-//	IResearchReportDao equityReserachReportDao;
-	private EquityReportDao equityReportDao;
+    @Autowired
+    private EquityReportDao equityReportDao;
 
-//	@Override
-//	@Transactional(readOnly = true)
-	public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult>
-	getResearchReportTableData(T rrfilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
-		try {
-			String mainQuery = ResearchReportUtil.MAIN_QUERY.replace("?",
-					"'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
+    public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult>
+    getResearchReportTableData(T rrfilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
+        try {
+            String mainQuery = ResearchReportUtil.MAIN_QUERY.replace("?",
+                    "'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
 
-			return equityReportDao
-					.findResearchReportTableData(mainQuery, rrfilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
-		} catch (RuntimeException e) {
-			throw new Exception(e);
-		}
-	}
+            return equityReportDao
+                    .findResearchReportTableData(mainQuery, rrfilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
 
-//	@Override
-//	@Transactional(readOnly = true)
-	public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords)
-			throws Exception {
-		try {
-			String mainQuery = ResearchReportUtil.MAIN_QUERY.replace("?",
-					"'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
-			return equityReportDao.getRecordStatistics(mainQuery, rrfilter, perPageMaxRecords);
-		} catch (RuntimeException e) {
-			throw new Exception(e);
-		}
-	}
+    public <T extends ResearchReportFilter> String getRecordStatistics(T rrfilter, String perPageMaxRecords)
+            throws Exception {
+        try {
+            String mainQuery = ResearchReportUtil.MAIN_QUERY.replace("?",
+                    "'" + ((EquityResearchFilter) rrfilter).getGeo() + "'");
+            return equityReportDao.getRecordStatistics(mainQuery, rrfilter, perPageMaxRecords);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
 
 
-	public Pair<Long,InputStream> download(String productId) throws Exception {
-		try {
-			return equityReportDao.download(productId);
-		}catch (RuntimeException e){
-			throw new Exception(e);
-		}
-	}
+    public Pair<Long, InputStream> download(String productId) throws Exception {
+        try {
+            return equityReportDao.download(productId);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
 }

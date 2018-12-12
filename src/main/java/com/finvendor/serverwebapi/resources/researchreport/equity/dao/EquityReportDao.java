@@ -23,21 +23,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.finvendor.model.VendorResearchReportsResearchDetails.RESEARCH_REPORT_DETAILS_NAMED_QUERY;
+import static com.finvendor.model.vo.VendorReportFile.REPORT_FILE_NAMED_QUERY;
 
 /**
  * @author ayush
  * @since 03-Feb-2018
  */
 @Repository
-public class EquityReportDao {//implements IResearchReportDao {
+public class EquityReportDao {
     private static final Logger logger = LoggerFactory.getLogger(EquityReportDao.class.getName());
 
     @Autowired
     private ICommonDao commonDao;
 
     @SuppressWarnings("unchecked")
-//    @Override
     public String getRecordStatistics(String mainQuery, ResearchReportFilter filter, String perPageMaxRecords)
             throws RuntimeException {
         try {
@@ -46,6 +45,7 @@ public class EquityReportDao {//implements IResearchReportDao {
             String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
                     ResearchReportUtil.getFilteredQueryPart(equityFilter));
             SQLQuery query = commonDao.getNativeQuery(queryWithAppliedFilter, null);
+            logger.info("getRecordStatistics - Query:{}",queryWithAppliedFilter);
             long strt = System.currentTimeMillis();
             List<Object[]> rows = query.list();
             logger.info("Time Metrics - EquityResearchDaoImpl - getRecordStatistics - Total time record stat:" + (System.currentTimeMillis() - strt) / 1000L + " sec");
@@ -67,7 +67,6 @@ public class EquityReportDao {//implements IResearchReportDao {
     }
 
     @SuppressWarnings("unchecked")
-//    @Override
     public Map<String, EquityResearchResult> findResearchReportTableData(String mainQuery, ResearchReportFilter filter,
                                                                          String pageNumber,
                                                                          String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
@@ -124,30 +123,30 @@ public class EquityReportDao {//implements IResearchReportDao {
                 //equityResult.setPe(row[8] != null ? row[8].toString() : "");
                 equityResult.set_3YrPatGrowth(row[9] != null ? row[9].toString() : "");
 
-                String productId = row[11] != null ? row[11].toString() : "";
+                String productId = row[13] != null ? row[13].toString() : "";
                 equityResult.setProductId(productId);
 
-                equityResult.setBroker(row[12] != null ? row[12].toString() : "");
-                equityResult.setRecommType(row[13] != null ? row[13].toString() : "");
+                equityResult.setBroker(row[14] != null ? row[14].toString() : "");
+                equityResult.setRecommType(row[15] != null ? row[15].toString() : "");
 
-                equityResult.setTargetPrice(row[14] != null ? row[14].toString() : "");
-                equityResult.setPriceAtRecomm(row[15] != null ? row[15].toString() : "");
-                equityResult.setUpside(row[16] != null ? row[16].toString() : "");
+                equityResult.setTargetPrice(row[16] != null ? row[16].toString() : "");
+                equityResult.setPriceAtRecomm(row[17] != null ? row[17].toString() : "");
+                equityResult.setUpside(row[18] != null ? row[18].toString() : "");
 
-                String reportName = row[17] != null ? row[17].toString() : "";
+                String reportName = row[19] != null ? row[19].toString() : "";
                 reportName = reportName.substring(reportName.lastIndexOf('/') + 1);
                 equityResult.setReport(reportName);
 
-                String researchDate = row[18] != null ? row[18].toString() : "";
+                String researchDate = row[20] != null ? row[20].toString() : "";
                 long researchDateAsTimeStamp = ResearchReportUtil.convertStringToTimestamp(researchDate);
                 equityResult.setResearchDate(String.valueOf(researchDateAsTimeStamp));
 
                 String awarded;
-                if (row[19] != null) {
-                    if (row[19].toString().isEmpty()) {
+                if (row[21] != null) {
+                    if (row[21].toString().isEmpty()) {
                         awarded = "N";
                     } else {
-                        awarded = row[19].toString();
+                        awarded = row[21].toString();
                     }
                 } else {
                     awarded = "NA";
@@ -155,29 +154,29 @@ public class EquityReportDao {//implements IResearchReportDao {
                 equityResult.setAwarded(awarded);
 
                 String researchedByCfa = "";
-                if (row[20] != null) {
-                    if (row[20].toString().isEmpty()) {
+                if (row[22] != null) {
+                    if (row[22].toString().isEmpty()) {
                         researchedByCfa = "N";
                     } else {
-                        researchedByCfa = row[20].toString();
+                        researchedByCfa = row[22].toString();
                     }
                 } else {
                     researchedByCfa = "NA";
                 }
                 equityResult.setResearchedByCfa(researchedByCfa);
 
-                equityResult.setAnalystName(row[21] != null ? row[21].toString() : "");
-                equityResult.setAnalystType(row[22] != null ? row[22].toString() : "");
+                equityResult.setAnalystName(row[23] != null ? row[23].toString() : "");
+                equityResult.setAnalystType(row[24] != null ? row[24].toString() : "");
 
                 // Since
-                String vendorId = row[23] != null ? row[23].toString() : "";
-                String vendorSince = row[24] != null ? row[24].toString() : "";
+                String vendorId = row[25] != null ? row[25].toString() : "";
+                String vendorSince = row[26] != null ? row[26].toString() : "";
                 equityResult.setSince(vendorSince);
 
-                equityResult.setVendorName(row[25] != null ? row[25].toString() : "");
-                equityResult.setReportDesc(row[26] != null ? row[26].toString() : "");
-                equityResult.set_3YrEpsGrowth(row[27] != null ? row[27].toString() : "");
-                float epsTtmAsFloat = Float.parseFloat(row[28] != null ? row[28].toString().trim() : "");
+                equityResult.setVendorName(row[27] != null ? row[27].toString() : "");
+                equityResult.setReportDesc(row[28] != null ? row[28].toString() : "");
+                equityResult.set_3YrEpsGrowth(row[10] != null ? row[10].toString() : "");
+                float epsTtmAsFloat = Float.parseFloat(row[11] != null ? row[11].toString().trim() : "");
 
                 //calculation of PE
                 String newPeStr;
@@ -213,7 +212,7 @@ public class EquityReportDao {//implements IResearchReportDao {
         Map<Object, Object> paramMap = new HashMap<>();
         paramMap.put("productId", productId);
         try {
-            Pair<Long, InputStream> longInputStreamPair = commonDao.fetchBlobFromTable(RESEARCH_REPORT_DETAILS_NAMED_QUERY, paramMap);
+            Pair<Long, InputStream> longInputStreamPair = commonDao.fetchBlobFromTable(REPORT_FILE_NAMED_QUERY, paramMap);
             return longInputStreamPair;
         } catch (Exception e) {
             throw new RuntimeException("Error has occurred while fetching blob from table", e);

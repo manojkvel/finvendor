@@ -15,7 +15,8 @@ import java.util.*;
 
 public class ResearchReportUtil {
 
-    public static final String MAIN_QUERY = "select x.comapanyId,x.companyName,x.isinCode, x.style,x.mcap,x.sector,x.cmp,x.prcDt,x.pe,x.patGrth,y.companyId,y.prdId,y.broker,y.recommType,y.tgtPrice,y.prcAtRecomm,y.upside,y.rptName,y.rsrchDt,y.award,y.cfa,y.analystName,y.analystType,y.vendorId,y.ly,y.userName,y.rptDesc,x.epsGrth,x.epsttm,y.productNameAsReportName,y.days_diff from(SELECT rsch_sub_area_company_dtls.company_id comapanyId,rsch_sub_area_company_dtls.company_name companyName,rsch_sub_area_company_dtls.isin_code isinCode,rsch_area_stock_class.stock_class_name style,market_cap_def.market_cap_name mcap,research_sub_area.description sector,stock_current_prices.close_price cmp,stock_current_prices.price_date prcDt,stock_current_info.pe pe,stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth,stock_current_info.eps_ttm epsttm FROM rsch_sub_area_company_dtls,rsch_area_stock_class,market_cap_def,comp_mkt_cap_type,research_sub_area,stock_current_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND research_sub_area.research_area_id = 7 AND country.country_id = ?) x inner join (SELECT distinct ven_rsrch_rpt_dtls.company_id companyId,ven_rsrch_rpt_offering.product_id prdId, vendor.company broker ,ven_rsrch_rpt_dtls.rsrch_recomm_type recommType,ven_rsrch_rpt_dtls.target_price tgtPrice,ven_rsrch_rpt_dtls.price_at_recomm prcAtRecomm,((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100 upside, ven_rsrch_rpt_dtls.report_name rptName,ven_rsrch_rpt_dtls.rep_date rsrchDt,ven_rsrch_rpt_analyst_prof.analyst_awards award,ven_rsrch_rpt_analyst_prof.anayst_cfa_charter cfa, ven_rsrch_rpt_analyst_prof.analyst_name analystName,vendor.analystType analystType,vendor.vendor_id vendorId,ven_rsrch_rpt_offering.launched_year ly,vendor.username userName,ven_rsrch_rpt_dtls.rsrch_report_desc rptDesc,ven_rsrch_rpt_offering.product_name productNameAsReportName,datediff(curdate(),STR_TO_DATE(ven_rsrch_rpt_dtls.rep_date, '%d/%m/%Y')) days_diff FROM ven_rsrch_rpt_offering,ven_rsrch_rpt_dtls,ven_rsrch_rpt_analyst_prof,vendor,broker_analyst WHERE ven_rsrch_rpt_offering.product_id = ven_rsrch_rpt_dtls.product_id and ven_rsrch_rpt_dtls.product_id = ven_rsrch_rpt_analyst_prof.product_id and ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id and vendor.vendor_id = broker_analyst.broker_id AND ven_rsrch_rpt_offering.research_area = 7) y on x.comapanyId = y.companyId";
+    //    public static final String MAIN_QUERY = "select x.comapanyId,x.companyName,x.isinCode, x.style,x.mcap,x.sector,x.cmp,x.prcDt,x.pe,x.patGrth,y.companyId,y.prdId,y.broker,y.recommType,y.tgtPrice,y.prcAtRecomm,y.upside,y.rptName,y.rsrchDt,y.award,y.cfa,y.analystName,y.analystType,y.vendorId,y.ly,y.userName,y.rptDesc,x.epsGrth,x.epsttm,y.productNameAsReportName,y.days_diff from(SELECT rsch_sub_area_company_dtls.company_id comapanyId,rsch_sub_area_company_dtls.company_name companyName,rsch_sub_area_company_dtls.isin_code isinCode,rsch_area_stock_class.stock_class_name style,market_cap_def.market_cap_name mcap,research_sub_area.description sector,stock_current_prices.close_price cmp,stock_current_prices.price_date prcDt,stock_current_info.pe pe,stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth,stock_current_info.eps_ttm epsttm FROM rsch_sub_area_company_dtls,rsch_area_stock_class,market_cap_def,comp_mkt_cap_type,research_sub_area,stock_current_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND research_sub_area.research_area_id = 7 AND country.country_id = ?) x inner join (SELECT distinct ven_rsrch_rpt_dtls.company_id companyId,ven_rsrch_rpt_offering.product_id prdId, vendor.company broker ,ven_rsrch_rpt_dtls.rsrch_recomm_type recommType,ven_rsrch_rpt_dtls.target_price tgtPrice,ven_rsrch_rpt_dtls.price_at_recomm prcAtRecomm,((ven_rsrch_rpt_dtls.target_price - ven_rsrch_rpt_dtls.price_at_recomm) / ven_rsrch_rpt_dtls.price_at_recomm) * 100 upside, ven_rsrch_rpt_dtls.report_name rptName,ven_rsrch_rpt_dtls.rep_date rsrchDt,ven_rsrch_rpt_analyst_prof.analyst_awards award,ven_rsrch_rpt_analyst_prof.anayst_cfa_charter cfa, ven_rsrch_rpt_analyst_prof.analyst_name analystName,vendor.analystType analystType,vendor.vendor_id vendorId,ven_rsrch_rpt_offering.launched_year ly,vendor.username userName,ven_rsrch_rpt_dtls.rsrch_report_desc rptDesc,ven_rsrch_rpt_offering.product_name productNameAsReportName,datediff(curdate(),STR_TO_DATE(ven_rsrch_rpt_dtls.rep_date, '%d/%m/%Y')) days_diff FROM ven_rsrch_rpt_offering,ven_rsrch_rpt_dtls,ven_rsrch_rpt_analyst_prof,vendor,broker_analyst WHERE ven_rsrch_rpt_offering.product_id = ven_rsrch_rpt_dtls.product_id and ven_rsrch_rpt_dtls.product_id = ven_rsrch_rpt_analyst_prof.product_id and ven_rsrch_rpt_offering.vendor_id = vendor.vendor_id and vendor.vendor_id = broker_analyst.broker_id AND ven_rsrch_rpt_offering.research_area = 7) y on x.comapanyId = y.companyId";
+    public static final String MAIN_QUERY = "SELECT rsch_sub_area_company_dtls.company_id comapanyId, rsch_sub_area_company_dtls.company_name companyName, rsch_sub_area_company_dtls.isin_code isinCode, rsch_area_stock_class.stock_class_name style, market_cap_def.market_cap_name mcap, research_sub_area.description sector, stock_current_prices.close_price cmp, stock_current_prices.price_date prcDt, stock_current_info.pe pe, stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth, stock_current_info.eps_ttm epsttm, vendor_report_data.research_report_for_id companyId, vendor_report_data.product_id prdId, vendor_report_data.vendor_company broker, vendor_report_data.rsrch_recomm_type recommType, vendor_report_data.target_price tgtPrice, vendor_report_data.price_at_recomm prcAtRecomm, ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100 upside, vendor_report_data.report_name rptName, vendor_report_data.report_date rsrchDt, vendor_report_data.analyst_awards award, vendor_report_data.anayst_cfa_charter cfa, vendor_report_data.analyst_name analystName, vendor_report_data.vendor_analyst_type analystType, vendor_report_data.vendor_id vendorId, vendor_report_data.launched_year ly, vendor_report_data.vendor_name userName, vendor_report_data.rsrch_report_desc rptDesc, vendor_report_data.product_name productNameAsReportName FROM rsch_sub_area_company_dtls,      rsch_area_stock_class,      market_cap_def,      comp_mkt_cap_type,      research_sub_area,      stock_current_prices,      stock_current_info,      vendor_report_data WHERE   rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id";
     public static final String BROKER_RANK_SELECT_QUERY = "select broker_analyst.broker_id,broker_analyst.broker_rank,market_cap_def.market_cap_name from broker_analyst,market_cap_def where broker_analyst.market_cap_id = market_cap_def.market_cap_id order by broker_id asc, broker_rank ";
 
     private static final String LARGE_CAP = "Large Cap";
@@ -29,26 +30,26 @@ public class ResearchReportUtil {
     private static Map<String, ColumnNameWithType> sortByColumnNameMap = new LinkedHashMap<>();
 
     static {
-        sortByColumnNameMap.put("company", new ColumnNameWithType("x.companyName", ColumnType.STRING));
-        sortByColumnNameMap.put("style", new ColumnNameWithType("x.style", ColumnType.STRING));
-        sortByColumnNameMap.put("mcap", new ColumnNameWithType("x.mcap", ColumnType.STRING));
-        sortByColumnNameMap.put("sector", new ColumnNameWithType("x.sector", ColumnType.STRING));
-        sortByColumnNameMap.put("broker", new ColumnNameWithType("y.broker", ColumnType.STRING));
-        sortByColumnNameMap.put("brokerRank", new ColumnNameWithType("y.vendorId", ColumnType.STRING));
-        sortByColumnNameMap.put("since", new ColumnNameWithType("y.ly", ColumnType.STRING));
-        sortByColumnNameMap.put("awarded", new ColumnNameWithType("y.award", ColumnType.STRING));
-        sortByColumnNameMap.put("researchedByCfa", new ColumnNameWithType("y.cfa", ColumnType.STRING));
-        sortByColumnNameMap.put("cmp", new ColumnNameWithType("x.cmp", ColumnType.DECIMAL));
-        sortByColumnNameMap.put("priceDate", new ColumnNameWithType("x.prcDt", ColumnType.DATE));
-        sortByColumnNameMap.put("pe", new ColumnNameWithType("x.pe", ColumnType.DECIMAL));
-        sortByColumnNameMap.put("_3YrPatGrowth", new ColumnNameWithType("x.patGrth", ColumnType.DECIMAL));
-        sortByColumnNameMap.put("recommType", new ColumnNameWithType("y.recommType", ColumnType.STRING));
-        sortByColumnNameMap.put("targetPrice", new ColumnNameWithType("y.tgtPrice", ColumnType.DECIMAL));
-        sortByColumnNameMap.put("priceAtRecomm", new ColumnNameWithType("y.prcAtRecomm", ColumnType.DECIMAL));
-        sortByColumnNameMap.put("upside", new ColumnNameWithType("y.upside", ColumnType.DECIMAL));
-        sortByColumnNameMap.put("report", new ColumnNameWithType("y.rptName", ColumnType.STRING));
-        sortByColumnNameMap.put("researchDate", new ColumnNameWithType("y.rsrchDt", ColumnType.DATE));
-        sortByColumnNameMap.put("analystName", new ColumnNameWithType("y.analystName", ColumnType.STRING));
+        sortByColumnNameMap.put("company", new ColumnNameWithType("rsch_sub_area_company_dtls.company_name", ColumnType.STRING));
+        sortByColumnNameMap.put("style", new ColumnNameWithType("rsch_area_stock_class.stock_class_name", ColumnType.STRING));
+        sortByColumnNameMap.put("mcap", new ColumnNameWithType("market_cap_def.market_cap_name", ColumnType.STRING));
+        sortByColumnNameMap.put("sector", new ColumnNameWithType("research_sub_area.description", ColumnType.STRING));
+        sortByColumnNameMap.put("broker", new ColumnNameWithType("vendor_report_data.vendor_company", ColumnType.STRING));
+        sortByColumnNameMap.put("brokerRank", new ColumnNameWithType("vendor_report_data.vendor_id", ColumnType.STRING));
+        sortByColumnNameMap.put("since", new ColumnNameWithType("vendor_report_data.launched_year", ColumnType.STRING));
+        sortByColumnNameMap.put("awarded", new ColumnNameWithType("vendor_report_data.analyst_awards", ColumnType.STRING));
+        sortByColumnNameMap.put("researchedByCfa", new ColumnNameWithType("vendor_report_data.anayst_cfa_charter", ColumnType.STRING));
+        sortByColumnNameMap.put("cmp", new ColumnNameWithType("stock_current_prices.close_price", ColumnType.DECIMAL));
+        sortByColumnNameMap.put("priceDate", new ColumnNameWithType("stock_current_prices.price_date", ColumnType.DATE));
+        sortByColumnNameMap.put("pe", new ColumnNameWithType("stock_current_info.pe", ColumnType.DECIMAL));
+        sortByColumnNameMap.put("_3YrPatGrowth", new ColumnNameWithType("stock_current_info.3_yr_pat_growth", ColumnType.DECIMAL));
+        sortByColumnNameMap.put("recommType", new ColumnNameWithType("vendor_report_data.rsrch_recomm_type", ColumnType.STRING));
+        sortByColumnNameMap.put("targetPrice", new ColumnNameWithType("vendor_report_data.target_price", ColumnType.DECIMAL));
+        sortByColumnNameMap.put("priceAtRecomm", new ColumnNameWithType("vendor_report_data.price_at_recomm", ColumnType.DECIMAL));
+        sortByColumnNameMap.put("upside", new ColumnNameWithType("(((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100)", ColumnType.DECIMAL));
+        sortByColumnNameMap.put("report", new ColumnNameWithType("vendor_report_data.report_name", ColumnType.STRING));
+        sortByColumnNameMap.put("researchDate", new ColumnNameWithType("vendor_report_data.report_date", ColumnType.DATE));
+        sortByColumnNameMap.put("analystName", new ColumnNameWithType("vendor_report_data.analyst_name", ColumnType.STRING));
     }
 
     private ResearchReportUtil() {
@@ -185,28 +186,28 @@ public class ResearchReportUtil {
         // MCap filter applied
         if (equityFilter.getBrokerRank() == null) {
             if (equityFilter.getMcap() != null) {
-                conditionQueryList.add(getConditionQuery("x.mcap", getActualMCapList(equityFilter.getMcap())));
+                conditionQueryList.add(getConditionQuery("market_cap_def.market_cap_name", getActualMCapList(equityFilter.getMcap())));
             }
         }
 
         // #Style filter applied
         if (equityFilter.getStyle() != null) {
-            conditionQueryList.add(getConditionQuery("x.style", equityFilter.getStyle()));
+            conditionQueryList.add(getConditionQuery("rsch_area_stock_class.stock_class_name", equityFilter.getStyle()));
         }
 
         // AnalystType filter applied
         if (equityFilter.getAnalystType() != null) {
-            conditionQueryList.add(getConditionQuery("y.analystType", equityFilter.getAnalystType()));
+            conditionQueryList.add(getConditionQuery("vendor_report_data.vendor_analyst_type", equityFilter.getAnalystType()));
         }
 
         // ResearchBroker filter applied
         if (equityFilter.getResearchedBroker() != null) {
-            conditionQueryList.add(getConditionQuery("y.broker", equityFilter.getResearchedBroker()));
+            conditionQueryList.add(getConditionQuery("vendor_report_data.vendor_company", equityFilter.getResearchedBroker()));
         }
 
         // Recommendation Type filter applied
         if (equityFilter.getRecommType() != null) {
-            conditionQueryList.add(getConditionQuery("y.recommType", equityFilter.getRecommType()));
+            conditionQueryList.add(getConditionQuery("vendor_report_data.rsrch_recomm_type", equityFilter.getRecommType()));
         }
 
         // Others filter applied "others":["Award Winning Analyst","Research
@@ -219,10 +220,10 @@ public class ResearchReportUtil {
                 String otherOption = others.get(0);
                 if (otherOption.contains("Award")) {
                     otherOptionList.add("Y");
-                    conditionSqlSb.append(" y.award in (").append(getInClauseItems(otherOptionList)).append(")");
+                    conditionSqlSb.append(" vendor_report_data.analyst_awards in (").append(getInClauseItems(otherOptionList)).append(")");
                 } else if (otherOption.contains("CFA")) {
                     otherOptionList.add("Y");
-                    conditionSqlSb.append(" y.cfa in (").append(getInClauseItems(otherOptionList)).append(")");
+                    conditionSqlSb.append(" vendor_report_data.anayst_cfa_charter in (").append(getInClauseItems(otherOptionList)).append(")");
                 }
             } else if (others.size() == 2) {
                 String otherOption1 = others.get(0);
@@ -231,12 +232,12 @@ public class ResearchReportUtil {
                 // expect following order for others option
                 if (otherOption1 != null && otherOption1.contains("Award")) {
                     otherOptionList.add("Y");
-                    conditionSqlSb.append(" y.award in (").append(getInClauseItems(otherOptionList)).append(")");
+                    conditionSqlSb.append(" vendor_report_data.analyst_awards in (").append(getInClauseItems(otherOptionList)).append(")");
                 }
 
                 if (otherOption2 != null && otherOption2.contains("CFA")) {
                     otherOptionList.add("Y");
-                    conditionSqlSb.append(" and y.cfa in (").append(getInClauseItems(otherOptionList)).append(")");
+                    conditionSqlSb.append(" and vendor_report_data.anayst_cfa_charter in (").append(getInClauseItems(otherOptionList)).append(")");
                 }
             } else {
                 // throw Invalid Filter Exception TODO
@@ -249,7 +250,7 @@ public class ResearchReportUtil {
         if (equityFilter.getUpside() != null && !equityFilter.getUpside().isEmpty()) {
             List<String> upsideValueList = equityFilter.getUpside();
             // Upside Formula
-            String filterCondition = "y.upside";
+            String filterCondition = "(((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100)";
             List<String> upsideConditions = new ArrayList<>();
             StringBuilder upsideStrSb = new StringBuilder();
 
@@ -297,12 +298,12 @@ public class ResearchReportUtil {
 
         // #Sector filter applied
         if (equityFilter.getIndustry() != null) {
-            conditionQueryList.add(getConditionQuery("x.sector", equityFilter.getIndustry()));
+            conditionQueryList.add(getConditionQuery("research_sub_area.description", equityFilter.getIndustry()));
         }
 
         //Filter Company Profile Page->Research Report Tab - This is very specific filter when you click on pdf report from Company Profile Page->Research Report Tab in UI
-        if(equityFilter.getProductId()!=null){
-            conditionQueryList.add(getConditionQuery("y.prdId", equityFilter.getProductId()));
+        if (equityFilter.getProductId() != null) {
+            conditionQueryList.add(getConditionQuery("vendor_report_data.product_id", equityFilter.getProductId()));
         }
 
         String mergeConditionQuery = mergeConditionQuery(conditionQueryList);
@@ -314,30 +315,30 @@ public class ResearchReportUtil {
             mergeConditionQuerySb.append(" and (");
             boolean needOR = false;
             if (researchDateList.contains("< 3 months")) {
-                mergeConditionQuerySb.append("(days_diff<90)");
+                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y'))<90)");
                 needOR = true;
             }
             if (researchDateList.contains("3 - 6 months")) {
                 if (needOR) {
                     mergeConditionQuerySb.append(" OR ");
                 }
-                mergeConditionQuerySb.append("(days_diff >=90 and days_diff<180)");
+                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y')) >=90 and (datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y'))<180)");
                 needOR = true;
             }
             if (researchDateList.contains("6 - 12 months")) {
                 if (needOR) {
                     mergeConditionQuerySb.append(" OR ");
                 }
-                mergeConditionQuerySb.append("(days_diff >=180 and days_diff<720)");
+                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y')) >=180 and (datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y'))<720)");
                 needOR = true;
             }
             if (researchDateList.contains("> 12 months")) {
                 if (needOR) {
                     mergeConditionQuerySb.append(" OR ");
                 }
-                mergeConditionQuerySb.append("(days_diff >=720)");
+                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y')) >=720)");
             }
-            mergeConditionQuerySb.append(")");
+            mergeConditionQuerySb.append("))");
         }
         return mergeConditionQuerySb.toString();
     }
@@ -350,7 +351,7 @@ public class ResearchReportUtil {
     private static String mergeConditionQuery(List<String> conditionQueryList) {
         StringBuilder conditionSqlSb = new StringBuilder();
         if (!conditionQueryList.isEmpty()) {
-            conditionSqlSb.append(" where ");
+            conditionSqlSb.append(" and ");
             if (conditionQueryList.size() == 1) {
                 conditionSqlSb.append(conditionQueryList.get(0));
             } else {

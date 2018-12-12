@@ -5,6 +5,7 @@ import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.Roles;
 import com.finvendor.model.VendorResearchReportsResearchDetails;
+import com.finvendor.model.vo.VendorReportFile;
 import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
 import com.finvendor.server.common.commondao.AbstractCommonDao;
 import com.finvendor.serverwebapi.resources.researchreport.sector.dto.IndustrySubTypeNameDto;
@@ -121,13 +122,13 @@ public class CommonDaoImpl extends AbstractCommonDao {
 	@Override
 	public Pair<Long, InputStream> fetchBlobFromTable(String namedQuery,Map<Object, Object> paramMap) throws RuntimeException {
 		org.hibernate.Query query = getNamedQuery(namedQuery, paramMap);
-		List<VendorResearchReportsResearchDetails> researchDetailsList = query.list();
+		List<VendorReportFile> researchDetailsList = query.list();
 
 		InputStream inputStream=null;
 		Long length = null;
 		try {
-			for (VendorResearchReportsResearchDetails researchReportsResearchDetails : researchDetailsList) {
-				Blob rsrchUploadReportBlob = researchReportsResearchDetails.getRsrchUploadReport();
+			for (VendorReportFile vendorReportFile : researchDetailsList) {
+				Blob rsrchUploadReportBlob = vendorReportFile.getReportFile();
 				inputStream = rsrchUploadReportBlob.getBinaryStream();
 				length= rsrchUploadReportBlob.length();
 				break;

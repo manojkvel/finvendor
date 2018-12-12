@@ -82,6 +82,8 @@
         <mapping class="com.finvendor.model.IndiceDetails"></mapping>
         <mapping class="com.finvendor.model.MutualFundMaster"></mapping>
         <mapping class="com.finvendor.model.MutualFundHistoricalNav"></mapping>
+        <mapping class="com.finvendor.model.vo.VendorReportData"></mapping>
+        <mapping class="com.finvendor.model.vo.VendorReportFile"></mapping>
 
     </session-factory>
 

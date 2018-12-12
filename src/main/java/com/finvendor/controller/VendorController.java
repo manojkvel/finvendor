@@ -2972,7 +2972,7 @@ public class VendorController {
      * }
      */
 
-    @RequestMapping(value = "addResearchReportsOffering", method = RequestMethod.POST)
+    @RequestMapping(value = "addResearchReportsOfferingG", method = RequestMethod.POST)
     public ModelAndView addResearchReportsOffering(HttpServletRequest request, HttpServletResponse response,
                                                    @RequestParam(value = "productId", required = false) String productId,
                                                    @RequestParam(value = "productName", required = true) String productName,
@@ -3099,7 +3099,7 @@ public class VendorController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "deleteResearchReportsOffering", method = RequestMethod.POST)
+    @RequestMapping(value = "deleteResearchReportsOfferingG", method = RequestMethod.POST)
     public ModelAndView deleteResearchReportsOffering(HttpServletRequest request,
                                                       @RequestParam(value = "productId", required = true) String productId) {
 
@@ -3137,7 +3137,7 @@ public class VendorController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "listResearchReportsOffering", method = {RequestMethod.GET})
+    @RequestMapping(value = "listResearchReportsOfferingG", method = {RequestMethod.GET})
     @ResponseBody
     public String listResearchReportsOffering(HttpServletRequest request, HttpServletResponse response) {
         String userName = null;
@@ -3157,7 +3157,7 @@ public class VendorController {
         }
     }
 
-    @RequestMapping(value = "fetchResearchReportsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "fetchResearchReportsOfferingG", method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody
     VendorResearchReportsOfferingJson fetchResearchReportsOffering(HttpServletRequest request,
                                                                    HttpServletResponse response, @RequestParam(value = "productId", required = true) String productId) {
