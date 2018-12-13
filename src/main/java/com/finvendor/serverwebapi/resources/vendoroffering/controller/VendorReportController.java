@@ -152,7 +152,12 @@ public class VendorReportController {
     @DeleteMapping(value = "/vendorreports/delete")
     public ResponseEntity<?> deleteVo(@RequestParam(value = "productId") String productId) {
         try {
-            service.deleteVo(productId);
+            boolean deleteVoDataStatus = service.deleteVoData(productId);
+            if (deleteVoDataStatus) {
+                service.deleteVoFile(productId);
+            } else {
+                throw new Exception("Unable to delete VO for given productId: " + productId);
+            }
             return new ResponseEntity<>("Vo deleted for product id: " + productId, HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("VendorReportController -> deleteVo(...) method", e);

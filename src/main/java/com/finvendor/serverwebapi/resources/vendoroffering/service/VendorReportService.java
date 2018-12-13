@@ -1,6 +1,5 @@
 package com.finvendor.serverwebapi.resources.vendoroffering.service;
 
-import com.finvendor.model.vo.VendorReportFile;
 import com.finvendor.serverwebapi.resources.vendoroffering.dao.VendorReportDataDao;
 import com.finvendor.serverwebapi.resources.vendoroffering.dao.VendorReportFileDao;
 import com.finvendor.serverwebapi.resources.vendoroffering.dto.VendorReportDataDto;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Blob;
 import java.util.List;
 
 @Service
@@ -50,15 +48,24 @@ public class VendorReportService {
 
     public VendorReportFileDto findVoFile(String productId) throws Exception {
         try {
-            return fileDao.findReportFile(productId);
+            return fileDao.findVoFile(productId);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
-    public void deleteVo(String productId) throws Exception {
+    public boolean deleteVoData(String productId) throws Exception {
         try {
-            dataDao.deleteVoData(productId);
+          return dataDao.deleteVoData(productId);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+
+    public void deleteVoFile(String productId) throws Exception {
+        try {
+            fileDao.deleteVoFile(productId);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }

@@ -262,12 +262,15 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
         }
     }
 
-    public void deleteVoData(String productId) throws RuntimeException {
+    public boolean deleteVoData(String productId) throws RuntimeException {
+        boolean deleteStatus;
         try {
             VendorReportData byId = findById(productId);
             delete(byId);
+            deleteStatus=true;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            deleteStatus = false;
         }
+        return deleteStatus;
     }
 }

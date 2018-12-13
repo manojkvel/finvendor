@@ -116,7 +116,7 @@ public final class WebUtil {
 
         //researchBroker as CompanyName - earlier was "UserName"
         filterTypeMap.put("researchBroker",
-                new SqlData("SELECT ven_rsrch_rpt_offering.vendor_id,vendor.company FROM ven_rsrch_rpt_offering,vendor where ven_rsrch_rpt_offering.vendor_id=vendor.vendor_id  group by ven_rsrch_rpt_offering.vendor_id order by vendor.company",
+                new SqlData("select a.vendor_id,a.vendor_company from vendor_report_data a group by a.vendor_id order by a.vendor_company",
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("companyName", null));
                         }},
@@ -131,7 +131,7 @@ public final class WebUtil {
 
         //recommType
         filterTypeMap.put("recommType",
-                new SqlData("SELECT product_id,rsrch_recomm_type FROM ven_rsrch_rpt_dtls group by rsrch_recomm_type",
+                new SqlData("select a.product_id,a.rsrch_recomm_type from vendor_report_data a group by a.rsrch_recomm_type order by a.rsrch_recomm_type",
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("rsrchRecommType", null));
                         }},

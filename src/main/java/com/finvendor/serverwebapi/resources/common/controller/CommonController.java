@@ -47,6 +47,8 @@ public class CommonController {
     @Resource(name = "userService")
     private UserService userService;
 
+    private static Map<String, String> filterDataMap = new HashMap<>();
+
     @Transactional(readOnly = true)
     @GetMapping(value = "/researchreportfor")
     public ResponseEntity<?> getResearchReportFor(@RequestParam("researchAreaId") String researchAreaId) {
@@ -84,10 +86,14 @@ public class CommonController {
                 case "marketcapital":
                     return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_MCAP_JSON, HttpStatus.OK);
             }
-            final SqlData sqlData = WebUtil.filterTypeMap.get(type);
-            final String jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(),
-                    sqlData.getConitionValue(), sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(),
-                    sqlData.getColIndex());
+            String jsonResult = filterDataMap.get(type);
+            if (jsonResult == null) {
+                final SqlData sqlData = WebUtil.filterTypeMap.get(type);
+                jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(),
+                        sqlData.getConitionValue(), sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(),
+                        sqlData.getColIndex());
+                filterDataMap.put(type, jsonResult);
+            }
             return new ResponseEntity<>(jsonResult, HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("WebApiCommon -> getResearchFilterData(...) method", e);

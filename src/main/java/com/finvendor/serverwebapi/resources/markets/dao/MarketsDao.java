@@ -32,7 +32,7 @@ public class MarketsDao {
     private static final String INDEX_SUMMARY_QUERY = "select b.closing, b.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
     private static final String INDEX_MARQUEE_QUERY = "select a.name,b.closing,b.point_change,b.percent_change from indice a,indice_details b where a.index_details_id=b.indice_details_id order by a.name";
     private static final String STOCK_MARQUEE_QUERY_FOR_INDEX = "select a.company_id,a.company_name,a.close,a.price_change,a.price_percent_change,a.isin from markets a,index_comp_details b where a.company_id=b.company_id and b.index_id=? order by a.company_name";
-
+    static Map<String, String> BSEIndexPrice = new LinkedHashMap<>();
     @Autowired
     private ICommonDao commonDao;
 
@@ -514,14 +514,30 @@ public class MarketsDao {
         String resultString;
         try {
             List<IndexDto> indexDtos = new ArrayList<>();
+
             for (Object[] row : rows) {
                 String indexName = row[0] != null ? row[0].toString().trim() : "";
                 String level = row[1] != null ? row[1].toString().trim() : "";
                 String pointChange = row[2] != null ? row[2].toString().trim() : "";
                 String percentChange = row[3] != null ? row[3].toString().trim() : "";
                 IndexDto dto = new IndexDto();
+
+                Pair<String, String> indexIdFamilyPair = getIndexId(indexName);
+                String indexId = indexIdFamilyPair.getElement1();
+                String family = indexIdFamilyPair.getElement2();
+                if ("BSE".equals(family)) {
+                    String indexNameCode = bseIndexNameCodeMap.get(indexName);
+                    String i_close = BSEIndexPrice.get(indexNameCode);
+                    if (i_close == null) {
+                        String result = getPriceFromBSE(indexNameCode);
+                        i_close = JsonUtil.getValue(result, "I_close");
+                        BSEIndexPrice.put(indexNameCode, i_close);
+                    }
+                    dto.setClosing(i_close);
+                } else {
+                    dto.setClosing(level);
+                }
                 dto.setIndexName(indexName);
-                dto.setClosing(level);
                 dto.setPointChange(pointChange);
                 dto.setPercentChange(percentChange);
                 indexDtos.add(dto);

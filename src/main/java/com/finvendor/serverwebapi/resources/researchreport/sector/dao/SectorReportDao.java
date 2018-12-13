@@ -25,10 +25,10 @@ public class SectorReportDao {
     private static final Logger log = LoggerFactory.getLogger(SectorReportDao.class.getName());
     private final String SECTOR_TYPE_QUERY = "select a.research_area_id, a.description from research_sub_area a where a.research_area_id=2 and a.description!='All sectors' order by a.description";
     private final String SECTOR_SUB_TYPE_QUERY = "select a.rsch_area_id, a.industry_sub_type_name from industry_sub_type a where a.rsch_area_id=2 order by a.industry_sub_type_name;";
-    private final String RESEARCHED_BY_QUERY = "select b.vendor_id,b.username from ven_rsrch_rpt_offering a,vendor b where a.research_area=2 and a.vendor_id=b.vendor_id";
-    private final String ANALYST_TYPE_QUERY = "select b.vendor_id,b.analystType from ven_rsrch_rpt_offering a,vendor b where a.research_area=2 and a.vendor_id=b.vendor_id";
-    private final String REPORT_TONE_QUERY = "select b.product_id,b.rsrch_recomm_type from ven_rsrch_rpt_offering a,ven_rsrch_rpt_dtls b where a.research_area=2 and a.product_id=b.product_id ";//and b.rsrch_recomm_type !='none'";
-    private final String REPORT_FREQUENCY_QUERY = "select b.product_id, b.report_name from ven_rsrch_rpt_offering a,ven_rsrch_rpt_dtls b where a.research_area=2 and a.product_id=b.product_id";
+    private final String ANALYST_TYPE_QUERY = "select a.product_id,a.vendor_analyst_type from vendor_report_data a where a.research_area_id='2' group by a.vendor_analyst_type order by a.vendor_analyst_type";
+    private final String RESEARCHED_BY_QUERY = "select a.product_id,a.vendor_name from vendor_report_data a where a.research_area_id='2' order by a.vendor_name";
+    private final String REPORT_TONE_QUERY = "select a.product_id,a.rsrch_recomm_type from vendor_report_data a where a.research_area_id='2' and a.rsrch_recomm_type !='none' order by a.rsrch_recomm_type";
+    private final String REPORT_FREQUENCY_QUERY = "select a.product_id,a.report_name from vendor_report_data a where a.research_area_id='2' order by a.report_name";
     private final String RESEARCH_DATE_QUERY = "select b.product_id, UNIX_TIMESTAMP(DATE_FORMAT(STR_TO_DATE(  b.rep_date, '%d/%m/%Y'), '%Y-%m-%d')) dateinmillis from ven_rsrch_rpt_offering a,ven_rsrch_rpt_dtls b where a.research_area=2 and a.product_id=b.product_id";
 
     private final String INDUSTRY_SUB_TYPE_NAMES = "select c.id,trim(c.industry_sub_type_name) from research_area a, research_sub_area b, industry_sub_type c where a.research_area_id=b.research_area_id and c.rsch_sub_area_id=b.research_sub_area_id and  b.research_area_id=? order by trim(c.industry_sub_type_name) asc";
