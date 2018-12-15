@@ -1687,7 +1687,7 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'GET',
-			url:  "listResearchReportsOffering",
+			url:  "/system/api/vendorreports/findall",
 			cache:false,
 			success : function(response) {
 				var response = JSON.parse(response);
@@ -1940,83 +1940,39 @@ jQuery(document).ready(function() {
 			$("#research_application #vo_upload_report_file_name").addClass("error_field");
 			return false;
 		}
-
-
-		/*if(window.localStorage.researh_report_for_summary_details == undefined || JSON.parse(window.localStorage.researh_report_for_summary_details).length == 0) {
-			if(vo_rr_report_for != null) {
-				$("#research_application #vo_rr_report_for").parent().find("button").removeClass("error_field");
-			} else {
-				$("#research_application #vo_rr_report_for").parent().find("button").addClass("error_field");
-			}
-
-			if(vo_datepicker != '') {
-				$("#research_application #vo_datepicker").removeClass("error_field");
-			} else {
-				$("#research_application #vo_datepicker").addClass("error_field");
-			}
-
-			if(vo_target_price != '') {
-				$("#research_application #vo_target_price").removeClass("error_field");
-			} else {
-				$("#research_application #vo_target_price").addClass("error_field");
-			}
-
-			if(vo_eqrrv_recommendation_type != null) {
-				$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").removeClass("error_field");
-			} else {
-				$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").addClass("error_field");
-			}
-
-			if(vo_eqrrv_report_desc != '') {
-				$("#research_application #vo_eqrrv_report_desc").removeClass("error_field");
-			} else {
-				$("#research_application #vo_eqrrv_report_desc").addClass("error_field");
-			}
-
-
-		} else {
-			$("#research_application #vo_rr_report_for").parent().find("button").removeClass("error_field");
-			$("#research_application #vo_datepicker").removeClass("error_field");
-			$("#research_application #vo_target_price").removeClass("error_field");
-			$("#research_application #vo_eqrrv_recommendation_type").parent().find("button").removeClass("error_field");
-			$("#research_application #vo_eqrrv_report_desc").removeClass("error_field");
-		}
-		
-		researhReportList = window.localStorage.researh_report_for_summary_details;
-		*/
 		
 		
 		var rsrch_report_offeringfile = new FormData();
 		rsrch_report_offeringfile.append("productId", productId);
 		rsrch_report_offeringfile.append("productName", productName);
 		rsrch_report_offeringfile.append("productDescription", productDescription);
-		rsrch_report_offeringfile.append("rcResearchArea", rcResearchArea);
-		rsrch_report_offeringfile.append("rcResearchSubArea", (rcResearchSubArea != null)? ',' + rcResearchSubArea + ',' : '');
+		rsrch_report_offeringfile.append("researchAreaId", rcResearchArea);
+		rsrch_report_offeringfile.append("researchSubAreaId", (rcResearchSubArea != null)? ',' + rcResearchSubArea + ',' : '');
 		rsrch_report_offeringfile.append("launchedYear", launchedYear);
-		rsrch_report_offeringfile.append("rdSuitability", (suitability != null) ? ',' + suitability + ',' : '');
-		rsrch_report_offeringfile.append("rdSubsriptionCostUSDperannum", (costPerAnnum != '') ? costPerAnnum : '0.0');
-		rsrch_report_offeringfile.append('vo_rr_report_for', vo_rr_report_for);
-		rsrch_report_offeringfile.append('vo_datepicker', vo_datepicker);
-		rsrch_report_offeringfile.append('vo_price_at_recomm', vo_price_at_recomm);
-		rsrch_report_offeringfile.append('vo_target_price', vo_target_price);
-		rsrch_report_offeringfile.append('vo_eqrrv_recommendation_type', vo_eqrrv_recommendation_type);
+		rsrch_report_offeringfile.append("suitability", (suitability != null) ? ',' + suitability + ',' : '');
+		rsrch_report_offeringfile.append("subsriptionCostPerAnnum", (costPerAnnum != '') ? costPerAnnum : '0.0');
+		rsrch_report_offeringfile.append('researchReportForId', vo_rr_report_for);
+		rsrch_report_offeringfile.append('reportDate', vo_datepicker);
+		rsrch_report_offeringfile.append('priceAtRecomm', vo_price_at_recomm);
+		rsrch_report_offeringfile.append('targetPrice', vo_target_price);
+		rsrch_report_offeringfile.append('recommendationType', vo_eqrrv_recommendation_type);
 
 		if(isEdit) {
 			if(vo_upload_report.files[0] == undefined) {
-				rsrch_report_offeringfile.append('vo_upload_report', new Blob([]));
+				rsrch_report_offeringfile.append('reportFile', new Blob([]));
 			} else {
-				rsrch_report_offeringfile.append('vo_upload_report', vo_upload_report.files[0]);
+				rsrch_report_offeringfile.append('reportFile', vo_upload_report.files[0]);
 			}
 		} else {
-			rsrch_report_offeringfile.append('vo_upload_report', vo_upload_report.files[0]);
+			rsrch_report_offeringfile.append('reportFile', vo_upload_report.files[0]);
 		}
 
-		rsrch_report_offeringfile.append('vo_upload_report', vo_upload_report.files[0]);
-		rsrch_report_offeringfile.append('vo_eqrrv_report_desc', vo_eqrrv_report_desc);
-		rsrch_report_offeringfile.append('vo_eqrrv_report_access', vo_eqrrv_report_access);
-		rsrch_report_offeringfile.append('vo_analystName', vo_analystName);
-		rsrch_report_offeringfile.append('vo_analystCfaCharter', vo_analystCfaCharter);
-		rsrch_report_offeringfile.append('vo_analystwithawards', vo_analystwithawards);
+		rsrch_report_offeringfile.append('reportFile', vo_upload_report.files[0]);
+		rsrch_report_offeringfile.append('reportDescription', vo_eqrrv_report_desc);
+		rsrch_report_offeringfile.append('reportAccess', vo_eqrrv_report_access);
+		rsrch_report_offeringfile.append('analystName', vo_analystName);
+		rsrch_report_offeringfile.append('analystWithCfaCharter', vo_analystCfaCharter);
+		rsrch_report_offeringfile.append('analystWithAwards', vo_analystwithawards);
 		
 		
 
@@ -2059,7 +2015,7 @@ jQuery(document).ready(function() {
 
 			$.ajax({
 				type: 'POST',
-				url:  "addResearchReportsOffering",
+				url:  "/system/api/vendorreports/create",
 				data: rsrch_report_offeringfile,
 			    processData: false,
 			    contentType: false,
