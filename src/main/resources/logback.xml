@@ -16,8 +16,8 @@
 
     <appender name="FILE-AUDIT"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/home/finvendo/logs/finvendor.log</file>
-        <!--<file>d:\\tmp\\finvendor.log</file>-->
+        <!--<file>/home/finvendo/logs/finvendor.log</file>-->
+        <file>d:\\tmp\\finvendor.log</file>
         <!--<file>/Users/wonderfulmani/Maninder_RJIL/finvendor/finvendor.log</file>-->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
