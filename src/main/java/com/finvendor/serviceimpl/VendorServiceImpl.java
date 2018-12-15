@@ -5,7 +5,7 @@ import com.finvendor.dao.VendorDao;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.FileDetails;
 import com.finvendor.model.*;
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.service.VendorService;
 import com.finvendor.util.VendorEnum;
 import org.hibernate.SQLQuery;

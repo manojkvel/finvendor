@@ -13,10 +13,10 @@ import com.finvendor.json.bean.VendorTradingApplicationsOfferingJson;
 import com.finvendor.model.*;
 import com.finvendor.model.VendorDataCoverage;
 import com.finvendor.model.VendorDistribution;
-import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.companyprofile.pricealert.controller.ConsumerPriceAlertMailController;
-import com.finvendor.serverwebapi.resources.companyprofile.pricealert.service.ConsumerPriceAlertService;
-import com.finvendor.serverwebapi.webutil.WebUtil;
+import com.finvendor.api.exception.WebApiException;
+import com.finvendor.api.resources.companyprofile.pricealert.controller.ConsumerPriceAlertMailController;
+import com.finvendor.api.resources.companyprofile.pricealert.service.ConsumerPriceAlertService;
+import com.finvendor.api.webutil.WebUtil;
 import com.finvendor.service.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.RequestConstans;
@@ -63,11 +63,11 @@ public class VendorController {
     @Resource(name = "finvendorProperties")
     private Properties finvendorProperties;
 
-    @Autowired
-    private ConsumerPriceAlertMailController consumerPriceAlertMailController;
-
-    @Autowired
-    private ConsumerPriceAlertService consumerPriceAlertService;
+//    @Autowired
+//    private ConsumerPriceAlertMailController consumerPriceAlertMailController;
+//
+//    @Autowired
+//    private ConsumerPriceAlertService consumerPriceAlertService;
 
     @RequestMapping(value = "vendorMyStats", method = RequestMethod.GET)
     public ModelAndView vendorMyStats(HttpServletRequest request) {
@@ -2972,7 +2972,7 @@ public class VendorController {
      * }
      */
 
-    @RequestMapping(value = "addResearchReportsOffering", method = RequestMethod.POST)
+    @RequestMapping(value = "addResearchReportsOfferingG", method = RequestMethod.POST)
     public ModelAndView addResearchReportsOffering(HttpServletRequest request, HttpServletResponse response,
                                                    @RequestParam(value = "productId", required = false) String productId,
                                                    @RequestParam(value = "productName", required = true) String productName,
@@ -3070,11 +3070,11 @@ public class VendorController {
 
                 //Send mail to logged in user if vendor upload new report
                 String companyName = vendorService.getCompanyName(researchReportFor);
-                if (consumerPriceAlertService.isResearchPriceSet(companyName)) {
-                    consumerPriceAlertMailController.sendResearchReportAlertMail(userName, researchReportFor, companyName);
-                } else {
-                    LogUtil.logInfo("***Research Resport Alert is not set for comapny=" + companyName);
-                }
+//                if (consumerPriceAlertService.isResearchPriceSet(companyName)) {
+////                    consumerPriceAlertMailController.sendResearchReportAlertMail(userName, researchReportFor, companyName);
+////                } else {
+////                    LogUtil.logInfo("***Research Resport Alert is not set for comapny=" + companyName);
+////                }
             } else {
                 Blob blob = null;
                 VendorResearchReportsResearchDetails existingResearchDetails = vendorService
@@ -3099,7 +3099,7 @@ public class VendorController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "deleteResearchReportsOffering", method = RequestMethod.POST)
+    @RequestMapping(value = "deleteResearchReportsOfferingG", method = RequestMethod.POST)
     public ModelAndView deleteResearchReportsOffering(HttpServletRequest request,
                                                       @RequestParam(value = "productId", required = true) String productId) {
 
@@ -3137,7 +3137,7 @@ public class VendorController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "listResearchReportsOffering", method = {RequestMethod.GET})
+    @RequestMapping(value = "listResearchReportsOfferingG", method = {RequestMethod.GET})
     @ResponseBody
     public String listResearchReportsOffering(HttpServletRequest request, HttpServletResponse response) {
         String userName = null;
@@ -3157,7 +3157,7 @@ public class VendorController {
         }
     }
 
-    @RequestMapping(value = "fetchResearchReportsOffering", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "fetchResearchReportsOfferingG", method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody
     VendorResearchReportsOfferingJson fetchResearchReportsOffering(HttpServletRequest request,
                                                                    HttpServletResponse response, @RequestParam(value = "productId", required = true) String productId) {
