@@ -3,9 +3,9 @@ package com.finvendor.api.resources.companyprofile.watchlist.dao;
 import com.finvendor.model.CompanyWatchList;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyWatchListPojo;
-import com.finvendor.server.common.commondao.GenericDao;
-import com.finvendor.server.common.commondao.ICommonDao;
-import com.finvendor.server.common.commondao.IStockCurrentPriceDao;
+import com.finvendor.common.commondao.GenericDao;
+import com.finvendor.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.IStockCurrentPriceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,8 @@
 package com.finvendor.api.resources.vendoroffering.dao;
 
 import com.finvendor.model.vo.VendorReportFile;
-import com.finvendor.server.common.commondao.GenericDao;
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.GenericDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.resources.vendoroffering.dto.VendorReportDataDto;
 import com.finvendor.api.resources.vendoroffering.dto.VendorReportFileDto;
 import org.springframework.beans.factory.annotation.Autowired;

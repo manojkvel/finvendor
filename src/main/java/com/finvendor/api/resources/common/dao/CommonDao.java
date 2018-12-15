@@ -1,6 +1,6 @@
 package com.finvendor.api.resources.common.dao;
 
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.ICommonDao;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

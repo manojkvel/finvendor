@@ -1,8 +1,8 @@
 package com.finvendor.api.resources.vendoroffering.dao;
 
 import com.finvendor.model.vo.VendorReportData;
-import com.finvendor.server.common.commondao.GenericDao;
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.GenericDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.resources.researchreport.equity.dto.result.impl.EquityResearchResult;
 import com.finvendor.api.resources.vendoroffering.dto.VendorReportDataDto;
 import org.apache.commons.lang.StringUtils;

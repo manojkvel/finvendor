@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.researchreport.mf.controller;
 
 import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.server.common.infra.persist.IFilePersist;
+import com.finvendor.common.infra.persist.IFilePersist;
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.resources.WebUriConstants;
 import org.slf4j.Logger;

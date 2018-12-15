@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.metrics.dao;
 
-import com.finvendor.server.common.commondao.GenericDao;
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.GenericDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.resources.metrics.dto.MetricsDto;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;

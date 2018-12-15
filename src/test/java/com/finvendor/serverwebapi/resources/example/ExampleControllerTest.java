@@ -2,9 +2,9 @@ package com.finvendor.serverwebapi.resources.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finvendor.model.Example;
-import com.finvendor.serverwebapi.resources.example.controller.ExampleController;
-import com.finvendor.serverwebapi.resources.example.dto.ExampleDto;
-import com.finvendor.serverwebapi.resources.example.service.ExampleService;
+import com.finvendor.api.resources.example.controller.ExampleController;
+import com.finvendor.api.resources.example.dto.ExampleDto;
+import com.finvendor.api.resources.example.service.ExampleService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

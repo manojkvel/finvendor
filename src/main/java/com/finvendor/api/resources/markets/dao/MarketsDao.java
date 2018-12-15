@@ -1,14 +1,14 @@
-package com.finvendor.serverwebapi.resources.markets.dao;
+package com.finvendor.api.resources.markets.dao;
 
 import com.finvendor.common.util.CommonCodeUtil;
 import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
-import com.finvendor.server.common.commondao.ICommonDao;
-import com.finvendor.serverwebapi.resources.markets.dto.CustomMarketsDto;
-import com.finvendor.serverwebapi.resources.markets.dto.IndexDto;
-import com.finvendor.serverwebapi.resources.markets.dto.indexstock.IndexData;
-import com.finvendor.serverwebapi.resources.markets.dto.indexstock.StockData;
+import com.finvendor.common.commondao.ICommonDao;
+import com.finvendor.api.resources.markets.dto.CustomMarketsDto;
+import com.finvendor.api.resources.markets.dto.IndexDto;
+import com.finvendor.api.resources.markets.dto.indexstock.IndexData;
+import com.finvendor.api.resources.markets.dto.indexstock.StockData;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;

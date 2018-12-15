@@ -3,7 +3,7 @@ package com.finvendor.api.resources.researchreport.equity.util;
 
 import com.finvendor.common.constant.AppConstant;
 import com.finvendor.common.util.Pair;
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;

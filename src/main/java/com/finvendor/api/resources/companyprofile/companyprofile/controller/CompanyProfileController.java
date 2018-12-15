@@ -1,8 +1,8 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.controller;
 
 import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.serverwebapi.exception.WebApiException;
-import com.finvendor.serverwebapi.resources.WebUriConstants;
+import com.finvendor.api.exception.WebApiException;
+import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.companyprofile.companyprofile.service.CompanyProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

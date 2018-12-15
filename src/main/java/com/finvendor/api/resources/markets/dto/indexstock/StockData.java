@@ -1,6 +1,6 @@
 package com.finvendor.api.resources.markets.dto.indexstock;
 
-import com.finvendor.serverwebapi.resources.markets.dto.CustomMarketsDto;
+import com.finvendor.api.resources.markets.dto.CustomMarketsDto;
 
 import java.util.List;
 

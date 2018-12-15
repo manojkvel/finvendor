@@ -4,7 +4,7 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
-import com.finvendor.serverwebapi.resources.WebUriConstants;
+import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.companyprofile.pricealert.service.ConsumerPriceAlertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

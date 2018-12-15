@@ -1,7 +1,7 @@
-package com.finvendor.serverwebapi.resources.metrics;
+package com.finvendor.api.resources.metrics;
 
-import com.finvendor.serverwebapi.resources.metrics.service.MetricService;
-import com.finvendor.serverwebapi.resources.metrics.service.MetricsType;
+import com.finvendor.api.resources.metrics.service.MetricService;
+import com.finvendor.api.resources.metrics.service.MetricsType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;

@@ -2,7 +2,7 @@ package com.finvendor.api.resources.companyprofile.companyprofile.dao;
 
 import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.resources.companyprofile.companyprofile.dto.CompanyProfileData;
 import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
 import com.finvendor.api.resources.researchreport.equity.dto.filter.ResearchReportFilter;

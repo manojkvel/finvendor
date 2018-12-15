@@ -1,4 +1,4 @@
-package com.finvendor.server.common.infra.parser;
+package com.finvendor.common.infra.parser;
 
 /**
  *

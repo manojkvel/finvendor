@@ -1,8 +1,8 @@
 package com.finvendor.api.resources.admin.controller;
 
 import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.serverwebapi.resources.WebUriConstants;
-import com.finvendor.serverwebapi.resources.admin.dao.DataFeedDao;
+import com.finvendor.api.resources.WebUriConstants;
+import com.finvendor.api.resources.admin.dao.DataFeedDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

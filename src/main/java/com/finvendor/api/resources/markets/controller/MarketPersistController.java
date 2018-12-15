@@ -2,8 +2,8 @@ package com.finvendor.api.resources.markets.controller;
 
 import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.server.common.infra.persist.IFilePersist;
-import com.finvendor.server.common.infra.upload.IFileUpload;
+import com.finvendor.common.infra.persist.IFilePersist;
+import com.finvendor.common.infra.upload.IFileUpload;
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.resources.WebUriConstants;
 import org.apache.commons.lang.StringUtils;

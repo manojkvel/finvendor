@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.homepage.dao;
 
 
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.resources.homepage.controller.HomePageController;
 import com.finvendor.api.resources.homepage.dto.HomePageSearchData;
 import org.slf4j.Logger;

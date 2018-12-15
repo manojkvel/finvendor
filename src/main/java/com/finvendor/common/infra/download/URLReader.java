@@ -1,4 +1,4 @@
-package com.finvendor.server.common.infra.download;
+package com.finvendor.common.infra.download;
 
 import com.finvendor.common.util.LogUtil;
 

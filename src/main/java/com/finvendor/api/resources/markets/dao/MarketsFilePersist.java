@@ -2,7 +2,7 @@ package com.finvendor.api.resources.markets.dao;
 
 import com.finvendor.common.constant.AppConstant;
 import com.finvendor.model.Markets;
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.ICommonDao;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;

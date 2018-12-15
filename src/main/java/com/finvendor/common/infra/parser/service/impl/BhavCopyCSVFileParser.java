@@ -1,6 +1,6 @@
 package com.finvendor.common.infra.parser.service.impl;
 
-import com.finvendor.server.common.infra.parser.StockPrice;
+import com.finvendor.common.infra.parser.StockPrice;
 import com.finvendor.common.infra.parser.service.AbstractFileParser;
 import org.springframework.stereotype.Service;
 

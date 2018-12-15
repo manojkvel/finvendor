@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.example.dao;
 
 import com.finvendor.model.Example;
-import com.finvendor.server.common.commondao.GenericDao;
+import com.finvendor.common.commondao.GenericDao;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.markets.service;
 
-import com.finvendor.server.common.infra.download.URLReader;
-import com.finvendor.server.common.infra.upload.IFileUpload;
+import com.finvendor.common.infra.download.URLReader;
+import com.finvendor.common.infra.upload.IFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

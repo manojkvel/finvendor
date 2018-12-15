@@ -3,7 +3,7 @@ package com.finvendor.api.resources.metrics.dao;
 import com.finvendor.common.util.CommonCodeUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.resources.metrics.dto.EquityResearchAnalyticsDto;
 import org.apache.commons.io.FileUtils;
 import org.hibernate.SQLQuery;

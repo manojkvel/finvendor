@@ -1,8 +1,8 @@
 package com.finvendor.api.resources.researchreport.mf.dao;
 
 import com.finvendor.model.MutualFundMaster;
-import com.finvendor.server.common.commondao.GenericDao;
-import com.finvendor.server.common.commondao.ICommonDao;
+import com.finvendor.common.commondao.GenericDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.resources.researchreport.mf.controller.MfProfileController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

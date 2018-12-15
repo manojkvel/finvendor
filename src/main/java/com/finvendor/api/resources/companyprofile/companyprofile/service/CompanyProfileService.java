@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.service;
 
 import com.finvendor.common.util.LocaleUtil;
-import com.finvendor.server.common.commondao.DaoUtils;
+import com.finvendor.common.commondao.DaoUtils;
 import com.finvendor.api.resources.companyprofile.companyprofile.dao.CompanyProfileDao;
 import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
 import com.finvendor.api.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
