@@ -293,6 +293,7 @@ jQuery(document).ready(function() {
 			var productId = $(this).parents('tr').attr('data-id');
 			//console.log(productId);
 			var dasboardReportJson = {
+				type: "sector",
 				equitysearchjson : window.localStorage.getItem("equitysearchjson"),
 				productId : productId,
 				vendorName : vendorName,

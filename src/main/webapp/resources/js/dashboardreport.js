@@ -87,7 +87,14 @@ function getDashboardResearchReport() {
     var sortByValue = dasboardReportJson.sortByValue;
     var orderBy = dasboardReportJson.orderBy;
 
-    var url = "/system/api/dashboardResearchReports?type=equity" + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
+    var url = "";
+    if(dasboardReportJson.type == "sector") {
+        url = "/system/api/sectorreports/dashboard?pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
+    } else {
+        url = "/system/api/dashboardResearchReports?type=equity" + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
+    }
+    // var url = "/system/api/dashboardResearchReports?type=equity" + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
+    
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
