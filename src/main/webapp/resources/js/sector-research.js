@@ -251,24 +251,31 @@ jQuery(document).ready(function() {
 		isProgressLoader(true);
 
 		getRecordStats("equity", jsonData, perPageMaxRecords).then(function(stats) {
-			stats = JSON.parse(stats);
-			firstPageNumber = stats.firstPageNumber;
-			lastPageNumber = stats.lastPageNumber;
-			totalRecords = stats.totalRecords;
-			$("#total_records_count").html(totalRecords + " Results");
-			//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
-			console.log("pageNumber: " + pageNumber);
-			getResearchReport(jsonData, "equity", pageNumber).then(function(serverResponse) {
-				//console.log(serverResponse);
-				$("#fv_equity_research_report_vendor_search .paging_container").remove();
-				var response = JSON.parse(serverResponse);
-				getEquityListHtml(response);
-				isProgressLoader(false);
+			if(stats != "") {
 
-			}, function(error) {
+				stats = JSON.parse(stats);
+				firstPageNumber = stats.firstPageNumber;
+				lastPageNumber = stats.lastPageNumber;
+				totalRecords = stats.totalRecords;
+				$("#total_records_count").html(totalRecords + " Results");
+				//perPageMaxRecords = Math.ceil(totalRecords / lastPageNumber);
+				console.log("pageNumber: " + pageNumber);
+				getResearchReport(jsonData, "equity", pageNumber).then(function(serverResponse) {
+					//console.log(serverResponse);
+					$("#fv_equity_research_report_vendor_search .paging_container").remove();
+					var response = JSON.parse(serverResponse);
+					getEquityListHtml(response);
+					isProgressLoader(false);
+
+				}, function(error) {
+					isProgressLoader(false);
+					$("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
+				});
+			} else {
 				isProgressLoader(false);
 				$("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
-			});
+
+			}
 		}, function(error) {
 			isProgressLoader(false);
 			$("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
@@ -557,17 +564,17 @@ jQuery(document).ready(function() {
 			}
 
 			
-			localEquitySearchJson.mcap = marketCapitalData;
+			localEquitySearchJson.sectorType = marketCapitalData;
 
 			if(marketCapitalData.length === 0) {
-				delete localEquitySearchJson.mcap;
+				delete localEquitySearchJson.sectorType;
 			}
 			
 			resetPaginationCount();
 			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 			$("#search_by_marketcapital ul input").prop('checked', false);
 			// $("#search_by_marketcapital ul input").eq(0).prop('checked', true);
 		}
@@ -616,7 +623,7 @@ jQuery(document).ready(function() {
 	var styleFilterData = [];
 
     /**
-     * Function to get style from localstorage and get equity list
+     * Function to get sectorSubType from localstorage and get equity list
      */
 	var getSectorSubTypeData = function() {
 		if(!isLoggedInUser()) {
@@ -634,10 +641,10 @@ jQuery(document).ready(function() {
 				$("#search_by_style ul input").eq(0).prop('checked', false);
 			}
 			
-			localEquitySearchJson.style = styleFilterData;
+			localEquitySearchJson.sectorSubType = styleFilterData;
 
 			if(styleFilterData.length === 0) {
-				delete localEquitySearchJson.style;
+				delete localEquitySearchJson.sectorSubType;
 			}
 			
 			resetPaginationCount();
@@ -699,7 +706,7 @@ jQuery(document).ready(function() {
 	var getAnalystTypeFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('Equity Research', 'Filter by AnalystType onClick', 'Filter by AnalystType');
+			sendGAevents('Sector Research', 'Filter by AnalystType onClick', 'Filter by AnalystType');
 
 			addRemoveItemFromArray(analystTypeFilterData, $(this).attr('data-value'));
 
@@ -777,7 +784,7 @@ jQuery(document).ready(function() {
 	var getResearchBrokerFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('Equity Research', 'Filter by ResearchBroker onClick', 'Filter by ResearchBroker');
+			sendGAevents('Sector Research', 'Filter by ResearchBy onClick', 'Filter by ResearchBy');
 
 			addRemoveItemFromArray(researchBrokerFilterData, $(this).attr('data-value'));
 
@@ -792,10 +799,10 @@ jQuery(document).ready(function() {
 			}
 
 			
-			localEquitySearchJson.researchedBroker = researchBrokerFilterData;
+			localEquitySearchJson.researchedBy = researchBrokerFilterData;
 
 			if(researchBrokerFilterData.length === 0) {
-				delete localEquitySearchJson.researchedBroker;
+				delete localEquitySearchJson.researchedBy;
 			}
 			
 			resetPaginationCount();
@@ -930,12 +937,12 @@ jQuery(document).ready(function() {
 	var recommTypeData = [];
 
     /**
-     * Function to get recommendation Type from localstorage and get equity list
+     * Function to get report Tone from localstorage and get equity list
      */
 	var getReportToneFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('Equity Research', 'Filter by RecommendationType onClick', 'Filter by RecommendationType');
+			sendGAevents('Sector Research', 'Filter by ReportTone onClick', 'Filter by ReportTone');
 
 			addRemoveItemFromArray(recommTypeData, $(this).attr('data-value'));
 
@@ -950,10 +957,10 @@ jQuery(document).ready(function() {
 			}
 
 			
-			localEquitySearchJson.recommType = recommTypeData;
+			localEquitySearchJson.reportTone = recommTypeData;
 
 			if(recommTypeData.length === 0) {
-				delete localEquitySearchJson.recommType;
+				delete localEquitySearchJson.reportTone;
 			}
 			
 			resetPaginationCount();
@@ -1010,12 +1017,12 @@ jQuery(document).ready(function() {
 	var upsideFilterData = [];
 
     /**
-     * Function to get upside from localstorage and get equity list
+     * Function to get report Frequency from localstorage and get equity list
      */
 	var getReportFrequencyFilterData = function() {
 		if(!isLoggedInUser()) {
 
-			sendGAevents('Equity Research', 'Filter by Upside onClick', 'Filter by Upside');
+			sendGAevents('Sector Research', 'Filter by ReportFrequency onClick', 'Filter by ReportFrequency');
 
 			addRemoveItemFromArray(upsideFilterData, $(this).attr('data-value'));
 
@@ -1030,10 +1037,10 @@ jQuery(document).ready(function() {
 			}
 
 			
-			localEquitySearchJson.upside = upsideFilterData;
+			localEquitySearchJson.reportFrequency = upsideFilterData;
 
 			if(upsideFilterData.length === 0) {
-				delete localEquitySearchJson.upside;
+				delete localEquitySearchJson.reportFrequency;
 			}
 			
 			resetPaginationCount();
