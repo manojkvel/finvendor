@@ -236,7 +236,8 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
                 }
             }
         }
-        return name.deleteCharAt(name.length()-1).toString();
+        logger.info("name: {}",name);
+        return name.length()>=1?name.deleteCharAt(name.length()-1).toString():"";
 
     }
 
