@@ -66,10 +66,9 @@ public class VendorReportController {
                                     @RequestParam(value = "analystWithAwards", required = false) String analystWithAwards,
                                     @RequestParam(value = "reportFile") CommonsMultipartFile reportFile) {
         try {
-//            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-//            String userName = loggedInUser.getUsername();
-            //            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-            String userName = "ays_broker";//loggedInUser.getUsername();
+            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+            String userName = loggedInUser.getUsername();
+
             Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
 
             VendorReportDataDto vendorReportDataDto = new VendorReportDataDto();
@@ -133,7 +132,7 @@ public class VendorReportController {
             String resultJson = JsonUtil.createJsonFromParamsMap(dataMap);
             return new ResponseEntity<>(resultJson, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("VendorReportController -> saveVO(...) method", e);
+            ErrorUtil.logError("VendorReportController -> findVo(...) method", e);
             return ErrorUtil.getError(VO_OP.getCode(), VO_OP.getUserMessage(), e);
         }
     }
@@ -141,15 +140,15 @@ public class VendorReportController {
     @GetMapping(value = "/vendorreports/findall")
     public ResponseEntity<?> findAllVo(HttpServletRequest request, HttpServletResponse response) {
         try {
-//            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-            String userName = "ays_broker";//loggedInUser.getUsername();
+            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+            String userName = loggedInUser.getUsername();
             List<VendorReportDataDto> voData = service.findAllVo(userName);
             Map<String, Object> dataMap = new LinkedHashMap<>();
             dataMap.put("data", voData);
             String resultJson = JsonUtil.createJsonFromParamsMap(dataMap);
             return new ResponseEntity<>(resultJson, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("VendorReportController -> saveVO(...) method", e);
+            ErrorUtil.logError("VendorReportController -> findAllVo(...) method", e);
             return ErrorUtil.getError(VO_OP.getCode(), VO_OP.getUserMessage(), e);
         }
     }
