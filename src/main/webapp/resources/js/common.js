@@ -644,9 +644,6 @@ function getIndexMarquee() {
 	});
 }
 
-getStockMarquee();
-getIndexMarquee();
-
 function getMarketIndexData() {
 	localStorage.setItem('indexName', $(this).attr('data-indexName'));
 }

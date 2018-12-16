@@ -326,6 +326,10 @@
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	</div>
 </body>
+<script type="text/javascript">
+	getStockMarquee();
+	getIndexMarquee();
+</script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/mail-functions.js"></script>
 
