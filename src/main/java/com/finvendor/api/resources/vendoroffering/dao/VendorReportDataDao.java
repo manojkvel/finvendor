@@ -29,7 +29,7 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
         try {
             VendorReportData vendorReportDataEntity;
             productId = dto.getProductId();
-            if (productId == null) {
+            if (StringUtils.isEmpty(productId)) {
                 productId = UUID.randomUUID().toString();
                 vendorReportDataEntity = new VendorReportData();
                 vendorReportDataEntity.setProductId(productId);
