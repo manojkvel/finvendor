@@ -13,6 +13,7 @@ import com.finvendor.service.UserService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,7 @@ public class VendorReportController {
     @Autowired
     private UserService userService;
 
-    @PutMapping(value = "/vendorreports/create")
+    @PostMapping(value = "/vendorreports/create")
     public ResponseEntity<?> saveVO(HttpServletRequest request, HttpServletResponse response,
                                     @RequestParam(value = "productId", required = false) String productId,
                                     @RequestParam(value = "productName") String productName,
