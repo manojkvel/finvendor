@@ -1709,7 +1709,7 @@ jQuery(document).ready(function() {
 					
 					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].researchAreaName + " | " + response[i].researchAreaCompanyName + " | " + response[i].launchedYear  + "</h4>" +
+							"<h4>" + response[i].researchAreaId + " | " + response[i].researchSubAreaId + " | " + response[i].launchedYear  + "</h4>" +
 							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
