@@ -2972,7 +2972,7 @@ public class VendorController {
      * }
      */
 
-    @RequestMapping(value = "addResearchReportsOfferingG", method = RequestMethod.POST)
+    @RequestMapping(value = "addResearchReportsOffering", method = RequestMethod.POST)
     public ModelAndView addResearchReportsOffering(HttpServletRequest request, HttpServletResponse response,
                                                    @RequestParam(value = "productId", required = false) String productId,
                                                    @RequestParam(value = "productName", required = true) String productName,
@@ -3028,7 +3028,7 @@ public class VendorController {
                     .getModelObjectById(ResearchArea.class, researchAreaId);
             researchReportsOffering.setResearchArea(researchArea);
             researchReportsOffering.setResearchSubArea(researchSubAreas);
-            researchReportsOffering.setIndustrySubTypeId(researchReportFor);
+//            researchReportsOffering.setIndustrySubTypeId(researchReportFor);
             researchReportsOffering.setVendor(vendor);
 
             coverageDetails.setProductId(productId);
@@ -3040,11 +3040,11 @@ public class VendorController {
                 researchDetails.setSubCostPy(Float.parseFloat(costPerAnnum));
             }
 
-            if (researchArea.getResearchAreaId() == 2) {
-                researchDetails.setRsrchReportFor("");
-            } else {
+//            if (researchArea.getResearchAreaId() == 2) {
+//                researchDetails.setRsrchReportFor("");
+//            } else {
                 researchDetails.setRsrchReportFor(researchReportFor);
-            }
+//            }
             researchDetails.setRepDate(researchReportDate);
             researchDetails.setRsrchRecommType(researchRecommendationType);
             researchDetails.setPriceAtRecomm(vo_price_at_recomm);
@@ -3099,7 +3099,7 @@ public class VendorController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "deleteResearchReportsOfferingG", method = RequestMethod.POST)
+    @RequestMapping(value = "deleteResearchReportsOffering", method = RequestMethod.POST)
     public ModelAndView deleteResearchReportsOffering(HttpServletRequest request,
                                                       @RequestParam(value = "productId", required = true) String productId) {
 
@@ -3137,7 +3137,7 @@ public class VendorController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "listResearchReportsOfferingG", method = {RequestMethod.GET})
+    @RequestMapping(value = "listResearchReportsOffering", method = {RequestMethod.GET})
     @ResponseBody
     public String listResearchReportsOffering(HttpServletRequest request, HttpServletResponse response) {
         String userName = null;
@@ -3157,7 +3157,7 @@ public class VendorController {
         }
     }
 
-    @RequestMapping(value = "fetchResearchReportsOfferingG", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "fetchResearchReportsOffering", method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody
     VendorResearchReportsOfferingJson fetchResearchReportsOffering(HttpServletRequest request,
                                                                    HttpServletResponse response, @RequestParam(value = "productId", required = true) String productId) {
@@ -3212,7 +3212,7 @@ public class VendorController {
                     // rdSubsriptionCostUSDperannum
                     vendorOffering.setSubCostPy(offering.getResearchDetails().getSubCostPy());
 
-                    vendorOffering.setIndustrySubTypeId(offering.getIndustrySubTypeId());
+//                    vendorOffering.setIndustrySubTypeId(offering.getIndustrySubTypeId());
 
                     // vo_rr_report_for
                     vendorOffering.setRsrchReportFor(offering.getResearchDetails().getRsrchReportFor());

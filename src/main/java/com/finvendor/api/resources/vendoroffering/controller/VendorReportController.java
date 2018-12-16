@@ -1,5 +1,6 @@
 package com.finvendor.api.resources.vendoroffering.controller;
 
+import com.finvendor.api.webutil.WebUtil;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.Vendor;
@@ -42,7 +43,7 @@ public class VendorReportController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/vendorreports/create")
+    @PutMapping(value = "/vendorreports/create")
     public ResponseEntity<?> saveVO(HttpServletRequest request, HttpServletResponse response,
                                     @RequestParam(value = "productId", required = false) String productId,
                                     @RequestParam(value = "productName") String productName,
@@ -64,8 +65,8 @@ public class VendorReportController {
                                     @RequestParam(value = "analystWithAwards", required = false) String analystWithAwards,
                                     @RequestParam(value = "reportFile") CommonsMultipartFile reportFile) {
         try {
-            //User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-            String userName = "ays_broker";//loggedInUser.getUsername();
+            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+            String userName = loggedInUser.getUsername();
             Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
 
             VendorReportDataDto vendorReportDataDto = new VendorReportDataDto();
@@ -137,7 +138,7 @@ public class VendorReportController {
     @GetMapping(value = "/vendorreports/findall")
     public ResponseEntity<?> findAllVo(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String userName = "ays_broker";//WebUtil.getLoggedInUser(request);
+            String userName = WebUtil.getLoggedInUser(request);
             List<VendorReportDataDto> voData = service.findAllVo(userName);
             Map<String, Object> dataMap = new LinkedHashMap<>();
             dataMap.put("data", voData);
