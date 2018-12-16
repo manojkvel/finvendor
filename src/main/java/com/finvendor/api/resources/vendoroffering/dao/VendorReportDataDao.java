@@ -178,14 +178,14 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
             dto.setLaunchedYear(vendorReportDataEntity.getLaunchedYear());
 
             String researchAreaId = vendorReportDataEntity.getResearchAreaId();
-            String nameForResearchReportForId = getNameForResearchReportForId(researchAreaId);
-            logger.info("nameForResearchReportForId: {}", nameForResearchReportForId);
-            dto.setResearchAreaId(nameForResearchReportForId);
+            //String nameForResearchReportForId = getNameForResearchReportForId(researchAreaId);
+            //logger.info("nameForResearchReportForId: {}", nameForResearchReportForId);
+            dto.setResearchAreaId(researchAreaId);
 
             String researchSubAreaId = vendorReportDataEntity.getResearchSubAreaId();
-            String nameForResearchSubAreaId = getNameForResearchSubAreaId(researchSubAreaId);
-            logger.info("nameForResearchSubAreaId: {}", nameForResearchSubAreaId);
-            dto.setResearchSubAreaId(nameForResearchSubAreaId);
+            //String nameForResearchSubAreaId = getNameForResearchSubAreaId(researchSubAreaId);
+            //logger.info("nameForResearchSubAreaId: {}", nameForResearchSubAreaId);
+            dto.setResearchSubAreaId(researchSubAreaId);
 
             dto.setStockFundIssueCovered(vendorReportDataEntity.getStockFundIssueCovered());
             dto.setAccessibility(vendorReportDataEntity.getAccessibility());
