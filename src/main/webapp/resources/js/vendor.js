@@ -2014,7 +2014,7 @@ jQuery(document).ready(function() {
 			}
 
 			$.ajax({
-				type: 'PUT',
+				type: 'POST',
 				url:  "/system/api/vendorreports/create",
 				data: rsrch_report_offeringfile,
 			    processData: false,
