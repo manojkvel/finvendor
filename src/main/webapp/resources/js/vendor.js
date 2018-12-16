@@ -1578,32 +1578,36 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'GET',
-			url:  "fetchResearchReportsOffering",
+			url:  "/system/api/vendorreports/find",
 			data: data,
 			cache:false,
 			success : function(response){
 
+				var response = JSON.parse(response);
+				response = response.data;
+
 				progressLoader(false);
 				$("#research_application").slideDown();
 				$("#research_application_top_card").slideUp();
+				
 				$("#research_application #productId").val(response.productId);
 				$("#research_application #productName").val(response.productName);
 				$("#research_application #productDescription").val(response.productDescription);
 				$("#research_application #launchedYear").val(response.launchedYear);
 
 				getResearchAreaMapping("rcResearchArea");
-				$("#research_application #rcResearchArea").selectpicker('val', response.researchArea);
+				$("#research_application #rcResearchArea").selectpicker('val', response.researchAreaId);
 				
 				getResearchSubAreaMapping('rcResearchArea', 'rcResearchSubArea');
-				$("select[name=rcResearchSubArea]").selectpicker('val', response.researchSubArea.split(','));
+				$("select[name=rcResearchSubArea]").selectpicker('val', response.researchSubAreaId.split(','));
 
 
 
 				
 				$("#research_application #rdSuitability").selectpicker('val', response.suitability.split(','));
 
-				if(response.subCostPy != 0) {
-					$("#research_application #rdSubsriptionCostUSDperannum").val(response.subCostPy);
+				if(response.subscriptionCostPerAnnum != 0) {
+					$("#research_application #rdSubsriptionCostUSDperannum").val(response.subscriptionCostPerAnnum);
 				}
 
 
@@ -1611,35 +1615,35 @@ jQuery(document).ready(function() {
 					var responseList = JSON.parse(responseList);
 					var $option='';
 					for (var val in responseList) {
-						$option += "<option value='" + responseList[val].companyId + "'>" + responseList[val].companyName + "</option>";   
+						$option += "<option value='" + responseList[val].id + "'>" + responseList[val].name + "</option>";   
 					}
 					$("select#vo_rr_report_for").empty();
 					$("select[name=vo_rr_report_for]").append($option);	
 					$("select[name=vo_rr_report_for]").selectpicker('refresh');
 
-					$("#research_application #vo_rr_report_for").selectpicker('val', response.rsrchReportFor);
+					$("#research_application #vo_rr_report_for").selectpicker('val', response.researchReportForId);
 				}, function(error) {
 
 				});
 
-				$("#research_application #vo_datepicker").val(response.repDate);
+				$("#research_application #vo_datepicker").val(response.reportDate);
 				
-				if(response.targetPrice != 0){
-					$("#research_application #vo_target_price").val(response.targetPrice);
+				if(response.researchTargetPrice != 0){
+					$("#research_application #vo_target_price").val(response.researchTargetPrice);
 
 				}
-				$("#research_application #vo_eqrrv_recommendation_type").selectpicker('val', response.rsrchRecommType);
+				$("#research_application #vo_eqrrv_recommendation_type").selectpicker('val', response.recommType);
 			//	$("#research_application #vo_upload_report").val(response.rsrchUploadReport);
-				$('#research_application #vo_upload_report_file_name').val(response.rsrchUploadReport);
-				$("#research_application #vo_eqrrv_report_desc").val(response.rsrchReportDesc);
+				$('#research_application #vo_upload_report_file_name').val(response.reportName);
+				$("#research_application #vo_eqrrv_report_desc").val(response.repeortDescription);
 				$("#research_application #vo_price_at_recomm").val(response.priceAtRecomm);
-				$("#research_application #vo_eqrrv_report_access").selectpicker('val', response.rsrchReportAccess);
+				$("#research_application #vo_eqrrv_report_access").selectpicker('val', response.reportAccess);
 				$("#research_application #vo_analystName").val(response.analystName);
 
 				//$("#research_application #vo_upload_report").val(response.rsrchUploadReport.replace(/^.*[\\\/]/, ''));
 				
-				$("#research_application #vo_analystCfaCharter").prop("checked",(response.anaystCfaCharter == 'Y') ? true : false);
-				$("#research_application #vo_analystwithawards").prop("checked",(response.analystAwards == 'Y') ? true : false);
+				$("#research_application #vo_analystCfaCharter").prop("checked",(response.analystCfaCharter == 'Y') ? true : false);
+				$("#research_application #vo_analystwithawards").prop("checked",(response.analystAwarded == 'Y') ? true : false);
 
 			},
 			error : function(data, textStatus, jqXHR){
@@ -1664,9 +1668,9 @@ jQuery(document).ready(function() {
 		}
 
 		$.ajax({
-			type: 'POST',
-			url:  "deleteResearchReportsOffering",
-			data: data,
+			type: 'DELETE',
+			url:  "/system/api/vendorreports/delete?productId=" + productId,
+			data: '',
 			cache:false,
 			success : function(output){
 				//progressLoader(false);
@@ -1691,6 +1695,7 @@ jQuery(document).ready(function() {
 			cache:false,
 			success : function(response) {
 				var response = JSON.parse(response);
+				response = response.data;
 				var totalCount = response.length;
 				if(totalCount === 0) {
 					progressLoader(false);
@@ -1704,8 +1709,8 @@ jQuery(document).ready(function() {
 					
 					listResearchReportsOfferingHTML += "<div class='research_application_list list' id='" + response[i].productId  + "_id'>" +
 							"<h3>" + response[i].productName  + "</h3>" +
-							"<h4>" + response[i].researchAreaName + " | " + response[i].researchAreaCompanyName + " | " + response[i].lauchedYear  + "</h4>" +
-							"<p>" + response[i].productDesc  + "</p>" +
+							"<h4>" + response[i].researchAreaName + " | " + response[i].researchAreaCompanyName + " | " + response[i].launchedYear  + "</h4>" +
+							"<p>" + response[i].productDescription  + "</p>" +
 							"<div class='action_btn'>" +
 								"<a class='btn delete_btn'>Delete</a>" +
 								"<a class='btn edit_btn'>Edit</a>" +
@@ -1989,28 +1994,6 @@ jQuery(document).ready(function() {
 			if(vo_upload_report_file_name == '') {
 				alert("Please select upload report");
 				return;
-			}
-
-			var data = {
-				"productId" : productId,
-				"productName" : productName,
-				"productDescription" : productDescription,
-				"researchAreaId" : rcResearchArea,
-				"researchSubAreaId" : (rcResearchSubArea != null)? ',' + rcResearchSubArea + ',' : '',
-				"launchedYear" : launchedYear,
-				"suitability" : (suitability != null) ? ',' + suitability + ',' : '',
-				"subsriptionCostPerAnnum" : (costPerAnnum != '') ? costPerAnnum : '0.0',
-				'researchReportForId' : vo_rr_report_for,
-				'reportDate' : vo_datepicker,
-				'targetPrice' : vo_target_price,
-				'recommendationType' : vo_eqrrv_recommendation_type,
-				'priceAtRecomm' : vo_price_at_recomm,
-				'reportFile' : rsrch_report_offeringfile,
-				'reportDescription' : vo_eqrrv_report_desc,
-				'reportAccess' : vo_eqrrv_report_access,
-				'analystName' : vo_analystName,
-				'analystWithAwards' : vo_analystwithawards,
-				'analystWithCfaCharter' : vo_analystCfaCharter
 			}
 
 			$.ajax({
