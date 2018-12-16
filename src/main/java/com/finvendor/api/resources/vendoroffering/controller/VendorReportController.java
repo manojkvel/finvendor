@@ -66,8 +66,10 @@ public class VendorReportController {
                                     @RequestParam(value = "analystWithAwards", required = false) String analystWithAwards,
                                     @RequestParam(value = "reportFile") CommonsMultipartFile reportFile) {
         try {
-            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-            String userName = loggedInUser.getUsername();
+//            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+//            String userName = loggedInUser.getUsername();
+            //            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+            String userName = "ays_broker";//loggedInUser.getUsername();
             Vendor vendor = userService.getUserDetailsByUsername(userName).getVendor();
 
             VendorReportDataDto vendorReportDataDto = new VendorReportDataDto();
@@ -139,7 +141,8 @@ public class VendorReportController {
     @GetMapping(value = "/vendorreports/findall")
     public ResponseEntity<?> findAllVo(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String userName = WebUtil.getLoggedInUser(request);
+//            User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+            String userName = "ays_broker";//loggedInUser.getUsername();
             List<VendorReportDataDto> voData = service.findAllVo(userName);
             Map<String, Object> dataMap = new LinkedHashMap<>();
             dataMap.put("data", voData);

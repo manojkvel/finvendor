@@ -58,7 +58,7 @@ public class CommonController {
                 researchReportFor = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(), researchAreaId);
             } else if ("2".equals(researchAreaId)) {
                 String INDUSTRY_SUB_TYPE_NAMES = "select a.id,trim(a.industry_sub_type_name) name from industry_sub_type a where a.rsch_area_id=2 order by trim(a.industry_sub_type_name)";
-                researchReportFor = commonDao.getIndustrySubTypes(INDUSTRY_SUB_TYPE_NAMES, new String[]{researchAreaId});
+                researchReportFor = commonDao.getIndustrySubTypes(INDUSTRY_SUB_TYPE_NAMES, null);
             }
             return new ResponseEntity<>(researchReportFor, HttpStatus.OK);
         } catch (Exception e) {
