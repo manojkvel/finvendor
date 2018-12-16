@@ -198,6 +198,7 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
             dto.setRecommType(vendorReportDataEntity.getResearchRecommType());
             dto.setPriceAtRecomm(vendorReportDataEntity.getPriceAtRecomm());
             dto.setRepeortDescription(vendorReportDataEntity.getResearchReportDesc());
+            dto.setAnalystName(vendorReportDataEntity.getAnalystName());
             dto.setReportAccess(vendorReportDataEntity.getResearchReportAccess());
             dto.setReportName(vendorReportDataEntity.getReportName());
             dto.setAnalystAwarded(vendorReportDataEntity.getAnalystAward());
@@ -210,22 +211,10 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
 
     private String getNameForResearchReportForId(String researchReportForId) {
 
-        String query;
         String name = "";
-        SQLQuery nativeQuery = null;
-        switch (researchReportForId) {
-            case "7": //Equity
-                query = "select company_id, company_name from rsch_sub_area_company_dtls where rsch_sub_area_id in( SELECT research_sub_area_id FROM research_sub_area where research_area_id=7) and company_id=? order by company_name";
-                nativeQuery = commonDao.getNativeQuery(query, new String[]{researchReportForId});
-                break;
-            case "2": //Sector
-                query = "select a.rsch_area_id, a.industry_sub_type_name from industry_sub_type a where a.rsch_area_id=2 and a.id=?";
-                nativeQuery = commonDao.getNativeQuery(query, new String[]{researchReportForId});
-                break;
-            default:
-                name = "NA";
-                break;
-        }
+        String query = "select research_area_id,description from research_area a where research_area_id=?";
+        SQLQuery nativeQuery = commonDao.getNativeQuery(query, new String[]{researchReportForId});
+
         List<Object[]> rows = nativeQuery.list();
         for (Object[] row : rows) {
             name = row[1] != null ? row[1].toString() : "";
@@ -235,14 +224,19 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
     }
 
     private String getNameForResearchSubAreaId(String researchSubAreaId) {
-        String name = "";
-        String query = "select a.research_sub_area_id,a.description from research_sub_area a where a.research_sub_area_id=?";
-        SQLQuery nativeQuery = commonDao.getNativeQuery(query, new String[]{researchSubAreaId});
-        List<Object[]> rows = nativeQuery.list();
-        for (Object[] row : rows) {
-            name = row[1] != null ? row[1].toString() : "";
+        StringBuilder name = new StringBuilder();
+        String[] ids=researchSubAreaId.split(",");
+        for(String id:ids) {
+            if(!StringUtils.isEmpty(id)) {
+                String query = "select a.research_sub_area_id,a.description from research_sub_area a where a.research_sub_area_id=?";
+                SQLQuery nativeQuery = commonDao.getNativeQuery(query, new String[]{id.trim()});
+                List<Object[]> rows = nativeQuery.list();
+                for (Object[] row : rows) {
+                    name.append(row[1] != null ? row[1].toString() : "").append(",");
+                }
+            }
         }
-        return name;
+        return name.deleteCharAt(name.length()-1).toString();
 
     }
 
