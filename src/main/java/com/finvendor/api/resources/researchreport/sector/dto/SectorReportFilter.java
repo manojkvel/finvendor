@@ -5,17 +5,16 @@ import java.util.List;
 
 public class SectorReportFilter implements Serializable {
     private String geo;
-    private List<String> sectorTypes;
-    private List<String> sectorSubTypes;
-    private List<String> analystTypes;
+    private List<String> sectorType;
+    private List<String> sectorSubType;
+    private List<String> analystType;
     private List<String> researchedBy;
     private List<String> researchDate;
-    private List<String> reportTones;
+    private List<String> reportTone;
     private List<String> reportFrequency;
     private List<String> analystNames;
     private List<String> productIds;
     private List<String> others;
-
 
     public String getGeo() {
         return geo;
@@ -25,28 +24,28 @@ public class SectorReportFilter implements Serializable {
         this.geo = geo;
     }
 
-    public List<String> getSectorTypes() {
-        return sectorTypes;
+    public List<String> getSectorType() {
+        return sectorType;
     }
 
-    public void setSectorTypes(List<String> sectorTypes) {
-        this.sectorTypes = sectorTypes;
+    public void setSectorType(List<String> sectorType) {
+        this.sectorType = sectorType;
     }
 
-    public List<String> getSectorSubTypes() {
-        return sectorSubTypes;
+    public List<String> getSectorSubType() {
+        return sectorSubType;
     }
 
-    public void setSectorSubTypes(List<String> sectorSubTypes) {
-        this.sectorSubTypes = sectorSubTypes;
+    public void setSectorSubType(List<String> sectorSubType) {
+        this.sectorSubType = sectorSubType;
     }
 
-    public List<String> getAnalystTypes() {
-        return analystTypes;
+    public List<String> getAnalystType() {
+        return analystType;
     }
 
-    public void setAnalystTypes(List<String> analystTypes) {
-        this.analystTypes = analystTypes;
+    public void setAnalystType(List<String> analystType) {
+        this.analystType = analystType;
     }
 
     public List<String> getResearchedBy() {
@@ -57,12 +56,20 @@ public class SectorReportFilter implements Serializable {
         this.researchedBy = researchedBy;
     }
 
-public List<String> getReportTones() {
-        return reportTones;
+    public List<String> getResearchDate() {
+        return researchDate;
     }
 
-    public void setReportTones(List<String> reportTones) {
-        this.reportTones = reportTones;
+    public void setResearchDate(List<String> researchDate) {
+        this.researchDate = researchDate;
+    }
+
+    public List<String> getReportTone() {
+        return reportTone;
+    }
+
+    public void setReportTone(List<String> reportTone) {
+        this.reportTone = reportTone;
     }
 
     public List<String> getReportFrequency() {
@@ -95,13 +102,5 @@ public List<String> getReportTones() {
 
     public void setOthers(List<String> others) {
         this.others = others;
-    }
-
-    public List<String> getResearchDate() {
-        return researchDate;
-    }
-
-    public void setResearchDate(List<String> researchDate) {
-        this.researchDate = researchDate;
     }
 }

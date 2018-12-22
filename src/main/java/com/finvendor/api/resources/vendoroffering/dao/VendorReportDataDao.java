@@ -49,6 +49,7 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
                 vendorReportDataEntity.setResearchReportForId(dto.getResearchReportForId());
                 vendorReportDataEntity.setReportDate(dto.getReportDate());
                 vendorReportDataEntity.setTargetPrice(dto.getResearchTargetPrice());
+                vendorReportDataEntity.setReportFrequency(dto.getReportFrequency());
                 vendorReportDataEntity.setResearchRecommType(dto.getRecommType());
                 vendorReportDataEntity.setPriceAtRecomm(dto.getPriceAtRecomm());
                 vendorReportDataEntity.setResearchReportDesc(dto.getReportDescription());
@@ -121,6 +122,10 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
                     vendorReportDataEntity.setTargetPrice(dto.getResearchTargetPrice());
                 }
 
+                if (!StringUtils.isEmpty(dto.getReportFrequency())) {
+                    vendorReportDataEntity.setReportFrequency(dto.getReportFrequency());
+                }
+
                 if (!StringUtils.isEmpty(dto.getRecommType())) {
                     vendorReportDataEntity.setResearchRecommType(dto.getRecommType());
                 }
@@ -166,43 +171,42 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
 
     public VendorReportDataDto findVoData(String productId) throws RuntimeException {
         try {
-            VendorReportData vendorReportDataEntity = findById(productId);
             VendorReportDataDto dto = new VendorReportDataDto();
-            dto.setProductId(vendorReportDataEntity.getProductId());
-            dto.setProductName(vendorReportDataEntity.getProductName());
-            dto.setProductDescription(vendorReportDataEntity.getProductDescription());
-            dto.setVendorId(vendorReportDataEntity.getVendorId());
-            dto.setVendorName(vendorReportDataEntity.getVendorName());
-            dto.setVendorCompany(vendorReportDataEntity.getVendorCompany());
-            dto.setVendorAnalystType(vendorReportDataEntity.getVendorAnalystType());
-            dto.setLaunchedYear(vendorReportDataEntity.getLaunchedYear());
+            VendorReportData vendorReportDataEntity = findById(productId);
+            if(vendorReportDataEntity!=null) {
+                dto.setProductId(vendorReportDataEntity.getProductId());
+                dto.setProductName(vendorReportDataEntity.getProductName());
+                dto.setProductDescription(vendorReportDataEntity.getProductDescription());
+                dto.setVendorId(vendorReportDataEntity.getVendorId());
+                dto.setVendorName(vendorReportDataEntity.getVendorName());
+                dto.setVendorCompany(vendorReportDataEntity.getVendorCompany());
+                dto.setVendorAnalystType(vendorReportDataEntity.getVendorAnalystType());
+                dto.setLaunchedYear(vendorReportDataEntity.getLaunchedYear());
 
-            String researchAreaId = vendorReportDataEntity.getResearchAreaId();
-            //String nameForResearchReportForId = getNameForResearchReportForId(researchAreaId);
-            //logger.info("nameForResearchReportForId: {}", nameForResearchReportForId);
-            dto.setResearchAreaId(researchAreaId);
+                String researchAreaId = vendorReportDataEntity.getResearchAreaId();
+                dto.setResearchAreaId(researchAreaId);
 
-            String researchSubAreaId = vendorReportDataEntity.getResearchSubAreaId();
-            //String nameForResearchSubAreaId = getNameForResearchSubAreaId(researchSubAreaId);
-            //logger.info("nameForResearchSubAreaId: {}", nameForResearchSubAreaId);
-            dto.setResearchSubAreaId(researchSubAreaId);
+                String researchSubAreaId = vendorReportDataEntity.getResearchSubAreaId();
+                dto.setResearchSubAreaId(researchSubAreaId);
 
-            dto.setStockFundIssueCovered(vendorReportDataEntity.getStockFundIssueCovered());
-            dto.setAccessibility(vendorReportDataEntity.getAccessibility());
-            dto.setSuitability(vendorReportDataEntity.getSuitability());
-            dto.setSubscriptionCostPerAnnum(vendorReportDataEntity.getSubCostPy());
-            dto.setReportFormat("");
-            dto.setResearchReportForId(vendorReportDataEntity.getResearchReportForId());
-            dto.setReportDate(vendorReportDataEntity.getReportDate());
-            dto.setResearchTargetPrice(vendorReportDataEntity.getTargetPrice());
-            dto.setRecommType(vendorReportDataEntity.getResearchRecommType());
-            dto.setPriceAtRecomm(vendorReportDataEntity.getPriceAtRecomm());
-            dto.setRepeortDescription(vendorReportDataEntity.getResearchReportDesc());
-            dto.setAnalystName(vendorReportDataEntity.getAnalystName());
-            dto.setReportAccess(vendorReportDataEntity.getResearchReportAccess());
-            dto.setReportName(vendorReportDataEntity.getReportName());
-            dto.setAnalystAwarded(vendorReportDataEntity.getAnalystAward());
-            dto.setAnalystCfaCharter(vendorReportDataEntity.getAnalystCfaCharter());
+                dto.setStockFundIssueCovered(vendorReportDataEntity.getStockFundIssueCovered());
+                dto.setAccessibility(vendorReportDataEntity.getAccessibility());
+                dto.setSuitability(vendorReportDataEntity.getSuitability());
+                dto.setSubscriptionCostPerAnnum(vendorReportDataEntity.getSubCostPy());
+                dto.setReportFormat("");
+                dto.setResearchReportForId(vendorReportDataEntity.getResearchReportForId());
+                dto.setReportDate(vendorReportDataEntity.getReportDate());
+                dto.setResearchTargetPrice(vendorReportDataEntity.getTargetPrice());
+                dto.setReportFrequency(vendorReportDataEntity.getReportFrequency());
+                dto.setRecommType(vendorReportDataEntity.getResearchRecommType());
+                dto.setPriceAtRecomm(vendorReportDataEntity.getPriceAtRecomm());
+                dto.setRepeortDescription(vendorReportDataEntity.getResearchReportDesc());
+                dto.setAnalystName(vendorReportDataEntity.getAnalystName());
+                dto.setReportAccess(vendorReportDataEntity.getResearchReportAccess());
+                dto.setReportName(vendorReportDataEntity.getReportName());
+                dto.setAnalystAwarded(vendorReportDataEntity.getAnalystAward());
+                dto.setAnalystCfaCharter(vendorReportDataEntity.getAnalystCfaCharter());
+            }
             return dto;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -210,7 +214,6 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
     }
 
     private String getNameForResearchReportForId(String researchReportForId) {
-
         String name = "";
         String query = "select research_area_id,description from research_area a where research_area_id=?";
         SQLQuery nativeQuery = commonDao.getNativeQuery(query, new String[]{researchReportForId});
@@ -220,7 +223,6 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
             name = row[1] != null ? row[1].toString() : "";
         }
         return name;
-
     }
 
     private String getNameForResearchSubAreaId(String researchSubAreaId) {
@@ -238,7 +240,6 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
         }
         logger.info("name: {}",name);
         return name.length()>=1?name.deleteCharAt(name.length()-1).toString():"";
-
     }
 
     public List<VendorReportDataDto> findAllVoData(String existingVendorName) throws RuntimeException {
@@ -273,6 +274,7 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
                 String analystName = row[23] != null ? row[23].toString() : "";
                 String analystAwards = row[24] != null ? row[24].toString() : "";
                 String analystCfaCharter = row[25] != null ? row[25].toString() : "";
+                String reportFrequency = row[26] != null ? row[26].toString() : "";
 
                 VendorReportDataDto dto = new VendorReportDataDto();
                 dto.setProductId(productId);
@@ -303,6 +305,7 @@ public class VendorReportDataDao extends GenericDao<VendorReportData> {
                 dto.setAnalystName(analystName);
                 dto.setAnalystAwarded(analystAwards);
                 dto.setAnalystCfaCharter(analystCfaCharter);
+                dto.setReportFrequency(reportFrequency);
                 dataDtoList.add(dto);
             }
             return dataDtoList;

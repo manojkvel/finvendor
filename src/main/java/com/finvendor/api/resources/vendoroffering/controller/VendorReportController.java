@@ -1,19 +1,17 @@
 package com.finvendor.api.resources.vendoroffering.controller;
 
-import com.finvendor.api.webutil.WebUtil;
-import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.common.util.JsonUtil;
-import com.finvendor.model.Vendor;
 import com.finvendor.api.resources.companyprofile.pricealert.controller.ConsumerPriceAlertMailController;
 import com.finvendor.api.resources.companyprofile.pricealert.service.ConsumerPriceAlertService;
 import com.finvendor.api.resources.vendoroffering.dto.VendorReportDataDto;
 import com.finvendor.api.resources.vendoroffering.dto.VendorReportFileDto;
 import com.finvendor.api.resources.vendoroffering.service.VendorReportService;
+import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.common.util.JsonUtil;
+import com.finvendor.model.Vendor;
 import com.finvendor.service.UserService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +55,7 @@ public class VendorReportController {
                                     @RequestParam(value = "researchReportForId") String researchReportForId,
                                     @RequestParam(value = "priceAtRecomm") String priceAtRecomm,
                                     @RequestParam(value = "targetPrice") String targetPrice,
+                                    @RequestParam(value = "reportFrequency") String reportFrequency,
                                     @RequestParam(value = "recommendationType") String recommendationType,
                                     @RequestParam(value = "reportDate") String reportDate,
                                     @RequestParam(value = "reportDescription") String reportDescription,
@@ -85,6 +84,7 @@ public class VendorReportController {
             vendorReportDataDto.setResearchReportForId(researchReportForId);
             vendorReportDataDto.setPriceAtRecomm(priceAtRecomm);
             vendorReportDataDto.setResearchTargetPrice(targetPrice);
+            vendorReportDataDto.setReportFrequency(reportFrequency);
             vendorReportDataDto.setRecommType(recommendationType);
             vendorReportDataDto.setReportDate(reportDate);
             vendorReportDataDto.setReportDescription(reportDescription);

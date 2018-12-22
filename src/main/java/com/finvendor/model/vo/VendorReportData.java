@@ -64,6 +64,9 @@ public class VendorReportData {
     @Column(name="target_price")
     private String targetPrice;
 
+    @Column(name="report_frequency")
+    private String reportFrequency;
+
     @Column(name="rsrch_recomm_type")
     private String researchRecommType;
 
@@ -294,5 +297,13 @@ public class VendorReportData {
 
     public void setAnalystCfaCharter(String analystCfaCharter) {
         this.analystCfaCharter = analystCfaCharter;
+    }
+
+    public String getReportFrequency() {
+        return reportFrequency;
+    }
+
+    public void setReportFrequency(String reportFrequency) {
+        this.reportFrequency = reportFrequency;
     }
 }

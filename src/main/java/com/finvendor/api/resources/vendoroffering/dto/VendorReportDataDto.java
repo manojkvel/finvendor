@@ -1,6 +1,5 @@
 package com.finvendor.api.resources.vendoroffering.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
@@ -22,6 +21,7 @@ public class VendorReportDataDto implements Serializable {
     private String recommType;
     private String reportDate;
     private String researchTargetPrice;
+    private String reportFrequency;
     private String priceAtRecomm;
     private String reportDescription;
     private String reportAccess;
@@ -260,5 +260,13 @@ public class VendorReportDataDto implements Serializable {
 
     public String getAccessibility() {
         return accessibility;
+    }
+
+    public String getReportFrequency() {
+        return reportFrequency;
+    }
+
+    public void setReportFrequency(String reportFrequency) {
+        this.reportFrequency = reportFrequency;
     }
 }

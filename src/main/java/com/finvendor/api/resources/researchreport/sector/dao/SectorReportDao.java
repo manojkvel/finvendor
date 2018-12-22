@@ -29,17 +29,17 @@ public class SectorReportDao {
     private final String RESEARCHED_BY_QUERY = "select a.product_id,a.vendor_name from vendor_report_data a where a.research_area_id='2' order by a.vendor_name";
     private final String REPORT_TONE_QUERY = "select a.product_id,a.rsrch_recomm_type from vendor_report_data a where a.research_area_id='2' and a.rsrch_recomm_type !='none' order by a.rsrch_recomm_type";
     private final String REPORT_FREQUENCY_QUERY = "select a.product_id,a.report_name from vendor_report_data a where a.research_area_id='2' order by a.report_name";
-    private final String RESEARCH_DATE_QUERY = "select b.product_id, UNIX_TIMESTAMP(DATE_FORMAT(STR_TO_DATE(  b.rep_date, '%d/%m/%Y'), '%Y-%m-%d')) dateinmillis from ven_rsrch_rpt_offering a,ven_rsrch_rpt_dtls b where a.research_area=2 and a.product_id=b.product_id";
 
     private final String INDUSTRY_SUB_TYPE_NAMES = "select c.id,trim(c.industry_sub_type_name) from research_area a, research_sub_area b, industry_sub_type c where a.research_area_id=b.research_area_id and c.rsch_sub_area_id=b.research_sub_area_id and  b.research_area_id=? order by trim(c.industry_sub_type_name) asc";
     public static final String SECTOR_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON = "{\"data\":[\"< 3 months\",\"3 - 6 months\",\"6 - 12 months\",\"> 12 months\"]}";
 
-    /**Sector Main query*/
+    /**
+     * Sector Main query
+     */
     private final String SECTOR_REPORT_MAIN_QUERY = "select d.product_id, b.description SectorType, c.industry_sub_type_name SectorSubType, d.vendor_name RESEARCHEDBY,d.vendor_analyst_type ANALYSTTYPE, d.rsrch_recomm_type REPORT_TONE,d.report_name REPORT_FREQUENCY,d.report_name REPORT,d.report_date RESEARCH_DATE,d.analyst_name ANALYST_NAME,d.rsrch_report_desc DESCR,d.anayst_cfa_charter cfa from industry_sub_type c,research_sub_area b,vendor_report_data d where c.rsch_sub_area_id=b.research_sub_area_id and c.id=d.research_report_for_id and d.research_area_id=2";
 
     @Autowired
     private ICommonDao commonDao;
-
 
 
     public String getIndustrySubTypeNames(String researchArea) throws RuntimeException {
@@ -101,60 +101,57 @@ public class SectorReportDao {
         log.info("orderBy: {}", orderBy);
         try {
             List<SectorReportDto> sectorReports = new ArrayList<>();
-            try {
-                String filteredQuery = applyFilter(sectorFilter);
-                filteredQuery = applyOrderBy(filteredQuery, sortBy, orderBy);
-                filteredQuery = applyPagination(pageNumber, perPageMaxRecords, filteredQuery);
-                log.info("***MAIN QUERY: SECTOR Report - {}", filteredQuery);
 
-                SQLQuery nativeQuery = commonDao.getNativeQuery(filteredQuery, null);
-                List<Object[]> rows = nativeQuery.list();
+            String filteredQuery = applyFilter(sectorFilter);
+            filteredQuery = applyOrderBy(filteredQuery, sortBy, orderBy);
+            filteredQuery = applyPagination(pageNumber, perPageMaxRecords, filteredQuery);
+            log.info("***MAIN QUERY: SECTOR Report - {}", filteredQuery);
 
-                for (Object[] row : rows) {
-                    String productId = row[0] != null ? row[0].toString().trim() : null;
-                    String sectorType = row[1] != null ? row[1].toString().trim() : null;
-                    String sectorSubType = row[2] != null ? row[2].toString().trim() : null;
-                    String researchedBy = row[3] != null ? row[3].toString().trim() : null;
-                    String analystType = row[4] != null ? row[4].toString().trim() : null;
-                    String reportTone = row[5] != null ? row[5].toString().trim() : null;
-                    String reportFrequency = row[6] != null ? row[6].toString().trim() : null;
-                    String reportName = row[7] != null ? row[7].toString().trim() : null;
-                    String reportDate = row[8] != null ? row[8].toString().trim() : null;
-                    String analystName = row[9] != null ? row[9].toString().trim() : null;
-                    //we need to display report description when user click on Pdf report button
-                    String reportDesc = row[10] != null ? row[10].toString().trim() : null;
+            SQLQuery nativeQuery = commonDao.getNativeQuery(filteredQuery, null);
+            List<Object[]> rows = nativeQuery.list();
+
+            for (Object[] row : rows) {
+                String productId = row[0] != null ? row[0].toString().trim() : null;
+                String sectorType = row[1] != null ? row[1].toString().trim() : null;
+                String sectorSubType = row[2] != null ? row[2].toString().trim() : null;
+                String researchedBy = row[3] != null ? row[3].toString().trim() : null;
+                String analystType = row[4] != null ? row[4].toString().trim() : null;
+                String reportTone = row[5] != null ? row[5].toString().trim() : null;
+                String reportFrequency = row[6] != null ? row[6].toString().trim() : null;
+                String reportName = row[7] != null ? row[7].toString().trim() : null;
+                String reportDate = row[8] != null ? row[8].toString().trim() : null;
+                String analystName = row[9] != null ? row[9].toString().trim() : null;
+                //we need to display report description when user click on Pdf report button
+                String reportDesc = row[10] != null ? row[10].toString().trim() : null;
 
 
-                    String byCfa = row[11] != null ? row[11].toString().trim() : null;
+                String byCfa = row[11] != null ? row[11].toString().trim() : null;
 
-                    SectorReportDto dto = new SectorReportDto();
-                    dto.setProductId(productId);
-                    dto.setSectorType(sectorType);
-                    dto.setSectorSubType(sectorSubType);
-                    dto.setResearchedBy(researchedBy);
-                    dto.setAnalystType(analystType);
-                    dto.setReportTone(reportTone);
-                    dto.setReportFrequency(reportFrequency);
-                    dto.setReportName(reportName);
-                    dto.setReportDate(reportDate);
-                    dto.setAnalystName(analystName);
+                SectorReportDto dto = new SectorReportDto();
+                dto.setProductId(productId);
+                dto.setSectorType(sectorType);
+                dto.setSectorSubType(sectorSubType);
+                dto.setResearchedBy(researchedBy);
+                dto.setAnalystType(analystType);
+                dto.setReportTone(reportTone);
+                dto.setReportFrequency(reportFrequency);
+                dto.setReportName(reportName);
+                dto.setReportDate(reportDate);
+                dto.setAnalystName(analystName);
 
-                    if (StringUtils.isEmpty(byCfa)) {
-                        dto.setResearchReportByCfa(null);
-                    } else {
-                        dto.setResearchReportByCfa(byCfa);
-                    }
-
-                    //Here setting report description as null so that it wont come as part of json resposne
-                    if (sectorFilter.getProductIds() == null) {
-                        dto.setReportDescription(null);
-                    } else {
-                        dto.setReportDescription(reportDesc);
-                    }
-                    sectorReports.add(dto);
+                if (StringUtils.isEmpty(byCfa)) {
+                    dto.setResearchReportByCfa(null);
+                } else {
+                    dto.setResearchReportByCfa(byCfa);
                 }
-            } catch (Exception e) {
-                throw new RuntimeException("Error while processing record stats", e);
+
+                //Here setting report description as null so that it wont come as part of json resposne
+                if (sectorFilter.getProductIds() == null) {
+                    dto.setReportDescription(null);
+                } else {
+                    dto.setReportDescription(reportDesc);
+                }
+                sectorReports.add(dto);
             }
             return sectorReports;
         } catch (Exception e) {
@@ -175,33 +172,18 @@ public class SectorReportDao {
 
     private String applyOrderBy(String query, String sortBy, String orderByMode) {
         String field = "";
-//        if (SectorReportFilterTypes.SECTOR_TYPE.getType().equals(sortBy)) {
-//            field = "a.description";
-//        }
-        if (SectorReportFilterTypes.SECTOR_SUB_TYPE.getType().equals(sortBy)) {
+        if (SectorReportFilterTypes.SECTOR_SUB_TYPE.getType().equals(sortBy)||"sectorSubtype".equals(sortBy)) {
             field = "c.industry_sub_type_name";
         }
-
-//        if (SectorReportFilterTypes.ANALYTST_TYPE.getType().equals(sortBy)) {
-//            field = "b.industry_sub_type_name";
-//        }
-
         if (SectorReportFilterTypes.RESEARCHED_BY.getType().equals(sortBy)) {
             field = "d.vendor_name";
         }
-
-//        if (SectorReportFilterTypes.RESEARCH_DATE.getType().equals(sortBy)) {
-//            field = "d.rep_date";
-//        }
-
         if (SectorReportFilterTypes.REPORT_TONE.getType().equals(sortBy)) {
             field = "d.rsrch_recomm_type";
         }
-
         if (SectorReportFilterTypes.REPORT_NAME.getType().equals(sortBy)) {
             field = "d.report_name";
         }
-
         query = query + " order by " + field + " " + orderByMode;
         return query;
     }
@@ -214,66 +196,88 @@ public class SectorReportDao {
     private String applyFilter(SectorReportFilter filter) {
         String filteredQuery = SECTOR_REPORT_MAIN_QUERY;
 
-        List<String> sectorTypes = filter.getSectorTypes();
+        //Sector Type Filter
+        List<String> sectorTypes = filter.getSectorType();
         if (sectorTypes != null) {
             String inClauseValues = getInClauseValues(sectorTypes);
-            filteredQuery = filteredQuery + " AND a.description IN " + inClauseValues;
+            filteredQuery = filteredQuery + " AND b.description IN " + inClauseValues;
         }
 
-        List<String> sectorSubTypes = filter.getSectorSubTypes();
+        //Sector Sub Type Filter
+        List<String> sectorSubTypes = filter.getSectorSubType();
         if (sectorSubTypes != null) {
             String inClauseValues = getInClauseValues(sectorSubTypes);
-            filteredQuery = filteredQuery + " AND b.industry_sub_type_name IN " + inClauseValues;
+            filteredQuery = filteredQuery + " AND c.industry_sub_type_name IN " + inClauseValues;
         }
 
+        //Analyst Type Filter
+        List<String> analystType = filter.getAnalystType();
+        if (analystType != null) {
+            String inClauseValues = getInClauseValues(analystType);
+            filteredQuery = filteredQuery + " AND d.vendor_analyst_type IN " + inClauseValues;
+        }
+
+        //Researched By  Filter
         List<String> researchedBy = filter.getResearchedBy();
         if (researchedBy != null) {
             String inClauseValues = getInClauseValues(researchedBy);
-            filteredQuery = filteredQuery + " AND f.username IN " + inClauseValues;
+            filteredQuery = filteredQuery + " AND d.vendor_name IN " + inClauseValues;
         }
 
-        List<String> analystType = filter.getAnalystTypes();
-        if (analystType != null) {
-            String inClauseValues = getInClauseValues(analystType);
-            filteredQuery = filteredQuery + " AND f.analystType IN " + inClauseValues;
+        //Researched Date Filter
+        List<String> reportDateList = filter.getResearchDate();
+        StringBuilder mergeConditionQuerySb = new StringBuilder();
+        if (reportDateList != null) {
+            mergeConditionQuerySb.append(" and (");
+            boolean needOR = false;
+            if (reportDateList.contains("< 3 months")) {
+                mergeConditionQuerySb.append("datediff(curdate(),STR_TO_DATE(d.report_date, '%d/%m/%Y'))<90");
+                needOR = true;
+            }
+            if (reportDateList.contains("3 - 6 months")) {
+                if (needOR) {
+                    mergeConditionQuerySb.append(" OR ");
+                }
+                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(d.report_date, '%d/%m/%Y')) >=90 and datediff(curdate(),STR_TO_DATE(d.report_date, '%d/%m/%Y'))<180)");
+                needOR = true;
+            }
+            if (reportDateList.contains("6 - 12 months")) {
+                if (needOR) {
+                    mergeConditionQuerySb.append(" OR ");
+                }
+                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(d.report_date, '%d/%m/%Y')) >=180 and datediff(curdate(),STR_TO_DATE(d.report_date, '%d/%m/%Y'))<720)");
+                needOR = true;
+            }
+            if (reportDateList.contains("> 12 months")) {
+                if (needOR) {
+                    mergeConditionQuerySb.append(" OR ");
+                }
+                mergeConditionQuerySb.append("datediff(curdate(),STR_TO_DATE(d.report_date, '%d/%m/%Y')) >=720");
+            }
+            mergeConditionQuerySb.append(" )");
+            filteredQuery = filteredQuery + mergeConditionQuerySb.toString();
         }
 
-        List<String> recommTypes = filter.getReportTones();
+        //Report Tone Filter
+        List<String> recommTypes = filter.getReportTone();
         if (recommTypes != null) {
             String inClauseValues = getInClauseValues(recommTypes);
             filteredQuery = filteredQuery + " AND d.rsrch_recomm_type IN " + inClauseValues;
         }
 
-        List<String> reportFrequencyList = filter.getReportFrequency();
-        if (reportFrequencyList != null) {
-            String inClauseValues = getInClauseValues(reportFrequencyList);
-            filteredQuery = filteredQuery + " AND  c.product_name IN " + inClauseValues;
-        }
+//        Report Frequency Filter
+//        List<String> reportFrequencyList = filter.getReportFrequency();
+//        if (reportFrequencyList != null) {
+//            String inClauseValues = getInClauseValues(reportFrequencyList);
+//            filteredQuery = filteredQuery + " AND  c.product_name IN " + inClauseValues;
+//        }
 
-        List<String> reportDateList = filter.getResearchDate();
-        if (reportDateList != null) {
-            String inClauseValues = getInClauseValues(reportDateList);
-            filteredQuery = filteredQuery + " AND  d.rep_date IN " + inClauseValues;
-        }
-
-        List<String> analystNames = filter.getAnalystNames();
-        if (analystNames != null) {
-            String inClauseValues = getInClauseValues(analystNames);
-            filteredQuery = filteredQuery + " AND  e.analyst_name IN " + inClauseValues;
-        }
-
-        List<String> productIds = filter.getProductIds();
-        if (productIds != null) {
-            String inClauseValues = getInClauseValues(productIds);
-            filteredQuery = filteredQuery + " AND  c.product_id IN " + inClauseValues;
-        }
-
+        //Others Filter
         List<String> others = filter.getOthers();
         if (others != null) {
             String inClauseValues = getInClauseValues(others);
-            filteredQuery = filteredQuery + " AND e.anayst_cfa_charter IN " + inClauseValues;
+            filteredQuery = filteredQuery + " AND d.anayst_cfa_charter IN " + inClauseValues;
         }
-
         return filteredQuery;
     }
 
