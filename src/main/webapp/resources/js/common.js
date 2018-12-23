@@ -387,6 +387,13 @@ function getResearchSubAreaMapping(rcResearchAreaSelector, rcResearchSubAreaSele
 	    	$("#vo_price_at_recomm").parent().hide();
 	    	$("#vo_target_price").parent().hide();
 	    }
+
+	    if(getResearchAreaMultipleListById(rcResearchAreaId)[0].toLowerCase() == ("sector analysis")) {
+	    	$("select[name=vo_report_frequency]").parents('li').show();
+	    	//$("#vo_report_frequency").parent().show();
+	    } else {
+	    	$("select[name=vo_report_frequency]").parents('li').hide();
+	    }
   		
   	} 
 }

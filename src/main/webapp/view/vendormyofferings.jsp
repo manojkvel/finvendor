@@ -749,7 +749,19 @@
 										<li style="display:none;">
 											<input type="number" name="vo_target_price" id="vo_target_price" required />
 											<label>Target Price <sup>*</sup></label>
-										</li>									
+										</li>
+
+										<li style="display:none;">
+
+											<select class="selectpicker" name="vo_report_frequency" id="vo_report_frequency">
+												<option value="weekly">Weekly</option>
+												<option value="monthly">Monthly</option>
+												<option value="yearly">Yearly</option>
+											</select>
+											<label class="default_select">Report Frequency<sup>*</sup></label>
+
+										</li>
+
 										<li>
 											<select class="selectpicker" name="vo_eqrrv_recommendation_type" id="vo_eqrrv_recommendation_type">
 												<option value="none">None</option>
@@ -770,6 +782,13 @@
 												<option value="add">Add</option>
 											</select>
 											<label class="default_select">Recommendation Type<sup>*</sup></label>
+										</li>								
+										<li>
+											<select class="selectpicker" name="vo_eqrrv_report_access" id="vo_eqrrv_report_access">
+												<option value="buy">Free</option>
+												<option value="sell">Paid</option>
+											</select>
+											<label class="default_select">Report Access</label>
 										</li>
 										<li>
 											<input type="text" id="vo_datepicker" name="vo_datepicker" required />
@@ -778,13 +797,6 @@
 										<li>
 											<input type="text" name="vo_eqrrv_report_desc" id="vo_eqrrv_report_desc" maxlength="1000" required />
 											<label>Report Desc. <sup>*</sup></label>
-										</li>								
-										<li>
-											<select class="selectpicker" name="vo_eqrrv_report_access" id="vo_eqrrv_report_access">
-												<option value="buy">Free</option>
-												<option value="sell">Paid</option>
-											</select>
-											<label class="default_select">Report Access</label>
 										</li>
 										<li>
 											<input type="text" name="vo_analystName" id="vo_analystName" required />
@@ -799,11 +811,11 @@
 											</div>
 											<label class="default_select">Upload Report</label>
 										</li>
-										<li style='margin-top: 22px;'>
+										<li style='margin-top: 26px;margin-bottom: 26px;'>
 											<input type="checkbox" name="vo_analystCfaCharter" id="vo_analystCfaCharter" />
 											<label class="default_checkbox">Analyst with CFA Charter</label>
 										</li>
-										<li style='margin-top: 22px;'>
+										<li style='margin-top: 26px;'>
 											<input type="checkbox" name="vo_analystwithawards" id="vo_analystwithawards" />
 											<label class="default_checkbox">Analyst with Awards</label>
 										</li>

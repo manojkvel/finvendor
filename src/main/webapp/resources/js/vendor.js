@@ -1630,14 +1630,15 @@ jQuery(document).ready(function() {
 				
 				if(response.researchTargetPrice != 0){
 					$("#research_application #vo_target_price").val(response.researchTargetPrice);
-
 				}
+
 				$("#research_application #vo_eqrrv_recommendation_type").selectpicker('val', response.recommType);
 			//	$("#research_application #vo_upload_report").val(response.rsrchUploadReport);
 				$('#research_application #vo_upload_report_file_name').val(response.reportName);
 				$("#research_application #vo_eqrrv_report_desc").val(response.repeortDescription);
 				$("#research_application #vo_price_at_recomm").val(response.priceAtRecomm);
 				$("#research_application #vo_eqrrv_report_access").selectpicker('val', response.reportAccess);
+				$("#research_application #vo_report_frequency").selectpicker('val', response.reportFrequency);
 				$("#research_application #vo_analystName").val(response.analystName);
 
 				//$("#research_application #vo_upload_report").val(response.rsrchUploadReport.replace(/^.*[\\\/]/, ''));
@@ -1824,6 +1825,9 @@ jQuery(document).ready(function() {
 		var vo_eqrrv_recommendation_type = $("#research_application #vo_eqrrv_recommendation_type").selectpicker('val');
 		var vo_eqrrv_report_desc = $("#research_application #vo_eqrrv_report_desc").val();
 		var vo_eqrrv_report_access = $("#vo_eqrrv_report_access").selectpicker('val');
+
+		var vo_report_frequency = $("#vo_report_frequency").selectpicker('val');
+
 		var vo_analystName = $("#research_application #vo_analystName").val().trim();
 		var vo_upload_report_file_name = $('#research_application #vo_upload_report_file_name').val();
 
@@ -1930,6 +1934,13 @@ jQuery(document).ready(function() {
 			$("#research_application #vo_price_at_recomm").addClass("error_field");
 			return false;
 		}
+
+		
+		if(vo_report_frequency != null) {
+			$("#research_application #vo_report_frequency").parent().find("button").removeClass("error_field");
+		} else {
+			$("#research_application #vo_report_frequency").parent().find("button").addClass("error_field");
+		}
 		
 
 		if(vo_target_price != '') {
@@ -1975,6 +1986,7 @@ jQuery(document).ready(function() {
 		rsrch_report_offeringfile.append('reportFile', vo_upload_report.files[0]);
 		rsrch_report_offeringfile.append('reportDescription', vo_eqrrv_report_desc);
 		rsrch_report_offeringfile.append('reportAccess', vo_eqrrv_report_access);
+		rsrch_report_offeringfile.append('reportFrequency', vo_report_frequency);
 		rsrch_report_offeringfile.append('analystName', vo_analystName);
 		rsrch_report_offeringfile.append('analystWithCfaCharter', vo_analystCfaCharter);
 		rsrch_report_offeringfile.append('analystWithAwards', vo_analystwithawards);
