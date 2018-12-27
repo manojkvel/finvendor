@@ -590,6 +590,7 @@ function getStockMarquee() {
 							+ " <span class='percentChange " + percentChangeClass + "'><i class='fa " + percentChangeClass_Caret + "'></i> " + response.data.stockData[i].stocks[j].change + "</span>"
 							+ " <span class='percentChange " + percentChangeClass + "'>(" + ((percentChange != '-') ? percentChange + '%' : percentChange) + ")</span>"
 							+ "</a>"
+							+ "<cite class='stock_border'></cite>"
 							+ "</li>";
 
 			}
@@ -640,6 +641,7 @@ function getIndexMarquee() {
 			+ " <span class='percentChange " + percentChangeClass + "'><i class='fa " + percentChangeClass_Caret + "'></i> " + response.data.indexes[j].pointChange + "</span>"
 			+ " <span class='percentChange " + percentChangeClass + "'>(" + ((percentChange != '-') ? percentChange + '%' : percentChange) + ")</span>"
 			+ "</a>"
+			+ "<cite class='stock_border'></cite>"
 			+ "</li>";
 
 		}

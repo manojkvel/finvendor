@@ -130,19 +130,31 @@
 		</div>
 		<div id="marquee_container">
 			<div class="marquee stock_price">
-				<div class="hd">
-					<h4 class="title"></h4>
-					<span class="last_updated_date"></span>
-				</div>
-				<div class="bd">
+				<div class="row">
+					<div class="col-xs-12 col-md-2">
+						<div class="hd">
+							<h4 class="title"></h4>
+							<span class="last_updated_date"></span>
+						</div>
+					</div>				
+					<div class="col-xs-12 col-md-10">
+						<div class="bd">
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="marquee index_price">
-				<div class="hd">
-					<h4 class="title"></h4>
-					<span class="last_updated_date"></span>
-				</div>
-				<div class="bd">
+				<div class="row">
+					<div class="col-xs-12 col-md-2">
+						<div class="hd">
+							<h4 class="title"></h4>
+							<span class="last_updated_date"></span>
+						</div>
+					</div>				
+					<div class="col-xs-12 col-md-10">
+						<div class="bd">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
