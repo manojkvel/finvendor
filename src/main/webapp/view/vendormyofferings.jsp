@@ -760,7 +760,7 @@
 												<option value="monthly">Monthly</option>
 												<option value="quarterly">Quarterly</option>
 												<option value="semi-annually">Semi Annually</option>
-												<option value="yearly">Yearly</option>
+												<option value="annually">Annually</option>
 											</select>
 											<label class="default_select">Report Frequency<sup>*</sup></label>
 
