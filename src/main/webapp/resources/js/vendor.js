@@ -1936,7 +1936,7 @@ jQuery(document).ready(function() {
 		}
 
 		
-		if(vo_report_frequency != null) {
+		if(vo_report_frequency != "none") {
 			$("#research_application #vo_report_frequency").parent().find("button").removeClass("error_field");
 		} else {
 			$("#research_application #vo_report_frequency").parent().find("button").addClass("error_field");

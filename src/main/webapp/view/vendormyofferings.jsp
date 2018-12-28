@@ -753,9 +753,13 @@
 
 										<li style="display:none;">
 
-											<select class="selectpicker" name="vo_report_frequency" id="vo_report_frequency">
+											<select class="selectpicker show-tick" name="vo_report_frequency" id="vo_report_frequency">
+												<option value="none">None</option>
 												<option value="weekly">Weekly</option>
+												<option value="bi-weekly">Bi Weekly</option>
 												<option value="monthly">Monthly</option>
+												<option value="quarterly">Quarterly</option>
+												<option value="semi-annually">Semi Annually</option>
 												<option value="yearly">Yearly</option>
 											</select>
 											<label class="default_select">Report Frequency<sup>*</sup></label>
