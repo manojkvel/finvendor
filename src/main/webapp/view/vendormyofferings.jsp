@@ -754,13 +754,13 @@
 										<li style="display:none;">
 
 											<select class="selectpicker show-tick" name="vo_report_frequency" id="vo_report_frequency">
-												<option value="none">None</option>
-												<option value="weekly">Weekly</option>
-												<option value="bi-weekly">Bi Weekly</option>
-												<option value="monthly">Monthly</option>
-												<option value="quarterly">Quarterly</option>
-												<option value="semi-annually">Semi Annually</option>
-												<option value="annually">Annually</option>
+												<option value="None">None</option>
+												<option value="Weekly">Weekly</option>
+												<option value="Bi Weekly">Bi Weekly</option>
+												<option value="Monthly">Monthly</option>
+												<option value="Quarterly">Quarterly</option>
+												<option value="Semi Annually">Semi Annually</option>
+												<option value="Annually">Annually</option>
 											</select>
 											<label class="default_select">Report Frequency<sup>*</sup></label>
 

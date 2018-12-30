@@ -50,8 +50,11 @@
 									<span class="fa fa-chevron-down"></span>
 								</div>
 								<div class='widget-panel-body'>
-									<div id="search_by_marketcapital">
-										<ul>
+									<div class="widget_search">
+										<input type="text" id="search_sector_type" onkeyup="getSectorTypeByName()" placeholder="Search sector type" />
+									</div>
+									<div id="search_by_sector_type">
+										<ul id="search_by_sector_type_ul">
 											
 										</ul>
 									</div>
@@ -64,8 +67,11 @@
 									<span class="fa fa-chevron-down"></span>
 								</div>
 								<div class='widget-panel-body'>
-									<div id="search_by_style">
-										<ul>
+									<div class="widget_search">
+										<input type="text" id="search_sector_subtype" onkeyup="getSectorSubTypeByName()" placeholder="Search sector subtype" />
+									</div>
+									<div id="search_by_sector_subtype">
+										<ul id="search_by_sector_subtype_ul">
 											
 										</ul>
 									</div>
@@ -243,6 +249,44 @@
     	$("#sidebar-panel .widget-panel-heading").on('click', function(e) {
     		$(e.currentTarget).parent().find('.widget-panel-body').slideToggle();
     	});
+
+    	
+
+    	function getSectorTypeByName() {
+    		var input, filter, ul, li, span, i;
+		    input = document.getElementById("search_sector_type");
+		    filter = input.value.toUpperCase();
+		    ul = document.getElementById("search_by_sector_type_ul");
+		    
+		    li = ul.getElementsByTagName("li");
+		    for (i = 0; i < li.length; i++) {
+		        span = li[i].getElementsByTagName("span")[0];
+		        if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		            li[i].style.display = "";
+		        } else {
+		            li[i].style.display = "none";
+
+		        }
+		    }
+    	}
+
+    	function getSectorSubTypeByName() {
+    		var input, filter, ul, li, span, i;
+		    input = document.getElementById("search_sector_subtype");
+		    filter = input.value.toUpperCase();
+		    ul = document.getElementById("search_by_sector_subtype_ul");
+		    
+		    li = ul.getElementsByTagName("li");
+		    for (i = 0; i < li.length; i++) {
+		        span = li[i].getElementsByTagName("span")[0];
+		        if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		            li[i].style.display = "";
+		        } else {
+		            li[i].style.display = "none";
+
+		        }
+		    }
+    	}
 
     	function getBrokerListByName() {
     		var input, filter, ul, li, span, i;

@@ -333,8 +333,8 @@ jQuery(document).ready(function() {
     	$("#sidebar-panel input").prop('checked', false);
     	$("#search_by_geo input").eq(0).prop('checked', true);
 
-    	marketCapitalData = [];
-    	styleFilterData = [];
+    	sectorTypeFilterData = [];
+    	sectorSubTypeFilterData = [];
     	analystTypeFilterData = [];
     	researchBrokerFilterData = [];
     	brokerAnalystYrOfIncorpFilterData = [];
@@ -533,15 +533,15 @@ jQuery(document).ready(function() {
 								+ "</div>"
 							+ "</li>"
 			}
-			$("#search_by_marketcapital ul").html(html);
-			$("#search_by_marketcapital ul input").on('change', getSectorTypeData);
-			// $("#search_by_marketcapital ul input").eq(0).prop('checked', true);
+			$("#search_by_sector_type ul").html(html);
+			$("#search_by_sector_type ul input").on('change', getSectorTypeData);
+			// $("#search_by_sector_type ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
 	};
 
-	var marketCapitalData = [];
+	var sectorTypeFilterData = [];
 
     /**
      * Function to get analyst Type from localstorage and get equity list
@@ -551,22 +551,22 @@ jQuery(document).ready(function() {
 
 			sendGAevents('Sector Research', 'Filter by Sector Type onClick', 'Filter by SectorType');
 
-			addRemoveItemFromArray(marketCapitalData, $(this).attr('data-value'));
+			addRemoveItemFromArray(sectorTypeFilterData, $(this).attr('data-value'));
 
 
 			if($(this).attr('data-value') == 'all') {
-				marketCapitalData = ['all'];
-				if(checkForAllData(marketCapitalData, "#search_by_marketcapital ul input")) {
-					marketCapitalData = [];
+				sectorTypeFilterData = ['all'];
+				if(checkForAllData(sectorTypeFilterData, "#search_by_sector_type ul input")) {
+					sectorTypeFilterData = [];
 				} 
 			} else {
-				$("#search_by_marketcapital ul input").eq(0).prop('checked', false);
+				$("#search_by_sector_type ul input").eq(0).prop('checked', false);
 			}
 
 			
-			localEquitySearchJson.sectorType = marketCapitalData;
+			localEquitySearchJson.sectorType = sectorTypeFilterData;
 
-			if(marketCapitalData.length === 0) {
+			if(sectorTypeFilterData.length === 0) {
 				delete localEquitySearchJson.sectorType;
 			}
 			
@@ -575,8 +575,8 @@ jQuery(document).ready(function() {
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
 			inner_login('view/sector-research.jsp');
-			$("#search_by_marketcapital ul input").prop('checked', false);
-			// $("#search_by_marketcapital ul input").eq(0).prop('checked', true);
+			$("#search_by_sector_type ul input").prop('checked', false);
+			// $("#search_by_sector_type ul input").eq(0).prop('checked', true);
 		}
 	};
 
@@ -612,15 +612,15 @@ jQuery(document).ready(function() {
 								+ "</div>"
 							+ "</li>"
 			}
-			$("#search_by_style ul").html(html);
-			$("#search_by_style ul input").on('change', getSectorSubTypeData);
-			// $("#search_by_style ul input").eq(0).prop('checked', true);
+			$("#search_by_sector_subtype ul").html(html);
+			$("#search_by_sector_subtype ul input").on('change', getSectorSubTypeData);
+			// $("#search_by_sector_subtype ul input").eq(0).prop('checked', true);
 		}, function(error) {
 			//console.log(error);
 		});
 	};
 
-	var styleFilterData = [];
+	var sectorSubTypeFilterData = [];
 
     /**
      * Function to get sectorSubType from localstorage and get equity list
@@ -630,20 +630,20 @@ jQuery(document).ready(function() {
 
 			sendGAevents('Sector Research', 'Filter by Sector SubType onClick', 'Filter by SectorSubType');
 
-			addRemoveItemFromArray(styleFilterData, $(this).attr('data-value'));
+			addRemoveItemFromArray(sectorSubTypeFilterData, $(this).attr('data-value'));
 
 			if($(this).attr('data-value') == 'all') {
-				styleFilterData = ['all'];
-				if(checkForAllData(styleFilterData, "#search_by_style ul input")) {
-					styleFilterData = [];
+				sectorSubTypeFilterData = ['all'];
+				if(checkForAllData(sectorSubTypeFilterData, "#search_by_sector_subtype ul input")) {
+					sectorSubTypeFilterData = [];
 				} 
 			} else {
-				$("#search_by_style ul input").eq(0).prop('checked', false);
+				$("#search_by_sector_subtype ul input").eq(0).prop('checked', false);
 			}
 			
-			localEquitySearchJson.sectorSubType = styleFilterData;
+			localEquitySearchJson.sectorSubType = sectorSubTypeFilterData;
 
-			if(styleFilterData.length === 0) {
+			if(sectorSubTypeFilterData.length === 0) {
 				delete localEquitySearchJson.sectorSubType;
 			}
 			
@@ -651,9 +651,9 @@ jQuery(document).ready(function() {
 			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
-			$("#search_by_style ul input").prop('checked', false);
-			// $("#search_by_style ul input").eq(0).prop('checked', true);
+			inner_login('view/sector-research.jsp');
+			$("#search_by_sector_subtype ul input").prop('checked', false);
+			// $("#search_by_sector_subtype ul input").eq(0).prop('checked', true);
 		}
 	};
 

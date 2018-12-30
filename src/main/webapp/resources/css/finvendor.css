@@ -189,7 +189,9 @@ body {
 #search_by_recommType,
 #search_by_upside,
 #search_by_others,
-#search_by_industry {
+#search_by_industry,
+#search_by_sector_subtype,
+#search_by_sector_type {
 	max-height: 100px;
 	overflow: auto;
 }

@@ -1681,7 +1681,9 @@ h2 {
 	color: #fff;
 }
 
-.widget-group .widget-panel-body .widget_search #search_broker {
+.widget-group .widget-panel-body .widget_search #search_broker,
+.widget-group .widget-panel-body .widget_search #search_sector_subtype,
+.widget-group .widget-panel-body .widget_search #search_sector_type {
 	width: 100%;
 	border: 1px solid #ddd;
 	margin-bottom: 10px;
