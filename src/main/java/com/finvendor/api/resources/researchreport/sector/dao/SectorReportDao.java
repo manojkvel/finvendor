@@ -27,7 +27,7 @@ public class SectorReportDao {
     private final String SECTOR_TYPE_QUERY = "select a.research_area_id, a.description from research_sub_area a where a.research_area_id=2 and a.description!='All sectors' order by a.description";
     private final String SECTOR_SUB_TYPE_QUERY = "select a.rsch_area_id, a.industry_sub_type_name from industry_sub_type a where a.rsch_area_id=2 order by a.industry_sub_type_name;";
     private final String ANALYST_TYPE_QUERY = "select a.product_id,a.vendor_analyst_type from vendor_report_data a where a.research_area_id='2' group by a.vendor_analyst_type order by a.vendor_analyst_type";
-    private final String RESEARCHED_BY_QUERY = "select a.product_id,a.vendor_name from vendor_report_data a where a.research_area_id='2' order by a.vendor_name";
+    private final String RESEARCHED_BY_QUERY = "select a.product_id,a.vendor_company from vendor_report_data a where a.research_area_id='2' order by a.vendor_company";
     private final String REPORT_TONE_QUERY = "select a.product_id,a.rsrch_recomm_type from vendor_report_data a where a.research_area_id='2' and a.rsrch_recomm_type !='none' order by a.rsrch_recomm_type";
     private final String REPORT_FREQUENCY_JSON = "{\"data\":[\"Weekly\",\"Bi Weekly\",\"Monthly\",\"Quarterly\",\"Semi Annually\",\"Anually\"]}";
 
@@ -225,7 +225,7 @@ public class SectorReportDao {
         List<String> researchedBy = filter.getResearchedBy();
         if (researchedBy != null) {
             String inClauseValues = getInClauseValues(researchedBy);
-            filteredQuery = filteredQuery + " AND d.vendor_name IN " + inClauseValues;
+            filteredQuery = filteredQuery + " AND d.vendor_company IN " + inClauseValues;
         }
 
         //Researched Date Filter
