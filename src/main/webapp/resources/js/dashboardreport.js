@@ -67,6 +67,43 @@ function getDashboardResearchReportLoad() {
             $('.dwnldReport a').on('click', function() {
                 sendGAevents('DownloadPdfReport', 'Download Full Report Click', 'Download Full Report');
             });
+        } else if(response.data != null) {
+
+            var htmlData = "<div class='dashboard_report'>"
+                        + "<div class='hd'>"
+                                + "<span class='reportName'>" + response.data[0].reportName + "</span>"
+                                + "<div>"
+                                    + "<span data-toggle='tooltip' data-placement='top' title='' data-original-title='" + timeStampToDate(Number(response.data[0].reportDate)) + "'>" + timeStampToDate(Number(response.data[0].reportDate)) + "</span>"
+                                + "</div>"
+                        + "</div>"
+                        + "<div class='bd'>"
+                                + "<div class='reportContainer'>"
+                                    + "<div class='reportDetails'>"
+                                        + "<div class='reportTitle'>"
+                                            + "<span class='recommType success'>" + response.data[0].reportTone + ":</span> " + response.data[0].sectorSubType
+                                            + "<div class='brokerName'>by " + response.data[0].analystName + "</div>"
+                                        + "</div>"
+
+                                        + "<div class='dwnldReport'>"
+                                            + "<a target='blank' href='/system/api/downloadResearchReports?productId=" + response.data[0].productId + "&reportName=" + response.data[0].report + "'>Download Full Report</a>"
+                                        + "</div>"
+                                    + "</div>"
+                                    + "<span class='brokerName'>" + response.data[0].analystName + "</span>"
+                                    + "<div class='reportDesc'>"
+                                        + "<p>"
+                                            + response.data[0].reportDescription
+                                        + "</p>"
+                                    + "</div>"
+                                + "</div>"
+                        + "</div>"
+                    + "</div>";
+            
+            $('#dashboard_report').html(htmlData);
+            $('[data-toggle="tooltip"]').tooltip();
+            $('.dwnldReport a').on('click', function() {
+                sendGAevents('DownloadPdfReport', 'Download Full Report Click', 'Download Full Report');
+            });
+
         } else {
              $('#dashboard_report').html("<div class='dashboard_report'>We are unable to download Report, please try again later</div>");
         }
