@@ -647,6 +647,7 @@ function getIndexMarquee() {
 		}
 		$("#marquee_container .marquee.index_price .bd").html("<marquee behavior='scroll' direction='left' onmouseover='this.stop();' onmouseout='this.start();'><ul>" + html + "</ul></marquee>");
 		$("#marquee_container .marquee.index_price ul a").on('click', getMarketIndexData);
+		$("#marquee_container .index_price").show();
 		
 	}, function(error) {
 		

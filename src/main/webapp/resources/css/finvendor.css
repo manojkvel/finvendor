@@ -1595,6 +1595,10 @@ button {
 	margin-top: 15%;
 }
 
+#marquee_container .index_price {
+	display: none;
+}
+
 
 #marquee_container .marquee {
 	padding: 0 20px 0 0;
