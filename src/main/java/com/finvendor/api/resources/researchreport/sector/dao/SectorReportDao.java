@@ -1,5 +1,6 @@
 package com.finvendor.api.resources.researchreport.sector.dao;
 
+import com.finvendor.api.resources.researchreport.equity.util.ResearchReportUtil;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
@@ -28,7 +29,7 @@ public class SectorReportDao {
     private final String ANALYST_TYPE_QUERY = "select a.product_id,a.vendor_analyst_type from vendor_report_data a where a.research_area_id='2' group by a.vendor_analyst_type order by a.vendor_analyst_type";
     private final String RESEARCHED_BY_QUERY = "select a.product_id,a.vendor_name from vendor_report_data a where a.research_area_id='2' order by a.vendor_name";
     private final String REPORT_TONE_QUERY = "select a.product_id,a.rsrch_recomm_type from vendor_report_data a where a.research_area_id='2' and a.rsrch_recomm_type !='none' order by a.rsrch_recomm_type";
-    private final String REPORT_FREQUENCY_QUERY = "select a.product_id,a.report_name from vendor_report_data a where a.research_area_id='2' order by a.report_name";
+    private final String REPORT_FREQUENCY_JSON = "{\"data\":[\"Weekly\",\"Bi Weekly\",\"Monthly\",\"Quarterly\",\"Semi Annually\",\"Annually\"]}";
 
     private final String INDUSTRY_SUB_TYPE_NAMES = "select c.id,trim(c.industry_sub_type_name) from research_area a, research_sub_area b, industry_sub_type c where a.research_area_id=b.research_area_id and c.rsch_sub_area_id=b.research_sub_area_id and  b.research_area_id=? order by trim(c.industry_sub_type_name) asc";
     public static final String SECTOR_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON = "{\"data\":[\"< 3 months\",\"3 - 6 months\",\"6 - 12 months\",\"> 12 months\"]}";
@@ -36,7 +37,7 @@ public class SectorReportDao {
     /**
      * Sector Main query
      */
-    private final String SECTOR_REPORT_MAIN_QUERY = "select d.product_id, b.description SectorType, c.industry_sub_type_name SectorSubType, d.vendor_name RESEARCHEDBY,d.vendor_analyst_type ANALYSTTYPE, d.rsrch_recomm_type REPORT_TONE,d.report_name REPORT_FREQUENCY,d.report_name REPORT,d.report_date RESEARCH_DATE,d.analyst_name ANALYST_NAME,d.rsrch_report_desc DESCR,d.anayst_cfa_charter cfa from industry_sub_type c,research_sub_area b,vendor_report_data d where c.rsch_sub_area_id=b.research_sub_area_id and c.id=d.research_report_for_id and d.research_area_id=2";
+    private final String SECTOR_REPORT_MAIN_QUERY = "select d.product_id, b.description SectorType, c.industry_sub_type_name SectorSubType, d.vendor_name RESEARCHEDBY,d.vendor_analyst_type ANALYSTTYPE, d.rsrch_recomm_type REPORT_TONE,d.report_frequency REPORT_FREQUENCY,d.report_name REPORT,d.report_date RESEARCH_DATE,d.analyst_name ANALYST_NAME,d.rsrch_report_desc DESCR,d.anayst_cfa_charter cfa from industry_sub_type c,research_sub_area b,vendor_report_data d where c.rsch_sub_area_id=b.research_sub_area_id and c.id=d.research_report_for_id and d.research_area_id=2";
 
     @Autowired
     private ICommonDao commonDao;
@@ -66,6 +67,8 @@ public class SectorReportDao {
                 return "[{\"countryId\":\"1\",\"name\":\"India\"}]";
             } else if (SectorReportFilterTypes.RESEARCH_DATE.getType().equals(type)) {
                 return SECTOR_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON;
+            } else if (SectorReportFilterTypes.REPORT_FREQUENCY.getType().equals(type)) {
+                return REPORT_FREQUENCY_JSON;
             } else {
                 String queryBasedOnType = getQueryBasedOnType(type);
                 return getQueryResult(queryBasedOnType, null);
@@ -136,7 +139,8 @@ public class SectorReportDao {
                 dto.setReportTone(reportTone);
                 dto.setReportFrequency(reportFrequency);
                 dto.setReportName(reportName);
-                dto.setReportDate(reportDate);
+                long researchDateAsTimeStamp = ResearchReportUtil.convertStringToTimestamp(reportDate);
+                dto.setReportDate(String.valueOf(researchDateAsTimeStamp));
                 dto.setAnalystName(analystName);
 
                 if (StringUtils.isEmpty(byCfa)) {
@@ -172,7 +176,7 @@ public class SectorReportDao {
 
     private String applyOrderBy(String query, String sortBy, String orderByMode) {
         String field = "";
-        if (SectorReportFilterTypes.SECTOR_SUB_TYPE.getType().equals(sortBy)||"sectorSubtype".equals(sortBy)) {
+        if (SectorReportFilterTypes.SECTOR_SUB_TYPE.getType().equals(sortBy) || "sectorSubtype".equals(sortBy)) {
             field = "c.industry_sub_type_name";
         }
         if (SectorReportFilterTypes.RESEARCHED_BY.getType().equals(sortBy)) {
@@ -265,18 +269,26 @@ public class SectorReportDao {
             filteredQuery = filteredQuery + " AND d.rsrch_recomm_type IN " + inClauseValues;
         }
 
-//        Report Frequency Filter
-//        List<String> reportFrequencyList = filter.getReportFrequency();
-//        if (reportFrequencyList != null) {
-//            String inClauseValues = getInClauseValues(reportFrequencyList);
-//            filteredQuery = filteredQuery + " AND  c.product_name IN " + inClauseValues;
-//        }
+        //Report Frequency Filter
+        List<String> reportFrequencyList = filter.getReportFrequency();
+        if (reportFrequencyList != null) {
+            String inClauseValues = getInClauseValues(reportFrequencyList);
+            filteredQuery = filteredQuery + " AND  d.report_frequency IN " + inClauseValues;
+        }
+
 
         //Others Filter
         List<String> others = filter.getOthers();
         if (others != null) {
             String inClauseValues = getInClauseValues(others);
             filteredQuery = filteredQuery + " AND d.anayst_cfa_charter IN " + inClauseValues;
+        }
+
+        //productId filter
+        List<String> productIds = filter.getProductIds();
+        if(productIds!=null){
+            String inClauseValues = getInClauseValues(productIds);
+            filteredQuery = filteredQuery + " AND d.product_id IN " + inClauseValues;
         }
         return filteredQuery;
     }
@@ -314,8 +326,6 @@ public class SectorReportDao {
             query = RESEARCHED_BY_QUERY;
         } else if (SectorReportFilterTypes.REPORT_TONE.getType().equals(type)) {
             query = REPORT_TONE_QUERY;
-        } else if (SectorReportFilterTypes.REPORT_FREQUENCY.getType().equals(type)) {
-            query = REPORT_FREQUENCY_QUERY;
         } else {
             query = "";
         }
