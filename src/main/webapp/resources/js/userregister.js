@@ -353,7 +353,7 @@ function userRegisteration() {
 		$.ajax({
 			type: 'POST',
 			//url:  "registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype+"&NoR="+tags,
-			url:  "registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype,
+			url:  "/registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype,
 			cache: false,
 			success: function(output) {
 				$('#loadingrg').hide();

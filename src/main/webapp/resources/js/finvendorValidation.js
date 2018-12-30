@@ -165,13 +165,13 @@ $(document).ready(function(){
 
 	$('#signup-username').on('blur', function(){
 		if(validateNotNull(this,'signupUserNameErrorMsg')) {
-			validateAjax(this, 'checkExistingUser','signupUserNameErrorMsg');
+			validateAjax(this, '/checkExistingUser','signupUserNameErrorMsg');
 		};
 	});
 
 	$('#signup-email').on('blur', function(){
 		if(validateWithRegularExpression(this, 'signupEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true) && validatePersonalEmailId(this, 'signupEmailErrorMsg')) {
-			validateAjax(this, 'checkExistingUser','signupUserNameErrorMsg');
+			validateAjax(this, '/checkExistingUser','signupUserNameErrorMsg');
 		};
 	});
 
@@ -199,7 +199,7 @@ $(document).ready(function(){
 
 	$('#forgot-password-email').on('blur', function(){
 		if(validateWithRegularExpression(this, 'forgotPasswordEmailErrorMsg', regularExpressionMap['EMAIL'], 'EMAIL', true) && validatePersonalEmailId(this, 'forgotPasswordEmailErrorMsg')) {
-			validateAjax(this, 'checkExistingUser','forgotPasswordEmailErrorMsg');
+			validateAjax(this, '/checkExistingUser','forgotPasswordEmailErrorMsg');
 		};
 	});
 
