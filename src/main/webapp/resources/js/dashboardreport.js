@@ -85,10 +85,10 @@ function getDashboardResearchReportLoad() {
                                         + "</div>"
 
                                         + "<div class='dwnldReport'>"
-                                            + "<a target='blank' href='/system/api/downloadResearchReports?productId=" + response.data[0].productId + "&reportName=" + response.data[0].report + "'>Download Full Report</a>"
+                                            + "<a target='blank' href='/system/api/sectorreports/download?productId=" + response.data[0].productId + "&reportName=" + response.data[0].report + "'>Download Full Report</a>"
                                         + "</div>"
                                     + "</div>"
-                                    + "<span class='brokerName'>" + response.data[0].analystName + "</span>"
+                                    + "<span class='brokerName'>" + response.data[0].researchedBy + "</span>"
                                     + "<div class='reportDesc'>"
                                         + "<p>"
                                             + response.data[0].reportDescription
