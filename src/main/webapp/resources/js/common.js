@@ -482,16 +482,26 @@ jQuery(document).ready(function($) {
 			minChars: 2,
 			formatData: function (data) {
 
-				if(data.stock.length == 0) {
+				if(data.stock.length == 0 && data.sector.length == 0) {
 					$("input[name=txtSearchBox]").attr("disabled", "disabled");
 					return;
 				}
 				$("input[name=txtSearchBox]").removeAttr("disabled");
-				return data.stock;
+
+				var myData = data.stock.concat(data.sector);
+
+				return myData;
 			},
+
 			formatItem: function (data, $item) {
+
+				if(data.companyName == undefined) {
+					return data.sectorSubType + " (" + data.sectorType + ")";
+				}
+
 				return data.companyName + " (" + data.ticker + ")";
 			},
+
 			onSelect: function (data, $item) {
 				if(data.companyName != undefined) {
 					var companyProfileJson = {
@@ -504,12 +514,33 @@ jQuery(document).ready(function($) {
 					
 					if(e.target.name == 'homepagesearch') {
 
-						sendGAevents('HomePageSearch', 'Search Stocks onKeyDown', 'Search Stocks & its Quotes');
+						sendGAevents('HomePageSearch', 'Search Stocks and Sectors onKeyDown', 'Search Stocks, Sectors & its Quotes');
 
 					} else if(e.target.name == 'searchKeyword') {
 
-						sendGAevents('TopHeaderSearch', 'Search Stocks onKeyDown', 'Search Stocks & its Quotes');
+						sendGAevents('TopHeaderSearch', 'Search Stocks and Sectors onKeyDown', 'Search Stocks, Sectors & its Quotes');
 					}
+				}
+
+				if(data.companyName == undefined) {
+					this.val(data.sectorSubType + " (" + data.sectorType + ")");
+					var localEquitySearchJson = {
+						"geo": "1"
+					};
+					window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
+
+					var dasboardReportJson = {
+						type: "sector",
+						equitysearchjson : window.localStorage.getItem("equitysearchjson"),
+						productId : data.productId,
+						pageNumber : 1,
+						perPageMaxRecords : 10,
+						sortByValue : 'researchedBy',
+						orderBy : 'asc'
+					}
+					window.localStorage.setItem('dasboardReportJson', JSON.stringify(dasboardReportJson));
+
+					window.location.href = "/view/research-company-report.jsp";
 				}
 			},
 			required: true

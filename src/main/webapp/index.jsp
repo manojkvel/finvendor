@@ -57,6 +57,7 @@
 <!-- This is deep minimized code which works independently. -->
 <!--<script type="text/javascript"
 	src="</%=request.getContextPath()%>/resources/js/jssor_deep_minified.js"></script> -->
+	<script src=”https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <script async
 	src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
@@ -107,7 +108,7 @@
 										<input
 											class="form-control mform-control navbar-ac phcenter ui-autocomplete-input"
 											name="homepagesearch"
-											placeholder="Search stocks & its quotes"
+											placeholder="Search stocks, sectors & its quotes"
 											 type="text"
 											autocomplete="off"/>
 										<div class="input-group-addon splash-search-addon nobdr">
@@ -122,6 +123,36 @@
 						</div>
 						<div class="card-group splash-card-group">
 							<div class="card splash-card"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="marquee_container">
+			<div class="marquee stock_price">
+				<div class="row">
+					<div class="col-xs-12 col-md-2">
+						<div class="hd">
+							<h4 class="title"></h4>
+							<span class="last_updated_date"></span>
+						</div>
+					</div>				
+					<div class="col-xs-12 col-md-10">
+						<div class="bd">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="marquee index_price">
+				<div class="row">
+					<div class="col-xs-12 col-md-2">
+						<div class="hd">
+							<h4 class="title"></h4>
+							<span class="last_updated_date"></span>
+						</div>
+					</div>				
+					<div class="col-xs-12 col-md-10">
+						<div class="bd">
 						</div>
 					</div>
 				</div>
@@ -307,6 +338,10 @@
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	</div>
 </body>
+<script type="text/javascript">
+	getStockMarquee();
+	getIndexMarquee();
+</script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/resources/js/mail-functions.js"></script>
 

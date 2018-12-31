@@ -108,7 +108,7 @@
 										<input
 											class="form-control mform-control navbar-ac phcenter ui-autocomplete-input"
 											name="homepagesearch"
-											placeholder="Search stocks & its quotes"
+											placeholder="Search stocks, sectors & its quotes"
 											 type="text"
 											autocomplete="off"/>
 										<div class="input-group-addon splash-search-addon nobdr">

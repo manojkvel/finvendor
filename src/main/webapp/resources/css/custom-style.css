@@ -42,10 +42,12 @@ body {
 
 .header .header-nav {
 	background: #414b4f;
+	height: 55px;
 }
 
 .nav-container{
 	float: left;
+	height: 55px;
 }
 .nav-container .container {
 	width: auto;
@@ -1154,7 +1156,7 @@ th{
 	}
 
 	.header .logo {
-		padding: 13px 20px;
+		padding: 10px 20px;
 	}
 
 	#footer .pull-right {
