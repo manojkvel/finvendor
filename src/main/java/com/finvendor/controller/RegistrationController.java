@@ -10,6 +10,8 @@ import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -241,28 +243,25 @@ public class RegistrationController {
 
 
     @RequestMapping(value = RequestConstans.Register.REGISTERATION, method = RequestMethod.POST)
-    public ModelAndView saveUserInfo(HttpServletRequest request,
-                                     @ModelAttribute("users") FinVendorUser user,
-                                     @ModelAttribute("userRole") UserRole userRole,
-                                     @ModelAttribute("roles") Roles role,
-                                     @ModelAttribute("vendor") Vendor vendor,
-                                     @ModelAttribute("consumer") Consumer consumer,
-                                     @RequestParam(value = "VEuMlA", required = false) String uname,
-                                     @RequestParam(value = "RaYulU", required = false) String password,
-                                     @RequestParam(value = "ChEnGA", required = false) String email,
-                                     @RequestParam(value = "LaKS", required = false) String company,
-                                     @RequestParam(value = "ZaB", required = false) String companyType,
-                                     @RequestParam(value = "NoR", required = false) String tags) {
+    public ResponseEntity<?> saveUserInfo(HttpServletRequest request,
+                                       @ModelAttribute("users") FinVendorUser user,
+                                       @ModelAttribute("userRole") UserRole userRole,
+                                       @ModelAttribute("roles") Roles role,
+                                       @ModelAttribute("vendor") Vendor vendor,
+                                       @ModelAttribute("consumer") Consumer consumer,
+                                       @RequestParam(value = "VEuMlA", required = false) String uname,
+                                       @RequestParam(value = "RaYulU", required = false) String password,
+                                       @RequestParam(value = "ChEnGA", required = false) String email,
+                                       @RequestParam(value = "LaKS", required = false) String company,
+                                       @RequestParam(value = "ZaB", required = false) String companyType,
+                                       @RequestParam(value = "NoR", required = false) String tags) {
 
         logger.debug("Entering RegistrationController : saveUserInfo");
-        ModelAndView modelAndView = null;
-        boolean status = false;
         Set<UserRole> userRoles = null;
         String userRoleName = null;
 
-
+        String json="";
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-        modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
         user.setUserName(uname.toLowerCase());
         user.setPassword(encoder.encode(password));
         user.setEnabled(false);
@@ -310,31 +309,22 @@ public class RegistrationController {
         try {
             userService.saveUserInfo(user);
         } catch (Exception e) {
-            status = false;
-            logger.error("Error saving User inforamtion : ", e);
-            modelAndView.addObject("status", status);
-            modelAndView.addObject("message", "User already exist");
-            return modelAndView;
+            json="{\"message\":\"User already exist\"}";
+            return new ResponseEntity<>(json, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         try {
             String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
 
             EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
             EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName);
-            modelAndView.addObject("status", true);
             logger.debug("Leaving RegistrationController : saveUserInfo");
-
         } catch (Exception exp) {
             logger.error("Error saving User inforamtion : ", exp);
-            status = false;
-            modelAndView.addObject("status", status);
-            modelAndView.addObject("message", "Registraion verification failed");
-            return modelAndView;
+            json="{\"message\":\"Registraion verification failed\"}";
+            return new ResponseEntity<>(json, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        status=true;
-        modelAndView.addObject("status", status);
-        modelAndView.addObject("message", "Registraion done successfully");
-        return modelAndView;
+        json="{\"message\":\"Registraion done successfully\"}";
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
     @RequestMapping(value = "adminAddAcount", method = RequestMethod.POST)
