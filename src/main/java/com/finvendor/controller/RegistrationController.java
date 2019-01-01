@@ -259,55 +259,64 @@ public class RegistrationController {
         boolean status = false;
         Set<UserRole> userRoles = null;
         String userRoleName = null;
+
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+        modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
+        user.setUserName(uname.toLowerCase());
+        user.setPassword(encoder.encode(password));
+        user.setEnabled(false);
+        user.setEmail(email.toLowerCase());
+        user.setVerified("N");
+        user.setRegistrationDate(new Timestamp(System.currentTimeMillis()));
+        boolean isVendor = checkUserTypeFromCompany(companyType);
+
+        if (isVendor) {
+            role.setId(new Integer(RequestConstans.Roles.ROLE_VENDOR_VALUE));
+            userRoleName = "VENDOR";
+            vendor.setId(UUID.randomUUID().toString());
+            vendor.setFirstName(uname);
+            vendor.setLastName("");
+            vendor.setDesignation("");
+            vendor.setSecondaryEmail("");
+            vendor.setTelephone("");
+            vendor.setCompany(company);
+            vendor.setCompanyInfo("");
+            vendor.setCompanyUrl("");
+            vendor.setCompanyType(companyType);
+            vendor.setTags(tags);
+            vendor.setCompanyAddress("");
+            vendor.setUser(user);
+            user.setVendor(vendor);
+        } else {
+            role.setId(new Integer(RequestConstans.Roles.ROLE_CONSUMER_VALUE));
+            userRoleName = "CONSUMER";
+            consumer.setId(UUID.randomUUID().toString());
+            consumer.setFirstName(uname);
+            consumer.setLastName("");
+            consumer.setTelephone("");
+            consumer.setCompany(company);
+            consumer.setCompanyType(companyType);
+            consumer.setTags(tags);
+            consumer.setUser(user);
+            user.setConsumer(consumer);
+        }
+
+        userRole.setRoles(role);
+        userRole.setUser(user);
+        userRoles = new HashSet<UserRole>();
+        userRoles.add(userRole);
+        user.setUserRoles(userRoles);
         try {
-
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-            modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
-            user.setUserName(uname.toLowerCase());
-            user.setPassword(encoder.encode(password));
-            user.setEnabled(false);
-            user.setEmail(email.toLowerCase());
-            user.setVerified("N");
-            user.setRegistrationDate(new Timestamp(System.currentTimeMillis()));
-            boolean isVendor = checkUserTypeFromCompany(companyType);
-
-            if (isVendor) {
-                role.setId(new Integer(RequestConstans.Roles.ROLE_VENDOR_VALUE));
-                userRoleName = "VENDOR";
-                vendor.setId(UUID.randomUUID().toString());
-                vendor.setFirstName(uname);
-                vendor.setLastName("");
-                vendor.setDesignation("");
-                vendor.setSecondaryEmail("");
-                vendor.setTelephone("");
-                vendor.setCompany(company);
-                vendor.setCompanyInfo("");
-                vendor.setCompanyUrl("");
-                vendor.setCompanyType(companyType);
-                vendor.setTags(tags);
-                vendor.setCompanyAddress("");
-                vendor.setUser(user);
-                user.setVendor(vendor);
-            } else {
-                role.setId(new Integer(RequestConstans.Roles.ROLE_CONSUMER_VALUE));
-                userRoleName = "CONSUMER";
-                consumer.setId(UUID.randomUUID().toString());
-                consumer.setFirstName(uname);
-                consumer.setLastName("");
-                consumer.setTelephone("");
-                consumer.setCompany(company);
-                consumer.setCompanyType(companyType);
-                consumer.setTags(tags);
-                consumer.setUser(user);
-                user.setConsumer(consumer);
-            }
-
-            userRole.setRoles(role);
-            userRole.setUser(user);
-            userRoles = new HashSet<UserRole>();
-            userRoles.add(userRole);
-            user.setUserRoles(userRoles);
             userService.saveUserInfo(user);
+        } catch (Exception e) {
+            status = false;
+            logger.error("Error saving User inforamtion : ", e);
+            modelAndView.addObject("status", status);
+            modelAndView.addObject("message", "User already exist");
+            return modelAndView;
+        }
+        try {
             String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
 
             EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
@@ -317,9 +326,14 @@ public class RegistrationController {
 
         } catch (Exception exp) {
             logger.error("Error saving User inforamtion : ", exp);
+            status = false;
             modelAndView.addObject("status", status);
+            modelAndView.addObject("message", "Registraion verification failed");
+            return modelAndView;
         }
-
+        status=true;
+        modelAndView.addObject("status", status);
+        modelAndView.addObject("message", "Registraion done successfully");
         return modelAndView;
     }
 

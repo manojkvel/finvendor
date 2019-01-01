@@ -44,6 +44,7 @@ public class UserDaoImpl implements UserDao {
             this.sessionFactory.getCurrentSession().flush();
         } catch (Exception exp) {
             logger.error("Error UserDaoImpl : saveUserInfo ", exp);
+            throw new RuntimeException("User already exist",exp);
         }
         logger.debug("Leaving UserDaoImpl : saveUserInfo");
     }
