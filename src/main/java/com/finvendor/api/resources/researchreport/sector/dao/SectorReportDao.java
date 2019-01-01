@@ -8,6 +8,7 @@ import com.finvendor.api.resources.researchreport.sector.dto.IndustrySubTypeName
 import com.finvendor.api.resources.researchreport.sector.dto.SectorReportDto;
 import com.finvendor.api.resources.researchreport.sector.dto.SectorReportFilter;
 import com.finvendor.api.resources.researchreport.sector.enums.SectorReportFilterTypes;
+import com.finvendor.model.vo.VendorReportFile;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class SectorReportDao {
     /**
      * Sector Main query
      */
-    private final String SECTOR_REPORT_MAIN_QUERY = "select d.product_id, b.description SectorType, c.industry_sub_type_name SectorSubType, d.vendor_company RESEARCHEDBY,d.vendor_analyst_type ANALYSTTYPE, d.rsrch_recomm_type REPORT_TONE,d.report_frequency REPORT_FREQUENCY,d.report_name REPORT,d.report_date RESEARCH_DATE,d.analyst_name ANALYST_NAME,d.rsrch_report_desc DESCR,d.anayst_cfa_charter cfa from industry_sub_type c,research_sub_area b,vendor_report_data d where c.rsch_sub_area_id=b.research_sub_area_id and c.id=d.research_report_for_id and d.research_area_id=2";
+    private final String SECTOR_REPORT_MAIN_QUERY = "select d.product_id, b.description SectorType, c.industry_sub_type_name SectorSubType, d.vendor_company RESEARCHEDBY,d.vendor_analyst_type ANALYSTTYPE, d.rsrch_recomm_type REPORT_TONE,d.report_frequency REPORT_FREQUENCY,d.report_name REPORT,d.report_date RESEARCH_DATE,d.analyst_name ANALYST_NAME,d.rsrch_report_desc DESCR,d.anayst_cfa_charter cfa,d.product_name from industry_sub_type c,research_sub_area b,vendor_report_data d where c.rsch_sub_area_id=b.research_sub_area_id and c.id=d.research_report_for_id and d.research_area_id=2";
 
     @Autowired
     private ICommonDao commonDao;
@@ -129,6 +130,7 @@ public class SectorReportDao {
 
 
                 String byCfa = row[11] != null ? row[11].toString().trim() : null;
+                String productName = row[12] != null ? row[12].toString().trim() : null;
 
                 SectorReportDto dto = new SectorReportDto();
                 dto.setProductId(productId);
@@ -138,7 +140,7 @@ public class SectorReportDao {
                 dto.setAnalystType(analystType);
                 dto.setReportTone(reportTone);
                 dto.setReportFrequency(reportFrequency);
-                dto.setReportName(reportName);
+                dto.setReportName(productName);
                 long researchDateAsTimeStamp = ResearchReportUtil.convertStringToTimestamp(reportDate);
                 dto.setReportDate(String.valueOf(researchDateAsTimeStamp));
                 dto.setAnalystName(analystName);
@@ -155,6 +157,7 @@ public class SectorReportDao {
                 } else {
                     dto.setReportDescription(reportDesc);
                 }
+                dto.setReport(reportName);
                 sectorReports.add(dto);
             }
             return sectorReports;
@@ -167,7 +170,7 @@ public class SectorReportDao {
         Map<Object, Object> paramMap = new HashMap<>();
         paramMap.put("productId", productId);
         try {
-            Pair<Long, InputStream> longInputStreamPair = commonDao.fetchBlobFromTable(RESEARCH_REPORT_DETAILS_NAMED_QUERY, paramMap);
+            Pair<Long, InputStream> longInputStreamPair = commonDao.fetchBlobFromTable(VendorReportFile.REPORT_FILE_NAMED_QUERY, paramMap);
             return longInputStreamPair;
         } catch (Exception e) {
             throw new RuntimeException("Error has occurred while fetching blob from table", e);

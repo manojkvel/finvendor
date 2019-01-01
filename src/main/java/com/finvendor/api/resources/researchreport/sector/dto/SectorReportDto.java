@@ -18,6 +18,8 @@ public class SectorReportDto implements Serializable {
     private String analystName;
     private String reportDescription;
     private String researchReportByCfa;
+    private String report;
+
 
 
     public String getProductId() {
@@ -114,5 +116,13 @@ public class SectorReportDto implements Serializable {
 
     public void setResearchReportByCfa(String researchReportByCfa) {
         this.researchReportByCfa = researchReportByCfa;
+    }
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report;
     }
 }
