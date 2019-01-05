@@ -356,16 +356,19 @@ function userRegisteration() {
 			url:  "/registration?VEuMlA="+username+"&RaYulU="+password+"&ChEnGA="+email+"&LaKS="+company+"&ZaB="+companytype,
 			cache: false,
 			success: function(output) {
-				debugger
 				$('#loadingrg').hide();
 
-				if (output.match("true")) {
+				$('#generic-error-message').html(""); //You've registered successfully..!
+				reg_success_message_selected();
+				$("form").trigger("reset");
+
+				/*if (output.match("true")) {
 					$('#generic-error-message').html(""); //You've registered successfully..!
 					reg_success_message_selected();
 					$("form").trigger("reset");
 				}else {
 					$('#generic-error-message').html("Error registering user. Please contact <a href='mailto:support@finvendor.com'>Fin Vendor support</a>");
-				}
+				}*/
 			},
 			error: function(error) {
 				var response = JSON.parse(error.responseText);

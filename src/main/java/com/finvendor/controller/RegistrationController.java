@@ -320,7 +320,7 @@ public class RegistrationController {
             logger.debug("Leaving RegistrationController : saveUserInfo");
         } catch (Exception exp) {
             logger.error("Error saving User inforamtion : ", exp);
-            json="{\"message\":\"Registraion verification failed\"}";
+            json="{\"message\":\"Error registering user. Please contact Fin Vendor support.\"}";
             return new ResponseEntity<>(json, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         json="{\"message\":\"Registraion done successfully\"}";
