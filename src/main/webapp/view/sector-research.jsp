@@ -16,7 +16,7 @@
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 </head>
-<body>
+<body id="sector-research">
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">

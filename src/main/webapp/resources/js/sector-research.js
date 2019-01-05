@@ -158,7 +158,7 @@ jQuery(document).ready(function() {
 			// console.log("perPageMaxRecords: " + perPageMaxRecords);
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 		}
 	}
 	$('#fv_equity_research_report_vendor_search .max_per_page select').on('change', getPerPageMaxRecords);
@@ -207,7 +207,7 @@ jQuery(document).ready(function() {
 				loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 			}
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 		}
 	};
 
@@ -219,7 +219,7 @@ jQuery(document).ready(function() {
 				loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 			}
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 		}
 	};
 
@@ -231,7 +231,7 @@ jQuery(document).ready(function() {
 				loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 			}
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 		}
 	};
 
@@ -243,7 +243,7 @@ jQuery(document).ready(function() {
 				loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 			}
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 		}
 	};
 
@@ -494,7 +494,7 @@ jQuery(document).ready(function() {
 			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 		} else {
-			inner_login('view/equity_research_report_vendor.jsp');
+			inner_login('view/sector-research.jsp');
 			$('#search_by_geo ul input[name=geography_type]').eq(0).prop('checked', true);
 		}
 	};

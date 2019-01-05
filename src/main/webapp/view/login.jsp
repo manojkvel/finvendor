@@ -123,16 +123,6 @@
 									<li class="normal-line">
 										<label for='companytype'>Company Type</label>
 										<select id="signup-companytype" multi-data-mandatory="Y" name="companytype" class="form-control"> 
-											<!--<option value ="-SELECT-" id="1" selected>-Select Company Type-</option>
-											<option value="Individual Investor/Researcher" id="10" title='Individual Investor/Researcher'>Individual Investor/Researcher</option>
-											<option value="Financial Firm - Sell side" id="2" title='Financial Firm - Sell side'>Financial Firm - Sell side</option>
-											<option value="Financial Firm - Buy side" id="3" title='Financial Firm - Buy side'>Financial Firm - Buy side</option>
-											<option value="Financial Firm - Others" id="4" title='Financial Firm - Others'>Financial Firm - Others</option>
-											<option value="Data Aggregator" id="5" title='Financial Vendor - Data Aggregators'>Financial Vendor - Data Aggregators</option>
-											<option value="Trading Application" id="6" title='Financial Vendor - Trading Applications'>Financial Vendor - Trading Applications</option>
-											<option value="Analytics Application" id="7" title='Financial Vendor - Analytics Applications'>Financial Vendor - Analytics Applications</option>
-											<option value="Research Report" id="8" title='Financial Vendor - Research report Providers'>Financial Vendor - Research report Providers</option>
-											<option value="University/College" id="9" title='University/College'>University/College</option>-->
 											<option value="Individual Investor" id="1" title='Individual Investor' selected="selected">Individual Investor</option>
 											<option value="Independent Research Analyst" id="2" title='Independent Research Analyst'>Independent Research Analyst</option>
 											<option value="Research Broker" id="3" title='Vendor'>Research Broker</option>

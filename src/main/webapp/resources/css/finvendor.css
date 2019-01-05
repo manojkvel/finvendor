@@ -386,6 +386,17 @@ body {
 	font-weight: normal;
 }
 
+
+
+.mp_list li span {
+    background: #2f889a;
+    padding: 5px 10px;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 11px;
+    margin-left: 10px;
+}
+
 #home_page_main_search .mp_list {
 	top: 35px;
 }
@@ -615,6 +626,17 @@ body {
 	line-height: 18px;
 }
 
+thead {
+
+}
+
+tr {
+
+}
+
+tbody {
+
+}
 
 
 
@@ -1823,4 +1845,29 @@ button {
 	#marquee_container .bd {
 		margin-top: 0;
 	} 
+}
+
+@media only screen and (min-width: 768px) {
+
+	#fv_equity_research_report_vendor_search thead, 
+	#fv_equity_research_report_vendor_search tr {
+		table-layout: fixed;
+		display: table;
+		width: 100%;
+	}
+
+	#fv_equity_research_report_vendor_search thead th {
+		width: auto !important;
+	}
+
+	#fv_equity_research_report_vendor_search tbody {
+		display: block;
+		overflow: auto;
+		max-height: 542px;
+	}
+
+	#sector-research #fv_equity_research_report_vendor_search tbody {
+		max-height: 422px;
+		min-height: 272px;
+	}
 }

@@ -496,7 +496,7 @@ jQuery(document).ready(function($) {
 			formatItem: function (data, $item) {
 
 				if(data.companyName == undefined) {
-					return data.sectorSubType + " (" + data.sectorType + ")";
+					return data.sectorSubType + " (" + data.sectorType + ") <span>Sector</span>";
 				}
 
 				return data.companyName + " (" + data.ticker + ")";
