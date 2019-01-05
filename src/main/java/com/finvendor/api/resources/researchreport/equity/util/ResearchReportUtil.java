@@ -338,7 +338,7 @@ public class ResearchReportUtil {
                 }
                 mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y')) >=720)");
             }
-            mergeConditionQuerySb.append("))");
+            mergeConditionQuerySb.append(")");
         }
         return mergeConditionQuerySb.toString();
     }
