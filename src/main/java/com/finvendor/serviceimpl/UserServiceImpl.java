@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	@Transactional(readOnly=true)
-	public FinVendorUser getUserDetailsByEmailId(String email) throws ApplicationException {
+	public List<FinVendorUser> getUserDetailsByEmailId(String email) throws ApplicationException {
 		return userDao.getUserDetailsByEmailId(email);
 	}
 	
