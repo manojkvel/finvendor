@@ -2,8 +2,13 @@ jQuery(document).ready(function() {
 
 
 	window.onbeforeunload = function() {
-		window.localStorage.removeItem("equitysearchjson");
+		if(window.localStorage.getItem('searchsector')) {
+			//window.localStorage.removeItem("equitysearchjson");
+		} else {
+			window.localStorage.removeItem("equitysearchjson");
+		}
 	};
+
 
     var API_TIMEOUT_SMALL = 30*1000;
     var API_TIMEOUT_LARGE = 3*60*1000;
@@ -352,6 +357,51 @@ jQuery(document).ready(function() {
 		"geo": "1"
 	};
 
+	var sectorTypeFilterData = [];
+	var sectorSubTypeFilterData = [];
+	
+	//window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
+
+
+	function updateCurrentFilter() {
+		if(window.localStorage.getItem("equitysearchjson") != undefined) {
+			localEquitySearchJson = {
+				"geo": "1"
+			};
+
+			if(JSON.parse(window.localStorage.getItem("equitysearchjson")).sectorType != undefined) {
+				sectorTypeFilterData = [];
+				sectorTypeFilterData.length = 0;
+				sectorTypeFilterData.push(JSON.parse(window.localStorage.getItem("equitysearchjson")).sectorType);
+			}
+
+			if(JSON.parse(window.localStorage.getItem("equitysearchjson")).sectorSubType != undefined) {
+				sectorSubTypeFilterData = [];
+				sectorSubTypeFilterData.length = 0;
+				sectorSubTypeFilterData.push(JSON.parse(window.localStorage.getItem("equitysearchjson")).sectorSubType);
+			}
+
+			if(sectorTypeFilterData.length != 0 && sectorSubTypeFilterData.length !=0) {
+				localEquitySearchJson = {
+					"geo" : 1,
+					"sectorType" : sectorTypeFilterData,
+					"sectorSubType" : sectorSubTypeFilterData
+				};
+				window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
+				window.localStorage.removeItem('searchsector');
+				window.localStorage.removeItem("equitysearchjson");
+
+				setTimeout(function() {
+					$("#search_by_sector_type_ul li input[data-name = '" + sectorTypeFilterData + "']").prop('checked', true);
+					$("#search_by_sector_subtype_ul li input[data-name = '" + sectorSubTypeFilterData + "']").prop('checked', true);
+				}, 300);
+			}
+		}
+	}
+
+
+	
+	updateCurrentFilter();
 	window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 	loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
 
@@ -541,7 +591,7 @@ jQuery(document).ready(function() {
 		});
 	};
 
-	var sectorTypeFilterData = [];
+	//var sectorTypeFilterData = [];
 
     /**
      * Function to get analyst Type from localstorage and get equity list
@@ -576,6 +626,7 @@ jQuery(document).ready(function() {
 		} else {
 			inner_login('view/sector-research.jsp');
 			$("#search_by_sector_type ul input").prop('checked', false);
+
 			// $("#search_by_sector_type ul input").eq(0).prop('checked', true);
 		}
 	};
@@ -620,7 +671,7 @@ jQuery(document).ready(function() {
 		});
 	};
 
-	var sectorSubTypeFilterData = [];
+	//var sectorSubTypeFilterData = [];
 
     /**
      * Function to get sectorSubType from localstorage and get equity list

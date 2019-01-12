@@ -514,33 +514,39 @@ jQuery(document).ready(function($) {
 					
 					if(e.target.name == 'homepagesearch') {
 
-						sendGAevents('HomePageSearch', 'Search Stocks and Sectors onKeyDown', 'Search Stocks, Sectors & its Quotes');
+						sendGAevents('HomePageSearch', 'Search Stocks onKeyDown', 'Search Stocks & its Quotes');
 
 					} else if(e.target.name == 'searchKeyword') {
 
-						sendGAevents('TopHeaderSearch', 'Search Stocks and Sectors onKeyDown', 'Search Stocks, Sectors & its Quotes');
+						sendGAevents('TopHeaderSearch', 'Search Stocks onKeyDown', 'Search Stocks & its Quotes');
 					}
 				}
 
 				if(data.companyName == undefined) {
 					this.val(data.sectorSubType + " (" + data.sectorType + ")");
+
+					if(e.target.name == 'homepagesearch') {
+
+						sendGAevents('HomePageSearch', 'Search Sectors onKeyDown', 'Search Sectors & its Quotes');
+
+					} else if(e.target.name == 'searchKeyword') {
+
+						sendGAevents('TopHeaderSearch', 'Search Sectors onKeyDown', 'Search Sectors & its Quotes');
+					}
+
 					var localEquitySearchJson = {
-						"geo": "1"
+						"geo" : "1",
+						"sectorType" : data.sectorType,
+						"sectorSubType" : data.sectorSubType
 					};
+
 					window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
 
-					var dasboardReportJson = {
-						type: "sector",
-						equitysearchjson : window.localStorage.getItem("equitysearchjson"),
-						productId : data.productId,
-						pageNumber : 1,
-						perPageMaxRecords : 10,
-						sortByValue : 'researchedBy',
-						orderBy : 'asc'
+					if(window.location.pathname == "/view/sector-research.jsp") {
+						window.localStorage.setItem("searchsector", true);
 					}
-					window.localStorage.setItem('dasboardReportJson', JSON.stringify(dasboardReportJson));
 
-					window.location.href = "/view/research-company-report.jsp";
+					window.location.href = "/view/sector-research.jsp";
 				}
 			},
 			required: true
