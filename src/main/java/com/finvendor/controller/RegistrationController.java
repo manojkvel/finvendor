@@ -323,17 +323,6 @@ public class RegistrationController {
                 }
             }
         } catch (Exception e) {
-            json="{\"message\":\"User already exist\"}";
-            return new ResponseEntity<>(json, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        try {
-            String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
-
-            EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
-            EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName);
-            logger.debug("Leaving RegistrationController : saveUserInfo");
-        } catch (Exception exp) {
-            logger.error("Error saving User inforamtion : ", exp);
             json = "{\"message\":\"Error registering user. Please contact Fin Vendor for support.\"}";
             return new ResponseEntity<>(json, HttpStatus.INTERNAL_SERVER_ERROR);
         }
