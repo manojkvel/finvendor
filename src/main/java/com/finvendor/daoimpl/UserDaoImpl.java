@@ -194,14 +194,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public FinVendorUser getUserDetailsByEmailId(String email) throws ApplicationException {
+    public List<FinVendorUser> getUserDetailsByEmailId(String email) throws ApplicationException {
         logger.debug("Entering UserDaoImpl:getUserDetailsByEmailId {}", email);
         try {
             Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(FinVendorUser.class);
             criteria.add(Restrictions.eq("email", email));
-            FinVendorUser user = (FinVendorUser) criteria.uniqueResult();
+            List list = criteria.list();
             logger.debug("Leaving UserDaoImpl:getUserDetailsByEmailId {}", email);
-            return user;
+            return list;
         } catch (Exception exp) {
             logger.error("Error getUserDetailsByEmailId : " + exp);
             throw new ApplicationException("Error Reading User Details : " + email);

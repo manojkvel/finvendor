@@ -329,7 +329,8 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
         String status = "false";
         try {
-            FinVendorUser user = userService.getUserDetailsByEmailId(email);
+            List<FinVendorUser> users = userService.getUserDetailsByEmailId(email);
+            FinVendorUser user = users.get(0);
             if (user == null) {
                 logger.error("No User record available for : {}", email);
                 status = status + ":Invalid Email Id";

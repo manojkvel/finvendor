@@ -29,7 +29,7 @@ public interface UserDao {
 	
 	public int updateUserVerificationStatus(String username, String registration_id);
 	
-	public FinVendorUser getUserDetailsByEmailId(String email) throws ApplicationException;
+	public List<FinVendorUser> getUserDetailsByEmailId(String email) throws ApplicationException;
 	
 	public List<FinVendorUser> getUserDetails();
 	

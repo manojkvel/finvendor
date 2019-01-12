@@ -24,7 +24,7 @@ public interface UserService {
 	public int updateUserAccountStatus(String username, boolean status);
 	public String insertRegistrationVerificationRecord(String username, boolean recreate);
 	public boolean updateUserVerificationStatus(String userName, String registrationId);
-	public FinVendorUser getUserDetailsByEmailId(String email) throws ApplicationException;
+	public List<FinVendorUser> getUserDetailsByEmailId(String email) throws ApplicationException;
 	public List<FinVendorUser> getUserDetails();
 	public String resetPassword(String username) throws ApplicationException;
 	public int changePassword(String username, String password) throws ApplicationException;
