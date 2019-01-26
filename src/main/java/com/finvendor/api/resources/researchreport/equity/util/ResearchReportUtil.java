@@ -315,21 +315,23 @@ public class ResearchReportUtil {
             mergeConditionQuerySb.append(" and (");
             boolean needOR = false;
             if (researchDateList.contains("< 3 months")) {
-                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y'))<90)");
+                mergeConditionQuerySb.append("datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y'))<90");
                 needOR = true;
             }
             if (researchDateList.contains("3 - 6 months")) {
                 if (needOR) {
                     mergeConditionQuerySb.append(" OR ");
                 }
-                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y')) >=90 and (datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y'))<180)");
+                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y')) >=90" +
+                        " and datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y'))<180)");
                 needOR = true;
             }
             if (researchDateList.contains("6 - 12 months")) {
                 if (needOR) {
                     mergeConditionQuerySb.append(" OR ");
                 }
-                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y')) >=180 and (datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y'))<720)");
+                mergeConditionQuerySb.append("(datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y')) >=180" +
+                        " and datediff(curdate(),STR_TO_DATE(vendor_report_data.report_date, '%d/%m/%Y'))<720)");
                 needOR = true;
             }
             if (researchDateList.contains("> 12 months")) {
