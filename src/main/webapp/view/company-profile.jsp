@@ -384,7 +384,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="hidden-xs hidden-sm col-md-3">
+			<div class="col-xs-12 col-sm-12 col-md-3">
 				<jsp:include page="common/inner_sidebar.jsp"></jsp:include>
 			</div>
 		</div>

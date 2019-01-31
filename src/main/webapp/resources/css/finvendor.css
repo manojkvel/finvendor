@@ -1710,6 +1710,12 @@ button {
 	width: 0;
 }
 
+.rating_container {
+	background: #fff;
+	padding: 20px 0;
+	text-align: center;
+}
+
 /*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {

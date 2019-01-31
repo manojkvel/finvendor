@@ -480,10 +480,34 @@ function getCompanyProfileResearchReportLoad() {
         $(".market_details #pat_value .fr").html(patValue);
 
         $("#summary_content .summary").text(response.summary);
+        
+        setRatingHtml(response.companyProfileData.valuationScore);
 
     }, function(error) {
 
     });
+}
+
+setRatingHtml = function(valuationScore) {
+
+    var ratingImage = '';
+
+    if(valuationScore == "Strong Sell") {
+        ratingImage = "../resources/images/rating/ratingSsell.jpg";
+    } else if(valuationScore == "Strong Buy") {
+        ratingImage = "../resources/images/rating/ratingSbuy.jpg";
+    } else if(valuationScore == "Sell") {
+        ratingImage = "../resources/images/rating/ratingSell.jpg";
+    } else if(valuationScore == "Buy") {
+        ratingImage = "../resources/images/rating/ratingBuy.jpg";
+    } else if(valuationScore == "Neutral") {
+        ratingImage = "../resources/images/rating/ratingNeutral.jpg";
+    } else {
+        ratingImage = "../resources/images/rating/ratingNeutral.jpg";
+    }
+
+    var html = "<div class='sidebar-ctn-wrap cnt-ctn-wrap'><div class='rating_container'><img src='" + ratingImage + "' alt='' /></div></div>";
+    $(".inner-sidebar-wrap").prepend(html);
 }
 
 
