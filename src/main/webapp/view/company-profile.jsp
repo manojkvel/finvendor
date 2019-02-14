@@ -105,93 +105,98 @@
 						<div class="container-fluid market_details">
 							<div class="row">
 								<div class="col-xs-12 col-sm-7">
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="mkt_cap_value">
-											<div class="fl">Market Cap (cr)</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="face_value">
-											<div class="fl">Face Value</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-7">
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="pe_value">
-											<div class="fl">P/E (ttm)</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="eps_value">
-											<div class="fl">EPS (ttm)</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-7">
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="pb_value">
-											<div class="fl">P/B</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="bv_value">
-											<div class="fl">BV/share</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-7">
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="div_yield_value">
-											<div class="fl">Div Yield (%)</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="year_l_h_value">
-											<div class="fl">52wk L/H</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-7">
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="beta_value">
-											<div class="fl">BETA</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="roe_value">
-											<div class="fl">ROE (%)</div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-7">
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="revenue_value">
-											<div class="fl">Revenue (cr)<sup>*</sup></div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-									<div class="col-xs-12 col-sm-6">
-										<div class="md_p" id="pat_value">
-											<div class="fl">PAT (cr)<sup>*</sup></div>
-											<div class="fr">NA</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-xs-12 col-sm-7">
 									<div class="col-xs-12 col-sm-12">
-										<div class="fv_indicators">* indicates recent qtr</div>
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="mkt_cap_value">
+												<div class="fl">Market Cap (cr)</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="face_value">
+												<div class="fl">Face Value</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
 									</div>
+									<div class="col-xs-12 col-sm-12">
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="pe_value">
+												<div class="fl">P/E (ttm)</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="eps_value">
+												<div class="fl">EPS (ttm)</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12">
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="pb_value">
+												<div class="fl">P/B</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="bv_value">
+												<div class="fl">BV/share</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12">
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="div_yield_value">
+												<div class="fl">Div Yield (%)</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="year_l_h_value">
+												<div class="fl">52wk L/H</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12">
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="beta_value">
+												<div class="fl">BETA</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="roe_value">
+												<div class="fl">ROE (%)</div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12">
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="revenue_value">
+												<div class="fl">Revenue (cr)<sup>*</sup></div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-6">
+											<div class="md_p" id="pat_value">
+												<div class="fl">PAT (cr)<sup>*</sup></div>
+												<div class="fr">NA</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-12">
+										<div class="col-xs-12 col-sm-12">
+											<div class="fv_indicators">* indicates recent qtr</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-5">
+									<div class="rating_container"></div>
 								</div>
 							</div>
 						</div>

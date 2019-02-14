@@ -506,8 +506,8 @@ setRatingHtml = function(valuationScore) {
         ratingImage = "../resources/images/rating/ratingNeutral.jpg";
     }
 
-    var html = "<div class='sidebar-ctn-wrap cnt-ctn-wrap'><div class='rating_container'><img src='" + ratingImage + "' alt='' /></div></div>";
-    $(".inner-sidebar-wrap").prepend(html);
+    var html = "<img src='" + ratingImage + "' alt='" + valuationScore + "' title='" + valuationScore + "'/>";
+    $(".rating_container").html(html);
 }
 
 

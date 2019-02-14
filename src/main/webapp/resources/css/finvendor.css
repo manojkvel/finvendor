@@ -1712,7 +1712,7 @@ button {
 
 .rating_container {
 	background: #fff;
-	padding: 20px 0;
+	padding: 0;
 	text-align: center;
 }
 
@@ -1850,7 +1850,11 @@ button {
 
 	#marquee_container .bd {
 		margin-top: 0;
-	} 
+	}
+
+	.rating_container {
+		padding: 20px 0;
+	}
 }
 
 @media only screen and (min-width: 768px) {
