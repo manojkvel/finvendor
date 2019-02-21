@@ -1,5 +1,6 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dao;
 
+import com.finvendor.api.resources.companyprofile.companyprofile.dto.PriceReturn;
 import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.commondao.ICommonDao;
@@ -17,9 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -206,6 +205,28 @@ public class CompanyProfileDao {
                                 recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr));
             }
             paramsMap.put("summary", summary);
+            PriceReturn priceReturn = new PriceReturn();
+
+            Map<String, String> nifty50PriceReturnMap = new LinkedHashMap<>();
+            nifty50PriceReturnMap.put("1W", "");
+            nifty50PriceReturnMap.put("1M", "");
+            nifty50PriceReturnMap.put("3M", "");
+            nifty50PriceReturnMap.put("6M", "");
+            nifty50PriceReturnMap.put("1Y", "");
+            nifty50PriceReturnMap.put("2Y", "");
+            nifty50PriceReturnMap.put("5Y", "");
+
+            Map<String, String> stockPriceReturnMap = new LinkedHashMap<>();
+            stockPriceReturnMap.put("1W", "");
+            stockPriceReturnMap.put("1M", "");
+            stockPriceReturnMap.put("3M", "");
+            stockPriceReturnMap.put("6M", "");
+
+
+            priceReturn.setNifty50(nifty50PriceReturnMap);
+            priceReturn.setStock(stockPriceReturnMap);
+            paramsMap.put("priceHistory", priceReturn);
+
             companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
             return companyProfile;
         } catch (ParseException | IOException e) {

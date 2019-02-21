@@ -1,27 +1,34 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dto;
 
+import java.util.Map;
+
 public class PriceReturn {
-    private  StockPriceReturn stockPriceReturn;
-    private Nifty50PriceReturn nifty50PriceReturn;
+    private Map<String,String> stock;
+    private Map<String,String> nifty50;
 
-    public PriceReturn(StockPriceReturn stockPriceReturn, Nifty50PriceReturn nifty50PriceReturn) {
-        this.stockPriceReturn = stockPriceReturn;
-        this.nifty50PriceReturn = nifty50PriceReturn;
+
+    public PriceReturn() {
+
     }
 
-    public StockPriceReturn getStockPriceReturn() {
-        return stockPriceReturn;
+    public PriceReturn(Map<String, String> stock, Map<String, String> nifty50) {
+        this.stock = stock;
+        this.nifty50 = nifty50;
     }
 
-    public void setStockPriceReturn(StockPriceReturn stockPriceReturn) {
-        this.stockPriceReturn = stockPriceReturn;
+    public Map<String, String> getStock() {
+        return stock;
     }
 
-    public Nifty50PriceReturn getNifty50PriceReturn() {
-        return nifty50PriceReturn;
+    public void setStock(Map<String, String> stock) {
+        this.stock = stock;
     }
 
-    public void setNifty50PriceReturn(Nifty50PriceReturn nifty50PriceReturn) {
-        this.nifty50PriceReturn = nifty50PriceReturn;
+    public Map<String, String> getNifty50() {
+        return nifty50;
+    }
+
+    public void setNifty50(Map<String, String> nifty50) {
+        this.nifty50 = nifty50;
     }
 }
