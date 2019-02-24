@@ -49,6 +49,58 @@ public class CompanyProfileDao {
      */
     // Complex Query - Do not refactor it
     public static final String mainQuery = "SELECT rsch_sub_area_company_dtls.company_id comapanyId, rsch_sub_area_company_dtls.company_name companyName, rsch_sub_area_company_dtls.isin_code isinCode, rsch_area_stock_class.stock_class_name style, market_cap_def.market_cap_name mcap, research_sub_area.description sector, stock_current_prices.close_price cmp, stock_current_prices.price_date prcDt, stock_current_info.pe pe, stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth, stock_current_info.eps_ttm epsttm, vendor_report_data.research_report_for_id companyId, vendor_report_data.product_id prdId, vendor_report_data.vendor_company broker, vendor_report_data.rsrch_recomm_type recommType, vendor_report_data.target_price tgtPrice, vendor_report_data.price_at_recomm prcAtRecomm, ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100 upside, vendor_report_data.report_name rptName, vendor_report_data.report_date rsrchDt, vendor_report_data.analyst_awards award, vendor_report_data.anayst_cfa_charter cfa, vendor_report_data.analyst_name analystName, vendor_report_data.vendor_analyst_type analystType, vendor_report_data.vendor_id vendorId, vendor_report_data.launched_year ly, vendor_report_data.vendor_name userName, vendor_report_data.rsrch_report_desc rptDesc, vendor_report_data.product_name productNameAsReportName FROM rsch_sub_area_company_dtls,      rsch_area_stock_class,      market_cap_def,      comp_mkt_cap_type,      research_sub_area,      stock_current_prices,      stock_current_info,      vendor_report_data WHERE   rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
+
+//    #Current
+//    SELECT STR_TO_DATE(b.price_date,  "%d/%b/%y" ),b.close_price FROM  rsch_sub_area_company_dtls a, stock_historical_prices b WHERE a.isin_code='INE002A01018' and  a.company_id=b.stock_id ORDER BY STR_TO_DATE( price_date,  "%d/%b/%y" ) DESC limit 1 offset 0;
+//
+//#Week
+//    SELECT b.close_price FROM  rsch_sub_area_company_dtls a, stock_historical_prices b WHERE a.company_id=b.stock_id and a.isin_code='INE002A01018' ORDER BY STR_TO_DATE( price_date,  "%d/%b/%y" ) DESC limit 1 offset 6;
+//
+//#1M
+//    SELECT b.close_price FROM  rsch_sub_area_company_dtls a, stock_historical_prices b WHERE a.company_id=b.stock_id and a.isin_code='INE002A01018' ORDER BY STR_TO_DATE( price_date,  "%d/%b/%y" ) DESC limit 1 offset 29;
+//
+//#3M
+//    SELECT b.close_price FROM  rsch_sub_area_company_dtls a, stock_historical_prices b WHERE a.company_id=b.stock_id and a.isin_code='INE002A01018' ORDER BY STR_TO_DATE( price_date,  "%d/%b/%y" ) DESC limit 1 offset 89;
+//
+//#6M
+//    SELECT b.close_price FROM  rsch_sub_area_company_dtls a, stock_historical_prices b WHERE a.company_id=b.stock_id and a.isin_code='INE002A01018' ORDER BY STR_TO_DATE( price_date,  "%d/%b/%y" ) DESC limit 1 offset 179;
+//
+//    CREATE TABLE IF NOT EXISTS `nifty50_price_history` (
+//            `date` varchar(50) DEFAULT NULL,
+//`close` varchar(50) DEFAULT NULL
+//) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+//
+//##Nify50
+//    SELECT STR_TO_DATE(date,  "%d-%b-%y" ),close
+//    FROM  nifty50_price_history
+//    ORDER BY STR_TO_DATE(date,  "%d-%b-%y" ) DESC;
+//
+//#Current
+//    SELECT STR_TO_DATE(date,  "%d-%b-%y" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  "%d-%b-%y" ) DESC limit 1 offset 0;
+//
+//#1W
+//    SELECT STR_TO_DATE(date,  "%d-%b-%y" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  "%d-%b-%y" ) DESC limit 1 offset 6;
+//
+//#1M
+//    SELECT STR_TO_DATE(date,  "%d-%b-%y" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  "%d-%b-%y" ) DESC limit 1 offset 6;
+//
+//#3M
+//    SELECT STR_TO_DATE(date,  "%d-%b-%y" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  "%d-%b-%y" ) DESC limit 1 offset 6;
+//
+//#6M
+//    SELECT STR_TO_DATE(date,  "%d-%b-%y" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  "%d-%b-%y" ) DESC limit 1 offset 6;
+//
+//#1Y
+//    SELECT STR_TO_DATE(date,  "%d-%b-%y" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  "%d-%b-%y" ) DESC limit 1 offset 6;
+//
+//#2Y
+//    SELECT STR_TO_DATE(date,  "%d-%b-%y" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  "%d-%b-%y" ) DESC limit 1 offset 6;
+//
+//#5Y
+//    SELECT STR_TO_DATE(date,  "%d-%b-%y" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  "%d-%b-%y" ) DESC limit 1 offset 6;
+//
+//
+
     @Autowired
     private ICommonDao commonDao;
 
@@ -208,19 +260,22 @@ public class CompanyProfileDao {
             PriceReturn priceReturn = new PriceReturn();
 
             Map<String, String> nifty50PriceReturnMap = new LinkedHashMap<>();
-            nifty50PriceReturnMap.put("1W", "");
-            nifty50PriceReturnMap.put("1M", "");
-            nifty50PriceReturnMap.put("3M", "");
-            nifty50PriceReturnMap.put("6M", "");
-            nifty50PriceReturnMap.put("1Y", "");
-            nifty50PriceReturnMap.put("2Y", "");
-            nifty50PriceReturnMap.put("5Y", "");
+            nifty50PriceReturnMap.put("1W", "-");
+            nifty50PriceReturnMap.put("1M", "-");
+            nifty50PriceReturnMap.put("3M", "-");
+            nifty50PriceReturnMap.put("6M", "-");
+            nifty50PriceReturnMap.put("1Y", "-");
+            nifty50PriceReturnMap.put("2Y", "-");
+            nifty50PriceReturnMap.put("5Y", "-");
 
             Map<String, String> stockPriceReturnMap = new LinkedHashMap<>();
-            stockPriceReturnMap.put("1W", "");
-            stockPriceReturnMap.put("1M", "");
-            stockPriceReturnMap.put("3M", "");
-            stockPriceReturnMap.put("6M", "");
+            stockPriceReturnMap.put("1W", "-");
+            stockPriceReturnMap.put("1M", "-");
+            stockPriceReturnMap.put("3M", "-");
+            stockPriceReturnMap.put("6M", "-");
+            stockPriceReturnMap.put("1Y", "-");
+            stockPriceReturnMap.put("2Y", "-");
+            stockPriceReturnMap.put("5Y", "-");
 
 
             priceReturn.setNifty50(nifty50PriceReturnMap);
