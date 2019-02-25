@@ -196,7 +196,9 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-5">
-									<div class="rating_container"></div>
+									<div id="broker_stock_rating_container">
+										<h3>Broker Stock Rating</h3>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -390,7 +392,13 @@
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-3">
-				<jsp:include page="common/inner_sidebar.jsp"></jsp:include>
+
+				<div id="rating_container"></div>
+
+				<div id="perf_history_container">
+					<div id="stock"></div>
+					<div id="nifty50"></div>
+				</div>
 			</div>
 		</div>
 	</div>

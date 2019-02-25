@@ -482,10 +482,192 @@ function getCompanyProfileResearchReportLoad() {
         $("#summary_content .summary").text(response.summary);
         
         setRatingHtml(response.companyProfileData.valuationScore);
+        setStockPerfHistoryHtml();
+        setNifty50PerfHistoryHtml();
 
     }, function(error) {
 
     });
+}
+
+setStockPerfHistoryHtml = function() {
+    var json = {
+        "priceHistory": {
+            "stock": {
+              "1W": "2.52",
+              "1M": "21.98",
+              "3M": "11.53",
+              "6M": "5.62",
+              "1Y": "-2.54",
+              "2Y": "1.93",
+              "5Y": "-2.59"
+            },
+            "nifty50": {
+              "1W": "2.52",
+              "1M": "21.98",
+              "3M": "-11.53",
+              "6M": "5.62",
+              "1Y": "2.54",
+              "2Y": "1.93",
+              "5Y": "-2.59"
+            }
+        }
+    }
+
+    var stock1W = (json.priceHistory.stock['1W'] != undefined && json.priceHistory.stock['1W'] != '-') ? json.priceHistory.stock['1W'] + "%" : '-'
+    var stock1M = (json.priceHistory.stock['1M'] != undefined && json.priceHistory.stock['1M'] != '-') ? json.priceHistory.stock['1M'] + "%" : '-'
+    var stock3M = (json.priceHistory.stock['3M'] != undefined && json.priceHistory.stock['3M'] != '-') ? json.priceHistory.stock['3M'] + "%" : '-'
+    var stock6M = (json.priceHistory.stock['6M'] != undefined && json.priceHistory.stock['6M'] != '-') ? json.priceHistory.stock['6M'] + "%" : '-'
+    var stock1Y = (json.priceHistory.stock['1Y'] != undefined && json.priceHistory.stock['1Y'] != '-') ? json.priceHistory.stock['1Y'] + "%" : '-'
+
+
+
+    var stock1WClass = "";
+    if(json.priceHistory.stock['1W'] > 0) {
+        stock1WClass = "success";
+    } else if(json.priceHistory.stock['1W'] < 0) {
+        stock1WClass = "danger";
+    }
+
+    var stock1MClass = "";
+    if(json.priceHistory.stock['1M'] > 0) {
+        stock1MClass = "success";
+    } else if(json.priceHistory.stock['1M'] < 0) {
+        stock1MClass = "danger";
+    }
+
+    var stock3MClass = "";
+    if(json.priceHistory.stock['3M'] > 0) {
+        stock3MClass = "success";
+    } else if(json.priceHistory.stock['3M'] < 0) {
+        stock3MClass = "danger";
+    }
+
+    var stock6MClass = "";
+    if(json.priceHistory.stock['6M'] > 0) {
+        stock6MClass = "success";
+    } else if(json.priceHistory.stock['6M'] < 0) {
+        stock6MClass = "danger";
+    }
+
+    var stock1YClass = "";
+    if(json.priceHistory.stock['1Y'] > 0) {
+        stock1YClass = "success";
+    } else if(json.priceHistory.stock['1Y'] < 0) {
+        stock1YClass = "danger";
+    }
+
+    var stockHtml = "<h3>Stock Return</h3>"
+                    + "<table>"
+                    + "<tr>"
+                    +   "<thead>"
+                    +       "<th>1W</th>"
+                    +       "<th>1M</th>"
+                    +       "<th>3M</th>"
+                    +       "<th>6M</th>"
+                    +       "<th>1Y</th>"
+                    +   "</thead>"
+                    + "</tr>"
+                    + "<tr>"
+                    +       "<td class='" + stock1WClass + "'>" + stock1W + "</td>"
+                    +       "<td class='" + stock1MClass + "'>" + stock1M + "</td>"
+                    +       "<td class='" + stock3MClass + "'>" + stock3M + "</td>"
+                    +       "<td class='" + stock6MClass + "'>" + stock6M + "</td>"
+                    +       "<td class='" + stock1YClass + "'>" + stock1Y + "</td>"
+                    + "</tr>"
+                    + "</table>";
+
+    $("#perf_history_container #stock").html(stockHtml);
+}
+
+setNifty50PerfHistoryHtml = function() {
+    var json = {
+        "priceHistory": {
+            "stock": {
+              "1W": "2.52",
+              "1M": "21.98",
+              "3M": "11.53",
+              "6M": "5.62",
+              "1Y": "-2.54",
+              "2Y": "1.93",
+              "5Y": "-2.59"
+            },
+            "nifty50": {
+              "1W": "2.52",
+              "1M": "21.98",
+              "3M": "-",
+              "6M": "-5.62",
+              "1Y": "2.54",
+              "2Y": "1.93",
+              "5Y": "-2.59"
+            }
+        }
+    }
+
+    var nifty501W = (json.priceHistory.nifty50['1W'] != undefined && json.priceHistory.nifty50['1W'] != '-') ? json.priceHistory.nifty50['1W'] + "%" : '-'
+    var nifty501M = (json.priceHistory.nifty50['1M'] != undefined && json.priceHistory.nifty50['1M'] != '-') ? json.priceHistory.nifty50['1M'] + "%" : '-'
+    var nifty503M = (json.priceHistory.nifty50['3M'] != undefined && json.priceHistory.nifty50['3M'] != '-') ? json.priceHistory.nifty50['3M'] + "%" : '-'
+    var nifty506M = (json.priceHistory.nifty50['6M'] != undefined && json.priceHistory.nifty50['6M'] != '-') ? json.priceHistory.nifty50['6M'] + "%" : '-'
+    var nifty501Y = (json.priceHistory.nifty50['1Y'] != undefined && json.priceHistory.nifty50['1Y'] != '-') ? json.priceHistory.nifty50['1Y'] + "%" : '-'
+
+
+
+    var nifty501WClass = "";
+    if(json.priceHistory.nifty50['1W'] > 0) {
+        nifty501WClass = "success";
+    } else if(json.priceHistory.nifty50['1W'] < 0) {
+        nifty501WClass = "danger";
+    }
+
+    var nifty501MClass = "";
+    if(json.priceHistory.nifty50['1M'] > 0) {
+        nifty501MClass = "success";
+    } else if(json.priceHistory.nifty50['1M'] < 0) {
+        nifty501MClass = "danger";
+    }
+
+    var nifty503MClass = "";
+    if(json.priceHistory.nifty50['3M'] > 0) {
+        nifty503MClass = "success";
+    } else if(json.priceHistory.nifty50['3M'] < 0) {
+        nifty503MClass = "danger";
+    }
+
+    var nifty506MClass = "";
+    if(json.priceHistory.nifty50['6M'] > 0) {
+        nifty506MClass = "success";
+    } else if(json.priceHistory.nifty50['6M'] < 0) {
+        nifty506MClass = "danger";
+    }
+
+    var nifty501YClass = "";
+    if(json.priceHistory.nifty50['1Y'] > 0) {
+        nifty501YClass = "success";
+    } else if(json.priceHistory.nifty50['1Y'] < 0) {
+        nifty501YClass = "danger";
+    }
+
+    var nifty50Html = "<h3>Nifty 50 Return</h3>"
+                    + "<table>"
+                    + "<tr>"
+                    +   "<thead>"
+                    +       "<th>1W</th>"
+                    +       "<th>1M</th>"
+                    +       "<th>3M</th>"
+                    +       "<th>6M</th>"
+                    +       "<th>1Y</th>"
+                    +   "</thead>"
+                    + "</tr>"
+                    + "<tr>"
+                    +       "<td class='" + nifty501WClass + "'>" + nifty501W + "</td>"
+                    +       "<td class='" + nifty501MClass + "'>" + nifty501M + "</td>"
+                    +       "<td class='" + nifty503MClass + "'>" + nifty503M + "</td>"
+                    +       "<td class='" + nifty506MClass + "'>" + nifty506M + "</td>"
+                    +       "<td class='" + nifty501YClass + "'>" + nifty501Y + "</td>"
+                    + "</tr>"
+                    + "</table>";
+
+    $("#perf_history_container #nifty50").html(nifty50Html);
 }
 
 setRatingHtml = function(valuationScore) {
@@ -506,8 +688,8 @@ setRatingHtml = function(valuationScore) {
         ratingImage = "../resources/images/rating/ratingNeutral.jpg";
     }
 
-    var html = "<img src='" + ratingImage + "' alt='" + valuationScore + "' title='" + valuationScore + "'/>";
-    $(".rating_container").html(html);
+    var html = "<div id='finvendor_rating'><h3>FinVendor Valuation Rating</h3><img src='" + ratingImage + "' alt='" + valuationScore + "' title='" + valuationScore + "'/></div>";
+    $("#rating_container").html(html);
 }
 
 

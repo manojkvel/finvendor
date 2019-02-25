@@ -1710,10 +1710,39 @@ button {
 	width: 0;
 }
 
-.rating_container {
+#finvendor_rating {
 	background: #fff;
-	padding: 0;
+	padding: 15px;
 	text-align: center;
+}
+
+#finvendor_rating h3 {
+	font-size: 15px;
+	font-weight: bold;
+	margin: 0;
+	padding-bottom: 15px;
+	text-align: left;
+}
+
+#perf_history_container {
+	font-weight: bold;
+}
+
+#perf_history_container h3 {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#perf_history_container table th {
+	height: 21px;
+	font-weight: bold;
+	background: #2f889a; 
+	color: #fff; 
+	border-right: 1px solid #eceeef;
+}
+
+#perf_history_container table td {
+	border-right: 1px solid #eee;
 }
 
 /*-----------------End of Dashboard Metrics----------------*/
@@ -1852,8 +1881,8 @@ button {
 		margin-top: 0;
 	}
 
-	.rating_container {
-		padding: 20px 0;
+	#finvendor_rating {
+		padding: 15px;
 	}
 }
 
