@@ -482,16 +482,16 @@ function getCompanyProfileResearchReportLoad() {
         $("#summary_content .summary").text(response.summary);
         
         setRatingHtml(response.companyProfileData.valuationScore);
-        setStockPerfHistoryHtml();
-        setNifty50PerfHistoryHtml();
+        setStockPerfHistoryHtml(response);
+        setNifty50PerfHistoryHtml(response);
 
     }, function(error) {
 
     });
 }
 
-setStockPerfHistoryHtml = function() {
-    var json = {
+setStockPerfHistoryHtml = function(json) {
+    /*var json = {
         "priceHistory": {
             "stock": {
               "1W": "2.52",
@@ -512,7 +512,7 @@ setStockPerfHistoryHtml = function() {
               "5Y": "-2.59"
             }
         }
-    }
+    }*/
 
     var stock1W = (json.priceHistory.stock['1W'] != undefined && json.priceHistory.stock['1W'] != '-') ? json.priceHistory.stock['1W'] + "%" : '-'
     var stock1M = (json.priceHistory.stock['1M'] != undefined && json.priceHistory.stock['1M'] != '-') ? json.priceHistory.stock['1M'] + "%" : '-'
@@ -580,8 +580,8 @@ setStockPerfHistoryHtml = function() {
     $("#perf_history_container #stock").html(stockHtml);
 }
 
-setNifty50PerfHistoryHtml = function() {
-    var json = {
+setNifty50PerfHistoryHtml = function(json) {
+    /*var json = {
         "priceHistory": {
             "stock": {
               "1W": "2.52",
@@ -602,7 +602,7 @@ setNifty50PerfHistoryHtml = function() {
               "5Y": "-2.59"
             }
         }
-    }
+    }*/
 
     var nifty501W = (json.priceHistory.nifty50['1W'] != undefined && json.priceHistory.nifty50['1W'] != '-') ? json.priceHistory.nifty50['1W'] + "%" : '-'
     var nifty501M = (json.priceHistory.nifty50['1M'] != undefined && json.priceHistory.nifty50['1M'] != '-') ? json.priceHistory.nifty50['1M'] + "%" : '-'
@@ -675,20 +675,20 @@ setRatingHtml = function(valuationScore) {
     var ratingImage = '';
 
     if(valuationScore == "Strong Sell") {
-        ratingImage = "../resources/images/rating/ratingSsell.jpg";
+        ratingImage = "../resources/images/rating/ratingVeryOverpriced.jpg";
     } else if(valuationScore == "Strong Buy") {
-        ratingImage = "../resources/images/rating/ratingSbuy.jpg";
+        ratingImage = "../resources/images/rating/ratingVeryPleasing.jpg";
     } else if(valuationScore == "Sell") {
-        ratingImage = "../resources/images/rating/ratingSell.jpg";
+        ratingImage = "../resources/images/rating/ratingOverpriced.jpg";
     } else if(valuationScore == "Buy") {
-        ratingImage = "../resources/images/rating/ratingBuy.jpg";
+        ratingImage = "../resources/images/rating/ratingPleasing.jpg";
     } else if(valuationScore == "Neutral") {
-        ratingImage = "../resources/images/rating/ratingNeutral.jpg";
+        ratingImage = "../resources/images/rating/ratingReasonable.jpg";
     } else {
-        ratingImage = "../resources/images/rating/ratingNeutral.jpg";
+        ratingImage = "../resources/images/rating/ratingReasonable.jpg";
     }
 
-    var html = "<div id='finvendor_rating'><h3>FinVendor Valuation Rating</h3><img src='" + ratingImage + "' alt='" + valuationScore + "' title='" + valuationScore + "'/></div>";
+    var html = "<div id='finvendor_rating'><h3>FinVendor Valuation Rating</h3><img src='" + ratingImage + "' alt='" + valuationScore + "' title='" + valuationScore + "'/><h4>" + valuationScore + "</h4</div>";
     $("#rating_container").html(html);
 }
 

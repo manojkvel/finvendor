@@ -1724,6 +1724,23 @@ button {
 	text-align: left;
 }
 
+#finvendor_rating img {
+	margin: 0 auto;
+	display: block;
+}
+
+#finvendor_rating h4 {
+	background: red;
+	border-radius: 10px;
+	padding: 10px;
+	font-weight: bold;
+	color: #fff;
+	margin: 0 auto;
+	text-align: center;
+	display: inline-block;
+	font-size: 15px;
+}
+
 #perf_history_container {
 	font-weight: bold;
 }
