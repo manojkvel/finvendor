@@ -109,9 +109,26 @@ public class CompanyProfileDao {
 
     @Autowired
     private EquityReportDao equityReportDao;
+    private static final String STOCK_CURRENT_CLOSE_PRICE = "SELECT b.stock_id,b.close_price FROM stock_historical_prices b WHERE b.stock_id=? ORDER BY STR_TO_DATE( price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 0";
+    private static final String STOCK_1_WEEK_CLOSE_PRICE = "SELECT b.stock_id, b.close_price FROM   stock_historical_prices b WHERE b.stock_id=? ORDER BY STR_TO_DATE( price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 6";
+    private static final String STOCK_1_MONTH_CLOSE_PRICE = "SELECT b.stock_id, b.close_price FROM stock_historical_prices b WHERE b.stock_id=? ORDER BY STR_TO_DATE( price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 29";
+    private static final String STOCK_3_MONTH_CLOSE_PRICE = "SELECT b.stock_id, b.close_price FROM  stock_historical_prices b WHERE b.stock_id=? ORDER BY STR_TO_DATE( price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 89";
+    private static final String STOCK_6_MONTH_CLOSE_PRICE = "SELECT b.stock_id, b.close_price FROM  stock_historical_prices b WHERE b.stock_id=? ORDER BY STR_TO_DATE( price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 179";
+    private static final String STOCK_1_YEAR_CLOSE_PRICE = "SELECT b.stock_id, b.close_price FROM  stock_historical_prices b WHERE b.stock_id=? ORDER BY STR_TO_DATE( price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 364";
+    private static final String STOCK_2_YEAR_CLOSE_PRICE = "SELECT b.stock_id, b.close_price FROM  stock_historical_prices b WHERE b.stock_id=? ORDER BY STR_TO_DATE( price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 728";
+    private static final String STOCK_5_YEAR_CLOSE_PRICE = "SELECT b.stock_id, b.close_price FROM  stock_historical_prices b WHERE b.stock_id=? ORDER BY STR_TO_DATE( price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 1820";
+
+    private static final String NIFTY_50_CURRENT_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 0";
+    private static final String NIFTY_50_1_WEEK_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 6";
+    private static final String NIFTY_50_1_MONTH_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 29";
+    private static final String NIFTY_50_3_MONTH_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 89";
+    private static final String NIFTY_50_6_MONTH_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 179";
+    private static final String NIFTY_50_1_YEAR_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 364";
+    private static final String NIFTY_50_2_YEAR_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 728";
+    private static final String NIFTY_50_5_YEAR_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ),close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 1820";
 
     @SuppressWarnings("unchecked")
-    public String getCompanyProfile(String query) throws RuntimeException {
+    public String getCompanyProfile(String query, String isinCode) throws RuntimeException {
         SQLQuery query1 = commonDao.getNativeQuery(query, null);
         List<Object[]> rows = query1.list();
         Map<String, Object> paramsMap = new LinkedHashMap<>();
@@ -235,19 +252,19 @@ public class CompanyProfileDao {
                     float valuationScore = (_3yrEpsGrowthAsFloat - newPe) / _3yrEpsGrowthAsFloat * 100;
                     logger.info("valuationScore:{}", valuationScore);
                     if (valuationScore >= -15.0f && valuationScore < -5.0f) {
-                        valuationScoreStr = "Sell";
+                        valuationScoreStr = "Overpriced";//"Sell";
                     }
                     if (valuationScore >= -5.0f || valuationScore < 5.0f) {
-                        valuationScoreStr = "Neutral";
+                        valuationScoreStr = "Reasonable";//"Neutral";
                     }
                     if (valuationScore >= 5.0f && valuationScore < 15.0f) {
-                        valuationScoreStr = "Buy";
+                        valuationScoreStr = "Pleasing";//"Buy";
                     }
                     if (valuationScore >= 15.0f) {
-                        valuationScoreStr = "Strong Buy";
+                        valuationScoreStr = "Very Pleasing";//"Strong Buy";
                     }
                     if (valuationScore < -15.0) {
-                        valuationScoreStr = "Strong Sell";
+                        valuationScoreStr = "Very Overpriced";//"Strong Sell";
                     }
                 }
                 paramsMap.put("companyProfileData",
@@ -257,27 +274,74 @@ public class CompanyProfileDao {
                                 recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr));
             }
             paramsMap.put("summary", summary);
-            PriceReturn priceReturn = new PriceReturn();
 
+            //Hisorical price
             Map<String, String> nifty50PriceReturnMap = new LinkedHashMap<>();
-            nifty50PriceReturnMap.put("1W", "-");
-            nifty50PriceReturnMap.put("1M", "-");
-            nifty50PriceReturnMap.put("3M", "-");
-            nifty50PriceReturnMap.put("6M", "-");
-            nifty50PriceReturnMap.put("1Y", "-");
-            nifty50PriceReturnMap.put("2Y", "-");
-            nifty50PriceReturnMap.put("5Y", "-");
+
+            float currentPrice = getHistoryClosePrice(null, NIFTY_50_CURRENT_CLOSE_PRICE);
+
+            float wPrice = getHistoryClosePrice(null, NIFTY_50_1_WEEK_CLOSE_PRICE);
+            String _lWPriceStr = wPrice != 0.0F ? String.valueOf((currentPrice - wPrice) * 100 / wPrice) : "-";
+
+            float _1MPrice = getHistoryClosePrice(null, NIFTY_50_1_MONTH_CLOSE_PRICE);
+            String _lMPriceStr = _1MPrice != 0.0F ? String.valueOf((currentPrice - _1MPrice) * 100.0F / _1MPrice) : "-";
+
+            float _3MPrice = getHistoryClosePrice(null, NIFTY_50_3_MONTH_CLOSE_PRICE);
+            String _3MPriceStr = _3MPrice != 0.0F ? String.valueOf((currentPrice - _3MPrice) * 100.0F / _3MPrice) : "-";
+
+            float _6MPrice = getHistoryClosePrice(null, NIFTY_50_6_MONTH_CLOSE_PRICE);
+            String _6MPriceStr = _6MPrice != 0.0F ? String.valueOf((currentPrice - _6MPrice) * 100.0F / _6MPrice) : "-";
+
+            float _1YPrice = getHistoryClosePrice(null, NIFTY_50_1_YEAR_CLOSE_PRICE);
+            String _lYPriceStr = _1YPrice != 0.0F ? String.valueOf((currentPrice - _1YPrice) * 100.0F / _1YPrice) : "-";
+
+            float _2YPrice = getHistoryClosePrice(null, NIFTY_50_2_YEAR_CLOSE_PRICE);
+            String _2YPriceStr = _2YPrice != 0.0F ? String.valueOf((currentPrice - _2YPrice) * 100.0F / _2YPrice) : "-";
+
+            float _5YPrice = getHistoryClosePrice(null, NIFTY_50_5_YEAR_CLOSE_PRICE);
+            String _5YPriceStr = _5YPrice != 0.0F ? String.valueOf((currentPrice - _5YPrice) * 100.0F / _5YPrice) : "-";
+
+            nifty50PriceReturnMap.put("1W", _lWPriceStr);
+            nifty50PriceReturnMap.put("1M", _lMPriceStr);
+            nifty50PriceReturnMap.put("3M", _3MPriceStr);
+            nifty50PriceReturnMap.put("6M", _6MPriceStr);
+            nifty50PriceReturnMap.put("1Y", _lYPriceStr);
+            nifty50PriceReturnMap.put("2Y", _2YPriceStr);
+            nifty50PriceReturnMap.put("5Y", _5YPriceStr);
 
             Map<String, String> stockPriceReturnMap = new LinkedHashMap<>();
-            stockPriceReturnMap.put("1W", "-");
-            stockPriceReturnMap.put("1M", "-");
-            stockPriceReturnMap.put("3M", "-");
-            stockPriceReturnMap.put("6M", "-");
-            stockPriceReturnMap.put("1Y", "-");
-            stockPriceReturnMap.put("2Y", "-");
-            stockPriceReturnMap.put("5Y", "-");
+            String stockId=getCompanyId("select a.company_id,a.isin_code from rsch_sub_area_company_dtls a where a.isin_code=?", isinCode);
+            currentPrice = getHistoryClosePrice(stockId, STOCK_CURRENT_CLOSE_PRICE);
+            wPrice = getHistoryClosePrice(stockId, STOCK_1_WEEK_CLOSE_PRICE);
+            _lWPriceStr = wPrice != 0.0F ? String.valueOf((currentPrice - wPrice) * 100 / wPrice) : "-";
 
+            _1MPrice = getHistoryClosePrice(stockId, STOCK_1_MONTH_CLOSE_PRICE);
+            _lMPriceStr = _1MPrice != 0.0F ? String.valueOf((currentPrice - _1MPrice) * 100.0F / _1MPrice) : "-";
 
+            _3MPrice = getHistoryClosePrice(stockId, STOCK_3_MONTH_CLOSE_PRICE);
+            _3MPriceStr = _3MPrice != 0.0F ? String.valueOf((currentPrice - _3MPrice) * 100.0F / _3MPrice) : "-";
+
+            _6MPrice = getHistoryClosePrice(stockId, STOCK_6_MONTH_CLOSE_PRICE);
+            _6MPriceStr = _6MPrice != 0.0F ? String.valueOf((currentPrice - _6MPrice) * 100.0F / _6MPrice) : "-";
+
+            _1YPrice = getHistoryClosePrice(stockId, STOCK_1_YEAR_CLOSE_PRICE);
+            _lYPriceStr = _1YPrice != 0.0F ? String.valueOf((currentPrice - _1YPrice) * 100.0F / _1YPrice) : "-";
+
+            _2YPrice = getHistoryClosePrice(stockId, STOCK_2_YEAR_CLOSE_PRICE);
+            _2YPriceStr = _2YPrice != 0.0F ? String.valueOf((currentPrice - _2YPrice) * 100.0F / _2YPrice) : "-";
+
+            _5YPrice = getHistoryClosePrice(stockId, STOCK_5_YEAR_CLOSE_PRICE);
+            _5YPriceStr = _5YPrice != 0.0F ? String.valueOf((currentPrice - _5YPrice) * 100.0F / _5YPrice) : "-";
+
+            stockPriceReturnMap.put("1W", _lWPriceStr);
+            stockPriceReturnMap.put("1M", _lMPriceStr);
+            stockPriceReturnMap.put("3M", _3MPriceStr);
+            stockPriceReturnMap.put("6M", _6MPriceStr);
+            stockPriceReturnMap.put("1Y", _lYPriceStr);
+            stockPriceReturnMap.put("2Y", _2YPriceStr);
+            stockPriceReturnMap.put("5Y", _5YPriceStr);
+
+            PriceReturn priceReturn = new PriceReturn();
             priceReturn.setNifty50(nifty50PriceReturnMap);
             priceReturn.setStock(stockPriceReturnMap);
             paramsMap.put("priceHistory", priceReturn);
@@ -287,6 +351,24 @@ public class CompanyProfileDao {
         } catch (ParseException | IOException e) {
             throw new RuntimeException("Error has occured while creating json for company profile data", e);
         }
+    }
+
+    private float getHistoryClosePrice(String stockId, String query) {
+        SQLQuery query1;
+        List<Object[]> rows;
+        query1 = commonDao.getNativeQuery(query, stockId != null ? new String[]{stockId} : null);
+        rows = query1.list();
+        String closePrice = !rows.isEmpty() ? (rows.get(0)[1] != null ? rows.get(0)[1].toString().trim() : "") : "";
+        return !StringUtils.isEmpty(closePrice) ? Float.parseFloat(closePrice) : 0.0f;
+    }
+
+    private String getCompanyId(String query, String isinCode) {
+        SQLQuery query1;
+        List<Object[]> rows;
+        query1 = commonDao.getNativeQuery(query, isinCode != null ? new String[]{isinCode} : null);
+        rows = query1.list();
+        String companyId = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
+        return companyId;
     }
 
     public String getCompanyProfileReasearchReport(String mainQuery, String isinCode, ResearchReportFilter filter,
