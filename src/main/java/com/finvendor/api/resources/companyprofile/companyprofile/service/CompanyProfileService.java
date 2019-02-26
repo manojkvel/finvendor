@@ -40,7 +40,7 @@ public class CompanyProfileService {//implements ICompanyProfileService {
             // }
             String mainQuery = DaoUtils.getParamertizedQuery(companyProfileDao.companyProfileDataQuery,
                     new Object[]{researchAreaId, countryId, isinCode});
-            return companyProfileDao.getCompanyProfile(mainQuery);
+            return companyProfileDao.getCompanyProfile(mainQuery,isinCode);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
