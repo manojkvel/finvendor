@@ -673,22 +673,29 @@ setNifty50PerfHistoryHtml = function(json) {
 setRatingHtml = function(valuationScore) {
 
     var ratingImage = '';
+    var ratingClass = "";
 
     if(valuationScore == "Very Overpriced") {
         ratingImage = "../resources/images/rating/ratingVeryOverpriced.jpg";
+        ratingClass = "veryOverpriced";
     } else if(valuationScore == "Very Pleasing") {
         ratingImage = "../resources/images/rating/ratingVeryPleasing.jpg";
+        ratingClass = "veryPleasing";
     } else if(valuationScore == "Overpriced") {
         ratingImage = "../resources/images/rating/ratingOverpriced.jpg";
+        ratingClass = "overpriced";
     } else if(valuationScore == "Pleasing") {
         ratingImage = "../resources/images/rating/ratingPleasing.jpg";
+        ratingClass = "pleasing";
     } else if(valuationScore == "Reasonable") {
         ratingImage = "../resources/images/rating/ratingReasonable.jpg";
+        ratingClass = "reasonable";
     } else {
         ratingImage = "../resources/images/rating/ratingReasonable.jpg";
+        ratingClass = "reasonable";
     }
 
-    var html = "<div id='finvendor_rating'><h3>FinVendor Valuation Rating</h3><img src='" + ratingImage + "' alt='" + valuationScore + "' title='" + valuationScore + "'/><h4>" + valuationScore + "</h4</div>";
+    var html = "<div id='finvendor_rating'><h3>FinVendor Valuation Rating</h3><img src='" + ratingImage + "' alt='" + valuationScore + "' title='" + valuationScore + "'/><h4 class='" + ratingClass + "'>" + valuationScore + "</h4</div>";
     $("#rating_container").html(html);
 }
 
