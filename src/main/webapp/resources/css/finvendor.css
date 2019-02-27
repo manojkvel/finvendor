@@ -1782,6 +1782,11 @@ button {
 	border-right: 1px solid #eee;
 }
 
+#perf_history_container table td,
+#perf_history_container table th {
+	width: 20%;
+}
+
 #broker_stock_rating_container {
 	background: #eee;
 	min-height: 150px;
