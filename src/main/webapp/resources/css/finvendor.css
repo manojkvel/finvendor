@@ -1741,6 +1741,26 @@ button {
 	font-size: 15px;
 }
 
+#finvendor_rating .veryOverpriced {
+	background: #ea202d;
+}
+
+#finvendor_rating .overpriced {
+	background: #e15849;
+}
+
+#finvendor_rating .veryPleasing {
+	background: #288556;
+}
+
+#finvendor_rating .Pleasing {
+	background: #22c38a;
+}
+
+#finvendor_rating .reasonable {
+	background: #f59331;
+}
+
 #perf_history_container {
 	font-weight: bold;
 }
@@ -1760,6 +1780,53 @@ button {
 
 #perf_history_container table td {
 	border-right: 1px solid #eee;
+}
+
+#broker_stock_rating_container {
+	background: #eee;
+	min-height: 150px;
+    min-width: 250px;
+    padding: 10px 10px;
+    margin: 0 20px 20px 20px;
+}
+
+#broker_stock_rating_container h4 {
+	font-size: 15px;
+	font-weight: bold;
+	margin: 0;
+}
+
+#broker_stock_rating_container table  {
+	height: 100px;
+	min-height: auto;
+	margin-top: 20px;
+	margin-bottom: 0;
+}
+
+#broker_stock_rating_container table > thead > tr > th {
+	height: auto;
+	font-weight: bold;
+}
+
+#broker_stock_rating_container .success {
+    background: #5cb85c;
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
+}
+
+#broker_stock_rating_container .danger {
+    background: #d9534f;
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
+}
+
+#broker_stock_rating_container .neutral {
+    background: #ef9e06;
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
 }
 
 /*-----------------End of Dashboard Metrics----------------*/
