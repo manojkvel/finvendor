@@ -674,15 +674,15 @@ setRatingHtml = function(valuationScore) {
 
     var ratingImage = '';
 
-    if(valuationScore == "Strong Sell") {
+    if(valuationScore == "Very Overpriced") {
         ratingImage = "../resources/images/rating/ratingVeryOverpriced.jpg";
-    } else if(valuationScore == "Strong Buy") {
+    } else if(valuationScore == "Very Pleasing") {
         ratingImage = "../resources/images/rating/ratingVeryPleasing.jpg";
-    } else if(valuationScore == "Sell") {
+    } else if(valuationScore == "Overpriced") {
         ratingImage = "../resources/images/rating/ratingOverpriced.jpg";
-    } else if(valuationScore == "Buy") {
+    } else if(valuationScore == "Pleasing") {
         ratingImage = "../resources/images/rating/ratingPleasing.jpg";
-    } else if(valuationScore == "Neutral") {
+    } else if(valuationScore == "Reasonable") {
         ratingImage = "../resources/images/rating/ratingReasonable.jpg";
     } else {
         ratingImage = "../resources/images/rating/ratingReasonable.jpg";
