@@ -492,33 +492,33 @@ function getCompanyProfileResearchReportLoad() {
 
 setStockPerfHistoryHtml = function(json) {
     /*var json = {
-        "priceHistory": {
-            "stock": {
-              "1W": "2.52",
-              "1M": "21.98",
-              "3M": "11.53",
-              "6M": "5.62",
-              "1Y": "-2.54",
-              "2Y": "1.93",
-              "5Y": "-2.59"
+        "priceHistory":{
+            "stock":{
+                "1W":"4.495996",
+                "1M":"-8.73393",
+                "3M":"15.880057",
+                "6M":"-",
+                "1Y":"-",
+                "2Y":"-",
+                "5Y":"-"
             },
-            "nifty50": {
-              "1W": "2.52",
-              "1M": "21.98",
-              "3M": "-11.53",
-              "6M": "5.62",
-              "1Y": "2.54",
-              "2Y": "1.93",
-              "5Y": "-2.59"
+            "nifty50":{
+                "1W":"-0.48656002",
+                "1M":"1.9056177",
+                "3M":"-7.3851233",
+                "6M":"1.8901348",
+                "1Y":"8.18277",
+                "2Y":"44.25946",
+                "5Y":"-"
             }
         }
     }*/
 
-    var stock1W = (json.priceHistory.stock['1W'] != undefined && json.priceHistory.stock['1W'] != '-') ? json.priceHistory.stock['1W'] + "%" : '-'
-    var stock1M = (json.priceHistory.stock['1M'] != undefined && json.priceHistory.stock['1M'] != '-') ? json.priceHistory.stock['1M'] + "%" : '-'
-    var stock3M = (json.priceHistory.stock['3M'] != undefined && json.priceHistory.stock['3M'] != '-') ? json.priceHistory.stock['3M'] + "%" : '-'
-    var stock6M = (json.priceHistory.stock['6M'] != undefined && json.priceHistory.stock['6M'] != '-') ? json.priceHistory.stock['6M'] + "%" : '-'
-    var stock1Y = (json.priceHistory.stock['1Y'] != undefined && json.priceHistory.stock['1Y'] != '-') ? json.priceHistory.stock['1Y'] + "%" : '-'
+    var stock1W = (json.priceHistory.stock['1W'] != undefined && json.priceHistory.stock['1W'] != '-') ? parseFloat(json.priceHistory.stock['1W']).toFixed(2) + "%" : '-'
+    var stock1M = (json.priceHistory.stock['1M'] != undefined && json.priceHistory.stock['1M'] != '-') ? parseFloat(json.priceHistory.stock['1M']).toFixed(2) + "%" : '-'
+    var stock3M = (json.priceHistory.stock['3M'] != undefined && json.priceHistory.stock['3M'] != '-') ? parseFloat(json.priceHistory.stock['3M']).toFixed(2) + "%" : '-'
+    var stock6M = (json.priceHistory.stock['6M'] != undefined && json.priceHistory.stock['6M'] != '-') ? parseFloat(json.priceHistory.stock['6M']).toFixed(2) + "%" : '-'
+    var stock1Y = (json.priceHistory.stock['1Y'] != undefined && json.priceHistory.stock['1Y'] != '-') ? parseFloat(json.priceHistory.stock['1Y']).toFixed(2) + "%" : '-'
 
 
 
@@ -582,33 +582,33 @@ setStockPerfHistoryHtml = function(json) {
 
 setNifty50PerfHistoryHtml = function(json) {
     /*var json = {
-        "priceHistory": {
-            "stock": {
-              "1W": "2.52",
-              "1M": "21.98",
-              "3M": "11.53",
-              "6M": "5.62",
-              "1Y": "-2.54",
-              "2Y": "1.93",
-              "5Y": "-2.59"
+        "priceHistory":{
+            "stock":{
+                "1W":"4.495996",
+                "1M":"-8.73393",
+                "3M":"15.880057",
+                "6M":"-",
+                "1Y":"-",
+                "2Y":"-",
+                "5Y":"-"
             },
-            "nifty50": {
-              "1W": "2.52",
-              "1M": "21.98",
-              "3M": "-",
-              "6M": "-5.62",
-              "1Y": "2.54",
-              "2Y": "1.93",
-              "5Y": "-2.59"
+            "nifty50":{
+                "1W":"-0.48656002",
+                "1M":"1.9056177",
+                "3M":"-7.3851233",
+                "6M":"1.8901348",
+                "1Y":"8.18277",
+                "2Y":"44.25946",
+                "5Y":"-"
             }
         }
     }*/
 
-    var nifty501W = (json.priceHistory.nifty50['1W'] != undefined && json.priceHistory.nifty50['1W'] != '-') ? json.priceHistory.nifty50['1W'] + "%" : '-'
-    var nifty501M = (json.priceHistory.nifty50['1M'] != undefined && json.priceHistory.nifty50['1M'] != '-') ? json.priceHistory.nifty50['1M'] + "%" : '-'
-    var nifty503M = (json.priceHistory.nifty50['3M'] != undefined && json.priceHistory.nifty50['3M'] != '-') ? json.priceHistory.nifty50['3M'] + "%" : '-'
-    var nifty506M = (json.priceHistory.nifty50['6M'] != undefined && json.priceHistory.nifty50['6M'] != '-') ? json.priceHistory.nifty50['6M'] + "%" : '-'
-    var nifty501Y = (json.priceHistory.nifty50['1Y'] != undefined && json.priceHistory.nifty50['1Y'] != '-') ? json.priceHistory.nifty50['1Y'] + "%" : '-'
+    var nifty501W = (json.priceHistory.nifty50['1W'] != undefined && json.priceHistory.nifty50['1W'] != '-') ? parseFloat(json.priceHistory.nifty50['1W']).toFixed(2) + "%" : '-'
+    var nifty501M = (json.priceHistory.nifty50['1M'] != undefined && json.priceHistory.nifty50['1M'] != '-') ? parseFloat(json.priceHistory.nifty50['1M']).toFixed(2) + "%" : '-'
+    var nifty503M = (json.priceHistory.nifty50['3M'] != undefined && json.priceHistory.nifty50['3M'] != '-') ? parseFloat(json.priceHistory.nifty50['3M']).toFixed(2) + "%" : '-'
+    var nifty506M = (json.priceHistory.nifty50['6M'] != undefined && json.priceHistory.nifty50['6M'] != '-') ? parseFloat(json.priceHistory.nifty50['6M']).toFixed(2) + "%" : '-'
+    var nifty501Y = (json.priceHistory.nifty50['1Y'] != undefined && json.priceHistory.nifty50['1Y'] != '-') ? parseFloat(json.priceHistory.nifty50['1Y']).toFixed(2) + "%" : '-'
 
 
 
