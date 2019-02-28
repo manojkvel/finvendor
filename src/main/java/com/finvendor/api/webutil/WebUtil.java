@@ -78,12 +78,12 @@ public final class WebUtil {
          * */
         // Country
         filterTypeMap.put("country",
-                new SqlData("select country_id, name from country where name in (?)",
+                new SqlData("select country_id, name from country where name in (?,?)",
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("countryId", null));
                             add(new ColumnNameAndNewValue("name", null));
                         }},
-                        new Object[]{"India"},
+                        new Object[]{"India","Singapore"},
                         firstDefaultParamsMapAsNull,
                         lastDefaultParamsMapAsNull,
                         columnIndex_0));

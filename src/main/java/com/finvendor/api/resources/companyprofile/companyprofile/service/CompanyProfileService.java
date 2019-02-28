@@ -33,6 +33,8 @@ public class CompanyProfileService {//implements ICompanyProfileService {
             int countryId = 1;
             if (isinCode.contains("IN")) {
                 countryId = 1;
+            }else if(isinCode.contains("SG")) {
+                countryId = 3;
             }
             // Future work
             // else if (isinCode.contains("UK")) {
@@ -53,6 +55,8 @@ public class CompanyProfileService {//implements ICompanyProfileService {
             int countryId = 1;
             if (isinCode.contains("IN")) {
                 countryId = 1;
+            }else if(isinCode.contains("SG")) {
+                countryId = 3;
             }
             // Future work
             // else if (isinCode.contains("UK")) {
@@ -63,7 +67,8 @@ public class CompanyProfileService {//implements ICompanyProfileService {
 //			mainQuery = StringUtils.replace(mainQuery,"dateformat","%d/%m/%Y");
             EquityResearchFilter filter = new EquityResearchFilter();
             filter.setGeo(geo);
-            String mainQuery = StringUtils.replace(CompanyProfileDao.mainQuery, "?", "'" + isinCode + "'");
+            String mainQuery1 = StringUtils.replace(CompanyProfileDao.mainQuery, "COUNTRYID", ""+countryId);
+            String mainQuery = StringUtils.replace(mainQuery1, "?", "'" + isinCode + "'");
             logger.info("## getCompanyProfileRecordStat: {} ",mainQuery);
             return equityReportDao.getRecordStatistics(mainQuery, filter, perPageMaxRecords);
         } catch (RuntimeException e) {
@@ -79,7 +84,10 @@ public class CompanyProfileService {//implements ICompanyProfileService {
             int countryId = 1;
             if (isinCode.contains("IN")) {
                 countryId = 1;
+            }else if (isinCode.contains("SG")) {
+                countryId = 3;
             }
+
             // Future work
             // else if (isinCode.contains("UK")) {
             // } else {
@@ -89,7 +97,8 @@ public class CompanyProfileService {//implements ICompanyProfileService {
 //			mainQuery = StringUtils.replace(mainQuery,"dateformat","%d/%m/%Y");
             EquityResearchFilter filter = new EquityResearchFilter();
             filter.setGeo(geo);
-            String mainQuery = StringUtils.replace(CompanyProfileDao.mainQuery, "?", "'" + isinCode + "'");
+            String mainQuery1 = StringUtils.replace(CompanyProfileDao.mainQuery, "COUNTRYID", ""+countryId);
+            String mainQuery = StringUtils.replace(mainQuery1, "?", "'" + isinCode + "'");
             logger.info("## getCompanyProfileResearchReport: {} ", mainQuery);
             return companyProfileDao.getCompanyProfileReasearchReport(mainQuery,isinCode, filter, pageNumber, perPageMaxRecords,
                     sortBy, orderBy);
