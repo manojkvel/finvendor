@@ -30,13 +30,14 @@ public class CompanyProfileData {
 	private String price_date;
 	private String price_src_code;
 	private String valuationScore;
+	private String currency;
 
 	public CompanyProfileData(String companyId, String companyName, String industry, String mcap, String cmp,
                               String absoluteLastChangedCmp, String lastChangedCmpInPercentage, String pe, String pb,
                               String dividen_yield, String eps_ttm, String _52w_high, String _52w_low, String beta,
                               String share_outstanding, String mkt_cap, String revenue, String face_value, String bv_share, String roe,
                               String pat, String recent_qtr, String price_date, String price_src_code,
-							  String valuationScore) {
+                              String valuationScore, String currency) {
 		super();
 		this.companyId = companyId;
 		this.companyName = companyName;
@@ -63,6 +64,7 @@ public class CompanyProfileData {
 		this.price_date = price_date;
 		this.price_src_code = price_src_code;
 		this.valuationScore=valuationScore;
+		this.currency = currency;
 	}
 
 	public String getCompanyId() {
@@ -263,5 +265,13 @@ public class CompanyProfileData {
 
 	public void setValuationScore(String valuationScore) {
 		this.valuationScore = valuationScore;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 }
