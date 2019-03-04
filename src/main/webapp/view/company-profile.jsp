@@ -108,7 +108,7 @@
 									<div class="col-xs-12 col-sm-12">
 										<div class="col-xs-12 col-sm-6">
 											<div class="md_p" id="mkt_cap_value">
-												<div class="fl">Market Cap (cr)</div>
+												<div class="fl">Market Cap <span>(cr)</span></div>
 												<div class="fr">NA</div>
 											</div>
 										</div>
@@ -178,13 +178,13 @@
 									<div class="col-xs-12 col-sm-12">
 										<div class="col-xs-12 col-sm-6">
 											<div class="md_p" id="revenue_value">
-												<div class="fl">Revenue (cr)<sup>*</sup></div>
+												<div class="fl">Revenue <span>(cr)</span><sup>*</sup></div>
 												<div class="fr">NA</div>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-6">
 											<div class="md_p" id="pat_value">
-												<div class="fl">PAT (cr)<sup>*</sup></div>
+												<div class="fl">PAT <span>(cr)</span><sup>*</sup></div>
 												<div class="fr">NA</div>
 											</div>
 										</div>
@@ -196,7 +196,7 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-5">
-									<div id="broker_stock_rating_container">
+									<div id="broker_stock_rating_container" style="display: none;">
 										<h4>Broker Stock Rating</h4>
 										<table>
 											<thead>

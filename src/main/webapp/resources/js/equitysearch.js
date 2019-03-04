@@ -144,6 +144,8 @@ jQuery(document).ready(function() {
 				brokerRankSmallCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			}
 
+			var currency = (response.equity[i].currency) ? response.equity[i].currency : "INR";
+
 			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "' data-code='" + response.equity[i].isinCode + "'>" +
 			"<td>" + 
 			"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'><a href='/view/company-profile.jsp?isinCode=" + response.equity[i].isinCode + "'>" + response.equity[i].company + "</a></div>" + 
@@ -163,15 +165,15 @@ jQuery(document).ready(function() {
 			"<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
 			"</td>" +
 			"<td>" + 
-			"<div class='cmp'> Rs. " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" + 
+			"<div class='cmp'>" + currency + " " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" + 
 			"<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
 			"<div class='pe'>" + parseFloat(response.equity[i].pe).toFixed(2) + "</div>" + 
 			"<div class='_3YrEpsGrowth " + _3YrEpsGrowthClass + "'><i class='fa " + _3YrEpsGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrEpsGrowth != 'NA') ? parseFloat(Math.round(response.equity[i]._3YrEpsGrowth * 100) / 100).toFixed(2) + '%' : response.equity[i]._3YrEpsGrowth) + "</div>" +
 			"</td>" +
 			"<td>" + 
 			"<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
-			"<div class='targetPrice'> Rs. " + parseFloat(response.equity[i].targetPrice).toFixed(2) + "</div>" + 
-			"<div class='priceAtRecomm'>" + ((response.equity[i].priceAtRecomm == '') ? "N/A" : parseFloat(response.equity[i].priceAtRecomm)).toFixed(2) + "</div>" + 
+			"<div class='targetPrice'>" + currency + " " + parseFloat(response.equity[i].targetPrice).toFixed(2) + "</div>" + 
+			"<div class='priceAtRecomm'>" + currency + " " + ((response.equity[i].priceAtRecomm == '') ? "N/A" : parseFloat(response.equity[i].priceAtRecomm)).toFixed(2) + "</div>" + 
 			"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? parseFloat(Math.round(response.equity[i].upside * 100) / 100).toFixed(2) + '%' : response.equity[i].upside) + "</div>" +
 			"</td>" +
 			"<td>"  +  
