@@ -45,6 +45,14 @@ public class DateUtil {
 		return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.YEAR));
 	}
 
+
+	public static String get2DigitCurrentYear() {
+		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+		return df.format(Calendar.getInstance().getTime());
+	}
+
+
+
 	public static String getCurrentMonth() {
 		return new SimpleDateFormat("MMM").format(new java.util.Date(Calendar.getInstance().getTimeInMillis()))
 				.toUpperCase();
