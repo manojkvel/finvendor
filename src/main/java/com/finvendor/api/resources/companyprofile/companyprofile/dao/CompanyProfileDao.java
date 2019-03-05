@@ -285,7 +285,7 @@ public class CompanyProfileDao {
                 priceReturn.setNifty50(nifty50PriceReturnMap);
                 priceReturn.setStock(stockPriceReturnMap);
                 paramsMap.put("priceHistory", priceReturn);
-                BrokerRank brokerRank=new BrokerRank(5,6,8,19.8f);
+                BrokerRank brokerRank=new BrokerRank(5,6,8,256.36f,19.8f);
                 paramsMap.put("brokerRank", brokerRank);
 
                 companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);

@@ -4,12 +4,14 @@ public class BrokerRank {
     private int totalBuyRecomm;
     private int totalSellRecomm;
     private int totalNeutralRecomm;
+    private float averageTargetPrice;
     private float upside;
 
-    public BrokerRank(int totalBuyRecomm, int totalSellRecomm, int totalNeutralRecomm, float upside) {
+    public BrokerRank(int totalBuyRecomm, int totalSellRecomm, int totalNeutralRecomm, float averageTargetPrice, float upside) {
         this.totalBuyRecomm = totalBuyRecomm;
         this.totalSellRecomm = totalSellRecomm;
         this.totalNeutralRecomm = totalNeutralRecomm;
+        this.averageTargetPrice = averageTargetPrice;
         this.upside = upside;
     }
 
@@ -43,5 +45,13 @@ public class BrokerRank {
 
     public void setUpside(float upside) {
         this.upside = upside;
+    }
+
+    public float getAverageTargetPrice() {
+        return averageTargetPrice;
+    }
+
+    public void setAverageTargetPrice(float averageTargetPrice) {
+        this.averageTargetPrice = averageTargetPrice;
     }
 }
