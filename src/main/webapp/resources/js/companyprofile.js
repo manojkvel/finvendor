@@ -493,9 +493,10 @@ function getCompanyProfileResearchReportLoad() {
 
         $("#summary_content .summary").text(response.summary);
         
-        setRatingHtml(response.companyProfileData.valuationScore);
+        setCompanyRatingHtml(response.companyProfileData.valuationScore);
         setStockPerfHistoryHtml(response);
         setNifty50PerfHistoryHtml(response);
+        setBrokerRatingHtml(response);
 
     }, function(error) {
 
@@ -682,7 +683,7 @@ setNifty50PerfHistoryHtml = function(json) {
     $("#perf_history_container #nifty50").html(nifty50Html);
 }
 
-setRatingHtml = function(valuationScore) {
+setCompanyRatingHtml = function(valuationScore) {
 
     var ratingImage = '';
     var ratingClass = "";
@@ -709,6 +710,17 @@ setRatingHtml = function(valuationScore) {
 
     var html = "<div id='finvendor_rating'><h3>FinVendor Valuation Rating</h3><img src='" + ratingImage + "' alt='" + valuationScore + "' title='" + valuationScore + "'/><h4 class='" + ratingClass + "'>" + valuationScore + "</h4</div>";
     $("#rating_container").html(html);
+}
+
+
+
+setBrokerRatingHtml = function(valuationScore) {
+
+    var ratingImage = '';
+    var ratingClass = "";
+
+    var html = "<h4>Broker Stock Rating</h4><div class='broker_stock_rating_ui'></div>";
+    $("#broker_stock_rating_container").html(html);
 }
 
 
