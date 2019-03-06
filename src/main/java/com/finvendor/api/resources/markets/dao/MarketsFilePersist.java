@@ -101,7 +101,18 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                     break;
                 }
 
-                if (lowAsDouble > _52wLowAsDoubleFromStockCurrenInfoTable) {
+                //Algorithm: Update 52wLow and 52wHigh based on todays cmp
+                /*
+                *
+                * IF today's low <52wLow price then
+                * 52wLowPrice=today's low
+                *
+                * IF today's high >52wHigh price then
+                * 52wHighPrice= today's high
+                *
+                 */
+                float todaysCmp = Float.parseFloat(close);
+                if (lowAsDouble < _52wLowAsDoubleFromStockCurrenInfoTable) {
                     _52wLowAsDoubleFromStockCurrenInfoTable = lowAsDouble;
                     _52wLowChangeStatus = "Y";
                     //update this 52wLow in stockCurrentInfo table
@@ -113,12 +124,12 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
 
                 if (highAsDouble > _52wHighAsDoubleFromStockCurrenInfoTable) {
                     _52wHighAsDoubleFromStockCurrenInfoTable = highAsDouble;
-                    _52wHighChangeStatus="Y";
+                    _52wHighChangeStatus = "Y";
                     //update this 52wHigh in stockCurrentInfo table
                     nativeQuery = commonDao.getNativeQuery(update52WeekHighQuery, new String[]{String.valueOf(_52wHighAsDoubleFromStockCurrenInfoTable), companyId.trim()});
                     nativeQuery.executeUpdate();
                 } else {
-                    _52wHighChangeStatus="N";
+                    _52wHighChangeStatus = "N";
                 }
 
                 Markets markets = findById(id);

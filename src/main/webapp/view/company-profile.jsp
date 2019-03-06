@@ -196,8 +196,11 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-5">
-									<div id="broker_stock_rating_container" style="display: none;">
+									<div id="broker_stock_rating_container">
 										<h4>Broker Stock Rating</h4>
+										<div class="broker_stock_rating_ui">
+											
+										</div>
 										<table>
 											<thead>
 												<th>Buy</th>

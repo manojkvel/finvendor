@@ -1,5 +1,6 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dao;
 
+import com.finvendor.api.resources.companyprofile.companyprofile.dto.BrokerRank;
 import com.finvendor.api.resources.companyprofile.companyprofile.dto.PriceReturn;
 import com.finvendor.api.resources.markets.dao.MarketsDao;
 import com.finvendor.common.util.DateUtil;
@@ -64,6 +65,9 @@ public class CompanyProfileDao {
     private static final String STOCK_CLOSE_PRICE = "SELECT b.stock_id,b.close_price,STR_TO_DATE(b.price_date,  \"%d/%b/%y\" )  date FROM  stock_historical_prices b WHERE  b.stock_id=? ORDER BY STR_TO_DATE(b.price_date,  \"%d/%b/%y\" ) DESC limit 1 offset ?";
     private static final String NIFTY_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ), close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset ?";
 
+    /**
+     * upside = ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100
+     */
     @SuppressWarnings("unchecked")
     public String getCompanyProfile(String query, String isinCode) throws RuntimeException {
         SQLQuery query1 = commonDao.getNativeQuery(query, null);
@@ -247,22 +251,22 @@ public class CompanyProfileDao {
                 Map<String, String> nifty50PriceReturnMap = new LinkedHashMap<>();
                 String indexSummary = marketsDao.getIndexSummary("Nifty 50");
                 float closing = Float.parseFloat(JsonUtil.getValue(indexSummary, "closing").trim());
-                wPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 4);
+                wPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 5);
                 _lWPriceStr = wPrice != 0.0F ? String.valueOf((closing - wPrice) * 100 / wPrice) : "-";
 
                 _1MPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 19);
                 _lMPriceStr = _1MPrice != 0.0F ? String.valueOf((closing - _1MPrice) * 100.0F / _1MPrice) : "-";
 
-                _3MPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 59);
+                _3MPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 62);
                 _3MPriceStr = _3MPrice != 0.0F ? String.valueOf((closing - _3MPrice) * 100.0F / _3MPrice) : "-";
 
-                _6MPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 119);
+                _6MPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 121);
                 _6MPriceStr = _6MPrice != 0.0F ? String.valueOf((closing - _6MPrice) * 100.0F / _6MPrice) : "-";
 
-                _1YPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 239);
+                _1YPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 247);
                 _lYPriceStr = _1YPrice != 0.0F ? String.valueOf((closing - _1YPrice) * 100.0F / _1YPrice) : "-";
 
-                _2YPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 479);
+                _2YPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 480);
                 _2YPriceStr = _2YPrice != 0.0F ? String.valueOf((closing - _2YPrice) * 100.0F / _2YPrice) : "-";
 
                 _5YPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 1199);
@@ -281,6 +285,8 @@ public class CompanyProfileDao {
                 priceReturn.setNifty50(nifty50PriceReturnMap);
                 priceReturn.setStock(stockPriceReturnMap);
                 paramsMap.put("priceHistory", priceReturn);
+                BrokerRank brokerRank=new BrokerRank(5,6,8,256.36f,19.8f);
+                paramsMap.put("brokerRank", brokerRank);
 
                 companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
             }
