@@ -55,6 +55,8 @@ public class MarketPersistController {
         try {
             String nseBhavCopyPriceUrl = getBhavCopyPriceUrl();
             logger.info("persistFileToDb-> nseBhavCopyPriceUrl:{}", nseBhavCopyPriceUrl);
+
+            //home/finvendo/tmp
             String toPath = finvendorProperties.getProperty("finvendo_tmp_path");
 
             //Step-1 Upload to server
@@ -112,7 +114,6 @@ public class MarketPersistController {
         String currentMonth = DateUtil.getCurrentMonthDigit();
         String currentYear = DateUtil.getCurrentYear();
         String dateForUrl=currentDay+currentMonth+currentYear;
-        System.out.println(dateForUrl);
         niftyIndicesSourceUrl = StringUtils.replace(niftyIndicesSourceUrl, "DATE", dateForUrl);
         return niftyIndicesSourceUrl;
     }

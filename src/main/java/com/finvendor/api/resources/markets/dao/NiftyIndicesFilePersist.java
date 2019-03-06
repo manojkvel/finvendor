@@ -1,9 +1,11 @@
 package com.finvendor.api.resources.markets.dao;
 
 import com.finvendor.common.constant.AppConstant;
+import com.finvendor.common.util.DateUtil;
 import com.finvendor.model.Indice;
 import com.finvendor.model.IndiceDetails;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -123,6 +125,18 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
                 save(indice);
                 idCounter++;
                 totalBsePriceInserted++;
+
+                //Nifty50 price insertion into history table
+                if ("Nifty 50".equals(indexName)) {
+                    //let also store nifty50 price into nifty50History table after update new nitfy 50 price
+                    String currentDate = getDateForNifty50();
+                    String insertQuery = "insert into nifty50_price_history(date,close) values(?,?)";
+                    SQLQuery sqlQuery = commonDao.getNativeQuery(insertQuery, null);
+                    sqlQuery.setParameter(0, currentDate);
+                    sqlQuery.setParameter(1, closingIndex);
+                    sqlQuery.executeUpdate();
+
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -136,5 +150,12 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
             }
         }
         return totalBsePriceInserted;
+    }
+
+    private String getDateForNifty50() {
+        String currentDay = DateUtil.getDayNumber();
+        String currentMonth = DateUtil.getCurrentMonth();
+        String currentYear = DateUtil.get2DigitCurrentYear();
+        return currentDay + "-" + currentMonth + "-" + currentYear;
     }
 }
