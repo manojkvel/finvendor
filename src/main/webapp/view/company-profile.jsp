@@ -19,6 +19,7 @@
 			window.localStorage.setItem('companyProfileJson', JSON.stringify(companyProfileJson));
 		}
 	</script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
@@ -197,22 +198,9 @@
 								</div>
 								<div class="col-xs-12 col-sm-5">
 									<div id="broker_stock_rating_container">
-										<h4>Broker Stock Rating</h4>
 										<div class="broker_stock_rating_ui">
 											
 										</div>
-										<table>
-											<thead>
-												<th>Buy</th>
-												<th>Sell</th>
-												<th>Neutral</th>
-											</thead>
-											<tr>
-												<td class="center success">0</td>
-												<td class="center danger">0</td>
-												<td class="center neutral">0</td>
-											</tr>
-										</table>
 									</div>
 								</div>
 							</div>

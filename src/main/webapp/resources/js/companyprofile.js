@@ -714,13 +714,61 @@ setCompanyRatingHtml = function(valuationScore) {
 
 
 
-setBrokerRatingHtml = function(valuationScore) {
+setBrokerRatingHtml = function(response) {
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(function() {
 
-    var ratingImage = '';
-    var ratingClass = "";
+      var data = google.visualization.arrayToDataTable([
+            ['Task', 'Broker Stock Rating'],
+          [response.brokerRank.totalBuyRecomm + ' Buy Recommendations', response.brokerRank.totalBuyRecomm],
+          [response.brokerRank.totalSellRecomm + ' Sell Recommendations', response.brokerRank.totalSellRecomm],
+          [response.brokerRank.totalNeutralRecomm + ' Neutral Recommendations', response.brokerRank.totalNeutralRecomm]
+          ]);
 
-    var html = "<h4>Broker Stock Rating</h4><div class='broker_stock_rating_ui'></div>";
-    $("#broker_stock_rating_container").html(html);
+    var options = {
+          pieHole: 0.4,
+          pieSliceBorderColor: "none",
+          colors: ['#5cb85c', '#d9534f', '#ef9e06' ],
+          pieSliceText: "percentage",
+          legend: {
+            alignment: 'center'
+          },
+          enableInteractivity: false,
+          tooltip: {
+            trigger: "none"
+          },
+            chartArea: {width: 350, height: 150}
+    };
+
+
+      var chart = new google.visualization.PieChart(document.querySelector('#broker_stock_rating_container .broker_stock_rating_ui'));
+      chart.draw(data, options);
+
+      var averageTargetPrice = (response.brokerRank.averageTargetPrice) ? response.companyProfileData.currency + " " + response.brokerRank.averageTargetPrice : '-';
+      var upside = (response.brokerRank.upside) ? response.brokerRank.upside + "%" : '-';
+
+      var html = "<ul>"
+                + "<li>Consensus Target Price: <span>" + averageTargetPrice  + "</span></li>"
+                + "<li>Average Upside Potential: <span>" + upside + "</span></li>"
+                + "</ul>"
+      $("#broker_stock_rating_container .broker_stock_rating_ui").append(html);
+      $("#broker_stock_rating_container .broker_stock_rating_ui").prepend("<h4>Analyst's Stock Rating</h4>");
+  });
+
+
+    /*var total = brokerRank.totalBuyRecomm + brokerRank.totalSellRecomm + brokerRank.totalNeutralRecomm;
+
+    var percentageBuyRecomm = (brokerRank.totalBuyRecomm/total)*100;
+    var percentageSellRecomm = (brokerRank.totalSellRecomm/total)*100;
+    var percentageNeutralRecomm = (brokerRank.totalNeutralRecomm/total)*100;
+
+    var html = "<h4>Broker Stock Rating</h4>"
+                + "<div class='broker_stock_rating_ui'>"
+                + "<span style='border: " + percentageBuyRecomm + "px solid green;'>" + brokerRank.totalBuyRecomm + "</span>"
+                + "<span style='border: " + percentageSellRecomm + "px solid red;'>" + brokerRank.totalSellRecomm + "</span>"
+                + "<span style='border: " + percentageNeutralRecomm + "px solid yellow;'>" + brokerRank.totalNeutralRecomm + "</span>"
+                + "</div>";
+    $("#broker_stock_rating_container").html(html);*/
 }
 
 
