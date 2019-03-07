@@ -47,3 +47,5 @@
 
 	gtag('config', gaCode);
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>

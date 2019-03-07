@@ -444,7 +444,7 @@ function getGenericSearchCompanyList(hintVal) {
 		var httpRequest = new XMLHttpRequest({
 			mozSystem: true
 		});
-		httpRequest.timeout = API_TIMEOUT_SMALL;
+		//httpRequest.timeout = API_TIMEOUT_SMALL;
 		httpRequest.open('GET', url, true);
 		httpRequest.ontimeout = function () {
 			reject("" + httpRequest.responseText);
@@ -703,7 +703,7 @@ function getMarqueeApi(jsonBody) {
 		var httpRequest = new XMLHttpRequest({
 			mozSystem: true
 		});
-		httpRequest.timeout = API_TIMEOUT_SMALL;
+		//httpRequest.timeout = API_TIMEOUT_SMALL;
 		httpRequest.open('POST', url, true);
 		httpRequest.setRequestHeader('Content-Type',
 			'application/json; charset=UTF-8');
@@ -722,6 +722,9 @@ function getMarqueeApi(jsonBody) {
                 }
             };
 
-            httpRequest.send(JSON.stringify(jsonBody));
+			if(jsonBody)
+				httpRequest.send(JSON.stringify(jsonBody));
+			else
+				httpRequest.send();
         });
 };
