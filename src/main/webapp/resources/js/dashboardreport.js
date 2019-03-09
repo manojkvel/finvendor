@@ -29,11 +29,12 @@ function getDashboardResearchReportLoad() {
             var cmp = parseFloat(response.equity.cmp).toFixed(2);
             var targetPrice = parseFloat(response.equity.targetPrice).toFixed(2);
             var upside = (response.equity.upside != 'NA') ? parseFloat(Math.round(response.equity.upside * 100) / 100).toFixed(2) + '%' : response.equity.upside;
-         
+            var currency = (response.equity.currency) ? response.equity.currency : "INR";
+
             var htmlData = "<div class='dashboard_report'>"
                         + "<div class='hd'>"
                                 + "<span class='reportName'>" + response.equity.reportName + "</span>"
-                                + "<span class='currentMarketPrice'>CMP: " + cmp + "</span>"
+                                + "<span class='currentMarketPrice'>CMP: " + currency + " " + cmp + "</span>"
                                 + "<div>"
                                     + "<span data-toggle='tooltip' data-placement='top' title='' data-original-title='" + timeStampToDate(Number(response.equity.priceDate)) + "'>" + timeStampToDate(Number(response.equity.priceDate)) + "</span>"
                                 + "</div>"
@@ -45,7 +46,7 @@ function getDashboardResearchReportLoad() {
                                             + "<span class='recommType success'>" + response.equity.recommType + ":</span> " + response.equity.company
                                             + "<div class='brokerName'>by " + response.equity.analystName + "</div>"
                                         + "</div>"
-                                        + "<div class='targetPrice'>Target: " + targetPrice + "</div>"
+                                        + "<div class='targetPrice'>Target: " + currency + " " + targetPrice + "</div>"
                                         + "<div class='upside'>Upside: " + upside + "</div>"
 
                                         + "<div class='dwnldReport'>"
@@ -136,7 +137,7 @@ function getDashboardResearchReport() {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
         });
-        httpRequest.timeout = API_TIMEOUT_SMALL;
+        //httpRequest.timeout = API_TIMEOUT_SMALL;
         httpRequest.open('POST', url, true);
         httpRequest.setRequestHeader('Content-Type',
                 'application/json; charset=UTF-8');

@@ -121,6 +121,8 @@ var priceAlertStatus = 'N';
                 brokerRankSmallCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
             }
 
+            var currency = (response.equity[i].currency) ? response.equity[i].currency : "INR";
+
             htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "'>" +
             "<td>" + 
             "<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'><a href='/view/company-profile.jsp?isinCode=" + response.equity[i].isinCode + "'>" + response.equity[i].company + "</a></div>" + 
@@ -140,15 +142,15 @@ var priceAlertStatus = 'N';
             "<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
             "</td>" +
             "<td>" + 
-            "<div class='cmp'> Rs. " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" + 
+            "<div class='cmp'>" + currency + " " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" +
             "<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
             "<div class='pe'>" + parseFloat(response.equity[i].pe).toFixed(2) + "</div>" + 
             "<div class='_3YrEpsGrowth " + _3YrEpsGrowthClass + "'><i class='fa " + _3YrEpsGrowthClass_Caret + "'></i> " + ((response.equity[i]._3YrEpsGrowth != 'NA') ? Math.round(response.equity[i]._3YrEpsGrowth * 100) / 100 + '%' : response.equity[i]._3YrEpsGrowth) + "</div>" +
             "</td>" +
             "<td>" + 
             "<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
-            "<div class='targetPrice'> Rs. " + parseFloat(response.equity[i].targetPrice).toFixed(2) + "</div>" + 
-            "<div class='priceAtRecomm'>" + ((response.equity[i].priceAtRecomm == '') ? "N/A" : parseFloat(response.equity[i].priceAtRecomm).toFixed(2)) + "</div>" + 
+            "<div class='targetPrice'>" + currency + " " + parseFloat(response.equity[i].targetPrice).toFixed(2) + "</div>" +
+            "<div class='priceAtRecomm'>" + currency + " " + ((response.equity[i].priceAtRecomm == '') ? "N/A" : parseFloat(response.equity[i].priceAtRecomm).toFixed(2)) + "</div>" +  
             "<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? Math.round(response.equity[i].upside * 100) / 100 + '%' : response.equity[i].upside) + "</div>" +
             "</td>" +
             "<td>"  +  
@@ -178,6 +180,12 @@ var priceAlertStatus = 'N';
         
         $('#broker_table tbody tr td .report a').on('click', getReport);
         $('#research_report_content .pager a').on('click', getPaginationIndex);
+
+        if(response.averageTargetPrice) {
+            $("#average_target_price span").text(parseFloat(response.averageTargetPrice).toFixed(2));
+        } else {
+            $("#average_target_price span").text('-');
+        }
 
         $("#average_target_price span").text(parseFloat(response.averageTargetPrice).toFixed(2));
         $("#no_of_analyst_report span").text(response.noOfAnalystReport);
@@ -452,12 +460,17 @@ function getCompanyProfileResearchReportLoad() {
         $(".company_details .ind_name").text(response.companyProfileData.industry);
         $(".company_details .mcap_name").text(response.companyProfileData.mcap);
 
-        var lastCmp = cmp + " (<i class='fa " + cmp_last_change_caret + "'></i> "  + lastChange + "%)";
+        var lastCmp = cmp + "<span class='currency'>" + response.companyProfileData.currency + "</span>" + " (<i class='fa " + cmp_last_change_caret + "'></i> "  + lastChange + "%)";
         $(".company_details .last_cmp").addClass(cmp_last_change_class);
         $(".company_details .last_cmp").html(lastCmp);
 
         var price_date = timeStampToDateNew(Number(response.companyProfileData.price_date))[2] + "-" + timeStampToDateNew(Number(response.companyProfileData.price_date))[1] + "-" + timeStampToDateNew(Number(response.companyProfileData.price_date))[3];
         $(".company_details .price_date").text(response.companyProfileData.price_src_code + " | " + price_date + " | " + timeStampToDateNew(Number(response.companyProfileData.price_date))[4]);
+
+        var indainMapCurrency = (response.companyProfileData.currency == 'INR') ? ', crores' : ', millions';
+        $(".market_details #mkt_cap_value .fl span").text("(" + response.companyProfileData.currency + indainMapCurrency + ")");
+        $(".market_details #revenue_value .fl span").text("(" + response.companyProfileData.currency + indainMapCurrency + ")");
+        $(".market_details #pat_value .fl span").text("(" + response.companyProfileData.currency + indainMapCurrency + ")");
 
         $(".market_details #mkt_cap_value .fr").text(mkt_cap);
         $(".market_details #pe_value .fr").text(pe);
@@ -703,6 +716,16 @@ setCompanyRatingHtml = function(valuationScore) {
 
 
 setBrokerRatingHtml = function(response) {
+    /*var response = {
+        brokerRank: {
+            totalBuyRecomm: 1, 
+            totalSellRecomm: 0, 
+            totalNeutralRecomm: 0, 
+            averageTargetPrice: 0, 
+            upside: 0
+        }
+    };*/
+
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(function() {
 
@@ -713,9 +736,28 @@ setBrokerRatingHtml = function(response) {
           [response.brokerRank.totalNeutralRecomm + ' Neutral Recommendations', response.brokerRank.totalNeutralRecomm]
           ]);
 
+    var view = new google.visualization.DataView(data);
+    view.setColumns([0, {
+        type: 'number',
+        label: data.getColumnLabel(1),
+        calc: function (dt, row) {
+            var value = dt.getValue(row, 1);
+            if (value == 0) {
+                // change value to a very small, non-zero number
+                // must be much smaller than all normal values in the chart
+                value = 0.000001;
+            }
+            return {
+                v: value,
+                f: dt.getFormattedValue(row, 1)
+            };
+        }
+    }]);
+
     var options = {
           pieHole: 0.4,
           pieSliceBorderColor: "none",
+          sliceVisibilityThreshold :0,
           colors: ['#5cb85c', '#d9534f', '#ef9e06' ],
           pieSliceText: "percentage",
           legend: {
@@ -730,7 +772,8 @@ setBrokerRatingHtml = function(response) {
 
 
       var chart = new google.visualization.PieChart(document.querySelector('#broker_stock_rating_container .broker_stock_rating_ui'));
-      chart.draw(data, options);
+      chart.draw(view, options);
+
 
       var averageTargetPrice = (response.brokerRank.averageTargetPrice) ? response.companyProfileData.currency + " " + response.brokerRank.averageTargetPrice : '-';
       var upside = (response.brokerRank.upside) ? response.brokerRank.upside + "%" : '-';
