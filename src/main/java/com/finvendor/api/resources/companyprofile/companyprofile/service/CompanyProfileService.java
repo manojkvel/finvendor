@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class CompanyProfileService {//implements ICompanyProfileService {
+public class CompanyProfileService {
 
     private static final Logger logger = LoggerFactory.getLogger(CompanyProfileService.class.getName());
 

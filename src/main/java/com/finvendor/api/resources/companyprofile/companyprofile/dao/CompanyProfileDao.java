@@ -1,26 +1,31 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dao;
 
 import com.finvendor.api.resources.companyprofile.companyprofile.dto.BrokerRank;
-import com.finvendor.api.resources.companyprofile.companyprofile.dto.PriceReturn;
-import com.finvendor.api.resources.markets.dao.MarketsDao;
-import com.finvendor.common.util.DateUtil;
-import com.finvendor.common.util.JsonUtil;
-import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.resources.companyprofile.companyprofile.dto.CompanyProfileData;
+import com.finvendor.api.resources.companyprofile.companyprofile.dto.PriceHistory;
+import com.finvendor.api.resources.markets.dao.MarketsDao;
 import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
 import com.finvendor.api.resources.researchreport.equity.dto.filter.ResearchReportFilter;
 import com.finvendor.api.resources.researchreport.equity.dto.result.AbsResearchReportResult;
+import com.finvendor.common.commondao.ICommonDao;
+import com.finvendor.common.util.DateUtil;
+import com.finvendor.common.util.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
-import java.text.ParseException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,6 +40,7 @@ public class CompanyProfileDao {
 
     @Autowired
     private MarketsDao marketsDao;
+
     /**
      * Company Profile Query
      */
@@ -43,10 +49,10 @@ public class CompanyProfileDao {
     /**
      * Company Profile Other Query
      */
-    public static final String buyCountQuery = "SELECT count(*) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='buy'";
-    public static final String sellCountQuery = "SELECT count(*) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='sell'";
-    public static final String neutralCountQuery = "SELECT count(*) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='neutral'";
-    public static final String avgCountQuery = "select avg(vendor_report_data.target_price) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
+    private static final String buyCountQuery = "SELECT count(*) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='buy'";
+    private static final String sellCountQuery = "SELECT count(*) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='sell'";
+    private static final String neutralCountQuery = "SELECT count(*) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='neutral'";
+    private static final String avgCountQuery = "select avg(vendor_report_data.target_price) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
 
     /**
      * Company Research Report Query
@@ -74,8 +80,8 @@ public class CompanyProfileDao {
         List<Object[]> rows = query1.list();
         Map<String, Object> paramsMap = new LinkedHashMap<>();
         String companyProfile = "NA";
-        String summary = "";
-        String valuationScoreStr = "";
+        String summary;
+        String valuationScoreStr;
         try {
             for (Object[] row : rows) {
                 String companyId = row[0] != null ? row[0].toString().trim() : "";
@@ -117,27 +123,25 @@ public class CompanyProfileDao {
                 String share_outstanding = row[14] != null ? row[14].toString().trim() : "";// static
                 float shareOutStandingAsFloat = Float.parseFloat(share_outstanding);
 
-                // market cap needs to be calculated daily using below formula:
-                // = shares_outstanding x today's market price
-                String mkt_cap = String.valueOf(shareOutStandingAsFloat * cmpAsFloat);// row[15] != null ?
-                // row[15].toString().trim() :
-                // "";
+                // market cap needs to be calculated daily using below formula = shares_outstanding * today's market price
+                String mkt_cap = String.valueOf(shareOutStandingAsFloat * cmpAsFloat);
 
                 // static and it will updated quaterly
-                String revenue = row[16] != null ? row[16].toString().trim() : "";// static
+                String revenue = row[16] != null ? row[16].toString().trim() : "";
                 revenue = StringUtils.remove(revenue, ",");
-                // static and it will updated quaterly
-                String face_value = row[17] != null ? row[17].toString().trim() : "";// static
 
                 // static and it will updated quaterly
-                //String bv_share = row[18] != null ? row[18].toString().trim() : "";// static
+                String face_value = row[17] != null ? row[17].toString().trim() : "";
+
+                // static and it will updated quaterly
+                //String bv_share = row[18] != null ? row[18].toString().trim() : "";
                 float bv_share_as_float = cmpAsFloat / Float.parseFloat(pb);
 
                 // static and it will updated quaterly
-                String roe = row[19] != null ? row[19].toString().trim() : "";// static update qtrly
+                String roe = row[19] != null ? row[19].toString().trim() : "";
 
                 // static and it will updated quaterly
-                String pat = row[20] != null ? row[20].toString().trim() : "";// static
+                String pat = row[20] != null ? row[20].toString().trim() : "";
                 pat = StringUtils.remove(pat, ",");
                 String recent_qtr = row[21] != null ? row[21].toString().trim() : "";
 
@@ -146,6 +150,7 @@ public class CompanyProfileDao {
                 String price_date_in_millis = String.valueOf(DateUtil.convertFvPriceDateToTimestamp(price_date));
                 String price_src_code = row[23] != null ? row[23].toString().trim() : "";
                 summary = row[24] != null ? row[24].toString().trim() : "";
+
                 String _3yrEpsGrowth = row[25] != null ? row[25].toString().trim() : "";
                 float _3yrEpsGrowthAsFloat = Float.parseFloat(_3yrEpsGrowth);
                 String currency = row[26] != null ? row[26].toString().trim() : "";
@@ -170,139 +175,254 @@ public class CompanyProfileDao {
                     newPBStr = String.valueOf(newPB);
                 }
 
-                //Demand - Valuation Score Calculation logic
-                /*
-                Valuation score
-                   Logic should be implemented in below order (if logic-1 meets the condition , no need to go to
-                    logic-2 or 3; if logic-2 meets the condition , no need to go to logic-3)
+                //Calculate Valuation Score
+                valuationScoreStr = calculateAndGetValucationScore(_3yrEpsGrowthAsFloat, newPe);
 
-                   Logic-1 : if [3 YR EPS growth] <= 0 then Strong Sell (Deep RED)
+                CompanyProfileData companyProfileData = new CompanyProfileData(companyId, companyName, industry, mcap, cmp, absoluteLastChangedCmp,
+                        lastChangedCmpInPercentage, newPeStr, "-", dividen_yield, eps_ttm, _52w_high,
+                        _52w_low, beta, share_outstanding, mkt_cap, revenue.trim(), face_value, "-", roe, pat,
+                        recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr, currency);
 
-                   Logic-2 : if [P/E] <= 0 then Strong Sell (Deep RED)
-
-                   Logic-3 :
-                   [(3 YR EPS growth - P/E ) / 3 YR EPS growth] * 100 = V
-                   IF V > 15%  	        => Strong Buy (Deep Green)
-                   IF 15% > V > 5%  	=> Buy (Light Green)
-                   if -5% > V > 5% 	        => Neutral (Orange)
-                   if -15% < V < -5% 	=> Sell (Light RED)
-                   if V < -15% 	        => STRONG Sell (Deep RED)
-                 */
-                if (_3yrEpsGrowthAsFloat <= 0.0F || newPe <= 0.0F) {
-                    valuationScoreStr = "Very Overpriced";
-                } else {
-                    float valuationScore = (_3yrEpsGrowthAsFloat - newPe) / _3yrEpsGrowthAsFloat * 100.0F;
-                    logger.info("valuationScore:{}", valuationScore);
-                    if (valuationScore >= -15.0f && valuationScore < -5.0f) {
-                        valuationScoreStr = "Overpriced";//"Sell";
-                    }
-                    if (valuationScore >= -5.0f || valuationScore < 5.0f) {
-                        valuationScoreStr = "Reasonable";//"Neutral";
-                    }
-                    if (valuationScore >= 5.0f && valuationScore < 15.0f) {
-                        valuationScoreStr = "Pleasing";//"Buy";
-                    }
-                    if (valuationScore >= 15.0f) {
-                        valuationScoreStr = "Very Pleasing";//"Strong Buy";
-                    }
-                    if (valuationScore < -15.0) {
-                        valuationScoreStr = "Very Overpriced";//"Strong Sell";
-                    }
-                }
-                paramsMap.put("companyProfileData",
-                        new CompanyProfileData(companyId, companyName, industry, mcap, cmp, absoluteLastChangedCmp,
-                                lastChangedCmpInPercentage, newPeStr, "-", dividen_yield, eps_ttm, _52w_high,
-                                _52w_low, beta, share_outstanding, mkt_cap, revenue.trim(), face_value, "-", roe, pat,
-                                recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr, currency));
-                paramsMap.put("summary", summary);
-
-                //Hisorical price
-                Map<String, String> stockPriceReturnMap = new LinkedHashMap<>();
+                //Stock Historical price calculation
                 String stockId = getCompanyId("select a.company_id,a.isin_code from rsch_sub_area_company_dtls a where a.isin_code=?", isinCode);
-                float wPrice = getHistoryClosePrice(STOCK_CLOSE_PRICE, stockId, 4);
-                String _lWPriceStr = wPrice != 0.0F ? String.valueOf((cmpAsFloat - wPrice) * 100 / wPrice) : "-";
+                Map<String, String> stockHistoricalPrices = findStockHistoricalPrices(cmpAsFloat, stockId);
 
-                float _1MPrice = getHistoryClosePrice(STOCK_CLOSE_PRICE, stockId, 19);
-                String _lMPriceStr = _1MPrice != 0.0F ? String.valueOf((cmpAsFloat - _1MPrice) * 100.0F / _1MPrice) : "-";
-
-                float _3MPrice = getHistoryClosePrice(STOCK_CLOSE_PRICE, stockId, 59);
-                String _3MPriceStr = _3MPrice != 0.0F ? String.valueOf((cmpAsFloat - _3MPrice) * 100.0F / _3MPrice) : "-";
-
-                float _6MPrice = getHistoryClosePrice(STOCK_CLOSE_PRICE, stockId, 119);
-                String _6MPriceStr = _6MPrice != 0.0F ? String.valueOf((cmpAsFloat - _6MPrice) * 100.0F / _6MPrice) : "-";
-
-                float _1YPrice = getHistoryClosePrice(STOCK_CLOSE_PRICE, stockId, 239);
-                String _lYPriceStr = _1YPrice != 0.0F ? String.valueOf((cmpAsFloat - _1YPrice) * 100.0F / _1YPrice) : "-";
-
-                float _2YPrice = getHistoryClosePrice(STOCK_CLOSE_PRICE, stockId, 479);
-                String _2YPriceStr = _2YPrice != 0.0F ? String.valueOf((cmpAsFloat - _2YPrice) * 100.0F / _2YPrice) : "-";
-
-                float _5YPrice = getHistoryClosePrice(STOCK_CLOSE_PRICE, stockId, 1199);
-                String _5YPriceStr = _5YPrice != 0.0F ? String.valueOf((cmpAsFloat - _5YPrice) * 100.0F / _5YPrice) : "-";
-
-                stockPriceReturnMap.put("1W", _lWPriceStr);
-                stockPriceReturnMap.put("1M", _lMPriceStr);
-                stockPriceReturnMap.put("3M", _3MPriceStr);
-                stockPriceReturnMap.put("6M", _6MPriceStr);
-                stockPriceReturnMap.put("1Y", _lYPriceStr);
-                stockPriceReturnMap.put("2Y", _2YPriceStr);
-                stockPriceReturnMap.put("5Y", _5YPriceStr);
-
-                Map<String, String> nifty50PriceReturnMap = new LinkedHashMap<>();
+                //Nifty50 Historical price calculation
                 String indexSummary = marketsDao.getIndexSummary("Nifty 50");
                 float closing = Float.parseFloat(JsonUtil.getValue(indexSummary, "closing").trim());
-                wPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 5);
-                _lWPriceStr = wPrice != 0.0F ? String.valueOf((closing - wPrice) * 100 / wPrice) : "-";
+                Map<String, String> nifty50HistoricalPrices = findNifty50HistoricalPrices(closing);
 
-                _1MPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 19);
-                _lMPriceStr = _1MPrice != 0.0F ? String.valueOf((closing - _1MPrice) * 100.0F / _1MPrice) : "-";
-
-                _3MPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 62);
-                _3MPriceStr = _3MPrice != 0.0F ? String.valueOf((closing - _3MPrice) * 100.0F / _3MPrice) : "-";
-
-                _6MPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 121);
-                _6MPriceStr = _6MPrice != 0.0F ? String.valueOf((closing - _6MPrice) * 100.0F / _6MPrice) : "-";
-
-                _1YPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 247);
-                _lYPriceStr = _1YPrice != 0.0F ? String.valueOf((closing - _1YPrice) * 100.0F / _1YPrice) : "-";
-
-                _2YPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 480);
-                _2YPriceStr = _2YPrice != 0.0F ? String.valueOf((closing - _2YPrice) * 100.0F / _2YPrice) : "-";
-
-                _5YPrice = getHistoryClosePrice(NIFTY_CLOSE_PRICE, null, 1199);
-                _5YPriceStr = _5YPrice != 0.0F ? String.valueOf((closing - _5YPrice) * 100.0F / _5YPrice) : "-";
-
-                nifty50PriceReturnMap.put("1W", _lWPriceStr);
-                nifty50PriceReturnMap.put("1M", _lMPriceStr);
-                nifty50PriceReturnMap.put("3M", _3MPriceStr);
-                nifty50PriceReturnMap.put("6M", _6MPriceStr);
-                nifty50PriceReturnMap.put("1Y", _lYPriceStr);
-                nifty50PriceReturnMap.put("2Y", _2YPriceStr);
-                nifty50PriceReturnMap.put("5Y", _5YPriceStr);
+                //Nifty50 Handling
+                PriceHistory priceHistory = new PriceHistory();
+                priceHistory.setNifty50(nifty50HistoricalPrices);
+                priceHistory.setStock(stockHistoricalPrices);
 
 
-                PriceReturn priceReturn = new PriceReturn();
-                priceReturn.setNifty50(nifty50PriceReturnMap);
-                priceReturn.setStock(stockPriceReturnMap);
-                paramsMap.put("priceHistory", priceReturn);
-                BrokerRank brokerRank=new BrokerRank(5,6,8,256.36f,19.8f);
-                paramsMap.put("brokerRank", brokerRank);
+                //Company Profile
+                paramsMap.put("companyProfileData", companyProfileData);
+
+                //Summary
+                paramsMap.put("summary", summary);
+
+                //Price History
+                paramsMap.put("priceHistory", priceHistory);
+
+                //Broker Rank
+                float averageTargetPrice = getResearchReportAggregatedData(avgCountQuery, isinCode).floatValue();
+                float upside = averageTargetPrice == 0.0f ? 0.0f : ((averageTargetPrice - cmpAsFloat) / cmpAsFloat) * 100;
+                int totalBuyRecomm = getResearchReportAggregatedData(buyCountQuery, isinCode).intValue();
+                int totalSellRecomm = getResearchReportAggregatedData(sellCountQuery, isinCode).intValue();
+                int totalNeutralRecomm = getResearchReportAggregatedData(neutralCountQuery, isinCode).intValue();
+                paramsMap.put("brokerRank", new BrokerRank(totalBuyRecomm, totalSellRecomm, totalNeutralRecomm, averageTargetPrice, upside));
 
                 companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
             }
-        } catch (ParseException | IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error has occured while creating json for company profile data", e);
         }
         return companyProfile;
     }
 
-    private float getHistoryClosePrice(String query, String stockId, Integer offset) {
+
+    private String calculateAndGetValucationScore(float _3yrEpsGrowthAsFloat, float newPe) {
+        /*
+         * Valuation score
+         *           Logic should be implemented in below order (if logic-1 meets the condition , no need to go to
+         *            logic-2 or 3; if logic-2 meets the condition , no need to go to logic-3)
+         *
+         *           Logic-1 : if [3 YR EPS growth] <= 0 then Strong Sell (Deep RED)
+         *
+         *           Logic-2 : if [P/E] <= 0 then Strong Sell (Deep RED)
+         *
+         *           Logic-3 :
+         *           [(3 YR EPS growth - P/E ) / 3 YR EPS growth] * 100 = V
+         *           IF V > 15%  	        => Strong Buy (Deep Green)
+         *           IF 15% > V > 5%  	=> Buy (Light Green)
+         *           if -5% > V > 5% 	        => Neutral (Orange)
+         *           if -15% < V < -5% 	=> Sell (Light RED)
+         *           if V < -15% 	        => STRONG Sell (Deep RED)
+         */
+        String valuationScoreStr = "NA";
+
+        if (_3yrEpsGrowthAsFloat <= 0.0F || newPe <= 0.0F) {
+            valuationScoreStr = "Very Overpriced";
+        } else {
+            float valuationScore = (_3yrEpsGrowthAsFloat - newPe) / _3yrEpsGrowthAsFloat * 100.0F;
+            logger.info("valuationScore:{}", valuationScore);
+            if (valuationScore >= -15.0f && valuationScore < -5.0f) {
+                valuationScoreStr = "Overpriced";//"Sell";
+            }
+            if (valuationScore >= -5.0f || valuationScore < 5.0f) {
+                valuationScoreStr = "Reasonable";//"Neutral";
+            }
+            if (valuationScore >= 5.0f && valuationScore < 15.0f) {
+                valuationScoreStr = "Pleasing";//"Buy";
+            }
+            if (valuationScore >= 15.0f) {
+                valuationScoreStr = "Very Pleasing";//"Strong Buy";
+            }
+            if (valuationScore < -15.0) {
+                valuationScoreStr = "Very Overpriced";//"Strong Sell";
+            }
+        }
+        return valuationScoreStr;
+    }
+
+    private Map<String, String> findStockHistoricalPrices(float todaysCmp, String stockId) throws Exception {
+        float stock_WeekPrice;
+        float stock_1M_Price;
+        float stock_3M_Price;
+        float stock_6M_Price;
+        float stock_1Y_Price;
+        String stockTodaysDateFromDB = getStockTodaysDateFromDB(stockId);
+        if (stockTodaysDateFromDB.isEmpty()) {
+            throw new Exception("Unble to find today's stock date");
+        }
+
+        Map<String, String> stockHistoricalPriceMap = new LinkedHashMap<>();
+
+        //Week Price
+        String query = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 7 DAY),\"%d/%b/%y\")) and stock_id=" + stockId;
+        String nextQuery = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 7 DAY), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id=" + stockId;
+        stock_WeekPrice = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
+
+        //1M Price
+        query = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 MONTH),\"%d/%b/%y\")) and stock_id=" + stockId;
+        nextQuery = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 MONTH), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id=" + stockId;
+        stock_1M_Price = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
+
+        //3M Price
+        query = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 3 MONTH),\"%d/%b/%y\")) and stock_id=" + stockId;
+        nextQuery = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 3 MONTH), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id=" + stockId;
+        stock_3M_Price = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
+
+        //6M Price
+        query = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 6 MONTH),\"%d/%b/%y\")) and stock_id=" + stockId;
+        nextQuery = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 6 MONTH), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id=" + stockId;
+        stock_6M_Price = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
+
+        //1Y Price
+        query = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 YEAR),\"%d/%b/%y\")) and stock_id=" + stockId;
+        nextQuery = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 YEAR), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id=" + stockId;
+        stock_1Y_Price = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
+
+        stockHistoricalPriceMap.put("1W", String.valueOf((todaysCmp - stock_WeekPrice) * 100 / stock_WeekPrice));
+        stockHistoricalPriceMap.put("1M", String.valueOf((todaysCmp - stock_1M_Price) * 100 / stock_1M_Price));
+        stockHistoricalPriceMap.put("3M", stock_3M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_3M_Price) * 100 / stock_3M_Price));
+        stockHistoricalPriceMap.put("6M", stock_6M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_6M_Price) * 100 / stock_6M_Price));
+        stockHistoricalPriceMap.put("1Y", stock_1Y_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_1Y_Price) * 100 / stock_1Y_Price));
+        stockHistoricalPriceMap.put("2Y", "-");
+        stockHistoricalPriceMap.put("5Y", "-");
+        return stockHistoricalPriceMap;
+    }
+
+    private Map<String, String> findNifty50HistoricalPrices(float nifty50Closing) throws Exception {
+        float nifty50_WeekPrice;
+        float nifty50_1M_Price;
+        float nifty50_3M_Price;
+        float nifty50_6M_Price;
+        float nifty50_1Y_Price;
+        String nifty50TodaysDateFromDB = getNifty50TodaysDateFromDB();
+        if (nifty50TodaysDateFromDB.isEmpty()) {
+            throw new Exception("Unble to find today's date from nifty50History table, cause: Batch process would have failed!!");
+        }
+
+        Map<String, String> nifty50HistoricalPriceMap = new LinkedHashMap<>();
+        //Week Price
+        String query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 7 DAY),\"%e-%b-%y\"))";
+        String nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 7 DAY), INTERVAL COUNT DAY),\"%d-%b-%y\"))";
+        nifty50_WeekPrice = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
+
+        //1M Price
+        query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 MONTH),\"%e-%b-%y\"))";
+        nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 MONTH), INTERVAL COUNT DAY),\"%e-%b-%y\"))";
+        nifty50_1M_Price = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
+
+        //3M Price
+        query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 3 MONTH),\"%e-%b-%y\"))";
+        nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 3 MONTH), INTERVAL COUNT DAY),\"%e-%b-%y\"))";
+        nifty50_3M_Price = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
+
+        //6M Price
+        query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 6 MONTH),\"%e-%b-%y\"))";
+        nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 6 MONTH), INTERVAL COUNT DAY),\"%e-%b-%y\"))";
+        nifty50_6M_Price = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
+
+        //1Y Price
+        query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 YEAR),\"%e-%b-%y\"))";
+        nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 YEAR), INTERVAL COUNT DAY),\"%e-%b-%y\"))";
+        nifty50_1Y_Price = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
+
+        nifty50HistoricalPriceMap.put("1W", String.valueOf((nifty50Closing - nifty50_WeekPrice) * 100 / nifty50_WeekPrice));
+        nifty50HistoricalPriceMap.put("1M", String.valueOf((nifty50Closing - nifty50_1M_Price) * 100 / nifty50_1M_Price));
+        nifty50HistoricalPriceMap.put("3M", String.valueOf((nifty50Closing - nifty50_3M_Price) * 100 / nifty50_3M_Price));
+        nifty50HistoricalPriceMap.put("6M", String.valueOf((nifty50Closing - nifty50_6M_Price) * 100 / nifty50_6M_Price));
+        nifty50HistoricalPriceMap.put("1Y", String.valueOf((nifty50Closing - nifty50_1Y_Price) * 100 / nifty50_1Y_Price));
+        nifty50HistoricalPriceMap.put("2Y", "-");
+        nifty50HistoricalPriceMap.put("5Y", "-");
+        return nifty50HistoricalPriceMap;
+    }
+
+    private float getHistoricalPrice(String nifty50TodayPrice, String query, String nextQuery) throws Exception {
+        query = StringUtils.replace(query, "CURR_DATE", nifty50TodayPrice);
+        nextQuery = StringUtils.replace(nextQuery, "CURR_DATE", nifty50TodayPrice);
+        logger.info("***query: {}", query);
+
+        float historicalPrice;
+        SQLQuery query1 = commonDao.getNativeQuery(query, null);
+        List<Object[]> rows = query1.list();
+        String date = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
+        String price = !rows.isEmpty() ? (rows.get(0)[1] != null ? rows.get(0)[1].toString().trim() : "") : "";
+        String count = "1";
+        if (date.isEmpty()) {
+            String nextPrice;
+            while (true) {
+                String nextQuery1 = StringUtils.replace(nextQuery, "COUNT", count);
+                logger.info("***count: {} nextQuery: {}", count, nextQuery1);
+                query1 = commonDao.getNativeQuery(nextQuery1, null);
+                rows = query1.list();
+                String nextDate = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
+                nextPrice = !rows.isEmpty() ? (rows.get(0)[1] != null ? rows.get(0)[1].toString().trim() : "") : "";
+                int countAsInt = Integer.parseInt(count);
+                if (nextDate.isEmpty()) {
+                    countAsInt++;
+                } else {
+                    break;
+                }
+                if (countAsInt == 6) {
+                    break;
+                }
+                count = String.valueOf(countAsInt);
+            }
+            if (nextPrice.isEmpty()) {
+                nextPrice = "0.0";
+            }
+            historicalPrice = Float.parseFloat(nextPrice);
+        } else {
+            historicalPrice = Float.parseFloat(price);
+        }
+        return historicalPrice;
+    }
+
+    private String getStockTodaysDateFromDB(String stockId) {
         SQLQuery query1;
         List<Object[]> rows;
-        query1 = commonDao.getNativeQuery(query, stockId != null ? new Object[]{stockId, offset} : new Object[]{offset});
+        String currentDateQuery = "SELECT DATE_FORMAT(STR_TO_DATE(b.price_date,  \"%d/%b/%y\" ),\"%Y-%c-%d\") date,close_price FROM  stock_current_prices b WHERE  b.stock_id=? ORDER BY STR_TO_DATE(b.price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 0";
+        query1 = commonDao.getNativeQuery(currentDateQuery, new Object[]{stockId});
         rows = query1.list();
-        String closePrice = !rows.isEmpty() ? (rows.get(0)[1] != null ? rows.get(0)[1].toString().trim() : "") : "";
-        return !StringUtils.isEmpty(closePrice) ? Float.parseFloat(closePrice) : 0.0f;
+        String stockTodaysDate = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
+        return stockTodaysDate;
+    }
+
+
+    private String getNifty50TodaysDateFromDB() {
+        SQLQuery query1;
+        List<Object[]> rows;
+        String currentDateQuery = "SELECT DATE_FORMAT(STR_TO_DATE(date,  \"%d-%b-%y\" ),\"%Y-%c-%d\"), close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 0;";
+        query1 = commonDao.getNativeQuery(currentDateQuery, null);
+        rows = query1.list();
+        String nifty50TodaysDate = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
+        return nifty50TodaysDate;
     }
 
     private String getCompanyId(String query, String isinCode) {
@@ -325,37 +445,23 @@ public class CompanyProfileDao {
             Collection<? extends AbsResearchReportResult> equityList = equityData.values();
 
             paramsMap.put("noOfAnalystReport", equityList.size());
+
             // Total Buy Recomm
-            SQLQuery sqlQuery = commonDao.getNativeQuery(buyCountQuery, new String[]{isinCode});
-            Object object = sqlQuery.list().get(0);
-            if (object instanceof BigInteger) {
-                BigInteger i = (BigInteger) object;
-                paramsMap.put("totalBuyRecomm", i);
-            }
+            BigInteger value = getResearchReportAggregatedData(buyCountQuery, isinCode);
+            paramsMap.put("totalBuyRecomm", value);
 
             // Total Sell Recomm
-            sqlQuery = commonDao.getNativeQuery(sellCountQuery, new String[]{isinCode});
-            object = sqlQuery.list().get(0);
-            if (object instanceof BigInteger) {
-                BigInteger i = (BigInteger) object;
-                paramsMap.put("totalSellRecomm", i);
-            }
+            value = getResearchReportAggregatedData(sellCountQuery, isinCode);
+            paramsMap.put("totalSellRecomm", value);
+
 
             // Total Neutral Recomm
-            sqlQuery = commonDao.getNativeQuery(neutralCountQuery, new String[]{isinCode});
-            object = sqlQuery.list().get(0);
-            if (object instanceof BigInteger) {
-                BigInteger i = (BigInteger) object;
-                paramsMap.put("totalNeutralRecomm", i);
-            }
+            value = getResearchReportAggregatedData(neutralCountQuery, isinCode);
+            paramsMap.put("totalNeutralRecomm", value);
 
             // Average Target Price
-            sqlQuery = commonDao.getNativeQuery(avgCountQuery, new String[]{isinCode});
-            object = sqlQuery.list().get(0);
-            if (object instanceof Double) {
-                Double i = (Double) object;
-                paramsMap.put("averageTargetPrice", i);
-            }
+            value = getResearchReportAggregatedData(avgCountQuery, isinCode);
+            paramsMap.put("averageTargetPrice", value);
 
             paramsMap.put("equity", equityList);
             companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
@@ -364,4 +470,41 @@ public class CompanyProfileDao {
         }
         return companyProfile;
     }
+
+    private BigInteger getResearchReportAggregatedData(String query, String isinCode) {
+        BigInteger value;
+        SQLQuery sqlQuery = commonDao.getNativeQuery(query, new String[]{isinCode});
+        Object object = sqlQuery.list().get(0);
+        if (object instanceof BigInteger) {
+            value = (BigInteger) object;
+        } else {
+            value = BigInteger.valueOf(0);
+        }
+        return value;
+    }
+
+    private static String readUri(String uri) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(uri).openStream()))) {
+            return reader.readLine();
+        }
+    }
+
+    public static void main(String[] args) {
+        String html = "<!DOCTYPEhtml><htmllang=\"en\"><head><!--Pagetitle--><title>Search|WorldTradingData</title><!--Pagedescription--><metaname=\"description\"content=\"\"><metaname=\"author\"content=\"World Trading Data\"><metaname=\"keywords\"content=\"stock API,digital currency,crypto currency,free stock API,free stock API json,free stock API csv,stock quotes,json API,csv API,finance API,equity quotes,RESTful api,RESTful json API,realtime stock data,real time stock data API,historical stock data,historical stock data API,download stock data,download stock market data\"><metaname=\"google-site-verification\"content=\"tqVaf43SHcmJws6l4fn4TI2Hx1Bn7stGqcHVWEAqvy4\"/><metaname=\"msvalidate.01\"content=\"51FDDA1D91C5791674F529CB6272CB81\"/><!--Meta--><metacharset=\"UTF-8\"><metahttp-equiv=\"X-UA-Compatible\"content=\"IE=edge\"><metaname=\"viewport\"content=\"width=device-width, initial-scale=1\"><!--CSRFToken--><metaname=\"csrf-token\"content=\"iCT1iXv7I6FgXNNroBi45LLNvtvP7Q3NL8RHIcEZ\"><!--Favicon--><linkrel=\"icon\"type=\"image/png\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/favicon-16x16.png\"sizes=\"16x16\"><linkrel=\"icon\"type=\"image/png\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/favicon-32x32.png\"sizes=\"32x32\"><linkrel=\"icon\"type=\"image/png\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/favicon-96x96.png\"sizes=\"96x96\"><linkrel=\"apple-touch-icon\"sizes=\"57x57\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/apple-touch-icon-57x57.png\"><linkrel=\"apple-touch-icon\"sizes=\"60x60\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/apple-touch-icon-60x60.png\"><linkrel=\"apple-touch-icon\"sizes=\"72x72\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/apple-touch-icon-72x72.png\"><linkrel=\"apple-touch-icon\"sizes=\"76x76\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/apple-touch-icon-76x76.png\"><linkrel=\"apple-touch-icon\"sizes=\"114x114\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/apple-touch-icon-114x114.png\"><linkrel=\"apple-touch-icon\"sizes=\"120x120\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/apple-touch-icon-120x120.png\"><linkrel=\"apple-touch-icon\"sizes=\"144x144\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/apple-touch-icon-144x144.png\"><linkrel=\"apple-touch-icon\"sizes=\"152x152\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/apple-touch-icon-152x152.png\"><linkrel=\"apple-touch-icon\"sizes=\"180x180\"href=\"https://www.worldtradingdata.com/assets/main/img/favicons/apple-touch-icon-180x180.png\"><!--IncludeStyleSheets--><linkrel=\"stylesheet\"href=\"https://www.worldtradingdata.com/assets/main/css/style.min.css\"><linkrel=\"stylesheet\"href=\"https://www.worldtradingdata.com/assets/main/css/custom.css\"><scriptsrc=\"//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js\"></script></head><bodyclass=\"\"><!--EndofPreloader--><divclass=\"page js-page \"><!--Header--><divclass=\"header header-over large\"><divclass=\"container\"><divclass=\"row\"><divclass=\"col-md-3 col-sm-6 col-xs-6\"><!--LogoImage--><ahref=\"https://www.worldtradingdata.com\"class=\"logo-image logo-animated\"><imgsrc=\"https://www.worldtradingdata.com/assets/main/img/logos/logo-light.png\"alt=\"logo\"></a><!--EndofLogoImage--><!--Languages--><divclass=\"languages languages-light js-languages\"><spanclass=\"language-active js-language-active\">USD<iclass=\"fa fa-angle-down\"></i></span><ulclass=\"languages-list js-languages-list\"><li><ahref=\"https://www.worldtradingdata.com/currency?c=usd\">USD</a></li><li><ahref=\"https://www.worldtradingdata.com/currency?c=gbp\">GBP</a></li></ul></div><!--EndofLanguages--></div><divclass=\"col-md-9 col-sm-6 col-xs-6\"><!--Menu--><navclass=\"right helper\"><ulclass=\"menu sf-menu js-menu menu-light\"><li><ahref=\"https://www.worldtradingdata.com\">Home</a></li><li><ahref=\"https://www.worldtradingdata.com/services\">Services</a></li><li><ahref=\"https://www.worldtradingdata.com/pricing\">Pricing</a></li><li><ahref=\"https://www.worldtradingdata.com/documentation\">Documentation</a></li><li><ahref=\"#\">About</a><ul><li><ahref=\"https://www.worldtradingdata.com/faq\">FAQ</a></li><li><ahref=\"https://www.worldtradingdata.com/contact\">Contact</a></li></ul></li><li><ahref=\"https://www.worldtradingdata.com/login\">Login</a></li><li><ahref=\"https://www.worldtradingdata.com/register\">Register</a></li></ul></nav><!--EndofMenu--></div></div></div></div><!--EndofHeader--><!--HeaderBack--><divclass=\"header-back header-back-simple header-back-small\"><divclass=\"header-back-container\"><divclass=\"container\"><divclass=\"row\"><divclass=\"col-md-12\"><!--PageInfo--><divclass=\"page-info page-info-simple\"><h1class=\"page-title\">Search</h1><h2class=\"page-description\">Searchforastockinourdatabase.</h2><ahref=\"https://www.worldtradingdata.com/search/mutualfunds\">Clickheresearchformutualfundsinstead.</a></div><!--EndPageInfo--></div></div></div></div></div><!--EndofHeaderBack--><divid=\"content\"><divclass=\"container\"><divclass=\"row\"><divclass=\"col-md-12\"><divclass=\"table-responsive\"><divclass=\"pull-left\"><divclass=\"wrap\"><divclass=\"search\"><formaction=\"https://www.worldtradingdata.com/search\"><inputtype=\"text\"name=\"q\"class=\"searchTerm\"placeholder=\"Example: 'AAPL' or 'Apple'\"value=\"40B.SI\"><buttontype=\"submit\"class=\"searchButton\"><iclass=\"fa fa-search\"></i></button><br><br><ahref=\"#\"onclick=\"event.preventDefault();$('#exchanges').toggle();\">Filterbystockexchange(0)</a><br><ahref=\"#\"onclick=\"event.preventDefault();$('#currency').toggle();\">Filterbycurrency(0)</a><br><br><divid=\"exchanges\"style=\"display:none;\"><h5><strong>StockExchange</strong></h5><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"AEX\"><spanclass=\"label-text\">AEX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"AMEX\"><spanclass=\"label-text\">AMEX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"ASX\"><spanclass=\"label-text\">ASX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"BATS\"><spanclass=\"label-text\">BATS</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"BCBA\"><spanclass=\"label-text\">BCBA</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"BIST\"><spanclass=\"label-text\">BIST</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"BOM\"><spanclass=\"label-text\">BOM</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"BSE\"><spanclass=\"label-text\">BSE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"CNQ\"><spanclass=\"label-text\">CNQ</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"FRA\"><spanclass=\"label-text\">FRA</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"GER\"><spanclass=\"label-text\">GER</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"HKEX\"><spanclass=\"label-text\">HKEX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXASX\"><spanclass=\"label-text\">INDEXASX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXBIT\"><spanclass=\"label-text\">INDEXBIT</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXBME\"><spanclass=\"label-text\">INDEXBME</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXBOM\"><spanclass=\"label-text\">INDEXBOM</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXCBOE\"><spanclass=\"label-text\">INDEXCBOE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXCME\"><spanclass=\"label-text\">INDEXCME</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXDB\"><spanclass=\"label-text\">INDEXDB</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXDJX\"><spanclass=\"label-text\">INDEXDJX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXEURO\"><spanclass=\"label-text\">INDEXEURO</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXFTSE\"><spanclass=\"label-text\">INDEXFTSE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXHANGSENG\"><spanclass=\"label-text\">INDEXHANGSENG</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXNASDAQ\"><spanclass=\"label-text\">INDEXNASDAQ</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXNIKKEI\"><spanclass=\"label-text\">INDEXNIKKEI</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXNYSEGIS\"><spanclass=\"label-text\">INDEXNYSEGIS</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXRUSSELL\"><spanclass=\"label-text\">INDEXRUSSELL</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXSHE\"><spanclass=\"label-text\">INDEXSHE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXSP\"><spanclass=\"label-text\">INDEXSP</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXSTOXX\"><spanclass=\"label-text\">INDEXSTOXX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXSWX\"><spanclass=\"label-text\">INDEXSWX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"INDEXTSI\"><spanclass=\"label-text\">INDEXTSI</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"JSE\"><spanclass=\"label-text\">JSE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"JSX\"><spanclass=\"label-text\">JSX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"KSC\"><spanclass=\"label-text\">KSC</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"LSE\"><spanclass=\"label-text\">LSE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"MAD\"><spanclass=\"label-text\">MAD</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"MCX\"><spanclass=\"label-text\">MCX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"MEX\"><spanclass=\"label-text\">MEX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"MIL\"><spanclass=\"label-text\">MIL</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"NASDAQ\"><spanclass=\"label-text\">NASDAQ</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"NSE\"><spanclass=\"label-text\">NSE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"NYSE\"><spanclass=\"label-text\">NYSE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"NYSEARCA\"><spanclass=\"label-text\">NYSEARCA</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"NZX\"><spanclass=\"label-text\">NZX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"OMX\"><spanclass=\"label-text\">OMX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"OMXC\"><spanclass=\"label-text\">OMXC</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"OMXT\"><spanclass=\"label-text\">OMXT</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"OTCMKTS\"><spanclass=\"label-text\">OTCMKTS</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"PAR\"><spanclass=\"label-text\">PAR</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"SAO\"><spanclass=\"label-text\">SAO</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"SIX\"><spanclass=\"label-text\">SIX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"SZCE\"><spanclass=\"label-text\">SZCE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"TADAWUL\"><spanclass=\"label-text\">TADAWUL</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"TASE\"><spanclass=\"label-text\">TASE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"TSX\"><spanclass=\"label-text\">TSX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"TSXV\"><spanclass=\"label-text\">TSXV</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"TWSE\"><spanclass=\"label-text\">TWSE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"VSE\"><spanclass=\"label-text\">VSE</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"se[]\"value=\"WSE\"><spanclass=\"label-text\">WSE</span></label></div></div></div><br><divid=\"currency\"style=\"display:none;\"><h5><strong>Currency</strong></h5><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"ARS\"><spanclass=\"label-text\">ARS</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"AUD\"><spanclass=\"label-text\">AUD</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"BRL\"><spanclass=\"label-text\">BRL</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"CAD\"><spanclass=\"label-text\">CAD</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"CHF\"><spanclass=\"label-text\">CHF</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"CNY\"><spanclass=\"label-text\">CNY</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"DKK\"><spanclass=\"label-text\">DKK</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"EUR\"><spanclass=\"label-text\">EUR</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"GBP\"><spanclass=\"label-text\">GBP</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"GBX\"><spanclass=\"label-text\">GBX</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"HKD\"><spanclass=\"label-text\">HKD</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"IDR\"><spanclass=\"label-text\">IDR</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"ILA\"><spanclass=\"label-text\">ILA</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"INR\"><spanclass=\"label-text\">INR</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"ISK\"><spanclass=\"label-text\">ISK</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"JPY\"><spanclass=\"label-text\">JPY</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"KRW\"><spanclass=\"label-text\">KRW</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"MXN\"><spanclass=\"label-text\">MXN</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"MYR\"><spanclass=\"label-text\">MYR</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"NZD\"><spanclass=\"label-text\">NZD</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"PLN\"><spanclass=\"label-text\">PLN</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"RUB\"><spanclass=\"label-text\">RUB</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"SAR\"><spanclass=\"label-text\">SAR</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"SEK\"><spanclass=\"label-text\">SEK</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"SGD\"><spanclass=\"label-text\">SGD</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"THB\"><spanclass=\"label-text\">THB</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"TRY\"><spanclass=\"label-text\">TRY</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"TWD\"><spanclass=\"label-text\">TWD</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"USD\"><spanclass=\"label-text\">USD</span></label></div></div><divclass=\"col-md-3\"><divclass=\"form-check\"><label><inputtype=\"checkbox\"name=\"c[]\"value=\"ZAC\"><spanclass=\"label-text\">ZAC</span></label></div></div></div></form></div></div></div><divclass=\"pull-right\">Page1of1|Totalresults:1</div><tableclass=\"table table-striped\"><thead><tr><th>Ticker</th><th>Name</th><th>StockExchange</th><th>Currency</th><th>Price</th></tr></thead><tbody><tronclick=\"openStock('40B.SI')\"style=\"cursor: pointer;\"><td><ahref=\"https://www.worldtradingdata.com/stock/40B.SI\">40B.SI</a></td><td>SMJInternationalHoldingsLtd.</td><td></td><td>SGD</td><td>0.08</td></tr></tbody></table></div><divclass=\"pull-right\">Page1of1|Totalresults:1</div></div></div></div></div><!--CalltoAction--><divclass=\"call-to-action helper mt60\"><divclass=\"container\"><divclass=\"row\"><divclass=\"col-md-12\"><h3class=\"call-to-action-title\">TryourstockdataAPI,it's free! </h3>                         <p class=\"call-to-action-description\"> Sign up to get your free API key and begin using the API. </p>                         <div class=\"call-to-action-buttons\">                             <a href=\"https://www.worldtradingdata.com/register\" class=\"call-to-action-button\">Get Started</a>                         </div>                     </div>                 </div>             </div>         </div>         <!-- End of Call to Action -->          <script>             function openStock(ticker){                 document.location.href = \"https://www.worldtradingdata.com/stock\" + \"/\" + ticker;             }         </script>          <!-- Footer -->         <footer class=\"js-footer-is-fixed\">             <!-- Footer Default -->             <div class=\"footer\">                 <div class=\"container\">                     <div class=\"row\">                         <div class=\"col-md-3 col-sm-3 col-xs-12\">                             <div class=\"footer-logo-wrapper\">                                 <!-- Logo Image -->                                 <a href=\"https://www.worldtradingdata.com\" class=\"logo-image \">                                     <img src=\"https://www.worldtradingdata.com/assets/main/img/logos/logo.png\" alt=\"logo\">                                 </a>                                 <!-- End of Logo Image -->                             </div>                         </div>                         <div class=\"col-md-9 col-sm-9 col-xs-12\">                             <div class=\"footer-wrapper\">                                 <!-- Scroll top -->                                 <span class=\"scroll-top js-scroll-top\">                                     <i class=\"fa fa-angle-up\"></i>                                 </span>                                 <!-- End of Scroll top -->                                 <!-- Footer Menu -->                                 <ul class=\"footer-menu helper right\">                                     <li>                                         <a href=\"https://www.worldtradingdata.com/privacy\"> Privacy Policy </a>                                     </li>                                     <li>                                         <a href=\"https://www.worldtradingdata.com/tos\"> Terms & Conditions </a>                                     </li>                                     <li>                                         <a href=\"https://www.worldtradingdata.com/login\"> My Account </a>                                     </li>                                     <li>                                         <a href=\"https://www.worldtradingdata.com/faq\"> Support </a>                                     </li>                                 </ul>                                 <!-- End of Footer Menu -->                                 <!-- Copyright -->                                 <p class=\"copyright helper right\">                                     <a href=\"https://www.worldtradingdata.com\">World Trading Data</a>, all rights reserved. 2019 &copy; </p>                                 <!-- End of Copyright -->                             </div>                         </div>                     </div>                 </div>             </div>             <!-- End of Footer Default -->         </footer>         <!-- End of Footer -->     </div>     <script src=\"https://www.worldtradingdata.com/assets/main/js/all.js\"></script>     <script src=\"https://www.worldtradingdata.com/assets/main/js/custom.js\"></script>         <!-- Global site tag (gtag.js) - Google Analytics -->     <script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-114192558-1\"></script>     <script>       window.dataLayer = window.dataLayer || [];       function gtag(){dataLayer.push(arguments);}       gtag('js', new Date());        gtag('config', 'UA-114192558-1');     </script>  </body>  </html>";
+        Document doc;
+        try {
+            //String rr=readUri("https://www.worldtradingdata.com/search?q=40B.SI");
+            doc = Jsoup.connect("https://www.worldtradingdata.com/stock/40B.SI").get();
+            Element elementById = doc.body().getElementById("content");
+            Map<String, String> dataset = elementById.dataset();
+
+            String title = doc.title();
+//            RestTemplate restTemplate = new RestTemplate();
+//            String result = restTemplate.getForObject("https://www.worldtradingdata.com/search?q=40B.SI", String.class);
+//            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
