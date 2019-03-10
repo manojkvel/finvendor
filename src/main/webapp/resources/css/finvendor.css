@@ -1734,6 +1734,7 @@ button {
 #finvendor_rating img {
 	margin: 0 auto;
 	display: block;
+	height: 150px;
 }
 
 #finvendor_rating h4 {
@@ -1745,7 +1746,7 @@ button {
 	margin: 0 auto;
 	text-align: center;
 	display: inline-block;
-	font-size: 15px;
+	font-size: 13px;
 }
 
 #finvendor_rating .veryOverpriced {
@@ -1777,6 +1778,10 @@ button {
 	font-weight: bold;
 }
 
+#perf_history_container table {
+	min-height: auto;
+}
+
 #perf_history_container table th {
 	height: 21px;
 	font-weight: bold;
@@ -1792,21 +1797,22 @@ button {
 #perf_history_container table td,
 #perf_history_container table th {
 	width: 20%;
+	padding: 5px;
 }
 
 #broker_stock_rating_container {
-	/*background: #eee;*/
-	max-height: 150px;
-    max-width: 350px;
-    padding: 10px 10px;
-    margin: 0 20px 20px 20px;
+	margin-top: -50px;
+	max-width: 100%;
+	max-height: 275px;
 }
 
 #broker_stock_rating_container h4 {
-	font-size: 15px;
-	font-weight: bold;
-	margin-top: -50px;
 	text-align: center;
+	font-weight: bold;
+}
+
+#broker_stock_rating_container .broker_stock_rating_ui {
+	
 }
 
 #broker_stock_rating_container .broker_stock_rating_ui span {
@@ -1815,7 +1821,7 @@ button {
 
 #broker_stock_rating_container ul {
 	text-align: right;
-	margin: 0;
+	margin: 10px 0 0;
 }
 
 #broker_stock_rating_container ul li span {
@@ -1834,7 +1840,7 @@ button {
 	font-weight: bold;
 }
 
-#broker_stock_rating_container .success {
+/*#broker_stock_rating_container .success {
     background: #5cb85c;
     font-size: 24px;
     color: #fff;
@@ -1853,7 +1859,7 @@ button {
     font-size: 24px;
     color: #fff;
     font-weight: bold;
-}
+}*/
 
 #broker_stock_rating_container table td, 
 #broker_stock_rating_container table th {
@@ -2002,10 +2008,21 @@ button {
 
 	#broker_stock_rating_container {
 		max-height: none;
+		padding: 0;
+		margin: 0;
 	}
 
-	#broker_stock_rating_container h4 {
+	#broker_stock_rating_container .broker_stock_rating_ui {
 		padding: 0;
+		margin: 0 !important;
+
+	}
+
+	#broker_stock_rating_container .broker_stock_rating_ui div {
+		overflow: hidden;
+	}
+
+	#broker_stock_rating_container ul {
 		margin: 0;
 	}
 }
