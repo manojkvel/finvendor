@@ -302,7 +302,7 @@ public class CompanyProfileDao {
         stock_1Y_Price = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
 
         stockHistoricalPriceMap.put("1W", String.valueOf((todaysCmp - stock_WeekPrice) * 100 / stock_WeekPrice));
-        stockHistoricalPriceMap.put("1M", String.valueOf((todaysCmp - stock_1M_Price) * 100 / stock_1M_Price));
+        stockHistoricalPriceMap.put("1M", stock_1M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_1M_Price) * 100 / stock_1M_Price));
         stockHistoricalPriceMap.put("3M", stock_3M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_3M_Price) * 100 / stock_3M_Price));
         stockHistoricalPriceMap.put("6M", stock_6M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_6M_Price) * 100 / stock_6M_Price));
         stockHistoricalPriceMap.put("1Y", stock_1Y_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_1Y_Price) * 100 / stock_1Y_Price));
