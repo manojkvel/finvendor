@@ -52,6 +52,8 @@ public enum ExceptionEnum {
 
 	VO_OP("FV0037", "Internal error - Unable to perform VO operation like Save|Delete|Update|Find|FindAll, Please contact Finvendor admin for support!!"),
 
+	COMPANY_PROFILE_EARNING_PREVIEW("FV0038", "Internal error - Unable to get earning preview, Please contact Finvendor admin for support!!"),
+
 
 
 	;

@@ -1,8 +1,6 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dao;
 
-import com.finvendor.api.resources.companyprofile.companyprofile.dto.BrokerRank;
-import com.finvendor.api.resources.companyprofile.companyprofile.dto.CompanyProfileData;
-import com.finvendor.api.resources.companyprofile.companyprofile.dto.PriceHistory;
+import com.finvendor.api.resources.companyprofile.companyprofile.dto.*;
 import com.finvendor.api.resources.markets.dao.MarketsDao;
 import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
 import com.finvendor.api.resources.researchreport.equity.dto.filter.ResearchReportFilter;
@@ -26,10 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.URL;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author ayush on May 01, 2018
@@ -470,6 +465,34 @@ public class CompanyProfileDao {
         }
         return companyProfile;
     }
+
+    public String findEarningPreview() {
+        String result;
+        Map<String, Object> paramsMap = new LinkedHashMap<>();
+        EarningPreview earningPreview = new EarningPreview();
+        try {
+            List<EarningPreviewResult> quartely = new ArrayList<>();
+            quartely.add(new EarningPreviewResult("Mar-18", "456", "432", "234", "232", "3413"));
+            quartely.add(new EarningPreviewResult("Jun-18", "566", "4534", "245", "64", "3413"));
+            quartely.add(new EarningPreviewResult("Sep-18", "345", "454", "457", "565", "3413"));
+            quartely.add(new EarningPreviewResult("Dec-18", "345", "7867", "654", "5686", "3413"));
+
+            List<EarningPreviewResult> yearly = new ArrayList<>();
+            yearly.add(new EarningPreviewResult("Mar-14", "456", "432", "234", "232", "3413"));
+            yearly.add(new EarningPreviewResult("Mar-15", "456", "432", "234", "232", "3413"));
+            yearly.add(new EarningPreviewResult("Mar-16", "566", "4534", "245", "64", "3413"));
+            yearly.add(new EarningPreviewResult("Mar-17", "345", "454", "457", "565", "3413"));
+            yearly.add(new EarningPreviewResult("Mar-18", "345", "7867", "654", "5686", "3413"));
+            earningPreview.setQuarterly(quartely);
+            earningPreview.setYearly(yearly);
+            paramsMap.put("earningPreview", earningPreview);
+            result = JsonUtil.createJsonFromParamsMap(paramsMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
 
     private BigInteger getResearchReportAggregatedData(String query, String isinCode) {
         BigInteger value;
