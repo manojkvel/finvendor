@@ -1,5 +1,6 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.service;
 
+import com.finvendor.api.resources.companyprofile.companyprofile.dto.EarningPreview;
 import com.finvendor.common.util.LocaleUtil;
 import com.finvendor.common.commondao.DaoUtils;
 import com.finvendor.api.resources.companyprofile.companyprofile.dao.CompanyProfileDao;
@@ -103,6 +104,14 @@ public class CompanyProfileService {
             return companyProfileDao.getCompanyProfileReasearchReport(mainQuery,isinCode, filter, pageNumber, perPageMaxRecords,
                     sortBy, orderBy);
         } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String findEarningPreview() throws Exception {
+        try{
+            return  companyProfileDao.findEarningPreview();
+        }catch(RuntimeException e){
             throw new Exception(e);
         }
     }

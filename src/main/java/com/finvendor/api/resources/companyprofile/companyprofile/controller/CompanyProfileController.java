@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,6 +72,16 @@ public class CompanyProfileController {
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> getCompanyProfileResearchReport(...) method", e);
             return ErrorUtil.getError(COMPANY_RESEARCH_REPORT.getCode(), COMPANY_RESEARCH_REPORT.getUserMessage(), e);
+        }
+    }
+
+    @GetMapping(value = "/companyprofile/earningpreview")
+    public ResponseEntity<?> findEarningPreview() {
+        try {
+            return new ResponseEntity<>(cps.findEarningPreview(), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("IWebCompanyProfile -> findEarningPreview(...) method", e);
+            return ErrorUtil.getError(COMPANY_PROFILE_EARNING_PREVIEW.getCode(), COMPANY_PROFILE_EARNING_PREVIEW.getUserMessage(), e);
         }
     }
 
