@@ -29,7 +29,6 @@ body {
 
 .splash-search-bar {
 	margin-top: 70px;
-	z-index: 0;
 	position: relative;
 }
 
@@ -787,7 +786,7 @@ table .normal_font p {
 
 .header {
 	width: 100%;
-	z-index: 1;
+	z-index: 5;
 
 }
 
@@ -1714,7 +1713,6 @@ button {
 
 #marquee_container {
 	position: relative;
-	z-index: -1;
 }
 
 #marquee_container .index_price {
