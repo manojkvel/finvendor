@@ -1102,4 +1102,17 @@ jQuery(document).ready(function() {
     };
 
     $("#company_profile .subheader ul li a").on('click', getTabbedContent);
+    loadDefaultResearchReport('equity', perPageMaxRecords);
+
+   var wrap = $(".subheader");
+
+   $( window ).scroll(function() {
+
+      if ($(this).scrollTop() > 320) {
+        wrap.addClass("fix-subheader");
+        } else {
+            wrap.removeClass("fix-subheader");
+        }
+
+    });
 });

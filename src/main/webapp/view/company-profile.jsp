@@ -21,7 +21,7 @@
 	</script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 	
 	<div class="container-fluid">
@@ -209,23 +209,41 @@
 						<div class="container-fluid">
 							<div class="col-xs-12">
 								<div class="subheader">
-									<nav>
-										<ul class="nav nav-tabs">
-											<li class="active"><a href="javascript:void(0);" data-tab="summary_content">Summary</a></li>
-											<li>
-												<a href="javascript:void(0);" data-tab="research_report_content">Research Reports</a>
-											</li>
-											<li><a href="javascript:void(0);" data-tab="technical_content">Technical</a></li>
-											<li><a href="javascript:void(0);" data-tab="calendar_content">Calendar</a></li>
-											<li><a href="javascript:void(0);" data-tab="shareholding_content">Shareholding</a></li>
-										</ul>
+									<nav class="navbar navbar-inverse navbar-fixed-top">
+										<div class="container-fluid">
+											<div class="navbar-header">
+												<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+													<span class="icon-bar"></span>
+													<span class="icon-bar"></span>
+													<span class="icon-bar"></span>                        
+												</button>
+											</div>
+											<div>
+												<div class="collapse navbar-collapse" id="myNavbar">
+													<ul class="nav navbar-nav">
+														<li><a href="#summary_content">Summary</a></li>
+														<li><a href="#research_report_content">Research Reports</a></li>
+														<li><a href="#financials_content">Financials</a></li>
+														<li><a href="#results_calendar_content">Results Calendar</a></li>
+														<li><a href="#shareholding_content">Shareholding</a></li>
+														<li><a href="#news_feed_content">News Feed</a></li>
+														<li><a href="#corp_action_content">Corp. Action</a></li>
+													</ul>
+												</div>
+											</div>
+										</div>
 									</nav>
-								</div>
-								<div class="subheader_content">
-									<div id="summary_content">
-										<p class="summary">To be available soon</p>
+									<div id="summary_content" class="container-fluid">
+										<div class="inner_breadcrumb">
+											<h5>Summary</h5>
+										</div>
+										<p class="summary">To be available soon To be available soon To be available soon</p>
 									</div>
-									<div id="research_report_content">
+
+									<div id="research_report_content" class="container-fluid">
+										<div class="inner_breadcrumb">
+											<h5>Research Reports</h5>
+										</div>
 										<div class="row">
 											<div class="col-xs-12 col-sm-12" style="margin-top: 20px;">
 												<div class="col-xs-4 col-sm-4">
@@ -378,15 +396,144 @@
 											</table>
 										</div>
 									</div>
-									<div id="technical_content">
-									<div>
-										To be available soon</div>
+
+									<div id="financials_content" class="container-fluid">
+										<div class="inner_breadcrumb">
+											<h5>Financials</h5>
+										</div>
+										<div id="quarterly_fin_statement">
+											<h4>Preceding 4 Quarter Financial Statement (with %QoQ change)</h4>
+											<div class="quarterly_fin_content">
+												<table>
+													<thead>
+														<th>(INR, Millions)</th>
+														<th>Jun'19</th>
+														<th>Sep'19</th>
+														<th>Dec'19</th>
+														<th>Mar'20</th>
+													</thead>
+													<tbody>
+														<tr>
+															<td>Revenue</td>
+															<td>111 (-2%)</td>
+															<td>112 (1%)</td>
+															<td>113 (3%)</td>
+															<td>114 (2%)</td>
+														</tr>
+														<tr>
+															<td>Operating Profit Margin(%)</td>
+															<td>11</td>
+															<td>12</td>
+															<td>12.1</td>
+															<td>12.22</td>
+														</tr>
+														<tr>
+															<td>Profit After Tax (PAT)</td>
+															<td>11 (-2%)</td>
+															<td>12 (1%)</td>
+															<td>13 (3%)</td>
+															<td>14 (2%)</td>
+														</tr>
+														<tr>
+															<td>EPS (Diluted)</td>
+															<td>1 (-2%)</td>
+															<td>1 (1%)</td>
+															<td>1.3 (3%)</td>
+															<td>1.4 (2%)</td>
+														</tr>
+														<tr>
+															<td>Net Operating Cash flow</td>
+															<td>1 (-2%)</td>
+															<td>1 (1%)</td>
+															<td>1.3 (3%)</td>
+															<td>1.4 (2%)</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div id="yearly_fin_statement">
+											<h4>Preceding 5 Years Financial Results (with %YoY change)</h4>
+											<div class="yearly_fin_content">
+												<table>
+													<thead>
+														<th>(INR, Millions)</th>
+														<th>Mar'15</th>
+														<th>Mar'16</th>
+														<th>Mar'17</th>
+														<th>Mar'18</th>
+														<th>Mar'19</th>
+													</thead>
+													<tbody>
+														<tr>
+															<td>Revenue</td>
+															<td>111 (-2%)</td>
+															<td>112 (1%)</td>
+															<td>113 (3%)</td>
+															<td>114 (2%)</td>
+															<td>114 (2%)</td>
+														</tr>
+														<tr>
+															<td>Operating Profit Margin(%)</td>
+															<td>11</td>
+															<td>12</td>
+															<td>12.1</td>
+															<td>12.22</td>
+															<td>12.22</td>
+														</tr>
+														<tr>
+															<td>Profit After Tax (PAT)</td>
+															<td>11 (-2%)</td>
+															<td>12 (1%)</td>
+															<td>13 (3%)</td>
+															<td>14 (2%)</td>
+															<td>14 (2%)</td>
+														</tr>
+														<tr>
+															<td>EPS (Diluted)</td>
+															<td>1 (-2%)</td>
+															<td>1 (1%)</td>
+															<td>1.3 (3%)</td>
+															<td>1.4 (2%)</td>
+															<td>1.4 (2%)</td>
+														</tr>
+														<tr>
+															<td>Net Operating Cash flow</td>
+															<td>1 (-2%)</td>
+															<td>1 (1%)</td>
+															<td>1.3 (3%)</td>
+															<td>1.4 (2%)</td>
+															<td>1.4 (2%)</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
 									</div>
-									<div id="calendar_content">
-										To be available soon
+
+									<div id="results_calendar_content" class="container-fluid">
+										<div class="inner_breadcrumb">
+											<h5>Results Calendar</h5>
+										</div>
+										<p>To be available soon</p>
 									</div>
-									<div id="shareholding_content">
-										To be available soon
+									<div id="shareholding_content" class="container-fluid">
+										<div class="inner_breadcrumb">
+											<h5>Shareholding</h5>
+										</div>
+										<p>To be available soon</p>
+									</div>
+									<div id="news_feed_content" class="container-fluid">
+										<div class="inner_breadcrumb">
+											<h5>News Feed</h5>
+										</div>
+										<p>To be available soon</p>
+									</div>
+									<div id="corp_action_content" class="container-fluid">
+										<div class="inner_breadcrumb">
+											<h5>Corporate Action</h5>
+										</div>
+										<p>To be available soon</p>
 									</div>
 								</div>
 							</div>

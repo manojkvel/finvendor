@@ -467,6 +467,16 @@ function getGenericSearchCompanyList(hintVal) {
 
 jQuery(document).ready(function($) {
 
+    var  parentHeader = $(".header");
+
+    $( window ).scroll(function() {
+    	if ($(this).scrollTop() > 50) {
+    		parentHeader.addClass("fix-header");
+    	} else {
+    		parentHeader.removeClass("fix-header");
+    	}
+    });
+
 	function getHeaderSearchCompanyList(e) {
 
 		var hintVal = $(this).val();

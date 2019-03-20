@@ -68,6 +68,8 @@ h4 {
 
 .portlet.box.blue {
 	border: 1px solid #ccc !important;
+	position: relative;
+	z-index: 0;
 }
 
 .portlet.box > .portlet-title {
@@ -662,6 +664,8 @@ textarea:valid ~ label {
 	background: #fff;
 	padding: 10px;
 	overflow: hidden;
+	z-index: 0;
+	position: relative;
 }
 
 #data_aggregator {
