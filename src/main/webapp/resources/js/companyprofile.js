@@ -1084,6 +1084,39 @@ function getPriceAlertAPI(companyId) {
     });
 }
 
+function getCompanyEarningsPreviewAPI(companyId) {
+    
+    isProgressLoader(true);
+
+    var url = "/system/api/companyprofile/earningpreview";
+    return new Promise(function(resolve, reject) {
+        var httpRequest = new XMLHttpRequest({
+            mozSystem: true
+        });
+        //httpRequest.timeout = API_TIMEOUT_SMALL;
+        httpRequest.open('GET', url, true);
+
+        httpRequest.ontimeout = function () {
+            reject("" + httpRequest.responseText);
+        };
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    resolve(httpRequest.response);
+                } else {
+                    //console.log(httpRequest.status + httpRequest.responseText);
+                    reject(httpRequest.responseText);
+                }
+            } else {
+            }
+        };
+
+        httpRequest.send();
+    });
+}
+
+getCompanyEarningsPreviewAPI();
+
 jQuery(document).ready(function() {
 
     getTabbedContent= function () {
