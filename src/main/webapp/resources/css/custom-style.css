@@ -1234,7 +1234,7 @@ a#sidemenu:focus {
     background: #fff;
     width: 278px;
     height: 100%;
-    z-index: 99991;
+    z-index: 99999;
     right: -278px;
     padding: 0 15px;
     border-left: 3px solid #34bf98;
