@@ -2019,11 +2019,11 @@ button {
 @media only screen and (max-width: 767px) {
 
 	body {
-		margin-top: 115px !important;
+		margin-top: 103px !important;
 	}
 
 	.header {
-		margin-top: -115px;
+		margin-top: -103px;
 	}
 
 	.header .logo {
@@ -2031,7 +2031,7 @@ button {
 	}
 
 	#company_profile .subheader.fix-subheader .navbar {
-		top: 102px;
+		top: 90px;
 	}
 
 	.navbar-inverse .navbar-toggle .icon-bar {
@@ -2164,6 +2164,26 @@ button {
 		position: relative;
 	}
 
+	.header .logo img {
+		height: 25px;
+	}
+
+	.header .sf-menu a {
+		line-height: 45px;
+	}
+
+	.nav-srch-cnt >ul >li >a i {
+		font-size: 20px;
+	}
+
+	#sidemenu i {
+		line-height: 25px;
+	}
+
+	.nav-container {
+		height: 43px;
+	}
+
 	#footer {
 		position: relative;
 		z-index: 0;
@@ -2177,6 +2197,11 @@ button {
 	#company_profile .subheader #news_feed_content,
 	#company_profile .subheader #corp_action_content {
 		padding-top: 165px;
+	}
+
+	#financials_content h4 {
+		font-size: 13px;
+		line-height: 21px;
 	}
 }
 
