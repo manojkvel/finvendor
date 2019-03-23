@@ -12,10 +12,7 @@ import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.util.CommonCodeUtil;
 import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
-import com.finvendor.model.CompanyWatchList;
 import com.finvendor.model.EarningPreview;
-import com.finvendor.model.EarningPreviewQuarterly;
-import com.finvendor.model.EarningPreviewYearly;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
@@ -63,8 +60,8 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     // Complex Query - Do not refactor it
     public static final String mainQuery = "SELECT rsch_sub_area_company_dtls.company_id comapanyId, rsch_sub_area_company_dtls.company_name companyName, rsch_sub_area_company_dtls.isin_code isinCode, rsch_area_stock_class.stock_class_name style, market_cap_def.market_cap_name mcap, research_sub_area.description sector, stock_current_prices.close_price cmp, stock_current_prices.price_date prcDt, stock_current_info.pe pe, stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth, stock_current_info.eps_ttm epsttm, vendor_report_data.research_report_for_id companyId, vendor_report_data.product_id prdId, vendor_report_data.vendor_company broker, vendor_report_data.rsrch_recomm_type recommType, vendor_report_data.target_price tgtPrice, vendor_report_data.price_at_recomm prcAtRecomm, ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100 upside, vendor_report_data.report_name rptName, vendor_report_data.report_date rsrchDt, vendor_report_data.analyst_awards award, vendor_report_data.anayst_cfa_charter cfa, vendor_report_data.analyst_name analystName, vendor_report_data.vendor_analyst_type analystType, vendor_report_data.vendor_id vendorId, vendor_report_data.launched_year ly, vendor_report_data.vendor_name userName, vendor_report_data.rsrch_report_desc rptDesc, vendor_report_data.product_name productNameAsReportName FROM rsch_sub_area_company_dtls,      rsch_area_stock_class,      market_cap_def,      comp_mkt_cap_type,      research_sub_area,      stock_current_prices,      stock_current_info,      vendor_report_data WHERE   rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = COUNTRYID   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
 
-    public static final String EARNING_PREVIEW_QUARTERLY = "select b.* from earning_preview a, earning_preview_quarterly b where a.stock_id=b.stock_id and a.isin=?";
-    public static final String EARNING_PREVIEW_YEARLY = "select b.* from earning_preview a, earning_preview_yearly b where a.stock_id=b.stock_id and a.isin=?";
+    public static final String EARNING_PREVIEW_QUARTERLY = "select b.period,b.revenue,b.operating_profit_margin,b.profit_after_tax,b.eps from earning_preview a, earning_preview_quarterly b where a.stock_id=b.stock_id and a.isin=?";
+    public static final String EARNING_PREVIEW_YEARLY = "select b.period,b.revenue,b.operating_profit_margin,b.profit_after_tax,b.eps,b.net_operating_cash_flow,b.roe from earning_preview a, earning_preview_yearly b where a.stock_id=b.stock_id and a.isin=?";
 
     @Autowired
     private ICommonDao commonDao;
@@ -539,47 +536,60 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         return companyProfile;
     }
 
-    public String findEarningPreview(String type, String isin) {
+    public EarningPreviewDto findEarningPreview(String type, String isin) {
         String result;
-        Map<String, Object> paramsMap = new LinkedHashMap<>();
-        EarningPreviewDto earningPreviewDto = new EarningPreviewDto();
-        SQLQuery sqlQuery = commonDao.getNativeQuery(EARNING_PREVIEW_QUARTERLY, new String[]{isin});
-        List<Object[]> rows = sqlQuery.list();
+
+        SQLQuery sqlQuery;
+        EarningPreviewDto earningPreviewDto;
         try {
-            List<EarningPreviewDto.EarningPreviewResultDto> quartely = new ArrayList<>();
-            for (Object[] row : rows) {
-                String rowId = row[0] != null ? row[0].toString().trim() : "";
-                String period = row[1] != null ? row[1].toString().trim() : "";
-                String revenue = row[2] != null ? row[2].toString().trim() : "";
-                String operatingProfitMargin = row[3] != null ? row[3].toString().trim() : "";
-                String profitAfterTax = row[4] != null ? row[4].toString().trim() : "";
-                String eps = row[0] != null ? row[5].toString().trim() : "";
-                String netOperatingCashFlow = row[6] != null ? row[6].toString().trim() : "";
-                quartely.add(new EarningPreviewDto.EarningPreviewResultDto(period, revenue, operatingProfitMargin, profitAfterTax, eps, netOperatingCashFlow));
+            if ("quarterly".equalsIgnoreCase(type)) {
+                sqlQuery = commonDao.getNativeQuery(EARNING_PREVIEW_QUARTERLY, new String[]{isin});
+                List<Object[]> rows = sqlQuery.list();
+                earningPreviewDto = constructEarningPreviewResultQuartlery(rows);
+            } else {
+                sqlQuery = commonDao.getNativeQuery(EARNING_PREVIEW_YEARLY, new String[]{isin});
+                List<Object[]> rows = sqlQuery.list();
+                earningPreviewDto = constructEarningPreviewResultYearly(rows);
             }
 
-            sqlQuery = commonDao.getNativeQuery(EARNING_PREVIEW_YEARLY, new String[]{isin});
-            rows = sqlQuery.list();
-            List<EarningPreviewDto.EarningPreviewResultDto> yearly = new ArrayList<>();
-            for (Object[] row : rows) {
-                String rowId = row[0] != null ? row[0].toString().trim() : "";
-                String period = row[1] != null ? row[1].toString().trim() : "";
-                String revenue = row[2] != null ? row[2].toString().trim() : "";
-                String operatingProfitMargin = row[3] != null ? row[3].toString().trim() : "";
-                String profitAfterTax = row[4] != null ? row[4].toString().trim() : "";
-                String eps = row[0] != null ? row[5].toString().trim() : "";
-                String netOperatingCashFlow = row[6] != null ? row[6].toString().trim() : "";
-                yearly.add(new EarningPreviewDto.EarningPreviewResultDto(period, revenue, operatingProfitMargin, profitAfterTax, eps, netOperatingCashFlow));
-            }
-
-            earningPreviewDto.setQuarterly(quartely);
-            earningPreviewDto.setYearly(yearly);
-            paramsMap.put("earningPreview", earningPreviewDto);
-            result = JsonUtil.createJsonFromParamsMap(paramsMap);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return result;
+        return earningPreviewDto;
+    }
+
+    private EarningPreviewDto constructEarningPreviewResultQuartlery(List<Object[]> rows) {
+        EarningPreviewDto earningPreviewDto = new EarningPreviewDto();
+        List<EarningPreviewQuarterlyDto> earningPreviewResultList = new ArrayList<>();
+        for (Object[] row : rows) {
+            String period = row[0] != null ? row[0].toString().trim() : "";
+            String periodAsTimeStamp = DateUtil.getTimeStamp_MMM_yy(period.trim());
+            String revenue = row[1] != null ? row[1].toString().trim() : "";
+            String operatingProfitMargin = row[2] != null ? row[2].toString().trim() : "";
+            String profitAfterTax = row[3] != null ? row[3].toString().trim() : "";
+            String eps = row[4] != null ? row[4].toString().trim() : "";
+            earningPreviewResultList.add(new EarningPreviewQuarterlyDto(periodAsTimeStamp, revenue, operatingProfitMargin, profitAfterTax, eps));
+        }
+        earningPreviewDto.setEarningPreviewResult(earningPreviewResultList);
+        return earningPreviewDto;
+    }
+
+    private EarningPreviewDto constructEarningPreviewResultYearly(List<Object[]> rows) {
+        EarningPreviewDto earningPreviewDto = new EarningPreviewDto();
+        List<EarningPreviewYearlyDto> earningPreviewResultList = new ArrayList<>();
+        for (Object[] row : rows) {
+            String period = row[0] != null ? row[0].toString().trim() : "";
+            String periodAsTimeStamp = DateUtil.getTimeStamp_MMM_yy(period.trim());
+            String revenue = row[1] != null ? row[1].toString().trim() : "";
+            String operatingProfitMargin = row[2] != null ? row[2].toString().trim() : "";
+            String profitAfterTax = row[3] != null ? row[3].toString().trim() : "";
+            String eps = row[4] != null ? row[4].toString().trim() : "";
+            String netOperatingCashFlow = row[5] != null ? row[5].toString().trim() : "";
+            String roe = row[6] != null ? row[6].toString().trim() : "";
+            earningPreviewResultList.add(new EarningPreviewYearlyDto(periodAsTimeStamp, revenue, operatingProfitMargin, profitAfterTax, eps, netOperatingCashFlow,roe));
+        }
+        earningPreviewDto.setEarningPreviewResult(earningPreviewResultList);
+        return earningPreviewDto;
     }
 
     public String findCompanyNews(String ticker) {

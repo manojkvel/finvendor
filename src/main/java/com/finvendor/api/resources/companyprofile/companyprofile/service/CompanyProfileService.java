@@ -1,6 +1,7 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.service;
 
 import com.finvendor.api.resources.companyprofile.companyprofile.dao.CompanyProfileDao;
+import com.finvendor.api.resources.companyprofile.companyprofile.dto.EarningPreviewDto;
 import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
 import com.finvendor.api.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.common.commondao.DaoUtils;
@@ -82,7 +83,7 @@ public class CompanyProfileService {
         }
     }
 
-    public String findEarningPreview(final String type, final String isin) throws Exception {
+    public EarningPreviewDto findEarningPreview(final String type, final String isin) throws Exception {
         try {
             return companyProfileDao.findEarningPreview(type, isin);
         } catch (RuntimeException e) {

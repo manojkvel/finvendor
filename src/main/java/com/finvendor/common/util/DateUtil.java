@@ -13,145 +13,163 @@ import java.util.TimeZone;
  * @author ayush on May 13, 2018
  */
 public class DateUtil {
-	public static Date getPreviousWorkingDay(Date date) {
-	    Calendar cal = Calendar.getInstance();
-	    cal.setTime(date);
 
-	    int dayOfWeek;
-	    do {
-	        cal.add(Calendar.DAY_OF_MONTH, -1);
-	        dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-	    } while (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY || isHoliday(cal));
+    //for Mar_18
+    private static final SimpleDateFormat simpleDateFormat_MMM_yy = new SimpleDateFormat("MMM_yy");
 
-	    return cal.getTime();
-	}
-	
-	public static boolean isHoliday(Calendar cal) {
-	   // int year = cal.get(Calendar.YEAR);
-	    int month = cal.get(Calendar.MONTH) + 1;
-	    int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+    public static Date getPreviousWorkingDay(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
 
-	    //TBD need to calculate No of working days in Current Month
-	    if (month == 12 && dayOfMonth == 25) {
-	        return true;
-	    }
+        int dayOfWeek;
+        do {
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+            dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        } while (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY || isHoliday(cal));
 
-	    // more checks
+        return cal.getTime();
+    }
 
-	    return false;
-	}
-	
-	public static String getCurrentYear() {
-		return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.YEAR));
-	}
+    public static boolean isHoliday(Calendar cal) {
+        // int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
+        //TBD need to calculate No of working days in Current Month
+        if (month == 12 && dayOfMonth == 25) {
+            return true;
+        }
 
-	public static String get2DigitCurrentYear() {
-		DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
-		return df.format(Calendar.getInstance().getTime());
-	}
+        // more checks
+
+        return false;
+    }
+
+    public static String getCurrentYear() {
+        return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.YEAR));
+    }
 
 
+    public static String get2DigitCurrentYear() {
+        DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
+        return df.format(Calendar.getInstance().getTime());
+    }
 
-	public static String getCurrentMonth() {
-		return new SimpleDateFormat("MMM").format(new java.util.Date(Calendar.getInstance().getTimeInMillis()))
-				.toUpperCase();
-	}
 
-	public static String getCurrentMonthDigit() {
-		int monthNumber = Calendar.getInstance().get(Calendar.MONTH);
-		String monthDigit = String.valueOf(monthNumber+1);
-		if(monthDigit.length()==1){
-			monthDigit="0"+monthDigit;
-		}
-		return monthDigit;
-	}
+    public static String getCurrentMonth() {
+        return new SimpleDateFormat("MMM").format(new java.util.Date(Calendar.getInstance().getTimeInMillis()))
+                .toUpperCase();
+    }
 
-	public static String getCurrentDay() {
-		return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.DATE) - 1);
-	}
-	
-	public static int getPreviousDayOfMonthAsInteger(Date prevWorkingDate) {
-		Calendar calendar = Calendar.getInstance();
+    public static String getCurrentMonthDigit() {
+        int monthNumber = Calendar.getInstance().get(Calendar.MONTH);
+        String monthDigit = String.valueOf(monthNumber + 1);
+        if (monthDigit.length() == 1) {
+            monthDigit = "0" + monthDigit;
+        }
+        return monthDigit;
+    }
+
+    public static String getCurrentDay() {
+        return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.DATE) - 1);
+    }
+
+    public static int getPreviousDayOfMonthAsInteger(Date prevWorkingDate) {
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(prevWorkingDate);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-		return dayOfMonth;
-	}
-	
-	public static long convertStringToTimestamp(String str_date) throws ParseException {
-		DateFormat formatter;
-		formatter = new SimpleDateFormat("MM/dd/yy");
-		Date date = (Date) formatter.parse(str_date);
-		return date.getTime();
-	}
+        return dayOfMonth;
+    }
 
-	public static long convertFvPriceDateToTimestamp(String str_date) throws ParseException {
-		DateFormat formatter;
-		formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
-		formatter.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
-		Date date = formatter.parse(str_date);
+    public static long convertStringToTimestamp(String str_date) throws ParseException {
+        DateFormat formatter;
+        formatter = new SimpleDateFormat("MM/dd/yy");
+        Date date = (Date) formatter.parse(str_date);
+        return date.getTime();
+    }
 
-		Calendar reserchDateCalendar = Calendar.getInstance();
-		reserchDateCalendar.setTime(date);
-		reserchDateCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+    public static long convertFvPriceDateToTimestamp(String str_date) throws ParseException {
+        DateFormat formatter;
+        formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+        formatter.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+        Date date = formatter.parse(str_date);
 
-		return reserchDateCalendar.getTimeInMillis();
-	}
+        Calendar reserchDateCalendar = Calendar.getInstance();
+        reserchDateCalendar.setTime(date);
+        reserchDateCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
 
-	public static boolean isDateValid(String dateToValidate, String dateFromat){
+        return reserchDateCalendar.getTimeInMillis();
+    }
 
-		if(dateToValidate == null){
-			return false;
-		}
+    public static boolean isDateValid(String dateToValidate, String dateFromat) {
 
-		SimpleDateFormat sdf = new SimpleDateFormat(dateFromat);
-		sdf.setLenient(false);
+        if (dateToValidate == null) {
+            return false;
+        }
 
-		try {
-			//if not valid, it will throw ParseException
-			Date date = sdf.parse(dateToValidate);
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFromat);
+        sdf.setLenient(false);
 
-		} catch (ParseException e) {
-			return false;
-		}
+        try {
+            //if not valid, it will throw ParseException
+            Date date = sdf.parse(dateToValidate);
 
-		return true;
-	}
+        } catch (ParseException e) {
+            return false;
+        }
 
-	public static String getDayNumber(){
-		Calendar cal = Calendar.getInstance();
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		String dayString = "";
-		if (String.valueOf(day).length() == 1) {
-			dayString = "0" + day;
-		} else {
-			dayString = String.valueOf(day);
-		}
-		return dayString;
-	}
+        return true;
+    }
 
-	public static String getThreeLetterMonthName(){
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		cal.set(year, month, day);
-		java.util.Date d = new java.util.Date(cal.getTimeInMillis());
-		String mmm = new SimpleDateFormat("MMM").format(d).toUpperCase();
+    public static String getDayNumber() {
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        String dayString = "";
+        if (String.valueOf(day).length() == 1) {
+            dayString = "0" + day;
+        } else {
+            dayString = String.valueOf(day);
+        }
+        return dayString;
+    }
 
-		return mmm;
-	}
+    public static String getThreeLetterMonthName() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        cal.set(year, month, day);
+        java.util.Date d = new java.util.Date(cal.getTimeInMillis());
+        String mmm = new SimpleDateFormat("MMM").format(d).toUpperCase();
 
-	public static String getYear(){
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(Calendar.YEAR);
+        return mmm;
+    }
 
-		return String.valueOf(year);
-	}
+    public static String getYear() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
 
+        return String.valueOf(year);
+    }
 
+    /**
+     *
+     * @param dateStr format must be like  Mar_19
+     * @return
+     */
+    public static String getTimeStamp_MMM_yy(String dateStr) {
+        String timestamp;
+        Date date = null;
+        try {
+            date = simpleDateFormat_MMM_yy.parse(dateStr);
+        } catch (ParseException e) {
+            timestamp = "0";
+        }
+        timestamp=String.valueOf(date.getTime());
+        return timestamp;
+    }
 
-	public static void main(String args[]) throws ParseException {
+    public static void main(String args[]) throws ParseException {
 //		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
 //		System.out.println(thisDateValid);
 //
@@ -186,6 +204,13 @@ public class DateUtil {
 //		String currentYear = getCurrentYear();
 //		System.out.println(currentDay+currentMonth+currentYear);
 
-	}
+        String pattern = "MMM_yy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+        Date date = simpleDateFormat.parse("Mar_18");
+        System.out.println(date); //Prints Tue Oct 15 10:20:56 SGT 2015
+
+
+    }
 
 }
