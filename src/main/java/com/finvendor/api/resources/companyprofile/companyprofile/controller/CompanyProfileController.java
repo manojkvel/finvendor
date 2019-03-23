@@ -22,7 +22,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  * @author ayush on April 30, 2018
  */
 @Controller
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value= WebUriConstants.BASE_URI)
 public class CompanyProfileController {
     private static final Logger logger = LoggerFactory.getLogger(CompanyProfileController.class.getName());
 
@@ -75,32 +75,127 @@ public class CompanyProfileController {
         }
     }
 
+    /**
+     * Earning Preview
+     */
     @GetMapping(value = "/companyprofile/earningpreview")
-    public ResponseEntity<?> findEarningPreview() {
+    public ResponseEntity<?> findEarningPreview(@RequestParam(value = "type") String type, @RequestParam(value = "isin") String isin) {
         try {
-            return new ResponseEntity<>(cps.findEarningPreview(), HttpStatus.OK);
+            return new ResponseEntity<>(cps.findEarningPreview(type, isin), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> findEarningPreview(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_EARNING_PREVIEW.getCode(), COMPANY_PROFILE_EARNING_PREVIEW.getUserMessage(), e);
         }
     }
 
-    // // Tab3
-    // @Override
-    // public String getTechnicalDataTab() throws WebApiException {
-    // return null;
-    // }
-    //
-    // // Tab4
-    // @Override
-    // public String getCalendarDataTab() throws WebApiException {
-    // return null;
-    // }
-    //
-    // // Tab5
-    // @Override
-    // public String getShareHoldingDataTab() throws WebApiException {
-    // return null;
-    // }
+    /**
+     * Company News - Record Stats
+     */
+    @GetMapping(value = "/companyprofile/companynews/recordstat")
+    public ResponseEntity<?> findCompanyNewsRecordstat(@RequestParam(value = "ticker") String ticker,
+                                             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
+        try {
+            return new ResponseEntity<>("{\"firstPageNumber\":1,\"lastPageNumber\":1,\"totalRecords\":4}", HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("IWebCompanyProfile -> findCompanyNewsRecordstat(...) method", e);
+            return ErrorUtil.getError(COMPANY_PROFILE_COMPANY_NEWS.getCode(), COMPANY_PROFILE_COMPANY_NEWS.getUserMessage(), e);
+        }
+    }
 
+    /**
+     * Company News
+     */
+    @GetMapping(value = "/companyprofile/companynews")
+    public ResponseEntity<?> findCompanyNews(@RequestParam(value = "ticker") String ticker) {
+        try {
+            return new ResponseEntity<>(cps.findCompanyNews(ticker), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("IWebCompanyProfile -> findCompanyNews(...) method", e);
+            return ErrorUtil.getError(COMPANY_PROFILE_COMPANY_NEWS.getCode(), COMPANY_PROFILE_COMPANY_NEWS.getUserMessage(), e);
+        }
+    }
+
+
+    /**
+     *  Corporate Action - Record Stats
+     */
+    @GetMapping(value = "/companyprofile/corpaction/recordstat")
+    public ResponseEntity<?> findCorporateActionRecordStats(@RequestParam(value = "ticker") String ticker,
+                                             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
+        try {
+            return new ResponseEntity<>("{\"firstPageNumber\":1,\"lastPageNumber\":1,\"totalRecords\":4}", HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("IWebCompanyProfile -> findCorporateActionRecordStats(...) method", e);
+            return ErrorUtil.getError(COMPANY_PROFILE_CORP_ACTION.getCode(), COMPANY_PROFILE_CORP_ACTION.getUserMessage(), e);
+        }
+    }
+
+
+    /**
+     * Corporate Action
+     */
+    @GetMapping(value = "/companyprofile/corpaction")
+    public ResponseEntity<?> findCorporateAction(@RequestParam(value = "ticker") String ticker) {
+        try {
+            return new ResponseEntity<>(cps.findCorporateAction(ticker), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("IWebCompanyProfile -> findCorporateAction(...) method", e);
+            return ErrorUtil.getError(COMPANY_PROFILE_CORP_ACTION.getCode(), COMPANY_PROFILE_CORP_ACTION.getUserMessage(), e);
+        }
+    }
+
+
+    /**
+     *  Calendar - Record Stats
+     */
+    @GetMapping(value = "/companyprofile/calendar/recordstat")
+    public ResponseEntity<?> findCalendarRecordStats(@RequestParam(value = "ticker") String ticker,
+                                                            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
+        try {
+            return new ResponseEntity<>("{\"firstPageNumber\":1,\"lastPageNumber\":1,\"totalRecords\":4}", HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("IWebCompanyProfile -> findCalendarRecordStats(...) method", e);
+            return ErrorUtil.getError(COMPANY_PROFILE_CALENDAR.getCode(), COMPANY_PROFILE_CALENDAR.getUserMessage(), e);
+        }
+    }
+
+    /**
+     * Calendar
+     */
+    @GetMapping(value = "/companyprofile/calendar")
+    public ResponseEntity<?> findCalendar(@RequestParam(value = "ticker") String ticker) {
+        try {
+            return new ResponseEntity<>(cps.findCalendar(ticker), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("IWebCompanyProfile -> findCalendar(...) method", e);
+            return ErrorUtil.getError(COMPANY_PROFILE_CALENDAR.getCode(), COMPANY_PROFILE_CALENDAR.getUserMessage(), e);
+        }
+    }
+
+    /**
+     *  Price History - Record Stats
+     */
+    @GetMapping(value = "/companyprofile/pricehistory/recordstat")
+    public ResponseEntity<?> findPriceHistoryRecordStats(@RequestParam(value = "isin") String isin,
+                                                     @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
+        try {
+            return new ResponseEntity<>("{\"firstPageNumber\":1,\"lastPageNumber\":1,\"totalRecords\":4}", HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("IWebCompanyProfile -> findPriceHistoryRecordStats(...) method", e);
+            return ErrorUtil.getError(COMPANY_PROFILE_PRICE_HISTORY.getCode(), COMPANY_PROFILE_PRICE_HISTORY.getUserMessage(), e);
+        }
+    }
+
+    /**
+     * Price History
+     */
+    @GetMapping(value = "/companyprofile/pricehistory")
+    public ResponseEntity<?> findPriceHistory(@RequestParam(value = "isin") String isin) {
+        try {
+            return new ResponseEntity<>(cps.findPriceHistory(isin), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("IWebCompanyProfile -> findPriceHistory(...) method", e);
+            return ErrorUtil.getError(COMPANY_PROFILE_PRICE_HISTORY.getCode(), COMPANY_PROFILE_PRICE_HISTORY.getUserMessage(), e);
+        }
+    }
 }

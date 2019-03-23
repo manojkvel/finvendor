@@ -1,11 +1,11 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.service;
 
-import com.finvendor.api.resources.companyprofile.companyprofile.dto.EarningPreview;
-import com.finvendor.common.util.LocaleUtil;
-import com.finvendor.common.commondao.DaoUtils;
 import com.finvendor.api.resources.companyprofile.companyprofile.dao.CompanyProfileDao;
 import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
 import com.finvendor.api.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
+import com.finvendor.common.commondao.DaoUtils;
+import com.finvendor.common.util.CommonCodeUtil;
+import com.finvendor.common.util.LocaleUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,34 +31,21 @@ public class CompanyProfileService {
     public String getCompanyProfile(final String isinCode) throws Exception {
         try {
             int researchAreaId = 7; // TDB: Ayush : get id 7 (Equity) from db based on ISINCODE
-            int countryId = 1;
-            if (isinCode.contains("IN")) {
-                countryId = 1;
-            }else if(isinCode.contains("SG")) {
-                countryId = 3;
-            }
-            // Future work
-            // else if (isinCode.contains("UK")) {
-            // } else {
-            // }
+            int countryId = CommonCodeUtil.getCountryId(isinCode);
             String mainQuery = DaoUtils.getParamertizedQuery(companyProfileDao.companyProfileDataQuery,
                     new Object[]{researchAreaId, countryId, isinCode});
-            return companyProfileDao.getCompanyProfile(mainQuery,isinCode);
+            return companyProfileDao.getCompanyProfile(mainQuery, isinCode);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
+
     public String getCompanyProfileRecordStat(final String isinCode, String perPageMaxRecords) throws Exception {
         final String geo = LocaleUtil.getCurrentGeo();
         try {
             int researchAreaId = 7; // TDB: Ayush : get id 7 (Equity) from db based on ISINCODE
-            int countryId = 1;
-            if (isinCode.contains("IN")) {
-                countryId = 1;
-            }else if(isinCode.contains("SG")) {
-                countryId = 3;
-            }
+            int countryId = CommonCodeUtil.getCountryId(isinCode);
             // Future work
             // else if (isinCode.contains("UK")) {
             // } else {
@@ -68,9 +55,9 @@ public class CompanyProfileService {
 //			mainQuery = StringUtils.replace(mainQuery,"dateformat","%d/%m/%Y");
             EquityResearchFilter filter = new EquityResearchFilter();
             filter.setGeo(geo);
-            String mainQuery1 = StringUtils.replace(CompanyProfileDao.mainQuery, "COUNTRYID", ""+countryId);
+            String mainQuery1 = StringUtils.replace(CompanyProfileDao.mainQuery, "COUNTRYID", "" + countryId);
             String mainQuery = StringUtils.replace(mainQuery1, "?", "'" + isinCode + "'");
-            logger.info("## getCompanyProfileRecordStat: {} ",mainQuery);
+            logger.info("## getCompanyProfileRecordStat: {} ", mainQuery);
             return equityReportDao.getRecordStatistics(mainQuery, filter, perPageMaxRecords);
         } catch (RuntimeException e) {
             throw new Exception(e);
@@ -81,37 +68,56 @@ public class CompanyProfileService {
                                                   String sortBy, String orderBy) throws Exception {
         final String geo = LocaleUtil.getCurrentGeo();
         try {
-            int researchAreaId = 7; // TDB: Ayush : get id 7 (Equity) from db based on ISINCODE
-            int countryId = 1;
-            if (isinCode.contains("IN")) {
-                countryId = 1;
-            }else if (isinCode.contains("SG")) {
-                countryId = 3;
-            }
+            int countryId = CommonCodeUtil.getCountryId(isinCode);
 
-            // Future work
-            // else if (isinCode.contains("UK")) {
-            // } else {
-            // }
-//			String mainQuery = DaoUtils.getParamertizedQuery(companyProfileDao.companyResearchReportQuery,
-//					new Object[] { researchAreaId, countryId, researchAreaId, isinCode });
-//			mainQuery = StringUtils.replace(mainQuery,"dateformat","%d/%m/%Y");
             EquityResearchFilter filter = new EquityResearchFilter();
             filter.setGeo(geo);
-            String mainQuery1 = StringUtils.replace(CompanyProfileDao.mainQuery, "COUNTRYID", ""+countryId);
+            String mainQuery1 = StringUtils.replace(CompanyProfileDao.mainQuery, "COUNTRYID", "" + countryId);
             String mainQuery = StringUtils.replace(mainQuery1, "?", "'" + isinCode + "'");
             logger.info("## getCompanyProfileResearchReport: {} ", mainQuery);
-            return companyProfileDao.getCompanyProfileReasearchReport(mainQuery,isinCode, filter, pageNumber, perPageMaxRecords,
+            return companyProfileDao.getCompanyProfileReasearchReport(mainQuery, isinCode, filter, pageNumber, perPageMaxRecords,
                     sortBy, orderBy);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
-    public String findEarningPreview() throws Exception {
-        try{
-            return  companyProfileDao.findEarningPreview();
-        }catch(RuntimeException e){
+    public String findEarningPreview(final String type, final String isin) throws Exception {
+        try {
+            return companyProfileDao.findEarningPreview(type, isin);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String findCompanyNews(final String ticker) throws Exception {
+        try {
+            return companyProfileDao.findCompanyNews(ticker);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String findCorporateAction(final String ticker) throws Exception {
+        try {
+            return companyProfileDao.findCorporateAction(ticker);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String findCalendar(final String ticker) throws Exception {
+        try {
+            return companyProfileDao.findCalendar(ticker);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String findPriceHistory(final String isin) throws Exception {
+        try {
+            return companyProfileDao.findPriceHistory(isin);
+        } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }

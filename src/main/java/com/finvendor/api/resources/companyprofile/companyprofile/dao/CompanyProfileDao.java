@@ -4,10 +4,18 @@ import com.finvendor.api.resources.companyprofile.companyprofile.dto.*;
 import com.finvendor.api.resources.markets.dao.MarketsDao;
 import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
 import com.finvendor.api.resources.researchreport.equity.dto.filter.ResearchReportFilter;
+import com.finvendor.api.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.api.resources.researchreport.equity.dto.result.AbsResearchReportResult;
+import com.finvendor.api.resources.researchreport.equity.dto.result.impl.EquityResearchResult;
+import com.finvendor.common.commondao.GenericDao;
 import com.finvendor.common.commondao.ICommonDao;
+import com.finvendor.common.util.CommonCodeUtil;
 import com.finvendor.common.util.DateUtil;
 import com.finvendor.common.util.JsonUtil;
+import com.finvendor.model.CompanyWatchList;
+import com.finvendor.model.EarningPreview;
+import com.finvendor.model.EarningPreviewQuarterly;
+import com.finvendor.model.EarningPreviewYearly;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
@@ -30,7 +38,7 @@ import java.util.*;
  * @author ayush on May 01, 2018
  */
 @Repository
-public class CompanyProfileDao {
+public class CompanyProfileDao extends GenericDao<EarningPreview> {
     private static final Logger logger = LoggerFactory.getLogger(CompanyProfileDao.class.getName());
 
     @Autowired
@@ -55,6 +63,9 @@ public class CompanyProfileDao {
     // Complex Query - Do not refactor it
     public static final String mainQuery = "SELECT rsch_sub_area_company_dtls.company_id comapanyId, rsch_sub_area_company_dtls.company_name companyName, rsch_sub_area_company_dtls.isin_code isinCode, rsch_area_stock_class.stock_class_name style, market_cap_def.market_cap_name mcap, research_sub_area.description sector, stock_current_prices.close_price cmp, stock_current_prices.price_date prcDt, stock_current_info.pe pe, stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth, stock_current_info.eps_ttm epsttm, vendor_report_data.research_report_for_id companyId, vendor_report_data.product_id prdId, vendor_report_data.vendor_company broker, vendor_report_data.rsrch_recomm_type recommType, vendor_report_data.target_price tgtPrice, vendor_report_data.price_at_recomm prcAtRecomm, ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100 upside, vendor_report_data.report_name rptName, vendor_report_data.report_date rsrchDt, vendor_report_data.analyst_awards award, vendor_report_data.anayst_cfa_charter cfa, vendor_report_data.analyst_name analystName, vendor_report_data.vendor_analyst_type analystType, vendor_report_data.vendor_id vendorId, vendor_report_data.launched_year ly, vendor_report_data.vendor_name userName, vendor_report_data.rsrch_report_desc rptDesc, vendor_report_data.product_name productNameAsReportName FROM rsch_sub_area_company_dtls,      rsch_area_stock_class,      market_cap_def,      comp_mkt_cap_type,      research_sub_area,      stock_current_prices,      stock_current_info,      vendor_report_data WHERE   rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = COUNTRYID   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
 
+    public static final String EARNING_PREVIEW_QUARTERLY = "select b.* from earning_preview a, earning_preview_quarterly b where a.stock_id=b.stock_id and a.isin=?";
+    public static final String EARNING_PREVIEW_YEARLY = "select b.* from earning_preview a, earning_preview_yearly b where a.stock_id=b.stock_id and a.isin=?";
+
     @Autowired
     private ICommonDao commonDao;
 
@@ -63,8 +74,33 @@ public class CompanyProfileDao {
 
     @Autowired
     private EquityReportDao equityReportDao;
-    private static final String STOCK_CLOSE_PRICE = "SELECT b.stock_id,b.close_price,STR_TO_DATE(b.price_date,  \"%d/%b/%y\" )  date FROM  stock_historical_prices b WHERE  b.stock_id=? ORDER BY STR_TO_DATE(b.price_date,  \"%d/%b/%y\" ) DESC limit 1 offset ?";
-    private static final String NIFTY_CLOSE_PRICE = "SELECT STR_TO_DATE(date,  \"%d-%b-%y\" ), close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset ?";
+
+    private static Map<String, List<String>> brokerRankMapping = new LinkedHashMap<>();
+
+    static {
+        List<String> buyList = new ArrayList<>();
+        List<String> sellList = new ArrayList<>();
+        List<String> nutralList = new ArrayList<>();
+
+        buyList.add("accumulate");
+        buyList.add("add");
+        buyList.add("buy");
+        buyList.add("bullish");
+        buyList.add("marketperformer");
+        buyList.add("outperformer");
+
+        sellList.add("bearish");
+        sellList.add("underperformer");
+        sellList.add("sell");
+
+        nutralList.add("hold");
+        nutralList.add("neutral");
+        nutralList.add("reduce");
+
+        brokerRankMapping.put("Buy", buyList);
+        brokerRankMapping.put("Sell", sellList);
+        brokerRankMapping.put("Neutral", nutralList);
+    }
 
     /**
      * upside = ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100
@@ -173,7 +209,7 @@ public class CompanyProfileDao {
                 //Calculate Valuation Score
                 valuationScoreStr = calculateAndGetValucationScore(_3yrEpsGrowthAsFloat, newPe);
 
-                CompanyProfileData companyProfileData = new CompanyProfileData(companyId, companyName, industry, mcap, cmp, absoluteLastChangedCmp,
+                CompanyProfileDataDto companyProfileDataDto = new CompanyProfileDataDto(companyId, companyName, industry, mcap, cmp, absoluteLastChangedCmp,
                         lastChangedCmpInPercentage, newPeStr, "-", dividen_yield, eps_ttm, _52w_high,
                         _52w_low, beta, share_outstanding, mkt_cap, revenue.trim(), face_value, "-", roe, pat,
                         recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr, currency);
@@ -188,27 +224,28 @@ public class CompanyProfileDao {
                 Map<String, String> nifty50HistoricalPrices = findNifty50HistoricalPrices(closing);
 
                 //Nifty50 Handling
-                PriceHistory priceHistory = new PriceHistory();
-                priceHistory.setNifty50(nifty50HistoricalPrices);
-                priceHistory.setStock(stockHistoricalPrices);
+                PriceHistoryDto priceHistoryDto = new PriceHistoryDto();
+                priceHistoryDto.setNifty50(nifty50HistoricalPrices);
+                priceHistoryDto.setStock(stockHistoricalPrices);
 
 
                 //Company Profile
-                paramsMap.put("companyProfileData", companyProfileData);
+                paramsMap.put("companyProfileData", companyProfileDataDto);
 
                 //Summary
                 paramsMap.put("summary", summary);
 
                 //Price History
-                paramsMap.put("priceHistory", priceHistory);
+                paramsMap.put("priceHistory", priceHistoryDto);
 
                 //Broker Rank
+                List<Integer> brokerRankList = getBrokerRanking(isinCode);
                 float averageTargetPrice = getResearchReportAggregatedData(avgCountQuery, isinCode).floatValue();
                 float upside = averageTargetPrice == 0.0f ? 0.0f : ((averageTargetPrice - cmpAsFloat) / cmpAsFloat) * 100;
-                int totalBuyRecomm = getResearchReportAggregatedData(buyCountQuery, isinCode).intValue();
-                int totalSellRecomm = getResearchReportAggregatedData(sellCountQuery, isinCode).intValue();
-                int totalNeutralRecomm = getResearchReportAggregatedData(neutralCountQuery, isinCode).intValue();
-                paramsMap.put("brokerRank", new BrokerRank(totalBuyRecomm, totalSellRecomm, totalNeutralRecomm, averageTargetPrice, upside));
+                int totalBuyRecomm = brokerRankList.get(0);
+                int totalSellRecomm = brokerRankList.get(1);
+                int totalNeutralRecomm = brokerRankList.get(2);
+                paramsMap.put("brokerRank", new BrokerRankDto(totalBuyRecomm, totalSellRecomm, totalNeutralRecomm, averageTargetPrice, upside));
 
                 companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
             }
@@ -218,6 +255,42 @@ public class CompanyProfileDao {
         return companyProfile;
     }
 
+    private List<Integer> getBrokerRanking(String isinCode) {
+        int countryId = CommonCodeUtil.getCountryId(isinCode);
+        String mainQuery1 = StringUtils.replace(CompanyProfileDao.mainQuery, "COUNTRYID", "" + countryId);
+        String mainQuery = StringUtils.replace(mainQuery1, "?", "'" + isinCode + "'");
+        Map<String, ? extends AbsResearchReportResult> equityData = equityReportDao
+                .findResearchReportTableData(mainQuery, new EquityResearchFilter(), "1", "500", "researchDate", "desc");
+
+        Collection<? extends AbsResearchReportResult> equityList = equityData.values();
+        int buyCount = 0;
+        int sellCount = 0;
+        int nutralCount = 0;
+        for (AbsResearchReportResult absResearchReportResult : equityList) {
+            EquityResearchResult equity = (EquityResearchResult) absResearchReportResult;
+            String recommType = equity.getRecommType();
+            for (Map.Entry<String, List<String>> entry : brokerRankMapping.entrySet()) {
+                String key = entry.getKey();
+                List<String> value = entry.getValue();
+                if (value.contains(recommType)) {
+                    if ("buy".equalsIgnoreCase(key)) {
+                        buyCount++;
+                    } else if ("sell".equalsIgnoreCase(key)) {
+                        sellCount++;
+                    } else {
+                        nutralCount++;
+                    }
+                    break;
+                }
+            }
+        }
+        List<Integer> brokerRanks = new ArrayList<>();
+        brokerRanks.add(buyCount);
+        brokerRanks.add(sellCount);
+        brokerRanks.add(nutralCount);
+
+        return brokerRanks;
+    }
 
     private String calculateAndGetValucationScore(float _3yrEpsGrowthAsFloat, float newPe) {
         /*
@@ -466,26 +539,42 @@ public class CompanyProfileDao {
         return companyProfile;
     }
 
-    public String findEarningPreview() {
+    public String findEarningPreview(String type, String isin) {
         String result;
         Map<String, Object> paramsMap = new LinkedHashMap<>();
-        EarningPreview earningPreview = new EarningPreview();
+        EarningPreviewDto earningPreviewDto = new EarningPreviewDto();
+        SQLQuery sqlQuery = commonDao.getNativeQuery(EARNING_PREVIEW_QUARTERLY, new String[]{isin});
+        List<Object[]> rows = sqlQuery.list();
         try {
-            List<EarningPreviewResult> quartely = new ArrayList<>();
-            quartely.add(new EarningPreviewResult("Mar-18", "456", "432", "234", "232", "3413"));
-            quartely.add(new EarningPreviewResult("Jun-18", "566", "4534", "245", "64", "3413"));
-            quartely.add(new EarningPreviewResult("Sep-18", "345", "454", "457", "565", "3413"));
-            quartely.add(new EarningPreviewResult("Dec-18", "345", "7867", "654", "5686", "3413"));
+            List<EarningPreviewDto.EarningPreviewResultDto> quartely = new ArrayList<>();
+            for (Object[] row : rows) {
+                String rowId = row[0] != null ? row[0].toString().trim() : "";
+                String period = row[1] != null ? row[1].toString().trim() : "";
+                String revenue = row[2] != null ? row[2].toString().trim() : "";
+                String operatingProfitMargin = row[3] != null ? row[3].toString().trim() : "";
+                String profitAfterTax = row[4] != null ? row[4].toString().trim() : "";
+                String eps = row[0] != null ? row[5].toString().trim() : "";
+                String netOperatingCashFlow = row[6] != null ? row[6].toString().trim() : "";
+                quartely.add(new EarningPreviewDto.EarningPreviewResultDto(period, revenue, operatingProfitMargin, profitAfterTax, eps, netOperatingCashFlow));
+            }
 
-            List<EarningPreviewResult> yearly = new ArrayList<>();
-            yearly.add(new EarningPreviewResult("Mar-14", "456", "432", "234", "232", "3413"));
-            yearly.add(new EarningPreviewResult("Mar-15", "456", "432", "234", "232", "3413"));
-            yearly.add(new EarningPreviewResult("Mar-16", "566", "4534", "245", "64", "3413"));
-            yearly.add(new EarningPreviewResult("Mar-17", "345", "454", "457", "565", "3413"));
-            yearly.add(new EarningPreviewResult("Mar-18", "345", "7867", "654", "5686", "3413"));
-            earningPreview.setQuarterly(quartely);
-            earningPreview.setYearly(yearly);
-            paramsMap.put("earningPreview", earningPreview);
+            sqlQuery = commonDao.getNativeQuery(EARNING_PREVIEW_YEARLY, new String[]{isin});
+            rows = sqlQuery.list();
+            List<EarningPreviewDto.EarningPreviewResultDto> yearly = new ArrayList<>();
+            for (Object[] row : rows) {
+                String rowId = row[0] != null ? row[0].toString().trim() : "";
+                String period = row[1] != null ? row[1].toString().trim() : "";
+                String revenue = row[2] != null ? row[2].toString().trim() : "";
+                String operatingProfitMargin = row[3] != null ? row[3].toString().trim() : "";
+                String profitAfterTax = row[4] != null ? row[4].toString().trim() : "";
+                String eps = row[0] != null ? row[5].toString().trim() : "";
+                String netOperatingCashFlow = row[6] != null ? row[6].toString().trim() : "";
+                yearly.add(new EarningPreviewDto.EarningPreviewResultDto(period, revenue, operatingProfitMargin, profitAfterTax, eps, netOperatingCashFlow));
+            }
+
+            earningPreviewDto.setQuarterly(quartely);
+            earningPreviewDto.setYearly(yearly);
+            paramsMap.put("earningPreview", earningPreviewDto);
             result = JsonUtil.createJsonFromParamsMap(paramsMap);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -493,6 +582,25 @@ public class CompanyProfileDao {
         return result;
     }
 
+    public String findCompanyNews(String ticker) {
+        String result = "{\"companyNews\":[{\"broadcastDate\":\"1553350993\",\"subject\":\"Allotment of Securities\"}]}";
+        return result;
+    }
+
+    public String findCorporateAction(String ticker) {
+        String result = "{\"corpAction\":[{\"purpose\":\" Interim Dividend - Re 1 Per Share\",\"faceValue\":\"10\",\"exDate\":\"1553350993\",\"recordDate\":\"1553350993\"}]}";
+        return result;
+    }
+
+    public String findCalendar(String ticker) {
+        String result = "{\"calendar\":[{\"boardMeetinDate\":\"1553350993\",\"purpose\":\"Buyback\"}]}";
+        return result;
+    }
+
+    public String findPriceHistory(String isin) {
+        String result = "{\"priceHistory\":[{\"stockId\":\"1\",\"priceSource\":\"NSE\",\"priceDate\":\"1553350993\",\"openPrice\":\"23.4\",\"highPrice\":\"40.3\",\"lowPrice\":\"39.7\",\"closePrice\":\"45.0\",\"lastTradePrice\":\"34.7\"}]}";
+        return result;
+    }
 
     private BigInteger getResearchReportAggregatedData(String query, String isinCode) {
         BigInteger value;
@@ -529,5 +637,4 @@ public class CompanyProfileDao {
             e.printStackTrace();
         }
     }
-
 }

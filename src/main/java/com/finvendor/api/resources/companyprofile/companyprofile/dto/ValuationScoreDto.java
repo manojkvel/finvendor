@@ -1,9 +1,9 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dto;
 
-public class ValuationScore {
+public class ValuationScoreDto {
     private String valuationScore;
 
-    public ValuationScore(String valuationScore) {
+    public ValuationScoreDto(String valuationScore) {
         this.valuationScore = valuationScore;
     }
 

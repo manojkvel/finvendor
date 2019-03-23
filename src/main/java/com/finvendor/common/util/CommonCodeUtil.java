@@ -53,4 +53,14 @@ public final class CommonCodeUtil {
         paramsMap.put(key, companyDataList);
         return JsonUtil.createJsonFromParamsMap(paramsMap);
     }
+
+    public static  int getCountryId(String isinCode) {
+        int countryId = 1;
+        if (isinCode.contains("IN")) {
+            countryId = 1;
+        } else if (isinCode.contains("SG")) {
+            countryId = 3;
+        }
+        return countryId;
+    }
 }

@@ -4,7 +4,7 @@ package com.finvendor.api.resources.companyprofile.companyprofile.dto;
  * 
  * @author ayush on May 01, 2018
  */
-public class CompanyProfileData {
+public class CompanyProfileDataDto {
 	private String companyId;
 	private String companyName;
 	private String industry;
@@ -32,12 +32,12 @@ public class CompanyProfileData {
 	private String valuationScore;
 	private String currency;
 
-	public CompanyProfileData(String companyId, String companyName, String industry, String mcap, String cmp,
-                              String absoluteLastChangedCmp, String lastChangedCmpInPercentage, String pe, String pb,
-                              String dividen_yield, String eps_ttm, String _52w_high, String _52w_low, String beta,
-                              String share_outstanding, String mkt_cap, String revenue, String face_value, String bv_share, String roe,
-                              String pat, String recent_qtr, String price_date, String price_src_code,
-                              String valuationScore, String currency) {
+	public CompanyProfileDataDto(String companyId, String companyName, String industry, String mcap, String cmp,
+								 String absoluteLastChangedCmp, String lastChangedCmpInPercentage, String pe, String pb,
+								 String dividen_yield, String eps_ttm, String _52w_high, String _52w_low, String beta,
+								 String share_outstanding, String mkt_cap, String revenue, String face_value, String bv_share, String roe,
+								 String pat, String recent_qtr, String price_date, String price_src_code,
+								 String valuationScore, String currency) {
 		super();
 		this.companyId = companyId;
 		this.companyName = companyName;
