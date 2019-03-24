@@ -63,6 +63,17 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     public static final String EARNING_PREVIEW_QUARTERLY = "select b.period,b.revenue,b.operating_profit_margin,b.profit_after_tax,b.eps from earning_preview a, earning_preview_quarterly b where a.stock_id=b.stock_id and a.isin=?";
     public static final String EARNING_PREVIEW_YEARLY = "select b.period,b.revenue,b.operating_profit_margin,b.profit_after_tax,b.eps,b.net_operating_cash_flow,b.roe from earning_preview a, earning_preview_yearly b where a.stock_id=b.stock_id and a.isin=?";
 
+
+    //News
+    private static final String NEWS_QUERY="select b.subject,STR_TO_DATE(b.broadcast_date,  \"%d-%b-%Y %k:%i\") from company_news a,company_news_history b where a.ticker=b.ticker and a.ticker=? order by STR_TO_DATE(b.broadcast_date,  \"%d-%b-%Y %k:%i\") desc";
+
+    //CA
+    private static final String CA_QUERY="select b.purpose,b.face_value,b.ex_date,STR_TO_DATE(b.record_date,  \"%d-%b-%Y\") from corp_action a,corp_action_history b where a.ticker=b.ticker and a.ticker=? order by STR_TO_DATE(b.record_date,  \"%d-%b-%Y\") desc";
+
+    //CAL
+    private static final String CAL_QUERY="select b.purpose,STR_TO_DATE(b.board_meeting_date,  \"%d-%b-%Y\") from company_calendar a,company_calendar_history b where a.ticker=b.ticker and a.ticker=? order by STR_TO_DATE(b.board_meeting_date,  \"%d-%b-%Y\") desc";
+
+
     @Autowired
     private ICommonDao commonDao;
 

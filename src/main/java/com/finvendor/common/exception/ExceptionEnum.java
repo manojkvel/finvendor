@@ -57,6 +57,7 @@ public enum ExceptionEnum {
 	COMPANY_PROFILE_CORP_ACTION("FV0040", "Internal error - Unable to get corporate action, Please contact Finvendor admin for support!!"),
 	COMPANY_PROFILE_CALENDAR("FV0041", "Internal error - Unable to get calendar data, Please contact Finvendor admin for support!!"),
 	COMPANY_PROFILE_PRICE_HISTORY("FV0042", "Internal error - Unable to get price history, Please contact Finvendor admin for support!!"),
+	DATA_FEED("FV0043", "Internal error - Unable to perform data feed operation, Please contact Finvendor admin for support!!"),
 
 
 

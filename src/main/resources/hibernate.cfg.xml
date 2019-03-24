@@ -6,7 +6,7 @@
 
 <hibernate-configuration>
     <session-factory>
-       <!-- <property name="hbm2ddl.auto">update</property>-->
+        <!-- <property name="hbm2ddl.auto">update</property>-->
         <mapping class="com.finvendor.model.FinVendorUser"></mapping>
         <mapping class="com.finvendor.model.Roles"></mapping>
         <mapping class="com.finvendor.model.UserRole"></mapping>
@@ -89,6 +89,14 @@
         <mapping class="com.finvendor.model.EarningPreviewQuarterly"></mapping>
         <mapping class="com.finvendor.model.EarningPreviewYearly"></mapping>
 
+        <mapping class="com.finvendor.model.companyprofile.CompanyNews"></mapping>
+        <mapping class="com.finvendor.model.companyprofile.CompanyNewsHistory"></mapping>
+
+        <mapping class="com.finvendor.model.companyprofile.CorpAction"></mapping>
+        <mapping class="com.finvendor.model.companyprofile.CorpActionHistory"></mapping>
+
+        <mapping class="com.finvendor.model.companyprofile.CompanyCalendar"></mapping>
+        <mapping class="com.finvendor.model.companyprofile.CompanyCalendarHistory"></mapping>
     </session-factory>
 
 </hibernate-configuration>

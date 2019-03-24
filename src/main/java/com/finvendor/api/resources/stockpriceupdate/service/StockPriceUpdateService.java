@@ -1,4 +1,4 @@
-package com.finvendor.api.resources.stockupdate.service;
+package com.finvendor.api.resources.stockpriceupdate.service;
 
 import com.finvendor.common.constant.AppConstant;
 import com.finvendor.common.util.Pair;
@@ -7,7 +7,8 @@ import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO
 import com.finvendor.common.infra.download.URLReader;
 import com.finvendor.common.infra.parser.StockPrice;
 import com.finvendor.common.infra.parser.service.IFileParser;
-import com.finvendor.api.resources.stockupdate.dao.StockPriceUpdateDao;
+import com.finvendor.api.resources.stockpriceupdate.dao.StockPriceUpdateDao;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -97,84 +99,87 @@ public class StockPriceUpdateService {
 
     public void updateStockPrice() throws Exception {
         String downloadDirectory = "/home/finvendo/dev";
-//        String downloadDirectory = "d:\\ayush\\dev";
-        long startTime = System.currentTimeMillis();
-        System.out.println("**********************************************************************************");
-        System.out.println("******* STOCK PRICE UPDATE - START");
-        System.out.println("**********************************************************************************");
+        try {
+            long startTime = System.currentTimeMillis();
+            logger.info("******* STOCK PRICE UPDATE - START");
+            logger.info("******* downloadDirectory: {}", downloadDirectory);
 
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        String dayString = "";
-        if (String.valueOf(day).length() == 1) {
-            dayString = "0" + day;
-        } else {
-            dayString = String.valueOf(day);
-        }
-        SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
-        String priceDate = formatter.format(Calendar.getInstance().getTime());
-
-        cal.set(year, month, day);
-        java.util.Date d = new java.util.Date(cal.getTimeInMillis());
-        String mmm = new SimpleDateFormat("MMM").format(d).toUpperCase();
-
-
-        String bhavCsvFileName = "cm" + dayString + "" + mmm.toUpperCase() + "" + year + "bhav.csv";
-        String bhavCsvZipFileName = "cm" + dayString + "" + mmm.toUpperCase() + "" + year + "bhav.csv.zip";
-
-        //https://www.nseindia.com/content/historical/EQUITIES/2018/AUG/cm21AUG2018bhav.csv.zip
-        String sUrl = "https://www.nseindia.com/content/historical/EQUITIES/" + year + "/" + mmm.toUpperCase() + "/" + bhavCsvZipFileName;
-        System.out.println("******* STOCK PRICE UPDATE - BhavCopy NSE URL:" + sUrl);
-        URL url = new URL(sUrl);
-
-
-        String bhavZipFileName = "bhav.zip";
-        String bhavZipFileDownloadPath = downloadDirectory + "/" + bhavZipFileName;
-        System.out.println("******* STOCK PRICE UPDATE - bhavZipCopyDownloadPath=" + sUrl);
-
-        /**
-         * Download BhavCopy from NSE
-         */
-        URLReader.copyURLToFile(url, new File(bhavZipFileDownloadPath));
-
-        /**
-         * Upzip Bhav Copy
-         */
-        URLReader.unzip(bhavZipFileDownloadPath, downloadDirectory);
-        System.out.println("******* STOCK PRICE UPDATE - bhavZip File us UnZipped successfully...");
-
-        List<Pair<String, String>> allIsin = dao.findAllIsin();
-        System.out.println("******* STOCK PRICE UPDATE - Fetched all ISIN from db successfully...");
-
-        String bhavCsvFilePath = downloadDirectory + "/" + bhavCsvFileName;
-        Map<String, StockPrice> priceMap = fileParser.parse(bhavCsvFilePath);
-        System.out.println("******* STOCK PRICE UPDATE - Load price from BhavCopy successfully...");
-
-        /**
-         * UPDATE price in db
-         */
-        for (int i = 0; i < allIsin.size(); i++) {
-            Pair<String, String> stringStringPair = allIsin.get(i);
-            String stockId = stringStringPair.getElement1();
-            String isin = stringStringPair.getElement2();
-            StockPrice stockPrice = priceMap.get(isin);
-            if (stockPrice != null) {
-                int update = dao.updateStockPrice(stockId, stockPrice, priceDate);
-                if (update == 1) {
-                    logger.info("******** SUCCESS - Update price for this isin =" + isin + " and stockId=" + stringStringPair.getElement1());
-                } else {
-                    System.out.println("******** FAILED - Update price for this isin =" + isin + " and stockId=" + stringStringPair.getElement1());
-                }
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            String dayString = "";
+            if (String.valueOf(day).length() == 1) {
+                dayString = "0" + day;
             } else {
-                System.out.println("++++++ isin=" + isin + " does not found in Bhav file");
+                dayString = String.valueOf(day);
             }
+            SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+            String priceDate = formatter.format(Calendar.getInstance().getTime());
+
+            cal.set(year, month, day);
+            java.util.Date d = new java.util.Date(cal.getTimeInMillis());
+            String mmm = new SimpleDateFormat("MMM").format(d).toUpperCase();
+
+
+            String bhavCsvFileName = "cm" + dayString + "" + mmm.toUpperCase() + "" + year + "bhav.csv";
+            String bhavCsvZipFileName = "cm" + dayString + "" + mmm.toUpperCase() + "" + year + "bhav.csv.zip";
+
+            //https://www.nseindia.com/content/historical/EQUITIES/2018/AUG/cm21AUG2018bhav.csv.zip
+            String sUrl = "https://www.nseindia.com/content/historical/EQUITIES/" + year + "/" + mmm.toUpperCase() + "/" + bhavCsvZipFileName;
+            logger.info("******* STOCK PRICE UPDATE - BhavCopy NSE URL:" + sUrl);
+            URL url = new URL(sUrl);
+
+
+            String bhavZipFileName = "bhav.zip";
+            String bhavZipFileDownloadPath = downloadDirectory + "/" + bhavZipFileName;
+            logger.info("******* STOCK PRICE UPDATE - bhavZipCopyDownloadPath=" + sUrl);
+
+            /*
+             * Download BhavCopy from NSE
+             */
+            URLReader.copyURLToFile(url, new File(bhavZipFileDownloadPath));
+
+            /*
+             * Upzip Bhav Copy
+             */
+            URLReader.unzip(bhavZipFileDownloadPath, downloadDirectory);
+            logger.info("******* STOCK PRICE UPDATE - bhavZip File us UnZipped successfully...");
+
+            List<Pair<String, String>> allIsin = dao.findAllIsin();
+            logger.info("******* STOCK PRICE UPDATE - Fetched all ISIN from db successfully...");
+
+            String bhavCsvFilePath = downloadDirectory + "/" + bhavCsvFileName;
+            Map<String, StockPrice> priceMap = fileParser.parse(bhavCsvFilePath);
+            logger.info("******* STOCK PRICE UPDATE - Load price from BhavCopy successfully...");
+
+            /*
+             * UPDATE price in db
+             */
+            for (int i = 0; i < allIsin.size(); i++) {
+                Pair<String, String> stringStringPair = allIsin.get(i);
+                String stockId = stringStringPair.getElement1();
+                String isin = stringStringPair.getElement2();
+                StockPrice stockPrice = priceMap.get(isin);
+                if (stockPrice != null) {
+                    int update = dao.updateStockPrice(stockId, stockPrice, priceDate);
+                    if (update == 1) {
+                        logger.info("******** SUCCESS - Update price for this isin =" + isin + " and stockId=" + stringStringPair.getElement1());
+                    } else {
+                        logger.info("******** FAILED - Update price for this isin =" + isin + " and stockId=" + stringStringPair.getElement1());
+                    }
+                } else {
+                    logger.info("++++++ isin=" + isin + " does not found in Bhav file");
+                }
+            }
+            logger.info("******* STOCK PRICE UPDATE - all price updated successfully...");
+            logger.info("****STOCK PRICE UPDATE -  Time taken=" + (System.currentTimeMillis() - startTime) / 1000L + " secs");
+        } catch (IOException e) {
+            throw new Exception(e);
+        } finally {
+            File directory = new File(downloadDirectory);
+            FileUtils.cleanDirectory(directory);
         }
-        System.out.println("**********************************************************************************");
-        System.out.println("******* STOCK PRICE UPDATE - all price updated successfully...");
-        System.out.println("**********************************************************************************");
-        System.out.println("****STOCK PRICE UPDATE -  Time taken=" + (System.currentTimeMillis() - startTime) / 1000L + " secs");
     }
 
     public void updateCompanyDescription() throws Exception {
