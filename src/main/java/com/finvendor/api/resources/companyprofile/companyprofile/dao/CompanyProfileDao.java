@@ -9,8 +9,8 @@ import com.finvendor.api.resources.researchreport.equity.dto.result.AbsResearchR
 import com.finvendor.api.resources.researchreport.equity.dto.result.impl.EquityResearchResult;
 import com.finvendor.common.commondao.GenericDao;
 import com.finvendor.common.commondao.ICommonDao;
-import com.finvendor.common.util.CommonCodeUtil;
-import com.finvendor.common.util.DateUtil;
+import com.finvendor.common.util.CommonCodeUtils;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.EarningPreview;
 import org.apache.commons.lang.StringUtils;
@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -60,18 +61,32 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     // Complex Query - Do not refactor it
     public static final String mainQuery = "SELECT rsch_sub_area_company_dtls.company_id comapanyId, rsch_sub_area_company_dtls.company_name companyName, rsch_sub_area_company_dtls.isin_code isinCode, rsch_area_stock_class.stock_class_name style, market_cap_def.market_cap_name mcap, research_sub_area.description sector, stock_current_prices.close_price cmp, stock_current_prices.price_date prcDt, stock_current_info.pe pe, stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth, stock_current_info.eps_ttm epsttm, vendor_report_data.research_report_for_id companyId, vendor_report_data.product_id prdId, vendor_report_data.vendor_company broker, vendor_report_data.rsrch_recomm_type recommType, vendor_report_data.target_price tgtPrice, vendor_report_data.price_at_recomm prcAtRecomm, ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100 upside, vendor_report_data.report_name rptName, vendor_report_data.report_date rsrchDt, vendor_report_data.analyst_awards award, vendor_report_data.anayst_cfa_charter cfa, vendor_report_data.analyst_name analystName, vendor_report_data.vendor_analyst_type analystType, vendor_report_data.vendor_id vendorId, vendor_report_data.launched_year ly, vendor_report_data.vendor_name userName, vendor_report_data.rsrch_report_desc rptDesc, vendor_report_data.product_name productNameAsReportName FROM rsch_sub_area_company_dtls,      rsch_area_stock_class,      market_cap_def,      comp_mkt_cap_type,      research_sub_area,      stock_current_prices,      stock_current_info,      vendor_report_data WHERE   rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = COUNTRYID   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
 
-    public static final String EARNING_PREVIEW_QUARTERLY = "select b.period,b.revenue,b.operating_profit_margin,b.profit_after_tax,b.eps from earning_preview a, earning_preview_quarterly b where a.stock_id=b.stock_id and a.isin=?";
-    public static final String EARNING_PREVIEW_YEARLY = "select b.period,b.revenue,b.operating_profit_margin,b.profit_after_tax,b.eps,b.net_operating_cash_flow,b.roe from earning_preview a, earning_preview_yearly b where a.stock_id=b.stock_id and a.isin=?";
+    /**
+     * Earning Preview Query
+     */
+    private static final String EARNING_PREVIEW_QUARTERLY = "select b.period,b.revenue,b.operating_profit_margin,b.profit_after_tax,b.eps from earning_preview a, earning_preview_quarterly b where a.stock_id=b.stock_id and a.isin=?";
+    private static final String EARNING_PREVIEW_YEARLY = "select b.period,b.revenue,b.operating_profit_margin,b.profit_after_tax,b.eps,b.net_operating_cash_flow,b.roe from earning_preview a, earning_preview_yearly b where a.stock_id=b.stock_id and a.isin=?";
 
 
-    //News
-    private static final String NEWS_QUERY="select b.subject,STR_TO_DATE(b.broadcast_date,  \"%d-%b-%Y %k:%i\") from company_news a,company_news_history b where a.ticker=b.ticker and a.ticker=? order by STR_TO_DATE(b.broadcast_date,  \"%d-%b-%Y %k:%i\") desc";
+    /**
+     * Company News Query
+     */
+    private static final String NEWS_QUERY = "select b.subject,b.broadcast_date from company_news a,company_news_history b where a.ticker=b.ticker and a.ticker=? order by STR_TO_DATE(b.broadcast_date,  \"%d-%b-%Y\") desc";
 
-    //CA
-    private static final String CA_QUERY="select b.purpose,b.face_value,b.ex_date,STR_TO_DATE(b.record_date,  \"%d-%b-%Y\") from corp_action a,corp_action_history b where a.ticker=b.ticker and a.ticker=? order by STR_TO_DATE(b.record_date,  \"%d-%b-%Y\") desc";
+    /**
+     * Corporate Action Query
+     */
+    private static final String CA_QUERY = "select b.purpose,b.face_value,b.ex_date,b.record_date from corp_action a,corp_action_history b where a.ticker=b.ticker and a.ticker=? order by STR_TO_DATE(b.record_date,  \"%d-%b-%Y\") desc";
 
-    //CAL
-    private static final String CAL_QUERY="select b.purpose,STR_TO_DATE(b.board_meeting_date,  \"%d-%b-%Y\") from company_calendar a,company_calendar_history b where a.ticker=b.ticker and a.ticker=? order by STR_TO_DATE(b.board_meeting_date,  \"%d-%b-%Y\") desc";
+    /**
+     * Company Calendar Query
+     */
+    private static final String CAL_QUERY = "select b.purpose,b.board_meeting_date from company_calendar a,company_calendar_history b where a.ticker=b.ticker and a.ticker=? order by STR_TO_DATE(b.board_meeting_date,  \"%d-%b-%Y\") desc";
+
+    /**
+     * Price History Query
+     */
+    private static final String PRICE_HISTORY_QUERY = "select a.* from stock_historical_prices a where a.stock_id=(select a.company_id from rsch_sub_area_company_dtls a where a.isin_code=?) order by STR_TO_DATE(a.price_date,  \"%d/%b/%Y\") desc";
 
 
     @Autowired
@@ -186,7 +201,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
 
                 // date is comming in this format "dd/MMM/yy HH:mm:ss"
                 String price_date = row[22] != null ? row[22].toString().trim() : "";
-                String price_date_in_millis = String.valueOf(DateUtil.convertFvPriceDateToTimestamp(price_date));
+                String price_date_in_millis = String.valueOf(DateUtils.convertFvPriceDateToTimestamp(price_date));
                 String price_src_code = row[23] != null ? row[23].toString().trim() : "";
                 summary = row[24] != null ? row[24].toString().trim() : "";
 
@@ -264,7 +279,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     }
 
     private List<Integer> getBrokerRanking(String isinCode) {
-        int countryId = CommonCodeUtil.getCountryId(isinCode);
+        int countryId = CommonCodeUtils.getCountryId(isinCode);
         String mainQuery1 = StringUtils.replace(CompanyProfileDao.mainQuery, "COUNTRYID", "" + countryId);
         String mainQuery = StringUtils.replace(mainQuery1, "?", "'" + isinCode + "'");
         Map<String, ? extends AbsResearchReportResult> equityData = equityReportDao
@@ -513,7 +528,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     public String getCompanyProfileReasearchReport(String mainQuery, String isinCode, ResearchReportFilter filter,
                                                    String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
         Map<String, Object> paramsMap = new LinkedHashMap<>();
-        String companyProfile = "NA";
+        String companyProfile;
         try {
             Map<String, ? extends AbsResearchReportResult> equityData = equityReportDao
                     .findResearchReportTableData(mainQuery, filter, pageNumber, perPageMaxRecords, sortBy, orderBy);
@@ -547,9 +562,10 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         return companyProfile;
     }
 
+    /**
+     * Find Earning Preview
+     */
     public EarningPreviewDto findEarningPreview(String type, String isin) {
-        String result;
-
         SQLQuery sqlQuery;
         EarningPreviewDto earningPreviewDto;
         try {
@@ -569,12 +585,15 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         return earningPreviewDto;
     }
 
+    /**
+     * Quarterly Earning Preview
+     */
     private EarningPreviewDto constructEarningPreviewResultQuartlery(List<Object[]> rows) {
         EarningPreviewDto earningPreviewDto = new EarningPreviewDto();
         List<EarningPreviewQuarterlyDto> earningPreviewResultList = new ArrayList<>();
         for (Object[] row : rows) {
             String period = row[0] != null ? row[0].toString().trim() : "";
-            String periodAsTimeStamp = DateUtil.getTimeStamp_MMM_yy(period.trim());
+            String periodAsTimeStamp = DateUtils.getTimeStamp_MMM_yy(period.trim());
             String revenue = row[1] != null ? row[1].toString().trim() : "";
             String operatingProfitMargin = row[2] != null ? row[2].toString().trim() : "";
             String profitAfterTax = row[3] != null ? row[3].toString().trim() : "";
@@ -585,41 +604,200 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         return earningPreviewDto;
     }
 
+    /**
+     * Yearly Earning Preview
+     */
     private EarningPreviewDto constructEarningPreviewResultYearly(List<Object[]> rows) {
         EarningPreviewDto earningPreviewDto = new EarningPreviewDto();
         List<EarningPreviewYearlyDto> earningPreviewResultList = new ArrayList<>();
         for (Object[] row : rows) {
             String period = row[0] != null ? row[0].toString().trim() : "";
-            String periodAsTimeStamp = DateUtil.getTimeStamp_MMM_yy(period.trim());
+            String periodAsTimeStamp = DateUtils.getTimeStamp_MMM_yy(period.trim());
             String revenue = row[1] != null ? row[1].toString().trim() : "";
             String operatingProfitMargin = row[2] != null ? row[2].toString().trim() : "";
             String profitAfterTax = row[3] != null ? row[3].toString().trim() : "";
             String eps = row[4] != null ? row[4].toString().trim() : "";
             String netOperatingCashFlow = row[5] != null ? row[5].toString().trim() : "";
             String roe = row[6] != null ? row[6].toString().trim() : "";
-            earningPreviewResultList.add(new EarningPreviewYearlyDto(periodAsTimeStamp, revenue, operatingProfitMargin, profitAfterTax, eps, netOperatingCashFlow,roe));
+            earningPreviewResultList.add(new EarningPreviewYearlyDto(periodAsTimeStamp, revenue, operatingProfitMargin, profitAfterTax, eps, netOperatingCashFlow, roe));
         }
         earningPreviewDto.setEarningPreviewResult(earningPreviewResultList);
         return earningPreviewDto;
     }
 
-    public String findCompanyNews(String ticker) {
-        String result = "{\"companyNews\":[{\"broadcastDate\":\"1553350993\",\"subject\":\"Allotment of Securities\"}]}";
+    /**
+     * Find Company News RECORD STATS
+     */
+    public String findCompanyNewsRecordStats(String ticker, String perPageMaxRecords)
+            throws RuntimeException {
+        try {
+            return buildRecordStats(ticker, perPageMaxRecords, NEWS_QUERY);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Find Company News
+     */
+    public String findCompanyNews(String ticker, String pageNumber, String perPageMaxRecords) {
+        String result;
+        List<CompanyNews> newsList = new ArrayList<>();
+        try {
+            String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+            String newQuery = NEWS_QUERY + applyPagination;
+            SQLQuery sqlQuery = commonDao.getNativeQuery(newQuery, new String[]{ticker});
+            List<Object[]> rows = sqlQuery.list();
+
+            for (Object[] row : rows) {
+                String subject = row[0] != null ? row[0].toString().trim() : "";
+                String broadcastDate = row[1] != null ? row[1].toString().trim() : "";
+                broadcastDate = DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_hh_mmformatter, broadcastDate);
+                newsList.add(new CompanyNews(broadcastDate, subject));
+            }
+
+            Map<String, Object> paramsMap = new LinkedHashMap<>();
+            paramsMap.put("companyNews", newsList);
+            result = JsonUtil.createJsonFromParamsMap(paramsMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 
-    public String findCorporateAction(String ticker) {
-        String result = "{\"corpAction\":[{\"purpose\":\" Interim Dividend - Re 1 Per Share\",\"faceValue\":\"10\",\"exDate\":\"1553350993\",\"recordDate\":\"1553350993\"}]}";
+    /**
+     * Find Corporate Action RECORD STATS
+     */
+    public String findCorporateActionRecordStats(String ticker, String perPageMaxRecords)
+            throws RuntimeException {
+        try {
+            return buildRecordStats(ticker, perPageMaxRecords, CA_QUERY);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Find Corporate Action
+     */
+    public String findCorporateAction(String ticker, String pageNumber, String perPageMaxRecords) {
+        String result;
+        List<CorpAction> newsList = new ArrayList<>();
+        try {
+            String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+            String newQuery = CA_QUERY + applyPagination;
+            SQLQuery sqlQuery = commonDao.getNativeQuery(newQuery, new String[]{ticker});
+            List<Object[]> rows = sqlQuery.list();
+
+            for (Object[] row : rows) {
+                String purpose = row[0] != null ? row[0].toString().trim() : "";
+                String faceValue = row[1] != null ? row[1].toString().trim() : "";
+
+                String exDate = row[2] != null ? row[2].toString().trim() : "";
+                exDate = DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter, exDate);
+
+                String recordDate = row[3] != null ? row[3].toString().trim() : "";
+                recordDate = "-".equals(recordDate) ? "0" : DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter, recordDate);
+                newsList.add(new CorpAction(purpose, faceValue, exDate, recordDate));
+            }
+            Map<String, Object> paramsMap = new LinkedHashMap<>();
+            paramsMap.put("corpAction", newsList);
+            result = JsonUtil.createJsonFromParamsMap(paramsMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 
-    public String findCalendar(String ticker) {
-        String result = "{\"calendar\":[{\"boardMeetinDate\":\"1553350993\",\"purpose\":\"Buyback\"}]}";
+    /**
+     * Find Calendar RECORD STATS
+     */
+    public String findCalendarRecordStats(String ticker, String perPageMaxRecords)
+            throws RuntimeException {
+        try {
+            return buildRecordStats(ticker, perPageMaxRecords, CAL_QUERY);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Find Calendar
+     */
+    public String findCalendar(String ticker, String pageNumber, String perPageMaxRecords) {
+        String result;
+        List<CompanyCalendar> newsList = new ArrayList<>();
+        try {
+            String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+            String newQuery = CAL_QUERY + applyPagination;
+            SQLQuery sqlQuery = commonDao.getNativeQuery(newQuery, new String[]{ticker});
+            List<Object[]> rows = sqlQuery.list();
+
+            for (Object[] row : rows) {
+                String purpose = row[0] != null ? row[0].toString().trim() : "";
+                String boardMeetingDate = row[1] != null ? row[1].toString().trim() : "";
+                boardMeetingDate = DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter, boardMeetingDate);
+                newsList.add(new CompanyCalendar(purpose, boardMeetingDate));
+            }
+
+            Map<String, Object> paramsMap = new LinkedHashMap<>();
+            paramsMap.put("calendar", newsList);
+            result = JsonUtil.createJsonFromParamsMap(paramsMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return result;
     }
 
-    public String findPriceHistory(String isin) {
-        String result = "{\"priceHistory\":[{\"stockId\":\"1\",\"priceSource\":\"NSE\",\"priceDate\":\"1553350993\",\"openPrice\":\"23.4\",\"highPrice\":\"40.3\",\"lowPrice\":\"39.7\",\"closePrice\":\"45.0\",\"lastTradePrice\":\"34.7\"}]}";
+    /**
+     * Find Price History RECORD STATS
+     */
+    public String findPriceHistoryRecordStats(String isin, String perPageMaxRecords)
+            throws RuntimeException {
+        try {
+            return buildRecordStats(isin, perPageMaxRecords, PRICE_HISTORY_QUERY);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Find Price History
+     */
+    public String findPriceHistory(String isin, String pageNumber, String perPageMaxRecords) {
+        String result;
+        List<CompanyPriceHistory> priceHistoryList = new ArrayList<>();
+        try {
+            String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+            String newQuery = PRICE_HISTORY_QUERY + applyPagination;
+            SQLQuery sqlQuery = commonDao.getNativeQuery(newQuery, new String[]{isin});
+            List<Object[]> rows = sqlQuery.list();
+
+            for (Object[] row : rows) {
+                String stockId = row[0] != null ? row[0].toString().trim() : "";
+                String priceSourceCode = row[1] != null ? row[1].toString().trim() : "";
+
+                String priceDate = row[2] != null ? row[2].toString().trim() : "";
+                priceDate = DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, priceDate);
+
+                String openPrice = row[3] != null ? row[3].toString().trim() : "";
+                String highPrice = row[4] != null ? row[4].toString().trim() : "";
+                String lowPrice = row[5] != null ? row[5].toString().trim() : "";
+                String closePrice = row[6] != null ? row[6].toString().trim() : "";
+                String lastTradePrice = row[7] != null ? row[7].toString().trim() : "";
+
+
+                priceHistoryList.add(new CompanyPriceHistory(stockId, priceSourceCode, priceDate,
+                        openPrice, highPrice, lowPrice, closePrice, lastTradePrice));
+            }
+
+            Map<String, Object> paramsMap = new LinkedHashMap<>();
+            paramsMap.put("priceHistory", priceHistoryList);
+            result = JsonUtil.createJsonFromParamsMap(paramsMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 
@@ -633,6 +811,24 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
             value = BigInteger.valueOf(0);
         }
         return value;
+    }
+
+    private String buildRecordStats(String ticker, String perPageMaxRecords, String newsQuery) throws IOException {
+        SQLQuery sqlQuery = commonDao.getNativeQuery(newsQuery, new String[]{ticker});
+        List<Object[]> rows = sqlQuery.list();
+
+        int totalRecords = rows.size();
+
+        // Calculate Last page number
+        long lastPageNumber = CommonCodeUtils.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+
+        // Prepare Json result
+        Map<String, Object> paramsMap = new LinkedHashMap<>();
+        paramsMap.put("firstPageNumber", 1);
+        paramsMap.put("lastPageNumber", lastPageNumber);
+        paramsMap.put("totalRecords", totalRecords);
+
+        return JsonUtil.createJsonFromObject(paramsMap);
     }
 
     private static String readUri(String uri) throws IOException {

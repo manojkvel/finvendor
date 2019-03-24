@@ -12,38 +12,15 @@ import java.util.TimeZone;
 /**
  * @author ayush on May 13, 2018
  */
-public class DateUtil {
+public class DateUtils {
 
     //for Mar_18
     private static final SimpleDateFormat simpleDateFormat_MMM_yy = new SimpleDateFormat("MMM_yy");
+    public static final DateFormat  dd_MMM_yyyy_hh_mmformatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
+    public static final DateFormat  dd_MMM_yyyy_formatter = new SimpleDateFormat("dd-MMM-yyyy");
+    public static final DateFormat  dd_MMM_yyyy_formatter1 = new SimpleDateFormat("dd/MMM/yy HH:mm:ss");
 
-    public static Date getPreviousWorkingDay(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
 
-        int dayOfWeek;
-        do {
-            cal.add(Calendar.DAY_OF_MONTH, -1);
-            dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-        } while (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY || isHoliday(cal));
-
-        return cal.getTime();
-    }
-
-    public static boolean isHoliday(Calendar cal) {
-        // int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
-        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-
-        //TBD need to calculate No of working days in Current Month
-        if (month == 12 && dayOfMonth == 25) {
-            return true;
-        }
-
-        // more checks
-
-        return false;
-    }
 
     public static String getCurrentYear() {
         return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.YEAR));
@@ -81,11 +58,9 @@ public class DateUtil {
         return dayOfMonth;
     }
 
-    public static long convertStringToTimestamp(String str_date) throws ParseException {
-        DateFormat formatter;
-        formatter = new SimpleDateFormat("MM/dd/yy");
+    public static String convertStringToTimestamp(DateFormat formatter,String str_date) throws ParseException {
         Date date = (Date) formatter.parse(str_date);
-        return date.getTime();
+        return String.valueOf(date.getTime());
     }
 
     public static long convertFvPriceDateToTimestamp(String str_date) throws ParseException {
@@ -153,7 +128,6 @@ public class DateUtil {
     }
 
     /**
-     *
      * @param dateStr format must be like  Mar_19
      * @return
      */
@@ -165,7 +139,7 @@ public class DateUtil {
         } catch (ParseException e) {
             timestamp = "0";
         }
-        timestamp=String.valueOf(date.getTime());
+        timestamp = String.valueOf(date.getTime());
         return timestamp;
     }
 
@@ -204,13 +178,8 @@ public class DateUtil {
 //		String currentYear = getCurrentYear();
 //		System.out.println(currentDay+currentMonth+currentYear);
 
-        String pattern = "MMM_yy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-        Date date = simpleDateFormat.parse("Mar_18");
-        System.out.println(date); //Prints Tue Oct 15 10:20:56 SGT 2015
-
-
+        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
     }
 
 }

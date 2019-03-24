@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class CommonCodeUtil {
+public final class CommonCodeUtils {
 
     public static long calculatePaginationLastPage(String perPageMaxRecords, long totalRecords) {
         long lastPageNumber;

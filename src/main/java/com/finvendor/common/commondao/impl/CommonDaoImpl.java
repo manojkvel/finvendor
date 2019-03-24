@@ -1,14 +1,11 @@
 package com.finvendor.common.commondao.impl;
 
-import com.finvendor.common.util.CommonCodeUtil;
-import com.finvendor.common.util.JsonUtil;
+import com.finvendor.common.util.CommonCodeUtils;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.Roles;
-import com.finvendor.model.VendorResearchReportsResearchDetails;
 import com.finvendor.model.vo.VendorReportFile;
 import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
 import com.finvendor.common.commondao.AbstractCommonDao;
-import com.finvendor.api.resources.researchreport.sector.dto.IndustrySubTypeNameDto;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
@@ -103,8 +100,8 @@ public class CommonDaoImpl extends AbstractCommonDao {
 			List<Object[]> rows = sqlQuery.list();
 			totalRecords = rows.size();
 			if (totalRecords != 0L) {
-				long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
-				recordStatsJson = CommonCodeUtil.getRecordStatsJson(totalRecords, lastPageNumber);
+				long lastPageNumber = CommonCodeUtils.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+				recordStatsJson = CommonCodeUtils.getRecordStatsJson(totalRecords, lastPageNumber);
 			} else {
 				recordStatsJson = "";
 			}
@@ -116,7 +113,7 @@ public class CommonDaoImpl extends AbstractCommonDao {
 
 	@Override
 	public String applyPagination(String pageNumber, String perPageMaxRecords) {
-		return CommonCodeUtil.applyPagination(pageNumber,perPageMaxRecords);
+		return CommonCodeUtils.applyPagination(pageNumber,perPageMaxRecords);
 	}
 
 	@Override

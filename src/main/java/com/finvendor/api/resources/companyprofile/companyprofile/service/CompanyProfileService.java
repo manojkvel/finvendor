@@ -5,7 +5,7 @@ import com.finvendor.api.resources.companyprofile.companyprofile.dto.EarningPrev
 import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
 import com.finvendor.api.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.common.commondao.DaoUtils;
-import com.finvendor.common.util.CommonCodeUtil;
+import com.finvendor.common.util.CommonCodeUtils;
 import com.finvendor.common.util.LocaleUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class CompanyProfileService {
     public String getCompanyProfile(final String isinCode) throws Exception {
         try {
             int researchAreaId = 7; // TDB: Ayush : get id 7 (Equity) from db based on ISINCODE
-            int countryId = CommonCodeUtil.getCountryId(isinCode);
+            int countryId = CommonCodeUtils.getCountryId(isinCode);
             String mainQuery = DaoUtils.getParamertizedQuery(companyProfileDao.companyProfileDataQuery,
                     new Object[]{researchAreaId, countryId, isinCode});
             return companyProfileDao.getCompanyProfile(mainQuery, isinCode);
@@ -46,7 +46,7 @@ public class CompanyProfileService {
         final String geo = LocaleUtil.getCurrentGeo();
         try {
             int researchAreaId = 7; // TDB: Ayush : get id 7 (Equity) from db based on ISINCODE
-            int countryId = CommonCodeUtil.getCountryId(isinCode);
+            int countryId = CommonCodeUtils.getCountryId(isinCode);
             // Future work
             // else if (isinCode.contains("UK")) {
             // } else {
@@ -69,7 +69,7 @@ public class CompanyProfileService {
                                                   String sortBy, String orderBy) throws Exception {
         final String geo = LocaleUtil.getCurrentGeo();
         try {
-            int countryId = CommonCodeUtil.getCountryId(isinCode);
+            int countryId = CommonCodeUtils.getCountryId(isinCode);
 
             EquityResearchFilter filter = new EquityResearchFilter();
             filter.setGeo(geo);
@@ -91,33 +91,65 @@ public class CompanyProfileService {
         }
     }
 
-    public String findCompanyNews(final String ticker) throws Exception {
+    public String findCompanyNewsRecordStats(final String ticker, final String perPageMaxRecords) throws Exception {
         try {
-            return companyProfileDao.findCompanyNews(ticker);
+            return companyProfileDao.findCompanyNewsRecordStats(ticker, perPageMaxRecords);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
-    public String findCorporateAction(final String ticker) throws Exception {
+    public String findCompanyNews(final String ticker, String pageNumber, String perPageMaxRecords) throws Exception {
         try {
-            return companyProfileDao.findCorporateAction(ticker);
+            return companyProfileDao.findCompanyNews(ticker, pageNumber, perPageMaxRecords);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
-    public String findCalendar(final String ticker) throws Exception {
+    public String findCorporateActionRecordStats(final String ticker, final String perPageMaxRecords) throws Exception {
         try {
-            return companyProfileDao.findCalendar(ticker);
+            return companyProfileDao.findCorporateActionRecordStats(ticker, perPageMaxRecords);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
-    public String findPriceHistory(final String isin) throws Exception {
+    public String findCorporateAction(final String ticker, String pageNumber, String perPageMaxRecords) throws Exception {
         try {
-            return companyProfileDao.findPriceHistory(isin);
+            return companyProfileDao.findCorporateAction(ticker, pageNumber, perPageMaxRecords);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String findCalendarRecordStats(final String ticker, final String perPageMaxRecords) throws Exception {
+        try {
+            return companyProfileDao.findCalendarRecordStats(ticker, perPageMaxRecords);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String findCalendar(final String ticker, String pageNumber, String perPageMaxRecords) throws Exception {
+        try {
+            return companyProfileDao.findCalendar(ticker, pageNumber, perPageMaxRecords);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String findPriceHistoryRecordStats(final String ticker, final String perPageMaxRecords) throws Exception {
+        try {
+            return companyProfileDao.findPriceHistoryRecordStats(ticker, perPageMaxRecords);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public String findPriceHistory(final String isin, String pageNumber, String perPageMaxRecords) throws Exception {
+        try {
+            return companyProfileDao.findPriceHistory(isin, pageNumber, perPageMaxRecords);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }

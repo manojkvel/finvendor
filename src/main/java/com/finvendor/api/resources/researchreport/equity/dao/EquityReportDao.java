@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.researchreport.equity.dao;
 
-import com.finvendor.common.util.CommonCodeUtil;
-import com.finvendor.common.util.DateUtil;
+import com.finvendor.common.util.CommonCodeUtils;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.commondao.ICommonDao;
@@ -52,7 +52,7 @@ public class EquityReportDao {
             int totalRecords = rows.size();
 
             // Calculate Last page number
-            long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+            long lastPageNumber = CommonCodeUtils.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
 
             // Prepare Json result
             Map<String, Object> paramsMap = new LinkedHashMap<>();
@@ -89,7 +89,7 @@ public class EquityReportDao {
             String applyOrderBy = ResearchReportUtil.applyOrderBy(sortBy, orderBy);
 
             // Apply Pagination
-            String applyPagination = CommonCodeUtil.applyPagination(pageNumber, perPageMaxRecords);
+            String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
 
             // Prepare final query
             String finalMainQuery = queryWithAppliedFilter + applyOrderBy + applyPagination;
@@ -119,7 +119,7 @@ public class EquityReportDao {
                 equityResult.setCmp(cmp);
                 String priceDate = row[7] != null ? row[7].toString() : "";
                 equityResult.setPriceDate(String
-                        .valueOf(DateUtil.convertFvPriceDateToTimestamp(priceDate)));
+                        .valueOf(DateUtils.convertFvPriceDateToTimestamp(priceDate)));
                 //equityResult.setPe(row[8] != null ? row[8].toString() : "");
                 equityResult.set_3YrPatGrowth(row[9] != null ? row[9].toString() : "");
 

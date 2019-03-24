@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.markets.dao;
 
 import com.finvendor.common.constant.AppConstant;
-import com.finvendor.common.util.DateUtil;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.model.Indice;
 import com.finvendor.model.IndiceDetails;
 import org.apache.commons.lang.StringUtils;
@@ -153,9 +153,9 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
     }
 
     private String getDateForNifty50() {
-        String currentDay = DateUtil.getDayNumber();
-        String currentMonth = DateUtil.getCurrentMonth();
-        String currentYear = DateUtil.get2DigitCurrentYear();
+        String currentDay = DateUtils.getDayNumber();
+        String currentMonth = DateUtils.getCurrentMonth();
+        String currentYear = DateUtils.get2DigitCurrentYear();
         return currentDay + "-" + currentMonth + "-" + currentYear;
     }
 }

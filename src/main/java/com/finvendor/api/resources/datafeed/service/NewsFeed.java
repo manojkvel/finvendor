@@ -54,17 +54,29 @@ public class NewsFeed extends AbstractDataFeedService {
             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] newsColums = line.split(COMMA);
+
                 String ticker = newsColums[0].trim();
                 ticker = StringUtils.replace(ticker, "\"", "");
 
                 String companyName = newsColums[1].trim();
                 companyName = StringUtils.replace(companyName, "\"", "");
 
-                String subject = newsColums[3].trim();
-                subject = StringUtils.replace(subject, "\"", "");
+                String subject;
+                String broadcastDate;
+                if (newsColums.length == 5) {
+                    subject = newsColums[3].trim();
+                    subject = StringUtils.replace(subject, "\"", "");
 
-                String broadcastDate = newsColums[4].trim();
-                broadcastDate = StringUtils.replace(broadcastDate, "\"", "");
+                    broadcastDate = newsColums[4].trim();
+                    broadcastDate = StringUtils.replace(broadcastDate, "\"", "");
+
+                } else {
+                    subject = newsColums[3].trim() + "," + newsColums[4].trim();
+                    subject = StringUtils.replace(subject, "\"", "");
+
+                    broadcastDate = newsColums[5].trim();
+                    broadcastDate = StringUtils.replace(broadcastDate, "\"", "");
+                }
 
 
                 SQLQuery query1 = commonDao.getNativeQuery("select * from company_news where ticker=?", new Object[]{ticker});

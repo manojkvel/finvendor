@@ -22,7 +22,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  * @author ayush on April 30, 2018
  */
 @Controller
-@RequestMapping(value= WebUriConstants.BASE_URI)
+@RequestMapping(value = WebUriConstants.BASE_URI)
 public class CompanyProfileController {
     private static final Logger logger = LoggerFactory.getLogger(CompanyProfileController.class.getName());
 
@@ -93,9 +93,9 @@ public class CompanyProfileController {
      */
     @GetMapping(value = "/companyprofile/companynews/recordstat")
     public ResponseEntity<?> findCompanyNewsRecordstat(@RequestParam(value = "ticker") String ticker,
-                                             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
+                                                       @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         try {
-            return new ResponseEntity<>("{\"firstPageNumber\":1,\"lastPageNumber\":1,\"totalRecords\":4}", HttpStatus.OK);
+            return new ResponseEntity<>(cps.findCompanyNewsRecordStats(ticker, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> findCompanyNewsRecordstat(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_COMPANY_NEWS.getCode(), COMPANY_PROFILE_COMPANY_NEWS.getUserMessage(), e);
@@ -106,9 +106,11 @@ public class CompanyProfileController {
      * Company News
      */
     @GetMapping(value = "/companyprofile/companynews")
-    public ResponseEntity<?> findCompanyNews(@RequestParam(value = "ticker") String ticker) {
+    public ResponseEntity<?> findCompanyNews(@RequestParam(value = "ticker") String ticker,
+                                             @RequestParam(value = "pageNumber") String pageNumber,
+                                             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         try {
-            return new ResponseEntity<>(cps.findCompanyNews(ticker), HttpStatus.OK);
+            return new ResponseEntity<>(cps.findCompanyNews(ticker, pageNumber, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> findCompanyNews(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_COMPANY_NEWS.getCode(), COMPANY_PROFILE_COMPANY_NEWS.getUserMessage(), e);
@@ -117,13 +119,13 @@ public class CompanyProfileController {
 
 
     /**
-     *  Corporate Action - Record Stats
+     * Corporate Action - Record Stats
      */
     @GetMapping(value = "/companyprofile/corpaction/recordstat")
     public ResponseEntity<?> findCorporateActionRecordStats(@RequestParam(value = "ticker") String ticker,
-                                             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
+                                                            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         try {
-            return new ResponseEntity<>("{\"firstPageNumber\":1,\"lastPageNumber\":1,\"totalRecords\":4}", HttpStatus.OK);
+            return new ResponseEntity<>(cps.findCorporateActionRecordStats(ticker, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> findCorporateActionRecordStats(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_CORP_ACTION.getCode(), COMPANY_PROFILE_CORP_ACTION.getUserMessage(), e);
@@ -135,9 +137,11 @@ public class CompanyProfileController {
      * Corporate Action
      */
     @GetMapping(value = "/companyprofile/corpaction")
-    public ResponseEntity<?> findCorporateAction(@RequestParam(value = "ticker") String ticker) {
+    public ResponseEntity<?> findCorporateAction(@RequestParam(value = "ticker") String ticker,
+                                                 @RequestParam(value = "pageNumber") String pageNumber,
+                                                 @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         try {
-            return new ResponseEntity<>(cps.findCorporateAction(ticker), HttpStatus.OK);
+            return new ResponseEntity<>(cps.findCorporateAction(ticker, pageNumber, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> findCorporateAction(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_CORP_ACTION.getCode(), COMPANY_PROFILE_CORP_ACTION.getUserMessage(), e);
@@ -146,13 +150,13 @@ public class CompanyProfileController {
 
 
     /**
-     *  Calendar - Record Stats
+     * Calendar - Record Stats
      */
     @GetMapping(value = "/companyprofile/calendar/recordstat")
     public ResponseEntity<?> findCalendarRecordStats(@RequestParam(value = "ticker") String ticker,
-                                                            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
+                                                     @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         try {
-            return new ResponseEntity<>("{\"firstPageNumber\":1,\"lastPageNumber\":1,\"totalRecords\":4}", HttpStatus.OK);
+            return new ResponseEntity<>(cps.findCalendarRecordStats(ticker, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> findCalendarRecordStats(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_CALENDAR.getCode(), COMPANY_PROFILE_CALENDAR.getUserMessage(), e);
@@ -163,9 +167,11 @@ public class CompanyProfileController {
      * Calendar
      */
     @GetMapping(value = "/companyprofile/calendar")
-    public ResponseEntity<?> findCalendar(@RequestParam(value = "ticker") String ticker) {
+    public ResponseEntity<?> findCalendar(@RequestParam(value = "ticker") String ticker,
+                                          @RequestParam(value = "pageNumber") String pageNumber,
+                                          @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         try {
-            return new ResponseEntity<>(cps.findCalendar(ticker), HttpStatus.OK);
+            return new ResponseEntity<>(cps.findCalendar(ticker, pageNumber, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> findCalendar(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_CALENDAR.getCode(), COMPANY_PROFILE_CALENDAR.getUserMessage(), e);
@@ -173,13 +179,13 @@ public class CompanyProfileController {
     }
 
     /**
-     *  Price History - Record Stats
+     * Price History - Record Stats
      */
     @GetMapping(value = "/companyprofile/pricehistory/recordstat")
     public ResponseEntity<?> findPriceHistoryRecordStats(@RequestParam(value = "isin") String isin,
-                                                     @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
+                                                         @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         try {
-            return new ResponseEntity<>("{\"firstPageNumber\":1,\"lastPageNumber\":1,\"totalRecords\":4}", HttpStatus.OK);
+            return new ResponseEntity<>(cps.findPriceHistoryRecordStats(isin, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> findPriceHistoryRecordStats(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_PRICE_HISTORY.getCode(), COMPANY_PROFILE_PRICE_HISTORY.getUserMessage(), e);
@@ -190,9 +196,11 @@ public class CompanyProfileController {
      * Price History
      */
     @GetMapping(value = "/companyprofile/pricehistory")
-    public ResponseEntity<?> findPriceHistory(@RequestParam(value = "isin") String isin) {
+    public ResponseEntity<?> findPriceHistory(@RequestParam(value = "isin") String isin,
+                                              @RequestParam(value = "pageNumber") String pageNumber,
+                                              @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         try {
-            return new ResponseEntity<>(cps.findPriceHistory(isin), HttpStatus.OK);
+            return new ResponseEntity<>(cps.findPriceHistory(isin, pageNumber, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("IWebCompanyProfile -> findPriceHistory(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_PRICE_HISTORY.getCode(), COMPANY_PROFILE_PRICE_HISTORY.getUserMessage(), e);
