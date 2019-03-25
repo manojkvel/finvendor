@@ -1,4 +1,4 @@
-package com.finvendor.api.resources.stockupdate.dao;
+package com.finvendor.api.resources.stockpriceupdate.dao;
 
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;

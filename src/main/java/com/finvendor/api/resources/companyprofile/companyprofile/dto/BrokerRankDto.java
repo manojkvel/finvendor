@@ -1,13 +1,13 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dto;
 
-public class BrokerRank {
+public class BrokerRankDto {
     private int totalBuyRecomm;
     private int totalSellRecomm;
     private int totalNeutralRecomm;
     private float averageTargetPrice;
     private float upside;
 
-    public BrokerRank(int totalBuyRecomm, int totalSellRecomm, int totalNeutralRecomm, float averageTargetPrice, float upside) {
+    public BrokerRankDto(int totalBuyRecomm, int totalSellRecomm, int totalNeutralRecomm, float averageTargetPrice, float upside) {
         this.totalBuyRecomm = totalBuyRecomm;
         this.totalSellRecomm = totalSellRecomm;
         this.totalNeutralRecomm = totalNeutralRecomm;

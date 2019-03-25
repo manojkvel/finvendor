@@ -1,6 +1,6 @@
 package com.finvendor.api.resources.markets.controller;
 
-import com.finvendor.common.util.DateUtil;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.infra.persist.IFilePersist;
 import com.finvendor.common.infra.upload.IFileUpload;
@@ -99,9 +99,9 @@ public class MarketPersistController {
 
     private String getBhavCopyPriceUrl() {
         String bhavCopyPriceUrl = finvendorProperties.getProperty("nse_bhav_copy_price_url");
-        String dayNumber = DateUtil.getDayNumber();
-        String threeLetterMonthName = DateUtil.getThreeLetterMonthName();
-        String year = DateUtil.getYear();
+        String dayNumber = DateUtils.getDayNumber();
+        String threeLetterMonthName = DateUtils.getThreeLetterMonthName();
+        String year = DateUtils.getYear();
         bhavCopyPriceUrl = StringUtils.replace(bhavCopyPriceUrl, "$DAY", dayNumber);
         bhavCopyPriceUrl = StringUtils.replace(bhavCopyPriceUrl, "$MON", threeLetterMonthName);
         bhavCopyPriceUrl = StringUtils.replace(bhavCopyPriceUrl, "$YEAR", year);
@@ -110,9 +110,9 @@ public class MarketPersistController {
 
     private String getNiftyIndicesPriceUrl() {
         String niftyIndicesSourceUrl = finvendorProperties.getProperty("nifty_indices_source_path");
-        String currentDay = DateUtil.getDayNumber();
-        String currentMonth = DateUtil.getCurrentMonthDigit();
-        String currentYear = DateUtil.getCurrentYear();
+        String currentDay = DateUtils.getDayNumber();
+        String currentMonth = DateUtils.getCurrentMonthDigit();
+        String currentYear = DateUtils.getCurrentYear();
         String dateForUrl=currentDay+currentMonth+currentYear;
         niftyIndicesSourceUrl = StringUtils.replace(niftyIndicesSourceUrl, "DATE", dateForUrl);
         return niftyIndicesSourceUrl;

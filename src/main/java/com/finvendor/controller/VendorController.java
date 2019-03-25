@@ -1,9 +1,8 @@
 package com.finvendor.controller;
 
 import com.finvendor.common.constant.AppConstant;
-import com.finvendor.common.util.DateUtil;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.common.util.LogUtil;
 import com.finvendor.exception.ApplicationException;
 import com.finvendor.form.*;
 import com.finvendor.json.bean.VendorAnalyticsApplicationsOfferingJson;
@@ -14,8 +13,6 @@ import com.finvendor.model.*;
 import com.finvendor.model.VendorDataCoverage;
 import com.finvendor.model.VendorDistribution;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.companyprofile.pricealert.controller.ConsumerPriceAlertMailController;
-import com.finvendor.api.resources.companyprofile.pricealert.service.ConsumerPriceAlertService;
 import com.finvendor.api.webutil.WebUtil;
 import com.finvendor.service.*;
 import com.finvendor.util.CommonUtils;
@@ -2998,7 +2995,7 @@ public class VendorController {
         ModelAndView modelAndView = new ModelAndView("empty");
 
         //Date Format Validation - It should be in "dd/MM/yyyy" format
-        if (!DateUtil.isDateValid(researchReportDate, AppConstant.FV_PRICE_DATE_ONLY_FORMAT)) {
+        if (!DateUtils.isDateValid(researchReportDate, AppConstant.FV_PRICE_DATE_ONLY_FORMAT)) {
             modelAndView.addObject("status", "Error Updating Offering details, cause: Invalid Research Report Date format found, send date in format : " + AppConstant.FV_PRICE_DATE_ONLY_FORMAT);
             return modelAndView;
         }

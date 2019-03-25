@@ -2,16 +2,16 @@ package com.finvendor.api.resources.companyprofile.companyprofile.dto;
 
 import java.util.Map;
 
-public class PriceHistory {
+public class PriceHistoryDto {
     private Map<String,String> stock;
     private Map<String,String> nifty50;
 
 
-    public PriceHistory() {
+    public PriceHistoryDto() {
 
     }
 
-    public PriceHistory(Map<String, String> stock, Map<String, String> nifty50) {
+    public PriceHistoryDto(Map<String, String> stock, Map<String, String> nifty50) {
         this.stock = stock;
         this.nifty50 = nifty50;
     }

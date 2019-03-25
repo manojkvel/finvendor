@@ -1,6 +1,9 @@
 package com.finvendor.common.infra.download;
 
+import com.finvendor.api.resources.datafeed.controller.DataFeedController;
 import com.finvendor.common.util.LogUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
@@ -8,6 +11,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class URLReader {
+    private static final Logger logger = LoggerFactory.getLogger(URLReader.class.getName());
 
     public static void copyURLToFile(URL url, File file) throws IOException {
 
@@ -36,7 +40,7 @@ public class URLReader {
                 output.write(buffer, 0, n);
             }
 
-            System.out.println("File '" + file + "' downloaded successfully!");
+            logger.info("File '" + file + "' downloaded successfully!");
         } finally {
 
             if (input != null) {

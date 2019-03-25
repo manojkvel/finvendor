@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.markets.dao;
 
-import com.finvendor.common.util.CommonCodeUtil;
-import com.finvendor.common.util.DateUtil;
+import com.finvendor.common.util.CommonCodeUtils;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.commondao.ICommonDao;
@@ -163,9 +163,9 @@ public class MarketsDao {
         int attempt = 1;
         String result = "";
 
-        String currentDay = DateUtil.getDayNumber();
-        String currentMonth = DateUtil.getCurrentMonthDigit();
-        String currentYear = DateUtil.getCurrentYear();
+        String currentDay = DateUtils.getDayNumber();
+        String currentMonth = DateUtils.getCurrentMonthDigit();
+        String currentYear = DateUtils.getCurrentYear();
 
         /**
          * Algo:
@@ -220,7 +220,7 @@ public class MarketsDao {
         for (Object[] row : rows) {
             String id = row[0] != null ? row[0].toString().trim() : "";
             String date = row[1] != null ? row[1].toString().trim() : "";
-            date_in_millis = String.valueOf(DateUtil.convertFvPriceDateToTimestamp(date));
+            date_in_millis = String.valueOf(DateUtils.convertFvPriceDateToTimestamp(date));
             break;
         }
         return date_in_millis;
@@ -338,11 +338,11 @@ public class MarketsDao {
             totalRecords = rows.size();
 
             if (totalRecords != 0L) {
-                long lastPageNumber = CommonCodeUtil.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
-                recordStatsJson = CommonCodeUtil.getRecordStatsJson(totalRecords, lastPageNumber);
+                long lastPageNumber = CommonCodeUtils.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+                recordStatsJson = CommonCodeUtils.getRecordStatsJson(totalRecords, lastPageNumber);
             } else {
                 long lastPageNumber = 1L;
-                recordStatsJson = CommonCodeUtil.getRecordStatsJson(totalRecords, lastPageNumber);
+                recordStatsJson = CommonCodeUtils.getRecordStatsJson(totalRecords, lastPageNumber);
                 ;
             }
         } catch (IOException e) {
@@ -394,7 +394,7 @@ public class MarketsDao {
 
         String mainQuery = applyFilter(indexFilter);
         mainQuery = mainQuery + applyOrderBy(type, sortBy, orderBy);
-        mainQuery = mainQuery + CommonCodeUtil.applyPagination(pageNumber, perPageMaxRecords);
+        mainQuery = mainQuery + CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
         logger.info("*** Markets Query:\n{}\n", mainQuery);
 
         SQLQuery query = commonDao.getNativeQuery(mainQuery, null);

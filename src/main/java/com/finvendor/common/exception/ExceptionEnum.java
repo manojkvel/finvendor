@@ -53,6 +53,11 @@ public enum ExceptionEnum {
 	VO_OP("FV0037", "Internal error - Unable to perform VO operation like Save|Delete|Update|Find|FindAll, Please contact Finvendor admin for support!!"),
 
 	COMPANY_PROFILE_EARNING_PREVIEW("FV0038", "Internal error - Unable to get earning preview, Please contact Finvendor admin for support!!"),
+	COMPANY_PROFILE_COMPANY_NEWS("FV0039", "Internal error - Unable to get company news, Please contact Finvendor admin for support!!"),
+	COMPANY_PROFILE_CORP_ACTION("FV0040", "Internal error - Unable to get corporate action, Please contact Finvendor admin for support!!"),
+	COMPANY_PROFILE_CALENDAR("FV0041", "Internal error - Unable to get calendar data, Please contact Finvendor admin for support!!"),
+	COMPANY_PROFILE_PRICE_HISTORY("FV0042", "Internal error - Unable to get price history, Please contact Finvendor admin for support!!"),
+	DATA_FEED("FV0043", "Internal error - Unable to perform data feed operation, Please contact Finvendor admin for support!!"),
 
 
 
@@ -61,7 +66,7 @@ public enum ExceptionEnum {
 	private String code;
 	private String userMessage;
 
-	private ExceptionEnum(String code, String userMessage) {
+	ExceptionEnum(String code, String userMessage) {
 		this.code = code;
 		this.userMessage = userMessage;
 	}
@@ -77,9 +82,4 @@ public enum ExceptionEnum {
 	public String getUserMessage() {
 		return userMessage;
 	}
-
-	public void setUserMessage(String userMessage) {
-		this.userMessage = userMessage;
-	}
-
 }

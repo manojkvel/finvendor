@@ -7,7 +7,7 @@ import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.resources.companyprofile.pricealert.dto.ConsumerPriceAlertDetails;
 import com.finvendor.api.resources.companyprofile.pricealert.dto.ConsumerPriceAlertDetailsWrapper;
-import com.finvendor.api.resources.stockupdate.service.StockPriceUpdateService;
+import com.finvendor.api.resources.stockpriceupdate.service.StockPriceUpdateService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

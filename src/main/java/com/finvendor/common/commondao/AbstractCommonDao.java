@@ -72,14 +72,14 @@ public abstract class AbstractCommonDao implements ICommonDao {
 	public SQLQuery getNativeQuery(String sql, Object[] conditionValue) {
 		SQLQuery query = this.sessionFactory.getCurrentSession().createSQLQuery(sql);
 		if (conditionValue != null) {
-			for (int i = 0; i < conditionValue.length; i++) {
-				Object object = conditionValue[i];
+			for (int index = 0; index < conditionValue.length; index++) {
+				Object object = conditionValue[index];
 				if (object instanceof String) {
 					String stringTypeValue = (String) object;
-					query.setString(i, stringTypeValue);
+					query.setString(index, stringTypeValue);
 				} else {
 					Integer integerTypeValue = (Integer) object;
-					query.setInteger(i, integerTypeValue);
+					query.setInteger(index, integerTypeValue);
 				}
 			}
 		}

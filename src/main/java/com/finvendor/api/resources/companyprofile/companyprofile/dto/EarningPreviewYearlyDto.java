@@ -1,20 +1,22 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dto;
 
-public class EarningPreviewResult {
+public class EarningPreviewYearlyDto {
     private String period;
     private String revenue;
     private String operatingProfitMargin;
     private String profitAfterTax;
     private String eps;
     private String netOperatingCashFlow;
+    private String roe;
 
-    public EarningPreviewResult(String period, String revenue, String operatingProfitMargin, String profitAfterTax, String eps, String netOperatingCashFlow) {
+    public EarningPreviewYearlyDto(String period, String revenue, String operatingProfitMargin, String profitAfterTax, String eps, String netOperatingCashFlow, String roe) {
         this.period = period;
         this.revenue = revenue;
         this.operatingProfitMargin = operatingProfitMargin;
         this.profitAfterTax = profitAfterTax;
         this.eps = eps;
         this.netOperatingCashFlow = netOperatingCashFlow;
+        this.roe = roe;
     }
 
     public String getPeriod() {
@@ -63,5 +65,13 @@ public class EarningPreviewResult {
 
     public void setNetOperatingCashFlow(String netOperatingCashFlow) {
         this.netOperatingCashFlow = netOperatingCashFlow;
+    }
+
+    public String getRoe() {
+        return roe;
+    }
+
+    public void setRoe(String roe) {
+        this.roe = roe;
     }
 }

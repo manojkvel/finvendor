@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class CommonCodeUtil {
+public final class CommonCodeUtils {
 
     public static long calculatePaginationLastPage(String perPageMaxRecords, long totalRecords) {
         long lastPageNumber;
@@ -52,5 +52,15 @@ public final class CommonCodeUtil {
         Map<String, Object> paramsMap = new LinkedHashMap<>();
         paramsMap.put(key, companyDataList);
         return JsonUtil.createJsonFromParamsMap(paramsMap);
+    }
+
+    public static  int getCountryId(String isinCode) {
+        int countryId = 1;
+        if (isinCode.contains("IN")) {
+            countryId = 1;
+        } else if (isinCode.contains("SG")) {
+            countryId = 3;
+        }
+        return countryId;
     }
 }
