@@ -1967,6 +1967,13 @@ button {
 	width: 33.3%;
 }
 
+
+
+#footer {
+	position: relative;
+	z-index: 0;
+}
+
 /*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {
@@ -2182,11 +2189,6 @@ button {
 
 	.nav-container {
 		height: 43px;
-	}
-
-	#footer {
-		position: relative;
-		z-index: 0;
 	}
 
 	#company_profile .subheader #summary_content,

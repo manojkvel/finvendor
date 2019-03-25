@@ -225,9 +225,9 @@
 														<li><a href="#research_report_content">Research Reports</a></li>
 														<li><a href="#financials_content">Financials</a></li>
 														<li><a href="#results_calendar_content">Results Calendar</a></li>
-														<li><a href="#shareholding_content">Shareholding</a></li>
 														<li><a href="#news_feed_content">News Feed</a></li>
 														<li><a href="#corp_action_content">Corp. Action</a></li>
+														<li><a href="#shareholding_content">Price History</a></li>
 													</ul>
 												</div>
 											</div>
@@ -401,125 +401,129 @@
 										<div class="inner_breadcrumb">
 											<h5>Financials</h5>
 										</div>
-										<div id="quarterly_fin_statement">
-											<h4>Preceding 4 Quarter Financial Statement (with %QoQ change)</h4>
-											<div class="quarterly_fin_content">
-												<table>
-													<thead>
-														<th>(INR, Millions)</th>
-														<th>Jun'19</th>
-														<th>Sep'19</th>
-														<th>Dec'19</th>
-														<th>Mar'20</th>
-													</thead>
-													<tbody>
-														<tr>
-															<td>Revenue</td>
-															<td>111 (-2%)</td>
-															<td>112 (1%)</td>
-															<td>113 (3%)</td>
-															<td>114 (2%)</td>
-														</tr>
-														<tr>
-															<td>Operating Profit Margin(%)</td>
-															<td>11</td>
-															<td>12</td>
-															<td>12.1</td>
-															<td>12.22</td>
-														</tr>
-														<tr>
-															<td>Profit After Tax (PAT)</td>
-															<td>11 (-2%)</td>
-															<td>12 (1%)</td>
-															<td>13 (3%)</td>
-															<td>14 (2%)</td>
-														</tr>
-														<tr>
-															<td>EPS (Diluted)</td>
-															<td>1 (-2%)</td>
-															<td>1 (1%)</td>
-															<td>1.3 (3%)</td>
-															<td>1.4 (2%)</td>
-														</tr>
-														<tr>
-															<td>Net Operating Cash flow</td>
-															<td>1 (-2%)</td>
-															<td>1 (1%)</td>
-															<td>1.3 (3%)</td>
-															<td>1.4 (2%)</td>
-														</tr>
-													</tbody>
-												</table>
+										<ul class="nav nav-tabs">
+											<li class="active">
+												<a href="#quarterly_fin_statement">Quarterly</a>
+											</li>
+											<li>
+												<a href="#yearly_fin_statement">Annually</a>
+											</li>
+										</ul>
+										<div class="tab-content">
+											<div id="quarterly_fin_statement">
+												<h4>Preceding 4 Quarter Financial Statement (with %QoQ change)</h4>
+												<div class="quarterly_fin_content">
+													<table>
+														<thead>
+															<th>(INR, Millions)</th>
+															<th>Jun'19</th>
+															<th>Sep'19</th>
+															<th>Dec'19</th>
+															<th>Mar'20</th>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Revenue</td>
+																<td>111 (-2%)</td>
+																<td>112 (1%)</td>
+																<td>113 (3%)</td>
+																<td>114 (2%)</td>
+															</tr>
+															<tr>
+																<td>Operating Profit Margin(%)</td>
+																<td>11</td>
+																<td>12</td>
+																<td>12.1</td>
+																<td>12.22</td>
+															</tr>
+															<tr>
+																<td>Profit After Tax (PAT)</td>
+																<td>11 (-2%)</td>
+																<td>12 (1%)</td>
+																<td>13 (3%)</td>
+																<td>14 (2%)</td>
+															</tr>
+															<tr>
+																<td>EPS (Basic)</td>
+																<td>1 (-2%)</td>
+																<td>1 (1%)</td>
+																<td>1.3 (3%)</td>
+																<td>1.4 (2%)</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
 											</div>
-										</div>
-										<div id="yearly_fin_statement">
-											<h4>Preceding 5 Years Financial Results (with %YoY change)</h4>
-											<div class="yearly_fin_content">
-												<table>
-													<thead>
-														<th>(INR, Millions)</th>
-														<th>Mar'15</th>
-														<th>Mar'16</th>
-														<th>Mar'17</th>
-														<th>Mar'18</th>
-														<th>Mar'19</th>
-													</thead>
-													<tbody>
-														<tr>
-															<td>Revenue</td>
-															<td>111 (-2%)</td>
-															<td>112 (1%)</td>
-															<td>113 (3%)</td>
-															<td>114 (2%)</td>
-															<td>114 (2%)</td>
-														</tr>
-														<tr>
-															<td>Operating Profit Margin(%)</td>
-															<td>11</td>
-															<td>12</td>
-															<td>12.1</td>
-															<td>12.22</td>
-															<td>12.22</td>
-														</tr>
-														<tr>
-															<td>Profit After Tax (PAT)</td>
-															<td>11 (-2%)</td>
-															<td>12 (1%)</td>
-															<td>13 (3%)</td>
-															<td>14 (2%)</td>
-															<td>14 (2%)</td>
-														</tr>
-														<tr>
-															<td>EPS (Diluted)</td>
-															<td>1 (-2%)</td>
-															<td>1 (1%)</td>
-															<td>1.3 (3%)</td>
-															<td>1.4 (2%)</td>
-															<td>1.4 (2%)</td>
-														</tr>
-														<tr>
-															<td>Net Operating Cash flow</td>
-															<td>1 (-2%)</td>
-															<td>1 (1%)</td>
-															<td>1.3 (3%)</td>
-															<td>1.4 (2%)</td>
-															<td>1.4 (2%)</td>
-														</tr>
-													</tbody>
-												</table>
+											<div id="yearly_fin_statement">
+												<h4>Preceding 5 Years Financial Results (with %YoY change)</h4>
+												<div class="yearly_fin_content">
+													<table>
+														<thead>
+															<th>(INR, Millions)</th>
+															<th>Mar'15</th>
+															<th>Mar'16</th>
+															<th>Mar'17</th>
+															<th>Mar'18</th>
+															<th>Mar'19</th>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Revenue</td>
+																<td>111 (-2%)</td>
+																<td>112 (1%)</td>
+																<td>113 (3%)</td>
+																<td>114 (2%)</td>
+																<td>114 (2%)</td>
+															</tr>
+															<tr>
+																<td>Operating Profit Margin(%)</td>
+																<td>11</td>
+																<td>12</td>
+																<td>12.1</td>
+																<td>12.22</td>
+																<td>12.22</td>
+															</tr>
+															<tr>
+																<td>Profit After Tax (PAT)</td>
+																<td>11 (-2%)</td>
+																<td>12 (1%)</td>
+																<td>13 (3%)</td>
+																<td>14 (2%)</td>
+																<td>14 (2%)</td>
+															</tr>
+															<tr>
+																<td>EPS (Basic)</td>
+																<td>1 (-2%)</td>
+																<td>1 (1%)</td>
+																<td>1.3 (3%)</td>
+																<td>1.4 (2%)</td>
+																<td>1.4 (2%)</td>
+															</tr>
+															<tr>
+																<td>Net Operating Cash flow</td>
+																<td>1 (-2%)</td>
+																<td>1 (1%)</td>
+																<td>1.3 (3%)</td>
+																<td>1.4 (2%)</td>
+																<td>1.4 (2%)</td>
+															</tr>
+															<tr>
+																<td>ROE</td>
+																<td>1 (-2%)</td>
+																<td>1 (1%)</td>
+																<td>1.3 (3%)</td>
+																<td>1.4 (2%)</td>
+																<td>1.4 (2%)</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
 											</div>
 										</div>
 									</div>
-
 									<div id="results_calendar_content" class="container-fluid">
 										<div class="inner_breadcrumb">
 											<h5>Results Calendar</h5>
-										</div>
-										<p>To be available soon</p>
-									</div>
-									<div id="shareholding_content" class="container-fluid">
-										<div class="inner_breadcrumb">
-											<h5>Shareholding</h5>
 										</div>
 										<p>To be available soon</p>
 									</div>
@@ -532,6 +536,12 @@
 									<div id="corp_action_content" class="container-fluid">
 										<div class="inner_breadcrumb">
 											<h5>Corporate Action</h5>
+										</div>
+										<p>To be available soon</p>
+									</div>
+									<div id="shareholding_content" class="container-fluid">
+										<div class="inner_breadcrumb">
+											<h5>Price History</h5>
 										</div>
 										<p>To be available soon</p>
 									</div>

@@ -1116,6 +1116,307 @@ function getCompanyEarningsPreviewAPI(companyId) {
 }
 
 getCompanyEarningsPreviewAPI();
+setQuarterlyCompanyEarningsPreview();
+setYearlyCompanyEarningsPreview();
+
+function setQuarterlyCompanyEarningsPreview() {
+
+    var response = {
+      "earningPreviewResult": [
+            {
+              "period": "1519842600000",
+              "revenue": "2525.5",
+              "operatingProfitMargin": "6.07",
+              "profitAfterTax": "102.5",
+              "eps": "4.84"
+            },
+            {
+              "period": "1527791400000",
+              "revenue": "2712.7",
+              "operatingProfitMargin": "5.91",
+              "profitAfterTax": "102.2",
+              "eps": "4.82"
+            },
+            {
+              "period": "1535740200000",
+              "revenue": "2543.9",
+              "operatingProfitMargin": "7.29",
+              "profitAfterTax": "108.3",
+              "eps": "5.11"
+            },
+            {
+              "period": "1543602600000",
+              "revenue": "1966.3",
+              "operatingProfitMargin": "9.74",
+              "profitAfterTax": "197.9",
+              "eps": "9.34"
+            }
+        ]};
+
+
+        var earningPreviewSorted = response.earningPreviewResult;
+        earningPreviewSorted.sort(function(a, b){return a.period - b.period});
+
+        console.log(earningPreviewSorted);
+
+
+        var length = earningPreviewSorted.length;
+        var currency = "INR";
+        var mapCurrency = (currency == 'INR') ? ', Crores' : ', Millions';
+
+        var html = "";
+        var quarterlyHeader = '';
+        var tableHead = '';
+        var quarterlyRevenue = '';
+        var quarterlyOperatingProfitMargin = '';
+        var quarterlyPAT = '';
+        var quarterlyEPS = '';
+
+        for(var i = 0; i < length; i++) {
+            var month = timeStampToDateNew(Number(earningPreviewSorted[i].period))[1];
+            var yr = timeStampToDateNew(Number(earningPreviewSorted[i].period))[3];
+            quarterlyHeader = quarterlyHeader + "<th>" + month + "'" + yr + "</th>";
+        }
+
+        tableHead = "<th>(" + currency + mapCurrency + ")</th>" + quarterlyHeader;
+
+        var prevRevenue = '';
+        var diffRevenue = '';
+
+        for(var i = 0; i < length; i++) {
+            var revenue = (earningPreviewSorted[i].revenue != undefined && earningPreviewSorted[i].revenue != '-') ? parseFloat(earningPreviewSorted[i].revenue).toFixed(1) : '-';
+            
+            if(prevRevenue != '') {
+                diffRevenue = "(" + parseFloat((revenue - prevRevenue)*100/ prevRevenue).toFixed(1) + "%)";
+            }
+            prevRevenue = revenue;
+
+            console.log("diffRevenue:: " + diffRevenue);
+            quarterlyRevenue = quarterlyRevenue + "<td>" + revenue + " " + diffRevenue + "</td>";
+        }
+
+        quarterlyRevenue = "<tr><td>Revenue</td>" + quarterlyRevenue + "</tr>";
+
+        for(var i = 0; i < length; i++) {
+            var operatingProfitMargin = (earningPreviewSorted[i].operatingProfitMargin != undefined && earningPreviewSorted[i].operatingProfitMargin != '-') ? parseFloat(earningPreviewSorted[i].operatingProfitMargin).toFixed(1) : '-';
+            quarterlyOperatingProfitMargin = quarterlyOperatingProfitMargin + "<td>" + operatingProfitMargin + "</td>";
+        }
+
+        quarterlyOperatingProfitMargin = "<tr><td>Operating Profit Margin(%)</td>" + quarterlyOperatingProfitMargin + "</tr>";
+
+        var prevProfitAfterTax = '';
+        var diffProfitAfterTax = '';
+
+        for(var i = 0; i < length; i++) {
+            var profitAfterTax = (earningPreviewSorted[i].profitAfterTax != undefined && earningPreviewSorted[i].profitAfterTax != '-') ? parseFloat(earningPreviewSorted[i].profitAfterTax).toFixed(1) : '-';
+            if(prevProfitAfterTax != '') {
+                diffProfitAfterTax = "(" + parseFloat((profitAfterTax - prevProfitAfterTax)*100/ prevProfitAfterTax).toFixed(1) + "%)";
+            }
+            prevProfitAfterTax = profitAfterTax;
+
+            console.log("diffProfitAfterTax:: " + diffProfitAfterTax);
+            quarterlyPAT = quarterlyPAT + "<td>" + profitAfterTax + " " + diffProfitAfterTax + "</td>";
+        }
+
+        quarterlyPAT = "<tr><td>Profit After Tax (PAT)</td>" + quarterlyPAT + "</tr>";
+
+        var prevEPS = '';
+        var diffEPS = '';
+
+        for(var i = 0; i < length; i++) {
+            var eps = (earningPreviewSorted[i].eps != undefined && earningPreviewSorted[i].eps != '-') ? parseFloat(earningPreviewSorted[i].eps).toFixed(1) : '-';
+            if(prevEPS != '') {
+                diffEPS = "(" + parseFloat((eps - prevEPS)*100/ prevEPS).toFixed(1) + "%)";
+            }
+            prevEPS = eps;
+
+            console.log("diffEPS:: " + diffEPS);
+            quarterlyEPS = quarterlyEPS + "<td>" + eps + " " + diffEPS + "</td>";
+        }
+
+        quarterlyEPS = "<tr><td>EPS (Basic)</td>" + quarterlyEPS + "</tr>";
+
+        html = "<table>"
+                + "<thead>"
+                +   tableHead
+                +  "</thead>"
+                +  "<tbody>"
+                + quarterlyRevenue
+                + quarterlyOperatingProfitMargin
+                + quarterlyPAT
+                + quarterlyEPS
+                +  "</tbody>"
+                + "</table>";
+
+        $("#quarterly_fin_statement .quarterly_fin_content").html(html);
+}
+
+function setYearlyCompanyEarningsPreview() {
+
+    var response = {
+      "earningPreviewResult": [
+            {
+              "period": "1393612200000",
+              "revenue": "7703.2",
+              "operatingProfitMargin": "6.72",
+              "profitAfterTax": "228.5",
+              "eps": "10.78",
+              "netOperatingCashFlow": "479",
+              "roe": "8.13"
+            },
+            {
+              "period": "1425148200000",
+              "revenue": "8092.8",
+              "operatingProfitMargin": "7.88",
+              "profitAfterTax": "299.9",
+              "eps": "14.15",
+              "netOperatingCashFlow": "381.7",
+              "roe": "9.97"
+            },
+            {
+              "period": "1456770600000",
+              "revenue": "8597",
+              "operatingProfitMargin": "8.14",
+              "profitAfterTax": "376.3",
+              "eps": "17.76",
+              "netOperatingCashFlow": "862.6",
+              "roe": "11.46"
+            },
+            {
+              "period": "1488306600000",
+              "revenue": "9046.3",
+              "operatingProfitMargin": "8.2",
+              "profitAfterTax": "420",
+              "eps": "19.82",
+              "netOperatingCashFlow": "799.8",
+              "roe": "11.64"
+            },
+            {
+              "period": "1519842600000",
+              "revenue": "6690.1",
+              "operatingProfitMargin": "5.46",
+              "profitAfterTax": "510.9",
+              "eps": "24.11",
+              "netOperatingCashFlow": "N/A",
+              "roe": "12.75"
+            }
+        ]};
+
+
+        var earningPreviewSorted = response.earningPreviewResult;
+        earningPreviewSorted.sort(function(a, b){return a.period - b.period});
+
+        console.log(earningPreviewSorted);
+
+
+        var length = earningPreviewSorted.length;
+        var currency = "INR";
+        var mapCurrency = (currency == 'INR') ? ', Crores' : ', Millions';
+
+        var html = "";
+        var yearlyHeader = '';
+        var tableHead = '';
+        var yearlyRevenue = '';
+        var yearlyOperatingProfitMargin = '';
+        var yearlyPAT = '';
+        var yearlyEPS = '';
+        var yearlyROE = '';
+
+        for(var i = 0; i < length; i++) {
+            var month = timeStampToDateNew(Number(earningPreviewSorted[i].period))[1];
+            var yr = timeStampToDateNew(Number(earningPreviewSorted[i].period))[3];
+            yearlyHeader = yearlyHeader + "<th>" + month + "'" + yr + "</th>";
+        }
+
+        tableHead = "<th>(" + currency + mapCurrency + ")</th>" + yearlyHeader;
+
+        var prevRevenue = '';
+        var diffRevenue = '';
+
+        for(var i = 0; i < length; i++) {
+            var revenue = (earningPreviewSorted[i].revenue != undefined && earningPreviewSorted[i].revenue != '-') ? parseFloat(earningPreviewSorted[i].revenue).toFixed(1) : '-';
+            
+            if(prevRevenue != '') {
+                diffRevenue = "(" + parseFloat((revenue - prevRevenue)*100/ prevRevenue).toFixed(1) + "%)";
+            }
+            prevRevenue = revenue;
+
+            console.log("diffRevenue:: " + diffRevenue);
+            yearlyRevenue = yearlyRevenue + "<td>" + revenue + " " + diffRevenue + "</td>";
+        }
+
+        yearlyRevenue = "<tr><td>Revenue</td>" + yearlyRevenue + "</tr>";
+
+        for(var i = 0; i < length; i++) {
+            var operatingProfitMargin = (earningPreviewSorted[i].operatingProfitMargin != undefined && earningPreviewSorted[i].operatingProfitMargin != '-') ? parseFloat(earningPreviewSorted[i].operatingProfitMargin).toFixed(1) : '-';
+            yearlyOperatingProfitMargin = yearlyOperatingProfitMargin + "<td>" + operatingProfitMargin + "</td>";
+        }
+
+        yearlyOperatingProfitMargin = "<tr><td>Operating Profit Margin(%)</td>" + yearlyOperatingProfitMargin + "</tr>";
+
+        var prevProfitAfterTax = '';
+        var diffProfitAfterTax = '';
+
+        for(var i = 0; i < length; i++) {
+            var profitAfterTax = (earningPreviewSorted[i].profitAfterTax != undefined && earningPreviewSorted[i].profitAfterTax != '-') ? parseFloat(earningPreviewSorted[i].profitAfterTax).toFixed(1) : '-';
+            if(prevProfitAfterTax != '') {
+                diffProfitAfterTax = "(" + parseFloat((profitAfterTax - prevProfitAfterTax)*100/ prevProfitAfterTax).toFixed(1) + "%)";
+            }
+            prevProfitAfterTax = profitAfterTax;
+
+            console.log("diffProfitAfterTax:: " + diffProfitAfterTax);
+            yearlyPAT = yearlyPAT + "<td>" + profitAfterTax + " " + diffProfitAfterTax + "</td>";
+        }
+
+        yearlyPAT = "<tr><td>Profit After Tax (PAT)</td>" + yearlyPAT + "</tr>";
+
+        var prevEPS = '';
+        var diffEPS = '';
+
+        for(var i = 0; i < length; i++) {
+            var eps = (earningPreviewSorted[i].eps != undefined && earningPreviewSorted[i].eps != '-') ? parseFloat(earningPreviewSorted[i].eps).toFixed(1) : '-';
+            if(prevEPS != '') {
+                diffEPS = "(" + parseFloat((eps - prevEPS)*100/ prevEPS).toFixed(1) + "%)";
+            }
+            prevEPS = eps;
+
+            console.log("diffEPS:: " + diffEPS);
+            yearlyEPS = yearlyEPS + "<td>" + eps + " " + diffEPS + "</td>";
+        }
+
+        yearlyEPS = "<tr><td>EPS (Basic)</td>" + yearlyEPS + "</tr>";
+
+        var prevROE = '';
+        var diffROE = '';
+
+        for(var i = 0; i < length; i++) {
+            var roe = (earningPreviewSorted[i].roe != undefined && earningPreviewSorted[i].roe != '-') ? parseFloat(earningPreviewSorted[i].roe).toFixed(1) : '-';
+            if(prevROE != '') {
+                diffROE = "(" + parseFloat((roe - prevROE)*100/ prevROE).toFixed(1) + "%)";
+            }
+            prevROE = roe;
+
+            console.log("diffROE:: " + diffROE);
+            yearlyROE = yearlyROE + "<td>" + roe + " " + diffROE + "</td>";
+        }
+
+        yearlyROE = "<tr><td>ROE</td>" + yearlyROE + "</tr>";
+
+        html = "<table>"
+                + "<thead>"
+                +   tableHead
+                +  "</thead>"
+                +  "<tbody>"
+                + yearlyRevenue
+                + yearlyOperatingProfitMargin
+                + yearlyPAT
+                + yearlyEPS
+                + yearlyROE
+                +  "</tbody>"
+                + "</table>";
+
+        $("#yearly_fin_statement .yearly_fin_content").html(html);
+}
 
 jQuery(document).ready(function() {
 
@@ -1140,11 +1441,19 @@ jQuery(document).ready(function() {
    var wrap = $(".subheader");
 
    $( window ).scroll(function() {
-
-      if ($(this).scrollTop() > 320) {
-        wrap.addClass("fix-subheader");
+        var screenWidth = $(window).width();
+        if(screenWidth < 768) {
+            if ($(this).scrollTop() > 770) {
+                wrap.addClass("fix-subheader");
+            } else {
+                wrap.removeClass("fix-subheader");
+            }
         } else {
-            wrap.removeClass("fix-subheader");
+            if ($(this).scrollTop() > 320) {
+                wrap.addClass("fix-subheader");
+            } else {
+                wrap.removeClass("fix-subheader");
+            }
         }
 
     });
