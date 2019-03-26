@@ -623,6 +623,13 @@ body#home {
 	line-height: 20px;
 }
 
+#financials_content .nav-tabs>li.active>a, 
+#financials_content .nav-tabs>li.active>a:focus, 
+#financials_content .nav-tabs>li.active>a:hover, 
+#financials_content .nav-tabs>li>a:hover {
+	background: #2f889a !important;
+}
+
 #company_profile .subheader_content {
 	padding: 0;
 }
@@ -758,6 +765,18 @@ table .normal_font p {
 	border: 1px solid #ddd;
 	min-height: auto;
 	height: auto;
+}
+
+#financials_content h4 {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#financials_content .nav-tabs>li.subHeaderActive>a, 
+#financials_content .nav-tabs>li.subHeaderActive>a:focus, 
+#financials_content .nav-tabs>li.subHeaderActive>a:hover, 
+#financials_content .nav-tabs>li>a:hover {
+	background: #2f889a !important;
 }
 
 .quarterly_fin_content,
