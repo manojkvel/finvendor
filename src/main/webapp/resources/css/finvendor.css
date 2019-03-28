@@ -765,6 +765,12 @@ table .normal_font p {
 	border: 1px solid #ddd;
 	min-height: auto;
 	height: auto;
+	text-align: right;
+}
+
+#financials_content table th:first-child,
+#financials_content table td:first-child {
+	text-align: left;
 }
 
 #financials_content h4 {
@@ -1923,7 +1929,7 @@ button {
 #broker_stock_rating_container {
 	margin-top: -50px;
 	max-width: 100%;
-	max-height: 275px;
+	max-height: 270px;
 }
 
 #broker_stock_rating_container h4 {
@@ -1941,7 +1947,15 @@ button {
 
 #broker_stock_rating_container ul {
 	text-align: center;
-	margin: 10px 0 0;
+	margin: -10px 0 0;
+	background: lightgray;
+	position: relative;
+	padding: 5px 0;
+	font-weight: bold;
+}
+
+#broker_stock_rating_container ul p {
+	margin: 0;
 }
 
 #broker_stock_rating_container ul li span {
@@ -1986,6 +2000,11 @@ button {
 	width: 33.3%;
 }
 
+#broker_stock_rating_container .disclaimer {
+	text-align: right;
+	font-size: 11px;
+	margin-right: 20px;
+}
 
 
 #footer {

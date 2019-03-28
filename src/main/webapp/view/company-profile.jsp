@@ -411,7 +411,7 @@
 										</ul>
 										<div class="tab-content">
 											<div id="quarterly_fin_statement" class="tab-pane fade in active">
-												<h4>Preceding 4 Quarter Financial Statement (with %QoQ change)</h4>
+												<h4>Preceding 4 Quarters Financial Results (with %QoQ change)</h4>
 												<div class="quarterly_fin_content">
 												</div>
 											</div>

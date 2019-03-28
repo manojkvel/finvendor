@@ -729,6 +729,8 @@ setBrokerRatingHtml = function(response) {
         }
     };*/
 
+    var totalRecomm = response.brokerRank.totalBuyRecomm + response.brokerRank.totalSellRecomm + response.brokerRank.totalNeutralRecomm;
+
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(function() {
 
@@ -793,32 +795,17 @@ setBrokerRatingHtml = function(response) {
       }
 
       var html = "<ul>"
-                + "<li>Consensus Target Price: <span>" + averageTargetPrice  + "</span> <span class='upside " + upsideClass +  "'>(" + upside + " " + "<i class='" + upsideIcon + "'>" + "</i>)</span></li>"
+                + "<li>Consensus Target Price <p><span>" + averageTargetPrice  + "</span> <span class='upside " + upsideClass +  "'>(" + upside + " " + "<i class='" + upsideIcon + "'>" + "</i>)</span></p></li>"
                 + "</ul>"
       $("#broker_stock_rating_container .broker_stock_rating_ui").append(html);
-      $("#broker_stock_rating_container .broker_stock_rating_ui").prepend("<h4>Analyst's Stock Rating</h4>");
+      $("#broker_stock_rating_container .broker_stock_rating_ui").prepend("<h4>Analyst's Stock Rating<sup>*</sup></h4>");
       $("#broker_stock_rating_container .broker_stock_rating_ui").css({
         'background': '#eee',
-        'padding': '10px 10px',
         'margin-right': '20px',
         'overflow': 'hidden'
       });
+      $("#broker_stock_rating_container").append("<p class='disclaimer'>* indicates for " + totalRecomm + " broker</p>");
   });
-
-
-    /*var total = brokerRank.totalBuyRecomm + brokerRank.totalSellRecomm + brokerRank.totalNeutralRecomm;
-
-    var percentageBuyRecomm = (brokerRank.totalBuyRecomm/total)*100;
-    var percentageSellRecomm = (brokerRank.totalSellRecomm/total)*100;
-    var percentageNeutralRecomm = (brokerRank.totalNeutralRecomm/total)*100;
-
-    var html = "<h4>Broker Stock Rating</h4>"
-                + "<div class='broker_stock_rating_ui'>"
-                + "<span style='border: " + percentageBuyRecomm + "px solid green;'>" + brokerRank.totalBuyRecomm + "</span>"
-                + "<span style='border: " + percentageSellRecomm + "px solid red;'>" + brokerRank.totalSellRecomm + "</span>"
-                + "<span style='border: " + percentageNeutralRecomm + "px solid yellow;'>" + brokerRank.totalNeutralRecomm + "</span>"
-                + "</div>";
-    $("#broker_stock_rating_container").html(html);*/
 }
 
 
