@@ -1,6 +1,6 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dto;
 
-public class CompanyPriceHistory {
+public class CompanyPriceHistoryDto {
 
     private String stockId;
     private String priceSourceCode;
@@ -11,7 +11,7 @@ public class CompanyPriceHistory {
     private String closePrice;
     private String lastTracePrice;
 
-    public CompanyPriceHistory(String stockId, String priceSourceCode, String priceDate, String openPrice, String highPrice, String lowPrice, String closePrice, String lastTracePrice) {
+    public CompanyPriceHistoryDto(String stockId, String priceSourceCode, String priceDate, String openPrice, String highPrice, String lowPrice, String closePrice, String lastTracePrice) {
         this.stockId = stockId;
         this.priceSourceCode = priceSourceCode;
         this.priceDate = priceDate;

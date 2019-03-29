@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -50,10 +49,10 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     /**
      * Company Profile Other Query
      */
-    private static final String buyCountQuery = "SELECT count(*) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='buy'";
-    private static final String sellCountQuery = "SELECT count(*) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='sell'";
-    private static final String neutralCountQuery = "SELECT count(*) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='neutral'";
-    private static final String avgCountQuery = "select avg(vendor_report_data.target_price) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
+    private static final String buyCountQuery = "SELECT CAST(count(*) as CHAR(10)),CAST(count(*) as CHAR(10)) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='buy'";
+    private static final String sellCountQuery = "SELECT CAST(count(*) as CHAR(10)),CAST(count(*) as CHAR(10)) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='sell'";
+    private static final String neutralCountQuery = "SELECT CAST(count(*) as CHAR(10)),CAST(count(*) as CHAR(10))  FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=? and vendor_report_data.rsrch_recomm_type='neutral'";
+    private static final String avgCountQuery = "select CAST(avg(vendor_report_data.target_price) as CHAR(10)),  CAST(avg(vendor_report_data.target_price) as char(10)) FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type, research_sub_area, stock_current_prices, stock_current_info, vendor_report_data WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = 1   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
 
     /**
      * Company Research Report Query
@@ -263,7 +262,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
 
                 //Broker Rank
                 List<Integer> brokerRankList = getBrokerRanking(isinCode);
-                float averageTargetPrice = getResearchReportAggregatedData(avgCountQuery, isinCode).floatValue();
+                float averageTargetPrice = Float.parseFloat(getResearchReportAggregatedData(avgCountQuery, isinCode).trim());
                 float upside = averageTargetPrice == 0.0f ? 0.0f : ((averageTargetPrice - cmpAsFloat) / cmpAsFloat) * 100;
                 int totalBuyRecomm = brokerRankList.get(0);
                 int totalSellRecomm = brokerRankList.get(1);
@@ -538,7 +537,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
             paramsMap.put("noOfAnalystReport", equityList.size());
 
             // Total Buy Recomm
-            BigInteger value = getResearchReportAggregatedData(buyCountQuery, isinCode);
+            String value = getResearchReportAggregatedData(buyCountQuery, isinCode);
             paramsMap.put("totalBuyRecomm", value);
 
             // Total Sell Recomm
@@ -642,7 +641,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
      */
     public String findCompanyNews(String ticker, String pageNumber, String perPageMaxRecords) {
         String result;
-        List<CompanyNews> newsList = new ArrayList<>();
+        List<CompanyNewsDto> newsList = new ArrayList<>();
         try {
             String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
             String newQuery = NEWS_QUERY + applyPagination;
@@ -653,7 +652,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 String subject = row[0] != null ? row[0].toString().trim() : "";
                 String broadcastDate = row[1] != null ? row[1].toString().trim() : "";
                 broadcastDate = DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_hh_mmformatter, broadcastDate);
-                newsList.add(new CompanyNews(broadcastDate, subject));
+                newsList.add(new CompanyNewsDto(broadcastDate, subject));
             }
 
             Map<String, Object> paramsMap = new LinkedHashMap<>();
@@ -682,7 +681,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
      */
     public String findCorporateAction(String ticker, String pageNumber, String perPageMaxRecords) {
         String result;
-        List<CorpAction> newsList = new ArrayList<>();
+        List<CorpActionDto> newsList = new ArrayList<>();
         try {
             String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
             String newQuery = CA_QUERY + applyPagination;
@@ -698,7 +697,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
 
                 String recordDate = row[3] != null ? row[3].toString().trim() : "";
                 recordDate = "-".equals(recordDate) ? "0" : DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter, recordDate);
-                newsList.add(new CorpAction(purpose, faceValue, exDate, recordDate));
+                newsList.add(new CorpActionDto(purpose, faceValue, exDate, recordDate));
             }
             Map<String, Object> paramsMap = new LinkedHashMap<>();
             paramsMap.put("corpAction", newsList);
@@ -726,7 +725,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
      */
     public String findCalendar(String ticker, String pageNumber, String perPageMaxRecords) {
         String result;
-        List<CompanyCalendar> newsList = new ArrayList<>();
+        List<CompanyCalendarDto> newsList = new ArrayList<>();
         try {
             String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
             String newQuery = CAL_QUERY + applyPagination;
@@ -737,7 +736,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 String purpose = row[0] != null ? row[0].toString().trim() : "";
                 String boardMeetingDate = row[1] != null ? row[1].toString().trim() : "";
                 boardMeetingDate = DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter, boardMeetingDate);
-                newsList.add(new CompanyCalendar(purpose, boardMeetingDate));
+                newsList.add(new CompanyCalendarDto(purpose, boardMeetingDate));
             }
 
             Map<String, Object> paramsMap = new LinkedHashMap<>();
@@ -767,7 +766,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
      */
     public String findPriceHistory(String isin, String pageNumber, String perPageMaxRecords) {
         String result;
-        List<CompanyPriceHistory> priceHistoryList = new ArrayList<>();
+        List<CompanyPriceHistoryDto> priceHistoryList = new ArrayList<>();
         try {
             String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
             String newQuery = PRICE_HISTORY_QUERY + applyPagination;
@@ -788,7 +787,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 String lastTradePrice = row[7] != null ? row[7].toString().trim() : "";
 
 
-                priceHistoryList.add(new CompanyPriceHistory(stockId, priceSourceCode, priceDate,
+                priceHistoryList.add(new CompanyPriceHistoryDto(stockId, priceSourceCode, priceDate,
                         openPrice, highPrice, lowPrice, closePrice, lastTradePrice));
             }
 
@@ -801,14 +800,12 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         return result;
     }
 
-    private BigInteger getResearchReportAggregatedData(String query, String isinCode) {
-        BigInteger value;
+    private String getResearchReportAggregatedData(String query, String isinCode) {
+        String value="0.0";
         SQLQuery sqlQuery = commonDao.getNativeQuery(query, new String[]{isinCode});
-        Object object = sqlQuery.list().get(0);
-        if (object instanceof BigInteger) {
-            value = (BigInteger) object;
-        } else {
-            value = BigInteger.valueOf(0);
+        List<Object[]> rows = sqlQuery.list();
+        for (Object[] row : rows) {
+            value = row[0] != null ? row[0].toString().trim() : "";
         }
         return value;
     }

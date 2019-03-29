@@ -1,11 +1,11 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dto;
 
-public class CompanyCalendar {
+public class CompanyCalendarDto {
 
     private String purpose;
     private String boardMeetinDate;
 
-    public CompanyCalendar(String purpose, String boardMeetinDate) {
+    public CompanyCalendarDto(String purpose, String boardMeetinDate) {
         this.purpose = purpose;
         this.boardMeetinDate = boardMeetinDate;
     }

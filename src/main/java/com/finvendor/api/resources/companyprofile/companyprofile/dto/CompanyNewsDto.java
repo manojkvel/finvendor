@@ -1,11 +1,11 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dto;
 
-public class CompanyNews {
+public class CompanyNewsDto {
 
     private String broadcastDate;
     private String subject;
 
-    public CompanyNews(String broadcastDate, String subject) {
+    public CompanyNewsDto(String broadcastDate, String subject) {
         this.broadcastDate = broadcastDate;
         this.subject = subject;
     }

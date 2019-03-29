@@ -1,13 +1,13 @@
 package com.finvendor.api.resources.companyprofile.companyprofile.dto;
 
-public class CorpAction {
+public class CorpActionDto {
 
     private String purpose;
     private String faceValue;
     private String exDate;
     private String recordDate;
 
-    public CorpAction(String purpose, String faceValue, String exDate, String recordDate) {
+    public CorpActionDto(String purpose, String faceValue, String exDate, String recordDate) {
         this.purpose = purpose;
         this.faceValue = faceValue;
         this.exDate = exDate;

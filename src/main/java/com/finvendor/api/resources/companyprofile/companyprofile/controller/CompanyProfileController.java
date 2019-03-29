@@ -42,7 +42,6 @@ public class CompanyProfileController {
         }
     }
 
-    // Tab2 Research Report
     @RequestMapping(value = "/companyprofile/recordstat", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCompanyProfileRecordStats(
             @RequestParam(value = "isinCode", required = true) String isinCode,
@@ -57,7 +56,6 @@ public class CompanyProfileController {
         }
     }
 
-    // Tab2 Research Report
     @RequestMapping(value = "/companyprofile/researchreport", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCompanyProfileResearchReport(
             @RequestParam(value = "isinCode", required = true) String isinCode,
