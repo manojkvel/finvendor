@@ -2,8 +2,8 @@ package com.finvendor.api.resources.companyprofile.companyprofile.service;
 
 import com.finvendor.api.resources.companyprofile.companyprofile.dao.CompanyProfileDao;
 import com.finvendor.api.resources.companyprofile.companyprofile.dto.EarningPreviewDto;
-import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
-import com.finvendor.api.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
+import com.finvendor.api.resources.screener.stock.recommendation.dao.EquityReportDao;
+import com.finvendor.api.resources.screener.stock.recommendation.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.common.commondao.DaoUtils;
 import com.finvendor.common.util.CommonCodeUtils;
 import com.finvendor.common.util.LocaleUtil;

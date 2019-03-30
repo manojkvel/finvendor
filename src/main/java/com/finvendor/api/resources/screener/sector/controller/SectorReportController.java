@@ -1,12 +1,12 @@
 package com.finvendor.api.resources.screener.sector.controller;
 
+import com.finvendor.api.resources.screener.sector.dto.SectorReportFilter;
+import com.finvendor.api.resources.screener.sector.service.SectorReportService;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.resources.WebUriConstants;
-import com.finvendor.api.resources.researchreport.sector.dto.SectorReportFilter;
-import com.finvendor.api.resources.researchreport.sector.service.SectorReportService;
 import com.finvendor.api.webutil.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

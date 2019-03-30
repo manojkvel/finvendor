@@ -1,9 +1,9 @@
 package com.finvendor.api.resources.screener.mf.controller;
 
+import com.finvendor.api.resources.screener.mf.dto.MfFilter;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.resources.WebUriConstants;
-import com.finvendor.api.resources.researchreport.mf.dto.MfFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

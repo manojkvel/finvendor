@@ -3,7 +3,6 @@ package com.finvendor.common.commondao;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.Roles;
 import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
-import com.finvendor.api.resources.researchreport.sector.dto.IndustrySubTypeNameDto;
 import org.hibernate.SQLQuery;
 
 import java.io.IOException;

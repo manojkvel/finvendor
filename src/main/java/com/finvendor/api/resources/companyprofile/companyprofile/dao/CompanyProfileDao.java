@@ -2,11 +2,11 @@ package com.finvendor.api.resources.companyprofile.companyprofile.dao;
 
 import com.finvendor.api.resources.companyprofile.companyprofile.dto.*;
 import com.finvendor.api.resources.markets.dao.MarketsDao;
-import com.finvendor.api.resources.researchreport.equity.dao.EquityReportDao;
-import com.finvendor.api.resources.researchreport.equity.dto.filter.ResearchReportFilter;
-import com.finvendor.api.resources.researchreport.equity.dto.filter.impl.EquityResearchFilter;
-import com.finvendor.api.resources.researchreport.equity.dto.result.AbsResearchReportResult;
-import com.finvendor.api.resources.researchreport.equity.dto.result.impl.EquityResearchResult;
+import com.finvendor.api.resources.screener.stock.recommendation.dao.EquityReportDao;
+import com.finvendor.api.resources.screener.stock.recommendation.dto.filter.ResearchReportFilter;
+import com.finvendor.api.resources.screener.stock.recommendation.dto.filter.impl.EquityResearchFilter;
+import com.finvendor.api.resources.screener.stock.recommendation.dto.result.AbsResearchReportResult;
+import com.finvendor.api.resources.screener.stock.recommendation.dto.result.impl.EquityResearchResult;
 import com.finvendor.common.commondao.GenericDao;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.util.CommonCodeUtils;
@@ -27,7 +27,6 @@ import org.springframework.stereotype.Repository;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.net.URL;
 import java.util.*;
 
@@ -801,7 +800,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     }
 
     private String getResearchReportAggregatedData(String query, String isinCode) {
-        String value="0.0";
+        String value = "0.0";
         SQLQuery sqlQuery = commonDao.getNativeQuery(query, new String[]{isinCode});
         List<Object[]> rows = sqlQuery.list();
         for (Object[] row : rows) {
