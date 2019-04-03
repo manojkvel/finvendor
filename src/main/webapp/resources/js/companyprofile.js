@@ -187,6 +187,8 @@ var priceAlertStatus = 'N';
             $("#average_target_price span").text('-');
         }
 
+        response.noOfAnalystReport = totalRecords;
+
         $("#average_target_price span").text(parseFloat(response.averageTargetPrice).toFixed(2));
         $("#no_of_analyst_report span").text(response.noOfAnalystReport);
 
@@ -781,7 +783,7 @@ setBrokerRatingHtml = function(response) {
 
 
       var averageTargetPrice = (response.brokerRank.averageTargetPrice) ? response.companyProfileData.currency + " " + response.brokerRank.averageTargetPrice : '-';
-      var upside = (response.brokerRank.upside != '-') ? response.brokerRank.upside + "%" : '-';
+      var upside = (response.brokerRank.upside != '-') ? parseFloat(response.brokerRank.upside).toFixed(1) + "%" : '-';
 
       var upsideClass = "";
       var upsideIcon = "";
