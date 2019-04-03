@@ -33,7 +33,7 @@ import java.util.*;
 /**
  * @author ayush on May 01, 2018
  */
-@Repository
+@SuppressWarnings("MagicConstant") @Repository
 public class CompanyProfileDao extends GenericDao<EarningPreview> {
     private static final Logger logger = LoggerFactory.getLogger(CompanyProfileDao.class.getName());
 
@@ -576,7 +576,6 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 List<Object[]> rows = sqlQuery.list();
                 earningPreviewDto = constructEarningPreviewResultYearly(rows);
             }
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -804,7 +803,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         SQLQuery sqlQuery = commonDao.getNativeQuery(query, new String[]{isinCode});
         List<Object[]> rows = sqlQuery.list();
         for (Object[] row : rows) {
-            value = row[0] != null ? row[0].toString().trim() : "";
+            value = row[0] != null ? row[0].toString().trim() : "0.0";
         }
         return value;
     }
