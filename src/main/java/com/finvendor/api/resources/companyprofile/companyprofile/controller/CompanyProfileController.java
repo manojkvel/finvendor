@@ -37,12 +37,11 @@ public class CompanyProfileController {
             final String companyProfileData = cps.getCompanyProfile(isinCode);
             return new ResponseEntity<>(companyProfileData, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> getCompanyProfile(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> getCompanyProfile(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE.getCode(), COMPANY_PROFILE.getUserMessage(), e);
         }
     }
 
-    // Tab2 Research Report
     @RequestMapping(value = "/companyprofile/recordstat", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCompanyProfileRecordStats(
             @RequestParam(value = "isinCode", required = true) String isinCode,
@@ -52,12 +51,11 @@ public class CompanyProfileController {
             final String companyProfileRecordStat = cps.getCompanyProfileRecordStat(isinCode, perPageMaxRecords);
             return new ResponseEntity<>(companyProfileRecordStat, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> getCompanyProfileRecordStats(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> getCompanyProfileRecordStats(...) method", e);
             return ErrorUtil.getError(COMPANY_RECORD_STATS.getCode(), COMPANY_RECORD_STATS.getUserMessage(), e);
         }
     }
 
-    // Tab2 Research Report
     @RequestMapping(value = "/companyprofile/researchreport", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getCompanyProfileResearchReport(
             @RequestParam(value = "isinCode", required = true) String isinCode,
@@ -70,7 +68,7 @@ public class CompanyProfileController {
                     perPageMaxRecords, sortBy, orderBy);
             return new ResponseEntity<>(companyResearchReportData, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> getCompanyProfileResearchReport(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> getCompanyProfileResearchReport(...) method", e);
             return ErrorUtil.getError(COMPANY_RESEARCH_REPORT.getCode(), COMPANY_RESEARCH_REPORT.getUserMessage(), e);
         }
     }
@@ -83,7 +81,7 @@ public class CompanyProfileController {
         try {
             return new ResponseEntity<>(cps.findEarningPreview(type, isin), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> findEarningPreview(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findEarningPreview(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_EARNING_PREVIEW.getCode(), COMPANY_PROFILE_EARNING_PREVIEW.getUserMessage(), e);
         }
     }
@@ -97,7 +95,7 @@ public class CompanyProfileController {
         try {
             return new ResponseEntity<>(cps.findCompanyNewsRecordStats(ticker, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> findCompanyNewsRecordstat(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findCompanyNewsRecordstat(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_COMPANY_NEWS.getCode(), COMPANY_PROFILE_COMPANY_NEWS.getUserMessage(), e);
         }
     }
@@ -112,7 +110,7 @@ public class CompanyProfileController {
         try {
             return new ResponseEntity<>(cps.findCompanyNews(ticker, pageNumber, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> findCompanyNews(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findCompanyNews(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_COMPANY_NEWS.getCode(), COMPANY_PROFILE_COMPANY_NEWS.getUserMessage(), e);
         }
     }
@@ -127,7 +125,7 @@ public class CompanyProfileController {
         try {
             return new ResponseEntity<>(cps.findCorporateActionRecordStats(ticker, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> findCorporateActionRecordStats(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findCorporateActionRecordStats(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_CORP_ACTION.getCode(), COMPANY_PROFILE_CORP_ACTION.getUserMessage(), e);
         }
     }
@@ -143,7 +141,7 @@ public class CompanyProfileController {
         try {
             return new ResponseEntity<>(cps.findCorporateAction(ticker, pageNumber, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> findCorporateAction(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findCorporateAction(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_CORP_ACTION.getCode(), COMPANY_PROFILE_CORP_ACTION.getUserMessage(), e);
         }
     }
@@ -158,7 +156,7 @@ public class CompanyProfileController {
         try {
             return new ResponseEntity<>(cps.findCalendarRecordStats(ticker, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> findCalendarRecordStats(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findCalendarRecordStats(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_CALENDAR.getCode(), COMPANY_PROFILE_CALENDAR.getUserMessage(), e);
         }
     }
@@ -173,7 +171,7 @@ public class CompanyProfileController {
         try {
             return new ResponseEntity<>(cps.findCalendar(ticker, pageNumber, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> findCalendar(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findCalendar(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_CALENDAR.getCode(), COMPANY_PROFILE_CALENDAR.getUserMessage(), e);
         }
     }
@@ -187,7 +185,7 @@ public class CompanyProfileController {
         try {
             return new ResponseEntity<>(cps.findPriceHistoryRecordStats(isin, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> findPriceHistoryRecordStats(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findPriceHistoryRecordStats(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_PRICE_HISTORY.getCode(), COMPANY_PROFILE_PRICE_HISTORY.getUserMessage(), e);
         }
     }
@@ -202,7 +200,7 @@ public class CompanyProfileController {
         try {
             return new ResponseEntity<>(cps.findPriceHistory(isin, pageNumber, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("IWebCompanyProfile -> findPriceHistory(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findPriceHistory(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE_PRICE_HISTORY.getCode(), COMPANY_PROFILE_PRICE_HISTORY.getUserMessage(), e);
         }
     }
