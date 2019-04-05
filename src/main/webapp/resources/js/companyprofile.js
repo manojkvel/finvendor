@@ -1465,6 +1465,86 @@ function setYearlyCompanyEarningsPreview() {
     });
 }
 
+getCompanyNewsRecordStats("abc", 10);
+
+function getCompanyNewsData() {
+    var ticker = 
+    getCompanyNewsRecordStats(ticker, perPageMaxRecords).then(function(response) {
+
+        
+
+    }, function(error) {
+
+    });
+}
+
+/**
+* Function to start async call to get record stats
+*/
+function getCompanyNewsRecordStats(ticker, perPageMaxRecords) {
+
+    var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+
+    var url = "/system/api/companyprofile/companynews/recordstat?ticker=" + ticker + "&perPageMaxRecords=" + perPageMaxRecords;
+    return new Promise(function(resolve, reject) {
+        var httpRequest = new XMLHttpRequest({
+            mozSystem: true
+        });
+
+        //httpRequest.timeout = API_TIMEOUT_SMALL;
+        httpRequest.open('GET', url, true);
+        httpRequest.setRequestHeader('Content-Type',
+            'application/json; charset=UTF-8');
+        httpRequest.ontimeout = function () {
+            reject("" + httpRequest.responseText);
+        };
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    resolve(httpRequest.response);
+                } else {
+                    //console.log(httpRequest.status + httpRequest.responseText);
+                    reject(httpRequest.responseText);
+                }
+            } else {
+            }
+        };
+
+        httpRequest.send();
+    });
+};
+
+function getCompanyNewsAPI(ticker) {
+    
+    isProgressLoader(true);
+
+    var url = "/system/api/companyprofile/companynews?ticker=" + ticker;
+    return new Promise(function(resolve, reject) {
+        var httpRequest = new XMLHttpRequest({
+            mozSystem: true
+        });
+        //httpRequest.timeout = API_TIMEOUT_SMALL;
+        httpRequest.open('GET', url, true);
+
+        httpRequest.ontimeout = function () {
+            reject("" + httpRequest.responseText);
+        };
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    resolve(httpRequest.response);
+                } else {
+                    //console.log(httpRequest.status + httpRequest.responseText);
+                    reject(httpRequest.responseText);
+                }
+            } else {
+            }
+        };
+
+        httpRequest.send();
+    });
+}
+
 jQuery(document).ready(function() {
 
     getTabbedContent= function () {
