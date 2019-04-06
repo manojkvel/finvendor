@@ -1,7 +1,6 @@
-package com.finvendor.api.resources.datafeed.controller;
+package com.finvendor.api.resources.dff.controller;
 
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.common.infra.dff.DataFeedService;
 import com.finvendor.common.util.ErrorUtil;
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ import java.util.Properties;
 import static com.finvendor.common.exception.ExceptionEnum.DATA_FEED;
 
 @RestController
-@RequestMapping(value = WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class DataFeedController {
     private static final Logger logger = LoggerFactory.getLogger(DataFeedController.class.getName());
 

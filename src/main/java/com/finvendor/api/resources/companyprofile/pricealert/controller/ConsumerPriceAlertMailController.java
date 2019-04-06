@@ -4,7 +4,6 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.companyprofile.pricealert.dto.ConsumerPriceAlertDetails;
 import com.finvendor.api.resources.companyprofile.pricealert.service.ConsumerPriceAlertMailService;
 import com.finvendor.service.UserService;
@@ -29,7 +28,7 @@ import static com.finvendor.common.exception.ExceptionEnum.RESEARCH_REPORT_MAIL;
 import static com.finvendor.common.exception.ExceptionEnum.UPDATE_PRICE;
 
 @Controller
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class ConsumerPriceAlertMailController {//implements IWebConsumerPriceAlertMail {
     private static final Logger logger = LoggerFactory.getLogger(ConsumerPriceAlertMailController.class.getName());
 

@@ -1,6 +1,5 @@
 package com.finvendor.api.resources.screener.stock.strategies.controller;
 
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.screener.stock.strategies.service.CelebrityInvestorStrategyService;
 import com.finvendor.common.util.ErrorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.finvendor.common.exception.ExceptionEnum.CELEBRITY_INVESTOR_STRATEGY;
 
 @RestController
-@RequestMapping(value = WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class CelebrityInvestorStrategyController {
 
     @Autowired

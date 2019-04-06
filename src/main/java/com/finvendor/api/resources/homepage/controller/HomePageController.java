@@ -2,7 +2,6 @@ package com.finvendor.api.resources.homepage.controller;
 
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.homepage.service.HomePageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ import static com.finvendor.common.exception.ExceptionEnum.HOME_PAGE;
  * @author ayush on April 30, 2018
  */
 @Controller
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class HomePageController {
     @Autowired
     HomePageService homePageService;

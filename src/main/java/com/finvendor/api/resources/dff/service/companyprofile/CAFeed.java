@@ -1,4 +1,4 @@
-package com.finvendor.api.resources.datafeed.service;
+package com.finvendor.api.resources.dff.service.companyprofile;
 
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.infra.dff.AbstractDataFeedService;

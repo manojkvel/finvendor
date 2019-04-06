@@ -7,7 +7,6 @@ import com.finvendor.model.FinVendorUser;
 import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.common.service.CommonService;
 import com.finvendor.api.webutil.WebUtil;
 import com.finvendor.api.webutil.WebUtil.SqlData;
@@ -33,7 +32,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  * @author ayush on Feb 17, 2018
  */
 @Controller
-@RequestMapping(value = WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class CommonController {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonController.class.getName());

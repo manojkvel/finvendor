@@ -2,10 +2,8 @@ package com.finvendor.api.resources.markets.controller;
 
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.markets.dto.indexstock.IndexFilter;
 import com.finvendor.api.resources.markets.service.MarketsService;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
 @Controller
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class MarketsController {
     private static final Logger logger = LoggerFactory.getLogger(MarketsController.class.getName());
 

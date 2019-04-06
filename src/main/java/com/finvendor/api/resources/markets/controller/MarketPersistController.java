@@ -5,7 +5,6 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.infra.persist.IFilePersist;
 import com.finvendor.common.infra.upload.IFileUpload;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ import static com.finvendor.common.exception.ExceptionEnum.MARKETS_PERSIST;
 import static com.finvendor.common.exception.ExceptionEnum.NIFTY_INDICES_PERSIST;
 
 @RestController
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class MarketPersistController {
     private static final Logger logger = LoggerFactory.getLogger(MarketPersistController.class.getName());
 
