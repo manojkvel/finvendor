@@ -2012,6 +2012,15 @@ button {
 	z-index: 0;
 }
 
+#news_feed_content table > thead > tr > th {
+	height: auto;
+	min-height: auto;
+}
+
+#news_feed_content td {
+	text-align: left;
+}
+
 /*-----------------End of Dashboard Metrics----------------*/
 
 @media only screen and (max-width: 479px) {

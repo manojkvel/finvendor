@@ -432,7 +432,15 @@
 										<div class="inner_breadcrumb">
 											<h5>News Feed</h5>
 										</div>
-										<p>To be available soon</p>
+										<table>
+											<thead>
+												<th width="30%">Date</th>
+												<th width="70%">Subject</th>
+											</thead>
+											<tbody>
+												
+											</tbody>
+										</table>
 									</div>
 									<div id="corp_action_content" class="container-fluid">
 										<div class="inner_breadcrumb">

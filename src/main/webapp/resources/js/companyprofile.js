@@ -1465,85 +1465,229 @@ function setYearlyCompanyEarningsPreview() {
     });
 }
 
-getCompanyNewsRecordStats("abc", 10);
-
-function getCompanyNewsData() {
-    var ticker = 
-    getCompanyNewsRecordStats(ticker, perPageMaxRecords).then(function(response) {
-
-        
-
-    }, function(error) {
-
-    });
-}
-
-/**
-* Function to start async call to get record stats
+/*
+** company News Feed
 */
-function getCompanyNewsRecordStats(ticker, perPageMaxRecords) {
 
-    var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+var companyNewsObj = {
+    init: function() {
+        this.firstPageNumber = 1;
+        this.pageNumber = 1;
+        this.lastPageNumber = 1;
+        this.totalRecords = 1;
+        this.currentIndex = 1;
+        this.perPageMaxRecords = 5;
+        this.sortByValue = 'broadcastDate';
+        this.orderBy = 'desc';
 
-    var url = "/system/api/companyprofile/companynews/recordstat?ticker=" + ticker + "&perPageMaxRecords=" + perPageMaxRecords;
-    return new Promise(function(resolve, reject) {
-        var httpRequest = new XMLHttpRequest({
-            mozSystem: true
+        this.id = "#news_feed_content";
+
+        this.ticker = "HDFCBANK";
+
+        this.getCompanyNewsData();
+    },
+
+    getCompanyNewsData: function() {
+        var classRef = this;
+        classRef.getCompanyNewsRecordStats().then(function(stats) {
+            stats = JSON.parse(stats);
+            classRef.firstPageNumber = stats.firstPageNumber;
+            classRef.lastPageNumber = stats.lastPageNumber;
+            classRef.totalRecords = stats.totalRecords;
+
+            classRef.getCompanyNewsAPI().then(function(serverResponse) {
+                $("#news_feed_content .paging_container").remove();
+                serverResponse = JSON.parse(serverResponse);
+                classRef.getCompanyNewsHtml(serverResponse);
+                isProgressLoader(false);
+
+            }, function(error) {
+                console.log(error);
+                isProgressLoader(false);
+                //$("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
+            });
+        }, function(error) {
+
         });
+    },
 
-        //httpRequest.timeout = API_TIMEOUT_SMALL;
-        httpRequest.open('GET', url, true);
-        httpRequest.setRequestHeader('Content-Type',
-            'application/json; charset=UTF-8');
-        httpRequest.ontimeout = function () {
-            reject("" + httpRequest.responseText);
-        };
-        httpRequest.onreadystatechange = function () {
-            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                if (httpRequest.status === 200) {
-                    resolve(httpRequest.response);
+    getCompanyNewsRecordStats: function() {
+        var classRef = this;
+        var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+
+        var url = "/system/api/companyprofile/companynews/recordstat?ticker=" + classRef.ticker + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            //httpRequest.timeout = API_TIMEOUT_SMALL;
+            httpRequest.open('GET', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        //console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
                 } else {
-                    //console.log(httpRequest.status + httpRequest.responseText);
-                    reject(httpRequest.responseText);
                 }
-            } else {
-            }
-        };
+            };
 
-        httpRequest.send();
-    });
+            httpRequest.send();
+        });
+    },
+
+    getCompanyNewsAPI: function() {
+        var classRef = this;
+
+        isProgressLoader(true);
+
+        var url = "/system/api/companyprofile/companynews?ticker=" + classRef.ticker + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            httpRequest.open('GET', url, true);
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCompanyNewsHtml : function(response) {
+        var classRef = this;
+        var companyNewsList = response.companyNews;
+        var len = companyNewsList.length;
+        var htmlCode = '';
+        var rowHtml =   "";
+
+        if(len === 0) {
+            $("#news_feed_content tbody").html("<tr><td colspan='2'>No Matching Records Found</td></tr>");
+            return;
+        }
+
+        for(var i = 0; i < len; i++) {
+
+           
+
+            htmlCode = htmlCode + "<tr>" +
+            "<td>" + 
+            "<div class='date'>" + timeStampToDate(Number(companyNewsList[i].broadcastDate)) + "</div>" + 
+            "</td>" + 
+            "<td>" + 
+            "<div class='subject'>" + companyNewsList[i].subject + "</div>" +
+            "</td>" +
+            "</tr>";
+        }
+
+        $("#news_feed_content tbody").html(htmlCode);
+
+
+        var paginationHtml =    "<div class='paging_container'>"
+                                + "<ul class='pager'>"
+                                 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
+                                 + "<li><span id='records_stats'></span></li>"
+                                 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
+                                + "</ul>"
+                             + "</div>";
+
+        $("#news_feed_content").append(paginationHtml);
+
+        $('#news_feed_content .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+
+
+        classRef.setRecordStats();
+    },
+
+    setRecordStats : function() {
+        var classRef = this;
+
+        if(classRef.currentIndex > classRef.lastPageNumber) {
+            classRef.currentIndex = classRef.lastPageNumber;
+        }
+        $("#news_feed_content #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+    },
+
+    getPaginationIndex : function(event) {
+        var classRef = event.data.this;
+        var currentNode = $(this).attr('id');
+
+        if(currentNode == 'last') {
+            classRef.getLastPageResearchReport();
+        } else if(currentNode == 'next') {
+            classRef.getNextPageCompanyNews();
+        } else if(currentNode == 'prev') {
+            classRef.getPreviousPageResearchReport();
+        } else if(currentNode == 'first') {
+            classRef.getFirstPageResearchReport();
+        }
+    },
+
+    getFirstPageResearchReport : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.firstPageNumber) {
+            classRef.pageNumber = classRef.firstPageNumber;
+            classRef.currentIndex = classRef.firstPageNumber;
+            classRef.getCompanyNewsData();
+        }
+    },
+
+    getLastPageResearchReport : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.lastPageNumber;
+            classRef.currentIndex = (classRef.pageNumber - 1) * classRef.perPageMaxRecords + 1;
+            classRef.getCompanyNewsData();
+        }
+    },
+
+    getNextPageCompanyNews : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber < classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.pageNumber + 1;
+            classRef.currentIndex = classRef.currentIndex + classRef.perPageMaxRecords;
+            classRef.getCompanyNewsData();
+        }
+    },
+
+    getPreviousPageResearchReport : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber > 1) {
+            classRef.pageNumber = classRef.pageNumber - 1;
+            classRef.currentIndex = classRef.currentIndex - classRef.perPageMaxRecords;
+            classRef.getCompanyNewsData();
+        }
+    }
+
 };
 
-function getCompanyNewsAPI(ticker) {
-    
-    isProgressLoader(true);
 
-    var url = "/system/api/companyprofile/companynews?ticker=" + ticker;
-    return new Promise(function(resolve, reject) {
-        var httpRequest = new XMLHttpRequest({
-            mozSystem: true
-        });
-        //httpRequest.timeout = API_TIMEOUT_SMALL;
-        httpRequest.open('GET', url, true);
+companyNewsObj.init();
 
-        httpRequest.ontimeout = function () {
-            reject("" + httpRequest.responseText);
-        };
-        httpRequest.onreadystatechange = function () {
-            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                if (httpRequest.status === 200) {
-                    resolve(httpRequest.response);
-                } else {
-                    //console.log(httpRequest.status + httpRequest.responseText);
-                    reject(httpRequest.responseText);
-                }
-            } else {
-            }
-        };
-
-        httpRequest.send();
-    });
-}
 
 jQuery(document).ready(function() {
 
