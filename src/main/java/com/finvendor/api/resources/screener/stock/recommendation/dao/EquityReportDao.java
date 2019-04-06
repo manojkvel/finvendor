@@ -18,10 +18,7 @@ import org.springframework.stereotype.Repository;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.finvendor.model.vo.VendorReportFile.REPORT_FILE_NAMED_QUERY;
 
@@ -45,10 +42,11 @@ public class EquityReportDao {
             String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
                     ResearchReportUtil.getFilteredQueryPart(equityFilter));
             SQLQuery query = commonDao.getNativeQuery(queryWithAppliedFilter, null);
-            logger.info("getRecordStatistics - Query:{}",queryWithAppliedFilter);
+            logger.info("getRecordStatistics - Query:{}", queryWithAppliedFilter);
             long strt = System.currentTimeMillis();
             List<Object[]> rows = query.list();
-            logger.info("Time Metrics - EquityResearchDaoImpl - getRecordStatistics - Total time record stat:" + (System.currentTimeMillis() - strt) / 1000L + " sec");
+            logger.info("Time Metrics - EquityResearchDaoImpl - getRecordStatistics - Total time record stat:"
+                    + (System.currentTimeMillis() - strt) / 1000L + " sec");
             int totalRecords = rows.size();
 
             // Calculate Last page number
@@ -68,44 +66,25 @@ public class EquityReportDao {
 
     @SuppressWarnings("unchecked")
     public Map<String, EquityResearchResult> findResearchReportTableData(String mainQuery, ResearchReportFilter filter,
-                                                                         String pageNumber,
-                                                                         String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
+            String pageNumber,
+            String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
         logger.debug("findResearchReportTableData - START");
         EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
         Map<String, EquityResearchResult> resultMap = new LinkedHashMap<>();
-        long start;
         try {
-            // Prepare brokerRank data from db
-            List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil.getBrokerRankData(commonDao,
-                    ResearchReportUtil.BROKER_RANK_SELECT_QUERY, orderBy);
 
-            // Apply filter in main query
-            start=System.currentTimeMillis();
-            String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
-                    ResearchReportUtil.getFilteredQueryPart(equityFilter));
-            logger.info("Time Metrics- findResearchReportTableData - Total time taken to apply filter: "+(System.currentTimeMillis()-start)/1000 +" sec");
-
-            // Apply OrderBy
-            String applyOrderBy = ResearchReportUtil.applyOrderBy(sortBy, orderBy);
-
-            // Apply Pagination
-            String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
-
-            // Prepare final query
-            String finalMainQuery = queryWithAppliedFilter + applyOrderBy + applyPagination;
+            String finalMainQuery = buildEuityResearchQuery(mainQuery, pageNumber, perPageMaxRecords, sortBy, orderBy, equityFilter);
 
             logger.info("Equity Research Report Quert: {}", finalMainQuery);
 
             // Execute Query
             SQLQuery query = commonDao.getNativeQuery(finalMainQuery, null);
-
-            start=System.currentTimeMillis();
             List<Object[]> rows = query.list();
-            logger.info("Time Metrics- findResearchReportTableData - Total time taken to fetch Equity Research Report: "+(System.currentTimeMillis()-start)/1000 +" sec");
+            // Prepare brokerRank data from db
+            List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil
+                    .getBrokerRankData(commonDao, ResearchReportUtil.BROKER_RANK_SELECT_QUERY, orderBy);
 
-            List<String> researchDateList = equityFilter.getResearchDate();
             // Process Result
-            start=System.currentTimeMillis();
             for (Object[] row : rows) {
                 EquityResearchResult equityResult = new EquityResearchResult();
                 equityResult.setCompanyId(row[0] != null ? row[0].toString() : "");
@@ -145,10 +124,12 @@ public class EquityReportDao {
                 if (row[21] != null) {
                     if (row[21].toString().isEmpty()) {
                         awarded = "N";
-                    } else {
+                    }
+                    else {
                         awarded = row[21].toString();
                     }
-                } else {
+                }
+                else {
                     awarded = "NA";
                 }
                 equityResult.setAwarded(awarded);
@@ -157,10 +138,12 @@ public class EquityReportDao {
                 if (row[22] != null) {
                     if (row[22].toString().isEmpty()) {
                         researchedByCfa = "N";
-                    } else {
+                    }
+                    else {
                         researchedByCfa = row[22].toString();
                     }
-                } else {
+                }
+                else {
                     researchedByCfa = "NA";
                 }
                 equityResult.setResearchedByCfa(researchedByCfa);
@@ -183,7 +166,8 @@ public class EquityReportDao {
                 float newPe;
                 if (epsTtmAsFloat == 0.0f) {
                     newPeStr = "N/A";
-                } else {
+                }
+                else {
                     newPe = cmpAsFloat / epsTtmAsFloat;
                     newPeStr = String.valueOf(newPe);
                 }
@@ -203,9 +187,72 @@ public class EquityReportDao {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        logger.info("Time Metrics- findResearchReportTableData - Total time taken to process Equity Research Report: "+(System.currentTimeMillis()-start)/1000 +" sec");
         logger.debug("findResearchReportTableData - END");
         return resultMap;
+    }
+
+    public List<Integer> findBrokerRank(String mainQuery, ResearchReportFilter filter) throws RuntimeException {
+
+        String pageNumber = "1";
+        String perPageMaxRecords = "30";
+        String sortBy = "researchDate";
+        String orderBy = "desc";
+        EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
+        Map<String, EquityResearchResult> resultMap = new LinkedHashMap<>();
+        List<Integer> brokerRanks = new ArrayList<>();
+        try {
+            String finalMainQuery = buildEuityResearchQuery(mainQuery, pageNumber, perPageMaxRecords, sortBy, orderBy, equityFilter);
+            logger.info("Equity Research Report Quert: {}", finalMainQuery);
+
+            // Execute Query
+            SQLQuery query = commonDao.getNativeQuery(finalMainQuery, null);
+            List<Object[]> rows = query.list();
+
+            // Process Result
+            int buyCount = 0;
+            int sellCount = 0;
+            int nutralCount = 0;
+            for (Object[] row : rows) {
+                EquityResearchResult equityResult = new EquityResearchResult();
+                String productId = row[0] != null ? row[0].toString() : "";
+                String recommType = row[1] != null ? row[1].toString() : "";
+                //Below is mapping check
+                if ("accumulate".equals(recommType) || "add".equals(recommType) || "buy".equals(recommType) || "bullish".equals(recommType)
+                        || "marketperformer".equals(recommType) || "outperformer".equals(recommType)) {
+                    buyCount++;
+                }
+                else if ("bearish".equals(recommType) || "underperformer".equals(recommType) || "sell".equals(recommType)) {
+                    sellCount++;
+                }
+                else if ("hold".equals(recommType) || "neutral".equals(recommType) || "reduce".equals(recommType)) {
+                    nutralCount++;
+                }
+                equityResult.setRecommType(recommType);
+                resultMap.put(productId, equityResult);
+            }
+            brokerRanks.add(buyCount);
+            brokerRanks.add(sellCount);
+            brokerRanks.add(nutralCount);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return brokerRanks;
+    }
+
+    private String buildEuityResearchQuery(String mainQuery, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
+            EquityResearchFilter equityFilter) {
+        // Apply filter in main query
+        String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
+                ResearchReportUtil.getFilteredQueryPart(equityFilter));
+
+        // Apply OrderBy
+        String applyOrderBy = ResearchReportUtil.applyOrderBy(sortBy, orderBy);
+
+        // Apply Pagination
+        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+
+        // Prepare final query
+        return queryWithAppliedFilter + applyOrderBy + applyPagination;
     }
 
     public Pair<Long, InputStream> download(String productId) throws RuntimeException {

@@ -4,7 +4,6 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.stockpriceupdate.service.StockPriceUpdateService;
 import com.finvendor.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 @Controller
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class StockPriceUpdateController {
 
     @Autowired

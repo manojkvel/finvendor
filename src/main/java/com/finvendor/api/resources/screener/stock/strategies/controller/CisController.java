@@ -1,7 +1,6 @@
 package com.finvendor.api.resources.screener.stock.strategies.controller;
 
-import com.finvendor.api.resources.WebUriConstants;
-import com.finvendor.api.resources.screener.stock.strategies.service.CelebrityInvestorStrategyService;
+import com.finvendor.api.resources.screener.stock.strategies.service.CisService;
 import com.finvendor.common.util.ErrorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,20 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.finvendor.common.exception.ExceptionEnum.CELEBRITY_INVESTOR_STRATEGY;
 
+/**
+ * CelebrityInvestorStrategy - CIS
+ */
 @RestController
-@RequestMapping(value = WebUriConstants.BASE_URI)
-public class CelebrityInvestorStrategyController {
+@RequestMapping(value = "/system/api")
+public class CisController {
 
     @Autowired
-    private CelebrityInvestorStrategyService service;
+    private CisService service;
 
-    @GetMapping(value = "/celebrityinvestors/strategies/recordstats")
+    @GetMapping(value = "/cis/recordstats")
     public ResponseEntity<?> findStrategyRecordStats(@RequestParam(value = "type") String type,
                                                      @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         return new ResponseEntity<>("{\"firstPageNumber\":1,\"lastPageNumber\":1,\"totalRecords\":4}", HttpStatus.OK);
     }
 
-    @GetMapping(value = "/celebrityinvestors/strategies")
+    @GetMapping(value = "/cis/strategies")
     public ResponseEntity<?> findStrategy(@RequestParam(value = "type") String type,
                                           @RequestParam(value = "pageNumber") String pageNumber,
                                           @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {

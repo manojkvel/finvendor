@@ -4,7 +4,6 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.metrics.service.MetricService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ import java.io.InputStream;
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
 @Controller
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class MetricsController {
     private static final Logger logger = LoggerFactory.getLogger(MetricsController.class.getName());
     @Autowired

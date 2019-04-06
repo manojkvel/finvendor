@@ -3,7 +3,6 @@ package com.finvendor.api.resources.screener.mf.controller;
 import com.finvendor.api.resources.screener.mf.dto.MfFilter;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ import static com.finvendor.common.exception.ExceptionEnum.SECTOR_RESEARCH_FILTE
  * @Author Ayush on 4-Oct-2018
  */
 @Controller
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class MfReportController {
 
     private static final Logger logger = LoggerFactory.getLogger(MfReportController.class.getName());

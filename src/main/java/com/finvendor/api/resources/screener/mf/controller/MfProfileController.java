@@ -1,7 +1,6 @@
 package com.finvendor.api.resources.screener.mf.controller;
 
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.screener.mf.service.MfProfileService;
 import com.finvendor.common.util.ErrorUtil;
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ import static com.finvendor.common.exception.ExceptionEnum.MF_PROFILE;
  * @Author Ayush on 4-Oct-2018
  */
 @Controller
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class MfProfileController {
     private static final Logger logger = LoggerFactory.getLogger(MfProfileController.class.getName());
 

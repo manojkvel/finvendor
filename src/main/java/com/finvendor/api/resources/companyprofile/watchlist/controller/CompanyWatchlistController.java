@@ -4,7 +4,6 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.CompanyWatchListPojo;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.companyprofile.watchlist.service.CompanyWatchlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  * @author ayush on April 30, 2018
  */
 @Controller
-@RequestMapping(WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class CompanyWatchlistController {
 
     @Autowired

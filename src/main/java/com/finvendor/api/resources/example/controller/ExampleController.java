@@ -2,7 +2,6 @@ package com.finvendor.api.resources.example.controller;
 
 import com.finvendor.model.Example;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.resources.WebUriConstants;
 import com.finvendor.api.resources.example.dto.ExampleDto;
 import com.finvendor.api.resources.example.service.ExampleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ import java.util.List;
  * @author ayush on April 30, 2018
  */
 @Controller
-@RequestMapping(value = WebUriConstants.BASE_URI)
+@RequestMapping(value = "/system/api")
 public class ExampleController {
 
 	@Autowired

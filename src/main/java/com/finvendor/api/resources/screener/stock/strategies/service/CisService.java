@@ -1,14 +1,14 @@
 package com.finvendor.api.resources.screener.stock.strategies.service;
 
-import com.finvendor.api.resources.screener.stock.strategies.dto.CelebrityInvestorStrategyDao;
+import com.finvendor.api.resources.screener.stock.strategies.dao.CisDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CelebrityInvestorStrategyService {
+public class CisService {
 
     @Autowired
-    private CelebrityInvestorStrategyDao dao;
+    private CisDao dao;
 
     public String findStrategy(String type) {
         String strategyResult;

@@ -1,19 +1,19 @@
-package com.finvendor.api.resources.screener.stock.strategies.dto;
+package com.finvendor.api.resources.screener.stock.strategies.dao;
 
 import com.finvendor.common.commondao.ICommonDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CelebrityInvestorStrategyDao {
+public class CisDao {
 
     @Autowired
     private ICommonDao commonDao;
 
     public String findKennithFisherStrategy() throws RuntimeException {
-        try{
+        try {
             return "";
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
