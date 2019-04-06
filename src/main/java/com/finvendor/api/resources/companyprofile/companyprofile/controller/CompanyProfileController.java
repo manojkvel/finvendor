@@ -36,7 +36,7 @@ public class CompanyProfileController {
             final String companyProfileData = cps.getCompanyProfile(isinCode);
             return new ResponseEntity<>(companyProfileData, HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("IWebCompanyProfile -> getCompanyProfile(...) method", e);
+            ErrorUtil.logError("IWebCompanyProfile -> findCompanyProfile(...) method", e);
             return ErrorUtil.getError(COMPANY_PROFILE.getCode(), COMPANY_PROFILE.getUserMessage(), e);
         }
     }

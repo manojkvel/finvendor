@@ -82,6 +82,8 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
      */
     private static final String PRICE_HISTORY_QUERY = "select a.* from stock_historical_prices a where a.stock_id=(select a.company_id from rsch_sub_area_company_dtls a where a.isin_code=?) order by STR_TO_DATE(a.price_date,  \"%d/%b/%Y\") desc";
 
+    private static final String FIND_TICKER_QUERY = "select a.company_id,a.ticker from rsch_sub_area_company_dtls a where a.isin_code=?";
+
     @Autowired
     private ICommonDao commonDao;
 
@@ -95,7 +97,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
      * upside = ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100
      */
     @SuppressWarnings("unchecked")
-    public String getCompanyProfile(String query, String isinCode) throws RuntimeException {
+    public String findCompanyProfile(String query, String isinCode) throws RuntimeException {
         SQLQuery query1 = commonDao.getNativeQuery(query, null);
         List<Object[]> rows = query1.list();
         Map<String, Object> paramsMap = new LinkedHashMap<>();
@@ -200,11 +202,13 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 //Calculate Valuation Score
                 valuationScoreStr = calculateAndGetValucationScore(_3yrEpsGrowthAsFloat, newPe);
 
+                //find ticker
+                String ticker = findTicker(isinCode);
                 CompanyProfileDataDto companyProfileDataDto = new CompanyProfileDataDto(companyId, companyName, industry, mcap, cmp,
                         absoluteLastChangedCmp,
                         lastChangedCmpInPercentage, newPeStr, "-", dividen_yield, eps_ttm, _52w_high,
                         _52w_low, beta, share_outstanding, mkt_cap, revenue.trim(), face_value, "-", roe, pat,
-                        recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr, currency);
+                        recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr, currency,ticker);
 
                 //Stock Historical price calculation
                 Map<String, String> stockHistoricalPrices = findStockHistoricalPrices(cmpAsFloat, isinCode);
@@ -798,6 +802,16 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(uri).openStream()))) {
             return reader.readLine();
         }
+    }
+
+    private String findTicker(String isinCode) {
+        String ticker = "0.0";
+        SQLQuery sqlQuery = commonDao.getNativeQuery(FIND_TICKER_QUERY, new String[] { isinCode });
+        List<Object[]> rows = sqlQuery.list();
+        for (Object[] row : rows) {
+            ticker = row[1] != null ? row[1].toString().trim() : "";
+        }
+        return ticker;
     }
 
     public static void main(String[] args) {
