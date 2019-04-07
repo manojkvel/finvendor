@@ -1,8 +1,6 @@
-package com.finvendor.api.resources.dff.service.companyprofile;
+package com.finvendor.api.resources.dff.service.externalfeed.companyprofile;
 
 import com.finvendor.common.commondao.ICommonDao;
-import com.finvendor.common.infra.dff.AbstractDataFeedService;
-import com.finvendor.common.infra.dff.DataFeedService;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
@@ -17,20 +15,24 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import static com.finvendor.common.constant.AppConstant.COMMA;
+import static com.finvendor.common.util.FileUtil.cleanupDirectory;
+import static com.finvendor.common.util.FileUtil.downloadFile;
+
 /**
- * Company News DataFeedService (DFS)
+ * Company News DffFileFeed (DFS)
  */
 @Service
 @Transactional
-public class NewsFeed extends AbstractDataFeedService {
+public class News implements CompanyProfileFeed {
 
-    private static final Logger logger = LoggerFactory.getLogger(NewsFeed.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(News.class.getName());
 
     @Autowired
     private ICommonDao commonDao;
 
     @Override
-    public DataFeedService download(String url, String path) throws Exception {
+    public boolean download(String url, String path) throws Exception {
         logger.info("CompanyNewsDFS::download-> url:{}", url);
         logger.info("CompanyNewsDFS::download-> path:{}", path);
 
@@ -42,11 +44,11 @@ public class NewsFeed extends AbstractDataFeedService {
         } catch (IOException e) {
             throw new Exception(e);
         }
-        return this;
+        return true;
     }
 
     @Override
-    public DataFeedService feed(String path) throws Exception {
+    public int feed(String path) throws Exception {
         String line;
         File filePath = new File(path);
         File newFilePath = filePath.listFiles()[0];
@@ -70,7 +72,8 @@ public class NewsFeed extends AbstractDataFeedService {
                     broadcastDate = newsColums[4].trim();
                     broadcastDate = StringUtils.replace(broadcastDate, "\"", "");
 
-                } else {
+                }
+                else {
                     subject = newsColums[3].trim() + "," + newsColums[4].trim();
                     subject = StringUtils.replace(subject, "\"", "");
 
@@ -78,8 +81,7 @@ public class NewsFeed extends AbstractDataFeedService {
                     broadcastDate = StringUtils.replace(broadcastDate, "\"", "");
                 }
 
-
-                SQLQuery query1 = commonDao.getNativeQuery("select * from company_news where ticker=?", new Object[]{ticker});
+                SQLQuery query1 = commonDao.getNativeQuery("select * from company_news where ticker=?", new Object[] { ticker });
                 List<Object[]> rows = query1.list();
                 if (rows.size() == 0) {
                     String insertQuery = "insert into company_news(ticker,company_name) values(?,?)";
@@ -89,7 +91,7 @@ public class NewsFeed extends AbstractDataFeedService {
                     sqlQuery.executeUpdate();
                 }
                 query1 = commonDao.getNativeQuery("select * from company_news_history where ticker=? and subject=? and broadcast_date=?",
-                        new Object[]{ticker, subject, broadcastDate});
+                        new Object[] { ticker, subject, broadcastDate });
                 rows = query1.list();
                 if (rows.size() == 0) {
                     String insertQuery = "insert into company_news_history(ticker,subject,broadcast_date) values(?,?,?)";
@@ -103,6 +105,6 @@ public class NewsFeed extends AbstractDataFeedService {
         } finally {
             cleanupDirectory(path);
         }
-        return this;
+        return 0;
     }
 }

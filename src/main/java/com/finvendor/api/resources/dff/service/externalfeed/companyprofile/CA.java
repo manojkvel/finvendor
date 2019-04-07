@@ -1,8 +1,6 @@
-package com.finvendor.api.resources.dff.service.companyprofile;
+package com.finvendor.api.resources.dff.service.externalfeed.companyprofile;
 
 import com.finvendor.common.commondao.ICommonDao;
-import com.finvendor.common.infra.dff.AbstractDataFeedService;
-import com.finvendor.common.infra.dff.DataFeedService;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
@@ -18,20 +16,24 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import static com.finvendor.common.constant.AppConstant.COMMA;
+import static com.finvendor.common.util.FileUtil.cleanupDirectory;
+import static com.finvendor.common.util.FileUtil.downloadFile;
+
 /**
- * Corporate Action DataFeedService (DFS)
+ * Corporate Action DffFileFeed (DFS)
  */
 @Service
 @Transactional
-public class CAFeed extends AbstractDataFeedService {
+public class CA implements CompanyProfileFeed {
 
-    private static final Logger logger = LoggerFactory.getLogger(CAFeed.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(CA.class.getName());
 
     @Autowired
     private ICommonDao commonDao;
 
     @Override
-    public DataFeedService download(String url, String path) throws Exception {
+    public boolean download(String url, String path) throws Exception {
         logger.info("CoprActionDFS::download-> url:{}", url);
         logger.info("CoprActionDFS::download-> path:{}", path);
 
@@ -43,13 +45,13 @@ public class CAFeed extends AbstractDataFeedService {
         } catch (IOException e) {
             throw new Exception(e);
         }
-        return this;
+        return true;
     }
 
     @Override
-    public DataFeedService feed(String path) throws Exception {
+    public int feed(String filePathStr) throws Exception {
         String line;
-        File filePath = new File(path);
+        File filePath = new File(filePathStr);
         File newFilePath = Objects.requireNonNull(filePath.listFiles())[0];
         try (BufferedReader br = new BufferedReader(new FileReader(newFilePath))) {
             br.readLine();
@@ -73,8 +75,7 @@ public class CAFeed extends AbstractDataFeedService {
                 String recordDate = newsColums[7].trim();
                 recordDate = StringUtils.replace(recordDate, "\"", "");
 
-
-                SQLQuery query1 = commonDao.getNativeQuery("select * from corp_action where ticker=?", new Object[]{ticker});
+                SQLQuery query1 = commonDao.getNativeQuery("select * from corp_action where ticker=?", new Object[] { ticker });
                 List<Object[]> rows = query1.list();
                 if (rows.size() == 0) {
                     String insertQuery = "insert into corp_action(ticker,company_name) values(?,?)";
@@ -83,8 +84,9 @@ public class CAFeed extends AbstractDataFeedService {
                     sqlQuery.setParameter(1, companyName);
                     sqlQuery.executeUpdate();
                 }
-                query1 = commonDao.getNativeQuery("select * from corp_action_history where ticker=? and purpose=? and face_value=? and ex_date=? and record_date=?",
-                        new Object[]{ticker, purpose, faceValue, exDate, recordDate});
+                query1 = commonDao.getNativeQuery(
+                        "select * from corp_action_history where ticker=? and purpose=? and face_value=? and ex_date=? and record_date=?",
+                        new Object[] { ticker, purpose, faceValue, exDate, recordDate });
                 rows = query1.list();
                 if (rows.size() == 0) {
                     String insertQuery = "insert into corp_action_history(ticker,purpose,face_value,ex_date,record_date) values(?,?,?,?,?)";
@@ -98,8 +100,8 @@ public class CAFeed extends AbstractDataFeedService {
                 }
             }
         } finally {
-            cleanupDirectory(path);
+            cleanupDirectory(filePathStr);
         }
-        return this;
+        return 0;
     }
 }
