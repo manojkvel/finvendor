@@ -32,24 +32,22 @@ public class ExternalFeedController {
 
     /**
      * Feed Data based on type
-     * type: news|corpaction|companycal
      */
     @GetMapping(value = "/externaldatafeeds")
     public ResponseEntity<?> feedExternalData(@RequestParam(value = "type") FeedTypeEnum type) throws WebApiException {
         logger.info("feedExternalData, type:{}", type);
         try {
             String downloadPath = finvendorProperties.getProperty("finvendo_tmp_path");
-
             switch (type) {
-            case NEWS:
+            case COMPANY_NEWS:
                 externalFeedFacade.newsDownload(downloadPath);
                 externalFeedFacade.newsFeed(downloadPath);
                 break;
-            case CA:
+            case COPR_ACTION:
                 externalFeedFacade.caDownload(downloadPath);
                 externalFeedFacade.caFeed(downloadPath);
                 break;
-            case CAL:
+            case COMPANY_CALENDAR:
                 externalFeedFacade.calDownload(downloadPath);
                 externalFeedFacade.calFeed(downloadPath);
                 break;

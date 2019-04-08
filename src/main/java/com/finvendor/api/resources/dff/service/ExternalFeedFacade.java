@@ -12,38 +12,38 @@ public class ExternalFeedFacade {
     private static final String COMPANY_CALENDAR_URL = "https://www.nseindia.com/corporates/datafiles/BM_All_Forthcoming.csv";
 
     @Autowired
-    @Qualifier(value = "news")
-    private CompanyProfileFeed newsFeed;
+    @Qualifier(value = "companyNewsFeed")
+    private CompanyProfileFeed companyNewsFeed;
 
     @Autowired
-    @Qualifier(value = "CA")
-    private CompanyProfileFeed coprActionFeed;
+    @Qualifier(value = "corpActionFeed")
+    private CompanyProfileFeed corpActionFeed;
 
     @Autowired
-    @Qualifier(value = "cal")
-    private CompanyProfileFeed calendarFeed;
+    @Qualifier(value = "companyCalendarFeed")
+    private CompanyProfileFeed companyCalendarFeed;
 
     public boolean newsDownload(String downloadPath) throws Exception {
-        return newsFeed.download(COMPANY_NEWS_URL, downloadPath);
+        return companyNewsFeed.download(COMPANY_NEWS_URL, downloadPath);
     }
 
     public void newsFeed(String downloadPath) throws Exception {
-        newsFeed.feed(downloadPath);
+        companyNewsFeed.feed(downloadPath);
     }
 
     public boolean caDownload(String downloadPath) throws Exception {
-        return coprActionFeed.download(CORP_ACTION_URL,downloadPath);
+        return corpActionFeed.download(CORP_ACTION_URL,downloadPath);
     }
 
     public void caFeed(String downloadPath) throws Exception {
-        coprActionFeed.feed(downloadPath);
+        corpActionFeed.feed(downloadPath);
     }
 
     public boolean calDownload(String downloadPath) throws Exception {
-        return calendarFeed.download(COMPANY_CALENDAR_URL,downloadPath);
+        return companyCalendarFeed.download(COMPANY_CALENDAR_URL,downloadPath);
     }
 
     public void calFeed(String downloadPath) throws Exception {
-        calendarFeed.feed(downloadPath);
+        companyCalendarFeed.feed(downloadPath);
     }
 }

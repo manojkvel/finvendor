@@ -17,41 +17,41 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.finvendor.common.constant.AppConstant.COMMA;
-import static com.finvendor.common.util.FileUtil.cleanupDirectory;
 import static com.finvendor.common.util.FileUtil.downloadFile;
 
 /**
- * Corporate Action DffFileFeed (DFS)
+ * Company Calendar DffFileFeed (DFS)
  */
 @Service
 @Transactional
-public class CA implements CompanyProfileFeed {
+public class CompanyCalendarFeed implements CompanyProfileFeed {
 
-    private static final Logger logger = LoggerFactory.getLogger(CA.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(CompanyCalendarFeed.class.getName());
 
     @Autowired
     private ICommonDao commonDao;
 
     @Override
     public boolean download(String url, String path) throws Exception {
-        logger.info("CoprActionDFS::download-> url:{}", url);
-        logger.info("CoprActionDFS::download-> path:{}", path);
+        logger.info("CompanyCalendarFeed::download()-> url:{}", url);
+        logger.info("CompanyCalendarFeed::download()-> path:{}", path);
 
-        String downloadPath = path + File.separator + "corpAction.csv";
-        logger.info("CoprActionDFS::downloadPath:{}", downloadPath);
+        String downloadPath = path + File.separator + "companyCalendar.csv";
+        logger.info("CompanyCalendarFeed::download()-> downloadPath:{}", downloadPath);
 
         try {
             downloadFile(url, downloadPath);
         } catch (IOException e) {
-            throw new Exception(e);
+            throw new Exception("Error has occured while downloading Company Calendar from URL ",e);
         }
         return true;
     }
 
     @Override
-    public int feed(String filePathStr) throws Exception {
+    public int feed(String path) throws Exception {
+        logger.info("CompanyCalendarFeed::feed()-> path: {}", path);
         String line;
-        File filePath = new File(filePathStr);
+        File filePath = new File(path);
         File newFilePath = Objects.requireNonNull(filePath.listFiles())[0];
         try (BufferedReader br = new BufferedReader(new FileReader(newFilePath))) {
             br.readLine();
@@ -63,44 +63,35 @@ public class CA implements CompanyProfileFeed {
                 String companyName = newsColums[1].trim();
                 companyName = StringUtils.replace(companyName, "\"", "");
 
-                String faceValue = newsColums[4].trim();
-                faceValue = StringUtils.replace(faceValue, "\"", "");
-
-                String purpose = newsColums[5].trim();
+                String purpose = newsColums[3].trim();
                 purpose = StringUtils.replace(purpose, "\"", "");
 
-                String exDate = newsColums[6].trim();
-                exDate = StringUtils.replace(exDate, "\"", "");
+                String boardMeetingDate = newsColums[4].trim();
+                boardMeetingDate = StringUtils.replace(boardMeetingDate, "\"", "");
 
-                String recordDate = newsColums[7].trim();
-                recordDate = StringUtils.replace(recordDate, "\"", "");
-
-                SQLQuery query1 = commonDao.getNativeQuery("select * from corp_action where ticker=?", new Object[] { ticker });
+                SQLQuery query1 = commonDao.getNativeQuery("select * from company_calendar where ticker=?", new Object[] { ticker });
                 List<Object[]> rows = query1.list();
                 if (rows.size() == 0) {
-                    String insertQuery = "insert into corp_action(ticker,company_name) values(?,?)";
+                    String insertQuery = "insert into company_calendar(ticker,company_name) values(?,?)";
                     SQLQuery sqlQuery = commonDao.getNativeQuery(insertQuery, null);
                     sqlQuery.setParameter(0, ticker);
                     sqlQuery.setParameter(1, companyName);
                     sqlQuery.executeUpdate();
                 }
-                query1 = commonDao.getNativeQuery(
-                        "select * from corp_action_history where ticker=? and purpose=? and face_value=? and ex_date=? and record_date=?",
-                        new Object[] { ticker, purpose, faceValue, exDate, recordDate });
+                query1 = commonDao
+                        .getNativeQuery("select * from company_calendar_history where ticker=? and purpose=? and board_meeting_date=?",
+                                new Object[] { ticker, purpose, boardMeetingDate });
                 rows = query1.list();
                 if (rows.size() == 0) {
-                    String insertQuery = "insert into corp_action_history(ticker,purpose,face_value,ex_date,record_date) values(?,?,?,?,?)";
+                    String insertQuery = "insert into company_calendar_history(ticker,purpose,board_meeting_date) values(?,?,?)";
                     SQLQuery sqlQuery = commonDao.getNativeQuery(insertQuery, null);
                     sqlQuery.setParameter(0, ticker);
                     sqlQuery.setParameter(1, purpose);
-                    sqlQuery.setParameter(2, faceValue);
-                    sqlQuery.setParameter(3, exDate);
-                    sqlQuery.setParameter(4, recordDate);
+                    sqlQuery.setParameter(2, boardMeetingDate);
                     sqlQuery.executeUpdate();
                 }
+
             }
-        } finally {
-            cleanupDirectory(filePathStr);
         }
         return 0;
     }

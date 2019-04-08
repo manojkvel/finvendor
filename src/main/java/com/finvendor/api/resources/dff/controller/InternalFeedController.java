@@ -26,17 +26,16 @@ public class InternalFeedController {
 
     /**
      * Feed Data based on type
-     * type: news|corpaction|companycal
      */
     @GetMapping(value = "/internaldatafeeds")
     public ResponseEntity<?> feedInternalData(@RequestParam(value = "type") FeedTypeEnum type) throws WebApiException {
         try {
             logger.info("feedInternalData, type: {}", type.name());
             switch (type) {
-            case KENNETH:
+            case KENNETH_FISHER:
                 iff.processAndFeed_KennethFisherStrategy();
                 break;
-            case BENJAMIN:
+            case BENJAMIN_GRAHAM:
                 iff.processAndFeed_BenjaminGrahamStrategy();
                 break;
             }

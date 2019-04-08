@@ -1,6 +1,5 @@
 package com.finvendor.api.resources.dff.service;
 
-import com.finvendor.api.resources.dff.service.internalfeed.screener.KennethFisherFeed;
 import com.finvendor.common.infra.dff.DffProcesFeed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

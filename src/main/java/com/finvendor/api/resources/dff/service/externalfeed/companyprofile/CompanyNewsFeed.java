@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.finvendor.common.constant.AppConstant.COMMA;
-import static com.finvendor.common.util.FileUtil.cleanupDirectory;
 import static com.finvendor.common.util.FileUtil.downloadFile;
 
 /**
@@ -24,31 +23,32 @@ import static com.finvendor.common.util.FileUtil.downloadFile;
  */
 @Service
 @Transactional
-public class News implements CompanyProfileFeed {
+public class CompanyNewsFeed implements CompanyProfileFeed {
 
-    private static final Logger logger = LoggerFactory.getLogger(News.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(CompanyNewsFeed.class.getName());
 
     @Autowired
     private ICommonDao commonDao;
 
     @Override
     public boolean download(String url, String path) throws Exception {
-        logger.info("CompanyNewsDFS::download-> url:{}", url);
-        logger.info("CompanyNewsDFS::download-> path:{}", path);
+        logger.info("CompanyNewsFeed::download()-> url:{}", url);
+        logger.info("CompanyNewsFeed::download()-> path:{}", path);
 
         String downloadPath = path + File.separator + "companyNews.csv";
-        logger.info("CompanyNewsDFS::downloadPath:{}", downloadPath);
+        logger.info("CompanyNewsFeed::download()-> downloadPath:{}", downloadPath);
 
         try {
             downloadFile(url, downloadPath);
         } catch (IOException e) {
-            throw new Exception(e);
+            throw new Exception("Error has occured while downloading Company News from URL ",e);
         }
         return true;
     }
 
     @Override
     public int feed(String path) throws Exception {
+        logger.info("CompanyNewsFeed::feed()-> path: {}", path);
         String line;
         File filePath = new File(path);
         File newFilePath = filePath.listFiles()[0];
@@ -102,8 +102,6 @@ public class News implements CompanyProfileFeed {
                     sqlQuery.executeUpdate();
                 }
             }
-        } finally {
-            cleanupDirectory(path);
         }
         return 0;
     }
