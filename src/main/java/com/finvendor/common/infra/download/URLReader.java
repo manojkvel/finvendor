@@ -93,7 +93,7 @@ public class URLReader {
             zis.close();
             fis.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.logError(e.getMessage());
         }
 
     }

@@ -1,8 +1,6 @@
-package com.finvendor.api.resources.dff.service.companyprofile;
+package com.finvendor.api.resources.dff.service.externalfeed.companyprofile;
 
 import com.finvendor.common.commondao.ICommonDao;
-import com.finvendor.common.infra.dff.AbstractDataFeedService;
-import com.finvendor.common.infra.dff.DataFeedService;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
@@ -18,36 +16,40 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import static com.finvendor.common.constant.AppConstant.COMMA;
+import static com.finvendor.common.util.FileUtil.downloadFile;
+
 /**
- * Company Calendar DataFeedService (DFS)
+ * Company Calendar DffFileFeed (DFS)
  */
 @Service
 @Transactional
-public class CalFeed extends AbstractDataFeedService {
+public class CompanyCalendarFeed implements CompanyProfileFeed {
 
-    private static final Logger logger = LoggerFactory.getLogger(CalFeed.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(CompanyCalendarFeed.class.getName());
 
     @Autowired
     private ICommonDao commonDao;
 
     @Override
-    public DataFeedService download(String url, String path) throws Exception {
-        logger.info("CompanyCalendarDFS::download-> url:{}", url);
-        logger.info("CompanyCalendarDFS::download-> path:{}", path);
+    public boolean download(String url, String path) throws Exception {
+        logger.info("CompanyCalendarFeed::download()-> url:{}", url);
+        logger.info("CompanyCalendarFeed::download()-> path:{}", path);
 
         String downloadPath = path + File.separator + "companyCalendar.csv";
-        logger.info("CompanyCalendarDFS::downloadPath:{}", downloadPath);
+        logger.info("CompanyCalendarFeed::download()-> downloadPath:{}", downloadPath);
 
         try {
             downloadFile(url, downloadPath);
         } catch (IOException e) {
-            throw new Exception(e);
+            throw new Exception("Error has occured while downloading Company Calendar from URL ",e);
         }
-        return this;
+        return true;
     }
 
     @Override
-    public DataFeedService feed(String path) throws Exception {
+    public int feed(String path) throws Exception {
+        logger.info("CompanyCalendarFeed::feed()-> path: {}", path);
         String line;
         File filePath = new File(path);
         File newFilePath = Objects.requireNonNull(filePath.listFiles())[0];
@@ -67,8 +69,7 @@ public class CalFeed extends AbstractDataFeedService {
                 String boardMeetingDate = newsColums[4].trim();
                 boardMeetingDate = StringUtils.replace(boardMeetingDate, "\"", "");
 
-
-                SQLQuery query1 = commonDao.getNativeQuery("select * from company_calendar where ticker=?", new Object[]{ticker});
+                SQLQuery query1 = commonDao.getNativeQuery("select * from company_calendar where ticker=?", new Object[] { ticker });
                 List<Object[]> rows = query1.list();
                 if (rows.size() == 0) {
                     String insertQuery = "insert into company_calendar(ticker,company_name) values(?,?)";
@@ -77,8 +78,9 @@ public class CalFeed extends AbstractDataFeedService {
                     sqlQuery.setParameter(1, companyName);
                     sqlQuery.executeUpdate();
                 }
-                query1 = commonDao.getNativeQuery("select * from company_calendar_history where ticker=? and purpose=? and board_meeting_date=?",
-                        new Object[]{ticker, purpose, boardMeetingDate});
+                query1 = commonDao
+                        .getNativeQuery("select * from company_calendar_history where ticker=? and purpose=? and board_meeting_date=?",
+                                new Object[] { ticker, purpose, boardMeetingDate });
                 rows = query1.list();
                 if (rows.size() == 0) {
                     String insertQuery = "insert into company_calendar_history(ticker,purpose,board_meeting_date) values(?,?,?)";
@@ -90,9 +92,7 @@ public class CalFeed extends AbstractDataFeedService {
                 }
 
             }
-        } finally {
-            cleanupDirectory(path);
         }
-        return this;
+        return 0;
     }
 }

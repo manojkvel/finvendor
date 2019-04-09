@@ -1,11 +1,13 @@
 package com.finvendor.common.util;
 
+import com.finvendor.common.infra.download.URLReader;
+import org.apache.commons.io.FileUtils;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import java.net.URL;
 
 /**
  * File Utility class
@@ -26,7 +28,7 @@ public final class FileUtil {
 
 	public static void writeByteArrayToFile(String destinationPath, byte[] bytes) throws IOException {
 		File file = new File(destinationPath);
-		FileUtils.writeByteArrayToFile(file, bytes);
+		org.apache.commons.io.FileUtils.writeByteArrayToFile(file, bytes);
 	}
 
 	public static void deleteFile(String path) throws IOException {
@@ -87,5 +89,14 @@ public final class FileUtil {
 			}
 		}
 		return bytesArray;
+	}
+
+	public static void downloadFile(String url, String downloadPath) throws IOException {
+		URLReader.copyURLToFile(new URL(url), new File(downloadPath));
+	}
+
+	public static void cleanupDirectory(String dir) throws IOException {
+		File tmpPath = new File(dir);
+		FileUtils.cleanDirectory(tmpPath);
 	}
 }
