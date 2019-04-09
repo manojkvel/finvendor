@@ -7,7 +7,7 @@ var priceAlertStatus = 'N';
     var timeStampToDate = function (ts) {
         if (ts) {
             ts = new Date(ts).toString();
-            ts = ts.split(' ').slice(0, 5);
+            ts = ts.split(' ').slice(0, 8);
             ts = /*ts[0] + " " + */ ts[1] + " " + ts[2] + ", " + ts[3]; //+ " " + ts[4];
             //console.log(ts);
             return ts;
@@ -20,6 +20,18 @@ var priceAlertStatus = 'N';
         if (ts) {
             ts = new Date(ts).toString();
             ts = ts.split(' ').slice(0, 5);
+            //console.log(ts);
+            return ts;
+        } else {
+            return 'NA';
+        }
+    };
+
+    var timeStampToDateLatest = function (ts) {
+        if (ts) {
+            ts = new Date(ts).toString();
+            ts = ts.split(' ').slice(0, 9);
+            ts = /*ts[0] + " " + */ ts[1] + " " + ts[2] + ", " + ts[3] + " | " + ts[4];
             //console.log(ts);
             return ts;
         } else {
@@ -408,6 +420,7 @@ function getCompanyProfileResearchReportLoad() {
         companyProfileObj['companyId'] = response.companyProfileData.companyId;
         companyProfileObj['companyName'] = response.companyProfileData.companyName;
         companyProfileObj['cmp'] = response.companyProfileData.cmp;
+        companyProfileObj['ticker'] = response.companyProfileData.ticker;
 
         var cmp_last_change_class = "success";
         var cmp_last_change_caret = "fa-caret-up";
@@ -500,6 +513,14 @@ function getCompanyProfileResearchReportLoad() {
         setStockPerfHistoryHtml(response);
         setNifty50PerfHistoryHtml(response);
         setBrokerRatingHtml(response);
+
+
+
+        companyCalendarObj.init();
+        companyNewsObj.init();
+        //companyCorpActionObj.init();
+        companyPriceHistoryObj.init();
+
 
     }, function(error) {
 
@@ -782,8 +803,8 @@ setBrokerRatingHtml = function(response) {
       chart.draw(view, options);
 
 
-      var averageTargetPrice = (response.brokerRank.averageTargetPrice) ? response.companyProfileData.currency + " " + response.brokerRank.averageTargetPrice : '-';
-      var upside = (response.brokerRank.upside != '-') ? parseFloat(response.brokerRank.upside).toFixed(1) + "%" : '-';
+      var averageTargetPrice = (response.brokerRank.averageTargetPrice) ? response.companyProfileData.currency + " " + parseFloat(response.brokerRank.averageTargetPrice).toFixed(2) : '-';
+      var upside = (response.brokerRank.upside != '-') ? "%Upside: " + parseFloat(response.brokerRank.upside).toFixed(2) + "%": '-';
 
       var upsideClass = "";
       var upsideIcon = "";
@@ -797,7 +818,8 @@ setBrokerRatingHtml = function(response) {
       }
 
       var html = "<ul>"
-                + "<li>Consensus Target Price <p><span>" + averageTargetPrice  + "</span> <span class='upside " + upsideClass +  "'>(" + upside + " " + "<i class='" + upsideIcon + "'>" + "</i>)</span></p></li>"
+                //+ "<li>Consensus Target Price <p><span>" + averageTargetPrice  + "</span> <span class='upside " + upsideClass +  "'>(" + upside + " " + "<i class='" + upsideIcon + "'>" + "</i>)</span></p></li>"
+                + "<li>Consensus Target Price <p><span>" + averageTargetPrice  + "</span> <span class='upside " + upsideClass +  "'>(" + upside + " " + ")</span></p></li>"
                 + "</ul>"
       $("#broker_stock_rating_container .broker_stock_rating_ui").append(html);
       $("#broker_stock_rating_container .broker_stock_rating_ui").prepend("<h4>Analyst's Stock Rating<sup>*</sup></h4>");
@@ -1150,7 +1172,7 @@ function setQuarterlyCompanyEarningsPreview() {
 
           var length = earningPreviewSorted.length;
           if(length == 0) {
-            $("#quarterly_fin_statement .quarterly_fin_content").html("No Earning Preveiw Available");
+            $("#quarterly_fin_statement .quarterly_fin_content").html("No Earning Preview Available");
             return false;
           }
 
@@ -1253,7 +1275,7 @@ function setQuarterlyCompanyEarningsPreview() {
 
         $("#quarterly_fin_statement .quarterly_fin_content").html(html);
     }, function(error) {
-        $("#quarterly_fin_statement .quarterly_fin_content").html("No Earning Preveiw Available");
+        $("#quarterly_fin_statement .quarterly_fin_content").html("No Earning Preview Available");
     });
 }
 
@@ -1319,7 +1341,7 @@ function setYearlyCompanyEarningsPreview() {
 
           var length = earningPreviewSorted.length;
           if(length == 0) {
-            $("#yearly_fin_statement .yearly_fin_content").html("No Earning Preveiw Available");
+            $("#yearly_fin_statement .yearly_fin_content").html("No Earning Preview Available");
             return false;
           }
 
@@ -1461,7 +1483,7 @@ function setYearlyCompanyEarningsPreview() {
 
         $("#yearly_fin_statement .yearly_fin_content").html(html);
     }, function(error) {
-        $("#yearly_fin_statement .yearly_fin_content").html("No Earning Preveiw Available");
+        $("#yearly_fin_statement .yearly_fin_content").html("No Earning Preview Available");
     });
 }
 
@@ -1479,10 +1501,7 @@ var companyNewsObj = {
         this.perPageMaxRecords = 5;
         this.sortByValue = 'broadcastDate';
         this.orderBy = 'desc';
-
-        this.id = "#news_feed_content";
-
-        this.ticker = "HDFCBANK";
+        this.ticker = companyProfileObj.ticker;
 
         this.getCompanyNewsData();
     },
@@ -1504,10 +1523,10 @@ var companyNewsObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                //$("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
+                $("#news_feed_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
             });
         }, function(error) {
-
+                $("#news_feed_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
         });
     },
 
@@ -1580,20 +1599,16 @@ var companyNewsObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $("#news_feed_content tbody").html("<tr><td colspan='2'>No Matching Records Found</td></tr>");
+            $("#news_feed_content tbody").html("<tr><td colspan='1'>No Matching Records Found</td></tr>");
             return;
         }
 
         for(var i = 0; i < len; i++) {
 
-           
-
             htmlCode = htmlCode + "<tr>" +
             "<td>" + 
-            "<div class='date'>" + timeStampToDate(Number(companyNewsList[i].broadcastDate)) + "</div>" + 
-            "</td>" + 
-            "<td>" + 
             "<div class='subject'>" + companyNewsList[i].subject + "</div>" +
+            "<div class='date'>" + timeStampToDateLatest(Number(companyNewsList[i].broadcastDate)) + "</div>" + 
             "</td>" +
             "</tr>";
         }
@@ -1633,17 +1648,17 @@ var companyNewsObj = {
         var currentNode = $(this).attr('id');
 
         if(currentNode == 'last') {
-            classRef.getLastPageResearchReport();
+            classRef.getLastPage();
         } else if(currentNode == 'next') {
-            classRef.getNextPageCompanyNews();
+            classRef.getNextPage();
         } else if(currentNode == 'prev') {
-            classRef.getPreviousPageResearchReport();
+            classRef.getPreviousPage();
         } else if(currentNode == 'first') {
-            classRef.getFirstPageResearchReport();
+            classRef.getFirstPage();
         }
     },
 
-    getFirstPageResearchReport : function() {
+    getFirstPage : function() {
         var classRef = this;
 
         if(classRef.pageNumber != classRef.firstPageNumber) {
@@ -1653,7 +1668,7 @@ var companyNewsObj = {
         }
     },
 
-    getLastPageResearchReport : function() {
+    getLastPage : function() {
         var classRef = this;
 
         if(classRef.pageNumber != classRef.lastPageNumber) {
@@ -1663,7 +1678,7 @@ var companyNewsObj = {
         }
     },
 
-    getNextPageCompanyNews : function() {
+    getNextPage : function() {
         var classRef = this;
 
         if(classRef.pageNumber < classRef.lastPageNumber) {
@@ -1673,7 +1688,7 @@ var companyNewsObj = {
         }
     },
 
-    getPreviousPageResearchReport : function() {
+    getPreviousPage : function() {
         var classRef = this;
 
         if(classRef.pageNumber > 1) {
@@ -1685,8 +1700,671 @@ var companyNewsObj = {
 
 };
 
+/*
+** company calendar Feed
+*/
 
-companyNewsObj.init();
+var companyCalendarObj = {
+    init: function() {
+        this.firstPageNumber = 1;
+        this.pageNumber = 1;
+        this.lastPageNumber = 1;
+        this.totalRecords = 1;
+        this.currentIndex = 1;
+        this.perPageMaxRecords = 5;
+        this.sortByValue = 'broadcastDate';
+        this.orderBy = 'desc';
+        this.ticker = companyProfileObj.ticker;
+        this.baseApiUrl = "/system/api/companyprofile";
+
+        this.getCompanyCalendarData();
+    },
+
+    getCompanyCalendarData: function() {
+        var classRef = this;
+        classRef.getCompanyCalendarRecordStats().then(function(stats) {
+            stats = JSON.parse(stats);
+            classRef.firstPageNumber = stats.firstPageNumber;
+            classRef.lastPageNumber = stats.lastPageNumber;
+            classRef.totalRecords = stats.totalRecords;
+
+            classRef.getCompanyCalendarAPI().then(function(serverResponse) {
+                $("#results_calendar_content .paging_container").remove();
+                serverResponse = JSON.parse(serverResponse);
+                classRef.getCompanyCalendarHtml(serverResponse);
+                isProgressLoader(false);
+
+            }, function(error) {
+                console.log(error);
+                isProgressLoader(false);
+                $("#results_calendar_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+            });
+        }, function(error) {
+                $("#results_calendar_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+        });
+    },
+
+    getCompanyCalendarRecordStats: function() {
+        var classRef = this;
+        var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+
+        var url = classRef.baseApiUrl + "/calendar/recordstat?ticker=" + classRef.ticker + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            //httpRequest.timeout = API_TIMEOUT_SMALL;
+            httpRequest.open('GET', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        //console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCompanyCalendarAPI: function() {
+        var classRef = this;
+
+        isProgressLoader(true);
+
+        var url = classRef.baseApiUrl + "/calendar?ticker=" + classRef.ticker + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            httpRequest.open('GET', url, true);
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCompanyCalendarHtml : function(response) {
+        var classRef = this;
+        var companyCalendarList = response.calendar;
+        var len = companyCalendarList.length;
+        var htmlCode = '';
+        var rowHtml =   "";
+
+        if(len === 0) {
+            $("#results_calendar_content tbody").html("<tr><td colspan='1'>No Matching Records Found</td></tr>");
+            return;
+        }
+
+        for(var i = 0; i < len; i++) {
+
+            htmlCode = htmlCode + "<tr>" +
+            "<td>" + 
+            "<div class='purpose'>" + companyCalendarList[i].purpose + "</div>" +
+            "<div class='date'>" + timeStampToDateLatest(Number(companyCalendarList[i].boardMeetinDate)) + "</div>" + 
+            "</td>" +
+            "</tr>";
+        }
+
+        $("#results_calendar_content tbody").html(htmlCode);
+
+
+        var paginationHtml =    "<div class='paging_container'>"
+                                + "<ul class='pager'>"
+                                 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
+                                 + "<li><span id='records_stats'></span></li>"
+                                 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
+                                + "</ul>"
+                             + "</div>";
+
+        $("#results_calendar_content").append(paginationHtml);
+
+        $('#results_calendar_content .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+
+
+        classRef.setRecordStats();
+    },
+
+    setRecordStats : function() {
+        var classRef = this;
+
+        if(classRef.currentIndex > classRef.lastPageNumber) {
+            classRef.currentIndex = classRef.lastPageNumber;
+        }
+        $("#results_calendar_content #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+    },
+
+    getPaginationIndex : function(event) {
+        var classRef = event.data.this;
+        var currentNode = $(this).attr('id');
+
+        if(currentNode == 'last') {
+            classRef.getLastPage();
+        } else if(currentNode == 'next') {
+            classRef.getNextPage();
+        } else if(currentNode == 'prev') {
+            classRef.getPreviousPage();
+        } else if(currentNode == 'first') {
+            classRef.getFirstPage();
+        }
+    },
+
+    getFirstPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.firstPageNumber) {
+            classRef.pageNumber = classRef.firstPageNumber;
+            classRef.currentIndex = classRef.firstPageNumber;
+            classRef.getCompanyCalendarData();
+        }
+    },
+
+    getLastPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.lastPageNumber;
+            classRef.currentIndex = (classRef.pageNumber - 1) * classRef.perPageMaxRecords + 1;
+            classRef.getCompanyCalendarData();
+        }
+    },
+
+    getNextPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber < classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.pageNumber + 1;
+            classRef.currentIndex = classRef.currentIndex + classRef.perPageMaxRecords;
+            classRef.getCompanyCalendarData();
+        }
+    },
+
+    getPreviousPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber > 1) {
+            classRef.pageNumber = classRef.pageNumber - 1;
+            classRef.currentIndex = classRef.currentIndex - classRef.perPageMaxRecords;
+            classRef.getCompanyCalendarData();
+        }
+    }
+
+};
+
+/*
+** company corp action Feed
+*/
+
+var companyCorpActionObj = {
+    init: function() {
+        this.firstPageNumber = 1;
+        this.pageNumber = 1;
+        this.lastPageNumber = 1;
+        this.totalRecords = 1;
+        this.currentIndex = 1;
+        this.perPageMaxRecords = 5;
+        this.sortByValue = 'broadcastDate';
+        this.orderBy = 'desc';
+        this.ticker = companyProfileObj.ticker;
+        this.baseApiUrl = "/system/api/companyprofile";
+
+        this.getCompanyCorpActionData();
+    },
+
+    getCompanyCorpActionData: function() {
+        var classRef = this;
+        classRef.getCompanyCorpActionRecordStats().then(function(stats) {
+            stats = JSON.parse(stats);
+            classRef.firstPageNumber = stats.firstPageNumber;
+            classRef.lastPageNumber = stats.lastPageNumber;
+            classRef.totalRecords = stats.totalRecords;
+
+            classRef.getCompanyCorpActionAPI().then(function(serverResponse) {
+                $("#corp_action_content .paging_container").remove();
+                serverResponse = JSON.parse(serverResponse);
+                classRef.getCompanyCorpActionHtml(serverResponse);
+                isProgressLoader(false);
+
+            }, function(error) {
+                console.log(error);
+                isProgressLoader(false);
+                $("#corp_action_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+            });
+        }, function(error) {
+                $("#corp_action_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+        });
+    },
+
+    getCompanyCorpActionRecordStats: function() {
+        var classRef = this;
+        var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+
+        var url = classRef.baseApiUrl + "/corpaction/recordstat?ticker=" + classRef.ticker + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            //httpRequest.timeout = API_TIMEOUT_SMALL;
+            httpRequest.open('GET', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        //console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCompanyCorpActionAPI: function() {
+        var classRef = this;
+
+        isProgressLoader(true);
+
+        var url = classRef.baseApiUrl + "/corpaction?ticker=" + classRef.ticker + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            httpRequest.open('GET', url, true);
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCompanyCorpActionHtml : function(response) {
+        var classRef = this;
+        var companyCorpActionList = response.corpAction;
+        var len = companyCorpActionList.length;
+        var htmlCode = '';
+        var rowHtml =   "";
+
+        if(len === 0) {
+            $("#corp_action_content tbody").html("<tr><td colspan='1'>No Matching Records Found</td></tr>");
+            return;
+        }
+
+        for(var i = 0; i < len; i++) {
+
+            htmlCode = htmlCode + "<tr>" +
+            "<td>" + 
+            "<div class='purpose'>" + companyCorpActionList[i].purpose + "</div>" +
+            "<div class='date'>" + timeStampToDateLatest(Number(companyCorpActionList[i].boardMeetinDate)) + "</div>" + 
+            "</td>" +
+            "</tr>";
+        }
+
+        $("#corp_action_content tbody").html(htmlCode);
+
+
+        var paginationHtml =    "<div class='paging_container'>"
+                                + "<ul class='pager'>"
+                                 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
+                                 + "<li><span id='records_stats'></span></li>"
+                                 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
+                                + "</ul>"
+                             + "</div>";
+
+        $("#corp_action_content").append(paginationHtml);
+
+        $('#corp_action_content .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+
+
+        classRef.setRecordStats();
+    },
+
+    setRecordStats : function() {
+        var classRef = this;
+
+        if(classRef.currentIndex > classRef.lastPageNumber) {
+            classRef.currentIndex = classRef.lastPageNumber;
+        }
+        $("#corp_action_content #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+    },
+
+    getPaginationIndex : function(event) {
+        var classRef = event.data.this;
+        var currentNode = $(this).attr('id');
+
+        if(currentNode == 'last') {
+            classRef.getLastPage();
+        } else if(currentNode == 'next') {
+            classRef.getNextPage();
+        } else if(currentNode == 'prev') {
+            classRef.getPreviousPage();
+        } else if(currentNode == 'first') {
+            classRef.getFirstPage();
+        }
+    },
+
+    getFirstPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.firstPageNumber) {
+            classRef.pageNumber = classRef.firstPageNumber;
+            classRef.currentIndex = classRef.firstPageNumber;
+            classRef.getCompanyCorpActionData();
+        }
+    },
+
+    getLastPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.lastPageNumber;
+            classRef.currentIndex = (classRef.pageNumber - 1) * classRef.perPageMaxRecords + 1;
+            classRef.getCompanyCorpActionData();
+        }
+    },
+
+    getNextPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber < classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.pageNumber + 1;
+            classRef.currentIndex = classRef.currentIndex + classRef.perPageMaxRecords;
+            classRef.getCompanyCorpActionData();
+        }
+    },
+
+    getPreviousPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber > 1) {
+            classRef.pageNumber = classRef.pageNumber - 1;
+            classRef.currentIndex = classRef.currentIndex - classRef.perPageMaxRecords;
+            classRef.getCompanyCorpActionData();
+        }
+    }
+
+};
+
+/*
+** company price history Feed
+*/
+
+var companyPriceHistoryObj = {
+    init: function() {
+        this.firstPageNumber = 1;
+        this.pageNumber = 1;
+        this.lastPageNumber = 1;
+        this.totalRecords = 1;
+        this.currentIndex = 1;
+        this.perPageMaxRecords = 5;
+        this.sortByValue = 'broadcastDate';
+        this.orderBy = 'desc';
+        var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+        this.isinCode = companyProfileJson.isinCode;
+        this.baseApiUrl = "/system/api/companyprofile";
+
+        this.getCompanyPriceHistoryData();
+    },
+
+    getCompanyPriceHistoryData: function() {
+        var classRef = this;
+        classRef.getCompanyPriceHistoryRecordStats().then(function(stats) {
+            stats = JSON.parse(stats);
+            classRef.firstPageNumber = stats.firstPageNumber;
+            classRef.lastPageNumber = stats.lastPageNumber;
+            classRef.totalRecords = stats.totalRecords;
+
+            classRef.getCompanyPriceHistoryAPI().then(function(serverResponse) {
+                $("#price_history_content .paging_container").remove();
+                serverResponse = JSON.parse(serverResponse);
+                classRef.getCompanyPriceHistoryHtml(serverResponse);
+                isProgressLoader(false);
+
+            }, function(error) {
+                console.log(error);
+                isProgressLoader(false);
+                $("#price_history_content tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            });
+        }, function(error) {
+                $("#price_history_content tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+        });
+    },
+
+    getCompanyPriceHistoryRecordStats: function() {
+        var classRef = this;
+        var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+
+        var url = classRef.baseApiUrl + "/pricehistory/recordstat?isin=" + classRef.isinCode + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            //httpRequest.timeout = API_TIMEOUT_SMALL;
+            httpRequest.open('GET', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        //console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCompanyPriceHistoryAPI: function() {
+        var classRef = this;
+
+        isProgressLoader(true);
+
+        var url = classRef.baseApiUrl + "/pricehistory?isin=" + classRef.isinCode + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            httpRequest.open('GET', url, true);
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCompanyPriceHistoryHtml : function(response) {
+        var classRef = this;
+        var companyPriceHistoryList = response.priceHistory;
+        var len = companyPriceHistoryList.length;
+        var htmlCode = '';
+        var rowHtml =   "";
+
+        if(len === 0) {
+            $("#price_history_content tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
+            return;
+        }
+
+        for(var i = 0; i < len; i++) {
+
+            var highPrice = (companyPriceHistoryList[i].highPrice) ? parseFloat(companyPriceHistoryList[i].highPrice).toFixed(2) : '-';
+            var lowPrice = (companyPriceHistoryList[i].lowPrice) ? parseFloat(companyPriceHistoryList[i].lowPrice).toFixed(2) : '-';
+            var closePrice = (companyPriceHistoryList[i].closePrice) ? parseFloat(companyPriceHistoryList[i].closePrice).toFixed(2) : '-';
+            var openPrice = (companyPriceHistoryList[i].openPrice) ? parseFloat(companyPriceHistoryList[i].openPrice).toFixed(2) : '-';
+            var lastTracePrice = (companyPriceHistoryList[i].lastTracePrice) ? parseFloat(companyPriceHistoryList[i].lastTracePrice).toFixed(2) : '-';
+
+            htmlCode = htmlCode + "<tr>" +
+            "<td>" + 
+            "<div class='date'>" + timeStampToDate(Number(companyPriceHistoryList[i].priceDate)) + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='highPrice'>" + highPrice + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='lowPrice'>" + lowPrice + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='closePrice'>" + closePrice + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='openPrice'>" + openPrice + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='lastTradedPrice'>" + lastTracePrice + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='source'>" + companyPriceHistoryList[i].priceSourceCode + "</div>" + 
+            "</td>" +
+            "</tr>";
+        }
+
+        $("#price_history_content tbody").html(htmlCode);
+
+
+        var paginationHtml =    "<div class='paging_container'>"
+                                + "<ul class='pager'>"
+                                 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
+                                 + "<li><span id='records_stats'></span></li>"
+                                 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
+                                + "</ul>"
+                             + "</div>";
+
+        $("#price_history_content").append(paginationHtml);
+
+        $('#price_history_content .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+
+
+        classRef.setRecordStats();
+    },
+
+    setRecordStats : function() {
+        var classRef = this;
+
+        if(classRef.currentIndex > classRef.lastPageNumber) {
+            classRef.currentIndex = classRef.lastPageNumber;
+        }
+        $("#price_history_content #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+    },
+
+    getPaginationIndex : function(event) {
+        var classRef = event.data.this;
+        var currentNode = $(this).attr('id');
+
+        if(currentNode == 'last') {
+            classRef.getLastPage();
+        } else if(currentNode == 'next') {
+            classRef.getNextPage();
+        } else if(currentNode == 'prev') {
+            classRef.getPreviousPage();
+        } else if(currentNode == 'first') {
+            classRef.getFirstPage();
+        }
+    },
+
+    getFirstPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.firstPageNumber) {
+            classRef.pageNumber = classRef.firstPageNumber;
+            classRef.currentIndex = classRef.firstPageNumber;
+            classRef.getCompanyPriceHistoryData();
+        }
+    },
+
+    getLastPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.lastPageNumber;
+            classRef.currentIndex = (classRef.pageNumber - 1) * classRef.perPageMaxRecords + 1;
+            classRef.getCompanyPriceHistoryData();
+        }
+    },
+
+    getNextPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber < classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.pageNumber + 1;
+            classRef.currentIndex = classRef.currentIndex + classRef.perPageMaxRecords;
+            classRef.getCompanyPriceHistoryData();
+        }
+    },
+
+    getPreviousPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber > 1) {
+            classRef.pageNumber = classRef.pageNumber - 1;
+            classRef.currentIndex = classRef.currentIndex - classRef.perPageMaxRecords;
+            classRef.getCompanyPriceHistoryData();
+        }
+    }
+
+};
 
 
 jQuery(document).ready(function() {
@@ -1728,13 +2406,13 @@ jQuery(document).ready(function() {
    $( window ).scroll(function() {
         var screenWidth = $(window).width();
         if(screenWidth < 768) {
-            if ($(this).scrollTop() > 770) {
+            if ($(this).scrollTop() > 910) {
                 wrap.addClass("fix-subheader");
             } else {
                 wrap.removeClass("fix-subheader");
             }
         } else {
-            if ($(this).scrollTop() > 320) {
+            if ($(this).scrollTop() > 400) {
                 wrap.addClass("fix-subheader");
             } else {
                 wrap.removeClass("fix-subheader");

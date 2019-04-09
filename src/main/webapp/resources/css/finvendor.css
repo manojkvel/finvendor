@@ -634,10 +634,14 @@ body#home {
 	padding: 0;
 }
 
+#company_profile #summary_content .summary {
+	padding: 0 15px;
+}
+
 #company_profile .subheader_content #summary_content,
 #company_profile .subheader_content #financials_content,
 #company_profile .subheader_content #results_calendar_content,
-#company_profile .subheader_content #shareholding_content,
+#company_profile .subheader_content #price_history_content,
 #company_profile .subheader_content #news_feed_content,
 #company_profile .subheader_content #corp_action_content {
 	padding: 10px 0;
@@ -646,7 +650,7 @@ body#home {
 #company_profile .subheader_content #research_report_content,
 #company_profile .subheader_content #financials_content,
 #company_profile .subheader_content #results_calendar_content,
-#company_profile .subheader_content #shareholding_content,
+#company_profile .subheader_content #price_history_content,
 #company_profile .subheader_content #news_feed_content,
 #company_profile .subheader_content #corp_action_content {
 	display: none;
@@ -803,7 +807,7 @@ table .normal_font p {
 #company_profile .subheader #research_report_content,
 #company_profile .subheader #financials_content,
 #company_profile .subheader #results_calendar_content,
-#company_profile .subheader #shareholding_content,
+#company_profile .subheader #price_history_content,
 #company_profile .subheader #news_feed_content,
 #company_profile .subheader #corp_action_content {
 	padding-top: 110px;
@@ -1267,7 +1271,7 @@ button {
 .inner_breadcrumb {
 	margin-bottom: 20px;
 	background: #414b4f;
-	padding: 10px;
+	padding: 10px 15px;
 	color: #fff;
 	display: inline-block;
 	min-width: 200px;
@@ -2012,13 +2016,39 @@ button {
 	z-index: 0;
 }
 
-#news_feed_content table > thead > tr > th {
+#results_calendar_content table > thead > tr > th,
+#news_feed_content table > thead > tr > th,
+#price_history_content table > thead > tr > th {
 	height: auto;
 	min-height: auto;
 }
 
+#results_calendar_content table,
+#news_feed_content table,
+#corp_action_content table {
+	min-height: auto;
+}
+
+#results_calendar_content .purpose,
+#news_feed_content .subject {
+	font-weight: bold;
+}
+
+#results_calendar_content td,
 #news_feed_content td {
 	text-align: left;
+	padding: 10px 15px;
+}
+
+.price_history_table {
+	overflow: auto;
+	width: 100%;
+}
+
+
+
+#financials_content .tab-content {
+	padding: 0 15px;
 }
 
 /*-----------------End of Dashboard Metrics----------------*/
@@ -2242,7 +2272,7 @@ button {
 	#company_profile .subheader #research_report_content,
 	#company_profile .subheader #financials_content,
 	#company_profile .subheader #results_calendar_content,
-	#company_profile .subheader #shareholding_content,
+	#company_profile .subheader #price_history_content,
 	#company_profile .subheader #news_feed_content,
 	#company_profile .subheader #corp_action_content {
 		padding-top: 165px;
@@ -2251,6 +2281,26 @@ button {
 	#financials_content h4 {
 		font-size: 13px;
 		line-height: 21px;
+	}
+
+	#financials_content .nav-tabs>li.active>a, 
+	#financials_content .nav-tabs>li.active>a:focus, 
+	#financials_content .nav-tabs>li.active>a:hover, 
+	#financials_content .nav-tabs>li>a:hover {
+		font-size: 11px;
+	}
+
+	#financials_content .nav-tabs>li>a,
+	#financials_content .nav-tabs>li>a:focus {
+		font-size: 11px;
+	}
+
+	.paging_container {
+		padding: 0;
+	}
+
+	.pager li>a, .pager li>a:focus {
+		font-size: 11px;
 	}
 }
 

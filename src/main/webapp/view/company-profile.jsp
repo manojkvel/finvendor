@@ -208,6 +208,7 @@
 
 						<div class="container-fluid">
 							<div class="col-xs-12">
+								<div class="row">
 								<div class="subheader">
 									<nav class="navbar navbar-inverse navbar-fixed-top">
 										<div class="container-fluid">
@@ -227,7 +228,7 @@
 														<li><a href="#results_calendar_content">Results Calendar</a></li>
 														<li><a href="#news_feed_content">News Feed</a></li>
 														<li><a href="#corp_action_content">Corp. Action</a></li>
-														<li><a href="#shareholding_content">Price History</a></li>
+														<li><a href="#price_history_content">Price History</a></li>
 													</ul>
 												</div>
 											</div>
@@ -426,17 +427,17 @@
 										<div class="inner_breadcrumb">
 											<h5>Results Calendar</h5>
 										</div>
-										<p>To be available soon</p>
+										<table>
+											<tbody>
+												
+											</tbody>
+										</table>
 									</div>
 									<div id="news_feed_content" class="container-fluid">
 										<div class="inner_breadcrumb">
 											<h5>News Feed</h5>
 										</div>
 										<table>
-											<thead>
-												<th width="30%">Date</th>
-												<th width="70%">Subject</th>
-											</thead>
 											<tbody>
 												
 											</tbody>
@@ -446,14 +447,49 @@
 										<div class="inner_breadcrumb">
 											<h5>Corporate Action</h5>
 										</div>
-										<p>To be available soon</p>
+										<table>
+											<tbody>
+												
+											</tbody>
+										</table>
 									</div>
-									<div id="shareholding_content" class="container-fluid">
+									<div id="price_history_content" class="container-fluid">
 										<div class="inner_breadcrumb">
 											<h5>Price History</h5>
 										</div>
-										<p>To be available soon</p>
+										<div class="price_history_table">
+											<table>
+												<tbody>
+													<thead>
+														<tr>
+															<th>
+																Date
+															</th>
+															<th>
+																High
+															</th>
+															<th>
+																Low
+															</th>
+															<th>
+																Close
+															</th>
+															<th>
+																Open
+															</th>
+															<th>
+																Last Traded
+															</th>
+															<th>
+																Source
+															</th>
+														</tr>
+													</thead>
+												</tbody>
+											</table>
+										</div>
 									</div>
+								</div>
 								</div>
 							</div>
 						</div>
