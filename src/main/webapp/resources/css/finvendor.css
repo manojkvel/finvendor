@@ -2028,6 +2028,20 @@ button {
 	min-height: auto;
 }
 
+#results_calendar_content th:first-child,
+#results_calendar_content td:first-child,
+#news_feed_content th:first-child,
+#news_feed_content td:first-child {
+	width: 30%;
+}
+
+#results_calendar_content th,
+#results_calendar_content td,
+#news_feed_content th,
+#news_feed_content td {
+	width: 70%;
+}
+
 #results_calendar_content .purpose,
 #news_feed_content .subject {
 	font-weight: bold;
@@ -2310,6 +2324,17 @@ button {
 	}
 
 	.pager li>a, .pager li>a:focus {
+		font-size: 11px;
+	}
+
+	#results_calendar_content th,
+	#results_calendar_content td,
+	#news_feed_content th,
+	#news_feed_content td,
+	#price_history_content th,
+	#price_history_content td,
+	#corp_action_content th,
+	#corp_action_content td {
 		font-size: 11px;
 	}
 }

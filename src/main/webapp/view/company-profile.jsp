@@ -429,7 +429,16 @@
 										</div>
 										<table>
 											<tbody>
-												
+												<thead>
+													<tr>
+														<th>
+															Date
+														</th>
+														<th>
+															Purpose
+														</th>
+													</tr>
+												</thead>
 											</tbody>
 										</table>
 									</div>
@@ -439,7 +448,16 @@
 										</div>
 										<table>
 											<tbody>
-												
+												<thead>
+													<tr>
+														<th>
+															Date
+														</th>
+														<th>
+															Subject
+														</th>
+													</tr>
+												</thead>
 											</tbody>
 										</table>
 									</div>

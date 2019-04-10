@@ -1523,10 +1523,10 @@ var companyNewsObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $("#news_feed_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+                $("#news_feed_content tbody").html("<tr><td colspan='2'>We are not able to get the info, please try again later.</td></tr>");
             });
         }, function(error) {
-                $("#news_feed_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+                $("#news_feed_content tbody").html("<tr><td colspan='2'>We are not able to get the info, please try again later.</td></tr>");
         });
     },
 
@@ -1599,16 +1599,24 @@ var companyNewsObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $("#news_feed_content tbody").html("<tr><td colspan='1'>No Matching Records Found</td></tr>");
+            $("#news_feed_content tbody").html("<tr><td colspan='2'>No Matching Records Found</td></tr>");
             return;
         }
 
         for(var i = 0; i < len; i++) {
 
+            var broadcastDate = timeStampToDateLatest(Number(companyNewsList[i].broadcastDate));
+
+            if($(window).width() < 768) {
+                broadcastDate = timeStampToDate(Number(companyNewsList[i].broadcastDate));
+            }
+
             htmlCode = htmlCode + "<tr>" +
             "<td>" + 
+            "<div class='date'>" + broadcastDate + "</div>" + 
+            "</td>" +
+            "<td>" + 
             "<div class='subject'>" + companyNewsList[i].subject + "</div>" +
-            "<div class='date'>" + timeStampToDateLatest(Number(companyNewsList[i].broadcastDate)) + "</div>" + 
             "</td>" +
             "</tr>";
         }
@@ -1737,10 +1745,10 @@ var companyCalendarObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $("#results_calendar_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+                $("#results_calendar_content tbody").html("<tr><td colspan='2'>We are not able to get the info, please try again later.</td></tr>");
             });
         }, function(error) {
-                $("#results_calendar_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+                $("#results_calendar_content tbody").html("<tr><td colspan='2'>We are not able to get the info, please try again later.</td></tr>");
         });
     },
 
@@ -1813,16 +1821,25 @@ var companyCalendarObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $("#results_calendar_content tbody").html("<tr><td colspan='1'>No Matching Records Found</td></tr>");
+            $("#results_calendar_content tbody").html("<tr><td colspan='2'>No Matching Records Found</td></tr>");
             return;
         }
 
         for(var i = 0; i < len; i++) {
+            var boardMeetinDate = timeStampToDateLatest(Number(companyCalendarList[i].boardMeetinDate));
+
+            if($(window).width() < 768) {
+                boardMeetinDate = timeStampToDate(Number(companyCalendarList[i].boardMeetinDate));
+            } else {
+
+            }
 
             htmlCode = htmlCode + "<tr>" +
             "<td>" + 
+            "<div class='date'>" + boardMeetinDate+ "</div>" + 
+            "</td>" +
+            "<td>" + 
             "<div class='purpose'>" + companyCalendarList[i].purpose + "</div>" +
-            "<div class='date'>" + timeStampToDateLatest(Number(companyCalendarList[i].boardMeetinDate)) + "</div>" + 
             "</td>" +
             "</tr>";
         }
