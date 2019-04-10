@@ -130,7 +130,7 @@
 		</div>
 		<div id="marquee_container">
 			<div class="marquee stock_price">
-				<div class="row">
+				<div class="row no-gutters">
 					<div class="col-xs-12 col-md-2">
 						<div class="hd">
 							<h4 class="title"></h4>
@@ -144,7 +144,7 @@
 				</div>
 			</div>
 			<div class="marquee index_price">
-				<div class="row">
+				<div class="row no-gutters">
 					<div class="col-xs-12 col-md-2">
 						<div class="hd">
 							<h4 class="title"></h4>

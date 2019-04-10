@@ -8,9 +8,7 @@ body#home {
 	margin-top: 55px !important;
 }
 
-#home .header {
-	margin-top: -55px !important;
-}
+
 
 .errorMessage {
 	font-size:12px; 
@@ -825,7 +823,7 @@ table .normal_font p {
 .header {
 	width: 100%;
 	z-index: 99999;
-	margin-top: -70px;
+	top: 0;
 	position: fixed;
 }
 
@@ -2018,7 +2016,8 @@ button {
 
 #results_calendar_content table > thead > tr > th,
 #news_feed_content table > thead > tr > th,
-#price_history_content table > thead > tr > th {
+#price_history_content table > thead > tr > th,
+#corp_action_content table > thead > tr > th {
 	height: auto;
 	min-height: auto;
 }
@@ -2049,6 +2048,17 @@ button {
 
 #financials_content .tab-content {
 	padding: 0 15px;
+}
+
+.row.no-gutters {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.row.no-gutters > [class^="col-"],
+.row.no-gutters > [class*=" col-"] {
+	padding-right: 0;
+	padding-left: 0;
 }
 
 /*-----------------End of Dashboard Metrics----------------*/
@@ -2106,8 +2116,8 @@ button {
 		margin-top: 103px !important;
 	}
 
-	.header {
-		margin-top: -103px;
+	#sidemenu {
+		margin-top: 8px;
 	}
 
 	.header .logo {

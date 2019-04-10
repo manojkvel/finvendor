@@ -449,7 +449,22 @@
 										</div>
 										<table>
 											<tbody>
-												
+												<thead>
+													<tr>
+														<th>
+															Date
+														</th>
+														<th>
+															Face Value
+														</th>
+														<th>
+															Ex Date
+														</th>
+														<th>
+															Purpose
+														</th>
+													</tr>
+												</thead>
 											</tbody>
 										</table>
 									</div>

@@ -518,7 +518,7 @@ function getCompanyProfileResearchReportLoad() {
 
         companyCalendarObj.init();
         companyNewsObj.init();
-        //companyCorpActionObj.init();
+        companyCorpActionObj.init();
         companyPriceHistoryObj.init();
 
 
@@ -1951,10 +1951,10 @@ var companyCorpActionObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $("#corp_action_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+                $("#corp_action_content tbody").html("<tr><td colspan='4'>We are not able to get the info, please try again later.</td></tr>");
             });
         }, function(error) {
-                $("#corp_action_content tbody").html("<tr><td colspan='1'>We are not able to get the info, please try again later.</td></tr>");
+                $("#corp_action_content tbody").html("<tr><td colspan='4'>We are not able to get the info, please try again later.</td></tr>");
         });
     },
 
@@ -2027,16 +2027,28 @@ var companyCorpActionObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $("#corp_action_content tbody").html("<tr><td colspan='1'>No Matching Records Found</td></tr>");
+            $("#corp_action_content tbody").html("<tr><td colspan='4'>No Matching Records Found</td></tr>");
             return;
         }
 
         for(var i = 0; i < len; i++) {
 
+            var faceValue = (companyCorpActionList[i].faceValue != '0') ? companyCorpActionList[i].faceValue : '-';
+            var recordDate = (companyCorpActionList[i].recordDate != '0') ? timeStampToDate(Number(companyCorpActionList[i].recordDate)) : '-';
+            var exDate = (companyCorpActionList[i].exDate != '0') ? timeStampToDate(Number(companyCorpActionList[i].exDate)) : '-';
+
             htmlCode = htmlCode + "<tr>" +
+            "<td>" +
+            "<div class='date'>" + recordDate + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='faceValue'>" + faceValue + "</div>" +
+            "</td>" +
+            "<td>" + 
+            "<div class='exDate'>" + exDate + "</div>" +
+            "</td>" +
             "<td>" + 
             "<div class='purpose'>" + companyCorpActionList[i].purpose + "</div>" +
-            "<div class='date'>" + timeStampToDateLatest(Number(companyCorpActionList[i].boardMeetinDate)) + "</div>" + 
             "</td>" +
             "</tr>";
         }
