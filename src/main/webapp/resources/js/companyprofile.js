@@ -1605,10 +1605,11 @@ var companyNewsObj = {
 
         for(var i = 0; i < len; i++) {
 
-            var broadcastDate = timeStampToDateLatest(Number(companyNewsList[i].broadcastDate));
+            var broadcastDate = (companyNewsList[i].broadcastDate != '0') ? timeStampToDateNew(Number(companyNewsList[i].broadcastDate))[2] + "-" + timeStampToDateNew(Number(companyNewsList[i].broadcastDate))[1] + "-" + timeStampToDateNew(Number(companyNewsList[i].broadcastDate))[3] + " " + timeStampToDateNew(Number(companyNewsList[i].broadcastDate))[4] : '-';
+
 
             if($(window).width() < 768) {
-                broadcastDate = timeStampToDate(Number(companyNewsList[i].broadcastDate));
+                broadcastDate = (companyNewsList[i].broadcastDate != '0') ? timeStampToDateNew(Number(companyNewsList[i].broadcastDate))[2] + "-" + timeStampToDateNew(Number(companyNewsList[i].broadcastDate))[1] + "-" + timeStampToDateNew(Number(companyNewsList[i].broadcastDate))[3] : '-';
             }
 
             htmlCode = htmlCode + "<tr>" +
@@ -1826,10 +1827,12 @@ var companyCalendarObj = {
         }
 
         for(var i = 0; i < len; i++) {
-            var boardMeetinDate = timeStampToDateLatest(Number(companyCalendarList[i].boardMeetinDate));
+
+            var boardMeetinDate = (companyCalendarList[i].boardMeetinDate != '0') ? timeStampToDateNew(Number(companyCalendarList[i].boardMeetinDate))[2] + "-" + timeStampToDateNew(Number(companyCalendarList[i].boardMeetinDate))[1] + "-" + timeStampToDateNew(Number(companyCalendarList[i].boardMeetinDate))[3] : '-';
+
 
             if($(window).width() < 768) {
-                boardMeetinDate = timeStampToDate(Number(companyCalendarList[i].boardMeetinDate));
+                boardMeetinDate = (companyCalendarList[i].boardMeetinDate != '0') ? timeStampToDateNew(Number(companyCalendarList[i].boardMeetinDate))[2] + "-" + timeStampToDateNew(Number(companyCalendarList[i].boardMeetinDate))[1] + "-" + timeStampToDateNew(Number(companyCalendarList[i].boardMeetinDate))[3] : '-';
             } else {
 
             }
@@ -2050,9 +2053,10 @@ var companyCorpActionObj = {
 
         for(var i = 0; i < len; i++) {
 
+            var recordDate = (companyCorpActionList[i].recordDate != '0') ? timeStampToDateNew(Number(companyCorpActionList[i].recordDate))[2] + "-" + timeStampToDateNew(Number(companyCorpActionList[i].recordDate))[1] + "-" + timeStampToDateNew(Number(companyCorpActionList[i].recordDate))[3] : '-';
+            var exDate = (companyCorpActionList[i].exDate != '0') ? timeStampToDateNew(Number(companyCorpActionList[i].exDate))[2] + "-" + timeStampToDateNew(Number(companyCorpActionList[i].exDate))[1] + "-" + timeStampToDateNew(Number(companyCorpActionList[i].exDate))[3] : '-';
+
             var faceValue = (companyCorpActionList[i].faceValue != '0') ? companyCorpActionList[i].faceValue : '-';
-            var recordDate = (companyCorpActionList[i].recordDate != '0') ? timeStampToDate(Number(companyCorpActionList[i].recordDate)) : '-';
-            var exDate = (companyCorpActionList[i].exDate != '0') ? timeStampToDate(Number(companyCorpActionList[i].exDate)) : '-';
 
             htmlCode = htmlCode + "<tr>" +
             "<td>" +
@@ -2282,10 +2286,11 @@ var companyPriceHistoryObj = {
             var closePrice = (companyPriceHistoryList[i].closePrice) ? parseFloat(companyPriceHistoryList[i].closePrice).toFixed(2) : '-';
             var openPrice = (companyPriceHistoryList[i].openPrice) ? parseFloat(companyPriceHistoryList[i].openPrice).toFixed(2) : '-';
             var lastTracePrice = (companyPriceHistoryList[i].lastTracePrice) ? parseFloat(companyPriceHistoryList[i].lastTracePrice).toFixed(2) : '-';
+            var priceDate = timeStampToDateNew(Number(companyPriceHistoryList[i].priceDate))[2] + "-" + timeStampToDateNew(Number(companyPriceHistoryList[i].priceDate))[1] + "-" + timeStampToDateNew(Number(companyPriceHistoryList[i].priceDate))[3];
 
             htmlCode = htmlCode + "<tr>" +
             "<td>" + 
-            "<div class='date'>" + timeStampToDate(Number(companyPriceHistoryList[i].priceDate)) + "</div>" + 
+            "<div class='date'>" + priceDate + "</div>" + 
             "</td>" +
             "<td>" + 
             "<div class='highPrice'>" + highPrice + "</div>" + 
