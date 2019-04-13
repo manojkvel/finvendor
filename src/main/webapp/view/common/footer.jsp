@@ -35,7 +35,7 @@
 							<ul>
 								<li><a
 									href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp">
-										<span class="fa fa-chevron-right"></span> Research Reports
+										<span class="fa fa-chevron-right"></span> Stock Screener
 								</a></li>
 								<li><a
 									href="${pageContext.request.contextPath}/view/markets.jsp">

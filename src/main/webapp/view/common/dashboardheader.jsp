@@ -68,19 +68,31 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
 
                                                             <ul class="sf-menu hidden-xs" id="example">
 																<li>
-                                                                        <a href="#">Research Reports</a>
+                                                                        <a href="#">Screener</a>
                                                                         <ul>
                                                                             <li>
-                                                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
-                                                                                    Equity/Company Research
+                                                                                <a href="#">
+                                                                                    Stock Screener
                                                                                 </a>
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
+                                                                                            Research Analyst's Recommendations
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <a href="${pageContext.request.contextPath}/view/celebrity-investors-strategies.jsp">
+                                                                                            Celebrity Investor's Strategies
+                                                                                        </a>
+                                                                                    </li>
+                                                                                </ul>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="${pageContext.request.contextPath}/view/sector-research.jsp">
-                                                                                    Sector Research
+                                                                                    Sector Screener
                                                                                 </a>
                                                                             </li>
-                                                                            <li>
+                                                                            <!--<li>
                                                                                 <a href="${pageContext.request.contextPath}/view/macro-research.jsp">
                                                                                     Macro Research
                                                                                 </a>
@@ -94,7 +106,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                                 <a href="${pageContext.request.contextPath}/view/fund-etf-research.jsp">
                                                                                     Fund/ETF Research
                                                                                 </a>
-                                                                            </li>
+                                                                            </li>-->
                                                                         </ul>
                                                                     </li>
                                                                     <li>
@@ -248,31 +260,28 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                 </c:choose>
                             </li>
                             <li>
-                                <a href="#">Research Reports</a>
+                                <a href="#">Screener <i class="fa fa-chevron-down"></i></a>
                                 <ul class="child-main-menu">
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
-                                            Equity/Company Research
+                                        <a href="#">
+                                            Stock Screener
                                         </a>
+                                        <ul class="child-main-menu">
+                                            <li>
+                                                <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
+                                                    Research Analyst's Recommendations
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="${pageContext.request.contextPath}/view/celebrity-investors-strategies.jsp">
+                                                    Celebrity Investor's Strategies
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                     <li>
                                         <a href="${pageContext.request.contextPath}/view/sector-research.jsp">
-                                            Sector Research
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/view/macro-research.jsp">
-                                            Macro Research
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/view/debt-market-research.jsp">
-                                            Debt Mkt Research
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/view/fund-etf-research.jsp">
-                                            Fund/ETF Research
+                                            Sector Screener
                                         </a>
                                     </li>
                                 </ul>

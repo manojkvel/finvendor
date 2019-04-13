@@ -7,7 +7,7 @@
             <dl class="accordion">
                 <dt>
                     <a href="#">
-                        Research Reports
+                        Screener
                         <span class="fa fa-angle-right"></span>
                     </a>
                 </dt>
@@ -15,35 +15,25 @@
                     <ul>
                         <li>
                             <a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
-                                Equity/Company Research
+                                Research Analyst's Recommendations
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/view/celebrity-investors-strategies.jsp">
+                                Celebrity Investor's Strategies
                             </a>
                         </li>
                         <li>
                             <a href="${pageContext.request.contextPath}/view/sector-research.jsp">
-                                Sector Research
-                            </a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/view/macro-research.jsp">
-                                Macro Research
-                            </a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/view/debt-market-research.jsp">
-                                Debt Mkt Research
-                            </a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/view/fund-etf-research.jsp">
-                                Fund/ETF Research
+                                Sector Screener
                             </a>
                         </li>
                     </ul>
                 </dd>
                 <ul class="parent_link">
                     <li>
-                        <a href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">
-                            Brokers/Analysts
+                        <a href="${pageContext.request.contextPath}/view/markets.jsp">
+                            Markets
                         </a>
                     </li>
                 </ul>

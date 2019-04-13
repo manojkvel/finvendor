@@ -88,6 +88,16 @@ body {
     border-top-color: #34bf98;
 }
 
+
+
+.sf-arrows ul .sf-with-ul:after {
+	border-color: transparent;
+	border-left-color: transparent;
+	border-top-color: #000;
+	margin: 0;
+	margin-top: -2px;
+}
+
 .sf-arrows li.user_activity.sfHover .sf-with-ul:after {
 	margin-top: -6px;
 	transform: rotate(180deg);
@@ -116,7 +126,8 @@ body {
 	font-weight: normal;
 }
 
-.sf-arrows .sf-with-ul:after {
+.sf-arrows .sf-with-ul:after,
+.sf-arrows ul .sf-with-ul:after {
     transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
@@ -126,7 +137,8 @@ body {
     border-top-color: #a0a0a0;
 }
 
-.sf-arrows li.sfHover .sf-with-ul:after {
+.sf-arrows li.sfHover .sf-with-ul:after,
+.sf-arrows li.sfHover .sf-with-ul:after ul li.sfHover .sf-with-ul:after {
 	margin-top: -6px;
 	transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
@@ -137,12 +149,32 @@ body {
     border-top-color: #414b4f;
 }
 
+.sf-arrows li.sfHover .sf-with-ul:after ul li .sf-with-ul:after {
+	margin-top: -6px;
+	transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    transition: .5s all ease;
+    -webkit-transition: .5s all ease;
+    -moz-transition: .5s all ease;
+    border-top-color: #a0a0a0;
+}
+
 .nav-srch-cnt >ul >li >a i{
 	font-size: 15px;
 	padding-right: 10px;
 }
-.sf-arrows .sf-with-ul:after{
+.sf-arrows .sf-with-ul:after,
+.sf-arrows ul .sf-with-ul:after {
 	border-top-color: #a0a0a0;
+}
+
+.sf-arrows ul li>.sf-with-ul:focus:after, .sf-arrows ul li:hover>.sf-with-ul:after, .sf-arrows ul .sfHover>.sf-with-ul:after {
+	border-left-color: transparent;
+}
+
+.sf-arrows>li>.sf-with-ul:focus:after, .sf-arrows>li:hover>.sf-with-ul:after, .sf-arrows>.sfHover>.sf-with-ul:after {
+	border-top-color: #fff;
 }
 
 .header .pull-right {
@@ -156,17 +188,25 @@ body {
     top: 55px;
     left: 0;
 }
-.sf-menu ul li {
+.sf-menu ul li,
+.sf-menu ul ul li {
     background: #fff;
 }
-.sf-menu ul li:hover {
+.sf-menu ul li:hover,
+.sf-menu ul ul li:hover {
     background: #414b4f;
 }
-.sf-menu li ul li a {
+.sf-menu li ul li a,
+.sf-menu ul ul li a {
     border-bottom: 1px solid transparent;
     font-size: 14px;
     line-height: 20px;
     color: #fff;
+}
+
+.sf-menu ul ul {
+	left: 0;
+	top: 92px;
 }
 
 .contact-detail{
