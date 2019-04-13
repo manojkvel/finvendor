@@ -32,27 +32,17 @@
 								<ul>
 									<li>
 										<a href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp?researchReportType=Equity/Company Research">
-											<span class="fa fa-chevron-right"></span> Equity/Company Research
+											<span class="fa fa-chevron-right"></span> Research Analyst's Recommendations
+										</a>
+									</li>
+									<li>
+										<a href="${pageContext.request.contextPath}/view/celebrity-investors-strategies.jsp">
+											<span class="fa fa-chevron-right"></span> Celebrity Investor's Strategies
 										</a>
 									</li>
 									<li>
 										<a href="${pageContext.request.contextPath}/view/sector-research.jsp">
-											<span class="fa fa-chevron-right"></span> Sector Research
-										</a>
-									</li>
-									<li>
-										<a href="${pageContext.request.contextPath}/view/macro-research.jsp">
-											<span class="fa fa-chevron-right"></span> Macro Research
-										</a>
-									</li>
-									<li>
-										<a href="${pageContext.request.contextPath}/view/debt-market-research.jsp">
-											<span class="fa fa-chevron-right"></span> Debt Mkt Research
-										</a>
-									</li>
-									<li>
-										<a href="${pageContext.request.contextPath}/view/fund-etf-research.jsp">
-											<span class="fa fa-chevron-right"></span> Fund/ETF Research
+											<span class="fa fa-chevron-right"></span> Sector Screener
 										</a>
 									</li>
 								</ul>
@@ -60,8 +50,8 @@
 							<div class="col-xs-12 col-sm-4">
 								<ul class="parent_link">
 									<li>
-										<a href="${pageContext.request.contextPath}/view/brokers-analysts.jsp">
-											<span class="fa fa-chevron-right"></span> Brokers/Analysts
+										<a href="${pageContext.request.contextPath}/view/markets.jsp">
+											<span class="fa fa-chevron-right"></span> Markets
 										</a>
 									</li>
 								</ul>
