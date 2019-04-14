@@ -41,18 +41,17 @@ public class CompanyNewsFeed implements CompanyProfileFeed {
         try {
             downloadFile(url, downloadPath);
         } catch (IOException e) {
-            throw new Exception("Error has occured while downloading Company News from URL ",e);
+            throw new Exception("Error has occured while downloading Company News from URL ", e);
         }
         return true;
     }
 
     @Override
     public int feed(String path) throws Exception {
-        logger.info("CompanyNewsFeed::feed()-> path: {}", path);
+        logger.info("CompanyNewsFeed::feed()-> path: {}", path + File.separator + "companyNews.csv");
         String line;
-        File filePath = new File(path);
-        File newFilePath = filePath.listFiles()[0];
-        try (BufferedReader br = new BufferedReader(new FileReader(newFilePath))) {
+        File filePath = new File(path + File.separator + "companyNews.csv");
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] newsColums = line.split(COMMA);

@@ -13,8 +13,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static com.finvendor.common.constant.AppConstant.COMMA;
 import static com.finvendor.common.util.FileUtil.downloadFile;
@@ -49,16 +49,18 @@ public class CorpActionFeed implements CompanyProfileFeed {
 
     @Override
     public int feed(String filePathStr) throws Exception {
-        logger.info("CorpActionFeed::feed()-> path: {}", filePathStr);
+        logger.info("CorpActionFeed::feed()-> path: {}", filePathStr + File.separator + "corpAction.csv");
         String line;
-        File filePath = new File(filePathStr);
-        File newFilePath = Objects.requireNonNull(filePath.listFiles())[0];
-        try (BufferedReader br = new BufferedReader(new FileReader(newFilePath))) {
+        File filePath = new File(filePathStr + File.separator + "corpAction.csv");
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] newsColums = line.split(COMMA);
+                logger.info("CorpActionFeed Columns value: {}", Arrays.toString(newsColums));
                 String ticker = newsColums[0].trim();
+
                 ticker = StringUtils.replace(ticker, "\"", "");
+                logger.info("ticke: {}", ticker);
 
                 String companyName = newsColums[1].trim();
                 companyName = StringUtils.replace(companyName, "\"", "");

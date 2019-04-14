@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class KennethFisherFeed extends AbstractScreenerFeed {
+public class JamesShaughnessyFeed extends AbstractScreenerFeed {
     private static final String INSERT_QUERY = "insert into strategy_kenneth_fisher values(?,?,?,?,?,?,?,?,?,?)";
 
     @Override

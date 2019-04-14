@@ -1,25 +1,21 @@
 package com.finvendor.common.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 /**
- * 
+ *
  * @author ayush
  * @since 03-Feb-2018
  */
@@ -30,6 +26,14 @@ public class JsonUtil {
 		return object;
 	}
 
+	/**
+	 *
+	 * @param jsonStr
+	 * @param clazz
+	 * @param skipUnkownProperties
+	 * @return
+	 * @throws IOException
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Object createObjectFromJson(String jsonStr, Class clazz, boolean skipUnkownProperties) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
@@ -40,24 +44,51 @@ public class JsonUtil {
 		return object;
 	}
 
+	/**
+	 *
+	 * @param object
+	 * @return
+	 * @throws IOException
+	 */
 	public static String createJsonFromObject(Object object) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		return mapper.writeValueAsString(object);
 	}
 
+	/**
+	 *
+	 * @param jsonStr
+	 * @return
+	 * @throws IOException
+	 */
 	public static ObjectNode getAsObjectNode(String jsonStr) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(jsonStr);
 		return (ObjectNode) root;
 	}
 
+	/**
+	 *
+	 * @param jsonStr
+	 * @param fieldName
+	 * @return
+	 * @throws IOException
+	 */
 	public static String getValue(String jsonStr, String fieldName) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(jsonStr);
 		JsonNode node = root.findValue(fieldName);
 		return node != null ? node.asText() : "";
 	}
+
+	/**
+	 *
+	 * @param jsonStr
+	 * @param nodeName
+	 * @return
+	 * @throws IOException
+	 */
 	public static JsonNode getJsonNode(String jsonStr, String nodeName) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(jsonStr);
@@ -65,11 +96,25 @@ public class JsonUtil {
 		return node;
 	}
 
+	/**
+	 *
+	 * @param jsonStr
+	 * @param nodeName
+	 * @return
+	 * @throws IOException
+	 */
 	public static String getJsonNodeString(String jsonStr, String nodeName) throws IOException {
 		JsonNode node = getJsonNode(jsonStr, nodeName);
 		return node != null ? node.toString() : "";
 	}
 
+	/**
+	 *
+	 * @param jsonStr
+	 * @param nodeName
+	 * @return
+	 * @throws IOException
+	 */
 	public static String removeNode(String jsonStr, String nodeName) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(jsonStr);
@@ -78,6 +123,14 @@ public class JsonUtil {
 		return node.toString();
 	}
 
+	/**
+	 *
+	 * @param jsonStr
+	 * @param nodeName
+	 * @param data
+	 * @return
+	 * @throws IOException
+	 */
 	public static String addNode(String jsonStr, String nodeName, Map<String,String> data) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(jsonStr);
@@ -88,7 +141,14 @@ public class JsonUtil {
 		return root.toString();
 	}
 
-
+	/**
+	 *
+	 * @param jsonStr
+	 * @param parentName
+	 * @param data
+	 * @return
+	 * @throws IOException
+	 */
 	public static String addProperty(String jsonStr, String parentName, Map<String,String> data) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root = mapper.readTree(jsonStr);
@@ -102,6 +162,12 @@ public class JsonUtil {
 		return root.toString();
 	}
 
+	/**
+	 *
+	 * @param json
+	 * @return
+	 * @throws IOException
+	 */
 	public static Map<String, Object> createParamsMapFromJson(String json) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> paramsMap = mapper.readValue(json, new TypeReference<Map<String, Object>>() {
@@ -110,6 +176,12 @@ public class JsonUtil {
 		return paramsMap;
 	}
 
+	/**
+	 *
+	 * @param paramsMap
+	 * @return
+	 * @throws IOException
+	 */
 	public static String createJsonFromParamsMap(Map<String, Object> paramsMap) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = "";
@@ -117,6 +189,12 @@ public class JsonUtil {
 		return jsonStr;
 	}
 
+	/**
+	 *
+	 * @param json
+	 * @param paramName
+	 * @return
+	 */
 	public static Integer getValueAsInt(String json, String paramName) {
 		if (!json.equals("")) {
 			if (paramName != null && !paramName.equals("")) {
@@ -133,6 +211,13 @@ public class JsonUtil {
 		return null;
 	}
 
+	/**
+	 *
+	 * @param jsonStr
+	 * @param fieldName
+	 * @return
+	 * @throws IOException
+	 */
 	public static List<String> getValueList(String jsonStr, String fieldName) throws IOException {
 		List<String>  list = new ArrayList<String>();
 		ObjectMapper mapper = new ObjectMapper();
@@ -144,13 +229,29 @@ public class JsonUtil {
 		}
 		return list;
 	}
-	
+
+	/**
+	 *
+	 * @param jsonStr
+	 * @param classz
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	public static Object convertJsonToPojo(String jsonStr,Class<?> classz) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Object readValue = mapper.readValue(jsonStr, classz);
 		return readValue;
 	}
-	
+
+	/**
+	 *
+	 * @param jsonString
+	 * @param key
+	 * @param value
+	 * @return
+	 */
 	public static String addNodeInJsonArray(String jsonString,String key, String value) {
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectReader reader = mapper.reader();

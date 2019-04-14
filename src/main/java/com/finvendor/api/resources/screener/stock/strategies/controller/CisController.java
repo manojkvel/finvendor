@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.finvendor.common.exception.ExceptionEnum.CELEBRITY_INVESTOR_STRATEGY;
-import static com.finvendor.common.exception.ExceptionEnum.CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS;
+import static com.finvendor.common.exception.ExceptionEnum.*;
 
 /**
  * CelebrityInvestorStrategy - CIS
@@ -24,14 +23,27 @@ public class CisController {
     @Autowired
     private CisService service;
 
+    @GetMapping(value = "/cis/tooltips")
+    public ResponseEntity<?> findCisToolTip(@RequestParam(value = "type") CisEnum type) {
+        try {
+            return new ResponseEntity<>(service.findCisToolTips(type), HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorUtil.logError("CisController -> findCisToolTip(...), type: " + type.name(), e);
+            return ErrorUtil
+                    .getError(CELEBRITY_INVESTOR_STRATEGY_TOOL_TIPS.getCode(), CELEBRITY_INVESTOR_STRATEGY_TOOL_TIPS.getUserMessage(), e);
+        }
+    }
+
     @GetMapping(value = "/cis/recordstats")
     public ResponseEntity<?> findCisRecordStats(@RequestParam(value = "type") CisEnum type,
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
         try {
             return new ResponseEntity<>(service.findCisRecordStats(type, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("CelebrityInvestorStrategyController -> findCisRecordStats(...), type: " + type, e);
-            return ErrorUtil.getError(CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS.getCode(), CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS.getUserMessage(), e);
+            ErrorUtil.logError("CelebrityInvestorStrategyController -> findCisRecordStats(...), type: " + type.name(), e);
+            return ErrorUtil
+                    .getError(CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS.getCode(), CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS.getUserMessage(),
+                            e);
         }
     }
 
@@ -42,7 +54,7 @@ public class CisController {
         try {
             return new ResponseEntity<>(service.findCis(type, pageNumber, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("CelebrityInvestorStrategyController -> findCisStrategy(...), type: " + type, e);
+            ErrorUtil.logError("CelebrityInvestorStrategyController -> findCisStrategy(...), type: " + type.name(), e);
             return ErrorUtil.getError(CELEBRITY_INVESTOR_STRATEGY.getCode(), CELEBRITY_INVESTOR_STRATEGY.getUserMessage(), e);
         }
     }

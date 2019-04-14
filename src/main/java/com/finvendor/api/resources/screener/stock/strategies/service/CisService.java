@@ -2,20 +2,29 @@ package com.finvendor.api.resources.screener.stock.strategies.service;
 
 import com.finvendor.api.resources.screener.stock.strategies.dao.AbstractCisDao;
 import com.finvendor.api.resources.screener.stock.strategies.dto.AbstractStrategyDto;
+import com.finvendor.api.resources.screener.stock.strategies.dto.StrategyToolTips;
 import com.finvendor.api.resources.screener.stock.strategies.enums.CisEnum;
+import com.finvendor.common.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CisService {
 
+    public static final String TOOL_TIP_KENNETH_FISHER = "Founder of Fisher Investments, Managing over $100B assets. Ken Fisher’s public stock picks outperform the broad U.S. stock market over the past 18 years by an average 4.2% annually";
+    public static final String TOOL_TIP_BNJAMIN_GRAHAM = "Widely known as the \"father of value investing\", Warren buffet leant the value investment from Benjamin graham";
     @Autowired
     @Qualifier(value = "kennethFisherDao")
     private AbstractCisDao kennethFisherDao;
+
+    @Autowired
+    @Qualifier(value = "benjaminGrahamDao")
+    private AbstractCisDao benjaminGrahamDao;
 
     /**
      * Find Celebrity Investor Records Stats for given type
@@ -27,7 +36,7 @@ public class CisService {
             recordStats = kennethFisherDao.findCisRecordStats(AbstractCisDao.KENNIT_FISHER_RECORD_STATS_QUERY, perPageMaxRecords);
             break;
         case BENJAMIN_GRAHAM:
-            recordStats = kennethFisherDao.findCisRecordStats(AbstractCisDao.BENJAMIN_GRAHAM_RECORD_STATS_QUERY, perPageMaxRecords);
+            recordStats = benjaminGrahamDao.findCisRecordStats(AbstractCisDao.BENJAMIN_GRAHAM_RECORD_STATS_QUERY, perPageMaxRecords);
             break;
         default:
             recordStats = "";
@@ -45,10 +54,26 @@ public class CisService {
             strategyResultList = kennethFisherDao.findCis(AbstractCisDao.KENNIT_FISHER_STRATEGY_QUERY, pageNumber, perPageMaxRecords);
             break;
         case BENJAMIN_GRAHAM:
+            strategyResultList = benjaminGrahamDao.findCis(AbstractCisDao.BENJAMIN_GRAHAM_STRATEGY_QUERY, pageNumber, perPageMaxRecords);
             break;
         default:
             strategyResultList = null;
         }
         return strategyResultList;
+    }
+
+    public String findCisToolTips(CisEnum type) throws IOException {
+        String toolTip;
+        switch (type) {
+        case KENNITH_FISHER:
+            toolTip = JsonUtil.createJsonFromObject(new StrategyToolTips(TOOL_TIP_KENNETH_FISHER));
+            break;
+        case BENJAMIN_GRAHAM:
+            toolTip = JsonUtil.createJsonFromObject(new StrategyToolTips(TOOL_TIP_BNJAMIN_GRAHAM));
+            break;
+        default:
+            toolTip = "NA";
+        }
+        return toolTip;
     }
 }

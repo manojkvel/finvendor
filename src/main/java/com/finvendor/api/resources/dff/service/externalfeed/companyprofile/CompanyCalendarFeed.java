@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import static com.finvendor.common.constant.AppConstant.COMMA;
 import static com.finvendor.common.util.FileUtil.downloadFile;
@@ -42,18 +41,17 @@ public class CompanyCalendarFeed implements CompanyProfileFeed {
         try {
             downloadFile(url, downloadPath);
         } catch (IOException e) {
-            throw new Exception("Error has occured while downloading Company Calendar from URL ",e);
+            throw new Exception("Error has occured while downloading Company Calendar from URL ", e);
         }
         return true;
     }
 
     @Override
     public int feed(String path) throws Exception {
-        logger.info("CompanyCalendarFeed::feed()-> path: {}", path);
+        logger.info("CompanyCalendarFeed::feed()-> path: {}", path + File.separator + "companyCalendar.csv");
         String line;
-        File filePath = new File(path);
-        File newFilePath = Objects.requireNonNull(filePath.listFiles())[0];
-        try (BufferedReader br = new BufferedReader(new FileReader(newFilePath))) {
+        File filePath = new File(path + File.separator + "companyCalendar.csv");
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] newsColums = line.split(COMMA);
