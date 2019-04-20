@@ -1705,6 +1705,8 @@ button {
 	height: 100px;
 }
 
+/*-----------------End of Dashboard Metrics----------------*/
+
 #consumer_market .widget-group .widget-panel-heading {
 	cursor: auto;
 }
@@ -2075,7 +2077,75 @@ button {
 	padding-left: 0;
 }
 
-/*-----------------End of Dashboard Metrics----------------*/
+#celebrity_investors_strategies .strategy_view {
+	background: #fff;
+	padding: 70px;
+	margin: 20px auto;
+	position: relative;
+	width: 400px;
+	height: 400px;
+	border-radius: 50%;
+}
+
+#celebrity_investors_strategies h2 {
+	font-size: 21px;
+	text-align: center;
+	font-weight: bold;
+}
+
+#celebrity_investors_strategies h3 {
+	line-height: 21px;
+	margin-bottom: 20px;
+}
+
+.startegy_content {
+	min-height: 150px;
+	padding-top: 10px;
+}
+
+.startegy_content h3 {
+	margin: 0;
+}
+
+#celebrity_investors_strategies .startegy_content_table {
+	display: none;
+	background: #fff;
+}
+
+.startegy_content .view_btn {
+	position: absolute;
+	left: 35%;
+	bottom: 50px
+}
+
+.startegy_content .view_btn a {
+    background: #0099cc;
+    color: #fff;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 0;
+    width: auto !important;
+    min-width: 150px;
+    text-align: center !important;
+}
+
+.startegy_content .pe,
+.startegy_content .pb,
+.startegy_content .mcap {
+	font-size: 13px;
+}
+
+#celebrity_investors_strategies ol > li {
+	width: 33.3%;
+	float: left;
+	text-align: center;
+}
+
+#celebrity_investors_strategies ol > li:nth-of-type(odd) {
+	
+}
+
 
 @media only screen and (max-width: 479px) {
 	.dashboard_report .bd .reportDetails {
@@ -2336,6 +2406,21 @@ button {
 	#corp_action_content th,
 	#corp_action_content td {
 		font-size: 11px;
+	}
+
+	#celebrity_investors_strategies ol > li {
+		width: 100%;
+		float: none;
+	}
+
+	#celebrity_investors_strategies #benjamin_graham_strategy, 
+	#celebrity_investors_strategies #kennith_fisher_strategy, 
+	#celebrity_investors_strategies #joel_greenblatts_strategy, 
+	#celebrity_investors_strategies #james_o_shaughessys_strategy, 
+	#celebrity_investors_strategies #marting_zweigs_strategy, 
+	#celebrity_investors_strategies #finvendors_pick_strategy {
+		width: 250px;
+		height: 250px;
 	}
 }
 
