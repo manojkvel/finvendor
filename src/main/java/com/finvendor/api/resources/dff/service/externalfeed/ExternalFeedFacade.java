@@ -1,4 +1,4 @@
-package com.finvendor.api.resources.dff.service;
+package com.finvendor.api.resources.dff.service.externalfeed;
 
 import com.finvendor.api.resources.dff.service.externalfeed.companyprofile.CompanyProfileFeed;
 import org.springframework.beans.factory.annotation.Autowired;

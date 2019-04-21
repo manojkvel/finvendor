@@ -25,7 +25,7 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         for (CompanyDetails companyDetails : companyDetailsList) {
             String companyId = companyDetails.getCompanyId();
 
-            EarningPreviewDetails earningPreview = findEarningPreview(companyId);
+            EarningPreviewDetails earningPreview = findLatestEarningPreview(companyId);
             if (earningPreview == null) {
                 continue;
             }

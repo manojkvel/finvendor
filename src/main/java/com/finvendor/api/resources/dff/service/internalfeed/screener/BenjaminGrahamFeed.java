@@ -22,7 +22,7 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
         for (CompanyDetails companyDetails : companyDetailsList) {
             String companyId = companyDetails.getCompanyId();
 
-            EarningPreviewDetails earningPreview = findEarningPreview(companyId);
+            EarningPreviewDetails earningPreview = findLatestEarningPreview(companyId);
             if (earningPreview == null) {
                 continue;
             }
@@ -43,7 +43,10 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
         float currentAssetFloat = earningPreview.getCurrentAssetFloat();
         float currentLiabilitiesFloat = earningPreview.getCurrentLiabilitiesFloat();
         float peFloat = companyDetails.getPeFloat();
-        float pbFloat = companyDetails.getPbFloat();
+
+        float cmpFloat = companyDetails.getCmpFloat();
+        float bvShareFloat = companyDetails.getBvShareFloat();
+        float pbFloat = bvShareFloat != 0.0F ? cmpFloat / bvShareFloat : 0.0F;
         float divYeildFloat = companyDetails.getDivYeildFloat();
 
         boolean con1 = (totalDebtFloat / currentAssetFloat) < 1.1F;

@@ -100,6 +100,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
             float faceValueFloat = !faceValue.isEmpty() && !"-".equals(faceValue) ? Float.parseFloat(faceValue) : 0.0F;
 
             String bvShare = row[19] != null ? row[19].toString().trim() : "";
+            float bvShareFloat = !bvShare.isEmpty() && !"-".equals(bvShare) ? Float.parseFloat(bvShare) : 0.0F;
 
             String roe = row[20] != null ? row[20].toString().trim() : "";
             roe = StringUtils.replace(roe, ",", "");
@@ -122,7 +123,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
                     peFloat, pb, pbFloat, divYeild, divYeildFloat,
                     epsTtm, epsTtmFloat, _52wLow, _52wLowFloat, _52wHigh, _52wHighFloat, beta, betaFloat, asOfDate, shareOutStanding,
                     shareOutStandingFloat,
-                    closePrice, closePriceFloat, mktCap, revenue, revenueFloat, faceValue, faceValueFloat, bvShare, roe, roeFloat, pat,
+                    closePrice, closePriceFloat, mktCap, revenue, revenueFloat, faceValue, faceValueFloat, bvShare, bvShareFloat, roe, roeFloat, pat,
                     patFloat, recentQtr, priceDate,
                     companyDesc, _3YrEpsGrowth, _3YrEpsGrowthFloat, currency);
             companyDetailsList.add(companyDetails);
@@ -131,9 +132,9 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
     }
 
     @SuppressWarnings("unchecked")
-    EarningPreviewDetails findEarningPreview(String companyId) {
-        logger.info("findEarningPreview()-> EARNING_PREVIEW_QUERY Query:{}", EARNING_PREVIEW_QUERY);
-        logger.info("findEarningPreview()-> companyId: {}", companyId);
+    EarningPreviewDetails findLatestEarningPreview(String companyId) {
+        logger.info("findLatestEarningPreview()-> EARNING_PREVIEW_QUERY Query:{}", EARNING_PREVIEW_QUERY);
+        logger.info("findLatestEarningPreview()-> companyId: {}", companyId);
         SQLQuery sqlQuery = commonDao.getNativeQuery(EARNING_PREVIEW_QUERY, new String[] { companyId });
         List<Object[]> list = sqlQuery.list();
         EarningPreviewDetails earningPreviewDetails = null;

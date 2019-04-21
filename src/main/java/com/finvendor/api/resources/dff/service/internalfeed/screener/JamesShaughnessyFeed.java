@@ -2,8 +2,6 @@ package com.finvendor.api.resources.dff.service.internalfeed.screener;
 
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.CompanyDetails;
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.EarningPreviewDetails;
-import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.InflationRate;
-import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.NetProfitMargin;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +15,7 @@ import java.util.List;
 @Service
 @Transactional
 public class JamesShaughnessyFeed extends AbstractScreenerFeed {
-    private static final String INSERT_QUERY = "insert into strategy_kenneth_fisher values(?,?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_QUERY = "insert into strategy_james_shaughnessy values(?,?,?,?,?,?,?,?)";
 
     @Override
     public boolean processAndFeed() throws Exception {
@@ -25,100 +23,51 @@ public class JamesShaughnessyFeed extends AbstractScreenerFeed {
         for (CompanyDetails companyDetails : companyDetailsList) {
             String companyId = companyDetails.getCompanyId();
 
-            EarningPreviewDetails earningPreview = findEarningPreview(companyId);
+            EarningPreviewDetails earningPreview = findLatestEarningPreview(companyId);
             if (earningPreview == null) {
                 continue;
             }
 
-            InflationRate inflationRate = findInflationRate(companyId);
-            if (inflationRate == null) {
-                continue;
-            }
-
-            NetProfitMargin netProfitMargin = findAvgNetProfitMargin(companyId);
-            if (netProfitMargin == null) {
-                continue;
-            }
-
-            if (evalCondition(companyDetails, earningPreview, inflationRate, netProfitMargin)) {
-                insertFeed(companyDetails, earningPreview, inflationRate, netProfitMargin);
+            if (evalCondition(companyDetails, earningPreview)) {
+                insertFeed(companyDetails, earningPreview);
             }
         }
         return true;
     }
 
-    private boolean evalCondition(CompanyDetails companyDetails, EarningPreviewDetails earningPreview,
-            InflationRate inflationRate, NetProfitMargin netProfitMargin) {
+    private boolean evalCondition(CompanyDetails companyDetails, EarningPreviewDetails latestEarningPreview) {
+        float cmpFloat = companyDetails.getCmpFloat();
+        float revenueFloat = latestEarningPreview.getRevenueFloat();
+        float epsFloat = latestEarningPreview.getEpsFloat();
+        float bvShareFloat = companyDetails.getBvShareFloat();
+        float pbFloat = bvShareFloat != 0.0F ? cmpFloat / bvShareFloat : 0.0F;
         float mcapFloat = companyDetails.getShareOutStandingFloat() * companyDetails.getCmpFloat();
-        float psrFloat = earningPreview.getRevenueFloat() != 0.0F ? (mcapFloat / earningPreview.getRevenueFloat()) : 0.0F;
-        boolean psrCondition = psrFloat < 0.75f;
-        boolean deCondition = earningPreview.getDeFloat() < 0.40F;
-        boolean epsGrowthWithInflationRateCondition = (earningPreview.getEpsGrowthFloat() - inflationRate.getInflationRateFloat()) > 0.15F;
-        boolean netProfitMarginCondition = netProfitMargin.getAvgNetProfitMarginFloat() > 0.05F;
-        boolean mcapRndExpenseCondition;
+        float netOperatingCashFlowFloat = latestEarningPreview.getNetOperatingCashFlowFloat();
 
-        boolean finalCondition;
-        if (earningPreview.getRndExpenseFloat() != 0.0F) {
-            mcapRndExpenseCondition = (mcapFloat / earningPreview.getRndExpenseFloat()) < 10.0F;
-            finalCondition =
-                    psrCondition
-                            && deCondition
-                            && epsGrowthWithInflationRateCondition
-                            && netProfitMarginCondition
-                            && mcapRndExpenseCondition;
-        }
-        else {
-            finalCondition =
-                    psrCondition
-                            && deCondition
-                            && epsGrowthWithInflationRateCondition
-                            && netProfitMarginCondition;
-        }
-        return finalCondition;
+        boolean condition1 = cmpFloat / revenueFloat < 1.5F;
+        boolean condition2 = epsFloat / cmpFloat > 5.0F;
+        boolean condition3 = pbFloat < 1.0F;
+        boolean condition4 = mcapFloat > 150.0F * 7.0F;
+        boolean condition5 = netOperatingCashFlowFloat > 0.0F;
+
+        return condition1 && condition2 && condition3 && condition4 && condition5;
     }
 
-    private void insertFeed(CompanyDetails companyDetails,
-            EarningPreviewDetails earningPreview, InflationRate inflationRate, NetProfitMargin profitMargin) {
+    private void insertFeed(CompanyDetails companyDetails, EarningPreviewDetails latestEarningPreview) {
         String companyId = companyDetails.getCompanyId();
         String companyName = companyDetails.getCompanyName();
-        String mcap = companyDetails.getMcap();
+        String mcapStr = String.valueOf(companyDetails.getShareOutStandingFloat() * companyDetails.getCmpFloat());
 
-        float mcapFloat = companyDetails.getShareOutStandingFloat() * companyDetails.getCmpFloat();
-        float psrFloat = earningPreview.getRevenueFloat() != 0.0F ? (mcapFloat / earningPreview.getRevenueFloat()) : 0.0F;
-        String psr = String.valueOf(psrFloat);
 
         SQLQuery sqlQuery = commonDao.getNativeQuery(INSERT_QUERY, null);
-
-        //CompanyId
         sqlQuery.setParameter(0, Integer.parseInt(companyId));
-
-        //CompanyName
-        sqlQuery.setParameter(1, companyName == null ? "-" : companyName);
-
-        //PSR
-        sqlQuery.setParameter(2, psr);
-
-        //MCap
-        sqlQuery.setParameter(3, mcap == null ? "-" : mcap);
-
-        //Revenue
-        sqlQuery.setParameter(4, earningPreview.getRevenue() == null ? "-" : earningPreview.getRevenue());
-
-        //De
-        sqlQuery.setParameter(5, earningPreview.getDe() == null ? "-" : earningPreview.getDe());
-
-        //Annual EPS Growth
-        sqlQuery.setParameter(6, earningPreview.getEpsGrowth() == null ? "-" : earningPreview.getEpsGrowth());
-
-        //Inflation Rate
-        sqlQuery.setParameter(7, inflationRate.getInflationRate() == null ? "-" : inflationRate.getInflationRate());
-
-        //3Year AVG Net Profit Margin
-        sqlQuery.setParameter(8,
-                profitMargin.getAvgNetProfitMargin() == null ? "-" : profitMargin.getAvgNetProfitMargin());
-
-        //RnD Expenditure
-        sqlQuery.setParameter(9, earningPreview.getRndExpense() == null ? "-" : earningPreview.getRndExpense());
+        sqlQuery.setParameter(1, companyName);
+        sqlQuery.setParameter(2, companyDetails.getCmp());
+        sqlQuery.setParameter(3, latestEarningPreview.getRevenue());
+        sqlQuery.setParameter(4, latestEarningPreview.getEps());
+        sqlQuery.setParameter(5, companyDetails.getPb());
+        sqlQuery.setParameter(6, mcapStr);
+        sqlQuery.setParameter(7, latestEarningPreview.getNetOperatingCashFlow());
         sqlQuery.executeUpdate();
     }
 }

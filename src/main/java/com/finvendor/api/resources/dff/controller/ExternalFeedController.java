@@ -2,7 +2,7 @@ package com.finvendor.api.resources.dff.controller;
 
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.resources.dff.enums.FeedTypeEnum;
-import com.finvendor.api.resources.dff.service.ExternalFeedFacade;
+import com.finvendor.api.resources.dff.service.externalfeed.ExternalFeedFacade;
 import com.finvendor.common.util.ErrorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
