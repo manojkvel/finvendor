@@ -20,6 +20,8 @@ public class JamesShaughnessyFeed extends AbstractScreenerFeed {
     @Override
     public boolean processAndFeed() throws Exception {
         List<CompanyDetails> companyDetailsList = findCompanyDetails();
+        int totalMatch = 0;
+        int totalMisMatch = 0;
         for (CompanyDetails companyDetails : companyDetailsList) {
             String companyId = companyDetails.getCompanyId();
 
@@ -30,34 +32,63 @@ public class JamesShaughnessyFeed extends AbstractScreenerFeed {
 
             if (evalCondition(companyDetails, earningPreview)) {
                 insertFeed(companyDetails, earningPreview);
+                totalMatch++;
+            }
+            else {
+                totalMisMatch++;
             }
         }
+        logger.info("James O'Shaughnessy's Strategy :: Total Stock Matched: {}", totalMatch);
+        logger.info("James O'Shaughnessy's Strategy :: Total Stock *** Miss Matched: {}", totalMisMatch);
         return true;
     }
 
     private boolean evalCondition(CompanyDetails companyDetails, EarningPreviewDetails latestEarningPreview) {
+        //This cmp is today's CMP
         float cmpFloat = companyDetails.getCmpFloat();
         float revenueFloat = latestEarningPreview.getRevenueFloat();
         float epsFloat = latestEarningPreview.getEpsFloat();
-        float bvShareFloat = companyDetails.getBvShareFloat();
+
+        //Make Sure you get BV Sharen from earningPreview_as_of_date table
+        float bvShareFloat = latestEarningPreview.getBvShareFloat();
+
         float pbFloat = bvShareFloat != 0.0F ? cmpFloat / bvShareFloat : 0.0F;
-        float mcapFloat = companyDetails.getShareOutStandingFloat() * companyDetails.getCmpFloat();
+
+        float shareOutStandingFloat = companyDetails.getShareOutStandingFloat();
+        float mcapFloat = shareOutStandingFloat * cmpFloat;
+
         float netOperatingCashFlowFloat = latestEarningPreview.getNetOperatingCashFlowFloat();
 
-        boolean condition1 = cmpFloat / revenueFloat < 1.5F;
-        boolean condition2 = epsFloat / cmpFloat > 5.0F;
+        boolean condition1 = (cmpFloat / revenueFloat) < 1.5F;
+        boolean condition2 = (epsFloat / cmpFloat) > 5.0F;
         boolean condition3 = pbFloat < 1.0F;
-        boolean condition4 = mcapFloat > 150.0F * 7.0F;
+        boolean condition4 = mcapFloat > (150.0F * 7.0F);
         boolean condition5 = netOperatingCashFlowFloat > 0.0F;
 
-        return condition1 && condition2 && condition3 && condition4 && condition5;
+        boolean finalCondition = condition1 && condition2 && condition3 && condition4 && condition5;
+        StringBuilder jamesSB = new StringBuilder();
+        jamesSB.append("\n--------------------------------------------------------------------------");
+        jamesSB.append("\nStock: [").append(companyDetails.getCompanyId()).append("::").append(companyDetails.getTicker())
+                .append("] - ").append("Condition Matched: ").append(finalCondition);
+        jamesSB.append("\n--------------------------------------------------------------------------");
+        jamesSB.append("\nCmp: ----------------------------------------- ").append(cmpFloat);
+        jamesSB.append("\nRevenue:-------------------------------------- ").append(revenueFloat);
+        jamesSB.append("\nEPS: ----------------------------------------- ").append(epsFloat);
+        jamesSB.append("\nBVShare: ------------------------------------- ").append(bvShareFloat);
+        jamesSB.append("\nPB: ------------------------------------------ ").append(pbFloat);
+        jamesSB.append("\nShareOutStanding: ---------------------------- ").append(shareOutStandingFloat);
+        jamesSB.append("\nMcap: ---------------------------------------- ").append(mcapFloat);
+        jamesSB.append("\nNetOperatingCashFlow: ------------------------ ").append(netOperatingCashFlowFloat);
+        jamesSB.append("\n\n\n");
+        logger.info(" Condition Attibutes{}", jamesSB.toString());
+        jamesSB.setLength(0);
+        return finalCondition;
     }
 
     private void insertFeed(CompanyDetails companyDetails, EarningPreviewDetails latestEarningPreview) {
         String companyId = companyDetails.getCompanyId();
         String companyName = companyDetails.getCompanyName();
         String mcapStr = String.valueOf(companyDetails.getShareOutStandingFloat() * companyDetails.getCmpFloat());
-
 
         SQLQuery sqlQuery = commonDao.getNativeQuery(INSERT_QUERY, null);
         sqlQuery.setParameter(0, Integer.parseInt(companyId));

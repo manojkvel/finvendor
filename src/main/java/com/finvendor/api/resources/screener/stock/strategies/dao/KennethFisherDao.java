@@ -12,7 +12,7 @@ public class KennethFisherDao extends AbstractCisDao {
 
     @Override
     public String findCisRecordStats(String query, String perPageMaxRecords) throws RuntimeException {
-        return "{\"firstPageNumber\":1,\"lastPageNumber\":2,\"totalRecords\":2}";
+        return "{\"firstPageNumber\":1,\"lastPageNumber\":2,\"totalRecords\":5}";
     }
 
     @Override

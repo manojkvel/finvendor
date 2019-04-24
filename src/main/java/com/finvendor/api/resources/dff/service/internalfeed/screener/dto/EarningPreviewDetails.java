@@ -39,9 +39,8 @@ public class EarningPreviewDetails {
     private final float totalAssetsFloat;
     private final String avgTotalAssets;
     private final float avgTotalAssetsFloat;
-    private final String epsGrowth;
-    private final float epsGrowthFloat;
     private String rndExpense;
+    private float latestEpsGrowthInPercentageAsFloat;
 
     public EarningPreviewDetails(String period, String revenue, float revenueFloat, String operatingProfitMargin,
             float operatingProfitMarginFloat, String pat, float patFloat, String eps, float epsFloat, String netOperatingCashFlow,
@@ -51,7 +50,7 @@ public class EarningPreviewDetails {
             float totalFreeCashflowFloat, float rndExpenseFloat, String totalDebt, float totalDebtFloat, String longTermDebt,
             float longTermDebtFloat, String retainedEarning, float retainedEarningFloat, String totalCapital, float totalCapitalFloat,
             String cashAndCashEquiv, float cashAndCashEquivFloat, String totalAssets, float totalAssetsFloat, String avgTotalAssets,
-            float avgTotalAssetsFloat, String epsGrowth, float epsGrowthFloat, String rndExpense) {
+            float avgTotalAssetsFloat, String rndExpense, float latestEpsGrowthInPercentageAsFloat) {
         this.period = period;
         this.revenue = revenue;
         this.revenueFloat = revenueFloat;
@@ -90,9 +89,8 @@ public class EarningPreviewDetails {
         this.totalAssetsFloat = totalAssetsFloat;
         this.avgTotalAssets = avgTotalAssets;
         this.avgTotalAssetsFloat = avgTotalAssetsFloat;
-        this.epsGrowth = epsGrowth;
-        this.epsGrowthFloat = epsGrowthFloat;
         this.rndExpense = rndExpense;
+        this.latestEpsGrowthInPercentageAsFloat = latestEpsGrowthInPercentageAsFloat;
     }
 
     public String getPeriod() {
@@ -247,19 +245,19 @@ public class EarningPreviewDetails {
         return avgTotalAssetsFloat;
     }
 
-    public String getEpsGrowth() {
-        return epsGrowth;
-    }
-
-    public float getEpsGrowthFloat() {
-        return epsGrowthFloat;
-    }
-
     public String getRndExpense() {
         return rndExpense;
     }
 
     public void setRndExpense(String rndExpense) {
         this.rndExpense = rndExpense;
+    }
+
+    public float getLatestEpsGrowthInPercentageAsFloat() {
+        return latestEpsGrowthInPercentageAsFloat;
+    }
+
+    public void setLatestEpsGrowthInPercentageAsFloat(float latestEpsGrowthInPercentageAsFloat) {
+        this.latestEpsGrowthInPercentageAsFloat = latestEpsGrowthInPercentageAsFloat;
     }
 }

@@ -45,6 +45,7 @@ public class CompanyDetails {
     private final String yrEpsGrowth;
     private final float yrEpsGrowthFloat;
     private final String currency;
+    private String ticker;
 
     public CompanyDetails(String companyId, String companyName, String mcap, String sector, String cmp, float cmpFloat, String ltp,
             float ltpFloat, String pe, float peFloat, String pb, float pbFloat, String divYeild, float divYeildFloat, String epsTtm,
@@ -53,7 +54,7 @@ public class CompanyDetails {
             float revenueFloat, String faceValue, float faceValueFloat, String bvShare, float bvShareFloat, String roe, float roeFloat,
             String pat,
             float patFloat, String recentQtr, String priceDate, String companyDesc, String yrEpsGrowth, float yrEpsGrowthFloat,
-            String currency) {
+            String currency, String ticker) {
         this.companyId = companyId;
         this.companyName = companyName;
         this.mcap = mcap;
@@ -98,6 +99,7 @@ public class CompanyDetails {
         this.yrEpsGrowth = yrEpsGrowth;
         this.yrEpsGrowthFloat = yrEpsGrowthFloat;
         this.currency = currency;
+        this.ticker = ticker;
     }
 
     public String getCompanyId() {
@@ -278,5 +280,13 @@ public class CompanyDetails {
 
     public void setBvShareFloat(float bvShareFloat) {
         this.bvShareFloat = bvShareFloat;
+    }
+
+    public String getTicker() {
+        return ticker;
+    }
+
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 }
