@@ -23,17 +23,6 @@ public class CisController {
     @Autowired
     private CisService service;
 
-    @GetMapping(value = "/cis/tooltips")
-    public ResponseEntity<?> findCisToolTip(@RequestParam(value = "type") CisEnum type) {
-        try {
-            return new ResponseEntity<>(service.findCisToolTips(type), HttpStatus.OK);
-        } catch (Exception e) {
-            ErrorUtil.logError("CisController -> findCisToolTip(...), type: " + type.name(), e);
-            return ErrorUtil
-                    .getError(CELEBRITY_INVESTOR_STRATEGY_TOOL_TIPS.getCode(), CELEBRITY_INVESTOR_STRATEGY_TOOL_TIPS.getUserMessage(), e);
-        }
-    }
-
     @GetMapping(value = "/cis/recordstats")
     public ResponseEntity<?> findCisRecordStats(@RequestParam(value = "type") CisEnum type,
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {

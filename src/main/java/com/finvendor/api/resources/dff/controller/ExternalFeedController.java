@@ -2,7 +2,8 @@ package com.finvendor.api.resources.dff.controller;
 
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.resources.dff.enums.FeedTypeEnum;
-import com.finvendor.api.resources.dff.service.ExternalFeedFacade;
+import com.finvendor.api.resources.dff.service.externalfeed.companyprofile.CompanyProfileDataFeedFacade;
+import com.finvendor.api.resources.dff.service.externalfeed.earningpreview.EarningPreviewDataFeedFacade;
 import com.finvendor.common.util.ErrorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,39 +24,53 @@ import static com.finvendor.common.exception.ExceptionEnum.DATA_FEED;
 @RequestMapping(value = "/system/api")
 public class ExternalFeedController {
     private static final Logger logger = LoggerFactory.getLogger(ExternalFeedController.class.getName());
-
+    private static final String EARNING_PREVIEW_DATA__FOLDER_PATH = "";
     @Resource(name = "finvendorProperties")
     private Properties finvendorProperties;
 
     @Autowired
-    private ExternalFeedFacade externalFeedFacade;
+    private CompanyProfileDataFeedFacade companyProfileDataFeedFacade;
+
+    @Autowired
+    private EarningPreviewDataFeedFacade earningPreviewDataFeedFacade;
 
     /**
-     * Feed Data based on type
+     * Feed Company profile data based on type : COMPANY_NEWS | CORP_ACTION | COMPANY_CALENDAR
      */
     @GetMapping(value = "/externaldatafeeds")
-    public ResponseEntity<?> feedExternalData(@RequestParam(value = "type") FeedTypeEnum type) throws WebApiException {
-        logger.info("feedExternalData, type:{}", type);
+    public ResponseEntity<?> feedCompanyProfileData(@RequestParam(value = "type") FeedTypeEnum type) throws WebApiException {
+        logger.info("feedCompanyProfileData, type:{}", type.name());
         try {
             String downloadPath = finvendorProperties.getProperty("finvendo_tmp_path");
             switch (type) {
             case COMPANY_NEWS:
-                externalFeedFacade.newsDownload(downloadPath);
-                externalFeedFacade.newsFeed(downloadPath);
+                companyProfileDataFeedFacade.feedNewsData(downloadPath);
                 break;
             case COPR_ACTION:
-                externalFeedFacade.caDownload(downloadPath);
-                externalFeedFacade.caFeed(downloadPath);
+                companyProfileDataFeedFacade.feedCorpActionData(downloadPath);
                 break;
             case COMPANY_CALENDAR:
-                externalFeedFacade.calDownload(downloadPath);
-                externalFeedFacade.calFeed(downloadPath);
+                companyProfileDataFeedFacade.feedCalendarData(downloadPath);
                 break;
             }
-            return new ResponseEntity<>("Data feed done for type:" + type + " successfully.", HttpStatus.OK);
+            return new ResponseEntity<>("Company profile data feed done for type:" + type + " successfully.", HttpStatus.OK);
         } catch (Exception e) {
-            ErrorUtil.logError("ExternalFeedController -> feedExternalData() :: Error has occurred while performing data feed for type: " + type, e);
+            ErrorUtil.logError(
+                    "ExternalFeedController -> feedExternalData() :: Error has occurred while performing Company profile data feed for type: "
+                            + type, e);
             return ErrorUtil.getError(DATA_FEED.getCode(), DATA_FEED.getUserMessage(), e);
         }
+    }
+
+    @GetMapping(value = "/externaldatafeeds/earningpreviews")
+    public ResponseEntity<?> feedEarningPreviewData() throws WebApiException {
+        try {
+            earningPreviewDataFeedFacade.feedEarningPreviewData(EARNING_PREVIEW_DATA__FOLDER_PATH);
+        }catch (Exception e){
+            ErrorUtil.logError(
+                    "ExternalFeedController -> feedEarningPreviewData() :: Error has occurred while performing Earning Preview  data feed", e);
+            return ErrorUtil.getError(DATA_FEED.getCode(), DATA_FEED.getUserMessage(), e);
+        }
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 }

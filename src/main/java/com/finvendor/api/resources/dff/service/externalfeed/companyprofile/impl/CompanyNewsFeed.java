@@ -1,5 +1,6 @@
-package com.finvendor.api.resources.dff.service.externalfeed.companyprofile;
+package com.finvendor.api.resources.dff.service.externalfeed.companyprofile.impl;
 
+import com.finvendor.api.resources.dff.service.externalfeed.companyprofile.CompanyProfileFeed;
 import com.finvendor.common.commondao.ICommonDao;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;

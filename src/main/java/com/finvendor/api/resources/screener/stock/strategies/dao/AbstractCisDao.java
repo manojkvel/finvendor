@@ -17,6 +17,12 @@ public abstract class AbstractCisDao {
     public static final String BENJAMIN_GRAHAM_RECORD_STATS_QUERY = "";
     public static final String BENJAMIN_GRAHAM_STRATEGY_QUERY = "";
 
+    public static final String JAMES_SHAUGHNESSY_RECORD_STATS_QUERY = "";
+    public static final String JAMES_SHAUGHNESSY_STRATEGY_QUERY = "";
+
+    public static final String JOEL_GREENBLATT_RECORD_STATS_QUERY = "";
+    public static final String JOEL_GREENBLATT_STRATEGY_QUERY = "";
+
     public abstract String findCisRecordStats(String query, String perPageMaxRecords) throws RuntimeException;
 
     public abstract List<? extends AbstractStrategyDto> findCis(String query, String pageNumber, String perPageMaxRecords) throws RuntimeException;

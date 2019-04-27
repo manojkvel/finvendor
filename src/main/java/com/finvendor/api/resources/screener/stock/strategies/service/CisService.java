@@ -13,11 +13,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Celebrity Investors' Strategies (Cis) Service
+ */
 @Service
 public class CisService {
 
-    public static final String TOOL_TIP_KENNETH_FISHER = "Founder of Fisher Investments, Managing over $100B assets. Ken Fisher’s public stock picks outperform the broad U.S. stock market over the past 18 years by an average 4.2% annually";
-    public static final String TOOL_TIP_BNJAMIN_GRAHAM = "Widely known as the \"father of value investing\", Warren buffet leant the value investment from Benjamin graham";
+    private static final String TOOL_TIP_KENNETH_FISHER = "Founder of Fisher Investments, Managing over $100B assets. Ken Fisher’s public stock picks outperform the broad U.S. stock market over the past 18 years by an average 4.2% annually";
+    private static final String TOOL_TIP_BNJAMIN_GRAHAM = "Widely known as the \"father of value investing\", Warren buffet leant the value investment from Benjamin graham";
+
     @Autowired
     @Qualifier(value = "kennethFisherDao")
     private AbstractCisDao kennethFisherDao;
@@ -26,6 +30,13 @@ public class CisService {
     @Qualifier(value = "benjaminGrahamDao")
     private AbstractCisDao benjaminGrahamDao;
 
+    @Autowired
+    @Qualifier(value = "jamesShaughnessyDao")
+    private AbstractCisDao jamesShaughnessyDao;
+
+    @Autowired
+    @Qualifier(value = "joelGreenBlattDao")
+    private AbstractCisDao joelGreenBlattDao;
     /**
      * Find Celebrity Investor Records Stats for given type
      */
@@ -37,6 +48,12 @@ public class CisService {
             break;
         case BENJAMIN_GRAHAM:
             recordStats = benjaminGrahamDao.findCisRecordStats(AbstractCisDao.BENJAMIN_GRAHAM_RECORD_STATS_QUERY, perPageMaxRecords);
+            break;
+        case JAMES_SHAUGHNESSY:
+            recordStats = jamesShaughnessyDao.findCisRecordStats(AbstractCisDao.JAMES_SHAUGHNESSY_RECORD_STATS_QUERY, perPageMaxRecords);
+            break;
+        case JOEL_GREENBLATT:
+            recordStats = joelGreenBlattDao.findCisRecordStats(AbstractCisDao.JOEL_GREENBLATT_RECORD_STATS_QUERY, perPageMaxRecords);
             break;
         default:
             recordStats = "";
@@ -55,6 +72,12 @@ public class CisService {
             break;
         case BENJAMIN_GRAHAM:
             strategyResultList = benjaminGrahamDao.findCis(AbstractCisDao.BENJAMIN_GRAHAM_STRATEGY_QUERY, pageNumber, perPageMaxRecords);
+            break;
+        case JAMES_SHAUGHNESSY:
+            strategyResultList = jamesShaughnessyDao.findCis(AbstractCisDao.JAMES_SHAUGHNESSY_STRATEGY_QUERY, pageNumber, perPageMaxRecords);
+            break;
+        case JOEL_GREENBLATT:
+            strategyResultList = joelGreenBlattDao.findCis(AbstractCisDao.JOEL_GREENBLATT_STRATEGY_QUERY, pageNumber, perPageMaxRecords);
             break;
         default:
             strategyResultList = null;

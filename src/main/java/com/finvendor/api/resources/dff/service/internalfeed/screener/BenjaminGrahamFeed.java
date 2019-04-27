@@ -18,23 +18,31 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
 
     @Override
     public boolean processAndFeed() throws Exception {
+        int totalMatch = 0;
+        int totalMisMatch = 0;
         List<CompanyDetails> companyDetailsList = findCompanyDetails();
         for (CompanyDetails companyDetails : companyDetailsList) {
             String companyId = companyDetails.getCompanyId();
 
-            EarningPreviewDetails earningPreview = findEarningPreview(companyId);
+            EarningPreviewDetails earningPreview = findLatestEarningPreview(companyId);
             if (earningPreview == null) {
                 continue;
             }
 
-            boolean is5yearEpsGrowthPositive = is5YearEpsGrowthPositive(companyDetails.getCompanyId());
+            boolean is5yearEpsGrowthPositive = isNYearEpsGrowthPositive(companyDetails.getCompanyId());
             if (!is5yearEpsGrowthPositive) {
                 continue;
             }
-            if (evalCondition(companyDetails, earningPreview, is5yearEpsGrowthPositive)) {
-                insertFeed(companyDetails, earningPreview, is5yearEpsGrowthPositive);
+            if (evalCondition(companyDetails, earningPreview, true)) {
+                insertFeed(companyDetails, earningPreview, true);
+                totalMatch++;
+            }
+            else {
+                totalMisMatch++;
             }
         }
+        logger.info("Benjamin Graham's Strategy :: Total Stock Matched: {}", totalMatch);
+        logger.info("Benjamin Graham's Strategy :: Total Stock *** Miss Matched: {}", totalMisMatch);
         return true;
     }
 
@@ -43,7 +51,14 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
         float currentAssetFloat = earningPreview.getCurrentAssetFloat();
         float currentLiabilitiesFloat = earningPreview.getCurrentLiabilitiesFloat();
         float peFloat = companyDetails.getPeFloat();
-        float pbFloat = companyDetails.getPbFloat();
+
+        //This cmp is today's CMP
+        float cmpFloat = companyDetails.getCmpFloat();
+
+        //Make Sure you get BV Sharen from earningPreview_as_of_date table
+        float bvShareFloat = earningPreview.getBvShareFloat();
+        float pbFloat = bvShareFloat != 0.0F ? (cmpFloat / bvShareFloat) : 0.0F;
+
         float divYeildFloat = companyDetails.getDivYeildFloat();
 
         boolean con1 = (totalDebtFloat / currentAssetFloat) < 1.1F;
@@ -54,14 +69,31 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
         boolean con5 = pbFloat < 1.2F;
         boolean con6 = divYeildFloat > 0.0F;
 
-        logger.info("Condition1:{}", con1);
-        logger.info("Condition2:{}", con2);
-        logger.info("Condition3:{}", con3);
-        logger.info("Condition4:{}", con4);
-        logger.info("Condition5:{}", con5);
-        logger.info("Condition6:{}", con6);
-
-        return con1 && con2 && con3 && con4 && con5 && con6;
+        boolean finalCondition = con1 && con2 && con3 && con4 && con5 && con6;
+        StringBuilder benjaminSB = new StringBuilder();
+        benjaminSB.append("\n--------------------------------------------------------------------------");
+        benjaminSB.append("\nStock: [").append(companyDetails.getCompanyId()).append("::").append(companyDetails.getTicker())
+                .append("] - ").append("Condition Matched: ").append(finalCondition);
+        benjaminSB.append("\n--------------------------------------------------------------------------");
+        benjaminSB.append("\nTotalDebt: ----------------------------------- ").append(totalDebtFloat);
+        benjaminSB.append("\nCurrentAsset:--------------------------------- ").append(currentAssetFloat);
+        benjaminSB.append("\nCurrentLiabilities: -------------------------- ").append(currentLiabilitiesFloat);
+        benjaminSB.append("\nPE: ------------------------------------------ ").append(peFloat);
+        benjaminSB.append("\nCMP: ----------------------------------------- ").append(cmpFloat);
+        benjaminSB.append("\nBVShare: ------------------------------------- ").append(bvShareFloat);
+        benjaminSB.append("\nPB: ------------------------------------------ ").append(pbFloat);
+        benjaminSB.append("\nDivYeild: ------------------------------------ ").append(divYeildFloat);
+        benjaminSB.append("\n\n");
+        benjaminSB.append("\nCondition-1: [Total debt/current assets < 1.1] ------------------------------------ ").append("(").append(totalDebtFloat).append("/").append(currentAssetFloat).append(") = ").append((totalDebtFloat / currentAssetFloat)).append(" | ").append((totalDebtFloat / currentAssetFloat)).append(" < 1.1 ").append("=> ").append(con1?"TRUE":"FALSE");
+        benjaminSB.append("\nCondition-2: [current assets/current liabilities >1.5] ---------------------------- ").append("(").append(currentAssetFloat).append("/").append(currentLiabilitiesFloat).append(") = ").append((currentAssetFloat / currentLiabilitiesFloat)).append(" | ").append((currentAssetFloat / currentLiabilitiesFloat)).append(" > 1.5").append(" => ").append(con2?"TRUE":"FALSE");
+        benjaminSB.append("\nCondition-3: [EPS growth +ve for past 5 years] ------------------------------------ ").append(" => ").append(con3? "TRUE": "FALSE");
+        benjaminSB.append("\nCondition-4: [P/E <= 9] ----------------------------------------------------------- ").append(peFloat).append(" < 9").append(" => ").append(con4?"TRUE" : "FALSE");
+        benjaminSB.append("\nCondition-5: [P/B ((cmpFloat / bvShareFloat)) <= 1.2] ----------------------------- ").append("(").append(cmpFloat).append("/").append(bvShareFloat).append(") = ").append((cmpFloat / bvShareFloat)).append(" | ").append((cmpFloat / bvShareFloat)).append(" < 1.2").append(" => ").append(con5?"TRUE":"FALSE");
+        benjaminSB.append("\nCondition-6: [Dividend yield > 0] ------------------------------------------------- ").append(divYeildFloat).append(" > 0 ").append(" => ").append(con6? "TRUE": "FALSE");
+        benjaminSB.append("\n\n");
+        logger.info(" Condition Attibutes{}", benjaminSB.toString());
+        benjaminSB.setLength(0);
+        return finalCondition;
     }
 
     private void insertFeed(CompanyDetails companyDetails, EarningPreviewDetails earningPreview, boolean is5yearEpsGrowthPositive) {

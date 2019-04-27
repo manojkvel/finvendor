@@ -8,5 +8,13 @@ public enum FeedTypeEnum {
     COMPANY_CALENDAR,
     COPR_ACTION,
     KENNETH_FISHER,
-    BENJAMIN_GRAHAM
+    BENJAMIN_GRAHAM,
+    JAMES_SHAUGHNESSY,
+    JOEL_GREENBLATT
+
+
+
+
+
+
 }
