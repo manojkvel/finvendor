@@ -2,21 +2,19 @@ package com.finvendor.api.resources.screener.stock.strategies.service;
 
 import com.finvendor.api.resources.screener.stock.strategies.dao.AbstractCisDao;
 import com.finvendor.api.resources.screener.stock.strategies.dto.AbstractStrategyDto;
-import com.finvendor.api.resources.screener.stock.strategies.dto.StrategyToolTips;
 import com.finvendor.api.resources.screener.stock.strategies.enums.CisEnum;
-import com.finvendor.common.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Celebrity Investors' Strategies (Cis) Service
  */
 @Service
+@Transactional
 public class CisService {
 
     private static final String TOOL_TIP_KENNETH_FISHER = "Founder of Fisher Investments, Managing over $100B assets. Ken Fisher’s public stock picks outperform the broad U.S. stock market over the past 18 years by an average 4.2% annually";
@@ -37,6 +35,15 @@ public class CisService {
     @Autowired
     @Qualifier(value = "joelGreenBlattDao")
     private AbstractCisDao joelGreenBlattDao;
+
+    @Autowired
+    @Qualifier(value = "martinZweigDao")
+    private AbstractCisDao martinZweigDao;
+
+    @Autowired
+    @Qualifier(value = "finvendorPickDao")
+    private AbstractCisDao finvendorPickDao;
+
     /**
      * Find Celebrity Investor Records Stats for given type
      */
@@ -44,16 +51,22 @@ public class CisService {
         String recordStats;
         switch (type) {
         case KENNITH_FISHER:
-            recordStats = kennethFisherDao.findCisRecordStats(AbstractCisDao.KENNIT_FISHER_RECORD_STATS_QUERY, perPageMaxRecords);
+            recordStats = kennethFisherDao.findCisRecordStats(perPageMaxRecords);
             break;
         case BENJAMIN_GRAHAM:
-            recordStats = benjaminGrahamDao.findCisRecordStats(AbstractCisDao.BENJAMIN_GRAHAM_RECORD_STATS_QUERY, perPageMaxRecords);
+            recordStats = benjaminGrahamDao.findCisRecordStats(perPageMaxRecords);
             break;
         case JAMES_SHAUGHNESSY:
-            recordStats = jamesShaughnessyDao.findCisRecordStats(AbstractCisDao.JAMES_SHAUGHNESSY_RECORD_STATS_QUERY, perPageMaxRecords);
+            recordStats = jamesShaughnessyDao.findCisRecordStats(perPageMaxRecords);
             break;
         case JOEL_GREENBLATT:
-            recordStats = joelGreenBlattDao.findCisRecordStats(AbstractCisDao.JOEL_GREENBLATT_RECORD_STATS_QUERY, perPageMaxRecords);
+            recordStats = joelGreenBlattDao.findCisRecordStats(perPageMaxRecords);
+            break;
+        case MARTIN_ZWEIG:
+            recordStats = martinZweigDao.findCisRecordStats(perPageMaxRecords);
+            break;
+        case FINVENDOR_PICK:
+            recordStats = finvendorPickDao.findCisRecordStats(perPageMaxRecords);
             break;
         default:
             recordStats = "";
@@ -65,38 +78,29 @@ public class CisService {
      * Find Celebrity Investor Records for given type
      */
     public List<? extends AbstractStrategyDto> findCis(CisEnum type, String pageNumber, String perPageMaxRecords) {
-        List<? extends AbstractStrategyDto> strategyResultList = new ArrayList<>();
+        List<? extends AbstractStrategyDto> strategyResultList;
         switch (type) {
         case KENNITH_FISHER:
-            strategyResultList = kennethFisherDao.findCis(AbstractCisDao.KENNIT_FISHER_STRATEGY_QUERY, pageNumber, perPageMaxRecords);
+            strategyResultList = kennethFisherDao.findCis(pageNumber, perPageMaxRecords);
             break;
         case BENJAMIN_GRAHAM:
-            strategyResultList = benjaminGrahamDao.findCis(AbstractCisDao.BENJAMIN_GRAHAM_STRATEGY_QUERY, pageNumber, perPageMaxRecords);
+            strategyResultList = benjaminGrahamDao.findCis(pageNumber, perPageMaxRecords);
             break;
         case JAMES_SHAUGHNESSY:
-            strategyResultList = jamesShaughnessyDao.findCis(AbstractCisDao.JAMES_SHAUGHNESSY_STRATEGY_QUERY, pageNumber, perPageMaxRecords);
+            strategyResultList = jamesShaughnessyDao.findCis(pageNumber, perPageMaxRecords);
             break;
         case JOEL_GREENBLATT:
-            strategyResultList = joelGreenBlattDao.findCis(AbstractCisDao.JOEL_GREENBLATT_STRATEGY_QUERY, pageNumber, perPageMaxRecords);
+            strategyResultList = joelGreenBlattDao.findCis(pageNumber, perPageMaxRecords);
+            break;
+        case MARTIN_ZWEIG:
+            strategyResultList = martinZweigDao.findCis(pageNumber, perPageMaxRecords);
+            break;
+        case FINVENDOR_PICK:
+            strategyResultList = finvendorPickDao.findCis(pageNumber, perPageMaxRecords);
             break;
         default:
             strategyResultList = null;
         }
         return strategyResultList;
-    }
-
-    public String findCisToolTips(CisEnum type) throws IOException {
-        String toolTip;
-        switch (type) {
-        case KENNITH_FISHER:
-            toolTip = JsonUtil.createJsonFromObject(new StrategyToolTips(TOOL_TIP_KENNETH_FISHER));
-            break;
-        case BENJAMIN_GRAHAM:
-            toolTip = JsonUtil.createJsonFromObject(new StrategyToolTips(TOOL_TIP_BNJAMIN_GRAHAM));
-            break;
-        default:
-            toolTip = "NA";
-        }
-        return toolTip;
     }
 }

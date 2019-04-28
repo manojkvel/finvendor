@@ -35,11 +35,62 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
     private static final String ROTC_QUERY = "select earning_preview_yearly.stock_id,earning_preview_yearly.profit_after_tax,earning_preview_as_of_date.total_capital, ROUND((earning_preview_yearly.profit_after_tax/earning_preview_as_of_date.total_capital),2) ROTC from earning_preview_yearly, earning_preview_as_of_date where earning_preview_yearly.stock_id = earning_preview_as_of_date.stock_id and earning_preview_yearly.stock_id=? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc limit 1 offset 0";
     private static final String EBIT_ATTRIBUTES_QUERY="select earning_preview_yearly.stock_id,earning_preview_yearly.revenue,earning_preview_yearly.operating_profit_margin,earning_preview_as_of_date.total_debt,earning_preview_as_of_date.cash_and_cash_equiv from earning_preview_yearly, earning_preview_as_of_date where earning_preview_yearly.stock_id = earning_preview_as_of_date.stock_id and earning_preview_yearly.stock_id=? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc limit 1 offset 0";
 
+    //Martin
+    private static final String LATEST_REVENUE_GROWTH = "select earning_preview_yearly.stock_id, earning_preview_yearly.period,earning_preview_yearly.revenue from earning_preview_yearly, earning_preview_as_of_date where earning_preview_yearly.stock_id = earning_preview_as_of_date.stock_id AND earning_preview_yearly.stock_id = ? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc limit 2 offset 0";
 
     @Autowired
     protected ICommonDao commonDao;
 
-    float find_3yr_avg_net_profit_margin(String stockId) {
+    float findNifty50Pe(String stockId){
+        float nifty50Pe=0.0F;
+
+        return nifty50Pe;
+    }
+
+    /**
+     * This method will be used for Martin Zweig
+     * Condition eps growth Y1>Y2>Y3>Y4>Y5
+     */
+    boolean isEveryEpsGrowthGreaterThanPrevioudEpsGrowth(String stockId){
+        boolean isEveryEpsGrowthGreaterThanPrevioudEpsGrowth=true;
+        Map<String, Float> lastNYearEPSGrowth = findLastNYearEPSGrowth(stockId);
+
+        return isEveryEpsGrowthGreaterThanPrevioudEpsGrowth;
+    }
+
+    /**
+     * This method will be used for Martin Zweig
+     * % Average for all year
+     */
+    float findAllYearEpsGrowth(String stockId){
+        float allYrEpsGrowth;
+        Map<String, Float> lastNYearEPSGrowthMap = findLastNYearEPSGrowth(stockId);
+        Collection<Float> values = lastNYearEPSGrowthMap.values();
+        float sumOfAllEpsGrowth = 0.0F;
+        for (Float epsGrowth : values) {
+            sumOfAllEpsGrowth += epsGrowth;
+        }
+        allYrEpsGrowth = sumOfAllEpsGrowth / values.size();
+        return allYrEpsGrowth;
+    }
+
+    /**
+     * This method will be used for Martin Zweig
+     */
+    float findLatestRevenueGrowth(String stockId){
+        //Last 2 year % growth difference
+        float latestRevenueGwoth;
+
+        SQLQuery sqlQuery = commonDao.getNativeQuery(LATEST_REVENUE_GROWTH, new Object[] { stockId});
+        List<Object[]> companyDetailsList = sqlQuery.list();
+        Object revenueY1 = companyDetailsList.get(0)[2];
+        Object revenueY2 = companyDetailsList.get(1)[2];
+        float revenueFloatY1 = revenueY1 != null && !StringUtils.isEmpty(revenueY1.toString()) && !"-".equals(revenueY1.toString()) ? Float.parseFloat(revenueY1.toString().trim()) : 0.0F;
+        float revenueFloatY2 = revenueY2 != null && !StringUtils.isEmpty(revenueY2.toString()) && !"-".equals(revenueY2.toString()) ? Float.parseFloat(revenueY2.toString().trim()) : 0.0F;
+        latestRevenueGwoth = (revenueFloatY1 - revenueFloatY2) * 100 / revenueFloatY2;
+        return latestRevenueGwoth;
+    }
+    float find3YearAverageNetProfitMargin(String stockId) {
         SQLQuery sqlQuery = commonDao.getNativeQuery(_3YR_AVG_NET_PROFIT_MARGIN_QUERY, new Object[] { stockId});
         List<Object[]> companyDetailsList = sqlQuery.list();
         float sum = 0.0F;
@@ -54,8 +105,8 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
 
     }
 
-    Map<Integer, JoelRotcDto> find_top_50_Rotc() {
-        Map<Integer,JoelRotcDto> rotcMap = new HashMap<>();
+    Map<Integer, JoelRotcDto> findTop50Rotc() {
+        List<JoelRotcDto> joelRotcDtoList = new ArrayList<>();
         Map<Integer, JoelRotcDto> top50RotcMap = new LinkedHashMap<>();
 
         SQLQuery sqlQuery = commonDao.getNativeQuery(COMPANY_DETAILS_FOR_JOEL, new Object[] { RESEARCH_AREA, COUNTRY_ID });
@@ -80,7 +131,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
                 rotcStockIdInt = Integer.parseInt(rotcStockId);
 
                 patFloat = rotcRow[1] != null && !StringUtils.isEmpty(rotcRow[1].toString()) && !"-".equals(rotcRow[1].toString()) ? Float.parseFloat(rotcRow[1].toString().trim()) : 0.0F;
-                totalCapitalFloat = rotcRow[1] != null && !StringUtils.isEmpty(rotcRow[1].toString()) && !"-".equals(rotcRow[1].toString()) ? Float.parseFloat(rotcRow[1].toString().trim()) : 0.0F;
+                totalCapitalFloat = rotcRow[2] != null && !StringUtils.isEmpty(rotcRow[2].toString()) && !"-".equals(rotcRow[2].toString()) ? Float.parseFloat(rotcRow[2].toString().trim()) : 0.0F;
 
                 if (totalCapitalFloat != 0.0F) {
 
@@ -92,33 +143,31 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
             }
 
             if (stockId.equals(String.valueOf(rotcStockIdInt))) {
-                JoelRotcDto joelRotcDto = new JoelRotcDto(rotcCompanyName, rotcTicker, rotcFloat, String.valueOf(patFloat),
+                JoelRotcDto joelRotcDto = new JoelRotcDto(stockId, rotcCompanyName, rotcTicker, rotcFloat, String.valueOf(patFloat),
                         String.valueOf(totalCapitalFloat));
-                rotcMap.put(rotcStockIdInt, joelRotcDto);
+                joelRotcDtoList.add(joelRotcDto);
             }
         }
 
         //Sort rotcMap  Map by value - At this stage rotcMap is heavy
-        List<Map.Entry<Integer, JoelRotcDto>> stockIdRotcEntryList = new ArrayList<>(rotcMap.entrySet());
-        Collections.sort(stockIdRotcEntryList, new Comparator<Map.Entry<Integer, JoelRotcDto>>() {
-            @Override public int compare(Map.Entry<Integer, JoelRotcDto> o1, Map.Entry<Integer, JoelRotcDto> o2) {
-                return o2.getValue().getRotc().compareTo(o1.getValue().getRotc());
+        Collections.sort(joelRotcDtoList, new Comparator<JoelRotcDto>() {
+            @Override public int compare(JoelRotcDto o1, JoelRotcDto o2) {
+                return o2.getRotc().compareTo(o1.getRotc());
             }
         });
-
-        for (int i = 0; i < stockIdRotcEntryList.size(); i++) {
+        for (int i = 0; i < joelRotcDtoList.size(); i++) {
             //lets break once we get top 50
             if (i == 49) {
                 break;
             }
-            Map.Entry<Integer, JoelRotcDto> item = stockIdRotcEntryList.get(i);
-            top50RotcMap.put(item.getKey(), item.getValue());
+           JoelRotcDto item = joelRotcDtoList.get(i);
+            top50RotcMap.put(Integer.parseInt(item.getCompanyId()), item);
         }
         return top50RotcMap;
     }
 
-    public Map<Integer, JoelEbitAndEnterpriseDto> find_top_50_EBIT() {
-        Map<Integer,JoelEbitAndEnterpriseDto> ebitDividedByEnterpriseValueMap = new HashMap<>();
+    public Map<Integer, JoelEbitAndEnterpriseDto> findTop50Ebit() {
+        List<JoelEbitAndEnterpriseDto> ebitDividedByEnterpriseValueList = new ArrayList<>();
         Map<Integer, JoelEbitAndEnterpriseDto> top50EbitDividedByEnterpriseValueMapMap = new LinkedHashMap<>();
 
         SQLQuery ebitCompanyDetailsSqlQuery = commonDao.getNativeQuery(COMPANY_DETAILS_FOR_JOEL, new Object[] { RESEARCH_AREA, COUNTRY_ID });
@@ -126,8 +175,8 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
         for (Object[] row : ebitCompanyDetailsList) {
             String stockId = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ? row[0].toString().trim() : "";
             String companyName = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "";
-            String mcap = row[2] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "";
-            String ticker = row[3] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "";
+            String mcap = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ? row[2].toString().trim() : "";
+            String ticker = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[3].toString()) ? row[3].toString().trim() : "";
 
             //Find ROTC for this StockID
             SQLQuery ebitAttributeSqlQuery = commonDao.getNativeQuery(EBIT_ATTRIBUTES_QUERY, new Object[] { stockId });
@@ -155,34 +204,36 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
             }
 
             if (stockId.equals(String.valueOf(ebitStockIdInt))) {
-                JoelEbitAndEnterpriseDto joelEbitAndEnterpriseDto = new JoelEbitAndEnterpriseDto(companyName, ticker, ebitFloat,
+                float ebitDividedByEnterpriceValue =
+                        ebitFloat / Float.parseFloat(mcap) + (Float.parseFloat(totalDebt) - Float.parseFloat(cachAndCashEquiv));
+                JoelEbitAndEnterpriseDto joelEbitAndEnterpriseDto = new JoelEbitAndEnterpriseDto(stockId, companyName, ticker,
+                        ebitDividedByEnterpriceValue,
                         String.valueOf(revenue),
                         String.valueOf(operatingProfitMargin),
                         mcap, totalDebt, cachAndCashEquiv);
-                ebitDividedByEnterpriseValueMap.put(ebitStockIdInt, joelEbitAndEnterpriseDto);
+                ebitDividedByEnterpriseValueList.add(joelEbitAndEnterpriseDto);
             }
         }
 
         //Sort rotcMap  Map by value - At this stage rotcMap is heavy
-        List<Map.Entry<Integer, JoelEbitAndEnterpriseDto>> stockIdEbitEntryList = new ArrayList<>(ebitDividedByEnterpriseValueMap.entrySet());
-        Collections.sort(stockIdEbitEntryList, new Comparator<Map.Entry<Integer, JoelEbitAndEnterpriseDto>>() {
-            @Override public int compare(Map.Entry<Integer, JoelEbitAndEnterpriseDto> o1, Map.Entry<Integer, JoelEbitAndEnterpriseDto> o2) {
-                return o2.getValue().getEbitDividedByEnterprice_value().compareTo(o1.getValue().getEbitDividedByEnterprice_value());
+        Collections.sort(ebitDividedByEnterpriseValueList, new Comparator<JoelEbitAndEnterpriseDto>() {
+            @Override public int compare(JoelEbitAndEnterpriseDto o1, JoelEbitAndEnterpriseDto o2) {
+                return o2.getEbitDividedByEnterprice_value().compareTo(o1.getEbitDividedByEnterprice_value());
             }
         });
 
-        for (int i = 0; i < stockIdEbitEntryList.size(); i++) {
+        for (int i = 0; i < ebitDividedByEnterpriseValueList.size(); i++) {
             //lets break once we get top 50
             if (i == 49) {
                 break;
             }
-            Map.Entry<Integer, JoelEbitAndEnterpriseDto> item = stockIdEbitEntryList.get(i);
-            top50EbitDividedByEnterpriseValueMapMap.put(item.getKey(), item.getValue());
+            JoelEbitAndEnterpriseDto item = ebitDividedByEnterpriseValueList.get(i);
+            top50EbitDividedByEnterpriseValueMapMap.put(Integer.parseInt(item.getCompanyId()), item);
         }
         return top50EbitDividedByEnterpriseValueMapMap;
     }
 
-    private Map<String, Float> find_Last_N_Years_EPSGrowth(String stockId) {
+    private Map<String, Float> findLastNYearEPSGrowth(String stockId) {
         Map<String, Float> nYearEpsGrowthMap = new TreeMap<>();
         List<Float> epsList = new ArrayList<>();
 
@@ -377,7 +428,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
                 String avgTotalAssets = row[23] != null && !StringUtils.isEmpty(row[23].toString()) && !"-".equals(row[23].toString()) ? row[23].toString().trim() : "";
                 float avgTotalAssetsFloat = !avgTotalAssets.isEmpty() ? Float.parseFloat(avgTotalAssets) : 0.0F;
 
-                Map<String, Float> last_N_years_epsGrowth = find_Last_N_Years_EPSGrowth(companyId);
+                Map<String, Float> last_N_years_epsGrowth = findLastNYearEPSGrowth(companyId);
                 float latestEpsGrowthInPercentageAsFloat = last_N_years_epsGrowth.get("Y_1");
 
                 earningPreviewDetails = new EarningPreviewDetails(period, revenue, revenueFloat, operatingProfitMargin,
@@ -396,7 +447,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
 
     boolean isNYearEpsGrowthPositive(String stockId) {
         boolean positive5YrEPSGrowth = true;
-        Map<String, Float> last_n_years_epsGrowth = find_Last_N_Years_EPSGrowth(stockId);
+        Map<String, Float> last_n_years_epsGrowth = findLastNYearEPSGrowth(stockId);
         if (last_n_years_epsGrowth.size() == 0) {
             positive5YrEPSGrowth = false;
         }

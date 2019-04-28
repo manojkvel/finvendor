@@ -1,13 +1,15 @@
 package com.finvendor.api.resources.dff.service.internalfeed.screener.dto;
 
 public class JoelRotcDto {
+    private String companyId;
     private String companyName;
     private String ticker;
     private Float rotc;
     private String recentYrPat;
     private String totalCapital;
 
-    public JoelRotcDto(String companyName, String ticker, Float rotc, String recentYrPat, String totalCapital) {
+    public JoelRotcDto(String companyId, String companyName, String ticker, Float rotc, String recentYrPat, String totalCapital) {
+        this.companyId = companyId;
         this.companyName = companyName;
         this.ticker = ticker;
         this.rotc = rotc;
@@ -53,5 +55,13 @@ public class JoelRotcDto {
 
     public void setTotalCapital(String totalCapital) {
         this.totalCapital = totalCapital;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 }

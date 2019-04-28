@@ -1,6 +1,7 @@
 package com.finvendor.api.resources.dff.service.internalfeed.screener.dto;
 
 public class JoelEbitAndEnterpriseDto {
+    private String companyId;
     private String companyName;
     private String ticker;
 
@@ -11,8 +12,10 @@ public class JoelEbitAndEnterpriseDto {
     private String totalDebt;
     private String cashAndCashEquiv;
 
-    public JoelEbitAndEnterpriseDto(String companyName, String ticker, Float ebitDividedByEnterprice_value, String revenue,
+    public JoelEbitAndEnterpriseDto(String companyId, String companyName, String ticker, Float ebitDividedByEnterprice_value,
+            String revenue,
             String operatingProfitMargin, String mcap, String totalDebt, String cashAndCashEquiv) {
+        this.companyId = companyId;
         this.companyName = companyName;
         this.ticker = ticker;
         this.ebitDividedByEnterprice_value = ebitDividedByEnterprice_value;
@@ -85,6 +88,14 @@ public class JoelEbitAndEnterpriseDto {
 
     public void setCashAndCashEquiv(String cashAndCashEquiv) {
         this.cashAndCashEquiv = cashAndCashEquiv;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 }
 

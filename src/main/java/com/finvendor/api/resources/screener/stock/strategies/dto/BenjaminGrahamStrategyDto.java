@@ -4,13 +4,13 @@ public class BenjaminGrahamStrategyDto extends AbstractStrategyDto {
     private String totalDebt;
     private String currentAssets;
     private String currentLiabilities;
-    private boolean is5YrEPSGrowthPositive;
+    private String is5YrEPSGrowthPositive;
     private String pe;
     private String pb;
     private String dividenYield;
 
     public BenjaminGrahamStrategyDto(String stockId, String companyName, String totalDebt, String currentAssets,
-            String currentLiabilities, boolean is5YrEPSGrowthPositive, String pe, String pb, String dividenYield) {
+            String currentLiabilities, String is5YrEPSGrowthPositive, String pe, String pb, String dividenYield) {
         super(stockId, companyName);
         this.totalDebt = totalDebt;
         this.currentAssets = currentAssets;
@@ -45,11 +45,11 @@ public class BenjaminGrahamStrategyDto extends AbstractStrategyDto {
         this.currentLiabilities = currentLiabilities;
     }
 
-    public boolean isIs5YrEPSGrowthPositive() {
+    public String isIs5YrEPSGrowthPositive() {
         return is5YrEPSGrowthPositive;
     }
 
-    public void setIs5YrEPSGrowthPositive(boolean is5YrEPSGrowthPositive) {
+    public void setIs5YrEPSGrowthPositive(String is5YrEPSGrowthPositive) {
         this.is5YrEPSGrowthPositive = is5YrEPSGrowthPositive;
     }
 
@@ -75,6 +75,10 @@ public class BenjaminGrahamStrategyDto extends AbstractStrategyDto {
 
     public void setDividenYield(String dividenYield) {
         this.dividenYield = dividenYield;
+    }
+
+    public String getIs5YrEPSGrowthPositive() {
+        return is5YrEPSGrowthPositive;
     }
 }
 

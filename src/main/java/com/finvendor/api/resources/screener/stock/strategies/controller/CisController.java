@@ -30,9 +30,7 @@ public class CisController {
             return new ResponseEntity<>(service.findCisRecordStats(type, perPageMaxRecords), HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("CelebrityInvestorStrategyController -> findCisRecordStats(...), type: " + type.name(), e);
-            return ErrorUtil
-                    .getError(CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS.getCode(), CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS.getUserMessage(),
-                            e);
+            return ErrorUtil.getError(CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS.getCode(), CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS.getUserMessage(), e);
         }
     }
 

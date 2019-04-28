@@ -34,8 +34,7 @@ public class EquityReportDao {
     private ICommonDao commonDao;
 
     @SuppressWarnings("unchecked")
-    public String getRecordStatistics(String mainQuery, ResearchReportFilter filter, String perPageMaxRecords)
-            throws RuntimeException {
+    public String getRecordStatistics(String mainQuery, ResearchReportFilter filter, String perPageMaxRecords) throws RuntimeException {
         try {
             EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
 

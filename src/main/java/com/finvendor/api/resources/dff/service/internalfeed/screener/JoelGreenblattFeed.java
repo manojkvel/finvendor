@@ -1,14 +1,13 @@
 package com.finvendor.api.resources.dff.service.internalfeed.screener;
 
-import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.CompanyDetails;
-import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.EarningPreviewDetails;
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.JoelEbitAndEnterpriseDto;
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.JoelRotcDto;
+import com.google.common.collect.Sets;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,60 +18,45 @@ import java.util.Set;
 @Service
 @Transactional
 public class JoelGreenblattFeed extends AbstractScreenerFeed {
-    private static final String INSERT_QUERY = "insert into strategy_kenneth_fisher values(?,?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_QUERY = "insert into strategy_jeol_greenblatt values(?,?,?,?,?,?,?);";
 
     @Override
     public boolean processAndFeed() throws Exception {
-        Map<Integer, JoelRotcDto> top_50_rotc = find_top_50_Rotc();
-        Map<Integer, JoelEbitAndEnterpriseDto> top_50_ebit = find_top_50_EBIT();
+        Map<Integer, JoelRotcDto> top_50_rotc = findTop50Rotc();
+        Map<Integer, JoelEbitAndEnterpriseDto> top_50_ebit = findTop50Ebit();
         Set<Integer> top_50_rotc_stock_id = top_50_rotc.keySet();
         Set<Integer> top_50_ebit_stock_id = top_50_ebit.keySet();
-        top_50_rotc_stock_id.retainAll(top_50_ebit_stock_id);
+        Set<Integer> intersection = Sets.intersection(top_50_rotc_stock_id, top_50_ebit_stock_id);
 
-
-        //        List<CompanyDetails> companyDetailsList = findCompanyDetails();
-//        for (CompanyDetails companyDetails : companyDetailsList) {
-//            EarningPreviewDetails latestEarningPreview = findLatestEarningPreview(companyDetails.getCompanyId());
-//            if (latestEarningPreview == null) {
-//                continue;
-//            }
-//            if (evalCondition(companyDetails, latestEarningPreview)) {
-//                insertFeed(companyDetails, latestEarningPreview);
-//            }
-//        }
+        for (Integer stockId : intersection) {
+            JoelRotcDto joelRotcDto = top_50_rotc.get(stockId);
+            JoelEbitAndEnterpriseDto joelEbitAndEnterpriseDto = top_50_ebit.get(stockId);
+            insertFeed(joelRotcDto,joelEbitAndEnterpriseDto);
+        }
         return true;
     }
 
-    private boolean evalCondition(CompanyDetails companyDetails, EarningPreviewDetails earningPreview) {
-        float revenueFloat = earningPreview.getRevenueFloat();
-        float netOperatingCashFlowFloat = earningPreview.getNetOperatingCashFlowFloat();
-        float mcapFloat = companyDetails.getShareOutStandingFloat() * companyDetails.getCmpFloat();
-        float totalDebtFloat = earningPreview.getTotalDebtFloat();
-        float cashAndCashEquivFloat = earningPreview.getCashAndCashEquivFloat();
+    private void insertFeed(JoelRotcDto joelRotcDto, JoelEbitAndEnterpriseDto joelEbitAndEnterpriseDto) {
+        String companyId = joelRotcDto.getCompanyId();
+        String companyName = joelRotcDto.getCompanyName();
+        String recentYrPat = joelRotcDto.getRecentYrPat();
+        String totalCapital = joelRotcDto.getTotalCapital();
 
-        return false;
-    }
-
-    private void insertFeed(CompanyDetails companyDetails,
-            EarningPreviewDetails earningPreview) {
-        String companyId = companyDetails.getCompanyId();
-        String companyName = companyDetails.getCompanyName();
+        String mcap = joelEbitAndEnterpriseDto.getMcap();
+        String totalDebt = joelEbitAndEnterpriseDto.getTotalDebt();
+        String cashAndCashEquiv = joelEbitAndEnterpriseDto.getCashAndCashEquiv();
 
         SQLQuery sqlQuery = commonDao.getNativeQuery(INSERT_QUERY, null);
+        sqlQuery.setParameter(0, Integer.parseInt(companyId));
+        sqlQuery.setParameter(1, StringUtils.isEmpty(companyName) ? "-" : companyName);
 
 
+        sqlQuery.setParameter(2, StringUtils.isEmpty(recentYrPat) ? "-" : recentYrPat);
+        sqlQuery.setParameter(3, StringUtils.isEmpty(totalCapital) ? "-" : totalCapital);
+
+        sqlQuery.setParameter(4, StringUtils.isEmpty(mcap) ? "-" : mcap);
+        sqlQuery.setParameter(5, StringUtils.isEmpty(totalDebt) ? "-" : totalDebt);
+        sqlQuery.setParameter(6, StringUtils.isEmpty(cashAndCashEquiv) ? "-" : cashAndCashEquiv);
         sqlQuery.executeUpdate();
-    }
-
-    public static void main(String[] args) {
-        Set<Integer> s1=new HashSet<>();
-        s1.add(1);
-        s1.add(2);
-        s1.add(3);
-        Set<Integer> s2=new HashSet<>();
-        s2.add(2);
-        s2.add(3);
-        s1.retainAll(s2);
-        System.out.println(s1);
     }
 }
