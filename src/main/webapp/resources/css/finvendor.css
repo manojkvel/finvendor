@@ -2110,6 +2110,7 @@ button {
 #celebrity_investors_strategies .startegy_content_table {
 	display: none;
 	background: #fff;
+	overflow: hidden;
 }
 
 .startegy_content .view_btn {
@@ -2130,9 +2131,9 @@ button {
     text-align: center !important;
 }
 
-.startegy_content .pe,
-.startegy_content .pb,
-.startegy_content .mcap {
+.startegy_content_table .pe,
+.startegy_content_table .pb,
+.startegy_content_table .mcap {
 	font-size: 13px;
 }
 

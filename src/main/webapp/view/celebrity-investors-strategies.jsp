@@ -67,7 +67,7 @@
 					<div class="strategy_view">
 						<h2>Kennith Fisher</h2>
 						<div class="startegy_content">
-							<h3></h3>
+							<h3>Founder of Fisher Investments, Managing over $100B assets. Ken Fisher?s public stock picks outperform the broad U.S. stock market over the past 18 years by an average 4.2% annually</h3>
 							<div class="view_btn">
 								<a href="javascript:void(0)">
 									Run Strategy
@@ -118,7 +118,7 @@
 					<div class="strategy_view">
 						<h2>Benjamin Graham</h2>
 						<div class="startegy_content">
-							<h3></h3>
+							<h3>Widely known as the <strong>"father of value investing"</strong>, Warren buffet leant the value investment from Benjamin graham</h3>
 							<div class="view_btn">
 								<a href="javascript:void(0)">
 									Run Strategy
@@ -253,25 +253,22 @@
 										Company Name
 									</th>
 									<th>
-										Total Debt
-									</th>
-									<th>
-										Current Assets
-									</th>
-									<th>
-										Current Liabilities
+										CMP
 									</th>
 									<th>
 										EPS
 									</th>
 									<th>
-										P/E
+										M Cap
 									</th>
 									<th>
-										P/B
+										Net Operating Flow
 									</th>
 									<th>
-										Div Yield (%)
+										PB
+									</th>
+									<th>
+										Revenue
 									</th>
 								</tr>
 							</thead>
@@ -304,28 +301,25 @@
 											Company Name
 										</th>
 										<th>
-											Annual Revenue
-										</th>
-										<th>
-											DE
-										</th>
-										<th>
-											Inflation Rate
+											Cash and CashEquiv
 										</th>
 										<th>
 											M cap
 										</th>
 										<th>
-											PSR
+											Operating Profit Margin
 										</th>
 										<th>
-											rnd Expenditure
+											PAT
 										</th>
 										<th>
-											EPS
+											Revenue
 										</th>
 										<th>
-											Average Net Profit Margin
+											Total Capital
+										</th>
+										<th>
+											Total Debt
 										</th>
 									</tr>
 								</thead>
@@ -336,6 +330,22 @@
 			</li>
 		</ol>
 	</div>
+	
+	<!-- Modal -->
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Modal header</h3>
+		</div>
+		<div class="modal-body">
+			<p>One fine body…</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button class="btn btn-primary">Save changes</button>
+		</div>
+	</div>
+
 	<jsp:include page="login.jsp"></jsp:include>
 	<jsp:include page="common/footer.jsp"></jsp:include>
 
