@@ -2,8 +2,11 @@ package com.finvendor.api.resources.dff.service.internalfeed.screener;
 
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.CompanyDetails;
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.EarningPreviewDetails;
+import com.finvendor.api.resources.markets.service.MarketsService;
+import com.finvendor.common.util.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +17,14 @@ import java.util.List;
 public class MartinZweigFeed extends AbstractScreenerFeed {
     private static final String INSERT_QUERY = "insert into strategy_martin_zweig values(?,?,?,?,?,?,?,?);";
     private static final String DELETE_QUERY = "delete from strategy_martin_zweig";
+    @Autowired
+    private MarketsService marketsService;
 
+    private String findIndexPe(String indexName) throws Exception {
+        String indexSummaryJson = marketsService.getIndexSummary(indexName);
+        String nifty50Pe = JsonUtil.getValue(indexSummaryJson, "pe");
+        return nifty50Pe.trim();
+    }
     @Override
     public boolean processAndFeed() throws Exception {
         deleteAllRecordsFromStrategyTable("MARTIN ZWEIG STRATEGY", DELETE_QUERY);
@@ -30,9 +40,9 @@ public class MartinZweigFeed extends AbstractScreenerFeed {
                 continue;
             }
 
+            String nifty50Pe=findIndexPe("Nifty 50");
+            if (evalMartinZweigCondition(companyDetails, latestEarningPreview,nifty50Pe)) {
 
-            if (evalMartinZweigCondition(companyDetails, latestEarningPreview)) {
-                String nifty50Pe="0.0";
                 insertFeed(companyDetails, latestEarningPreview, nifty50Pe);
                 totalMatch++;
             }
@@ -45,11 +55,13 @@ public class MartinZweigFeed extends AbstractScreenerFeed {
         return true;
     }
 
-    private boolean evalMartinZweigCondition(CompanyDetails companyDetails, EarningPreviewDetails latestEarningPreview) {
+    private boolean evalMartinZweigCondition(CompanyDetails companyDetails,
+            EarningPreviewDetails latestEarningPreview,String nifty50Pe) {
 
         String stockId = companyDetails.getCompanyId();
 
         float peFloat = companyDetails.getPeFloat();
+        float nifty50PeFloat = Float.parseFloat(!StringUtils.isEmpty(nifty50Pe) ? nifty50Pe.trim() : "0.0");
         float latestRevenueGrowth = findLatestRevenueGrowth(stockId);
         float allYearEpsGrowth = findAllYearEpsGrowth(stockId);
         float deFloat = latestEarningPreview.getDeFloat();
@@ -57,7 +69,7 @@ public class MartinZweigFeed extends AbstractScreenerFeed {
         boolean everyEpsGrowthGreaterThanPrevioudEpsGrowth = isEveryEpsGrowthGreaterThanPrevioudEpsGrowth(stockId);
         boolean finalCondition;
         boolean peCondition1 = peFloat >= 5 && peFloat <= 43;
-        boolean peCondition2 = peFloat <= 3 * peFloat;
+        boolean peCondition2 = peFloat <= 3 * nifty50PeFloat;
         boolean latestRevenueGrowthCondition = latestRevenueGrowth >= 85 || latestRevenueGrowth >= 30;
         boolean epsGrowthCondition = everyEpsGrowthGreaterThanPrevioudEpsGrowth;
         boolean allYearEpsGrowthCondition = allYearEpsGrowth > 15;
@@ -68,27 +80,27 @@ public class MartinZweigFeed extends AbstractScreenerFeed {
         sb.append("\nStock: [").append(companyDetails.getCompanyId()).append("::").append(companyDetails.getTicker())
                 .append("] - ").append("Condition Matched: ").append(finalCondition);
         sb.append("\n--------------------------------------------------------------------------");
-        sb.append("\npe: ---------------------------------------------------- ").append(peFloat);
-        sb.append("\nlatestRevenueGrowth:------------------------------------ ").append(latestRevenueGrowth);
-        sb.append("\nallYearEpsGrowth: -------------------------------------- ").append(allYearEpsGrowth);
-        sb.append("\ndeFloat: ----------------------------------------------- ").append(deFloat);
-        sb.append("\neveryEpsGrowthGreaterThanPrevioudEpsGrowth: ------------ ").append(everyEpsGrowthGreaterThanPrevioudEpsGrowth);
+        sb.append("\npe: ---------------------------------------------------- (").append(peFloat);
+        sb.append("\nnifty50PeFloat: ---------------------------------------- (").append(nifty50PeFloat);
+        sb.append("\nlatestRevenueGrowth:------------------------------------ (").append(latestRevenueGrowth);
+        sb.append("\nallYearEpsGrowth: -------------------------------------- (").append(allYearEpsGrowth);
+        sb.append("\ndeFloat: ----------------------------------------------- (").append(deFloat);
+        sb.append("\neveryEpsGrowthGreaterThanPrevioudEpsGrowth: ------------ (").append(everyEpsGrowthGreaterThanPrevioudEpsGrowth);
 
         sb.append("\n\n");
         sb.append("\nCondition-1: [P/E between 5-43 ] ---------------------------------------------------------------------- ").append(peCondition1 ? "TRUE" : "FALSE");
-        sb.append("\nCondition-2: [P/E <= 3 * Nifty50 P/E] ----------------------------------------------------------------- ").append(peCondition2? "TRUE" : "FALSE");
+        sb.append("\nCondition-2: [P/E <= 3 * Nifty50 P/E] ----------------------------------------------------------------- ").append(peCondition2 ? "TRUE" : "FALSE");
         sb.append("\nCondition-3: [(latest Revenue Growth >= 85% of EPS growth) or  (latest Revenue Growth >=30% YOY)] ----- ").append(latestRevenueGrowthCondition ? "TRUE" : "FALSE");
-        sb.append("\nCondition-4: [eps growth Y1>Y2>Y3>Y4>Y5] -------------------------------------------------------------- ").append(epsGrowthCondition? "TRUE" : "FALSE");
-        sb.append("\nCondition-5: [AllYr eps growth > =15%] ---------------------------------------------------------------- ").append(allYearEpsGrowthCondition? "TRUE" : "FALSE");
-        sb.append("\nCondition-6: [D/E RATIO < 2] -------------------------------------------------------------------------- ").append(deCondition? "TRUE" : "FALSE");
+        sb.append("\nCondition-4: [eps growth Y1>Y2>Y3>Y4>Y5] -------------------------------------------------------------- ").append(epsGrowthCondition ? "TRUE" : "FALSE");
+        sb.append("\nCondition-5: [AllYr eps growth > =15%] ---------------------------------------------------------------- ").append(allYearEpsGrowthCondition ? "TRUE" : "FALSE");
+        sb.append("\nCondition-6: [D/E RATIO < 2] -------------------------------------------------------------------------- ").append(deCondition ? "TRUE" : "FALSE");
 
         logger.info(" Condition Attibutes{}", sb.toString());
         sb.setLength(0);
         return finalCondition;
     }
 
-    private void insertFeed(CompanyDetails companyDetails, EarningPreviewDetails earningPreview,
-            String nifty50Pe ) {
+    private void insertFeed(CompanyDetails companyDetails, EarningPreviewDetails earningPreview, String nifty50Pe ) {
         String companyId = companyDetails.getCompanyId();
         String companyName = companyDetails.getCompanyName();
         String pe = companyDetails.getPe();

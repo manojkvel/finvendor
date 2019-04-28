@@ -41,12 +41,6 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
     @Autowired
     protected ICommonDao commonDao;
 
-    float findNifty50Pe(String stockId){
-        float nifty50Pe=0.0F;
-
-        return nifty50Pe;
-    }
-
     /**
      * This method will be used for Martin Zweig
      * Condition eps growth Y1>Y2>Y3>Y4>Y5

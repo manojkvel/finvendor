@@ -77,14 +77,14 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
         benjaminSB.append("\nStock: [").append(companyDetails.getCompanyId()).append("::").append(companyDetails.getTicker())
                 .append("] - ").append("Condition Matched: ").append(finalCondition);
         benjaminSB.append("\n--------------------------------------------------------------------------");
-        benjaminSB.append("\nTotalDebt: ----------------------------------- ").append(totalDebtFloat);
-        benjaminSB.append("\nCurrentAsset:--------------------------------- ").append(currentAssetFloat);
-        benjaminSB.append("\nCurrentLiabilities: -------------------------- ").append(currentLiabilitiesFloat);
-        benjaminSB.append("\nPE: ------------------------------------------ ").append(peFloat);
-        benjaminSB.append("\nCMP: ----------------------------------------- ").append(cmpFloat);
-        benjaminSB.append("\nBVShare: ------------------------------------- ").append(bvShareFloat);
-        benjaminSB.append("\nPB: ------------------------------------------ ").append(pbFloat);
-        benjaminSB.append("\nDivYeild: ------------------------------------ ").append(divYeildFloat);
+        benjaminSB.append("\nTotalDebt: ----------------------------------- (").append(totalDebtFloat);
+        benjaminSB.append("\nCurrentAsset:--------------------------------- (").append(currentAssetFloat);
+        benjaminSB.append("\nCurrentLiabilities: -------------------------- (").append(currentLiabilitiesFloat);
+        benjaminSB.append("\nPE: ------------------------------------------ (").append(peFloat);
+        benjaminSB.append("\nCMP: ----------------------------------------- (").append(cmpFloat);
+        benjaminSB.append("\nBVShare: ------------------------------------- (").append(bvShareFloat);
+        benjaminSB.append("\nPB: ------------------------------------------ (").append(pbFloat);
+        benjaminSB.append("\nDivYeild: ------------------------------------ (").append(divYeildFloat);
         benjaminSB.append("\n\n");
         benjaminSB.append("\nCondition-1: [Total debt/current assets < 1.1] ------------------------------------ ").append("(").append(totalDebtFloat).append("/").append(currentAssetFloat).append(") = ").append((totalDebtFloat / currentAssetFloat)).append(" | ").append((totalDebtFloat / currentAssetFloat)).append(" < 1.1 ").append("=> ").append(con1?"TRUE":"FALSE");
         benjaminSB.append("\nCondition-2: [current assets/current liabilities >1.5] ---------------------------- ").append("(").append(currentAssetFloat).append("/").append(currentLiabilitiesFloat).append(") = ").append((currentAssetFloat / currentLiabilitiesFloat)).append(" | ").append((currentAssetFloat / currentLiabilitiesFloat)).append(" > 1.5").append(" => ").append(con2?"TRUE":"FALSE");

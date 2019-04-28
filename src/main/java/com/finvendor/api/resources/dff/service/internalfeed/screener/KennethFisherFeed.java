@@ -93,25 +93,21 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         sb.append("\nStock: [").append(companyDetails.getCompanyId()).append("::").append(companyDetails.getTicker())
                 .append("] - ").append("Condition Matched: ").append(finalCondition);
         sb.append("\n--------------------------------------------------------------------------");
-        sb.append("\nShareOutStanding: ------------------------------------- ").append(shareOutStandingFloat);
-        sb.append("\nCmp:--------------------------------------------------- ").append(cmpFloat);
-        sb.append("\nMKTCap[ShareOutstanding * CMP]: ----------------------- ").append(mcapFloat);
-        sb.append("\nAnnualRevenue: ---------------------------------------- ").append(revenueFloat);
-        sb.append("\nPSR[MKTCapt/AnnualRevenue]: --------------------------- ").append(psrFloat);
-        sb.append("\nDe: --------------------------------------------------- ").append(deFloat);
-        sb.append("\nLatestEpsGrowth: ---------------------------------------").append(latestEpsGrowth_Percentage).append("%");
-        sb.append("\nInflationRate: ---------------------------------------- ").append(INFLATION_RATE_PERCENTAGE);
-        sb.append("\n_3YrAvgNetProfitMargin: ------------------------------- ").append(_3YrAvgNetProfitMarginFloat);
+        sb.append("\nShareOutStanding: ------------------------------------- (").append(shareOutStandingFloat);
+        sb.append("\nCmp:--------------------------------------------------- (").append(cmpFloat);
+        sb.append("\nMKTCap[ShareOutstanding * CMP]: ----------------------- (").append(mcapFloat);
+        sb.append("\nAnnualRevenue: ---------------------------------------- (").append(revenueFloat);
+        sb.append("\nPSR[MKTCapt/AnnualRevenue]: --------------------------- (").append(psrFloat);
+        sb.append("\nDe: --------------------------------------------------- (").append(deFloat);
+        sb.append("\nLatestEpsGrowth: ---------------------------------------(").append(latestEpsGrowth_Percentage).append("%");
+        sb.append("\nInflationRate: ---------------------------------------- (").append(INFLATION_RATE_PERCENTAGE);
+        sb.append("\n_3YrAvgNetProfitMargin: ------------------------------- (").append(_3YrAvgNetProfitMarginFloat);
         sb.append("\n\n");
         sb.append("\nCondition-1: [PSR < 0.5 ] --------------------------------------------------------------- ").append(psrCondition?"TRUE":"FALSE");
         sb.append("\nCondition-2: [D/E < 40%] ---------------------------------------------------------------- ").append(deCondition?"TRUE":"FALSE");
         sb.append("\nCondition-3: [(1Y EPS Growth - inflation rate)> 15%] ------------------------------------ ").append(epsGrowthWithInflationRateCondition?"TRUE":"FALSE");
         sb.append("\nCondition-4: [(3-Y Average net profit margin)>=5%] -------------------------------------- ").append(netProfitMarginCondition?"TRUE":"FALSE");
         sb.append("\nCondition-5: [(mcap/R&D expenditures) <10] ---------------------------------------------- ").append(mcapRndExpenseCondition?"TRUE":"FALSE");
-
-
-//        sb.append("\nConditions: (PSR < 0.75 ) AND (D/E < 40%) AND [(1Y EPS Growth - inflation rate)> 15%] AND [(3-Y Average net profit margin)>=5%] AND [(mcap/R&D expenditures) <10]");
-//        sb.append("\n\n\n");
 
         logger.info(" Condition Attibutes{}", sb.toString());
         sb.setLength(0);
