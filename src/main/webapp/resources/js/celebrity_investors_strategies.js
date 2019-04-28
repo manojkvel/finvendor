@@ -34,21 +34,36 @@ var timeStampToDateLatest = function (ts) {
 
 var baseApiUrl = "/system/api/cis";
 
-
 /*
-** Benjamin Graham Strategies Feed
+** Kennith Fisher Strategies Feed
 */
 
-var benjaminGrahanStrategyObj = {
+var kennithFisherStrategyObj = {
     init: function() {
         this.firstPageNumber = 1;
         this.pageNumber = 1;
         this.lastPageNumber = 1;
         this.totalRecords = 1;
         this.currentIndex = 1;
-        this.perPageMaxRecords = 1;
-        this.strategyType = "BENJAMIN_GRAHAM";
-        this.getCurrentStrategyData();
+        this.perPageMaxRecords = 10;
+        this.strategyType = "KENNITH_FISHER";
+        this.title = "Kennith Fisher";
+        this.tableHeader = "<thead>" +
+                            "<tr>" +
+                                "<th>Company Name</th>" +
+                                "<th>Annual Revenue</th>" +
+                                "<th>D/E</th>" +
+                                "<th>Inflation Rate</th>" +
+                                "<th>M cap</th>" +
+                                "<th>PSR</th>" +
+                                "<th>R & D Expenditures</th>" +
+                                "<th>EPS</th>" +
+                                "<th>Average Net Profit Margin</th>" +
+                            "</tr>" +
+                        "</thead>";
+
+        $(".modal-title").text(this.title);
+        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
     },
 
     getCurrentStrategyData: function() {
@@ -60,7 +75,7 @@ var benjaminGrahanStrategyObj = {
             classRef.totalRecords = stats.totalRecords;
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
-                $("#benjamin_graham_strategy .paging_container").remove();
+                $(".modal-body .paging_container").remove();
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
@@ -68,10 +83,10 @@ var benjaminGrahanStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $("#benjamin_graham_strategy tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+                $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
             });
         }, function(error) {
-                $("#benjamin_graham_strategy tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+                $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
         });
     },
 
@@ -137,54 +152,60 @@ var benjaminGrahanStrategyObj = {
 
     getCurrentStrategyHtml : function(response) {
         var classRef = this;
+
         var len = response.length;
         var htmlCode = '';
         var rowHtml =   "";
 
         if(len === 0) {
-            $("#benjamin_graham_strategy tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
+            $(".modal-body tbody").html("<tr><td colspan='9'>No Matching Records Found</td></tr>");
             return;
         }
+
         for(var i = 0; i < len; i++) {
 
             var companyName = (response[i].companyName) ? response[i].companyName : '-';
-            var totalDebt = (response[i].totalDebt) ? parseFloat(response[i].totalDebt).toFixed(2) : '-';
-            var currentAssets = (response[i].currentAssets) ? parseFloat(response[i].currentAssets).toFixed(2) : '-';
-            var currentLiabilities = (response[i].currentLiabilities) ? parseFloat(response[i].currentLiabilities).toFixed(2) : '-';
-            var is5YrEPSGrowthPositive = (response[i].is5YrEPSGrowthPositive) ? response[i].is5YrEPSGrowthPositive : '-';
-            var pe = (response[i].pe) ? parseFloat(response[i].pe).toFixed(2) : '-';
-            var pb = (response[i].pb) ? parseFloat(response[i].pb).toFixed(2) : '-';
-            var dividenYield = (response[i].dividenYield) ? parseFloat(response[i].dividenYield).toFixed(2) : '-';
+            var annualRevenue = (response[i].annualRevenue) ? parseFloat(response[i].annualRevenue).toFixed(2) : '-';
+            var de = (response[i].de) ? parseFloat(response[i].de).toFixed(2) : '-';
+            var inflationRate = (response[i].inflationRate) ? parseFloat(response[i].inflationRate).toFixed(2) : '-';
+            var mcap = (response[i].mcap) ? response[i].mcap : '-';
+            var psr = (response[i].psr) ? parseFloat(response[i].psr).toFixed(2) : '-';
+            var rndExpenditures = (response[i].rndExpenditures && response[i].rndExpenditures != '-') ? parseFloat(response[i].rndExpenditures).toFixed(2) : '-';
+            var _1yrEpsGrowth = (response[i]._1yrEpsGrowth) ? parseFloat(response[i]._1yrEpsGrowth).toFixed(2) : '-';
+            var _3YrAvgNetProfitMargin = (response[i]._3YrAvgNetProfitMargin) ? parseFloat(response[i]._3YrAvgNetProfitMargin).toFixed(2) : '-';
 
             htmlCode = htmlCode + "<tr>" +
             "<td>" + 
             "<div class='companyName'>" + companyName + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='totalDebt'>" + totalDebt + "</div>" + 
+            "<div class='annualRevenue'>" + annualRevenue + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='currentAssets'>" + currentAssets + "</div>" + 
+            "<div class='de'>" + de + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='currentLiabilities'>" + currentLiabilities + "</div>" + 
+            "<div class='inflationRate'>" + inflationRate + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='is5YrEPSGrowthPositive'>" + is5YrEPSGrowthPositive + "</div>" + 
+            "<div class='mcap'>" + mcap + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='pe'>" + pe + "</div>" + 
+            "<div class='psr'>" + psr + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='pe'>" + pe + "</div>" + 
+            "<div class='rndExpenditures'>" + rndExpenditures + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='dividenYield'>" + dividenYield + "</div>" + 
+            "<div class='_1yrEpsGrowth'>" + _1yrEpsGrowth + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='_3YrAvgNetProfitMargin'>" + _3YrAvgNetProfitMargin + "</div>" + 
             "</td>" +
             "</tr>";
         }
 
-        $("#benjamin_graham_strategy tbody").html(htmlCode);
+        $(".modal-body tbody").html(htmlCode);
 
 
         var paginationHtml =    "<div class='paging_container'>"
@@ -197,32 +218,18 @@ var benjaminGrahanStrategyObj = {
                                 + "</ul>"
                              + "</div>";
 
-        $("#benjamin_graham_strategy .startegy_content_table").append(paginationHtml);
+        $(".modal-body").append(paginationHtml);
 
-        $('#benjamin_graham_strategy .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
-
-
-        $('#benjamin_graham_strategy .view_btn a').on('click', classRef.setFullScreen);
+        $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
         classRef.setRecordStats();
     },
 
     setFullScreen : function(event) {
-        $("#celebrity_investors_strategies ol > li").css({
-            "width": "33%"
-        });
-
-        $("#celebrity_investors_strategies .startegy_content_table").hide();
-        $("#celebrity_investors_strategies .view_btn").show();
-
-        $(this).parents("li").css({
-            "width": "100%",
-            "transition": "1s width"
-        });
-
-        $(this).parents(".view_btn").hide();
-        $(this).parents("li").find(".startegy_content_table").show();
-    },  
+        kennithFisherStrategyObj.init();
+        kennithFisherStrategyObj.getCurrentStrategyData();
+        $("#strategyModal").show();
+    }, 
 
     setRecordStats : function() {
         var classRef = this;
@@ -230,7 +237,7 @@ var benjaminGrahanStrategyObj = {
         if(classRef.currentIndex > classRef.lastPageNumber) {
             classRef.currentIndex = classRef.lastPageNumber;
         }
-        $("#benjamin_graham_strategy #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+        $("#strategyModal #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
     },
 
     getPaginationIndex : function(event) {
@@ -290,20 +297,36 @@ var benjaminGrahanStrategyObj = {
 
 };
 
+
 /*
-** Kennith Fisher Strategies Feed
+** Benjamin Graham Strategies Feed
 */
 
-var kennithFisherStrategyObj = {
+var benjaminGrahanStrategyObj = {
     init: function() {
         this.firstPageNumber = 1;
         this.pageNumber = 1;
         this.lastPageNumber = 1;
         this.totalRecords = 1;
         this.currentIndex = 1;
-        this.perPageMaxRecords = 1;
-        this.strategyType = "KENNITH_FISHER";
-        this.getCurrentStrategyData();
+        this.perPageMaxRecords = 10;
+        this.strategyType = "BENJAMIN_GRAHAM";
+        this.title = "Benjamin Graham";
+        this.tableHeader = "<thead>" +
+                            "<tr>" +
+                                "<th>Company Name</th>" +
+                                "<th>Total Debt</th>" +
+                                "<th>Current Assets</th>" +
+                                "<th>Current Liabilities</th>" +
+                                "<th>EPS</th>" +
+                                "<th>P/E</th>" +
+                                "<th>P/B</th>" +
+                                "<th>Div Yield (%)</th>" +
+                            "</tr>" +
+                        "</thead>";
+
+        $(".modal-title").text(this.title);
+        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
     },
 
     getCurrentStrategyData: function() {
@@ -315,7 +338,7 @@ var kennithFisherStrategyObj = {
             classRef.totalRecords = stats.totalRecords;
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
-                $("#kennith_fisher_strategy .paging_container").remove();
+                $(".modal-body .paging_container").remove();
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
@@ -323,10 +346,268 @@ var kennithFisherStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $("#kennith_fisher_strategy tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
             });
         }, function(error) {
-                $("#kennith_fisher_strategy tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+        });
+    },
+
+    getCurrentStrategyRecordStats: function() {
+        var classRef = this;
+
+        var url = baseApiUrl + "/recordstats?type=" + classRef.strategyType + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            //httpRequest.timeout = API_TIMEOUT_SMALL;
+            httpRequest.open('GET', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        //console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCurrentStrategy: function() {
+        var classRef = this;
+
+        isProgressLoader(true);
+
+        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            httpRequest.open('GET', url, true);
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCurrentStrategyHtml : function(response) {
+        var classRef = this;
+
+        var len = response.length;
+        var htmlCode = '';
+        var rowHtml =   "";
+
+        if(len === 0) {
+            $(".modal-body tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
+            return;
+        }
+
+        for(var i = 0; i < len; i++) {
+
+            var companyName = (response[i].companyName) ? response[i].companyName : '-';
+            var totalDebt = (response[i].totalDebt) ? parseFloat(response[i].totalDebt).toFixed(2) : '-';
+            var currentAssets = (response[i].currentAssets) ? parseFloat(response[i].currentAssets).toFixed(2) : '-';
+            var currentLiabilities = (response[i].currentLiabilities) ? parseFloat(response[i].currentLiabilities).toFixed(2) : '-';
+            var is5YrEPSGrowthPositive = (response[i].is5YrEPSGrowthPositive) ? response[i].is5YrEPSGrowthPositive : '-';
+            var pe = (response[i].pe) ? parseFloat(response[i].pe).toFixed(2) : '-';
+            var pb = (response[i].pb) ? parseFloat(response[i].pb).toFixed(2) : '-';
+            var dividenYield = (response[i].dividenYield) ? parseFloat(response[i].dividenYield).toFixed(2) : '-';
+
+            htmlCode = htmlCode + "<tr>" +
+            "<td>" + 
+            "<div class='companyName'>" + companyName + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='totalDebt'>" + totalDebt + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='currentAssets'>" + currentAssets + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='currentLiabilities'>" + currentLiabilities + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='is5YrEPSGrowthPositive'>" + is5YrEPSGrowthPositive + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='pe'>" + pe + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='pe'>" + pe + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='dividenYield'>" + dividenYield + "</div>" + 
+            "</td>" +
+            "</tr>";
+        }
+
+        $(".modal-body tbody").html(htmlCode);
+
+
+        var paginationHtml =    "<div class='paging_container'>"
+                                + "<ul class='pager'>"
+                                 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
+                                 + "<li><span id='records_stats'></span></li>"
+                                 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
+                                + "</ul>"
+                             + "</div>";
+
+        $(".modal-body").append(paginationHtml);
+
+        $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+
+        classRef.setRecordStats();
+    },
+
+    setFullScreen : function(event) {
+        benjaminGrahanStrategyObj.init();
+        benjaminGrahanStrategyObj.getCurrentStrategyData();
+        $("#strategyModal").show();
+    },  
+
+    setRecordStats : function() {
+        var classRef = this;
+
+        if(classRef.currentIndex > classRef.lastPageNumber) {
+            classRef.currentIndex = classRef.lastPageNumber;
+        }
+        $("#strategyModal #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+    },
+
+    getPaginationIndex : function(event) {
+        var classRef = event.data.this;
+        var currentNode = $(this).attr('id');
+
+        if(currentNode == 'last') {
+            classRef.getLastPage();
+        } else if(currentNode == 'next') {
+            classRef.getNextPage();
+        } else if(currentNode == 'prev') {
+            classRef.getPreviousPage();
+        } else if(currentNode == 'first') {
+            classRef.getFirstPage();
+        }
+    },
+
+    getFirstPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.firstPageNumber) {
+            classRef.pageNumber = classRef.firstPageNumber;
+            classRef.currentIndex = classRef.firstPageNumber;
+            classRef.getCurrentStrategyData();
+        }
+    },
+
+    getLastPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.lastPageNumber;
+            classRef.currentIndex = (classRef.pageNumber - 1) * classRef.perPageMaxRecords + 1;
+            classRef.getCurrentStrategyData();
+        }
+    },
+
+    getNextPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber < classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.pageNumber + 1;
+            classRef.currentIndex = classRef.currentIndex + classRef.perPageMaxRecords;
+            classRef.getCurrentStrategyData();
+        }
+    },
+
+    getPreviousPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber > 1) {
+            classRef.pageNumber = classRef.pageNumber - 1;
+            classRef.currentIndex = classRef.currentIndex - classRef.perPageMaxRecords;
+            classRef.getCurrentStrategyData();
+        }
+    }
+
+};
+
+
+/*
+** Martin Zweig Strategies Feed
+*/
+
+var martinZweigStrategyObj = {
+    init: function() {
+        this.firstPageNumber = 1;
+        this.pageNumber = 1;
+        this.lastPageNumber = 1;
+        this.totalRecords = 1;
+        this.currentIndex = 1;
+        this.perPageMaxRecords = 10;
+        this.strategyType = "MARTIN_ZWEIG";
+        this.title = "Martin Zweig";
+        this.tableHeader = "<thead>" +
+                            "<tr>" +
+                                "<th>Company Name</th>" +
+                                "<th>EPS Growth</th>" +
+                                "<th>D/E</th>" +
+                                "<th>Latest Revenue Growth</th>" +
+                                "<th>Nifty50 P/E</th>" +
+                                "<th>P/E</th>" +
+                                "<th>EPS Growth per year</th>" +
+                            "</tr>" +
+                        "</thead>";
+
+        $(".modal-title").text(this.title);
+        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
+    },
+
+    getCurrentStrategyData: function() {
+        var classRef = this;
+        classRef.getCurrentStrategyRecordStats().then(function(stats) {
+            stats = JSON.parse(stats);
+            classRef.firstPageNumber = stats.firstPageNumber;
+            classRef.lastPageNumber = stats.lastPageNumber;
+            classRef.totalRecords = stats.totalRecords;
+
+            classRef.getCurrentStrategy().then(function(serverResponse) {
+                $(".modal-body .paging_container").remove();
+                serverResponse = JSON.parse(serverResponse);
+                classRef.getCurrentStrategyHtml(serverResponse);
+                isProgressLoader(false);
+
+            }, function(error) {
+                console.log(error);
+                isProgressLoader(false);
+                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            });
+        }, function(error) {
+                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
         });
     },
 
@@ -397,53 +678,45 @@ var kennithFisherStrategyObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $("#kennith_fisher_strategy tbody").html("<tr><td colspan='9'>No Matching Records Found</td></tr>");
+            $(".modal-body tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
             return;
         }
         for(var i = 0; i < len; i++) {
 
             var companyName = (response[i].companyName) ? response[i].companyName : '-';
-            var annualRevenue = (response[i].annualRevenue) ? parseFloat(response[i].annualRevenue).toFixed(2) : '-';
-            var de = (response[i].de) ? parseFloat(response[i].de).toFixed(2) : '-';
-            var inflationRate = (response[i].inflationRate) ? parseFloat(response[i].inflationRate).toFixed(2) : '-';
-            var mcap = (response[i].mcap) ? response[i].mcap : '-';
-            var psr = (response[i].psr) ? parseFloat(response[i].psr).toFixed(2) : '-';
-            var rndExpenditures = (response[i].rndExpenditures) ? parseFloat(response[i].rndExpenditures).toFixed(2) : '-';
-            var _1yrEpsGrowth = (response[i]._1yrEpsGrowth) ? parseFloat(response[i]._1yrEpsGrowth).toFixed(2) : '-';
-            var _3YrAvgNetProfitMargin = (response[i]._3YrAvgNetProfitMargin) ? parseFloat(response[i]._3YrAvgNetProfitMargin).toFixed(2) : '-';
+            var allYearEpsGrowth = (response[i].allYearEpsGrowth) ? parseFloat(response[i].allYearEpsGrowth).toFixed(2) : '-';
+            var deRatio = (response[i].deRatio) ? parseFloat(response[i].deRatio).toFixed(2) : '-';
+            var latestRevenueGrowth = (response[i].latestRevenueGrowth) ? parseFloat(response[i].latestRevenueGrowth).toFixed(2) : '-';
+            var nifty50Pe = (response[i].nifty50Pe) ? parseFloat(response[i].nifty50Pe).toFixed(2) : '-';
+            var pe = (response[i].pe) ? parseFloat(response[i].pe).toFixed(2) : '-';
+            var yearWiseEpsGrowth = (response[i].yearWiseEpsGrowth) ? parseFloat(response[i].yearWiseEpsGrowth).toFixed(2) : '-';
 
             htmlCode = htmlCode + "<tr>" +
             "<td>" + 
             "<div class='companyName'>" + companyName + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='annualRevenue'>" + annualRevenue + "</div>" + 
+            "<div class='allYearEpsGrowth'>" + allYearEpsGrowth + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='de'>" + de + "</div>" + 
+            "<div class='deRatio'>" + deRatio + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='inflationRate'>" + inflationRate + "</div>" + 
+            "<div class='revenue'>" + latestRevenueGrowth + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='mcap'>" + mcap + "</div>" + 
+            "<div class='nifty50Pe'>" + nifty50Pe + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='psr'>" + psr + "</div>" + 
+            "<div class='pe'>" + pe + "</div>" + 
             "</td>" +
             "<td>" + 
-            "<div class='rndExpenditures'>" + rndExpenditures + "</div>" + 
-            "</td>" +
-            "<td>" + 
-            "<div class='_1yrEpsGrowth'>" + _1yrEpsGrowth + "</div>" + 
-            "</td>" +
-            "<td>" + 
-            "<div class='_3YrAvgNetProfitMargin'>" + _3YrAvgNetProfitMargin + "</div>" + 
+            "<div class='yearWiseEpsGrowth'>" + yearWiseEpsGrowth + "</div>" + 
             "</td>" +
             "</tr>";
         }
 
-        $("#kennith_fisher_strategy tbody").html(htmlCode);
+        $(".modal-body tbody").html(htmlCode);
 
 
         var paginationHtml =    "<div class='paging_container'>"
@@ -456,30 +729,18 @@ var kennithFisherStrategyObj = {
                                 + "</ul>"
                              + "</div>";
 
-        $("#kennith_fisher_strategy .startegy_content_table").append(paginationHtml);
 
-        $('#kennith_fisher_strategy .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+        $(".modal-body").append(paginationHtml);
 
-        $('#kennith_fisher_strategy .view_btn a').on('click', classRef.setFullScreen);
+        $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
         classRef.setRecordStats();
     },
 
     setFullScreen : function(event) {
-        $("#celebrity_investors_strategies ol > li").css({
-            "width": "33%"
-        });
-
-        $("#celebrity_investors_strategies .startegy_content_table").hide();
-        $("#celebrity_investors_strategies .view_btn").show();
-
-        $(this).parents("li").css({
-            "width": "100%",
-            "transition": "1s width"
-        });
-
-        $(this).parents(".view_btn").hide();
-        $(this).parents("li").find(".startegy_content_table").show();
+        martinZweigStrategyObj.init();
+        martinZweigStrategyObj.getCurrentStrategyData();
+        $("#strategyModal").show();
     }, 
 
     setRecordStats : function() {
@@ -488,7 +749,8 @@ var kennithFisherStrategyObj = {
         if(classRef.currentIndex > classRef.lastPageNumber) {
             classRef.currentIndex = classRef.lastPageNumber;
         }
-        $("#kennith_fisher_strategy #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+
+        $("#strategyModal #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
     },
 
     getPaginationIndex : function(event) {
@@ -559,9 +821,23 @@ var jamesOshaughnessyStrategyObj = {
         this.lastPageNumber = 1;
         this.totalRecords = 1;
         this.currentIndex = 1;
-        this.perPageMaxRecords = 1;
+        this.perPageMaxRecords = 10;
         this.strategyType = "JAMES_SHAUGHNESSY";
-        this.getCurrentStrategyData();
+        this.title = "James O'Shaughnessy's";
+        this.tableHeader = "<thead>" +
+                            "<tr>" +
+                                "<th>Company Name</th>" +
+                                "<th>CMP</th>" +
+                                "<th>EPS</th>" +
+                                "<th>M Cap</th>" +
+                                "<th>Net Operating CashFlow</th>" +
+                                "<th>P/B</th>" +
+                                "<th>Revenue</th>" +
+                            "</tr>" +
+                        "</thead>";
+
+        $(".modal-title").text(this.title);
+        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
     },
 
     getCurrentStrategyData: function() {
@@ -573,7 +849,7 @@ var jamesOshaughnessyStrategyObj = {
             classRef.totalRecords = stats.totalRecords;
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
-                $("#james_o_shaughessys_strategy .paging_container").remove();
+                $(".modal-body .paging_container").remove();
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
@@ -581,10 +857,10 @@ var jamesOshaughnessyStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $("#james_o_shaughessys_strategy tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
             });
         }, function(error) {
-                $("#james_o_shaughessys_strategy tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
         });
     },
 
@@ -655,7 +931,7 @@ var jamesOshaughnessyStrategyObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $("#james_o_shaughessys_strategy tbody").html("<tr><td colspan='9'>No Matching Records Found</td></tr>");
+            $(".modal-body tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
             return;
         }
         for(var i = 0; i < len; i++) {
@@ -693,7 +969,7 @@ var jamesOshaughnessyStrategyObj = {
             "</tr>";
         }
 
-        $("#james_o_shaughessys_strategy tbody").html(htmlCode);
+        $(".modal-body tbody").html(htmlCode);
 
 
         var paginationHtml =    "<div class='paging_container'>"
@@ -706,30 +982,17 @@ var jamesOshaughnessyStrategyObj = {
                                 + "</ul>"
                              + "</div>";
 
-        $("#james_o_shaughessys_strategy .startegy_content_table").append(paginationHtml);
+        $(".modal-body").append(paginationHtml);
 
-        $('#james_o_shaughessys_strategy .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
-
-        $('#james_o_shaughessys_strategy .view_btn a').on('click', classRef.setFullScreen);
+        $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
         classRef.setRecordStats();
     },
 
     setFullScreen : function(event) {
-        $("#celebrity_investors_strategies ol > li").css({
-            "width": "33%"
-        });
-
-        $("#celebrity_investors_strategies .startegy_content_table").hide();
-        $("#celebrity_investors_strategies .view_btn").show();
-
-        $(this).parents("li").css({
-            "width": "100%",
-            "transition": "1s width"
-        });
-
-        $(this).parents(".view_btn").hide();
-        $(this).parents("li").find(".startegy_content_table").show();
+        jamesOshaughnessyStrategyObj.init();
+        jamesOshaughnessyStrategyObj.getCurrentStrategyData();
+        $("#strategyModal").show();
     }, 
 
     setRecordStats : function() {
@@ -738,7 +1001,7 @@ var jamesOshaughnessyStrategyObj = {
         if(classRef.currentIndex > classRef.lastPageNumber) {
             classRef.currentIndex = classRef.lastPageNumber;
         }
-        $("#james_o_shaughessys_strategy #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+        $("#strategyModal #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
     },
 
     getPaginationIndex : function(event) {
@@ -811,9 +1074,24 @@ var joelGreenblattStrategyObj = {
         this.lastPageNumber = 1;
         this.totalRecords = 1;
         this.currentIndex = 1;
-        this.perPageMaxRecords = 1;
+        this.perPageMaxRecords = 10;
         this.strategyType = "JOEL_GREENBLATT";
-        this.getCurrentStrategyData();
+        this.title = "Joel Greenblatt's";
+        this.tableHeader = "<thead>" +
+                            "<tr>" +
+                                "<th>Company Name</th>" +
+                                "<th>Cash and Cash Equiv.</th>" +
+                                "<th>M Cap</th>" +
+                                "<th>Operating Profit Margin</th>" +
+                                "<th>PAT</th>" +
+                                "<th>Revenue</th>" +
+                                "<th>Total Capital</th>" +
+                                "<th>Total Debt</th>" +
+                            "</tr>" +
+                        "</thead>";
+
+        $(".modal-title").text(this.title);
+        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
     },
 
     getCurrentStrategyData: function() {
@@ -825,7 +1103,7 @@ var joelGreenblattStrategyObj = {
             classRef.totalRecords = stats.totalRecords;
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
-                $("#joel_greenblatts_strategy .paging_container").remove();
+                $(".modal-body .paging_container").remove();
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
@@ -833,10 +1111,10 @@ var joelGreenblattStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $("#joel_greenblatts_strategy tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
             });
         }, function(error) {
-                $("#joel_greenblatts_strategy tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
         });
     },
 
@@ -907,7 +1185,7 @@ var joelGreenblattStrategyObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $("#joel_greenblatts_strategy tbody").html("<tr><td colspan='9'>No Matching Records Found</td></tr>");
+            $(".modal-body tbody").html("<tr><td colspan='9'>No Matching Records Found</td></tr>");
             return;
         }
         for(var i = 0; i < len; i++) {
@@ -949,7 +1227,7 @@ var joelGreenblattStrategyObj = {
             "</tr>";
         }
 
-        $("#joel_greenblatts_strategy tbody").html(htmlCode);
+        $(".modal-body tbody").html(htmlCode);
 
 
         var paginationHtml =    "<div class='paging_container'>"
@@ -962,27 +1240,17 @@ var joelGreenblattStrategyObj = {
                                 + "</ul>"
                              + "</div>";
 
-        $("#joel_greenblatts_strategy .startegy_content_table").append(paginationHtml);
+        $(".modal-body").append(paginationHtml);
 
-        $('#joel_greenblatts_strategy .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
-
-        $('#joel_greenblatts_strategy .view_btn a').on('click', classRef.setFullScreen);
+        $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
         classRef.setRecordStats();
     },
 
     setFullScreen : function(event) {
-        $("#celebrity_investors_strategies ol > li").css({
-            "width": "33%"
-        });
-
-        $("#celebrity_investors_strategies .startegy_content_table").hide();
-        $("#celebrity_investors_strategies .view_btn").show();
-
-        $(this).parents("li").fadeIn();
-
-        $(this).parents(".view_btn").hide();
-        $(this).parents("li").find(".startegy_content_table").fadeIn(2000, 'swing');
+        joelGreenblattStrategyObj.init();
+        joelGreenblattStrategyObj.getCurrentStrategyData();
+        $("#strategyModal").show();
     }, 
 
     setRecordStats : function() {
@@ -991,7 +1259,7 @@ var joelGreenblattStrategyObj = {
         if(classRef.currentIndex > classRef.lastPageNumber) {
             classRef.currentIndex = classRef.lastPageNumber;
         }
-        $("#joel_greenblatts_strategy #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+        $("#strategyModal #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
     },
 
     getPaginationIndex : function(event) {
@@ -1051,9 +1319,20 @@ var joelGreenblattStrategyObj = {
 
 };
 
-
-
-benjaminGrahanStrategyObj.init();
 kennithFisherStrategyObj.init();
+benjaminGrahanStrategyObj.init();
+martinZweigStrategyObj.init();
 jamesOshaughnessyStrategyObj.init();
 joelGreenblattStrategyObj.init();
+
+
+$("#strategyModal button").on('click', function() {
+    $("#strategyModal").hide();
+    $(".modal-body").html('');
+});
+
+$('#kennith_fisher_strategy .view_btn button').on('click', kennithFisherStrategyObj.setFullScreen);
+$('#benjamin_graham_strategy .view_btn button').on('click', benjaminGrahanStrategyObj.setFullScreen);
+$("#marting_zweigs_strategy .view_btn button").on('click', martinZweigStrategyObj.setFullScreen);
+$('#james_o_shaughessys_strategy .view_btn button').on('click', jamesOshaughnessyStrategyObj.setFullScreen);
+$("#joel_greenblatts_strategy .view_btn button").on('click', joelGreenblattStrategyObj.setFullScreen);

@@ -2113,13 +2113,18 @@ button {
 	overflow: hidden;
 }
 
+#celebrity_investors_strategies .startegy_content_table table {
+	min-height: auto;
+}
+
 .startegy_content .view_btn {
 	position: absolute;
-	left: 35%;
+	left: 33%;
 	bottom: 50px
 }
 
-.startegy_content .view_btn a {
+.startegy_content .view_btn a,
+.startegy_content .view_btn button {
     background: #0099cc;
     color: #fff;
     padding: 10px 20px;
@@ -2130,13 +2135,6 @@ button {
     min-width: 150px;
     text-align: center !important;
 }
-
-.startegy_content_table .pe,
-.startegy_content_table .pb,
-.startegy_content_table .mcap {
-	font-size: 13px;
-}
-
 #celebrity_investors_strategies ol > li {
 	width: 33.3%;
 	float: left;
@@ -2145,6 +2143,30 @@ button {
 
 #celebrity_investors_strategies ol > li:nth-of-type(odd) {
 	
+}
+
+#strategyModal {
+
+}
+
+#strategyModal table {
+	min-height: auto;
+}
+
+#strategyModal .pe,
+#strategyModal .pb,
+#strategyModal .mcap {
+	font-size: 13px;
+}
+
+
+#strategyModal .modal-content {
+	padding: 0;
+}
+
+#strategyModal.modal .modal-dialog,
+#strategyModal.modal.in .modal-dialog {
+	max-width: 875px;
 }
 
 

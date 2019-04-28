@@ -26,52 +26,13 @@
 		<ol>
 			<li>
 				<div id="kennith_fisher_strategy">
-					
-					<div class="startegy_content_table">
-						<table>
-							<tbody>
-								<thead>
-									<tr>
-										<th>
-											Company Name
-										</th>
-										<th>
-											Annual Revenue
-										</th>
-										<th>
-											DE
-										</th>
-										<th>
-											Inflation Rate
-										</th>
-										<th>
-											M cap
-										</th>
-										<th>
-											PSR
-										</th>
-										<th>
-											rnd Expenditure
-										</th>
-										<th>
-											EPS
-										</th>
-										<th>
-											Average Net Profit Margin
-										</th>
-									</tr>
-								</thead>
-							</tbody>
-						</table>
-					</div>
 					<div class="strategy_view">
 						<h2>Kennith Fisher</h2>
 						<div class="startegy_content">
 							<h3>Founder of Fisher Investments, Managing over $100B assets. Ken Fisher?s public stock picks outperform the broad U.S. stock market over the past 18 years by an average 4.2% annually</h3>
 							<div class="view_btn">
-								<a href="javascript:void(0)">
-									Run Strategy
-								</a>
+								<!-- Trigger the modal with a button -->
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
 					</div>
@@ -80,49 +41,13 @@
 			</li>
 			<li>
 				<div id="benjamin_graham_strategy">
-
-					<div class="startegy_content_table">
-						<table>
-							<thead>
-								<tr>
-									<th>
-										Company Name
-									</th>
-									<th>
-										Total Debt
-									</th>
-									<th>
-										Current Assets
-									</th>
-									<th>
-										Current Liabilities
-									</th>
-									<th>
-										EPS
-									</th>
-									<th>
-										P/E
-									</th>
-									<th>
-										P/B
-									</th>
-									<th>
-										Div Yield (%)
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-					</div>
 					<div class="strategy_view">
 						<h2>Benjamin Graham</h2>
 						<div class="startegy_content">
 							<h3>Widely known as the <strong>"father of value investing"</strong>, Warren buffet leant the value investment from Benjamin graham</h3>
 							<div class="view_btn">
-								<a href="javascript:void(0)">
-									Run Strategy
-								</a>
+								<!-- Trigger the modal with a button -->
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
 					</div>
@@ -135,46 +60,10 @@
 						<div class="startegy_content">
 							<h3></h3>
 							<div class="view_btn">
-								<a href="javascript:void(0)">
-									Run Strategy
-								</a>
+								<!-- Trigger the modal with a button -->
+								<!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>-->
 							</div>
 						</div>
-					</div>
-
-					<div class="startegy_content_table">
-						<table>
-							<thead>
-								<tr>
-									<th>
-										Company Name
-									</th>
-									<th>
-										Total Debt
-									</th>
-									<th>
-										Current Assets
-									</th>
-									<th>
-										Current Liabilities
-									</th>
-									<th>
-										EPS
-									</th>
-									<th>
-										P/E
-									</th>
-									<th>
-										P/B
-									</th>
-									<th>
-										Div Yield (%)
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</li>
@@ -185,49 +74,10 @@
 						<div class="startegy_content">
 							<h3>Believed to have predicted 1987 market crash a day before.In October, the market collapsed, and while the big averages lost a quarter of their value in one day, Zweig’s portfolio rose 8.7 percent and 50% for all of 1987</h3>
 							<div class="view_btn">
-								<a href="javascript:void(0)">
-									Run Strategy
-								</a>
+								<!-- Trigger the modal with a button -->
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
-					</div>
-
-					<div class="startegy_content_table">
-						<table>
-							<tbody>
-								<thead>
-									<tr>
-										<th>
-											Company Name
-										</th>
-										<th>
-											Annual Revenue
-										</th>
-										<th>
-											DE
-										</th>
-										<th>
-											Inflation Rate
-										</th>
-										<th>
-											M cap
-										</th>
-										<th>
-											PSR
-										</th>
-										<th>
-											rnd Expenditure
-										</th>
-										<th>
-											EPS
-										</th>
-										<th>
-											Average Net Profit Margin
-										</th>
-									</tr>
-								</thead>
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</li>
@@ -238,43 +88,10 @@
 						<div class="startegy_content">
 							<h3>Spent more than 30 years researching equity market returns. His work has brought to the fore the power of what he calls 'fundamental quant' from that he built a fund management business with nearly $7 billion under management.</h3>
 							<div class="view_btn">
-								<a href="javascript:void(0)">
-									Run Strategy
-								</a>
+								<!-- Trigger the modal with a button -->
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
-					</div>
-
-					<div class="startegy_content_table">
-						<table>
-							<thead>
-								<tr>
-									<th>
-										Company Name
-									</th>
-									<th>
-										CMP
-									</th>
-									<th>
-										EPS
-									</th>
-									<th>
-										M Cap
-									</th>
-									<th>
-										Net Operating Flow
-									</th>
-									<th>
-										PB
-									</th>
-									<th>
-										Revenue
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</li>
@@ -285,66 +102,34 @@
 						<div class="startegy_content">
 							<h3>Introduced an investment strategy of "magic formula investing", Through his firm Gotham Capital, Greenblatt presided over an annualized return of 40% from 1985 to 2006.</h3>
 							<div class="view_btn">
-								<a href="javascript:void(0)">
-									Run Strategy
-								</a>
+								<!-- Trigger the modal with a button -->
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
-					</div>
-
-					<div class="startegy_content_table">
-						<table>
-							<tbody>
-								<thead>
-									<tr>
-										<th>
-											Company Name
-										</th>
-										<th>
-											Cash and CashEquiv
-										</th>
-										<th>
-											M cap
-										</th>
-										<th>
-											Operating Profit Margin
-										</th>
-										<th>
-											PAT
-										</th>
-										<th>
-											Revenue
-										</th>
-										<th>
-											Total Capital
-										</th>
-										<th>
-											Total Debt
-										</th>
-									</tr>
-								</thead>
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</li>
 		</ol>
 	</div>
-	
+
 	<!-- Modal -->
-	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="myModalLabel">Modal header</h3>
-		</div>
-		<div class="modal-body">
-			<p>One fine body…</p>
-		</div>
-		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			<button class="btn btn-primary">Save changes</button>
-		</div>
-	</div>
+  <div class="modal fade" id="strategyModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer" style="display: none;">
+        </div>
+      </div>
+      
+    </div>
+  </div>
 
 	<jsp:include page="login.jsp"></jsp:include>
 	<jsp:include page="common/footer.jsp"></jsp:include>
