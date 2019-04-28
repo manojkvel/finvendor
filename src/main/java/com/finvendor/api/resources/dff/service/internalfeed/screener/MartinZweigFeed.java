@@ -13,9 +13,11 @@ import java.util.List;
 @Transactional
 public class MartinZweigFeed extends AbstractScreenerFeed {
     private static final String INSERT_QUERY = "insert into strategy_martin_zweig values(?,?,?,?,?,?,?,?);";
+    private static final String DELETE_QUERY = "delete from strategy_martin_zweig";
 
     @Override
     public boolean processAndFeed() throws Exception {
+        deleteAllRecordsFromStrategyTable("MARTIN ZWEIG STRATEGY", DELETE_QUERY);
         int totalMatch = 0;
         int totalMisMatch = 0;
         List<CompanyDetails> companyDetailsList = findCompanyDetails();
