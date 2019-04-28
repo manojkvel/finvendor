@@ -461,5 +461,11 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
         }
         return positive5YrEPSGrowth;
     }
+
+    void deleteAllRecordsFromStrategyTable(String strategyType, String deleteQuery1) {
+        SQLQuery deleteQuery = commonDao.getNativeQuery(deleteQuery1, null);
+        int count = deleteQuery.executeUpdate();
+        logger.info("{} - DELETED ALL RECORED COUNT: {}",strategyType,count);
+    }
 }
 
