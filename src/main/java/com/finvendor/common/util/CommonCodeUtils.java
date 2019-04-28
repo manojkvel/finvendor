@@ -6,6 +6,22 @@ import java.util.Map;
 
 public final class CommonCodeUtils {
 
+    public static String getRecordStats(String perPageMaxRecords, int totalRecords) {
+        // Calculate Last page number
+        long lastPageNumberAsLong = calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+
+        // Prepare Json result
+        Map<String, Object> recordStatsMap = new LinkedHashMap<>();
+        recordStatsMap.put("firstPageNumber", 1);
+        recordStatsMap.put("lastPageNumber", lastPageNumberAsLong);
+        recordStatsMap.put("totalRecords", totalRecords);
+        try {
+            return JsonUtil.createJsonFromObject(recordStatsMap);
+        } catch (IOException e) {
+            throw  new RuntimeException(e);
+        }
+    }
+
     public static long calculatePaginationLastPage(String perPageMaxRecords, long totalRecords) {
         long lastPageNumber;
         long perPageMaxRecordCount = Integer.parseInt(perPageMaxRecords);

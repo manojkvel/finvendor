@@ -33,7 +33,7 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
                 continue;
             }
 
-            float _3YrAvgNetProfitMarginFloat = find_3yr_avg_net_profit_margin(companyDetails.getCompanyId());
+            float _3YrAvgNetProfitMarginFloat = find3YearAverageNetProfitMargin(companyDetails.getCompanyId());
             if (evalKennethCondition(companyDetails, latestEarningPreview, _3YrAvgNetProfitMarginFloat)) {
                 insertFeed(companyDetails, latestEarningPreview, _3YrAvgNetProfitMarginFloat);
                 totalMatch++;

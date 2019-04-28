@@ -2,6 +2,9 @@ package com.finvendor.api.resources.screener.stock.strategies.dao;
 
 import com.finvendor.api.resources.screener.stock.strategies.dto.AbstractStrategyDto;
 import com.finvendor.api.resources.screener.stock.strategies.dto.BenjaminGrahamStrategyDto;
+import com.finvendor.common.util.CommonCodeUtils;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,24 +13,35 @@ import java.util.List;
 @Repository
 public class BenjaminGrahamDao extends AbstractCisDao {
 
+    private static final String BENJAMIN_GRAMHAM_QUERY="select * from strategy_benjamin_graham ";
+
     @Override
-    public String findCisRecordStats(String query, String perPageMaxRecords) throws RuntimeException {
-        return "{\"firstPageNumber\":1,\"lastPageNumber\":2,\"totalRecords\":5}";
+    public String findCisRecordStats(String perPageMaxRecords) throws RuntimeException {
+        SQLQuery query = commonDao.getNativeQuery(BENJAMIN_GRAMHAM_QUERY, null);
+        return CommonCodeUtils.getRecordStats(perPageMaxRecords, ((List<Object[]>) query.list()).size());
     }
 
     @Override
-    public List<? extends AbstractStrategyDto> findCis(String query, String pageNumber, String perPageMaxRecords) throws RuntimeException {
+    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords) throws RuntimeException {
         List<BenjaminGrahamStrategyDto> resultList=new ArrayList<>();
-        BenjaminGrahamStrategyDto dto1=new BenjaminGrahamStrategyDto("1","ABB","1.1","2.2","3.3",true,"5.5","6.6","7.7");
-        BenjaminGrahamStrategyDto dto2=new BenjaminGrahamStrategyDto("2","ACC","1.1","2.2","3.3",true,"5.5","6.6","7.7");
-        BenjaminGrahamStrategyDto dto3=new BenjaminGrahamStrategyDto("3","ACC","1.1","2.2","3.3",true,"5.5","6.6","7.7");
-        BenjaminGrahamStrategyDto dto4=new BenjaminGrahamStrategyDto("4","ACC","1.1","2.2","3.3",true,"5.5","6.6","7.7");
-        BenjaminGrahamStrategyDto dto5=new BenjaminGrahamStrategyDto("5","ACC","1.1","2.2","3.3",true,"5.5","6.6","7.7");
-        resultList.add(dto1);
-        resultList.add(dto2);
-        resultList.add(dto3);
-        resultList.add(dto4);
-        resultList.add(dto5);
+        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        String finalQuery = BENJAMIN_GRAMHAM_QUERY + applyPagination;
+        SQLQuery query = commonDao.getNativeQuery(finalQuery, null);
+        List<Object[]>  list = query.list();
+
+        for (Object[] row : list) {
+            String stockId = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ? row[0].toString().trim() :"-";
+            String companyName = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() :"-";
+            String totalDebt = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ? row[2].toString().trim() :"-";
+            String currentAsset = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[3].toString()) ? row[3].toString().trim() :"-";
+            String currnetLiabilities = row[4] != null && !StringUtils.isEmpty(row[4].toString()) && !"-".equals(row[4].toString()) ? row[4].toString().trim() :"-";
+            String pe = row[5] != null && !StringUtils.isEmpty(row[5].toString()) && !"-".equals(row[5].toString()) ? row[5].toString().trim() :"-";
+            String pb = row[6] != null && !StringUtils.isEmpty(row[6].toString()) && !"-".equals(row[6].toString()) ? row[6].toString().trim() :"-";
+            String dividendYield = row[7] != null && !StringUtils.isEmpty(row[7].toString()) && !"-".equals(row[7].toString()) ? row[7].toString().trim() :"-";
+            String _5YrEpsGrowthPositive = row[8] != null && !StringUtils.isEmpty(row[8].toString()) && !"-".equals(row[8].toString()) ? row[8].toString().trim() :"-";
+            BenjaminGrahamStrategyDto dto=new BenjaminGrahamStrategyDto(stockId,companyName,totalDebt,currentAsset,currnetLiabilities,_5YrEpsGrowthPositive, pe,pb,dividendYield);
+            resultList.add(dto);
+        }
         return resultList;
     }
 }
