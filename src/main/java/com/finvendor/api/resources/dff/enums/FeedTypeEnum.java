@@ -12,10 +12,4 @@ public enum FeedTypeEnum {
     JAMES_SHAUGHNESSY,
     JOEL_GREENBLATT,
     MARTIN_ZWEIG
-
-
-
-
-
-
 }

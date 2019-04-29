@@ -16,9 +16,11 @@ import java.util.List;
 @Transactional
 public class JamesShaughnessyFeed extends AbstractScreenerFeed {
     private static final String INSERT_QUERY = "insert into strategy_james_shaughnessy values(?,?,?,?,?,?,?,?)";
+    private static final String DELETE_QUERY = "delete from  strategy_james_shaughnessy";
 
     @Override
     public boolean processAndFeed() throws Exception {
+        deleteAllRecordsFromStrategyTable("JAMES SHAUGHNESSY STRATEGY", DELETE_QUERY);
         List<CompanyDetails> companyDetailsList = findCompanyDetails();
         int totalMatch = 0;
         int totalMisMatch = 0;
@@ -71,14 +73,14 @@ public class JamesShaughnessyFeed extends AbstractScreenerFeed {
         jamesSB.append("\nStock: [").append(companyDetails.getCompanyId()).append("::").append(companyDetails.getTicker())
                 .append("] - ").append("Condition Matched: ").append(finalCondition);
         jamesSB.append("\n--------------------------------------------------------------------------");
-        jamesSB.append("\nCmp: ----------------------------------------- ").append(cmpFloat);
-        jamesSB.append("\nRevenue:-------------------------------------- ").append(revenueFloat);
-        jamesSB.append("\nEPS: ----------------------------------------- ").append(epsFloat);
-        jamesSB.append("\nBVShare: ------------------------------------- ").append(bvShareFloat);
-        jamesSB.append("\nPB: ------------------------------------------ ").append(pbFloat);
-        jamesSB.append("\nShareOutStanding: ---------------------------- ").append(shareOutStandingFloat);
-        jamesSB.append("\nMcap: ---------------------------------------- ").append(mcapFloat);
-        jamesSB.append("\nNetOperatingCashFlow: ------------------------ ").append(netOperatingCashFlowFloat);
+        jamesSB.append("\nCmp: ----------------------------------------- (").append(cmpFloat);
+        jamesSB.append("\nRevenue:-------------------------------------- (").append(revenueFloat);
+        jamesSB.append("\nEPS: ----------------------------------------- (").append(epsFloat);
+        jamesSB.append("\nBVShare: ------------------------------------- (").append(bvShareFloat);
+        jamesSB.append("\nPB: ------------------------------------------ (").append(pbFloat);
+        jamesSB.append("\nShareOutStanding: ---------------------------- (").append(shareOutStandingFloat);
+        jamesSB.append("\nMcap: ---------------------------------------- (").append(mcapFloat);
+        jamesSB.append("\nNetOperatingCashFlow: ------------------------ (").append(netOperatingCashFlowFloat);
         jamesSB.append("\n\n\n");
         logger.info(" Condition Attibutes{}", jamesSB.toString());
         jamesSB.setLength(0);
