@@ -34,6 +34,7 @@ var timeStampToDateLatest = function (ts) {
 
 var baseApiUrl = "/system/api/cis";
 
+
 /*
 ** Kennith Fisher Strategies Feed
 */
@@ -62,8 +63,20 @@ var kennithFisherStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
+        this.recordsPerPage = "<div class='max_per_page'>" +
+                                "<span>Records Per Page </span>" +
+                                "<select>" +
+                                    "<option value='5'>5</option>" +
+                                    "<option value='10'>10</option>" +
+                                    "<option value='30'>30</option>" +
+                                    "<option value='50'>50</option>" +
+                                    "<option value='100'>100</option>" +
+                                "</select>" +
+                                "<span id='total_records_count' style='padding-left: 30px;font-weight:bold;font-size: 13px;'>725 Results</span>" +
+                            "</div>";
+
         $("#strategyModal .modal-title").text(this.title);
-        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
+        $("#strategyModal .modal-body").html(this.recordsPerPage + "<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -73,6 +86,8 @@ var kennithFisherStrategyObj = {
             classRef.firstPageNumber = stats.firstPageNumber;
             classRef.lastPageNumber = stats.lastPageNumber;
             classRef.totalRecords = stats.totalRecords;
+
+            $("#strategyModal #total_records_count").html(classRef.totalRecords + " Results");
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
                 $("#strategyModal .modal-body .paging_container").remove();
@@ -222,15 +237,32 @@ var kennithFisherStrategyObj = {
 
         $("#strategyModal .modal-body").append(paginationHtml);
 
-        $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+        $('#strategyModal .pager a').off().on('click', {this: classRef}, classRef.getPaginationIndex);
 
         classRef.setRecordStats();
+
+        $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
     },
 
     setFullScreen : function(event) {
         kennithFisherStrategyObj.init();
         kennithFisherStrategyObj.getCurrentStrategyData();
     }, 
+
+    getPerPageMaxRecords: function(event) {
+        var classRef = event.data.this;
+
+        if(classRef.perPageMaxRecords !== Number($(this).val())) {
+            classRef.pageNumber = 1;
+            classRef.firstPageNumber = 1;
+            classRef.lastPageNumber = 1;
+            classRef.currentIndex = 1;
+        }
+
+        classRef.perPageMaxRecords = Number($(this).val());
+        console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
+        kennithFisherStrategyObj.getCurrentStrategyData();
+    },
 
     setRecordStats : function() {
         var classRef = this;

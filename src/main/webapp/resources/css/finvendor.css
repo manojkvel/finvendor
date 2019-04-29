@@ -2152,6 +2152,7 @@ button {
 #strategyModal .modal-dialog .modal-body .strategy_table {
 	max-width: 900px;
 	overflow: auto;
+	clear: both;
 }
 
 #strategyModal table {
@@ -2172,6 +2173,10 @@ button {
 #strategyModal.modal .modal-dialog,
 #strategyModal.modal.in .modal-dialog {
 	max-width: 900px;
+}
+
+#strategyModal .max_per_page {
+	margin-bottom: 10px;
 }
 
 
