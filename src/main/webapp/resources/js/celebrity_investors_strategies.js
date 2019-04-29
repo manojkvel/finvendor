@@ -62,8 +62,8 @@ var kennithFisherStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
-        $(".modal-title").text(this.title);
-        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
+        $("#strategyModal .modal-title").text(this.title);
+        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -75,7 +75,7 @@ var kennithFisherStrategyObj = {
             classRef.totalRecords = stats.totalRecords;
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
-                $(".modal-body .paging_container").remove();
+                $("#strategyModal .modal-body .paging_container").remove();
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
@@ -83,11 +83,11 @@ var kennithFisherStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal .modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
                 $("#strategyModal").show();
             });
         }, function(error) {
-            $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
             $("#strategyModal").show();
         });
     },
@@ -160,7 +160,7 @@ var kennithFisherStrategyObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $(".modal-body tbody").html("<tr><td colspan='9'>No Matching Records Found</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='9'>No Matching Records Found</td></tr>");
             return;
         }
 
@@ -207,7 +207,7 @@ var kennithFisherStrategyObj = {
             "</tr>";
         }
 
-        $(".modal-body tbody").html(htmlCode);
+        $("#strategyModal .modal-body tbody").html(htmlCode);
 
 
         var paginationHtml =    "<div class='paging_container'>"
@@ -220,7 +220,7 @@ var kennithFisherStrategyObj = {
                                 + "</ul>"
                              + "</div>";
 
-        $(".modal-body").append(paginationHtml);
+        $("#strategyModal .modal-body").append(paginationHtml);
 
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
@@ -326,8 +326,8 @@ var benjaminGrahanStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
-        $(".modal-title").text(this.title);
-        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
+        $("#strategyModal .modal-title").text(this.title);
+        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -339,7 +339,7 @@ var benjaminGrahanStrategyObj = {
             classRef.totalRecords = stats.totalRecords;
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
-                $(".modal-body .paging_container").remove();
+                $("#strategyModal .modal-body .paging_container").remove();
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
@@ -347,11 +347,11 @@ var benjaminGrahanStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $(".modal-body tbody").html("<tr><td colspan='8'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal .modal-body tbody").html("<tr><td colspan='8'>We are not able to get the info, please try again later.</td></tr>");
                 $("#strategyModal").show();
             });
         }, function(error) {
-            $(".modal-body tbody").html("<tr><td colspan='8'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='8'>We are not able to get the info, please try again later.</td></tr>");
             $("#strategyModal").show();
         });
     },
@@ -424,7 +424,7 @@ var benjaminGrahanStrategyObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $(".modal-body tbody").html("<tr><td colspan='8'>No Matching Records Found</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='8'>No Matching Records Found</td></tr>");
             return;
         }
 
@@ -467,7 +467,7 @@ var benjaminGrahanStrategyObj = {
             "</tr>";
         }
 
-        $(".modal-body tbody").html(htmlCode);
+        $("#strategyModal .modal-body tbody").html(htmlCode);
 
 
         var paginationHtml =    "<div class='paging_container'>"
@@ -480,7 +480,7 @@ var benjaminGrahanStrategyObj = {
                                 + "</ul>"
                              + "</div>";
 
-        $(".modal-body").append(paginationHtml);
+        $("#strategyModal .modal-body").append(paginationHtml);
 
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
@@ -585,8 +585,8 @@ var martinZweigStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
-        $(".modal-title").text(this.title);
-        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
+        $("#strategyModal .modal-title").text(this.title);
+        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -598,7 +598,7 @@ var martinZweigStrategyObj = {
             classRef.totalRecords = stats.totalRecords;
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
-                $(".modal-body .paging_container").remove();
+                $("#strategyModal .modal-body .paging_container").remove();
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
@@ -606,11 +606,11 @@ var martinZweigStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal .modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
                 $("#strategyModal").show();
             });
         }, function(error) {
-            $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
             $("#strategyModal").show();
         });
     },
@@ -682,7 +682,7 @@ var martinZweigStrategyObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $(".modal-body tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
             return;
         }
         for(var i = 0; i < len; i++) {
@@ -720,7 +720,7 @@ var martinZweigStrategyObj = {
             "</tr>";
         }
 
-        $(".modal-body tbody").html(htmlCode);
+        $("#strategyModal .modal-body tbody").html(htmlCode);
 
 
         var paginationHtml =    "<div class='paging_container'>"
@@ -734,7 +734,7 @@ var martinZweigStrategyObj = {
                              + "</div>";
 
 
-        $(".modal-body").append(paginationHtml);
+        $("#strategyModal .modal-body").append(paginationHtml);
 
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
@@ -839,8 +839,8 @@ var jamesOshaughnessyStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
-        $(".modal-title").text(this.title);
-        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
+        $("#strategyModal .modal-title").text(this.title);
+        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -852,7 +852,7 @@ var jamesOshaughnessyStrategyObj = {
             classRef.totalRecords = stats.totalRecords;
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
-                $(".modal-body .paging_container").remove();
+                $("#strategyModal .modal-body .paging_container").remove();
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
@@ -860,11 +860,11 @@ var jamesOshaughnessyStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal .modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
                 $("#strategyModal").show();
             });
         }, function(error) {
-            $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
             $("#strategyModal").show();
         });
     },
@@ -936,7 +936,7 @@ var jamesOshaughnessyStrategyObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $(".modal-body tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
             return;
         }
         for(var i = 0; i < len; i++) {
@@ -974,7 +974,7 @@ var jamesOshaughnessyStrategyObj = {
             "</tr>";
         }
 
-        $(".modal-body tbody").html(htmlCode);
+        $("#strategyModal .modal-body tbody").html(htmlCode);
 
 
         var paginationHtml =    "<div class='paging_container'>"
@@ -987,7 +987,7 @@ var jamesOshaughnessyStrategyObj = {
                                 + "</ul>"
                              + "</div>";
 
-        $(".modal-body").append(paginationHtml);
+        $("#strategyModal .modal-body").append(paginationHtml);
 
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
@@ -1094,8 +1094,8 @@ var joelGreenblattStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
-        $(".modal-title").text(this.title);
-        $(".modal-body").html("<table>" + this.tableHeader + "<tbody></tbody></table>");
+        $("#strategyModal .modal-title").text(this.title);
+        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -1107,7 +1107,7 @@ var joelGreenblattStrategyObj = {
             classRef.totalRecords = stats.totalRecords;
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
-                $(".modal-body .paging_container").remove();
+                $("#strategyModal .modal-body .paging_container").remove();
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
@@ -1115,11 +1115,11 @@ var joelGreenblattStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal .modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
                 $("#strategyModal").show();
             });
         }, function(error) {
-                $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal .modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
                 $("#strategyModal").show();
         });
     },
@@ -1191,7 +1191,7 @@ var joelGreenblattStrategyObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $(".modal-body tbody").html("<tr><td colspan='9'>No Matching Records Found</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='9'>No Matching Records Found</td></tr>");
             return;
         }
         for(var i = 0; i < len; i++) {
@@ -1233,7 +1233,7 @@ var joelGreenblattStrategyObj = {
             "</tr>";
         }
 
-        $(".modal-body tbody").html(htmlCode);
+        $("#strategyModal .modal-body tbody").html(htmlCode);
 
 
         var paginationHtml =    "<div class='paging_container'>"
@@ -1246,7 +1246,7 @@ var joelGreenblattStrategyObj = {
                                 + "</ul>"
                              + "</div>";
 
-        $(".modal-body").append(paginationHtml);
+        $("#strategyModal .modal-body").append(paginationHtml);
 
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
@@ -1333,7 +1333,7 @@ joelGreenblattStrategyObj.init();
 
 $("#strategyModal button").on('click', function() {
     $("#strategyModal").hide();
-    $(".modal-body").html('');
+    $("#strategyModal .modal-body").html('');
 });
 
 $('#kennith_fisher_strategy .view_btn button').on('click', kennithFisherStrategyObj.setFullScreen);

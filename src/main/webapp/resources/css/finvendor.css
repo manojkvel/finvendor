@@ -2149,7 +2149,7 @@ button {
 
 }
 
-#strategyModal .modal-dialog .modal-body {
+#strategyModal .modal-dialog .modal-body .strategy_table {
 	max-width: 900px;
 	overflow: auto;
 }
