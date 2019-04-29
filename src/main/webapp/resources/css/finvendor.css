@@ -2149,6 +2149,11 @@ button {
 
 }
 
+#strategyModal .modal-dialog .modal-body {
+	max-width: 900px;
+	overflow: auto;
+}
+
 #strategyModal table {
 	min-height: auto;
 }
@@ -2166,7 +2171,7 @@ button {
 
 #strategyModal.modal .modal-dialog,
 #strategyModal.modal.in .modal-dialog {
-	max-width: 875px;
+	max-width: 900px;
 }
 
 
@@ -2436,15 +2441,37 @@ button {
 		float: none;
 	}
 
-	#celebrity_investors_strategies #benjamin_graham_strategy, 
-	#celebrity_investors_strategies #kennith_fisher_strategy, 
-	#celebrity_investors_strategies #joel_greenblatts_strategy, 
-	#celebrity_investors_strategies #james_o_shaughessys_strategy, 
-	#celebrity_investors_strategies #marting_zweigs_strategy, 
-	#celebrity_investors_strategies #finvendors_pick_strategy {
-		width: 250px;
-		height: 250px;
+	
+
+	#celebrity_investors_strategies .strategy_view {
+		padding: 15px;
+		padding-top: 50px;
+		width: 275px;
+		height: 275px;
 	}
+
+	#celebrity_investors_strategies h2 {
+		font-size: 15px;
+	}
+
+	#celebrity_investors_strategies h3 {
+		font-size: 11px;
+	}
+
+	.startegy_content .view_btn a, .startegy_content .view_btn button {
+		font-size: 11px;
+		min-width: 100px;
+	}
+
+	.startegy_content .view_btn {
+		bottom: 25px;
+	}
+
+	#strategyModal.modal .modal-dialog, #strategyModal.modal.in .modal-dialog {
+		width: 90%;
+		margin-top: 20px;
+	}
+
 }
 
 @media only screen and (min-width: 768px) {

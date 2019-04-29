@@ -79,14 +79,16 @@ var kennithFisherStrategyObj = {
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
-
+                $("#strategyModal").show();
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
                 $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal").show();
             });
         }, function(error) {
-                $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+            $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal").show();
         });
     },
 
@@ -168,7 +170,7 @@ var kennithFisherStrategyObj = {
             var annualRevenue = (response[i].annualRevenue) ? parseFloat(response[i].annualRevenue).toFixed(2) : '-';
             var de = (response[i].de) ? parseFloat(response[i].de).toFixed(2) : '-';
             var inflationRate = (response[i].inflationRate) ? parseFloat(response[i].inflationRate).toFixed(2) : '-';
-            var mcap = (response[i].mcap) ? response[i].mcap : '-';
+            var mcap = (response[i].mcap) ? parseFloat(response[i].mcap).toFixed(2) : '-';
             var psr = (response[i].psr) ? parseFloat(response[i].psr).toFixed(2) : '-';
             var rndExpenditures = (response[i].rndExpenditures && response[i].rndExpenditures != '-') ? parseFloat(response[i].rndExpenditures).toFixed(2) : '-';
             var _1yrEpsGrowth = (response[i]._1yrEpsGrowth) ? parseFloat(response[i]._1yrEpsGrowth).toFixed(2) : '-';
@@ -228,7 +230,6 @@ var kennithFisherStrategyObj = {
     setFullScreen : function(event) {
         kennithFisherStrategyObj.init();
         kennithFisherStrategyObj.getCurrentStrategyData();
-        $("#strategyModal").show();
     }, 
 
     setRecordStats : function() {
@@ -342,14 +343,16 @@ var benjaminGrahanStrategyObj = {
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
-
+                $("#strategyModal").show();
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+                $(".modal-body tbody").html("<tr><td colspan='8'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal").show();
             });
         }, function(error) {
-                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            $(".modal-body tbody").html("<tr><td colspan='8'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal").show();
         });
     },
 
@@ -421,7 +424,7 @@ var benjaminGrahanStrategyObj = {
         var rowHtml =   "";
 
         if(len === 0) {
-            $(".modal-body tbody").html("<tr><td colspan='7'>No Matching Records Found</td></tr>");
+            $(".modal-body tbody").html("<tr><td colspan='8'>No Matching Records Found</td></tr>");
             return;
         }
 
@@ -487,7 +490,6 @@ var benjaminGrahanStrategyObj = {
     setFullScreen : function(event) {
         benjaminGrahanStrategyObj.init();
         benjaminGrahanStrategyObj.getCurrentStrategyData();
-        $("#strategyModal").show();
     },  
 
     setRecordStats : function() {
@@ -600,14 +602,16 @@ var martinZweigStrategyObj = {
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
-
+                $("#strategyModal").show();
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
                 $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal").show();
             });
         }, function(error) {
-                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal").show();
         });
     },
 
@@ -740,7 +744,6 @@ var martinZweigStrategyObj = {
     setFullScreen : function(event) {
         martinZweigStrategyObj.init();
         martinZweigStrategyObj.getCurrentStrategyData();
-        $("#strategyModal").show();
     }, 
 
     setRecordStats : function() {
@@ -853,14 +856,16 @@ var jamesOshaughnessyStrategyObj = {
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
-
+                $("#strategyModal").show();
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
                 $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal").show();
             });
         }, function(error) {
-                $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            $(".modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal").show();
         });
     },
 
@@ -939,7 +944,7 @@ var jamesOshaughnessyStrategyObj = {
             var companyName = (response[i].companyName) ? response[i].companyName : '-';
             var cmp = (response[i].cmp) ? parseFloat(response[i].cmp).toFixed(2) : '-';
             var eps = (response[i].eps) ? parseFloat(response[i].eps).toFixed(2) : '-';
-            var mcap = (response[i].mcap) ? response[i].mcap : '-';
+            var mcap = (response[i].mcap) ? parseFloat(response[i].mcap).toFixed(2) : '-';
             var netOperatingCashFlow = (response[i].netOperatingCashFlow) ? parseFloat(response[i].netOperatingCashFlow).toFixed(2) : '-';
             var pb = (response[i].pb) ? parseFloat(response[i].pb).toFixed(2) : '-';
             var revenue = (response[i].revenue) ? parseFloat(response[i].revenue).toFixed(2) : '-';
@@ -992,7 +997,6 @@ var jamesOshaughnessyStrategyObj = {
     setFullScreen : function(event) {
         jamesOshaughnessyStrategyObj.init();
         jamesOshaughnessyStrategyObj.getCurrentStrategyData();
-        $("#strategyModal").show();
     }, 
 
     setRecordStats : function() {
@@ -1107,14 +1111,16 @@ var joelGreenblattStrategyObj = {
                 serverResponse = JSON.parse(serverResponse);
                 classRef.getCurrentStrategyHtml(serverResponse);
                 isProgressLoader(false);
-
+                $("#strategyModal").show();
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
                 $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal").show();
             });
         }, function(error) {
                 $(".modal-body tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal").show();
         });
     },
 
@@ -1192,7 +1198,7 @@ var joelGreenblattStrategyObj = {
 
             var companyName = (response[i].companyName) ? response[i].companyName : '-';
             var cashAndCashEquiv = (response[i].cashAndCashEquiv) ? parseFloat(response[i].cashAndCashEquiv).toFixed(2) : '-';
-            var mcap = (response[i].mcap) ? response[i].mcap : '-';
+            var mcap = (response[i].mcap) ? parseFloat(response[i].mcap).toFixed(2) : '-';
             var operatingProfitMargin = (response[i].operatingProfitMargin) ? parseFloat(response[i].operatingProfitMargin).toFixed(2) : '-';
             var pat = (response[i].pat) ? parseFloat(response[i].pat).toFixed(2) : '-';
             var revenue = (response[i].revenue) ? parseFloat(response[i].revenue).toFixed(2) : '-';
@@ -1250,7 +1256,6 @@ var joelGreenblattStrategyObj = {
     setFullScreen : function(event) {
         joelGreenblattStrategyObj.init();
         joelGreenblattStrategyObj.getCurrentStrategyData();
-        $("#strategyModal").show();
     }, 
 
     setRecordStats : function() {

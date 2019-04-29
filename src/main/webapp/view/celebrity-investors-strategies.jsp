@@ -84,7 +84,7 @@
 			<li>
 				<div id="james_o_shaughessys_strategy">
 					<div class="strategy_view">
-						<h2>James O'Shaughnessy's Strategy</h2>
+						<h2>James O'Shaughnessy's<br /> Strategy</h2>
 						<div class="startegy_content">
 							<h3>Spent more than 30 years researching equity market returns. His work has brought to the fore the power of what he calls 'fundamental quant' from that he built a fund management business with nearly $7 billion under management.</h3>
 							<div class="view_btn">
@@ -120,7 +120,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title"></h4>
         </div>
         <div class="modal-body">
         </div>
