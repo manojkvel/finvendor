@@ -11,6 +11,7 @@ import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.util.CommonCodeUtils;
 import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.JsonUtil;
+import com.finvendor.common.util.Pair;
 import com.finvendor.model.EarningPreview;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
@@ -125,7 +126,8 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 String pe = row[6] != null ? row[6].toString().trim() : "";
 
                 // cmp/bv_share if bv_share is 0 then na
-                String pb = row[7] != null ? row[7].toString().trim() : "";
+                Pair<Float, Float> pbBvPair = findPb(companyId, cmpAsFloat);
+                String pb = String.valueOf(pbBvPair.getElement1());//row[7] != null ? row[7].toString().trim() : "";
 
                 String dividen_yield = row[8] != null ? row[8].toString().trim() : "";
 
@@ -159,7 +161,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
 
                 // static and it will updated quaterly
                 //String bv_share = row[18] != null ? row[18].toString().trim() : "";
-                float bv_share_as_float = cmpAsFloat / Float.parseFloat(pb);
+                String bvShare = String.valueOf(pbBvPair.getElement2());//cmpAsFloat / Float.parseFloat(pb);
 
                 // static and it will updated quaterly
                 String roe = row[19] != null ? row[19].toString().trim() : "";
@@ -191,15 +193,15 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 }
 
                 // PB Calculation PB=cmp/bv_share
-                String newPBStr = "";
-                float newPB = 0.0f;
-                if (bv_share_as_float == 0.0f) {
-                    newPBStr = "N/A";
-                }
-                else {
-                    newPB = cmpAsFloat / bv_share_as_float;
-                    newPBStr = String.valueOf(newPB);
-                }
+//                String newPBStr = "";
+//                float newPB = 0.0f;
+//                if (bv_share_as_float == 0.0f) {
+//                    newPBStr = "N/A";
+//                }
+//                else {
+//                    newPB = cmpAsFloat / bv_share_as_float;
+//                    newPBStr = String.valueOf(newPB);
+//                }
 
                 //Calculate Valuation Score
                 valuationScoreStr = calculateAndGetValucationScore(_3yrEpsGrowthAsFloat, newPe);
@@ -208,8 +210,8 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 String ticker = findTicker(isinCode);
                 CompanyProfileDataDto companyProfileDataDto = new CompanyProfileDataDto(companyId, companyName, industry, mcap, cmp,
                         absoluteLastChangedCmp,
-                        lastChangedCmpInPercentage, newPeStr, "-", dividen_yield, eps_ttm, _52w_high,
-                        _52w_low, beta, share_outstanding, mkt_cap, revenue.trim(), face_value, "-", roe, pat,
+                        lastChangedCmpInPercentage, newPeStr, pb, dividen_yield, eps_ttm, _52w_high,
+                        _52w_low, beta, share_outstanding, mkt_cap, revenue.trim(), face_value, bvShare, roe, pat,
                         recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr, currency,ticker);
 
                 //Stock Historical price calculation
@@ -250,6 +252,20 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
             throw new RuntimeException("Error has occured while creating json for company profile data", e);
         }
         return companyProfile;
+    }
+
+    private Pair<Float, Float> findPb(String companyId, float cmpFloat) {
+        Pair<Float, Float> pbAndBv;
+        String sql = "select earning_preview_as_of_date.stock_id, earning_preview_as_of_date.book_value_per_share from stock_current_info,earning_preview_as_of_date where stock_current_info.stock_id=earning_preview_as_of_date.stock_id and stock_current_info.stock_id=?";
+        SQLQuery query = commonDao.getNativeQuery(sql, new Object[]{companyId});
+        List<Object[]> rows = query.list();
+        float bvShareFloat=0.0F;
+        for (Object[] row : rows) {
+            bvShareFloat = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? Float.parseFloat(row[1].toString().trim()) : 0.0F;
+        }
+        float pb = cmpFloat / bvShareFloat;
+        pbAndBv = new Pair<>(pb,bvShareFloat);
+        return pbAndBv;
     }
 
     private List<Integer> getBrokerRank(String isinCode) {

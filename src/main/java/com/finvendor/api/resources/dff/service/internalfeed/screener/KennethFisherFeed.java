@@ -53,6 +53,7 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
     private boolean evalKennethCondition(CompanyDetails companyDetails, EarningPreviewDetails latestEarningPreview,
             float _3YrAvgNetProfitMarginFloat) {
 
+        String sector = companyDetails.getSector();
         float shareOutStandingFloat = companyDetails.getShareOutStandingFloat();
         float cmpFloat = companyDetails.getCmpFloat();
         float mcapFloat = (shareOutStandingFloat * cmpFloat);
@@ -63,7 +64,7 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         float latestEpsGrowth_Percentage = latestEarningPreview.getLatestEpsGrowthInPercentageAsFloat();
 
         boolean psrCondition = psrFloat < 0.75f;
-        boolean deCondition = deFloat < 0.40F;
+        boolean deCondition = FINANCIALS.equals(sector) || deFloat < 0.40F;
 
         boolean epsGrowthWithInflationRateCondition = (latestEpsGrowth_Percentage - INFLATION_RATE_PERCENTAGE) > 15.0F;
 
@@ -73,21 +74,16 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         boolean finalCondition;
         if (latestEarningPreview.getRndExpenseFloat() != 0.0F) {
             mcapRndExpenseCondition = (mcapFloat / latestEarningPreview.getRndExpenseFloat()) < 10.0F;
-            finalCondition =
-                    psrCondition
-                            && deCondition
-                            && epsGrowthWithInflationRateCondition
-                            && netProfitMarginCondition
-                            && mcapRndExpenseCondition;
         }
         else {
-            finalCondition =
-                    psrCondition
-                            && deCondition
-                            && epsGrowthWithInflationRateCondition
-                            && netProfitMarginCondition;
+            mcapRndExpenseCondition = true;
         }
-
+        finalCondition =
+                psrCondition
+                        && deCondition
+                        && epsGrowthWithInflationRateCondition
+                        && netProfitMarginCondition
+                        && mcapRndExpenseCondition;
         StringBuilder sb = new StringBuilder();
         sb.append("\n--------------------------------------------------------------------------");
         sb.append("\nStock: [").append(companyDetails.getCompanyId()).append("::").append(companyDetails.getTicker())

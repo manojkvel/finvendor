@@ -57,7 +57,8 @@ public class MartinZweigFeed extends AbstractScreenerFeed {
 
     private boolean evalMartinZweigCondition(CompanyDetails companyDetails,
             EarningPreviewDetails latestEarningPreview,String nifty50Pe) {
-
+        //sector=Research SubArea
+        String sector = companyDetails.getSector();
         String stockId = companyDetails.getCompanyId();
 
         float peFloat = companyDetails.getPeFloat();
@@ -73,7 +74,11 @@ public class MartinZweigFeed extends AbstractScreenerFeed {
         boolean latestRevenueGrowthCondition = latestRevenueGrowth >= 85 || latestRevenueGrowth >= 30;
         boolean epsGrowthCondition = everyEpsGrowthGreaterThanPrevioudEpsGrowth;
         boolean allYearEpsGrowthCondition = allYearEpsGrowth > 15;
-        boolean deCondition = deFloat < 2;
+
+        // Strategy exceptional condition
+        // a) if company's "Research SubArea" = "Financials" then D/E Condition is TRUE
+        boolean deCondition = FINANCIALS.equals(sector) || deFloat < 2;
+
         finalCondition = peCondition1 && peCondition2 && latestRevenueGrowthCondition && epsGrowthCondition && allYearEpsGrowthCondition && deCondition;
         StringBuilder sb = new StringBuilder();
         sb.append("\n--------------------------------------------------------------------------");

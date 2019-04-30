@@ -32,7 +32,7 @@ public class InternalFeedController {
     @GetMapping(value = "/internaldatafeeds/screeners")
     public ResponseEntity<?> feedInternalData(@RequestParam(value = "type") FeedTypeEnum feedTypeEnum) throws WebApiException {
         try {
-            logger.info("feedInternalData, type: {}", feedTypeEnum.name());
+                logger.info("feedInternalData, type: {}", feedTypeEnum.name());
             screenerFeedFacade.processAndFeed(feedTypeEnum);
             return new ResponseEntity<>("Data feed done for type: " + feedTypeEnum.name() + " successfully.", HttpStatus.OK);
         } catch (Exception e) {

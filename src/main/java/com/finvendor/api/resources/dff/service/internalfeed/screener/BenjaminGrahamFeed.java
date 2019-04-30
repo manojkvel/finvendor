@@ -49,6 +49,8 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
     }
 
     private boolean evalCondition(CompanyDetails companyDetails, EarningPreviewDetails earningPreview, boolean is5yearEpsGrowthPositive) {
+        //sector=Research SubArea
+        String sector = companyDetails.getSector();
         float totalDebtFloat = earningPreview.getTotalDebtFloat();
         float currentAssetFloat = earningPreview.getCurrentAssetFloat();
         float currentLiabilitiesFloat = earningPreview.getCurrentLiabilitiesFloat();
@@ -63,8 +65,11 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
 
         float divYeildFloat = companyDetails.getDivYeildFloat();
 
-        boolean con1 = (totalDebtFloat / currentAssetFloat) < 1.1F;
-        boolean con2 = (currentAssetFloat / currentLiabilitiesFloat) > 1.5F;
+        //a) Exceptional condition [IF ("total debt" = "-") OR IF ("CURRENT Assets" = "-")] THEN "Total debt/current assets" CONDITION is TRUE
+        boolean con1 = (totalDebtFloat == 0.0F || currentAssetFloat == 0.0F) || (totalDebtFloat / currentAssetFloat) < 1.1F;
+
+        //b) if company's "Research SubArea" = "Financials" THEN "current assets/current liability" CONDITION is TRUE
+        boolean con2 = FINANCIALS.equals(sector) || ((currentAssetFloat / currentLiabilitiesFloat) > 1.5F);
 
         boolean con3 = is5yearEpsGrowthPositive;
         boolean con4 = peFloat < 9.0F;
