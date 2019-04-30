@@ -16,6 +16,8 @@ import java.util.*;
 
 public abstract class AbstractScreenerFeed implements DffProcesFeed {
     protected static final Logger logger = LoggerFactory.getLogger(AbstractScreenerFeed.class.getName());
+    static final String FINANCIALS = "Financials";
+
     //final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(".##");
     float INFLATION_RATE_PERCENTAGE = 2.86F;
     private static final  String INFLATION_PERIOD = "Mar_19";
@@ -31,7 +33,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
     private static final String EPS_GROWTH = "select earning_preview_yearly.stock_id,earning_preview_yearly.period,earning_preview_yearly.eps from earning_preview_yearly where earning_preview_yearly.stock_id=? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc;";
 
     //Joel Queries
-    private static final String COMPANY_DETAILS_FOR_JOEL="SELECT distinct rsch_sub_area_company_dtls.company_id companyId, rsch_sub_area_company_dtls.company_name companyName,(stock_current_info.shares_outstanding * stock_current_prices.close_price) mktCap,rsch_sub_area_company_dtls.ticker FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type,research_sub_area,stock_current_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND research_sub_area.research_area_id = ? AND country.country_id = ? order by CAST(rsch_sub_area_company_dtls.company_id as UNSIGNED)";
+    private static final String COMPANY_DETAILS_FOR_JOEL="SELECT distinct rsch_sub_area_company_dtls.company_id companyId, rsch_sub_area_company_dtls.company_name companyName,(stock_current_info.shares_outstanding * stock_current_prices.close_price) mktCap,rsch_sub_area_company_dtls.ticker, research_sub_area.description FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type,research_sub_area,stock_current_prices,stock_current_info,country WHERE rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id AND rsch_sub_area_company_dtls.country_id = country.country_id AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id AND research_sub_area.research_area_id = ? AND country.country_id = ? order by CAST(rsch_sub_area_company_dtls.company_id as UNSIGNED)";
     private static final String ROTC_QUERY = "select earning_preview_yearly.stock_id,earning_preview_yearly.profit_after_tax,earning_preview_as_of_date.total_capital, ROUND((earning_preview_yearly.profit_after_tax/earning_preview_as_of_date.total_capital),2) ROTC from earning_preview_yearly, earning_preview_as_of_date where earning_preview_yearly.stock_id = earning_preview_as_of_date.stock_id and earning_preview_yearly.stock_id=? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc limit 1 offset 0";
     private static final String EBIT_ATTRIBUTES_QUERY="select earning_preview_yearly.stock_id,earning_preview_yearly.revenue,earning_preview_yearly.operating_profit_margin,earning_preview_as_of_date.total_debt,earning_preview_as_of_date.cash_and_cash_equiv from earning_preview_yearly, earning_preview_as_of_date where earning_preview_yearly.stock_id = earning_preview_as_of_date.stock_id and earning_preview_yearly.stock_id=? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc limit 1 offset 0";
 
@@ -45,7 +47,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
      * This method will be used for Martin Zweig
      * Condition eps growth Y1>Y2>Y3>Y4>Y5
      */
-    boolean isEveryEpsGrowthGreaterThanPrevioudEpsGrowth(String stockId){
+    boolean isEveryEpsGrowthGreaterThanPrevioudEpsGrowth(String stockId) {
         boolean isEveryEpsGrowthGreaterThanPrevioudEpsGrowth=true;
         Map<String, Float> lastNYearEPSGrowth = findLastNYearEPSGrowth(stockId);
 
@@ -84,6 +86,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
         latestRevenueGwoth = (revenueFloatY1 - revenueFloatY2) * 100 / revenueFloatY2;
         return latestRevenueGwoth;
     }
+
     float find3YearAverageNetProfitMargin(String stockId) {
         SQLQuery sqlQuery = commonDao.getNativeQuery(_3YR_AVG_NET_PROFIT_MARGIN_QUERY, new Object[] { stockId});
         List<Object[]> companyDetailsList = sqlQuery.list();
@@ -109,6 +112,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
             String stockId = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ? row[0].toString().trim() : "";
             String rotcCompanyName = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "";
             String rotcTicker = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[3].toString()) ? row[3].toString().trim() : "";
+            String sector = row[4] != null && !StringUtils.isEmpty(row[4].toString()) && !"-".equals(row[4].toString()) ? row[4].toString().trim() : "";
 
             //Find ROTC for this StockID
             SQLQuery rotcSqlQuery = commonDao.getNativeQuery(ROTC_QUERY, new Object[] { stockId });
@@ -262,16 +266,16 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
         for (Object[] row : list) {
             String companyId = row[0] != null ? row[0].toString().trim() : "";
             String companyName = row[1] != null ? row[1].toString().trim() : "";
-            String mcap = row[2] != null ? row[2].toString().trim() : "";
+           // String mcap = row[2] != null ? row[2].toString().trim() : "";
             String sector = row[3] != null ? row[3].toString().trim() : "";
 
             String cmp = row[4] != null ? row[4].toString().trim() : "";
             cmp = StringUtils.replace(cmp, ",", "");
             float cmpFloat = !cmp.isEmpty() && !"-".equals(cmp) ? Float.parseFloat(cmp) : 0.0F;
 
-            String ltp = row[5] != null ? row[5].toString().trim() : "";
-            ltp = StringUtils.replace(ltp, ",", "");
-            float ltpFloat = !ltp.isEmpty() && !"-".equals(ltp) ? Float.parseFloat(ltp) : 0.0F;
+            //String ltp = row[5] != null ? row[5].toString().trim() : "";
+            //ltp = StringUtils.replace(ltp, ",", "");
+            //float ltpFloat = !ltp.isEmpty() && !"-".equals(ltp) ? Float.parseFloat(ltp) : 0.0F;
 
             String pe = row[6] != null ? row[6].toString().trim() : "";
             pe = StringUtils.replace(pe, ",", "");
@@ -285,71 +289,65 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
             divYeild = StringUtils.replace(divYeild, ",", "");
             float divYeildFloat = !divYeild.isEmpty() && !"-".equals(divYeild) ? Float.parseFloat(divYeild) : 0.0F;
 
-            String epsTtm = row[9] != null ? row[9].toString().trim() : "";
-            epsTtm = StringUtils.replace(epsTtm, ",", "");
-            float epsTtmFloat = !epsTtm.isEmpty() && !"-".equals(epsTtm) ? Float.parseFloat(epsTtm) : 0.0F;
+            //String epsTtm = row[9] != null ? row[9].toString().trim() : "";
+            //epsTtm = StringUtils.replace(epsTtm, ",", "");
+            //float epsTtmFloat = !epsTtm.isEmpty() && !"-".equals(epsTtm) ? Float.parseFloat(epsTtm) : 0.0F;
 
-            String _52wHigh = row[10] != null ? row[10].toString().trim() : "";
-            _52wHigh = StringUtils.replace(_52wHigh, ",", "");
-            float _52wHighFloat = !_52wHigh.isEmpty() && !"-".equals(_52wHigh) ? Float.parseFloat(_52wHigh) : 0.0F;
-
-            String _52wLow = row[11] != null ? row[11].toString().trim() : "";
-            _52wLow = StringUtils.replace(_52wLow, ",", "");
-            float _52wLowFloat = !_52wLow.isEmpty() && !"-".equals(_52wLow) ? Float.parseFloat(_52wLow) : 0.0F;
-
-            String beta = row[12] != null ? row[12].toString().trim() : "";
-            beta = StringUtils.replace(beta, ",", "");
-            float betaFloat = !beta.isEmpty() && !"-".equals(beta) ? Float.parseFloat(beta) : 0.0F;
-
-            String asOfDate = row[13] != null ? row[13].toString().trim() : "";
+//            String _52wHigh = row[10] != null ? row[10].toString().trim() : "";
+//            _52wHigh = StringUtils.replace(_52wHigh, ",", "");
+//            float _52wHighFloat = !_52wHigh.isEmpty() && !"-".equals(_52wHigh) ? Float.parseFloat(_52wHigh) : 0.0F;
+//
+//            String _52wLow = row[11] != null ? row[11].toString().trim() : "";
+//            _52wLow = StringUtils.replace(_52wLow, ",", "");
+//            float _52wLowFloat = !_52wLow.isEmpty() && !"-".equals(_52wLow) ? Float.parseFloat(_52wLow) : 0.0F;
+//
+//            String beta = row[12] != null ? row[12].toString().trim() : "";
+//            beta = StringUtils.replace(beta, ",", "");
+//            float betaFloat = !beta.isEmpty() && !"-".equals(beta) ? Float.parseFloat(beta) : 0.0F;
+//
+//            String asOfDate = row[13] != null ? row[13].toString().trim() : "";
             String shareOutStanding = row[14] != null ? row[14].toString().trim() : "";
             shareOutStanding = StringUtils.replace(shareOutStanding, ",", "");
             float shareOutStandingFloat =
                     !shareOutStanding.isEmpty() && !"-".equals(shareOutStanding) ? Float.parseFloat(shareOutStanding) : 0.0F;
 
-            String closePrice = row[15] != null ? row[15].toString().trim() : "";
-            closePrice = StringUtils.replace(closePrice, ",", "");
-            float closePriceFloat = !closePrice.isEmpty() && !"-".equals(closePrice) ? Float.parseFloat(closePrice) : 0.0F;
-
-            String mktCap = row[16] != null ? row[16].toString().trim() : "";
-
-            String revenue = row[17] != null ? row[17].toString().trim() : "";
-            revenue = StringUtils.replace(revenue, ",", "");
-            float revenueFloat = !revenue.isEmpty() && !"-".equals(revenue) ? Float.parseFloat(revenue) : 0.0F;
-
-            String faceValue = row[18] != null ? row[18].toString().trim() : "";
-            faceValue = StringUtils.replace(faceValue, ",", "");
-            float faceValueFloat = !faceValue.isEmpty() && !"-".equals(faceValue) ? Float.parseFloat(faceValue) : 0.0F;
-
-            String bvShare = row[19] != null ? row[19].toString().trim() : "";
-            float bvShareFloat = !bvShare.isEmpty() && !"-".equals(bvShare) ? Float.parseFloat(bvShare) : 0.0F;
-
-            String roe = row[20] != null ? row[20].toString().trim() : "";
-            roe = StringUtils.replace(roe, ",", "");
-            float roeFloat = !roe.isEmpty() && !"-".equals(roe) ? Float.parseFloat(roe) : 0.0F;
+//            String closePrice = row[15] != null ? row[15].toString().trim() : "";
+//            closePrice = StringUtils.replace(closePrice, ",", "");
+//            float closePriceFloat = !closePrice.isEmpty() && !"-".equals(closePrice) ? Float.parseFloat(closePrice) : 0.0F;
+//
+//            String mktCap = row[16] != null ? row[16].toString().trim() : "";
+//
+//            String revenue = row[17] != null ? row[17].toString().trim() : "";
+//            revenue = StringUtils.replace(revenue, ",", "");
+//            float revenueFloat = !revenue.isEmpty() && !"-".equals(revenue) ? Float.parseFloat(revenue) : 0.0F;
+//
+//            String faceValue = row[18] != null ? row[18].toString().trim() : "";
+//            faceValue = StringUtils.replace(faceValue, ",", "");
+//            float faceValueFloat = !faceValue.isEmpty() && !"-".equals(faceValue) ? Float.parseFloat(faceValue) : 0.0F;
+//
+//            String bvShare = row[19] != null ? row[19].toString().trim() : "";
+//            float bvShareFloat = !bvShare.isEmpty() && !"-".equals(bvShare) ? Float.parseFloat(bvShare) : 0.0F;
+//
+//            String roe = row[20] != null ? row[20].toString().trim() : "";
+//            roe = StringUtils.replace(roe, ",", "");
+//            float roeFloat = !roe.isEmpty() && !"-".equals(roe) ? Float.parseFloat(roe) : 0.0F;
 
             String pat = row[21] != null ? row[21].toString().trim() : "";
             pat = StringUtils.replace(pat, ",", "");
             float patFloat = !pat.isEmpty() && !"-".equals(pat) ? Float.parseFloat(pat) : 0.0F;
 
-            String recentQtr = row[22] != null ? row[22].toString().trim() : "";
+//            String recentQtr = row[22] != null ? row[22].toString().trim() : "";
+//
+//            String priceDate = row[23] != null ? row[23].toString().trim() : "";
+//            String priceSrc = row[24] != null ? row[24].toString().trim() : "";
+//            String companyDesc = row[25] != null ? row[25].toString().trim() : "";
+//            String _3YrEpsGrowth = row[26] != null ? row[26].toString().trim() : "";
 
-            String priceDate = row[23] != null ? row[23].toString().trim() : "";
-            String priceSrc = row[24] != null ? row[24].toString().trim() : "";
-            String companyDesc = row[25] != null ? row[25].toString().trim() : "";
-            String _3YrEpsGrowth = row[26] != null ? row[26].toString().trim() : "";
-
-            float _3YrEpsGrowthFloat = !_3YrEpsGrowth.isEmpty() && !"-".equals(_3YrEpsGrowth) ? Float.parseFloat(_3YrEpsGrowth) : 0.0F;
-            String currency = row[27] != null ? row[27].toString().trim() : "";
+//            float _3YrEpsGrowthFloat = 0.0F;//!_3YrEpsGrowth.isEmpty() && !"-".equals(_3YrEpsGrowth) ? Float.parseFloat(_3YrEpsGrowth) : 0.0F;
+//            String currency = row[27] != null ? row[27].toString().trim() : "";
             String ticker = row[28] != null ? row[28].toString().trim() : "";
-            CompanyDetails companyDetails = new CompanyDetails(companyId, companyName, mcap, sector, cmp, cmpFloat, ltp, ltpFloat, pe,
-                    peFloat, pb, pbFloat, divYeild, divYeildFloat,
-                    epsTtm, epsTtmFloat, _52wLow, _52wLowFloat, _52wHigh, _52wHighFloat, beta, betaFloat, asOfDate, shareOutStanding,
-                    shareOutStandingFloat,
-                    closePrice, closePriceFloat, mktCap, revenue, revenueFloat, faceValue, faceValueFloat, bvShare, bvShareFloat, roe,
-                    roeFloat, pat,
-                    patFloat, recentQtr, priceDate,
-                    companyDesc, _3YrEpsGrowth, _3YrEpsGrowthFloat, currency, ticker);
+            CompanyDetails companyDetails = new CompanyDetails(companyId, companyName,sector, cmp, cmpFloat, pe,
+                    peFloat, pb, pbFloat, divYeild, divYeildFloat, shareOutStanding, shareOutStandingFloat, pat, patFloat,ticker);
             companyDetailsList.add(companyDetails);
         }
         return companyDetailsList;
