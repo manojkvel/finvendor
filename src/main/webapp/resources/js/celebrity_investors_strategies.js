@@ -67,12 +67,12 @@ var kennithFisherStrategyObj = {
                                 "<span>Records Per Page </span>" +
                                 "<select>" +
                                     "<option value='5'>5</option>" +
-                                    "<option value='10'>10</option>" +
+                                    "<option value='10' selected>10</option>" +
                                     "<option value='30'>30</option>" +
                                     "<option value='50'>50</option>" +
                                     "<option value='100'>100</option>" +
                                 "</select>" +
-                                "<span id='total_records_count' style='padding-left: 30px;font-weight:bold;font-size: 13px;'>725 Results</span>" +
+                                "<span id='total_records_count' style='padding-left: 30px;font-weight:bold;font-size: 13px;'></span>" +
                             "</div>";
 
         $("#strategyModal .modal-title").text(this.title);
@@ -358,8 +358,20 @@ var benjaminGrahanStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
+        this.recordsPerPage = "<div class='max_per_page'>" +
+                                "<span>Records Per Page </span>" +
+                                "<select>" +
+                                    "<option value='5'>5</option>" +
+                                    "<option value='10' selected>10</option>" +
+                                    "<option value='30'>30</option>" +
+                                    "<option value='50'>50</option>" +
+                                    "<option value='100'>100</option>" +
+                                "</select>" +
+                                "<span id='total_records_count' style='padding-left: 30px;font-weight:bold;font-size: 13px;'></span>" +
+                            "</div>";
+
         $("#strategyModal .modal-title").text(this.title);
-        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
+        $("#strategyModal .modal-body").html(this.recordsPerPage + "<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -369,6 +381,8 @@ var benjaminGrahanStrategyObj = {
             classRef.firstPageNumber = stats.firstPageNumber;
             classRef.lastPageNumber = stats.lastPageNumber;
             classRef.totalRecords = stats.totalRecords;
+
+            $("#strategyModal #total_records_count").html(classRef.totalRecords + " Results");
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
                 $("#strategyModal .modal-body .paging_container").remove();
@@ -517,10 +531,27 @@ var benjaminGrahanStrategyObj = {
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
         classRef.setRecordStats();
+
+        $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
     },
 
     setFullScreen : function(event) {
         benjaminGrahanStrategyObj.init();
+        benjaminGrahanStrategyObj.getCurrentStrategyData();
+    }, 
+
+    getPerPageMaxRecords: function(event) {
+        var classRef = event.data.this;
+
+        if(classRef.perPageMaxRecords !== Number($(this).val())) {
+            classRef.pageNumber = 1;
+            classRef.firstPageNumber = 1;
+            classRef.lastPageNumber = 1;
+            classRef.currentIndex = 1;
+        }
+
+        classRef.perPageMaxRecords = Number($(this).val());
+        console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
         benjaminGrahanStrategyObj.getCurrentStrategyData();
     },  
 
@@ -617,8 +648,20 @@ var martinZweigStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
+        this.recordsPerPage = "<div class='max_per_page'>" +
+                                "<span>Records Per Page </span>" +
+                                "<select>" +
+                                    "<option value='5'>5</option>" +
+                                    "<option value='10' selected>10</option>" +
+                                    "<option value='30'>30</option>" +
+                                    "<option value='50'>50</option>" +
+                                    "<option value='100'>100</option>" +
+                                "</select>" +
+                                "<span id='total_records_count' style='padding-left: 30px;font-weight:bold;font-size: 13px;'></span>" +
+                            "</div>";
+
         $("#strategyModal .modal-title").text(this.title);
-        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
+        $("#strategyModal .modal-body").html(this.recordsPerPage + "<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -628,6 +671,8 @@ var martinZweigStrategyObj = {
             classRef.firstPageNumber = stats.firstPageNumber;
             classRef.lastPageNumber = stats.lastPageNumber;
             classRef.totalRecords = stats.totalRecords;
+
+            $("#strategyModal #total_records_count").html(classRef.totalRecords + " Results");
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
                 $("#strategyModal .modal-body .paging_container").remove();
@@ -771,10 +816,27 @@ var martinZweigStrategyObj = {
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
         classRef.setRecordStats();
+
+        $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
     },
 
     setFullScreen : function(event) {
         martinZweigStrategyObj.init();
+        martinZweigStrategyObj.getCurrentStrategyData();
+    }, 
+
+    getPerPageMaxRecords: function(event) {
+        var classRef = event.data.this;
+
+        if(classRef.perPageMaxRecords !== Number($(this).val())) {
+            classRef.pageNumber = 1;
+            classRef.firstPageNumber = 1;
+            classRef.lastPageNumber = 1;
+            classRef.currentIndex = 1;
+        }
+
+        classRef.perPageMaxRecords = Number($(this).val());
+        console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
         martinZweigStrategyObj.getCurrentStrategyData();
     }, 
 
@@ -871,8 +933,20 @@ var jamesOshaughnessyStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
+        this.recordsPerPage = "<div class='max_per_page'>" +
+                                "<span>Records Per Page </span>" +
+                                "<select>" +
+                                    "<option value='5'>5</option>" +
+                                    "<option value='10' selected>10</option>" +
+                                    "<option value='30'>30</option>" +
+                                    "<option value='50'>50</option>" +
+                                    "<option value='100'>100</option>" +
+                                "</select>" +
+                                "<span id='total_records_count' style='padding-left: 30px;font-weight:bold;font-size: 13px;'></span>" +
+                            "</div>";
+
         $("#strategyModal .modal-title").text(this.title);
-        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
+        $("#strategyModal .modal-body").html(this.recordsPerPage + "<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -882,6 +956,8 @@ var jamesOshaughnessyStrategyObj = {
             classRef.firstPageNumber = stats.firstPageNumber;
             classRef.lastPageNumber = stats.lastPageNumber;
             classRef.totalRecords = stats.totalRecords;
+
+            $("#strategyModal #total_records_count").html(classRef.totalRecords + " Results");
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
                 $("#strategyModal .modal-body .paging_container").remove();
@@ -1024,10 +1100,27 @@ var jamesOshaughnessyStrategyObj = {
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
         classRef.setRecordStats();
+
+        $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
     },
 
     setFullScreen : function(event) {
         jamesOshaughnessyStrategyObj.init();
+        jamesOshaughnessyStrategyObj.getCurrentStrategyData();
+    }, 
+
+    getPerPageMaxRecords: function(event) {
+        var classRef = event.data.this;
+
+        if(classRef.perPageMaxRecords !== Number($(this).val())) {
+            classRef.pageNumber = 1;
+            classRef.firstPageNumber = 1;
+            classRef.lastPageNumber = 1;
+            classRef.currentIndex = 1;
+        }
+
+        classRef.perPageMaxRecords = Number($(this).val());
+        console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
         jamesOshaughnessyStrategyObj.getCurrentStrategyData();
     }, 
 
@@ -1126,8 +1219,20 @@ var joelGreenblattStrategyObj = {
                             "</tr>" +
                         "</thead>";
 
+        this.recordsPerPage = "<div class='max_per_page'>" +
+                                "<span>Records Per Page </span>" +
+                                "<select>" +
+                                    "<option value='5'>5</option>" +
+                                    "<option value='10' selected>10</option>" +
+                                    "<option value='30'>30</option>" +
+                                    "<option value='50'>50</option>" +
+                                    "<option value='100'>100</option>" +
+                                "</select>" +
+                                "<span id='total_records_count' style='padding-left: 30px;font-weight:bold;font-size: 13px;'></span>" +
+                            "</div>";
+
         $("#strategyModal .modal-title").text(this.title);
-        $("#strategyModal .modal-body").html("<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
+        $("#strategyModal .modal-body").html(this.recordsPerPage + "<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
     },
 
     getCurrentStrategyData: function() {
@@ -1137,6 +1242,8 @@ var joelGreenblattStrategyObj = {
             classRef.firstPageNumber = stats.firstPageNumber;
             classRef.lastPageNumber = stats.lastPageNumber;
             classRef.totalRecords = stats.totalRecords;
+
+            $("#strategyModal #total_records_count").html(classRef.totalRecords + " Results");
 
             classRef.getCurrentStrategy().then(function(serverResponse) {
                 $("#strategyModal .modal-body .paging_container").remove();
@@ -1283,10 +1390,27 @@ var joelGreenblattStrategyObj = {
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
         classRef.setRecordStats();
+
+        $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
     },
 
     setFullScreen : function(event) {
         joelGreenblattStrategyObj.init();
+        joelGreenblattStrategyObj.getCurrentStrategyData();
+    }, 
+
+    getPerPageMaxRecords: function(event) {
+        var classRef = event.data.this;
+
+        if(classRef.perPageMaxRecords !== Number($(this).val())) {
+            classRef.pageNumber = 1;
+            classRef.firstPageNumber = 1;
+            classRef.lastPageNumber = 1;
+            classRef.currentIndex = 1;
+        }
+
+        classRef.perPageMaxRecords = Number($(this).val());
+        console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
         joelGreenblattStrategyObj.getCurrentStrategyData();
     }, 
 

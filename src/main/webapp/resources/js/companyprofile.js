@@ -1178,7 +1178,7 @@ function setQuarterlyCompanyEarningsPreview() {
 
           earningPreviewSorted.sort(function(a, b){return a.period - b.period});
 
-          console.log(earningPreviewSorted);
+          // console.log(earningPreviewSorted);
 
           var currency = "INR";
           var mapCurrency = (currency == 'INR') ? ', Crores' : ', Millions';
@@ -1212,7 +1212,7 @@ function setQuarterlyCompanyEarningsPreview() {
             }
             prevRevenue = revenue;
 
-            console.log("diffRevenue:: " + diffRevenue);
+            // console.log("diffRevenue:: " + diffRevenue);
             quarterlyRevenue = quarterlyRevenue + "<td>" + revenue + " " + diffRevenue + "</td>";
         }
 
@@ -1237,7 +1237,7 @@ function setQuarterlyCompanyEarningsPreview() {
             }
             prevProfitAfterTax = profitAfterTax;
 
-            console.log("diffProfitAfterTax:: " + diffProfitAfterTax);
+            // console.log("diffProfitAfterTax:: " + diffProfitAfterTax);
             quarterlyPAT = quarterlyPAT + "<td>" + profitAfterTax + " " + diffProfitAfterTax + "</td>";
         }
 
@@ -1255,7 +1255,7 @@ function setQuarterlyCompanyEarningsPreview() {
             }
             prevEPS = eps;
 
-            console.log("diffEPS:: " + diffEPS);
+            // console.log("diffEPS:: " + diffEPS);
             quarterlyEPS = quarterlyEPS + "<td>" + eps + " " + diffEPS + "</td>";
         }
 
@@ -1347,7 +1347,7 @@ function setYearlyCompanyEarningsPreview() {
 
           earningPreviewSorted.sort(function(a, b){return a.period - b.period});
 
-          console.log(earningPreviewSorted);
+          // console.log(earningPreviewSorted);
           var currency = "INR";
           var mapCurrency = (currency == 'INR') ? ', Crores' : ', Millions';
 
@@ -1382,7 +1382,7 @@ function setYearlyCompanyEarningsPreview() {
             }
             prevRevenue = revenue;
 
-            console.log("diffRevenue:: " + diffRevenue);
+            // console.log("diffRevenue:: " + diffRevenue);
             yearlyRevenue = yearlyRevenue + "<td>" + revenue + " " + diffRevenue + "</td>";
         }
 
@@ -1407,7 +1407,7 @@ function setYearlyCompanyEarningsPreview() {
             }
             prevProfitAfterTax = profitAfterTax;
 
-            console.log("diffProfitAfterTax:: " + diffProfitAfterTax);
+            // console.log("diffProfitAfterTax:: " + diffProfitAfterTax);
             yearlyPAT = yearlyPAT + "<td>" + profitAfterTax + " " + diffProfitAfterTax + "</td>";
         }
 
@@ -1425,7 +1425,7 @@ function setYearlyCompanyEarningsPreview() {
             }
             prevEPS = eps;
 
-            console.log("diffEPS:: " + diffEPS);
+            // console.log("diffEPS:: " + diffEPS);
             yearlyEPS = yearlyEPS + "<td>" + eps + " " + diffEPS + "</td>";
         }
 
@@ -1443,7 +1443,7 @@ function setYearlyCompanyEarningsPreview() {
             }
             prevNetCashFlow = netOperatingCashFlow;
 
-            console.log("diffNetCashFlow:: " + diffNetCashFlow);
+            // console.log("diffNetCashFlow:: " + diffNetCashFlow);
             yearlyNetCashFlow = yearlyNetCashFlow + "<td>" + netOperatingCashFlow + " " + diffNetCashFlow + "</td>";
         }
 
@@ -1461,7 +1461,7 @@ function setYearlyCompanyEarningsPreview() {
             }
             prevROE = roe;
 
-            console.log("diffROE:: " + diffROE);
+            // console.log("diffROE:: " + diffROE);
             yearlyROE = yearlyROE + "<td>" + roe + " " + diffROE + "</td>";
         }
 
