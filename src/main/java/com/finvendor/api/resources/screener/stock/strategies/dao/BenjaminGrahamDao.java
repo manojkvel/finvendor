@@ -22,10 +22,9 @@ public class BenjaminGrahamDao extends AbstractCisDao {
     }
 
     @Override
-    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords) throws RuntimeException {
+    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
         List<BenjaminGrahamStrategyDto> resultList=new ArrayList<>();
-        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
-        String finalQuery = BENJAMIN_GRAMHAM_QUERY + applyPagination;
+        String finalQuery = queryWithSortByAndOrderByAndPagination(sortBy,orderBy,pageNumber,perPageMaxRecords);
         SQLQuery query = commonDao.getNativeQuery(finalQuery, null);
         List<Object[]>  list = query.list();
 
@@ -43,5 +42,37 @@ public class BenjaminGrahamDao extends AbstractCisDao {
             resultList.add(dto);
         }
         return resultList;
+    }
+
+    private String queryWithSortByAndOrderByAndPagination(String sortBy, String orderBy, String pageNumber, String perPageMaxRecords ){
+        String newQuery=BENJAMIN_GRAMHAM_QUERY;
+        String sortingQuery = "";
+        switch(sortBy) {
+        case "companyName":
+            sortingQuery = "company_name " + orderBy;
+            break;
+        case "totalDebt":
+            sortingQuery = "cast(total_debt as DECIMAL) " + orderBy;
+            break;
+        case "currentAsset":
+            sortingQuery = "cast(current_assets as DECIMAL) " + orderBy;
+            break;
+        case "currentLiab":
+            sortingQuery = "cast(current_liabilities as DECIMAL) " + orderBy;
+            break;
+        case "pe":
+            sortingQuery = "cast(pe as DECIMAL) " + orderBy;
+            break;
+        case "pb":
+            sortingQuery = "cast(pb as DECIMAL) " + orderBy;
+            break;
+        case "divYield":
+            sortingQuery = "cast(dividend_yield as DECIMAL) " + orderBy;
+            break;
+
+        }
+        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        newQuery = newQuery + " order by "+ sortingQuery + applyPagination;
+        return newQuery;
     }
 }

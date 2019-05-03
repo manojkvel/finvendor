@@ -16,7 +16,7 @@ public class FinvendorPickDao extends AbstractCisDao {
     }
 
     @Override
-    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords) throws RuntimeException {
+    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
         List<FinvendorPickStrategyDto> resultList=new ArrayList<>();
 
 //        resultList.add(dto1);
