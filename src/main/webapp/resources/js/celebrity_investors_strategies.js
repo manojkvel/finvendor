@@ -48,16 +48,16 @@ var kennithFisherStrategyObj = {
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
         this.strategyType = "KENNITH_FISHER";
-        this.title = "Kennith Fisher";
+        this.title = "Kenneth Fisher's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
                                 "<th>Company Name</th>" +
-                                "<th>Annual Revenue</th>" +
+                                "<th>Annual Revenue (cr)</th>" +
                                 "<th>D/E</th>" +
                                 "<th>Inflation Rate</th>" +
-                                "<th>M cap</th>" +
+                                "<th>M cap (cr)</th>" +
                                 "<th>PSR</th>" +
-                                "<th>R & D Expenditures</th>" +
+                                "<th>R & D Exp (cr)</th>" +
                                 "<th>EPS</th>" +
                                 "<th>Average Net Profit Margin</th>" +
                             "</tr>" +
@@ -184,12 +184,12 @@ var kennithFisherStrategyObj = {
             var companyName = (response[i].companyName) ? response[i].companyName : '-';
             var annualRevenue = (response[i].annualRevenue) ? parseFloat(response[i].annualRevenue).toFixed(2) : '-';
             var de = (response[i].de) ? parseFloat(response[i].de).toFixed(2) : '-';
-            var inflationRate = (response[i].inflationRate) ? parseFloat(response[i].inflationRate).toFixed(2) : '-';
+            var inflationRate = (response[i].inflationRate) ? parseFloat(response[i].inflationRate).toFixed(2) + "%" : '-';
             var mcap = (response[i].mcap) ? parseFloat(response[i].mcap).toFixed(2) : '-';
             var psr = (response[i].psr) ? parseFloat(response[i].psr).toFixed(2) : '-';
             var rndExpenditures = (response[i].rndExpenditures && response[i].rndExpenditures != '-') ? parseFloat(response[i].rndExpenditures).toFixed(2) : '-';
             var _1yrEpsGrowth = (response[i]._1yrEpsGrowth) ? parseFloat(response[i]._1yrEpsGrowth).toFixed(2) : '-';
-            var _3YrAvgNetProfitMargin = (response[i]._3YrAvgNetProfitMargin) ? parseFloat(response[i]._3YrAvgNetProfitMargin).toFixed(2) : '-';
+            var _3YrAvgNetProfitMargin = (response[i]._3YrAvgNetProfitMargin) ? parseFloat(response[i]._3YrAvgNetProfitMargin).toFixed(2) + "%" : '-';
 
             htmlCode = htmlCode + "<tr>" +
             "<td>" + 
@@ -344,13 +344,13 @@ var benjaminGrahanStrategyObj = {
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
         this.strategyType = "BENJAMIN_GRAHAM";
-        this.title = "Benjamin Graham";
+        this.title = "Benjamin Graham's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
                                 "<th>Company Name</th>" +
-                                "<th>Total Debt</th>" +
-                                "<th>Current Assets</th>" +
-                                "<th>Current Liabilities</th>" +
+                                "<th>Total Debt (cr)</th>" +
+                                "<th>Current Assets (cr)</th>" +
+                                "<th>Current Liabilities (cr)</th>" +
                                 "<th>EPS</th>" +
                                 "<th>P/E</th>" +
                                 "<th>P/B</th>" +
@@ -635,7 +635,7 @@ var martinZweigStrategyObj = {
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
         this.strategyType = "MARTIN_ZWEIG";
-        this.title = "Martin Zweig";
+        this.title = "Martin Zweig's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
                                 "<th>Company Name</th>" +
@@ -920,16 +920,16 @@ var jamesOshaughnessyStrategyObj = {
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
         this.strategyType = "JAMES_SHAUGHNESSY";
-        this.title = "James O'Shaughnessy's";
+        this.title = "James O'Shaughnessy's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
                                 "<th>Company Name</th>" +
                                 "<th>CMP</th>" +
                                 "<th>EPS</th>" +
-                                "<th>M Cap</th>" +
-                                "<th>Net Operating CashFlow</th>" +
+                                "<th>M Cap (cr)</th>" +
+                                "<th>Net Operating CashFlow (cr)</th>" +
                                 "<th>P/B</th>" +
-                                "<th>Revenue</th>" +
+                                "<th>Revenue (cr)</th>" +
                             "</tr>" +
                         "</thead>";
 
@@ -1205,17 +1205,17 @@ var joelGreenblattStrategyObj = {
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
         this.strategyType = "JOEL_GREENBLATT";
-        this.title = "Joel Greenblatt's";
+        this.title = "Joel Greenblatt's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
                                 "<th>Company Name</th>" +
-                                "<th>Cash and Cash Equiv.</th>" +
-                                "<th>M Cap</th>" +
+                                "<th>Cash and Cash Equiv. (cr)</th>" +
+                                "<th>M Cap (cr)</th>" +
                                 "<th>Operating Profit Margin</th>" +
                                 "<th>PAT</th>" +
-                                "<th>Revenue</th>" +
-                                "<th>Total Capital</th>" +
-                                "<th>Total Debt</th>" +
+                                "<th>Revenue (cr)</th>" +
+                                "<th>Total Capital (cr)</th>" +
+                                "<th>Total Debt (cr)</th>" +
                             "</tr>" +
                         "</thead>";
 
@@ -1338,7 +1338,7 @@ var joelGreenblattStrategyObj = {
             var companyName = (response[i].companyName) ? response[i].companyName : '-';
             var cashAndCashEquiv = (response[i].cashAndCashEquiv) ? parseFloat(response[i].cashAndCashEquiv).toFixed(2) : '-';
             var mcap = (response[i].mcap) ? parseFloat(response[i].mcap).toFixed(2) : '-';
-            var operatingProfitMargin = (response[i].operatingProfitMargin) ? parseFloat(response[i].operatingProfitMargin).toFixed(2) : '-';
+            var operatingProfitMargin = (response[i].operatingProfitMargin) ? parseFloat(response[i].operatingProfitMargin).toFixed(2) + "%" : '-';
             var pat = (response[i].pat) ? parseFloat(response[i].pat).toFixed(2) : '-';
             var revenue = (response[i].revenue) ? parseFloat(response[i].revenue).toFixed(2) : '-';
             var totalCapital = (response[i].totalCapital) ? parseFloat(response[i].totalCapital).toFixed(2) : '-';

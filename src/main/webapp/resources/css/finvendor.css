@@ -2078,29 +2078,51 @@ button {
 }
 
 #celebrity_investors_strategies .strategy_view {
-	background: #fff;
-	padding: 70px;
+	padding: 40px 23px 23px;
 	margin: 20px auto;
 	position: relative;
-	width: 400px;
-	height: 400px;
+	width: 300px;
+	height: 300px;
 	border-radius: 50%;
 }
 
+#celebrity_investors_strategies li:nth-of-type(odd) .strategy_view {
+	background: rgba(0, 114, 185, 0.8);
+	color: #fff;
+}
+
+#celebrity_investors_strategies li:nth-of-type(even) .strategy_view {
+	background: #fff;
+}
+
+#celebrity_investors_strategies li:nth-of-type(odd) .strategy_view .view_btn button {
+	background: #fff;
+	color: #0099cc;
+}
+
+#celebrity_investors_strategies li:nth-of-type(even) .strategy_view .view_btn button {
+	background: #0099cc;
+}
+
 #celebrity_investors_strategies h2 {
-	font-size: 21px;
 	text-align: center;
 	font-weight: bold;
+	font-size: 15px;
+	line-height: 19px;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
 }
 
 #celebrity_investors_strategies h3 {
-	line-height: 21px;
+	line-height: 19px;
 	margin-bottom: 20px;
+	text-align: left;
+	font-size: 13px;
 }
 
 .startegy_content {
 	min-height: 150px;
-	padding-top: 10px;
+	padding: 10px 10px 0;
 }
 
 .startegy_content h3 {
@@ -2119,24 +2141,30 @@ button {
 
 .startegy_content .view_btn {
 	position: absolute;
-	left: 33%;
-	bottom: 50px
+	left: 31%;
+	bottom: 22px
 }
 
 .startegy_content .view_btn a,
 .startegy_content .view_btn button {
     background: #0099cc;
     color: #fff;
-    padding: 10px 20px;
+    padding: 10px 15px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 13px;
     border-radius: 0;
     width: auto !important;
-    min-width: 150px;
+    min-width: 115px;
     text-align: center !important;
 }
+
+#celebrity_investors_strategies .page_desc {
+	font-size: 15px;
+	font-weight: bold;
+}
+
 #celebrity_investors_strategies ol > li {
-	width: 33.3%;
+	width: 25%;
 	float: left;
 	text-align: center;
 }
@@ -2170,9 +2198,13 @@ button {
 	padding: 0;
 }
 
+#strategyModal .companyName {
+	text-align: left;
+}
+
 #strategyModal.modal .modal-dialog,
 #strategyModal.modal.in .modal-dialog {
-	max-width: 900px;
+	max-width: 930px;
 }
 
 #strategyModal .max_per_page {
@@ -2441,6 +2473,10 @@ button {
 		font-size: 11px;
 	}
 
+	#celebrity_investors_strategies .page_desc {
+		font-size: 13px;
+	}
+
 	#celebrity_investors_strategies ol > li {
 		width: 100%;
 		float: none;
@@ -2449,7 +2485,7 @@ button {
 	
 
 	#celebrity_investors_strategies .strategy_view {
-		padding: 15px;
+		padding: 12px;
 		padding-top: 50px;
 		width: 275px;
 		height: 275px;
