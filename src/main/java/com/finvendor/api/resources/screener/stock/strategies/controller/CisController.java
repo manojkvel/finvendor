@@ -37,9 +37,11 @@ public class CisController {
     @GetMapping(value = "/cis/strategies")
     public ResponseEntity<?> findCisStrategy(@RequestParam(value = "type") CisEnum type,
             @RequestParam(value = "pageNumber") String pageNumber,
-            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) {
+            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
+            @RequestParam(value = "sortBy") String sortBy,
+            @RequestParam(value = "orderBy") String orderBy) {
         try {
-            return new ResponseEntity<>(service.findCis(type, pageNumber, perPageMaxRecords), HttpStatus.OK);
+            return new ResponseEntity<>(service.findCis(type, pageNumber, perPageMaxRecords, sortBy, orderBy), HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("CelebrityInvestorStrategyController -> findCisStrategy(...), type: " + type.name(), e);
             return ErrorUtil.getError(CELEBRITY_INVESTOR_STRATEGY.getCode(), CELEBRITY_INVESTOR_STRATEGY.getUserMessage(), e);

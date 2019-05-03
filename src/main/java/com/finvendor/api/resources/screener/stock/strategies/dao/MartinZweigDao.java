@@ -20,9 +20,9 @@ public class MartinZweigDao extends AbstractCisDao {
     }
 
     @Override
-    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords) throws RuntimeException {
+    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
         List<MartinZweigStrategyDto> resultList=new ArrayList<>();
-        String finalQuery = MARTIN_ZWEIG_QUERY + CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        String finalQuery = queryWithSortByAndOrderByAndPagination(sortBy, orderBy, pageNumber, perPageMaxRecords);
         SQLQuery query = commonDao.getNativeQuery(finalQuery, null);
         List<Object[]>  list = query.list();
 
@@ -39,5 +39,33 @@ public class MartinZweigDao extends AbstractCisDao {
             resultList.add(dto);
         }
         return resultList;
+    }
+
+    private String queryWithSortByAndOrderByAndPagination(String sortBy, String orderBy, String pageNumber, String perPageMaxRecords) {
+        String newQuery = MARTIN_ZWEIG_QUERY;
+        String sortingQuery = "";
+        switch (sortBy) {
+        case "companyName":
+            sortingQuery = "company_name " + orderBy;
+            break;
+        case "epsGrowth":
+            sortingQuery = "cast(allYearEpsGrowth as DECIMAL) " + orderBy;
+            break;
+        case "de":
+            sortingQuery = "cast(deRatio as DECIMAL) " + orderBy;
+            break;
+        case "latestRevenueGrowth":
+            sortingQuery = "cast(latestRevenueGrowth as DECIMAL) " + orderBy;
+            break;
+        case "nifty50Pe":
+            sortingQuery = "cast(nifty50Pe as DECIMAL) " + orderBy;
+            break;
+        case "pe":
+            sortingQuery = "cast(pe as DECIMAL) " + orderBy;
+            break;
+        }
+        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        newQuery = newQuery + " order by " + sortingQuery + applyPagination;
+        return newQuery;
     }
 }

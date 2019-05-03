@@ -7,7 +7,6 @@ import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -151,10 +150,5 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         //RnD Expenditure
         sqlQuery.setParameter(9, StringUtils.isEmpty(earningPreview.getRndExpense()) ? "-" : earningPreview.getRndExpense());
         sqlQuery.executeUpdate();
-    }
-
-    public static void main(String[] args) {
-        float d=24.56743f;
-        System.out.println(new DecimalFormat(".##").format(d));
     }
 }

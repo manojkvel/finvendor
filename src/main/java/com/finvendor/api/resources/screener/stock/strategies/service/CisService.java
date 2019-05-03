@@ -77,26 +77,27 @@ public class CisService {
     /**
      * Find Celebrity Investor Records for given type
      */
-    public List<? extends AbstractStrategyDto> findCis(CisEnum type, String pageNumber, String perPageMaxRecords) {
+    public List<? extends AbstractStrategyDto> findCis(CisEnum type, String pageNumber, String perPageMaxRecords, String sortBy,
+            String orderBy) {
         List<? extends AbstractStrategyDto> strategyResultList;
         switch (type) {
         case KENNITH_FISHER:
-            strategyResultList = kennethFisherDao.findCis(pageNumber, perPageMaxRecords);
+            strategyResultList = kennethFisherDao.findCis(pageNumber, perPageMaxRecords,sortBy, orderBy);
             break;
         case BENJAMIN_GRAHAM:
-            strategyResultList = benjaminGrahamDao.findCis(pageNumber, perPageMaxRecords);
+            strategyResultList = benjaminGrahamDao.findCis(pageNumber, perPageMaxRecords, sortBy, orderBy);
             break;
         case JAMES_SHAUGHNESSY:
-            strategyResultList = jamesShaughnessyDao.findCis(pageNumber, perPageMaxRecords);
+            strategyResultList = jamesShaughnessyDao.findCis(pageNumber, perPageMaxRecords, sortBy, orderBy);
             break;
         case JOEL_GREENBLATT:
-            strategyResultList = joelGreenBlattDao.findCis(pageNumber, perPageMaxRecords);
+            strategyResultList = joelGreenBlattDao.findCis(pageNumber, perPageMaxRecords, sortBy, orderBy);
             break;
         case MARTIN_ZWEIG:
-            strategyResultList = martinZweigDao.findCis(pageNumber, perPageMaxRecords);
+            strategyResultList = martinZweigDao.findCis(pageNumber, perPageMaxRecords, sortBy, orderBy);
             break;
         case FINVENDOR_PICK:
-            strategyResultList = finvendorPickDao.findCis(pageNumber, perPageMaxRecords);
+            strategyResultList = finvendorPickDao.findCis(pageNumber, perPageMaxRecords, sortBy, orderBy);
             break;
         default:
             strategyResultList = null;

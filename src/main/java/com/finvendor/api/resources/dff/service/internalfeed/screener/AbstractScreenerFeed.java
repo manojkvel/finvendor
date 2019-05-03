@@ -19,9 +19,12 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
     static final String FINANCIALS = "Financials";
 
     //final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(".##");
-    float INFLATION_RATE_PERCENTAGE = 2.86F;
-    private static final  String INFLATION_PERIOD = "Mar_19";
-    private static final  String INFLATION_TYPE = "CPI";
+
+    float INFLATION_RATE_PERCENTAGE = 2.86F; //10 year bond yeild value 7.392
+    //Amit give
+
+    static final  String INFLATION_PERIOD = "Mar_19";
+    static final  String INFLATION_TYPE = "CPI";
 
     private static final String RESEARCH_AREA = "7";
     private static final String COUNTRY_ID = "1";
@@ -48,10 +51,17 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
      * Condition eps growth Y1>Y2>Y3>Y4>Y5
      */
     boolean isEveryEpsGrowthGreaterThanPrevioudEpsGrowth(String stockId) {
-        boolean isEveryEpsGrowthGreaterThanPrevioudEpsGrowth=true;
         Map<String, Float> lastNYearEPSGrowth = findLastNYearEPSGrowth(stockId);
+        float y_1 = lastNYearEPSGrowth.get("Y_1") != null ? lastNYearEPSGrowth.get("Y_1") : 0.0F;
+        float y_2 = lastNYearEPSGrowth.get("Y_2") != null ? lastNYearEPSGrowth.get("Y_2") : 0.0F;
+        float y_3 = lastNYearEPSGrowth.get("Y_3") != null ? lastNYearEPSGrowth.get("Y_3") : 0.0F;
+        float y_4 = lastNYearEPSGrowth.get("Y_4") != null ? lastNYearEPSGrowth.get("Y_4") : 0.0F;
+        return (y_1 > y_2) && (y_2 > y_3) && (y_3 > y_4);
+    }
 
-        return isEveryEpsGrowthGreaterThanPrevioudEpsGrowth;
+    float find1YrEpsGrowthInPercentage(String companyId) {
+        Map<String, Float> last_N_years_epsGrowth = findLastNYearEPSGrowth(companyId);
+        return last_N_years_epsGrowth.get("Y_1");
     }
 
     /**
@@ -97,8 +107,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
             float netProfitMargin = revenue != 0.0F ? profitAfterTax / revenue : 0.0F;
             sum += netProfitMargin;
         }
-        float _3yrAvgNetProfitMargin = sum / 3;
-        return _3yrAvgNetProfitMargin;
+        return sum / 3;
 
     }
 
@@ -420,8 +429,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
                 String avgTotalAssets = row[23] != null && !StringUtils.isEmpty(row[23].toString()) && !"-".equals(row[23].toString()) ? row[23].toString().trim() : "";
                 float avgTotalAssetsFloat = !avgTotalAssets.isEmpty() ? Float.parseFloat(avgTotalAssets) : 0.0F;
 
-                Map<String, Float> last_N_years_epsGrowth = findLastNYearEPSGrowth(companyId);
-                float latestEpsGrowthInPercentageAsFloat = last_N_years_epsGrowth.get("Y_1");
+                float latestEpsGrowthInPercentageAsFloat = find1YrEpsGrowthInPercentage(companyId);
 
                 earningPreviewDetails = new EarningPreviewDetails(period, revenue, revenueFloat, operatingProfitMargin,
                         operatingProfitMarginFloat, pat, patFloat, eps, epsFloat, netOperatingCashFlow, netOperatingCashFlowFloat, roe,
@@ -436,6 +444,8 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
         }
         return earningPreviewDetails;
     }
+
+
 
     boolean isNYearEpsGrowthPositive(String stockId) {
         boolean positive5YrEPSGrowth = true;

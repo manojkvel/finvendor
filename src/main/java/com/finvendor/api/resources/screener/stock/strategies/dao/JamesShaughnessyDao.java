@@ -21,9 +21,9 @@ public class JamesShaughnessyDao extends AbstractCisDao {
     }
 
     @Override
-    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords) throws RuntimeException {
+    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
         List<JamesShaughnessyStrategyDto> resultList=new ArrayList<>();
-        String finalQuery = JAMES_SHAUGHNESSY_QUERY + CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        String finalQuery = queryWithSortByAndOrderByAndPagination(sortBy, orderBy, pageNumber, perPageMaxRecords);
         SQLQuery query = commonDao.getNativeQuery(finalQuery, null);
         List<Object[]>  list = query.list();
 
@@ -40,5 +40,37 @@ public class JamesShaughnessyDao extends AbstractCisDao {
             resultList.add(dto);
         }
         return resultList;
+    }
+
+    private String queryWithSortByAndOrderByAndPagination(String sortBy, String orderBy, String pageNumber, String perPageMaxRecords ){
+        String newQuery=JAMES_SHAUGHNESSY_QUERY;
+        String sortingQuery = "";
+        switch(sortBy) {
+        case "companyName":
+            sortingQuery = "company_name " + orderBy;
+            break;
+        case "cmp":
+            sortingQuery = "cast(cmp as DECIMAL) " + orderBy;
+            break;
+        case "eps":
+            sortingQuery = "cast(eps as DECIMAL) " + orderBy;
+            break;
+        case "mcap":
+            sortingQuery = "cast(mcap as DECIMAL) " + orderBy;
+            break;
+        case "nocf":
+            sortingQuery = "cast(netOperatingCashFlow as DECIMAL) " + orderBy;
+            break;
+        case "pb":
+            sortingQuery = "cast(pb as DECIMAL) " + orderBy;
+            break;
+        case "revenue":
+            sortingQuery = "cast(revenue as DECIMAL) " + orderBy;
+            break;
+
+        }
+        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        newQuery = newQuery + " order by "+ sortingQuery + applyPagination;
+        return newQuery;
     }
 }

@@ -18,7 +18,7 @@ public class KennethFisherDao extends AbstractCisDao {
     @Autowired
     private ICommonDao commonDao;
 
-    private static final String KENNETH_FISHER_QUERY="SELECT strategy_kenneth_fisher.* from strategy_kenneth_fisher ";
+    private static final String KENNETH_FISHER_QUERY="SELECT * from strategy_kenneth_fisher ";
 
     @Override
     public String findCisRecordStats(String perPageMaxRecords) {
@@ -27,9 +27,8 @@ public class KennethFisherDao extends AbstractCisDao {
     }
 
     @Override
-    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords) throws RuntimeException {
-        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
-        String finalQuery = KENNETH_FISHER_QUERY + applyPagination;
+    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
+        String finalQuery = queryWithSortByAndOrderByAndPagination(sortBy, orderBy, pageNumber, perPageMaxRecords);
         SQLQuery query = commonDao.getNativeQuery(finalQuery, null);
         List<Object[]>  list = query.list();
         List<KennethFisherStrategyDto> resultList=new ArrayList<>();
@@ -48,5 +47,42 @@ public class KennethFisherDao extends AbstractCisDao {
             resultList.add(dto);
         }
         return resultList;
+    }
+
+    private String queryWithSortByAndOrderByAndPagination(String sortBy, String orderBy, String pageNumber, String perPageMaxRecords ){
+        String newQuery=KENNETH_FISHER_QUERY;
+        String sortingQuery = "";
+        switch(sortBy){
+        case "companyName":
+            sortingQuery = "company_name " + orderBy;
+            break;
+        case "annualRevenue":
+            sortingQuery = "cast(annual_revenue as DECIMAL) " + orderBy;
+            break;
+        case "de":
+            sortingQuery = "cast(de as DECIMAL) " + orderBy;
+            break;
+        case "inflationRate":
+            sortingQuery = "cast(inflation_rate as DECIMAL) " + orderBy;
+            break;
+        case "mcap":
+            sortingQuery = "cast(mcap as DECIMAL) " + orderBy;
+            break;
+        case "psr":
+            sortingQuery = "cast(psr as DECIMAL) " + orderBy;
+            break;
+        case "rndExpense":
+            sortingQuery = "cast(rndExpense as DECIMAL) " + orderBy;
+            break;
+        case "eps":
+            sortingQuery = "cast(eps_growth as DECIMAL) " + orderBy;
+            break;
+        case "avgNetProfitMargin":
+            sortingQuery = "cast(3Yr_avg_netprofit_margin as DECIMAL) " + orderBy;
+            break;
+        }
+        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        newQuery = newQuery + " order by "+ sortingQuery + applyPagination;
+        return newQuery;
     }
 }

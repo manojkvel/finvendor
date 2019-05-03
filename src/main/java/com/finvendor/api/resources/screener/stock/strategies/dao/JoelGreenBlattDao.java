@@ -22,9 +22,9 @@ public class JoelGreenBlattDao extends AbstractCisDao {
     }
 
     @Override
-    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords) throws RuntimeException {
+    public List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
         List<JeolGreenblattStrategyDto> resultList=new ArrayList<>();
-        String finalQuery = JOEL_GREENBLATT_QUERY + CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        String finalQuery = queryWithSortByAndOrderByAndPagination(sortBy, orderBy, pageNumber, perPageMaxRecords);
         SQLQuery query = commonDao.getNativeQuery(finalQuery, null);
         List<Object[]>  list = query.list();
 
@@ -42,5 +42,41 @@ public class JoelGreenBlattDao extends AbstractCisDao {
             resultList.add(dto);
         }
         return resultList;
+    }
+
+    private String queryWithSortByAndOrderByAndPagination(String sortBy, String orderBy, String pageNumber, String perPageMaxRecords ){
+        String newQuery=JOEL_GREENBLATT_QUERY;
+        String sortingQuery = "";
+        switch(sortBy) {
+        case "companyName":
+            sortingQuery = "company_name " + orderBy;
+            break;
+        case "cashAndCashEquiv":
+            sortingQuery = "cast(cashAndCashEquiv as DECIMAL) " + orderBy;
+            break;
+        case "mcap":
+            sortingQuery = "cast(mcap as DECIMAL) " + orderBy;
+            break;
+        case "ofm":
+            sortingQuery = "cast(operatingProfitMargin as DECIMAL) " + orderBy;
+            break;
+        case "pat":
+            sortingQuery = "cast(recentYrPat as DECIMAL) " + orderBy;
+            break;
+        case "revenue":
+            sortingQuery = "cast(revenue as DECIMAL) " + orderBy;
+            break;
+        case "totalCap":
+            sortingQuery = "cast(totalCapital as DECIMAL) " + orderBy;
+            break;
+        case "totalDebt":
+            sortingQuery = "cast(totalDebt as DECIMAL) " + orderBy;
+            break;
+
+
+        }
+        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        newQuery = newQuery + " order by "+ sortingQuery + applyPagination;
+        return newQuery;
     }
 }

@@ -25,5 +25,6 @@ public abstract class AbstractCisDao {
 
     public abstract String findCisRecordStats(String perPageMaxRecords) throws RuntimeException;
 
-    public abstract List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords) throws RuntimeException;
+    public abstract List<? extends AbstractStrategyDto> findCis(String pageNumber, String perPageMaxRecords, String sortBy,
+            String orderBy) throws RuntimeException;
 }
