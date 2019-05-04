@@ -29,6 +29,10 @@ public class ScreenerFeedFacade {
     @Qualifier(value = "martinZweigFeed")
     private DffProcesFeed martinZweigFeed;
 
+    @Autowired
+    @Qualifier(value = "finvendorPickFeed")
+    private DffProcesFeed finvendorPickFeed;
+
     public void processAndFeed(FeedTypeEnum feedTypeEnum) throws Exception {
         switch (feedTypeEnum) {
         case KENNETH_FISHER:
@@ -45,6 +49,9 @@ public class ScreenerFeedFacade {
             break;
         case MARTIN_ZWEIG:
             martinZweigFeed.processAndFeed();
+            break;
+        case FINVENDOR_PICK:
+            finvendorPickFeed.processAndFeed();
             break;
         default:
             throw new Exception("Invalid type found, Type: " + feedTypeEnum.name());

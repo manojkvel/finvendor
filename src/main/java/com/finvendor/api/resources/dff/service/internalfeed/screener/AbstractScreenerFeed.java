@@ -4,8 +4,10 @@ import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.Company
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.EarningPreviewDetails;
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.JoelEbitAndEnterpriseDto;
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.JoelRotcDto;
+import com.finvendor.api.resources.markets.service.MarketsService;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.infra.dff.DffProcesFeed;
+import com.finvendor.common.util.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
     //final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(".##");
 
     float INFLATION_RATE_PERCENTAGE = 2.86F; //10 year bond yeild value 7.392
+    float _10Yr_BOND_YIELD_PERCENTAGE = 7.392F; //10 year bond yeild value 7.392
     //Amit give
 
     static final  String INFLATION_PERIOD = "Mar_19";
@@ -43,10 +46,33 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
     //Martin
     private static final String LATEST_REVENUE_GROWTH = "select earning_preview_yearly.stock_id, earning_preview_yearly.period,earning_preview_yearly.revenue from earning_preview_yearly, earning_preview_as_of_date where earning_preview_yearly.stock_id = earning_preview_as_of_date.stock_id AND earning_preview_yearly.stock_id = ? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc limit 2 offset 0";
 
+    private static final String ROE_AVG_QUERY="select stock_id, period , roe from earning_preview_yearly where earning_preview_yearly.stock_id = ? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc";
+
     @Autowired
     protected ICommonDao commonDao;
 
-    /**
+    @Autowired
+    private MarketsService marketsService;
+
+    float findAllYearRoeAvg(String stockId){
+        SQLQuery sqlQuery = commonDao.getNativeQuery(ROE_AVG_QUERY, new Object[] { stockId});
+        List<Object[]> companyDetailsList = sqlQuery.list();
+        float sum = 0.0F;
+        for (Object[] row : companyDetailsList) {
+            float roe = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ? Float.parseFloat(row[2].toString().trim()) : 0.0F;
+            sum+=roe;
+        }
+        float roeAvg = sum / companyDetailsList.size();
+        return roeAvg;
+    }
+
+    String findIndexPe(String indexName) throws Exception {
+        String indexSummaryJson = marketsService.getIndexSummary(indexName);
+        String nifty50Pe = JsonUtil.getValue(indexSummaryJson, "pe");
+        return nifty50Pe.trim();
+    }
+
+       /**
      * This method will be used for Martin Zweig
      * Condition eps growth Y1>Y2>Y3>Y4>Y5
      */
@@ -58,6 +84,23 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
         float y_4 = lastNYearEPSGrowth.get("Y_4") != null ? lastNYearEPSGrowth.get("Y_4") : 0.0F;
         return (y_1 > y_2) && (y_2 > y_3) && (y_3 > y_4);
     }
+
+    /**
+     * This method will be used for Martin Zweig
+     * Condition eps growth Y1>Y2>Y3>Y4>Y5
+     */
+    boolean isAllYearEpsGrowthPositive(String stockId) {
+        boolean status=true;
+        Map<String, Float> lastNYearEPSGrowth = findLastNYearEPSGrowth(stockId);
+        for(Map.Entry<String,Float> entry:lastNYearEPSGrowth.entrySet()){
+            status &= entry.getValue() >= 0.0F;
+            if(!status){
+                return false;
+            }
+        }
+        return status;
+    }
+
 
     float find1YrEpsGrowthInPercentage(String companyId) {
         Map<String, Float> last_N_years_epsGrowth = findLastNYearEPSGrowth(companyId);

@@ -2,11 +2,8 @@ package com.finvendor.api.resources.dff.service.internalfeed.screener;
 
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.CompanyDetails;
 import com.finvendor.api.resources.dff.service.internalfeed.screener.dto.EarningPreviewDetails;
-import com.finvendor.api.resources.markets.service.MarketsService;
-import com.finvendor.common.util.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +14,9 @@ import java.util.List;
 public class MartinZweigFeed extends AbstractScreenerFeed {
     private static final String INSERT_QUERY = "insert into strategy_martin_zweig values(?,?,?,?,?,?,?,?);";
     private static final String DELETE_QUERY = "delete from strategy_martin_zweig";
-    @Autowired
-    private MarketsService marketsService;
 
-    private String findIndexPe(String indexName) throws Exception {
-        String indexSummaryJson = marketsService.getIndexSummary(indexName);
-        String nifty50Pe = JsonUtil.getValue(indexSummaryJson, "pe");
-        return nifty50Pe.trim();
-    }
+
+
     @Override
     public boolean processAndFeed() throws Exception {
         deleteAllRecordsFromStrategyTable("MARTIN ZWEIG STRATEGY", DELETE_QUERY);
@@ -40,8 +32,8 @@ public class MartinZweigFeed extends AbstractScreenerFeed {
                 continue;
             }
 
-            String nifty50Pe=findIndexPe("Nifty 50");
-            if (evalMartinZweigCondition(companyDetails, latestEarningPreview,nifty50Pe)) {
+            String nifty50Pe = findIndexPe("Nifty 50");
+            if (evalMartinZweigCondition(companyDetails, latestEarningPreview, nifty50Pe)) {
 
                 insertFeed(companyDetails, latestEarningPreview, nifty50Pe);
                 totalMatch++;

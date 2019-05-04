@@ -7,5 +7,5 @@ package com.finvendor.common.infra.dff;
  * @since 7-April-2019
  */
 public interface DffDownload {
-    boolean download(String url, String path) throws Exception;
+    boolean download(String url, String downloadPath) throws Exception;
 }
