@@ -22,9 +22,9 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
 
     //final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(".##");
 
-    float INFLATION_RATE_PERCENTAGE = 2.86F; //10 year bond yeild value 7.392
-    float _10Yr_BOND_YIELD_PERCENTAGE = 7.392F; //10 year bond yeild value 7.392
-    //Amit give
+//    float INFLATION_RATE_PERCENTAGE = 2.86F; //10 year bond yeild value 7.392
+//    float _10Yr_BOND_YIELD_PERCENTAGE = 7.392F; //10 year bond yeild value 7.392
+    //Amit give fort nightly
 
     static final  String INFLATION_PERIOD = "Mar_19";
     static final  String INFLATION_TYPE = "CPI";
@@ -47,12 +47,28 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
     private static final String LATEST_REVENUE_GROWTH = "select earning_preview_yearly.stock_id, earning_preview_yearly.period,earning_preview_yearly.revenue from earning_preview_yearly, earning_preview_as_of_date where earning_preview_yearly.stock_id = earning_preview_as_of_date.stock_id AND earning_preview_yearly.stock_id = ? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc limit 2 offset 0";
 
     private static final String ROE_AVG_QUERY="select stock_id, period , roe from earning_preview_yearly where earning_preview_yearly.stock_id = ? order by STR_TO_DATE(earning_preview_yearly.period, '%b_%y') desc";
+    private static final String INFLATION_QUERY="select * from inflation_rate";
+    private static final String BOND_YIELD_QUERY="select * from _10_year_bond_yield";
 
     @Autowired
     protected ICommonDao commonDao;
 
     @Autowired
     private MarketsService marketsService;
+
+    float findInflationRate(){
+        SQLQuery sqlQuery = commonDao.getNativeQuery(INFLATION_QUERY, null);
+        List<Object[]> list = sqlQuery.list();
+        float inflationRateFloat = Float.parseFloat(String.valueOf(list.get(0)[1].toString()));
+        return inflationRateFloat;
+    }
+
+    float find10YearBondYield(){
+        SQLQuery sqlQuery = commonDao.getNativeQuery(BOND_YIELD_QUERY, null);
+        List<Object[]> list = sqlQuery.list();
+        float bondYieldFloat = Float.parseFloat(String.valueOf(list.get(0)[1].toString()));
+        return bondYieldFloat;
+    }
 
     float findAllYearRoeAvg(String stockId){
         SQLQuery sqlQuery = commonDao.getNativeQuery(ROE_AVG_QUERY, new Object[] { stockId});
@@ -197,6 +213,12 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
                         String.valueOf(totalCapitalFloat));
                 joelRotcDtoList.add(joelRotcDto);
             }
+            //Exceptional condition: if [(company's "Research SubArea" = "Financials") AND ("TOTAL capital" = "-" )] then ROTC condition is TRUE.
+            //in this case we are taking company as welll
+            if(FINANCIALS.equals(sector)&& totalCapitalFloat==0.0F) {
+                JoelRotcDto joelRotcDto = new JoelRotcDto(stockId, rotcCompanyName, rotcTicker, 0.0F, "0.0", "0.0");
+                joelRotcDtoList.add(joelRotcDto);
+            }
         }
 
         //Sort rotcMap  Map by value - At this stage rotcMap is heavy
@@ -216,7 +238,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
         return top50RotcMap;
     }
 
-    public Map<Integer, JoelEbitAndEnterpriseDto> findTop50Ebit() {
+    Map<Integer, JoelEbitAndEnterpriseDto> findTop50Ebit() {
         List<JoelEbitAndEnterpriseDto> ebitDividedByEnterpriseValueList = new ArrayList<>();
         Map<Integer, JoelEbitAndEnterpriseDto> top50EbitDividedByEnterpriseValueMapMap = new LinkedHashMap<>();
 
@@ -227,7 +249,7 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
             String companyName = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "";
             String mcap = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ? row[2].toString().trim() : "";
             String ticker = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[3].toString()) ? row[3].toString().trim() : "";
-
+            String sector = row[4] != null && !StringUtils.isEmpty(row[4].toString()) && !"-".equals(row[4].toString()) ? row[4].toString().trim() : "";
             //Find ROTC for this StockID
             SQLQuery ebitAttributeSqlQuery = commonDao.getNativeQuery(EBIT_ATTRIBUTES_QUERY, new Object[] { stockId });
             List<Object[]> ebitAttributeList = ebitAttributeSqlQuery.list();
@@ -261,6 +283,14 @@ public abstract class AbstractScreenerFeed implements DffProcesFeed {
                         String.valueOf(revenue),
                         String.valueOf(operatingProfitMargin),
                         mcap, totalDebt, cachAndCashEquiv);
+                ebitDividedByEnterpriseValueList.add(joelEbitAndEnterpriseDto);
+            }
+
+            //Exceptional condition: if [(company's "Research SubArea" = "Financials") AND ("TOTAL capital" = "-" )] then ROTC condition is TRUE.
+            //in this case we are taking company as welll
+            if(FINANCIALS.equals(sector)&& ebitFloat==0.0F) {
+                JoelEbitAndEnterpriseDto joelEbitAndEnterpriseDto = new JoelEbitAndEnterpriseDto(stockId, companyName, ticker,
+                        0.0F, "0.0", "0.0", mcap, "0.0", "0.0");
                 ebitDividedByEnterpriseValueList.add(joelEbitAndEnterpriseDto);
             }
         }

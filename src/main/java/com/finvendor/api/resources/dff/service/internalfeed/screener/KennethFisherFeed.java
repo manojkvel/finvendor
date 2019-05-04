@@ -19,12 +19,14 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
     private static final String INSERT_QUERY = "insert into strategy_kenneth_fisher values(?,?,?,?,?,?,?,?,?,?)";
     private static final String DELETE_QUERY = "delete from strategy_kenneth_fisher";
 
+    private float inflationRate;
 
     @Override
     public boolean processAndFeed() throws Exception {
         deleteAllRecordsFromStrategyTable("KENNITH STRATEGY", DELETE_QUERY);
         int totalMatch = 0;
         int totalMisMatch = 0;
+        inflationRate = findInflationRate();
         List<CompanyDetails> companyDetailsList = findCompanyDetails();
         for (CompanyDetails companyDetails : companyDetailsList) {
             String companyId = companyDetails.getCompanyId();
@@ -65,7 +67,8 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         boolean psrCondition = psrFloat < 0.75f;
         boolean deCondition = FINANCIALS.equals(sector) || deFloat < 0.40F;
 
-        boolean epsGrowthWithInflationRateCondition = (latestEpsGrowth_Percentage - INFLATION_RATE_PERCENTAGE) > 15.0F;
+
+        boolean epsGrowthWithInflationRateCondition = (latestEpsGrowth_Percentage - inflationRate) > 15.0F;
 
         boolean netProfitMarginCondition = _3YrAvgNetProfitMarginFloat > 0.05F;
         boolean mcapRndExpenseCondition=false;
@@ -95,7 +98,7 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         sb.append("\nPSR[MKTCapt/AnnualRevenue]: --------------------------- (").append(psrFloat);
         sb.append("\nDe: --------------------------------------------------- (").append(deFloat);
         sb.append("\nLatestEpsGrowth: ---------------------------------------(").append(latestEpsGrowth_Percentage).append("%");
-        sb.append("\nInflationRate: ---------------------------------------- (").append(INFLATION_RATE_PERCENTAGE);
+        sb.append("\nInflationRate: ---------------------------------------- (").append(inflationRate);
         sb.append("\n_3YrAvgNetProfitMargin: ------------------------------- (").append(_3YrAvgNetProfitMarginFloat);
         sb.append("\n\n");
         sb.append("\nCondition-1: [PSR < 0.5 ] --------------------------------------------------------------- ").append(psrCondition?"TRUE":"FALSE");
@@ -142,7 +145,7 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
                 String.valueOf(earningPreview.getLatestEpsGrowthInPercentageAsFloat() / 100.0F));
 
         //Inflation Rate
-        sqlQuery.setParameter(7, String.valueOf(INFLATION_RATE_PERCENTAGE));
+        sqlQuery.setParameter(7, String.valueOf(inflationRate));
 
         //3Year AVG Net Profit Margin
         sqlQuery.setParameter(8, String.valueOf(_3YrAvgNetProfitMarginFloat));

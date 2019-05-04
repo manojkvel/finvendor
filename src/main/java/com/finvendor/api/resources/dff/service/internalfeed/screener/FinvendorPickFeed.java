@@ -18,10 +18,12 @@ import java.util.List;
 public class FinvendorPickFeed extends AbstractScreenerFeed {
     private static final String INSERT_QUERY = "insert into strategy_finvendor_pick values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
     private static final String DELETE_QUERY = "delete from strategy_finvendor_pick";
+    private  float _10YrBondYield;
 
     @Override
     public boolean processAndFeed() throws Exception {
         deleteAllRecordsFromStrategyTable("FINVENDOR PICK STRATEGY", DELETE_QUERY);
+        _10YrBondYield = find10YearBondYield();
         int totalMatch = 0;
         int totalMisMatch = 0;
         List<CompanyDetails> companyDetailsList = findCompanyDetails();
@@ -68,7 +70,7 @@ public class FinvendorPickFeed extends AbstractScreenerFeed {
         float deFloatInAbsolute = latestEarningPreview.getDeFloat();
         float longTermDebtFloat = latestEarningPreview.getLongTermDebtFloat();
         float allYearRoeAvg = findAllYearRoeAvg(companyId);
-        float _10YrBondYieldInAbsolute = _10Yr_BOND_YIELD_PERCENTAGE / 100.0F;
+        float _10YrBondYieldInAbsolute = _10YrBondYield / 100.0F;
         float patFloat = latestEarningPreview.getPatFloat();
         float totalCapitalFloat = latestEarningPreview.getTotalCapitalFloat();
         float retainedEarningFloat = latestEarningPreview.getRetainedEarningFloat();
@@ -144,7 +146,7 @@ public class FinvendorPickFeed extends AbstractScreenerFeed {
         sb.append("\nde(InAbsolute): ----------------------------------------------- (").append(deFloatInAbsolute);
         sb.append("\nlongTermDebt: ------------------------------------------------- (").append(longTermDebtFloat);
         sb.append("\nAvg Roe(All years): ------------------------------------------- (").append(allYearRoeAvg);
-        sb.append("\n10Yr-Bond Yield(%): ------------------------------------------- (").append(_10Yr_BOND_YIELD_PERCENTAGE);
+        sb.append("\n10Yr-Bond Yield(%): ------------------------------------------- (").append(_10YrBondYield);
         sb.append("\npat: ---------------------------------------------------------- (").append(patFloat);
         sb.append("\ntotalCapital: ------------------------------------------------- (").append(totalCapitalFloat);
         sb.append("\nretainedEarning: ---------------------------------------------- (").append(retainedEarningFloat);
