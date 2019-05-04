@@ -132,7 +132,7 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                     _52wHighChangeStatus = "N";
                 }
 
-                Markets markets = findById(id);
+                Markets markets = findById(Long.parseLong(companyId.trim()));
                 if (markets == null) {
                     markets = new Markets();
                     markets.setId(id);

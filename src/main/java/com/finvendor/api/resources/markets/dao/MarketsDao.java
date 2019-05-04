@@ -553,45 +553,45 @@ public class MarketsDao {
         if ("companyName".equals(sortBy)) {
             sortBy = "a.company_name";
         } else if ("percentChange".equals(sortBy)) {
-            sortBy = "a.price_percent_change";
+            sortBy = "cast(a.price_percent_change as DECIMAL)";
         } else if ("volume".equals(sortBy)) {
-            sortBy = "a.tot_trd_qty";
+            sortBy = "cast(a.tot_trd_qty as DECIMAL)";
         } else if ("52wHigh".equals(sortBy)) {
-            sortBy = "a.52w_high";
+            sortBy = "cast(a.52w_high as DECIMAL)";
         } else if ("52wLow".equals(sortBy)) {
-            sortBy = "a.52w_low";
+            sortBy = "cast(a.52w_low as DECIMAL)";
         } else {
-            sortBy = "a.price_percent_change";
+            sortBy = "cast(a.price_percent_change as DECIMAL)";
             orderBy = "desc";
         }
         if ("winners".equals(indexFilter) || "winner".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where a.price_percent_change > 0.0 order by a.price_percent_change desc";
+                result = " where a.price_percent_change > 0.0 order by cast(a.price_percent_change as DECIMAL) desc";
             } else {
                 result = " where a.price_percent_change > 0.0 order by " + sortBy + " " + orderBy;
             }
         } else if ("loosers".equals(indexFilter) || "looser".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where a.price_percent_change < 0.0 order by a.price_percent_change asc";
+                result = " where a.price_percent_change < 0.0 order by cast(a.price_percent_change as DECIMAL) asc";
             } else {
                 result = " where a.price_percent_change < 0.0 order by " + sortBy + " " + orderBy;
 
             }
         } else if ("active".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " order by a.tot_trd_qty desc";
+                result = " order by cast(a.tot_trd_qty as DECIMAL) desc";
             } else {
                 result = " order by " + sortBy + " " + orderBy;
             }
         } else if ("52wHigh".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where a.`52w_high_change`='Y' order by a.close desc";
+                result = " where a.`52w_high_change`='Y' order by cast(a.close as DECIMAL) desc";
             } else {
                 result = " where a.`52w_high_change`='Y' order by " + sortBy + " " + orderBy;
             }
         } else if ("52wLow".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where a.`52w_low_change`='Y' order by a.close desc";
+                result = " where a.`52w_low_change`='Y' order by cast(a.close as DECIMAL) desc";
             } else {
                 result = " where a.`52w_low_change`='Y' order by " + sortBy + " " + orderBy;
             }
