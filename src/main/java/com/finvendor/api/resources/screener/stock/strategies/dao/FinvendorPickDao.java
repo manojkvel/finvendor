@@ -64,7 +64,7 @@ public class FinvendorPickDao extends AbstractCisDao {
         case "companyName":
             sortingQuery = "company_name " + orderBy;
             break;
-        case "totalFreeCachFlow":
+        case "totalFreeCashFlow":
             sortingQuery = "cast(total_free_cash_flow as DECIMAL) " + orderBy;
             break;
         case "salesGrowth":
@@ -73,7 +73,7 @@ public class FinvendorPickDao extends AbstractCisDao {
         case "oneYrEpsGrowth":
             sortingQuery = "cast(one_year_eps_growth as DECIMAL) " + orderBy;
             break;
-        case "peRation":
+        case "peRatio":
             sortingQuery = "cast(pe_ratio as DECIMAL) " + orderBy;
             break;
         case "currentRatio":
