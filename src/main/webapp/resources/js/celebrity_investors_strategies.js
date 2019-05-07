@@ -47,19 +47,21 @@ var kennithFisherStrategyObj = {
         this.totalRecords = 1;
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
+        this.sortByValue = 'companyName';
+        this.orderBy = 'desc';
         this.strategyType = "KENNITH_FISHER";
         this.title = "Kenneth Fisher's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
-                                "<th>Company Name</th>" +
-                                "<th>Annual Revenue (cr)</th>" +
-                                "<th>D/E</th>" +
-                                "<th>Inflation Rate</th>" +
-                                "<th>M cap (cr)</th>" +
-                                "<th>PSR</th>" +
-                                "<th>R & D Exp (cr)</th>" +
-                                "<th>EPS</th>" +
-                                "<th>Average Net Profit Margin</th>" +
+                                "<th data-id='companyName'>Company Name <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='annualRevenue'>Annual Revenue (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='de'>D/E <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='inflationRate'>Inflation Rate <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='mcap'>M cap (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='psr'>PSR <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='rndExpense'>R & D Exp (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='eps'>EPS <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='avgNetProfitMargin'>Average Net Profit Margin <i class='fa fa-sort'></i></th>" +
                             "</tr>" +
                         "</thead>";
 
@@ -144,7 +146,7 @@ var kennithFisherStrategyObj = {
 
         isProgressLoader(true);
 
-        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -239,6 +241,8 @@ var kennithFisherStrategyObj = {
 
         $('#strategyModal .pager a').off().on('click', {this: classRef}, classRef.getPaginationIndex);
 
+        $("#strategyModal .strategy_table thead th").off().on('click', {this: classRef}, classRef.getSortedByValue);
+
         classRef.setRecordStats();
 
         $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
@@ -261,6 +265,28 @@ var kennithFisherStrategyObj = {
 
         classRef.perPageMaxRecords = Number($(this).val());
         console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
+        kennithFisherStrategyObj.getCurrentStrategyData();
+    },
+
+    getSortedByValue: function(event) {
+        var classRef = event.data.this;
+
+        if($(this).attr('data-id') == undefined) {
+            return;
+        }
+        
+        if($(this).attr('data-id') == classRef.sortByValue) {
+            
+            if(classRef.orderBy == "desc") {
+                classRef.orderBy = "asc";
+            } else if(classRef.orderBy == "asc") {
+                classRef.orderBy = "desc";
+            }
+        } else {
+            classRef.orderBy = "desc";
+        }
+
+        classRef.sortByValue = $(this).attr('data-id');
         kennithFisherStrategyObj.getCurrentStrategyData();
     },
 
@@ -343,18 +369,20 @@ var benjaminGrahanStrategyObj = {
         this.totalRecords = 1;
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
+        this.sortByValue = 'companyName';
+        this.orderBy = 'desc';
         this.strategyType = "BENJAMIN_GRAHAM";
         this.title = "Benjamin Graham's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
-                                "<th>Company Name</th>" +
-                                "<th>Total Debt (cr)</th>" +
-                                "<th>Current Assets (cr)</th>" +
-                                "<th>Current Liabilities (cr)</th>" +
-                                "<th>EPS</th>" +
-                                "<th>P/E</th>" +
-                                "<th>P/B</th>" +
-                                "<th>Div Yield (%)</th>" +
+                                "<th data-id='companyName'>Company Name <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='totalDebt'>Total Debt (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='currentAsset'>Current Assets (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='currentLiab'>Current Liabilities (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th>EPS <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='pe'>P/E <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='pb'>P/B <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='divYield'>Div Yield (%) <i class='fa fa-sort'></i></th>" +
                             "</tr>" +
                         "</thead>";
 
@@ -439,7 +467,7 @@ var benjaminGrahanStrategyObj = {
 
         isProgressLoader(true);
 
-        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -528,7 +556,9 @@ var benjaminGrahanStrategyObj = {
 
         $("#strategyModal .modal-body").append(paginationHtml);
 
-        $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+        $('#strategyModal .pager a').off().on('click', {this: classRef}, classRef.getPaginationIndex);
+
+        $("#strategyModal .strategy_table thead th").off().on('click', {this: classRef}, classRef.getSortedByValue);
 
         classRef.setRecordStats();
 
@@ -553,6 +583,390 @@ var benjaminGrahanStrategyObj = {
         classRef.perPageMaxRecords = Number($(this).val());
         console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
         benjaminGrahanStrategyObj.getCurrentStrategyData();
+    },
+
+    getSortedByValue: function(event) {
+        var classRef = event.data.this;
+
+        if($(this).attr('data-id') == undefined) {
+            return;
+        }
+        
+        if($(this).attr('data-id') == classRef.sortByValue) {
+            
+            if(classRef.orderBy == "desc") {
+                classRef.orderBy = "asc";
+            } else if(classRef.orderBy == "asc") {
+                classRef.orderBy = "desc";
+            }
+        } else {
+            classRef.orderBy = "desc";
+        }
+
+        classRef.sortByValue = $(this).attr('data-id');
+        benjaminGrahanStrategyObj.getCurrentStrategyData();
+    },   
+
+    setRecordStats : function() {
+        var classRef = this;
+
+        if(classRef.currentIndex > classRef.lastPageNumber) {
+            classRef.currentIndex = classRef.lastPageNumber;
+        }
+        $("#strategyModal #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+    },
+
+    getPaginationIndex : function(event) {
+        var classRef = event.data.this;
+        var currentNode = $(this).attr('id');
+
+        if(currentNode == 'last') {
+            classRef.getLastPage();
+        } else if(currentNode == 'next') {
+            classRef.getNextPage();
+        } else if(currentNode == 'prev') {
+            classRef.getPreviousPage();
+        } else if(currentNode == 'first') {
+            classRef.getFirstPage();
+        }
+    },
+
+    getFirstPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.firstPageNumber) {
+            classRef.pageNumber = classRef.firstPageNumber;
+            classRef.currentIndex = classRef.firstPageNumber;
+            classRef.getCurrentStrategyData();
+        }
+    },
+
+    getLastPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber != classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.lastPageNumber;
+            classRef.currentIndex = (classRef.pageNumber - 1) * classRef.perPageMaxRecords + 1;
+            classRef.getCurrentStrategyData();
+        }
+    },
+
+    getNextPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber < classRef.lastPageNumber) {
+            classRef.pageNumber = classRef.pageNumber + 1;
+            classRef.currentIndex = classRef.currentIndex + classRef.perPageMaxRecords;
+            classRef.getCurrentStrategyData();
+        }
+    },
+
+    getPreviousPage : function() {
+        var classRef = this;
+
+        if(classRef.pageNumber > 1) {
+            classRef.pageNumber = classRef.pageNumber - 1;
+            classRef.currentIndex = classRef.currentIndex - classRef.perPageMaxRecords;
+            classRef.getCurrentStrategyData();
+        }
+    }
+
+};
+
+
+/*
+** FinVendor Pick Strategies Feed
+*/
+
+var finvendorPickStrategyObj = {
+    init: function() {
+        this.firstPageNumber = 1;
+        this.pageNumber = 1;
+        this.lastPageNumber = 1;
+        this.totalRecords = 1;
+        this.currentIndex = 1;
+        this.perPageMaxRecords = 10;
+        this.sortByValue = 'companyName';
+        this.orderBy = 'desc';
+        this.strategyType = "FINVENDOR_PICK";
+        this.title = "FinVendor Pick Strategy";
+        this.tableHeader = "<thead>" +
+                            "<tr>" +
+                                "<th data-id='companyName'>Company Name <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='avgRoe'>Average ROE <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='annualPat'>PAT (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='currentOPM'>Current Operating Profit Margin (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='currentRatio'>Current Ratio <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='currentRoe'>Current ROE <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='de'>DE <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='earningYield'>Earning Yield (%) <i class='fa fa-sort'></i></th>" +
+                                "<th>EPS Growth Positive <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='longTermDebt'>Long Term Debt <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='oneYrEpsGrowth'>EPS Growth (yr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='outstandingShare'>Outstanding Share <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='peRatio'>P/E <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='retainedEarning'>Retained Earning <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='rotc'>ROTC <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='salesGrowth'>Sales Growth <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='totalFreeCashFlow'>Total Free Cash Flow <i class='fa fa-sort'></i></th>" +
+                            "</tr>" +
+                        "</thead>";
+
+        this.recordsPerPage = "<div class='max_per_page'>" +
+                                "<span>Records Per Page </span>" +
+                                "<select>" +
+                                    "<option value='5'>5</option>" +
+                                    "<option value='10' selected>10</option>" +
+                                    "<option value='30'>30</option>" +
+                                    "<option value='50'>50</option>" +
+                                    "<option value='100'>100</option>" +
+                                "</select>" +
+                                "<span id='total_records_count' style='padding-left: 30px;font-weight:bold;font-size: 13px;'></span>" +
+                            "</div>";
+
+        $("#strategyModal .modal-title").text(this.title);
+        $("#strategyModal .modal-body").html(this.recordsPerPage + "<div class='strategy_table'><table>" + this.tableHeader + "<tbody></tbody></table></div>");
+    },
+
+    getCurrentStrategyData: function() {
+        var classRef = this;
+
+        classRef.getCurrentStrategyRecordStats().then(function(stats) {
+            stats = JSON.parse(stats);
+            classRef.firstPageNumber = stats.firstPageNumber;
+            classRef.lastPageNumber = stats.lastPageNumber;
+            classRef.totalRecords = stats.totalRecords;
+
+            $("#strategyModal #total_records_count").html(classRef.totalRecords + " Results");
+
+            classRef.getCurrentStrategy().then(function(serverResponse) {
+                $("#strategyModal .modal-body .paging_container").remove();
+                serverResponse = JSON.parse(serverResponse);
+                classRef.getCurrentStrategyHtml(serverResponse);
+                isProgressLoader(false);
+                $("#strategyModal").show();
+            }, function(error) {
+                console.log(error);
+                isProgressLoader(false);
+                $("#strategyModal .modal-body tbody").html("<tr><td colspan='17'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal").show();
+            });
+        }, function(error) {
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='17'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal").show();
+        });
+    },
+
+    getCurrentStrategyRecordStats: function() {
+        var classRef = this;
+
+        var url = baseApiUrl + "/recordstats?type=" + classRef.strategyType + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            //httpRequest.timeout = API_TIMEOUT_SMALL;
+            httpRequest.open('GET', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        //console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCurrentStrategy: function() {
+        var classRef = this;
+
+        isProgressLoader(true);
+
+        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            httpRequest.open('GET', url, true);
+
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send();
+        });
+    },
+
+    getCurrentStrategyHtml : function(response) {
+        var classRef = this;
+
+        var len = response.length;
+        var htmlCode = '';
+        var rowHtml =   "";
+
+        if(len === 0) {
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='17'>No Matching Records Found</td></tr>");
+            return;
+        }
+
+        for(var i = 0; i < len; i++) {
+
+            var companyName = (response[i].companyName) ? response[i].companyName : '-';
+            var allYearAverageRoe = (response[i].allYearAverageRoe) ? parseFloat(response[i].allYearAverageRoe).toFixed(2) : '-';
+            var annualPat = (response[i].annualPat) ? parseFloat(response[i].annualPat).toFixed(2) : '-';
+            var currentOperatingProfitMargin = (response[i].currentOperatingProfitMargin) ? parseFloat(response[i].currentOperatingProfitMargin).toFixed(2) : '-';
+            var currentRatio = (response[i].currentRatio) ? response[i].currentRatio : '-';
+            var currentRoe = (response[i].currentRoe) ? parseFloat(response[i].currentRoe).toFixed(2) : '-';
+            var de = (response[i].de) ? parseFloat(response[i].de).toFixed(2) : '-';
+            var earningYield = (response[i].earningYield) ? parseFloat(response[i].earningYield).toFixed(2) : '-';
+            var isAllYearEpsGrowthPositive = (response[i].isAllYearEpsGrowthPositive) ? parseFloat(response[i].isAllYearEpsGrowthPositive).toFixed(2) : '-';
+            var longTermDebt = (response[i].longTermDebt) ? parseFloat(response[i].longTermDebt).toFixed(2) : '-';
+            var oneYearEpsGrowth = (response[i].oneYearEpsGrowth) ? parseFloat(response[i].oneYearEpsGrowth).toFixed(2) : '-';
+            var outstandingShare = (response[i].outstandingShare) ? parseFloat(response[i].outstandingShare).toFixed(2) : '-';
+            var peRatio = (response[i].peRatio) ? parseFloat(response[i].peRatio).toFixed(2) : '-';
+            var retainedEarning = (response[i].retainedEarning) ? parseFloat(response[i].retainedEarning).toFixed(2) : '-';
+            var rotc = (response[i].rotc) ? parseFloat(response[i].rotc).toFixed(2) : '-';
+            var salesGrowth = (response[i].salesGrowth) ? parseFloat(response[i].salesGrowth).toFixed(2) : '-';
+            var totalFreeCashFlow = (response[i].totalFreeCashFlow) ? parseFloat(response[i].totalFreeCashFlow).toFixed(2) : '-';
+            htmlCode = htmlCode + "<tr>" +
+            "<td>" + 
+            "<div class='companyName'>" + companyName + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='allYearAverageRoe'>" + allYearAverageRoe + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='annualPat'>" + annualPat + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='currentOperatingProfitMargin'>" + currentOperatingProfitMargin + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='currentRatio'>" + currentRatio + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='currentRoe'>" + currentRoe + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='de'>" + de + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='earningYield'>" + earningYield + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='isAllYearEpsGrowthPositive'>" + isAllYearEpsGrowthPositive + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='longTermDebt'>" + longTermDebt + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='oneYearEpsGrowth'>" + oneYearEpsGrowth + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='outstandingShare'>" + outstandingShare + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='peRatio'>" + peRatio + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='retainedEarning'>" + retainedEarning + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='rotc'>" + rotc + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='salesGrowth'>" + salesGrowth + "</div>" + 
+            "</td>" +
+            "<td>" + 
+            "<div class='totalFreeCashFlow'>" + totalFreeCashFlow + "</div>" + 
+            "</td>" +
+            "</tr>";
+        }
+
+        $("#strategyModal .modal-body tbody").html(htmlCode);
+
+
+        var paginationHtml =    "<div class='paging_container'>"
+                                + "<ul class='pager'>"
+                                 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
+                                 + "<li><span id='records_stats'></span></li>"
+                                 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
+                                + "</ul>"
+                             + "</div>";
+
+        $("#strategyModal .modal-body").append(paginationHtml);
+
+        $('#strategyModal .pager a').off().on('click', {this: classRef}, classRef.getPaginationIndex);
+
+        $("#strategyModal .strategy_table thead th").off().on('click', {this: classRef}, classRef.getSortedByValue);
+
+        classRef.setRecordStats();
+
+        $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
+    },
+
+    setFullScreen : function(event) {
+        finvendorPickStrategyObj.init();
+        finvendorPickStrategyObj.getCurrentStrategyData();
+    }, 
+
+    getPerPageMaxRecords: function(event) {
+        var classRef = event.data.this;
+
+        if(classRef.perPageMaxRecords !== Number($(this).val())) {
+            classRef.pageNumber = 1;
+            classRef.firstPageNumber = 1;
+            classRef.lastPageNumber = 1;
+            classRef.currentIndex = 1;
+        }
+
+        classRef.perPageMaxRecords = Number($(this).val());
+        console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
+        finvendorPickStrategyObj.getCurrentStrategyData();
+    },
+
+    getSortedByValue: function(event) {
+        var classRef = event.data.this;
+
+        if($(this).attr('data-id') == undefined) {
+            return;
+        }
+        
+        if($(this).attr('data-id') == classRef.sortByValue) {
+            
+            if(classRef.orderBy == "desc") {
+                classRef.orderBy = "asc";
+            } else if(classRef.orderBy == "asc") {
+                classRef.orderBy = "desc";
+            }
+        } else {
+            classRef.orderBy = "desc";
+        }
+
+        classRef.sortByValue = $(this).attr('data-id');
+        finvendorPickStrategyObj.getCurrentStrategyData();
     },  
 
     setRecordStats : function() {
@@ -634,16 +1048,18 @@ var martinZweigStrategyObj = {
         this.totalRecords = 1;
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
+        this.sortByValue = 'companyName';
+        this.orderBy = 'desc';
         this.strategyType = "MARTIN_ZWEIG";
         this.title = "Martin Zweig's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
-                                "<th>Company Name</th>" +
-                                "<th>EPS Growth</th>" +
-                                "<th>D/E</th>" +
-                                "<th>Latest Revenue Growth</th>" +
-                                "<th>Nifty50 P/E</th>" +
-                                "<th>P/E</th>" +
+                                "<th data-id='companyName'>Company Name <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='epsGrowth'>EPS Growth <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='de'>D/E <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='latestRevenueGrowth'>Latest Revenue Growth <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='nifty50Pe'>Nifty50 P/E <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='pe'>P/E <i class='fa fa-sort'></i></th>" +
                                 "<th>EPS Growth per year</th>" +
                             "</tr>" +
                         "</thead>";
@@ -729,7 +1145,7 @@ var martinZweigStrategyObj = {
 
         isProgressLoader(true);
 
-        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -813,7 +1229,9 @@ var martinZweigStrategyObj = {
 
         $("#strategyModal .modal-body").append(paginationHtml);
 
-        $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+        $('#strategyModal .pager a').off().on('click', {this: classRef}, classRef.getPaginationIndex);
+
+        $("#strategyModal .strategy_table thead th").off().on('click', {this: classRef}, classRef.getSortedByValue);
 
         classRef.setRecordStats();
 
@@ -838,7 +1256,29 @@ var martinZweigStrategyObj = {
         classRef.perPageMaxRecords = Number($(this).val());
         console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
         martinZweigStrategyObj.getCurrentStrategyData();
-    }, 
+    },
+
+    getSortedByValue: function(event) {
+        var classRef = event.data.this;
+
+        if($(this).attr('data-id') == undefined) {
+            return;
+        }
+        
+        if($(this).attr('data-id') == classRef.sortByValue) {
+            
+            if(classRef.orderBy == "desc") {
+                classRef.orderBy = "asc";
+            } else if(classRef.orderBy == "asc") {
+                classRef.orderBy = "desc";
+            }
+        } else {
+            classRef.orderBy = "desc";
+        }
+
+        classRef.sortByValue = $(this).attr('data-id');
+        martinZweigStrategyObj.getCurrentStrategyData();
+    },  
 
     setRecordStats : function() {
         var classRef = this;
@@ -919,17 +1359,19 @@ var jamesOshaughnessyStrategyObj = {
         this.totalRecords = 1;
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
+        this.sortByValue = 'companyName';
+        this.orderBy = 'desc';
         this.strategyType = "JAMES_SHAUGHNESSY";
         this.title = "James O'Shaughnessy's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
-                                "<th>Company Name</th>" +
-                                "<th>CMP</th>" +
-                                "<th>EPS</th>" +
-                                "<th>M Cap (cr)</th>" +
-                                "<th>Net Operating CashFlow (cr)</th>" +
-                                "<th>P/B</th>" +
-                                "<th>Revenue (cr)</th>" +
+                                "<th data-id='companyName'>Company Name <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='cmp'>CMP <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='eps'>EPS <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='mcap'>M Cap (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='nocf'>Net Operating CashFlow (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='pb'>P/B <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='revenue'>Revenue (cr) <i class='fa fa-sort'></i></th>" +
                             "</tr>" +
                         "</thead>";
 
@@ -1014,7 +1456,7 @@ var jamesOshaughnessyStrategyObj = {
 
         isProgressLoader(true);
 
-        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -1097,7 +1539,9 @@ var jamesOshaughnessyStrategyObj = {
 
         $("#strategyModal .modal-body").append(paginationHtml);
 
-        $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
+        $('#strategyModal .pager a').off().on('click', {this: classRef}, classRef.getPaginationIndex);
+        
+        $("#strategyModal .strategy_table thead th").off().on('click', {this: classRef}, classRef.getSortedByValue);
 
         classRef.setRecordStats();
 
@@ -1122,7 +1566,29 @@ var jamesOshaughnessyStrategyObj = {
         classRef.perPageMaxRecords = Number($(this).val());
         console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
         jamesOshaughnessyStrategyObj.getCurrentStrategyData();
-    }, 
+    },
+
+    getSortedByValue: function(event) {
+        var classRef = event.data.this;
+
+        if($(this).attr('data-id') == undefined) {
+            return;
+        }
+        
+        if($(this).attr('data-id') == classRef.sortByValue) {
+            
+            if(classRef.orderBy == "desc") {
+                classRef.orderBy = "asc";
+            } else if(classRef.orderBy == "asc") {
+                classRef.orderBy = "desc";
+            }
+        } else {
+            classRef.orderBy = "desc";
+        }
+
+        classRef.sortByValue = $(this).attr('data-id');
+        jamesOshaughnessyStrategyObj.getCurrentStrategyData();
+    },  
 
     setRecordStats : function() {
         var classRef = this;
@@ -1204,18 +1670,20 @@ var joelGreenblattStrategyObj = {
         this.totalRecords = 1;
         this.currentIndex = 1;
         this.perPageMaxRecords = 10;
+        this.sortByValue = 'companyName';
+        this.orderBy = 'desc';
         this.strategyType = "JOEL_GREENBLATT";
         this.title = "Joel Greenblatt's Strategy";
         this.tableHeader = "<thead>" +
                             "<tr>" +
-                                "<th>Company Name</th>" +
-                                "<th>Cash and Cash Equiv. (cr)</th>" +
-                                "<th>M Cap (cr)</th>" +
-                                "<th>Operating Profit Margin</th>" +
-                                "<th>PAT</th>" +
-                                "<th>Revenue (cr)</th>" +
-                                "<th>Total Capital (cr)</th>" +
-                                "<th>Total Debt (cr)</th>" +
+                                "<th data-id='companyName'>Company Name <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='cashAndCashEquiv'>Cash and Cash Equiv. (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='mcap'>M Cap (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='ofm'>Operating Profit Margin <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='pat'>PAT <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='revenue'>Revenue (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='totalCap'>Total Capital (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='totalDebt'>Total Debt (cr) <i class='fa fa-sort'></i></th>" +
                             "</tr>" +
                         "</thead>";
 
@@ -1300,7 +1768,7 @@ var joelGreenblattStrategyObj = {
 
         isProgressLoader(true);
 
-        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        var url = baseApiUrl + "/strategies?type=" + classRef.strategyType + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -1389,6 +1857,8 @@ var joelGreenblattStrategyObj = {
 
         $('#strategyModal .pager a').on('click', {this: classRef}, classRef.getPaginationIndex);
 
+        $("#strategyModal .strategy_table thead th").off().on('click', {this: classRef}, classRef.getSortedByValue);
+
         classRef.setRecordStats();
 
         $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
@@ -1411,6 +1881,28 @@ var joelGreenblattStrategyObj = {
 
         classRef.perPageMaxRecords = Number($(this).val());
         console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
+        joelGreenblattStrategyObj.getCurrentStrategyData();
+    },
+
+    getSortedByValue: function(event) {
+        var classRef = event.data.this;
+
+        if($(this).attr('data-id') == undefined) {
+            return;
+        }
+        
+        if($(this).attr('data-id') == classRef.sortByValue) {
+            
+            if(classRef.orderBy == "desc") {
+                classRef.orderBy = "asc";
+            } else if(classRef.orderBy == "asc") {
+                classRef.orderBy = "desc";
+            }
+        } else {
+            classRef.orderBy = "desc";
+        }
+
+        classRef.sortByValue = $(this).attr('data-id');
         joelGreenblattStrategyObj.getCurrentStrategyData();
     }, 
 
@@ -1482,6 +1974,7 @@ var joelGreenblattStrategyObj = {
 
 kennithFisherStrategyObj.init();
 benjaminGrahanStrategyObj.init();
+finvendorPickStrategyObj.init();
 martinZweigStrategyObj.init();
 jamesOshaughnessyStrategyObj.init();
 joelGreenblattStrategyObj.init();
@@ -1494,6 +1987,7 @@ $("#strategyModal button").on('click', function() {
 
 $('#kennith_fisher_strategy .view_btn button').on('click', kennithFisherStrategyObj.setFullScreen);
 $('#benjamin_graham_strategy .view_btn button').on('click', benjaminGrahanStrategyObj.setFullScreen);
+$("#finvendor_pick_strategy .view_btn button").on('click', finvendorPickStrategyObj.setFullScreen);
 $("#marting_zweigs_strategy .view_btn button").on('click', martinZweigStrategyObj.setFullScreen);
 $('#james_o_shaughessys_strategy .view_btn button').on('click', jamesOshaughnessyStrategyObj.setFullScreen);
 $("#joel_greenblatts_strategy .view_btn button").on('click', joelGreenblattStrategyObj.setFullScreen);

@@ -57,14 +57,14 @@
 				</div>
 			</li>
 			<li>
-				<div id="finvendors_pick_strategy">
+				<div id="finvendor_pick_strategy">
 					<div class="strategy_view">
 						<h2>FinVendor Pick</h2>
 						<div class="startegy_content">
-							<h3></h3>
+							<h3>We have reviewed all the well known stock screening strategies and come up with this strategy. We recommend you to use this one.</h3>
 							<div class="view_btn">
 								<!-- Trigger the modal with a button -->
-								<!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>-->
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
 					</div>

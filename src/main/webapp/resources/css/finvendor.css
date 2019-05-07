@@ -2087,21 +2087,38 @@ button {
 }
 
 #celebrity_investors_strategies li:nth-of-type(odd) .strategy_view {
-	background: rgba(0, 114, 185, 0.8);
-	color: #fff;
+
 }
 
 #celebrity_investors_strategies li:nth-of-type(even) .strategy_view {
-	background: #fff;
+	
 }
 
-#celebrity_investors_strategies li:nth-of-type(odd) .strategy_view .view_btn button {
-	background: #fff;
-	color: #0099cc;
+#celebrity_investors_strategies li:nth-child(3n + 1) .strategy_view {
+	background: rgba(244, 109, 65, 0.75); /*rgba(0, 114, 185, 0.8);*/
+	color: #fff;
 }
 
-#celebrity_investors_strategies li:nth-of-type(even) .strategy_view .view_btn button {
-	background: #0099cc;
+#celebrity_investors_strategies li:nth-child(3n + 2) .strategy_view {
+	background: rgb(160, 65, 244);
+	color: #fff;
+}
+
+#celebrity_investors_strategies li:nth-child(3n + 3) .strategy_view {
+	background: rgb(244, 65, 139);
+	color: #fff;
+}
+
+#celebrity_investors_strategies li .strategy_view .view_btn button.btn-info {
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	border: 0;
+}
+
+#celebrity_investors_strategies li .strategy_view .view_btn button.btn-info:hover {
+	background: rgba(0, 0, 0, 1);
+	color: #fff;
+	border: 0;
 }
 
 #celebrity_investors_strategies h2 {
@@ -2137,6 +2154,10 @@ button {
 
 #celebrity_investors_strategies .startegy_content_table table {
 	min-height: auto;
+}
+
+#strategyModal table > thead > tr > th {
+	cursor: pointer;
 }
 
 .startegy_content .view_btn {
@@ -2178,7 +2199,7 @@ button {
 }
 
 #strategyModal .modal-dialog .modal-body .strategy_table {
-	max-width: 900px;
+	max-width: 1048px;
 	overflow: auto;
 	clear: both;
 }
@@ -2204,7 +2225,7 @@ button {
 
 #strategyModal.modal .modal-dialog,
 #strategyModal.modal.in .modal-dialog {
-	max-width: 930px;
+	max-width: 1068px;
 }
 
 #strategyModal .max_per_page {
