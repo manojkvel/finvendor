@@ -31,11 +31,14 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
         String query = "select a.company_id,a.company_name,b.52w_low,b.52w_high from rsch_sub_area_company_dtls a, stock_current_info b where a.company_id=b.stock_id and a.isin_code=?";
         String update52WeekLowQuery = "update stock_current_info set `52w_low`=? where stock_id=?";
         String update52WeekHighQuery = "update stock_current_info set `52w_high`=? where stock_id=?";
+        String insert="insert into markets values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         BufferedReader br = null;
         String line;
         String cvsSplitBy = ",";
         long totalPriceInserted = 0L;
         try {
+            SQLQuery deleteQuery = commonDao.getNativeQuery("delete from markets", null);
+            int count = deleteQuery.executeUpdate();
             SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
             String bhavPriceDateAsPerFvFormat = formatter.format(Calendar.getInstance().getTime());
             br = new BufferedReader(new FileReader(fromFilePath));
@@ -132,29 +135,28 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
                     _52wHighChangeStatus = "N";
                 }
 
-                Markets markets = findById(Long.parseLong(companyId.trim()));
-                if (markets == null) {
-                    markets = new Markets();
-                    markets.setId(id);
-                }
-                markets.setCompanyId(companyId);
-                markets.setCompanyName(companyName);
-                markets.setIsin(isin);
-                markets.setOpen(open);
-                markets.setHigh(high);
-                markets.setLow(low);
-                markets.setClose(close);
-                markets.setPrevColse(prevClose);
-                markets.setPriceChange(priceChange);
-                markets.setPricePercentChange(priceChangeInPercent);
-                markets.set_52wLow(_52wLowAsDoubleFromStockCurrenInfoTable);
-                markets.set_52wLowChange(_52wLowChangeStatus);
-                markets.set_52wHigh(_52wHighAsDoubleFromStockCurrenInfoTable);
-                markets.set_52wHighChange(_52wHighChangeStatus);
-                markets.setTotalTradeQty(Integer.parseInt(totTrdQty));
-                markets.setDate(bhavPriceDateAsPerFvFormat);
-                saveOrUpdate(markets);
-                id++;
+//                Markets markets = findById(Long.parseLong(companyId.trim()));
+//                if (markets == null) {
+//                }
+                SQLQuery sqlQuery = commonDao.getNativeQuery(insert, null);
+                Markets markets = new Markets();
+                sqlQuery.setParameter(0, companyId);
+                sqlQuery.setParameter(1, companyName);
+                sqlQuery.setParameter(2, isin);
+                sqlQuery.setParameter(3, open);
+                sqlQuery.setParameter(4, high);
+                sqlQuery.setParameter(5, low);
+                sqlQuery.setParameter(6, close);
+                sqlQuery.setParameter(7, prevClose);
+                sqlQuery.setParameter(8, priceChange);
+                sqlQuery.setParameter(9, priceChangeInPercent);
+                sqlQuery.setParameter(10, _52wLowAsDoubleFromStockCurrenInfoTable);
+                sqlQuery.setParameter(11, _52wLowChangeStatus);
+                sqlQuery.setParameter(12, _52wHighAsDoubleFromStockCurrenInfoTable);
+                sqlQuery.setParameter(13, _52wHighChangeStatus);
+                sqlQuery.setParameter(14, Integer.parseInt(totTrdQty));
+                sqlQuery.setParameter(15, bhavPriceDateAsPerFvFormat);
+                sqlQuery.executeUpdate();
                 totalPriceInserted++;
             }
         } catch (Exception e) {

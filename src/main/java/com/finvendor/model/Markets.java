@@ -11,9 +11,6 @@ import java.io.Serializable;
 public class Markets implements Serializable {
 
     @Id
-    @Column(name="id")
-    private Long id;
-
     @Column(name="company_id")
     private String companyId;
 
@@ -64,13 +61,6 @@ public class Markets implements Serializable {
 
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getCompanyId() {
         return companyId;
