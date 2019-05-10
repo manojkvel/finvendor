@@ -35,7 +35,7 @@
 							<h3>Founder of Fisher Investments, Managing over $100B assets. Ken Fisher's public stock picks outperform the broad U.S. stock market over the past 18 years by an average 4.2% annually</h3>
 							<div class="view_btn">
 								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
 					</div>
@@ -50,7 +50,7 @@
 							<h3>Widely known as the <strong>"Father of value investing"</strong>, Warren buffet leant the value investment from Benjamin graham</h3>
 							<div class="view_btn">
 								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
 					</div>
@@ -64,7 +64,7 @@
 							<h3>We have reviewed all the well known stock screening strategies and come up with this strategy. We recommend you to use this one.</h3>
 							<div class="view_btn">
 								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
 					</div>
@@ -78,7 +78,7 @@
 							<h3>Believed to have predicted 1987 market crash a day before.In October, the market collapsed, and while the big averages lost a quarter of their value in one day, Zweig’s portfolio rose 8.7 percent and 50% for all of 1987</h3>
 							<div class="view_btn">
 								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
 					</div>
@@ -92,7 +92,7 @@
 							<h3>Spent more than 30 years researching equity market returns. His work has brought to the fore the power of what he calls 'fundamental quant' from that he built a fund management business with nearly $7 billion under management.</h3>
 							<div class="view_btn">
 								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
 					</div>
@@ -106,7 +106,7 @@
 							<h3>Introduced an investment strategy of "magic formula investing", Through his firm Gotham Capital, Greenblatt presided over an annualized return of 40% from 1985 to 2006.</h3>
 							<div class="view_btn">
 								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#strategyModal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false">Run Strategy</button>
 							</div>
 						</div>
 					</div>

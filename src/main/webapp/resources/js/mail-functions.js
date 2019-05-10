@@ -18,7 +18,7 @@
         			else return;
         		} else if(!validateContactName($('#contact_us_name').val())) return;
             	
-            	$('#loadingct').show();
+            	$('#progressLoader').show();
             	var datastr = "contact_us_name=" +$('#contact_us_name').val()+"&contact_us_phone="+$('#contact_us_phone').val()+"&contact_us_email="+$('#contact_us_email').val()+"&contact_us_message="+$('#contact_us_message').val();
             		var encoded = encodeURIComponent(datastr);
                 $.ajax({
@@ -27,10 +27,13 @@
                     url: $('#contact_us_form').attr('action'), 
                     data: encoded,
                     success: function(msg){ 
-                    	
-                            $('#output').html("<h1>"+msg+"</h1>");
+                        $("#contact_us_form").trigger("reset");
+                        $('#output').html("<h1>"+msg+"</h1>");
                             
-                            $("#loadingct").hide();
+                        $("#progressLoader").hide();
+                    },
+                    error: function() {
+                        $("#progressLoader").hide();
                     }
                 });
             });
@@ -44,7 +47,7 @@
         	    document.getElementById('contact_us_email').style.background ='#ccffcc';
         	    document.getElementById('contactEmailError').style.display = "none";
         	    return true;
-        	  }else{
+        	  } else {
         		 
         	    document.getElementById('contact_us_email').style.borderBottom ='1px solid #e35152';
         	    document.getElementById('contactEmailError').style.display = "block";
@@ -54,7 +57,7 @@
         }
         
         function validateContactNumber(phone){
-        	var regex = /^([0-9]{8,10})$/;
+        	var regex = /^([-+0-9]{8,15})$/;
         	if(regex.test(phone)){
         		
         	    document.getElementById('contact_us_phone').style.background ='#ccffcc';

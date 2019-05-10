@@ -27,16 +27,21 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-9">
 				<div class="default_template">
-					<form action="<%=request.getContextPath()%>/<%=RequestConstans.MAIL.MAIL_SEND%>" method="post" id="contact_us_form">
+					<div id='progressLoader' style="left: 0;">
+						<jsp:include page="common/progressLoader.jsp"></jsp:include>
+					</div>
+					<form action="<%=request.getContextPath()%>/<%=RequestConstans.MAIL.MAIL_SEND%>" method="post" id="contact_us_form" name="contact_us_form">
 						<div class="form-group">
 							<input type="text" name="contact_us_name" class="form-control" id="contact_us_name" placeholder="Name" size="30" /> 
 							<span id="contactNameError" style="display: none;">Please
 							enter your Name.</span>
 						</div>
 						<div class="form-group">
-							<input type="text" name="contact_us_phone" class="form-control" id="contact_us_phone" placeholder="Phone" size="30" /> 
+							<input type="text" name="contact_us_phone" class="form-control" id="contact_us_phone" placeholder="Phone" size="15" style="margin-bottom: 0;" />
+							<span style="text-align: right;display: block;">Min and Max Length should be between 8 and 15 only</span>
 							<span id="contactPhoneError" style="display: none;">Please
 							enter a valid phone number</span>
+
 						</div>
 						<div class="form-group">
 							<input type="text" name="contact_us_email" class="form-control" id="contact_us_email" placeholder="Email" size="30" /> 
@@ -48,7 +53,7 @@
 							<textarea name="contact_us_message" class="form-control" id="contact_us_message" cols="32" rows="5" placeholder="Message" value="Sample Message"></textarea>
 						</div>
 						<br> <input type="button" value="Submit" name="Submit" id="call" class="btn primary" />
-						<div id="loadingct" class="contact_loading"></div>
+						
 						<div id="output"></div>
 						<!-- <button><a href="javascript:document.getElementById('contact_us_form').submit();">Send</a> </button>  -->
 

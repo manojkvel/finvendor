@@ -249,8 +249,13 @@ var kennithFisherStrategyObj = {
     },
 
     setFullScreen : function(event) {
-        kennithFisherStrategyObj.init();
-        kennithFisherStrategyObj.getCurrentStrategyData();
+        if(!isLoggedInUser()) {
+            $('#strategyModal').modal('show');
+            kennithFisherStrategyObj.init();
+            kennithFisherStrategyObj.getCurrentStrategyData();
+        } else {
+            inner_login('view/celebrity-investors-strategies.jsp');
+        }
     }, 
 
     getPerPageMaxRecords: function(event) {
@@ -566,8 +571,13 @@ var benjaminGrahanStrategyObj = {
     },
 
     setFullScreen : function(event) {
-        benjaminGrahanStrategyObj.init();
-        benjaminGrahanStrategyObj.getCurrentStrategyData();
+        if(!isLoggedInUser()) {
+            $('#strategyModal').modal('show');
+            benjaminGrahanStrategyObj.init();
+            benjaminGrahanStrategyObj.getCurrentStrategyData();
+        } else {
+            inner_login('view/celebrity-investors-strategies.jsp');
+        }
     }, 
 
     getPerPageMaxRecords: function(event) {
@@ -698,17 +708,17 @@ var finvendorPickStrategyObj = {
                                 "<th data-id='currentOPM'>Current Operating Profit Margin (cr) <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='currentRatio'>Current Ratio <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='currentRoe'>Current ROE <i class='fa fa-sort'></i></th>" +
-                                "<th data-id='de'>DE <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='de'>D/E <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='earningYield'>Earning Yield (%) <i class='fa fa-sort'></i></th>" +
-                                "<th>EPS Growth Positive <i class='fa fa-sort'></i></th>" +
-                                "<th data-id='longTermDebt'>Long Term Debt <i class='fa fa-sort'></i></th>" +
+                                //"<th>EPS Growth Positive <i class='fa fa-sort'></i></th>" +
+                                //"<th data-id='longTermDebt'>Long Term Debt <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='oneYrEpsGrowth'>EPS Growth (yr) <i class='fa fa-sort'></i></th>" +
-                                "<th data-id='outstandingShare'>Outstanding Share <i class='fa fa-sort'></i></th>" +
+                                //"<th data-id='outstandingShare'>Outstanding Share <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='peRatio'>P/E <i class='fa fa-sort'></i></th>" +
-                                "<th data-id='retainedEarning'>Retained Earning <i class='fa fa-sort'></i></th>" +
+                                //"<th data-id='retainedEarning'>Retained Earning <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='rotc'>ROTC <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='salesGrowth'>Sales Growth <i class='fa fa-sort'></i></th>" +
-                                "<th data-id='totalFreeCashFlow'>Total Free Cash Flow <i class='fa fa-sort'></i></th>" +
+                                //"<th data-id='totalFreeCashFlow'>Total Free Cash Flow <i class='fa fa-sort'></i></th>" +
                             "</tr>" +
                         "</thead>";
 
@@ -873,33 +883,33 @@ var finvendorPickStrategyObj = {
             "<td>" + 
             "<div class='earningYield'>" + earningYield + "</div>" + 
             "</td>" +
-            "<td>" + 
-            "<div class='isAllYearEpsGrowthPositive'>" + isAllYearEpsGrowthPositive + "</div>" + 
-            "</td>" +
-            "<td>" + 
-            "<div class='longTermDebt'>" + longTermDebt + "</div>" + 
-            "</td>" +
+            //"<td>" + 
+            //"<div class='isAllYearEpsGrowthPositive'>" + isAllYearEpsGrowthPositive + "</div>" + 
+            //"</td>" +
+            //"<td>" + 
+            //"<div class='longTermDebt'>" + longTermDebt + "</div>" + 
+            //"</td>" +
             "<td>" + 
             "<div class='oneYearEpsGrowth'>" + oneYearEpsGrowth + "</div>" + 
             "</td>" +
-            "<td>" + 
-            "<div class='outstandingShare'>" + outstandingShare + "</div>" + 
-            "</td>" +
+            //"<td>" + 
+            //"<div class='outstandingShare'>" + outstandingShare + "</div>" + 
+            //"</td>" +
             "<td>" + 
             "<div class='peRatio'>" + peRatio + "</div>" + 
             "</td>" +
-            "<td>" + 
-            "<div class='retainedEarning'>" + retainedEarning + "</div>" + 
-            "</td>" +
+            //"<td>" + 
+            //"<div class='retainedEarning'>" + retainedEarning + "</div>" + 
+            //"</td>" +
             "<td>" + 
             "<div class='rotc'>" + rotc + "</div>" + 
             "</td>" +
             "<td>" + 
             "<div class='salesGrowth'>" + salesGrowth + "</div>" + 
             "</td>" +
-            "<td>" + 
-            "<div class='totalFreeCashFlow'>" + totalFreeCashFlow + "</div>" + 
-            "</td>" +
+            //"<td>" + 
+            //"<div class='totalFreeCashFlow'>" + totalFreeCashFlow + "</div>" + 
+            //"</td>" +
             "</tr>";
         }
 
@@ -928,8 +938,13 @@ var finvendorPickStrategyObj = {
     },
 
     setFullScreen : function(event) {
-        finvendorPickStrategyObj.init();
-        finvendorPickStrategyObj.getCurrentStrategyData();
+        if(!isLoggedInUser()) {
+            $('#strategyModal').modal('show');
+            finvendorPickStrategyObj.init();
+            finvendorPickStrategyObj.getCurrentStrategyData();
+        } else {
+            inner_login('view/celebrity-investors-strategies.jsp');
+        }
     }, 
 
     getPerPageMaxRecords: function(event) {
@@ -1239,8 +1254,13 @@ var martinZweigStrategyObj = {
     },
 
     setFullScreen : function(event) {
-        martinZweigStrategyObj.init();
-        martinZweigStrategyObj.getCurrentStrategyData();
+        if(!isLoggedInUser()) {
+            $('#strategyModal').modal('show');
+            martinZweigStrategyObj.init();
+            martinZweigStrategyObj.getCurrentStrategyData();
+        } else {
+            inner_login('view/celebrity-investors-strategies.jsp');
+        }
     }, 
 
     getPerPageMaxRecords: function(event) {
@@ -1549,8 +1569,13 @@ var jamesOshaughnessyStrategyObj = {
     },
 
     setFullScreen : function(event) {
-        jamesOshaughnessyStrategyObj.init();
-        jamesOshaughnessyStrategyObj.getCurrentStrategyData();
+        if(!isLoggedInUser()) {
+            $('#strategyModal').modal('show');
+            jamesOshaughnessyStrategyObj.init();
+            jamesOshaughnessyStrategyObj.getCurrentStrategyData();
+        } else {
+            inner_login('view/celebrity-investors-strategies.jsp');
+        }
     }, 
 
     getPerPageMaxRecords: function(event) {
@@ -1865,8 +1890,13 @@ var joelGreenblattStrategyObj = {
     },
 
     setFullScreen : function(event) {
-        joelGreenblattStrategyObj.init();
-        joelGreenblattStrategyObj.getCurrentStrategyData();
+        if(!isLoggedInUser()) {
+            $('#strategyModal').modal('show');
+            joelGreenblattStrategyObj.init();
+            joelGreenblattStrategyObj.getCurrentStrategyData();
+        } else {
+            inner_login('view/celebrity-investors-strategies.jsp');
+        }
     }, 
 
     getPerPageMaxRecords: function(event) {
