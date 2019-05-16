@@ -3,8 +3,31 @@
         $(document).ready(function(){
         	$('#call').click(function ()
             {
+                var gToken = grecaptcha.getResponse();
+
         		var count=0;
-            	if(!validateContactEmail($('#contact_us_email').val())){ 
+
+                if(!validateCaptcha(gToken)) {
+
+                    if(!validateContactEmail($('#contact_us_email').val())){ 
+                        if(!validateContactNumber($('#contact_us_phone').val())) { 
+                            if(!validateContactName($('#contact_us_name').val())) return;
+                            else return;
+                        }else {
+                            if(!validateContactName($('#contact_us_name').val())) return;
+                            else return;
+                        }
+                    } else {
+                        if(!validateContactNumber($('#contact_us_phone').val())) { 
+                            if(!validateContactName($('#contact_us_name').val())) return;
+                            else return;
+                        } else {
+                            if(!validateContactName($('#contact_us_name').val())) return;
+                            else return;
+                        }
+                    }
+                }
+            	else if(!validateContactEmail($('#contact_us_email').val())){ 
             		if(!validateContactNumber($('#contact_us_phone').val())) { 
             			if(!validateContactName($('#contact_us_name').val())) return;
             			else return;
@@ -39,6 +62,19 @@
             });
 
         });
+
+        function validateCaptcha(gToken){
+            
+            if (gToken != "") {
+                document.getElementById('gRecaptcha').style.background ='#ccffcc';
+                document.getElementById('contactReCaptchaError').style.display = "none";
+                return true;
+              }else{
+                document.getElementById('contactReCaptchaError').style.display = "block";
+                document.getElementById('contactReCaptchaError').style.color = "#e35152";
+                return false;
+              } 
+        }
        
         function validateContactEmail(email){
         	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -57,16 +93,27 @@
         }
         
         function validateContactNumber(phone){
+            if(phone == "") {
+                document.getElementById('contact_us_phone').style.borderBottom ='1px solid #e35152';
+                document.getElementById('contactPhoneError').style.display = "block";
+                document.getElementById('contactPhoneError_data').style.display = "none";
+                document.getElementById('contactPhoneError').style.color = "#e35152";
+                return false;
+            }
+
         	var regex = /^([-+0-9]{8,15})$/;
         	if(regex.test(phone)){
         		
         	    document.getElementById('contact_us_phone').style.background ='#ccffcc';
+                document.getElementById('contact_us_phone').style.borderBottom ='1px solid #d3d6d5';
         	    document.getElementById('contactPhoneError').style.display = "none";
+                document.getElementById('contactPhoneError_data').style.display = "none";
         	    return true;
         	  }else{
         		 
         	    document.getElementById('contact_us_phone').style.borderBottom ='1px solid #e35152';
-        	    document.getElementById('contactPhoneError').style.display = "block";
+                document.getElementById('contactPhoneError').style.display = "none";
+        	    document.getElementById('contactPhoneError_data').style.display = "block";
                 document.getElementById('contactPhoneError').style.color = "#e35152";
         	    return false;
         	  }

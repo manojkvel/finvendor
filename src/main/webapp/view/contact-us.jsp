@@ -15,6 +15,7 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
@@ -52,6 +53,12 @@
 							
 							<textarea name="contact_us_message" class="form-control" id="contact_us_message" cols="32" rows="5" placeholder="Message" value="Sample Message"></textarea>
 						</div>
+						<div class="form-group">
+							<div class="g-recaptcha" id="gRecaptcha" data-sitekey="6LevA6MUAAAAADldyZxXIETYH5qP3S04MkOsGe9n"></div> 
+							<span id="contactReCaptchaError" style="display: none;">Please
+							verify captcha</span>
+						</div>
+
 						<br> <input type="button" value="Submit" name="Submit" id="call" class="btn primary" />
 						
 						<div id="output"></div>

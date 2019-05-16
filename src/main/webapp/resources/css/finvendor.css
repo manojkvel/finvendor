@@ -1369,6 +1369,12 @@ button {
     font-size: 12px;
 }
 
+#contact_us_form #contact_us_message {
+	border: 1px solid #d3d6d5;
+	padding: 5px;
+	height: 100px;
+}
+
 .sidebar-ctn-wrap .content dl dt a {
     font-size: 13px;
     color: #333333;
@@ -2235,6 +2241,10 @@ button {
 #contact_us #spinner {
 	color: #fff;
 	margin-top: 50px;
+}
+
+#contact_us .rc-anchor-error-msg-container {
+	font-size: 9px;
 }
 
 
