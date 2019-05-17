@@ -74,7 +74,7 @@ public class MarketsDao {
         try {
             if ("all".equals(indexFilter)) {
                 indexSummaryMap.put("title", "Today's Market Snapshot");
-                String date_in_millis = getDateFromDB("select a.id, a.date from markets a where a.id=1");
+                String date_in_millis = getDateFromDB("select a.company_id, a.date from markets a where a.company_id=1");
                 indexSummaryMap.put("date", date_in_millis);
             } else {
                 String date_in_millis = getDateFromDB("select a.indice_details_id,a.date from indice_details a where a.indice_details_id=1");
