@@ -2101,7 +2101,7 @@ button {
 }
 
 #celebrity_investors_strategies li:nth-child(3n + 1) .strategy_view {
-	background: rgba(244, 109, 65, 0.75); /*rgba(0, 114, 185, 0.8);*/
+	background: rgba(244, 109, 65, 1); /*rgba(0, 114, 185, 0.8);*/
 	color: #fff;
 }
 
@@ -2112,6 +2112,21 @@ button {
 
 #celebrity_investors_strategies li:nth-child(3n + 3) .strategy_view {
 	background: rgb(244, 65, 139);
+	color: #fff;
+}
+
+#celebrity_investors_strategies li:nth-child(3n + 4) .strategy_view {
+	background: #00bf6f; /*rgba(0, 114, 185, 0.8);*/
+	color: #fff;
+}
+
+#celebrity_investors_strategies li:nth-child(3n + 5) .strategy_view {
+	background: #05467e;
+	color: #fff;
+}
+
+#celebrity_investors_strategies li:nth-child(3n + 6) .strategy_view {
+	background: #00bf6f;
 	color: #fff;
 }
 

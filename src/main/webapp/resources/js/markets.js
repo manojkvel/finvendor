@@ -637,6 +637,7 @@ jQuery(document).ready(function() {
 		perPageMaxRecords = 5;
 		id ="market_index_loosers";
 		var sortBy = "percentChange";
+		var orderBy = "asc";
 		loadDefaultMarketsWinLooseReport(indexFilter, type, perPageMaxRecords, id, sortBy, orderBy);
 	}
 
@@ -870,9 +871,14 @@ jQuery(document).ready(function() {
 		perPageMaxRecords = 50;
 		id ="market_data_see_all";
 		var sortBy = type;
+		var orderBy = "desc";
+
 		if(type == 'active') {
 			sortBy = 'volume';
-		} else if(type == 'loosers' || type == 'winners') {
+		} else if(type == 'loosers') {
+			sortBy = 'percentChange';
+			orderBy = "asc";
+		} else if(type == 'winners') {
 			sortBy = 'percentChange';
 		}
 		loadDefaultSeeAllMarketReport(indexFilter, type, perPageMaxRecords, sortBy, orderBy);
