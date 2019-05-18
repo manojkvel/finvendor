@@ -27,7 +27,7 @@ import com.finvendor.model.Support;
 import com.finvendor.model.VendorOffering;
 
 public interface MarketDataAggregatorsService {
-	
+
 	List<AssetClass> getAllAssetClass();
 	List<AssetClassSecurityMap> getSecurityTypeByAssetClassId(Integer assetId);
 	List<Region> getAllRegionClass();
@@ -39,11 +39,11 @@ public interface MarketDataAggregatorsService {
 	List<Awards> getAllAwards(String vendorId);
 	List<Exchange> getAllExchanges();
 	List<Region> getRegionNamesByName(String regionName);
-	
+
 	Region getRegionById(String Id);
 	Country getCountryById(String Id);
 	Cost getCostById(String Id);
-	
+
 	List<AssetClassDataDetails> getSingleAssetClassSearchResultInfo(String assetclassId,
 			List<String> securitytypeId, String dataattribute,
 			List<String> regionList, List<String> countryList,
@@ -72,24 +72,24 @@ public interface MarketDataAggregatorsService {
 			List<String> assetClassList, List<String> securityList);
 
 	AssetClass getAssetClassByName(String assetType);
-	
+
 	VendorOffering createOfferings(String id, VendorOffering vendorOffering);
 	OfferingFiles addOfferingFiles(String id, OfferingFiles OfferingFiles);
 	FileFields addFieldsToFile(String id, FileFields fileFields);
-	
+
 	Set<VendorOffering> listOfferings(String id);
 	Set<OfferingFiles> listOfferingFiles(String id);
 	Set<FileFields> listFieldsToFile(String id);
-	
+
 	VendorOffering deleteOfferings(String id);
 	OfferingFiles deleteOfferingFiles(String id);
 	FileFields deleteFieldsToFile(String id);
 	List<SecurityType> listSecurityType();
-	
+
 	VendorOffering getVendorOfferingById(String Id);
 
 	Exchange getExchangeById(String exchange);
-	
+
 	List<CompanySubType> getCompanySubTypeList();
 
 	List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(
@@ -102,10 +102,10 @@ public interface MarketDataAggregatorsService {
 			MarketDataAggregatorsVendorSearchForm dataForm);
 
 	public Object getModelObjectById(Class<?> type, Serializable id);
-	
+
 	public Map<String, Object> getResearchReportVendorSearchResult(
 			Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm);
-	
-	public Map<String, Object> getTradingApplicationVendorSearchResult(Map<Object, Object> searchData, 
+
+	public Map<String, Object> getTradingApplicationVendorSearchResult(Map<Object, Object> searchData,
 			MarketDataAggregatorsVendorSearchForm dataForm);
 }

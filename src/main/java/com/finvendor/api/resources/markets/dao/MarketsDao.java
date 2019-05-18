@@ -549,37 +549,37 @@ public class MarketsDao {
     }
 
     private String applyOrderBy(String indexFilter, String sortBy, String orderBy) {
-        String result = "";
+        String result;
         if ("companyName".equals(sortBy)) {
-            sortBy = "a.company_name";
+            sortBy = " a.company_name";
         } else if ("percentChange".equals(sortBy)) {
-            sortBy = "cast(a.price_percent_change as DECIMAL)";
+            sortBy = " a.price_percent_change ";
         } else if ("volume".equals(sortBy)) {
-            sortBy = "cast(a.tot_trd_qty as DECIMAL)";
+            sortBy = " a.tot_trd_qty ";
         } else if ("52wHigh".equals(sortBy)) {
-            sortBy = "cast(a.52w_high as DECIMAL)";
+            sortBy = " a.52w_high ";
         } else if ("52wLow".equals(sortBy)) {
-            sortBy = "cast(a.52w_low as DECIMAL)";
+            sortBy = " a.52w_low ";
         } else {
-            sortBy = "cast(a.price_percent_change as DECIMAL)";
-            orderBy = "desc";
+            sortBy = " a.price_percent_change ";
+            orderBy = " desc ";
         }
         if ("winners".equals(indexFilter) || "winner".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where a.price_percent_change > 0.0 order by cast(a.price_percent_change as DECIMAL) desc";
+                result = " where a.price_percent_change > 0.0 order by a.price_percent_change desc";
             } else {
                 result = " where a.price_percent_change > 0.0 order by " + sortBy + " " + orderBy;
             }
         } else if ("loosers".equals(indexFilter) || "looser".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " where a.price_percent_change < 0.0 order by cast(a.price_percent_change as DECIMAL) asc";
+                result = " where a.price_percent_change < 0.0 order by a.price_percent_change asc";
             } else {
                 result = " where a.price_percent_change < 0.0 order by " + sortBy + " " + orderBy;
 
             }
         } else if ("active".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
-                result = " order by cast(a.tot_trd_qty as DECIMAL) desc";
+                result = " order by a.tot_trd_qty desc";
             } else {
                 result = " order by " + sortBy + " " + orderBy;
             }

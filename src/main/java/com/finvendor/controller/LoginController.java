@@ -35,14 +35,14 @@ public class LoginController {
     @Resource(name = "userService")
     private UserService userService;
 
-    @Autowired
-    private MarketDataAggregatorsService marketDataAggregatorsService;
+//    @Autowired
+//    private MarketDataAggregatorsService marketDataAggregatorsService;
 
-    @Resource(name = "referenceDataService")
-    private ReferenceDataService referenceDataService;
+//    @Resource(name = "referenceDataService")
+//    private ReferenceDataService referenceDataService;
 
-    @Resource(name = "consumerService")
-    private ConsumerService consumerService;
+//    @Resource(name = "consumerService")
+//    private ConsumerService consumerService;
 
     @Resource(name = "vendorService")
     private VendorService vendorService;
@@ -162,14 +162,14 @@ public class LoginController {
             username = appUser.getUsername();
             logger.info("redirectLink for User - {} is {}",
                     username, (String) request.getSession().getAttribute("redirectLink"));
-            assetClasses = marketDataAggregatorsService.getAllAssetClass();
-            regions = marketDataAggregatorsService.getAllRegionClass();
-            countries = marketDataAggregatorsService.getAllCountries();
-            exchanges = marketDataAggregatorsService.getAllExchanges();
-            supports = marketDataAggregatorsService.getAllVendorSupports();
-            costs = marketDataAggregatorsService.getAllCostInfo();
-            awards = marketDataAggregatorsService.getAllAwards(null);
-            companySubType = marketDataAggregatorsService.getCompanySubTypeList();
+//            assetClasses = marketDataAggregatorsService.getAllAssetClass();
+//            regions = marketDataAggregatorsService.getAllRegionClass();
+//            countries = marketDataAggregatorsService.getAllCountries();
+//            exchanges = marketDataAggregatorsService.getAllExchanges();
+//            supports = marketDataAggregatorsService.getAllVendorSupports();
+//            costs = marketDataAggregatorsService.getAllCostInfo();
+//            awards = marketDataAggregatorsService.getAllAwards(null);
+//            companySubType = marketDataAggregatorsService.getCompanySubTypeList();
 
             try {
                 if (appUser.getAuthorities().contains(new SimpleGrantedAuthority(
@@ -185,7 +185,7 @@ public class LoginController {
                             username, RequestConstans.Roles.ROLE_VENDOR);
                     modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);
                     vendor = userService.getUserDetailsByUsername(username).getVendor();
-                    awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
+//                    awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
                     modelAndView.addObject("myprofiletab", "myprofile");
                     modelAndView.addObject("vendortabdetails", "vendortabdetails");
                     String telephone = vendor.getTelephone();
@@ -205,8 +205,8 @@ public class LoginController {
                             username, RequestConstans.Roles.ROLE_CONSUMER);
                     modelAndView = new ModelAndView(RequestConstans.Login.CONSUMER_INFO);
                     consumer = userService.getUserDetailsByUsername(username).getConsumer();
-                    securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(1);
-                    CommonUtils.populateConsumerProfileRequest(consumer, consumerService, modelAndView);
+//                    securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(1);
+//                    CommonUtils.populateConsumerProfileRequest(consumer, consumerService, modelAndView);
                     consumer.setVendorPreference();
                     modelAndView.addObject("securityTypeList", securityTypeList);
                     modelAndView.addObject("consumer", consumer);

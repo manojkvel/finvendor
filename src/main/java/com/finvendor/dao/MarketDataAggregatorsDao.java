@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.finvendor.dao;
 
@@ -40,7 +40,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get asset class
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getAllAssetClass()
 	 */
@@ -49,7 +49,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get all corresponding security types
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getSecurityTypeByAssetClassId(assetId)
 	 */
@@ -58,7 +58,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get all regions
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getAllRegionClass()
 	 */
@@ -67,7 +67,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get region country maps
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getRegionCountryMapsRegionId(regionId)
 	 */
@@ -76,7 +76,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get country exchange maps
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getCountryExchangeMapsByCountryId(countryId)
 	 */
@@ -85,7 +85,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get countries
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getAllCountries()
 	 */
@@ -94,7 +94,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get vendor support
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getAllVendorSupports()
 	 */
@@ -103,7 +103,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get all costs
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getAllCostInfo()
 	 */
@@ -112,7 +112,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get all awards
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getAllAwards()
 	 */
@@ -121,25 +121,25 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get all awards
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getAllExchanges()
 	 */
 	List<Exchange> getAllExchanges();
-	
+
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get region names
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getRegionNamesByName(regionName)
 	 */
 	List<Region> getRegionNamesByName(String regionName);
-	
+
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get Single Asset Class Search Result
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getSingleAssetClassSearchResultInfo()
 	 */
@@ -151,7 +151,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get Single Asset Class Search Result
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getSingleAssetClassSearchResultVendorInfo()
 	 */
@@ -168,7 +168,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get Single Asset Class Search Result
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getSingleAssetClassVendorDetails()
 	 */
@@ -184,7 +184,7 @@ public interface MarketDataAggregatorsDao {
 	/** --------------------------------------------------------------------- */
 	/**
 	 * (non-Javadoc) Method to get Single Asset Class Search Result
-	 * 
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getMultiAssetClassSearchResultInfo()
 	 */
@@ -193,19 +193,19 @@ public interface MarketDataAggregatorsDao {
 
 	/** --------------------------------------------------------------------- */
 	/**
-	 * (non-Javadoc) Method to get Asset Class by passing name 
-	 * 
+	 * (non-Javadoc) Method to get Asset Class by passing name
+	 *
 	 * @return Object with success or failure messages
 	 * @see com.finvendor.dao.MarketDataAggregatorsDao#getAssetClassByName(assetType)
 	 */
 	AssetClass getAssetClassByName(String assetType);
 
 
-	
+
 	VendorOffering createOfferings(String id, VendorOffering vendorOffering );
 	OfferingFiles addOfferingFiles(String id, OfferingFiles offeringFiles);
 	FileFields addFieldsToFile(String id,FileFields fileFields);
-	
+
 	Set<VendorOffering> listOfferings(String id);
 	Set<OfferingFiles> listOfferingFiles(String id);
 	Set<FileFields> listFieldsToFile(String id);
@@ -213,10 +213,10 @@ public interface MarketDataAggregatorsDao {
 	VendorOffering deleteOfferings(VendorOffering vendorOffering);
 	OfferingFiles deleteOfferingFiles(String id);
 	FileFields deleteFieldsToFile(String id);
-	
+
 	public List<SecurityType> listSecurityType();
 	VendorOffering getVendorOfferingById(String Id);
-	
+
 	Region getRegionById(String Id);
 	Country getCountryById(String Id);
 	Cost getCostById(String Id);
@@ -231,7 +231,7 @@ public interface MarketDataAggregatorsDao {
 	public Object getModelObjectById(Class<?> type, Serializable id);
 	public Map<String, Object> getResearchReportVendorSearchResult(
 			Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm);
-	
-	public Map<String, Object> getTradingApplicationVendorSearchResult(Map<Object, Object> searchData, 
+
+	public Map<String, Object> getTradingApplicationVendorSearchResult(Map<Object, Object> searchData,
 			MarketDataAggregatorsVendorSearchForm dataForm);
 }

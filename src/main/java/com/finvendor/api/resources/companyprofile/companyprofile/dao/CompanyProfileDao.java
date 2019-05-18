@@ -127,7 +127,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
 
                 // cmp/bv_share if bv_share is 0 then na
                 Pair<Float, Float> pbBvPair = findPb(companyId, cmpAsFloat);
-                String pb = String.valueOf(pbBvPair.getElement1());//row[7] != null ? row[7].toString().trim() : "";
+                String pb = pbBvPair.getElement1() == 0.0F ? "-" : String.valueOf(pbBvPair.getElement1());//row[7] != null ? row[7].toString().trim() : "";
 
                 String dividen_yield = row[8] != null ? row[8].toString().trim() : "";
 
@@ -161,7 +161,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
 
                 // static and it will updated quaterly
                 //String bv_share = row[18] != null ? row[18].toString().trim() : "";
-                String bvShare = String.valueOf(pbBvPair.getElement2());//cmpAsFloat / Float.parseFloat(pb);
+                String bvShare = pbBvPair.getElement2() == 0.0F ? "-" : String.valueOf(pbBvPair.getElement2());//cmpAsFloat / Float.parseFloat(pb);
 
                 // static and it will updated quaterly
                 String roe = row[19] != null ? row[19].toString().trim() : "";
@@ -263,8 +263,8 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         for (Object[] row : rows) {
             bvShareFloat = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? Float.parseFloat(row[1].toString().trim()) : 0.0F;
         }
-        float pb = cmpFloat / bvShareFloat;
-        pbAndBv = new Pair<>(pb,bvShareFloat);
+        float pb = bvShareFloat != 0.0F ? cmpFloat / bvShareFloat : 0.0F;
+        pbAndBv = new Pair<>(pb, bvShareFloat);
         return pbAndBv;
     }
 

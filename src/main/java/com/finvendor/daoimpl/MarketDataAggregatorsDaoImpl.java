@@ -280,14 +280,14 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
             List<String> exchangeList) {
         logger.info("Method to find single asset class search---");
 		/*
-		SELECT * 
-		FROM vendor_datacoverage dc 
+		SELECT *
+		FROM vendor_datacoverage dc
 		inner join vendor_offering vo on dc.vendor_offering_id = vo.vendor_offering_id
-		inner join offeringfiles of on of.vendor_offering_id = vo.vendor_offering_id 
-		inner join vendor_distribution vd on vd.solution_id = vd.solution_id 
-		where dc.cost_ids like '$200%' 
-		and dc.region_ids = "Asia Pacific" 
-		and dc.country_ids='india' 
+		inner join offeringfiles of on of.vendor_offering_id = vo.vendor_offering_id
+		inner join vendor_distribution vd on vd.solution_id = vd.solution_id
+		where dc.cost_ids like '$200%'
+		and dc.region_ids = "Asia Pacific"
+		and dc.country_ids='india'
 		and vo.asset_class_id = 1
 		and of.security_type_id = 1
 		and vd.exchanges = 'NSE'
@@ -300,19 +300,19 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
             if (assetclassId != null && securitytypes.size() > 0) {/*
 				sqlQuery = "SELECT  * FROM  vendor_asset_class_search_info where asset_class_id = '"+assetclassId+"' and security_type_id in (:securitytypes)  " ;
 			       if(regionList != null && regionList.size() > 0)
-			    	   sqlQuery = sqlQuery +	"or region_id in (:regionlist) " ;  
+			    	   sqlQuery = sqlQuery +	"or region_id in (:regionlist) " ;
 			       if(countryList !=null && countryList.size() > 0)
 			    	   sqlQuery = sqlQuery + "or country_id in (:countrylist)";
-			       if(exchangeList !=null && exchangeList.size() > 0)	  
+			       if(exchangeList !=null && exchangeList.size() > 0)
 			    	sqlQuery = sqlQuery + "or exchange_id in (:exchagelist) "  ;
 			       	query = this.sessionFactory.openSession().createSQLQuery(sqlQuery);
 			       	query.setParameterList("securitytypes", securitytypes);
 					 if(regionList != null && regionList.size() > 0)
-						 query.setParameterList("regionlist", regionList);	 
-					 if(countryList !=null && countryList.size() > 0) 
-						 query.setParameterList("countrylist", countryList);	 
+						 query.setParameterList("regionlist", regionList);
+					 if(countryList !=null && countryList.size() > 0)
+						 query.setParameterList("countrylist", countryList);
 					 if(exchangeList !=null && exchangeList.size() > 0)
-						 query.setParameterList("exchagelist", exchangeList);	 
+						 query.setParameterList("exchagelist", exchangeList);
 				 assetClassDataDetails = query.list();
 				 for (int i = 0; i < assetClassDataDetails.size(); i++) {
 					 Object[] assetClassDatainfo = assetClassDataDetails.get(i);
@@ -337,7 +337,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
 					 String awar_name = assetClassDatainfo[18].toString();
 					 Integer ditributionmodeId =  Integer.parseInt(assetClassDatainfo[19].toString());
 					 String ditributionmodeName = assetClassDatainfo[20].toString();
-					 assetClassDataDetailslist.add(new AssetClassDataDetails(username, company, vendorId, 
+					 assetClassDataDetailslist.add(new AssetClassDataDetails(username, company, vendorId,
 							 assetClassId, securityTypeId,assetclass_description,security_type_name,
 							 regionofincorp,countryofincorp,regionId, countryId, exchangeId,
 							 costId, cost_range,cost_name,support_id,support_name,awardId,awar_name,ditributionmodeId,ditributionmodeName));
@@ -406,8 +406,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
                     String ditributionmodeName = assetClassDatainfo[14].toString();
                     Integer supportId = Integer.parseInt(assetClassDatainfo[15].toString());
                     Integer awardId = Integer.parseInt(assetClassDatainfo[16].toString());
-					 /*assetClassDataDetailslist.add(new AssetClassDataDetails(username, company, vendorId, 
-							 assetClassId, securityTypeId, countRegions, countCountries, 
+					 /*assetClassDataDetailslist.add(new AssetClassDataDetails(username, company, vendorId,
+							 assetClassId, securityTypeId, countRegions, countCountries,
 							 countExchanges, regionId, countryId, exchangeId, costId, range, ditributionmodeId,ditributionmodeName,supportId,awardId));*/
                 }
             }
@@ -658,7 +658,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
 
         if (offeringFiles != null)
             currentSession.delete(offeringFiles);
-		
+
 		/*String sql = "delete FROM offeringfiles WHERE Offering_Files_id = :id";
 		SQLQuery query = currentSession.createSQLQuery(sql);
 		query.addEntity(FileFields.class);
@@ -813,7 +813,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
             //populateFilterCondition(searchSql, dataacquisitioncostrange, "cov.cost_ids");
             Object securitytype = searchData.get(assetClass.toLowerCase() + "securitytype");
             populateFilterCondition(searchSql, securitytype, "off.security_types");
-						
+
 			/*
 			if(datacoveragecountry != null && !datacoveragecountry.toString().isEmpty() ) {
 				String[] countries = datacoveragecountry.toString().split(",");
@@ -821,7 +821,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
 				for(String country : countries) {
 					if(!firstCountry) {
 						firstCountry = true;
-						searchSql.append(" and ( ");						
+						searchSql.append(" and ( ");
 					}
 					searchSql.append(" cov.country_ids like '%");
 					searchSql.append(country.trim());
@@ -1150,7 +1150,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
 				}
 			if(dataForm.getVendorcountryofincorp() != null  && !dataForm.getVendorcountryofincorp().isEmpty() ){
 					query.append(" and v.countryofincorp = "+dataForm.getVendorcountryofincorp());
-				}		
+				}
 			*/
             Object dataacquisitioncostrange = searchData.get(assetClass.toLowerCase() + "dataacquisitioncostrange");
             if (dataacquisitioncostrange != null && !dataacquisitioncostrange.toString().isEmpty()) {

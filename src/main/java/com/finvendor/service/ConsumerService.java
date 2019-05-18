@@ -13,7 +13,7 @@ public interface ConsumerService {
 	Consumer updateConsumerDetails(Consumer consumer) throws ApplicationException;
 	Consumer getConsumerInfoByEmail(String email) throws ApplicationException;
 	CompanySubType getCompanySubType(int id) throws ApplicationException;
-	List<Object[]> loadConsumerMyProfile(String consumerId, String tableKey) 
+	List<Object[]> loadConsumerMyProfile(String consumerId, String tableKey)
 			throws ApplicationException;
 	Set<ConsumerMyProfileBusinessNeedMarketData> updateConsumerMyProfileBusinessNeedMarketData(
 			String consumerId, String tableKey, String jsonTableData) throws ApplicationException;
