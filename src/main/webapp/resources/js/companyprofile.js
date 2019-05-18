@@ -464,7 +464,7 @@ function getCompanyProfileResearchReportLoad() {
 
         var cmp = (response.companyProfileData.cmp > 0) ? parseFloat(response.companyProfileData.cmp).toFixed(2) : '-';
         var mkt_cap = (response.companyProfileData.mkt_cap > 0) ? parseFloat(response.companyProfileData.mkt_cap).toFixed(2) : '-';
-        var pb = (response.companyProfileData.pb > 0) ? parseFloat(response.companyProfileData.pb).toFixed(2) : '-';
+        var pb = (response.companyProfileData.pb > 0 && response.companyProfileData.pb != "Infinity") ? parseFloat(response.companyProfileData.pb).toFixed(2) : '-';
         var _52w_low = (response.companyProfileData._52w_low > 0) ? parseFloat(response.companyProfileData._52w_low).toFixed(2) : '-';
         var _52w_high = (response.companyProfileData._52w_high > 0) ? parseFloat(response.companyProfileData._52w_high).toFixed(2) : '-';
         var pe =  (response.companyProfileData.pe != '-') ? parseFloat(response.companyProfileData.pe).toFixed(2) : '-';
