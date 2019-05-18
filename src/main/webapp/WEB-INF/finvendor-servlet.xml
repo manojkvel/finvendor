@@ -56,8 +56,8 @@
     <bean id="referenceDataService" class="com.finvendor.serviceimpl.ReferenceDataServiceImpl"/>
     <bean id="referenceDataDao" class="com.finvendor.daoimpl.ReferenceDataDaoImpl"></bean>
 
-    <bean id="rfpService" class="com.finvendor.serviceimpl.RfpServiceImpl"/>
-    <bean id="rfpDao" class="com.finvendor.daoimpl.RfpDaoImpl"></bean>
+    <!--<bean id="rfpService" class="com.finvendor.serviceimpl.RfpServiceImpl"/>
+    <bean id="rfpDao" class="com.finvendor.daoimpl.RfpDaoImpl"></bean>-->
 
     <!-- Mail Service -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -70,9 +70,9 @@
             </props>
         </property>
     </bean>
-    <bean id="mailService" class="com.finvendor.serviceimpl.MailServiceImpl">
-        <property name="mailSender" ref="mailSender"/>
-    </bean>
+<!--    <bean id="mailService" class="com.finvendor.serviceimpl.MailServiceImpl">-->
+<!--        <property name="mailSender" ref="mailSender"/>-->
+<!--    </bean>-->
     <!-- Mail Service -->
 
     <bean id="jspViewResolver"

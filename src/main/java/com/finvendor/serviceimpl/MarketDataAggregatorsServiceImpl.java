@@ -84,7 +84,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 		logger.info("Method for getAllExchanges---");
 		return marketDataAggregatorsDao.getAllExchanges();
 	}
-	
+
 	@Override
 	public List<AssetClassDataDetails> getSingleAssetClassSearchResultInfo(
 			String assetclassId, List<String> securitytypeId, String dataattribute,
@@ -148,7 +148,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	@Override
 	public VendorOffering createOfferings(String id,VendorOffering vendorOffering) {
 		return marketDataAggregatorsDao.createOfferings(id, vendorOffering);
-		
+
 	}
 
 	@Override
@@ -198,7 +198,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 
 	@Override
 	public List<SecurityType> listSecurityType() {
-		
+
 		return marketDataAggregatorsDao.listSecurityType();
 	}
 
@@ -233,25 +233,25 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 	}
 
 	@Override
-	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData, 
+	public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,
 			MarketDataAggregatorsVendorSearchForm dataForm) {
 		return marketDataAggregatorsDao.getMultiAssetClassSearchResult(searchData, dataForm);
 	}
-	
+
 	@Override
 	@Transactional
 	public Map<String, Object> getResearchReportVendorSearchResult(
 			Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm) {
 		return marketDataAggregatorsDao.getResearchReportVendorSearchResult(searchData, dataForm);
 	}
-	
+
 	@Override
 	@Transactional
 	public Map<String, Object> getTradingApplicationVendorSearchResult(
 			Map<Object, Object> searchData, MarketDataAggregatorsVendorSearchForm dataForm) {
 		return marketDataAggregatorsDao.getTradingApplicationVendorSearchResult(searchData, dataForm);
 	}
-	
+
 	@Override
 	public List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(
 			Map<Object, Object> searchData, FinancialAnalyticsApplicationVendorSearchForm dataForm) {
@@ -269,7 +269,7 @@ public class MarketDataAggregatorsServiceImpl implements MarketDataAggregatorsSe
 			Map<Object, Object> searchData, TradingApplicationVendorSearchForm dataForm) {
 		return marketDataAggregatorsDao.getTAMultiAssetClassSearchResult(searchData,dataForm);
 	}
-	
+
 	@Override
 	@Transactional(readOnly=true)
 	public Object getModelObjectById(Class<?> type, Serializable id) {

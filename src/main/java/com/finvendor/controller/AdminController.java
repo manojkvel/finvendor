@@ -41,8 +41,8 @@ public class AdminController {
 	@Resource(name="vendorService")
 	private VendorService vendorService;
 
-	@Resource(name="consumerService")
-	private ConsumerService consumerService;
+//	@Resource(name="consumerService")
+//	private ConsumerService consumerService;
 
 	@Resource(name="referenceDataService")
 	private ReferenceDataService referenceDataService;
@@ -279,7 +279,7 @@ public class AdminController {
 						getResearchReportOfferingsForProfile(user.getVendor().getId());
 				vendorAwardDetails = vendorService.getVendorAwardDetailsForProfile(
 						user.getVendor().getId());
-				
+
 				/*
 				marketDataOfferings = new ArrayList<Object[]>();
 				Object[] obj = new Object[6];
@@ -332,7 +332,7 @@ public class AdminController {
 				marketDataOfferings.add(obj);
 				*/
 				modelAndView.addObject("marketDataOfferings", marketDataOfferings);
-				
+
 				/*tradingApplicationOfferings = new ArrayList<Object[]>();
 				obj = new Object[8];
 				obj[0]="Equities";
@@ -416,7 +416,7 @@ public class AdminController {
 				tradingApplicationOfferings.add(obj);
 				*/
 				modelAndView.addObject("tradingApplicationOfferings", tradingApplicationOfferings);
-				
+
 				/*
 				analyticsApplicationOfferings = new ArrayList<Object[]>();
 				obj = new Object[5];
@@ -426,7 +426,7 @@ public class AdminController {
 				obj[3]="2010";
 				obj[4]="1000$";
 				analyticsApplicationOfferings.add(obj);
-				
+
 				obj = new Object[5];
 				obj[0]="Anly Appl 1";
 				obj[1]="Offering 2";
@@ -434,7 +434,7 @@ public class AdminController {
 				obj[3]="2010";
 				obj[4]="1000$";
 				analyticsApplicationOfferings.add(obj);
-				
+
 				obj = new Object[5];
 				obj[0]="Anly Appl 1";
 				obj[1]="Offering 3";
@@ -442,7 +442,7 @@ public class AdminController {
 				obj[3]="2010";
 				obj[4]="1000$";
 				analyticsApplicationOfferings.add(obj);
-				
+
 				obj = new Object[5];
 				obj[0]="Anly Appl 2";
 				obj[1]="Offering 1";
@@ -450,7 +450,7 @@ public class AdminController {
 				obj[3]="2010";
 				obj[4]="100990$";
 				analyticsApplicationOfferings.add(obj);
-				
+
 				obj = new Object[5];
 				obj[0]="Anly Appl 3";
 				obj[1]="Offering 1";
@@ -458,7 +458,7 @@ public class AdminController {
 				obj[3]="2010";
 				obj[4]="100990$";
 				analyticsApplicationOfferings.add(obj);
-				
+
 				obj = new Object[5];
 				obj[0]="Anly Appl 3";
 				obj[1]="Offering 1";
@@ -467,9 +467,9 @@ public class AdminController {
 				obj[4]="100990$";
 				analyticsApplicationOfferings.add(obj);
 				*/
-				
+
 				modelAndView.addObject("analyticsApplicationOfferings", analyticsApplicationOfferings);
-				
+
 				/*
 				researchReportOfferings = new ArrayList<Object[]>();
 				obj = new Object[7];
@@ -481,7 +481,7 @@ public class AdminController {
 				obj[5]="Name";
 				obj[6]="1000$";
 				researchReportOfferings.add(obj);
-				
+
 				obj = new Object[7];
 				obj[0]="Res rep 2";
 				obj[1]="Offering 2";
@@ -491,7 +491,7 @@ public class AdminController {
 				obj[5]="Name";
 				obj[6]="1000$";
 				researchReportOfferings.add(obj);
-				
+
 				obj = new Object[7];
 				obj[0]="Res rep 2";
 				obj[1]="Offering 3";
@@ -501,7 +501,7 @@ public class AdminController {
 				obj[5]="Name";
 				obj[6]="1000$";
 				researchReportOfferings.add(obj);
-				
+
 				obj = new Object[7];
 				obj[0]="Res rep 3";
 				obj[1]="Offering 4";
@@ -512,7 +512,7 @@ public class AdminController {
 				obj[6]="1000$";
 				researchReportOfferings.add(obj);
 				*/
-				
+
 				modelAndView.addObject("researchReportOfferings", researchReportOfferings);
 				modelAndView.addObject("vendorAwardDetails", vendorAwardDetails);
 			}else if(user.getConsumer() != null) {
@@ -522,11 +522,11 @@ public class AdminController {
 				}
 			}
 			modelAndView.addObject("user", user);
-			modelAndView.addObject("country", country);			
+			modelAndView.addObject("country", country);
 		} catch(ApplicationException exp){
 			logger.error("Error Reading User Summary Profile", exp);
 			modelAndView.addObject("lastActionError", exp.getMessage());
-		}		
+		}
 		modelAndView.addObject("nav", nav);
 		logger.debug("Leaving AdminController : adminUserSummaryProfile");
 		return modelAndView;
