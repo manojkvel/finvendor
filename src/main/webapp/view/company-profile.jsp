@@ -196,7 +196,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-12 col-sm-5">
+								<div class="col-xs-12 col-sm-5" style="display: none;">
 									<div id="broker_stock_rating_container">
 										<div class="broker_stock_rating_ui">
 											
