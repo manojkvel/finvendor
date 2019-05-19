@@ -144,9 +144,9 @@
 <script src="${pageContext.request.contextPath}/resources/js/base64.js"></script>
 <script src="<%=request.getContextPath() %>/resources/js/form-wizard.js"
 	type="text/javascript"></script>
-<script
+<!--<script
 	src="<%=request.getContextPath() %>/resources/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js"
-	type="text/javascript"></script>
+	type="text/javascript"></script>-->
 <script
 	src="<%=request.getContextPath() %>/resources/js/jquery-migrate-1.2.1.min.js"
 	type="text/javascript"></script>
