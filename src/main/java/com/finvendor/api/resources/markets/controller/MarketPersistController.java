@@ -5,6 +5,7 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.infra.persist.IFilePersist;
 import com.finvendor.common.infra.upload.IFileUpload;
 import com.finvendor.api.exception.WebApiException;
+import com.finvendor.util.EmailUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +68,8 @@ public class MarketPersistController {
             logger.info("persistCount:{}", persistCount);
             return new ResponseEntity<>("Bhav Copy file persisted into finvendor database successfully with total prices:" + persistCount, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Error has occurred while persist Bhav Copy from finvendor tmp path, error - ", e);
+            sendMailWhenURLInvalid();
+            ErrorUtil.logError("Error has occurred while persist Bhav Copy from finvendor tmp path, error - ", e);
             return ErrorUtil.getError(MARKETS_PERSIST.getCode(), MARKETS_PERSIST.getUserMessage(), e);
         }
     }
@@ -91,9 +93,18 @@ public class MarketPersistController {
             logger.info("persistCount:{}", persistCount);
             return new ResponseEntity<>("Nifty Indices persisted into finvendor database successfully with total records:" + persistCount, HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Error has occurred while persist Nifty Indices from finvendor tmp path, error - ", e);
+            sendMailWhenURLInvalid();
+            ErrorUtil.logError("Error has occurred while persist Nifty Indices from finvendor tmp path, error - ", e);
             return ErrorUtil.getError(NIFTY_INDICES_PERSIST.getCode(), NIFTY_INDICES_PERSIST.getUserMessage(), e);
         }
+    }
+
+    private void sendMailWhenURLInvalid() {
+        String subject = "URL Invalid";
+        String content = "The resource  you are looking for has been removed, had its name changed, or is temporarily unavailable.";
+        EmailUtil.sendMail("amitkgaurav@gmail.com", subject, content);
+        EmailUtil.sendMail("wonderfulmani@gmail.com", subject, content);
+        EmailUtil.sendMail("jbytrain@gmail.com", subject, content);
     }
 
     private String getBhavCopyPriceUrl() {
