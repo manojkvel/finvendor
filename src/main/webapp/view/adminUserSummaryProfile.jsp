@@ -14,7 +14,7 @@
 		<meta name="author" content="" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/css/superfish.css" rel="stylesheet"/>
+		<!--<link href="${pageContext.request.contextPath}/resources/css/superfish.css" rel="stylesheet"/>-->
 		<link href="${pageContext.request.contextPath}/resources/css/tab.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/resources/css/dataTables.jqueryui.min.css" rel="stylesheet"/>

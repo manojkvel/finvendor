@@ -17,8 +17,8 @@
     <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
   <![endif]-->
  <link href="<%=request.getContextPath() %>/resources/css/style.css" rel="stylesheet" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery.bxslider.css" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/superfish.css" />
+<!--<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery.bxslider.css" />-->
+<!--<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/superfish.css" />-->
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/tab.css" /> 
 <!-- <link href="http://mottie.github.io/tablesorter/css/theme.default.css" rel="stylesheet">
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 

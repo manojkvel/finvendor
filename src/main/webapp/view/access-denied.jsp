@@ -5,15 +5,15 @@
 <html>
 <head>
 <title>Authorization Error</title>
-<link
+<!--<link
 	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
-	rel="stylesheet" />
+	rel="stylesheet" />-->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/font-awesome.css">
 <link href="${pageContext.request.contextPath}/resources/css/style.css"
 	rel="stylesheet" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/jquery.bxslider.css" />
+<!--<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/jquery.bxslider.css" />-->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/superfish.css" />
 <link rel="stylesheet"

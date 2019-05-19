@@ -35,7 +35,7 @@
 						<div class="form-group">
 							<input type="text" name="contact_us_name" class="form-control" id="contact_us_name" placeholder="Name" size="30" /> 
 							<span id="contactNameError" style="display: none;">Please
-							enter your Name.</span>
+							enter your name.</span>
 						</div>
 						<div class="form-group">
 							<input type="text" name="contact_us_phone" class="form-control" id="contact_us_phone" placeholder="Phone" size="15" style="margin-bottom: 0;" />

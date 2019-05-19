@@ -6,10 +6,6 @@
 <un:useConstants className="com.finvendor.util.RequestConstans" var="requestConstants"/>
 <html>
 	<head>
-		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/css/superfish.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/css/tab.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/resources/css/dataTables.jqueryui.min.css" rel="stylesheet"/>
 		<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/superfish.js"></script>		
