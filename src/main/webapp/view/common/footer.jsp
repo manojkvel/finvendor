@@ -138,8 +138,7 @@
 	src="${pageContext.request.contextPath}/resources/js/jqueryvalidation/additional-methods.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery.tabs.js"></script>
-<script
-	src="<%=request.getContextPath() %>/resources/js/jquery.bxslider.js"></script>
+
 <script
 	src="${pageContext.request.contextPath}/resources/js/userregister.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/base64.js"></script>
@@ -215,15 +214,7 @@
 	     $( document ). ajaxComplete(function() {
 	        $( "#loading" ).hide();
 	     });
-		$(document).ready(function() {
-			$('.slider2').bxSlider({
-				slideWidth : 740,
-				minSlides : 1,
-				maxSlides : 1,
-				slideMargin : 15,
-				auto : true,
-			});
-		});
+
 	</script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/superfish.js"></script>
@@ -251,68 +242,7 @@
 <script
 	src="${pageContext.request.contextPath}/resources/js/loginmodernizr.js"></script>
 <script>
-		/*jQuery(document)
-				.ready(function($) {
-							var options = {
-								$AutoPlay : true,
-								$AutoPlaySteps : 1,
-								$AutoPlayInterval : 4000,
-								$PauseOnHover : 1,
-								$ArrowKeyNavigation : true,
-								$SlideDuration : 500,
-								$MinDragOffsetToSlide : 20,
-								$SlideSpacing : 5,
-								$DisplayPieces : 1,
-								$ParkingPosition : 0,
-								$UISearchMode : 1,
-								$PlayOrientation : 1,
-								$DragOrientation : 3,
-								$ThumbnailNavigatorOptions : {
-									$Class : $JssorThumbnailNavigator$,
-									$ChanceToShow : 2,
-									$ActionMode : 1,
-									$AutoCenter : 3,
-									$Lanes : 1,
-									$SpacingX : 0,
-									$SpacingY : 0,
-									$DisplayPieces : 5,
-									$ParkingPosition : 0,
-									$Orientation : 1,
-									$DisableDrag : true
-								}
-							};
-							$('.slider2').bxSlider({
-								slideWidth : 740,
-								minSlides : 1,
-								maxSlides : 1,
-								slideMargin : 15,
-								auto : true,
-							});
-							try{
-							var jssor_slider2 = new $JssorSlider$(
-									"slider2_container", options);
-							}catch(err){
-								
-							}
-							function ScaleSlider() {
-							try{	
-								var parentWidth = jssor_slider2.$Elmt.parentNode.clientWidth;
-								if (parentWidth) {
-									var sliderWidth = parentWidth;
-									sliderWidth = Math.min(sliderWidth, 1000);
-									jssor_slider2.$ScaleWidth(sliderWidth);
-								} else
-									window.setTimeout(ScaleSlider, 30);
-								
-							}catch(err){
-							}
-								
-							}
-							ScaleSlider();
-							$(window).bind("load", ScaleSlider);
-							$(window).bind("resize", ScaleSlider);
-							$(window).bind("orientationchange", ScaleSlider);
-						});*/
+		
 		
 		function newConfirmMsg(buttonId, buttonNames){
 			var def = $.Deferred();

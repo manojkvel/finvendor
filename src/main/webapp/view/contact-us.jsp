@@ -39,9 +39,10 @@
 						</div>
 						<div class="form-group">
 							<input type="text" name="contact_us_phone" class="form-control" id="contact_us_phone" placeholder="Phone" size="15" style="margin-bottom: 0;" />
-							<span style="text-align: right;display: block;">Min and Max Length should be between 8 and 15 only</span>
+
 							<span id="contactPhoneError" style="display: none;">Please
 							enter a valid phone number</span>
+							<span id="contactPhoneError_data" style="display: none;">Phone number length should be between 8 and 15 character only</span>
 
 						</div>
 						<div class="form-group">

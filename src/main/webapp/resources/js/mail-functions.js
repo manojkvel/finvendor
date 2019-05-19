@@ -82,9 +82,10 @@
         		 
         	    document.getElementById('contact_us_email').style.background ='#ccffcc';
         	    document.getElementById('contactEmailError').style.display = "none";
+                document.getElementById('contact_us_email').style.borderBottom ='1px solid #d3d6d5';
         	    return true;
         	  } else {
-        		 
+        		  
         	    document.getElementById('contact_us_email').style.borderBottom ='1px solid #e35152';
         	    document.getElementById('contactEmailError').style.display = "block";
                 document.getElementById('contactEmailError').style.color = "#e35152";
@@ -115,6 +116,7 @@
                 document.getElementById('contactPhoneError').style.display = "none";
         	    document.getElementById('contactPhoneError_data').style.display = "block";
                 document.getElementById('contactPhoneError').style.color = "#e35152";
+                document.getElementById('contactPhoneError_data').style.color = "#e35152";
         	    return false;
         	  }
         }
@@ -125,6 +127,7 @@
         		
         	    document.getElementById('contact_us_name').style.background ='#ccffcc';
         	    document.getElementById('contactNameError').style.display = "none";
+                document.getElementById('contact_us_name').style.borderBottom ='1px solid #d3d6d5';
         	    return true;
         	  }else{
         		  
