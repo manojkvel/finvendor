@@ -1,5 +1,6 @@
 package com.finvendor.controller;
 
+import com.finvendor.common.exception.ErrorMessage;
 import com.finvendor.model.*;
 import com.finvendor.service.*;
 import com.finvendor.util.CommonUtils;
@@ -8,6 +9,8 @@ import com.finvendor.util.RequestConstans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -35,17 +38,17 @@ public class LoginController {
     @Resource(name = "userService")
     private UserService userService;
 
-//    @Autowired
-//    private MarketDataAggregatorsService marketDataAggregatorsService;
+    @Autowired
+    private MarketDataAggregatorsService marketDataAggregatorsService;
 
-//    @Resource(name = "referenceDataService")
-//    private ReferenceDataService referenceDataService;
+    @Resource(name = "referenceDataService")
+    private ReferenceDataService referenceDataService;
 
-//    @Resource(name = "consumerService")
-//    private ConsumerService consumerService;
+    @Resource(name = "consumerService")
+    private ConsumerService consumerService;
 
-    @Resource(name = "vendorService")
-    private VendorService vendorService;
+//    @Resource(name = "vendorService")
+//    private VendorService vendorService;
 
     @RequestMapping(value = RequestConstans.Home.HOME_PAGE, method = RequestMethod.GET)
     public ModelAndView homePageLand(ModelMap modelMap, HttpServletRequest request) {
@@ -162,14 +165,14 @@ public class LoginController {
             username = appUser.getUsername();
             logger.info("redirectLink for User - {} is {}",
                     username, (String) request.getSession().getAttribute("redirectLink"));
-//            assetClasses = marketDataAggregatorsService.getAllAssetClass();
-//            regions = marketDataAggregatorsService.getAllRegionClass();
-//            countries = marketDataAggregatorsService.getAllCountries();
-//            exchanges = marketDataAggregatorsService.getAllExchanges();
-//            supports = marketDataAggregatorsService.getAllVendorSupports();
-//            costs = marketDataAggregatorsService.getAllCostInfo();
-//            awards = marketDataAggregatorsService.getAllAwards(null);
-//            companySubType = marketDataAggregatorsService.getCompanySubTypeList();
+            assetClasses = marketDataAggregatorsService.getAllAssetClass();
+            regions = marketDataAggregatorsService.getAllRegionClass();
+            countries = marketDataAggregatorsService.getAllCountries();
+            exchanges = marketDataAggregatorsService.getAllExchanges();
+            supports = marketDataAggregatorsService.getAllVendorSupports();
+            costs = marketDataAggregatorsService.getAllCostInfo();
+            awards = marketDataAggregatorsService.getAllAwards(null);
+            companySubType = marketDataAggregatorsService.getCompanySubTypeList();
 
             try {
                 if (appUser.getAuthorities().contains(new SimpleGrantedAuthority(
@@ -185,7 +188,7 @@ public class LoginController {
                             username, RequestConstans.Roles.ROLE_VENDOR);
                     modelAndView = new ModelAndView(RequestConstans.Login.VENDOR_INFO);
                     vendor = userService.getUserDetailsByUsername(username).getVendor();
-//                    awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
+                    awards = marketDataAggregatorsService.getAllAwards(vendor.getId());
                     modelAndView.addObject("myprofiletab", "myprofile");
                     modelAndView.addObject("vendortabdetails", "vendortabdetails");
                     String telephone = vendor.getTelephone();
@@ -205,8 +208,8 @@ public class LoginController {
                             username, RequestConstans.Roles.ROLE_CONSUMER);
                     modelAndView = new ModelAndView(RequestConstans.Login.CONSUMER_INFO);
                     consumer = userService.getUserDetailsByUsername(username).getConsumer();
-//                    securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(1);
-//                    CommonUtils.populateConsumerProfileRequest(consumer, consumerService, modelAndView);
+                    securityTypeList = referenceDataService.getSecurityTypesForAssetClassId(1);
+                    CommonUtils.populateConsumerProfileRequest(consumer, consumerService, modelAndView);
                     consumer.setVendorPreference();
                     modelAndView.addObject("securityTypeList", securityTypeList);
                     modelAndView.addObject("consumer", consumer);
@@ -248,9 +251,9 @@ public class LoginController {
      * @throws Exception the exception
      */
     @RequestMapping(value = "/access-denied")
-    public String accessDenied() {
+    public ResponseEntity<ErrorMessage> accessDenied() {
         logger.info("Method for access denied 6--:");
-        return "access-denied"; // logical view name
+        return new ResponseEntity<>(new ErrorMessage(HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase()), HttpStatus.FORBIDDEN); // logical view name
     }
 
     /**
