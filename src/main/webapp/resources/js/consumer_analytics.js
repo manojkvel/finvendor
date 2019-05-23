@@ -232,7 +232,7 @@ jQuery(document).ready(function() {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true
             });
-            httpRequest.timeout = API_TIMEOUT_SMALL;
+            //httpRequest.timeout = API_TIMEOUT_SMALL;
             httpRequest.open('GET', url, true);
             httpRequest.setRequestHeader('Content-Type',
                 'application/json; charset=UTF-8');
@@ -265,7 +265,7 @@ jQuery(document).ready(function() {
 				mozSystem: true
 			});
 
-			httpRequest.timeout = API_TIMEOUT_SMALL;
+			//httpRequest.timeout = API_TIMEOUT_SMALL;
 			httpRequest.open('GET', url, true);
             httpRequest.setRequestHeader('Content-Type',
                 'application/json; charset=UTF-8');
@@ -298,7 +298,7 @@ jQuery(document).ready(function() {
 				mozSystem: true
 			});
 
-			httpRequest.timeout = API_TIMEOUT_SMALL;
+			//httpRequest.timeout = API_TIMEOUT_SMALL;
 			httpRequest.open('GET', url, true);
             httpRequest.setRequestHeader('Content-Type',
                 'application/json; charset=UTF-8');

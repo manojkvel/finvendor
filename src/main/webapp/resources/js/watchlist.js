@@ -10,7 +10,7 @@ function getCompanyWatchListApi() {
 		var httpRequest = new XMLHttpRequest({
 			mozSystem: true
 		});
-		httpRequest.timeout = API_TIMEOUT_SMALL;
+		//httpRequest.timeout = API_TIMEOUT_SMALL;
 		httpRequest.open('GET', url, true);
 		httpRequest.ontimeout = function () {
 			reject("" + httpRequest.responseText);
@@ -227,7 +227,7 @@ function getCompanyWatchList() {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
 			});
-			httpRequest.timeout = API_TIMEOUT_SMALL;
+			//httpRequest.timeout = API_TIMEOUT_SMALL;
 			httpRequest.open('DELETE', url, true);
 			httpRequest.setRequestHeader('Content-Type',
 				'application/json; charset=UTF-8');
@@ -330,7 +330,7 @@ function addToMarketWatchlist() {
 	        var httpRequest = new XMLHttpRequest({
 	            mozSystem: true
 	        });
-	        httpRequest.timeout = API_TIMEOUT_SMALL;
+	        //httpRequest.timeout = API_TIMEOUT_SMALL;
 	        httpRequest.open('POST', url, true);
 	        httpRequest.setRequestHeader('Content-Type',
 	                'application/json; charset=UTF-8');

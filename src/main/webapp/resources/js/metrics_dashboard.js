@@ -12,7 +12,7 @@ var metricsDashboard = {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
             });
-            httpRequest.timeout = classRef.API_TIMEOUT_SMALL;
+            //httpRequest.timeout = classRef.API_TIMEOUT_SMALL;
             httpRequest.open('GET', url, true);
             httpRequest.setRequestHeader('Content-Type',
                 'application/json; charset=UTF-8');
