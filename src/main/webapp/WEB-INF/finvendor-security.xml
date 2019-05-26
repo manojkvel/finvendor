@@ -14,8 +14,8 @@
 		<intercept-url pattern="/admin*" access="ROLE_ADMIN" />
 		<intercept-url pattern="/vendor*" access="ROLE_VENDOR,ROLE_ADMIN" />
 		<intercept-url pattern="/consumer*" access="ROLE_ADMIN,ROLE_CONSUMER"/>
-		<intercept-url pattern="/system/api/cis/strategies*" access="ROLE_CONSUMER,ROLE_ADMIN" />
-		<intercept-url pattern="/system/api/cis/recordstats*" access="ROLE_CONSUMER,ROLE_ADMIN" />
+		<intercept-url pattern="/system/api/cis/strategies*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN" />
+		<intercept-url pattern="/system/api/cis/recordstats*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN" />
 		<form-login login-page="/welcometodashboards" default-target-url="/welcometodashboards"
 					username-parameter="username" password-parameter="password"
 					authentication-failure-url="/loginfailed"

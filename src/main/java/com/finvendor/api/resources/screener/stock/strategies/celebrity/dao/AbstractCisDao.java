@@ -1,6 +1,6 @@
-package com.finvendor.api.resources.screener.stock.strategies.dao;
+package com.finvendor.api.resources.screener.stock.strategies.celebrity.dao;
 
-import com.finvendor.api.resources.screener.stock.strategies.dto.AbstractStrategyDto;
+import com.finvendor.api.resources.screener.stock.strategies.celebrity.dto.AbstractStrategyDto;
 import com.finvendor.common.commondao.ICommonDao;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,7 +1,7 @@
-package com.finvendor.api.resources.screener.stock.strategies.dao;
+package com.finvendor.api.resources.screener.stock.strategies.celebrity.dao;
 
-import com.finvendor.api.resources.screener.stock.strategies.dto.AbstractStrategyDto;
-import com.finvendor.api.resources.screener.stock.strategies.dto.FinvendorPickStrategyDto;
+import com.finvendor.api.resources.screener.stock.strategies.celebrity.dto.AbstractStrategyDto;
+import com.finvendor.api.resources.screener.stock.strategies.celebrity.dto.FinvendorPickStrategyDto;
 import com.finvendor.common.util.CommonCodeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;

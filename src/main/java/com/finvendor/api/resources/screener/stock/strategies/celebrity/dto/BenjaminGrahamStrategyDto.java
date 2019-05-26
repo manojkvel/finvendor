@@ -1,4 +1,4 @@
-package com.finvendor.api.resources.screener.stock.strategies.dto;
+package com.finvendor.api.resources.screener.stock.strategies.celebrity.dto;
 
 public class BenjaminGrahamStrategyDto extends AbstractStrategyDto {
     private String totalDebt;

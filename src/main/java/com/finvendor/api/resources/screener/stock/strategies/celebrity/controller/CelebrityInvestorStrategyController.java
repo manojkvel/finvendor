@@ -1,7 +1,7 @@
-package com.finvendor.api.resources.screener.stock.strategies.controller;
+package com.finvendor.api.resources.screener.stock.strategies.celebrity.controller;
 
-import com.finvendor.api.resources.screener.stock.strategies.enums.CisEnum;
-import com.finvendor.api.resources.screener.stock.strategies.service.CisService;
+import com.finvendor.api.resources.screener.stock.strategies.celebrity.enums.CisEnum;
+import com.finvendor.api.resources.screener.stock.strategies.celebrity.service.CisService;
 import com.finvendor.common.util.ErrorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  */
 @RestController
 @RequestMapping(value = "/system/api")
-public class CisController {
+public class CelebrityInvestorStrategyController {
 
     @Autowired
     private CisService service;

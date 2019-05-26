@@ -1,8 +1,8 @@
-package com.finvendor.api.resources.screener.stock.strategies.service;
+package com.finvendor.api.resources.screener.stock.strategies.celebrity.service;
 
-import com.finvendor.api.resources.screener.stock.strategies.dao.AbstractCisDao;
-import com.finvendor.api.resources.screener.stock.strategies.dto.AbstractStrategyDto;
-import com.finvendor.api.resources.screener.stock.strategies.enums.CisEnum;
+import com.finvendor.api.resources.screener.stock.strategies.celebrity.dao.AbstractCisDao;
+import com.finvendor.api.resources.screener.stock.strategies.celebrity.dto.AbstractStrategyDto;
+import com.finvendor.api.resources.screener.stock.strategies.celebrity.enums.CisEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

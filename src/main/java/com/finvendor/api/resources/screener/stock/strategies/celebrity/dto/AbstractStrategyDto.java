@@ -1,4 +1,4 @@
-package com.finvendor.api.resources.screener.stock.strategies.dto;
+package com.finvendor.api.resources.screener.stock.strategies.celebrity.dto;
 
 import java.io.Serializable;
 
