@@ -12,10 +12,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 
 @Repository
 public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
@@ -23,7 +25,7 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
 
     @Override
     @Transactional
-    public Long persist(String fromFilePath) throws RuntimeException {
+    public Long persist(String path) throws RuntimeException {
         BufferedReader br = null;
         String line;
         String cvsSplitBy = ",";
@@ -32,6 +34,7 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
             String indexDateAsPerFvFormat = formatter.format(Calendar.getInstance().getTime());
+            String fromFilePath = Objects.requireNonNull(new File(path).listFiles()[0].getPath());
             br = new BufferedReader(new FileReader(fromFilePath));
             br.readLine();
             while ((line = br.readLine()) != null) {
