@@ -1,7 +1,7 @@
 package com.finvendor.api.resources.screener.stock.strategies.custom.controller;
 
 import com.finvendor.api.resources.screener.stock.strategies.custom.dto.Filters;
-import com.finvendor.api.resources.screener.stock.strategies.custom.dto.Filter;
+import com.finvendor.api.resources.screener.stock.strategies.custom.dto.Others;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,24 +19,29 @@ public class CustomStrategyController {
 
     @GetMapping(value = "/customscreener/filters", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAllFilters() {
-        List<Filter> list=new ArrayList<>();
-        list.add(new Filter("mcap","1","2"));
-        list.add(new Filter("industry","1","2"));
-        list.add(new Filter("pe","1","2"));
-        list.add(new Filter("pb","1","2"));
-        list.add(new Filter("debtToEquityRatio","1","2"));
-        list.add(new Filter("currentRatio","1","2"));
-        list.add(new Filter("netOperatingCashFlow","1","2"));
-        list.add(new Filter("roeInPercentage","1","2"));
-        list.add(new Filter("operatingProfitMargin","1","2"));
-        list.add(new Filter("patGrowthInPercentage","1","2"));
-        list.add(new Filter("epsGrowthInPercentage","1","2"));
-        list.add(new Filter("revenueGrowthInPercentage","1","2"));
-        list.add(new Filter("totalFreeCashFlow","1","2"));
-        list.add(new Filter("returnOnAssetInPercentage","1","2"));
-        list.add(new Filter("divYield","1","2"));
-        list.add(new Filter("rotcInPercentage","1","2"));
-        Filters filters=new Filters(list);
+
+        List<Others> others=new ArrayList<>();
+
+        others.add(new Others("mcap","1","2"));
+        others.add(new Others("pe","1","2"));
+        others.add(new Others("pb","1","2"));
+        others.add(new Others("debtToEquityRatio","1","2"));
+        others.add(new Others("currentRatio","1","2"));
+        others.add(new Others("netOperatingCashFlow","1","2"));
+        others.add(new Others("roeInPercentage","1","2"));
+        others.add(new Others("operatingProfitMargin","1","2"));
+        others.add(new Others("patGrowthInPercentage","1","2"));
+        others.add(new Others("epsGrowthInPercentage","1","2"));
+        others.add(new Others("revenueGrowthInPercentage","1","2"));
+        others.add(new Others("totalFreeCashFlow","1","2"));
+        others.add(new Others("returnOnAssetInPercentage","1","2"));
+        others.add(new Others("divYield","1","2"));
+        others.add(new Others("rotcInPercentage","1","2"));
+        List<String> industry=new ArrayList<>();
+        industry.add("a");
+        industry.add("b");
+
+        Filters filters=new Filters(industry, others);
         return new ResponseEntity<>(filters, HttpStatus.OK);
     }
 

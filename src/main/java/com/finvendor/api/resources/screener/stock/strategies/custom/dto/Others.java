@@ -1,11 +1,11 @@
 package com.finvendor.api.resources.screener.stock.strategies.custom.dto;
 
-public class Filter {
+public class Others {
     private String label;
     private String min;
     private String max;
 
-    public Filter(String label, String min, String max) {
+    public Others(String label, String min, String max) {
         this.label=label;
         this.min = min;
         this.max = max;

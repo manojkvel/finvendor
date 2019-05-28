@@ -1,9 +1,6 @@
 package com.finvendor.api.resources.screener.stock.strategies.custom.dto;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 //@JsonPropertyOrder({ "mcap", "industry", "pe", "pb", "debtToEquityRatio","currentRatio",
@@ -12,17 +9,27 @@ import java.util.List;
 //"divYield","rotcInPercentage"})
 public class Filters implements Serializable {
 
-    List<Filter> filters;
+    List<String> industry;
+    List<Others> others;
 
-    public Filters(List<Filter> filters) {
-        this.filters = filters;
+    public Filters(List<String> industry, List<Others> others) {
+        this.industry = industry;
+        this.others = others;
     }
 
-    public List<Filter> getFilters() {
-        return filters;
+    public List<Others> getOthers() {
+        return others;
     }
 
-    public void setFilters(List<Filter> filters) {
-        this.filters = filters;
+    public void setOthers(List<Others> others) {
+        this.others = others;
+    }
+
+    public List<String> getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(List<String> industry) {
+        this.industry = industry;
     }
 }
