@@ -9,27 +9,27 @@ import java.util.List;
 //"divYield","rotcInPercentage"})
 public class Filters implements Serializable {
 
-    List<String> industry;
-    List<Others> others;
+    List<ListData> listData;
+    List<SliderData> sliderData;
 
-    public Filters(List<String> industry, List<Others> others) {
-        this.industry = industry;
-        this.others = others;
+    public Filters(List<ListData> listData, List<SliderData> sliderData) {
+        this.listData = listData;
+        this.sliderData = sliderData;
     }
 
-    public List<Others> getOthers() {
-        return others;
+    public List<ListData> getListData() {
+        return listData;
     }
 
-    public void setOthers(List<Others> others) {
-        this.others = others;
+    public void setListData(List<ListData> listData) {
+        this.listData = listData;
     }
 
-    public List<String> getIndustry() {
-        return industry;
+    public List<SliderData> getSliderData() {
+        return sliderData;
     }
 
-    public void setIndustry(List<String> industry) {
-        this.industry = industry;
+    public void setSliderData(List<SliderData> sliderData) {
+        this.sliderData = sliderData;
     }
 }
