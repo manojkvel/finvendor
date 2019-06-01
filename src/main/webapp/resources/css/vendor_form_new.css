@@ -990,6 +990,59 @@ textarea:valid ~ label {
 	background-color: #34bf98;
 }
 
+
+#do_it_yourself .widget-group .widget-panel-body {
+	display: block;
+}
+
+#do_it_yourself #sidebar-panel input {
+	width: auto;
+}
+
+#do_it_yourself .ui-rangeslider .ui-rangeslider-sliders {
+	margin: 0;
+}
+
+#do_it_yourself .ui-slider-track .ui-btn.ui-slider-handle {
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	margin: -10px 0 0 -10px;
+}
+
+#do_it_yourself .ui-rangeslider .ui-rangeslider-sliders .ui-slider-track:first-child {
+	height: 10px;
+}
+
+#do_it_yourself .ui-rangeslider .ui-rangeslider-sliders .ui-slider-track {
+	height: 10px;
+}
+
+.ui-page-theme-a .ui-btn.ui-btn-active, 
+html .ui-bar-a .ui-btn.ui-btn-active, 
+html .ui-body-a .ui-btn.ui-btn-active, 
+html body .ui-group-theme-a .ui-btn.ui-btn-active, 
+html head+body .ui-btn.ui-btn-a.ui-btn-active, 
+.ui-page-theme-a .ui-checkbox-on:after, 
+html .ui-bar-a .ui-checkbox-on:after, 
+html .ui-body-a .ui-checkbox-on:after,
+ html body .ui-group-theme-a .ui-checkbox-on:after, 
+ .ui-btn.ui-checkbox-on.ui-btn-a:after,
+ ui-page-theme-a .ui-flipswitch-active, 
+ html .ui-bar-a .ui-flipswitch-active, 
+ html .ui-body-a .ui-flipswitch-active, 
+ html body .ui-group-theme-a .ui-flipswitch-active, 
+ html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active, 
+ .ui-page-theme-a .ui-slider-track .ui-btn-active, 
+ html .ui-bar-a .ui-slider-track .ui-btn-active, 
+ html .ui-body-a .ui-slider-track .ui-btn-active, 
+ html body .ui-group-theme-a .ui-slider-track .ui-btn-active, 
+ html body div.ui-slider-track.ui-body-a .ui-btn-active {
+	background: #34bf98;
+	border-color: #34bf98;
+	text-shadow: 0 1px 0 #34bf98;
+}
+
 @media only screen and (max-width: 767px) {
 	#vendor_my_offerings .top_card .data_aggregator_list .action_btn {
 		position: static;
