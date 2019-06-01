@@ -61,6 +61,7 @@ public enum ExceptionEnum {
 	CELEBRITY_INVESTOR_STRATEGY_RECORD_STATS("FV0045", "Internal error - Unable to find celebrity investor strategy record stats, Please contact Finvendor admin for support!!"),
 	CELEBRITY_INVESTOR_STRATEGY("FV0046", "Internal error - Unable to find celebrity investor strategy, Please contact Finvendor admin for support!!"),
 	CELEBRITY_INVESTOR_STRATEGY_TOOL_TIPS("FV0047", "Internal error - Unable to find celebrity investor strategy tool tips, Please contact Finvendor admin for support!!"),
+	CUSTOM_STRATEGY("FV0048", "Internal error - Unable to find custom strategy, Please contact Finvendor admin for support!!"),
 
 
 

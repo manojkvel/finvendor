@@ -1,7 +1,12 @@
 package com.finvendor.api.resources.screener.stock.strategies.custom.controller;
 
 import com.finvendor.api.resources.screener.stock.strategies.custom.dto.Filters;
-import com.finvendor.api.resources.screener.stock.strategies.custom.dto.Others;
+import com.finvendor.api.resources.screener.stock.strategies.custom.dto.ListData;
+import com.finvendor.api.resources.screener.stock.strategies.custom.dto.SliderData;
+import com.finvendor.api.resources.screener.stock.strategies.custom.service.CustomStrategyService;
+import com.finvendor.common.exception.ExceptionEnum;
+import com.finvendor.common.util.ErrorUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,31 +22,37 @@ import java.util.List;
 @RequestMapping(value = "/system/api")
 public class CustomStrategyController {
 
+    @Autowired
+    private CustomStrategyService service;
+
     @GetMapping(value = "/customscreener/filters", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAllFilters() {
 
-        List<Others> others=new ArrayList<>();
+        List<SliderData> sliderDataList = new ArrayList<>();
 
-        others.add(new Others("mcap","1","2"));
-        others.add(new Others("pe","1","2"));
-        others.add(new Others("pb","1","2"));
-        others.add(new Others("debtToEquityRatio","1","2"));
-        others.add(new Others("currentRatio","1","2"));
-        others.add(new Others("netOperatingCashFlow","1","2"));
-        others.add(new Others("roeInPercentage","1","2"));
-        others.add(new Others("operatingProfitMargin","1","2"));
-        others.add(new Others("patGrowthInPercentage","1","2"));
-        others.add(new Others("epsGrowthInPercentage","1","2"));
-        others.add(new Others("revenueGrowthInPercentage","1","2"));
-        others.add(new Others("totalFreeCashFlow","1","2"));
-        others.add(new Others("returnOnAssetInPercentage","1","2"));
-        others.add(new Others("divYield","1","2"));
-        others.add(new Others("rotcInPercentage","1","2"));
-        List<String> industry=new ArrayList<>();
-        industry.add("a");
-        industry.add("b");
+        sliderDataList.add(new SliderData("Market Capitalisation", "1", "2"));
+        sliderDataList.add(new SliderData("P/E(Trailing)", "1", "2"));
+        sliderDataList.add(new SliderData("Price to Book value", "1", "2"));
+        sliderDataList.add(new SliderData("Debt to Equity Ratio", "1", "2"));
+        sliderDataList.add(new SliderData("Current Ratio", "1", "2"));
+        sliderDataList.add(new SliderData("Net Operating Cash Flow", "1", "2"));
+        sliderDataList.add(new SliderData("ROE (AVERAGE 3 YR)", "1", "2"));
+        sliderDataList.add(new SliderData("Operating profit margin", "1", "2"));
+        sliderDataList.add(new SliderData("PAT Growth (avr 3 yrs)", "1", "2"));
+        sliderDataList.add(new SliderData("EPS growth (avr 3 yrs)", "1", "2"));
+        sliderDataList.add(new SliderData("Revenue growth (avr 3 yrs)", "1", "2"));
+        sliderDataList.add(new SliderData("Total Free Cash Flow", "1", "2"));
+        sliderDataList.add(new SliderData("Return on assets", "1", "2"));
+        sliderDataList.add(new SliderData("Dividend Yield", "1", "2"));
+        sliderDataList.add(new SliderData("Return on Total Capital", "1", "2"));
 
-        Filters filters=new Filters(industry, others);
+        List<String> value = new ArrayList<>();
+        value.add("a");
+        value.add("b");
+        List<ListData> listData = new ArrayList<>();
+        listData.add(new ListData("Industry", value));
+
+        Filters filters = new Filters(listData, sliderDataList);
         return new ResponseEntity<>(filters, HttpStatus.OK);
     }
 
@@ -64,8 +75,17 @@ public class CustomStrategyController {
             @RequestParam(value = "returnOnAssetInPercentage", required = false) String[] returnOnAssetInPercentage,
             @RequestParam(value = "divYield", required = false) String[] divYield,
             @RequestParam(value = "rotcInPercentage", required = false) String[] rotcInPercentage
-            ) {
-        return null;
+    ) {
+        try {
+            String recorsStats = service.findRecorsStats(perPageMaxRecords, mcap, industry, pe, pb, debtToEquityRatio,
+                    currentRatio, netOperatingCashFlow, roeInPercentage, operatingProfitMargin, patGrowthInPercentage,
+                    epsGrowthInPercentage, revenueGrowthInPercentage,
+                    totalFreeCashFlow, returnOnAssetInPercentage, divYield, rotcInPercentage);
+            return new ResponseEntity<>(recorsStats, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorUtil.logError("CustomStrategyController -> findRecordStats(...)", e);
+            return ErrorUtil.getError(ExceptionEnum.CUSTOM_STRATEGY.getCode(), ExceptionEnum.CUSTOM_STRATEGY.getUserMessage(), e);
+        }
     }
 
     @GetMapping(value = "/customscreener/companies", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -90,7 +110,7 @@ public class CustomStrategyController {
             @RequestParam(value = "returnOnAssetInPercentage", required = false) String[] returnOnAssetInPercentage,
             @RequestParam(value = "divYield", required = false) String[] divYield,
             @RequestParam(value = "rotcInPercentage", required = false) String[] rotcInPercentage
-            ) {
+    ) {
         return null;
     }
 }
