@@ -67,11 +67,9 @@ public class CustomStrategyController {
         sliderDataList.add(new SliderData("divYield","Dividend Yield",  divYieldFilter.getElement1().toString(),  divYieldFilter.getElement2().toString()));
         sliderDataList.add(new SliderData("rotcInPercentage","Return on Total Capital",  rotcFilter.getElement1().toString(),  rotcFilter.getElement2().toString()));
 
-        List<String> value = new ArrayList<>();
-        value.add("a");
-        value.add("b");
+        List<String> industry = service.findIndustry();
         List<ListData> listData = new ArrayList<>();
-        listData.add(new ListData("industry","Industry", value));
+        listData.add(new ListData("industry","Industry", industry));
 
         Filters filters = new Filters(listData, sliderDataList);
         return new ResponseEntity<>(filters, HttpStatus.OK);

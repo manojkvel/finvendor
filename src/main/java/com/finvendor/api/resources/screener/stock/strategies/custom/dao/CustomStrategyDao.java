@@ -35,10 +35,25 @@ public class CustomStrategyDao {
     private static final String DIV_YIELD_QUERY = "select MIN(CAST((c.dividend_yield) as DECIMAL)), MAX(CAST((c.dividend_yield) as DECIMAL)) from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id";
     private static final String RETURN_ON_ASSET_QUERY = "select a.stock_id, a.period,a.profit_after_tax,b.avg_total_assets, (cast(a.profit_after_tax as decimal)/cast(b.avg_total_assets as decimal))*100 'ReturnOnAsset%' from earning_preview_yearly a, earning_preview_as_of_date b where a.stock_id=b.stock_id  order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
     private static final String ROTC_QUERY = "select a.stock_id,a.period,a.profit_after_tax,b.total_capital, ROUND((a.profit_after_tax/b.total_capital),2)*100 'ROTC%' from earning_preview_yearly a, earning_preview_as_of_date b where a.stock_id = b.stock_id  order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
+    private static final String INDUSTRY_QUERY = "Select a.research_area_id,a.description from research_sub_area a order by a.description";
 
     @Autowired
     protected ICommonDao commonDao;
 
+    public List<String> findIndustry() {
+        SQLQuery query = commonDao.getNativeQuery(INDUSTRY_QUERY, null);
+        List<Object[]> rows = query.list();
+        List<String> industryList = new ArrayList<>();
+        //loop is of size-1
+        for (Object[] row : rows) {
+            String id = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ?
+                    row[0].toString().trim() : "NA";
+            String industryName = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ?
+                    row[1].toString().trim() : "NA";
+            industryList.add(industryName);
+        }
+        return industryList;
+    }
     //MIN MAX
     public Pair findMcapFilter() {
         logger.info("findMcapFilter - START");

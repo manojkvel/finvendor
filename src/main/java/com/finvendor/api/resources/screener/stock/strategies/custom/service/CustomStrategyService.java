@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class CustomStrategyService {
@@ -24,6 +26,10 @@ public class CustomStrategyService {
         }catch (RuntimeException e){
             throw new Exception(e);
         }
+    }
+
+    public List<String> findIndustry(){
+        return dao.findIndustry();
     }
 
     //MIN MAX
