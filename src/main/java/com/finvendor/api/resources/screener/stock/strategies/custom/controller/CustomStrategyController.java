@@ -6,6 +6,7 @@ import com.finvendor.api.resources.screener.stock.strategies.custom.dto.SliderDa
 import com.finvendor.api.resources.screener.stock.strategies.custom.service.CustomStrategyService;
 import com.finvendor.common.exception.ExceptionEnum;
 import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.common.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,27 +31,45 @@ public class CustomStrategyController {
 
         List<SliderData> sliderDataList = new ArrayList<>();
 
-        sliderDataList.add(new SliderData("Market Capitalisation", "1", "2"));
-        sliderDataList.add(new SliderData("P/E(Trailing)", "1", "2"));
-        sliderDataList.add(new SliderData("Price to Book value", "1", "2"));
-        sliderDataList.add(new SliderData("Debt to Equity Ratio", "1", "2"));
-        sliderDataList.add(new SliderData("Current Ratio", "1", "2"));
-        sliderDataList.add(new SliderData("Net Operating Cash Flow", "1", "2"));
-        sliderDataList.add(new SliderData("ROE (AVERAGE 3 YR)", "1", "2"));
-        sliderDataList.add(new SliderData("Operating profit margin", "1", "2"));
-        sliderDataList.add(new SliderData("PAT Growth (avr 3 yrs)", "1", "2"));
-        sliderDataList.add(new SliderData("EPS growth (avr 3 yrs)", "1", "2"));
-        sliderDataList.add(new SliderData("Revenue growth (avr 3 yrs)", "1", "2"));
-        sliderDataList.add(new SliderData("Total Free Cash Flow", "1", "2"));
-        sliderDataList.add(new SliderData("Return on assets", "1", "2"));
-        sliderDataList.add(new SliderData("Dividend Yield", "1", "2"));
-        sliderDataList.add(new SliderData("Return on Total Capital", "1", "2"));
+        Pair mcapFilter = service.findMcapFilter();
+        Pair peFilter = service.findPEFilter();
+        Pair pbFilter = service.findPBFilter();
+        Pair deFilter = service.findDEFilter();
+        Pair currentRatioFilter = service.findCurrentRatioFilter();
+        Pair operatingCashFlowFilter = service.findNetOperatingCashFlowFilter();
+        Pair roeFilter = service.findROEFilter();
+        Pair operatingProfitMarginFilter = service.findOperatingProfitMarginFilter();
+        Pair patFilter = service.findPATFilter();
+        Pair epsFilter = service.findEPSFilter();
+        Pair revenueFilter = service.findRevenueFilter();
+        Pair totalFreeCashFlowFilter = service.findTotalFreeCashFlowFilter();
+        Pair revenueFilter1 = service.findReturnOnAssetFilter();
+        Pair divYieldFilter = service.findDivYieldFilter();
+        Pair rotcFilter = service.findROTCFilter();
 
-        List<String> value = new ArrayList<>();
-        value.add("a");
-        value.add("b");
+        sliderDataList.add(new SliderData("mcap", "Market Capitalisation",  mcapFilter.getElement1().toString(),  mcapFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("pe","P/E(Trailing)",  peFilter.getElement1().toString(),  peFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("pb","Price to Book value",  pbFilter.getElement1().toString(),  pbFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("debtToEquityRatio","Debt to Equity Ratio",  deFilter.getElement1().toString(),  deFilter.getElement2().toString()));
+        sliderDataList
+                .add(new SliderData("currentRatio","Current Ratio",  currentRatioFilter.getElement1().toString(),  currentRatioFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("netOperatingCashFlow","Net Operating Cash Flow",  operatingCashFlowFilter.getElement1().toString(),
+                 operatingCashFlowFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("roeInPercentage","ROE (AVERAGE 3 YR)", roeFilter.getElement1().toString(), roeFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("operatingProfitMargin","Operating profit margin",  operatingProfitMarginFilter.getElement1().toString(),
+                 operatingProfitMarginFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("patGrowthInPercentage","PAT Growth (avr 3 yrs)",  patFilter.getElement1().toString(),  patFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("epsGrowthInPercentage","EPS growth (avr 3 yrs)",  epsFilter.getElement1().toString(),  epsFilter.getElement2().toString()));
+        sliderDataList
+                .add(new SliderData("revenueGrowthInPercentage","Revenue growth (avr 3 yrs)",  revenueFilter.getElement1().toString(),  revenueFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("totalFreeCashFlow","Total Free Cash Flow",  totalFreeCashFlowFilter.getElement1().toString(),  totalFreeCashFlowFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("returnOnAssetInPercentage","Return on assets",  revenueFilter1.getElement1().toString(),  revenueFilter1.getElement2().toString()));
+        sliderDataList.add(new SliderData("divYield","Dividend Yield",  divYieldFilter.getElement1().toString(),  divYieldFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("rotcInPercentage","Return on Total Capital",  rotcFilter.getElement1().toString(),  rotcFilter.getElement2().toString()));
+
+        List<String> industry = service.findIndustry();
         List<ListData> listData = new ArrayList<>();
-        listData.add(new ListData("Industry", value));
+        listData.add(new ListData("industry","Industry", industry));
 
         Filters filters = new Filters(listData, sliderDataList);
         return new ResponseEntity<>(filters, HttpStatus.OK);

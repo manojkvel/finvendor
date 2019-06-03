@@ -1,14 +1,25 @@
 package com.finvendor.api.resources.screener.stock.strategies.custom.dto;
 
 public class SliderData {
+
+    private String id;
     private String label;
     private String min;
     private String max;
 
-    public SliderData(String label, String min, String max) {
-        this.label=label;
+    public SliderData(String id, String label, String min, String max) {
+        this.id = id;
+        this.label = label;
         this.min = min;
         this.max = max;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getLabel() {
