@@ -2,12 +2,12 @@ package com.finvendor.api.resources.screener.stock.strategies.custom.dto;
 
 import java.util.List;
 
-public class ListData {
+public class IndustryData {
     private String id;
     private String label;
     private List<String> value;
 
-    public ListData(String id, String label, List<String> value) {
+    public IndustryData(String id, String label, List<String> value) {
         this.id = id;
         this.label = label;
         this.value = value;
