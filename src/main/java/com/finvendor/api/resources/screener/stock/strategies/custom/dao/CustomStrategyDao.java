@@ -1,5 +1,6 @@
 package com.finvendor.api.resources.screener.stock.strategies.custom.dao;
 
+import com.finvendor.api.resources.screener.stock.strategies.custom.dto.CustomStrategyDto;
 import com.finvendor.api.resources.screener.stock.strategies.custom.enums.FilterTypeEnum;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.util.CommonCodeUtils;
@@ -291,13 +292,119 @@ public class CustomStrategyDao {
         return industryList;
     }
 
-    public String findRecordStats(String perPageMaxRecords, String[] mcap, String[] industry, String[] pe, String[] pb,
+    public String findRecordStats(String perPageMaxRecords, String[] mcap, String industry, String[] pe, String[] pb,
             String[] debtToEquityRatio, String[] currentRatio, String[] netOperatingCashFlow, String[] roeInPercentage,
             String[] operatingProfitMargin, String[] patGrowthInPercentage, String[] epsGrowthInPercentage,
             String[] revenueGrowthInPercentage, String[] totalFreeCashFlow, String[] returnOnAssetInPercentage, String[] divYield,
             String[] rotcInPercentage) {
-        SQLQuery query = commonDao.getNativeQuery(CUSTOM_STRATEGY_QUERY, null);
+        String filterQuery = applyFilter(mcap, industry, pe, pb, debtToEquityRatio, currentRatio, netOperatingCashFlow,
+                roeInPercentage, operatingProfitMargin, patGrowthInPercentage, epsGrowthInPercentage, revenueGrowthInPercentage,
+                totalFreeCashFlow, returnOnAssetInPercentage, divYield, rotcInPercentage);
+        String finalQuery = CUSTOM_STRATEGY_QUERY + filterQuery;
+        SQLQuery query = commonDao.getNativeQuery(finalQuery, null);
         return CommonCodeUtils.getRecordStats(perPageMaxRecords, ((List<Object[]>) query.list()).size());
+    }
+
+    public List<CustomStrategyDto> findCustomScreeners(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy, String[] mcap, String industry, String[] pe, String[] pb, String[] debtToEquityRatio, String[] currentRatio, String[] netOperatingCashFlow,
+            String[] roeInPercentage, String[] operatingProfitMargin, String[] patGrowthInPercentage, String[] epsGrowthInPercentage, String[] revenueGrowthInPercentage, String[] totalFreeCashFlow, String[] returnOnAssetInPercentage, String[] divYield, String[] rotcInPercentage) {
+        String applyFilter = applyFilter(mcap, industry, pe, pb, debtToEquityRatio, currentRatio, netOperatingCashFlow,
+                roeInPercentage, operatingProfitMargin, patGrowthInPercentage, epsGrowthInPercentage, revenueGrowthInPercentage,
+                totalFreeCashFlow, returnOnAssetInPercentage, divYield, rotcInPercentage);
+        String applyOrderBy = " order by cast(" + sortBy + " as decimal) " + orderBy;
+        String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+        String sql = CUSTOM_STRATEGY_QUERY + applyFilter + applyOrderBy + applyPagination;
+        SQLQuery query = commonDao.getNativeQuery(sql, null);
+        List<Object[]> rows = query.list();
+        List<CustomStrategyDto> customStrategyDtoList = new ArrayList<>();
+        for (Object[] row : rows) {
+            String stockIdData = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ? row[0].toString().trim() : "-";
+            String companyNameData = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "-";
+            String mcapData = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ? row[2].toString().trim() : "-";
+            String industryData = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[3].toString()) ? row[3].toString().trim() : "-";
+            String peData = row[4] != null && !StringUtils.isEmpty(row[4].toString()) && !"-".equals(row[4].toString()) ? row[4].toString().trim() : "-";
+            String pbData = row[5] != null && !StringUtils.isEmpty(row[5].toString()) && !"-".equals(row[5].toString()) ? row[5].toString().trim() : "-";
+            String deData = row[6] != null && !StringUtils.isEmpty(row[6].toString()) && !"-".equals(row[6].toString()) ? row[6].toString().trim() : "-";
+            String currentRatioData = row[7] != null && !StringUtils.isEmpty(row[7].toString()) && !"-".equals(row[7].toString()) ? row[7].toString().trim() : "-";
+
+            String netOperatingCashFlowData = row[8] != null && !StringUtils.isEmpty(row[8].toString()) && !"-".equals(row[8].toString()) ? row[8].toString().trim() : "-";
+            String roeData = row[9] != null && !StringUtils.isEmpty(row[9].toString()) && !"-".equals(row[9].toString()) ? row[9].toString().trim() : "-";
+            String operatingProfitMarginData = row[10] != null && !StringUtils.isEmpty(row[10].toString()) && !"-".equals(row[10].toString()) ? row[10].toString().trim() : "-";
+
+            String patData = row[11] != null && !StringUtils.isEmpty(row[11].toString()) && !"-".equals(row[11].toString()) ? row[11].toString().trim() : "-";
+            String epsData = row[12] != null && !StringUtils.isEmpty(row[12].toString()) && !"-".equals(row[12].toString()) ? row[12].toString().trim() : "-";
+            String revenueData = row[13] != null && !StringUtils.isEmpty(row[13].toString()) && !"-".equals(row[13].toString()) ? row[13].toString().trim() : "-";
+
+            String totalFreeCashFlowData = row[14] != null && !StringUtils.isEmpty(row[14].toString()) && !"-".equals(row[14].toString()) ? row[6].toString().trim() : "-";
+            String returnOnAssetData = row[15] != null && !StringUtils.isEmpty(row[15].toString()) && !"-".equals(row[15].toString()) ? row[15].toString().trim() : "-";
+            String divYieldData = row[16] != null && !StringUtils.isEmpty(row[16].toString()) && !"-".equals(row[16].toString()) ? row[16].toString().trim() : "-";
+            String rotcData = row[17] != null && !StringUtils.isEmpty(row[17].toString()) && !"-".equals(row[17].toString()) ? row[17].toString().trim() : "-";
+            customStrategyDtoList.add(new CustomStrategyDto(stockIdData,companyNameData,mcapData,industryData,
+                    peData,pbData,deData,currentRatioData,netOperatingCashFlowData,roeData,operatingProfitMarginData,patData,epsData,revenueData,totalFreeCashFlowData,returnOnAssetData,divYieldData,rotcData));
+        }
+
+
+        return customStrategyDtoList;
+    }
+
+    private String applyFilter(String[] mcap, String industry, String[] pe, String[] pb, String[] debtToEquityRatio, String[] currentRatio,
+            String[] netOperatingCashFlow, String[] roeInPercentage, String[] operatingProfitMargin, String[] patGrowthInPercentage,
+            String[] epsGrowthInPercentage, String[] revenueGrowthInPercentage,
+            String[] totalFreeCashFlow, String[] returnOnAssetInPercentage, String[] divYield, String[] rotcInPercentage) {
+        StringBuilder partQuery=new StringBuilder(200);
+        StringBuilder finalFilterQuery=new StringBuilder(200);
+
+        if(mcap!= null) {
+            partQuery.append("(cast(mcap as decimal) >=").append(mcap[0]).append(" and cast(mcap as decimal) <=").append(mcap[1]).append(")");
+        }
+        if(pe!= null) {
+            partQuery.append("and (cast(pe as decimal)>=").append(pe[0]).append(" and cast(pe as decimal)<=").append(pe[1]).append(")");
+        }
+        if(pb!= null) {
+            partQuery.append("and (cast(pb as decimal)>=").append(pb[0]).append(" and cast(pb as decimal)<=").append(pb[1]).append(")");
+        }
+        if(debtToEquityRatio!= null) {
+            partQuery.append("and (cast(debtToEquityRatio as decimal)>=").append(debtToEquityRatio[0]).append(" 2").append(debtToEquityRatio[1]).append(")");
+        }
+        if(currentRatio!= null) {
+            partQuery.append("and (cast(currentRatio as decimal)>=").append(currentRatio[0]).append(" and cast(currentRatio as decimal)<=").append(currentRatio[1]).append(")");
+        }
+        if(netOperatingCashFlow!= null) {
+            partQuery.append("and (cast(netOperatingCashFlow as decimal)>=").append(netOperatingCashFlow[0]).append(" and cast(netOperatingCashFlow as decimal)<=").append(netOperatingCashFlow[1]).append(")");
+        }
+        if(roeInPercentage!= null) {
+            partQuery.append("and (cast(roeInPercentage as decimal)>=").append(roeInPercentage[0]).append(" and cast(mcap as decimal) <=").append(roeInPercentage[1]).append(")");
+        }
+        if(operatingProfitMargin!= null) {
+            partQuery.append("and (cast(operatingProfitMargin as decimal)>=").append(operatingProfitMargin[0]).append(" and cast(operatingProfitMargin as decimal)<=").append(operatingProfitMargin[1]).append(")");
+        }
+        if(patGrowthInPercentage!= null) {
+            partQuery.append("and (cast(patGrowthInPercentage as decimal)>=").append(patGrowthInPercentage[0]).append(" and cast(patGrowthInPercentage as decimal)<=").append(patGrowthInPercentage[1]).append(")");
+        }
+        if(epsGrowthInPercentage!= null) {
+            partQuery.append("and (cast(epsGrowthInPercentage as decimal)>=").append(epsGrowthInPercentage[0]).append(" and cast(epsGrowthInPercentage as decimal)<=").append(epsGrowthInPercentage[1]).append(")");
+        }
+        if(revenueGrowthInPercentage!= null) {
+            partQuery.append("and (cast(revenueGrowthInPercentage as decimal)>=").append(revenueGrowthInPercentage[0]).append(" and cast(revenueGrowthInPercentage as decimal)<=").append(revenueGrowthInPercentage[1]).append(")");
+        }
+        if(totalFreeCashFlow!= null) {
+            partQuery.append("and (cast(totalFreeCashFlow as decimal)>=").append(totalFreeCashFlow[0]).append(" and cast(totalFreeCashFlow as decimal)<=").append(totalFreeCashFlow[1]).append(")");
+        }
+        if(returnOnAssetInPercentage!= null) {
+            partQuery.append("and (cast(returnOnAssetInPercentage as decimal)>=").append(returnOnAssetInPercentage[0]).append(" and cast(returnOnAssetInPercentage as decimal)<=").append(returnOnAssetInPercentage[1]).append(")");
+        }
+        if(divYield!= null) {
+            partQuery.append("and (cast(divYield as decimal)>=").append(divYield[0]).append(" and cast(divYield as decimal)<=").append(divYield[1]).append(")");
+        }
+        if(rotcInPercentage!= null) {
+            partQuery.append("and (cast(rotcInPercentage as decimal)>=").append(rotcInPercentage[0]).append(" and cast(rotcInPercentage as decimal)<=").append(rotcInPercentage[1]).append(")");
+        }
+        if (!StringUtils.isEmpty(industry)) {
+            partQuery.append("industry='").append(industry).append('\'');
+        }
+        if(partQuery.length()!=0){
+            finalFilterQuery.append(" where ").append(partQuery);
+        }
+        return finalFilterQuery.toString();
     }
 
     public static void main(String[] args) {
@@ -314,4 +421,6 @@ public class CustomStrategyDao {
         System.out.println(((long) 1.23) + 1);
 
     }
+
+
 }
