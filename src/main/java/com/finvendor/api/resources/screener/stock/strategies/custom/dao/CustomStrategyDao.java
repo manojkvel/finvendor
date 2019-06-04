@@ -218,6 +218,10 @@ public class CustomStrategyDao {
             logger.info("DE");
             absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.debtToEquityRatio as DECIMAL)) min,MAX(cast(a.debtToEquityRatio as DECIMAL)) max  from strategy_custom a order by cast(a.debtToEquityRatio as DECIMAL)");
             break;
+        case CURRENT_RATIO:
+            logger.info("CURRENT_RATIO");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.currentRatio as DECIMAL)) min,MAX(cast(a.currentRatio as DECIMAL)) max  from strategy_custom a order by cast(a.currentRatio as DECIMAL)");
+            break;
         case NET_OPERATING_CASH_FLOW:
             logger.info("NET_OPERATING_CASH_FLOW");
             absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.netOperatingCashFlow as DECIMAL)) min,MAX(cast(a.netOperatingCashFlow as DECIMAL)) max  from strategy_custom a order by cast(a.netOperatingCashFlow as DECIMAL)");
