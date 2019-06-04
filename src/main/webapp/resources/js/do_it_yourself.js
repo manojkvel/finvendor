@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
      * Function to start async call to get filter data.
      */
     var getFilterData = function() {
-        var url = "/system/api/customscreener/filters";
+        var url = "/system/api/customscreeners/filters";
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -32,7 +32,7 @@ jQuery(document).ready(function() {
 
     var setFilterData = function() {
         getFilterData().then(function(response) {
-            var response = {
+            /*var response = {
                 'listData':[
                     {
                         'label': 'Industry',
@@ -131,9 +131,9 @@ jQuery(document).ready(function() {
                         'max': '2'
                     }
                 ]
-            };
+            };*/
 
-            //response = JSON.parse(response);
+            response = JSON.parse(response);
             setFilterHtml(response);
         }, function(error) {
 
