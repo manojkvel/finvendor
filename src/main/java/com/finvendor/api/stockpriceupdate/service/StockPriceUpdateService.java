@@ -6,8 +6,8 @@ import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
 import com.finvendor.common.infra.download.URLReader;
-import com.finvendor.common.infra.parser.StockPrice;
-import com.finvendor.common.infra.parser.service.IFileParser;
+import com.finvendor.common.infra.parser.impl.StockPrice;
+import com.finvendor.common.infra.parser.IFileParser;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +27,12 @@ import java.util.Map;
 @Transactional
 public class StockPriceUpdateService {
     private static final Logger logger = LoggerFactory.getLogger(StockPriceUpdateService.class.getName());
+
     @Autowired
     private StockPriceUpdateDao dao;
 
     @Autowired
-    private IFileParser fileParser;
+    private IFileParser<String,StockPrice> fileParser;
 
     public boolean updatePrice(StockCurrentPriceDTO stockCurrentPricePojo) throws Exception {
         try {

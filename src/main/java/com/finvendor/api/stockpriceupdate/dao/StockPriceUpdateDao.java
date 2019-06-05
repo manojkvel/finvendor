@@ -4,7 +4,7 @@ import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
 import com.finvendor.common.commondao.ICommonDao;
-import com.finvendor.common.infra.parser.StockPrice;
+import com.finvendor.common.infra.parser.impl.StockPrice;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
