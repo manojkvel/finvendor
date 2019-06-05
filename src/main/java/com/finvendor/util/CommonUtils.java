@@ -1,11 +1,11 @@
 package com.finvendor.util;
 
-import com.finvendor.exception.ApplicationException;
+import com.finvendor.api.consumer.service.ConsumerService;
+import com.finvendor.api.vendor.service.VendorService;
+import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.Consumer;
 import com.finvendor.model.UserRole;
 import com.finvendor.model.Vendor;
-import com.finvendor.service.ConsumerService;
-import com.finvendor.service.VendorService;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,7 +112,7 @@ public class CommonUtils {
 		}
 	}
 	
-	public static String encodeUsingSHA512(String source) throws ApplicationException{
+	public static String encodeUsingSHA512(String source) throws ApplicationException {
 		MessageDigest sha512 = null;
 		try {
 			sha512 = MessageDigest.getInstance("SHA-512");
@@ -138,7 +138,7 @@ public class CommonUtils {
 		}
 	}
 	
-	public static void populateConsumerProfileRequest(Consumer consumer, ConsumerService consumerService, 
+	public static void populateConsumerProfileRequest(Consumer consumer, ConsumerService consumerService,
 			ModelAndView modelAndView) throws ApplicationException {
 		String telephone = consumer.getTelephone();
    		if(telephone != null && !telephone.trim().equals("")) {
@@ -198,7 +198,7 @@ public class CommonUtils {
    				consumerMyProfileMyBusinessNeedsMarketData);
 	}
 	
-	public static void populateVendorProfileRequest(Vendor vendor, VendorService vendorService, 
+	public static void populateVendorProfileRequest(Vendor vendor, VendorService vendorService,
 			ModelAndView modelAndView) {
 		String vendorCompanyTypes = vendor.getCompanyType();
 		logger.debug("Company type for Vendor {} are {}", vendor.getUser().getUserName(), vendorCompanyTypes);

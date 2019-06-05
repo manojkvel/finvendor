@@ -1,11 +1,11 @@
 package com.finvendor.api.stockpriceupdate.controller;
 
 import com.finvendor.api.stockpriceupdate.service.StockPriceUpdateService;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

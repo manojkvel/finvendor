@@ -1,12 +1,12 @@
 package com.finvendor.api.companyprofile.pricealert.controller;
 
 import com.finvendor.api.companyprofile.pricealert.service.ConsumerPriceAlertMailService;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.companyprofile.pricealert.dto.ConsumerPriceAlertDetails;
-import com.finvendor.service.UserService;
 import com.finvendor.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

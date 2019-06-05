@@ -2,13 +2,13 @@ package com.finvendor.api.vendoroffering.controller;
 
 import com.finvendor.api.companyprofile.pricealert.controller.ConsumerPriceAlertMailController;
 import com.finvendor.api.companyprofile.pricealert.service.ConsumerPriceAlertService;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendoroffering.dto.VendorReportDataDto;
 import com.finvendor.api.vendoroffering.dto.VendorReportFileDto;
 import com.finvendor.api.vendoroffering.service.VendorReportService;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.Vendor;
-import com.finvendor.service.UserService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

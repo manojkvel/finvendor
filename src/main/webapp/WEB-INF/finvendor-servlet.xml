@@ -35,26 +35,26 @@
 
 
     <!-- login configuration beans -->
-    <bean id="loginService" class="com.finvendor.serviceimpl.LoginServiceImpl"/>
-    <bean id="loginDao" class="com.finvendor.daoimpl.LoginDaoImpl"></bean>
+    <bean id="loginService" class="com.finvendor.api.login.service.LoginServiceImpl"/>
+    <bean id="loginDao" class="com.finvendor.api.login.dao.LoginDaoImpl"></bean>
 
-    <bean id="userService" class="com.finvendor.serviceimpl.UserServiceImpl"/>
-    <bean id="userDao" class="com.finvendor.daoimpl.UserDaoImpl"></bean>
+    <bean id="userService" class="com.finvendor.api.user.service.UserServiceImpl"/>
+    <bean id="userDao" class="com.finvendor.api.user.dao.UserDaoImpl"></bean>
 
-    <bean id="vendorService" class="com.finvendor.serviceimpl.VendorServiceImpl"/>
-    <bean id="vendorDao" class="com.finvendor.daoimpl.VendorDaoImpl"></bean>
+    <bean id="vendorService" class="com.finvendor.api.vendor.service.VendorServiceImpl"/>
+    <bean id="vendorDao" class="com.finvendor.api.vendor.dao.VendorDaoImpl"></bean>
 
-    <bean id="consumerService" class="com.finvendor.serviceimpl.ConsumerServiceImpl"/>
-    <bean id="consumerDao" class="com.finvendor.daoimpl.ConsumerDaoImpl"></bean>
+    <bean id="consumerService" class="com.finvendor.api.consumer.service.ConsumerServiceImpl"/>
+    <bean id="consumerDao" class="com.finvendor.api.consumer.dao.ConsumerDaoImpl"></bean>
 
-    <bean id="marketDataAggregatorsService" class="com.finvendor.serviceimpl.MarketDataAggregatorsServiceImpl"/>
-    <bean id="marketDataAggregatorsDao" class="com.finvendor.daoimpl.MarketDataAggregatorsDaoImpl"></bean>
+    <bean id="marketDataAggregatorsService" class="com.finvendor.api.marketdata.service.MarketDataAggregatorsServiceImpl"/>
+    <bean id="marketDataAggregatorsDao" class="com.finvendor.api.marketdata.dao.MarketDataAggregatorsDaoImpl"></bean>
 
-    <bean id="adminService" class="com.finvendor.serviceimpl.AdminServiceImpl"/>
-    <bean id="adminDao" class="com.finvendor.daoimpl.AdminDaoImpl"></bean>
+    <bean id="adminService" class="com.finvendor.api.admin.service.AdminServiceImpl"/>
+    <bean id="adminDao" class="com.finvendor.api.admin.dao.AdminDaoImpl"></bean>
 
-    <bean id="referenceDataService" class="com.finvendor.serviceimpl.ReferenceDataServiceImpl"/>
-    <bean id="referenceDataDao" class="com.finvendor.daoimpl.ReferenceDataDaoImpl"></bean>
+    <bean id="referenceDataService" class="com.finvendor.api.common.service.ReferenceDataServiceImpl"/>
+    <bean id="referenceDataDao" class="com.finvendor.api.common.dao.ReferenceDataDaoImpl"></bean>
 
     <!--<bean id="rfpService" class="com.finvendor.serviceimpl.RfpServiceImpl"/>
     <bean id="rfpDao" class="com.finvendor.daoimpl.RfpDaoImpl"></bean>-->

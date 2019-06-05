@@ -36,7 +36,7 @@
 	</authentication-manager>
 
 	<beans:bean id="redirectParameterHandler"
-				class="com.finvendor.controller.RedirectParameterHandler"/>
+				class="com.finvendor.api.RedirectParameterHandler"/>
 
 	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" >
 		<beans:constructor-arg name="strength" value="10" />
