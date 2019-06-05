@@ -14,19 +14,12 @@
 		http://www.springframework.org/schema/context/spring-context.xsd
  		http://www.springframework.org/schema/util 
  		http://www.springframework.org/schema/util/spring-util.xsd
-
-
-
-
-
-
       	http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
     <context:annotation-config/>
     <context:component-scan
-            base-package="com.finvendor.controller, com.finvendor.common,
-            com.finvendor.api, com.finvendor"/>
+            base-package="com.finvendor, com.finvendor.common, com.finvendor.api"/>
 
     <!-- This tag registers the DefaultAnnotationHandlerMapping and AnnotationMethodHandlerAdapter beans that are required for Spring MVC  -->
     <mvc:annotation-driven/>
@@ -36,25 +29,25 @@
 
     <!-- login configuration beans -->
     <bean id="loginService" class="com.finvendor.api.login.service.LoginServiceImpl"/>
-    <bean id="loginDao" class="com.finvendor.api.login.dao.LoginDaoImpl"></bean>
+    <bean id="loginDao" class="com.finvendor.api.login.dao.LoginDaoImpl"/>
 
     <bean id="userService" class="com.finvendor.api.user.service.UserServiceImpl"/>
-    <bean id="userDao" class="com.finvendor.api.user.dao.UserDaoImpl"></bean>
+    <bean id="userDao" class="com.finvendor.api.user.dao.UserDaoImpl"/>
 
     <bean id="vendorService" class="com.finvendor.api.vendor.service.VendorServiceImpl"/>
-    <bean id="vendorDao" class="com.finvendor.api.vendor.dao.VendorDaoImpl"></bean>
+    <bean id="vendorDao" class="com.finvendor.api.vendor.dao.VendorDaoImpl"/>
 
     <bean id="consumerService" class="com.finvendor.api.consumer.service.ConsumerServiceImpl"/>
-    <bean id="consumerDao" class="com.finvendor.api.consumer.dao.ConsumerDaoImpl"></bean>
+    <bean id="consumerDao" class="com.finvendor.api.consumer.dao.ConsumerDaoImpl"/>
 
     <bean id="marketDataAggregatorsService" class="com.finvendor.api.marketdata.service.MarketDataAggregatorsServiceImpl"/>
-    <bean id="marketDataAggregatorsDao" class="com.finvendor.api.marketdata.dao.MarketDataAggregatorsDaoImpl"></bean>
+    <bean id="marketDataAggregatorsDao" class="com.finvendor.api.marketdata.dao.MarketDataAggregatorsDaoImpl"/>
 
     <bean id="adminService" class="com.finvendor.api.admin.service.AdminServiceImpl"/>
-    <bean id="adminDao" class="com.finvendor.api.admin.dao.AdminDaoImpl"></bean>
+    <bean id="adminDao" class="com.finvendor.api.admin.dao.AdminDaoImpl"/>
 
     <bean id="referenceDataService" class="com.finvendor.api.common.service.ReferenceDataServiceImpl"/>
-    <bean id="referenceDataDao" class="com.finvendor.api.common.dao.ReferenceDataDaoImpl"></bean>
+    <bean id="referenceDataDao" class="com.finvendor.api.common.dao.ReferenceDataDaoImpl"/>
 
     <!--<bean id="rfpService" class="com.finvendor.serviceimpl.RfpServiceImpl"/>
     <bean id="rfpDao" class="com.finvendor.daoimpl.RfpDaoImpl"></bean>-->
@@ -70,10 +63,6 @@
             </props>
         </property>
     </bean>
-<!--    <bean id="mailService" class="com.finvendor.serviceimpl.MailServiceImpl">-->
-<!--        <property name="mailSender" ref="mailSender"/>-->
-<!--    </bean>-->
-    <!-- Mail Service -->
 
     <bean id="jspViewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -107,7 +96,6 @@
         <property name="removeAbandoned" value="true"/>
         <property name="removeAbandonedTimeout" value="60"/>
     </bean>
-
 
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
