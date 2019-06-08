@@ -323,6 +323,12 @@
                                                     Celebrity Investor's Strategies
                                                 </a>
                                             </li>
+                                            
+                                            <li>
+                                                <a href="${pageContext.request.contextPath}/view/do-it-yourself.jsp">
+                                                    Do It Yourself
+                                                </a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>

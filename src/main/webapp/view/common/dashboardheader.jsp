@@ -85,6 +85,12 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                                             Celebrity Investor's Strategies
                                                                                         </a>
                                                                                     </li>
+
+                                                                                    <li>
+                                                                                        <a href="${pageContext.request.contextPath}/view/do-it-yourself.jsp">
+                                                                                            Do It Yourself
+                                                                                        </a>
+                                                                                    </li>
                                                                                 </ul>
                                                                             </li>
                                                                             <li>
@@ -275,6 +281,12 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                             <li>
                                                 <a href="${pageContext.request.contextPath}/view/celebrity-investors-strategies.jsp">
                                                     Celebrity Investor's Strategies
+                                                </a>
+                                            </li>
+                                            
+                                            <li>
+                                                <a href="${pageContext.request.contextPath}/view/do-it-yourself.jsp">
+                                                    Do It Yourself
                                                 </a>
                                             </li>
                                         </ul>

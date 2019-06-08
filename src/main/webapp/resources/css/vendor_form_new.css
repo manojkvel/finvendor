@@ -2119,6 +2119,18 @@ h2 {
 	width: 93%;
 }
 
+#do_it_yourself #search_by_industry {
+	padding: 0 10px;
+}
+
+#do_it_yourself #search_by_industry input[type=checkbox] {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 15px;
+    margin: 0;
+}
+
 /*.slider.slider-horizontal .slider-handle.min-slider-handle {
 	margin-left: 0;
 }

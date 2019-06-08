@@ -15,7 +15,6 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.min.css">
 </head>
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
@@ -31,6 +30,19 @@
 							<span>Reset filters</span>
 						</div>
 						<div class='widget-group'>
+							<div class='widget widget-panel-default'>
+								<div class='widget-panel-heading'>
+									<h3>Industry</h3>
+									<span class="fa fa-chevron-down"></span>
+								</div>
+								<div class='widget-panel-body'>
+									<div id="search_by_industry">
+										<ul>
+											
+										</ul>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -108,7 +120,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
     <script type='text/javascript'>
     </script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
+
+	<script
+	src=" http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.min.css">
+	
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.js"></script>
+
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/do_it_yourself.js"></script>
 
 </body>
