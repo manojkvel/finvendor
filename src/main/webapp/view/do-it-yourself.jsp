@@ -48,12 +48,12 @@
 				</div>
 				<div class="col-xs-12 col-md-9">
 					<div class="content-panel">
-						<div id="fv_equity_research_report_vendor_search" class="section">
+						<div id="fv_custom_screener_search" class="section">
 							<div class="max_per_page">
 								<span>Records Per Page </span>
 								<select>
 									<option value='5'>5</option>
-									<option value='10'>10</option>
+									<option value='10' selected>10</option>
 									<option value='30'>30</option>
 									<option value='50'>50</option>
 									<option value='100'>100</option>
@@ -64,36 +64,104 @@
 							<div class="broker_content">
 								<table id='broker_table'>
 									<thead>
+
 										<tr>
 											<th style="width:20%;">
 												<p class="large_font">
-													<a href="javascript:void(0)" data-id="company">Company <i class="fa fa-sort"></i></a>
+													<a href="javascript:void(0)" data-id="company_name">
+														Company <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="industry">
+														Industry <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="mcap">
+														Market Capitalisation <i class="fa fa-sort"></i>
+													</a>
 												</p>
 											</th>
 											<th style="width:20%;">
 												<p class="large_font">
-													<a href="javascript:void(0)" data-id="broker">Broker <i class="fa fa-sort"></i></a>
+													<a href="javascript:void(0)" data-id="pe">
+														P/E <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="pb">
+														P/BV <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="divYield">
+														Dividend Yield <i class="fa fa-sort"></i>
+													</a>
 												</p>
 											</th>
 											<th style="width:15%;">
 												<p class="large_font" style="font-size: 16px;">
-													Broker Rank
+													<a href="javascript:void(0)" data-id="operatingProfitMargin">
+														Operating Profit Margin <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="debtToEquityRatio">
+														D/E <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="currentRatio">
+														Current Ratio <i class="fa fa-sort"></i>
+													</a>
 												</p>
 											</th>
 											<th style="width:15%;">
 
 												<p class="large_font">
-													<a href="javascript:void(0)" data-id="cmp">CMP <i class="fa fa-sort"></i></a>
+													<a href="javascript:void(0)" data-id="roeInPercentage">
+														ROE(Avg 3Y) <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="returnOnAssetInPercentage">
+														ROA <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="rotcInPercentage">
+														ROTC <i class="fa fa-sort"></i>
+													</a>
 												</p>
 											</th>
 											<th style="width:15%;">
 												<p class="large_font">
-													<a href="javascript:void(0)" data-id="recommType" title="Recommendation Type">Recomm Type <i class="fa fa-sort"></i></a>
+													<a href="javascript:void(0)" data-id="epsGrowthInPercentage">
+														EPS Growth(Avg 3Y) <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="patGrowthInPercentage">
+														PAT Growth(Avg 3Y) <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="revenueGrowthInPercentage">
+														Revenue Growth(Avg 3Y) <i class="fa fa-sort"></i>
+													</a>
 												</p>
 											</th>
 											<th style="width:15%;">
 												<p class="large_font">
-													<a href="javascript:void(0)" data-id="report">Report <i class="fa fa-sort"></i></a>
+													<a href="javascript:void(0)" data-id="netOperatingCashFlow">
+														Net OP Cash Flow <i class="fa fa-sort"></i>
+													</a>
+												</p>
+												<p class="small_font">
+													<a href="javascript:void(0)" data-id="totalFreeCashFlow">
+														Total Free Cash Flow <i class="fa fa-sort"></i>
+													</a>
 												</p>
 											</th>
 										</tr>

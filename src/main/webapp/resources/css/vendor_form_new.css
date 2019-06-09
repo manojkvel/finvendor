@@ -2131,6 +2131,30 @@ h2 {
     margin: 0;
 }
 
+#do_it_yourself #fv_custom_screener_search {
+	background-color: #fff;
+	overflow: hidden;
+}
+
+#do_it_yourself table .large_font a {
+    font-size: 13px;
+}
+
+#do_it_yourself table thead a:hover,
+#do_it_yourself table thead a:active,
+#do_it_yourself table thead a:focus {
+	color: #fff;
+}
+
+#do_it_yourself table thead th p {
+	line-height: 21px;
+}
+
+#do_it_yourself .pe,
+#do_it_yourself .mcap {
+	font-size: 13px;
+}
+
 /*.slider.slider-horizontal .slider-handle.min-slider-handle {
 	margin-left: 0;
 }
