@@ -43,8 +43,6 @@ jQuery(document).ready(function() {
 
             for(var i = 0; i < len; i++) {
 
-                response[i].isinCode = "INE002A01018";
-
                 var mcap = (response[i].mcap) ? parseFloat(response[i].mcap).toFixed(2) : '-';
 
 
