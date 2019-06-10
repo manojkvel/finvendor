@@ -79,7 +79,7 @@
 												</p>
 												<p class="small_font">
 													<a href="javascript:void(0)" data-id="mcap">
-														Market Capitalisation <i class="fa fa-sort"></i>
+														Market Capitalisation <sup>'000 cr</sup> <i class="fa fa-sort"></i>
 													</a>
 												</p>
 											</th>
@@ -155,12 +155,12 @@
 											<th style="width:15%;">
 												<p class="large_font">
 													<a href="javascript:void(0)" data-id="netOperatingCashFlow">
-														Net OP Cash Flow <i class="fa fa-sort"></i>
+														Net OP Cash Flow <sup>'000 cr</sup> <i class="fa fa-sort"></i>
 													</a>
 												</p>
 												<p class="small_font">
 													<a href="javascript:void(0)" data-id="totalFreeCashFlow">
-														Total Free Cash Flow <i class="fa fa-sort"></i>
+														Total Free Cash Flow <sup>'000 cr</sup> <i class="fa fa-sort"></i>
 													</a>
 												</p>
 											</th>

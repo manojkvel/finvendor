@@ -43,7 +43,7 @@ jQuery(document).ready(function() {
 
             for(var i = 0; i < len; i++) {
 
-                var mcap = (response[i].mcap) ? parseFloat(response[i].mcap).toFixed(2) : '-';
+                var mcap = (response[i].mcap) ? parseFloat(response[i].mcap/1000).toFixed(2) : '-';
 
 
                 var pe = (response[i].pe) ? parseFloat(response[i].pe).toFixed(2) : '-';
@@ -62,8 +62,8 @@ jQuery(document).ready(function() {
                 var patGrowthInPercentage = (response[i].patGrowthInPercentage) ? parseFloat(response[i].patGrowthInPercentage).toFixed(2) : '-';
                 var revenueGrowthInPercentage = (response[i].revenueGrowthInPercentage) ? parseFloat(response[i].revenueGrowthInPercentage).toFixed(2) : '-';
 
-                var netOperatingCashFlow = (response[i].netOperatingCashFlow) ? parseFloat(response[i].netOperatingCashFlow).toFixed(2) : '-';
-                var totalFreeCashFlow = (response[i].totalFreeCashFlow) ? parseFloat(response[i].totalFreeCashFlow).toFixed(2) : '-';
+                var netOperatingCashFlow = (response[i].netOperatingCashFlow) ? parseFloat(response[i].netOperatingCashFlow/1000).toFixed(2) : '-';
+                var totalFreeCashFlow = (response[i].totalFreeCashFlow) ? parseFloat(response[i].totalFreeCashFlow/1000).toFixed(2) : '-';
 
                 htmlCode = htmlCode + "<tr data-code='" + response[i].isinCode + "'>" +
                     "<td>" + 
