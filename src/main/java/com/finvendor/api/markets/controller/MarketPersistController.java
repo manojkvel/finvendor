@@ -1,5 +1,6 @@
 package com.finvendor.api.markets.controller;
 
+import com.finvendor.api.markets.dao._52wLowHigh;
 import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.infra.persist.IFilePersist;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +48,15 @@ public class MarketPersistController {
     @Autowired
     @Qualifier(value = "niftyIndicesFilePersist")
     IFilePersist niftyIndicesFilePersist;
+
+    @Autowired
+    private _52wLowHigh wLowHigh;
+
+    @GetMapping(value = "/findstockpricedates")
+    public ResponseEntity<?> findStockPriceDates(){
+        wLowHigh.findStocksWithPriceDates();
+        return new ResponseEntity<>("Ok",HttpStatus.OK);
+    }
 
     /**
      * Persist Bhav Copy data from NSE site to findvendor db

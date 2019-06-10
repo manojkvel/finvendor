@@ -76,7 +76,7 @@ public class CustomStrategyService {
         Pair divYieldFilter = dao.findSliderFilterData(FilterTypeEnum.DIV_YIELD);
         Pair rotcFilter = dao.findSliderFilterData(FilterTypeEnum.ROTC);
 
-        sliderDataList.add(new SliderData("mcap", "MarketCapitalisation", mcapFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("mcap", "MarketCapitalisation (1000 INR, crores)", mcapFilter.getElement1().toString(),
                 mcapFilter.getElement2().toString()));
         sliderDataList.add(new SliderData("pe", "P/E(Trailing)", peFilter.getElement1().toString(), peFilter.getElement2().toString()));
         sliderDataList
@@ -87,9 +87,9 @@ public class CustomStrategyService {
                 .add(new SliderData("currentRatio", "CurrentRatio", currentRatioFilter.getElement1().toString(),
                         currentRatioFilter.getElement2().toString()));
         sliderDataList
-                .add(new SliderData("netOperatingCashFlow", "NetOperatingCashFlow", operatingCashFlowFilter.getElement1().toString(),
+                .add(new SliderData("netOperatingCashFlow", "NetOperatingCashFlow (1000 INR, crores)", operatingCashFlowFilter.getElement1().toString(),
                         operatingCashFlowFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("roeInPercentage", "ROE (avg 3Y; in %)", roeFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("roeInPercentage", "ROE (avg 3Y; in%)", roeFilter.getElement1().toString(),
                 roeFilter.getElement2().toString()));
         sliderDataList.add(new SliderData("operatingProfitMargin", "OperatingProfitMargin(%)",
                 operatingProfitMarginFilter.getElement1().toString(),
@@ -101,7 +101,7 @@ public class CustomStrategyService {
         sliderDataList
                 .add(new SliderData("revenueGrowthInPercentage", "RevenueGrowth (avg 3Y; in %)", revenueFilter.getElement1().toString(),
                         revenueFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("totalFreeCashFlow", "TotalFreeCashFlow", totalFreeCashFlowFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("totalFreeCashFlow", "TotalFreeCashFlow (1000 INR, crores)", totalFreeCashFlowFilter.getElement1().toString(),
                 totalFreeCashFlowFilter.getElement2().toString()));
         sliderDataList.add(new SliderData("returnOnAssetInPercentage", "ReturnonAssets", revenueFilter1.getElement1().toString(),
                 revenueFilter1.getElement2().toString()));

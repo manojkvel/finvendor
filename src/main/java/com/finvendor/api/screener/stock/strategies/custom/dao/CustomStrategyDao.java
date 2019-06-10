@@ -20,7 +20,7 @@ public class CustomStrategyDao {
 
     private static final String CUSTOM_STRATEGY_QUERY = "select * from strategy_custom";
 
-    private static final String INSERT_COMPANY_NAME_AND_STOCK_ID_QUERY = "insert into strategy_custom(stock_id,company_name) select a.stock_id,b.company_name from earning_preview a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id";
+    private static final String INSERT_COMPANY_NAME_AND_STOCK_ID_QUERY = "insert into strategy_custom(stock_id,company_name,.strategy_custom.isin) select a.stock_id,b.company_name,b.isin_code from earning_preview a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id";
     private static final String MCAP_QUERY = "select a.stock_id,CAST((c.shares_outstanding*d.close_price) as DECIMAL) mcap from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id ";
     private static final String PE_QUERY = "select a.stock_id,cast(c.pe as DECIMAL) from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id";
     private static final String PB_QUERY = "select a.stock_id, CAST(b.book_value_per_share as DECIMAL) pb from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id";
@@ -319,26 +319,27 @@ public class CustomStrategyDao {
         for (Object[] row : rows) {
             String stockIdData = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ? row[0].toString().trim() : "-";
             String companyNameData = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "-";
-            String mcapData = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ? row[2].toString().trim() : "-";
-            String industryData = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[3].toString()) ? row[3].toString().trim() : "-";
-            String peData = row[4] != null && !StringUtils.isEmpty(row[4].toString()) && !"-".equals(row[4].toString()) ? row[4].toString().trim() : "-";
-            String pbData = row[5] != null && !StringUtils.isEmpty(row[5].toString()) && !"-".equals(row[5].toString()) ? row[5].toString().trim() : "-";
-            String deData = row[6] != null && !StringUtils.isEmpty(row[6].toString()) && !"-".equals(row[6].toString()) ? row[6].toString().trim() : "-";
-            String currentRatioData = row[7] != null && !StringUtils.isEmpty(row[7].toString()) && !"-".equals(row[7].toString()) ? row[7].toString().trim() : "-";
+            String isinData = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ? row[2].toString().trim() : "-";
+            String mcapData = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[2].toString()) ? row[3].toString().trim() : "-";
+            String industryData = row[4] != null && !StringUtils.isEmpty(row[4].toString()) && !"-".equals(row[4].toString()) ? row[4].toString().trim() : "-";
+            String peData = row[5] != null && !StringUtils.isEmpty(row[5].toString()) && !"-".equals(row[5].toString()) ? row[5].toString().trim() : "-";
+            String pbData = row[6] != null && !StringUtils.isEmpty(row[6].toString()) && !"-".equals(row[6].toString()) ? row[6].toString().trim() : "-";
+            String deData = row[7] != null && !StringUtils.isEmpty(row[7].toString()) && !"-".equals(row[7].toString()) ? row[7].toString().trim() : "-";
+            String currentRatioData = row[8] != null && !StringUtils.isEmpty(row[8].toString()) && !"-".equals(row[8].toString()) ? row[8].toString().trim() : "-";
 
-            String netOperatingCashFlowData = row[8] != null && !StringUtils.isEmpty(row[8].toString()) && !"-".equals(row[8].toString()) ? row[8].toString().trim() : "-";
-            String roeData = row[9] != null && !StringUtils.isEmpty(row[9].toString()) && !"-".equals(row[9].toString()) ? row[9].toString().trim() : "-";
-            String operatingProfitMarginData = row[10] != null && !StringUtils.isEmpty(row[10].toString()) && !"-".equals(row[10].toString()) ? row[10].toString().trim() : "-";
+            String netOperatingCashFlowData = row[9] != null && !StringUtils.isEmpty(row[9].toString()) && !"-".equals(row[9].toString()) ? row[9].toString().trim() : "-";
+            String roeData = row[10] != null && !StringUtils.isEmpty(row[10].toString()) && !"-".equals(row[10].toString()) ? row[10].toString().trim() : "-";
+            String operatingProfitMarginData = row[11] != null && !StringUtils.isEmpty(row[11].toString()) && !"-".equals(row[11].toString()) ? row[11].toString().trim() : "-";
 
-            String patData = row[11] != null && !StringUtils.isEmpty(row[11].toString()) && !"-".equals(row[11].toString()) ? row[11].toString().trim() : "-";
-            String epsData = row[12] != null && !StringUtils.isEmpty(row[12].toString()) && !"-".equals(row[12].toString()) ? row[12].toString().trim() : "-";
-            String revenueData = row[13] != null && !StringUtils.isEmpty(row[13].toString()) && !"-".equals(row[13].toString()) ? row[13].toString().trim() : "-";
+            String patData = row[12] != null && !StringUtils.isEmpty(row[12].toString()) && !"-".equals(row[12].toString()) ? row[12].toString().trim() : "-";
+            String epsData = row[13] != null && !StringUtils.isEmpty(row[13].toString()) && !"-".equals(row[13].toString()) ? row[13].toString().trim() : "-";
+            String revenueData = row[14] != null && !StringUtils.isEmpty(row[14].toString()) && !"-".equals(row[14].toString()) ? row[14].toString().trim() : "-";
 
-            String totalFreeCashFlowData = row[14] != null && !StringUtils.isEmpty(row[14].toString()) && !"-".equals(row[14].toString()) ? row[6].toString().trim() : "-";
-            String returnOnAssetData = row[15] != null && !StringUtils.isEmpty(row[15].toString()) && !"-".equals(row[15].toString()) ? row[15].toString().trim() : "-";
-            String divYieldData = row[16] != null && !StringUtils.isEmpty(row[16].toString()) && !"-".equals(row[16].toString()) ? row[16].toString().trim() : "-";
-            String rotcData = row[17] != null && !StringUtils.isEmpty(row[17].toString()) && !"-".equals(row[17].toString()) ? row[17].toString().trim() : "-";
-            customStrategyDtoList.add(new CustomStrategyDto(stockIdData,companyNameData,mcapData,industryData,
+            String totalFreeCashFlowData = row[15] != null && !StringUtils.isEmpty(row[15].toString()) && !"-".equals(row[15].toString()) ? row[15].toString().trim() : "-";
+            String returnOnAssetData = row[16] != null && !StringUtils.isEmpty(row[16].toString()) && !"-".equals(row[16].toString()) ? row[16].toString().trim() : "-";
+            String divYieldData = row[17] != null && !StringUtils.isEmpty(row[17].toString()) && !"-".equals(row[17].toString()) ? row[17].toString().trim() : "-";
+            String rotcData = row[18] != null && !StringUtils.isEmpty(row[18].toString()) && !"-".equals(row[18].toString()) ? row[18].toString().trim() : "-";
+            customStrategyDtoList.add(new CustomStrategyDto(stockIdData,companyNameData,isinData, mcapData,industryData,
                     peData,pbData,deData,currentRatioData,netOperatingCashFlowData,roeData,operatingProfitMarginData,patData,epsData,revenueData,totalFreeCashFlowData,returnOnAssetData,divYieldData,rotcData));
         }
 
