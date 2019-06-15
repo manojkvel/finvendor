@@ -2,6 +2,7 @@ package com.finvendor.api.screener.stock.strategies.custom.controller;
 
 import com.finvendor.api.screener.stock.strategies.custom.dto.CustomStrategyDto;
 import com.finvendor.api.screener.stock.strategies.custom.dto.Filters;
+import com.finvendor.api.screener.stock.strategies.custom.dto.filter.CustomFilter;
 import com.finvendor.api.screener.stock.strategies.custom.service.CustomStrategyService;
 import com.finvendor.common.exception.ExceptionEnum;
 import com.finvendor.common.util.ErrorUtil;
@@ -27,7 +28,9 @@ public class CustomStrategyController {
             return new ResponseEntity<>("Custom Screener data feed completed successfully", HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("CustomStrategyController -> feedCustomScreenerData(...)", e);
-            return ErrorUtil.getError(ExceptionEnum.CUSTOM_STRATEGY_DATA_FEED.getCode(), ExceptionEnum.CUSTOM_STRATEGY_DATA_FEED.getUserMessage(), e);
+            return ErrorUtil
+                    .getError(ExceptionEnum.CUSTOM_STRATEGY_DATA_FEED.getCode(), ExceptionEnum.CUSTOM_STRATEGY_DATA_FEED.getUserMessage(),
+                            e);
         }
     }
 
@@ -38,29 +41,10 @@ public class CustomStrategyController {
 
     @GetMapping(value = "/customscreeners/recordstats", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findRecordStats(
-            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
-            @RequestParam(value = "mcap", required = false) String[] mcap,
-            @RequestParam(value = "industry", required = false) String industry,
-            @RequestParam(value = "pe", required = false) String[] pe,
-            @RequestParam(value = "pb", required = false) String[] pb,
-            @RequestParam(value = "debtToEquityRatio", required = false) String[] debtToEquityRatio,
-            @RequestParam(value = "currentRatio", required = false) String[] currentRatio,
-            @RequestParam(value = "netOperatingCashFlow", required = false) String[] netOperatingCashFlow,
-            @RequestParam(value = "roeInPercentage", required = false) String[] roeInPercentage,
-            @RequestParam(value = "operatingProfitMargin", required = false) String[] operatingProfitMargin,
-            @RequestParam(value = "patGrowthInPercentage", required = false) String[] patGrowthInPercentage,
-            @RequestParam(value = "epsGrowthInPercentage", required = false) String[] epsGrowthInPercentage,
-            @RequestParam(value = "revenueGrowthInPercentage", required = false) String[] revenueGrowthInPercentage,
-            @RequestParam(value = "totalFreeCashFlow", required = false) String[] totalFreeCashFlow,
-            @RequestParam(value = "returnOnAssetInPercentage", required = false) String[] returnOnAssetInPercentage,
-            @RequestParam(value = "divYield", required = false) String[] divYield,
-            @RequestParam(value = "rotcInPercentage", required = false) String[] rotcInPercentage
+            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords, @RequestBody CustomFilter customFilter
     ) {
         try {
-            String recordStats = service.findRecordStats(perPageMaxRecords, mcap, industry, pe, pb, debtToEquityRatio,
-                    currentRatio, netOperatingCashFlow, roeInPercentage, operatingProfitMargin, patGrowthInPercentage,
-                    epsGrowthInPercentage, revenueGrowthInPercentage,
-                    totalFreeCashFlow, returnOnAssetInPercentage, divYield, rotcInPercentage);
+            String recordStats = service.findRecordStats(perPageMaxRecords, customFilter);
             return new ResponseEntity<>(recordStats, HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("CustomStrategyController -> findRecordStats(...)", e);
@@ -68,35 +52,16 @@ public class CustomStrategyController {
         }
     }
 
-    @GetMapping(value = "/customscreeners", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/customscreeners", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findCustomScreeners(
             @RequestParam(value = "pageNumber") String pageNumber,
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
             @RequestParam(value = "sortBy") String sortBy,
-            @RequestParam(value = "orderBy") String orderBy,
-            @RequestParam(value = "mcap", required = false) String[] mcap,
-            @RequestParam(value = "industry", required = false) String industry,
-            @RequestParam(value = "pe", required = false) String[] pe,
-            @RequestParam(value = "pb", required = false) String[] pb,
-            @RequestParam(value = "debtToEquityRatio", required = false) String[] debtToEquityRatio,
-            @RequestParam(value = "currentRatio", required = false) String[] currentRatio,
-            @RequestParam(value = "netOperatingCashFlow", required = false) String[] netOperatingCashFlow,
-            @RequestParam(value = "roeInPercentage", required = false) String[] roeInPercentage,
-            @RequestParam(value = "operatingProfitMargin", required = false) String[] operatingProfitMargin,
-            @RequestParam(value = "patGrowthInPercentage", required = false) String[] patGrowthInPercentage,
-            @RequestParam(value = "epsGrowthInPercentage", required = false) String[] epsGrowthInPercentage,
-            @RequestParam(value = "revenueGrowthInPercentage", required = false) String[] revenueGrowthInPercentage,
-            @RequestParam(value = "totalFreeCashFlow", required = false) String[] totalFreeCashFlow,
-            @RequestParam(value = "returnOnAssetInPercentage", required = false) String[] returnOnAssetInPercentage,
-            @RequestParam(value = "divYield", required = false) String[] divYield,
-            @RequestParam(value = "rotcInPercentage", required = false) String[] rotcInPercentage
+            @RequestParam(value = "orderBy") String orderBy, @RequestBody CustomFilter customFilter
     ) {
         try {
             List<CustomStrategyDto> customScreeners = service
-                    .findCustomScreeners(pageNumber, perPageMaxRecords, sortBy, orderBy, mcap, industry, pe, pb, debtToEquityRatio,
-                            currentRatio, netOperatingCashFlow, roeInPercentage, operatingProfitMargin, patGrowthInPercentage,
-                            epsGrowthInPercentage, revenueGrowthInPercentage,
-                            totalFreeCashFlow, returnOnAssetInPercentage, divYield, rotcInPercentage);
+                    .findCustomScreeners(pageNumber, perPageMaxRecords, sortBy, orderBy, customFilter);
 
             return new ResponseEntity<>(customScreeners, HttpStatus.OK);
         } catch (Exception e) {
