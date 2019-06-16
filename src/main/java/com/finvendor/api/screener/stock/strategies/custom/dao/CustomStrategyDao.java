@@ -1,6 +1,7 @@
 package com.finvendor.api.screener.stock.strategies.custom.dao;
 
 import com.finvendor.api.screener.stock.strategies.custom.dto.CustomStrategyDto;
+import com.finvendor.api.screener.stock.strategies.custom.dto.filter.*;
 import com.finvendor.api.screener.stock.strategies.custom.enums.FilterTypeEnum;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.util.CommonCodeUtils;
@@ -113,8 +114,9 @@ public class CustomStrategyDao {
         SQLQuery query = commonDao.getNativeQuery(findQuery, null);
         List<Object[]> rows = query.list();
 
-        int c = 1;
-        float sum = 0.0F;
+        int c = 0;
+        int index=0;
+        float[] valueArr=new float[4];
         for (Object[] row : rows) {
             int stockId = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ?
                     Integer.parseInt(row[0].toString().trim()) : 0;
@@ -122,9 +124,17 @@ public class CustomStrategyDao {
             if (c <= 3) {
                 temp = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ?
                         Float.parseFloat(row[2].toString().trim()) : 0.0F;
-                sum += temp;
+                valueArr[index++]=temp;
             }
             else if (c == 4) {
+                float sum=0.0F;
+                for(int i = 0; i < valueArr.length - 1; i++) {
+                    float yearData = valueArr[i];
+                    float prevYearData = valueArr[i + 1];
+                    float _percentGrowth = (yearData - prevYearData) * 100 / prevYearData;
+                    sum+=_percentGrowth;
+                }
+
                 float avgTmp = sum / 3.0f; //-471.86, -157.286666
                 SQLQuery updateQuery = commonDao.getNativeQuery(updateSql, null);
                 updateQuery.setString(0, String.format("%.10f", (avgTmp * 100.0F)));
@@ -133,7 +143,7 @@ public class CustomStrategyDao {
             }
             else if (c == 5) {
                 c = 0;
-                sum = 0.0F;
+
             }
             c++;
         }
@@ -205,63 +215,78 @@ public class CustomStrategyDao {
         switch (filterTypeEnum) {
         case MCAP:
             logger.info("MCAP");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.mcap as DECIMAL)) min,MAX(cast(a.mcap as DECIMAL)) max  from strategy_custom a order by cast(a.mcap as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.mcap as DECIMAL)) min,MAX(cast(a.mcap as DECIMAL)) max  from strategy_custom a order by cast(a.mcap as DECIMAL)");
             break;
         case PE:
             logger.info("PE");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.pe as DECIMAL)) min,MAX(cast(a.pe as DECIMAL)) max  from strategy_custom a order by cast(a.pe as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.pe as DECIMAL)) min,MAX(cast(a.pe as DECIMAL)) max  from strategy_custom a order by cast(a.pe as DECIMAL)");
             break;
         case PB:
             logger.info("PB");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.pb as DECIMAL)) min,MAX(cast(a.pb as DECIMAL)) max  from strategy_custom a order by cast(a.pb as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.pb as DECIMAL)) min,MAX(cast(a.pb as DECIMAL)) max  from strategy_custom a order by cast(a.pb as DECIMAL)");
             break;
         case DE:
             logger.info("DE");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.debtToEquityRatio as DECIMAL)) min,MAX(cast(a.debtToEquityRatio as DECIMAL)) max  from strategy_custom a order by cast(a.debtToEquityRatio as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.debtToEquityRatio as DECIMAL)) min,MAX(cast(a.debtToEquityRatio as DECIMAL)) max  from strategy_custom a order by cast(a.debtToEquityRatio as DECIMAL)");
             break;
         case CURRENT_RATIO:
             logger.info("CURRENT_RATIO");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.currentRatio as DECIMAL)) min,MAX(cast(a.currentRatio as DECIMAL)) max  from strategy_custom a order by cast(a.currentRatio as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.currentRatio as DECIMAL)) min,MAX(cast(a.currentRatio as DECIMAL)) max  from strategy_custom a order by cast(a.currentRatio as DECIMAL)");
             break;
         case NET_OPERATING_CASH_FLOW:
             logger.info("NET_OPERATING_CASH_FLOW");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.netOperatingCashFlow as DECIMAL)) min,MAX(cast(a.netOperatingCashFlow as DECIMAL)) max  from strategy_custom a order by cast(a.netOperatingCashFlow as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.netOperatingCashFlow as DECIMAL)) min,MAX(cast(a.netOperatingCashFlow as DECIMAL)) max  from strategy_custom a order by cast(a.netOperatingCashFlow as DECIMAL)");
             break;
         case OPERATING_PROFIT_MARGIN:
             logger.info("OPERATING_PROFIT_MARGIN");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.operatingProfitMargin as DECIMAL)) min,MAX(cast(a.operatingProfitMargin as DECIMAL)) max  from strategy_custom a order by cast(a.operatingProfitMargin as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.operatingProfitMargin as DECIMAL)) min,MAX(cast(a.operatingProfitMargin as DECIMAL)) max  from strategy_custom a order by cast(a.operatingProfitMargin as DECIMAL)");
             break;
         case ROE:
             logger.info("ROE");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.roeInPercentage as DECIMAL)) min,MAX(cast(a.roeInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.roeInPercentage as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.roeInPercentage as DECIMAL)) min,MAX(cast(a.roeInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.roeInPercentage as DECIMAL)");
             break;
         case PAT:
             logger.info("PAT");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.patGrowthInPercentage as DECIMAL)) min,MAX(cast(a.patGrowthInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.patGrowthInPercentage as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.patGrowthInPercentage as DECIMAL)) min,MAX(cast(a.patGrowthInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.patGrowthInPercentage as DECIMAL)");
             break;
         case EPS:
             logger.info("EPS");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.epsGrowthInPercentage as DECIMAL)) min,MAX(cast(a.epsGrowthInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.epsGrowthInPercentage as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.epsGrowthInPercentage as DECIMAL)) min,MAX(cast(a.epsGrowthInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.epsGrowthInPercentage as DECIMAL)");
             break;
         case REVENUE:
             logger.info("REVENUE");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.revenueGrowthInPercentage as DECIMAL)) min,MAX(cast(a.revenueGrowthInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.revenueGrowthInPercentage as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.revenueGrowthInPercentage as DECIMAL)) min,MAX(cast(a.revenueGrowthInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.revenueGrowthInPercentage as DECIMAL)");
             break;
         case TOTAL_FREE_CASH_FLOW:
             logger.info("TOTAL_FREE_CASH_FLOW");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.totalFreeCashFlow as DECIMAL)) min,MAX(cast(a.totalFreeCashFlow as DECIMAL)) max  from strategy_custom a order by cast(a.totalFreeCashFlow as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.totalFreeCashFlow as DECIMAL)) min,MAX(cast(a.totalFreeCashFlow as DECIMAL)) max  from strategy_custom a order by cast(a.totalFreeCashFlow as DECIMAL)");
             break;
         case RETURN_ON_ASSETS:
             logger.info("RETURN_ON_ASSETS");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.returnOnAssetInPercentage as DECIMAL)) min,MAX(cast(a.returnOnAssetInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.returnOnAssetInPercentage as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.returnOnAssetInPercentage as DECIMAL)) min,MAX(cast(a.returnOnAssetInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.returnOnAssetInPercentage as DECIMAL)");
             break;
         case DIV_YIELD:
             logger.info("DIV_YIELD");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.divYield as DECIMAL)) min,MAX(cast(a.divYield as DECIMAL)) max  from strategy_custom a order by cast(a.divYield as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.divYield as DECIMAL)) min,MAX(cast(a.divYield as DECIMAL)) max  from strategy_custom a order by cast(a.divYield as DECIMAL)");
             break;
         case ROTC:
             logger.info("ROTC");
-            absoluteMinMaxPair = getAbsoluteMinMax(min, max, "select MIN(cast(a.rotcInPercentage as DECIMAL)) min,MAX(cast(a.rotcInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.rotcInPercentage as DECIMAL)");
+            absoluteMinMaxPair = getAbsoluteMinMax(min, max,
+                    "select MIN(cast(a.rotcInPercentage as DECIMAL)) min,MAX(cast(a.rotcInPercentage as DECIMAL)) max  from strategy_custom a order by cast(a.rotcInPercentage as DECIMAL)");
             break;
         }
         return absoluteMinMaxPair;
@@ -272,8 +297,12 @@ public class CustomStrategyDao {
         SQLQuery query = commonDao.getNativeQuery(sql, null);
         List<Object[]> rows = query.list();
         for (Object[] row : rows) {
-            min = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ? row[0].toString().trim() : "0.0";
-            max = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "0.0";
+            min = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ?
+                    row[0].toString().trim() :
+                    "0.0";
+            max = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ?
+                    row[1].toString().trim() :
+                    "0.0";
             logger.info("DB Min:{}", min);
             logger.info("DB Max:{}", max);
         }
@@ -286,30 +315,25 @@ public class CustomStrategyDao {
         List<Object[]> rows = query.list();
         List<String> industryList = new ArrayList<>();
         for (Object[] row : rows) {
-            String industryName = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "NA";
+            String industryName = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ?
+                    row[1].toString().trim() :
+                    "NA";
             industryList.add(industryName);
         }
         return industryList;
     }
 
-    public String findRecordStats(String perPageMaxRecords, String[] mcap, String industry, String[] pe, String[] pb,
-            String[] debtToEquityRatio, String[] currentRatio, String[] netOperatingCashFlow, String[] roeInPercentage,
-            String[] operatingProfitMargin, String[] patGrowthInPercentage, String[] epsGrowthInPercentage,
-            String[] revenueGrowthInPercentage, String[] totalFreeCashFlow, String[] returnOnAssetInPercentage, String[] divYield,
-            String[] rotcInPercentage) {
-        String filterQuery = applyFilter(mcap, industry, pe, pb, debtToEquityRatio, currentRatio, netOperatingCashFlow,
-                roeInPercentage, operatingProfitMargin, patGrowthInPercentage, epsGrowthInPercentage, revenueGrowthInPercentage,
-                totalFreeCashFlow, returnOnAssetInPercentage, divYield, rotcInPercentage);
+    public String findRecordStats(String perPageMaxRecords, CustomFilter customFilter) {
+        String filterQuery = customFilter == null ? "" : applyFilter(customFilter);
         String finalQuery = CUSTOM_STRATEGY_QUERY + filterQuery;
         SQLQuery query = commonDao.getNativeQuery(finalQuery, null);
         return CommonCodeUtils.getRecordStats(perPageMaxRecords, ((List<Object[]>) query.list()).size());
     }
 
-    public List<CustomStrategyDto> findCustomScreeners(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy, String[] mcap, String industry, String[] pe, String[] pb, String[] debtToEquityRatio, String[] currentRatio, String[] netOperatingCashFlow,
-            String[] roeInPercentage, String[] operatingProfitMargin, String[] patGrowthInPercentage, String[] epsGrowthInPercentage, String[] revenueGrowthInPercentage, String[] totalFreeCashFlow, String[] returnOnAssetInPercentage, String[] divYield, String[] rotcInPercentage) {
-        String applyFilter = applyFilter(mcap, industry, pe, pb, debtToEquityRatio, currentRatio, netOperatingCashFlow,
-                roeInPercentage, operatingProfitMargin, patGrowthInPercentage, epsGrowthInPercentage, revenueGrowthInPercentage,
-                totalFreeCashFlow, returnOnAssetInPercentage, divYield, rotcInPercentage);
+    public List<CustomStrategyDto> findCustomScreeners(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
+            CustomFilter customFilter) {
+
+        String applyFilter = customFilter == null ? "" : applyFilter(customFilter);
         String applyOrderBy = " order by cast(" + sortBy + " as decimal) " + orderBy;
         String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
         String sql = CUSTOM_STRATEGY_QUERY + applyFilter + applyOrderBy + applyPagination;
@@ -317,92 +341,170 @@ public class CustomStrategyDao {
         List<Object[]> rows = query.list();
         List<CustomStrategyDto> customStrategyDtoList = new ArrayList<>();
         for (Object[] row : rows) {
-            String stockIdData = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ? row[0].toString().trim() : "-";
-            String companyNameData = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? row[1].toString().trim() : "-";
-            String isinData = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ? row[2].toString().trim() : "-";
-            String mcapData = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[2].toString()) ? row[3].toString().trim() : "-";
-            String industryData = row[4] != null && !StringUtils.isEmpty(row[4].toString()) && !"-".equals(row[4].toString()) ? row[4].toString().trim() : "-";
-            String peData = row[5] != null && !StringUtils.isEmpty(row[5].toString()) && !"-".equals(row[5].toString()) ? row[5].toString().trim() : "-";
-            String pbData = row[6] != null && !StringUtils.isEmpty(row[6].toString()) && !"-".equals(row[6].toString()) ? row[6].toString().trim() : "-";
-            String deData = row[7] != null && !StringUtils.isEmpty(row[7].toString()) && !"-".equals(row[7].toString()) ? row[7].toString().trim() : "-";
-            String currentRatioData = row[8] != null && !StringUtils.isEmpty(row[8].toString()) && !"-".equals(row[8].toString()) ? row[8].toString().trim() : "-";
+            String stockIdData = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ?
+                    row[0].toString().trim() : "-";
+            String companyNameData = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ?
+                    row[1].toString().trim() :
+                    "-";
+            String isinData = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ?
+                    row[2].toString().trim() :
+                    "-";
+            String mcapData = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[2].toString()) ?
+                    row[3].toString().trim() :
+                    "-";
+            String industryData = row[4] != null && !StringUtils.isEmpty(row[4].toString()) && !"-".equals(row[4].toString()) ?
+                    row[4].toString().trim() :
+                    "-";
+            String peData = row[5] != null && !StringUtils.isEmpty(row[5].toString()) && !"-".equals(row[5].toString()) ?
+                    row[5].toString().trim() :
+                    "-";
+            String pbData = row[6] != null && !StringUtils.isEmpty(row[6].toString()) && !"-".equals(row[6].toString()) ?
+                    row[6].toString().trim() :
+                    "-";
+            String deData = row[7] != null && !StringUtils.isEmpty(row[7].toString()) && !"-".equals(row[7].toString()) ?
+                    row[7].toString().trim() :
+                    "-";
+            String currentRatioData = row[8] != null && !StringUtils.isEmpty(row[8].toString()) && !"-".equals(row[8].toString()) ?
+                    row[8].toString().trim() :
+                    "-";
 
-            String netOperatingCashFlowData = row[9] != null && !StringUtils.isEmpty(row[9].toString()) && !"-".equals(row[9].toString()) ? row[9].toString().trim() : "-";
-            String roeData = row[10] != null && !StringUtils.isEmpty(row[10].toString()) && !"-".equals(row[10].toString()) ? row[10].toString().trim() : "-";
-            String operatingProfitMarginData = row[11] != null && !StringUtils.isEmpty(row[11].toString()) && !"-".equals(row[11].toString()) ? row[11].toString().trim() : "-";
+            String netOperatingCashFlowData = row[9] != null && !StringUtils.isEmpty(row[9].toString()) && !"-".equals(row[9].toString()) ?
+                    row[9].toString().trim() :
+                    "-";
+            String roeData = row[10] != null && !StringUtils.isEmpty(row[10].toString()) && !"-".equals(row[10].toString()) ?
+                    row[10].toString().trim() :
+                    "-";
+            String operatingProfitMarginData =
+                    row[11] != null && !StringUtils.isEmpty(row[11].toString()) && !"-".equals(row[11].toString()) ?
+                            row[11].toString().trim() :
+                            "-";
 
-            String patData = row[12] != null && !StringUtils.isEmpty(row[12].toString()) && !"-".equals(row[12].toString()) ? row[12].toString().trim() : "-";
-            String epsData = row[13] != null && !StringUtils.isEmpty(row[13].toString()) && !"-".equals(row[13].toString()) ? row[13].toString().trim() : "-";
-            String revenueData = row[14] != null && !StringUtils.isEmpty(row[14].toString()) && !"-".equals(row[14].toString()) ? row[14].toString().trim() : "-";
+            String patData = row[12] != null && !StringUtils.isEmpty(row[12].toString()) && !"-".equals(row[12].toString()) ?
+                    row[12].toString().trim() :
+                    "-";
+            String epsData = row[13] != null && !StringUtils.isEmpty(row[13].toString()) && !"-".equals(row[13].toString()) ?
+                    row[13].toString().trim() :
+                    "-";
+            String revenueData = row[14] != null && !StringUtils.isEmpty(row[14].toString()) && !"-".equals(row[14].toString()) ?
+                    row[14].toString().trim() :
+                    "-";
 
-            String totalFreeCashFlowData = row[15] != null && !StringUtils.isEmpty(row[15].toString()) && !"-".equals(row[15].toString()) ? row[15].toString().trim() : "-";
-            String returnOnAssetData = row[16] != null && !StringUtils.isEmpty(row[16].toString()) && !"-".equals(row[16].toString()) ? row[16].toString().trim() : "-";
-            String divYieldData = row[17] != null && !StringUtils.isEmpty(row[17].toString()) && !"-".equals(row[17].toString()) ? row[17].toString().trim() : "-";
-            String rotcData = row[18] != null && !StringUtils.isEmpty(row[18].toString()) && !"-".equals(row[18].toString()) ? row[18].toString().trim() : "-";
-            customStrategyDtoList.add(new CustomStrategyDto(stockIdData,companyNameData,isinData, mcapData,industryData,
-                    peData,pbData,deData,currentRatioData,netOperatingCashFlowData,roeData,operatingProfitMarginData,patData,epsData,revenueData,totalFreeCashFlowData,returnOnAssetData,divYieldData,rotcData));
+            String totalFreeCashFlowData = row[15] != null && !StringUtils.isEmpty(row[15].toString()) && !"-".equals(row[15].toString()) ?
+                    row[15].toString().trim() :
+                    "-";
+            String returnOnAssetData = row[16] != null && !StringUtils.isEmpty(row[16].toString()) && !"-".equals(row[16].toString()) ?
+                    row[16].toString().trim() :
+                    "-";
+            String divYieldData = row[17] != null && !StringUtils.isEmpty(row[17].toString()) && !"-".equals(row[17].toString()) ?
+                    row[17].toString().trim() :
+                    "-";
+            String rotcData = row[18] != null && !StringUtils.isEmpty(row[18].toString()) && !"-".equals(row[18].toString()) ?
+                    row[18].toString().trim() :
+                    "-";
+            customStrategyDtoList.add(new CustomStrategyDto(stockIdData, companyNameData, isinData, mcapData, industryData,
+                    peData, pbData, deData, currentRatioData, netOperatingCashFlowData, roeData, operatingProfitMarginData, patData,
+                    epsData, revenueData, totalFreeCashFlowData, returnOnAssetData, divYieldData, rotcData));
         }
-
 
         return customStrategyDtoList;
     }
 
-    private String applyFilter(String[] mcap, String industry, String[] pe, String[] pb, String[] debtToEquityRatio, String[] currentRatio,
-            String[] netOperatingCashFlow, String[] roeInPercentage, String[] operatingProfitMargin, String[] patGrowthInPercentage,
-            String[] epsGrowthInPercentage, String[] revenueGrowthInPercentage,
-            String[] totalFreeCashFlow, String[] returnOnAssetInPercentage, String[] divYield, String[] rotcInPercentage) {
-        StringBuilder partQuery=new StringBuilder(200);
-        StringBuilder finalFilterQuery=new StringBuilder(200);
+    private String applyFilter(CustomFilter customFilter) {
+        StringBuilder partQuery = new StringBuilder(200);
+        StringBuilder finalFilterQuery = new StringBuilder(200);
 
-        if(mcap!= null) {
-            partQuery.append("(cast(mcap as decimal) >=").append(mcap[0]).append(" and cast(mcap as decimal) <=").append(mcap[1]).append(")");
+        Mcap mcap = customFilter.getMcap();
+        Pe pe = customFilter.getPe();
+        Pb pb = customFilter.getPb();
+        DebtToEquityRatio debtToEquityRatio = customFilter.getDebtToEquityRatio();
+        CurrentRatio currentRatio = customFilter.getCurrentRatio();
+        NetOperatingCashFlow netOperatingCashFlow = customFilter.getNetOperatingCashFlow();
+        RoeInPercentage roeInPercentage = customFilter.getRoeInPercentage();
+        OperatingProfitMargin operatingProfitMargin = customFilter.getOperatingProfitMargin();
+        PatGrowthInPercentage patGrowthInPercentage = customFilter.getPatGrowthInPercentage();
+        EpsGrowthInPercentage epsGrowthInPercentage = customFilter.getEpsGrowthInPercentage();
+        RevenueGrowthInPercentage revenueGrowthInPercentage = customFilter.getRevenueGrowthInPercentage();
+        TotalFreeCashFlow totalFreeCashFlow = customFilter.getTotalFreeCashFlow();
+        ReturnOnAssetInPercentage returnOnAssetInPercentage = customFilter.getReturnOnAssetInPercentage();
+        DivYield divYield = customFilter.getDivYield();
+        RotcInPercentage rotcInPercentage = customFilter.getRotcInPercentage();
+        List<String> industryList = customFilter.getIndustry();
+        if (mcap != null) {
+            partQuery.append("(cast(mcap as decimal) >=").append(mcap.getMin()).append(" and cast(mcap as decimal) <=")
+                    .append(mcap.getMax())
+                    .append(")");
         }
-        if(pe!= null) {
-            partQuery.append("and (cast(pe as decimal)>=").append(pe[0]).append(" and cast(pe as decimal)<=").append(pe[1]).append(")");
+        if (pe != null) {
+            partQuery.append(" and (cast(pe as decimal)>=").append(pe.getMin()).append(" and cast(pe as decimal)<=").append(pe.getMax())
+                    .append(")");
         }
-        if(pb!= null) {
-            partQuery.append("and (cast(pb as decimal)>=").append(pb[0]).append(" and cast(pb as decimal)<=").append(pb[1]).append(")");
+        if (pb != null) {
+            partQuery.append(" and (cast(pb as decimal)>=").append(pb.getMin()).append(" and cast(pb as decimal)<=").append(pb.getMax())
+                    .append(")");
         }
-        if(debtToEquityRatio!= null) {
-            partQuery.append("and (cast(debtToEquityRatio as decimal)>=").append(debtToEquityRatio[0]).append(" 2").append(debtToEquityRatio[1]).append(")");
+        if (debtToEquityRatio != null) {
+            partQuery.append(" and (cast(debtToEquityRatio as decimal)>=").append(debtToEquityRatio.getMin())
+                    .append(" and cast(debtToEquityRatio as decimal)<=")
+                    .append(debtToEquityRatio.getMax()).append(")");
         }
-        if(currentRatio!= null) {
-            partQuery.append("and (cast(currentRatio as decimal)>=").append(currentRatio[0]).append(" and cast(currentRatio as decimal)<=").append(currentRatio[1]).append(")");
+        if (currentRatio != null) {
+            partQuery.append(" and (cast(currentRatio as decimal)>=").append(currentRatio.getMin())
+                    .append(" and cast(currentRatio as decimal)<=")
+                    .append(currentRatio.getMax()).append(")");
         }
-        if(netOperatingCashFlow!= null) {
-            partQuery.append("and (cast(netOperatingCashFlow as decimal)>=").append(netOperatingCashFlow[0]).append(" and cast(netOperatingCashFlow as decimal)<=").append(netOperatingCashFlow[1]).append(")");
+        if (netOperatingCashFlow != null) {
+            partQuery.append(" and (cast(netOperatingCashFlow as decimal)>=").append(netOperatingCashFlow.getMin())
+                    .append(" and cast(netOperatingCashFlow as decimal)<=").append(netOperatingCashFlow.getMax()).append(")");
         }
-        if(roeInPercentage!= null) {
-            partQuery.append("and (cast(roeInPercentage as decimal)>=").append(roeInPercentage[0]).append(" and cast(mcap as decimal) <=").append(roeInPercentage[1]).append(")");
+        if (roeInPercentage != null) {
+            partQuery.append(" and (cast(roeInPercentage as decimal)>=").append(roeInPercentage.getMin())
+                    .append(" and cast(mcap as decimal) <=")
+                    .append(roeInPercentage.getMax()).append(")");
         }
-        if(operatingProfitMargin!= null) {
-            partQuery.append("and (cast(operatingProfitMargin as decimal)>=").append(operatingProfitMargin[0]).append(" and cast(operatingProfitMargin as decimal)<=").append(operatingProfitMargin[1]).append(")");
+        if (operatingProfitMargin != null) {
+            partQuery.append(" and (cast(operatingProfitMargin as decimal)>=").append(operatingProfitMargin.getMin())
+                    .append(" and cast(operatingProfitMargin as decimal)<=").append(operatingProfitMargin.getMax()).append(")");
         }
-        if(patGrowthInPercentage!= null) {
-            partQuery.append("and (cast(patGrowthInPercentage as decimal)>=").append(patGrowthInPercentage[0]).append(" and cast(patGrowthInPercentage as decimal)<=").append(patGrowthInPercentage[1]).append(")");
+        if (patGrowthInPercentage != null) {
+            partQuery.append(" and (cast(patGrowthInPercentage as decimal)>=").append(patGrowthInPercentage.getMin())
+                    .append(" and cast(patGrowthInPercentage as decimal)<=").append(patGrowthInPercentage.getMax()).append(")");
         }
-        if(epsGrowthInPercentage!= null) {
-            partQuery.append("and (cast(epsGrowthInPercentage as decimal)>=").append(epsGrowthInPercentage[0]).append(" and cast(epsGrowthInPercentage as decimal)<=").append(epsGrowthInPercentage[1]).append(")");
+        if (epsGrowthInPercentage != null) {
+            partQuery.append(" and (cast(epsGrowthInPercentage as decimal)>=").append(epsGrowthInPercentage.getMin())
+                    .append(" and cast(epsGrowthInPercentage as decimal)<=").append(epsGrowthInPercentage.getMax()).append(")");
         }
-        if(revenueGrowthInPercentage!= null) {
-            partQuery.append("and (cast(revenueGrowthInPercentage as decimal)>=").append(revenueGrowthInPercentage[0]).append(" and cast(revenueGrowthInPercentage as decimal)<=").append(revenueGrowthInPercentage[1]).append(")");
+        if (revenueGrowthInPercentage != null) {
+            partQuery.append("and (cast(revenueGrowthInPercentage as decimal)>=").append(revenueGrowthInPercentage.getMin())
+                    .append(" and cast(revenueGrowthInPercentage as decimal)<=").append(revenueGrowthInPercentage.getMax()).append(")");
         }
-        if(totalFreeCashFlow!= null) {
-            partQuery.append("and (cast(totalFreeCashFlow as decimal)>=").append(totalFreeCashFlow[0]).append(" and cast(totalFreeCashFlow as decimal)<=").append(totalFreeCashFlow[1]).append(")");
+        if (totalFreeCashFlow != null) {
+            partQuery.append(" and (cast(totalFreeCashFlow as decimal)>=").append(totalFreeCashFlow.getMin())
+                    .append(" and cast(totalFreeCashFlow as decimal)<=").append(totalFreeCashFlow.getMax()).append(")");
         }
-        if(returnOnAssetInPercentage!= null) {
-            partQuery.append("and (cast(returnOnAssetInPercentage as decimal)>=").append(returnOnAssetInPercentage[0]).append(" and cast(returnOnAssetInPercentage as decimal)<=").append(returnOnAssetInPercentage[1]).append(")");
+        if (returnOnAssetInPercentage != null) {
+            partQuery.append(" and (cast(returnOnAssetInPercentage as decimal)>=").append(returnOnAssetInPercentage.getMin())
+                    .append(" and cast(returnOnAssetInPercentage as decimal)<=").append(returnOnAssetInPercentage.getMax()).append(")");
         }
-        if(divYield!= null) {
-            partQuery.append("and (cast(divYield as decimal)>=").append(divYield[0]).append(" and cast(divYield as decimal)<=").append(divYield[1]).append(")");
+        if (divYield != null) {
+            partQuery.append(" and (cast(divYield as decimal)>=").append(divYield.getMin()).append(" and cast(divYield as decimal)<=")
+                    .append(divYield.getMax()).append(")");
         }
-        if(rotcInPercentage!= null) {
-            partQuery.append("and (cast(rotcInPercentage as decimal)>=").append(rotcInPercentage[0]).append(" and cast(rotcInPercentage as decimal)<=").append(rotcInPercentage[1]).append(")");
+        if (rotcInPercentage != null) {
+            partQuery.append(" and (cast(rotcInPercentage as decimal)>=").append(rotcInPercentage.getMin())
+                    .append(" and cast(rotcInPercentage as decimal)<=").append(rotcInPercentage.getMax()).append(")");
         }
-        if (!StringUtils.isEmpty(industry)) {
-            partQuery.append("industry='").append(industry).append('\'');
+        StringBuilder industrySb = null;
+        if (industryList != null && !industryList.isEmpty()) {
+            industrySb = new StringBuilder(300);
+            for (String industry : industryList) {
+                industrySb.append("\'").append(industry).append("\'").append(",");
+            }
         }
-        if(partQuery.length()!=0){
+        if (industrySb != null && industrySb.length() > 0) {
+            industrySb.deleteCharAt(industrySb.length() - 1);
+            partQuery.append("industry IN(").append(industrySb.toString()).append(")");
+        }
+        if (partQuery.length() != 0) {
             finalFilterQuery.append(" where ").append(partQuery);
         }
         return finalFilterQuery.toString();
@@ -422,6 +524,5 @@ public class CustomStrategyDao {
         System.out.println(((long) 1.23) + 1);
 
     }
-
 
 }

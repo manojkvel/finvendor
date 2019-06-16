@@ -4,6 +4,7 @@ import com.finvendor.api.screener.stock.strategies.custom.dao.CustomStrategyDao;
 import com.finvendor.api.screener.stock.strategies.custom.dto.CustomStrategyDto;
 import com.finvendor.api.screener.stock.strategies.custom.dto.IndustryData;
 import com.finvendor.api.screener.stock.strategies.custom.dto.SliderData;
+import com.finvendor.api.screener.stock.strategies.custom.dto.filter.CustomFilter;
 import com.finvendor.api.screener.stock.strategies.custom.enums.FilterTypeEnum;
 import com.finvendor.common.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,31 +21,17 @@ public class CustomStrategyService {
     @Autowired
     private CustomStrategyDao dao;
 
-    public String findRecordStats(String perPageMaxRecords, String[] mcap, String industry, String[] pe, String[] pb,
-            String[] debtToEquityRatio, String[] currentRatio, String[] netOperatingCashFlow, String[] roeInPercentage,
-            String[] operatingProfitMargin, String[] patGrowthInPercentage, String[] epsGrowthInPercentage,
-            String[] revenueGrowthInPercentage, String[] totalFreeCashFlow, String[] returnOnAssetInPercentage, String[] divYield,
-            String[] rotcInPercentage) throws Exception {
+    public String findRecordStats(String perPageMaxRecords,CustomFilter customFilter) throws Exception {
         try {
-            return dao.findRecordStats(perPageMaxRecords, mcap, industry, pe, pb, debtToEquityRatio,
-                    currentRatio, netOperatingCashFlow, roeInPercentage, operatingProfitMargin, patGrowthInPercentage,
-                    epsGrowthInPercentage, revenueGrowthInPercentage,
-                    totalFreeCashFlow, returnOnAssetInPercentage, divYield, rotcInPercentage);
+            return dao.findRecordStats(perPageMaxRecords,customFilter);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
-    public List<CustomStrategyDto> findCustomScreeners(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy, String[] mcap, String industry, String[] pe, String[] pb,
-            String[] debtToEquityRatio, String[] currentRatio, String[] netOperatingCashFlow, String[] roeInPercentage,
-            String[] operatingProfitMargin, String[] patGrowthInPercentage, String[] epsGrowthInPercentage,
-            String[] revenueGrowthInPercentage, String[] totalFreeCashFlow, String[] returnOnAssetInPercentage, String[] divYield,
-            String[] rotcInPercentage) throws Exception {
+    public List<CustomStrategyDto> findCustomScreeners(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy, CustomFilter customFilter) throws Exception {
         try {
-            return dao.findCustomScreeners(pageNumber, perPageMaxRecords, sortBy, orderBy, mcap, industry, pe, pb, debtToEquityRatio,
-                    currentRatio, netOperatingCashFlow, roeInPercentage, operatingProfitMargin, patGrowthInPercentage,
-                    epsGrowthInPercentage, revenueGrowthInPercentage,
-                    totalFreeCashFlow, returnOnAssetInPercentage, divYield, rotcInPercentage);
+            return dao.findCustomScreeners(pageNumber, perPageMaxRecords, sortBy, orderBy, customFilter);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
@@ -76,7 +63,7 @@ public class CustomStrategyService {
         Pair divYieldFilter = dao.findSliderFilterData(FilterTypeEnum.DIV_YIELD);
         Pair rotcFilter = dao.findSliderFilterData(FilterTypeEnum.ROTC);
 
-        sliderDataList.add(new SliderData("mcap", "MarketCapitalisation (1000 INR, crores)", mcapFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("mcap", "MarketCapitalisation (Thousands Crores)", mcapFilter.getElement1().toString(),
                 mcapFilter.getElement2().toString()));
         sliderDataList.add(new SliderData("pe", "P/E(Trailing)", peFilter.getElement1().toString(), peFilter.getElement2().toString()));
         sliderDataList
@@ -87,7 +74,7 @@ public class CustomStrategyService {
                 .add(new SliderData("currentRatio", "CurrentRatio", currentRatioFilter.getElement1().toString(),
                         currentRatioFilter.getElement2().toString()));
         sliderDataList
-                .add(new SliderData("netOperatingCashFlow", "NetOperatingCashFlow (1000 INR, crores)", operatingCashFlowFilter.getElement1().toString(),
+                .add(new SliderData("netOperatingCashFlow", "NetOperatingCashFlow (Thousands Crores)", operatingCashFlowFilter.getElement1().toString(),
                         operatingCashFlowFilter.getElement2().toString()));
         sliderDataList.add(new SliderData("roeInPercentage", "ROE (avg 3Y; in%)", roeFilter.getElement1().toString(),
                 roeFilter.getElement2().toString()));
@@ -101,13 +88,13 @@ public class CustomStrategyService {
         sliderDataList
                 .add(new SliderData("revenueGrowthInPercentage", "RevenueGrowth (avg 3Y; in %)", revenueFilter.getElement1().toString(),
                         revenueFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("totalFreeCashFlow", "TotalFreeCashFlow (1000 INR, crores)", totalFreeCashFlowFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("totalFreeCashFlow", "TotalFreeCashFlow (Thousands Crores)", totalFreeCashFlowFilter.getElement1().toString(),
                 totalFreeCashFlowFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("returnOnAssetInPercentage", "ReturnonAssets", revenueFilter1.getElement1().toString(),
+        sliderDataList.add(new SliderData("returnOnAssetInPercentage", "ReturnOnAssets", revenueFilter1.getElement1().toString(),
                 revenueFilter1.getElement2().toString()));
         sliderDataList.add(new SliderData("divYield", "DividendYield(%)", divYieldFilter.getElement1().toString(),
                 divYieldFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("rotcInPercentage", "ReturnonTotalCapital", rotcFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("rotcInPercentage", "ReturnOnTotalCapital(%)", rotcFilter.getElement1().toString(),
                 rotcFilter.getElement2().toString()));
         return sliderDataList;
     }
