@@ -26,6 +26,7 @@ jQuery(document).ready(function() {
             this.sortByValue = 'mcap';
             this.orderBy = 'desc';
             this.industryFilterData = [];
+            this.selectedFilterBody = {};
             this.setFilterData(); //Function to start async call to filter data API and set response.
             this.getCustomScreenerData();
         },
@@ -119,6 +120,11 @@ jQuery(document).ready(function() {
             classRef.setRecordStats();
 
             $('#fv_custom_screener_search .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
+        },
+
+        updateFilterByValue: function(event) {
+            var classRef = event.data.this;
+            classRef.getCustomScreenerData();
         },
 
         getPerPageMaxRecords: function(event) {
@@ -277,7 +283,7 @@ jQuery(document).ready(function() {
                     }
                 };
 
-                httpRequest.send();
+                httpRequest.send(JSON.stringify(classRef.selectedFilterBody));
             });
         },
 
@@ -707,6 +713,13 @@ jQuery(document).ready(function() {
             } else {
                 $("#search_by_industry ul input").eq(0).prop('checked', false);
             }
+
+            classRef.selectedFilterBody.industry = classRef.industryFilterData;
+
+            if(classRef.industryFilterData.length === 0) {
+                delete classRef.selectedFilterBody.industry;
+            }
+            classRef.getCustomScreenerData();
         },
 
         // Find and remove item from an array
