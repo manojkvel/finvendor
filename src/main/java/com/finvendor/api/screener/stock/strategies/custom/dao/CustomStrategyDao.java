@@ -114,8 +114,9 @@ public class CustomStrategyDao {
         SQLQuery query = commonDao.getNativeQuery(findQuery, null);
         List<Object[]> rows = query.list();
 
-        int c = 1;
-        float sum = 0.0F;
+        int c = 0;
+        int index=0;
+        float[] valueArr=new float[4];
         for (Object[] row : rows) {
             int stockId = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ?
                     Integer.parseInt(row[0].toString().trim()) : 0;
@@ -123,9 +124,17 @@ public class CustomStrategyDao {
             if (c <= 3) {
                 temp = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ?
                         Float.parseFloat(row[2].toString().trim()) : 0.0F;
-                sum += temp;
+                valueArr[index++]=temp;
             }
             else if (c == 4) {
+                float sum=0.0F;
+                for(int i = 0; i < valueArr.length - 1; i++) {
+                    float yearData = valueArr[i];
+                    float prevYearData = valueArr[i + 1];
+                    float _percentGrowth = (yearData - prevYearData) * 100 / prevYearData;
+                    sum+=_percentGrowth;
+                }
+
                 float avgTmp = sum / 3.0f; //-471.86, -157.286666
                 SQLQuery updateQuery = commonDao.getNativeQuery(updateSql, null);
                 updateQuery.setString(0, String.format("%.10f", (avgTmp * 100.0F)));
@@ -134,7 +143,7 @@ public class CustomStrategyDao {
             }
             else if (c == 5) {
                 c = 0;
-                sum = 0.0F;
+
             }
             c++;
         }

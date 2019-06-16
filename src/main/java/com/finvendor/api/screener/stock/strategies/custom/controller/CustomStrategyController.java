@@ -39,7 +39,7 @@ public class CustomStrategyController {
         return new ResponseEntity<>(new Filters(service.findIndustryFilterData(), service.findSliderFilterData()), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/customscreeners/recordstats", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/customscreeners/recordstats", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findRecordStats(
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords, @RequestBody CustomFilter customFilter
     ) {
