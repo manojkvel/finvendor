@@ -521,7 +521,7 @@ public class CustomStrategyDao {
         }
         if (industrySb != null && industrySb.length() > 0) {
             industrySb.deleteCharAt(industrySb.length() - 1);
-            partQuery.append(" industry IN(").append(industrySb.toString()).append(")");
+            partQuery.append(" and industry IN(").append(industrySb.toString()).append(")");
         }
         if (partQuery.length() != 0) {
             finalFilterQuery.append(" where ").append(partQuery);
