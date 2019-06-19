@@ -17,6 +17,7 @@ import java.util.*;
 
 @Repository
 public class CustomStrategyDao {
+    public static final String DELETE_FROM_STRATEGY_CUSTOM = "delete from strategy_custom";
     private static final Logger logger = LoggerFactory.getLogger(CustomStrategyDao.class.getName());
 
     private static final String CUSTOM_STRATEGY_QUERY = "select * from strategy_custom";
@@ -36,7 +37,7 @@ public class CustomStrategyDao {
     private static final String EPS_GROWTH_QUERY = "select a.stock_id,a.period,a.eps from earning_preview_yearly a,earning_preview b where a.stock_id=b.stock_id order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
     private static final String REVENUE_QUERY = "select a.stock_id,a.period,a.revenue from earning_preview_yearly a,earning_preview b where a.stock_id=b.stock_id order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
 
-    private static final String TOTAL_FREE_CASH_FLOW_QUERY = "select a.stock_id, CAST((b.total_free_cashflow) as DECIMAL) tfcf from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by stock_id";
+    private static final String TOTAL_FREE_CASH_FLOW_QUERY = "select a.stock_id, CAST((b.total_free_cashflow) as DECIMAL)  from earning_preview a,earning_preview_as_of_date b where a.stock_id=b.stock_id order by stock_id";
     private static final String DIV_YIELD_QUERY = "select a.stock_id, CAST((c.dividend_yield) as DECIMAL) divy from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id";
     private static final String RETURN_ON_ASSET_QUERY = "select a.stock_id, a.period,a.profit_after_tax,b.avg_total_assets, (cast(a.profit_after_tax as decimal)/cast(b.avg_total_assets as decimal))*100 'ReturnOnAsset%' from earning_preview_yearly a, earning_preview_as_of_date b where a.stock_id=b.stock_id  order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
     private static final String ROTC_QUERY = "select a.stock_id,a.period,a.profit_after_tax,b.total_capital, ROUND((a.profit_after_tax/b.total_capital),2)*100 'ROTC%' from earning_preview_yearly a, earning_preview_as_of_date b where a.stock_id = b.stock_id  order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
@@ -46,8 +47,15 @@ public class CustomStrategyDao {
     @Autowired
     protected ICommonDao commonDao;
 
+    private void deleteAllRecordsFromStrategyTable(String deleteQuery1) {
+        SQLQuery deleteQuery = commonDao.getNativeQuery(deleteQuery1, null);
+        int count = deleteQuery.executeUpdate();
+        logger.info("strategy_custom table DELETED ALL RECORD COUNT: {}", count);
+    }
     public void insertCustomScreenerData() {
         try {
+            deleteAllRecordsFromStrategyTable(DELETE_FROM_STRATEGY_CUSTOM);
+
             insertCompanyNameAndStockId(INSERT_COMPANY_NAME_AND_STOCK_ID_QUERY);
             updateCustomScreenerTable(MCAP_QUERY, "update strategy_custom set mcap=? where stock_id=?");
             updateCustomScreenerTable(PE_QUERY, "update strategy_custom set pe=? where stock_id=?");
@@ -90,6 +98,30 @@ public class CustomStrategyDao {
     private void updateReturnOnAssetOrROTC(String findQuery, String updateSql) {
         SQLQuery query = commonDao.getNativeQuery(findQuery, null);
         List<Object[]> rows = query.list();
+
+        int prevStockId = 0;
+        for (int k = 0; k < rows.size(); k++) {
+            Object[] row0 = rows.get(k);
+            int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ? Integer.parseInt(row0[0].toString().trim()) : 0;
+            if (prevStockId != stockId) {
+                prevStockId = stockId;
+
+                float pat = row0[2] != null && !StringUtils.isEmpty(row0[2].toString()) && !"-".equals(row0[2].toString()) ?
+                        Float.parseFloat(row0[2].toString().trim()) : 0.0F;
+
+                float avgTotalAsset = row0[3] != null && !StringUtils.isEmpty(row0[3].toString()) && !"-".equals(row0[3].toString()) ?
+                        Float.parseFloat(row0[3].toString().trim()) : 0.0F;
+
+                float returnOnAsset = avgTotalAsset != 0.0F ? pat / avgTotalAsset : 0.0F;
+                SQLQuery updateQuery = commonDao.getNativeQuery(updateSql, null);
+                updateQuery.setString(0, String.format("%.10f", returnOnAsset*100));
+                updateQuery.setInteger(1, stockId);
+                updateQuery.executeUpdate();
+            }
+        }
+
+
+
         int c = 1;
         for (Object[] row : rows) {
             float temp;
@@ -114,38 +146,33 @@ public class CustomStrategyDao {
         SQLQuery query = commonDao.getNativeQuery(findQuery, null);
         List<Object[]> rows = query.list();
 
-        int c = 0;
-        int index=0;
-        float[] valueArr=new float[4];
-        for (Object[] row : rows) {
-            int stockId = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ?
-                    Integer.parseInt(row[0].toString().trim()) : 0;
-            float temp;
-            if (c <= 3) {
-                temp = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ?
-                        Float.parseFloat(row[2].toString().trim()) : 0.0F;
-                valueArr[index++]=temp;
-            }
-            else if (c == 4) {
-                float sum=0.0F;
-                for(int i = 0; i < valueArr.length - 1; i++) {
-                    float yearData = valueArr[i];
-                    float prevYearData = valueArr[i + 1];
-                    float _percentGrowth = (yearData - prevYearData) * 100 / prevYearData;
-                    sum+=_percentGrowth;
-                }
+        int prevStockId = 0;
+        for (int k = 0; k < rows.size(); k++) {
+            Object[] row0 = rows.get(k);
+            int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ? Integer.parseInt(row0[0].toString().trim()) : 0;
+            if (prevStockId != stockId) {
+                prevStockId = stockId;
+                Object[] row1 = rows.get(k + 1);
+                Object[] row2 = rows.get(k + 2);
+                Object[] row3 = rows.get(k + 3);
+                float temp0 = row0[2] != null && !StringUtils.isEmpty(row0[2].toString()) && !"-".equals(row0[2].toString()) ?
+                        Float.parseFloat(row0[2].toString().trim()) : 0.0F;
+                float temp1 = row1[2] != null && !StringUtils.isEmpty(row1[2].toString()) && !"-".equals(row1[2].toString()) ?
+                        Float.parseFloat(row1[2].toString().trim()) : 0.0F;
+                float temp2 = row2[2] != null && !StringUtils.isEmpty(row2[2].toString()) && !"-".equals(row2[2].toString()) ?
+                        Float.parseFloat(row2[2].toString().trim()) : 0.0F;
+                float temp3 = row3[2] != null && !StringUtils.isEmpty(row3[2].toString()) && !"-".equals(row3[2].toString()) ?
+                        Float.parseFloat(row3[2].toString().trim()) : 0.0F;
+                float y1_percentGrowth = (temp0 - temp1) * 100 / temp1;
+                float y2_percentGrowth = (temp1 - temp2) * 100 / temp2;
+                float y3_percentGrowth = (temp2 - temp3) * 100 / temp3;
+                float avgTmp = (y1_percentGrowth + y2_percentGrowth + y3_percentGrowth) / 3;
 
-                float avgTmp = sum / 3.0f; //-471.86, -157.286666
                 SQLQuery updateQuery = commonDao.getNativeQuery(updateSql, null);
-                updateQuery.setString(0, String.format("%.10f", (avgTmp * 100.0F)));
+                updateQuery.setString(0, String.format("%.10f", avgTmp));
                 updateQuery.setInteger(1, stockId);
                 updateQuery.executeUpdate();
             }
-            else if (c == 5) {
-                c = 0;
-
-            }
-            c++;
         }
     }
 
@@ -502,7 +529,7 @@ public class CustomStrategyDao {
         }
         if (industrySb != null && industrySb.length() > 0) {
             industrySb.deleteCharAt(industrySb.length() - 1);
-            partQuery.append("industry IN(").append(industrySb.toString()).append(")");
+            partQuery.append(" and industry IN(").append(industrySb.toString()).append(")");
         }
         if (partQuery.length() != 0) {
             finalFilterQuery.append(" where ").append(partQuery);
