@@ -1,20 +1,5 @@
 jQuery(document).ready(function() {
 
-
-    var resetFilters = function(e) {
-        clearSelection();
-        //resetPaginationCount();
-    };
-
-    var clearSelection = function() {
-        $(".slider_input").slider("refresh", {});
-
-        $("#sidebar-panel #search_by_industry input").prop('checked', false);
-    };
-
-    $('#sidebar-panel .sidebar-heading span').on('click', resetFilters);
-
-
     var doItYourselfObj = {
         init: function() {
             this.firstPageNumber = 1;
@@ -29,6 +14,28 @@ jQuery(document).ready(function() {
             this.selectedFilterBody = {};
             this.setFilterData(); //Function to start async call to filter data API and set response.
             this.getCustomScreenerData();
+        },
+
+        clearSelection : function() {
+            $(".slider_input").slider("refresh", {});
+
+            $("#sidebar-panel #search_by_industry input").prop('checked', false);
+        },
+
+        resetFilters : function(event) {
+            var classRef = event.data.this;
+            classRef.clearSelection();
+            $("#slider_0").slider().trigger("change", function(sliderValue) {
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#mcap_min").val(min);
+                    $("#mcap_max").val(max);
+
+                    classRef.handleSliderFilterJson('mcap', min, max);
+                });
+            //resetPaginationCount();
+            classRef.getCustomScreenerData();
         },
 
         getCustomScreenerHtml: function(response) {
@@ -231,6 +238,7 @@ jQuery(document).ready(function() {
 
         getCustomScreenerData: function() {
             var classRef = this;
+            classRef.isProgressLoader(true);
 
             classRef.getRecordStatsApi().then(function(stats) {
                 stats = JSON.parse(stats);
@@ -244,13 +252,14 @@ jQuery(document).ready(function() {
                     $("#fv_custom_screener_search .paging_container").remove();
                     serverResponse = JSON.parse(serverResponse);
                     classRef.getCustomScreenerHtml(serverResponse);
-                    isProgressLoader(false);
+                    classRef.isProgressLoader(false);
                 }, function(error) {
                     console.log(error);
-                    isProgressLoader(false);
+                    classRef.isProgressLoader(false);
                     $("#broker_table tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
                 });
             }, function(error) {
+                classRef.isProgressLoader(false);
                 $("#broker_table tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
             });
         },
@@ -267,7 +276,9 @@ jQuery(document).ready(function() {
                     mozSystem: true
                 });
                 //httpRequest.timeout = API_TIMEOUT_SMALL;
-                httpRequest.open('GET', url, true);
+                httpRequest.open('POST', url, true);
+                httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8'); 
                 httpRequest.ontimeout = function () {
                     reject("" + httpRequest.responseText);
                 };
@@ -299,7 +310,9 @@ jQuery(document).ready(function() {
                     mozSystem: true
                 });
                 //httpRequest.timeout = API_TIMEOUT_SMALL;
-                httpRequest.open('GET', url, true);
+                httpRequest.open('POST', url, true);
+                httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
                 httpRequest.ontimeout = function () {
                     reject("" + httpRequest.responseText);
                 };
@@ -315,7 +328,7 @@ jQuery(document).ready(function() {
                     }
                 };
 
-                httpRequest.send();
+                httpRequest.send(JSON.stringify(classRef.selectedFilterBody));
             });
         },
 
@@ -464,6 +477,9 @@ jQuery(document).ready(function() {
         setFilterHtml : function(response) {
             var classRef = this;
 
+
+            $('#sidebar-panel .sidebar-heading span').on('click', {this: classRef}, classRef.resetFilters);
+
             classRef.setIndustryFilterData(response).then(function(industryResponse) {
 
                 var sliderHtml = '';
@@ -523,85 +539,200 @@ jQuery(document).ready(function() {
 
 
                 z[0].on("change", function(sliderValue) {
-                    $("#mcap_min").val(sliderValue.value.newValue[0]);
-                    $("#mcap_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#mcap_min").val(min);
+                    $("#mcap_max").val(max);
+
+                    classRef.handleSliderFilterJson('mcap', min, max);
                 });
 
                 z[1].on("change", function(sliderValue) {
-                    $("#pe_min").val(sliderValue.value.newValue[0]);
-                    $("#pe_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#pe_min").val(min);
+                    $("#pe_max").val(max);
+
+                    classRef.handleSliderFilterJson('pe', min, max);
                 });
 
                 z[2].on("change", function(sliderValue) {
-                    $("#pb_min").val(sliderValue.value.newValue[0]);
-                    $("#pb_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#pb_min").val(min);
+                    $("#pb_max").val(max);
+
+                    classRef.handleSliderFilterJson('pb', min, max);
                 });
 
                 z[3].on("change", function(sliderValue) {
-                    $("#debtToEquityRatio_min").val(sliderValue.value.newValue[0]);
-                    $("#debtToEquityRatio_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#debtToEquityRatio_min").val(min);
+                    $("#debtToEquityRatio_max").val(max);
+
+                    classRef.handleSliderFilterJson('debtToEquityRatio', min, max);
                 });
 
                 z[4].on("change", function(sliderValue) {
-                    $("#currentRatio_min").val(sliderValue.value.newValue[0]);
-                    $("#currentRatio_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#currentRatio_min").val(min);
+                    $("#currentRatio_max").val(max);
+
+                    classRef.handleSliderFilterJson('currentRatio', min, max);
                 });
 
                 z[5].on("change", function(sliderValue) {
-                    $("#netOperatingCashFlow_min").val(sliderValue.value.newValue[0]);
-                    $("#netOperatingCashFlow_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#netOperatingCashFlow_min").val(min);
+                    $("#netOperatingCashFlow_max").val(max);
+
+                    classRef.handleSliderFilterJson('netOperatingCashFlow', min, max);
                 });
 
                 z[6].on("change", function(sliderValue) {
-                    $("#roeInPercentage_min").val(sliderValue.value.newValue[0]);
-                    $("#roeInPercentage_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#roeInPercentage_min").val(min);
+                    $("#roeInPercentage_max").val(max);
+
+                    classRef.handleSliderFilterJson('roeInPercentage', min, max);
                 });
 
                 z[7].on("change", function(sliderValue) {
-                    $("#operatingProfitMargin_min").val(sliderValue.value.newValue[0]);
-                    $("#operatingProfitMargin_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#operatingProfitMargin_min").val(min);
+                    $("#operatingProfitMargin_max").val(max);
+
+                    classRef.handleSliderFilterJson('operatingProfitMargin', min, max);
                 });
 
                 z[8].on("change", function(sliderValue) {
-                    $("#patGrowthInPercentage_min").val(sliderValue.value.newValue[0]);
-                    $("#patGrowthInPercentage_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#patGrowthInPercentage_min").val(min);
+                    $("#patGrowthInPercentage_max").val(max);
+
+                    classRef.handleSliderFilterJson('patGrowthInPercentage', min, max);
                 });
 
                 z[9].on("change", function(sliderValue) {
-                    $("#epsGrowthInPercentage_min").val(sliderValue.value.newValue[0]);
-                    $("#epsGrowthInPercentage_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#epsGrowthInPercentage_min").val(min);
+                    $("#epsGrowthInPercentage_max").val(max);
+
+                    classRef.handleSliderFilterJson('epsGrowthInPercentage', min, max);
                 });
 
                 z[10].on("change", function(sliderValue) {
-                    $("#revenueGrowthInPercentage_min").val(sliderValue.value.newValue[0]);
-                    $("#revenueGrowthInPercentage_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#revenueGrowthInPercentage_min").val(min);
+                    $("#revenueGrowthInPercentage_max").val(max);
+
+                    classRef.handleSliderFilterJson('revenueGrowthInPercentage', min, max);
                 });
 
                 z[11].on("change", function(sliderValue) {
-                    $("#totalFreeCashFlow_min").val(sliderValue.value.newValue[0]);
-                    $("#totalFreeCashFlow_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#totalFreeCashFlow_min").val(min);
+                    $("#totalFreeCashFlow_max").val(max);
+
+                    classRef.handleSliderFilterJson('totalFreeCashFlow', min, max);
                 });
 
                 z[12].on("change", function(sliderValue) {
-                    $("#returnOnAssetInPercentage_min").val(sliderValue.value.newValue[0]);
-                    $("#returnOnAssetInPercentage_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#returnOnAssetInPercentage_min").val(min);
+                    $("#returnOnAssetInPercentage_max").val(max);
+
+                    classRef.handleSliderFilterJson('returnOnAssetInPercentage', min, max);
                 });
 
                 z[13].on("change", function(sliderValue) {
-                    $("#divYield_min").val(sliderValue.value.newValue[0]);
-                    $("#divYield_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#divYield_min").val(min);
+                    $("#divYield_max").val(max);
+
+                    classRef.handleSliderFilterJson('divYield', min, max);
                 });
 
                 z[14].on("change", function(sliderValue) {
-                    $("#rotcInPercentage_min").val(sliderValue.value.newValue[0]);
-                    $("#rotcInPercentage_max").val(sliderValue.value.newValue[1]);
+                    var min = sliderValue.value.newValue[0];
+                    var max = sliderValue.value.newValue[1];
+
+                    $("#rotcInPercentage_min").val(min);
+                    $("#rotcInPercentage_max").val(max);
+
+                    classRef.handleSliderFilterJson('rotcInPercentage', min, max);
                 });
             });
 
         },
 
+        isEmpty : function(obj) {
+            for(var key in obj) {
+                if(obj.hasOwnProperty(key))
+                    return false;
+            }
+            return true;
+        },
+
+        handleSliderFilterJson: function(target, min, max) {
+            var classRef = this;
+            var sliderName = (target.context != undefined) ? target.context.id.split('_')[0] : target;
+
+            min = (sliderName == "mcap" || sliderName == "netOperatingCashFlow" || 
+                sliderName == "totalFreeCashFlow") ? parseFloat(min * 1000).toFixed(2) : parseFloat(min).toFixed(2);
+            max = (sliderName == "mcap" || sliderName == "netOperatingCashFlow" || 
+                sliderName == "totalFreeCashFlow") ? parseFloat(max * 1000).toFixed(2) : parseFloat(max).toFixed(2);
+
+            try {
+
+                var filterData = {
+                    'min' : min,
+                    'max': max
+                };
+                classRef.selectedFilterBody[sliderName] = filterData;
+
+                if(classRef.isEmpty(filterData)) {
+                    delete classRef.selectedFilterBody[sliderName];
+                }
+            } 
+
+            catch(err) {
+                console.log("error in handleSliderFilter");
+            }
+
+            finally {
+                classRef.getCustomScreenerData();
+            }
+        },
+
         handleMin: function(e) {
             console.log('handle min');
+            var classRef = this;
             var target = $(e.currentTarget);
             var elemId = '#' + target.parent().siblings('input').attr('id');
             var currentValue = target.val();
@@ -624,10 +755,14 @@ jQuery(document).ready(function() {
 
             var value = JSON.parse("[" + min + "," + max + "]");
             $(elemId).slider('setValue',value);
+
+            classRef.handleSliderFilterJson(target, min, max);
+
         },
 
         handleMax: function(e) {
             console.log('handle max');
+            var classRef = this;
             var target = $(e.currentTarget);
             var elemId = '#' + target.parent().siblings('input').attr('id');
             var currentValue = target.val();
@@ -651,6 +786,8 @@ jQuery(document).ready(function() {
 
             var value = JSON.parse("[" + min + "," + max + "]");
             $(elemId).slider('setValue',value);
+
+            classRef.handleSliderFilterJson(target, min, max);
         },
 
         /**
@@ -719,6 +856,7 @@ jQuery(document).ready(function() {
             if(classRef.industryFilterData.length === 0) {
                 delete classRef.selectedFilterBody.industry;
             }
+
             classRef.getCustomScreenerData();
         },
 
@@ -752,6 +890,14 @@ jQuery(document).ready(function() {
             }
 
             return false;
+        },
+
+        isProgressLoader : function(status) {
+            if(status === true) {
+                $("#progressLoader").show();
+            } else {
+                $("#progressLoader").hide();
+            }
         }
 
     };
