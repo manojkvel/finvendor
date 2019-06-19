@@ -17,6 +17,7 @@ import java.util.*;
 
 @Repository
 public class CustomStrategyDao {
+    public static final String DELETE_FROM_STRATEGY_CUSTOM = "delete from strategy_custom";
     private static final Logger logger = LoggerFactory.getLogger(CustomStrategyDao.class.getName());
 
     private static final String CUSTOM_STRATEGY_QUERY = "select * from strategy_custom";
@@ -46,8 +47,15 @@ public class CustomStrategyDao {
     @Autowired
     protected ICommonDao commonDao;
 
+    private void deleteAllRecordsFromStrategyTable(String deleteQuery1) {
+        SQLQuery deleteQuery = commonDao.getNativeQuery(deleteQuery1, null);
+        int count = deleteQuery.executeUpdate();
+        logger.info("strategy_custom table DELETED ALL RECORD COUNT: {}", count);
+    }
     public void insertCustomScreenerData() {
         try {
+            deleteAllRecordsFromStrategyTable(DELETE_FROM_STRATEGY_CUSTOM);
+
             insertCompanyNameAndStockId(INSERT_COMPANY_NAME_AND_STOCK_ID_QUERY);
             updateCustomScreenerTable(MCAP_QUERY, "update strategy_custom set mcap=? where stock_id=?");
             updateCustomScreenerTable(PE_QUERY, "update strategy_custom set pe=? where stock_id=?");
