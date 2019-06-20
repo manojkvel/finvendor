@@ -52,6 +52,7 @@ public class CustomStrategyDao {
         int count = deleteQuery.executeUpdate();
         logger.info("strategy_custom table DELETED ALL RECORD COUNT: {}", count);
     }
+
     public void insertCustomScreenerData() {
         try {
             deleteAllRecordsFromStrategyTable(DELETE_FROM_STRATEGY_CUSTOM);
@@ -102,7 +103,9 @@ public class CustomStrategyDao {
         int prevStockId = 0;
         for (int k = 0; k < rows.size(); k++) {
             Object[] row0 = rows.get(k);
-            int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ? Integer.parseInt(row0[0].toString().trim()) : 0;
+            int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ?
+                    Integer.parseInt(row0[0].toString().trim()) :
+                    0;
             if (prevStockId != stockId) {
                 prevStockId = stockId;
 
@@ -114,13 +117,11 @@ public class CustomStrategyDao {
 
                 float returnOnAsset = avgTotalAsset != 0.0F ? pat / avgTotalAsset : 0.0F;
                 SQLQuery updateQuery = commonDao.getNativeQuery(updateSql, null);
-                updateQuery.setString(0, String.format("%.10f", returnOnAsset*100));
+                updateQuery.setString(0, String.format("%.10f", returnOnAsset * 100));
                 updateQuery.setInteger(1, stockId);
                 updateQuery.executeUpdate();
             }
         }
-
-
 
         int c = 1;
         for (Object[] row : rows) {
@@ -149,7 +150,9 @@ public class CustomStrategyDao {
         int prevStockId = 0;
         for (int k = 0; k < rows.size(); k++) {
             Object[] row0 = rows.get(k);
-            int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ? Integer.parseInt(row0[0].toString().trim()) : 0;
+            int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ?
+                    Integer.parseInt(row0[0].toString().trim()) :
+                    0;
             if (prevStockId != stockId) {
                 prevStockId = stockId;
                 Object[] row1 = rows.get(k + 1);
@@ -456,69 +459,171 @@ public class CustomStrategyDao {
         DivYield divYield = customFilter.getDivYield();
         RotcInPercentage rotcInPercentage = customFilter.getRotcInPercentage();
         List<String> industryList = customFilter.getIndustry();
+        boolean flag = false;
         if (mcap != null) {
             partQuery.append("(cast(mcap as decimal) >=").append(mcap.getMin()).append(" and cast(mcap as decimal) <=")
-                    .append(mcap.getMax())
-                    .append(")");
+                    .append(mcap.getMax()).append(")");
+            flag = true;
         }
         if (pe != null) {
-            partQuery.append(" and (cast(pe as decimal)>=").append(pe.getMin()).append(" and cast(pe as decimal)<=").append(pe.getMax())
-                    .append(")");
+            if (flag) {
+                partQuery.append(" and (cast(pe as decimal)>=").append(pe.getMin()).append(" and cast(pe as decimal)<=").append(pe.getMax())
+                        .append(")");
+            }
+            else {
+                partQuery.append(" (cast(pe as decimal)>=").append(pe.getMin()).append(" and cast(pe as decimal)<=").append(pe.getMax())
+                        .append(")");
+            }
+            flag = true;
         }
         if (pb != null) {
-            partQuery.append(" and (cast(pb as decimal)>=").append(pb.getMin()).append(" and cast(pb as decimal)<=").append(pb.getMax())
-                    .append(")");
+            if (flag) {
+                partQuery.append(" and (cast(pb as decimal)>=").append(pb.getMin()).append(" and cast(pb as decimal)<=").append(pb.getMax())
+                        .append(")");
+            }
+            else {
+                partQuery.append(" (cast(pb as decimal)>=").append(pb.getMin()).append(" and cast(pb as decimal)<=").append(pb.getMax())
+                        .append(")");
+            }
+            flag = true;
         }
         if (debtToEquityRatio != null) {
-            partQuery.append(" and (cast(debtToEquityRatio as decimal)>=").append(debtToEquityRatio.getMin())
-                    .append(" and cast(debtToEquityRatio as decimal)<=")
-                    .append(debtToEquityRatio.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(debtToEquityRatio as decimal)>=").append(debtToEquityRatio.getMin())
+                        .append(" and cast(debtToEquityRatio as decimal)<=")
+                        .append(debtToEquityRatio.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(debtToEquityRatio as decimal)>=").append(debtToEquityRatio.getMin())
+                        .append(" and cast(debtToEquityRatio as decimal)<=")
+                        .append(debtToEquityRatio.getMax()).append(")");
+            }
+            flag = true;
         }
         if (currentRatio != null) {
-            partQuery.append(" and (cast(currentRatio as decimal)>=").append(currentRatio.getMin())
-                    .append(" and cast(currentRatio as decimal)<=")
-                    .append(currentRatio.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(currentRatio as decimal)>=").append(currentRatio.getMin())
+                        .append(" and cast(currentRatio as decimal)<=")
+                        .append(currentRatio.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(currentRatio as decimal)>=").append(currentRatio.getMin())
+                        .append(" and cast(currentRatio as decimal)<=")
+                        .append(currentRatio.getMax()).append(")");
+            }
+            flag = true;
         }
         if (netOperatingCashFlow != null) {
-            partQuery.append(" and (cast(netOperatingCashFlow as decimal)>=").append(netOperatingCashFlow.getMin())
-                    .append(" and cast(netOperatingCashFlow as decimal)<=").append(netOperatingCashFlow.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(netOperatingCashFlow as decimal)>=").append(netOperatingCashFlow.getMin())
+                        .append(" and cast(netOperatingCashFlow as decimal)<=").append(netOperatingCashFlow.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(netOperatingCashFlow as decimal)>=").append(netOperatingCashFlow.getMin())
+                        .append(" and cast(netOperatingCashFlow as decimal)<=").append(netOperatingCashFlow.getMax()).append(")");
+            }
+            flag = true;
         }
         if (roeInPercentage != null) {
-            partQuery.append(" and (cast(roeInPercentage as decimal)>=").append(roeInPercentage.getMin())
-                    .append(" and cast(mcap as decimal) <=")
-                    .append(roeInPercentage.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(roeInPercentage as decimal)>=").append(roeInPercentage.getMin())
+                        .append(" and cast(mcap as decimal) <=")
+                        .append(roeInPercentage.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(roeInPercentage as decimal)>=").append(roeInPercentage.getMin())
+                        .append(" and cast(mcap as decimal) <=")
+                        .append(roeInPercentage.getMax()).append(")");
+            }
+            flag = true;
         }
         if (operatingProfitMargin != null) {
-            partQuery.append(" and (cast(operatingProfitMargin as decimal)>=").append(operatingProfitMargin.getMin())
-                    .append(" and cast(operatingProfitMargin as decimal)<=").append(operatingProfitMargin.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(operatingProfitMargin as decimal)>=").append(operatingProfitMargin.getMin())
+                        .append(" and cast(operatingProfitMargin as decimal)<=").append(operatingProfitMargin.getMax()).append(")");
+            }
+            else {
+                partQuery.append("  (cast(operatingProfitMargin as decimal)>=").append(operatingProfitMargin.getMin())
+                        .append(" and cast(operatingProfitMargin as decimal)<=").append(operatingProfitMargin.getMax()).append(")");
+            }
+            flag = true;
         }
         if (patGrowthInPercentage != null) {
-            partQuery.append(" and (cast(patGrowthInPercentage as decimal)>=").append(patGrowthInPercentage.getMin())
-                    .append(" and cast(patGrowthInPercentage as decimal)<=").append(patGrowthInPercentage.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(patGrowthInPercentage as decimal)>=").append(patGrowthInPercentage.getMin())
+                        .append(" and cast(patGrowthInPercentage as decimal)<=").append(patGrowthInPercentage.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(patGrowthInPercentage as decimal)>=").append(patGrowthInPercentage.getMin())
+                        .append(" and cast(patGrowthInPercentage as decimal)<=").append(patGrowthInPercentage.getMax()).append(")");
+            }
+            flag = true;
         }
         if (epsGrowthInPercentage != null) {
-            partQuery.append(" and (cast(epsGrowthInPercentage as decimal)>=").append(epsGrowthInPercentage.getMin())
-                    .append(" and cast(epsGrowthInPercentage as decimal)<=").append(epsGrowthInPercentage.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(epsGrowthInPercentage as decimal)>=").append(epsGrowthInPercentage.getMin())
+                        .append(" and cast(epsGrowthInPercentage as decimal)<=").append(epsGrowthInPercentage.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(epsGrowthInPercentage as decimal)>=").append(epsGrowthInPercentage.getMin())
+                        .append(" and cast(epsGrowthInPercentage as decimal)<=").append(epsGrowthInPercentage.getMax()).append(")");
+            }
+            flag = true;
         }
         if (revenueGrowthInPercentage != null) {
-            partQuery.append("and (cast(revenueGrowthInPercentage as decimal)>=").append(revenueGrowthInPercentage.getMin())
-                    .append(" and cast(revenueGrowthInPercentage as decimal)<=").append(revenueGrowthInPercentage.getMax()).append(")");
+            if (flag) {
+                partQuery.append("and (cast(revenueGrowthInPercentage as decimal)>=").append(revenueGrowthInPercentage.getMin())
+                        .append(" and cast(revenueGrowthInPercentage as decimal)<=").append(revenueGrowthInPercentage.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(revenueGrowthInPercentage as decimal)>=").append(revenueGrowthInPercentage.getMin())
+                        .append(" and cast(revenueGrowthInPercentage as decimal)<=").append(revenueGrowthInPercentage.getMax()).append(")");
+            }
+            flag = true;
         }
         if (totalFreeCashFlow != null) {
-            partQuery.append(" and (cast(totalFreeCashFlow as decimal)>=").append(totalFreeCashFlow.getMin())
-                    .append(" and cast(totalFreeCashFlow as decimal)<=").append(totalFreeCashFlow.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(totalFreeCashFlow as decimal)>=").append(totalFreeCashFlow.getMin())
+                        .append(" and cast(totalFreeCashFlow as decimal)<=").append(totalFreeCashFlow.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(totalFreeCashFlow as decimal)>=").append(totalFreeCashFlow.getMin())
+                        .append(" and cast(totalFreeCashFlow as decimal)<=").append(totalFreeCashFlow.getMax()).append(")");
+            }
+            flag = true;
         }
         if (returnOnAssetInPercentage != null) {
-            partQuery.append(" and (cast(returnOnAssetInPercentage as decimal)>=").append(returnOnAssetInPercentage.getMin())
-                    .append(" and cast(returnOnAssetInPercentage as decimal)<=").append(returnOnAssetInPercentage.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(returnOnAssetInPercentage as decimal)>=").append(returnOnAssetInPercentage.getMin())
+                        .append(" and cast(returnOnAssetInPercentage as decimal)<=").append(returnOnAssetInPercentage.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(returnOnAssetInPercentage as decimal)>=").append(returnOnAssetInPercentage.getMin())
+                        .append(" and cast(returnOnAssetInPercentage as decimal)<=").append(returnOnAssetInPercentage.getMax()).append(")");
+            }
+            flag = true;
         }
         if (divYield != null) {
-            partQuery.append(" and (cast(divYield as decimal)>=").append(divYield.getMin()).append(" and cast(divYield as decimal)<=")
-                    .append(divYield.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(divYield as decimal)>=").append(divYield.getMin()).append(" and cast(divYield as decimal)<=")
+                        .append(divYield.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(divYield as decimal)>=").append(divYield.getMin()).append(" and cast(divYield as decimal)<=")
+                        .append(divYield.getMax()).append(")");
+            }
+            flag = true;
         }
         if (rotcInPercentage != null) {
-            partQuery.append(" and (cast(rotcInPercentage as decimal)>=").append(rotcInPercentage.getMin())
-                    .append(" and cast(rotcInPercentage as decimal)<=").append(rotcInPercentage.getMax()).append(")");
+            if (flag) {
+                partQuery.append(" and (cast(rotcInPercentage as decimal)>=").append(rotcInPercentage.getMin())
+                        .append(" and cast(rotcInPercentage as decimal)<=").append(rotcInPercentage.getMax()).append(")");
+            }
+            else {
+                partQuery.append(" (cast(rotcInPercentage as decimal)>=").append(rotcInPercentage.getMin())
+                        .append(" and cast(rotcInPercentage as decimal)<=").append(rotcInPercentage.getMax()).append(")");
+            }
+            flag = true;
         }
         StringBuilder industrySb = null;
         if (industryList != null && !industryList.isEmpty()) {
@@ -529,7 +634,12 @@ public class CustomStrategyDao {
         }
         if (industrySb != null && industrySb.length() > 0) {
             industrySb.deleteCharAt(industrySb.length() - 1);
-            partQuery.append(" and industry IN(").append(industrySb.toString()).append(")");
+            if (flag) {
+                partQuery.append(" and industry IN(").append(industrySb.toString()).append(")");
+            }
+            else {
+                partQuery.append("  industry IN(").append(industrySb.toString()).append(")");
+            }
         }
         if (partQuery.length() != 0) {
             finalFilterQuery.append(" where ").append(partQuery);
