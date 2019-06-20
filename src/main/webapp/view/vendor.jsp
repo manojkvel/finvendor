@@ -49,6 +49,7 @@
     		getResearchSubAreaList();
     	});
     </script>
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

@@ -46,6 +46,7 @@
 		<!--<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.bxslider.css"/>-->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/superfish.css"/>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery-ui.css"/>
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 	</head>
 	<body>
 		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>	

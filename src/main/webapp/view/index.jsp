@@ -40,7 +40,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <link href="https://www.finvendor.com" rel="canonical" />
 
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 
 <meta http-equiv="Pragma" content="no-cache">
 <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />

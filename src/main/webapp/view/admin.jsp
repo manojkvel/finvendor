@@ -12,6 +12,7 @@
 		<script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/dataTables.jqueryui.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/finvendorCommon.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 		
 		<script>
 			

@@ -15,6 +15,7 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <body id="sector-research">
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>

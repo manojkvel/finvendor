@@ -2134,6 +2134,16 @@ h2 {
 #do_it_yourself #fv_custom_screener_search {
 	background-color: #fff;
 	overflow: hidden;
+	padding-top: 15px;
+}
+
+#do_it_yourself #fv_custom_screener_search .title h5 {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#do_it_yourself #fv_custom_screener_search .title p {
+	font-size: 13px;
 }
 
 #do_it_yourself table .large_font a {

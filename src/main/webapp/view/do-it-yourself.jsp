@@ -15,6 +15,7 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
@@ -49,17 +50,26 @@
 				<div class="col-xs-12 col-md-9">
 					<div class="content-panel">
 						<div id="fv_custom_screener_search" class="section">
-							<div class="max_per_page">
-								<span>Records Per Page </span>
-								<select>
-									<option value='5'>5</option>
-									<option value='10' selected>10</option>
-									<option value='30'>30</option>
-									<option value='50'>50</option>
-									<option value='100'>100</option>
-								</select>
+							<div class="col-xs-12 col-md-7">
+								<div class="title">
+									<h5>Do It Yourself</h5>
+									<p>Do the stock screening yourself</p>
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-5">
+								
+								<div class="max_per_page">
+									<span>Records Per Page </span>
+									<select>
+										<option value='5'>5</option>
+										<option value='10' selected>10</option>
+										<option value='30'>30</option>
+										<option value='50'>50</option>
+										<option value='100'>100</option>
+									</select>
 
-								<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+									<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+								</div>
 							</div>
 							<div class="broker_content">
 								<p style="text-align: right; padding: 5px 10px 0;">* indicates thousand crores</p>

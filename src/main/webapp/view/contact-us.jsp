@@ -16,6 +16,7 @@
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>

@@ -40,6 +40,7 @@
     		changeTabMode();
     	}
     </script>
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <body>
 	<jsp:include page="common/dashboardheader.jsp" ></jsp:include>

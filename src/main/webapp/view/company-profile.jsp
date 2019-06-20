@@ -20,6 +20,7 @@
 		}
 	</script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
