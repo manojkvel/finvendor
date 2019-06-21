@@ -1075,7 +1075,6 @@ var martinZweigStrategyObj = {
                                 "<th data-id='latestRevenueGrowth'>Latest Revenue Growth <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='nifty50Pe'>Nifty50 P/E <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='pe'>P/E <i class='fa fa-sort'></i></th>" +
-                                "<th>EPS Growth per year</th>" +
                             "</tr>" +
                         "</thead>";
 
@@ -1114,11 +1113,11 @@ var martinZweigStrategyObj = {
             }, function(error) {
                 console.log(error);
                 isProgressLoader(false);
-                $("#strategyModal .modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+                $("#strategyModal .modal-body tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
                 $("#strategyModal").show();
             });
         }, function(error) {
-            $("#strategyModal .modal-body tbody").html("<tr><td colspan='7'>We are not able to get the info, please try again later.</td></tr>");
+            $("#strategyModal .modal-body tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
             $("#strategyModal").show();
         });
     },
@@ -1201,7 +1200,7 @@ var martinZweigStrategyObj = {
             var latestRevenueGrowth = (response[i].latestRevenueGrowth) ? parseFloat(response[i].latestRevenueGrowth).toFixed(2) : '-';
             var nifty50Pe = (response[i].nifty50Pe) ? parseFloat(response[i].nifty50Pe).toFixed(2) : '-';
             var pe = (response[i].pe) ? parseFloat(response[i].pe).toFixed(2) : '-';
-            var yearWiseEpsGrowth = (response[i].yearWiseEpsGrowth) ? parseFloat(response[i].yearWiseEpsGrowth).toFixed(2) : '-';
+            // var yearWiseEpsGrowth = (response[i].yearWiseEpsGrowth) ? parseFloat(response[i].yearWiseEpsGrowth).toFixed(2) : '-';
 
             htmlCode = htmlCode + "<tr>" +
             "<td>" + 
@@ -1221,9 +1220,6 @@ var martinZweigStrategyObj = {
             "</td>" +
             "<td>" + 
             "<div class='pe'>" + pe + "</div>" + 
-            "</td>" +
-            "<td>" + 
-            "<div class='yearWiseEpsGrowth'>" + yearWiseEpsGrowth + "</div>" + 
             "</td>" +
             "</tr>";
         }

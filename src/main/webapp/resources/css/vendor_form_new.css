@@ -2165,6 +2165,42 @@ h2 {
 	font-size: 13px;
 }
 
+#do_it_yourself #sidebar-panel .widget-group {
+	overflow: auto;
+}
+
+#do_it_yourself #broker_table thead {
+	table-layout: fixed;
+    display: table;
+}
+
+#do_it_yourself #broker_table tbody tr {
+    table-layout: fixed;
+    width: 100%;
+    display: table;
+}
+
+#do_it_yourself #broker_table {
+	margin-bottom: 0;
+}
+
+#do_it_yourself #broker_table tbody {
+    display: block;
+    overflow: auto;
+}
+
+#do_it_yourself #broker_table tbody {
+    display: block;
+}
+
+#do_it_yourself #sidebar-panel {
+	margin-bottom: 0;
+}
+
+#do_it_yourself .pager {
+	margin: 10px 0 10px;
+}
+
 /*.slider.slider-horizontal .slider-handle.min-slider-handle {
 	margin-left: 0;
 }

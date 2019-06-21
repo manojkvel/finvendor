@@ -6,6 +6,7 @@
 	prefix="un"%>
 <un:useConstants className="com.finvendor.util.RequestConstans"
 	var="requestConstants" />
+<!DOCTYPE html>
 <html>
 <head>
 <title>Do It Yourself - Finvendor</title>

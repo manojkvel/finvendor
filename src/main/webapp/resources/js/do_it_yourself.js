@@ -156,6 +156,14 @@ jQuery(document).ready(function() {
 
             $("#broker_table tbody").html(htmlCode);
 
+            if($(window).width() > 768) {
+                $(".broker_content #broker_table tbody").height($(window).height() - $(".header").height() - $("#fv_custom_screener_search .title").height() - $("#broker_table thead").height() - 150);
+                $("#sidebar-panel .widget-group").height($(window).height() - $(".header").height() - 80);
+            } else {
+                $(".broker_content").height('100%');
+                $("#sidebar-panel .widget-group").height('100%');
+            }
+
             var paginationHtml = "<div class='paging_container'>"
                                 + "<ul class='pager'>"
                                  + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
