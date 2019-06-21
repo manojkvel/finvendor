@@ -25,15 +25,63 @@ jQuery(document).ready(function() {
         resetFilters : function(event) {
             var classRef = event.data.this;
             classRef.clearSelection();
-            $("#slider_0").slider().trigger("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
+            $("#search_by_mcap #mcap_min").val($("#slider_0").attr("data-slider-min"));
+            $("#search_by_mcap #mcap_max").val($("#slider_0").attr("data-slider-max"));
 
-                    $("#mcap_min").val(min);
-                    $("#mcap_max").val(max);
 
-                    classRef.handleSliderFilterJson('mcap', min, max);
-                });
+            $("#search_by_pe #pe_min").val($("#slider_1").attr("data-slider-min"));
+            $("#search_by_pe #pe_max").val($("#slider_1").attr("data-slider-max"));
+
+            $("#search_by_pb #pb_min").val($("#slider_2").attr("data-slider-min"));
+            $("#search_by_pb #pb_max").val($("#slider_2").attr("data-slider-max"));
+
+
+            $("#search_by_debtToEquityRatio #debtToEquityRatio_min").val($("#slider_3").attr("data-slider-min"));
+            $("#search_by_debtToEquityRatio #debtToEquityRatio_max").val($("#slider_3").attr("data-slider-max"));
+
+
+            $("#search_by_currentRatio #currentRatio_min").val($("#slider_4").attr("data-slider-min"));
+            $("#search_by_currentRatio #currentRatio_max").val($("#slider_4").attr("data-slider-max"));
+
+
+            $("#search_by_netOperatingCashFlow #netOperatingCashFlow_min").val($("#slider_5").attr("data-slider-min"));
+            $("#search_by_netOperatingCashFlow #netOperatingCashFlow_max").val($("#slider_5").attr("data-slider-max"));
+
+
+            $("#search_by_roeInPercentage #roeInPercentage_min").val($("#slider_6").attr("data-slider-min"));
+            $("#search_by_roeInPercentage #roeInPercentage_max").val($("#slider_6").attr("data-slider-max"));
+
+
+            $("#search_by_operatingProfitMargin #operatingProfitMargin_min").val($("#slider_7").attr("data-slider-min"));
+            $("#search_by_operatingProfitMargin #operatingProfitMargin_max").val($("#slider_7").attr("data-slider-max"));
+
+
+            $("#search_by_patGrowthInPercentage #patGrowthInPercentage_min").val($("#slider_8").attr("data-slider-min"));
+            $("#search_by_patGrowthInPercentage #patGrowthInPercentage_max").val($("#slider_8").attr("data-slider-max"));
+
+
+            $("#search_by_epsGrowthInPercentage #epsGrowthInPercentage_min").val($("#slider_9").attr("data-slider-min"));
+            $("#search_by_epsGrowthInPercentage #epsGrowthInPercentage_max").val($("#slider_9").attr("data-slider-max"));
+
+
+            $("#search_by_revenueGrowthInPercentage #revenueGrowthInPercentage_min").val($("#slider_10").attr("data-slider-min"));
+            $("#search_by_revenueGrowthInPercentage #revenueGrowthInPercentage_max").val($("#slider_10").attr("data-slider-max"));
+
+
+            $("#search_by_totalFreeCashFlow #totalFreeCashFlow_min").val($("#slider_11").attr("data-slider-min"));
+            $("#search_by_totalFreeCashFlow #totalFreeCashFlow_max").val($("#slider_11").attr("data-slider-max"));
+
+            $("#search_by_returnOnAssetInPercentage #returnOnAssetInPercentage_min").val($("#slider_12").attr("data-slider-min"));
+            $("#search_by_returnOnAssetInPercentage #returnOnAssetInPercentage_max").val($("#slider_12").attr("data-slider-max"));
+
+            $("#search_by_divYield #divYield_min").val($("#slider_13").attr("data-slider-min"));
+            $("#search_by_divYield #divYield_max").val($("#slider_13").attr("data-slider-max"));
+
+            $("#search_by_rotcInPercentage #rotcInPercentage_min").val($("#slider_14").attr("data-slider-min"));
+            $("#search_by_rotcInPercentage #rotcInPercentage_max").val($("#slider_14").attr("data-slider-max"));
+
+            classRef.selectedFilterBody = {};
+
             //resetPaginationCount();
             classRef.getCustomScreenerData();
         },
