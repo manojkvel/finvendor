@@ -170,6 +170,11 @@ jQuery(document).ready(function() {
 	
 
 	var getSortedByValue = function() {
+
+		if(isLoggedInUser()) {
+			inner_login('view/sector-research.jsp');
+			return;
+		}
 		
 		if($(this).attr('data-id') == undefined) {
 			return;

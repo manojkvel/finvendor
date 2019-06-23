@@ -252,6 +252,11 @@ jQuery(document).ready(function() {
 	
 
 	var getSortedByValue = function() {
+
+		if(isLoggedInUser()) {
+			inner_login('view/equity_research_report_vendor.jsp');
+			return;
+		}
 		
 		if($(this).attr('data-id') == undefined) {
 			return;

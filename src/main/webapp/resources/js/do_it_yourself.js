@@ -193,6 +193,11 @@ jQuery(document).ready(function() {
         getPerPageMaxRecords: function(event) {
             var classRef = event.data.this;
 
+            if(isLoggedInUser()) {
+                classRef.redirectCurrentPage();
+                return;
+            }
+
             if(classRef.perPageMaxRecords !== Number($(this).val())) {
                 classRef.pageNumber = 1;
                 classRef.firstPageNumber = 1;
@@ -207,6 +212,11 @@ jQuery(document).ready(function() {
 
         getSortedByValue: function(event) {
             var classRef = event.data.this;
+
+            if(isLoggedInUser()) {
+                classRef.redirectCurrentPage();
+                return;
+            }
 
             if($(this).attr('data-id') == undefined) {
                 return;
@@ -255,6 +265,11 @@ jQuery(document).ready(function() {
         getFirstPage : function() {
             var classRef = this;
 
+            if(isLoggedInUser()) {
+                classRef.redirectCurrentPage();
+                return;
+            }
+
             if(classRef.pageNumber != classRef.firstPageNumber) {
                 classRef.pageNumber = classRef.firstPageNumber;
                 classRef.currentIndex = classRef.firstPageNumber;
@@ -264,6 +279,11 @@ jQuery(document).ready(function() {
 
         getLastPage : function() {
             var classRef = this;
+
+            if(isLoggedInUser()) {
+                classRef.redirectCurrentPage();
+                return;
+            }
 
             if(classRef.pageNumber != classRef.lastPageNumber) {
                 classRef.pageNumber = classRef.lastPageNumber;
@@ -275,6 +295,11 @@ jQuery(document).ready(function() {
         getNextPage : function() {
             var classRef = this;
 
+            if(isLoggedInUser()) {
+                classRef.redirectCurrentPage();
+                return;
+            }
+
             if(classRef.pageNumber < classRef.lastPageNumber) {
                 classRef.pageNumber = classRef.pageNumber + 1;
                 classRef.currentIndex = classRef.currentIndex + classRef.perPageMaxRecords;
@@ -284,6 +309,11 @@ jQuery(document).ready(function() {
 
         getPreviousPage : function() {
             var classRef = this;
+
+            if(isLoggedInUser()) {
+                classRef.redirectCurrentPage();
+                return;
+            }
 
             if(classRef.pageNumber > 1) {
                 classRef.pageNumber = classRef.pageNumber - 1;
@@ -586,6 +616,12 @@ jQuery(document).ready(function() {
 
 
                 $(".data_input input").on('change', function(e) {
+
+                    if(isLoggedInUser()) {
+                        classRef.redirectCurrentPage();
+                        return;
+                    }
+
                     if(($(e.currentTarget).attr('id')).indexOf('_min') > 0) {
                         doItYourselfObj.handleMin(e);
                     } else if(($(e.currentTarget).attr('id')).indexOf('_max')) {
@@ -595,153 +631,63 @@ jQuery(document).ready(function() {
 
 
                 z[0].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#mcap_min").val(min);
-                    $("#mcap_max").val(max);
-
-                    classRef.handleSliderFilterJson('mcap', min, max);
+                    classRef.handleSliderFilterJson('mcap', sliderValue);
                 });
 
                 z[1].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#pe_min").val(min);
-                    $("#pe_max").val(max);
-
-                    classRef.handleSliderFilterJson('pe', min, max);
+                    classRef.handleSliderFilterJson('pe', sliderValue);
                 });
 
                 z[2].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#pb_min").val(min);
-                    $("#pb_max").val(max);
-
-                    classRef.handleSliderFilterJson('pb', min, max);
+                    classRef.handleSliderFilterJson('pb', sliderValue);
                 });
 
                 z[3].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#debtToEquityRatio_min").val(min);
-                    $("#debtToEquityRatio_max").val(max);
-
-                    classRef.handleSliderFilterJson('debtToEquityRatio', min, max);
+                    classRef.handleSliderFilterJson('debtToEquityRatio', sliderValue);
                 });
 
                 z[4].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#currentRatio_min").val(min);
-                    $("#currentRatio_max").val(max);
-
-                    classRef.handleSliderFilterJson('currentRatio', min, max);
+                    classRef.handleSliderFilterJson('currentRatio', sliderValue);
                 });
 
                 z[5].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#netOperatingCashFlow_min").val(min);
-                    $("#netOperatingCashFlow_max").val(max);
-
-                    classRef.handleSliderFilterJson('netOperatingCashFlow', min, max);
+                    classRef.handleSliderFilterJson('netOperatingCashFlow', sliderValue);
                 });
 
                 z[6].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#roeInPercentage_min").val(min);
-                    $("#roeInPercentage_max").val(max);
-
-                    classRef.handleSliderFilterJson('roeInPercentage', min, max);
+                    classRef.handleSliderFilterJson('roeInPercentage', sliderValue);
                 });
 
                 z[7].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#operatingProfitMargin_min").val(min);
-                    $("#operatingProfitMargin_max").val(max);
-
-                    classRef.handleSliderFilterJson('operatingProfitMargin', min, max);
+                    classRef.handleSliderFilterJson('operatingProfitMargin', sliderValue);
                 });
 
                 z[8].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#patGrowthInPercentage_min").val(min);
-                    $("#patGrowthInPercentage_max").val(max);
-
-                    classRef.handleSliderFilterJson('patGrowthInPercentage', min, max);
+                    classRef.handleSliderFilterJson('patGrowthInPercentage', sliderValue);
                 });
 
                 z[9].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#epsGrowthInPercentage_min").val(min);
-                    $("#epsGrowthInPercentage_max").val(max);
-
-                    classRef.handleSliderFilterJson('epsGrowthInPercentage', min, max);
+                    classRef.handleSliderFilterJson('epsGrowthInPercentage', sliderValue);
                 });
 
                 z[10].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#revenueGrowthInPercentage_min").val(min);
-                    $("#revenueGrowthInPercentage_max").val(max);
-
-                    classRef.handleSliderFilterJson('revenueGrowthInPercentage', min, max);
+                    classRef.handleSliderFilterJson('revenueGrowthInPercentage', sliderValue);
                 });
 
                 z[11].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#totalFreeCashFlow_min").val(min);
-                    $("#totalFreeCashFlow_max").val(max);
-
-                    classRef.handleSliderFilterJson('totalFreeCashFlow', min, max);
+                    classRef.handleSliderFilterJson('totalFreeCashFlow', sliderValue);
                 });
 
                 z[12].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#returnOnAssetInPercentage_min").val(min);
-                    $("#returnOnAssetInPercentage_max").val(max);
-
-                    classRef.handleSliderFilterJson('returnOnAssetInPercentage', min, max);
+                    classRef.handleSliderFilterJson('returnOnAssetInPercentage', sliderValue);
                 });
 
                 z[13].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#divYield_min").val(min);
-                    $("#divYield_max").val(max);
-
-                    classRef.handleSliderFilterJson('divYield', min, max);
+                    classRef.handleSliderFilterJson('divYield', sliderValue);
                 });
 
                 z[14].on("change", function(sliderValue) {
-                    var min = sliderValue.value.newValue[0];
-                    var max = sliderValue.value.newValue[1];
-
-                    $("#rotcInPercentage_min").val(min);
-                    $("#rotcInPercentage_max").val(max);
-
-                    classRef.handleSliderFilterJson('rotcInPercentage', min, max);
+                    classRef.handleSliderFilterJson('rotcInPercentage', sliderValue);
                 });
             });
 
@@ -755,9 +701,22 @@ jQuery(document).ready(function() {
             return true;
         },
 
-        handleSliderFilterJson: function(target, min, max) {
+        handleSliderFilterJson: function(target, sliderValue) {
             var classRef = this;
+
+            if(isLoggedInUser()) {
+                $(".slider_input").slider("refresh", {});
+                classRef.redirectCurrentPage();
+                return;
+            }
+
+            var min = sliderValue.value.newValue[0];
+            var max = sliderValue.value.newValue[1];
+
             var sliderName = (target.context != undefined) ? target.context.id.split('_')[0] : target;
+
+            $("#" + sliderName + "_min").val(min);
+            $("#" + sliderName + "_max").val(max);
 
             min = (sliderName == "mcap" || sliderName == "netOperatingCashFlow" || 
                 sliderName == "totalFreeCashFlow") ? parseFloat(min * 1000).toFixed(2) : parseFloat(min).toFixed(2);
@@ -954,6 +913,10 @@ jQuery(document).ready(function() {
             } else {
                 $("#progressLoader").hide();
             }
+        },
+
+        redirectCurrentPage: function() {
+            inner_login('view/do-it-yourself.jsp');
         }
 
     };
