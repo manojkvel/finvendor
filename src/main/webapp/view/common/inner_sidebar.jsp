@@ -37,6 +37,15 @@
                         </a>
                     </li>
                 </ul>
+
+                <ul class="parent_link">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/view/pricing.jsp">
+                            Pricing
+                        </a>
+                    </li>
+                </ul>
+                
                 <dt>
                     <a href="#">
                         More

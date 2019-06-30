@@ -2076,12 +2076,8 @@ h2 {
 	background-color: #414b4f;
 }
 
-#do_it_yourself .widget-group .widget-panel-heading {
-	background: transparent;
-}
-
 #do_it_yourself .widget-group .widget-panel-heading h3 {
-	color: #000;
+	font-size: 13px;
 }
 
 #do_it_yourself .widget-group .widget-panel-default {
@@ -2091,7 +2087,7 @@ h2 {
 }
 
 #do_it_yourself #sidebar-panel input {
-    width: 70px;
+    width: 85px;
     border: 1px solid #ccc;
     height: 30px;
     padding: 0 5px;

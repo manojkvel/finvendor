@@ -73,7 +73,6 @@
 								</div>
 							</div>
 							<div class="broker_content">
-								<p style="text-align: right; padding: 5px 10px 0;">* indicates thousand crores</p>
 								<table id='broker_table'>
 									<thead>
 
@@ -91,7 +90,7 @@
 												</p>
 												<p class="small_font">
 													<a href="javascript:void(0)" data-id="mcap">
-														Market Capitalisation <sup>*</sup> <i class="fa fa-sort"></i>
+														Market Capitalisation (cr) <i class="fa fa-sort"></i>
 													</a>
 												</p>
 											</th>
@@ -167,12 +166,12 @@
 											<th style="width:15%;">
 												<p class="large_font">
 													<a href="javascript:void(0)" data-id="netOperatingCashFlow">
-														Net OP Cash Flow <sup>*</sup> <i class="fa fa-sort"></i>
+														Net OP Cash Flow (cr) <i class="fa fa-sort"></i>
 													</a>
 												</p>
 												<p class="small_font">
 													<a href="javascript:void(0)" data-id="totalFreeCashFlow">
-														Total Free Cash Flow <sup>*</sup> <i class="fa fa-sort"></i>
+														Total Free Cash Flow (cr) <i class="fa fa-sort"></i>
 													</a>
 												</p>
 											</th>

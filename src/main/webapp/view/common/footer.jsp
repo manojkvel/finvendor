@@ -42,8 +42,8 @@
 										<span class="fa fa-chevron-right"></span> Markets
 								</a></li>
 								<li><a
-									href="${finVen:resolveContextPath(pageContext.request.contextPath)}">
-										<span class="fa fa-chevron-right"></span> home
+									href="${pageContext.request.contextPath}/view/pricing.jsp">
+										<span class="fa fa-chevron-right"></span> Pricing
 								</a></li>
 								<li><a
 									href="${pageContext.request.contextPath}/view/about-us.jsp">

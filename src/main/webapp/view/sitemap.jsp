@@ -15,7 +15,6 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta name="author" content="" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
@@ -59,6 +58,15 @@
 									<li>
 										<a href="${pageContext.request.contextPath}/view/markets.jsp">
 											<span class="fa fa-chevron-right"></span> Markets
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col-xs-12 col-sm-4">
+								<ul class="parent_link">
+									<li>
+										<a href="${pageContext.request.contextPath}/view/pricing.jsp">
+											<span class="fa fa-chevron-right"></span> Pricing
 										</a>
 									</li>
 								</ul>

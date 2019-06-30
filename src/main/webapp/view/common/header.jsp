@@ -122,6 +122,12 @@
                                                                         </ul>
                                                                     </li>
 
+                                                                    <li>
+                                                                        <a href="${pageContext.request.contextPath}/view/pricing.jsp">
+                                                                            Pricing
+                                                                        </a>
+                                                                    </li>
+
                                                                     <li class="cd-contact">
                                                                         <a href="${pageContext.request.contextPath}/view/contact-us.jsp">
                                                                             <i class="fa fa-address-book"></i> Contact
@@ -360,6 +366,11 @@
                                 </ul>
                             </li>
 
+                            <li>
+                                <a href="${pageContext.request.contextPath}/view/pricing.jsp">
+                                    Pricing
+                                </a>
+                            </li>
 
                             <li>
                                 <a href="${pageContext.request.contextPath}/view/contact-us.jsp">

@@ -91,6 +91,7 @@ jQuery(document).ready(function() {
             var len = response.length;
             var htmlCode = '';
             var rowHtml =   "";
+            
 
             if(len === 0) {
                 $("#broker_table tbody").html("<tr><td colspan='6'>No Matching Records Found</td></tr>");
@@ -99,27 +100,27 @@ jQuery(document).ready(function() {
 
             for(var i = 0; i < len; i++) {
 
-                var mcap = (response[i].mcap) ? parseFloat(response[i].mcap/1000).toFixed(2) : '-';
+                var mcap = (response[i].mcap) ? Number(parseFloat(response[i].mcap/1).toFixed(2)).toLocaleString('en-IN') : '-';
 
 
                 var pe = (response[i].pe) ? parseFloat(response[i].pe).toFixed(2) : '-';
                 var pb = (response[i].pb) ? parseFloat(response[i].pb).toFixed(2) : '-';
-                var divYield = (response[i].divYield) ? parseFloat(response[i].divYield).toFixed(2) : '-';
+                var divYield = (response[i].divYield) ? parseFloat(response[i].divYield).toFixed(2) + "%" : '-';
 
-                var operatingProfitMargin = (response[i].operatingProfitMargin) ? parseFloat(response[i].operatingProfitMargin).toFixed(2) : '-';
+                var operatingProfitMargin = (response[i].operatingProfitMargin) ? parseFloat(response[i].operatingProfitMargin).toFixed(2) + "%" : '-';
                 var debtToEquityRatio = (response[i].debtToEquityRatio) ? parseFloat(response[i].debtToEquityRatio).toFixed(2) : '-';
                 var currentRatio = (response[i].currentRatio) ? parseFloat(response[i].currentRatio).toFixed(2) : '-';
 
-                var roeInPercentage = (response[i].roeInPercentage) ? parseFloat(response[i].roeInPercentage).toFixed(2) : '-';
-                var returnOnAssetInPercentage = (response[i].returnOnAssetInPercentage) ? parseFloat(response[i].returnOnAssetInPercentage).toFixed(2) : '-';
-                var rotcInPercentage = (response[i].rotcInPercentage) ? parseFloat(response[i].rotcInPercentage).toFixed(2) : '-';
+                var roeInPercentage = (response[i].roeInPercentage) ? parseFloat(response[i].roeInPercentage).toFixed(2) + "%" : '-';
+                var returnOnAssetInPercentage = (response[i].returnOnAssetInPercentage) ? parseFloat(response[i].returnOnAssetInPercentage).toFixed(2) + "%" : '-';
+                var rotcInPercentage = (response[i].rotcInPercentage) ? parseFloat(response[i].rotcInPercentage).toFixed(2) + "%" : '-';
 
-                var epsGrowthInPercentage = (response[i].epsGrowthInPercentage) ? parseFloat(response[i].epsGrowthInPercentage).toFixed(2) : '-';
-                var patGrowthInPercentage = (response[i].patGrowthInPercentage) ? parseFloat(response[i].patGrowthInPercentage).toFixed(2) : '-';
-                var revenueGrowthInPercentage = (response[i].revenueGrowthInPercentage) ? parseFloat(response[i].revenueGrowthInPercentage).toFixed(2) : '-';
+                var epsGrowthInPercentage = (response[i].epsGrowthInPercentage) ? parseFloat(response[i].epsGrowthInPercentage).toFixed(2) + "%" : '-';
+                var patGrowthInPercentage = (response[i].patGrowthInPercentage) ? parseFloat(response[i].patGrowthInPercentage).toFixed(2) + "%" : '-';
+                var revenueGrowthInPercentage = (response[i].revenueGrowthInPercentage) ? parseFloat(response[i].revenueGrowthInPercentage).toFixed(2) + "%" : '-';
 
-                var netOperatingCashFlow = (response[i].netOperatingCashFlow) ? parseFloat(response[i].netOperatingCashFlow/1000).toFixed(2) : '-';
-                var totalFreeCashFlow = (response[i].totalFreeCashFlow) ? parseFloat(response[i].totalFreeCashFlow/1000).toFixed(2) : '-';
+                var netOperatingCashFlow = (response[i].netOperatingCashFlow) ? Number(parseFloat(response[i].netOperatingCashFlow/1).toFixed(2)).toLocaleString('en-IN') : '-';
+                var totalFreeCashFlow = (response[i].totalFreeCashFlow) ? Number(parseFloat(response[i].totalFreeCashFlow/1).toFixed(2)).toLocaleString('en-IN') : '-';
 
                 htmlCode = htmlCode + "<tr data-code='" + response[i].isinCode + "'>" +
                     "<td>" + 
@@ -157,7 +158,7 @@ jQuery(document).ready(function() {
             $("#broker_table tbody").html(htmlCode);
 
             if($(window).width() > 768) {
-                $(".broker_content #broker_table tbody").height($(window).height() - $(".header").height() - $("#fv_custom_screener_search .title").height() - $("#broker_table thead").height() - 150);
+                $(".broker_content #broker_table tbody").height($(window).height() - $(".header").height() - $("#fv_custom_screener_search .title").height() - $("#broker_table thead").height() - 115);
                 $("#sidebar-panel .widget-group").height($(window).height() - $(".header").height() - 80);
             } else {
                 $(".broker_content").height('100%');

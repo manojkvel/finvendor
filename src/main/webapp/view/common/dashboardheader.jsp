@@ -135,6 +135,13 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                             </li>
                                                                         </ul>
                                                                     </li>
+
+                                                                    <li>
+                                                                        <a href="${pageContext.request.contextPath}/view/pricing.jsp">
+                                                                            Pricing
+                                                                        </a>
+                                                                    </li>
+
                                                                 <li class="user_activity">
                                                                     <c:choose>
                                                                         <c:when test="${sessionScope.loggedInUser != null }">
@@ -317,6 +324,12 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                     <li><a href="${pageContext.request.contextPath}/view/spotlights.jsp">Spotlights</a>
                                     </li>
                                 </ul>
+                            </li>
+
+                            <li>
+                                <a href="${pageContext.request.contextPath}/view/pricing.jsp">
+                                    Pricing
+                                </a>
                             </li>
                         </ul>
                     </nav>
