@@ -19,7 +19,7 @@ public class DateUtils {
     public static final DateFormat  dd_MMM_yyyy_hh_mmformatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
     public static final DateFormat  dd_MMM_yyyy_formatter = new SimpleDateFormat("dd-MMM-yyyy");
     public static final DateFormat  dd_MMM_yyyy_formatter1 = new SimpleDateFormat("dd/MMM/yy HH:mm:ss");
-
+    public static final SimpleDateFormat FV_DATE_FORMATTER = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
 
 
     public static String getCurrentYear() {
@@ -143,6 +143,12 @@ public class DateUtils {
         return timestamp;
     }
 
+    public static String getCurrentDate(){
+
+        String currentDate = FV_DATE_FORMATTER.format(Calendar.getInstance().getTime());
+        return currentDate;
+    }
+
     public static void main(String args[]) throws ParseException {
 //		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
 //		System.out.println(thisDateValid);
@@ -178,8 +184,8 @@ public class DateUtils {
 //		String currentYear = getCurrentYear();
 //		System.out.println(currentDay+currentMonth+currentYear);
 
-
-        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
+        System.out.println(getCurrentDate());
+//        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
     }
 
 }

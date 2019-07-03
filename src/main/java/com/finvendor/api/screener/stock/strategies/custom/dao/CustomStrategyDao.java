@@ -24,13 +24,13 @@ public class CustomStrategyDao {
 
     private static final String INSERT_COMPANY_NAME_AND_STOCK_ID_QUERY = "insert into strategy_custom(stock_id,company_name,.strategy_custom.isin) select a.stock_id,b.company_name,b.isin_code from earning_preview a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id";
     private static final String MCAP_QUERY = "select a.stock_id,CAST((c.shares_outstanding*d.close_price) as DECIMAL) mcap from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id ";
-    private static final String PE_QUERY = "select a.stock_id,cast(c.pe as DECIMAL) from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id";
-    private static final String PB_QUERY = "select a.stock_id, CAST(b.book_value_per_share as DECIMAL) pb from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id";
-    private static final String DE_QUERY = "select a.stock_id, CAST((b.de) as DECIMAL) DE from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id";
-    private static final String CURRENT_RATIO_QUERY = "select a.stock_id,(CAST((b.current_asset/b.current_liabilities) as DECIMAL)) cr from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id  order by a.stock_id";
+    private static final String PE_QUERY = "select a.stock_id,a.period,round(avg(a.eps),2) eps_ttm,b.close_price from earning_preview_quarterly a, stock_current_prices b where a.stock_id=b.stock_id group by cast(a.stock_id as DECIMAL) order by a.stock_id, str_to_date(a.period,'%b_%y') desc";
+    private static final String PB_QUERY = "select a.stock_id,a.close_price, b.book_value_per_share pb from stock_current_prices a, earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id";
+    private static final String DE_QUERY = "select a.stock_id, b.de de from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id";
+    private static final String CURRENT_RATIO_QUERY = "select a.stock_id,CAST(b.current_asset as decimal)/cast(b.current_liabilities as decimal) cr from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id  order by a.stock_id";
 
     private static final String NET_OPERATING_CASH_FLOW_QUERY = "SELECT a.stock_id,a.net_operating_cash_flow FROM earning_preview_yearly AS a WHERE (SELECT COUNT(*) FROM earning_preview_yearly AS b WHERE b.stock_id = a.stock_id AND STR_TO_DATE(b.period, '%b_%y') >= STR_TO_DATE(a.period, '%b_%y')) <= 1 ORDER BY a.stock_id";
-    private static final String OPERATING_PROFIT_MARGIN_QUERY = "SELECT a.stock_id,a.operating_profit_margin FROM earning_preview_yearly AS a WHERE (SELECT COUNT(*) FROM earning_preview_yearly AS b WHERE b.stock_id = a.stock_id AND STR_TO_DATE(b.period, '%b_%y') >= STR_TO_DATE(a.period, '%b_%y')) <= 1 ORDER BY a.stock_id";
+    private static final String OPERATING_PROFIT_MARGIN_QUERY = "SELECT a.stock_id,a.period,a.operating_profit_margin FROM earning_preview_yearly AS a order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
 
     private static final String ROE_QUERY = "select a.stock_id,a.period,a.roe from earning_preview_yearly a,earning_preview b where a.stock_id=b.stock_id order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
     private static final String PAT_QUERY = "select a.stock_id,a.period,a.profit_after_tax from earning_preview_yearly a,earning_preview b where a.stock_id=b.stock_id order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
@@ -39,8 +39,10 @@ public class CustomStrategyDao {
 
     private static final String TOTAL_FREE_CASH_FLOW_QUERY = "select a.stock_id, CAST((b.total_free_cashflow) as DECIMAL)  from earning_preview a,earning_preview_as_of_date b where a.stock_id=b.stock_id order by stock_id";
     private static final String DIV_YIELD_QUERY = "select a.stock_id, CAST((c.dividend_yield) as DECIMAL) divy from earning_preview a,earning_preview_as_of_date b, stock_current_info c ,stock_current_prices d where a.stock_id=c.stock_id and a.stock_id=b.stock_id and c.stock_id=d.stock_id order by a.stock_id";
-    private static final String RETURN_ON_ASSET_QUERY = "select a.stock_id, a.period,a.profit_after_tax,b.avg_total_assets, (cast(a.profit_after_tax as decimal)/cast(b.avg_total_assets as decimal))*100 'ReturnOnAsset%' from earning_preview_yearly a, earning_preview_as_of_date b where a.stock_id=b.stock_id  order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
-    private static final String ROTC_QUERY = "select a.stock_id,a.period,a.profit_after_tax,b.total_capital, ROUND((a.profit_after_tax/b.total_capital),2)*100 'ROTC%' from earning_preview_yearly a, earning_preview_as_of_date b where a.stock_id = b.stock_id  order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
+
+    private static final String RETURN_ON_ASSET_QUERY = "select a.stock_id, a.period,a.profit_after_tax,b.avg_total_assets from earning_preview_yearly a, earning_preview_as_of_date b where a.stock_id=b.stock_id  order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
+    private static final String ROTC_QUERY = "select a.stock_id,a.period,a.profit_after_tax,b.total_capital from earning_preview_yearly a, earning_preview_as_of_date b where a.stock_id = b.stock_id  order by a.stock_id, STR_TO_DATE(a.period, '%b_%y') desc";
+
     private static final String INDUSTRY_QUERY = "select a.stock_id, c.description from earning_preview a, rsch_sub_area_company_dtls b, research_sub_area c where a.stock_id=b.company_id and b.rsch_sub_area_id=c.research_sub_area_id order by a.stock_id";
     private static final String INDUSTRY_FROM_CUSTOM_STRATEGY_TABLE_QUERY = "select DISTINCT a.industry,a.industry from strategy_custom a order by a.industry";
 
@@ -53,31 +55,39 @@ public class CustomStrategyDao {
         logger.info("strategy_custom table DELETED ALL RECORD COUNT: {}", count);
     }
 
+    /**
+     * ROE and Operating Profit Margin data it self in table are in percentage(%) form you dont need to Multiply with 100
+     */
     public void insertCustomScreenerData() {
         try {
             deleteAllRecordsFromStrategyTable(DELETE_FROM_STRATEGY_CUSTOM);
 
             insertCompanyNameAndStockId(INSERT_COMPANY_NAME_AND_STOCK_ID_QUERY);
             updateCustomScreenerTable(MCAP_QUERY, "update strategy_custom set mcap=? where stock_id=?");
-            updateCustomScreenerTable(PE_QUERY, "update strategy_custom set pe=? where stock_id=?");
-            updateCustomScreenerTable(PB_QUERY, "update strategy_custom set pb=? where stock_id=?");
+            updatePEInCustomScreenerTable(PE_QUERY, "update strategy_custom set pe=? where stock_id=?");
+            updatePBInCustomScreenerTable(PB_QUERY, "update strategy_custom set pb=? where stock_id=?");
             updateCustomScreenerTable(DE_QUERY, "update strategy_custom set debtToEquityRatio=? where stock_id=?");
             updateCustomScreenerTable(CURRENT_RATIO_QUERY, "update strategy_custom set currentRatio=? where stock_id=?");
             updateCustomScreenerTable(NET_OPERATING_CASH_FLOW_QUERY, "update strategy_custom set netOperatingCashFlow=? where stock_id=?");
-            updateCustomScreenerTable(OPERATING_PROFIT_MARGIN_QUERY, "update strategy_custom set operatingProfitMargin=? where stock_id=?");
+
+            //insert Operating Profit Margin (Avg 3Y in %)
+            updateOperatingProfitMargin(OPERATING_PROFIT_MARGIN_QUERY, "update strategy_custom set operatingProfitMargin=? where stock_id=?");
+
             updateCustomScreenerTable(TOTAL_FREE_CASH_FLOW_QUERY, "update strategy_custom set totalFreeCashFlow=? where stock_id=?");
             updateCustomScreenerTable(DIV_YIELD_QUERY, "update strategy_custom set divYield=? where stock_id=?");
 
-            //insert ROE, PAT, EPS and Revenue
-            updateROEOrPatOrEpsOrRevenueInCustomScreenerTable(ROE_QUERY, "update strategy_custom set roeInPercentage=? where stock_id=?");
-            updateROEOrPatOrEpsOrRevenueInCustomScreenerTable(PAT_QUERY,
+            //insert ROE (Avg 3Y in %)
+            updateROEInCustomScreenerTable(ROE_QUERY, "update strategy_custom set roeInPercentage=? where stock_id=?");
+
+            // PAT, EPS and Revenue GROWTH
+            updatePatOrEpsOrRevenueInCustomScreenerTable(PAT_QUERY,
                     "update strategy_custom set patGrowthInPercentage=? where stock_id=?");
-            updateROEOrPatOrEpsOrRevenueInCustomScreenerTable(EPS_GROWTH_QUERY,
+            updatePatOrEpsOrRevenueInCustomScreenerTable(EPS_GROWTH_QUERY,
                     "update strategy_custom set epsGrowthInPercentage=? where stock_id=?");
-            updateROEOrPatOrEpsOrRevenueInCustomScreenerTable(REVENUE_QUERY,
+            updatePatOrEpsOrRevenueInCustomScreenerTable(REVENUE_QUERY,
                     "update strategy_custom set revenueGrowthInPercentage=? where stock_id=?");
 
-            //
+            //ROA, ROTC
             updateReturnOnAssetOrROTC(RETURN_ON_ASSET_QUERY, "update strategy_custom set returnOnAssetInPercentage=? where stock_id=?");
             updateReturnOnAssetOrROTC(ROTC_QUERY, "update strategy_custom set rotcInPercentage=? where stock_id=?");
 
@@ -104,8 +114,7 @@ public class CustomStrategyDao {
         for (int k = 0; k < rows.size(); k++) {
             Object[] row0 = rows.get(k);
             int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ?
-                    Integer.parseInt(row0[0].toString().trim()) :
-                    0;
+                    Integer.parseInt(row0[0].toString().trim()) : 0;
             if (prevStockId != stockId) {
                 prevStockId = stockId;
 
@@ -115,35 +124,48 @@ public class CustomStrategyDao {
                 float avgTotalAsset = row0[3] != null && !StringUtils.isEmpty(row0[3].toString()) && !"-".equals(row0[3].toString()) ?
                         Float.parseFloat(row0[3].toString().trim()) : 0.0F;
 
-                float returnOnAsset = avgTotalAsset != 0.0F ? pat / avgTotalAsset : 0.0F;
+                float rotc = avgTotalAsset != 0.0F ? ((pat / avgTotalAsset) * 100) : 0.0F;
                 SQLQuery updateQuery = commonDao.getNativeQuery(updateSql, null);
-                updateQuery.setString(0, String.format("%.10f", returnOnAsset * 100));
+                updateQuery.setString(0, String.format("%.10f", rotc));
                 updateQuery.setInteger(1, stockId);
                 updateQuery.executeUpdate();
             }
-        }
-
-        int c = 1;
-        for (Object[] row : rows) {
-            float temp;
-            int stockId = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ?
-                    Integer.parseInt(row[0].toString().trim()) : 0;
-            if (c <= 1) {
-                temp = row[4] != null && !StringUtils.isEmpty(row[4].toString()) && !"-".equals(row[4].toString()) ?
-                        Float.parseFloat(row[4].toString().trim()) : 0.0F;
-                SQLQuery updateQuery = commonDao.getNativeQuery(updateSql, null);
-                updateQuery.setString(0, String.format("%.10f", temp));
-                updateQuery.setInteger(1, stockId);
-                updateQuery.executeUpdate();
-            }
-            else if (c == 5) {
-                c = 0;
-            }
-            c++;
         }
     }
 
-    private void updateROEOrPatOrEpsOrRevenueInCustomScreenerTable(String findQuery, String updateSql) {
+    /**
+     * pe=cmp/eps(ttm)
+     * avg of 4 quarter eps from earning preview quarterly table.
+     *if for stock id data is not there in earning preview quarterly table then
+     * get latest year eps ttm from earning preview year table.
+     */
+    private void updatePEInCustomScreenerTable(String findQuery, String updateSql) {
+        SQLQuery query = commonDao.getNativeQuery(findQuery, null);
+        List<Object[]> rows = query.list();
+
+        for (int k = 0; k < rows.size(); k++) {
+            Object[] row0 = rows.get(k);
+            int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ?
+                    Integer.parseInt(row0[0].toString().trim()) : 0;
+            float eps = row0[2] != null && !StringUtils.isEmpty(row0[2].toString()) && !"-".equals(row0[2].toString()) ?
+                    Float.parseFloat(row0[2].toString().trim()) : 0.0F;
+            float cmp = row0[3] != null && !StringUtils.isEmpty(row0[3].toString()) && !"-".equals(row0[3].toString()) ?
+                    Float.parseFloat(row0[3].toString().trim()) : 0.0F;
+
+            float pe = cmp / eps;
+
+            SQLQuery updateQuery = commonDao.getNativeQuery(updateSql, null);
+            updateQuery.setString(0, String.valueOf(pe));
+            updateQuery.setInteger(1, stockId);
+            updateQuery.executeUpdate();
+        }
+    }
+
+    private void updateOperatingProfitMargin(String finalQuery,String updateSql){
+        updateROEInCustomScreenerTable(finalQuery,updateSql);
+    }
+
+    private void updateROEInCustomScreenerTable(String findQuery, String updateSql) {
         SQLQuery query = commonDao.getNativeQuery(findQuery, null);
         List<Object[]> rows = query.list();
 
@@ -151,8 +173,37 @@ public class CustomStrategyDao {
         for (int k = 0; k < rows.size(); k++) {
             Object[] row0 = rows.get(k);
             int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ?
-                    Integer.parseInt(row0[0].toString().trim()) :
-                    0;
+                    Integer.parseInt(row0[0].toString().trim()) : 0;
+            if (prevStockId != stockId) {
+                prevStockId = stockId;
+                Object[] row1 = rows.get(k + 1);
+                Object[] row2 = rows.get(k + 2);
+                float temp0 = row0[2] != null && !StringUtils.isEmpty(row0[2].toString()) && !"-".equals(row0[2].toString()) ?
+                        Float.parseFloat(row0[2].toString().trim()) : 0.0F;
+                float temp1 = row1[2] != null && !StringUtils.isEmpty(row1[2].toString()) && !"-".equals(row1[2].toString()) ?
+                        Float.parseFloat(row1[2].toString().trim()) : 0.0F;
+                float temp2 = row2[2] != null && !StringUtils.isEmpty(row2[2].toString()) && !"-".equals(row2[2].toString()) ?
+                        Float.parseFloat(row2[2].toString().trim()) : 0.0F;
+
+                float avgTmp = ((temp0 + temp1 + temp2) / 3);
+
+                SQLQuery updateQuery = commonDao.getNativeQuery(updateSql, null);
+                updateQuery.setString(0, String.format("%.10f", avgTmp));
+                updateQuery.setInteger(1, stockId);
+                updateQuery.executeUpdate();
+            }
+        }
+    }
+
+    private void updatePatOrEpsOrRevenueInCustomScreenerTable(String findQuery, String updateSql) {
+        SQLQuery query = commonDao.getNativeQuery(findQuery, null);
+        List<Object[]> rows = query.list();
+
+        int prevStockId = 0;
+        for (int k = 0; k < rows.size(); k++) {
+            Object[] row0 = rows.get(k);
+            int stockId = row0[0] != null && !StringUtils.isEmpty(row0[0].toString()) && !"-".equals(row0[0].toString()) ?
+                    Integer.parseInt(row0[0].toString().trim()) : 0;
             if (prevStockId != stockId) {
                 prevStockId = stockId;
                 Object[] row1 = rows.get(k + 1);
@@ -192,6 +243,23 @@ public class CustomStrategyDao {
 
             updateQuery = commonDao.getNativeQuery(updateSql, null);
             updateQuery.setString(0, value);
+            updateQuery.setInteger(1, stockId);
+            updateQuery.executeUpdate();
+        }
+    }
+
+    private void updatePBInCustomScreenerTable(String findSql, String updateSql) {
+        SQLQuery query = commonDao.getNativeQuery(findSql, null);
+        List<Object[]> rows = query.list();
+        SQLQuery updateQuery;
+
+        for (Object[] row : rows) {
+            int stockId = row[0] != null && !StringUtils.isEmpty(row[0].toString()) && !"-".equals(row[0].toString()) ? Integer.parseInt(row[0].toString().trim()) : 0;
+            float cmp = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? Float.parseFloat(row[1].toString().trim()) : 0.0F;
+            float bv = row[2] != null && !StringUtils.isEmpty(row[2].toString()) && !"-".equals(row[2].toString()) ? Float.parseFloat(row[2].toString().trim()) : 0.0F;
+            float p_bv =cmp/bv;
+            updateQuery = commonDao.getNativeQuery(updateSql, null);
+            updateQuery.setString(0, String.valueOf(p_bv));
             updateQuery.setInteger(1, stockId);
             updateQuery.executeUpdate();
         }

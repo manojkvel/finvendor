@@ -8,9 +8,14 @@ import com.finvendor.model.Vendor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
@@ -29,7 +34,6 @@ public class EmailUtil {
     }
 
     public static final String EMAIL_USERNAME = "sales@finvendor.com";
-
 
     public static final String REGISTRATION_LINK = "http://www.finvendor.com/validateRegistrationEmail";
     // public static final String REGISTRATION_LINK =
@@ -63,7 +67,7 @@ public class EmailUtil {
     }
 
     public static void sendNotificationEmail(String notificationType, String notificationMessage, FinVendorUser user,
-                                             String userRoleName) throws MessagingException {
+            String userRoleName) throws MessagingException {
         logger.debug("Entering EmailUtil:sendNotificationEmail for {}", notificationType);
         Session session = getMailSession();
         Message message = new MimeMessage(session);
@@ -125,7 +129,7 @@ public class EmailUtil {
         Session session = getMailSession();
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(SALES_EMAIL,"FinVendor Team"));
+            message.setFrom(new InternetAddress(SALES_EMAIL, "FinVendor Team"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject(subject);
             message.setContent(content, "text/html; charset=utf-8");
@@ -134,6 +138,41 @@ public class EmailUtil {
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void sendMailWithAttachment(String to, String subject, String content, String[] attachmentFiles)
+            throws UnsupportedEncodingException {
+        Session session = getMailSession();
+        //2) compose message
+        try{
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(SALES_EMAIL, "FinVendor Team"));
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.setSubject(subject);
+
+            //3) create MimeBodyPart object and set your message text
+            BodyPart messageBodyPart1 = new MimeBodyPart();
+            messageBodyPart1.setText(content);
+
+            //4) create new MimeBodyPart object and set DataHandler object to this object
+            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
+            messageBodyPart2.setFileName(attachmentFiles[0]);
+
+
+            //5) create Multipart object and add MimeBodyPart objects to this object
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart1);
+            multipart.addBodyPart(messageBodyPart2);
+
+            //6) set the multiplart object to the message object
+            message.setContent(multipart );
+
+            //7) send message
+            Transport.send(message);
+
+            System.out.println("message sent....");
+        }catch (MessagingException ex) {ex.printStackTrace();}
     }
 
     public static void sendMail() {
@@ -157,7 +196,7 @@ public class EmailUtil {
     }
 
     public static void sendRfpNotification(Consumer consumer, RfpBean rfpBean, List<String> vendorEmailList,
-                                           boolean closed) throws MessagingException {
+            boolean closed) throws MessagingException {
         logger.debug("Entering EmailUtil:sendRfpNotification for {}", consumer.getUser().getUserName());
         Session session = getMailSession();
         Message message = new MimeMessage(session);
@@ -171,7 +210,8 @@ public class EmailUtil {
                 InternetAddress.parse(vendorEmails.substring(0, vendorEmails.length() - 1)));
         if (closed) {
             message.setSubject("RFP Closed Notification");
-        } else {
+        }
+        else {
             message.setSubject("New RFP Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -179,7 +219,8 @@ public class EmailUtil {
         if (closed) {
             content.append("Please note that RFP " + rfpBean.getRfpTitle() + " has been closed by "
                     + consumer.getCompanyUrl() + "\n");
-        } else {
+        }
+        else {
             content.append("Please note that a new RFP " + rfpBean.getRfpTitle() + " has been created by "
                     + consumer.getCompanyUrl() + "\n");
         }
@@ -199,7 +240,8 @@ public class EmailUtil {
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(consumer.getUser().getEmail()));
         if (revoke) {
             message.setSubject("Vendor RFP Interest Notification");
-        } else {
+        }
+        else {
             message.setSubject("Vendor RFP Interest Revoke Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -207,7 +249,8 @@ public class EmailUtil {
         if (revoke) {
             content.append("Please note that Vendor " + vendor.getCompany() + " has revoked interest from RFP "
                     + rfpBean.getRfpTitle() + "\n");
-        } else {
+        }
+        else {
             content.append("Please note that Vendor " + vendor.getCompany() + " has expressed interest in "
                     + rfpBean.getRfpTitle() + "\n");
         }
@@ -219,7 +262,7 @@ public class EmailUtil {
     }
 
     public static void sendRfpVendorSelectionNotification(Consumer consumer, RfpBean rfpBean, List<Vendor> vendorList,
-                                                          boolean finalized) throws MessagingException {
+            boolean finalized) throws MessagingException {
         logger.debug("Entering EmailUtil:sendRfpVendorSelectionNotification for {}", consumer.getUser().getUserName());
         Session session = getMailSession();
         Message message = new MimeMessage(session);
@@ -236,7 +279,8 @@ public class EmailUtil {
                 InternetAddress.parse(vendorEmails.substring(0, vendorEmails.length() - 1)));
         if (!finalized) {
             message.setSubject("RFP Vendor Shortlisting Notification");
-        } else {
+        }
+        else {
             message.setSubject("RFP Vendor Finalize Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -244,7 +288,8 @@ public class EmailUtil {
         if (!finalized) {
             content.append("Please note that " + consumer.getCompanyUrl() + " has shortlisted you for RFP "
                     + rfpBean.getRfpTitle() + "\n");
-        } else {
+        }
+        else {
             content.append("Please note that " + consumer.getCompanyUrl() + " has finalized you for RFP "
                     + rfpBean.getRfpTitle() + "\n");
         }
@@ -256,7 +301,7 @@ public class EmailUtil {
     }
 
     public static void sendRfpMoreInfoNotification(RfpBean rfpBean, Vendor vendor, Consumer consumer, String moreInfo,
-                                                   boolean request) throws MessagingException {
+            boolean request) throws MessagingException {
         logger.debug("Entering EmailUtil:sendRfpMoreInfoNotification for {}, Consumer : {}", rfpBean.getRfpTitle(),
                 consumer.getCompany());
         Session session = getMailSession();
@@ -264,12 +309,14 @@ public class EmailUtil {
         message.setFrom(new InternetAddress(FROM_EMAIL));
         if (request) {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(consumer.getUser().getEmail()));
-        } else {
+        }
+        else {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(vendor.getUser().getEmail()));
         }
         if (request) {
             message.setSubject("Vendor RFP More Information Request Notification");
-        } else {
+        }
+        else {
             message.setSubject("Consumer RFP More Information Update Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -278,7 +325,8 @@ public class EmailUtil {
             content.append("Please note that Vendor " + vendor.getCompany() + " has requested more information for RFP "
                     + rfpBean.getRfpTitle() + "\n");
             content.append("Information requested : " + moreInfo);
-        } else {
+        }
+        else {
             content.append("Please note that Consumer " + consumer.getCompany()
                     + " has provided more infromation for RFP " + rfpBean.getRfpTitle() + "\n");
             content.append("Information Provided : " + moreInfo);

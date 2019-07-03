@@ -63,38 +63,38 @@ public class CustomStrategyService {
         Pair divYieldFilter = dao.findSliderFilterData(FilterTypeEnum.DIV_YIELD);
         Pair rotcFilter = dao.findSliderFilterData(FilterTypeEnum.ROTC);
 
-        sliderDataList.add(new SliderData("mcap", "MarketCapitalisation (Thousands Crores)", mcapFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("mcap", "Market Capitalisation ('0000 Cr)", mcapFilter.getElement1().toString(),
                 mcapFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("pe", "P/E(Trailing)", peFilter.getElement1().toString(), peFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("pe", "P/E(ttm)", peFilter.getElement1().toString(), peFilter.getElement2().toString()));
         sliderDataList
-                .add(new SliderData("pb", "PriceToBookValue", pbFilter.getElement1().toString(), pbFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("debtToEquityRatio", "DebtToEquityRatio", deFilter.getElement1().toString(),
+                .add(new SliderData("pb", "Price To Book Value", pbFilter.getElement1().toString(), pbFilter.getElement2().toString()));
+        sliderDataList.add(new SliderData("debtToEquityRatio", "Debt To Equity Ratio", deFilter.getElement1().toString(),
                 deFilter.getElement2().toString()));
         sliderDataList
-                .add(new SliderData("currentRatio", "CurrentRatio", currentRatioFilter.getElement1().toString(),
+                .add(new SliderData("currentRatio", "Current Ratio", currentRatioFilter.getElement1().toString(),
                         currentRatioFilter.getElement2().toString()));
         sliderDataList
-                .add(new SliderData("netOperatingCashFlow", "NetOperatingCashFlow (Thousands Crores)", operatingCashFlowFilter.getElement1().toString(),
+                .add(new SliderData("netOperatingCashFlow", "Net Operating CashFlow ('0000 Cr)", operatingCashFlowFilter.getElement1().toString(),
                         operatingCashFlowFilter.getElement2().toString()));
         sliderDataList.add(new SliderData("roeInPercentage", "ROE (avg 3Y; in%)", roeFilter.getElement1().toString(),
                 roeFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("operatingProfitMargin", "OperatingProfitMargin(%)",
+        sliderDataList.add(new SliderData("operatingProfitMargin", "Operating Profit Margin(avg 3Y; in %)",
                 operatingProfitMarginFilter.getElement1().toString(),
                 operatingProfitMarginFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("patGrowthInPercentage", "PATGrowth (avg 3Y; in %)", patFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("patGrowthInPercentage", "PAT Growth (avg 3Y; in %)", patFilter.getElement1().toString(),
                 patFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("epsGrowthInPercentage", "EPSGrowth (avg 3Y; in %)", epsFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("epsGrowthInPercentage", "EPS Growth (avg 3Y; in %)", epsFilter.getElement1().toString(),
                 epsFilter.getElement2().toString()));
         sliderDataList
-                .add(new SliderData("revenueGrowthInPercentage", "RevenueGrowth (avg 3Y; in %)", revenueFilter.getElement1().toString(),
+                .add(new SliderData("revenueGrowthInPercentage", "Revenue Growth (avg 3Y; in %)", revenueFilter.getElement1().toString(),
                         revenueFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("totalFreeCashFlow", "TotalFreeCashFlow (Thousands Crores)", totalFreeCashFlowFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("totalFreeCashFlow", "Total Free CashFlow ('0000 Cr)", totalFreeCashFlowFilter.getElement1().toString(),
                 totalFreeCashFlowFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("returnOnAssetInPercentage", "ReturnOnAssets", revenueFilter1.getElement1().toString(),
+        sliderDataList.add(new SliderData("returnOnAssetInPercentage", "Return On Assets(%)", revenueFilter1.getElement1().toString(),
                 revenueFilter1.getElement2().toString()));
-        sliderDataList.add(new SliderData("divYield", "DividendYield(%)", divYieldFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("divYield", "Dividend Yield(%)", divYieldFilter.getElement1().toString(),
                 divYieldFilter.getElement2().toString()));
-        sliderDataList.add(new SliderData("rotcInPercentage", "ReturnOnTotalCapital(%)", rotcFilter.getElement1().toString(),
+        sliderDataList.add(new SliderData("rotcInPercentage", "Return On Total Capital(%)", rotcFilter.getElement1().toString(),
                 rotcFilter.getElement2().toString()));
         return sliderDataList;
     }

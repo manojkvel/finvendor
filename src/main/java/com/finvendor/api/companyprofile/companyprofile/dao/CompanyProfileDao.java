@@ -84,6 +84,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     private static final String PRICE_HISTORY_QUERY = "select a.* from stock_historical_prices a where a.stock_id=(select a.company_id from rsch_sub_area_company_dtls a where a.isin_code=?) order by STR_TO_DATE(a.price_date,  \"%d/%b/%Y\") desc";
 
     private static final String FIND_TICKER_QUERY = "select a.company_id,a.ticker from rsch_sub_area_company_dtls a where a.isin_code=?";
+    private static final String FIND_EPS_TTM_FROM_EARNING_PREVIEW_QTRYLY_TABLE_QUERY = "select a.stock_id, b.company_name,b.isin_code,round(avg(a.eps),2) eps_ttm from earning_preview_quarterly a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id and b.isin_code=? group by cast(a.stock_id as DECIMAL) order by a.stock_id, str_to_date(a.period,'%b_%y') desc";
 
     @Autowired
     private ICommonDao commonDao;
@@ -94,6 +95,17 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     @Autowired
     private EquityReportDao equityReportDao;
 
+    private float findEpsFromEarningPreviewQuarterlyTable(String isinCode){
+        SQLQuery query1 = commonDao.getNativeQuery(FIND_EPS_TTM_FROM_EARNING_PREVIEW_QTRYLY_TABLE_QUERY, new Object[]{isinCode});
+        List<Object[]> rows = query1.list();
+        float epsTtm=0.0F;
+        for (Object[] row : rows) {
+            String stockId = row[0] != null ? row[0].toString().trim() : "";
+            epsTtm = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[3].toString()) ?
+                    Float.parseFloat(row[3].toString().trim()) : 0.0F;
+        }
+        return epsTtm;
+    }
     /**
      * upside = ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100
      */
@@ -132,7 +144,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 String dividen_yield = row[8] != null ? row[8].toString().trim() : "";
 
                 // static and it will updated quaterly
-                String eps_ttm = row[9] != null ? row[9].toString().trim() : "";
+                String eps_ttm = String.valueOf(findEpsFromEarningPreviewQuarterlyTable(isinCode));//row[9] != null ? row[9].toString().trim() : "";
                 float eps_ttm_as_float = Float.parseFloat(eps_ttm);
 
                 // temp and we will get from vendor feed
@@ -182,10 +194,10 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 String currency = row[26] != null ? row[26].toString().trim() : "";
 
                 // PE calculation PE=cmp/eps-ttm
-                String newPeStr = "";
+                String newPeStr;
                 float newPe = 0.0f;
                 if (eps_ttm_as_float == 0.0f) {
-                    newPeStr = "N/A";
+                    newPeStr = "-";
                 }
                 else {
                     newPe = cmpAsFloat / eps_ttm_as_float;
