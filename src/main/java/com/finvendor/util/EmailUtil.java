@@ -16,6 +16,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
@@ -157,13 +158,35 @@ public class EmailUtil {
             //4) create new MimeBodyPart object and set DataHandler object to this object
             MimeBodyPart messageBodyPart2 = new MimeBodyPart();
             messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
-            messageBodyPart2.setFileName(attachmentFiles[0]);
+            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
+
+            MimeBodyPart messageBodyPart3 = new MimeBodyPart();
+            messageBodyPart3.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[1])));
+            messageBodyPart3.setFileName(attachmentFiles[1].substring(attachmentFiles[1].lastIndexOf(File.separator)+1));
+
+
+            MimeBodyPart messageBodyPart4 = new MimeBodyPart();
+            messageBodyPart4.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[2])));
+            messageBodyPart4.setFileName(attachmentFiles[2].substring(attachmentFiles[2].lastIndexOf(File.separator)+1));
+
+
+//            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+//            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
+//            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
+//
+//            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+//            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
+//            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
+
 
 
             //5) create Multipart object and add MimeBodyPart objects to this object
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart1);
             multipart.addBodyPart(messageBodyPart2);
+            multipart.addBodyPart(messageBodyPart3);
+            multipart.addBodyPart(messageBodyPart4);
+
 
             //6) set the multiplart object to the message object
             message.setContent(multipart );
@@ -172,7 +195,7 @@ public class EmailUtil {
             Transport.send(message);
 
             System.out.println("message sent....");
-        }catch (MessagingException ex) {ex.printStackTrace();}
+        }catch (MessagingException ex) {logger.error("Error while sending mail with attachments, Error: ",ex);}
     }
 
     public static void sendMail() {

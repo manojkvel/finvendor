@@ -1,4 +1,4 @@
-package com.finvendor.api.fvreport.dto;
+package com.finvendor.api.fvreport.dto.marketdatacontent;
 
 import java.io.Serializable;
 import java.util.List;

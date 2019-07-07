@@ -130,6 +130,8 @@ public class LoginController {
                 }
             }
             modelAndView.addObject("status", status);
+            modelAndView.addObject("subscriptionType", "Smart Investor");
+            modelAndView.addObject("subscriptionStatus", true);
         } catch (Exception exp) {
             modelAndView.addObject("status", "false:Error during login");
             logger.error("Error validating User login : ", exp);

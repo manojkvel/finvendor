@@ -64,6 +64,7 @@ public enum ExceptionEnum {
 	CUSTOM_STRATEGY("FV0048", "Internal error - Unable to find custom strategy, Please contact Finvendor admin for support!!"),
 	CUSTOM_STRATEGY_DATA_FEED("FV0049", "Internal error - Unable to feed custom strategy data, Please contact Finvendor admin for support!!"),
 	CUSTOM_STRATEGY_DATA("FV0050", "Internal error - Unable to feed custom screener records, Please contact Finvendor admin for support!!"),
+	FV_REPORT("FV0051", "Internal error - Unable to send report to users, Please contact Finvendor admin for support!!"),
 
 
 

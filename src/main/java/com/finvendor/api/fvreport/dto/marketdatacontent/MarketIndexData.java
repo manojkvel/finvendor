@@ -1,54 +1,43 @@
-package com.finvendor.api.fvreport.dao;
+package com.finvendor.api.fvreport.dto.marketdatacontent;
 
-import com.finvendor.api.fvreport.dto.TopGainers;
-import com.finvendor.api.fvreport.dto.TopLoosers;
-import com.finvendor.common.infra.pdf.PdfContent;
+import com.finvendor.common.infra.pdf.PDFContent;
 
 import java.util.List;
 
-public class BroaderBenchmarkIndexData extends PdfContent {
-    private String userName;
-    private String currentDate;
-    private String nifty50Index;
-    private String consecutiveNumber;
-    private String upDown;
-    private String closeBy;
-    private String closeAt;
-    private String indexOpen;
-    private String dayHigh;
-    private String dayLow;
-    private String gainer;
-    private String looser;
-    private String unchanged;
-    private List<TopGainers> topGainers;
-    private List<TopLoosers> topLoosers;
+public abstract class MarketIndexData extends PDFContent {
+    protected String userName;
+    protected String currentDate;
+    protected String nifty50Index;
+    protected String consecutiveNumber;
+    protected String upDown;
+    protected String closeBy;
+    protected String closeAt;
+    protected String indexOpen;
+    protected String dayHigh;
+    protected String dayLow;
+    protected String gainer;
+    protected String looser;
+    protected String unchanged;
+    protected List<TopGainers> topGainers;
+    protected List<TopLoosers> topLoosers;
 
-    public BroaderBenchmarkIndexData(String userName, String currentDate, String nifty50Index, String consecutiveNumber, String upDown,
-            String closeBy, String closeAt, String indexOpen, String dayHigh, String dayLow, String gainer, String looser,
+    public MarketIndexData(String userName, String currentDate, String nifty50Index, String consecutiveNumber, String upDown, String closeBy, String closeAt, String indexOpen, String dayHigh, String dayLow, String gainer, String looser,
             String unchanged, List<TopGainers> topGainers, List<TopLoosers> topLoosers) {
-        this.userName = userName;
-        this.currentDate = currentDate;
-        this.nifty50Index = nifty50Index;
-        this.consecutiveNumber = consecutiveNumber;
-        this.upDown = upDown;
-        this.closeBy = closeBy;
-        this.closeAt = closeAt;
-        this.indexOpen = indexOpen;
-        this.dayHigh = dayHigh;
-        this.dayLow = dayLow;
-        this.gainer = gainer;
-        this.looser = looser;
-        this.unchanged = unchanged;
-        this.topGainers = topGainers;
-        this.topLoosers = topLoosers;
-    }
-
-    public String getUpDown() {
-        return upDown;
-    }
-
-    public void setUpDown(String upDown) {
-        this.upDown = upDown;
+      this.userName=userName;
+      this.currentDate=currentDate;
+      this.nifty50Index=nifty50Index;
+      this.consecutiveNumber=consecutiveNumber;
+      this.upDown=upDown;
+      this.closeBy=closeBy;
+      this.closeAt=closeAt;
+      this.indexOpen=indexOpen;
+      this.dayHigh=dayHigh;
+      this.dayLow=dayLow;
+      this.gainer=gainer;
+      this.looser=looser;
+      this.unchanged=unchanged;
+      this.topGainers=topGainers;
+      this.topLoosers=topLoosers;
     }
 
     public String getUserName() {
@@ -81,6 +70,14 @@ public class BroaderBenchmarkIndexData extends PdfContent {
 
     public void setConsecutiveNumber(String consecutiveNumber) {
         this.consecutiveNumber = consecutiveNumber;
+    }
+
+    public String getUpDown() {
+        return upDown;
+    }
+
+    public void setUpDown(String upDown) {
+        this.upDown = upDown;
     }
 
     public String getCloseBy() {

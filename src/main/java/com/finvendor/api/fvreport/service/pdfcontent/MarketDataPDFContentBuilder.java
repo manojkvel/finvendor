@@ -1,8 +1,8 @@
 package com.finvendor.api.fvreport.service.pdfcontent;
 
-import com.finvendor.api.fvreport.dao.BroaderBenchmarkIndexData;
-import com.finvendor.api.fvreport.dto.*;
+import com.finvendor.api.fvreport.dto.marketdatacontent.*;
 import com.finvendor.api.markets.dao.MarketsDao;
+import com.finvendor.common.infra.pdf.IPDFContentBuilder;
 import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.common.util.Pair;
@@ -17,18 +17,27 @@ import java.util.List;
 
 @Service
 @Transactional
-public class MktDataContentServiceImpl implements IPdfContentService<BroaderBenchmarkIndexData> {
+public class MarketDataPDFContentBuilder implements IPDFContentBuilder<String, MarketDataContent> {
 
     private static final String NIFTY_50 = "Nifty 50";
+    private static final String NIFTY_MID_CAP_100 = "NIFTY Midcap 100";
+    private static final String NIFTY_SMALL_CAP_100 = "NIFTY Smallcap 100";
 
     @Autowired
     private MarketsDao dao;
 
     @Override
-    public BroaderBenchmarkIndexData getContent(UserWatchListData userWatchListData) throws IOException {
-        String userName = userWatchListData.getUserName();
+    public MarketDataContent buildContent(String userName) throws IOException {
+        MarketIndexData broaderIndexData = getMarketIndexData(userName, NIFTY_50);
+        MarketIndexData midCapIndexData = getMarketIndexData(userName, NIFTY_MID_CAP_100);
+        MarketIndexData smallCapIndexData = getMarketIndexData(userName, NIFTY_SMALL_CAP_100);
+
+        return new MarketDataContent(broaderIndexData,midCapIndexData,smallCapIndexData);
+    }
+
+    private MarketIndexData getMarketIndexData(String userName, String indexType) throws IOException {
         String currentDate = DateUtils.getCurrentDate();
-        String indexSummary = dao.getIndexSummary(NIFTY_50);
+        String indexSummary = dao.getIndexSummary(indexType);
         String nifty50IndexValue = getNifty50Value(indexSummary);
 
         Pair<String, String> indexClosedByUpOrDownValuePair = getIndexClosedByUpOrDownValue(indexSummary);
@@ -37,12 +46,12 @@ public class MktDataContentServiceImpl implements IPdfContentService<BroaderBenc
         String high = JsonUtil.getValue(indexSummary, "high");
         String low = JsonUtil.getValue(indexSummary, "low");
 
-        String marketsAnalytics = dao.getMarketsAnalytics(NIFTY_50, "");
+        String marketsAnalytics = dao.getMarketsAnalytics(indexType, "");
         String gainer = JsonUtil.getValue(marketsAnalytics, "gainer");
         String looser = JsonUtil.getValue(marketsAnalytics, "looser");
         String unchanged = JsonUtil.getValue(marketsAnalytics, "unchanged");
 
-        String markets = dao.getMarkets(NIFTY_50, "", "1", "5", "percentChange", "desc");
+        String markets = dao.getMarkets(indexType, "", "1", "5", "percentChange", "desc");
         MarketData marketDataDetailsDetailsForGainer = (MarketData) JsonUtil.convertJsonToPojo(markets, MarketData.class);
         List<TopGainers> topGainers = new ArrayList<>();
         for (MarketDataDetails mdd : marketDataDetailsDetailsForGainer.getMarketData()) {
@@ -51,7 +60,7 @@ public class MktDataContentServiceImpl implements IPdfContentService<BroaderBenc
             topGainers.add(new TopGainers(companyName, percentChange));
         }
 
-        markets = dao.getMarkets(NIFTY_50, "", "1", "5", "percentChange", "asc");
+        markets = dao.getMarkets(indexType, "", "1", "5", "percentChange", "asc");
         MarketData marketDataDetailsForLooser = (MarketData) JsonUtil.convertJsonToPojo(markets, MarketData.class);
         List<TopLoosers> topLoosers = new ArrayList<>();
         for (MarketDataDetails mdd : marketDataDetailsForLooser.getMarketData()) {
@@ -60,7 +69,7 @@ public class MktDataContentServiceImpl implements IPdfContentService<BroaderBenc
             topLoosers.add(new TopLoosers(companyName, percentChange));
         }
         String consecutiveNumber="";
-        return new BroaderBenchmarkIndexData(userName, currentDate, nifty50IndexValue, consecutiveNumber, indexClosedByUpOrDownValuePair.getElement1(),
+        return new AllMarketIndexData(userName, currentDate, nifty50IndexValue, consecutiveNumber, indexClosedByUpOrDownValuePair.getElement1(),
                 indexClosedByUpOrDownValuePair.getElement2(),
                 closing, open, high, low, gainer, looser, unchanged, topGainers, topLoosers);
     }
