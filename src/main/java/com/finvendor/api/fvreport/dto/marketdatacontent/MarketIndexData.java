@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class MarketIndexData extends PDFContent {
     protected String userName;
     protected String currentDate;
-    protected String nifty50Index;
+    protected String niftyIndex;
     protected String consecutiveNumber;
     protected String upDown;
     protected String closeBy;
@@ -21,11 +21,11 @@ public abstract class MarketIndexData extends PDFContent {
     protected List<TopGainers> topGainers;
     protected List<TopLoosers> topLoosers;
 
-    public MarketIndexData(String userName, String currentDate, String nifty50Index, String consecutiveNumber, String upDown, String closeBy, String closeAt, String indexOpen, String dayHigh, String dayLow, String gainer, String looser,
+    public MarketIndexData(String userName, String currentDate, String niftyIndex, String consecutiveNumber, String upDown, String closeBy, String closeAt, String indexOpen, String dayHigh, String dayLow, String gainer, String looser,
             String unchanged, List<TopGainers> topGainers, List<TopLoosers> topLoosers) {
       this.userName=userName;
       this.currentDate=currentDate;
-      this.nifty50Index=nifty50Index;
+      this.niftyIndex = niftyIndex;
       this.consecutiveNumber=consecutiveNumber;
       this.upDown=upDown;
       this.closeBy=closeBy;
@@ -56,12 +56,12 @@ public abstract class MarketIndexData extends PDFContent {
         this.currentDate = currentDate;
     }
 
-    public String getNifty50Index() {
-        return nifty50Index;
+    public String getNiftyIndex() {
+        return niftyIndex;
     }
 
-    public void setNifty50Index(String nifty50Index) {
-        this.nifty50Index = nifty50Index;
+    public void setNiftyIndex(String niftyIndex) {
+        this.niftyIndex = niftyIndex;
     }
 
     public String getConsecutiveNumber() {

@@ -5,6 +5,7 @@ import com.finvendor.common.util.ErrorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class FvReportController {
 //    @Autowired
 //    private ReportUserService reportUserService;
 
-    @GetMapping(value = "/reports/daily", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/reports", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> sendDailyReport() {
         try {
 
@@ -33,11 +34,10 @@ public class FvReportController {
 //                fvReportService.sendReport(allUser.getUserName());
 //            }
             fvReportService.sendReport("ays_broker");
+            return new ResponseEntity<>("Report sent successfully to each user", HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("FvReportController -> sendDailyReport(...) method", e);
             return ErrorUtil.getError(FV_REPORT.getCode(), FV_REPORT.getUserMessage(), e);
         }
-
-        return null;
     }
 }

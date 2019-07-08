@@ -7,9 +7,9 @@ import com.finvendor.api.fvreport.dto.financials.Financials;
 import com.finvendor.api.fvreport.dto.marketdatacontent.MarketDataContent;
 import com.finvendor.api.fvreport.dto.resultCalendar.ResultCalendarPDFContent;
 import com.finvendor.api.fvreport.dto.sectoral.Sectoral;
+import com.finvendor.api.fvreport.dto.sectoral.SectoralDataPDFContent;
 import com.finvendor.common.infra.pdf.IPDFContentBuilder;
 import com.finvendor.common.infra.pdf.IPDFGenerator;
-import com.finvendor.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,8 +21,8 @@ import java.util.List;
 @Transactional
 public class FvReportService {
 
+    private static final String LOC = "d:\\";
 //    private static final String LOC = "/home/finvendo/tmp/";
-    private static final String LOC = "/home/finvendo/tmp/";
     private static final String MKT_PDF = LOC + "market_report.pdf";
     private static final String RESULT_CALENDAR_PDF = LOC + "result_calendar_report.pdf";
     private static final String CORP_ACTION_PDF = LOC + "crop_action_report.pdf";
@@ -43,11 +43,11 @@ public class FvReportService {
 
     @Autowired
     @Qualifier(value = "financialsPDFContentBuilder")
-    private IPDFContentBuilder<String, Financials> financialsContentGenerator;
+    private IPDFContentBuilder<String, Financials> financialsPDFContentBuilder;
 
     @Autowired
     @Qualifier(value = "sectoralDataPDFContentBuilder")
-    private IPDFContentBuilder<String, Sectoral> sectoralContentGenerator;
+    private IPDFContentBuilder<String, SectoralDataPDFContent> sectoralDataPDFContentBuilder;
 
     @Autowired
     @Qualifier(value = "marketDataPDFGenerator")
@@ -72,10 +72,10 @@ public class FvReportService {
     @Autowired
     private FvReportDao dao;
 
-    public List<ReportUser> findAllUsers() throws Exception {
+    public List<ReportUser> findAllUsers(String sql) throws Exception {
         List<ReportUser> reportUsers;
         try {
-            reportUsers = dao.findAllUsers();
+            reportUsers = dao.findAllUsers(sql);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
@@ -83,14 +83,18 @@ public class FvReportService {
     }
 
     public void sendReport(String userName) throws Exception {
-        boolean isMktDataReportGenerated = marketDataPDFGenerator.generate(marketDataPDFContentBuilder.buildContent(userName), MKT_PDF);
-        boolean isResultCalendarReportGenerated = resultCalendarPDFGenerator.generate(resultCalendarPDFContentBuilder.buildContent(userName), RESULT_CALENDAR_PDF);
-        boolean isCorpActionReportGenerated = corpActionPDFGenerator.generate(corpActionPDFContentBuilder.buildContent(userName), CORP_ACTION_PDF);
+        boolean isMarketReportDone = marketDataPDFGenerator.generate(marketDataPDFContentBuilder.buildContent(userName), MKT_PDF);
+        boolean isResultCalendarDone = resultCalendarPDFGenerator.generate(resultCalendarPDFContentBuilder.buildContent(userName), RESULT_CALENDAR_PDF);
+        boolean isCorpActionDone = corpActionPDFGenerator.generate(corpActionPDFContentBuilder.buildContent(userName), CORP_ACTION_PDF);
+        boolean isFinancialsDone = financialsPDFGenerator.generate(financialsPDFContentBuilder.buildContent(userName), FINANCIALS_PDF);
+        boolean isSectoralDone = sectoralDataPDFGenerator.generate(sectoralDataPDFContentBuilder.buildContent(userName), SECTORAL_PDF);
 //        if(isMktDataReportGenerated&&isResultCalendarReportGenerated&&isCorpActionReportGenerated){
             //send mail
-        EmailUtil.sendMailWithAttachment("jbytrain@gmail.com", "FV Report Mail", "Hello There,\n Please find all reports as an attachment\n\n\n\nFrom:\nFinvendor Team",
-                new String[] { MKT_PDF, RESULT_CALENDAR_PDF, CORP_ACTION_PDF });
+//      /  EmailUtil.sendMailWithAttachment("jbytrain@gmail.com", "FV Report Mail", "Hello There,\n Please find all reports as an attachment\n\n\n\nFrom:\nFinvendor Team",
+//                new String[] { MKT_PDF, RESULT_CALENDAR_PDF, CORP_ACTION_PDF });
 //            EmailUtil.sendMail("jbytrain@gmail.com","TestMail","Hey you have many attachments");
 //        }
     }
+
+
 }

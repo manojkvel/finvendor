@@ -77,11 +77,6 @@ public class CorpActionPDFGenerator extends AbstractPDFGenerator {
         return true;
     }
 
-    private Paragraph getDearUserLine(String userName) {
-        Chunk c1 = new Chunk("Dear ");
-        Chunk c2 = new Chunk(userName, BLUE_BOLD);
-        return PDFContentHelper.getParagraph(new Chunk[] { c1, c2 }, 10);
-    }
 
     private Paragraph getCorpActionOnNSELine() {
         Chunk c1 = new Chunk("Corporate Actions on NSE listed stocks: ");

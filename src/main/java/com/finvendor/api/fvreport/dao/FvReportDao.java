@@ -2,8 +2,11 @@ package com.finvendor.api.fvreport.dao;
 
 import com.finvendor.api.fvreport.dto.ReportUser;
 import com.finvendor.api.fvreport.dto.corpaction.CorpAction;
+import com.finvendor.api.fvreport.dto.financials.FinancialsQuarterly;
+import com.finvendor.api.fvreport.dto.financials.FinancialsYearly;
 import com.finvendor.api.fvreport.dto.resultCalendar.ResultCalendar;
 import com.finvendor.common.commondao.ICommonDao;
+import com.finvendor.model.EarningPreviewQuarterly;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,14 +21,17 @@ public class FvReportDao {
     private static final String ENABLED_USERS = "select a.username,a.email from users a where a.enabled=1";
     private static final String RESULT_CALENDAR_QUERY = "select a.board_meeting_date,b.company_name from company_calendar_history a,rsch_sub_area_company_dtls b where a.ticker=b.ticker and a.purpose like '%Financial Results%' and STR_TO_DATE(a.board_meeting_date, '%d-%M-%Y')>=NOW()";
     private static final String CORP_ACTION_QUERY = "select b.company_name,a.* from corp_action_history a,rsch_sub_area_company_dtls b where a.ticker=b.ticker  and STR_TO_DATE(a.ex_date, '%d-%M-%Y')>NOW()";
+    private static final String FINANCIALS_QUARTERLY_QUERY = "select b.company_name,a.period,a.revenue,a.operating_profit_margin,a.profit_after_tax,a.eps from earning_preview_quarterly a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id";
+    private static final String FINANCIALS_YEARLY_QUERY = "select b.company_name,a.period,a.revenue,a.operating_profit_margin,a.profit_after_tax,a.eps,a.net_operating_cash_flow,a.roe from earning_preview_yearly a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id";
+    private static final String COMPANY_WATCHLIST_USERS_QUERY = "select a.username,a.email from users a where a.enabled=1 and a.username in (select DISTINCT a.user_name from company_watchlist a)";
 
     @Autowired
     private ICommonDao commonDao;
 
-    public List<ReportUser> findAllUsers() throws Exception {
+    public List<ReportUser> findAllUsers(String sql) throws Exception {
         List<ReportUser> reportUsers = new ArrayList<>();
         try {
-            SQLQuery query1 = commonDao.getNativeQuery(ENABLED_USERS, null);
+            SQLQuery query1 = commonDao.getNativeQuery(sql, null);
             List<Object[]> rows = query1.list();
             for (Object[] row : rows) {
                 String userName = row[0] != null ? row[0].toString().trim() : "";
@@ -74,5 +80,46 @@ public class FvReportDao {
         return corpActions;
     }
 
+    public List<FinancialsQuarterly> findFinancialsQuarterly() throws Exception {
+        List<FinancialsQuarterly> financialsQuarterlyList = new ArrayList<>();
+        try {
+            SQLQuery query1 = commonDao.getNativeQuery(FINANCIALS_QUARTERLY_QUERY, null);
+            List<Object[]> rows = query1.list();
+            for (Object[] row : rows) {
+                String companyName = row[0] != null ? row[0].toString().trim() : "";
+                String period = row[1] != null ? row[1].toString().trim() : "";
+                String revenue = row[2] != null ? row[2].toString().trim() : "";
+                String operatingProfitMargin = row[3] != null ? row[3].toString().trim() : "";
+                String profitAfterTax = row[4] != null ? row[4].toString().trim() : "";
+                String eps = row[5] != null ? row[5].toString().trim() : "";
+                financialsQuarterlyList.add(new FinancialsQuarterly(companyName,period,revenue,operatingProfitMargin,profitAfterTax,eps));
+            }
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+        return financialsQuarterlyList;
+    }
+
+    public List<FinancialsYearly> findFinancialsYearly() throws Exception {
+        List<FinancialsYearly> financialsYearlyList = new ArrayList<>();
+        try {
+            SQLQuery query1 = commonDao.getNativeQuery(FINANCIALS_YEARLY_QUERY, null);
+            List<Object[]> rows = query1.list();
+            for (Object[] row : rows) {
+                String companyName = row[0] != null ? row[0].toString().trim() : "";
+                String period = row[1] != null ? row[1].toString().trim() : "";
+                String revenue = row[2] != null ? row[2].toString().trim() : "";
+                String operatingProfitMargin = row[3] != null ? row[3].toString().trim() : "";
+                String profitAfterTax = row[4] != null ? row[4].toString().trim() : "";
+                String eps = row[5] != null ? row[5].toString().trim() : "";
+                String netOperatingCashFlow = row[6] != null ? row[6].toString().trim() : "";
+                String roe = row[7] != null ? row[7].toString().trim() : "";
+                financialsYearlyList.add(new FinancialsYearly(companyName, period,revenue,operatingProfitMargin,profitAfterTax,eps,netOperatingCashFlow,roe));
+            }
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+        return financialsYearlyList;
+    }
 
 }
