@@ -24,156 +24,312 @@
 			<h5>Pricing</h5>
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12">
-				<div class="default_template">
-					<div class="content">
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							<div class="pricing_table">
-								<button>
-									<div class="hd">
-										<h3>General (Free)</h3>
+			<div id="steps_update">
+				 Step 1 of 4
+			</div>
+
+			<div id="pricing_plan">
+				<div class="content">
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<div class="pricing_table">
+							<button id="general_investors" data-value="General">
+								<div class="hd">
+									<h3>General</h3>
+									<div class="price-block">
+										<div class="price-block-wrapper">
+											<div class="price-block__bigno">
+												FREE
+											</div>
+										</div>
 									</div>
-									<div class="bd">
-										<ol>
-											<li>
-												<p>Access to Unlimited Company profile search</p>
-											</li>
-											<li>
-												<p>Access to Today's Market Summary Page</p>
-											</li>
-											<li>
-												<p>Access to Today's performance of All indices & its constituents.</p>
-											</li>
-											<li>
-												<p>Access to Stock Screener - based on Research Analyst's Recommendations (Upto 50 search results per months)</p>
-											</li>
-											<li>
-												<p>Access to Sector Screener - based on Research Analyst's Recommendations (Upto 50 searches results per months)</p>
-											</li>
-											<li>
-												<p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
-											</li>
-											<li>
-												<p>Set alerts on any companies if any new research analyst's report is available.</p>
-											</li>
-											<li>
-												<p>Get Daily market summary report through email.</p>
-											</li>
-										</ol>
+								</div>
+								<div class="bd">
+									<ol>
+										<li>
+											<p>Access to Unlimited Company profile search</p>
+										</li>
+										<li>
+											<p>Access to Today's Market Summary Page</p>
+										</li>
+										<li>
+											<p>Access to Today's performance of All indices & its constituents.</p>
+										</li>
+										<li>
+											<p>Access to Stock Screener - based on Research Analyst's Recommendations (Upto 50 search results per months)</p>
+										</li>
+										<li>
+											<p>Access to Sector Screener - based on Research Analyst's Recommendations (Upto 50 searches results per months)</p>
+										</li>
+										<li>
+											<p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
+										</li>
+										<li>
+											<p>Set alerts on any companies if any new research analyst's report is available.</p>
+										</li>
+										<li>
+											<p>Get Daily market summary report through email.</p>
+										</li>
+									</ol>
+									<div class="btnSubscribe" data-value="0">
+										<a href="javascript:void(0);">Free</a>
 									</div>
-								</button>
-							</div>
+								</div>
+							</button>
 						</div>
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							<div class="pricing_table">
-								<button>
-									<div class="hd">
-										<h3>Smart Investors( INR 499 p.m.) - Free trial 2 days</h3>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<div class="pricing_table">
+							<button id="smart_investors" data-value="Smart Investors">
+								<div class="hd">
+									<h3>Smart Investors</h3>
+									<div class="price-block">
+										<div class="price-block-wrapper">
+											<div class="price-block__currency">
+												₹
+											</div>
+											<div class="price-block__bigno">
+												499
+											</div>
+											<div class="price-block__right-holder price-block__right-holder">
+												<div class="price-block-right-holder__cents">
+													00
+												</div>
+												<div class="price-block-right-holder__unit">
+													<div class="price-block-right-holder-unit__currency"></div>
+													<div class="price-block-right-holder-unit__unit">
+														/mo
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
-									<div class="bd">
-										<ol>
-											<li>
-												<p>Access to Unlimited Company profile search</p>
-											</li>
-											<li>
-												<p>Access to Today's Market Summary Page</p>
-											</li>
-											<li>
-												<p>Access to Today's performance of All indices & its constituents.</p>
-											</li>
-											<li>
-												<p>Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
-											</li>
-											<li>
-												<p>Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
-											</li>
-											<li>
-												<p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
-											</li>
-											<li>
-												<p>Set alerts on any companies if any new research analyst's report is available.</p>
-											</li>
-											<li>
-												<p>Track your shortlisted companies in your watchlist.</p>
-											</li>
-											<li>
-												<p>Get Daily market summary report through email.</p>
-											</li>
-											<li>
-												<p>Get Daily Sectoral Performance Summary Report through email.</p>
-											</li>
-											<li>
-												<p>Financial Results Calendar for coming week for NSE listed stocks everyday through email.</p>
-											</li>
-											<li>
-												<p>Corporate Actions for company under the watchlist everyday through email.</p>
-											</li>
-										</ol>
+								</div>
+								<div class="bd">
+									<ol>
+										<li>
+											<p>Access to Unlimited Company profile search</p>
+										</li>
+										<li>
+											<p>Access to Today's Market Summary Page</p>
+										</li>
+										<li>
+											<p>Access to Today's performance of All indices & its constituents.</p>
+										</li>
+										<li>
+											<p>Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
+										</li>
+										<li>
+											<p>Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
+										</li>
+										<li>
+											<p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
+										</li>
+										<li>
+											<p>Set alerts on any companies if any new research analyst's report is available.</p>
+										</li>
+										<li>
+											<p>Track your shortlisted companies in your watchlist.</p>
+										</li>
+										<li>
+											<p>Get Daily market summary report through email.</p>
+										</li>
+										<li>
+											<p>Get Daily Sectoral Performance Summary Report through email.</p>
+										</li>
+										<li>
+											<p>Financial Results Calendar for coming week for NSE listed stocks everyday through email.</p>
+										</li>
+										<li>
+											<p>Corporate Actions for company under the watchlist everyday through email.</p>
+										</li>
+									</ol>
+									<div class="btnSubscribe" data-value="499">
+										<a href="javascript:void(0);">Free trial 2 days</a>
 									</div>
-								</button>
-							</div>
+								</div>
+							</button>
 						</div>
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							<div class="pricing_table">
-								<button>
-									<div class="hd">
-										<h3>Sage Investors( INR 999 p.m.) - Free trial 2 days</h3>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-4">
+						<div class="pricing_table">
+							<button id="sage_investors" data-value="Sage Investors">
+								<div class="hd">
+									<h3>Sage Investors</h3>
+									<div class="price-block">
+										<div class="price-block-wrapper">
+											<div class="price-block__currency">
+												₹
+											</div>
+											<div class="price-block__bigno">
+												999
+											</div>
+											<div class="price-block__right-holder price-block__right-holder">
+												<div class="price-block-right-holder__cents">
+													00
+												</div>
+												<div class="price-block-right-holder__unit">
+													<div class="price-block-right-holder-unit__currency"></div>
+													<div class="price-block-right-holder-unit__unit">
+														/mo
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
-									<div class="bd">
-										<ol>
-											<li>
-												<p>Access to Stock Screener "Celebrity Investors' Strategies" & "Do It Yourself" (CUSTOM Stock Screener).</p>
-											</li>
-											<li>
-												<p>Access to Unlimited Company profile search</p>
-											</li>
-											<li>
-												<p>Access to Today's Market Summary Page.</p>
-											</li>
-											<li>
-												<p>Access to Today's performance of All indices & its constituents.</p>
-											</li>
-											<li>
-												<p>Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
-											</li>
-											<li>
-												<p>Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
-											</li>
-											<li>
-												<p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
-											</li>
-											<li>
-												<p>Set alerts on any companies if any new research analyst's report is available.</p>
-											</li>
-											<li>
-												<p>Track your shortlisted companies in your watchlist.</p>
-											</li>
-											<li>
-												<p>Get Daily market summary report through email.</p>
-											</li>
-											<li>
-												<p>Get Daily Sectoral Performance Summary Report through email.</p>
-											</li>
-											<li>
-												<p>Financial Results Calendar for coming week for NSE listed stocks everyday through email. </p>
-											</li>
-											<li>
-												<p>Corporate Actions for company under the watchlist everyday through email. </p>
-											</li>
-											<li>
-												<p>Financial results summary for company under the watchlist.</p>
-											</li>
-										</ol>
+								</div>
+								<div class="bd">
+									<ol>
+										<li>
+											<p>Access to Stock Screener "Celebrity Investors' Strategies" & "Do It Yourself" (CUSTOM Stock Screener).</p>
+										</li>
+										<li>
+											<p>Access to Unlimited Company profile search</p>
+										</li>
+										<li>
+											<p>Access to Today's Market Summary Page.</p>
+										</li>
+										<li>
+											<p>Access to Today's performance of All indices & its constituents.</p>
+										</li>
+										<li>
+											<p>Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
+										</li>
+										<li>
+											<p>Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
+										</li>
+										<li>
+											<p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
+										</li>
+										<li>
+											<p>Set alerts on any companies if any new research analyst's report is available.</p>
+										</li>
+										<li>
+											<p>Track your shortlisted companies in your watchlist.</p>
+										</li>
+										<li>
+											<p>Get Daily market summary report through email.</p>
+										</li>
+										<li>
+											<p>Get Daily Sectoral Performance Summary Report through email.</p>
+										</li>
+										<li>
+											<p>Financial Results Calendar for coming week for NSE listed stocks everyday through email. </p>
+										</li>
+										<li>
+											<p>Corporate Actions for company under the watchlist everyday through email. </p>
+										</li>
+										<li>
+											<p>Financial results summary for company under the watchlist.</p>
+										</li>
+									</ol>
+									<div class="btnSubscribe" data-value="999">
+										<a href="javascript:void(0);">Free trial 2 days</a>
 									</div>
-								</button>
-							</div>
+								</div>
+							</button>
 						</div>
 					</div>
 				</div>
+			</div>
+
+			<div id="pricing_account_info">
+				<p><strong>Please follow below steps to complete the Subscription step:</strong></p>
+				<h2 id='selected_plan_name'></h2>
+				<ol>
+					<li>
+						<p>Please do the online transfer to our company account using your online banking account.</p>
+						<ul>
+							<li>
+								<strong>Payee Name: </strong>MTAR Vendor Consulting Private Limited
+							</li>
+							<li>
+								<strong>Account no: </strong><>
+							</li>
+							<li>
+								<strong>IFSC code: </strong><>
+							</li>
+							<li>
+								<strong>Account type: </strong>Current (Resident)
+							</li>
+							<li>
+								<strong>Bank Address: </strong><>
+							</li>
+							<li>
+								<strong>Amount to transfer: <span id='selected_plan_amount'></span></strong>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p>Once you are done with transferring the amount to our account, please fill up the details using below button.</p>
+						<div class="pricing_form_btn">
+							<a href="javascript:void(0);">Click Here</a>
+						</div>
+					</li>
+					<li>
+						<p>
+							Once we receive the payment in our bank account, we will take maximum 24 hrs to activate your profile for subscription type opted by you. 
+						</p>
+					</li>
+				</ol>
+			</div>
+
+			<div id="pricing_bank_form">
+				<ul>
+					<li>
+						<label>Finvendor user ID <sup>*</sup></label>
+						<input type="text" maxlength="300" name="userId" id="userId" value="${sessionScope.loggedInUser.username}" readonly="readonly" />
+					</li>
+
+					<li>
+						<label class="default_select">Subscription Type</label>
+						<select class="selectpicker show-tick" id="subscriptionType" name="subscriptionType">
+							<option selected="selected">Sage investors</option>
+							<option>Smart investors</option>
+						</select>
+					</li>
+
+					<li>
+						<label class="default_select">Mode of payment</label>
+						<select class="selectpicker show-tick" id="subscriptionType" name="subscriptionType">
+							<option selected="selected">NEFT/RTGS/IMPS</option>
+							<option>Cheque</option>
+							<option>Debit/Credit Card</option>
+						</select>
+					</li>
+
+					<li>
+						<label>Transaction Date <sup>*</sup></label>
+						<input type="text" id="datepicker" name="datepicker" required />
+					</li>
+					<li>
+						<label>Transaction Reference Number <sup>*</sup></label>
+						<input type="text" name="transactionRefNumber" id="transactionRefNumber" required />
+					</li>
+					<li>
+						<label>Amount Transferred <sup>*</sup></label>
+						<input type="number" name="amountTransferred" id="amountTransferred" readonly="readonly" />
+					</li>
+					<li>
+						<label>Bank Name <sup>*</sup></label>
+						<input type="text" name="bankName" id="bankName" required />
+					</li>
+					<li>
+						<label>Bank Holder Name <sup>*</sup></label>
+						<input type="text" name="bankHolderName" id="bankHolderName" required />
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
 	<jsp:include page="login.jsp"></jsp:include>
 	<jsp:include page="common/footer.jsp"></jsp:include>
+	<script>
+    	$( function() {
+    		$( "#datepicker" ).datepicker({
+    			dateFormat: 'dd/mm/yy'
+    		});
+    	} );
+    </script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/pricing.js"></script>
 </body>
 </html>
