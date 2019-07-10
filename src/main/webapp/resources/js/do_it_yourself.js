@@ -855,6 +855,12 @@ jQuery(document).ready(function() {
         getIndustryFilterData : function(event) {
             var classRef = event.data.this;
 
+            if(isLoggedInUser()) {
+                $("#search_by_industry ul input").prop('checked', false);
+                classRef.redirectCurrentPage();
+                return;
+            }
+
             classRef.addRemoveItemFromArray(classRef.industryFilterData, $(this).attr('data-value'));
 
 
