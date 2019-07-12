@@ -3,6 +3,8 @@ package com.finvendor.api.login.controller;
 import com.finvendor.api.common.service.ReferenceDataService;
 import com.finvendor.api.consumer.service.ConsumerService;
 import com.finvendor.api.formdata.controller.FormDataController;
+import com.finvendor.api.login.dto.LoginResponseDto;
+import com.finvendor.api.login.dto.SubscriptionDto;
 import com.finvendor.api.login.service.LoginService;
 import com.finvendor.api.marketdata.service.MarketDataAggregatorsService;
 import com.finvendor.api.user.service.UserService;
@@ -11,6 +13,7 @@ import com.finvendor.model.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
+import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -72,13 +76,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = RequestConstans.Login.LOGINVALIDATION, method = RequestMethod.POST)
-    public ModelAndView loginValidation(ModelMap modelMap, HttpServletRequest request,
-                                        @RequestParam(value = "VEuMlA", required = false) String username,
-                                        @RequestParam(value = "RaYulU", required = false) String password,
-                                        @RequestParam(value = "chgUsername", required = false) String chgUsername,
-                                        @RequestParam(value = "oldPassword", required = false) String oldPassword,
-                                        @RequestParam(value = "newPassword", required = false) String newPassword,
-                                        @RequestParam(value = "passChange", required = true) String passChange) {
+    public ResponseEntity<?> loginValidation(@RequestParam(value = "VEuMlA", required = false) String username,
+                                             @RequestParam(value = "RaYulU", required = false) String password,
+                                             @RequestParam(value = "chgUsername", required = false) String chgUsername,
+                                             @RequestParam(value = "oldPassword", required = false) String oldPassword,
+                                             @RequestParam(value = "newPassword", required = false) String newPassword,
+                                             @RequestParam(value = "passChange", required = true) String passChange) {
 
         logger.debug("Entering LoginController : loginValidation");
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
@@ -129,15 +132,16 @@ public class LoginController {
                     }
                 }
             }
-            modelAndView.addObject("status", status);
-            modelAndView.addObject("subscriptionType", "Smart Investor");
-            modelAndView.addObject("subscriptionStatus", true);
+            List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
+            subscriptionDtoList.add(new SubscriptionDto("sage", true));
+            LoginResponseDto loginResponseDto = new LoginResponseDto("lgn-001", "Status: " + status, subscriptionDtoList);
+            return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
         } catch (Exception exp) {
             modelAndView.addObject("status", "false:Error during login");
             logger.error("Error validating User login : ", exp);
+            return new ResponseEntity<>(new LoginResponseDto("lgn-002", "Status: " + status, null),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        logger.debug("Leaving LoginController : loginValidation");
-        return modelAndView;
     }
 
     @RequestMapping(value = RequestConstans.Login.WELCOME, method = RequestMethod.GET)

@@ -1,0 +1,11 @@
+package com.finvendor.api.login.dto;
+
+import com.finvendor.common.BaseResponseDto;
+
+import java.util.List;
+
+public class LoginResponseDto extends BaseResponseDto<SubscriptionDto> {
+    public LoginResponseDto(String code, String message, List<SubscriptionDto> data) {
+        super(code, message, data);
+    }
+}
