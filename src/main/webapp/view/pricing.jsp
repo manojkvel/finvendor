@@ -274,50 +274,65 @@
 			</div>
 
 			<div id="pricing_bank_form">
-				<ul>
-					<li>
-						<label>Finvendor user ID <sup>*</sup></label>
-						<input type="text" maxlength="300" name="userId" id="userId" value="${sessionScope.loggedInUser.username}" readonly="readonly" />
-					</li>
+				<div class="row">
+					<div class="col-xs-12 col-sm-6">
+						<div class="pricing_bank_content">
+							<p><strong>Please complete below bank form to complete the Subscription step:</strong></p>
+							<img src="${pageContext.request.contextPath}/resources/images/pricing_bank_form.png" alt="" />
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6">
+						<ul>
+							<li>
+								<label>Finvendor user ID <sup>*</sup></label>
+								<input type="text" maxlength="300" name="userId" id="userId" value="${sessionScope.loggedInUser.username}" readonly="readonly" />
+							</li>
 
-					<li>
-						<label class="default_select">Subscription Type</label>
-						<select class="selectpicker show-tick" id="subscriptionType" name="subscriptionType">
-							<option selected="selected">Sage investors</option>
-							<option>Smart investors</option>
-						</select>
-					</li>
+							<li>
+								<label class="default_select">Subscription Type</label>
+								<select class="selectpicker show-tick" id="subscriptionType" name="subscriptionType">
+									<option selected="selected">Sage investors</option>
+									<option>Smart investors</option>
+								</select>
+							</li>
 
-					<li>
-						<label class="default_select">Mode of payment</label>
-						<select class="selectpicker show-tick" id="subscriptionType" name="subscriptionType">
-							<option selected="selected">NEFT/RTGS/IMPS</option>
-							<option>Cheque</option>
-							<option>Debit/Credit Card</option>
-						</select>
-					</li>
+							<li>
+								<label class="default_select">Mode of payment</label>
+								<select class="selectpicker show-tick" id="paymentMode" name="paymentMode">
+									<option selected="selected">NEFT/RTGS/IMPS</option>
+									<option>Cheque</option>
+									<option>Debit/Credit Card</option>
+								</select>
+							</li>
 
-					<li>
-						<label>Transaction Date <sup>*</sup></label>
-						<input type="text" id="datepicker" name="datepicker" required />
-					</li>
-					<li>
-						<label>Transaction Reference Number <sup>*</sup></label>
-						<input type="text" name="transactionRefNumber" id="transactionRefNumber" required />
-					</li>
-					<li>
-						<label>Amount Transferred <sup>*</sup></label>
-						<input type="number" name="amountTransferred" id="amountTransferred" readonly="readonly" />
-					</li>
-					<li>
-						<label>Bank Name <sup>*</sup></label>
-						<input type="text" name="bankName" id="bankName" required />
-					</li>
-					<li>
-						<label>Bank Holder Name <sup>*</sup></label>
-						<input type="text" name="bankHolderName" id="bankHolderName" required />
-					</li>
-				</ul>
+							<li>
+								<label>Transaction Date <sup>*</sup></label>
+								<input type="text" id="transactionDate" name="transactionDate" required />
+							</li>
+							<li>
+								<label>Transaction Reference Number <sup>*</sup></label>
+								<input type="text" name="transactionRefNumber" id="transactionRefNumber" required />
+							</li>
+							<li>
+								<label>Amount Transferred <sup>*</sup></label>
+								<input type="number" name="amountTransferred" id="amountTransferred" readonly="readonly" />
+							</li>
+							<li>
+								<label>Bank Name <sup>*</sup></label>
+								<input type="text" name="bankName" id="bankName" required />
+							</li>
+							<li>
+								<label>Bank Holder Name <sup>*</sup></label>
+								<input type="text" name="bankHolderName" id="bankHolderName" required />
+							</li>
+							<li>
+								<div class="pricing_bank_form_btn">
+									<a href="javascript:void(0);">Submit</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -325,7 +340,7 @@
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	<script>
     	$( function() {
-    		$( "#datepicker" ).datepicker({
+    		$( "#transactionDate" ).datepicker({
     			dateFormat: 'dd/mm/yy'
     		});
     	} );

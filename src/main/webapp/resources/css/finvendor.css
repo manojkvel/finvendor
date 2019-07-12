@@ -2373,10 +2373,10 @@ button {
 }
 
 #pricing_bank_form {
-	display: none;
+	display: block;
 	background-color: #fff;
 	margin: 0 15px;
-	padding: 15px;
+	padding: 15px 0;
 	font-size: 13px;
 }
 
@@ -2392,6 +2392,20 @@ button {
 	height: 30px;
 	padding: 5px 0;
 	font-size: 13px;
+}
+
+#pricing_bank_form .pricing_bank_form_btn a {
+	display: block;
+	text-align: center;
+	color: #fff;
+	font-weight: bold;
+	background-color: #0099cc;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+#pricing_bank_form .pricing_bank_form_btn a:hover {
+	background-color: #414b4f;
 }
 
 #steps_update {
