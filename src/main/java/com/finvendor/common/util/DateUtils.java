@@ -47,6 +47,15 @@ public class DateUtils {
         return monthDigit;
     }
 
+    public static String getCurrentDayDigit() {
+        int monthNumber = Calendar.getInstance().get(Calendar.DATE);
+        String monthDigit = String.valueOf(monthNumber + 1);
+        if (monthDigit.length() == 1) {
+            monthDigit = "0" + monthDigit;
+        }
+        return monthDigit;
+    }
+
     public static String getCurrentDay() {
         return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.DATE) - 1);
     }
@@ -184,7 +193,7 @@ public class DateUtils {
 //		String currentYear = getCurrentYear();
 //		System.out.println(currentDay+currentMonth+currentYear);
 
-        System.out.println(getCurrentDate());
+        System.out.println(getCurrentDay());
 //        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
     }
 

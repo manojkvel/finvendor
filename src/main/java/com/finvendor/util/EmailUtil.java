@@ -151,23 +151,32 @@ public class EmailUtil {
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
             message.setSubject(subject);
 
+            Multipart multipart = new MimeMultipart();
+
             //3) create MimeBodyPart object and set your message text
-            BodyPart messageBodyPart1 = new MimeBodyPart();
-            messageBodyPart1.setText(content);
+            BodyPart messageBody = new MimeBodyPart();
+            messageBody.setText(content);
 
             //4) create new MimeBodyPart object and set DataHandler object to this object
-            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
-            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
-            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
-
-            MimeBodyPart messageBodyPart3 = new MimeBodyPart();
-            messageBodyPart3.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[1])));
-            messageBodyPart3.setFileName(attachmentFiles[1].substring(attachmentFiles[1].lastIndexOf(File.separator)+1));
-
-
-            MimeBodyPart messageBodyPart4 = new MimeBodyPart();
-            messageBodyPart4.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[2])));
-            messageBodyPart4.setFileName(attachmentFiles[2].substring(attachmentFiles[2].lastIndexOf(File.separator)+1));
+            multipart.addBodyPart(messageBody);
+            for(String attachmentFileName:attachmentFiles){
+                MimeBodyPart attachmentFile = new MimeBodyPart();
+                attachmentFile.setDataHandler(new DataHandler(new FileDataSource(attachmentFileName)));
+                attachmentFile.setFileName(attachmentFileName.substring(attachmentFileName.lastIndexOf(File.separator)+1));
+                multipart.addBodyPart(attachmentFile);
+            }
+//            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+//            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
+//            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
+//
+//            MimeBodyPart messageBodyPart3 = new MimeBodyPart();
+//            messageBodyPart3.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[1])));
+//            messageBodyPart3.setFileName(attachmentFiles[1].substring(attachmentFiles[1].lastIndexOf(File.separator)+1));
+//
+//
+//            MimeBodyPart messageBodyPart4 = new MimeBodyPart();
+//            messageBodyPart4.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[2])));
+//            messageBodyPart4.setFileName(attachmentFiles[2].substring(attachmentFiles[2].lastIndexOf(File.separator)+1));
 
 
 //            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
@@ -181,15 +190,14 @@ public class EmailUtil {
 
 
             //5) create Multipart object and add MimeBodyPart objects to this object
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart1);
-            multipart.addBodyPart(messageBodyPart2);
-            multipart.addBodyPart(messageBodyPart3);
-            multipart.addBodyPart(messageBodyPart4);
+
+//            multipart.addBodyPart(messageBodyPart2);
+//            multipart.addBodyPart(messageBodyPart3);
+//            multipart.addBodyPart(messageBodyPart4);
 
 
-            //6) set the multiplart object to the message object
-            message.setContent(multipart );
+            //6) set the multipart object to the message object
+            message.setContent(multipart);
 
             //7) send message
             Transport.send(message);
