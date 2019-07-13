@@ -9,34 +9,38 @@ import com.finvendor.api.report.dto.resultCalendar.ResultCalendarPDFContent;
 import com.finvendor.api.report.dto.sectoral.SectoralDataPDFContent;
 import com.finvendor.common.infra.pdf.IPDFContentBuilder;
 import com.finvendor.common.infra.pdf.IPDFGenerator;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @Service
 @Transactional
 public class ReportService {
-    private static List<String> quarterlyDateList;
+    /**
+     * Quarterly dates
+     */
+    private static List<String> QTR_DATES;
+
     static {
-        quarterlyDateList=new ArrayList<>();
-        quarterlyDateList.add("31-March");
-        quarterlyDateList.add("30-June");
-        quarterlyDateList.add("30-Sep");
-        quarterlyDateList.add("31-Dec");
+        QTR_DATES = new ArrayList<>();
+        QTR_DATES.add("31/03/2019");
+        QTR_DATES.add("30/06/2019");
+        QTR_DATES.add("30/10/2019");
+        QTR_DATES.add("31/12/2019");
     }
 
-    private static final String LOC = "d:\\";
-    //    private static final String LOC = "/home/finvendo/tmp/";
-    private static final String MKT_PDF = LOC + "market_report.pdf";
-    private static final String RESULT_CALENDAR_PDF = LOC + "result_calendar_report.pdf";
-    private static final String CORP_ACTION_PDF = LOC + "crop_action_report.pdf";
-    private static final String FINANCIALS_PDF = LOC + "financials_report.pdf";
-    private static final String SECTORAL_PDF = LOC + "sectoral_report.pdf";
+    @Resource(name = "finvendorProperties")
+    private Properties finvendorProperties;
+
 
     @Autowired
     @Qualifier(value = "marketDataPDFContentBuilder")
@@ -81,6 +85,55 @@ public class ReportService {
     @Autowired
     private ReportDao dao;
 
+    public void sendReports() throws Exception {
+        String LOCATION = finvendorProperties.getProperty("finvendo_tmp_path") + File.separator;
+
+        String MKT_PDF_FILE_NAME = LOCATION + "market_report.pdf";
+        String RESULT_CALENDAR_PDF_FILE_NAME = LOCATION + "result_calendar_report.pdf";
+        String CORP_ACTION_PDF_FILE_NAME = LOCATION + "crop_action_report.pdf";
+        String FINANCIALS_PDF_FILE_NAME = LOCATION + "financials_report.pdf";
+        String SECTORAL_PDF_FILE_NAME = LOCATION + "sectoral_report.pdf";
+
+        List<ReportUser> enabledUsers = findAllUsers(ReportDao.ENABLED_USERS);
+        for (ReportUser ru : enabledUsers) {
+            String userName = ru.getUserName();
+            String subscriptionType = ru.getSubscriptionType();
+            String userEmail = ru.getUserEmail();
+            String subject = "FV Report Mail";
+            String content = "Hello There,\n Please find all reports as an attachment\n\n\n\nFrom:\nFinvendor Team";
+            if (ru.getSubscriptionStatus()) {
+                switch (subscriptionType) {
+                    case "GENERAL":
+                        generateMarketReport(userName, MKT_PDF_FILE_NAME);
+                        EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME});
+                        break;
+                    case "SMART":
+                        generateMarketReport(userName, MKT_PDF_FILE_NAME);
+                        generateSectoralReport(userName, SECTORAL_PDF_FILE_NAME);
+                        generateResultCalendarReport(userName, RESULT_CALENDAR_PDF_FILE_NAME);
+                        generateCorporateActionReport(userName, CORP_ACTION_PDF_FILE_NAME);
+                        EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME});
+                        break;
+                    case "FREE":
+                        generateMarketReport(userName, MKT_PDF_FILE_NAME);
+                        generateSectoralReport(userName, SECTORAL_PDF_FILE_NAME);
+                        generateResultCalendarReport(userName, RESULT_CALENDAR_PDF_FILE_NAME);
+                        generateCorporateActionReport(userName, CORP_ACTION_PDF_FILE_NAME);
+
+                        //send financial reports every quarterly
+                        String currentDate = DateUtils.getCurrentDateHaveMonthDigit();
+                        if (QTR_DATES.contains(currentDate)) {
+                            generateFinancialsReport(userName, FINANCIALS_PDF_FILE_NAME);
+                            EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME, FINANCIALS_PDF_FILE_NAME});
+                        } else {
+                            EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME});
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
     public List<ReportUser> findAllUsers(String sql) throws Exception {
         List<ReportUser> reportUsers;
         try {
@@ -91,67 +144,23 @@ public class ReportService {
         return reportUsers;
     }
 
-    public void generateMarketReport(String userName) throws Exception {
-        marketDataPDFGenerator.generate(marketDataPDFContentBuilder.buildContent(userName), MKT_PDF);
+    public void generateMarketReport(String userName, String fileName) throws Exception {
+        marketDataPDFGenerator.generate(marketDataPDFContentBuilder.buildContent(userName), fileName);
     }
 
-    public void generateFinancialsReport(String userName) throws Exception {
-        financialsPDFGenerator.generate(financialsPDFContentBuilder.buildContent(userName), FINANCIALS_PDF);
+    public void generateFinancialsReport(String userName, String fileName) throws Exception {
+        financialsPDFGenerator.generate(financialsPDFContentBuilder.buildContent(userName), fileName);
     }
 
-    public void generateCorporateActionReport(String userName) throws Exception {
-        corpActionPDFGenerator.generate(corpActionPDFContentBuilder.buildContent(userName), CORP_ACTION_PDF);
+    public void generateCorporateActionReport(String userName, String fileName) throws Exception {
+        corpActionPDFGenerator.generate(corpActionPDFContentBuilder.buildContent(userName), fileName);
     }
 
-    public void generateResultCalendarReport(String userName) throws Exception {
-        resultCalendarPDFGenerator.generate(resultCalendarPDFContentBuilder.buildContent(userName), RESULT_CALENDAR_PDF);
+    public void generateResultCalendarReport(String userName, String fileName) throws Exception {
+        resultCalendarPDFGenerator.generate(resultCalendarPDFContentBuilder.buildContent(userName), fileName);
     }
 
-    public void generateSectoralReport(String userName) throws Exception {
-        sectoralDataPDFGenerator.generate(sectoralDataPDFContentBuilder.buildContent(userName), SECTORAL_PDF);
+    public void generateSectoralReport(String userName, String fileName) throws Exception {
+        sectoralDataPDFGenerator.generate(sectoralDataPDFContentBuilder.buildContent(userName), fileName);
     }
-
-
-    public void sendReports() throws Exception {
-        List<ReportUser> enabledUsers = findAllUsers(ReportDao.ENABLED_USERS);
-        for (ReportUser ru : enabledUsers) {
-            String userName = ru.getUserName();
-            String subscriptionType = ru.getSubscriptionType();
-            String userEmail = ru.getUserEmail();
-            String subject = "FV Report Mail";
-            String content = "Hello There,\n Please find all reports as an attachment\n\n\n\nFrom:\nFinvendor Team";
-            if ("general".equals(subscriptionType) && "active".equals(ru.getSubscriptionStatus())) {
-                generateMarketReport(userName);
-                EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF});
-            } else if ("smart".equals(subscriptionType) && "active".equals(ru.getSubscriptionStatus())) {
-                generateMarketReport(userName);
-                generateSectoralReport(userName);
-                generateResultCalendarReport(userName);
-                generateCorporateActionReport(userName);
-                EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF, SECTORAL_PDF, RESULT_CALENDAR_PDF, CORP_ACTION_PDF});
-            } else if ("sage".equals(subscriptionType) && "active".equals(ru.getSubscriptionStatus())) {
-                generateMarketReport(userName);
-                generateSectoralReport(userName);
-                generateResultCalendarReport(userName);
-                generateCorporateActionReport(userName);
-                String currentDate="";
-                if(quarterlyDateList.contains(currentDate)){
-
-                }
-//                if(DateUtils.getCurrentMonthDigit())
-                /*
-                IF current day is 31-Mar or 30-June or 30-Sep or 31-Dec) then
-                    find company id from watch list table with given username
-                    generateFinancialsReport(userName and company Names[]);
-                    EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF, SECTORAL_PDF, RESULT_CALENDAR_PDF, CORP_ACTION_PDF, FINANCIALS_PDF});
-                ELSE
-
-                EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF, SECTORAL_PDF, RESULT_CALENDAR_PDF, CORP_ACTION_PDF});
-                FI
-                 */
-            }
-        }
-    }
-
-
 }

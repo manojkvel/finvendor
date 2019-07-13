@@ -1,6 +1,7 @@
 package com.finvendor.api.report.service.pdfcontent;
 
 import com.finvendor.api.report.dao.ReportDao;
+import com.finvendor.api.report.dto.CompanyIdNameDto;
 import com.finvendor.api.report.dto.financials.Financials;
 import com.finvendor.api.report.dto.financials.FinancialsQuarterly;
 import com.finvendor.api.report.dto.financials.FinancialsYearly;
@@ -20,8 +21,9 @@ public class FinancialsPDFContentBuilder implements IPDFContentBuilder<String, F
 
     @Override
     public Financials buildContent(String userName) throws Exception {
-        List<FinancialsQuarterly> financialsQuarterly = reportDao.findFinancialsQuarterly();
-        List<FinancialsYearly> financialsYearly = reportDao.findFinancialsYearly();
+        List<CompanyIdNameDto> companyIdNameDtoList = reportDao.findCompanyName(userName);
+        List<FinancialsQuarterly> financialsQuarterly = reportDao.findFinancialsQuarterly(companyIdNameDtoList);
+        List<FinancialsYearly> financialsYearly = reportDao.findFinancialsYearly(companyIdNameDtoList);
 
         return new Financials(userName, financialsQuarterly,financialsYearly);
     }

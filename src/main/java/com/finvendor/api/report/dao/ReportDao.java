@@ -1,5 +1,6 @@
 package com.finvendor.api.report.dao;
 
+import com.finvendor.api.report.dto.CompanyIdNameDto;
 import com.finvendor.api.report.dto.ReportUser;
 import com.finvendor.api.report.dto.corpaction.CorpAction;
 import com.finvendor.api.report.dto.financials.FinancialsQuarterly;
@@ -18,14 +19,29 @@ public class ReportDao {
     public static final String ENABLED_USERS = "select a.username,a.email from users a where a.enabled=1";
     private static final String RESULT_CALENDAR_QUERY = "select a.board_meeting_date,b.company_name from company_calendar_history a,rsch_sub_area_company_dtls b where a.ticker=b.ticker and a.purpose like '%Financial Results%' and STR_TO_DATE(a.board_meeting_date, '%d-%M-%Y')>=NOW()";
     private static final String CORP_ACTION_QUERY = "select b.company_name,a.* from corp_action_history a,rsch_sub_area_company_dtls b where a.ticker=b.ticker  and STR_TO_DATE(a.ex_date, '%d-%M-%Y')>NOW()";
-    private static final String FINANCIALS_QUARTERLY_QUERY = "select b.company_name,a.period,a.revenue,a.operating_profit_margin,a.profit_after_tax,a.eps from earning_preview_quarterly a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id and b.company_name IN ('3M India Ltd', 'Aarti Drugs Ltd')";
-    private static final String FINANCIALS_YEARLY_QUERY = "select b.company_name,a.period,a.revenue,a.operating_profit_margin,a.profit_after_tax,a.eps,a.net_operating_cash_flow,a.roe from earning_preview_yearly a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id and b.company_name IN ('3M India Ltd', 'Aarti Drugs Ltd')";
-    private static final String COMPANY_WATCHLIST_USERS_QUERY = "select a.username,a.email from users a where a.enabled=1 and a.username in (select DISTINCT a.user_name from company_watchlist a)";
+    private static final String FINANCIALS_QUARTERLY_QUERY = "select b.company_name,a.period,a.revenue,a.operating_profit_margin,a.profit_after_tax,a.eps from earning_preview_quarterly a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id and b.company_name IN ";
+    private static final String FINANCIALS_YEARLY_QUERY = "select b.company_name,a.period,a.revenue,a.operating_profit_margin,a.profit_after_tax,a.eps,a.net_operating_cash_flow,a.roe from earning_preview_yearly a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id and b.company_name IN ";
+    private static final String WATCHLIST_USERS_COMPANY_QUERY = "select company_id, company_name from company_watchlist where user_name=?";
 
     @Autowired
     private ICommonDao commonDao;
 
-    //also get company name from watchlist for user if he have TODO
+    public List<CompanyIdNameDto> findCompanyName(String userName) throws Exception {
+        List<CompanyIdNameDto> companyIdNameDtos = new ArrayList<>();
+        try {
+            SQLQuery query1 = commonDao.getNativeQuery(WATCHLIST_USERS_COMPANY_QUERY, new Object[]{userName});
+            List<Object[]> rows = query1.list();
+            for (Object[] row : rows) {
+                String companyId = row[0] != null ? row[0].toString().trim() : "";
+                String companyName = row[1] != null ? row[1].toString().trim() : "";
+                companyIdNameDtos.add(new CompanyIdNameDto(companyId, companyName));
+            }
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+        return companyIdNameDtos;
+    }
+
     public List<ReportUser> findAllUsers(String sql) throws Exception {
         List<ReportUser> reportUsers = new ArrayList<>();
         try {
@@ -78,10 +94,12 @@ public class ReportDao {
         return corpActions;
     }
 
-    public List<FinancialsQuarterly> findFinancialsQuarterly() throws Exception {
+    public List<FinancialsQuarterly> findFinancialsQuarterly(List<CompanyIdNameDto> companyIdNameDtoList) throws Exception {
+        StringBuilder inQueryValues = getInQueryPart(companyIdNameDtoList);
+        String finalQuery = FINANCIALS_QUARTERLY_QUERY + inQueryValues.toString();
         List<FinancialsQuarterly> financialsQuarterlyList = new ArrayList<>();
         try {
-            SQLQuery query1 = commonDao.getNativeQuery(FINANCIALS_QUARTERLY_QUERY, null);
+            SQLQuery query1 = commonDao.getNativeQuery(finalQuery, null);
             List<Object[]> rows = query1.list();
             for (Object[] row : rows) {
                 String companyName = row[0] != null ? row[0].toString().trim() : "";
@@ -98,10 +116,22 @@ public class ReportDao {
         return financialsQuarterlyList;
     }
 
-    public List<FinancialsYearly> findFinancialsYearly() throws Exception {
+    private StringBuilder getInQueryPart(List<CompanyIdNameDto> companyIdNameDtoList) {
+        StringBuilder sb=new StringBuilder(100);
+        sb.append("(");
+        for(CompanyIdNameDto dto:companyIdNameDtoList){
+            sb.append("\'").append(dto.getCompanyName()).append("\'").append(",");
+        }
+        sb.deleteCharAt(sb.toString().length()-1);
+        return sb;
+    }
+
+    public List<FinancialsYearly> findFinancialsYearly(List<CompanyIdNameDto> companyIdNameDtoList) throws Exception {
+        StringBuilder inQueryValues = getInQueryPart(companyIdNameDtoList);
+        String finalQuery = FINANCIALS_YEARLY_QUERY + inQueryValues.toString();
         List<FinancialsYearly> financialsYearlyList = new ArrayList<>();
         try {
-            SQLQuery query1 = commonDao.getNativeQuery(FINANCIALS_YEARLY_QUERY, null);
+            SQLQuery query1 = commonDao.getNativeQuery(finalQuery, null);
             List<Object[]> rows = query1.list();
             for (Object[] row : rows) {
                 String companyName = row[0] != null ? row[0].toString().trim() : "";
