@@ -1,13 +1,12 @@
 package com.finvendor.api.report.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class ReportUser implements Serializable {
     private String userName;
     private String userEmail;
     private String subscriptionType;
-    private String subscriptionStatus;
+    private boolean subscriptionStatus;
 
 
     public ReportUser(String userName, String userEmail) {
@@ -33,11 +32,11 @@ public class ReportUser implements Serializable {
         this.subscriptionType = subscriptionType;
     }
 
-    public String getSubscriptionStatus() {
+    public boolean getSubscriptionStatus() {
         return subscriptionStatus;
     }
 
-    public void setSubscriptionStatus(String subscriptionStatus) {
+    public void setSubscriptionStatus(boolean subscriptionStatus) {
         this.subscriptionStatus = subscriptionStatus;
     }
 

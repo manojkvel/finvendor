@@ -158,6 +158,11 @@ public class DateUtils {
         return currentDate;
     }
 
+    public static String getCurrentDateHaveMonthDigit(){
+        String currentDate = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_ONLY_FORMAT).format(Calendar.getInstance().getTime());
+        return currentDate;
+    }
+
     public static void main(String args[]) throws ParseException {
 //		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
 //		System.out.println(thisDateValid);
@@ -193,7 +198,7 @@ public class DateUtils {
 //		String currentYear = getCurrentYear();
 //		System.out.println(currentDay+currentMonth+currentYear);
 
-        System.out.println(getCurrentDay());
+        System.out.println(getCurrentDateHaveMonthDigit());
 //        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
     }
 
