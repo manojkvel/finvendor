@@ -124,8 +124,8 @@
 										<label for='companytype'>Company Type</label>
 										<select id="signup-companytype" multi-data-mandatory="Y" name="companytype" class="form-control"> 
 											<option value="Individual Investor" id="1" title='Individual Investor' selected="selected">Individual Investor</option>
-											<option value="Independent Research Analyst" id="2" title='Independent Research Analyst'>Independent Research Analyst</option>
-											<option value="Research Broker" id="3" title='Vendor'>Research Broker</option>
+											<!--<option value="Independent Research Analyst" id="2" title='Independent Research Analyst'>Independent Research Analyst</option>
+											<option value="Research Broker" id="3" title='Vendor'>Research Broker</option>-->
 											<option value="University/Phd Student" id="4" title='University/Phd Student'>University/Phd Student</option>
 										</select>
 									</li>

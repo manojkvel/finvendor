@@ -2373,7 +2373,7 @@ button {
 }
 
 #pricing_bank_form {
-	display: block;
+	display: none;
 	background-color: #fff;
 	margin: 0 15px;
 	padding: 15px 0;
@@ -2386,6 +2386,19 @@ button {
 
 #pricing_bank_form ul li {
 	margin-bottom: 20px;
+}
+
+#pricing_bank_form button {
+	background-color: transparent;
+	color: #2f323a;
+	border: 0;
+	border-bottom: 1px solid #d3d6d5;
+}
+
+#pricing_bank_form .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+	width: 100%;
+	font-weight: normal;
+	padding: 0;
 }
 
 #pricing_bank_form input {

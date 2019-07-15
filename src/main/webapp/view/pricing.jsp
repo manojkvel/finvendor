@@ -25,7 +25,7 @@
 		</div>
 		<div class="row">
 			<div id="steps_update">
-				 Step 1 of 4
+				 Step 1 of 3
 			</div>
 
 			<div id="pricing_plan">
@@ -334,6 +334,10 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="pricing_bank_form_result">
+				
+			</div>
 		</div>
 	</div>
 	<jsp:include page="login.jsp"></jsp:include>
@@ -346,5 +350,10 @@
     	} );
     </script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/pricing.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 </body>
 </html>

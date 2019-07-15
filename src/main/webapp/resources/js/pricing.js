@@ -9,6 +9,7 @@ var pricingObj = {
     init: function() {
         this.selectedPlanName = 'General';
         this.selectedPlanAmount = 0;
+        this.bankFormData = {};
 
         this.pricingLookUp().then(function(response) {
             $(".pricing_table").show();
@@ -63,9 +64,8 @@ var pricingObj = {
             $("#pricing_account_info").hide();
             $("#pricing_bank_form").show();
             $("#amountTransferred").val(pricingObj.selectedPlanAmount);
-            $("#steps_update").text("Step 2 of 4");
+            $("#steps_update").text("Step 2 of 3");
             $("#steps_update").show();
-            $("#pricing_bank_form .pricing_bank_form_btn").on('click', classRef.validateBankForm);
         } else {
             inner_login('view/pricing.jsp');
         }
@@ -112,6 +112,67 @@ var pricingObj = {
         } else {
             $("#pricing_bank_form #transactionRefNumber").addClass("error_field");
         }
+
+        if(bankName != '') {
+            $("#pricing_bank_form #bankName").removeClass("error_field");
+        } else {
+            $("#pricing_bank_form #bankName").addClass("error_field");
+        }
+
+        if(bankHolderName != '') {
+            $("#pricing_bank_form #bankHolderName").removeClass("error_field");
+        } else {
+            $("#pricing_bank_form #bankHolderName").addClass("error_field");
+        }
+
+        if(userId != '' && subscriptionType != '' && paymentMode != '' && transactionDate != ''
+            && transactionRefNumber != '' && bankName != '' && bankHolderName != '') {
+            classRef.bankFormData.userId = userId;
+            classRef.bankFormData.subscriptionType = subscriptionType;
+            classRef.bankFormData.paymentMode = paymentMode;
+            classRef.bankFormData.transactionDate = transactionDate;
+            classRef.bankFormData.transactionRefNumber = transactionRefNumber;
+            classRef.bankFormData.bankName = bankName;
+            classRef.bankFormData.bankHolderName = bankHolderName;
+
+            classRef.postBankFormApi().then(function(response) {
+
+            }, function(error) {
+                console.log("Error in bank form");
+            });
+        }
+    },
+
+    /**
+    * Function to start async call to get filter data.
+    */
+    postBankFormApi : function() {
+        var url = "/finvendor/api/user/" + userId + "/subscriptions";
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+            //httpRequest.timeout = API_TIMEOUT_SMALL;
+            httpRequest.open('POST', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        //console.log(httpRequest.status + httpRequest.responseText);
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send(JSON.stringify(classRef.bankFormData));
+        });
     }
 
 };
@@ -119,3 +180,4 @@ var pricingObj = {
 pricingObj.init();
 $("#pricing button").on('click', pricingObj.checkForPlan);
 $("#pricing #pricing_account_info .pricing_form_btn").on('click', pricingObj.checkForBankForm);
+            $("#pricing_bank_form .pricing_bank_form_btn a").on('click', pricingObj.validateBankForm);
