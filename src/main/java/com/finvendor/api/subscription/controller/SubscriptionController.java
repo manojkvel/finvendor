@@ -12,10 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Properties;
 
+import static com.finvendor.common.enums.MessageEnum.*;
+
+/**
+ * @author ayush, Jul 2019
+ */
 @RestController
 @RequestMapping(value = "/api")
 @Validated
@@ -25,6 +32,9 @@ public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;
 
+    @Resource(name = "finvendorProperties")
+    private Properties finvendorProperties;
+
     @Autowired
     public SubscriptionController(UserService userService, SubscriptionService subscriptionService) {
         this.userService = userService;
@@ -32,30 +42,29 @@ public class SubscriptionController {
     }
 
     @PostMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> saveSubscription(@PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
+    public ResponseEntity<?> saveSubscription(@PathVariable @Size(min = 1, max = 4, message = "Length of user name must be between 1 to 45 characters") String userName,
                                               @Valid @RequestBody SubscriptionDto subscriptionDto) throws Exception {
         subscriptionService.savePayment(userName, subscriptionDto);
-        return new ResponseEntity<>(new BaseResponseDto<String, String>("subs-0001", "User subscription created successfully", null), HttpStatus.CREATED);
+        return new ResponseEntity<>(new BaseResponseDto<String, String>(CREATE_SUBSCRIPTION.getCode(), CREATE_SUBSCRIPTION.getMsg(), null), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/users/{userName}/subscriptions/{subscriptionId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateSubscription(@PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
-                                              @Valid @RequestBody SubscriptionDto subscriptionDto, @PathVariable String subscriptionId) throws Exception {
-        if(userService.isValidUser(userName)) {
+                                                @Valid @RequestBody SubscriptionDto subscriptionDto, @PathVariable String subscriptionId) throws Exception {
+        if (userService.isValidUser(userName)) {
             subscriptionService.updatePayment(subscriptionDto, subscriptionId);
-            return new ResponseEntity<BaseResponseDto>(new BaseResponseDto<>("subs-0001", "User subscription updated successfully", null), HttpStatus.OK);
+            return new ResponseEntity<BaseResponseDto>(new BaseResponseDto<>(UPDATE_SUBSCRIPTION.getCode(), UPDATE_SUBSCRIPTION.getMsg(), null), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new BaseResponseDto<String, String>("subs-0001", "Failed to update user subscription", null), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new BaseResponseDto<String, String>(FAILED_TO_UPDATE_SUBSCRIPTION.getCode(), FAILED_TO_UPDATE_SUBSCRIPTION.getMsg(), null), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @GetMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BaseResponseDto> findAllSubscriptions(@PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName) throws Exception {
-        if(userService.isValidUser(userName)) {
+        if (userService.isValidUser(userName)) {
             List<UserPayment> userPayments = subscriptionService.findSubscriptions();
-            return new ResponseEntity<BaseResponseDto>(new BaseResponseDto<>("subs-0001", "User subscriptions retrieved successfully", userPayments), HttpStatus.OK);
-        }else {
-            return new ResponseEntity<BaseResponseDto>(new BaseResponseDto<>("subs-0002", "Failed to retrieved user subscriptions", null), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<BaseResponseDto>(new BaseResponseDto<>(GET_SUBSCRIPTION.getCode(), GET_SUBSCRIPTION.getMsg(), userPayments), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<BaseResponseDto>(new BaseResponseDto<>(FAILED_TO_FIND_SUBSCRIPTION.getCode(), FAILED_TO_FIND_SUBSCRIPTION.getMsg(), null), HttpStatus.NOT_FOUND);
         }
-
     }
 }
