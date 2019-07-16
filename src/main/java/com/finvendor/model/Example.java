@@ -12,11 +12,13 @@ public class Example {
 
 	@Id
 	@Column(name = "id")
-	@GeneratedValue
 	private Integer id;
 
 	@Column(name = "name")
 	private String name;
+
+	@Column(name = "phone")
+	private String phone;
 
 	public Integer getId() {
 		return id;
@@ -34,4 +36,11 @@ public class Example {
 		this.name = name;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 }

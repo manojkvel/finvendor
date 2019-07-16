@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.finvendor.common.exception.ExceptionEnum.FV_REPORT;
+import static com.finvendor.common.exception.ExceptionEnum.REPORT;
 
 @RestController
 public class ReportController {
@@ -28,7 +28,7 @@ public class ReportController {
             return new ResponseEntity<>("Report sent successfully", HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("FvReportController -> sendDailyReport(...) method", e);
-            return ErrorUtil.getError(FV_REPORT.getCode(), FV_REPORT.getUserMessage(), e);
+            return ErrorUtil.getError(REPORT.getCode(), REPORT.getUserMessage(), e);
         }
     }
 }

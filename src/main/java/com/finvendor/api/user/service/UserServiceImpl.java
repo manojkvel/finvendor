@@ -158,6 +158,16 @@ public class UserServiceImpl implements UserService {
 		} else {
 			consumerDao.updateConsumerLogo(ufile, userName);
 		}
-		
+	}
+
+	@Override
+	@Transactional
+	public boolean isValidUser(String userName) {
+		try {
+			FinVendorUser user = getUserDetailsByUsername(userName);
+			return user != null && userName.equals(user.getUserName());
+		} catch (ApplicationException e) {
+			return false;
+		}
 	}
 }

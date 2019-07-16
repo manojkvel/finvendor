@@ -14,7 +14,6 @@ import com.finvendor.model.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
-import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.finvendor.common.exception.ExceptionEnum.FV_REPORT;
 import static com.finvendor.common.exception.ExceptionEnum.USER_LOGIN;
 
 @Controller

@@ -1,17 +1,20 @@
-package com.finvendor.common;
+package com.finvendor.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.io.Serializable;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class BaseResponseDto<T> implements Serializable {
+@JsonPropertyOrder({ "code", "message", "data"})
+public class BaseResponseDto<M,D> implements Serializable {
     protected String code;
-    protected String message;
-    protected List<T> data;
+    //E could be String or Array Of String
+    protected M message;
+    protected List<D> data;
 
-    public BaseResponseDto(String code, String message, List<T> data) {
+    public BaseResponseDto(String code, M message, List<D> data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -25,19 +28,19 @@ public abstract class BaseResponseDto<T> implements Serializable {
         this.code = code;
     }
 
-    public String getMessage() {
+    public M getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(M message) {
         this.message = message;
     }
 
-    public List<T> getData() {
+    public List<D> getData() {
         return data;
     }
 
-    public void setData(List<T> data) {
+    public void setData(List<D> data) {
         this.data = data;
     }
 }

@@ -1,18 +1,10 @@
 package com.finvendor.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name="users")
@@ -44,9 +36,21 @@ public class FinVendorUser implements Serializable {
 	
 	@Column(name="LAST_MODIFIED")
 	private Timestamp lastModified;
-	
+
 	@Column(name="VERIFIED")
 	private String verified;
+
+	@Column(name="subscription_type")
+	private String subscriptionType;
+
+	@Column(name="subscription_start_time_ms")
+	private String subscriptionStartTimeInMillis;
+
+	@Column(name="subscription_end_time_ms")
+	private String subscriptionEndTimeInMillis;
+
+	@Column(name="subscription_status")
+	private String subscriptionStatus;
 
 	@OneToMany(mappedBy="user", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	private Set<UserRole> userRoles = new HashSet<UserRole>();
@@ -152,5 +156,37 @@ public class FinVendorUser implements Serializable {
 
 	public void setConsumer(Consumer consumer) {
 		this.consumer = consumer;
+	}
+
+	public String getSubscriptionType() {
+		return subscriptionType;
+	}
+
+	public void setSubscriptionType(String subscriptionType) {
+		this.subscriptionType = subscriptionType;
+	}
+
+	public String getSubscriptionStartTimeInMillis() {
+		return subscriptionStartTimeInMillis;
+	}
+
+	public void setSubscriptionStartTimeInMillis(String subscriptionStartTimeInMillis) {
+		this.subscriptionStartTimeInMillis = subscriptionStartTimeInMillis;
+	}
+
+	public String getSubscriptionEndTimeInMillis() {
+		return subscriptionEndTimeInMillis;
+	}
+
+	public void setSubscriptionEndTimeInMillis(String subscriptionEndTimeInMillis) {
+		this.subscriptionEndTimeInMillis = subscriptionEndTimeInMillis;
+	}
+
+	public String getSubscriptionStatus() {
+		return subscriptionStatus;
+	}
+
+	public void setSubscriptionStatus(String subscriptionStatus) {
+		this.subscriptionStatus = subscriptionStatus;
 	}
 }

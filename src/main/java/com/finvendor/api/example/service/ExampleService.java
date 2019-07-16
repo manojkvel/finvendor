@@ -1,7 +1,7 @@
 package com.finvendor.api.example.service;
 
 import com.finvendor.api.example.dao.ExampleDao;
-import com.finvendor.api.example.dto.ExampleDto;
+import com.finvendor.api.example.dto.ExampleRequestDto;
 import com.finvendor.model.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +24,14 @@ public class ExampleService {
 		exampleDao.flush();
 	}
 
-	public List<ExampleDto> findAllExample() {
+	public List<ExampleRequestDto> findAllExample() {
 		List<Example> allEntity = exampleDao.findAll();
-		List<ExampleDto> exmaple1PojoList = new ArrayList<>();
+		List<ExampleRequestDto> exmaple1PojoList = new ArrayList<>();
 		for (Example e : allEntity) {
-			ExampleDto example1Pojo = new ExampleDto();
+			ExampleRequestDto example1Pojo = new ExampleRequestDto();
 			example1Pojo.setId(e.getId());
 			example1Pojo.setName(e.getName());
+			example1Pojo.setPhone(e.getPhone());
 			exmaple1PojoList.add(example1Pojo);
 		}
 		return exmaple1PojoList;
@@ -40,10 +41,11 @@ public class ExampleService {
 		return null;
 	}
 
-	public void updateExample(ExampleDto pojo) {
+	public void updateExample(ExampleRequestDto pojo) {
 		Example exampleEntity=new Example();
 		exampleEntity.setId(pojo.getId());
 		exampleEntity.setName(pojo.getName());
+		exampleEntity.setPhone(pojo.getPhone());
 		exampleDao.saveOrUpdate(exampleEntity);
 	}
 }
