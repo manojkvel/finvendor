@@ -32,4 +32,5 @@ public interface UserService {
 	public void updateConsumerAccountSettings(String userName, String companyType,
             String tags, String email) throws ApplicationException;
 	public void updateCompanyLogo(FileDetails ufile, String userName, boolean vendor);
+	boolean isValidUser(String userName);
 }

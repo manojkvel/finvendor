@@ -1,6 +1,7 @@
 package com.finvendor.api.login.controller;
 
 import com.finvendor.api.consumer.service.ConsumerService;
+import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendor.service.VendorService;
 import com.finvendor.common.exception.ApplicationException;
@@ -268,6 +269,12 @@ public class RegistrationController {
         user.setEmail(email.toLowerCase());
         user.setVerified("N");
         user.setRegistrationDate(new Timestamp(System.currentTimeMillis()));
+
+        user.setSubscriptionType(SubscriptionTypeEnum.FREE.toString());
+        user.setSubscriptionStartTimeInMillis("NA");
+        user.setSubscriptionEndTimeInMillis("NA");
+        user.setSubscriptionStatus("TRUE");
+
         boolean isVendor = checkUserTypeFromCompany(companyType);
 
         try {
@@ -319,7 +326,7 @@ public class RegistrationController {
                     String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
                     EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
                     EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName);
-                    json = "{\"message\":\"Registraion done successfully\"}";
+                    json = "{\"message\":\"Registration done successfully\"}";
                 }
             }
         } catch (Exception e) {

@@ -1,55 +1,61 @@
 package com.finvendor.api.example.controller;
 
-import com.finvendor.api.example.dto.ExampleDto;
+import com.finvendor.api.example.dto.ExampleRequestDto;
 import com.finvendor.api.example.service.ExampleService;
-import com.finvendor.model.Example;
 import com.finvendor.api.exception.WebApiException;
+import com.finvendor.model.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
  * 
  * @author ayush on April 30, 2018
  */
-@Controller
-@RequestMapping(value = "/system/api")
+@RestController
+@RequestMapping(value = "/api")
+@Validated
 public class ExampleController {
 
-	@Autowired
-    ExampleService exampleService;
+	private ExampleService exampleService;
 
-	@RequestMapping(value = "/saveexample", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void saveExample(@RequestBody ExampleDto exampleDto) throws WebApiException {
+	@Autowired
+	public ExampleController(ExampleService exampleService) {
+		this.exampleService = exampleService;
+	}
+
+	@PostMapping(value = "/examples", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void saveExample(@Valid @RequestBody ExampleRequestDto exampleRequestDto) throws WebApiException {
 		final Example example1Entity = new Example();
-		example1Entity.setName(exampleDto.getName());
+		example1Entity.setId(exampleRequestDto.getId());
+		example1Entity.setName(exampleRequestDto.getName());
+		example1Entity.setPhone(exampleRequestDto.getPhone());
 		exampleService.saveOrUpdateExample1(example1Entity);
 	}
 
-	@RequestMapping(value = "/findallexample", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ExampleDto>> findAllExample() throws WebApiException {
-		List<ExampleDto> allExample = exampleService.findAllExample();
+	@GetMapping(value = "/examples", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ExampleRequestDto>> findAllExample() throws WebApiException {
+		List<ExampleRequestDto> allExample = exampleService.findAllExample();
 		return new ResponseEntity<>(allExample, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/findexample", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ExampleDto findExample() throws WebApiException {
-		ExampleDto pojo=new ExampleDto();
+	@GetMapping(value = "/examples/{exampleId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ExampleRequestDto findExample(@PathVariable @Size(min = 1, max = 3, message = "example id must be [1-3] digit max ") String exampleId) throws WebApiException {
+		ExampleRequestDto pojo=new ExampleRequestDto();
 	    pojo.setId(1);
 	    pojo.setName("Dummy");
         return pojo;
     }
 
-	@RequestMapping(value = "/updateexample", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateExample(@RequestBody ExampleDto exampleDto) throws WebApiException {
-		exampleService.updateExample(exampleDto);
-		
+	@RequestMapping(value = "/examples/{exampleId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateExample(@PathVariable String exampleId, @RequestBody ExampleRequestDto exampleRequestDto) throws WebApiException {
+		exampleService.updateExample(exampleRequestDto);
 	}
 }

@@ -3,7 +3,7 @@ package com.finvendor.serverwebapi.resources.example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finvendor.model.Example;
 import com.finvendor.api.example.controller.ExampleController;
-import com.finvendor.api.example.dto.ExampleDto;
+import com.finvendor.api.example.dto.ExampleRequestDto;
 import com.finvendor.api.example.service.ExampleService;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +44,16 @@ public class ExampleControllerTest {
 
     @Test
     public void test_get_all_examples() throws Exception {
-        List<ExampleDto> examples = Arrays.asList(new ExampleDto(1, "Ayush"), new ExampleDto(2, "Danny"));
+        ExampleRequestDto e1=new ExampleRequestDto();
+        e1.setId(1);
+        e1.setName("Mike");
+        e1.setPhone("123456789");
+        ExampleRequestDto e2=new ExampleRequestDto();
+        e2.setId(2);
+        e2.setName("Tessy");
+        e2.setPhone("123456789");
+
+        List<ExampleRequestDto> examples = Arrays.asList(e1,e2);
         when(exampleService.findAllExample()).thenReturn(examples);
         mockMvc.perform(get("/system/api/findallexample"))
                 .andExpect(status().isOk())
