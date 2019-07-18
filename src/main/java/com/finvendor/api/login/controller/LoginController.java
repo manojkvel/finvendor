@@ -8,9 +8,7 @@ import com.finvendor.api.login.dto.SubscriptionDto;
 import com.finvendor.api.login.service.LoginService;
 import com.finvendor.api.marketdata.service.MarketDataAggregatorsService;
 import com.finvendor.api.user.service.UserService;
-import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.exception.ErrorMessage;
-import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.model.*;
 import com.finvendor.util.CommonUtils;
@@ -38,7 +36,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.finvendor.common.enums.MessageEnum.LOGIN_SUCCESS;
 import static com.finvendor.common.exception.ExceptionEnum.USER_LOGIN;
 
 @Controller
@@ -137,9 +134,9 @@ public class LoginController {
                 }
             }
             List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
-            String subscriptionType = user != null ? user.getSubscriptionType() : "N/A";
-            subscriptionDtoList.add(new SubscriptionDto(subscriptionType, true));
-            return WebUtils.getResponseEntity(WebUtils.buildResponse(LOGIN_SUCCESS, subscriptionDtoList, HttpStatus.OK));
+            subscriptionDtoList.add(new SubscriptionDto(user != null ? user.getSubscriptionType() : "N/A", user != null ? user.getSubscriptionStatus() : "N/A"));
+            LoginResponse loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
+            return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
         } catch (Exception exp) {
             ErrorUtil.logError("Login Controller -> loginValidation(...) method", exp);
             return ErrorUtil.getError(USER_LOGIN.getCode(), USER_LOGIN.getUserMessage(), exp);
