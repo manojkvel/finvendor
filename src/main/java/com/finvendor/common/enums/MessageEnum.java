@@ -7,7 +7,8 @@ public enum MessageEnum {
     FAILED_TO_UPDATE_SUBSCRIPTION("subs-0004","Failed to update user subscription - User/Subscription does not exist"),
     GET_SUBSCRIPTION("subs-0005","User subscriptions retrieved successfully"),
     FAILED_TO_FIND_SUBSCRIPTION("subs-0006","Failed to retrieved user subscriptions - Invalid user"),
-    FAILED_TO_SAVE_SUBSCRIPTION("subs-0007","Failed to save user subscriptions - Invalid user")
+    FAILED_TO_SAVE_SUBSCRIPTION("subs-0007","Failed to save user subscriptions - Invalid user"),
+    LOGIN_SUCCESS("lgn-0008","Login success")
 
 
 

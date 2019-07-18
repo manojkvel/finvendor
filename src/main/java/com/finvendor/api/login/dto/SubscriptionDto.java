@@ -2,9 +2,9 @@ package com.finvendor.api.login.dto;
 
 public class SubscriptionDto {
     private String subscriptionType;
-    private boolean subscriptionStatus;
+    private String subscriptionStatus;
 
-    public SubscriptionDto(String subscriptionType, boolean subscriptionStatus) {
+    public SubscriptionDto(String subscriptionType, String subscriptionStatus) {
         this.subscriptionType = subscriptionType;
         this.subscriptionStatus = subscriptionStatus;
     }
@@ -17,11 +17,11 @@ public class SubscriptionDto {
         this.subscriptionType = subscriptionType;
     }
 
-    public boolean getSubscriptionStatus() {
+    public String getSubscriptionStatus() {
         return subscriptionStatus;
     }
 
-    public void setSubscriptionStatus(boolean subscriptionStatus) {
+    public void setSubscriptionStatus(String subscriptionStatus) {
         this.subscriptionStatus = subscriptionStatus;
     }
 }

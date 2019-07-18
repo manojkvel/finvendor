@@ -103,7 +103,7 @@ public class LoginController {
             FinVendorUser user = userService.getUserDetailsByUsername(userId);
             if (user == null) {
                 logger.error("No User record available for : {}", userId);
-                status =  RequestConstans.INVALID_USER;
+                status = RequestConstans.INVALID_USER;
             } else {
                 logger.info("User {} enbabled : {}", userId, user.getEnabled());
                 if (!user.getEnabled()) {
@@ -115,7 +115,7 @@ public class LoginController {
                         if (changePassword) {
                             userService.changePassword(userId, encoder.encode(newPassword));
                             userService.updateUnsuccessfulLoginAttempts(userId, true);
-                            status =  RequestConstans.LOGIN_AFTER_CHANGE_PASSWORD;
+                            status = RequestConstans.LOGIN_AFTER_CHANGE_PASSWORD;
                         } else if (user.getLoginAttempts() < 0) {
                             status = RequestConstans.CHANGE_PASSWORD;
                         } else {
@@ -134,7 +134,7 @@ public class LoginController {
                 }
             }
             List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
-            subscriptionDtoList.add(new SubscriptionDto("sage", true));
+            subscriptionDtoList.add(new SubscriptionDto(user != null ? user.getSubscriptionType() : "N/A", user != null ? user.getSubscriptionStatus() : "N/A"));
             LoginResponse loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
             return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
         } catch (Exception exp) {
