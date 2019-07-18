@@ -1,26 +1,38 @@
 package com.finvendor.api.subscription.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({"subscriptionId", "subscriptionType", "subscriptionStartTimeInMillis",
+        "subscriptionEndTimeInMillis", "userName", "transactionRefNumber", "transactionDate", "paymentMode", "amountTransferred",
+        "bankName", "bankHolderName", "paymentVerified"})
 public class UserPaymentDto implements Serializable {
 
-    private String subscriptionRefId;
-    private String transactionId;
+    private String subscriptionId;
     private String subscriptionType;
-    private String paymentMode;
+    private String subscriptionStartTimeInMillis;
+    private String subscriptionEndTimeInMillis;
+    private String userName;
+    private String transactionRefNumber;
     private Long transactionDate;
+    private String paymentMode;
     private Double amountTransferred;
     private String bankName;
     private String bankHolderName;
     private Boolean paymentVerified;
 
-    public UserPaymentDto(String subscriptionRefId,String transactionId, String subscriptionType, String paymentMode, Long transactionDate, Double amountTransferred, String bankName, String bankHolderName, Boolean paymentVerified) {
-        this.subscriptionRefId = subscriptionRefId;
-        this.transactionId = transactionId;
+    public UserPaymentDto(String subscriptionId, String subscriptionType, String subscriptionStartTimeInMillis,
+                          String subscriptionEndTimeInMillis, String userName, String transactionRefNumber, String paymentMode,
+                          Long transactionDate, Double amountTransferred, String bankName, String bankHolderName, Boolean paymentVerified) {
+        this.subscriptionId = subscriptionId;
         this.subscriptionType = subscriptionType;
+        this.subscriptionStartTimeInMillis = subscriptionStartTimeInMillis;
+        this.subscriptionEndTimeInMillis = subscriptionEndTimeInMillis;
+        this.userName = userName;
+        this.transactionRefNumber = transactionRefNumber;
         this.paymentMode = paymentMode;
         this.transactionDate = transactionDate;
         this.amountTransferred = amountTransferred;
@@ -29,12 +41,12 @@ public class UserPaymentDto implements Serializable {
         this.paymentVerified = paymentVerified;
     }
 
-    public String getTransactionId() {
-        return transactionId;
+    public String getSubscriptionId() {
+        return subscriptionId;
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
     }
 
     public String getSubscriptionType() {
@@ -43,6 +55,38 @@ public class UserPaymentDto implements Serializable {
 
     public void setSubscriptionType(String subscriptionType) {
         this.subscriptionType = subscriptionType;
+    }
+
+    public String getSubscriptionStartTimeInMillis() {
+        return subscriptionStartTimeInMillis;
+    }
+
+    public void setSubscriptionStartTimeInMillis(String subscriptionStartTimeInMillis) {
+        this.subscriptionStartTimeInMillis = subscriptionStartTimeInMillis;
+    }
+
+    public String getSubscriptionEndTimeInMillis() {
+        return subscriptionEndTimeInMillis;
+    }
+
+    public void setSubscriptionEndTimeInMillis(String subscriptionEndTimeInMillis) {
+        this.subscriptionEndTimeInMillis = subscriptionEndTimeInMillis;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getTransactionRefNumber() {
+        return transactionRefNumber;
+    }
+
+    public void setTransactionRefNumber(String transactionRefNumber) {
+        this.transactionRefNumber = transactionRefNumber;
     }
 
     public String getPaymentMode() {
@@ -91,13 +135,5 @@ public class UserPaymentDto implements Serializable {
 
     public void setPaymentVerified(Boolean paymentVerified) {
         this.paymentVerified = paymentVerified;
-    }
-
-    public String getSubscriptionRefId() {
-        return subscriptionRefId;
-    }
-
-    public void setSubscriptionRefId(String subscriptionRefId) {
-        this.subscriptionRefId = subscriptionRefId;
     }
 }

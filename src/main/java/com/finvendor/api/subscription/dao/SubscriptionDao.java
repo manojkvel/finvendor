@@ -3,10 +3,13 @@ package com.finvendor.api.subscription.dao;
 import com.finvendor.api.subscription.dto.PaymentDto;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.dto.UserPaymentDto;
+import com.finvendor.api.user.dao.UserDao;
 import com.finvendor.common.commondao.GenericDao;
 import com.finvendor.common.enums.ApiMessageEnum;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.subscription.UserPayment;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,15 +19,32 @@ import java.util.UUID;
 @Repository
 public class SubscriptionDao extends GenericDao<UserPayment> {
 
+    @Autowired
+    private UserDao userDao;
+
     public List<UserPaymentDto> findAllPayments() {
         try {
             List<UserPayment> all = findAll();
             List<UserPaymentDto> paymentDtoList = new ArrayList<>();
 
             for (UserPayment up : all) {
-                UserPaymentDto dto=new UserPaymentDto(up.getSubscriptionRefId(), up.getTransactionId(),
-                        null,up.getPaymentMode(),Long.parseLong(up.getTransactionDate()),Double.parseDouble(up.getAmoutTransferred()),
-                        up.getBankName(),up.getBankHolderName(), (up.getPaymentVerified() != null && up.getPaymentVerified().equals("TRUE")));
+                String subscriptionId = up.getSubscriptionRefId();
+                String userName = up.getUserName();
+                FinVendorUser existingUser = userDao.getUserDetailsByUsername(userName);
+                String subscriptionType = existingUser.getSubscriptionType();
+                String subscriptionStartTimeInMillis = "N/A".equals(existingUser.getSubscriptionStartTimeInMillis().trim()) ? "-" : existingUser.getSubscriptionStartTimeInMillis();
+                String subscriptionEndTimeInMillis = "N/A".equals(existingUser.getSubscriptionEndTimeInMillis().trim()) ? "-" : existingUser.getSubscriptionEndTimeInMillis();
+                String transactionRefNumber = up.getTransactionRefNumber();
+                Long transactionDate = Long.parseLong(up.getTransactionDate());
+                String paymentMode = up.getPaymentMode();
+                Double amountTransferred = Double.parseDouble(up.getAmoutTransferred());
+                String bankName = up.getBankName();
+                String bankHolderName = up.getBankHolderName();
+                String paymentVerified = up.getPaymentVerified();
+
+                UserPaymentDto dto = new UserPaymentDto(subscriptionId, subscriptionType, subscriptionStartTimeInMillis,
+                        subscriptionEndTimeInMillis, userName, transactionRefNumber, paymentMode, transactionDate,
+                        amountTransferred, bankName, bankHolderName, (paymentVerified != null && up.getPaymentVerified().equals("TRUE")));
                 paymentDtoList.add(dto);
             }
             return paymentDtoList;
@@ -69,8 +89,8 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
     }
 
     private void setPaymentDetails(SubscriptionDto dto, UserPayment userPaymentEntity) {
-        if (dto.getTransactionId() != null) {
-            userPaymentEntity.setTransactionId(dto.getTransactionId());
+        if (dto.getTransactionRefNumber() != null) {
+            userPaymentEntity.setTransactionRefNumber(dto.getTransactionRefNumber());
         }
         if (dto.getTransactionDate() != null) {
             userPaymentEntity.setTransactionDate(String.valueOf(dto.getTransactionDate()));
