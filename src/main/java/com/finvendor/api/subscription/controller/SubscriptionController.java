@@ -2,8 +2,10 @@ package com.finvendor.api.subscription.controller;
 
 import com.finvendor.api.subscription.dto.PaymentDto;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
+import com.finvendor.api.subscription.dto.UserPaymentDto;
 import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
+import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
 import com.finvendor.model.subscription.UserPayment;
 import org.slf4j.Logger;
@@ -21,7 +23,7 @@ import java.util.List;
 
 import static com.finvendor.api.webutil.WebUtils.buildResponse;
 import static com.finvendor.api.webutil.WebUtils.getResponseEntity;
-import static com.finvendor.common.enums.MessageEnum.*;
+import static com.finvendor.common.enums.ApiMessageEnum.*;
 
 /**
  * @author ayush, Jul 2019
@@ -63,18 +65,20 @@ public class SubscriptionController {
         ApiResponse<String, String> apiResponse;
         SubscriptionDto dto = new SubscriptionDto();
         dto.setPaymentVerified(paymentDto.getPaymentVerified());
-        if (!userService.isValidUser(userName) || !(subscriptionService.updatePayment(userName, dto, subscriptionId))) {
-            apiResponse = buildResponse(FAILED_TO_UPDATE_SUBSCRIPTION, null, HttpStatus.NOT_FOUND);
+        ApiMessageEnum apiMessageEnum;
+        if (!userService.isValidUser(userName)) {
+            apiResponse = buildResponse(INVALID_USER_NAME, null, HttpStatus.NOT_FOUND);
         } else {
-            apiResponse = buildResponse(UPDATE_SUBSCRIPTION, null, HttpStatus.OK);
+            apiMessageEnum = subscriptionService.updatePayment(userName, dto, subscriptionId);
+            apiResponse = buildResponse(apiMessageEnum, null, HttpStatus.OK);
         }
         return getResponseEntity(apiResponse);
     }
 
-    @GetMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAllSubscriptions(@PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName) throws Exception {
-        ApiResponse<String, List<UserPayment>> apiResponse;
-        List<UserPayment> userPayments;
+        ApiResponse<String, List<UserPaymentDto>> apiResponse;
+        List<UserPaymentDto> userPayments;
         if (!userService.isValidUser(userName) || (userPayments = subscriptionService.findSubscriptions()) == null) {
             apiResponse = buildResponse(FAILED_TO_FIND_SUBSCRIPTION, null, HttpStatus.NO_CONTENT);
         } else {

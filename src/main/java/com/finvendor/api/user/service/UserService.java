@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface UserService {
-
+	void updateUserInfo(FinVendorUser user);
 	void saveUserInfo(FinVendorUser users);
 	void saveUserRolesInfo(UserRole userRole);
 	boolean validateUsername(String username) throws ApplicationException;

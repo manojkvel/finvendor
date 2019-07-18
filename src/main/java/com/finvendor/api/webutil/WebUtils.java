@@ -1,6 +1,6 @@
 package com.finvendor.api.webutil;
 
-import com.finvendor.common.enums.MessageEnum;
+import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.util.StringUtil;
@@ -310,7 +310,7 @@ public final class WebUtils {
         }
     }
 
-    public static <D> ApiResponse<String, D> buildResponse(MessageEnum createSubscription, D data, HttpStatus httpStatus) {
+    public static <D> ApiResponse<String, D> buildResponse(ApiMessageEnum createSubscription, D data, HttpStatus httpStatus) {
         return new ApiResponse<>(createSubscription.getCode(), createSubscription.getMsg(), data, httpStatus);
     }
 

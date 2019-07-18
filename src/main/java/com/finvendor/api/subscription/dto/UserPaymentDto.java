@@ -5,22 +5,29 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SubscriptionDto implements Serializable {
+public class UserPaymentDto implements Serializable {
 
-//    @Pattern(regexp = "^[A-Za-z0-9]*$", message = "Transaction Id must be Alpha Numeric !!")
+    private String subscriptionRefId;
     private String transactionId;
-
-    //@ValidCategory(categoryType="subscriptionType", message = "Subscription value must be either SMART or SAGE !!")
     private String subscriptionType;
-
-    //@ValidCategory(categoryType="paymentType", message = "Payment mode can be among these [NEFT, RTGS, IMPS] !!")
     private String paymentMode;
-
     private Long transactionDate;
     private Double amountTransferred;
     private String bankName;
     private String bankHolderName;
     private Boolean paymentVerified;
+
+    public UserPaymentDto(String subscriptionRefId,String transactionId, String subscriptionType, String paymentMode, Long transactionDate, Double amountTransferred, String bankName, String bankHolderName, Boolean paymentVerified) {
+        this.subscriptionRefId = subscriptionRefId;
+        this.transactionId = transactionId;
+        this.subscriptionType = subscriptionType;
+        this.paymentMode = paymentMode;
+        this.transactionDate = transactionDate;
+        this.amountTransferred = amountTransferred;
+        this.bankName = bankName;
+        this.bankHolderName = bankHolderName;
+        this.paymentVerified = paymentVerified;
+    }
 
     public String getTransactionId() {
         return transactionId;
@@ -84,5 +91,13 @@ public class SubscriptionDto implements Serializable {
 
     public void setPaymentVerified(Boolean paymentVerified) {
         this.paymentVerified = paymentVerified;
+    }
+
+    public String getSubscriptionRefId() {
+        return subscriptionRefId;
+    }
+
+    public void setSubscriptionRefId(String subscriptionRefId) {
+        this.subscriptionRefId = subscriptionRefId;
     }
 }

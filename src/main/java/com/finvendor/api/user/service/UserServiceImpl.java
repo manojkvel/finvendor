@@ -37,6 +37,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void updateUserInfo(FinVendorUser user) {
+		userDao.updateUserInfo(user);
+	}
+
+	@Override
 	public void saveUserRolesInfo(UserRole userRole) {
 		userDao.saveUserRolesInfo(userRole);	
 	}
