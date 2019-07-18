@@ -19,10 +19,10 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         }
     }
 
-    public boolean updatePayment(SubscriptionDto dto, String id) {
+    public boolean updatePayment(SubscriptionDto dto, String subscriptionRefId) {
         boolean updateStatus;
         try {
-            UserPayment userPaymentEntity = findById(id);
+            UserPayment userPaymentEntity = findById(subscriptionRefId);
             if (userPaymentEntity != null) {
                 setPaymentDetails(dto, userPaymentEntity);
                 saveOrUpdate(userPaymentEntity);
@@ -72,8 +72,8 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         if (dto.getBankHolderName() != null) {
             userPaymentEntity.setBankHolderName(dto.getBankHolderName());
         }
-        if (dto.getTransactionVerified() != null) {
-            userPaymentEntity.setPaymentVerified(dto.getTransactionVerified() ? "TRUE" : "FALSE");
+        if (dto.getPaymentVerified() != null) {
+            userPaymentEntity.setPaymentVerified(dto.getPaymentVerified() ? "TRUE" : "FALSE");
         }
     }
 }

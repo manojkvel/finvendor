@@ -1,9 +1,7 @@
 package com.finvendor.api.subscription.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.finvendor.common.annotations.ValidCategory;
 
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,7 +20,7 @@ public class SubscriptionDto implements Serializable {
     private Double amountTransferred;
     private String bankName;
     private String bankHolderName;
-    private Boolean transactionVerified;
+    private Boolean paymentVerified;
 
     public String getTransactionId() {
         return transactionId;
@@ -80,11 +78,11 @@ public class SubscriptionDto implements Serializable {
         this.bankHolderName = bankHolderName;
     }
 
-    public Boolean getTransactionVerified() {
-        return transactionVerified;
+    public Boolean getPaymentVerified() {
+        return paymentVerified;
     }
 
-    public void setTransactionVerified(Boolean transactionVerified) {
-        this.transactionVerified = transactionVerified;
+    public void setPaymentVerified(Boolean paymentVerified) {
+        this.paymentVerified = paymentVerified;
     }
 }
