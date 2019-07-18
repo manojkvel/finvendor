@@ -133,7 +133,7 @@ jQuery(document).ready(function() {
 
             if(userId != '' && subscriptionType != '' && paymentMode != '' && transactionDate != ''
                 && transactionRefNumber != '' && bankName != '' && bankHolderName != '') {
-                classRef.bankFormData.transactionId = userId;
+                classRef.bankFormData.transactionId = transactionRefNumber;
                 classRef.bankFormData.subscriptionType = subscriptionType;
                 classRef.bankFormData.paymentMode = paymentMode;
 
