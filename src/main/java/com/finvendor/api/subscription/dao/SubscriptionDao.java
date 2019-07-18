@@ -6,6 +6,7 @@ import com.finvendor.model.subscription.UserPayment;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class SubscriptionDao extends GenericDao<UserPayment> {
@@ -25,9 +26,9 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
             if (userPaymentEntity != null) {
                 setPaymentDetails(dto, userPaymentEntity);
                 saveOrUpdate(userPaymentEntity);
-                updateStatus=true;
-            }else{
-                updateStatus=false;
+                updateStatus = true;
+            } else {
+                updateStatus = false;
             }
         } catch (Exception e) {
             throw new RuntimeException("Error has occurred while update user subscription details.", e);
@@ -35,30 +36,32 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         return updateStatus;
     }
 
-    public void savePayment(String userName, SubscriptionDto dto) {
+    public String savePayment(String userName, SubscriptionDto dto) {
+        String subscriptionRefId = String.valueOf(UUID.randomUUID());
         try {
             UserPayment userPaymentEntity = new UserPayment();
             userPaymentEntity.setUserName(userName);
+            userPaymentEntity.setSubscriptionRefId(subscriptionRefId);
             setPaymentDetails(dto, userPaymentEntity);
             save(userPaymentEntity);
         } catch (Exception e) {
             throw new RuntimeException("Error has occurred while saving user subscription details.", e);
         }
+        return subscriptionRefId;
     }
 
     private void setPaymentDetails(SubscriptionDto dto, UserPayment userPaymentEntity) {
         if (dto.getTransactionId() != null) {
             userPaymentEntity.setTransactionId(dto.getTransactionId());
         }
-
         if (dto.getTransactionDate() != null) {
             userPaymentEntity.setTransactionDate(String.valueOf(dto.getTransactionDate()));
         }
         if (dto.getSubscriptionType() != null) {
-            userPaymentEntity.setTransactionFor(dto.getSubscriptionType().toString());
+            userPaymentEntity.setTransactionFor(dto.getSubscriptionType());
         }
         if (dto.getPaymentMode() != null) {
-            userPaymentEntity.setPaymentMode(dto.getPaymentMode().toString());
+            userPaymentEntity.setPaymentMode(dto.getPaymentMode());
         }
         if (dto.getAmountTransferred() != null) {
             userPaymentEntity.setAmoutTransferred(String.valueOf(dto.getAmountTransferred()));

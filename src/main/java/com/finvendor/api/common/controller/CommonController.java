@@ -9,8 +9,8 @@ import com.finvendor.model.FinVendorUser;
 import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.webutil.WebUtil;
-import com.finvendor.api.webutil.WebUtil.SqlData;
+import com.finvendor.api.webutil.WebUtils;
+import com.finvendor.api.webutil.WebUtils.SqlData;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,21 +73,21 @@ public class CommonController {
         try {
             switch (type) {
                 case "researchDate":
-                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON, HttpStatus.OK);
                 case "brokerRank":
-                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON, HttpStatus.OK);
                 case "others":
-                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON, HttpStatus.OK);
                 case "upside":
-                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON, HttpStatus.OK);
                 case "analystType":
-                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON, HttpStatus.OK);
                 case "marketcapital":
-                    return new ResponseEntity<>(WebUtil.EQUITY_RESEARCH_FILTER_VALUE_MCAP_JSON, HttpStatus.OK);
+                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_MCAP_JSON, HttpStatus.OK);
             }
             String jsonResult = filterDataMap.get(type);
             if (jsonResult == null) {
-                final SqlData sqlData = WebUtil.filterTypeMap.get(type);
+                final SqlData sqlData = WebUtils.filterTypeMap.get(type);
                 jsonResult = commonDao.runSql(sqlData.getSql(), sqlData.getColumnNameAndNewValueMap(),
                         sqlData.getConitionValue(), sqlData.getFirstDefaultParamsMap(), sqlData.getLastDefaultParamsMap(),
                         sqlData.getColIndex());

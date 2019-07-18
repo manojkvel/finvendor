@@ -1,7 +1,11 @@
 package com.finvendor.api.webutil;
 
+import com.finvendor.common.enums.MessageEnum;
+import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.util.StringUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -20,7 +24,7 @@ import java.util.Map;
  * @author ayush
  * @since 07-Jan-2018
  */
-public final class WebUtil {
+public final class WebUtils {
 
     private static final String LOGGED_IN_USER = "loggedInUser";
 
@@ -171,7 +175,7 @@ public final class WebUtil {
     }
 
     // Forbidden instantiation
-    private WebUtil() {
+    private WebUtils() {
     }
 
     /**
@@ -304,5 +308,15 @@ public final class WebUtil {
             response.setHeader("Content-Length", String.valueOf(fileLength));
             FileCopyUtils.copy(fileInputStream, response.getOutputStream());
         }
+    }
+
+    public static <D> ApiResponse<String, D> buildResponse(MessageEnum createSubscription, D data, HttpStatus httpStatus) {
+        return new ApiResponse<>(createSubscription.getCode(), createSubscription.getMsg(), data, httpStatus);
+    }
+
+    public static <D> ResponseEntity<ApiResponse<String, D>> getResponseEntity(ApiResponse<String, D> apiResponse) {
+        HttpStatus httpStatus = apiResponse.getHttpStatus();
+        apiResponse.setHttpStatus(null);
+        return new ResponseEntity<>(apiResponse, httpStatus);
     }
 }

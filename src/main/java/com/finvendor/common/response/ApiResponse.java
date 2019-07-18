@@ -2,22 +2,24 @@ package com.finvendor.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "code", "message", "data"})
-public class BaseResponseDto<M,D> implements Serializable {
+public class ApiResponse<M,D> implements Serializable {
     protected String code;
     //E could be String or Array Of String
     protected M message;
-    protected List<D> data;
-
-    public BaseResponseDto(String code, M message, List<D> data) {
+    protected D data;
+    protected HttpStatus httpStatus;
+    public ApiResponse(String code, M message, D data, HttpStatus httpStatus) {
         this.code = code;
         this.message = message;
         this.data = data;
+        this.httpStatus=httpStatus;
     }
 
     public String getCode() {
@@ -36,11 +38,19 @@ public class BaseResponseDto<M,D> implements Serializable {
         this.message = message;
     }
 
-    public List<D> getData() {
+    public D getData() {
         return data;
     }
 
-    public void setData(List<D> data) {
+    public void setData(D data) {
         this.data = data;
+    }
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
     }
 }

@@ -11,26 +11,26 @@ import java.util.List;
 @Service
 public interface UserService {
 
-	public void saveUserInfo(FinVendorUser users);
-	public void saveUserRolesInfo(UserRole userRole);
-	public boolean validateUsername(String username) throws ApplicationException;
-	public UserRole getUserRoleInfobyUsername(String username);
-	public List<FinVendorUser> getUserInfoByNamewithPassword(String username,
-            String password);
-	public FinVendorUser getUserDetailsByUsername(String username)
-			throws ApplicationException;
-	public int updateUnsuccessfulLoginAttempts(String username, boolean reset);
-	public int updateUserAccountStatus(String username, boolean status);
-	public String insertRegistrationVerificationRecord(String username, boolean recreate);
-	public boolean updateUserVerificationStatus(String userName, String registrationId);
-	public List<FinVendorUser> getUserDetailsByEmailId(String email) throws ApplicationException;
-	public List<FinVendorUser> getUserDetails();
-	public String resetPassword(String username) throws ApplicationException;
-	public int changePassword(String username, String password) throws ApplicationException;
-	public void updateVendorAccountSettings(String userName, String companyType,
-            String email) throws ApplicationException;
-	public void updateConsumerAccountSettings(String userName, String companyType,
-            String tags, String email) throws ApplicationException;
-	public void updateCompanyLogo(FileDetails ufile, String userName, boolean vendor);
+	void saveUserInfo(FinVendorUser users);
+	void saveUserRolesInfo(UserRole userRole);
+	boolean validateUsername(String username) throws ApplicationException;
+	UserRole getUserRoleInfobyUsername(String username);
+	List<FinVendorUser> getUserInfoByNamewithPassword(String username,
+     String password);
+	FinVendorUser getUserDetailsByUsername(String username)
+		throws ApplicationException;
+	int updateUnsuccessfulLoginAttempts(String username, boolean reset);
+	int updateUserAccountStatus(String username, boolean status);
+	String insertRegistrationVerificationRecord(String username, boolean recreate);
+	boolean updateUserVerificationStatus(String userName, String registrationId);
+	List<FinVendorUser> getUserDetailsByEmailId(String email) throws ApplicationException;
+	List<FinVendorUser> getUserDetails();
+	String resetPassword(String username) throws ApplicationException;
+	int changePassword(String username, String password) throws ApplicationException;
+	void updateVendorAccountSettings(String userName, String companyType,
+     String email) throws ApplicationException;
+	void updateConsumerAccountSettings(String userName, String companyType,
+     String tags, String email) throws ApplicationException;
+	void updateCompanyLogo(FileDetails ufile, String userName, boolean vendor);
 	boolean isValidUser(String userName);
 }

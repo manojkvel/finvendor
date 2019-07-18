@@ -39,8 +39,8 @@ public class EmailUtil {
     public static final String REGISTRATION_LINK = "http://www.finvendor.com/validateRegistrationEmail";
     // public static final String REGISTRATION_LINK =
     // "http://localhost:8080/validateRegistrationEmail";
-    public static final String FROM_EMAIL = "support@finvendor.com";
-    public static final String SALES_EMAIL = "sales@finvendor.com";
+    public static String FROM_EMAIL = "support@finvendor.com";
+    public static String SALES_EMAIL = "sales@finvendor.com";
 
     public static void sendRegistartionEmail(FinVendorUser user, String emailId, String registrationId)
             throws MessagingException {
@@ -68,7 +68,7 @@ public class EmailUtil {
     }
 
     public static void sendNotificationEmail(String notificationType, String notificationMessage, FinVendorUser user,
-            String userRoleName) throws MessagingException {
+                                             String userRoleName) throws MessagingException {
         logger.debug("Entering EmailUtil:sendNotificationEmail for {}", notificationType);
         Session session = getMailSession();
         Message message = new MimeMessage(session);
@@ -126,6 +126,11 @@ public class EmailUtil {
         return null;
     }
 
+    public static void sendMail(String from, String to, String subject, String content) {
+        SALES_EMAIL = from == null ? SALES_EMAIL : from;
+        sendMail(to, subject, content);
+    }
+
     public static void sendMail(String to, String subject, String content) {
         Session session = getMailSession();
         try {
@@ -141,14 +146,19 @@ public class EmailUtil {
         }
     }
 
+    public static void sendMailWithAttachment(String from, String to, String subject, String content, String[] attachmentFiles) throws UnsupportedEncodingException {
+        SALES_EMAIL = from == null ? SALES_EMAIL : from;
+        sendMailWithAttachment(to, subject, content, attachmentFiles);
+    }
+
     public static void sendMailWithAttachment(String to, String subject, String content, String[] attachmentFiles)
             throws UnsupportedEncodingException {
         Session session = getMailSession();
         //2) compose message
-        try{
+        try {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(SALES_EMAIL, "FinVendor Team"));
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject(subject);
 
             Multipart multipart = new MimeMultipart();
@@ -159,10 +169,10 @@ public class EmailUtil {
 
             //4) create new MimeBodyPart object and set DataHandler object to this object
             multipart.addBodyPart(messageBody);
-            for(String attachmentFileName:attachmentFiles){
+            for (String attachmentFileName : attachmentFiles) {
                 MimeBodyPart attachmentFile = new MimeBodyPart();
                 attachmentFile.setDataHandler(new DataHandler(new FileDataSource(attachmentFileName)));
-                attachmentFile.setFileName(attachmentFileName.substring(attachmentFileName.lastIndexOf(File.separator)+1));
+                attachmentFile.setFileName(attachmentFileName.substring(attachmentFileName.lastIndexOf(File.separator) + 1));
                 multipart.addBodyPart(attachmentFile);
             }
 //            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
@@ -188,7 +198,6 @@ public class EmailUtil {
 //            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
 
 
-
             //5) create Multipart object and add MimeBodyPart objects to this object
 
 //            multipart.addBodyPart(messageBodyPart2);
@@ -203,7 +212,9 @@ public class EmailUtil {
             Transport.send(message);
 
             System.out.println("message sent....");
-        }catch (MessagingException ex) {logger.error("Error while sending mail with attachments, Error: ",ex);}
+        } catch (MessagingException ex) {
+            logger.error("Error while sending mail with attachments, Error: ", ex);
+        }
     }
 
     public static void sendMail() {
@@ -227,7 +238,7 @@ public class EmailUtil {
     }
 
     public static void sendRfpNotification(Consumer consumer, RfpBean rfpBean, List<String> vendorEmailList,
-            boolean closed) throws MessagingException {
+                                           boolean closed) throws MessagingException {
         logger.debug("Entering EmailUtil:sendRfpNotification for {}", consumer.getUser().getUserName());
         Session session = getMailSession();
         Message message = new MimeMessage(session);
@@ -241,8 +252,7 @@ public class EmailUtil {
                 InternetAddress.parse(vendorEmails.substring(0, vendorEmails.length() - 1)));
         if (closed) {
             message.setSubject("RFP Closed Notification");
-        }
-        else {
+        } else {
             message.setSubject("New RFP Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -250,8 +260,7 @@ public class EmailUtil {
         if (closed) {
             content.append("Please note that RFP " + rfpBean.getRfpTitle() + " has been closed by "
                     + consumer.getCompanyUrl() + "\n");
-        }
-        else {
+        } else {
             content.append("Please note that a new RFP " + rfpBean.getRfpTitle() + " has been created by "
                     + consumer.getCompanyUrl() + "\n");
         }
@@ -271,8 +280,7 @@ public class EmailUtil {
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(consumer.getUser().getEmail()));
         if (revoke) {
             message.setSubject("Vendor RFP Interest Notification");
-        }
-        else {
+        } else {
             message.setSubject("Vendor RFP Interest Revoke Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -280,8 +288,7 @@ public class EmailUtil {
         if (revoke) {
             content.append("Please note that Vendor " + vendor.getCompany() + " has revoked interest from RFP "
                     + rfpBean.getRfpTitle() + "\n");
-        }
-        else {
+        } else {
             content.append("Please note that Vendor " + vendor.getCompany() + " has expressed interest in "
                     + rfpBean.getRfpTitle() + "\n");
         }
@@ -293,7 +300,7 @@ public class EmailUtil {
     }
 
     public static void sendRfpVendorSelectionNotification(Consumer consumer, RfpBean rfpBean, List<Vendor> vendorList,
-            boolean finalized) throws MessagingException {
+                                                          boolean finalized) throws MessagingException {
         logger.debug("Entering EmailUtil:sendRfpVendorSelectionNotification for {}", consumer.getUser().getUserName());
         Session session = getMailSession();
         Message message = new MimeMessage(session);
@@ -310,8 +317,7 @@ public class EmailUtil {
                 InternetAddress.parse(vendorEmails.substring(0, vendorEmails.length() - 1)));
         if (!finalized) {
             message.setSubject("RFP Vendor Shortlisting Notification");
-        }
-        else {
+        } else {
             message.setSubject("RFP Vendor Finalize Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -319,8 +325,7 @@ public class EmailUtil {
         if (!finalized) {
             content.append("Please note that " + consumer.getCompanyUrl() + " has shortlisted you for RFP "
                     + rfpBean.getRfpTitle() + "\n");
-        }
-        else {
+        } else {
             content.append("Please note that " + consumer.getCompanyUrl() + " has finalized you for RFP "
                     + rfpBean.getRfpTitle() + "\n");
         }
@@ -332,7 +337,7 @@ public class EmailUtil {
     }
 
     public static void sendRfpMoreInfoNotification(RfpBean rfpBean, Vendor vendor, Consumer consumer, String moreInfo,
-            boolean request) throws MessagingException {
+                                                   boolean request) throws MessagingException {
         logger.debug("Entering EmailUtil:sendRfpMoreInfoNotification for {}, Consumer : {}", rfpBean.getRfpTitle(),
                 consumer.getCompany());
         Session session = getMailSession();
@@ -340,14 +345,12 @@ public class EmailUtil {
         message.setFrom(new InternetAddress(FROM_EMAIL));
         if (request) {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(consumer.getUser().getEmail()));
-        }
-        else {
+        } else {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(vendor.getUser().getEmail()));
         }
         if (request) {
             message.setSubject("Vendor RFP More Information Request Notification");
-        }
-        else {
+        } else {
             message.setSubject("Consumer RFP More Information Update Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -356,8 +359,7 @@ public class EmailUtil {
             content.append("Please note that Vendor " + vendor.getCompany() + " has requested more information for RFP "
                     + rfpBean.getRfpTitle() + "\n");
             content.append("Information requested : " + moreInfo);
-        }
-        else {
+        } else {
             content.append("Please note that Consumer " + consumer.getCompany()
                     + " has provided more infromation for RFP " + rfpBean.getRfpTitle() + "\n");
             content.append("Information Provided : " + moreInfo);
