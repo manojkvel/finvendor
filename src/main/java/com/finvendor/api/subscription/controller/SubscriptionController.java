@@ -1,5 +1,6 @@
 package com.finvendor.api.subscription.controller;
 
+import com.finvendor.api.subscription.dto.PaymentDto;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
@@ -56,13 +57,13 @@ public class SubscriptionController {
     }
 
 
-
-
     @PutMapping(value = "/users/{userName}/subscriptions/{subscriptionId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateSubscription(@PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
-                                                @Valid @RequestBody SubscriptionDto subscriptionDto, @PathVariable String subscriptionId) throws Exception {
+                                                @PathVariable String subscriptionId, @RequestBody PaymentDto paymentDto) throws Exception {
         ApiResponse<String, String> apiResponse;
-        if (!userService.isValidUser(userName) || !(subscriptionService.updatePayment(subscriptionDto, subscriptionId))) {
+        SubscriptionDto dto = new SubscriptionDto();
+        dto.setPaymentVerified(paymentDto.getPaymentVerified());
+        if (!userService.isValidUser(userName) || !(subscriptionService.updatePayment(userName, dto, subscriptionId))) {
             apiResponse = buildResponse(FAILED_TO_UPDATE_SUBSCRIPTION, null, HttpStatus.NOT_FOUND);
         } else {
             apiResponse = buildResponse(UPDATE_SUBSCRIPTION, null, HttpStatus.OK);
