@@ -79,7 +79,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-4 col-md-4">
 						<div class="pricing_table">
-							<button id="smart_investors" data-value="Smart Investors">
+							<button id="smart_investors" data-value="SMART">
 								<div class="hd">
 									<h3>Smart Investors</h3>
 									<div class="price-block">
@@ -152,7 +152,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-4 col-md-4">
 						<div class="pricing_table">
-							<button id="sage_investors" data-value="Sage Investors">
+							<button id="sage_investors" data-value="SAGE">
 								<div class="hd">
 									<h3>Sage Investors</h3>
 									<div class="price-block">
@@ -291,8 +291,8 @@
 							<li>
 								<label class="default_select">Subscription Type</label>
 								<select class="selectpicker show-tick" id="subscriptionType" name="subscriptionType">
-									<option selected="selected">Sage investors</option>
-									<option>Smart investors</option>
+									<option selected="selected" value="SAGE">Sage investors</option>
+									<option value="SMART">Smart investors</option>
 								</select>
 							</li>
 

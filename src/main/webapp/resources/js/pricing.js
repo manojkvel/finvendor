@@ -1,189 +1,359 @@
-jQuery(document).ready(function() {
-    var baseApiUrl = "/system/api/cis";
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.finvendor.util.RequestConstans"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="/WEB-INF/finvendor.tld" prefix="finven"%>
+<%@taglib uri="http://jakarta.apache.org/taglibs/unstandard-1.0"
+    prefix="un"%>
+<un:useConstants className="com.finvendor.util.RequestConstans"
+    var="requestConstants" />
+<html>
+<head>
+<title>Pricing - Finvendor</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="author" content="" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+</head>
+<body>
+    <jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
+    <div class="container_fluid" id="pricing">
+        <div class="inner_breadcrumb">
+            <h5>Pricing</h5>
+        </div>
+        <div class="row">
+            <div id="steps_update">
+                 Step 1 of 3
+            </div>
 
+            <div id="pricing_plan">
+                <div class="content">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="pricing_table">
+                            <button id="general_investors" data-value="General">
+                                <div class="hd">
+                                    <h3>General</h3>
+                                    <div class="price-block">
+                                        <div class="price-block-wrapper">
+                                            <div class="price-block__bigno">
+                                                FREE
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bd">
+                                    <ol>
+                                        <li>
+                                            <p>Access to Unlimited Company profile search</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Today's Market Summary Page</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Today's performance of All indices & its constituents.</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Stock Screener - based on Research Analyst's Recommendations (Upto 50 search results per months)</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Sector Screener - based on Research Analyst's Recommendations (Upto 50 searches results per months)</p>
+                                        </li>
+                                        <li>
+                                            <p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
+                                        </li>
+                                        <li>
+                                            <p>Set alerts on any companies if any new research analyst's report is available.</p>
+                                        </li>
+                                        <li>
+                                            <p>Get Daily market summary report through email.</p>
+                                        </li>
+                                    </ol>
+                                    <div class="btnSubscribe" data-value="0">
+                                        <a href="javascript:void(0);">Free</a>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="pricing_table">
+                            <button id="smart_investors" data-value="SMART">
+                                <div class="hd">
+                                    <h3>Smart Investors</h3>
+                                    <div class="price-block">
+                                        <div class="price-block-wrapper">
+                                            <div class="price-block__currency">
+                                                ₹
+                                            </div>
+                                            <div class="price-block__bigno">
+                                                499
+                                            </div>
+                                            <div class="price-block__right-holder price-block__right-holder">
+                                                <div class="price-block-right-holder__cents">
+                                                    00
+                                                </div>
+                                                <div class="price-block-right-holder__unit">
+                                                    <div class="price-block-right-holder-unit__currency"></div>
+                                                    <div class="price-block-right-holder-unit__unit">
+                                                        /mo
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bd">
+                                    <ol>
+                                        <li>
+                                            <p>Access to Unlimited Company profile search</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Today's Market Summary Page</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Today's performance of All indices & its constituents.</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
+                                        </li>
+                                        <li>
+                                            <p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
+                                        </li>
+                                        <li>
+                                            <p>Set alerts on any companies if any new research analyst's report is available.</p>
+                                        </li>
+                                        <li>
+                                            <p>Track your shortlisted companies in your watchlist.</p>
+                                        </li>
+                                        <li>
+                                            <p>Get Daily market summary report through email.</p>
+                                        </li>
+                                        <li>
+                                            <p>Get Daily Sectoral Performance Summary Report through email.</p>
+                                        </li>
+                                        <li>
+                                            <p>Financial Results Calendar for coming week for NSE listed stocks everyday through email.</p>
+                                        </li>
+                                        <li>
+                                            <p>Corporate Actions for company under the watchlist everyday through email.</p>
+                                        </li>
+                                    </ol>
+                                    <div class="btnSubscribe" data-value="499">
+                                        <a href="javascript:void(0);">Free trial 2 days</a>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="pricing_table">
+                            <button id="sage_investors" data-value="SAGE">
+                                <div class="hd">
+                                    <h3>Sage Investors</h3>
+                                    <div class="price-block">
+                                        <div class="price-block-wrapper">
+                                            <div class="price-block__currency">
+                                                ₹
+                                            </div>
+                                            <div class="price-block__bigno">
+                                                999
+                                            </div>
+                                            <div class="price-block__right-holder price-block__right-holder">
+                                                <div class="price-block-right-holder__cents">
+                                                    00
+                                                </div>
+                                                <div class="price-block-right-holder__unit">
+                                                    <div class="price-block-right-holder-unit__currency"></div>
+                                                    <div class="price-block-right-holder-unit__unit">
+                                                        /mo
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bd">
+                                    <ol>
+                                        <li>
+                                            <p>Access to Stock Screener "Celebrity Investors' Strategies" & "Do It Yourself" (CUSTOM Stock Screener).</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Unlimited Company profile search</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Today's Market Summary Page.</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Today's performance of All indices & its constituents.</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
+                                        </li>
+                                        <li>
+                                            <p>Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
+                                        </li>
+                                        <li>
+                                            <p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
+                                        </li>
+                                        <li>
+                                            <p>Set alerts on any companies if any new research analyst's report is available.</p>
+                                        </li>
+                                        <li>
+                                            <p>Track your shortlisted companies in your watchlist.</p>
+                                        </li>
+                                        <li>
+                                            <p>Get Daily market summary report through email.</p>
+                                        </li>
+                                        <li>
+                                            <p>Get Daily Sectoral Performance Summary Report through email.</p>
+                                        </li>
+                                        <li>
+                                            <p>Financial Results Calendar for coming week for NSE listed stocks everyday through email. </p>
+                                        </li>
+                                        <li>
+                                            <p>Corporate Actions for company under the watchlist everyday through email. </p>
+                                        </li>
+                                        <li>
+                                            <p>Financial results summary for company under the watchlist.</p>
+                                        </li>
+                                    </ol>
+                                    <div class="btnSubscribe" data-value="999">
+                                        <a href="javascript:void(0);">Free trial 2 days</a>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    /*
-    ** Pricing for the products
-    */
+            <div id="pricing_account_info">
+                <p><strong>Please follow below steps to complete the Subscription step:</strong></p>
+                <h2 id='selected_plan_name'></h2>
+                <ol>
+                    <li>
+                        <p>Please do the online transfer to our company account using your online banking account.</p>
+                        <ul>
+                            <li>
+                                <strong>Payee Name: </strong>MTAR Vendor Consulting Private Limited
+                            </li>
+                            <li>
+                                <strong>Account no: </strong><>
+                            </li>
+                            <li>
+                                <strong>IFSC code: </strong><>
+                            </li>
+                            <li>
+                                <strong>Account type: </strong>Current (Resident)
+                            </li>
+                            <li>
+                                <strong>Bank Address: </strong><>
+                            </li>
+                            <li>
+                                <strong>Amount to transfer: <span id='selected_plan_amount'></span></strong>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>Once you are done with transferring the amount to our account, please fill up the details using below button.</p>
+                        <div class="pricing_form_btn">
+                            <a href="javascript:void(0);">Click Here</a>
+                        </div>
+                    </li>
+                    <li>
+                        <p>
+                            Once we receive the payment in our bank account, we will take maximum 24 hrs to activate your profile for subscription type opted by you. 
+                        </p>
+                    </li>
+                </ol>
+            </div>
 
-    var pricingObj = {
-        init: function() {
-            var classRef = this;
+            <div id="pricing_bank_form">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="pricing_bank_content">
+                            <p><strong>Please complete below bank form to complete the Subscription step:</strong></p>
+                            <img src="${pageContext.request.contextPath}/resources/images/pricing_bank_form.png" alt="" />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <ul>
+                            <li>
+                                <label>Finvendor user ID <sup>*</sup></label>
+                                <input type="text" maxlength="300" name="userId" id="userId" value="${sessionScope.loggedInUser.username}" readonly="readonly" />
+                            </li>
 
-            this.selectedPlanName = 'General';
-            this.selectedPlanAmount = 0;
-            this.bankFormData = {};
+                            <li>
+                                <label class="default_select">Subscription Type</label>
+                                <select class="selectpicker show-tick" id="subscriptionType" name="subscriptionType">
+                                    <option selected="selected" value="SAGE">Sage investors</option>
+                                    <option value="SMART">Smart investors</option>
+                                </select>
+                            </li>
 
-            this.pricingLookUp().then(function(response) {
-                $(".pricing_table").show();
-                $("#pricing_bank_form .pricing_bank_form_btn a").on('click', {this: classRef}, classRef.validateBankForm);
-            }, function(error) {
-                $(".pricing_table").show();
-            });
+                            <li>
+                                <label class="default_select">Mode of payment</label>
+                                <select class="selectpicker show-tick" id="paymentMode" name="paymentMode">
+                                    <option selected="selected">NEFT/RTGS/IMPS</option>
+                                    <option>Cheque</option>
+                                    <option>Debit/Credit Card</option>
+                                </select>
+                            </li>
 
-            $("#pricing #pricing_account_info .pricing_form_btn").on('click', classRef.checkForBankForm);
-        },
+                            <li>
+                                <label>Transaction Date <sup>*</sup></label>
+                                <input type="text" id="transactionDate" name="transactionDate" required />
+                            </li>
+                            <li>
+                                <label>Transaction Reference Number <sup>*</sup></label>
+                                <input type="text" name="transactionRefNumber" id="transactionRefNumber" required />
+                            </li>
+                            <li>
+                                <label>Amount Transferred <sup>*</sup></label>
+                                <input type="number" name="amountTransferred" id="amountTransferred" readonly="readonly" />
+                            </li>
+                            <li>
+                                <label>Bank Name <sup>*</sup></label>
+                                <input type="text" name="bankName" id="bankName" required />
+                            </li>
+                            <li>
+                                <label>Bank Holder Name <sup>*</sup></label>
+                                <input type="text" name="bankHolderName" id="bankHolderName" required />
+                            </li>
+                            <li>
+                                <div class="pricing_bank_form_btn">
+                                    <a href="javascript:void(0);">Submit</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-        pricingLookUp: function() {
-            return new Promise(function(resolve, reject) {
-                if(!isLoggedInUser()) {
-                    $("#pricing .btnSubscribe a").text("Subscribe");
-                    $("#pricing #general_investors .btnSubscribe").hide();
-                    resolve(true);
-                } else {
-                    reject(false);
-                }
-            });
-        },
-
-        checkForPlan : function() {
-            var classRef = this;
-
-            if(!isLoggedInUser()) {
-                if(!$(this).find(".btnSubscribe").is(':visible')) {
-                    return;
-                }
-
-                window.scrollTo(0, 0);
-
-                pricingObj.selectedPlanName = $(this).attr("data-value");
-                pricingObj.selectedPlanAmount = Number($(this).find(".btnSubscribe").attr("data-value"));
-
-                $("#pricing_account_info #selected_plan_name").text(pricingObj.selectedPlanName);
-                $("#pricing_account_info #selected_plan_amount").text("INR " + pricingObj.selectedPlanAmount);
-
-                $("#pricing_plan").hide();
+            <div class="pricing_bank_form_result">
                 
-                $("#pricing_account_info").show();
-                $("#steps_update").show();
-            } else {
-                inner_login('view/pricing.jsp');
-            }
-        },
-
-        checkForBankForm: function() {
-            var classRef = this;
-
-            if(!isLoggedInUser()) {
-                window.scrollTo(0, 0);
-
-                $("#pricing_account_info").hide();
-                $("#pricing_bank_form").show();
-                $("#amountTransferred").val(pricingObj.selectedPlanAmount);
-                $("#steps_update").text("Step 2 of 3");
-                $("#steps_update").show();
-            } else {
-                inner_login('view/pricing.jsp');
-            }
-        },
-
-        validateBankForm: function(event) {
-            var classRef = event.data.this;
-
-            var userId = $("#pricing_bank_form #userId").val().trim();
-            var subscriptionType = $("#pricing_bank_form #subscriptionType").val().trim();
-            var paymentMode = $("#pricing_bank_form #paymentMode").selectpicker('val');
-            var transactionDate = $("#pricing_bank_form #transactionDate").val();
-            var transactionRefNumber = $("#pricing_bank_form #transactionRefNumber").val().trim();
-            var amountTransferred = $("#pricing_bank_form #amountTransferred").val().trim();
-            var bankName = $("#pricing_bank_form #bankName").val().trim();
-            var bankHolderName = $("#pricing_bank_form #bankHolderName").val().trim();
-
-            if(userId != '') {
-                $("#pricing_bank_form #userId").removeClass("error_field");
-            } else {
-                $("#pricing_bank_form #userId").addClass("error_field");
-            }
-
-            if(subscriptionType != '') {
-                $("#pricing_bank_form #subscriptionType").removeClass("error_field");
-            } else {
-                $("#pricing_bank_form #subscriptionType").addClass("error_field");
-            }
-
-            if(paymentMode != '') {
-                $("#pricing_bank_form #paymentMode").removeClass("error_field");
-            } else {
-                $("#pricing_bank_form #paymentMode").addClass("error_field");
-            }
-
-            if(transactionDate != '') {
-                $("#pricing_bank_form #transactionDate").removeClass("error_field");
-            } else {
-                $("#pricing_bank_form #transactionDate").addClass("error_field");
-            }
-
-            if(transactionRefNumber != '') {
-                $("#pricing_bank_form #transactionRefNumber").removeClass("error_field");
-            } else {
-                $("#pricing_bank_form #transactionRefNumber").addClass("error_field");
-            }
-
-            if(bankName != '') {
-                $("#pricing_bank_form #bankName").removeClass("error_field");
-            } else {
-                $("#pricing_bank_form #bankName").addClass("error_field");
-            }
-
-            if(bankHolderName != '') {
-                $("#pricing_bank_form #bankHolderName").removeClass("error_field");
-            } else {
-                $("#pricing_bank_form #bankHolderName").addClass("error_field");
-            }
-
-            if(userId != '' && subscriptionType != '' && paymentMode != '' && transactionDate != ''
-                && transactionRefNumber != '' && bankName != '' && bankHolderName != '') {
-                classRef.bankFormData.userrid = userId;
-            classRef.bankFormData.subscriptionType = subscriptionType;
-            classRef.bankFormData.paymentMode = paymentMode;
-            classRef.bankFormData.transactionDate = transactionDate;
-            classRef.bankFormData.transactionRefNumber = transactionRefNumber;
-            classRef.bankFormData.bankName = bankName;
-            classRef.bankFormData.bankHolderName = bankHolderName;
-            classRef.bankFormData.transactionVerified = false;
-
-            classRef.postBankFormApi(userId).then(function(response) {
-                console.log("Success in bank form");
-            }, function(error) {
-                console.log("Error in bank form");
+            </div>
+        </div>
+    </div>
+    <jsp:include page="login.jsp"></jsp:include>
+    <jsp:include page="common/footer.jsp"></jsp:include>
+    <script>
+        $( function() {
+            $( "#transactionDate" ).datepicker({
+                dateFormat: 'dd/mm/yy'
             });
-        }
-    },
+        } );
+    </script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/pricing.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
 
-        /**
-        * Function to start async call to get filter data.
-        */
-        postBankFormApi : function(userId) {
-            var url = "/system/api/users/" + userId + "/subscription";
-            return new Promise(function(resolve, reject) {
-                var httpRequest = new XMLHttpRequest({
-                    mozSystem: true
-                });
-                //httpRequest.timeout = API_TIMEOUT_SMALL;
-                httpRequest.open('POST', url, true);
-                httpRequest.setRequestHeader('Content-Type',
-                    'application/json; charset=UTF-8');
-                httpRequest.ontimeout = function () {
-                    reject("" + httpRequest.responseText);
-                };
-                httpRequest.onreadystatechange = function () {
-                    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                        if (httpRequest.status === 200) {
-                            resolve(httpRequest.response);
-                        } else {
-                            //console.log(httpRequest.status + httpRequest.responseText);
-                            reject(httpRequest.responseText);
-                        }
-                    } else {
-                    }
-                };
-
-                httpRequest.send(JSON.stringify(classRef.bankFormData));
-            });
-        }
-
-    };
-
-    pricingObj.init();
-    $("#pricing button").on('click', pricingObj.checkForPlan);
-});
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+</body>
+</html>
