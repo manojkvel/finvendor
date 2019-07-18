@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class SubscriptionDto implements Serializable {
 
 //    @Pattern(regexp = "^[A-Za-z0-9]*$", message = "Transaction Id must be Alpha Numeric !!")
-    private String transactionId;
+    private String transactionRefNumber;
 
     //@ValidCategory(categoryType="subscriptionType", message = "Subscription value must be either SMART or SAGE !!")
     private String subscriptionType;
@@ -22,12 +22,12 @@ public class SubscriptionDto implements Serializable {
     private String bankHolderName;
     private Boolean paymentVerified;
 
-    public String getTransactionId() {
-        return transactionId;
+    public String getTransactionRefNumber() {
+        return transactionRefNumber;
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public void setTransactionRefNumber(String transactionRefNumber) {
+        this.transactionRefNumber = transactionRefNumber;
     }
 
     public String getSubscriptionType() {

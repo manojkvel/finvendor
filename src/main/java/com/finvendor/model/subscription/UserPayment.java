@@ -13,8 +13,8 @@ public class UserPayment {
     @Column(name = "username")
     private String userName;
 
-    @Column(name = "transaction_id")
-    private String transactionId;
+    @Column(name = "transaction_ref_number")
+    private String transactionRefNumber;
 
     @Column(name = "transaction_date")
     private String transactionDate;
@@ -45,12 +45,12 @@ public class UserPayment {
         this.userName = userName;
     }
 
-    public String getTransactionId() {
-        return transactionId;
+    public String getTransactionRefNumber() {
+        return transactionRefNumber;
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public void setTransactionRefNumber(String transactionRefNumber) {
+        this.transactionRefNumber = transactionRefNumber;
     }
 
     public String getTransactionDate() {
