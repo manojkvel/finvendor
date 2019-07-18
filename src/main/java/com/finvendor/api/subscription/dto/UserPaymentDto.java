@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"subscriptionId", "subscriptionType", "subscriptionStartTimeInMillis",
-        "subscriptionEndTimeInMillis", "userName", "transactionId", "transactionDate", "paymentMode", "amountTransferred",
+        "subscriptionEndTimeInMillis", "userName", "transactionRefNumber", "transactionDate", "paymentMode", "amountTransferred",
         "bankName", "bankHolderName", "paymentVerified"})
 public class UserPaymentDto implements Serializable {
 
@@ -16,7 +16,7 @@ public class UserPaymentDto implements Serializable {
     private String subscriptionStartTimeInMillis;
     private String subscriptionEndTimeInMillis;
     private String userName;
-    private String transactionId;
+    private String transactionRefNumber;
     private Long transactionDate;
     private String paymentMode;
     private Double amountTransferred;
@@ -25,14 +25,14 @@ public class UserPaymentDto implements Serializable {
     private Boolean paymentVerified;
 
     public UserPaymentDto(String subscriptionId, String subscriptionType, String subscriptionStartTimeInMillis,
-                          String subscriptionEndTimeInMillis, String userName, String transactionId, String paymentMode,
+                          String subscriptionEndTimeInMillis, String userName, String transactionRefNumber, String paymentMode,
                           Long transactionDate, Double amountTransferred, String bankName, String bankHolderName, Boolean paymentVerified) {
         this.subscriptionId = subscriptionId;
         this.subscriptionType = subscriptionType;
         this.subscriptionStartTimeInMillis = subscriptionStartTimeInMillis;
         this.subscriptionEndTimeInMillis = subscriptionEndTimeInMillis;
         this.userName = userName;
-        this.transactionId = transactionId;
+        this.transactionRefNumber = transactionRefNumber;
         this.paymentMode = paymentMode;
         this.transactionDate = transactionDate;
         this.amountTransferred = amountTransferred;
@@ -81,12 +81,12 @@ public class UserPaymentDto implements Serializable {
         this.userName = userName;
     }
 
-    public String getTransactionId() {
-        return transactionId;
+    public String getTransactionRefNumber() {
+        return transactionRefNumber;
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public void setTransactionRefNumber(String transactionRefNumber) {
+        this.transactionRefNumber = transactionRefNumber;
     }
 
     public String getPaymentMode() {

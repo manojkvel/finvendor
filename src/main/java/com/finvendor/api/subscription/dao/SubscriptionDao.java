@@ -34,7 +34,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
                 String subscriptionType = existingUser.getSubscriptionType();
                 String subscriptionStartTimeInMillis = "N/A".equals(existingUser.getSubscriptionStartTimeInMillis().trim()) ? "-" : existingUser.getSubscriptionStartTimeInMillis();
                 String subscriptionEndTimeInMillis = "N/A".equals(existingUser.getSubscriptionEndTimeInMillis().trim()) ? "-" : existingUser.getSubscriptionEndTimeInMillis();
-                String transactionId = up.getTransactionRefNumber();
+                String transactionRefNumber = up.getTransactionRefNumber();
                 Long transactionDate = Long.parseLong(up.getTransactionDate());
                 String paymentMode = up.getPaymentMode();
                 Double amountTransferred = Double.parseDouble(up.getAmoutTransferred());
@@ -43,7 +43,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
                 String paymentVerified = up.getPaymentVerified();
 
                 UserPaymentDto dto = new UserPaymentDto(subscriptionId, subscriptionType, subscriptionStartTimeInMillis,
-                        subscriptionEndTimeInMillis, userName, transactionId, paymentMode, transactionDate,
+                        subscriptionEndTimeInMillis, userName, transactionRefNumber, paymentMode, transactionDate,
                         amountTransferred, bankName, bankHolderName, (paymentVerified != null && up.getPaymentVerified().equals("TRUE")));
                 paymentDtoList.add(dto);
             }
