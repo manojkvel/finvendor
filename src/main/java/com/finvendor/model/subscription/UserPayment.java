@@ -7,9 +7,8 @@ import javax.persistence.*;
 public class UserPayment {
 
     @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private String id;
+    @Column(name = "subscription_ref_id")
+    private String subscriptionRefId;
 
     @Column(name = "username")
     private String userName;
@@ -110,11 +109,11 @@ public class UserPayment {
         this.paymentVerified = paymentVerified;
     }
 
-    public String getId() {
-        return id;
+    public String getSubscriptionRefId() {
+        return subscriptionRefId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSubscriptionRefId(String subscriptionRefId) {
+        this.subscriptionRefId = subscriptionRefId;
     }
 }

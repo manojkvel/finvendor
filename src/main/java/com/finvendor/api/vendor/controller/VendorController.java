@@ -5,7 +5,7 @@ import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.marketdata.service.MarketDataAggregatorsService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendor.service.VendorService;
-import com.finvendor.api.webutil.WebUtil;
+import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.constant.AppConstant;
 import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.ErrorUtil;
@@ -3137,7 +3137,7 @@ public class VendorController {
             if (request.getSession().getAttribute("loggedInUser") == null) {
                 request.getRequestDispatcher("/").forward(request, response);
             }
-            userName = WebUtil.getLoggedInUser(request);
+            userName = WebUtils.getLoggedInUser(request);
             allVendorOffering = vendorService.getAllVendorOffering(userName);
             return allVendorOffering;
         } catch (Exception exp) {

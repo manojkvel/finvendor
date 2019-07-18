@@ -1,6 +1,6 @@
 package com.finvendor.api.example.controller;
 
-import com.finvendor.common.response.BaseResponseDto;
+import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.response.ResponseEntityUtils;
 import com.finvendor.common.util.ErrorUtil;
 import org.springframework.http.HttpHeaders;
@@ -30,13 +30,12 @@ public class ExampleControllerAdvice extends ResponseEntityExceptionHandler {
         return ResponseEntityUtils.getInvalidMethodArgResponseEntity(exception);
     }
 
-
     /**
      * In case of any validation failures (related to path variable and request param,
      * Spring will throw ConstraintViolationException.
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<BaseResponseDto> constraintViolationException(ConstraintViolationException e) {
+    public ResponseEntity<ApiResponse> constraintViolationException(ConstraintViolationException e) {
         return ResponseEntityUtils.getConstraintViolationResponseEntity(e);
     }
 

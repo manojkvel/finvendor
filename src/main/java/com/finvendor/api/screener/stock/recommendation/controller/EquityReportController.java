@@ -8,7 +8,7 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.webutil.WebUtil;
+import com.finvendor.api.webutil.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +98,7 @@ public class EquityReportController {
             @RequestParam("reportName") String reportName) throws WebApiException {
         try {
             final Pair<Long, InputStream> download = equityReportService.download(productId);
-            WebUtil.processDownload(response, productId, reportName, download);
+            WebUtils.processDownload(response, productId, reportName, download);
             return new ResponseEntity<>(new StatusPojo("true",
                     "Equity research report downloaded successfully."), HttpStatus.OK);
         } catch (Exception e) {

@@ -1,6 +1,6 @@
 package com.finvendor.api.subscription.controller;
 
-import com.finvendor.common.response.BaseResponseDto;
+import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.response.ResponseEntityUtils;
 import com.finvendor.common.util.ErrorUtil;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.ConstraintViolationException;
 
-import static com.finvendor.common.exception.ExceptionEnum.EXAMPLE;
 import static com.finvendor.common.exception.ExceptionEnum.SUBSCRIPTION;
 
 /**
@@ -33,7 +32,7 @@ public class SubscriptionControllerAdvice extends ResponseEntityExceptionHandler
      * Spring will throw ConstraintViolationException.
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<BaseResponseDto> constraintViolationException(ConstraintViolationException e) {
+    public ResponseEntity<ApiResponse> constraintViolationException(ConstraintViolationException e) {
         return ResponseEntityUtils.getConstraintViolationResponseEntity(e);
     }
 

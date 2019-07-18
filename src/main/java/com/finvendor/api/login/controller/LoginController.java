@@ -3,7 +3,7 @@ package com.finvendor.api.login.controller;
 import com.finvendor.api.common.service.ReferenceDataService;
 import com.finvendor.api.consumer.service.ConsumerService;
 import com.finvendor.api.formdata.controller.FormDataController;
-import com.finvendor.api.login.dto.LoginResponseDto;
+import com.finvendor.api.login.dto.LoginResponse;
 import com.finvendor.api.login.dto.SubscriptionDto;
 import com.finvendor.api.login.service.LoginService;
 import com.finvendor.api.marketdata.service.MarketDataAggregatorsService;
@@ -135,7 +135,7 @@ public class LoginController {
             }
             List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
             subscriptionDtoList.add(new SubscriptionDto("sage", true));
-            LoginResponseDto loginResponseDto = new LoginResponseDto("lgn-001", status, subscriptionDtoList);
+            LoginResponse loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
             return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
         } catch (Exception exp) {
             ErrorUtil.logError("Login Controller -> loginValidation(...) method", exp);
