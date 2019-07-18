@@ -7,7 +7,7 @@ import com.finvendor.model.UserRole;
 import java.util.List;
 
 public interface UserDao {
-
+	void updateUserInfo(FinVendorUser user);
 	public void saveUserInfo(FinVendorUser users);
 
 	public void saveUserRolesInfo(UserRole userRole);

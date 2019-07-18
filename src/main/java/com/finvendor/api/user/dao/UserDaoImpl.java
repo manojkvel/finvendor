@@ -48,6 +48,17 @@ public class UserDaoImpl implements UserDao {
         logger.debug("Leaving UserDaoImpl : saveUserInfo");
     }
 
+    @Override
+    public void updateUserInfo(FinVendorUser user) {
+        try {
+            this.sessionFactory.getCurrentSession().update(user);
+        } catch (Exception exp) {
+            throw new RuntimeException("Failed to update user",exp);
+        }
+        logger.debug("Leaving UserDaoImpl : updateUserInfo");
+    }
+
+
     @Transactional
     @Override
     public void saveUserRolesInfo(UserRole userRole) {

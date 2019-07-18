@@ -4,7 +4,9 @@ import com.finvendor.api.notification.dto.EmailBuilder;
 import com.finvendor.api.notification.service.NotificationService;
 import com.finvendor.api.subscription.dao.SubscriptionDao;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
+import com.finvendor.api.subscription.dto.UserPaymentDto;
 import com.finvendor.api.user.service.UserService;
+import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.FinVendorUser;
@@ -72,12 +74,8 @@ public class SubscriptionService {
         //Set subscription type
         existingUser.setSubscriptionType(subscriptionType);
         existingUser.setSubscriptionStatus("FALSE");
-        userService.saveUserInfo(existingUser);
+        userService.updateUserInfo(existingUser);
         return existingUser;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(java.time.LocalDate.now());
     }
 
     private String prepareContent(String refId) {
@@ -88,10 +86,10 @@ public class SubscriptionService {
         return "";
     }
 
-    public boolean updatePayment(String userName, SubscriptionDto dto, String subscriptionRefId) throws Exception {
+    public ApiMessageEnum updatePayment(String userName, SubscriptionDto dto, String subscriptionRefId) throws Exception {
         try {
-            boolean paymentUpdateStatus = dao.updatePayment(dto, subscriptionRefId);
-            if(paymentUpdateStatus){
+            ApiMessageEnum apiMessageEnum = dao.updatePayment(dto, subscriptionRefId);
+            if (apiMessageEnum.equals(ApiMessageEnum.UPDATE_SUBSCRIPTION_SUCCESS)) {
                 FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
 
                 Pair<Long, Long> subscriptionStartAndEndDateInMillis = getSubscriptionStartAndEndDateInMillis(30);
@@ -109,13 +107,13 @@ public class SubscriptionService {
                 existingUser.setSubscriptionStatus("TRUE");
                 userService.saveUserInfo(existingUser);
             }
-            return paymentUpdateStatus;
+            return apiMessageEnum;
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
-    public List<UserPayment> findSubscriptions() throws Exception {
+    public List<UserPaymentDto> findSubscriptions() throws Exception {
         try {
             return dao.findAllPayments();
         } catch (RuntimeException e) {
