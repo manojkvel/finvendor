@@ -76,10 +76,10 @@ public class SubscriptionController {
     }
 
     @GetMapping(value = "/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllSubscriptions(@PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName) throws Exception {
+    public ResponseEntity<?> findAllSubscriptions() throws Exception {
         ApiResponse<String, List<UserPaymentDto>> apiResponse;
         List<UserPaymentDto> userPayments;
-        if (!userService.isValidUser(userName) || (userPayments = subscriptionService.findSubscriptions()) == null) {
+        if ((userPayments = subscriptionService.findSubscriptions()) == null) {
             apiResponse = buildResponse(FAILED_TO_FIND_SUBSCRIPTION, null, HttpStatus.NO_CONTENT);
         } else {
             apiResponse = buildResponse(GET_SUBSCRIPTION, userPayments, HttpStatus.OK);
