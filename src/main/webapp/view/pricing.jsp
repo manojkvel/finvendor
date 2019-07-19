@@ -20,19 +20,24 @@
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
 	<div class="container_fluid" id="pricing">
+		<input type="hidden" name="loggedInUser" value="${sessionScope.loggedInUser.username}" />
 		<div class="inner_breadcrumb">
 			<h5>Pricing</h5>
 		</div>
 		<div class="row">
 			<div id="steps_update">
-				 Step 1 of 3
+				 
+				 <a data-toggle="tooltip" title="" id="prev" href="javascript:void(0)" data-original-title="Previous">Go to Back</a>
+				 <span>
+				 	Step 1 of 3
+				 </span>
 			</div>
 
 			<div id="pricing_plan">
 				<div class="content">
 					<div class="col-xs-12 col-sm-4 col-md-4">
 						<div class="pricing_table">
-							<button id="general_investors" data-value="General">
+							<button id="general_investors" data-value="FREE">
 								<div class="hd">
 									<h3>General</h3>
 									<div class="price-block">
@@ -282,61 +287,69 @@
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-6">
-						<ul>
-							<li>
-								<label>Finvendor user ID <sup>*</sup></label>
-								<input type="text" maxlength="300" name="userId" id="userId" value="${sessionScope.loggedInUser.username}" readonly="readonly" />
-							</li>
+						<div id="bank_form">
+							<ul>
+								<li>
+									<label>Finvendor user ID <sup>*</sup></label>
+									<input type="text" maxlength="300" name="userId" id="userId" value="${sessionScope.loggedInUser.username}" readonly="readonly" />
+								</li>
 
-							<li>
-								<label class="default_select">Subscription Type</label>
-								<select class="selectpicker show-tick" id="subscriptionType" name="subscriptionType">
-									<option selected="selected" value="SAGE">Sage investors</option>
-									<option value="SMART">Smart investors</option>
-								</select>
-							</li>
+								<li>
+									<label class="default_select">Subscription Type</label>
+									<!--<select class="selectpicker show-tick" id="subscriptionType" name="subscriptionType">
+										<option selected="selected" value="SAGE">Sage investors</option>
+										<option value="SMART">Smart investors</option>
+									</select>-->
+									<input type="text" name="subscriptionType" id="subscriptionType" readonly="readonly" />
+								</li>
 
-							<li>
-								<label class="default_select">Mode of payment</label>
-								<select class="selectpicker show-tick" id="paymentMode" name="paymentMode">
-									<option selected="selected">NEFT/RTGS/IMPS</option>
-									<option>Cheque</option>
-									<option>Debit/Credit Card</option>
-								</select>
-							</li>
+								<li>
+									<label class="default_select">Mode of payment</label>
+									<select class="selectpicker show-tick" id="paymentMode" name="paymentMode">
+										<option selected="selected">NEFT/RTGS/IMPS</option>
+										<!--<option>Cheque</option>
+										<option>Debit/Credit Card</option>-->
+									</select>
+								</li>
 
-							<li>
-								<label>Transaction Date <sup>*</sup></label>
-								<input type="text" id="transactionDate" name="transactionDate" required />
-							</li>
-							<li>
-								<label>Transaction Reference Number <sup>*</sup></label>
-								<input type="text" name="transactionRefNumber" id="transactionRefNumber" required />
-							</li>
-							<li>
-								<label>Amount Transferred <sup>*</sup></label>
-								<input type="number" name="amountTransferred" id="amountTransferred" readonly="readonly" />
-							</li>
-							<li>
-								<label>Bank Name <sup>*</sup></label>
-								<input type="text" name="bankName" id="bankName" required />
-							</li>
-							<li>
-								<label>Bank Holder Name <sup>*</sup></label>
-								<input type="text" name="bankHolderName" id="bankHolderName" required />
-							</li>
-							<li>
-								<div class="pricing_bank_form_btn">
-									<a href="javascript:void(0);">Submit</a>
-								</div>
-							</li>
-						</ul>
+								<li>
+									<label>Transaction Date <sup>*</sup></label>
+									<input type="text" id="transactionDate" name="transactionDate" required />
+								</li>
+								<li>
+									<label>Transaction Reference Number <sup>*</sup></label>
+									<input type="text" name="transactionRefNumber" id="transactionRefNumber" required />
+								</li>
+								<li>
+									<label>Amount Transferred <sup>*</sup></label>
+									<input type="number" name="amountTransferred" id="amountTransferred" readonly="readonly" />
+								</li>
+								<li>
+									<label>Bank Name <sup>*</sup></label>
+									<input type="text" name="bankName" id="bankName" required />
+								</li>
+								<li>
+									<label>Bank Holder Name <sup>*</sup></label>
+									<input type="text" name="bankHolderName" id="bankHolderName" required />
+								</li>
+								<li>
+									<div class="pricing_bank_form_btn">
+										<a href="javascript:void(0);">Submit</a>
+									</div>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="pricing_bank_form_result">
-				
+			
+			<div id="pricing_bank_form_result">
+				<div class="row">
+					<div class="col-xs-12">
+						<p></p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

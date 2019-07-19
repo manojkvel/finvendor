@@ -278,6 +278,11 @@ function loginSubmit(changePassword) {
 			}*/
 
 			if(output.code == 'lgn-001') {
+				var userDetails = {
+					"subscriptionType": output.data[0].subscriptionType
+				}
+				window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
+				
 				$('#loadinglg').hide();
 				$('#loadingcp').hide();
 				$('#generic-error-message').html("");

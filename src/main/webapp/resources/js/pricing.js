@@ -1,7 +1,6 @@
 jQuery(document).ready(function() {
     var baseApiUrl = "/system/api/cis";
 
-
     /*
     ** Pricing for the products
     */
@@ -10,9 +9,11 @@ jQuery(document).ready(function() {
         init: function() {
             var classRef = this;
 
-            this.selectedPlanName = 'General';
+            this.selectedPlanName = "FREE";
             this.selectedPlanAmount = 0;
             this.bankFormData = {};
+            this.userId = $("input[name='loggedInUser']").val();
+
 
             this.pricingLookUp().then(function(response) {
                 $(".pricing_table").show();
@@ -21,23 +22,43 @@ jQuery(document).ready(function() {
                 $(".pricing_table").show();
             });
 
-            $("#pricing #pricing_account_info .pricing_form_btn").on('click', classRef.checkForBankForm);
+            $("#pricing #pricing_account_info .pricing_form_btn").on('click', {this: classRef}, classRef.checkForBankForm);
         },
 
         pricingLookUp: function() {
+            var classRef = this;
+
+            /*classRef.getUserSubscriptionApi(classRef.userId).then(function(response){
+                debugger
+            }, function(error) {
+                debugger
+            });*/
+
             return new Promise(function(resolve, reject) {
                 if(!isLoggedInUser()) {
+                    var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
+                    if(userDetails.subscriptionType == "SAGE") {
+                        $("#pricing #sage_investors .btnSubscribe").hide(); 
+                        $("#pricing #smart_investors .btnSubscribe").hide();
+                    } else if(userDetails.subscriptionType == "SMART") { 
+                        $("#pricing #smart_investors .btnSubscribe").hide();
+                        $("#pricing #sage_investors .btnSubscribe").show();
+                    } else {
+                        $("#pricing #general_investors .btnSubscribe").hide();
+                    }
+
                     $("#pricing .btnSubscribe a").text("Subscribe");
                     $("#pricing #general_investors .btnSubscribe").hide();
                     resolve(true);
                 } else {
+                    window.localStorage.removeItem("userDetails");
                     reject(false);
                 }
             });
         },
 
-        checkForPlan : function() {
-            var classRef = this;
+        checkForPlan : function(event) {
+            var classRef = event.data.this;
 
             if(!isLoggedInUser()) {
                 if(!$(this).find(".btnSubscribe").is(':visible')) {
@@ -56,21 +77,39 @@ jQuery(document).ready(function() {
                 
                 $("#pricing_account_info").show();
                 $("#steps_update").show();
+                console.log($("#steps_update #prev").is(':visible'));
+                $("#steps_update #prev").off().on('click', classRef.goBack);
             } else {
                 inner_login('view/pricing.jsp');
             }
         },
 
-        checkForBankForm: function() {
-            var classRef = this;
+        goBack: function(event) {
+
+            if($("#pricing_account_info").is(':visible')) {
+                $("#pricing_plan").show();
+                $("#steps_update").hide();
+                $("#pricing_account_info").hide();
+            } else if($("#pricing_bank_form").is(':visible')) {
+                $("#pricing_account_info").show();
+                $("#steps_update span").text("Step 1 of 3");
+                $("#pricing_bank_form").hide();
+            }
+
+        },
+
+        checkForBankForm: function(event) {
+            var classRef = event.data.this;
 
             if(!isLoggedInUser()) {
                 window.scrollTo(0, 0);
 
                 $("#pricing_account_info").hide();
                 $("#pricing_bank_form").show();
+                $("#bank_form").show();
+                $("#pricing_bank_form #subscriptionType").val(pricingObj.selectedPlanName);
                 $("#amountTransferred").val(pricingObj.selectedPlanAmount);
-                $("#steps_update").text("Step 2 of 3");
+                $("#steps_update span").text("Step 2 of 3");
                 $("#steps_update").show();
             } else {
                 inner_login('view/pricing.jsp');
@@ -133,7 +172,6 @@ jQuery(document).ready(function() {
 
             if(userId != '' && subscriptionType != '' && paymentMode != '' && transactionDate != ''
                 && transactionRefNumber != '' && bankName != '' && bankHolderName != '') {
-                classRef.bankFormData.transactionId = transactionRefNumber;
                 classRef.bankFormData.subscriptionType = subscriptionType;
                 classRef.bankFormData.paymentMode = paymentMode;
 
@@ -145,7 +183,19 @@ jQuery(document).ready(function() {
                 classRef.bankFormData.transactionVerified = false;
 
                 classRef.postBankFormApi(userId).then(function(response) {
-                    console.log("Success in bank form");
+                    var response = JSON.parse(response);
+
+                    window.scrollTo(0, 0);
+                    var userDetails = {
+                        "subscriptionType": subscriptionType
+                    }
+                    window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+                    $("#pricing_bank_form").hide();
+                    $("#steps_update span").text("Step 3 of 3");
+                    $("#pricing_bank_form_result").show();
+                    $("#steps_update a").hide();
+                    $("#pricing_bank_form_result p").text(response.message);
                 }, function(error) {
                     console.log("Error in bank form");
                 });
@@ -172,7 +222,7 @@ jQuery(document).ready(function() {
                 };
                 httpRequest.onreadystatechange = function () {
                     if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                        if (httpRequest.status === 200) {
+                        if (httpRequest.status === 201) {
                             resolve(httpRequest.response);
                         } else {
                             //console.log(httpRequest.status + httpRequest.responseText);
@@ -184,10 +234,43 @@ jQuery(document).ready(function() {
 
                 httpRequest.send(JSON.stringify(classRef.bankFormData));
             });
+        },
+
+        /**
+        * Function to start async call to get user subscribed data.
+        */
+        getUserSubscriptionApi : function(userId) {
+            var classRef = this;
+
+            var url = "/api/users/" + userId + "/subscriptions";
+
+            return new Promise(function(resolve, reject) {
+                var httpRequest = new XMLHttpRequest({
+                    mozSystem: true
+                });
+                //httpRequest.timeout = API_TIMEOUT_SMALL;
+                httpRequest.open('GET', url, true);
+                httpRequest.ontimeout = function () {
+                    reject("" + httpRequest.responseText);
+                };
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                        if (httpRequest.status === 200) {
+                            resolve(httpRequest.response);
+                        } else {
+                            //console.log(httpRequest.status + httpRequest.responseText);
+                            reject(httpRequest.responseText);
+                        }
+                    } else {
+                    }
+                };
+
+                httpRequest.send();
+            });
         }
 
     };
 
     pricingObj.init();
-    $("#pricing button").on('click', pricingObj.checkForPlan);
+    $("#pricing button").on('click', {this: pricingObj}, pricingObj.checkForPlan);
 });
