@@ -3,6 +3,7 @@ package com.finvendor.api.subscription.controller;
 import com.finvendor.api.subscription.dto.PaymentDto;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.dto.UserPaymentDto;
+import com.finvendor.api.subscription.dto.UserSubscriptionDto;
 import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
@@ -75,11 +76,23 @@ public class SubscriptionController {
         return getResponseEntity(apiResponse);
     }
 
+    @GetMapping(value = "/users/{userName}/subscriptions", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findUserSubscriptions(@PathVariable(value = "userName", required = false) String userName) throws Exception {
+        ApiResponse<String, UserSubscriptionDto> apiResponse;
+        UserSubscriptionDto userSubscriptionDto;
+        if ((userSubscriptionDto = subscriptionService.findUserSubscriptions(userName)) == null) {
+            apiResponse = buildResponse(FAILED_TO_FIND_USER_SUBSCRIPTIONS, null, HttpStatus.NOT_FOUND);
+        } else {
+            apiResponse = buildResponse(GET_SUBSCRIPTION_TYPE, userSubscriptionDto, HttpStatus.OK);
+        }
+        return getResponseEntity(apiResponse);
+    }
+
     @GetMapping(value = "/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllSubscriptions() throws Exception {
+    public ResponseEntity<?> findAllSubscriptions(@RequestParam(value = "username", required = false) String username) throws Exception {
         ApiResponse<String, List<UserPaymentDto>> apiResponse;
         List<UserPaymentDto> userPayments;
-        if ((userPayments = subscriptionService.findSubscriptions()) == null) {
+        if ((userPayments = subscriptionService.findSubscriptions(username)) == null) {
             apiResponse = buildResponse(FAILED_TO_FIND_SUBSCRIPTION, null, HttpStatus.NO_CONTENT);
         } else {
             apiResponse = buildResponse(GET_SUBSCRIPTION, userPayments, HttpStatus.OK);

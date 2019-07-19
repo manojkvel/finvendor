@@ -5,6 +5,7 @@ import com.finvendor.api.notification.service.NotificationService;
 import com.finvendor.api.subscription.dao.SubscriptionDao;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.dto.UserPaymentDto;
+import com.finvendor.api.subscription.dto.UserSubscriptionDto;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.exception.ApplicationException;
@@ -113,9 +114,17 @@ public class SubscriptionService {
         }
     }
 
-    public List<UserPaymentDto> findSubscriptions() throws Exception {
+    public List<UserPaymentDto> findSubscriptions(String username) throws Exception {
         try {
             return dao.findAllPayments();
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public UserSubscriptionDto findUserSubscriptions(String userName) throws Exception {
+        try {
+            return dao.findUserSubscription(userName);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
