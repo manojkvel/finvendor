@@ -1,14 +1,15 @@
 package com.finvendor.api.subscription.dao;
 
-import com.finvendor.api.subscription.dto.PaymentDto;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.dto.UserPaymentDto;
+import com.finvendor.api.subscription.dto.UserSubscriptionDto;
 import com.finvendor.api.user.dao.UserDao;
 import com.finvendor.common.commondao.GenericDao;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.enums.ApiMessageEnum;
+import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.subscription.UserPayment;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -77,6 +78,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
     public String savePayment(String userName, SubscriptionDto dto) {
         String subscriptionRefId = String.valueOf(UUID.randomUUID());
         try {
+
             UserPayment userPaymentEntity = new UserPayment();
             userPaymentEntity.setUserName(userName);
             userPaymentEntity.setSubscriptionRefId(subscriptionRefId);
@@ -112,6 +114,15 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         }
         if (dto.getPaymentVerified() != null) {
             userPaymentEntity.setPaymentVerified(dto.getPaymentVerified() ? "TRUE" : "FALSE");
+        }
+    }
+
+    public UserSubscriptionDto findUserSubscription(String userName) {
+        try {
+            FinVendorUser userDetailsByUsername = userDao.getUserDetailsByUsername(userName);
+            return new UserSubscriptionDto(userDetailsByUsername.getSubscriptionType());
+        } catch (Exception e) {
+            return null;
         }
     }
 }

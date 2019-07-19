@@ -12,9 +12,9 @@ public enum ApiMessageEnum {
 
     SUBSCRIPTION_ID_NOT_EXIST("subs-0009",""),
     USER_NOT_EXIST("subs-0010","User does not exist"),
-    PAYMENT_ALREADY_VERIFIED("subs-0011","User already paid the subscription amount")
-
-
+    PAYMENT_ALREADY_VERIFIED("subs-0011","User already paid the subscription amount"),
+    FAILED_TO_FIND_USER_SUBSCRIPTIONS("subs-0012","Failed to retrieved user subscriptions - Invalid user"),
+    GET_SUBSCRIPTION_TYPE("subs-0013","User subscription type retrieved successfully"),
 
 
 
