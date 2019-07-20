@@ -2,6 +2,7 @@ package com.finvendor.api.user.controller;
 
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.response.ApiResponse;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.model.FinVendorUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +37,18 @@ public class UserController {
         if (userService.isValidUser(userName)) {
             List<FinVendorUser> existingUsers = userService.getUserDetails();
             for (FinVendorUser user : existingUsers) {
+                long subscriptionEndTimeInMillis = Long.parseLong(user.getSubscriptionEndTimeInMillis().trim());
+                long currentTimeInMillis = DateUtils.getSubscriptionStartAndEndDateInMillis(30).getElement1();
+               //find last 5th day from subscription end date
+                    //send reminder mail to renew subscription
 
-                String subscriptionStartTimeInMillis = user.getSubscriptionStartTimeInMillis();
-                String subscriptionEndTimeInMillis = user.getSubscriptionEndTimeInMillis();
-                user.getSubscriptionType();
-                /*
-                if subs expire then
-                 update subs type to free
-                 and make start and end time to NA
-                 */
+                //on subscription expires
+                if(currentTimeInMillis>subscriptionEndTimeInMillis) {
+                    user.setSubscriptionType("FREE");
+                    user.setSubscriptionStartTimeInMillis("N/A");
+                    user.setSubscriptionEndTimeInMillis("N/A");
+                    userService.updateUserInfo(user);
+                }
             }
         }
         return null;
