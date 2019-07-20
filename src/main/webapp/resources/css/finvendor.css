@@ -190,7 +190,7 @@ body#home {
 	height: 100%;
 	width: 100%;
 	background: rgba(0, 0, 0, 0.6);
-	z-index: 999;
+	z-index: 9999;
 }
 
 #fv_equity_research_report_vendor_search #spinner, #company_profile #spinner
@@ -2195,6 +2195,10 @@ button {
 
 #contact_us .rc-anchor-error-msg-container {
 	font-size: 9px;
+}
+
+#pricing {
+	position: relative;
 }
 
 #pricing #pricing_plan {

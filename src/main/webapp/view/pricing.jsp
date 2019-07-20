@@ -25,6 +25,9 @@
 			<h5>Pricing</h5>
 		</div>
 		<div class="row">
+			<div id='progressLoader'>
+				<jsp:include page="common/progressLoader.jsp"></jsp:include>
+			</div>
 			<div id="steps_update">
 				 
 				 <a data-toggle="tooltip" title="" id="prev" href="javascript:void(0)" data-original-title="Previous">Go to Back</a>

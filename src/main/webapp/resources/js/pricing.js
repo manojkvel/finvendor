@@ -14,27 +14,25 @@ jQuery(document).ready(function() {
             this.bankFormData = {};
             this.userId = $("input[name='loggedInUser']").val();
 
-
-            this.pricingLookUp().then(function(response) {
-                $(".pricing_table").show();
-                $("#pricing_bank_form .pricing_bank_form_btn a").on('click', {this: classRef}, classRef.validateBankForm);
-            }, function(error) {
-                $(".pricing_table").show();
-            });
-
-            $("#pricing #pricing_account_info .pricing_form_btn").on('click', {this: classRef}, classRef.checkForBankForm);
+            this.pricingLookUp();
         },
 
         pricingLookUp: function() {
             var classRef = this;
+            isProgressLoader(true);
 
-            /*classRef.getUserSubscriptionApi(classRef.userId).then(function(response){
-                debugger
+            classRef.getUserSubscriptionApi(classRef.userId).then(function(response){
+                classRef.showDefaultPricingScreen();
+                classRef.setUserSubscriptionDetails(response);
+                $("#pricing_bank_form .pricing_bank_form_btn a").on('click', {this: classRef}, classRef.validateBankForm);
+                $("#pricing #pricing_account_info .pricing_form_btn").on('click', {this: classRef}, classRef.checkForBankForm)
             }, function(error) {
-                debugger
-            });*/
+                classRef.showDefaultPricingScreen();
+            });
 
-            return new Promise(function(resolve, reject) {
+            $("#pricing button").on('click', {this: classRef}, classRef.checkForPlan);
+
+            /*return new Promise(function(resolve, reject) {
                 if(!isLoggedInUser()) {
                     var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
                     if(userDetails.subscriptionType == "SAGE") {
@@ -54,7 +52,7 @@ jQuery(document).ready(function() {
                     window.localStorage.removeItem("userDetails");
                     reject(false);
                 }
-            });
+            });*/
         },
 
         checkForPlan : function(event) {
@@ -186,10 +184,13 @@ jQuery(document).ready(function() {
                     var response = JSON.parse(response);
 
                     window.scrollTo(0, 0);
+
                     var userDetails = {
-                        "subscriptionType": subscriptionType
+                        "data" :{
+                            "subscriptionType": subscriptionType
+                        }
                     }
-                    window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
+                    classRef.setUserSubscriptionDetails(userDetails);
 
                     $("#pricing_bank_form").hide();
                     $("#steps_update span").text("Step 3 of 3");
@@ -242,35 +243,68 @@ jQuery(document).ready(function() {
         getUserSubscriptionApi : function(userId) {
             var classRef = this;
 
-            var url = "/api/users/" + userId + "/subscriptions";
-
             return new Promise(function(resolve, reject) {
-                var httpRequest = new XMLHttpRequest({
-                    mozSystem: true
-                });
-                //httpRequest.timeout = API_TIMEOUT_SMALL;
-                httpRequest.open('GET', url, true);
-                httpRequest.ontimeout = function () {
-                    reject("" + httpRequest.responseText);
-                };
-                httpRequest.onreadystatechange = function () {
-                    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                        if (httpRequest.status === 200) {
-                            resolve(httpRequest.response);
-                        } else {
-                            //console.log(httpRequest.status + httpRequest.responseText);
-                            reject(httpRequest.responseText);
-                        }
-                    } else {
-                    }
-                };
 
-                httpRequest.send();
+                if(userId != '') {
+                    var url = "/api/users/" + userId + "/subscriptions";
+                    var httpRequest = new XMLHttpRequest({
+                        mozSystem: true
+                    });
+                    //httpRequest.timeout = API_TIMEOUT_SMALL;
+                    httpRequest.open('GET', url, true);
+                    httpRequest.ontimeout = function () {
+                        reject("" + httpRequest.responseText);
+                    };
+                    httpRequest.onreadystatechange = function () {
+                        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                            if (httpRequest.status === 200) {
+                                resolve(httpRequest.response);
+                            } else {
+                                //console.log(httpRequest.status + httpRequest.responseText);
+                                reject(httpRequest.responseText);
+                            }
+                        } else {
+                        }
+                    };
+
+                    httpRequest.send();
+                } else {
+                    classRef.showDefaultPricingScreen();
+                }
             });
+        },
+
+        showDefaultPricingScreen: function() {
+            $(".pricing_table").show();
+            isProgressLoader(false);
+        },
+
+        setUserSubscriptionDetails: function(response) {
+            
+            if(typeof response == 'string') {
+                response = JSON.parse(response);
+            }
+
+            var userDetails = {
+                "subscriptionType": response.data.subscriptionType
+            }
+            window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+            if(userDetails.subscriptionType == "SAGE") {
+                $("#pricing #sage_investors .btnSubscribe").hide(); 
+                $("#pricing #smart_investors .btnSubscribe").hide();
+            } else if(userDetails.subscriptionType == "SMART") { 
+                $("#pricing #smart_investors .btnSubscribe").hide();
+                $("#pricing #sage_investors .btnSubscribe").show();
+            } else {
+                $("#pricing #general_investors .btnSubscribe").hide();
+            }
+
+            $("#pricing .btnSubscribe a").text("Subscribe");
+            $("#pricing #general_investors .btnSubscribe").hide();
         }
 
     };
 
     pricingObj.init();
-    $("#pricing button").on('click', {this: pricingObj}, pricingObj.checkForPlan);
 });
