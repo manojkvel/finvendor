@@ -9,7 +9,6 @@ import com.finvendor.api.report.dto.resultCalendar.ResultCalendarPDFContent;
 import com.finvendor.api.report.dto.sectoral.SectoralDataPDFContent;
 import com.finvendor.common.infra.pdf.IPDFContentBuilder;
 import com.finvendor.common.infra.pdf.IPDFGenerator;
-import com.finvendor.common.util.DateUtils;
 import com.finvendor.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,29 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 @Service
 @Transactional
 public class ReportService {
-    /**
-     * Quarterly dates
-     */
-    private static List<String> QTR_DATES;
-
-    static {
-        QTR_DATES = new ArrayList<>();
-        QTR_DATES.add("31/03/2019");
-        QTR_DATES.add("30/06/2019");
-        QTR_DATES.add("30/10/2019");
-        QTR_DATES.add("31/12/2019");
-    }
-
     @Resource(name = "finvendorProperties")
     private Properties finvendorProperties;
-
 
     @Autowired
     @Qualifier(value = "marketDataPDFContentBuilder")
@@ -97,39 +81,38 @@ public class ReportService {
         List<ReportUser> enabledUsers = findAllUsers(ReportDao.ENABLED_USERS);
         for (ReportUser ru : enabledUsers) {
             String userName = ru.getUserName();
-            String subscriptionType = ru.getSubscriptionType();
             String userEmail = ru.getUserEmail();
+            String subscriptionType = ru.getSubscriptionType();
             String subject = "FV Report Mail";
             String content = "Hello There,\n Please find all reports as an attachment\n\n\n\nFrom:\nFinvendor Team";
-            if (ru.getSubscriptionStatus()) {
-                switch (subscriptionType) {
-                    case "GENERAL":
-                        generateMarketReport(userName, MKT_PDF_FILE_NAME);
-                        EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME});
-                        break;
-                    case "SMART":
-                        generateMarketReport(userName, MKT_PDF_FILE_NAME);
-                        generateSectoralReport(userName, SECTORAL_PDF_FILE_NAME);
-                        generateResultCalendarReport(userName, RESULT_CALENDAR_PDF_FILE_NAME);
-                        generateCorporateActionReport(userName, CORP_ACTION_PDF_FILE_NAME);
-                        EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME});
-                        break;
-                    case "FREE":
-                        generateMarketReport(userName, MKT_PDF_FILE_NAME);
-                        generateSectoralReport(userName, SECTORAL_PDF_FILE_NAME);
-                        generateResultCalendarReport(userName, RESULT_CALENDAR_PDF_FILE_NAME);
-                        generateCorporateActionReport(userName, CORP_ACTION_PDF_FILE_NAME);
-
-                        //send financial reports every quarterly
-                        String currentDate = DateUtils.getCurrentDateHaveMonthDigit();
-                        if (QTR_DATES.contains(currentDate)) {
-                            generateFinancialsReport(userName, FINANCIALS_PDF_FILE_NAME);
-                            EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME, FINANCIALS_PDF_FILE_NAME});
-                        } else {
-                            EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME});
-                        }
-                        break;
-                }
+            switch (subscriptionType) {
+                case "FREE":
+                    generateMarketReport(userName, MKT_PDF_FILE_NAME);
+                    EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME});
+                    break;
+                case "SMART":
+                case "SAGE":
+                    generateMarketReport(userName, MKT_PDF_FILE_NAME);
+                    generateSectoralReport(userName, SECTORAL_PDF_FILE_NAME);
+                    generateResultCalendarReport(userName, RESULT_CALENDAR_PDF_FILE_NAME);
+                    generateCorporateActionReport(userName, CORP_ACTION_PDF_FILE_NAME);
+                    EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME});
+                    break;
+//                    case "SAGE":
+//                        generateMarketReport(userName, MKT_PDF_FILE_NAME);
+//                        generateSectoralReport(userName, SECTORAL_PDF_FILE_NAME);
+//                        generateResultCalendarReport(userName, RESULT_CALENDAR_PDF_FILE_NAME);
+//                        generateCorporateActionReport(userName, CORP_ACTION_PDF_FILE_NAME);
+//                        EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME});
+//                        //send financial reports every quarterly
+//                        String currentDate = DateUtils.getCurrentDateHaveMonthDigit();
+//                        if (QTR_DATES.contains(currentDate)) {
+//                            generateFinancialsReport(userName, FINANCIALS_PDF_FILE_NAME);
+//                            EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME, FINANCIALS_PDF_FILE_NAME});
+//                        } else {
+//                            EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[]{MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME, CORP_ACTION_PDF_FILE_NAME});
+//                        }
+//                        break;
             }
         }
     }

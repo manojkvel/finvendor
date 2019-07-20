@@ -28,13 +28,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PutMapping(value = "/user/{userName}/subscription-types")
+    /**
+     * Update subscription type to FREE if subscription expires
+     */
+    @PutMapping(value = "v1/user/{userName}/subscription-types")
     public ResponseEntity<ApiResponse> updateUserSubscriptions(@PathVariable String userName) throws Exception {
         if (userService.isValidUser(userName)) {
             List<FinVendorUser> existingUsers = userService.getUserDetails();
             for (FinVendorUser user : existingUsers) {
+
                 String subscriptionStartTimeInMillis = user.getSubscriptionStartTimeInMillis();
                 String subscriptionEndTimeInMillis = user.getSubscriptionEndTimeInMillis();
+                user.getSubscriptionType();
                 /*
                 if subs expire then
                  update subs type to free
