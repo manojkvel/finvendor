@@ -23,6 +23,12 @@
                                 Celebrity Investor's Strategies
                             </a>
                         </li>
+                        
+                        <li>
+                            <a href="${pageContext.request.contextPath}/view/do-it-yourself.jsp">
+                                Do It Yourself
+                            </a>
+                        </li>
                         <li>
                             <a href="${pageContext.request.contextPath}/view/sector-research.jsp">
                                 Sector Screener
