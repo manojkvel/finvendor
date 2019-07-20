@@ -45,21 +45,31 @@ public class SubscriptionController {
         this.subscriptionService = subscriptionService;
     }
 
+    /**
+     * Save user subscription details
+     */
     @PostMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> saveSubscription(@PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
                                               @Valid @RequestBody SubscriptionDto subscriptionDto) throws Exception {
         ApiResponse<String, String> apiResponse;
         if (userService.isValidUser(userName)) {
             String subscriptionRefId = subscriptionService.savePayment(userName, subscriptionDto);
-            LOGGER.info("User subscription saved in system, subscriptionRefId: {}", subscriptionRefId);
-            apiResponse = buildResponse(CREATE_SUBSCRIPTION, null, HttpStatus.CREATED);
+            if (subscriptionRefId != null) {
+                LOGGER.info("User Subscription created successfully, subscriptionId: {}", subscriptionRefId);
+                apiResponse = buildResponse(CREATE_SUBSCRIPTION, null, HttpStatus.CREATED);
+            } else {
+                LOGGER.info("User Subscription already exist, userName: {}", userName);
+                apiResponse = buildResponse(DUP_SUBSCRIPTION, null, HttpStatus.CONFLICT);
+            }
         } else {
             apiResponse = buildResponse(FAILED_TO_SAVE_SUBSCRIPTION, null, HttpStatus.BAD_REQUEST);
         }
         return getResponseEntity(apiResponse);
     }
 
-
+    /**
+     * This api is used to update payment verification from admin dashboard
+     */
     @PutMapping(value = "/users/{userName}/subscriptions/{subscriptionId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateSubscription(@PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
                                                 @PathVariable String subscriptionId, @RequestBody PaymentDto paymentDto) throws Exception {
@@ -76,6 +86,12 @@ public class SubscriptionController {
         return getResponseEntity(apiResponse);
     }
 
+    /**
+     * This api is used by pricing
+     *
+     * @param userName logged in username
+     * @return subscription type for given user
+     */
     @GetMapping(value = "/users/{userName}/subscriptions", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findUserSubscriptions(@PathVariable(value = "userName", required = false) String userName) throws Exception {
         ApiResponse<String, UserSubscriptionDto> apiResponse;
@@ -88,11 +104,15 @@ public class SubscriptionController {
         return getResponseEntity(apiResponse);
     }
 
+    /**
+     * This api is used by admin dashboard to show all payment details so that admin guy will verify
+     * user payment
+     */
     @GetMapping(value = "/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllSubscriptions(@RequestParam(value = "username", required = false) String username) throws Exception {
+    public ResponseEntity<?> findAllSubscriptions() throws Exception {
         ApiResponse<String, List<UserPaymentDto>> apiResponse;
         List<UserPaymentDto> userPayments;
-        if ((userPayments = subscriptionService.findSubscriptions(username)) == null) {
+        if ((userPayments = subscriptionService.findSubscriptions()) == null) {
             apiResponse = buildResponse(FAILED_TO_FIND_SUBSCRIPTION, null, HttpStatus.NO_CONTENT);
         } else {
             apiResponse = buildResponse(GET_SUBSCRIPTION, userPayments, HttpStatus.OK);
