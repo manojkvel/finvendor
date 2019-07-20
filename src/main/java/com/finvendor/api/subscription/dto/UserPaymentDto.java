@@ -6,16 +6,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"subscriptionId", "subscriptionType", "subscriptionStartTimeInMillis",
-        "subscriptionEndTimeInMillis", "userName", "transactionRefNumber", "transactionDate", "paymentMode", "amountTransferred",
+@JsonPropertyOrder({"userName","subscriptionId", "subscriptionType", "transactionRefNumber", "transactionDate", "paymentMode", "amountTransferred",
         "bankName", "bankHolderName", "paymentVerified"})
 public class UserPaymentDto implements Serializable {
-
+    private String userName;
     private String subscriptionId;
     private String subscriptionType;
-    private String subscriptionStartTimeInMillis;
-    private String subscriptionEndTimeInMillis;
-    private String userName;
     private String transactionRefNumber;
     private Long transactionDate;
     private String paymentMode;
@@ -24,13 +20,10 @@ public class UserPaymentDto implements Serializable {
     private String bankHolderName;
     private Boolean paymentVerified;
 
-    public UserPaymentDto(String subscriptionId, String subscriptionType, String subscriptionStartTimeInMillis,
-                          String subscriptionEndTimeInMillis, String userName, String transactionRefNumber, String paymentMode,
+    public UserPaymentDto(String subscriptionId, String subscriptionType, String userName, String transactionRefNumber, String paymentMode,
                           Long transactionDate, Double amountTransferred, String bankName, String bankHolderName, Boolean paymentVerified) {
         this.subscriptionId = subscriptionId;
         this.subscriptionType = subscriptionType;
-        this.subscriptionStartTimeInMillis = subscriptionStartTimeInMillis;
-        this.subscriptionEndTimeInMillis = subscriptionEndTimeInMillis;
         this.userName = userName;
         this.transactionRefNumber = transactionRefNumber;
         this.paymentMode = paymentMode;
@@ -55,22 +48,6 @@ public class UserPaymentDto implements Serializable {
 
     public void setSubscriptionType(String subscriptionType) {
         this.subscriptionType = subscriptionType;
-    }
-
-    public String getSubscriptionStartTimeInMillis() {
-        return subscriptionStartTimeInMillis;
-    }
-
-    public void setSubscriptionStartTimeInMillis(String subscriptionStartTimeInMillis) {
-        this.subscriptionStartTimeInMillis = subscriptionStartTimeInMillis;
-    }
-
-    public String getSubscriptionEndTimeInMillis() {
-        return subscriptionEndTimeInMillis;
-    }
-
-    public void setSubscriptionEndTimeInMillis(String subscriptionEndTimeInMillis) {
-        this.subscriptionEndTimeInMillis = subscriptionEndTimeInMillis;
     }
 
     public String getUserName() {

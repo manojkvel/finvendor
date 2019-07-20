@@ -13,6 +13,9 @@ public class UserPayment {
     @Column(name = "username")
     private String userName;
 
+    @Column(name = "subscription_type")
+    private String subscriptionType;
+
     @Column(name = "transaction_ref_number")
     private String transactionRefNumber;
 
@@ -115,5 +118,13 @@ public class UserPayment {
 
     public void setSubscriptionRefId(String subscriptionRefId) {
         this.subscriptionRefId = subscriptionRefId;
+    }
+
+    public String getSubscriptionType() {
+        return subscriptionType;
+    }
+
+    public void setSubscriptionType(String subscriptionType) {
+        this.subscriptionType = subscriptionType;
     }
 }

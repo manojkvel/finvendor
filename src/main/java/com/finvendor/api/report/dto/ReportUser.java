@@ -9,9 +9,11 @@ public class ReportUser implements Serializable {
     private boolean subscriptionStatus;
 
 
-    public ReportUser(String userName, String userEmail) {
+    public ReportUser(String userName, String userEmail, String subscriptionType, boolean subscriptionStatus) {
         this.userName = userName;
         this.userEmail = userEmail;
+        this.subscriptionType = subscriptionType;
+        this.subscriptionStatus = subscriptionStatus;
     }
 
 
@@ -46,5 +48,9 @@ public class ReportUser implements Serializable {
 
     public String getUserEmail() {
         return userEmail;
+    }
+
+    public boolean isSubscriptionStatus() {
+        return subscriptionStatus;
     }
 }

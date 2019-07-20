@@ -7,21 +7,26 @@ import com.finvendor.api.user.dao.UserDao;
 import com.finvendor.common.commondao.GenericDao;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.enums.ApiMessageEnum;
-import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.subscription.UserPayment;
+import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class SubscriptionDao extends GenericDao<UserPayment> {
 
+    public static final String USER_PAYMENT = "user_payment";
+    private final UserDao userDao;
+    private final ICommonDao commonDao;
+
     @Autowired
-    private UserDao userDao;
+    public SubscriptionDao(ICommonDao commonDao, UserDao userDao) {
+        this.commonDao = commonDao;
+        this.userDao = userDao;
+    }
 
     public List<UserPaymentDto> findAllPayments() {
         try {
@@ -29,12 +34,9 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
             List<UserPaymentDto> paymentDtoList = new ArrayList<>();
 
             for (UserPayment up : all) {
-                String subscriptionId = up.getSubscriptionRefId();
                 String userName = up.getUserName();
-                FinVendorUser existingUser = userDao.getUserDetailsByUsername(userName);
-                String subscriptionType = existingUser.getSubscriptionType();
-                String subscriptionStartTimeInMillis = "N/A".equals(existingUser.getSubscriptionStartTimeInMillis().trim()) ? "-" : existingUser.getSubscriptionStartTimeInMillis();
-                String subscriptionEndTimeInMillis = "N/A".equals(existingUser.getSubscriptionEndTimeInMillis().trim()) ? "-" : existingUser.getSubscriptionEndTimeInMillis();
+                String subscriptionId = up.getSubscriptionRefId();
+                String subscriptionType = up.getSubscriptionType();
                 String transactionRefNumber = up.getTransactionRefNumber();
                 Long transactionDate = Long.parseLong(up.getTransactionDate());
                 String paymentMode = up.getPaymentMode();
@@ -43,8 +45,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
                 String bankHolderName = up.getBankHolderName();
                 String paymentVerified = up.getPaymentVerified();
 
-                UserPaymentDto dto = new UserPaymentDto(subscriptionId, subscriptionType, subscriptionStartTimeInMillis,
-                        subscriptionEndTimeInMillis, userName, transactionRefNumber, paymentMode, transactionDate,
+                UserPaymentDto dto = new UserPaymentDto(subscriptionId, subscriptionType, userName, transactionRefNumber, paymentMode, transactionDate,
                         amountTransferred, bankName, bankHolderName, (paymentVerified != null && up.getPaymentVerified().equals("TRUE")));
                 paymentDtoList.add(dto);
             }
@@ -76,21 +77,32 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
     }
 
     public String savePayment(String userName, SubscriptionDto dto) {
-        String subscriptionRefId = String.valueOf(UUID.randomUUID());
-        try {
-
-            UserPayment userPaymentEntity = new UserPayment();
-            userPaymentEntity.setUserName(userName);
-            userPaymentEntity.setSubscriptionRefId(subscriptionRefId);
-            setPaymentDetails(dto, userPaymentEntity);
-            save(userPaymentEntity);
-        } catch (Exception e) {
-            throw new RuntimeException("Error has occurred while saving user subscription details.", e);
+        String subscriptionRefId;
+        Map<String,Object> map=new LinkedHashMap<>();
+        map.put("username",userName);
+        map.put("subscription_type",dto.getSubscriptionType());
+        List<Object[]> user_payment = findByColumnAndCondition("user_payment", new String[]{"username","subscription_type"}, map);
+        if (user_payment.size() == 0) {
+            subscriptionRefId = String.valueOf(UUID.randomUUID());
+            try {
+                UserPayment userPaymentEntity = new UserPayment();
+                userPaymentEntity.setUserName(userName);
+                userPaymentEntity.setSubscriptionRefId(subscriptionRefId);
+                setPaymentDetails(dto, userPaymentEntity);
+                save(userPaymentEntity);
+            } catch (Exception e) {
+                throw new RuntimeException("Error has occurred while saving user subscription details.", e);
+            }
+        } else {
+            subscriptionRefId = null;
         }
         return subscriptionRefId;
     }
 
     private void setPaymentDetails(SubscriptionDto dto, UserPayment userPaymentEntity) {
+        if (dto.getSubscriptionType() != null) {
+            userPaymentEntity.setSubscriptionType(dto.getSubscriptionType());
+        }
         if (dto.getTransactionRefNumber() != null) {
             userPaymentEntity.setTransactionRefNumber(dto.getTransactionRefNumber());
         }
@@ -119,8 +131,12 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
 
     public UserSubscriptionDto findUserSubscription(String userName) {
         try {
-            FinVendorUser userDetailsByUsername = userDao.getUserDetailsByUsername(userName);
-            return new UserSubscriptionDto(userDetailsByUsername.getSubscriptionType());
+            Map<String,Object> condition=new LinkedHashMap<>();
+            condition.put("username",userName);
+            String[] cols = {"username","subscription_type"};
+            List<Object[]> user_payment = findByColumnAndCondition(USER_PAYMENT, cols, condition);
+            Object existingSubscriptionType = user_payment.get(0)[1];
+            return new UserSubscriptionDto(existingSubscriptionType.toString());
         } catch (Exception e) {
             return null;
         }

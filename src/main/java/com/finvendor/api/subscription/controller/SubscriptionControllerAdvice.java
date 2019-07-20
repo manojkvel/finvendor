@@ -1,7 +1,7 @@
 package com.finvendor.api.subscription.controller;
 
+import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.response.ApiResponse;
-import com.finvendor.common.response.ResponseEntityUtils;
 import com.finvendor.common.util.ErrorUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class SubscriptionControllerAdvice extends ResponseEntityExceptionHandler
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return ResponseEntityUtils.getInvalidMethodArgResponseEntity(e);
+        return WebUtils.getInvalidMethodArgResponseEntity(e);
     }
 
     /**
@@ -33,8 +33,9 @@ public class SubscriptionControllerAdvice extends ResponseEntityExceptionHandler
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiResponse> constraintViolationException(ConstraintViolationException e) {
-        return ResponseEntityUtils.getConstraintViolationResponseEntity(e);
+        return WebUtils.getConstraintViolationResponseEntity(e);
     }
+
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<?> handleException(Exception e) {

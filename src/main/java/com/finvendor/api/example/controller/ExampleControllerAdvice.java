@@ -1,7 +1,7 @@
 package com.finvendor.api.example.controller;
 
+import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.response.ApiResponse;
-import com.finvendor.common.response.ResponseEntityUtils;
 import com.finvendor.common.util.ErrorUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class ExampleControllerAdvice extends ResponseEntityExceptionHandler {
      */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return ResponseEntityUtils.getInvalidMethodArgResponseEntity(exception);
+        return WebUtils.getInvalidMethodArgResponseEntity(exception);
     }
 
     /**
@@ -36,7 +36,7 @@ public class ExampleControllerAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiResponse> constraintViolationException(ConstraintViolationException e) {
-        return ResponseEntityUtils.getConstraintViolationResponseEntity(e);
+        return WebUtils.getConstraintViolationResponseEntity(e);
     }
 
     @ExceptionHandler({Exception.class})

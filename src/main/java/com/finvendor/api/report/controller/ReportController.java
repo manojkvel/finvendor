@@ -8,23 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.finvendor.common.exception.ExceptionEnum.REPORT;
 
 @RestController
+@RequestMapping(value = "/api")
 public class ReportController {
     private static final Logger logger = LoggerFactory.getLogger(ReportController.class.getName());
 
     @Autowired
     private ReportService reportService;
 
-    @PostMapping(value = "/v1/users/{userId}/stock-reports", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/v1/users/{userId}/stock-reports", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> sendDailyReport(@PathVariable String userId) {
         try {
             reportService.sendReports();
+            logger.info(">>>>>>>>>Report sent successfully to FREE|SMART|SAGE users ");
             return new ResponseEntity<>("Report sent successfully", HttpStatus.OK);
         } catch (Exception e) {
             ErrorUtil.logError("FvReportController -> sendDailyReport(...) method", e);
