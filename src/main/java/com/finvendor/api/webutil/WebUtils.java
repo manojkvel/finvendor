@@ -8,15 +8,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 /**
  * Web Utility class
@@ -318,5 +321,29 @@ public final class WebUtils {
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
         return new ResponseEntity<>(apiResponse, httpStatus);
+    }
+
+    public static ResponseEntity<Object> getInvalidMethodArgResponseEntity(MethodArgumentNotValidException exception) {
+        List<String> errMessages = new ArrayList<>();
+        BindingResult bindingResult = exception.getBindingResult();
+        List<ObjectError> allErrors = bindingResult.getAllErrors();
+        for (ObjectError oe : allErrors) {
+            String defaultMessage = oe.getDefaultMessage();
+            errMessages.add(defaultMessage);
+        }
+        String[] errStrArr = errMessages.toArray(new String[1]);
+        Object baseResponseDto = new ApiResponse<>("in-001", errStrArr, null,BAD_REQUEST);
+        ApiResponse baseResponseDto1 = (ApiResponse) baseResponseDto;
+        HttpStatus httpStatus = baseResponseDto1.getHttpStatus();
+        baseResponseDto1.setHttpStatus(null);
+        return new ResponseEntity<>(baseResponseDto, httpStatus);
+    }
+
+    public static ResponseEntity<ApiResponse> getConstraintViolationResponseEntity(ConstraintViolationException e) {
+        String message = e.getMessage().substring(e.getMessage().indexOf(":") + 2);
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("in-002", message, null, BAD_REQUEST);
+        HttpStatus httpStatus = apiResponse.getHttpStatus();
+        apiResponse.setHttpStatus(null);
+        return new ResponseEntity<ApiResponse>(apiResponse,httpStatus);
     }
 }
