@@ -44,12 +44,15 @@ public class SubscriptionService {
             //Save Payment details
             String refId = dao.savePayment(userName, dto);
 
-            //Update subscription type
-            FinVendorUser userDetails = updateUserSubscription(userName, dto.getSubscriptionType());
+            if (refId != null) {
+                //Update subscription type
+                FinVendorUser userDetails = updateUserSubscription(userName, dto.getSubscriptionType());
 
-            //Send Email to user
-            //sentEmail(refId, userDetails);
-
+                //Send Email to user
+                //sentEmail(refId, userDetails);
+            } else {
+                refId = null;
+            }
             return refId;
         } catch (Exception e) {
             throw new Exception(e);
@@ -114,7 +117,7 @@ public class SubscriptionService {
         }
     }
 
-    public List<UserPaymentDto> findSubscriptions(String username) throws Exception {
+    public List<UserPaymentDto> findSubscriptions() throws Exception {
         try {
             return dao.findAllPayments();
         } catch (RuntimeException e) {
