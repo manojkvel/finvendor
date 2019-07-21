@@ -7,9 +7,7 @@ import com.finvendor.api.user.dao.UserDao;
 import com.finvendor.common.commondao.GenericDao;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.enums.ApiMessageEnum;
-import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.subscription.UserPayment;
-import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +16,7 @@ import java.util.*;
 @Repository
 public class SubscriptionDao extends GenericDao<UserPayment> {
 
-    public static final String USER_PAYMENT = "user_payment";
+    public static final String USERS = "users";
     private final UserDao userDao;
     private final ICommonDao commonDao;
 
@@ -134,7 +132,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
             Map<String,Object> condition=new LinkedHashMap<>();
             condition.put("username",userName);
             String[] cols = {"username","subscription_type"};
-            List<Object[]> user_payment = findByColumnAndCondition(USER_PAYMENT, cols, condition);
+            List<Object[]> user_payment = findByColumnAndCondition(USERS, cols, condition);
             Object existingSubscriptionType = user_payment.get(0)[1];
             return new UserSubscriptionDto(existingSubscriptionType.toString());
         } catch (Exception e) {
