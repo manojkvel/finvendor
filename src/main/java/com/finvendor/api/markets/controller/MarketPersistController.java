@@ -2,6 +2,7 @@ package com.finvendor.api.markets.controller;
 
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.markets.dao._52wLowHigh;
+import com.finvendor.common.exception.FvTechnicalException;
 import com.finvendor.common.infra.persist.IFilePersist;
 import com.finvendor.common.infra.upload.IFileUpload;
 import com.finvendor.common.util.DateUtils;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -98,14 +100,39 @@ public class MarketPersistController {
             //Step-1 Upload to server
             String filePath = niftyIndicesFileUploadService.upload(niftyIndicesPriceUrl, toPath);
 
+            //Step-2 Persist To db
+            long persistCount = (long) this.niftyIndicesFilePersist.persist(filePath);
+            String indexPersistedMsg = "Total " + persistCount + " NIFTY Indices persisted into finvendor database successfully ";
+            logger.info(indexPersistedMsg);
+            return new ResponseEntity<>(indexPersistedMsg, HttpStatus.OK);
+        } catch (FvTechnicalException e) {
+            logger.error(">>>>>>>>> Nifty Indices Price Url: {} is not accessible", niftyIndicesPriceUrl);
+            sendMailWhenURLInvalid(niftyIndicesPriceUrl);
+            return ErrorUtil.getError(NIFTY_INDICES_PERSIST.getCode(), NIFTY_INDICES_PERSIST.getUserMessage(), e);
+        } catch (Exception e) {
+            ErrorUtil.logError("Error has occurred while persist Nifty Indices from finvendor tmp path, error - ", e);
+            return ErrorUtil.getError(NIFTY_INDICES_PERSIST.getCode(), NIFTY_INDICES_PERSIST.getUserMessage(), e);
+        }
+    }
 
+    /**
+     * This method is to insert data from indice file,
+     * E.g. usage: curl https://finvendor.com/system/api/persist/nifty-file?path=/home/finvendo/tmp/ind_close_all_26072019.csv
+     * <p>
+     * Just download ind_close_all_26072019.csv file from url: http://www.niftyindices.com/Daily_Snapshot/ind_close_all_26072019.csv
+     * and put in /home/finvendo/tmp path and hit this api using above curl
+     *
+     * @param filePath indice file path
+     */
+    @GetMapping(value = "/persist/nifty-file")
+    public ResponseEntity<?> persistNiftyIndicesPersistPart(@RequestParam(value = "filePath") String filePath) {
+        try {
             //Step-2 Persist To db
             long persistCount = (long) this.niftyIndicesFilePersist.persist(filePath);
             String indexPersistedMsg = "Total " + persistCount + " NIFTY Indices persisted into finvendor database successfully ";
             logger.info(indexPersistedMsg);
             return new ResponseEntity<>(indexPersistedMsg, HttpStatus.OK);
         } catch (Exception e) {
-            sendMailWhenURLInvalid(niftyIndicesPriceUrl);
             ErrorUtil.logError("Error has occurred while persist Nifty Indices from finvendor tmp path, error - ", e);
             return ErrorUtil.getError(NIFTY_INDICES_PERSIST.getCode(), NIFTY_INDICES_PERSIST.getUserMessage(), e);
         }
