@@ -15,8 +15,8 @@ public class NiftyIndicesFileUploadService implements IFileUpload {
 
     @Override
     public String upload(String fromPath, String toPath) throws Exception {
-        logger.info("NiftyIndicesFileUploadService-> fromPath:{}", fromPath);
-        logger.info("NiftyIndicesFileUploadService-> toPath:{}", toPath);
+        String sb = "Download Nifty Indice file from NIFTY Site... From Path: " + fromPath + "\n" + "To Path: " + toPath;
+        logger.info("{}", sb);
 
         String downloadPath = toPath + File.separator + "ind_close_all.csv";
 

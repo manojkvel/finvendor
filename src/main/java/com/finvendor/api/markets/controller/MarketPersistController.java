@@ -89,7 +89,7 @@ public class MarketPersistController {
      * Persist Nifty Indices Data from Nifty Site to finvendor db
      */
     @GetMapping(value = "/persist/nifty")
-    public ResponseEntity<?> persistNiftyIndices() throws WebApiException {
+    public ResponseEntity<?> persistNiftyIndices() {
         String niftyIndicesPriceUrl = getNiftyIndicesPriceUrl();
         try {
             logger.info("persistNiftyIndices-> niftyIndicesPriceUrl:{}", niftyIndicesPriceUrl);
@@ -97,13 +97,13 @@ public class MarketPersistController {
 
             //Step-1 Upload to server
             String filePath = niftyIndicesFileUploadService.upload(niftyIndicesPriceUrl, toPath);
-            logger.info("filePath:{}", filePath);
+
 
             //Step-2 Persist To db
             long persistCount = (long) this.niftyIndicesFilePersist.persist(filePath);
-            logger.info("persistCount:{}", persistCount);
-            return new ResponseEntity<>("Nifty Indices persisted into finvendor database successfully with total records:" + persistCount,
-                    HttpStatus.OK);
+            String indexPersistedMsg = "Total " + persistCount + " NIFTY Indices persisted into finvendor database successfully ";
+            logger.info(indexPersistedMsg);
+            return new ResponseEntity<>(indexPersistedMsg, HttpStatus.OK);
         } catch (Exception e) {
             sendMailWhenURLInvalid(niftyIndicesPriceUrl);
             ErrorUtil.logError("Error has occurred while persist Nifty Indices from finvendor tmp path, error - ", e);
