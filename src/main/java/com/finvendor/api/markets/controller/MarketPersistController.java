@@ -2,9 +2,9 @@ package com.finvendor.api.markets.controller;
 
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.markets.dao._52wLowHigh;
-import com.finvendor.common.exception.FvTechnicalException;
 import com.finvendor.common.infra.persist.IFilePersist;
 import com.finvendor.common.infra.upload.IFileUpload;
+import com.finvendor.common.infra.upload.exception.FileUploadException;
 import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.util.EmailUtil;
@@ -80,6 +80,10 @@ public class MarketPersistController {
             logger.info("Bhav copy persist count:{}", persistCount);
             return new ResponseEntity<>("Bhav Copy file persisted into finvendor database successfully with total prices:" + persistCount,
                     HttpStatus.OK);
+        } catch (FileUploadException e) {
+            logger.error(">>>>>>>>> Bhav Copy Price Url: {} is not accessible", nseBhavCopyPriceUrl);
+            sendMailWhenURLInvalid(nseBhavCopyPriceUrl);
+            return ErrorUtil.getError(MARKETS_PERSIST.getCode(), MARKETS_PERSIST.getUserMessage(), e);
         } catch (Exception e) {
             sendMailWhenURLInvalid(nseBhavCopyPriceUrl);
             ErrorUtil.logError("Error has occurred while persist Bhav Copy from finvendor tmp path, error - ", e);
@@ -105,7 +109,7 @@ public class MarketPersistController {
             String indexPersistedMsg = "Total " + persistCount + " NIFTY Indices persisted into finvendor database successfully ";
             logger.info(indexPersistedMsg);
             return new ResponseEntity<>(indexPersistedMsg, HttpStatus.OK);
-        } catch (FvTechnicalException e) {
+        } catch (FileUploadException e) {
             logger.error(">>>>>>>>> Nifty Indices Price Url: {} is not accessible", niftyIndicesPriceUrl);
             sendMailWhenURLInvalid(niftyIndicesPriceUrl);
             return ErrorUtil.getError(NIFTY_INDICES_PERSIST.getCode(), NIFTY_INDICES_PERSIST.getUserMessage(), e);
