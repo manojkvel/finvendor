@@ -3,13 +3,10 @@ package com.finvendor.api.login.controller;
 import com.finvendor.api.common.service.ReferenceDataService;
 import com.finvendor.api.consumer.service.ConsumerService;
 import com.finvendor.api.formdata.controller.FormDataController;
-import com.finvendor.api.login.dto.LoginResponse;
-import com.finvendor.api.login.dto.SubscriptionDto;
 import com.finvendor.api.login.service.LoginService;
 import com.finvendor.api.marketdata.service.MarketDataAggregatorsService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.exception.ErrorMessage;
-import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.model.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
@@ -33,10 +30,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.finvendor.common.exception.ExceptionEnum.USER_LOGIN;
 
 @Controller
 public class LoginController {
@@ -58,8 +52,8 @@ public class LoginController {
     @Resource(name = "consumerService")
     private ConsumerService consumerService;
 
-//    @Resource(name = "vendorService")
-//    private VendorService vendorService;
+    //    @Resource(name = "vendorService")
+    //    private VendorService vendorService;
 
     @RequestMapping(value = RequestConstans.Home.HOME_PAGE, method = RequestMethod.GET)
     public ModelAndView homePageLand(ModelMap modelMap, HttpServletRequest request) {
@@ -78,18 +72,20 @@ public class LoginController {
     }
 
     @RequestMapping(value = RequestConstans.Login.LOGINVALIDATION, method = RequestMethod.POST)
-    public ResponseEntity<?> loginValidation(@RequestParam(value = "VEuMlA", required = false) String username,
-                                             @RequestParam(value = "RaYulU", required = false) String password,
-                                             @RequestParam(value = "chgUsername", required = false) String chgUsername,
-                                             @RequestParam(value = "oldPassword", required = false) String oldPassword,
-                                             @RequestParam(value = "newPassword", required = false) String newPassword,
-                                             @RequestParam(value = "passChange") String passChange) {
+    public ModelAndView loginValidation(ModelMap modelMap, HttpServletRequest request,
+            @RequestParam(value = "VEuMlA", required = false) String username,
+            @RequestParam(value = "RaYulU", required = false) String password,
+            @RequestParam(value = "chgUsername", required = false) String chgUsername,
+            @RequestParam(value = "oldPassword", required = false) String oldPassword,
+            @RequestParam(value = "newPassword", required = false) String newPassword,
+            @RequestParam(value = "passChange", required = true) String passChange) {
 
         logger.debug("Entering LoginController : loginValidation");
-        String status;
+        ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
+        String status = "false";
         try {
-            String userId;
-            String credentials;
+            String userId = null;
+            String credentials = null;
             boolean changePassword = Boolean.valueOf(passChange);
 
             if (changePassword) {
@@ -103,50 +99,49 @@ public class LoginController {
             FinVendorUser user = userService.getUserDetailsByUsername(userId);
             if (user == null) {
                 logger.error("No User record available for : {}", userId);
-                status = RequestConstans.INVALID_USER;
+                status = status + ":" + RequestConstans.INVALID_USER;
             } else {
                 logger.info("User {} enbabled : {}", userId, user.getEnabled());
                 if (!user.getEnabled()) {
                     logger.error("User record is disabled for : {}", userId);
-                    status = RequestConstans.ACCOUNT_DISABLED;
+                    status = status + ":" + RequestConstans.ACCOUNT_DISABLED;
                 } else {
                     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
                     if (encoder.matches(credentials, user.getPassword())) {
                         if (changePassword) {
                             userService.changePassword(userId, encoder.encode(newPassword));
                             userService.updateUnsuccessfulLoginAttempts(userId, true);
-                            status = RequestConstans.LOGIN_AFTER_CHANGE_PASSWORD;
+                            status = status + ":" + RequestConstans.LOGIN_AFTER_CHANGE_PASSWORD;
                         } else if (user.getLoginAttempts() < 0) {
-                            status = RequestConstans.CHANGE_PASSWORD;
+                            status = status + ":" + RequestConstans.CHANGE_PASSWORD;
                         } else {
                             userService.updateUnsuccessfulLoginAttempts(userId, true);
-                            status = "User logged-in successfully";
+                            status = "true";
                         }
                     } else {
-                        logger.error("Incorrect password entered for : {}", userId);
+                        logger.error("Incorrect password enterd for : {}", userId);
                         if (user.getLoginAttempts() >= RequestConstans.MAX_UNSUCCESSFUL_ATTEMPTS) {
                             userService.updateUserAccountStatus(userId, false);
                         } else {
                             userService.updateUnsuccessfulLoginAttempts(userId, false);
                         }
-                        status = RequestConstans.INVALID_PASSWORD;
+                        status = status + ":" + RequestConstans.INVALID_PASSWORD;
                     }
                 }
             }
-            List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
-            subscriptionDtoList.add(new SubscriptionDto(user != null ? user.getSubscriptionType() : "N/A", user != null ? user.getSubscriptionStatus() : "N/A"));
-            LoginResponse loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
-            return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
+            modelAndView.addObject("status", status);
         } catch (Exception exp) {
-            ErrorUtil.logError("Login Controller -> loginValidation(...) method", exp);
-            return ErrorUtil.getError(USER_LOGIN.getCode(), USER_LOGIN.getUserMessage(), exp);
+            modelAndView.addObject("status", "false:Error during login");
+            logger.error("Error validating User login : ", exp);
         }
+        logger.debug("Leaving LoginController : loginValidation");
+        return modelAndView;
     }
 
     @RequestMapping(value = RequestConstans.Login.WELCOME, method = RequestMethod.GET)
     public ModelAndView welcomeInfo(HttpServletRequest request,
-                                    @ModelAttribute("users") FinVendorUser users,
-                                    @ModelAttribute("userRole") UserRole userRole) {
+            @ModelAttribute("users") FinVendorUser users,
+            @ModelAttribute("userRole") UserRole userRole) {
 
         logger.debug("Entering LoginController : welcomeInfo");
         List<AssetClass> assetClasses = null;
@@ -336,8 +331,8 @@ public class LoginController {
 
     @RequestMapping(value = RequestConstans.Login.FORGOT_PASSWORD, method = RequestMethod.POST)
     public ModelAndView forgotPassword(HttpServletRequest request,
-                                       @RequestParam(value = "userName", required = false) String userName,
-                                       @RequestParam(value = "email", required = false) String email) {
+            @RequestParam(value = "userName", required = false) String userName,
+            @RequestParam(value = "email", required = false) String email) {
         logger.debug("Entering LoginController : forgotPassword");
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
         String status = "false";
@@ -395,7 +390,7 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Login.SITE_MAP);
         return modelAndView;
     }
-	
+
 
 	/*
 	@RequestMapping(value =RequestConstans.Login.PRIVACY, method=RequestMethod.GET)
@@ -407,22 +402,22 @@ public class LoginController {
 
 	 /**
 	 * method to navigate disclaimer
-	 * 
+	 *
 	 * @return modelAndView
 	 * @throws Exception
 	 *             the exception
-	 
+
 	@RequestMapping(value =RequestConstans.Login.DISCLAIMER, method=RequestMethod.GET)
     public ModelAndView Disclaimer() {
 		logger.info("Method forget password page 14---:");
         ModelAndView modelAndView=new ModelAndView(RequestConstans.Login.DISCLAIMER);
          return modelAndView;
-     } 
+     }
       */
 
     @RequestMapping(value = "displayCompanyLogo/{username}", method = RequestMethod.GET)
     public void displayCompanyLogo(HttpServletRequest request, HttpServletResponse response,
-                                   @PathVariable String username) {
+            @PathVariable String username) {
         try {
             logger.debug("LoginController : displayCompanyLogo for {}", username);
             FinVendorUser user = userService.getUserDetailsByUsername(username);
@@ -465,7 +460,7 @@ public class LoginController {
 
     @RequestMapping(value = "/getfile/{value}", method = RequestMethod.GET)
     public void get(HttpServletRequest request,
-                    HttpServletResponse response, @PathVariable String value) {
+            HttpServletResponse response, @PathVariable String value) {
         try {
             Vendor vendor = null;
             Consumer consumer = null;
