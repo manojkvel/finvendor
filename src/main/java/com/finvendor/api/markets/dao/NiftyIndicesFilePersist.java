@@ -21,11 +21,12 @@ import java.util.Objects;
 
 @Repository
 public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
-    private static final Logger logger = LoggerFactory.getLogger(NiftyIndicesFilePersist.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(NiftyIndicesFilePersist.class.getName());
 
     @Override
     @Transactional
-    public Long persist(String path) throws RuntimeException {
+    public Long persist(String niftyIndiceFilePath) {
+        LOGGER.info("downloaded index filePath: {}", niftyIndiceFilePath);
         BufferedReader br = null;
         String line;
         String cvsSplitBy = ",";
@@ -34,14 +35,12 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
             String indexDateAsPerFvFormat = formatter.format(Calendar.getInstance().getTime());
-            String fromFilePath = Objects.requireNonNull(new File(path).listFiles()[0].getPath());
-            br = new BufferedReader(new FileReader(fromFilePath));
+            br = new BufferedReader(new FileReader(niftyIndiceFilePath));
             br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] niftyColumns = line.split(cvsSplitBy);
                 String indexId = "";
                 String indexName = niftyColumns[0];
-                String indexDate = indexDateAsPerFvFormat;//niftyColumns[1];
 
                 String openIndex = niftyColumns[2];
                 String highIndex = niftyColumns[3];
@@ -95,7 +94,7 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
                     indice.setFamily(family);
 
                     IndiceDetails indiceDetails = new IndiceDetails();
-                    indiceDetails.setDate(indexDate);
+                    indiceDetails.setDate(indexDateAsPerFvFormat);
                     indiceDetails.setOpen(openIndex);
                     indiceDetails.setHigh(highIndex);
                     indiceDetails.setLow(lowIndex);
@@ -111,7 +110,7 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
                     indice.setIndiceDetails(indiceDetails);
                 } else {
                     IndiceDetails indiceDetails = indice.getIndiceDetails();
-                    indiceDetails.setDate(indexDate);
+                    indiceDetails.setDate(indexDateAsPerFvFormat);
                     indiceDetails.setOpen(openIndex);
                     indiceDetails.setHigh(highIndex);
                     indiceDetails.setLow(lowIndex);
@@ -131,7 +130,7 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
 
                 //Nifty50 price insertion into history table
                 if ("Nifty 50".equals(indexName)) {
-                    //let also store nifty50 price into nifty50History table after update new nitfy 50 price
+                    //let also store nifty50 price into nifty50History table after update new nifty 50 price
                     String currentDate = getDateForNifty50();
                     String insertQuery = "insert into nifty50_price_history(date,close) values(?,?)";
                     SQLQuery sqlQuery = commonDao.getNativeQuery(insertQuery, null);
@@ -148,7 +147,7 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    logger.warn("Unable to close buffered reader as it is null");
+                    LOGGER.warn("Unable to close buffered reader as it is null");
                 }
             }
         }

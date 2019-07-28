@@ -164,18 +164,12 @@ public class DateUtils {
     }
 
     public static Pair<Long,Long> getSubscriptionStartAndEndDateInMillis(int numberOfDays){
-
         long startTimeInMillis = Calendar.getInstance().getTimeInMillis();
-        //System.out.println("Start time: "+ startTimeInMillis);
         Date currentDate = new Date();
-
         Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
         c.add(Calendar.DATE, numberOfDays);
-
         long endTimeInMillis = c.getTimeInMillis();
-        //System.out.println("End time: "+endTimeInMillis);
-
         return new Pair<>(startTimeInMillis, endTimeInMillis);
     }
 
@@ -183,18 +177,17 @@ public class DateUtils {
 
         long startTimeInMillis = Calendar.getInstance().getTimeInMillis();
         String startDateTimeInHumanDate = dd_MMM_yyyy_hh_mm_subscription_formatter.format(startTimeInMillis);
-        System.out.println("Start time: "+ startDateTimeInHumanDate);
         Date currentDate = new Date();
 
         // convert date to calendar
         Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
 
-        c.add(Calendar.DATE, numberOfDays); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+        c.add(Calendar.DATE, numberOfDays);
 
         // convert calendar to date
         String endDateTimeInHumanDate = dd_MMM_yyyy_hh_mm_subscription_formatter.format(c.getTime());
-        System.out.println("End time: "+endDateTimeInHumanDate);
+
 
         return new Pair<>(startDateTimeInHumanDate, endDateTimeInHumanDate);
     }
@@ -236,8 +229,10 @@ public class DateUtils {
 
 //        System.out.println(getCurrentDateHaveMonthDigit());
 //        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
-//        getSubscriptionStartAndEndDateInMillis(30);
-        getSubscriptionStartAndEndDateInHumanDate(30);
+        Pair<Long, Long> ms = getSubscriptionStartAndEndDateInMillis(30);
+        System.out.println("Start time: "+ ms.getElement1());
+        System.out.println("End time: "+ ms.getElement2());
+        //        getSubscriptionStartAndEndDateInHumanDate(30);
     }
 
 }

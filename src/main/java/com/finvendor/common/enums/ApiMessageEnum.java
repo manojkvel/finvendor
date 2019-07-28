@@ -16,6 +16,7 @@ public enum ApiMessageEnum {
     FAILED_TO_FIND_USER_SUBSCRIPTIONS("subs-0012","Failed to retrieved user subscriptions - Invalid user"),
     GET_SUBSCRIPTION_TYPE("subs-0013","User subscription type retrieved successfully"),
     DUP_SUBSCRIPTION("subs-0014","User subscription already exist."),
+    USER_PROFILE_SUBSCRIPTION("subs-0015","User profile subscription details retrieved successfully."),
 
 
 
