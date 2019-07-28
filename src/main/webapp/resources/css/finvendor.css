@@ -2225,7 +2225,7 @@ button {
 .price-block {
 	font-size: 40px;
 	color: #fff;
-	padding: 10px 0;
+	padding: 5px 0;
 }
 
 .pricing-table-new .price-block-wrapper {
@@ -2249,7 +2249,7 @@ button {
 }
 
 .price-block__bigno {
-	font-size: 2em;
+	font-size: 1em;
 	font-weight: 700;
 	line-height: .8em;
 }
@@ -2321,10 +2321,10 @@ button {
 }
 
 #pricing_plan h3 {
-	font-size: 21px;
+	font-size: 17px;
 	font-weight: bold;
 	color: #fff;
-	padding: 10px;
+	padding: 5px 10px;
 	margin: 0;
 }
 
@@ -2343,6 +2343,11 @@ button {
 	margin: 0 30px;
 	font-size: 13px;
 	list-style-type: square;
+}
+
+#pricing #pricing_plan .content ol li p {
+	margin: 0 0 5px;
+	font-weight: normal;
 }
 
 #pricing_account_info ol li {
@@ -2681,6 +2686,14 @@ button {
 		{
 		width: 90%;
 		margin-top: 20px;
+	}
+
+	.price-block__bigno {
+		font-size: 1em;
+	}
+
+	#pricing #pricing_plan .content ol li p {
+		margin: 0 0 10px;
 	}
 }
 

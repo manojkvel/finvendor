@@ -99,8 +99,8 @@
 												499
 											</div>
 											<div class="price-block__right-holder price-block__right-holder">
-												<div class="price-block-right-holder__cents">
-													00
+												<div class="price-block-right-holder__cents" style="display: none;">
+													.00
 												</div>
 												<div class="price-block-right-holder__unit">
 													<div class="price-block-right-holder-unit__currency"></div>
@@ -115,13 +115,7 @@
 								<div class="bd">
 									<ol>
 										<li>
-											<p>Access to Unlimited Company profile search</p>
-										</li>
-										<li>
-											<p>Access to Today's Market Summary Page</p>
-										</li>
-										<li>
-											<p>Access to Today's performance of All indices & its constituents.</p>
+											<p>Access to Unlimited Company profile search, Today's Market Summary, performance of All indices, get Daily market summary report through email and Set alerts on any companies.</p>
 										</li>
 										<li>
 											<p>Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
@@ -133,13 +127,7 @@
 											<p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
 										</li>
 										<li>
-											<p>Set alerts on any companies if any new research analyst's report is available.</p>
-										</li>
-										<li>
 											<p>Track your shortlisted companies in your watchlist.</p>
-										</li>
-										<li>
-											<p>Get Daily market summary report through email.</p>
 										</li>
 										<li>
 											<p>Get Daily Sectoral Performance Summary Report through email.</p>
@@ -172,8 +160,8 @@
 												999
 											</div>
 											<div class="price-block__right-holder price-block__right-holder">
-												<div class="price-block-right-holder__cents">
-													00
+												<div class="price-block-right-holder__cents" style="display: none;">
+													.00
 												</div>
 												<div class="price-block-right-holder__unit">
 													<div class="price-block-right-holder-unit__currency"></div>
@@ -191,13 +179,7 @@
 											<p>Access to Stock Screener "Celebrity Investors' Strategies" & "Do It Yourself" (CUSTOM Stock Screener).</p>
 										</li>
 										<li>
-											<p>Access to Unlimited Company profile search</p>
-										</li>
-										<li>
-											<p>Access to Today's Market Summary Page.</p>
-										</li>
-										<li>
-											<p>Access to Today's performance of All indices & its constituents.</p>
+											<p>Access to Unlimited Company profile search, Today's Market Summary, performance of All indices, get Daily market summary report through email and Set alerts on any companies.</p>
 										</li>
 										<li>
 											<p>Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)</p>
@@ -209,13 +191,7 @@
 											<p>Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.</p>
 										</li>
 										<li>
-											<p>Set alerts on any companies if any new research analyst's report is available.</p>
-										</li>
-										<li>
 											<p>Track your shortlisted companies in your watchlist.</p>
-										</li>
-										<li>
-											<p>Get Daily market summary report through email.</p>
 										</li>
 										<li>
 											<p>Get Daily Sectoral Performance Summary Report through email.</p>

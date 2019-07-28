@@ -24,35 +24,13 @@ jQuery(document).ready(function() {
             classRef.getUserSubscriptionApi(classRef.userId).then(function(response){
                 classRef.showDefaultPricingScreen();
                 classRef.setUserSubscriptionDetails(response);
+                $("#pricing button").on('click', {this: classRef}, classRef.checkForPlan);
                 $("#pricing_bank_form .pricing_bank_form_btn a").on('click', {this: classRef}, classRef.validateBankForm);
                 $("#pricing #pricing_account_info .pricing_form_btn").on('click', {this: classRef}, classRef.checkForBankForm)
             }, function(error) {
-                classRef.showDefaultPricingScreen();
             });
 
-            $("#pricing button").on('click', {this: classRef}, classRef.checkForPlan);
-
-            /*return new Promise(function(resolve, reject) {
-                if(!isLoggedInUser()) {
-                    var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
-                    if(userDetails.subscriptionType == "SAGE") {
-                        $("#pricing #sage_investors .btnSubscribe").hide(); 
-                        $("#pricing #smart_investors .btnSubscribe").hide();
-                    } else if(userDetails.subscriptionType == "SMART") { 
-                        $("#pricing #smart_investors .btnSubscribe").hide();
-                        $("#pricing #sage_investors .btnSubscribe").show();
-                    } else {
-                        $("#pricing #general_investors .btnSubscribe").hide();
-                    }
-
-                    $("#pricing .btnSubscribe a").text("Subscribe");
-                    $("#pricing #general_investors .btnSubscribe").hide();
-                    resolve(true);
-                } else {
-                    window.localStorage.removeItem("userDetails");
-                    reject(false);
-                }
-            });*/
+            classRef.showDefaultPricingScreen();
         },
 
         checkForPlan : function(event) {
@@ -276,6 +254,24 @@ jQuery(document).ready(function() {
 
         showDefaultPricingScreen: function() {
             $(".pricing_table").show();
+            if(!isLoggedInUser()) {
+                var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
+                if(userDetails.subscriptionType == "SAGE") {
+                    $("#pricing #sage_investors .btnSubscribe").hide(); 
+                    $("#pricing #smart_investors .btnSubscribe").hide();
+                } else if(userDetails.subscriptionType == "SMART") { 
+                    $("#pricing #smart_investors .btnSubscribe").hide();
+                    $("#pricing #sage_investors .btnSubscribe").show();
+                } else {
+                    $("#pricing #general_investors .btnSubscribe").hide();
+                }
+
+                $("#pricing .btnSubscribe a").text("Subscribe");
+                $("#pricing #general_investors .btnSubscribe").hide();
+            } else {
+                window.localStorage.removeItem("userDetails");
+            }
+
             isProgressLoader(false);
         },
 
@@ -290,18 +286,6 @@ jQuery(document).ready(function() {
             }
             window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
 
-            if(userDetails.subscriptionType == "SAGE") {
-                $("#pricing #sage_investors .btnSubscribe").hide(); 
-                $("#pricing #smart_investors .btnSubscribe").hide();
-            } else if(userDetails.subscriptionType == "SMART") { 
-                $("#pricing #smart_investors .btnSubscribe").hide();
-                $("#pricing #sage_investors .btnSubscribe").show();
-            } else {
-                $("#pricing #general_investors .btnSubscribe").hide();
-            }
-
-            $("#pricing .btnSubscribe a").text("Subscribe");
-            $("#pricing #general_investors .btnSubscribe").hide();
         }
 
     };
