@@ -256,18 +256,21 @@ jQuery(document).ready(function() {
             $(".pricing_table").show();
             if(!isLoggedInUser()) {
                 var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
-                if(userDetails.subscriptionType == "SAGE") {
-                    $("#pricing #sage_investors .btnSubscribe").hide(); 
-                    $("#pricing #smart_investors .btnSubscribe").hide();
-                } else if(userDetails.subscriptionType == "SMART") { 
-                    $("#pricing #smart_investors .btnSubscribe").hide();
-                    $("#pricing #sage_investors .btnSubscribe").show();
-                } else {
+                if(userDetails != undefined) {
+                    
+                    if(userDetails.subscriptionType == "SAGE") {
+                        $("#pricing #sage_investors .btnSubscribe").hide(); 
+                        $("#pricing #smart_investors .btnSubscribe").hide();
+                    } else if(userDetails.subscriptionType == "SMART") { 
+                        $("#pricing #smart_investors .btnSubscribe").hide();
+                        $("#pricing #sage_investors .btnSubscribe").show();
+                    } else {
+                        $("#pricing #general_investors .btnSubscribe").hide();
+                    }
+
+                    $("#pricing .btnSubscribe a").text("Subscribe");
                     $("#pricing #general_investors .btnSubscribe").hide();
                 }
-
-                $("#pricing .btnSubscribe a").text("Subscribe");
-                $("#pricing #general_investors .btnSubscribe").hide();
             } else {
                 window.localStorage.removeItem("userDetails");
             }
