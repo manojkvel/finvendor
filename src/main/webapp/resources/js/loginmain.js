@@ -250,8 +250,8 @@ function loginSubmit(changePassword) {
 		type: 'POST',
 		url:actionUrl,
 		cache: false,
-		success: function(output) {
-			if (output.match("false")) {
+		success: function(response) {
+			/*if (output.match("false")) {
 				$('#loadinglg').hide();	
 				$('#loadingcp').hide();
 				var errorMessage = output.split(":")[1];
@@ -275,9 +275,9 @@ function loginSubmit(changePassword) {
 				$('#generic-error-message').html("");
 				$('.cd-user-modal').removeClass('is-visible');					
 				$('form#login-submit').submit();
-			}
+			}*/
 
-			/*if(response.code == 'lgn-001') {
+			if(response.code == 'lgn-001') {
 				var userDetails = {
 					"subscriptionType": response.data[0].subscriptionType
 				}
@@ -288,7 +288,7 @@ function loginSubmit(changePassword) {
 				$('#generic-error-message').html("");
 				$('.cd-user-modal').removeClass('is-visible');					
 				$('form#login-submit').submit();
-			}*/
+			}
 		}
 	});
 }
