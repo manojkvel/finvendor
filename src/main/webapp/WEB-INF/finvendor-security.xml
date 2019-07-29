@@ -30,7 +30,7 @@
         <!--<intercept-url pattern="/system/api/researchReports/recordStats*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
         <intercept-url pattern="/system/api/researchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
         <intercept-url pattern="/system/api/dashboardResearchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
-        --><intercept-url pattern="/system/downloadResearchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
+        <intercept-url pattern="/system/downloadResearchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/> -->
 
 
         <form-login login-page="/welcometodashboards" default-target-url="/welcometodashboards"
