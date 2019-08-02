@@ -32,7 +32,7 @@ public class ExampleController {
 
     @GetMapping(value = "/hello")
     public ResponseEntity<String> sayHello() {
-        return new ResponseEntity<>("Hello", HttpStatus.OK);
+        return new ResponseEntity<>("Hello Friends...", HttpStatus.OK);
     }
 
     @PostMapping(value = "/examples", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
