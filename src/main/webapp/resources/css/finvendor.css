@@ -808,40 +808,16 @@ table .normal_font p {
 
 .ui-datepicker th {
 	background: transparent;
+	color: #000;
 }
 
-#watchlist_table
->
-thead
->
-tr
->
-th
-,
-#pricealert_table
->
-thead
->
-tr
->
-th
-,
+#watchlist_table > thead > tr > th,
+#pricealert_table > thead > tr > th,
 {
-height
-:
- 
-auto
-;
-
-	
-min-height
-:
- 
-auto
-;
-
-
+	height : auto;
+	min-height : auto;
 }
+
 #watchlist_table>tbody, #pricealert_table>tbody {
 	min-height: 300px;
 }
@@ -2381,7 +2357,8 @@ button {
 	padding: 15px 0;
 }
 
-#pricing_bank_form {
+#pricing_bank_form,
+#pricing_bank_form_review {
 	display: none;
 	background-color: #fff;
 	margin: 0 15px;
@@ -2416,7 +2393,22 @@ button {
 	font-size: 13px;
 }
 
-#pricing_bank_form .pricing_bank_form_btn a {
+#pricing_bank_form .pricing_cancel_btn,
+#pricing_bank_form_review .pricing_cancel_btn  {
+	float: left;
+}
+
+#pricing_bank_form .pricing_review_btn,
+#pricing_bank_form_review .pricing_submit_btn {
+	float: right;
+}
+
+#pricing_bank_form_review .pricing_bank_form_btn {
+	margin-top: 50px;
+}
+
+#pricing .pricing_bank_form_btn a,
+#pricing .pricing_bank_form_btn button {
 	display: block;
 	text-align: center;
 	color: #fff;
@@ -2424,9 +2416,15 @@ button {
 	background-color: #0099cc;
 	padding: 10px;
 	border-radius: 5px;
+	width: 49%;
 }
 
-#pricing_bank_form .pricing_bank_form_btn a:hover {
+#pricing .pricing_bank_form_btn button {
+	padding: 8px;
+}
+
+#pricing .pricing_bank_form_btn a:hover,
+#pricing .pricing_bank_form_btn button:hover {
 	background-color: #414b4f;
 }
 
@@ -2437,6 +2435,35 @@ button {
     margin: 0 15px;
     padding: 15px 0;
     min-height: 200px;
+}
+
+#user_message_modal .modal-content {
+	padding: 0;
+	border: 0;
+}
+
+
+
+#user_message_modal .modal-content .modal-body p {
+	font-size: 15px;
+}
+
+#user_message_modal .modal-footer {
+	border-top: 0;
+}
+
+#user_message_modal .modal-dialog .btn {
+	background-color: #0099cc;
+	border: 0;
+}
+
+
+#user_message_modal .modal-dialog .btn:hover {
+	background-color: #414b4f;
+}
+
+.ui-widget.ui-widget-content {
+	width: auto;
 }
 
 #steps_update {

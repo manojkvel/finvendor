@@ -279,7 +279,9 @@ function loginSubmit(changePassword) {
 
 			if(response.code == 'lgn-001') {
 				var userDetails = {
-					"subscriptionType": response.data[0].subscriptionType
+					"data" : {
+	                    "subscriptionType": response.data[0].subscriptionType
+	                }
 				}
 				window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
 

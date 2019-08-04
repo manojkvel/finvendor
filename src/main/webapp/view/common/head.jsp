@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" />
 <!--<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.bxslider.css" />-->
 <!--<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/superfish.css" />-->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" />
+<!--<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery-ui.css" />-->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/custom-style.css" />
 <!--<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css">-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tab.css" rel="stylesheet"/>

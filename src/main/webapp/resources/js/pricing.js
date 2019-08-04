@@ -22,15 +22,13 @@ jQuery(document).ready(function() {
             isProgressLoader(true);
 
             classRef.getUserSubscriptionApi(classRef.userId).then(function(response){
-                classRef.showDefaultPricingScreen();
                 classRef.setUserSubscriptionDetails(response);
-                $("#pricing button").on('click', {this: classRef}, classRef.checkForPlan);
-                $("#pricing_bank_form .pricing_bank_form_btn a").on('click', {this: classRef}, classRef.validateBankForm);
-                $("#pricing #pricing_account_info .pricing_form_btn").on('click', {this: classRef}, classRef.checkForBankForm)
+                classRef.showDefaultPricingScreen();
+                $("#pricing button").off().on('click', {this: classRef}, classRef.checkForPlan);
             }, function(error) {
+                classRef.showDefaultPricingScreen();
+                $("#pricing button").off().on('click', {this: classRef}, classRef.checkForPlan);
             });
-
-            classRef.showDefaultPricingScreen();
         },
 
         checkForPlan : function(event) {
@@ -55,6 +53,7 @@ jQuery(document).ready(function() {
                 $("#steps_update").show();
                 console.log($("#steps_update #prev").is(':visible'));
                 $("#steps_update #prev").off().on('click', classRef.goBack);
+                $("#pricing #pricing_account_info .pricing_form_btn").off().on('click', {this: classRef}, classRef.checkForBankForm);
             } else {
                 inner_login('view/pricing.jsp');
             }
@@ -70,6 +69,10 @@ jQuery(document).ready(function() {
                 $("#pricing_account_info").show();
                 $("#steps_update span").text("Step 1 of 3");
                 $("#pricing_bank_form").hide();
+            } else if($("#pricing_bank_form_review").is(':visible')) {
+                $("#pricing_bank_form").show();
+                $("#steps_update span").text("Step 2 of 3");
+                $("#pricing_bank_form_review").hide();
             }
 
         },
@@ -83,10 +86,18 @@ jQuery(document).ready(function() {
                 $("#pricing_account_info").hide();
                 $("#pricing_bank_form").show();
                 $("#bank_form").show();
+
+
+
+                $("#bank_form").trigger("reset");
+                $("#pricing_bank_form #bank_form input").removeClass("error_field");
+
                 $("#pricing_bank_form #subscriptionType").val(pricingObj.selectedPlanName);
                 $("#amountTransferred").val(pricingObj.selectedPlanAmount);
                 $("#steps_update span").text("Step 2 of 3");
                 $("#steps_update").show();
+                $("#pricing_bank_form .pricing_bank_form_btn .pricing_cancel_btn").off().on('click', {this: classRef}, classRef.goBack);
+                $("#pricing_bank_form .pricing_bank_form_btn .pricing_review_btn").off().on('click', {this: classRef}, classRef.validateBankForm);
             } else {
                 inner_login('view/pricing.jsp');
             }
@@ -148,46 +159,80 @@ jQuery(document).ready(function() {
 
             if(userId != '' && subscriptionType != '' && paymentMode != '' && transactionDate != ''
                 && transactionRefNumber != '' && bankName != '' && bankHolderName != '') {
+                classRef.bankFormData.userId = userId;
                 classRef.bankFormData.subscriptionType = subscriptionType;
                 classRef.bankFormData.paymentMode = paymentMode;
-
-                classRef.bankFormData.transactionDate = moment(transactionDate).toDate().getTime();
+                classRef.bankFormData.transactionDate = new Date(transactionDate).getTime();
                 classRef.bankFormData.transactionRefNumber = transactionRefNumber;
                 classRef.bankFormData.amountTransferred = Number(amountTransferred);
                 classRef.bankFormData.bankName = bankName;
                 classRef.bankFormData.bankHolderName = bankHolderName;
                 classRef.bankFormData.transactionVerified = false;
 
-                classRef.postBankFormApi(userId).then(function(response) {
-                    var response = JSON.parse(response);
 
-                    window.scrollTo(0, 0);
 
-                    var userDetails = {
-                        "data" :{
-                            "subscriptionType": subscriptionType
-                        }
+                var userDetails = {
+                    "data" : {
+                        "userId" : userId,
+                        "subscriptionType": subscriptionType,
+                        "paymentMode" : paymentMode,
+                        "transactionDate" : transactionDate,
+                        "transactionRefNumber" : transactionRefNumber,
+                        "amountTransferred" : amountTransferred,
+                        "bankName" : bankName,
+                        "bankHolderName" : bankHolderName
                     }
-                    classRef.setUserSubscriptionDetails(userDetails);
+                }
 
-                    $("#pricing_bank_form").hide();
-                    $("#steps_update span").text("Step 3 of 3");
-                    $("#pricing_bank_form_result").show();
-                    $("#steps_update a").hide();
-                    $("#pricing_bank_form_result p").text(response.message);
-                }, function(error) {
-                    console.log("Error in bank form");
-                });
+                
+                $("#review_user_id").text(userId);
+                $("#review_subscriptionType").text(subscriptionType);
+                $("#review_paymentMode").text(paymentMode);
+                $("#review_transactionDate").text(transactionDate);
+                $("#review_transactionRefNumber").text(transactionRefNumber);
+                $("#review_amountTransferred").text(amountTransferred);
+                $("#review_bankName").text(bankName);
+                $("#review_bankHolderName").text(bankHolderName);
+
+                $("#pricing_bank_form").hide();
+                $("#steps_update span").text("Step 3 of 3");
+                $("#pricing_bank_form_review").show();
+
+                $("#pricing_bank_form_review .pricing_bank_form_btn .pricing_cancel_btn").off().on('click', {this: classRef}, classRef.goBack);
+                $("#pricing_bank_form_review .pricing_bank_form_btn .pricing_submit_btn").off().on('click', {this: classRef, userDetails: userDetails}, classRef.reviewBankForm);
             }
+        },
+
+        reviewBankForm: function(args) {
+            var classRef = args.data.this;
+            var userDetails = args.data.userDetails;
+            
+            classRef.postBankFormApi(userId).then(function(response) {
+                var response = JSON.parse(response);
+
+                window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+                window.scrollTo(0, 0);
+
+                //$("#pricing_bank_form_review").hide();
+                //$("#steps_update span").text("Step 4 of 4");
+                //$("#pricing_bank_form_result").show();
+                //$("#steps_update a").hide();
+                $("#user_message_modal .modal-content p").html("<span>" + response.message + "</span>");
+            }, function(error) {
+                console.log("Error in bank form");
+                var error = JSON.parse(error);
+                $("#user_message_modal .modal-content p").html("<span class='danger'>" + error.message + "</span>");
+            });
         },
 
         /**
         * Function to start async call to get filter data.
         */
-        postBankFormApi : function(userId) {
+        postBankFormApi : function() {
             var classRef = this;
 
-            var url = "/api/users/" + userId + "/subscriptions";
+            var url = "/api/users/" + classRef.bankFormData.userId + "/subscriptions";
             return new Promise(function(resolve, reject) {
                 var httpRequest = new XMLHttpRequest({
                     mozSystem: true
@@ -238,16 +283,16 @@ jQuery(document).ready(function() {
                             if (httpRequest.status === 200) {
                                 resolve(httpRequest.response);
                             } else {
-                                //console.log(httpRequest.status + httpRequest.responseText);
-                                reject(httpRequest.responseText);
+                                reject(false);
                             }
                         } else {
+                            
                         }
                     };
 
                     httpRequest.send();
                 } else {
-                    classRef.showDefaultPricingScreen();
+                    reject(false)
                 }
             });
         },
@@ -258,11 +303,14 @@ jQuery(document).ready(function() {
                 var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
                 if(userDetails != undefined) {
                     
-                    if(userDetails.subscriptionType == "SAGE") {
+                    if(userDetails.data.subscriptionType == "SAGE") {
                         $("#pricing #sage_investors .btnSubscribe").hide(); 
                         $("#pricing #smart_investors .btnSubscribe").hide();
-                    } else if(userDetails.subscriptionType == "SMART") { 
+                    } else if(userDetails.data.subscriptionType == "SMART") { 
                         $("#pricing #smart_investors .btnSubscribe").hide();
+                        $("#pricing #sage_investors .btnSubscribe").show();
+                    } else if(userDetails.data.subscriptionType == "FREE") {
+                        $("#pricing #smart_investors .btnSubscribe").show();
                         $("#pricing #sage_investors .btnSubscribe").show();
                     } else {
                         $("#pricing #general_investors .btnSubscribe").hide();
@@ -285,7 +333,9 @@ jQuery(document).ready(function() {
             }
 
             var userDetails = {
-                "subscriptionType": response.data.subscriptionType
+                "data" : {
+                    "subscriptionType": response.data.subscriptionType
+                }
             }
             window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
 
@@ -294,4 +344,8 @@ jQuery(document).ready(function() {
     };
 
     pricingObj.init();
+
+    $(".modal").on("hidden.bs.modal", function () {
+        window.location = "/view/pricing.jsp";
+    });
 });

@@ -266,7 +266,7 @@
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-6">
-						<div id="bank_form">
+						<form id="bank_form" name="bank_form">
 							<ul>
 								<li>
 									<label>Finvendor user ID <sup>*</sup></label>
@@ -313,7 +313,66 @@
 								</li>
 								<li>
 									<div class="pricing_bank_form_btn">
-										<a href="javascript:void(0);">Submit</a>
+										<a class="pricing_cancel_btn" href="javascript:void(0);">Cancel</a>
+										<a class="pricing_review_btn" href="javascript:void(0);">Review</a>
+									</div>
+								</li>
+							</ul>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div id="pricing_bank_form_review">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6">
+						<div class="pricing_bank_content">
+							<p><strong>Please review bank form to complete the Subscription step:</strong></p>
+							<img src="${pageContext.request.contextPath}/resources/images/pricing_bank_form.png" alt="" />
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6">
+						<div id="bank_form_review">
+							<ul>
+								<li>
+									<label>Finvendor user ID <sup>*</sup></label>
+									<p id="review_user_id"></p>
+								</li>
+
+								<li>
+									<label class="default_select">Subscription Type</label>
+									<p id="review_subscriptionType"></p>
+								</li>
+
+								<li>
+									<label class="default_select">Mode of payment</label>
+									<p id="review_paymentMode"></p>
+								</li>
+
+								<li>
+									<label>Transaction Date <sup>*</sup></label>
+									<p id="review_transactionDate"></p>
+								</li>
+								<li>
+									<label>Transaction Reference Number <sup>*</sup></label>
+									<p id="review_transactionRefNumber"></p>
+								</li>
+								<li>
+									<label>Amount Transferred <sup>*</sup></label>
+									<p id="review_amountTransferred"></p>
+								</li>
+								<li>
+									<label>Bank Name <sup>*</sup></label>
+									<p id="review_bankName"></p>
+								</li>
+								<li>
+									<label>Bank Holder Name <sup>*</sup></label>
+									<p id="review_bankHolderName"></p>
+								</li>
+								<li>
+									<div class="pricing_bank_form_btn">
+										<a class="pricing_cancel_btn" href="javascript:void(0);">Cancel</a>
+										<button type="button" class="btn btn-info btn-lg pricing_submit_btn" data-toggle="modal" data-target="#user_message_modal">Submit</button>
 									</div>
 								</li>
 							</ul>
@@ -334,10 +393,33 @@
 	</div>
 	<jsp:include page="login.jsp"></jsp:include>
 	<jsp:include page="common/footer.jsp"></jsp:include>
+
+	<!-- Modal -->
+
+	  <div class="modal fade" id="user_message_modal" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+	          <h4 class="modal-title">Pricing</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p></p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+	  </div>
 	<script>
     	$( function() {
     		$( "#transactionDate" ).datepicker({
-    			dateFormat: 'dd/mm/yy'
+    			dateFormat: 'dd/mm/yy',
+    			maxDate: "0D"
     		});
     	} );
     </script>
