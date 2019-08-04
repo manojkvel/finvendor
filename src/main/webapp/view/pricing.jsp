@@ -283,15 +283,6 @@
 								</li>
 
 								<li>
-									<label class="default_select">Mode of payment</label>
-									<select class="selectpicker show-tick" id="paymentMode" name="paymentMode">
-										<option selected="selected">NEFT/RTGS/IMPS</option>
-										<!--<option>Cheque</option>
-										<option>Debit/Credit Card</option>-->
-									</select>
-								</li>
-
-								<li>
 									<label>Transaction Date <sup>*</sup></label>
 									<input type="text" id="transactionDate" name="transactionDate" required />
 								</li>
@@ -311,6 +302,16 @@
 									<label>Bank Holder Name <sup>*</sup></label>
 									<input type="text" name="bankHolderName" id="bankHolderName" required />
 								</li>
+
+								<li id="select_paymentMode">
+									<label class="default_select">Mode of payment</label>
+									<select class="selectpicker show-tick" id="paymentMode" name="paymentMode">
+										<option selected="selected">NEFT/RTGS/IMPS</option>
+										<!--<option>Cheque</option>
+										<option>Debit/Credit Card</option>-->
+									</select>
+								</li>
+
 								<li>
 									<div class="pricing_bank_form_btn">
 										<a class="pricing_cancel_btn" href="javascript:void(0);">Cancel</a>

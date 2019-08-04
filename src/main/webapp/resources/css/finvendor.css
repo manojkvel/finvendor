@@ -2370,8 +2370,33 @@ button {
 	margin: 0;
 }
 
-#pricing_bank_form ul li {
+#pricing_bank_form ul li,
+#pricing_bank_form_review ul li {
 	margin-bottom: 20px;
+	float: left;
+	width: 44%;
+	margin-right: 3%;
+}
+
+#pricing_bank_form ul li:nth-of-type(even),
+#pricing_bank_form_review ul li:nth-of-type(even) {
+	float: right;
+}
+
+#pricing_bank_form ul li#select_paymentMode {
+	margin-top: 10px;
+}
+
+#pricing_bank_form ul li:last-child,
+#pricing_bank_form_review ul li:last-child {
+	width: 100%;
+}
+
+#pricing_bank_form .pricing_bank_content img,
+#pricing_bank_form_review .pricing_bank_content img {
+	margin: 0 auto;
+	height: 300px;
+	display: block;
 }
 
 #pricing_bank_form button {
@@ -2747,6 +2772,17 @@ button {
 	#subscribe .subscription_details {
 		margin-bottom: 20px;
 		min-height: auto;
+	}
+
+	#pricing_bank_form ul li,
+	#pricing_bank_form_review ul li {
+		width: 100%;
+		float: none;
+	}
+
+	#pricing_bank_form ul li:nth-of-type(even),
+	#pricing_bank_form_review ul li:nth-of-type(even) {
+		float: none;
 	}
 }
 
