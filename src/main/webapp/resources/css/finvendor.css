@@ -1335,7 +1335,7 @@ button {
 	background: #fff;
 	margin-bottom: 15px;
 	padding: 15px;
-	min-height: 552px;
+	min-height: 594px;
 	text-align: center;
 }
 
@@ -2466,6 +2466,27 @@ button {
 	width: auto;
 }
 
+#subscribe .subscription_details {
+	background: #fff;
+	min-height: 594px;
+	padding: 20px;
+}
+
+#subscription_type {
+	font-size: 20px;
+	line-height: 35px;
+}
+
+#subscribe .subscription_details button {
+	margin-top: 20px;
+	display: inline-block;
+}
+
+#subscription_type span {
+	color: #0099cc;
+	font-size: 25px;
+}
+
 #steps_update {
 	color: #414b4f;
 	padding: 0 15px 15px;
@@ -2721,6 +2742,11 @@ button {
 
 	#pricing #pricing_plan .content ol li p {
 		margin: 0 0 10px;
+	}
+
+	#subscribe .subscription_details {
+		margin-bottom: 20px;
+		min-height: auto;
 	}
 }
 
