@@ -159,7 +159,7 @@
                                                                             </c:when>
                                                                         </c:choose>
                                                                         <li>
-                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>Subscribe</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>My Subscription</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/view/my-portfolio.jsp" id='my_portfolio'>My Portfolio</a>
@@ -286,7 +286,7 @@
                                                                         </c:when>
                                                                         </c:choose>
                                                                         <li>
-                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>Subscribe</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>My Subscription</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/view/my-portfolio.jsp" id='my_portfolio'>My Portfolio</a>

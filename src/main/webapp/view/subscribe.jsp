@@ -8,7 +8,7 @@
 	var="requestConstants" />
 <html>
 <head>
-<title>Subscribe - Finvendor</title>
+<title>My Subscription - Finvendor</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
 	<meta name="description" content="" />
@@ -19,15 +19,16 @@
 </head>
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
 	<div class="container" id="subscribe">
+		<input type="hidden" name="loggedInUser" value="${sessionScope.loggedInUser.username}" />
 		<div class="inner_breadcrumb">
-			<h5>Subscribe</h5>
+			<h5>My Subscription</h5>
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-9">
-				<div class="default_template">
-					<jsp:include page="common/coming-soon.jsp"></jsp:include>
+				<div class="subscription_details">
+					<div id="subscription_type"></div>
+					<button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#user_message_modal">Click to Upgrade</button>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-4 col-md-3">
@@ -37,5 +38,6 @@
 	</div>
 	<jsp:include page="login.jsp"></jsp:include>
 	<jsp:include page="common/footer.jsp"></jsp:include>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/my_subscription.js"></script>
 </body>
 </html>

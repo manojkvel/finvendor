@@ -260,16 +260,31 @@ function getCompanyWatchList() {
       		return false;
 		}
 
+
 		$(this).marcoPolo({
 			url: '/system/api/homepage',
 			param: 'searchKey',
 			minChars: 2,
 			formatData: function (data) {
-				return data.searchOutput;
+				if(data.stock.length == 0 && data.sector.length == 0) {
+					$("input[name=txtSearchBox]").attr("disabled", "disabled");
+					return;
+				}
+				$("input[name=txtSearchBox]").removeAttr("disabled");
+
+				var myData = data.stock.concat(data.sector);
+
+				return myData;
 			},
+
 			formatItem: function (data, $item) {
+				if(data.companyName == undefined) {
+					return data.sectorSubType + " (" + data.sectorType + ") <span>Sector</span>";
+				}
+
 				return data.companyName + " (" + data.ticker + ")";
 			},
+
 			onSelect: function (data, $item) {
 				if(data.companyName != undefined) {
 					var companyProfileJson = {
@@ -295,6 +310,11 @@ function addToMarketWatchlist() {
 
 	var searchVal = $("#watchlist_search #watchListSearchBox").val();
 	if(searchVal == '') {
+		return false;
+	}
+
+	var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
+	if(companyProfileJson == null) {
 		return false;
 	}
 

@@ -16,58 +16,58 @@
 <%-- <%
 String usernameCheck = "";
 if(SecurityContextHolder.getContext().getAuthentication() != null){
-	usernameCheck = SecurityContextHolder.getContext().getAuthentication().getName();
+    usernameCheck = SecurityContextHolder.getContext().getAuthentication().getName();
 }else{
 }
 %> --%>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
-<script>	
-	$(document).ready(function() {		
-		$(".account").click(function() {
-			var X=$(this).attr('id');
-			if(X==1) {
-				$(".profilepicsubmenu").hide();
-				$(this).attr('id', '0');
-			}else {
-				$(".profilepicsubmenu").show();
-				$(this).attr('id', '1');
-			}
-		});
-			
-		$(".profilepicsubmenu").mouseup(function() {
-				return false
-		});
-			
-		$(".account").mouseup(function() {
-			return false
-		});
-			
-		$(document).mouseup(function() {
-			$(".profilepicsubmenu").hide();
-			$(".account").attr('id', '');
-		});
-	});
+<script>    
+    $(document).ready(function() {      
+        $(".account").click(function() {
+            var X=$(this).attr('id');
+            if(X==1) {
+                $(".profilepicsubmenu").hide();
+                $(this).attr('id', '0');
+            }else {
+                $(".profilepicsubmenu").show();
+                $(this).attr('id', '1');
+            }
+        });
+            
+        $(".profilepicsubmenu").mouseup(function() {
+                return false
+        });
+            
+        $(".account").mouseup(function() {
+            return false
+        });
+            
+        $(document).mouseup(function() {
+            $(".profilepicsubmenu").hide();
+            $(".account").attr('id', '');
+        });
+    });
 </script>
 <header>
-	<div class="container-fluid">
-		<div class="row">
-			
-					<div class="header">
-						<a href="/" onclick="homePage()" class="logo"> <img
-							src="${pageContext.request.contextPath}/resources/images/company-logo-header.jpg"
-							alt="FinVendor" title="FinVendor" onclick="homepage()"
-							align="middle" /> 
-							<span class="hide">Democratizing The World Of Financial Vendors.</span>
-						</a>
-						 <nav>
+    <div class="container-fluid">
+        <div class="row">
+            
+                    <div class="header">
+                        <a href="/" onclick="homePage()" class="logo"> <img
+                            src="${pageContext.request.contextPath}/resources/images/company-logo-header.jpg"
+                            alt="FinVendor" title="FinVendor" onclick="homepage()"
+                            align="middle" /> 
+                            <span class="hide">Democratizing The World Of Financial Vendors.</span>
+                        </a>
+                         <nav>
                                         <div class="header-nav">
-										<div class="pull-left">
+                                        <div class="pull-left">
                                                 <div class="nav-container">
                                                     <div class="nav-srch">
                                                         <div class="nav-srch-cnt ">
 
                                                             <ul class="sf-menu hidden-xs" id="example">
-																<li>
+                                                                <li>
                                                                         <a href="#">Screener</a>
                                                                         <ul>
                                                                             <li>
@@ -150,19 +150,19 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                         <span>${sessionScope.loggedInUser.username}</span>
                                                                     </a>
                                                                     <ul>
-                                                                    		<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
-							                                            </li>
+                                                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+                                                                        </li>
                                                                         <li>
                                                                             <a href="#" id='my_profile'>My Profile</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>Subscribe</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>My Subscription</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/view/my-portfolio.jsp" id='my_portfolio'>My Portfolio</a>
                                                                         </li>
                                                                         <li>
-                                                                        	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                            <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
@@ -217,13 +217,13 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                              </div>
                                                          </div>
                                                      </form>
-			                                    </div>
+                                                </div>
                                                 <div class="clearfix"></div>
                                         </div>
                           </nav>
-					</div>
-		</div>
-	</div>
+                    </div>
+        </div>
+    </div>
 </header>
 
                     <nav class="side-menu">
@@ -238,8 +238,8 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                             <i class="fa fa-chevron-down"></i>
                                         </a>
                                         <ul class="child-main-menu">
-                                        					<li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
-							                                            </li>
+                                                            <li><a href="${pageContext.request.contextPath}/welcometodashboards" id='my_account'>My Dashboard</a>
+                                                                        </li>
                                                                         <li>
                                                                             <a href="#" id='my_profile'>My Profile</a>
                                                                         </li>
@@ -247,13 +247,13 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                             <a href="${pageContext.request.contextPath}/view/my-watchlist.jsp" id='view_my_watchlist'>My Watchlist</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>Subscribe</a>
+                                                                            <a href="${pageContext.request.contextPath}/view/subscribe.jsp" id='my_subscription'>My Subscription</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/view/my-portfolio.jsp" id='my_portfolio'>My Portfolio</a>
                                                                         </li>
                                                                         <li>
-                                                                        	<a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
+                                                                            <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
@@ -356,190 +356,190 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                         });
                     </script>
 
-	<!--  Vendor Dashboard Tabs--- -->
-	
+    <!--  Vendor Dashboard Tabs--- -->
+    
 <div class="inner-breadcrumb">
 <c:if test="${not empty myprofiletab }">
-		  <div class="container" id="vd_breadcrumb">
-			  <c:choose>
-				  <c:when test="${breadcrum eq solution}">
-				    <ul>
-					   <li><a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SOLUTION%>?RaYUnA=${l:encrypt(username)}">Solution</a></li>			      
-					</ul>
-				  </c:when>
-				  <c:when test="${breadcrum eq myoffering}">
-				    		    <ul>
-							      <li><a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>	
-							      <li class="li-spr">></li>		      
-							      <li>As Data Aggregator vendor</li>
-							      <li class="li-spr">></li>		      
-							      <li>Data Dictionary</li>		      
-							    </ul>
-					
-				  </c:when>
-				  <c:otherwise>
-				    		    <ul>
-							      <li><a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>			      
-							      		<li class="li-spr">></li>		      
-							      		<li>Personal Details</li>
-							    </ul>
-					
-				  </c:otherwise>
-			</c:choose>
-	  </div>
-	</c:if> 
+          <div class="container" id="vd_breadcrumb">
+              <c:choose>
+                  <c:when test="${breadcrum eq solution}">
+                    <ul>
+                       <li><a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SOLUTION%>?RaYUnA=${l:encrypt(username)}">Solution</a></li>                
+                    </ul>
+                  </c:when>
+                  <c:when test="${breadcrum eq myoffering}">
+                                <ul>
+                                  <li><a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>   
+                                  <li class="li-spr">></li>           
+                                  <li>As Data Aggregator vendor</li>
+                                  <li class="li-spr">></li>           
+                                  <li>Data Dictionary</li>            
+                                </ul>
+                    
+                  </c:when>
+                  <c:otherwise>
+                                <ul>
+                                  <li><a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>                 
+                                        <li class="li-spr">></li>             
+                                        <li>Personal Details</li>
+                                </ul>
+                    
+                  </c:otherwise>
+            </c:choose>
+      </div>
+    </c:if> 
 </div>
-	
-<!-- 	
+    
+<!--    
 <div class="bread-crumb-contatiner">
-	<div class="container">
-		<c:if test="${not empty myprofiletab }">
-		 <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
-		</c:if>  
-		<c:if test="${not empty myofferingstab }">
-		 <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
-		</c:if>
-		<c:if test="${not empty RFPInbox}">
-		 <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_RFP_INBOX%>?RaYUnA=${l:encrypt(username)}">RFP Inbox</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
-		</c:if>
-		<c:if test="${not empty searchDataBuyers}">
-		 <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER%>?RaYUnA=${l:encrypt(username)}">Search Data-Buyers</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
-		</c:if>
-		
-		<c:if test="${not empty consumerMyProfiletab }">
-		 <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>?RaYVeMu=${l:encrypt(username)}">My Profile</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
-		</c:if>
-		
-		<c:if test="${not empty consumerMyOfferingstab }">
-		 <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_OFFERINGS%>?RaYVeMu=${l:encrypt(username)}">My Offerings</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
-		</c:if>
-		<c:if test="${not empty consumerInviteAnRFP }">
-		 <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Invite An RFP</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
-		</c:if>
-	</div>
+    <div class="container">
+        <c:if test="${not empty myprofiletab }">
+         <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
+        </c:if>  
+        <c:if test="${not empty myofferingstab }">
+         <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
+        </c:if>
+        <c:if test="${not empty RFPInbox}">
+         <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_RFP_INBOX%>?RaYUnA=${l:encrypt(username)}">RFP Inbox</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
+        </c:if>
+        <c:if test="${not empty searchDataBuyers}">
+         <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER%>?RaYUnA=${l:encrypt(username)}">Search Data-Buyers</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
+        </c:if>
+        
+        <c:if test="${not empty consumerMyProfiletab }">
+         <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>?RaYVeMu=${l:encrypt(username)}">My Profile</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
+        </c:if>
+        
+        <c:if test="${not empty consumerMyOfferingstab }">
+         <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_OFFERINGS%>?RaYVeMu=${l:encrypt(username)}">My Offerings</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
+        </c:if>
+        <c:if test="${not empty consumerInviteAnRFP }">
+         <div class="text_area"><div class="text_arw"> <a href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Invite An RFP</a> </div><div class="arw"> <img src="<%=request.getContextPath() %>/resources/images/arw.png"  width="22" height="16" /></div> <div class="text_arw">Information</div></div>
+        </c:if>
+    </div>
 </div>
  -->
 
 <div class="tab-container">
-			<div class="tab-navigation">  
-		 		<ul>
-					<!-- Vendor Dashboard tab's -->
-					<c:if test="${not empty myprofiletab }">
-						<li>
+            <div class="tab-navigation">  
+                <ul>
+                    <!-- Vendor Dashboard tab's -->
+                    <c:if test="${not empty myprofiletab }">
+                        <li>
                             <a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}" id="myProfile" onclick="changeTabMode(this)">
                                 <span>My Profile</span>
                             </a>
                         </li>
-						 <!-- <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SOLUTION%>?RaYUnA=${l:encrypt(username)}" id="solution" onclick="changeTabMode(this)" >Solution</a></li> -->
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}" id="myOfferings" onclick="changeTabMode(this)"><span>My Offerings</span></a></li>
-						<!--<li><a class="#" href="${pageContext.request.contextPath}/vendorMyStats" id="myStats" onclick="changeTabMode(this)" ><span>My Stats</span></a></li>
-						<li><a class="#" href="${pageContext.request.contextPath}/vendorMyBlogs" id="myBlog" onclick="changeTabMode(this)"><span>My Blog</span></a></li>
+                         <!-- <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SOLUTION%>?RaYUnA=${l:encrypt(username)}" id="solution" onclick="changeTabMode(this)" >Solution</a></li> -->
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}" id="myOfferings" onclick="changeTabMode(this)"><span>My Offerings</span></a></li>
+                        <!--<li><a class="#" href="${pageContext.request.contextPath}/vendorMyStats" id="myStats" onclick="changeTabMode(this)" ><span>My Stats</span></a></li>
+                        <li><a class="#" href="${pageContext.request.contextPath}/vendorMyBlogs" id="myBlog" onclick="changeTabMode(this)"><span>My Blog</span></a></li>
                         <li style="display: none;"><a class="#" href="${pageContext.request.contextPath}/vendorMyRFP" id="myRfp" onclick="changeTabMode(this)"><span>My RFP</span></a></li>-->
-					</c:if>
-					<c:if test="${not empty myofferingstab }">
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>
-						<li><a class="#" href="#">My Stats</a></li>
-						<li><a class="#" href="#">My Blog</a></li>
-					</c:if>
-					<c:if test="${not empty RFPInbox}">
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_RFP_INBOX%>?RaYUnA=${l:encrypt(username)}">RFP Inbox</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>
-						<li><a class="#" href="#">My Stats</a></li>
-						<li><a class="#" href="#">My Blog</a></li>
-					</c:if>
-					<c:if test="${not empty searchDataBuyers}">
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER%>?RaYUnA=${l:encrypt(username)}">Search Data-Buyers</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>
-						<li><a class="#" href="#">My Stats</a></li>
-						<li><a class="#" href="#">My Blog</a></li>
-					</c:if>
-			<!-- Consumer Dashboard tab's -->
-			
-					<c:if test="${not empty consumerMyProfiletab }">
-						 <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>?RaYVeMu=${l:encrypt(username)}">My profile</a></li>
-						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_OFFERINGS%>?RaYVeMu=${l:encrypt(username)}">My Subscription</a></li>
-						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Invite an RFP</a></li>
-						 <li><a class="#" href="#">Search vendors</a></li>
-						 <li><a class="#" href="#">Newsletters & Alerts</a></li>
-						 <li><a class="#" href="#">My Blog</a></li>
-						 <li><a class="#" href="#">My History</a></li>
-						 <li><a class="#" href="#">My Statistics</a></li>
-						 <li><a class="#" href="#">Invite Your team</a></li>
-					</c:if>
-					<c:if test="${not empty consumerMyOfferingstab }">
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>?RaYVeMu=${l:encrypt(username)}">My profile</a></li>
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_OFFERINGS%>?RaYVeMu=${l:encrypt(username)}">My Subscription</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Invite an RFP</a></li>
-						<li><a class="#" href="#">Search vendors</a></li>
-						<li><a class="#" href="#">Newsletters & Alerts</a></li>
-						<li><a class="#" href="#">My Blog</a></li>
-						<li><a class="#" href="#">My History</a></li>
-						<li><a class="#" href="#">My Statistics</a></li>
-						<li><a class="#" href="#">Invite Your team</a></li>
-					</c:if>
-					<c:if test="${not empty consumerInviteAnRFP }">
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>?RaYVeMu=${l:encrypt(username)}">My profile</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_OFFERINGS%>?RaYVeMu=${l:encrypt(username)}">My Subscription</a></li>
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Invite an RFP</a></li>
-						<li><a class="#" href="#">Search vendors</a></li>
-						<li><a class="#" href="#">Newsletters & Alerts</a></li>
-						<li><a class="#" href="#">My Blog</a></li>
-						<li><a class="#" href="#">My History</a></li>
-						<li><a class="#" href="#">My Statistics</a></li>
-						<li><a class="#" href="#">Invite Your team</a></li>
-					</c:if>
-					<c:if test="${not empty consumerInviteAnRFP && not empty consumermarketdataneedsInviteAnRFP }">
-						<br/><br/>
-						 <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MARKET_DATANEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Market Data Needs</a></li>
-						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_TRADING_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Trading Application Needs</a></li>
-						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_ANALYTICS_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Analytics Application Needs</a></li>
-						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_RESEARCG_REPORT_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Research Report Needs</a></li>
-					</c:if>
-		   
-					<c:if test="${not empty consumerInviteAnRFP && not empty consumertradingapplicationInviteAnRFP }">
-						<br/><br/>
-						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MARKET_DATANEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Market Data Needs</a></li>
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_TRADING_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Trading Application Needs</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_ANALYTICS_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Analytics Application Needs</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_RESEARCG_REPORT_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Research Report Needs</a></li>
-					</c:if>
-		   
-					<c:if test="${not empty consumerInviteAnRFP && not empty consumeranalyticsapplicationInviteAnRFP }">
-						<br/><br/>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MARKET_DATANEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Market Data Needs</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_TRADING_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Trading Application Needs</a></li>
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_ANALYTICS_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Analytics Application Needs</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_RESEARCG_REPORT_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Research Report Needs</a></li>
-					</c:if>
-					
-					<c:if test="${not empty consumerInviteAnRFP && not empty consumerresearchreportInviteAnRFP }">
-						<br/><br/>
-						 <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MARKET_DATANEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Market Data Needs</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_TRADING_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Trading Application Needs</a></li>
-						<li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_ANALYTICS_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Analytics Application Needs</a></li>
-						<li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_RESEARCG_REPORT_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Research Report Needs</a></li>
-					</c:if>
-				</ul>
-			</div> 
+                    </c:if>
+                    <c:if test="${not empty myofferingstab }">
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>
+                        <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>
+                        <li><a class="#" href="#">My Stats</a></li>
+                        <li><a class="#" href="#">My Blog</a></li>
+                    </c:if>
+                    <c:if test="${not empty RFPInbox}">
+                        <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_RFP_INBOX%>?RaYUnA=${l:encrypt(username)}">RFP Inbox</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>
+                        <li><a class="#" href="#">My Stats</a></li>
+                        <li><a class="#" href="#">My Blog</a></li>
+                    </c:if>
+                    <c:if test="${not empty searchDataBuyers}">
+                        <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_SEARCH_DATABUYER%>?RaYUnA=${l:encrypt(username)}">Search Data-Buyers</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_PROFILE%>?RaYUnA=${l:encrypt(username)}">My Profile</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Vendor.VENDOR_MY_OFFERINGS%>?RaYUnA=${l:encrypt(username)}">My Offerings</a></li>
+                        <li><a class="#" href="#">My Stats</a></li>
+                        <li><a class="#" href="#">My Blog</a></li>
+                    </c:if>
+            <!-- Consumer Dashboard tab's -->
+            
+                    <c:if test="${not empty consumerMyProfiletab }">
+                         <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>?RaYVeMu=${l:encrypt(username)}">My profile</a></li>
+                         <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_OFFERINGS%>?RaYVeMu=${l:encrypt(username)}">My Subscription</a></li>
+                         <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Invite an RFP</a></li>
+                         <li><a class="#" href="#">Search vendors</a></li>
+                         <li><a class="#" href="#">Newsletters & Alerts</a></li>
+                         <li><a class="#" href="#">My Blog</a></li>
+                         <li><a class="#" href="#">My History</a></li>
+                         <li><a class="#" href="#">My Statistics</a></li>
+                         <li><a class="#" href="#">Invite Your team</a></li>
+                    </c:if>
+                    <c:if test="${not empty consumerMyOfferingstab }">
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>?RaYVeMu=${l:encrypt(username)}">My profile</a></li>
+                        <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_OFFERINGS%>?RaYVeMu=${l:encrypt(username)}">My Subscription</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Invite an RFP</a></li>
+                        <li><a class="#" href="#">Search vendors</a></li>
+                        <li><a class="#" href="#">Newsletters & Alerts</a></li>
+                        <li><a class="#" href="#">My Blog</a></li>
+                        <li><a class="#" href="#">My History</a></li>
+                        <li><a class="#" href="#">My Statistics</a></li>
+                        <li><a class="#" href="#">Invite Your team</a></li>
+                    </c:if>
+                    <c:if test="${not empty consumerInviteAnRFP }">
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_PROFILE%>?RaYVeMu=${l:encrypt(username)}">My profile</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MY_OFFERINGS%>?RaYVeMu=${l:encrypt(username)}">My Subscription</a></li>
+                        <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Invite an RFP</a></li>
+                        <li><a class="#" href="#">Search vendors</a></li>
+                        <li><a class="#" href="#">Newsletters & Alerts</a></li>
+                        <li><a class="#" href="#">My Blog</a></li>
+                        <li><a class="#" href="#">My History</a></li>
+                        <li><a class="#" href="#">My Statistics</a></li>
+                        <li><a class="#" href="#">Invite Your team</a></li>
+                    </c:if>
+                    <c:if test="${not empty consumerInviteAnRFP && not empty consumermarketdataneedsInviteAnRFP }">
+                        <br/><br/>
+                         <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MARKET_DATANEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Market Data Needs</a></li>
+                         <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_TRADING_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Trading Application Needs</a></li>
+                         <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_ANALYTICS_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Analytics Application Needs</a></li>
+                         <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_RESEARCG_REPORT_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Research Report Needs</a></li>
+                    </c:if>
+           
+                    <c:if test="${not empty consumerInviteAnRFP && not empty consumertradingapplicationInviteAnRFP }">
+                        <br/><br/>
+                         <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MARKET_DATANEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Market Data Needs</a></li>
+                        <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_TRADING_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Trading Application Needs</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_ANALYTICS_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Analytics Application Needs</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_RESEARCG_REPORT_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Research Report Needs</a></li>
+                    </c:if>
+           
+                    <c:if test="${not empty consumerInviteAnRFP && not empty consumeranalyticsapplicationInviteAnRFP }">
+                        <br/><br/>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MARKET_DATANEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Market Data Needs</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_TRADING_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Trading Application Needs</a></li>
+                        <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_ANALYTICS_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Analytics Application Needs</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_RESEARCG_REPORT_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Research Report Needs</a></li>
+                    </c:if>
+                    
+                    <c:if test="${not empty consumerInviteAnRFP && not empty consumerresearchreportInviteAnRFP }">
+                        <br/><br/>
+                         <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_MARKET_DATANEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Market Data Needs</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_TRADING_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}">Trading Application Needs</a></li>
+                        <li><a class="#" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_ANALYTICS_APPLICATION_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Analytics Application Needs</a></li>
+                        <li><a class="active" href="<%=request.getContextPath()%>/<%=RequestConstans.Consumer.CONSUMER_RESEARCG_REPORT_NEEDS_INVITE_AN_RFP%>?RaYVeMu=${l:encrypt(username)}" onclick="consumerInviteRFPModes('${consumerinviteanrfpmarketdataneeds}');">Research Report Needs</a></li>
+                    </c:if>
+                </ul>
+            </div> 
 
 </div>
-	<script type="text/javascript">
+    <script type="text/javascript">
   function userCheck(checktype){
-		 if(checktype.match('logout') && checktype != ''){
-			 window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.LOGOUT%>";
-		 }else{
-			 window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.FORGOT_PASSWORD%>"; 
-		 }
-	} 
+         if(checktype.match('logout') && checktype != ''){
+             window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.LOGOUT%>";
+         }else{
+             window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.FORGOT_PASSWORD%>"; 
+         }
+    } 
   function homePage(){
-	  window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.MY_HOME_PAGE%>?RaYUnA=${l:encrypt(username)}";
+      window.location.href  = "<%= request.getContextPath()%>/<%=RequestConstans.Login.MY_HOME_PAGE%>?RaYUnA=${l:encrypt(username)}";
   }
 
   
   
-	</script>
+    </script>
 </body>
 </html>
