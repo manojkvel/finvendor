@@ -93,26 +93,16 @@ public class MarketPersistController {
 
     /**
      * Persist Nifty Indices Data from Nifty Site to finvendor db
+     * We download file using curl command in prod in path /home/finvendo/tmp/index_price.csv
      */
     @GetMapping(value = "/persist/nifty")
     public ResponseEntity<?> persistNiftyIndices() {
-        String niftyIndicesPriceUrl = getNiftyIndicesPriceUrl();
         try {
-            logger.info("persistNiftyIndices-> niftyIndicesPriceUrl:{}", niftyIndicesPriceUrl);
-            String toPath = finvendorProperties.getProperty("finvendo_tmp_path");
-
-            //Step-1 Upload to server
-            String filePath = niftyIndicesFileUploadService.upload(niftyIndicesPriceUrl, toPath);
-
-            //Step-2 Persist To db
-            long persistCount = (long) this.niftyIndicesFilePersist.persist(filePath);
+            //Persist To db
+            long persistCount = (long) this.niftyIndicesFilePersist.persist("/home/finvendo/tmp/index_price.csv");
             String indexPersistedMsg = "Total " + persistCount + " NIFTY Indices persisted into finvendor database successfully ";
             logger.info(indexPersistedMsg);
             return new ResponseEntity<>(indexPersistedMsg, HttpStatus.OK);
-        } catch (FileUploadException e) {
-            logger.error(">>>>>>>>> Nifty Indices Price Url: {} is not accessible", niftyIndicesPriceUrl);
-            sendMailWhenURLInvalid(niftyIndicesPriceUrl);
-            return ErrorUtil.getError(NIFTY_INDICES_PERSIST.getCode(), NIFTY_INDICES_PERSIST.getUserMessage(), e);
         } catch (Exception e) {
             ErrorUtil.logError("Error has occurred while persist Nifty Indices from finvendor tmp path, error - ", e);
             return ErrorUtil.getError(NIFTY_INDICES_PERSIST.getCode(), NIFTY_INDICES_PERSIST.getUserMessage(), e);
@@ -159,15 +149,5 @@ public class MarketPersistController {
         bhavCopyPriceUrl = StringUtils.replace(bhavCopyPriceUrl, "$MON", threeLetterMonthName);
         bhavCopyPriceUrl = StringUtils.replace(bhavCopyPriceUrl, "$YEAR", year);
         return bhavCopyPriceUrl;
-    }
-
-    private String getNiftyIndicesPriceUrl() {
-        String niftyIndicesSourceUrl = finvendorProperties.getProperty("nifty_indices_source_path");
-        String currentDay = DateUtils.getDayNumber();
-        String currentMonth = DateUtils.getCurrentMonthDigit();
-        String currentYear = DateUtils.getCurrentYear();
-        String dateForUrl = currentDay + currentMonth + currentYear;
-        niftyIndicesSourceUrl = StringUtils.replace(niftyIndicesSourceUrl, "DATE", dateForUrl);
-        return niftyIndicesSourceUrl;
     }
 }
