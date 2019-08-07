@@ -654,6 +654,7 @@ table {
 table>thead>tr>th {
 	min-height: 40px;
 	height: 40px;
+	line-height: 40px;
 	font-weight: 500;
 	background-color: #2f889a;
 	color: #FFFFFF;
@@ -713,6 +714,10 @@ table thead th p {
 	line-height: 18px;
 }
 
+table>thead>tr>th>p {
+	line-height: unset;
+}
+
 table .large_font a {
 	font-size: 16px;
 }
@@ -723,6 +728,13 @@ table .small_font a {
 
 table .normal_font p {
 	font-weight: normal;
+}
+
+#watchlist_table input[type='checkbox'], 
+#pricealert_table input[type='checkbox'],
+#user_subscriptions_table input[type='checkbox'] {
+	position: relative;
+    top: 6px;
 }
 
 #financials_content table th, #financials_content table tr td:first-child
@@ -813,12 +825,15 @@ table .normal_font p {
 
 #watchlist_table > thead > tr > th,
 #pricealert_table > thead > tr > th,
+#user_subscriptions_table >thead > tr > th
 {
 	height : auto;
 	min-height : auto;
 }
 
-#watchlist_table>tbody, #pricealert_table>tbody {
+#watchlist_table>tbody, 
+#pricealert_table>tbody,
+#user_subscriptions_table > tbody {
 	min-height: 300px;
 }
 
@@ -1007,11 +1022,15 @@ table .normal_font p {
 	display: none;
 }
 
-.watchlist_header ul, .pricealert_header ul {
+.watchlist_header ul, 
+.pricealert_header ul, 
+.subscriptions_header ul {
 	float: right;
 }
 
-.watchlist_header ul li, .pricealert_header ul li {
+.watchlist_header ul li, 
+.pricealert_header ul li, 
+.subscriptions_header ul li {
 	float: left;
 	display: inline;
 }
@@ -1020,17 +1039,23 @@ button {
 	outline: none;
 }
 
-.watchlist_header button, .pricealert_header button {
+.watchlist_header button, 
+.pricealert_header button, 
+.subscriptions_header button {
 	border: 0;
 	background: transparent;
 }
 
-.watchlist_header button[disabled], .pricealert_header button[disabled]
+.watchlist_header button[disabled], 
+.pricealert_header button[disabled], 
+.subscriptions_header button[disabled]
 	{
 	opacity: 0.5;
 }
 
-.watchlist_header button.fa, .pricealert_header button.fa {
+.watchlist_header button.fa, 
+.pricealert_header button.fa, 
+.subscriptions_header button.fa {
 	font-size: 27px;
 	position: relative;
 	top: 5px;
@@ -1040,20 +1065,27 @@ button {
 	top: 7px;
 }
 
-#watchlist_search ol li {
+#watchlist_search ol li,
+#user_subscriptions_search ol li {
 	float: none;
 	display: block;
 }
 
-#watchlist_container, #pricealert_container {
+#watchlist_container, 
+#pricealert_container,
+#user_subscriptions_container {
 	clear: both;
 }
 
-#watchlist_table, #pricealert_table {
+#watchlist_table, 
+#pricealert_table,
+#user_subscriptions_table {
 	background: #fff;
 }
 
-#watchlist_table i, #pricealert_table i {
+#watchlist_table i, 
+#pricealert_table i,
+#user_subscriptions_table i {
 	position: relative;
 	top: 2px;
 	padding-right: 5px;
@@ -1085,19 +1117,24 @@ button {
 	margin: 0 20px;
 }
 
-#watchlist_search {
+#watchlist_search,
+#user_subscriptions_search {
 	display: block;
 	float: right;
 	position: relative;
 	margin-right: 20px;
 }
 
-#watchlist_search form .input-group-addon>span {
+#watchlist_search form .input-group-addon>span,
+#user_subscriptions_search form .input-group-addon>span {
 	color: #34bf98;
 	font-size: 23px;
 }
 
-#watchlist_search form .input-group-addon input, #watchlist_search form .input-group-addon a
+#watchlist_search form .input-group-addon input, 
+#watchlist_search form .input-group-addon a,
+#user_subscriptions_search form .input-group-addon input,
+#user_subscriptions_search form .input-group-addon a
 	{
 	position: absolute;
 	top: 0;
@@ -1109,7 +1146,8 @@ button {
 	font-size: 0;
 }
 
-#watchlist_search form.open .input-group {
+#watchlist_search form.open .input-group,
+#user_subscriptions_search form.open .input-group {
 	width: 100%;
 	max-width: 100%;
 	padding-left: 0 !important;
@@ -1118,18 +1156,21 @@ button {
 }
 
 @media screen and (min-width: 1200px) {
-	#watchlist_search form .input-group {
+	#watchlist_search form .input-group,
+	#user_subscriptions_search form .input-group {
 		padding-left: 30px;
 	}
 }
 
 @media screen and (min-width: 992px) {
-	#watchlist_search form .input-group {
+	#watchlist_search form .input-group,
+	#user_subscriptions_search form .input-group {
 		max-width: 310px;
 	}
 }
 
-#watchlist_search form .input-group-addon {
+#watchlist_search form .input-group-addon,
+#user_subscriptions_search form .input-group-addon {
 	background-color: white;
 	padding: 0 11px;
 	margin: 0;
@@ -1141,7 +1182,8 @@ button {
 	z-index: 11;
 }
 
-#watchlist_search form .form-control {
+#watchlist_search form .form-control,
+#user_subscriptions_search form .form-control {
 	display: block;
 	width: 100%;
 	height: 34px;
@@ -1169,7 +1211,8 @@ button {
 	/* font-family: "pt_sansregular"; */
 }
 
-#watchlist_search form .input-group {
+#watchlist_search form .input-group,
+#user_subscriptions_search form .input-group {
 	-moz-transition: max-width .3s ease-in-out;
 	-o-transition: max-width .3s ease-in-out;
 	-webkit-transition: max-width .3s ease-in-out;
@@ -1178,11 +1221,13 @@ button {
 	padding-top: 3px;
 }
 
-#watchlist_search form .input-group-addon.close-btn {
+#watchlist_search form .input-group-addon.close-btn,
+#user_subscriptions_search form .input-group-addon.close-btn {
 	display: none;
 }
 
-#watchlist_search form.open .form-control {
+#watchlist_search form.open .form-control,
+#user_subscriptions_search form.open .form-control {
 	padding-left: 0;
 	border-bottom: 3px solid #34bf98;
 	font-size: 18px;
@@ -1191,15 +1236,19 @@ button {
 	box-shadow: none;
 }
 
-#watchlist_search form.open .input-group-addon {
+#watchlist_search form.open .input-group-addon,
+#user_subscriptions_search form.open .input-group-addon {
 	display: none;
 }
 
-#watchlist_search form.open .input-group-addon.close-btn {
+#watchlist_search form.open .input-group-addon.close-btn,
+#user_subscriptions_search form.open .input-group-addon.close-btn {
 	display: table-cell;
 }
 
-#watchlist_table input[type='checkbox'], #pricealert_table input[type='checkbox']
+#watchlist_table input[type='checkbox'], 
+#pricealert_table input[type='checkbox'],
+#user_subscriptions_table input[type='checkbox']
 	{
 	width: 20px;
 	height: 20px;
@@ -2387,6 +2436,11 @@ button {
 	margin-top: 10px;
 }
 
+#pricing_bank_form ul li#select_paymentMode li {
+	width: 100%;
+	margin: 5px 0;
+}
+
 #pricing_bank_form ul li:last-child,
 #pricing_bank_form_review ul li:last-child {
 	width: 100%;
@@ -2608,19 +2662,25 @@ button {
 	.research_report_score_block span {
 		font-size: 15px;
 	}
-	#watchlist_container, #pricealert_container {
+	#watchlist_container, 
+	#pricealert_container,
+	#user_subscriptions_container {
 		overflow: auto;
 	}
-	#watchlist_search {
+	#watchlist_search,
+	#user_subscriptions_search {
 		margin-right: 0;
 	}
-	#watchlist_search {
+	#watchlist_search,
+	#user_subscriptions_search {
 		margin-right: 10px;
 	}
-	#watchlist_search form .form-control {
+	#watchlist_search form .form-control,
+	#user_subscriptions_search form .form-control {
 		padding: 6px;
 	}
-	#watchlist_search form .input-group-addon {
+	#watchlist_search form .input-group-addon,
+	#user_subscriptions_search form .input-group-addon {
 		width: 32px;
 		padding: 0 5px;
 	}

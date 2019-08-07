@@ -306,7 +306,9 @@
 								<li id="select_paymentMode">
 									<label class="default_select">Mode of payment</label>
 									<select class="selectpicker show-tick" id="paymentMode" name="paymentMode">
-										<option selected="selected">NEFT/RTGS/IMPS</option>
+										<option selected="selected">NEFT</option>
+										<option>RTGS</option>
+										<option>IMPS</option>
 										<!--<option>Cheque</option>
 										<option>Debit/Credit Card</option>-->
 									</select>
