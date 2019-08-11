@@ -73,7 +73,7 @@ jQuery(document).ready(function() {
 
             $("#manage_user_subscriptions .deleteBtn").attr("disabled", "disabled");
 
-            $("#manage_user_subscriptions #user_subscriptions_table tbody input[type=checkbox]").on('click', updateUserSubscription);
+            //$("#manage_user_subscriptions #user_subscriptions_table tbody input[type=checkbox]").on('click', updateUserSubscription);
         },
 
         updateUserSubscription: function() {

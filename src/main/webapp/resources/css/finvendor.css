@@ -738,7 +738,7 @@ table .normal_font p {
 }
 
 #financials_content table th, #financials_content table tr td:first-child
-	{
+{
 	font-weight: bold;
 }
 
@@ -750,7 +750,7 @@ table .normal_font p {
 }
 
 #financials_content table th:first-child, #financials_content table td:first-child
-	{
+{
 	text-align: left;
 }
 
@@ -821,6 +821,10 @@ table .normal_font p {
 .ui-datepicker th {
 	background: transparent;
 	color: #000;
+}
+
+tfoot {
+	display: none;
 }
 
 #watchlist_table > thead > tr > th,

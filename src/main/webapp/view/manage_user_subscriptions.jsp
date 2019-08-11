@@ -20,28 +20,21 @@
 			<h5>Manage User Subscriptions</h5>
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-9">
+			<div class="col-xs-12 col-sm-12">
 				<div class="subscriptions_header">
 					<ul>
 						<li>
 							<div id="user_subscriptions_search">
 								<form action="#" class="elastic-search desktop_variant" method="GET">
 									<div class="input-group">
-										<input id="watchListSearchBox" name="watchListSearchBox" class="form-control" autocomplete="off" name="searchKeyword" type="text" placeholder="Search to add company">
-										<div class="input-group-addon" style="width:40px;">
-											<span class="fa fa-plus-circle"><input name="watchListSearchBoxSubmit" class="submit-button" type="submit" data-toggle="modal" data-target="#addToWatchlist" /></span>
-										</div>
-										<div class="input-group-addon close-btn"><span class="glyphicon glyphicon-remove"><a href="javascript:;"></a></span></div>
-									</div>
-									<div class="suggestions" style="display:none" id="tblSuggestions">
-										<div id="tableBodyAutocomplete">
-										</div>
+										<input id="mangerUserSubscriptionsSearchBox" name="mangerUserSubscriptionsSearchBox" class="form-control" autocomplete="off" name="searchKeyword" type="text" placeholder="Search by User Id"  onkeyup="getUserById()">
 									</div>
 								</form>
 							</div>
 						</li>
 						<li>
-							<button type="button" class="fa fa-trash deleteBtn" title="Delete" disabled  data-toggle="modal" data-target="#deleteWatchlist"></button>
+							<button type="button" class="deleteBtn" title="Delete" disabled  data-toggle="modal" data-target="#deleteWatchlist">Approve</button>
+							<button type="button" class="deleteBtn" title="Delete" disabled  data-toggle="modal" data-target="#deleteWatchlist">Reject</button>
 						</li>
 					</ul>
 				</div>
@@ -99,12 +92,19 @@
 						</thead>
 						<tbody>
 						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="9">
+									<p>There is no matching records found.</p>
+								</td>
+							</tr>
+						</tfoot>
 					</table>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-3">
+			<!--<div class="col-xs-12 col-sm-3">
 				<jsp:include page="common/inner_sidebar.jsp"></jsp:include>
-			</div>
+			</div>-->
 		</div>
 	</div>
 
@@ -116,7 +116,7 @@
     
       <div class="alert alert-success alert-dismissible">
       	<button type="button" class="close" data-dismiss="modal">&times;</button>
-      	<span>This alert box could indicate a successful or positive action.</span>
+      	<span></span>
       </div>
       
     </div>
@@ -144,5 +144,28 @@
 	  </div>
 
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/manage_user_subscriptions.js"></script>
+
+	<script type="text/javascript">
+    	function getUserById() {
+    		var input, filter, tbody, tr, td, i;
+		    input = document.getElementById("mangerUserSubscriptionsSearchBox");
+		    filter = input.value.toUpperCase();
+		    tr = jQuery("#user_subscriptions_table tbody tr");
+		    for (i = 0; i < tr.length; i++) {
+		        td = tr[i].getElementsByTagName("td")[0];
+		        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		            tr[i].style.display = "";
+		        } else {
+		            tr[i].style.display = "none";
+		        }
+		    }
+
+		    if(!jQuery("#user_subscriptions_table tbody tr").is(':visible')) {
+		    	$("tfoot").show();
+		    } else {
+		    	$("tfoot").hide();
+		    }
+    	}
+    </script>
 </body>
 </html>
