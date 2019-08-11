@@ -126,9 +126,17 @@ public class SubscriptionService {
         }
     }
 
-    public List<UserPaymentDto> findSubscriptions() throws Exception {
+    public String getSubscriptionsRecordStat(String perPageMaxRecords) throws Exception {
         try {
-            return dao.findAllPayments();
+            return dao.getSubscriptionsRecordStats(perPageMaxRecords);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public List<UserPaymentDto> findSubscriptions(String pageNumber, String perPageMaxRecords) throws Exception {
+        try {
+            return dao.findAllPayments(pageNumber, perPageMaxRecords);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }

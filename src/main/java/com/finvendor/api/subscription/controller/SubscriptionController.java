@@ -121,15 +121,23 @@ public class SubscriptionController {
         return getResponseEntity(apiResponse);
     }
 
+    @GetMapping(value = "/subscriptions/recordstat", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findAllSubscriptionsRecordStats(@RequestParam(value = "perPageMaxRecords") String perPageMaxRecords)
+            throws Exception {
+        String subscriptionsRecordStat = subscriptionService.getSubscriptionsRecordStat(perPageMaxRecords);
+        return new ResponseEntity<>(subscriptionsRecordStat, HttpStatus.OK);
+    }
+
     /**
      * This api is used by admin dashboard to show all payment details so that admin guy will verify
      * user payment
      */
     @GetMapping(value = "/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllSubscriptions() throws Exception {
+    public ResponseEntity<?> findAllSubscriptions(@RequestParam(value = "pageNumber") String pageNumber,
+            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) throws Exception {
         ApiResponse<String, List<UserPaymentDto>> apiResponse;
         List<UserPaymentDto> userPayments;
-        if ((userPayments = subscriptionService.findSubscriptions()) == null) {
+        if ((userPayments = subscriptionService.findSubscriptions(pageNumber, perPageMaxRecords)) == null) {
             apiResponse = buildResponse(FAILED_TO_FIND_SUBSCRIPTION, null, HttpStatus.NO_CONTENT);
         }
         else {

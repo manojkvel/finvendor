@@ -7,11 +7,14 @@ import com.finvendor.api.user.dao.UserDao;
 import com.finvendor.common.commondao.GenericDao;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.enums.ApiMessageEnum;
+import com.finvendor.common.util.CommonCodeUtils;
+import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.subscription.UserPayment;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.util.*;
 
 @Repository
@@ -20,6 +23,8 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
     public static final String USERS = "users";
     private final UserDao userDao;
     private final ICommonDao commonDao;
+//    public static final String FIND_ALL_SUBSCRIPTION_QUERY="select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='PENDING' group by cast(a.amt_transferred as decimal) order by a.username";
+    public static final String FIND_ALL_SUBSCRIPTION_QUERY="select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username group by cast(a.amt_transferred as decimal) order by a.username";
 
     @Autowired
     public SubscriptionDao(ICommonDao commonDao, UserDao userDao) {
@@ -27,12 +32,31 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         this.userDao = userDao;
     }
 
-    public List<UserPaymentDto> findAllPayments() {
+    public String getSubscriptionsRecordStats(String perPageMaxRecords) throws IOException {
+        SQLQuery sqlQuery = commonDao.getNativeQuery(FIND_ALL_SUBSCRIPTION_QUERY, null);
+        List<Object[]> rows = sqlQuery.list();
+
+        int totalRecords = rows.size();
+
+        // Calculate Last page number
+        long lastPageNumber = CommonCodeUtils.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
+
+        // Prepare Json result
+        Map<String, Object> paramsMap = new LinkedHashMap<>();
+        paramsMap.put("firstPageNumber", 1);
+        paramsMap.put("lastPageNumber", lastPageNumber);
+        paramsMap.put("totalRecords", totalRecords);
+
+        return JsonUtil.createJsonFromObject(paramsMap);
+    }
+
+    public List<UserPaymentDto> findAllPayments(String pageNumber, String perPageMaxRecords) {
         try {
             List<UserPaymentDto> paymentDtoList = new ArrayList<>();
-            SQLQuery query1 = commonDao.getNativeQuery(
-                    "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username group by cast(a.amt_transferred as decimal) order by a.username",
-                    null);
+            String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
+            String findAllSubscriptionQuery = FIND_ALL_SUBSCRIPTION_QUERY + applyPagination;
+
+            SQLQuery query1 = commonDao.getNativeQuery(findAllSubscriptionQuery, null);
             List<Object[]> rows = query1.list();
             for (Object[] row : rows) {
                 String userName = row[0] != null ? row[0].toString().trim() : "";
