@@ -6,111 +6,108 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"userName","subscriptionId", "subscriptionType", "transactionRefNumber", "transactionDate", "paymentMode", "amountTransferred",
+@JsonPropertyOrder({"userName","subscriptionDate", "subscriptionType","subscriptionState",
+       "subscriptionStartTimeMs","subscriptionEndTimeMs", "subscriptionRefId",
+        "transactionRefNumber", "transactionDate", "transactionFor",
+        "paymentMode", "amountTransferred",
         "bankName", "bankHolderName", "paymentVerified"})
 public class UserPaymentDto implements Serializable {
-    private String userName;
-    private String subscriptionId;
-    private String subscriptionType;
-    private String transactionRefNumber;
-    private Long transactionDate;
-    private String paymentMode;
-    private Double amountTransferred;
-    private String bankName;
-    private String bankHolderName;
-    private Boolean paymentVerified;
 
-    public UserPaymentDto(String subscriptionId, String subscriptionType, String userName, String transactionRefNumber, String paymentMode,
-                          Long transactionDate, Double amountTransferred, String bankName, String bankHolderName, Boolean paymentVerified) {
-        this.subscriptionId = subscriptionId;
-        this.subscriptionType = subscriptionType;
+    private final String userName;
+    private final long subscriptionDate;
+    private final String subscriptionType;
+    private final String subscriptionState;
+    private final long subscriptionStartTimeMs;
+    private final long subscriptionEndTimeMs;
+    private final String subscriptionRefId;
+    private final String transactionRefNumber;
+    private final long transactionDate;
+    private final String transactionFor;
+    private final String paymentMode;
+    private final double amtTransferred;
+    private final String bankName;
+    private final String bankHolderName;
+    private final String paymentVerified;
+
+    public UserPaymentDto(String userName, long subscriptionDate, String subscriptionType, String subscriptionState,
+            long subscriptionStartTimeMs, long subscriptionEndTimeMs, String subscriptionRefId, String transactionRefNumber,
+            long transactionDate, String transactionFor, String paymentMode, double amtTransferred,
+            String bankName, String bankHolderName, String paymentVerified) {
+
         this.userName = userName;
+        this.subscriptionDate = subscriptionDate;
+        this.subscriptionType = subscriptionType;
+        this.subscriptionState = subscriptionState;
+        this.subscriptionStartTimeMs = subscriptionStartTimeMs;
+        this.subscriptionEndTimeMs = subscriptionEndTimeMs;
+        this.subscriptionRefId = subscriptionRefId;
         this.transactionRefNumber = transactionRefNumber;
-        this.paymentMode = paymentMode;
         this.transactionDate = transactionDate;
-        this.amountTransferred = amountTransferred;
+        this.transactionFor = transactionFor;
+        this.paymentMode = paymentMode;
+        this.amtTransferred = amtTransferred;
         this.bankName = bankName;
         this.bankHolderName = bankHolderName;
         this.paymentVerified = paymentVerified;
-    }
-
-    public String getSubscriptionId() {
-        return subscriptionId;
-    }
-
-    public void setSubscriptionId(String subscriptionId) {
-        this.subscriptionId = subscriptionId;
-    }
-
-    public String getSubscriptionType() {
-        return subscriptionType;
-    }
-
-    public void setSubscriptionType(String subscriptionType) {
-        this.subscriptionType = subscriptionType;
     }
 
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public long getSubscriptionDate() {
+        return subscriptionDate;
+    }
+
+    public String getSubscriptionType() {
+        return subscriptionType;
+    }
+
+    public String getSubscriptionState() {
+        return subscriptionState;
+    }
+
+    public long getSubscriptionStartTimeMs() {
+        return subscriptionStartTimeMs;
+    }
+
+    public long getSubscriptionEndTimeMs() {
+        return subscriptionEndTimeMs;
+    }
+
+    public String getSubscriptionRefId() {
+        return subscriptionRefId;
     }
 
     public String getTransactionRefNumber() {
         return transactionRefNumber;
     }
 
-    public void setTransactionRefNumber(String transactionRefNumber) {
-        this.transactionRefNumber = transactionRefNumber;
+    public long getTransactionDate() {
+        return transactionDate;
+    }
+
+    public String getTransactionFor() {
+        return transactionFor;
     }
 
     public String getPaymentMode() {
         return paymentMode;
     }
 
-    public void setPaymentMode(String paymentMode) {
-        this.paymentMode = paymentMode;
-    }
-
-    public Long getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setTransactionDate(Long transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
-    public Double getAmountTransferred() {
-        return amountTransferred;
-    }
-
-    public void setAmountTransferred(Double amountTransferred) {
-        this.amountTransferred = amountTransferred;
+    public double getAmtTransferred() {
+        return amtTransferred;
     }
 
     public String getBankName() {
         return bankName;
     }
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
     public String getBankHolderName() {
         return bankHolderName;
     }
 
-    public void setBankHolderName(String bankHolderName) {
-        this.bankHolderName = bankHolderName;
-    }
-
-    public Boolean getPaymentVerified() {
+    public String getPaymentVerified() {
         return paymentVerified;
-    }
-
-    public void setPaymentVerified(Boolean paymentVerified) {
-        this.paymentVerified = paymentVerified;
     }
 }

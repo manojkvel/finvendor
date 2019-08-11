@@ -10,13 +10,14 @@ public enum ApiMessageEnum {
     FAILED_TO_SAVE_SUBSCRIPTION("subs-0007","Failed to save user subscriptions - Invalid user"),
     LOGIN_SUCCESS("lgn-0008","Login success"),
 
-    SUBSCRIPTION_ID_NOT_EXIST("subs-0009",""),
+    SUBSCRIPTION_ID_NOT_EXIST("subs-0009","Unable to activate/terminate subscription, Subscription Id does not exist."),
     USER_NOT_EXIST("subs-0010","User does not exist"),
     PAYMENT_ALREADY_VERIFIED("subs-0011","User already paid the subscription amount"),
     FAILED_TO_FIND_USER_SUBSCRIPTIONS("subs-0012","Failed to retrieved user subscriptions - Invalid user"),
     GET_SUBSCRIPTION_TYPE("subs-0013","User subscription type retrieved successfully"),
     DUP_SUBSCRIPTION("subs-0014","User subscription already exist."),
     USER_PROFILE_SUBSCRIPTION("subs-0015","User profile subscription details retrieved successfully."),
+    VERIFICATION_TYPE("subs-0016","Subscription type should be ACTIVE or TERMINATE."),
 
 
 

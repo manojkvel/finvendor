@@ -134,7 +134,7 @@ public class LoginController {
                 }
             }
             List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
-            subscriptionDtoList.add(new SubscriptionDto(user != null ? user.getSubscriptionType() : "N/A", user != null ? user.getSubscriptionStatus() : "N/A"));
+            subscriptionDtoList.add(new SubscriptionDto(user != null ? user.getSubscriptionType() : "N/A", user != null ? user.getSubscriptionState() : "N/A"));
             LoginResponse loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
             return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
         } catch (Exception exp) {

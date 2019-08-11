@@ -11,7 +11,6 @@ import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.FinVendorUser;
-import com.finvendor.model.subscription.UserPayment;
 import com.finvendor.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.List;
 
 import static com.finvendor.common.util.DateUtils.getSubscriptionStartAndEndDateInMillis;
@@ -45,12 +45,13 @@ public class SubscriptionService {
             String refId = dao.savePayment(userName, dto);
 
             if (refId != null) {
-                //Update subscription type
+                //Update subscription type in user table
                 FinVendorUser userDetails = updateUserSubscription(userName, dto.getSubscriptionType());
 
                 //Send Email to user
                 //sentEmail(refId, userDetails);
-            } else {
+            }
+            else {
                 refId = null;
             }
             return refId;
@@ -62,7 +63,7 @@ public class SubscriptionService {
     private void sentEmail(String refId, FinVendorUser userDetails) throws Exception {
         String email = userDetails.getEmail();
         String from = EmailUtil.SALES_EMAIL;
-        String[] to = new String[]{email};
+        String[] to = new String[] { email };
         String subject = prepareSubject(refId);
         String content = prepareContent(refId);
         notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).from(from).build());
@@ -70,14 +71,17 @@ public class SubscriptionService {
 
     private FinVendorUser updateUserSubscription(String userName, String subscriptionType) throws ApplicationException {
         FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
+        //Set subscription type
+        if (existingUser.getSubscriptionDate() == null) {
+            existingUser.setSubscriptionDate(String.valueOf(Calendar.getInstance().getTimeInMillis()));
+        }
+        existingUser.setSubscriptionType(subscriptionType);
+        existingUser.setSubscriptionState("PENDING");
 
         //set subscription time period
         existingUser.setSubscriptionStartTimeInMillis("N/A");
         existingUser.setSubscriptionEndTimeInMillis("N/A");
 
-        //Set subscription type
-        existingUser.setSubscriptionType(subscriptionType);
-        existingUser.setSubscriptionStatus("FALSE");
         userService.updateUserInfo(existingUser);
         return existingUser;
     }
@@ -107,8 +111,13 @@ public class SubscriptionService {
                 existingUser.setSubscriptionStartTimeInMillis(subscriptionStartTimeInMillis);
                 existingUser.setSubscriptionEndTimeInMillis(subscriptionEndTimeInMillis);
 
-                //Set subscription type
-                existingUser.setSubscriptionStatus("TRUE");
+                //Set subscription STATE
+                if (dto.getPaymentVerified()) {
+                    existingUser.setSubscriptionState("ACTIVE");
+                }
+                else {
+                    existingUser.setSubscriptionState("TERMINATE");
+                }
                 userService.saveUserInfo(existingUser);
             }
             return apiMessageEnum;

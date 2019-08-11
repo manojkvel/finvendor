@@ -273,7 +273,7 @@ public class RegistrationController {
         user.setSubscriptionType(SubscriptionTypeEnum.FREE.toString());
         user.setSubscriptionStartTimeInMillis("NA");
         user.setSubscriptionEndTimeInMillis("NA");
-        user.setSubscriptionStatus("TRUE");
+        user.setSubscriptionState("N/A");
 
         boolean isVendor = checkUserTypeFromCompany(companyType);
 
