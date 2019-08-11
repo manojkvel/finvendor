@@ -48,7 +48,7 @@ public class UserController {
             } else {
                 FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
                 UserSubscriptionDto dto = new UserSubscriptionDto(existingUser.getUserName(),
-                        existingUser.getSubscriptionType(), existingUser.getSubscriptionStatus(), existingUser.getSubscriptionStartTimeInMillis(), existingUser.getSubscriptionEndTimeInMillis());
+                        existingUser.getSubscriptionType(), existingUser.getSubscriptionState(), existingUser.getSubscriptionStartTimeInMillis(), existingUser.getSubscriptionEndTimeInMillis());
                 apiResponse = buildResponse(ApiMessageEnum.USER_PROFILE_SUBSCRIPTION, dto, HttpStatus.OK);
             }
         } catch (ApplicationException e) {

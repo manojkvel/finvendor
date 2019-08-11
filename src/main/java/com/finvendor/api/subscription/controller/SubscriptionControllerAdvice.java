@@ -36,7 +36,6 @@ public class SubscriptionControllerAdvice extends ResponseEntityExceptionHandler
         return WebUtils.getConstraintViolationResponseEntity(e);
     }
 
-
     @ExceptionHandler({Exception.class})
     public ResponseEntity<?> handleException(Exception e) {
         ErrorUtil.logError("SUBSCRIPTION Controller Error :", e);

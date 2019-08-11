@@ -40,6 +40,9 @@ public class FinVendorUser implements Serializable {
 	@Column(name="VERIFIED")
 	private String verified;
 
+	@Column(name="subscription_date")
+	private String subscriptionDate;
+
 	@Column(name="subscription_type")
 	private String subscriptionType;
 
@@ -49,8 +52,8 @@ public class FinVendorUser implements Serializable {
 	@Column(name="subscription_end_time_ms")
 	private String subscriptionEndTimeInMillis;
 
-	@Column(name="subscription_status")
-	private String subscriptionStatus;
+	@Column(name="subscription_state")
+	private String subscriptionState;
 
 	@OneToMany(mappedBy="user", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	private Set<UserRole> userRoles = new HashSet<UserRole>();
@@ -182,11 +185,19 @@ public class FinVendorUser implements Serializable {
 		this.subscriptionEndTimeInMillis = subscriptionEndTimeInMillis;
 	}
 
-	public String getSubscriptionStatus() {
-		return subscriptionStatus;
+	public String getSubscriptionState() {
+		return subscriptionState;
 	}
 
-	public void setSubscriptionStatus(String subscriptionStatus) {
-		this.subscriptionStatus = subscriptionStatus;
+	public void setSubscriptionState(String subscriptionState) {
+		this.subscriptionState = subscriptionState;
+	}
+
+	public String getSubscriptionDate() {
+		return subscriptionDate;
+	}
+
+	public void setSubscriptionDate(String subscriptionDate) {
+		this.subscriptionDate = subscriptionDate;
 	}
 }
