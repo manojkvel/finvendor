@@ -4,6 +4,7 @@ import com.finvendor.api.notification.dto.EmailBuilder;
 import com.finvendor.api.notification.service.NotificationService;
 import com.finvendor.api.subscription.dao.SubscriptionDao;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
+import com.finvendor.api.subscription.dto.SubscriptionFilter;
 import com.finvendor.api.subscription.dto.UserPaymentDto;
 import com.finvendor.api.subscription.dto.UserSubscriptionDto;
 import com.finvendor.api.user.service.UserService;
@@ -126,17 +127,18 @@ public class SubscriptionService {
         }
     }
 
-    public String getSubscriptionsRecordStat(String perPageMaxRecords) throws Exception {
+    public String getSubscriptionsRecordStat(String perPageMaxRecords, SubscriptionFilter filter) throws Exception {
         try {
-            return dao.getSubscriptionsRecordStats(perPageMaxRecords);
+            return dao.getSubscriptionsRecordStats(perPageMaxRecords, filter);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
-    public List<UserPaymentDto> findSubscriptions(String pageNumber, String perPageMaxRecords) throws Exception {
+    public List<UserPaymentDto> findSubscriptions(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
+            SubscriptionFilter filter) throws Exception {
         try {
-            return dao.findAllPayments(pageNumber, perPageMaxRecords);
+            return dao.findAllPayments(pageNumber, perPageMaxRecords, sortBy, orderBy, filter);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }

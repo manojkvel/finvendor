@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.validation.ConstraintViolationException;
 
 import static com.finvendor.common.exception.ExceptionEnum.SUBSCRIPTION;
+import static com.finvendor.common.exception.ExceptionEnum.SUBSCRIPTION_VALIDATION_FAILED;
 
 /**
  * @author  ayush
@@ -40,5 +41,12 @@ public class SubscriptionControllerAdvice extends ResponseEntityExceptionHandler
     public ResponseEntity<?> handleException(Exception e) {
         ErrorUtil.logError("SUBSCRIPTION Controller Error :", e);
         return ErrorUtil.getError(SUBSCRIPTION.getCode(), SUBSCRIPTION.getUserMessage(), e);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<?> handleBadRequest(Exception e) {
+        ApiResponse<String,Object> apiResponse = new ApiResponse<>(SUBSCRIPTION_VALIDATION_FAILED.getCode(), SUBSCRIPTION_VALIDATION_FAILED.getUserMessage(),
+                null, HttpStatus.BAD_REQUEST);
+        return WebUtils.getResponseEntity(apiResponse);
     }
 }

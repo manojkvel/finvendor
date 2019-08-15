@@ -1,6 +1,7 @@
 package com.finvendor.api.subscription.dao;
 
 import com.finvendor.api.subscription.dto.SubscriptionDto;
+import com.finvendor.api.subscription.dto.SubscriptionFilter;
 import com.finvendor.api.subscription.dto.UserPaymentDto;
 import com.finvendor.api.subscription.dto.UserSubscriptionDto;
 import com.finvendor.api.user.dao.UserDao;
@@ -11,6 +12,7 @@ import com.finvendor.common.util.CommonCodeUtils;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.subscription.UserPayment;
 import org.hibernate.SQLQuery;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,12 +21,11 @@ import java.util.*;
 
 @Repository
 public class SubscriptionDao extends GenericDao<UserPayment> {
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SubscriptionDao.class.getName());
 
-    public static final String USERS = "users";
+    private static final String USERS = "users";
     private final UserDao userDao;
     private final ICommonDao commonDao;
-//    public static final String FIND_ALL_SUBSCRIPTION_QUERY="select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='PENDING' group by cast(a.amt_transferred as decimal) order by a.username";
-    public static final String FIND_ALL_SUBSCRIPTION_QUERY="select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username group by cast(a.amt_transferred as decimal) order by a.username";
 
     @Autowired
     public SubscriptionDao(ICommonDao commonDao, UserDao userDao) {
@@ -32,8 +33,9 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         this.userDao = userDao;
     }
 
-    public String getSubscriptionsRecordStats(String perPageMaxRecords) throws IOException {
-        SQLQuery sqlQuery = commonDao.getNativeQuery(FIND_ALL_SUBSCRIPTION_QUERY, null);
+    public String getSubscriptionsRecordStats(String perPageMaxRecords, SubscriptionFilter filter) throws IOException {
+        String findAllSubscriptionSql = getFindAllSubscriptionSql(filter);
+        SQLQuery sqlQuery = commonDao.getNativeQuery(findAllSubscriptionSql, null);
         List<Object[]> rows = sqlQuery.list();
 
         int totalRecords = rows.size();
@@ -50,11 +52,15 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         return JsonUtil.createJsonFromObject(paramsMap);
     }
 
-    public List<UserPaymentDto> findAllPayments(String pageNumber, String perPageMaxRecords) {
+    public List<UserPaymentDto> findAllPayments(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
+            SubscriptionFilter filter) {
         try {
+            String finalSql;
+            finalSql = getFindAllSubscriptionSql(filter) + getSortBySql(sortBy, orderBy);
+            LOGGER.info("findAllSubscription - finalSql: {}", finalSql);
             List<UserPaymentDto> paymentDtoList = new ArrayList<>();
             String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
-            String findAllSubscriptionQuery = FIND_ALL_SUBSCRIPTION_QUERY + applyPagination;
+            String findAllSubscriptionQuery = finalSql + applyPagination;
 
             SQLQuery query1 = commonDao.getNativeQuery(findAllSubscriptionQuery, null);
             List<Object[]> rows = query1.list();
@@ -101,6 +107,25 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         } catch (Exception e) {
             throw new RuntimeException("Error has occurred while finding user subscription details.", e);
         }
+    }
+
+    private String getSortBySql(String sortBy, String orderBy) {
+        return "order by " + sortBy + ("desc".equalsIgnoreCase(orderBy) ? " desc" : " asc");
+    }
+
+    private String getFindAllSubscriptionSql(SubscriptionFilter filter) {
+        String finalSql;
+        if (filter != null) {
+            String from = String.valueOf(filter.getFrom());
+            String to = String.valueOf(filter.getTo());
+            finalSql =
+                    "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and (cast(subscription_date as DECIMAL)>="
+                            + from + " and cast(subscription_date as DECIMAL)<=" + to + ") group by cast(a.amt_transferred as decimal)";
+        }
+        else {
+            finalSql = "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username  group by cast(a.amt_transferred as decimal)";
+        }
+        return finalSql;
     }
 
     public ApiMessageEnum updatePayment(SubscriptionDto dto, String subscriptionRefId) {
