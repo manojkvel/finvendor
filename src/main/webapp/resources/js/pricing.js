@@ -13,7 +13,7 @@ jQuery(document).ready(function() {
             this.selectedPlanAmount = 0;
             this.bankFormData = {};
             this.userId = $("input[name='loggedInUser']").val();
-
+            this.isFormSuccess = false;
             this.pricingLookUp();
         },
 
@@ -208,6 +208,8 @@ jQuery(document).ready(function() {
             var userDetails = args.data.userDetails;
             
             classRef.postBankFormApi(userId).then(function(response) {
+                classRef.isFormSuccess = true;
+
                 var response = JSON.parse(response);
 
                 window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -221,7 +223,12 @@ jQuery(document).ready(function() {
                 $("#user_message_modal .modal-content p").html("<span>" + response.message + "</span>");
             }, function(error) {
                 console.log("Error in bank form");
+                classRef.isFormSuccess = false;
+
                 var error = JSON.parse(error);
+                if(error.message === undefined) {
+                    error.message = "There is some error, please try again later";
+                }
                 $("#user_message_modal .modal-content p").html("<span class='danger'>" + error.message + "</span>");
             });
         },
@@ -346,6 +353,8 @@ jQuery(document).ready(function() {
     pricingObj.init();
 
     $(".modal").on("hidden.bs.modal", function () {
-        window.location = "/view/pricing.jsp";
+        if(pricingObj.isFormSuccess) {
+            window.location = "/view/pricing.jsp";
+        }
     });
 });

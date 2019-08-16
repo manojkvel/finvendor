@@ -280,6 +280,7 @@ function loginSubmit(changePassword) {
 			if(response.code == 'lgn-001') {
 				var userDetails = {
 					"data" : {
+	                    "subscriptionStatus": response.data[0].subscriptionStatus,
 	                    "subscriptionType": response.data[0].subscriptionType
 	                }
 				}

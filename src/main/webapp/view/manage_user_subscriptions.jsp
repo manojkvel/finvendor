@@ -32,9 +32,23 @@
 								</form>
 							</div>
 						</li>
-						<li>
+						<!--<li>
 							<button type="button" class="deleteBtn" title="Delete" disabled  data-toggle="modal" data-target="#deleteWatchlist">Approve</button>
 							<button type="button" class="deleteBtn" title="Delete" disabled  data-toggle="modal" data-target="#deleteWatchlist">Reject</button>
+						</li>-->
+						<li>
+							<div class="max_per_page">
+								<span>Records Per Page </span>
+								<select>
+									<option value='5'>5</option>
+									<option value='10' selected>10</option>
+									<option value='30'>30</option>
+									<option value='50'>50</option>
+									<option value='100'>100</option>
+								</select>
+
+								<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+							</div>
 						</li>
 					</ul>
 				</div>
