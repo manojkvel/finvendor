@@ -82,10 +82,10 @@ public class MarketPersistController {
                     HttpStatus.OK);
         } catch (FileUploadException e) {
             logger.error(">>>>>>>>> Bhav Copy Price Url: {} is not accessible", nseBhavCopyPriceUrl);
-            sendMailWhenURLInvalid(nseBhavCopyPriceUrl);
+            //sendMailWhenURLInvalid(nseBhavCopyPriceUrl);
             return ErrorUtil.getError(MARKETS_PERSIST.getCode(), MARKETS_PERSIST.getUserMessage(), e);
         } catch (Exception e) {
-            sendMailWhenURLInvalid(nseBhavCopyPriceUrl);
+            //sendMailWhenURLInvalid(nseBhavCopyPriceUrl);
             ErrorUtil.logError("Error has occurred while persist Bhav Copy from finvendor tmp path, error - ", e);
             return ErrorUtil.getError(MARKETS_PERSIST.getCode(), MARKETS_PERSIST.getUserMessage(), e);
         }

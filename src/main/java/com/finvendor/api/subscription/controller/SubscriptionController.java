@@ -1,9 +1,6 @@
 package com.finvendor.api.subscription.controller;
 
-import com.finvendor.api.subscription.dto.SubscriptionStateDto;
-import com.finvendor.api.subscription.dto.SubscriptionDto;
-import com.finvendor.api.subscription.dto.UserPaymentDto;
-import com.finvendor.api.subscription.dto.UserSubscriptionDto;
+import com.finvendor.api.subscription.dto.*;
 import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
@@ -121,10 +118,11 @@ public class SubscriptionController {
         return getResponseEntity(apiResponse);
     }
 
-    @GetMapping(value = "/subscriptions/recordstat", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllSubscriptionsRecordStats(@RequestParam(value = "perPageMaxRecords") String perPageMaxRecords)
+    @PostMapping(value = "/subscriptions/recordstat", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findAllSubscriptionsRecordStats(@RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
+            @RequestBody(required = false) SubscriptionFilter filter)
             throws Exception {
-        String subscriptionsRecordStat = subscriptionService.getSubscriptionsRecordStat(perPageMaxRecords);
+        String subscriptionsRecordStat = subscriptionService.getSubscriptionsRecordStat(perPageMaxRecords, filter);
         return new ResponseEntity<>(subscriptionsRecordStat, HttpStatus.OK);
     }
 
@@ -132,12 +130,21 @@ public class SubscriptionController {
      * This api is used by admin dashboard to show all payment details so that admin guy will verify
      * user payment
      */
-    @GetMapping(value = "/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAllSubscriptions(@RequestParam(value = "pageNumber") String pageNumber,
-            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords) throws Exception {
+            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords, @RequestParam("sortBy") String sortBy,
+            @RequestParam("orderBy") String orderBy, @RequestBody(required = false) SubscriptionFilter filter) throws Exception {
         ApiResponse<String, List<UserPaymentDto>> apiResponse;
         List<UserPaymentDto> userPayments;
-        if ((userPayments = subscriptionService.findSubscriptions(pageNumber, perPageMaxRecords)) == null) {
+        if (!("userName".equalsIgnoreCase(sortBy) || "subscriptionState".equalsIgnoreCase(sortBy))) {
+            throw new IllegalArgumentException("Validation failed");
+        }
+
+        if (!("asc".equalsIgnoreCase(orderBy) || "desc".equalsIgnoreCase(orderBy))) {
+            throw new IllegalArgumentException("Validation failed");
+        }
+
+        if ((userPayments = subscriptionService.findSubscriptions(pageNumber, perPageMaxRecords, sortBy, orderBy, filter)) == null) {
             apiResponse = buildResponse(FAILED_TO_FIND_SUBSCRIPTION, null, HttpStatus.NO_CONTENT);
         }
         else {
