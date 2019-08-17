@@ -309,22 +309,26 @@ jQuery(document).ready(function() {
             if(!isLoggedInUser()) {
                 var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
                 if(userDetails != undefined) {
-                    
-                    if(userDetails.data.subscriptionType == "SAGE") {
-                        $("#pricing #sage_investors .btnSubscribe").hide(); 
-                        $("#pricing #smart_investors .btnSubscribe").hide();
-                    } else if(userDetails.data.subscriptionType == "SMART") { 
-                        $("#pricing #smart_investors .btnSubscribe").hide();
-                        $("#pricing #sage_investors .btnSubscribe").show();
-                    } else if(userDetails.data.subscriptionType == "FREE") {
-                        $("#pricing #smart_investors .btnSubscribe").show();
-                        $("#pricing #sage_investors .btnSubscribe").show();
-                    } else {
-                        $("#pricing #general_investors .btnSubscribe").hide();
-                    }
 
-                    $("#pricing .btnSubscribe a").text("Subscribe");
-                    $("#pricing #general_investors .btnSubscribe").hide();
+                    if(userDetails.data.subscriptionStatus != "PENDING" || userDetails.data.subscriptionStatus != undefined) {
+                        if(userDetails.data.subscriptionType == "SAGE") {
+                            $("#pricing #sage_investors .btnSubscribe").hide(); 
+                            $("#pricing #smart_investors .btnSubscribe").hide();
+                        } else if(userDetails.data.subscriptionType == "SMART") { 
+                            $("#pricing #smart_investors .btnSubscribe").hide();
+                            $("#pricing #sage_investors .btnSubscribe").show();
+                        } else if(userDetails.data.subscriptionType == "FREE") {
+                            $("#pricing #smart_investors .btnSubscribe").show();
+                            $("#pricing #sage_investors .btnSubscribe").show();
+                        } else {
+                            $("#pricing #general_investors .btnSubscribe").hide();
+                        }
+
+                        $("#pricing .btnSubscribe a").text("Subscribe");
+                        $("#pricing #general_investors .btnSubscribe").hide();
+                    } else {
+                        $("#pricing button").prop("disabled", "disabled");
+                    }
                 }
             } else {
                 window.localStorage.removeItem("userDetails");
@@ -341,6 +345,7 @@ jQuery(document).ready(function() {
 
             var userDetails = {
                 "data" : {
+                    "subscriptionStatus": response.data.subscriptionStatus,
                     "subscriptionType": response.data.subscriptionType
                 }
             }
