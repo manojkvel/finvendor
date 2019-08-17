@@ -217,10 +217,11 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         try {
             Map<String, Object> condition = new LinkedHashMap<>();
             condition.put("username", userName);
-            String[] cols = { "username", "subscription_type" };
+            String[] cols = { "username", "subscription_type", "subscription_state" };
             List<Object[]> user_payment = findByColumnAndCondition(USERS, cols, condition);
             Object existingSubscriptionType = user_payment.get(0)[1];
-            return new UserSubscriptionDto(existingSubscriptionType.toString());
+            Object existingSubscriptionState = user_payment.get(0)[2];
+            return new UserSubscriptionDto(existingSubscriptionType.toString(), existingSubscriptionState.toString());
         } catch (Exception e) {
             return null;
         }
