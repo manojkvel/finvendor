@@ -152,4 +152,25 @@ public class SubscriptionController {
         }
         return getResponseEntity(apiResponse);
     }
+
+    /**
+     * Watch subscription before expire date
+     */
+    public ResponseEntity<?> watchSubscriptionStateBeforeExpire() {
+        /*
+        age=find how old subscription is
+        and if age=15 or 20 or 25 or 28 or 29 or 30 then send mail
+         */
+        return null;
+    }
+
+    /**
+     * Update subscription state to SUSPEND when subscription is over
+     */
+    public ResponseEntity<?> updateSubscriptionStateOnExpire() {
+        /*
+        if current date is subscription end date then look for time it time is 12.05 AM then SUSPEND it
+         */
+        return null;
+    }
 }
