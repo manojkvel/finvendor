@@ -95,31 +95,35 @@ public class SubscriptionService {
         return "";
     }
 
-    public ApiMessageEnum updatePayment(String userName, SubscriptionDto dto, String subscriptionRefId) throws Exception {
+    public ApiMessageEnum updatePayment(String userName, SubscriptionDto dto, List<String> subscriptionIds) throws Exception {
         try {
-            ApiMessageEnum apiMessageEnum = dao.updatePayment(dto, subscriptionRefId);
-            if (apiMessageEnum.equals(ApiMessageEnum.UPDATE_SUBSCRIPTION_SUCCESS)) {
-                FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
+            ApiMessageEnum apiMessageEnum=ApiMessageEnum.FAILED_TO_UPDATE_SUBSCRIPTION;
+            for (String subscriptionId : subscriptionIds) {
+                apiMessageEnum = dao.updatePayment(dto, subscriptionId);
 
-                Pair<Long, Long> subscriptionStartAndEndDateInMillis = getSubscriptionStartAndEndDateInMillis(30);
-                String subscriptionStartTimeInMillis = String.valueOf(subscriptionStartAndEndDateInMillis.getElement1());
-                String subscriptionEndTimeInMillis = String.valueOf(subscriptionStartAndEndDateInMillis.getElement2());
+                if (apiMessageEnum.equals(ApiMessageEnum.UPDATE_SUBSCRIPTION_SUCCESS)) {
+                    FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
 
-                LOGGER.info("Subscription start time in ms: {}", subscriptionStartTimeInMillis);
-                LOGGER.info("Subscription end time in ms: {}", subscriptionStartTimeInMillis);
+                    Pair<Long, Long> subscriptionStartAndEndDateInMillis = getSubscriptionStartAndEndDateInMillis(30);
+                    String subscriptionStartTimeInMillis = String.valueOf(subscriptionStartAndEndDateInMillis.getElement1());
+                    String subscriptionEndTimeInMillis = String.valueOf(subscriptionStartAndEndDateInMillis.getElement2());
 
-                //set subscription time period
-                existingUser.setSubscriptionStartTimeInMillis(subscriptionStartTimeInMillis);
-                existingUser.setSubscriptionEndTimeInMillis(subscriptionEndTimeInMillis);
+                    LOGGER.info("Subscription start time in ms: {}", subscriptionStartTimeInMillis);
+                    LOGGER.info("Subscription end time in ms: {}", subscriptionStartTimeInMillis);
 
-                //Set subscription STATE
-                if (dto.getPaymentVerified()) {
-                    existingUser.setSubscriptionState("ACTIVE");
+                    //set subscription time period
+                    existingUser.setSubscriptionStartTimeInMillis(subscriptionStartTimeInMillis);
+                    existingUser.setSubscriptionEndTimeInMillis(subscriptionEndTimeInMillis);
+
+                    //Set subscription STATE
+                    if (dto.getPaymentVerified()) {
+                        existingUser.setSubscriptionState("ACTIVE");
+                    }
+                    else {
+                        existingUser.setSubscriptionState("TERMINATE");
+                    }
+                    userService.saveUserInfo(existingUser);
                 }
-                else {
-                    existingUser.setSubscriptionState("TERMINATE");
-                }
-                userService.saveUserInfo(existingUser);
             }
             return apiMessageEnum;
         } catch (RuntimeException e) {
