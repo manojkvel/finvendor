@@ -1,45 +1,28 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@page import="com.finvendor.util.RequestConstans"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
 <head>
-<meta charset="utf-8" />
-<!-- [if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
-<meta name="viewport"
-	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
-<title>FinVendor</title>
-<!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-  <![endif]-->
- <link href="<%=request.getContextPath() %>/resources/css/style.css" rel="stylesheet" />
-<!--<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/jquery.bxslider.css" />-->
-<!--<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/superfish.css" />-->
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/tab.css" /> 
-<!-- <link href="http://mottie.github.io/tablesorter/css/theme.default.css" rel="stylesheet">
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.9.1/jquery.tablesorter.min.js"></script> -->
-<script>
-    $(function(){
-      $("#myDummyTable").tablesorter({widgets: ['zebra']});
-    });
-</script>
-<script type="text/javascript">
-	function ons() {
-		window.alert('ccc');
-	}
-</script>
+	<title>Manage User Subscriptions - Finvendor</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
+	<meta name="description" content="" />
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="author" content="" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <body>
-	<div class="container">
-		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
-	</div>
-    	<form id="login-submit" method="post" action="<c:url value='j_spring_security_check' />" id="login-submit">
+	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
+	<div class="container" id="fund_etf_research">
+		<div class="inner_breadcrumb">
+			<h5></h5>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-md-9">
+				<div class="default_template">
+					<form id="login-submit" method="post" action="<c:url value='j_spring_security_check' />" id="login-submit">
 		<div class="container">
 			 <div>
 				<div>
@@ -98,9 +81,16 @@
 			</div> 
 		</div>
 	</form>
-	<div class="container">
-		<jsp:include page="common/footer.jsp"></jsp:include>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-3">
+				<jsp:include page="common/inner_sidebar.jsp"></jsp:include>
+			</div>
+		</div>
 	</div>
+	<jsp:include page="login.jsp"></jsp:include>
+	<jsp:include page="common/footer.jsp"></jsp:include>
+
 	<div id="submitMsg" class="submitMsg" style="display:none;"></div>
 </body>
 <script type="text/javascript">

@@ -15,7 +15,10 @@ jQuery(document).ready(function() {
             this.perPageMaxRecords = 10;
             this.sortByValue = 'userName';
             this.orderBy = 'desc';
+            this.userList = [];
             this.baseApiUrl = "/api/subscriptions";
+            this.subscriptionStateActive = "ACTIVE";
+            this.subscriptionStateTerminate = "TERMINATE";
             this.getAllSubscriptionsDetails();
         },
 
@@ -32,18 +35,20 @@ jQuery(document).ready(function() {
                 $("#strategyModal #total_records_count").html(classRef.totalRecords + " Results");
             }, function(error) {
                 classRef.isProgressLoader(false);
-                $("tbody").html("<tr><td colspan='9'>We are not able to get the info, please try again later.</td></tr>");
+                $("tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
             });
 
             classRef.getAllSubscriptionApi(classRef.userId).then(function(response){
                 classRef.populateSubscriptionsHtml(response);
             }, function(error) {
                 var error = JSON.parse(error);
-                $("tbody").html("<tr><td colspan='9'>No Records Found</td></tr>");
+                $("tbody").html("<tr><td colspan='10'>No Records Found</td></tr>");
             });
         },
 
         populateSubscriptionsHtml: function(response) {
+            var classRef = this;
+
             var response = JSON.parse(response);
             response = response.data;
             var len = response.length;
@@ -51,7 +56,7 @@ jQuery(document).ready(function() {
             var rowHtml =   "";
 
             if(len === 0) {
-                $("tbody").html("<tr><td colspan='9'>No Records Found</td></tr>");
+                $("tbody").html("<tr><td colspan='10'>No Records Found</td></tr>");
                 $("#manage_user_subscriptions .deleteBtn").attr("disabled", "disabled");
                 $('#manage_user_subscriptions #user_subscriptions_table input[name=selectAll]').prop('checked', false);
                 return;
@@ -59,7 +64,17 @@ jQuery(document).ready(function() {
 
             for(var i = 0; i < len; i++) {
 
-                htmlCode = htmlCode + "<tr data-id='" + response[i].subscriptionId + "'>" +
+                var statusClass = "label-warning";
+                if(response[i].subscriptionState == "ACTIVE") {
+                    statusClass = "label-success";
+                } else if(response[i].subscriptionState == "TERMINATE") {
+                    statusClass = "label-danger";
+                } else {
+                    statusClass = "label-warning";
+                }
+
+
+                htmlCode = htmlCode + "<tr data-id='" + response[i].subscriptionRefId + "' data-userid='" + response[i].userName + "' data-subscriptionstatus='" + response[i].subscriptionState + "'>" +
                 "<td>" + 
                 "<div class='userName'>" + response[i].userName + "</div>" +
                 "</td>" + 
@@ -82,7 +97,10 @@ jQuery(document).ready(function() {
                 "<div class='bankHolderName'>" + response[i].bankHolderName + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                "<div class='amountTransferred'>" + response[i].amountTransferred + "</div>" + 
+                "<div class='amtTransferred'>" + response[i].amtTransferred + "</div>" + 
+                "</td>" +
+                "<td>" + 
+                "<div class='subscriptionState " + statusClass + "'>" + response[i].subscriptionState + "</div>" + 
                 "</td>" +
                 "<td>" + 
                     "<input name='subscriptions" + i + "' class='submit-button' type='checkbox' />" + 
@@ -92,13 +110,86 @@ jQuery(document).ready(function() {
 
             $("#user_subscriptions_table tbody").html(htmlCode);
 
-            $("#manage_user_subscriptions .deleteBtn").attr("disabled", "disabled");
+            $("#manage_user_subscriptions .approveBtn").attr("disabled", "disabled");
+            $("#manage_user_subscriptions .rejectBtn").attr("disabled", "disabled");
 
-            //$("#manage_user_subscriptions #user_subscriptions_table tbody input[type=checkbox]").on('click', updateUserSubscription);
+            $("#manage_user_subscriptions #user_subscriptions_table tbody input[type=checkbox]").on('click', {this: classRef}, classRef.enableButtons);
         },
 
-        updateUserSubscription: function() {
+        enableButtons: function(event) {
+            var classRef = event.data.this;
 
+            var rowId = $(this).parents('tr');
+            var subscriptionRefId = rowId.attr('data-id');
+            var userId = rowId.attr('data-userid');
+            var status = rowId.attr('data-subscriptionstatus');
+
+            var itemJson = {
+                "userId" : userId,
+                "subscriptionRefId" : subscriptionRefId
+            };
+            
+            classRef.addRemoveItemFromArrayJsonObject(classRef.userList, itemJson);
+
+            if(status == "ACTIVE") {
+                $("#manage_user_subscriptions .approveBtn").attr("disabled", "disabled");
+                $("#manage_user_subscriptions .rejectBtn").attr("disabled", "disabled");
+            } else {
+                $("#manage_user_subscriptions .approveBtn").removeAttr("disabled");
+                $("#manage_user_subscriptions .rejectBtn").removeAttr("disabled");
+            }
+
+            $("#approveUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateActive}, classRef.updateUserSubscription);
+            $("#rejectUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateTerminate}, classRef.updateUserSubscription);
+
+        },
+
+        updateUserSubscription: function(event) {
+            var classRef = event.data.this;
+            var state = event.data.subscriptionState;
+
+            classRef.updateUserSubscriptionApi(classRef.userList[0].userId, classRef.userList[0].subscriptionRefId, state).then(function(response) {
+                debugger
+            }, function(error) {
+                debugger
+            });
+        },
+
+        /**
+        * Function to start async call to get filter data.
+        */
+        updateUserSubscriptionApi : function(userId, subscriptionRefId, state) {
+            var classRef = this;
+
+            var jsonBody = {
+                "subscriptionState": state
+            };
+
+            var url = "/api/users/" + userId + "/subscriptions/" + subscriptionRefId;
+            return new Promise(function(resolve, reject) {
+                var httpRequest = new XMLHttpRequest({
+                    mozSystem: true
+                });
+                //httpRequest.timeout = API_TIMEOUT_SMALL;
+                httpRequest.open('PUT', url, true);
+                httpRequest.setRequestHeader('Content-Type',
+                    'application/json; charset=UTF-8');
+                httpRequest.ontimeout = function () {
+                    reject("" + httpRequest.responseText);
+                };
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                        if (httpRequest.status === 201) {
+                            resolve(httpRequest.response);
+                        } else {
+                            reject(httpRequest.responseText);
+                        }
+                    } else {
+                    }
+                };
+
+                httpRequest.send(JSON.stringify(jsonBody));
+            });
         },
 
         /**
@@ -144,12 +235,12 @@ jQuery(document).ready(function() {
             return new Promise(function(resolve, reject) {
 
                 if(userId != '') {
-                    var url = classRef.baseApiUrl + "?pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords ;
+                    var url = classRef.baseApiUrl + "?pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
                     var httpRequest = new XMLHttpRequest({
                         mozSystem: true
                     });
                     //httpRequest.timeout = API_TIMEOUT_SMALL;
-                    httpRequest.open('GET', url, true);
+                    httpRequest.open('POST', url, true);
                     httpRequest.setRequestHeader('Content-Type',
                     'application/json');
                     httpRequest.ontimeout = function () {
@@ -177,13 +268,21 @@ jQuery(document).ready(function() {
         getRecordStats: function() {
             var classRef = this;
 
+            var d = new Date();
+            var n = d.getTime();
+
+            var jsonBody= {
+              "from":1554661800000,
+              "to":n
+            };
+
             var url = classRef.baseApiUrl + "/recordstat?perPageMaxRecords=" + classRef.perPageMaxRecords;
             return new Promise(function(resolve, reject) {
                 var httpRequest = new XMLHttpRequest({
                     mozSystem: true
                 });
 
-                httpRequest.open('GET', url, true);
+                httpRequest.open('POST', url, true);
                 httpRequest.setRequestHeader('Content-Type',
                     'application/json; charset=UTF-8');
                 httpRequest.ontimeout = function () {
@@ -201,7 +300,7 @@ jQuery(document).ready(function() {
                     }
                 };
 
-                httpRequest.send();
+                httpRequest.send(JSON.stringify(jsonBody));
             });
         }, 
 
@@ -304,8 +403,22 @@ jQuery(document).ready(function() {
                 classRef.currentIndex = classRef.currentIndex - classRef.perPageMaxRecords;
                 classRef.getCurrentStrategyData();
             }
-        }
+        },
 
+        addRemoveItemFromArrayJsonObject : function(array, item) {
+            if(array.length != 0) {
+                for(key in array) {
+                    if(array[key].subscriptionRefId == item.subscriptionRefId) {
+                        array.splice(key, 1);
+                    } else {
+                        array.push(item);
+                    }
+                }
+            } else {
+                array.push(item);
+            }
+            return array;
+        }
     };
 
     manageSubscriptionsObj.init();

@@ -711,8 +711,16 @@ jQuery(document).ready(function() {
                 return;
             }
 
-            var min = sliderValue.value.newValue[0];
-            var max = sliderValue.value.newValue[1];
+            var min = 0;
+            var max = 0;
+
+            if(sliderValue.value === undefined) {
+                min = sliderValue[0];
+                max = sliderValue[1];
+            } else {
+                min = sliderValue.value.newValue[0];
+                max = sliderValue.value.newValue[1];
+            }
 
             var sliderName = (target.context != undefined) ? target.context.id.split('_')[0] : target;
 
@@ -769,10 +777,12 @@ jQuery(document).ready(function() {
             max = parseFloat(max) > maxSliderValue ? maxSliderValue : parseFloat(max);
             max = (isNaN(max)) ? maxSliderValue : max;
 
+            var newSliderValue = [min, max];
+
             var value = JSON.parse("[" + min + "," + max + "]");
             $(elemId).slider('setValue',value);
 
-            classRef.handleSliderFilterJson(target, min, max);
+            classRef.handleSliderFilterJson(target, newSliderValue);
 
         },
 
@@ -799,11 +809,12 @@ jQuery(document).ready(function() {
             min = parseFloat(min) > maxSliderValue ? minSliderValue : parseFloat(min);
             min = (isNaN(min)) ? minSliderValue : min;
 
+            var newSliderValue = [min, max];
 
             var value = JSON.parse("[" + min + "," + max + "]");
             $(elemId).slider('setValue',value);
 
-            classRef.handleSliderFilterJson(target, min, max);
+            classRef.handleSliderFilterJson(target, newSliderValue);
         },
 
         /**

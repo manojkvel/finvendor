@@ -310,24 +310,31 @@ jQuery(document).ready(function() {
                 var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
                 if(userDetails != undefined) {
 
-                    if(userDetails.data.subscriptionStatus != "PENDING" || userDetails.data.subscriptionStatus != undefined) {
+                    if(userDetails.data.subscriptionStatus != "PENDING" && userDetails.data.subscriptionType != undefined) {
+                        
+                    } else {
                         if(userDetails.data.subscriptionType == "SAGE") {
-                            $("#pricing #sage_investors .btnSubscribe").hide(); 
-                            $("#pricing #smart_investors .btnSubscribe").hide();
+                            // $("#pricing #sage_investors .btnSubscribe").hide(); 
+                            // $("#pricing #smart_investors .btnSubscribe").hide();
+                            $("#pricing button#smart_investors").prop("disabled", "disabled");
+                            $("#pricing button#sage_investors").prop("disabled", "disabled");
+
                         } else if(userDetails.data.subscriptionType == "SMART") { 
-                            $("#pricing #smart_investors .btnSubscribe").hide();
+                            // $("#pricing #smart_investors .btnSubscribe").hide();
                             $("#pricing #sage_investors .btnSubscribe").show();
+                            $("#pricing button#smart_investors").prop("disabled", "disabled");
+
                         } else if(userDetails.data.subscriptionType == "FREE") {
                             $("#pricing #smart_investors .btnSubscribe").show();
                             $("#pricing #sage_investors .btnSubscribe").show();
+                            $("#pricing button#smart_investors").prop("disabled", "");
+                            $("#pricing button#sage_investors").prop("disabled", "");
                         } else {
                             $("#pricing #general_investors .btnSubscribe").hide();
                         }
 
                         $("#pricing .btnSubscribe a").text("Subscribe");
                         $("#pricing #general_investors .btnSubscribe").hide();
-                    } else {
-                        $("#pricing button").prop("disabled", "disabled");
                     }
                 }
             } else {
@@ -345,7 +352,7 @@ jQuery(document).ready(function() {
 
             var userDetails = {
                 "data" : {
-                    "subscriptionStatus": response.data.subscriptionStatus,
+                    "subscriptionStatus": response.data.subscriptionState,
                     "subscriptionType": response.data.subscriptionType
                 }
             }

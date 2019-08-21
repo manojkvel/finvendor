@@ -14,7 +14,9 @@
 </head>
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true" ></jsp:include>
-	
+	<c:choose>
+			<c:when test="${sessionScope.loggedInUser != null  && sessionScope.loggedInRole=='ROLE_ADMIN'}">
+			
 	<div class="container-fluid" id="manage_user_subscriptions">
 		<div class="inner_breadcrumb">
 			<h5>Manage User Subscriptions</h5>
@@ -32,10 +34,10 @@
 								</form>
 							</div>
 						</li>
-						<!--<li>
-							<button type="button" class="deleteBtn" title="Delete" disabled  data-toggle="modal" data-target="#deleteWatchlist">Approve</button>
-							<button type="button" class="deleteBtn" title="Delete" disabled  data-toggle="modal" data-target="#deleteWatchlist">Reject</button>
-						</li>-->
+						<li>
+							<button type="button" class="btn approveBtn" title="Approve" disabled  data-toggle="modal" data-target="#approveUserSubscription">Approve</button>
+							<button type="button" class="btn rejectBtn" title="Reject" disabled  data-toggle="modal" data-target="#rejectUserSubscription">Reject</button>
+						</li>
 						<li>
 							<div class="max_per_page">
 								<span>Records Per Page </span>
@@ -99,6 +101,11 @@
 								</th>
 								<th style="width:15%;">
 									<p class="normal_font">
+										STATUS
+									</p>
+								</th>
+								<th style="width:15%;">
+									<p class="normal_font">
 										<input name="selectAll" data-id="selectAll" class="submit-button" type="checkbox" />
 									</p>
 								</th>
@@ -122,8 +129,6 @@
 		</div>
 	</div>
 
-    <jsp:include page="common/footer.jsp"></jsp:include>
-
     <!-- Modal -->
   <div class="modal fade" id="addToWatchlist" role="dialog">
     <div class="modal-dialog">
@@ -137,19 +142,41 @@
   </div>
 
        <!-- Modal -->
-	  <div class="modal fade" id="deleteWatchlist" role="dialog">
+	  <div class="modal fade" id="approveUserSubscription" role="dialog">
 	    <div class="modal-dialog">
 	    	<!-- Modal content-->
 	    	<div class="modal-content">
 	    		<div class="modal-header">
 	    			<button type="button" class="close" data-dismiss="modal">&times;</button>
-	    			<h3>Are you sure you want to delete from watchlist?</h3>
+	    			<h3>Are you sure you want to Approve?</h3>
 	    		</div>
 	    		<div class="modal-body">
 	    			<div class="btns">
 	    				<ul>
 	    					<li><button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Cancel</button></li>
-	    					<li><button type="button" class="btn btn-lg btn-primary deleteBtn">Delete</button></li>
+	    					<li><button type="button" class="btn btn-lg btn-primary submitBtn">Submit</button></li>
+	    				</ul>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+	  </div>
+
+
+       <!-- Modal -->
+	  <div class="modal fade" id="rejectUserSubscription" role="dialog">
+	    <div class="modal-dialog">
+	    	<!-- Modal content-->
+	    	<div class="modal-content">
+	    		<div class="modal-header">
+	    			<button type="button" class="close" data-dismiss="modal">&times;</button>
+	    			<h3>Are you sure you want to Reject?</h3>
+	    		</div>
+	    		<div class="modal-body">
+	    			<div class="btns">
+	    				<ul>
+	    					<li><button type="button" class="btn btn-lg btn-primary" data-dismiss="modal">Cancel</button></li>
+	    					<li><button type="button" class="btn btn-lg btn-primary submitBtn">Submit</button></li>
 	    				</ul>
 	    			</div>
 	    		</div>
@@ -181,5 +208,16 @@
 		    }
     	}
     </script>
+
+			</c:when>
+			<c:otherwise>
+				<script type="text/javascript">
+					window.location.href = '/';
+				</script>
+			</c:otherwise>
+		</c:choose>
+
+	<jsp:include page="login.jsp"></jsp:include>
+	<jsp:include page="common/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -143,6 +143,9 @@
 										<a href="javascript:void(0);">Free trial 2 days</a>
 									</div>
 								</div>
+								<div class="ft">
+									Approval of your Subscription is pending with us, we will confirm shortly.
+								</div>
 							</button>
 						</div>
 					</div>
@@ -209,6 +212,9 @@
 									<div class="btnSubscribe" data-value="999">
 										<a href="javascript:void(0);">Free trial 2 days</a>
 									</div>
+								</div>
+								<div class="ft">
+									Approval of your Subscription is pending with us, we will confirm shortly.
 								</div>
 							</button>
 						</div>
@@ -425,6 +431,10 @@
     			maxDate: "0D"
     		});
     	} );
+
+    	$(function () {
+    		$('[data-toggle="tooltip"]').tooltip()
+    	})
     </script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/pricing.js"></script>
     <!-- Latest compiled and minified CSS -->
