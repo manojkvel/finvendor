@@ -32,17 +32,21 @@ jQuery(document).ready(function() {
                 classRef.lastPageNumber = stats.lastPageNumber;
                 classRef.totalRecords = stats.totalRecords;
 
-                $("#strategyModal #total_records_count").html(classRef.totalRecords + " Results");
-            }, function(error) {
-                classRef.isProgressLoader(false);
-                $("tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
-            });
+                $("#manage_user_subscriptions #total_records_count").html(classRef.totalRecords + " Results");
 
-            classRef.getAllSubscriptionApi(classRef.userId).then(function(response){
-                classRef.populateSubscriptionsHtml(response);
+
+                classRef.getAllSubscriptionApi(classRef.userId).then(function(serverResponse){
+                    $("#manage_user_subscriptions .paging_container").remove();
+                    classRef.populateSubscriptionsHtml(serverResponse);
+                    isProgressLoader(false);
+                }, function(error) {
+                    var error = JSON.parse(error);
+                    isProgressLoader(false);
+                    $("tbody").html("<tr><td colspan='10'>No Records Found</td></tr>");
+                });
             }, function(error) {
-                var error = JSON.parse(error);
-                $("tbody").html("<tr><td colspan='10'>No Records Found</td></tr>");
+                isProgressLoader(false);
+                $("tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
             });
         },
 
@@ -65,11 +69,15 @@ jQuery(document).ready(function() {
             for(var i = 0; i < len; i++) {
 
                 var statusClass = "label-warning";
+                var styleClass = "visible";
                 if(response[i].subscriptionState == "ACTIVE") {
+                    styleClass = "hidden";
                     statusClass = "label-success";
                 } else if(response[i].subscriptionState == "TERMINATE") {
+                    styleClass = "hidden";
                     statusClass = "label-danger";
                 } else {
+                    styleClass = "visible";
                     statusClass = "label-warning";
                 }
 
@@ -85,7 +93,7 @@ jQuery(document).ready(function() {
                 "<div class='paymentMode'>" + response[i].paymentMode + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                "<div class='transactionDate'>" + response[i].transactionDate + "</div>" + 
+                "<div class='transactionDate'>" + classRef.timeStampToDate(Number(response[i].transactionDate)) + "</div>" + 
                 "</td>" +
                 "<td>" + 
                 "<div class='transactionRefNumber'>" + response[i].transactionRefNumber + "</div>" + 
@@ -103,7 +111,7 @@ jQuery(document).ready(function() {
                 "<div class='subscriptionState " + statusClass + "'>" + response[i].subscriptionState + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                    "<input name='subscriptions" + i + "' class='submit-button' type='checkbox' />" + 
+                    "<input name='subscriptions" + i + "' class='submit-button " + styleClass + "' type='checkbox' />" + 
                 "</td>" +
                 "</tr>";
             }
@@ -114,15 +122,39 @@ jQuery(document).ready(function() {
             $("#manage_user_subscriptions .rejectBtn").attr("disabled", "disabled");
 
             $("#manage_user_subscriptions #user_subscriptions_table tbody input[type=checkbox]").on('click', {this: classRef}, classRef.enableButtons);
+
+            var paginationHtml =    "<div class='paging_container'>"
+                                + "<ul class='pager'>"
+                                 + "<li><a data-toggle='tooltip' title='First' id='first' href='javascript:void(0)''><<</a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Previous' id='prev' href='javascript:void(0)'><</a></li>"
+                                 + "<li><span id='records_stats'></span></li>"
+                                 + "<li><a data-toggle='tooltip' title='Next' id='next' href='javascript:void(0)'>></a></li>"
+                                 + "<li><a data-toggle='tooltip' title='Last' id='last' href='javascript:void(0)'>>></a></li>"
+                                + "</ul>"
+                             + "</div>";
+
+            $("#manage_user_subscriptions .manage_user_subscriptions_content").append(paginationHtml);
+
+            $('#manage_user_subscriptions .manage_user_subscriptions_content .pager a').off().on('click', {this: classRef}, classRef.getPaginationIndex);
+
+            $("#user_subscriptions_table thead th a").off().on('click', {this: classRef}, classRef.getSortedByValue);
+
+            classRef.setRecordStats();
+
+            $("#transactionDateFrom").val(classRef.getFormattedDate());
+            $("#transactionDateTo").val(classRef.getFormattedDate());
+
+            $('#manage_user_subscriptions .manage_user_subscriptions_content .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
+            $("#manage_user_subscriptions input[name='selectAll']").off().on('change', {this: classRef}, classRef.checkForAllData);
         },
 
         enableButtons: function(event) {
             var classRef = event.data.this;
-
             var rowId = $(this).parents('tr');
             var subscriptionRefId = rowId.attr('data-id');
             var userId = rowId.attr('data-userid');
             var status = rowId.attr('data-subscriptionstatus');
+            var element = event.target;
 
             var itemJson = {
                 "userId" : userId,
@@ -131,13 +163,18 @@ jQuery(document).ready(function() {
             
             classRef.addRemoveItemFromArrayJsonObject(classRef.userList, itemJson);
 
-            if(status == "ACTIVE") {
-                $("#manage_user_subscriptions .approveBtn").attr("disabled", "disabled");
-                $("#manage_user_subscriptions .rejectBtn").attr("disabled", "disabled");
-            } else {
+            // $(element).prop('checked', !$(element).prop('checked'));
+            if($(element).prop('checked')) {
+                $(element).prop('checked', true);
                 $("#manage_user_subscriptions .approveBtn").removeAttr("disabled");
                 $("#manage_user_subscriptions .rejectBtn").removeAttr("disabled");
+            } else {
+                $(element).prop('checked', false);
+                $("#manage_user_subscriptions .approveBtn").attr("disabled", "disabled");
+                $("#manage_user_subscriptions .rejectBtn").attr("disabled", "disabled");
+                return true;
             }
+
 
             $("#approveUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateActive}, classRef.updateUserSubscription);
             $("#rejectUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateTerminate}, classRef.updateUserSubscription);
@@ -147,11 +184,12 @@ jQuery(document).ready(function() {
         updateUserSubscription: function(event) {
             var classRef = event.data.this;
             var state = event.data.subscriptionState;
+            var element = (state == classRef.subscriptionStateActive) ? "#approveUserSubscription" : "#rejectUserSubscription";
 
             classRef.updateUserSubscriptionApi(classRef.userList[0].userId, classRef.userList[0].subscriptionRefId, state).then(function(response) {
-                debugger
+                $(element).modal('hide');
             }, function(error) {
-                debugger
+                $(element).modal('hide');
             });
         },
 
@@ -271,10 +309,12 @@ jQuery(document).ready(function() {
             var d = new Date();
             var n = d.getTime();
 
-            var jsonBody= {
+            var jsonBody= {};
+
+            /*jsonBody= {
               "from":1554661800000,
               "to":n
-            };
+            };*/
 
             var url = classRef.baseApiUrl + "/recordstat?perPageMaxRecords=" + classRef.perPageMaxRecords;
             return new Promise(function(resolve, reject) {
@@ -316,7 +356,7 @@ jQuery(document).ready(function() {
 
             classRef.perPageMaxRecords = Number($(this).val());
             console.log("perPageMaxRecords: " + classRef.perPageMaxRecords);
-            kennithFisherStrategyObj.getCurrentStrategyData();
+            classRef.getAllSubscriptionsDetails();
         },
 
         getSortedByValue: function(event) {
@@ -338,7 +378,7 @@ jQuery(document).ready(function() {
             }
 
             classRef.sortByValue = $(this).attr('data-id');
-            kennithFisherStrategyObj.getCurrentStrategyData();
+            classRef.getAllSubscriptionsDetails();
         },
 
         setRecordStats : function() {
@@ -347,7 +387,7 @@ jQuery(document).ready(function() {
             if(classRef.currentIndex > classRef.lastPageNumber) {
                 classRef.currentIndex = classRef.lastPageNumber;
             }
-            $("#strategyModal #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
+            $("#manage_user_subscriptions #records_stats").html(classRef.pageNumber + " of " + classRef.lastPageNumber);
         },
 
         getPaginationIndex : function(event) {
@@ -371,7 +411,7 @@ jQuery(document).ready(function() {
             if(classRef.pageNumber != classRef.firstPageNumber) {
                 classRef.pageNumber = classRef.firstPageNumber;
                 classRef.currentIndex = classRef.firstPageNumber;
-                classRef.getCurrentStrategyData();
+                classRef.getAllSubscriptionsDetails();
             }
         },
 
@@ -381,7 +421,7 @@ jQuery(document).ready(function() {
             if(classRef.pageNumber != classRef.lastPageNumber) {
                 classRef.pageNumber = classRef.lastPageNumber;
                 classRef.currentIndex = (classRef.pageNumber - 1) * classRef.perPageMaxRecords + 1;
-                classRef.getCurrentStrategyData();
+                classRef.getAllSubscriptionsDetails();
             }
         },
 
@@ -391,7 +431,7 @@ jQuery(document).ready(function() {
             if(classRef.pageNumber < classRef.lastPageNumber) {
                 classRef.pageNumber = classRef.pageNumber + 1;
                 classRef.currentIndex = classRef.currentIndex + classRef.perPageMaxRecords;
-                classRef.getCurrentStrategyData();
+                classRef.getAllSubscriptionsDetails();
             }
         },
 
@@ -401,7 +441,7 @@ jQuery(document).ready(function() {
             if(classRef.pageNumber > 1) {
                 classRef.pageNumber = classRef.pageNumber - 1;
                 classRef.currentIndex = classRef.currentIndex - classRef.perPageMaxRecords;
-                classRef.getCurrentStrategyData();
+                classRef.getAllSubscriptionsDetails();
             }
         },
 
@@ -418,6 +458,66 @@ jQuery(document).ready(function() {
                 array.push(item);
             }
             return array;
+        },
+
+        // Find and remove item from an array
+        addRemoveItemFromArray : function(array, item) {
+            var i = array.indexOf(item);
+            if(i != -1) {
+                array.splice(i, 1);
+            } else {
+                array.push(item);
+            }
+            return array;
+        },
+
+        timeStampToDate : function (ts) {
+            if (ts) {
+                ts = new Date(ts).toString();
+                ts = ts.split(' ').slice(0, 5);
+                ts = /*ts[0] + " " + */ ts[1] + " " + ts[2] + ", " + ts[3]; //+ " " + ts[4];
+                //console.log(ts);
+                return ts;
+            } else {
+                return 'NA';
+            }
+        },
+
+        checkForAllData : function(event) {
+            var classRef = event.data.this;
+            var arr = $(event.target).parents("table").find("tbody input:visible");
+            
+
+            for(key in arr) {
+                if (!isNaN(key)) {
+                    var rowId = $("tbody input:visible").eq(key).parents('tr');
+                    var subscriptionRefId = rowId.attr('data-id');
+                    var userId = rowId.attr('data-userid');
+                    var status = rowId.attr('data-subscriptionstatus');
+
+                    var itemJson = {
+                        "userId" : userId,
+                        "subscriptionRefId" : subscriptionRefId
+                    };
+                    classRef.addRemoveItemFromArrayJsonObject(classRef.userList, itemJson);
+                }
+            }
+        },
+
+        getFormattedDate: function() {
+            var today = new Date();
+            var dd = today.getDate(); 
+            var mm = today.getMonth() + 1; 
+      
+            var yyyy = today.getFullYear(); 
+            if (dd < 10) { 
+                dd = '0' + dd; 
+            } 
+            if (mm < 10) { 
+                mm = '0' + mm; 
+            } 
+            var today = dd + '/' + mm + '/' + yyyy; 
+            return today;
         }
     };
 

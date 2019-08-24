@@ -15,10 +15,7 @@
 <body>
 	<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/vendor_form_new.css">
-	<div class="container" id="fund_etf_research">
-		<div class="inner_breadcrumb">
-			<h5></h5>
-		</div>
+	<div class="container" id="login_failed">
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-9">
 				<div class="default_template">
