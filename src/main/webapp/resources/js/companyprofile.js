@@ -782,16 +782,25 @@ setBrokerRatingHtml = function(response) {
         }
     }]);
 
+    var colorsVal =  ['#5cb85c', '#d9534f', '#ef9e06'];
+    var pieSliceTextVal = "percentage";
+    var legendVal = {
+        alignment: 'center'
+    };
+
+    if(response.brokerRank.totalBuyRecomm == 0 && response.brokerRank.totalSellRecomm == 0 && response.brokerRank.totalNeutralRecomm == 0) {
+        colorsVal = ["#cccccc", "#cccccc", "#cccccc"];
+        pieSliceTextVal = 'none';
+    }
+
     var options = {
           pieHole: 0.4,
           pieSliceBorderColor: "none",
           sliceVisibilityThreshold :0,
-          colors: ['#5cb85c', '#d9534f', '#ef9e06' ],
-          pieSliceText: "percentage",
+          colors: colorsVal,
+          pieSliceText: pieSliceTextVal,
           backgroundColor: "#eeeeee",
-          legend: {
-            alignment: 'center'
-          },
+          legend: legendVal,
           enableInteractivity: false,
           tooltip: {
             trigger: "none"
