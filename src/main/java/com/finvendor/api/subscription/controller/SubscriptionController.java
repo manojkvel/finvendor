@@ -69,10 +69,10 @@ public class SubscriptionController {
     /**
      * This api is used to update payment verification from admin dashboard
      */
-    @PutMapping(value = "/users/{userName}/subscriptions/{subscriptionId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateSubscription(
             @PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
-            @PathVariable String subscriptionId, @RequestBody SubscriptionStateDto subscriptionStateDto) throws Exception {
+            @RequestBody SubscriptionStateDto subscriptionStateDto) throws Exception {
         ApiResponse<String, String> apiResponse;
         SubscriptionDto dto = new SubscriptionDto();
         String subscriptionState = subscriptionStateDto.getSubscriptionState();
@@ -93,7 +93,8 @@ public class SubscriptionController {
             apiResponse = buildResponse(INVALID_USER_NAME, null, HttpStatus.NOT_FOUND);
         }
         else {
-            apiMessageEnum = subscriptionService.updatePayment(userName, dto, subscriptionId);
+            List<String> subscriptionIds = subscriptionStateDto.getSubscriptionIds();
+            apiMessageEnum = subscriptionService.updatePayment(userName, dto,subscriptionIds);
             apiResponse = buildResponse(apiMessageEnum, null, HttpStatus.OK);
         }
         return getResponseEntity(apiResponse);
