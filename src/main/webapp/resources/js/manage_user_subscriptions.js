@@ -229,6 +229,11 @@ jQuery(document).ready(function() {
                         }
                     }
                 }
+
+
+                $("#manage_user_subscriptions .approveBtn").attr("disabled", "disabled");
+                $("#manage_user_subscriptions .rejectBtn").attr("disabled", "disabled");
+                
             }, function(error) {
                 $(element).modal('hide');
             });
