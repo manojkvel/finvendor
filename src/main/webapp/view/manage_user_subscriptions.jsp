@@ -17,6 +17,7 @@
 	<c:choose>
 			<c:when test="${sessionScope.loggedInUser != null  && sessionScope.loggedInRole=='ROLE_ADMIN'}">
 			
+		<input type="hidden" name="loggedInUser" value="${sessionScope.loggedInUser.username}" />
 	<div class="container-fluid" id="manage_user_subscriptions">
 		<div class="inner_breadcrumb">
 			<h5>Manage User Subscriptions</h5>
@@ -25,41 +26,50 @@
 			<div class="col-xs-12 col-sm-12">
 				<div class="manage_user_subscriptions_content">
 					<div class="subscriptions_header">
-						<ul>
-							<li>
-								<button type="button" class="btn approveBtn" title="Approve" disabled  data-toggle="modal" data-target="#approveUserSubscription">Approve</button>
-								<button type="button" class="btn rejectBtn" title="Reject" disabled  data-toggle="modal" data-target="#rejectUserSubscription">Reject</button>
-							</li>
-							<li>
-								<div id="user_subscriptions_search">
-									<form action="#" class="elastic-search desktop_variant" method="GET">
-										<div class="input-group">
-											<input id="mangerUserSubscriptionsSearchBox" name="mangerUserSubscriptionsSearchBox" class="form-control" autocomplete="off" name="searchKeyword" type="text" placeholder="Search by User Id"  onkeyup="getUserById()">
-										</div>
-									</form>
-								</div>
-							</li>
-							<li>
-								<label>From</label>
-								<input type="text" placeholder="DD/MM/YYYY" id="transactionDateFrom" name="transactionDateFrom" />
-								<label>To</label>
-								<input type="text" placeholder="DD/MM/YYYY" id="transactionDateTo" name="transactionDateTo" />
-							</li>
-							<li>
-								<div class="max_per_page">
-									<span>Records Per Page </span>
-									<select>
-										<option value='5'>5</option>
-										<option value='10' selected>10</option>
-										<option value='30'>30</option>
-										<option value='50'>50</option>
-										<option value='100'>100</option>
-									</select>
+						<div class="col-xs-12 col-sm-6">
+							<ul class="action_btns">
+								<li>
+									<button type="button" class="btn approveBtn" title="Approve" disabled  data-toggle="modal" data-target="#approveUserSubscription">Approve</button>
+									<button type="button" class="btn rejectBtn" title="Reject" disabled  data-toggle="modal" data-target="#rejectUserSubscription">Reject</button>
+								</li>
+								<li>
+									<div id="user_subscriptions_search">
+										<form action="#" class="elastic-search desktop_variant" method="GET">
+											<div class="input-group">
+												<input id="mangerUserSubscriptionsSearchBox" name="mangerUserSubscriptionsSearchBox" class="form-control" autocomplete="off" name="searchKeyword" type="text" placeholder="Search by User Id"  onkeyup="getUserById()">
+											</div>
+										</form>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="col-xs-12 col-sm-6">
+							<ul class="filter_btns">
 
-									<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
-								</div>
-							</li>
-						</ul>
+								<li>
+									<div class="max_per_page">
+										<span>Records Per Page </span>
+										<select>
+											<option value='5'>5</option>
+											<option value='10' selected>10</option>
+											<option value='30'>30</option>
+											<option value='50'>50</option>
+											<option value='100'>100</option>
+										</select>
+
+										<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+									</div>
+								</li>
+
+								<li>
+									<label>From</label>
+									<input type="text" placeholder="DD/MM/YYYY" id="transactionDateFrom" name="transactionDateFrom" />
+									<label>To</label>
+									<input type="text" placeholder="DD/MM/YYYY" id="transactionDateTo" name="transactionDateTo" />
+									<button type="button" class="fa fa-check btn applyBtn" title="Apply Filters"></button>
+								</li>
+							</ul>
+						</div>
 					</div>
 					<div id="user_subscriptions_container">
 						
@@ -197,12 +207,12 @@
 	<script type="text/javascript">
 		$( function() {
 			$( "#transactionDateFrom" ).datepicker({
-				dateFormat: 'dd/mm/yy',
+				dateFormat: 'mm/dd/yy',
 				maxDate: "0D"
 			});
 
 			$( "#transactionDateTo" ).datepicker({
-				dateFormat: 'dd/mm/yy',
+				dateFormat: 'mm/dd/yy',
 				maxDate: "0D"
 			});
 		});

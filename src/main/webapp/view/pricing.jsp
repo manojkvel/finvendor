@@ -354,11 +354,6 @@
 								</li>
 
 								<li>
-									<label class="default_select">Mode of payment</label>
-									<p id="review_paymentMode"></p>
-								</li>
-
-								<li>
 									<label>Transaction Date <sup>*</sup></label>
 									<p id="review_transactionDate"></p>
 								</li>
@@ -378,6 +373,12 @@
 									<label>Bank Holder Name <sup>*</sup></label>
 									<p id="review_bankHolderName"></p>
 								</li>
+
+								<li>
+									<label class="default_select">Mode of payment</label>
+									<p id="review_paymentMode"></p>
+								</li>
+								
 								<li>
 									<div class="pricing_bank_form_btn">
 										<a class="pricing_cancel_btn" href="javascript:void(0);">Cancel</a>
@@ -427,7 +428,7 @@
 	<script>
     	$( function() {
     		$( "#transactionDate" ).datepicker({
-    			dateFormat: 'dd/mm/yy',
+    			dateFormat: 'mm/dd/yy',
     			maxDate: "0D"
     		});
     	} );

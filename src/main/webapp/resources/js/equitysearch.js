@@ -146,6 +146,9 @@ jQuery(document).ready(function() {
 
 			var currency = (response.equity[i].currency) ? response.equity[i].currency : "INR";
 
+			var targetPrice = (response.equity[i].targetPrice == '' || response.equity[i].targetPrice == 'null') ? "-" : currency + " " + parseFloat(response.equity[i].targetPrice).toFixed(2);
+			var priceAtRecomm = (response.equity[i].priceAtRecomm == '' || response.equity[i].priceAtRecomm == 'null') ? "-" : currency + " " + parseFloat(response.equity[i].priceAtRecomm).toFixed(2);
+
 			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "' data-code='" + response.equity[i].isinCode + "'>" +
 			"<td>" + 
 			"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'><a href='/view/company-profile.jsp?isinCode=" + response.equity[i].isinCode + "'>" + response.equity[i].company + "</a></div>" + 
@@ -172,8 +175,8 @@ jQuery(document).ready(function() {
 			"</td>" +
 			"<td>" + 
 			"<div class='recommType " + recommTypeClass + "'>" + response.equity[i].recommType + "</div>" + 
-			"<div class='targetPrice'>" + currency + " " + parseFloat(response.equity[i].targetPrice).toFixed(2) + "</div>" + 
-			"<div class='priceAtRecomm'>" + currency + " " + ((response.equity[i].priceAtRecomm == '') ? "N/A" : parseFloat(response.equity[i].priceAtRecomm)).toFixed(2) + "</div>" +
+			"<div class='targetPrice'>" + targetPrice + "</div>" + 
+			"<div class='priceAtRecomm'>" + priceAtRecomm + "</div>" +
 			"<div class='upside " + upsideClass + "'>" + ((response.equity[i].upside != 'NA') ? parseFloat(Math.round(response.equity[i].upside * 100) / 100).toFixed(2) + '%' : response.equity[i].upside) + "</div>" +
 			"</td>" +
 			"<td>"  +  

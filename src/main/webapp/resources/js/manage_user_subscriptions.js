@@ -19,6 +19,12 @@ jQuery(document).ready(function() {
             this.baseApiUrl = "/api/subscriptions";
             this.subscriptionStateActive = "ACTIVE";
             this.subscriptionStateTerminate = "TERMINATE";
+            this.userId = $("input[name='loggedInUser']").val();
+            this.subscriptionRefIds = [];
+            this.filterJsonObj = {
+                "from" : new Date().getTime(),
+                "to" : new Date().getTime()
+            };
             this.getAllSubscriptionsDetails();
         },
 
@@ -111,7 +117,7 @@ jQuery(document).ready(function() {
                 "<div class='subscriptionState " + statusClass + "'>" + response[i].subscriptionState + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                    "<input name='subscriptions" + i + "' class='submit-button " + styleClass + "' type='checkbox' />" + 
+                    "<input name='subscriptions" + i + "' class='submit-button ' type='checkbox' />" + 
                 "</td>" +
                 "</tr>";
             }
@@ -144,8 +150,25 @@ jQuery(document).ready(function() {
             $("#transactionDateFrom").val(classRef.getFormattedDate());
             $("#transactionDateTo").val(classRef.getFormattedDate());
 
+
+            $('#manage_user_subscriptions .manage_user_subscriptions_content .applyBtn').off().on('click', {this: classRef}, classRef.getFilterData);
             $('#manage_user_subscriptions .manage_user_subscriptions_content .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
             $("#manage_user_subscriptions input[name='selectAll']").off().on('change', {this: classRef}, classRef.checkForAllData);
+        },
+
+        getFilterData: function(event) {
+            var classRef = event.data.this;
+            var transactionDateFrom = new Date($("#transactionDateFrom").val()).getTime();
+            var transactionDateTo = new Date($("#transactionDateTo").val()).getTime();
+
+            transactionDateFrom = (transactionDateFrom == "") ? new Date().getTime() : transactionDateFrom;
+            transactionDateTo = (transactionDateTo == "") ? new Date().getTime() : transactionDateTo;
+
+            classRef.filterJsonObj = {
+                "from" : transactionDateFrom,
+                "to" : transactionDateTo
+            };
+            classRef.getAllSubscriptionsDetails();
         },
 
         enableButtons: function(event) {
@@ -161,23 +184,18 @@ jQuery(document).ready(function() {
                 "subscriptionRefId" : subscriptionRefId
             };
             
-            classRef.addRemoveItemFromArrayJsonObject(classRef.userList, itemJson);
+            classRef.addRemoveItemFromArray(classRef.subscriptionRefIds, subscriptionRefId);
 
-            // $(element).prop('checked', !$(element).prop('checked'));
-            if($(element).prop('checked')) {
-                $(element).prop('checked', true);
-                $("#manage_user_subscriptions .approveBtn").removeAttr("disabled");
-                $("#manage_user_subscriptions .rejectBtn").removeAttr("disabled");
-            } else {
-                $(element).prop('checked', false);
+            if(classRef.subscriptionRefIds.length == 0) {
                 $("#manage_user_subscriptions .approveBtn").attr("disabled", "disabled");
                 $("#manage_user_subscriptions .rejectBtn").attr("disabled", "disabled");
-                return true;
+            } else {
+                $("#manage_user_subscriptions .approveBtn").removeAttr("disabled");
+                $("#manage_user_subscriptions .rejectBtn").removeAttr("disabled");
+                $("#approveUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateActive}, classRef.updateUserSubscription);
+                $("#rejectUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateTerminate}, classRef.updateUserSubscription);
             }
 
-
-            $("#approveUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateActive}, classRef.updateUserSubscription);
-            $("#rejectUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateTerminate}, classRef.updateUserSubscription);
 
         },
 
@@ -186,8 +204,22 @@ jQuery(document).ready(function() {
             var state = event.data.subscriptionState;
             var element = (state == classRef.subscriptionStateActive) ? "#approveUserSubscription" : "#rejectUserSubscription";
 
-            classRef.updateUserSubscriptionApi(classRef.userList[0].userId, classRef.userList[0].subscriptionRefId, state).then(function(response) {
+            classRef.updateUserSubscriptionApi(state).then(function(response) {
                 $(element).modal('hide');
+                /*var arr = $("table tbody input:visible");
+
+
+                for(key in arr) {
+                    if (!isNaN(key)) {
+                        var rowId = $("table tbody input:visible").eq(key).parents('tr');
+                        var subscriptionRefId = rowId.attr('data-id');
+                        var userId = rowId.attr('data-userid');
+                        var status = rowId.attr('data-subscriptionstatus');
+                        if(subscriptionRefId == classRef.subscriptionRefIds[0]) {
+                            rowId.find(".subscriptionState").text(state);
+                        }
+                    }
+                }*/
             }, function(error) {
                 $(element).modal('hide');
             });
@@ -196,14 +228,15 @@ jQuery(document).ready(function() {
         /**
         * Function to start async call to get filter data.
         */
-        updateUserSubscriptionApi : function(userId, subscriptionRefId, state) {
+        updateUserSubscriptionApi : function(state) {
             var classRef = this;
 
             var jsonBody = {
-                "subscriptionState": state
+                "subscriptionState": state,
+                "subscriptionIds" : classRef.subscriptionRefIds
             };
 
-            var url = "/api/users/" + userId + "/subscriptions/" + subscriptionRefId;
+            var url = "/api/users/" + classRef.userId + "/subscriptions";
             return new Promise(function(resolve, reject) {
                 var httpRequest = new XMLHttpRequest({
                     mozSystem: true
@@ -217,7 +250,7 @@ jQuery(document).ready(function() {
                 };
                 httpRequest.onreadystatechange = function () {
                     if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                        if (httpRequest.status === 201) {
+                        if (httpRequest.status === 200) {
                             resolve(httpRequest.response);
                         } else {
                             reject(httpRequest.responseText);
@@ -296,7 +329,7 @@ jQuery(document).ready(function() {
                         }
                     };
 
-                    httpRequest.send();
+                    httpRequest.send(JSON.stringify(classRef.filterJsonObj));
                 } else {
                     reject(false)
                 }
@@ -305,16 +338,6 @@ jQuery(document).ready(function() {
 
         getRecordStats: function() {
             var classRef = this;
-
-            var d = new Date();
-            var n = d.getTime();
-
-            var jsonBody= {};
-
-            /*jsonBody= {
-              "from":1554661800000,
-              "to":n
-            };*/
 
             var url = classRef.baseApiUrl + "/recordstat?perPageMaxRecords=" + classRef.perPageMaxRecords;
             return new Promise(function(resolve, reject) {
@@ -340,7 +363,7 @@ jQuery(document).ready(function() {
                     }
                 };
 
-                httpRequest.send(JSON.stringify(jsonBody));
+                httpRequest.send(JSON.stringify(classRef.filterJsonObj));
             });
         }, 
 
@@ -494,12 +517,7 @@ jQuery(document).ready(function() {
                     var subscriptionRefId = rowId.attr('data-id');
                     var userId = rowId.attr('data-userid');
                     var status = rowId.attr('data-subscriptionstatus');
-
-                    var itemJson = {
-                        "userId" : userId,
-                        "subscriptionRefId" : subscriptionRefId
-                    };
-                    classRef.addRemoveItemFromArrayJsonObject(classRef.userList, itemJson);
+                    classRef.addRemoveItemFromArray(classRef.subscriptionRefIds, subscriptionRefId);
                 }
             }
         },
@@ -516,7 +534,7 @@ jQuery(document).ready(function() {
             if (mm < 10) { 
                 mm = '0' + mm; 
             } 
-            var today = dd + '/' + mm + '/' + yyyy; 
+            var today = mm + '/' + dd + '/' + yyyy; 
             return today;
         }
     };
