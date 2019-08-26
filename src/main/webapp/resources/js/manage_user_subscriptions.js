@@ -117,7 +117,7 @@ jQuery(document).ready(function() {
                 "<div class='subscriptionState " + statusClass + "'>" + response[i].subscriptionState + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                    "<input name='subscriptions" + i + "' class='submit-button ' type='checkbox' />" + 
+                    "<input name='subscriptions" + i + "' class='submit-button " + styleClass + "' type='checkbox' />" + 
                 "</td>" +
                 "</tr>";
             }
@@ -206,7 +206,7 @@ jQuery(document).ready(function() {
 
             classRef.updateUserSubscriptionApi(state).then(function(response) {
                 $(element).modal('hide');
-                /*var arr = $("table tbody input:visible");
+                var arr = $("table tbody input:visible");
 
 
                 for(key in arr) {
@@ -216,10 +216,19 @@ jQuery(document).ready(function() {
                         var userId = rowId.attr('data-userid');
                         var status = rowId.attr('data-subscriptionstatus');
                         if(subscriptionRefId == classRef.subscriptionRefIds[0]) {
+                            classRef.subscriptionRefIds.splice(subscriptionRefId, 1);
                             rowId.find(".subscriptionState").text(state);
+                            rowId.find("td:last input").addClass("hidden");
+                            if(state == classRef.subscriptionStateActive) {
+                                rowId.find(".subscriptionState").removeClass("label-warning");
+                                rowId.find(".subscriptionState").addClass("label-success");
+                            } else {
+                                rowId.find(".subscriptionState").removeClass("label-warning");
+                                rowId.find(".subscriptionState").addClass("label-danger");
+                            }
                         }
                     }
-                }*/
+                }
             }, function(error) {
                 $(element).modal('hide');
             });

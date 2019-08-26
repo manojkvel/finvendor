@@ -310,7 +310,7 @@ jQuery(document).ready(function() {
                 var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
                 if(userDetails != undefined) {
 
-                    if(userDetails.data.subscriptionStatus != "PENDING" && userDetails.data.subscriptionType != undefined) {
+                    if((userDetails.data.subscriptionStatus != "PENDING" && userDetails.data.subscriptionStatus != "N/A") && userDetails.data.subscriptionType != undefined) {
                         
                     } else {
                         if(userDetails.data.subscriptionType == "SAGE") {
