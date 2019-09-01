@@ -1,13 +1,13 @@
 package com.finvendor.api.login.controller;
 
-import com.finvendor.api.common.service.ReferenceDataService;
-import com.finvendor.api.consumer.service.ConsumerService;
+import com.finvendor.api.common.service.ReferenceDataServiceImpl;
+import com.finvendor.api.consumer.service.ConsumerServiceImpl;
 import com.finvendor.api.formdata.controller.FormDataController;
 import com.finvendor.api.login.dto.LoginResponse;
 import com.finvendor.api.login.dto.SubscriptionDto;
-import com.finvendor.api.login.service.LoginService;
-import com.finvendor.api.marketdata.service.MarketDataAggregatorsService;
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.login.service.LoginServiceImpl;
+import com.finvendor.api.marketdata.service.MarketDataAggregatorsServiceImpl;
+import com.finvendor.api.user.service.UserServiceImpl;
 import com.finvendor.common.exception.ErrorMessage;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.model.*;
@@ -29,7 +29,6 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -43,20 +42,20 @@ public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(FormDataController.class.getName());
 
-    @Resource(name = "loginService")
-    private LoginService loginService;
-
-    @Resource(name = "userService")
-    private UserService userService;
+    @Autowired
+    private LoginServiceImpl loginService;
 
     @Autowired
-    private MarketDataAggregatorsService marketDataAggregatorsService;
+    private UserServiceImpl userService;
 
-    @Resource(name = "referenceDataService")
-    private ReferenceDataService referenceDataService;
+    @Autowired
+    private MarketDataAggregatorsServiceImpl marketDataAggregatorsService;
 
-    @Resource(name = "consumerService")
-    private ConsumerService consumerService;
+    @Autowired
+    private ReferenceDataServiceImpl referenceDataService;
+
+    @Autowired
+    private ConsumerServiceImpl consumerService;
 
     //    @Resource(name = "vendorService")
     //    private VendorService vendorService;
@@ -95,7 +94,8 @@ public class LoginController {
             if (changePassword) {
                 userId = chgUsername;
                 credentials = oldPassword;
-            } else {
+            }
+            else {
                 userId = username;
                 credentials = password;
             }
@@ -104,29 +104,35 @@ public class LoginController {
             if (user == null) {
                 logger.error("No User record available for : {}", userId);
                 status = RequestConstans.INVALID_USER;
-            } else {
+            }
+            else {
                 logger.info("User {} enbabled : {}", userId, user.getEnabled());
                 if (!user.getEnabled()) {
                     logger.error("User record is disabled for : {}", userId);
                     status = RequestConstans.ACCOUNT_DISABLED;
-                } else {
+                }
+                else {
                     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
                     if (encoder.matches(credentials, user.getPassword())) {
                         if (changePassword) {
                             userService.changePassword(userId, encoder.encode(newPassword));
                             userService.updateUnsuccessfulLoginAttempts(userId, true);
                             status = RequestConstans.LOGIN_AFTER_CHANGE_PASSWORD;
-                        } else if (user.getLoginAttempts() < 0) {
+                        }
+                        else if (user.getLoginAttempts() < 0) {
                             status = RequestConstans.CHANGE_PASSWORD;
-                        } else {
+                        }
+                        else {
                             userService.updateUnsuccessfulLoginAttempts(userId, true);
                             status = "User logged-in successfully";
                         }
-                    } else {
+                    }
+                    else {
                         logger.error("Incorrect password entered for : {}", userId);
                         if (user.getLoginAttempts() >= RequestConstans.MAX_UNSUCCESSFUL_ATTEMPTS) {
                             userService.updateUserAccountStatus(userId, false);
-                        } else {
+                        }
+                        else {
                             userService.updateUnsuccessfulLoginAttempts(userId, false);
                         }
                         status = RequestConstans.INVALID_PASSWORD;
@@ -134,7 +140,8 @@ public class LoginController {
                 }
             }
             List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
-            subscriptionDtoList.add(new SubscriptionDto(user != null ? user.getSubscriptionType() : "N/A", user != null ? user.getSubscriptionState() : "N/A"));
+            subscriptionDtoList.add(new SubscriptionDto(user != null ? user.getSubscriptionType() : "N/A",
+                    user != null ? user.getSubscriptionState() : "N/A"));
             LoginResponse loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
             return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
         } catch (Exception exp) {
@@ -168,7 +175,8 @@ public class LoginController {
                 equals(RequestConstans.Anonymous.ANONYMOUS_USER)) {
             logger.error("No User Principal !!");
             modelAndView = new ModelAndView(RequestConstans.Login.HOME);
-        } else {
+        }
+        else {
 
             User appUser = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
@@ -192,7 +200,8 @@ public class LoginController {
                     modelAndView = new ModelAndView(RequestConstans.Login.ADMIN_INFO);
                     request.getSession().setAttribute("loggedInRole",
                             RequestConstans.Roles.ROLE_ADMIN);
-                } else if (appUser.getAuthorities().contains(new SimpleGrantedAuthority(
+                }
+                else if (appUser.getAuthorities().contains(new SimpleGrantedAuthority(
                         RequestConstans.Roles.ROLE_VENDOR))) {
                     logger.debug("Role for User - {} is {}",
                             username, RequestConstans.Roles.ROLE_VENDOR);
@@ -212,7 +221,8 @@ public class LoginController {
                     modelAndView.addObject("vendor", vendor);
                     request.getSession().setAttribute("loggedInRole",
                             RequestConstans.Roles.ROLE_VENDOR);
-                } else if (appUser.getAuthorities().contains(new SimpleGrantedAuthority(
+                }
+                else if (appUser.getAuthorities().contains(new SimpleGrantedAuthority(
                         RequestConstans.Roles.ROLE_CONSUMER))) {
                     logger.debug("Role for User - {} is {}",
                             username, RequestConstans.Roles.ROLE_CONSUMER);
@@ -263,7 +273,8 @@ public class LoginController {
     @RequestMapping(value = "/access-denied")
     public ResponseEntity<ErrorMessage> accessDenied() {
         logger.info("Method for access denied 6--:");
-        return new ResponseEntity<>(new ErrorMessage(HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase()), HttpStatus.FORBIDDEN); // logical view name
+        return new ResponseEntity<>(new ErrorMessage(HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase()),
+                HttpStatus.FORBIDDEN); // logical view name
     }
 
     /**
@@ -309,7 +320,6 @@ public class LoginController {
 
     }
 
-
     /**
      * method for my home
      *
@@ -347,7 +357,8 @@ public class LoginController {
             if (user == null) {
                 logger.error("No User record available for : {}", email);
                 status = status + ":Invalid Email Id";
-            } else {
+            }
+            else {
                 logger.info("LoginController : forgotPassword - Resetting password for : {}", user.getUserName());
                 String password = userService.resetPassword(user.getUserName());
                 EmailUtil.sendResetPasswordEmail(user, password);
@@ -434,25 +445,29 @@ public class LoginController {
                     response.setContentType(vendor.getLogoType());
                     FileCopyUtils.copy(vendor.getLogoBytes().getBinaryStream(),
                             response.getOutputStream());
-                } else {
+                }
+                else {
                     response.setContentType("image/png");
                     FileCopyUtils.copy(FileCopyUtils.copyToByteArray(
                             new File(absoluteDiskPath)),
                             response.getOutputStream());
                 }
-            } else if (user.getConsumer() != null) {
+            }
+            else if (user.getConsumer() != null) {
                 Consumer consumer = user.getConsumer();
                 if (consumer.getLogoType() != null) {
                     response.setContentType(consumer.getLogoType());
                     FileCopyUtils.copy(consumer.getLogoBytes().getBinaryStream(),
                             response.getOutputStream());
-                } else {
+                }
+                else {
                     response.setContentType("image/png");
                     FileCopyUtils.copy(FileCopyUtils.copyToByteArray(
                             new File(absoluteDiskPath)),
                             response.getOutputStream());
                 }
-            } else {
+            }
+            else {
                 response.setContentType("image/png");
                 FileCopyUtils.copy(FileCopyUtils.copyToByteArray(
                         new File(absoluteDiskPath)),
@@ -485,7 +500,8 @@ public class LoginController {
                     FileCopyUtils.copy(vendor.getLogoBytes().getBinaryStream(),
                             response.getOutputStream());
                 }
-            } else {
+            }
+            else {
                 consumer = user.getConsumer();
                 response.setContentType(consumer.getLogoType());
                 if (consumer.getLogoBytes() != null) {

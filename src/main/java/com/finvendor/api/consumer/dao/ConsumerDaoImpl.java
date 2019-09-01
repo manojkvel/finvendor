@@ -12,12 +12,13 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Properties;
-
-public class ConsumerDaoImpl implements ConsumerDao {
+@Repository
+public class ConsumerDaoImpl {//implements ConsumerDao {
 
 	private static Logger logger = LoggerFactory.
 			getLogger(ConsumerDaoImpl.class);
@@ -28,7 +29,7 @@ public class ConsumerDaoImpl implements ConsumerDao {
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;
 
-	@Override
+	
 	public Consumer updateConsumerDetails(Consumer consumer)
 			throws ApplicationException {
 		logger.debug("ConsumerDaoImpl : saveConsumerInfo");
@@ -43,7 +44,7 @@ public class ConsumerDaoImpl implements ConsumerDao {
 		return consumer;
 	}
 
-	@Override
+	
 	public Consumer getConsumerInfoByEmail(String email)
 			throws ApplicationException {
 		logger.debug("ConsumerDaoImpl : getConsumerInfoByEmail - {}",
@@ -65,7 +66,7 @@ public class ConsumerDaoImpl implements ConsumerDao {
 		return consumer;
 	}
 
-	@Override
+	
 	public CompanySubType getCompanySubType(int id)
 			throws ApplicationException {
 		logger.debug("ConsumerDaoImpl : getCompanySubType");
@@ -81,7 +82,7 @@ public class ConsumerDaoImpl implements ConsumerDao {
 		return companySubType;
 	}
 
-	@Override
+	
 	public List<Object[]> loadConsumerMyProfile(String consumerId, String tableKey)
 			throws ApplicationException {
 		logger.debug("Entering : ConsumerDaoImpl - loadConsumerMyProfile for {}", consumerId);
@@ -104,7 +105,7 @@ public class ConsumerDaoImpl implements ConsumerDao {
 		return tableData;
 	}
 
-	@Override
+	
 	public List<Object[]> updateConsumerProfileDetails(String consumerId, String tableKey,
 			List<Object[]> tableData) throws ApplicationException {
 		String tableMetadata = finvendorProperties.getProperty(tableKey);
@@ -152,7 +153,7 @@ public class ConsumerDaoImpl implements ConsumerDao {
 		return tableData;
 	}
 
-	@Override
+	
 	public Object updateConsumerLogo(FileDetails ufile, String username) {
 		try{
 		Session currentSession = sessionFactory.getCurrentSession();

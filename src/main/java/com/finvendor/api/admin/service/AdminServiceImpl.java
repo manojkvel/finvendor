@@ -1,36 +1,39 @@
 package com.finvendor.api.admin.service;
 
-import com.finvendor.api.admin.dao.AdminDao;
+import com.finvendor.api.admin.dao.AdminDaoImpl;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.ReferenceData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
-public class AdminServiceImpl implements AdminService {
+@Service
+@Transactional
+public class AdminServiceImpl {//implements AdminService {
     private static final Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class.getName());
 
-    @Resource(name = "adminDao")
-    private AdminDao adminDao;
+    @Autowired
+    private AdminDaoImpl adminDao;
 
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public List<Object[]> getReferenceData(ReferenceData refData) {
         return adminDao.getReferenceData(refData);
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public List<Object[]> getReferenceDataRow(ReferenceData refData,
                                               String primaryKeyValue) {
         return adminDao.getReferenceDataRow(refData, primaryKeyValue);
     }
 
-    @Override
+    
     @Transactional
     public int updateReferenceDataRow(ReferenceData refData, List<String> params,
                                       List<Boolean> paramSelected) throws ApplicationException {
@@ -82,7 +85,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    @Override
+    
     @Transactional
     public int deleteReferenceDataRow(ReferenceData refData, List<String> primaryKeyName,
                                       List<String> primaryKeyValue) throws ApplicationException {
@@ -116,7 +119,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    @Override
+    
     @Transactional
     public int addReferenceDataRow(ReferenceData refData, List<String> params,
                                    List<Boolean> paramSelected) throws ApplicationException {

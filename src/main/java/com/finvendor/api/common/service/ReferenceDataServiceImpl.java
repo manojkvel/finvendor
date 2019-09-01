@@ -1,33 +1,36 @@
 package com.finvendor.api.common.service;
 
-import com.finvendor.api.common.dao.ReferenceDataDao;
+import com.finvendor.api.common.dao.ReferenceDataDaoImpl;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.*;
 import com.finvendor.modelpojo.staticpojo.ReferenceDataJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReferenceDataServiceImpl implements ReferenceDataService {
+@Service
+@Transactional
+public class ReferenceDataServiceImpl {//implements ReferenceDataService {
 
     private static final Logger logger = LoggerFactory.getLogger(ReferenceDataServiceImpl.class.getName());
 
     @Autowired
-    private ReferenceDataDao referenceDataDao;
+    private ReferenceDataDaoImpl referenceDataDao;
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public Object getModelObjectById(Class<?> type, Serializable id) {
         return referenceDataDao.getModelObjectById(type, id);
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public List<SecurityType> getSecurityTypesForAssetClassId(int assetClassId) throws ApplicationException {
         logger.debug("Entering : ReferenceDataServiceImpl - getSecurityTypesForAssetClassId for : {}",
                 assetClassId);
@@ -36,38 +39,38 @@ public class ReferenceDataServiceImpl implements ReferenceDataService {
         return secList;
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public AssetClass getAssetClassByDescription(String assetClassDescription) throws ApplicationException {
         return referenceDataDao.getAssetClassByDescription(assetClassDescription);
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public SecurityType getSecurityTypeByName(String securityName) throws ApplicationException {
         return referenceDataDao.getSecurityTypeByName(securityName);
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public Region getRegionByName(String regionsName) throws ApplicationException {
         return referenceDataDao.getRegionByName(regionsName);
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public Country getCountryByName(String countryName) throws ApplicationException {
         return referenceDataDao.getCountryByName(countryName);
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public Exchange getExchangeByName(String exchangeName) throws ApplicationException {
         return referenceDataDao.getExchangeByName(exchangeName);
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public List<ReferenceDataJson> getJsonReferenceData(String type, String parentId) throws ApplicationException {
         logger.debug("Entering : ReferenceDataServiceImpl - getJsonReferenceData for : {}",
                 type);
@@ -269,15 +272,15 @@ public class ReferenceDataServiceImpl implements ReferenceDataService {
         return refDataList;
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public ReferenceDataJson getJsonReferenceDataById(String type,
                                                       String id) {
         return null;
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public List<ReferenceDataJson> getJsonReferenceDataByParentId(
             String type, String id) {
         return null;

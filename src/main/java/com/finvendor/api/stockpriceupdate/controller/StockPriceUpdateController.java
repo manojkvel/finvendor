@@ -1,11 +1,11 @@
 package com.finvendor.api.stockpriceupdate.controller;
 
+import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.stockpriceupdate.service.StockPriceUpdateService;
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.user.service.UserServiceImpl;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
-import com.finvendor.api.exception.WebApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,8 +31,8 @@ public class StockPriceUpdateController {
     private DateFormat bhavDateFormatFromNSESite = new SimpleDateFormat("dd-MMM-yyyy");
     private Format fvDateFormat = new SimpleDateFormat("MM/dd/yy");
 
-    @Resource(name = "userService")
-    private UserService userService;
+    @Autowired
+    private UserServiceImpl userService;
 
     @Resource(name = "finvendorProperties")
     private Properties fvProperties;

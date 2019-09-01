@@ -1,9 +1,8 @@
 package com.finvendor.api.user.controller;
 
 import com.finvendor.api.subscription.dao.SubscriptionDao;
-
 import com.finvendor.api.user.dto.UserSubscriptionDto;
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.user.service.UserServiceImpl;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.common.response.ApiResponse;
@@ -30,11 +29,11 @@ import static com.finvendor.api.webutil.WebUtils.getResponseEntity;
 @RequestMapping(value = "/api")
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class.getName());
-    private UserService userService;
+    private UserServiceImpl userService;
     private SubscriptionDao subscriptionDao;
 
     @Autowired
-    public UserController(UserService userService, SubscriptionDao subscriptionDao) {
+    public UserController(UserServiceImpl userService, SubscriptionDao subscriptionDao) {
         this.userService = userService;
         this.subscriptionDao = subscriptionDao;
     }

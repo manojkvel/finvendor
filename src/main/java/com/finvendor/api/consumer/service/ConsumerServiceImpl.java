@@ -1,6 +1,6 @@
 package com.finvendor.api.consumer.service;
 
-import com.finvendor.api.consumer.dao.ConsumerDao;
+import com.finvendor.api.consumer.dao.ConsumerDaoImpl;
 import com.finvendor.api.consumer.dto.ConsumerMyProfileBusinessNeedMarketData;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.CompanySubType;
@@ -11,21 +11,22 @@ import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ConsumerServiceImpl implements ConsumerService {
+@Service
+public class ConsumerServiceImpl {//implements ConsumerService {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsumerServiceImpl.class.getName());
 
     @Autowired
-    private ConsumerDao consumerDao;
+    private ConsumerDaoImpl consumerDao;
 
-    @Override
-    @Transactional
+   
+    
     public Consumer updateConsumerDetails(Consumer consumer)
             throws ApplicationException {
         logger.debug("ConsumerServiceImpl : saveConsumerInfo");
@@ -34,24 +35,24 @@ public class ConsumerServiceImpl implements ConsumerService {
         return updatedConsumer;
     }
 
-    @Override
-    @Transactional(readOnly = true)
+   
+    
     public Consumer getConsumerInfoByEmail(String email)
             throws ApplicationException {
         logger.debug("ConsumerServiceImpl : getConsumerInfoByEmail");
         return consumerDao.getConsumerInfoByEmail(email);
     }
 
-    @Override
-    @Transactional(readOnly = true)
+   
+    
     public CompanySubType getCompanySubType(int id)
             throws ApplicationException {
         logger.debug("ConsumerServiceImpl : getCompanySubType");
         return consumerDao.getCompanySubType(id);
     }
 
-    @Override
-    @Transactional(readOnly = true)
+   
+    
     public List<Object[]> loadConsumerMyProfile(String consumerId,
                                                 String tableKey) throws ApplicationException {
         List<Object[]> tableRowList = consumerDao.loadConsumerMyProfile(
@@ -59,8 +60,8 @@ public class ConsumerServiceImpl implements ConsumerService {
         return tableRowList;
     }
 
-    @Override
-    @Transactional
+   
+    
     public Set<ConsumerMyProfileBusinessNeedMarketData>
     updateConsumerMyProfileBusinessNeedMarketData(String consumerId,
                                                   String tableKey, String jsonTableData) throws ApplicationException {
@@ -92,8 +93,8 @@ public class ConsumerServiceImpl implements ConsumerService {
         return tableData;
     }
 
-    @Override
-    @Transactional
+   
+    
     public Object updateConsumerLogo(FileDetails ufile, String username) {
         return consumerDao.updateConsumerLogo(ufile, username);
     }

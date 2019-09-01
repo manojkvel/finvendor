@@ -1,7 +1,6 @@
 package com.finvendor.api.markets.dao;
 
 import com.finvendor.common.commondao.ICommonDao;
-import io.swagger.models.auth.In;
 import org.hibernate.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

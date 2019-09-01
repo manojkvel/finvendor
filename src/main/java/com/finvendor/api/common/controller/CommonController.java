@@ -1,16 +1,16 @@
 package com.finvendor.api.common.controller;
 
 import com.finvendor.api.common.service.CommonService;
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.exception.WebApiException;
+import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.webutil.WebUtils;
+import com.finvendor.api.webutil.WebUtils.SqlData;
+import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.enums.SqlEnum;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
-import com.finvendor.common.commondao.ICommonDao;
-import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.webutil.WebUtils;
-import com.finvendor.api.webutil.WebUtils.SqlData;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -43,8 +42,8 @@ public class CommonController {
     @Autowired
     private CommonService commonService;
 
-    @Resource(name = "userService")
-    private UserService userService;
+    @Autowired
+    private UserServiceImpl userService;
 
     private static Map<String, String> filterDataMap = new HashMap<>();
 

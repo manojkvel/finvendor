@@ -13,12 +13,13 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.*;
-
-public class VendorDaoImpl implements VendorDao {
+@Repository
+public class VendorDaoImpl {//implements VendorDao {
 
 	private static final Logger logger = LoggerFactory.getLogger(VendorDaoImpl.class.getName());
 	private static final String RECORD_ALREADY_EXISTS = "Record Already Exist";
@@ -26,8 +27,8 @@ public class VendorDaoImpl implements VendorDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void saveVendorInfo(Vendor vendor) {
 		logger.debug("Entering - VendorDaoImpl : saveVendorInfo");
 		try {
@@ -38,8 +39,8 @@ public class VendorDaoImpl implements VendorDao {
 		logger.debug("Leaving - VendorDaoImpl : saveVendorInfo");
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Vendor getVendorInfoByEmail(String email) {
 		logger.info("getVendorInfoByEmail method---");
 		Vendor vendor = null;
@@ -55,8 +56,8 @@ public class VendorDaoImpl implements VendorDao {
 		return vendor;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Vendor getVendorInfoByUserName(String userName) {
 		logger.info("getVendorInfoByEmail method---");
 		String sqlQuery = "select vendor_id from vendor where username='" + userName + "'";
@@ -66,8 +67,8 @@ public class VendorDaoImpl implements VendorDao {
 		return (Vendor) object;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void updateVendorPersonalInfoTab(Vendor vendor, String username) {
 		logger.info("updateVendorPersonalInfoTab method---");
 		String sqlQuery = null;
@@ -152,8 +153,8 @@ public class VendorDaoImpl implements VendorDao {
 	}
 	*/
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void updateVendorOfferingDetails(VendorOffering vendorOffering) {
 		logger.info("updateVendorOfferingDetails method---");
 		try {
@@ -218,8 +219,8 @@ public class VendorDaoImpl implements VendorDao {
 	}
 	*/
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void updateVendorRegionCountryExchangeInfos(VendorRegionCountryExchangeMap vendorRegionCountryExchangeMap) {
 		logger.info("updateVendorRegionCountryExchangeInfos method---");
 		try {
@@ -231,8 +232,8 @@ public class VendorDaoImpl implements VendorDao {
 	}
 
 	@SuppressWarnings("deprecation")
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Awards saveAwardDetails(Awards awards) {
 		logger.info("saveAwardDetails method---");
 		Awards awardsDetails = null;
@@ -246,8 +247,8 @@ public class VendorDaoImpl implements VendorDao {
 		return awardsDetails;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void updateVendorAwardDetails(VendorAwardsMap vendorAwardsMap) {
 		logger.info("updateVendorAwardDetails method---");
 		try {
@@ -258,8 +259,8 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Cost getCostInfo(String costNames) {
 		logger.info("getCostInfo method---");
 		Cost cost = null;
@@ -275,8 +276,8 @@ public class VendorDaoImpl implements VendorDao {
 		return cost;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Solutions getSolutionsInfo(String solutionId) {
 		logger.info("getSolutionsInfo method---");
 		Solutions solutions = null;
@@ -292,8 +293,8 @@ public class VendorDaoImpl implements VendorDao {
 	}
 
 	@SuppressWarnings("deprecation")
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public VendorSolution updateVendorSolutionDetails(VendorSolution vendorSolution) {
 		logger.info("updateVendorSolutionDetails method---");
 		VendorSolution vendorSolutionDetails = null;
@@ -306,8 +307,8 @@ public class VendorDaoImpl implements VendorDao {
 		return vendorSolutionDetails;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Support getSupportInfo(String supportname) {
 		logger.info("getSupportInfo method---");
 		Support support = null;
@@ -323,8 +324,8 @@ public class VendorDaoImpl implements VendorDao {
 		return support;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void updateVendorSupportInfo(VendorSupport vendorSupport) {
 		logger.info("updateVendorSupportInfo method---");
 		try {
@@ -335,8 +336,8 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorOffering> getVendorOfferingDetails(String id) {
 		logger.info("getVendorOfferingDetails method---");
 		Session currentSession = this.sessionFactory.getCurrentSession();
@@ -354,8 +355,8 @@ public class VendorDaoImpl implements VendorDao {
 
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<Solutions> listVednorSolution(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, id);
@@ -364,8 +365,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<Solutions>(solution);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Solutions deleteVendorSolution(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Solutions vendorSolution = (Solutions) currentSession.get(Solutions.class, Integer.parseInt(id));
@@ -375,8 +376,8 @@ public class VendorDaoImpl implements VendorDao {
 		return null;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public SolutionTypes getSolutionTypes(String name) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -390,8 +391,8 @@ public class VendorDaoImpl implements VendorDao {
 		return solutionTypes;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Solutions addSolutionsInfo(Solutions solutions) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		logger.info("Adding Solution");
@@ -404,8 +405,8 @@ public class VendorDaoImpl implements VendorDao {
 		return solutions;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<Solutions> getSolutionsBasedOnOfferingTypes(SolutionTypes solutionTypes) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Criteria criteria = null;
@@ -420,8 +421,8 @@ public class VendorDaoImpl implements VendorDao {
 		return list;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public String addVendorDataCoverage(VendorDataCoverage vendorDataCoverage) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		try {
@@ -441,8 +442,8 @@ public class VendorDaoImpl implements VendorDao {
 		return null;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorDataCoverage> listVendorDataCoverage(String id) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -454,8 +455,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorDataCoverage>(vendorDataCoverage);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public String addVendorDistribution(VendorDistribution vendorDistribution) {
 		Session currentSession = sessionFactory.getCurrentSession();
 
@@ -478,8 +479,8 @@ public class VendorDaoImpl implements VendorDao {
 
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorDistribution> listVendorDistribution(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, id);
@@ -489,8 +490,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorDistribution>(vendorDistribution);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteVendorDataCoverage(String selectedId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		VendorDataCoverage vendorDataCoverage = (VendorDataCoverage) currentSession.get(VendorDataCoverage.class,
@@ -499,8 +500,8 @@ public class VendorDaoImpl implements VendorDao {
 			currentSession.delete(vendorDataCoverage);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteVendorDistribution(String selectedId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		VendorDistribution vendorDistribution = (VendorDistribution) currentSession.get(VendorDistribution.class,
@@ -510,8 +511,8 @@ public class VendorDaoImpl implements VendorDao {
 
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public String addTradingCapabilitiesSupported(VendorTradingCapabilitiesSupported tradingCapabilitiesSupported) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -524,32 +525,32 @@ public class VendorDaoImpl implements VendorDao {
 		return null;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void addTradingSoftwareDetails(VendorTradingSoftwareDetails tradingSoftwareDetails) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.save(tradingSoftwareDetails);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void addAnalyticsfeaturesSupported(VendorAnalyticsfeaturesSupported analyticsfeaturesSupported) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.save(analyticsfeaturesSupported);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void addAnalyticsSoftwareDetails(VendorAnalyticsSoftwareDetails analyticsSoftwareDetails) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.save(analyticsSoftwareDetails);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void addResearchCoverage(VendorResearchCoverage researchCoverage) {
 		// TODO Auto-generated method stub
 		try {
@@ -560,24 +561,24 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void addResearchDetails(VendorResearchDetails researchDetails) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.save(researchDetails);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void addAnalystProfile(VendorAnalystProfile analystProfile) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.save(analystProfile);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorTradingCapabilitiesSupported> listTradingCapabilitiesSupported(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, objectId);
@@ -588,8 +589,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorTradingCapabilitiesSupported>(vendorTradingCapabilitiesSupported);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorTradingSoftwareDetails> listTradingSoftwareDetails(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, objectId);
@@ -599,8 +600,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorTradingSoftwareDetails>(vendorTradingSoftwareDetails);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorAnalyticsfeaturesSupported> listAnalyticsfeaturesSupported(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, objectId);
@@ -611,8 +612,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorAnalyticsfeaturesSupported>(vendorAnalyticsfeaturesSupported);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorAnalyticsSoftwareDetails> listAnalyticsSoftwareDetails(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, objectId);
@@ -622,8 +623,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorAnalyticsSoftwareDetails>(vendorAnalyticsSoftwareDetails);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorResearchCoverage> listResearchCoverage(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, objectId);
@@ -633,8 +634,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorResearchCoverage>(vendorResearchCoverage);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorResearchDetails> listResearchDetails(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, objectId);
@@ -644,8 +645,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorResearchDetails>(vendorResearchDetails);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorAnalystProfile> listAnalystProfile(String objectId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, objectId);
@@ -655,8 +656,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorAnalystProfile>(vendorAnalystProfile);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteTradingCapabilitiesSupported(String objectId) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -666,8 +667,8 @@ public class VendorDaoImpl implements VendorDao {
 			currentSession.delete(vendorTradingCapabilitiesSupported);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteTradingSoftwareDetails(String objectId) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -678,8 +679,8 @@ public class VendorDaoImpl implements VendorDao {
 
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteAnalyticsfeaturesSupported(String objectId) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -690,8 +691,8 @@ public class VendorDaoImpl implements VendorDao {
 
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteAnalyticsSoftwareDetails(String objectId) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -702,8 +703,8 @@ public class VendorDaoImpl implements VendorDao {
 
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteResearchCoverage(String objectId) {
 		// TODO Auto-generated method stub
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -714,8 +715,8 @@ public class VendorDaoImpl implements VendorDao {
 
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteResearchDetails(String objectId) {
 		// TODO Auto-generated method stub
 
@@ -727,8 +728,8 @@ public class VendorDaoImpl implements VendorDao {
 
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteAnalystProfile(String objectId) {
 		// TODO Auto-generated method stub
 
@@ -740,8 +741,8 @@ public class VendorDaoImpl implements VendorDao {
 
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorTradingSoftwareDetails> listTradingSoftwareDetailsBasedOnSolutionId(String solutionId) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Solutions solution = (Solutions) currentSession.get(Solutions.class, Integer.parseInt(solutionId));
@@ -749,8 +750,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorTradingSoftwareDetails>(vendorTradingSoftwareDetails);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorResearchCoverage> listResearchReportingVendorOfferingBasedOnSolutionId(String solutionId) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -781,8 +782,8 @@ public class VendorDaoImpl implements VendorDao {
 	}
 	*/
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public List<VendorAwardsMap> listVendorAwardDetails(String id) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Vendor vendor = (Vendor) currentSession.get(Vendor.class, id);
@@ -790,8 +791,8 @@ public class VendorDaoImpl implements VendorDao {
 		return new ArrayList<VendorAwardsMap>(vendorAwardsMaps);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Boolean isAwardAlreadyExist(String value) {
 
 		String val[] = value != null ? value.split(",") : null;
@@ -804,8 +805,8 @@ public class VendorDaoImpl implements VendorDao {
 		return false;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Boolean isSolutionAlreadyExist(String value) {
 
 		Query query = this.sessionFactory.getCurrentSession()
@@ -816,8 +817,8 @@ public class VendorDaoImpl implements VendorDao {
 		return false;
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public void deleteAwardDetails(String objectVar) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
@@ -827,8 +828,8 @@ public class VendorDaoImpl implements VendorDao {
 			currentSession.delete(vendorAwardsMap);
 	}
 
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public Boolean isTradingSoftwareDetailsOfferingExist(String value) {
 		Query query = this.sessionFactory.getCurrentSession()
 				.createQuery("from VendorTradingSoftwareDetails s where s.offering = '" + value + "'");
@@ -838,7 +839,7 @@ public class VendorDaoImpl implements VendorDao {
 		return false;
 	}
 
-	@Override
+//	@Override
 	public Object updateVendorLogo(FileDetails ufile, String username) {
 		try {
 			Session currentSession = sessionFactory.getCurrentSession();
@@ -864,7 +865,7 @@ public class VendorDaoImpl implements VendorDao {
 	private final static String RESEARCH_REPORT_VENDOR_OFFERINGS = "select cov.ResearchArea RESERACH_AREA, cov.Offering OFFERING, cov.OfferingDesc OFFERING_DESCRIPTION, cov.ResearchSubArea RESERACH_SUB_AREA, cov.RegionsCovered REGIONS_COVERED, det.ResearchApplicableMonth + '-' + det.ResearchApplicableYear REASEARCH_PERIOD, prof.AnalystName ANALYST_NAME, det.subsriptionCostUSDperannum COST_PER_ANNUM from vendor_researchcoverage cov, vendor_researchdetails det, vendor_analystprofile prof where cov.solution_id = det.solution_id and det.solution_id = prof.solution_id and cov.Offering = det.Offering and det.Offering = prof.offering and cov.vendor_id = det.vendor_id and det.vendor_id = prof.vendor_id and cov.vendor_id = :vendorId order by RESERACH_AREA";
 	private final static String VENDOR_AWARD_DETAILS = "select Awardname AWARD_NAME, Awardsponsor AWARD_SPONSER, Awardedyear AWARD_YEAR, awardVendorType VENDOR_TYPE, case when awardVendorType = 'Data Aggregator vendor' then awardAssetclass when awardVendorType = 'Trading Application vendor' then awardAssetclass when awardVendorType = 'Analytics Application vendor' then awardAnalyticsSolutionsType when awardVendorType = 'Research Reporting vendor' then awardResearchArea end ASSET_CLASS, case when awardVendorType = 'Data Aggregator vendor' then 1 when awardVendorType = 'Trading Application vendor' then 2 when awardVendorType = 'Analytics Application vendor' then 3 when awardVendorType = 'Research Reporting vendor' then 4 end VENDOR_ORDER from vendor_awards where vendor_id = :vendorId order by VENDOR_ORDER, awardAssetclass";
 
-	@Override
+//	@Override
 	public List<Object[]> getMarketDataVendorOfferingsForProfile(String vendorId) {
 		SQLQuery hibQuery = this.sessionFactory.getCurrentSession().createSQLQuery(MARKET_DATA_VENDOR_OFFERINGS);
 		hibQuery.setParameter("vendorId", vendorId);
@@ -873,7 +874,7 @@ public class VendorDaoImpl implements VendorDao {
 		return tableData;
 	}
 
-	@Override
+//	@Override
 	public List<Object[]> getTradingApplicationOfferingsForProfile(String vendorId) {
 		SQLQuery hibQuery = this.sessionFactory.getCurrentSession()
 				.createSQLQuery(TRADING_APPLICATION_VENDOR_OFFERINGS);
@@ -883,7 +884,7 @@ public class VendorDaoImpl implements VendorDao {
 		return tableData;
 	}
 
-	@Override
+//	@Override
 	public List<Object[]> getAnalyticsApplicationOfferingsForProfile(String vendorId) {
 		SQLQuery hibQuery = this.sessionFactory.getCurrentSession()
 				.createSQLQuery(ANALYTICS_APPLICATION_VENDOR_OFFERINGS);
@@ -893,7 +894,7 @@ public class VendorDaoImpl implements VendorDao {
 		return tableData;
 	}
 
-	@Override
+//	@Override
 	public List<Object[]> getResearchReportOfferingsForProfile(String vendorId) {
 		SQLQuery hibQuery = this.sessionFactory.getCurrentSession().createSQLQuery(RESEARCH_REPORT_VENDOR_OFFERINGS);
 		hibQuery.setParameter("vendorId", vendorId);
@@ -902,7 +903,7 @@ public class VendorDaoImpl implements VendorDao {
 		return tableData;
 	}
 
-	@Override
+//	@Override
 	public List<Object[]> getVendorAwardDetailsForProfile(String vendorId) {
 		SQLQuery hibQuery = this.sessionFactory.getCurrentSession().createSQLQuery(VENDOR_AWARD_DETAILS);
 		hibQuery.setParameter("vendorId", vendorId);
@@ -913,7 +914,7 @@ public class VendorDaoImpl implements VendorDao {
 
 	/* Vendor Data Aggregator Offering Begin */
 
-	@Override
+//	@Override
 	public void addVendorDataAggregatorsOffering(VendorDataAggregatorsOffering vendorDataAggregatorsOffering)
 			throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - addVendorDataAggregatorsOffering for {}, product Name {}",
@@ -930,7 +931,7 @@ public class VendorDaoImpl implements VendorDao {
 				vendorDataAggregatorsOffering.getVendor().getId(), vendorDataAggregatorsOffering.getProductName());
 	}
 
-	@Override
+//	@Override
 	public VendorDataAggregatorsOffering fetchVendorDataAggregatorsOffering(String productId)
 			throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - fetchVendorDataAggregatorsOffering for {}", productId);
@@ -946,7 +947,7 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Override
+//	@Override
 	public void deleteVendorDataAggregatorsOffering(String productId) throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - deleteVendorDataAggregatorsOffering for {}", productId);
 		try {
@@ -965,7 +966,7 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Override
+//	@Override
 	public List<VendorDataAggregatorsOffering> getVendorDataAggregatorsOffering(String userName)
 			throws ApplicationException {
 		Session session = sessionFactory.getCurrentSession();
@@ -981,7 +982,7 @@ public class VendorDaoImpl implements VendorDao {
 	/* Vendor Data Aggregator Offering End */
 
 	/* Vendor Trading Applications Offering Begin */
-	@Override
+//	@Override
 	public void addVendorTradingApplicationsOffering(
 			VendorTradingApplicationsOffering vendorTradingApplicationsOffering) throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - addVendorTradingApplicationsOffering for {}, product Name {}",
@@ -1000,7 +1001,7 @@ public class VendorDaoImpl implements VendorDao {
 				vendorTradingApplicationsOffering.getProductName());
 	}
 
-	@Override
+//	@Override
 	public VendorTradingApplicationsOffering fetchVendorTradingApplicationsOffering(String productId)
 			throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - fetchVendorTradingApplicationsOffering for {}", productId);
@@ -1016,7 +1017,7 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Override
+//	@Override
 	public void deleteVendorTradingApplicationsOffering(String productId) throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - deleteVendorTradingApplicationsOffering for {}", productId);
 		try {
@@ -1035,7 +1036,7 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Override
+//	@Override
 	public List<VendorTradingApplicationsOffering> getVendorTradingApplicationsOffering(String vendorName)
 			throws ApplicationException {
 		Session session = sessionFactory.getCurrentSession();
@@ -1050,7 +1051,7 @@ public class VendorDaoImpl implements VendorDao {
 	/* Vendor Trading Applications Offering End */
 
 	/* Vendor Research Reports Offering Begin */
-	@Override
+//	@Override
 	public void addVendorResearchReportsOffering(VendorResearchReportsOffering vendorResearchReportsOffering)
 			throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - addVendorResearchReportsOffering for {}, product Name {}",
@@ -1067,7 +1068,7 @@ public class VendorDaoImpl implements VendorDao {
 				vendorResearchReportsOffering.getVendor().getId(), vendorResearchReportsOffering.getProductName());
 	}
 
-	@Override
+//	@Override
 	public VendorResearchReportsOffering fetchVendorResearchReportsOffering(String productId)
 			throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - fetchVendorResearchReportsOffering for {}", productId);
@@ -1083,7 +1084,7 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Override
+//	@Override
 	public void deleteVendorResearchReportsOffering(String productId) throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - deleteVendorResearchReportsOffering for {}", productId);
 		try {
@@ -1102,7 +1103,7 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Override
+//	@Override
 	public List<VendorResearchReportsOffering> getVendorResearchReportsOffering(String vendorName)
 			throws ApplicationException {
 		Session session = sessionFactory.getCurrentSession();
@@ -1117,7 +1118,7 @@ public class VendorDaoImpl implements VendorDao {
 	/* Vendor Research Reports Offering End */
 
 	/* Vendor Analytics Applications Offering Begin */
-	@Override
+//	@Override
 	public void addVendorAnalyticsApplicationsOffering(
 			VendorAnalyticsApplicationsOffering vendorAnalyticsApplicationsOffering) throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - addVendorAnalyticsApplicationsOffering for {}, product Name {}",
@@ -1136,7 +1137,7 @@ public class VendorDaoImpl implements VendorDao {
 				vendorAnalyticsApplicationsOffering.getProductName());
 	}
 
-	@Override
+//	@Override
 	public VendorAnalyticsApplicationsOffering fetchVendorAnalyticsApplicationsOffering(String productId)
 			throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - fetchVendorAnalyticsApplicationsOffering for {}", productId);
@@ -1152,7 +1153,7 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Override
+//	@Override
 	public void deleteVendorAnalyticsApplicationsOffering(String productId) throws ApplicationException {
 		logger.debug("Entering VendorDaoImpl - deleteVendorAnalyticsApplicationsOffering for {}", productId);
 		try {
@@ -1171,7 +1172,7 @@ public class VendorDaoImpl implements VendorDao {
 		}
 	}
 
-	@Override
+//	@Override
 	public List<VendorAnalyticsApplicationsOffering> getVendorAnalyticsApplicationsOffering(String vendorName)
 			throws ApplicationException {
 		Session session = sessionFactory.getCurrentSession();
@@ -1186,8 +1187,8 @@ public class VendorDaoImpl implements VendorDao {
 	/* Vendor Analytics Applications Offering End */
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
-	@Override
+//	@Transactional
+//	@Override
 	public String findAllVendorOffering(String vendorName) throws ApplicationException {
 		try {
 			String sql = "SELECT ven_rsrch_rpt_offering.product_id,ven_rsrch_rpt_offering.product_name,research_area.description,rsch_sub_area_company_dtls.company_name,ven_rsrch_rpt_offering.launched_year,ven_rsrch_rpt_offering.product_description FROM ven_rsrch_rpt_offering,ven_rsrch_rpt_dtls,rsch_sub_area_company_dtls,vendor,research_area where rsch_sub_area_company_dtls.company_id=ven_rsrch_rpt_dtls.company_id and ven_rsrch_rpt_offering.product_id=ven_rsrch_rpt_dtls.product_id and research_area.research_area_id=ven_rsrch_rpt_offering.research_area and vendor.vendor_id=ven_rsrch_rpt_offering.vendor_id and vendor.username = ?";

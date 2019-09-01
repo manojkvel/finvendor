@@ -2,7 +2,7 @@ package com.finvendor.api.vendoroffering.controller;
 
 import com.finvendor.api.companyprofile.pricealert.controller.ConsumerPriceAlertMailController;
 import com.finvendor.api.companyprofile.pricealert.service.ConsumerPriceAlertService;
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.user.service.UserServiceImpl;
 import com.finvendor.api.vendoroffering.dto.VendorReportDataDto;
 import com.finvendor.api.vendoroffering.dto.VendorReportFileDto;
 import com.finvendor.api.vendoroffering.service.VendorReportService;
@@ -40,7 +40,7 @@ public class VendorReportController {
     private ConsumerPriceAlertService consumerPriceAlertService;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @PostMapping(value = "/vendorreports/create")
     public ResponseEntity<?> saveVO(HttpServletRequest request, HttpServletResponse response,

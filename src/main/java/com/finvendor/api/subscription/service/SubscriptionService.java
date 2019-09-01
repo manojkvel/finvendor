@@ -7,7 +7,7 @@ import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.dto.SubscriptionFilter;
 import com.finvendor.api.subscription.dto.UserPaymentDto;
 import com.finvendor.api.subscription.dto.UserSubscriptionDto;
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.user.service.UserServiceImpl;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.common.util.Pair;
@@ -31,10 +31,10 @@ public class SubscriptionService {
 
     private final SubscriptionDao dao;
     private final NotificationService notificationService;
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public SubscriptionService(SubscriptionDao dao, NotificationService notificationService, UserService userService) {
+    public SubscriptionService(SubscriptionDao dao, NotificationService notificationService, UserServiceImpl userService) {
         this.dao = dao;
         this.notificationService = notificationService;
         this.userService = userService;

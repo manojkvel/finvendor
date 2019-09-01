@@ -14,21 +14,23 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.*;
 
 @SuppressWarnings("unchecked")
-public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
+@Repository
+public class MarketDataAggregatorsDaoImpl {//implements MarketDataAggregatorsDao {
 
     private static final Logger logger = LoggerFactory.getLogger(MarketDataAggregatorsDaoImpl.class.getName());
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Transactional
-    @Override
+    
+    
     public List<AssetClass> getAllAssetClass() {
         logger.debug("Entering - MarketDataAggregatorsDaoImpl : getAllAssetClass");
         List<AssetClass> assetClasses = null;
@@ -43,8 +45,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return assetClasses;
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<AssetClassSecurityMap> getSecurityTypeByAssetClassId(Integer assetId) {
         logger.debug("Entering - MarketDataAggregatorsDaoImpl : getSecurityTypeByAssetClassId for {} ", assetId);
         Criteria criteria = null;
@@ -60,8 +62,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return assetClassSecurityMaps;
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<Region> getAllRegionClass() {
         logger.debug("Entering - MarketDataAggregatorsDaoImpl : getAllRegionClass");
         List<Region> regions = null;
@@ -76,8 +78,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return regions;
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<RegionCountryMap> getRegionCountryMapsRegionId(Integer regionId) {
         logger.debug("Entering - MarketDataAggregatorsDaoImpl : getRegionCountryMapsRegionId for {} ", regionId);
         Criteria criteria = null;
@@ -93,8 +95,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return regionCountryMaps;
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<CountryExchangeMap> getCountryExchangeMapsByCountryId(Integer countryId) {
         logger.debug("Entering - MarketDataAggregatorsDaoImpl : getCountryExchangeMapsByCountryId for {} ", countryId);
         Criteria criteria = null;
@@ -110,8 +112,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return countryExchangeMaps;
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<Country> getAllCountries() {
         logger.debug("Entering - MarketDataAggregatorsDaoImpl : getAllCountries");
         List<Country> countries = null;
@@ -126,8 +128,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return countries;
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<Support> getAllVendorSupports() {
         logger.debug("Entering - MarketDataAggregatorsDaoImpl : getAllVendorSupports");
         List<Support> supports = null;
@@ -142,8 +144,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return supports;
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<Cost> getAllCostInfo() {
         logger.info("Method to load all costs---");
         List<Cost> costs = null;
@@ -162,11 +164,10 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     /**
      * (non-Javadoc)
      *
-     * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getAllAwards(Awards)
      */
     @SuppressWarnings("unchecked")
-    @Transactional
-    @Override
+    
+    
     public List<Awards> getAllAwards(String vendorId) {
         logger.info("Method to load all awards---");
         List<Awards> awards = null;
@@ -188,10 +189,9 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     /**
      * (non-Javadoc)
      *
-     * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getAllAwards(Awards)
      */
-    @Transactional
-    @Override
+    
+    
     public List<Exchange> getAllExchanges() {
         logger.info("Method to getAllExchanges---");
         List<Exchange> exchanges = null;
@@ -210,10 +210,9 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     /**
      * (non-Javadoc)
      *
-     * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getAssetClassByName(AssetClass)
      */
-    @Transactional
-    @Override
+    
+    
     public AssetClass getAssetClassByName(String assetType) {
         logger.info("Method to getAssetClassByName---");
         AssetClass assetClass = null;
@@ -234,10 +233,9 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     /**
      * (non-Javadoc)
      *
-     * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getRegionNamesByName(Region)
      */
-    @Transactional
-    @Override
+    
+    
     public List<Region> getRegionNamesByName(String regionName) {
         logger.info("Method to find getRegionNamesByName---");
         List<Region> regions = new ArrayList<Region>();
@@ -268,11 +266,10 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     /**
      * (non-Javadoc)
      *
-     * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getSingleAssetClassSearchResultInfo(AssetClassDataDetails)
      */
     @SuppressWarnings("unchecked")
-    @Transactional
-    @Override
+    
+    
     public List<AssetClassDataDetails> getSingleAssetClassSearchResultInfo(
             String assetclassId, List<String> securitytypes, String dataattribute,
             List<String> regionList, List<String> countryList,
@@ -354,11 +351,10 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     /**
      * (non-Javadoc)
      *
-     * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getSingleAssetClassSearchResultVendorInfo(AssetClassDataDetails)
      */
     @SuppressWarnings("unchecked")
-    @Transactional
-    @Override
+    
+    
     public List<AssetClassDataDetails> getSingleAssetClassSearchResultVendorInfo(
             String assetclassId, List<String> securitytypeList,
             String vendorregionofincorp,
@@ -421,10 +417,9 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     /**
      * (non-Javadoc)
      *
-     * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getSingleAssetClassVendorDetails(AssetClassDataDetails)
      */
-    @Transactional
-    @Override
+    
+    
     public List<AssetClassDataDetails> getSingleAssetClassVendorDetails(
             String assetclassId, List<String> securitytypeList,
             List<String> vendorregionofincorpList,
@@ -493,10 +488,9 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     /**
      * (non-Javadoc)
      *
-     * @see com.finvendor.dao.MarketDataAggregatorsDaoImpl#getMultiAssetClassSearchResultInfo(AssetClassDataDetails)
      */
-    @Transactional
-    @Override
+    
+    
     public List<AssetClassDataDetails> getMultiAssetClassSearchResultInfo(
             List<String> assetClassList, List<String> securityList) {
         logger.info("Method to find single asset class search---");
@@ -555,8 +549,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
 
     }
 
-    @Transactional
-    @Override
+    
+    
     public OfferingFiles addOfferingFiles(String id, OfferingFiles offeringFiles) {
         Session currentSession = this.sessionFactory.getCurrentSession();
         VendorOffering vendorOffering = (VendorOffering) currentSession.get(VendorOffering.class, Integer.parseInt(id));
@@ -568,8 +562,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return offeringFiles;
     }
 
-    @Transactional
-    @Override
+    
+    
     public VendorOffering createOfferings(String id, VendorOffering vendorOffering) {
         Session currentSession = this.sessionFactory.getCurrentSession();
         //	currentSession.beginTransaction();
@@ -578,8 +572,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return vendorOffering;
     }
 
-    @Transactional
-    @Override
+    
+    
     public FileFields addFieldsToFile(String id, FileFields fileFields) {
         Session currentSession = this.sessionFactory.getCurrentSession();
         OfferingFiles offeringFiles = (OfferingFiles) currentSession.get(OfferingFiles.class, Integer.parseInt(id));
@@ -589,8 +583,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     }
 
 
-    @Transactional
-    @Override
+    
+    
     public Set<VendorOffering> listOfferings(String id) {
 
         Session currentSession = this.sessionFactory.getCurrentSession();
@@ -607,8 +601,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     }
 
 
-    @Transactional
-    @Override
+    
+    
     public Set<OfferingFiles> listOfferingFiles(String id) {
 
         Session currentSession = this.sessionFactory.getCurrentSession();
@@ -619,8 +613,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
 
     }
 
-    @Transactional
-    @Override
+    
+    
     public Set<FileFields> listFieldsToFile(String id) {
         Session currentSession = this.sessionFactory.getCurrentSession();
         OfferingFiles offeringFiles = (OfferingFiles) currentSession.get(OfferingFiles.class, Integer.parseInt(id));
@@ -629,8 +623,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return fileFields;
     }
 
-    @Transactional
-    @Override
+    
+    
     public VendorOffering findOfferingById(String id) {
         VendorOffering vendorOffering = null;
         Session currentSession = this.sessionFactory.getCurrentSession();
@@ -638,8 +632,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return vendorOffering;
     }
 
-    @Transactional
-    @Override
+    
+    
     public VendorOffering deleteOfferings(VendorOffering vendorOffering) {
         Session currentSession = this.sessionFactory.getCurrentSession();
         if (vendorOffering != null)
@@ -648,8 +642,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     }
 
 
-    @Transactional
-    @Override
+    
+    
     public OfferingFiles deleteOfferingFiles(String id) {
         Session currentSession = this.sessionFactory.getCurrentSession();
 
@@ -666,8 +660,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return new OfferingFiles();
     }
 
-    @Transactional
-    @Override
+    
+    
     public FileFields deleteFieldsToFile(String id) {
         Session currentSession = this.sessionFactory.getCurrentSession();
 
@@ -679,7 +673,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return new FileFields();
     }
 
-    @Transactional
+    
     public List<SecurityType> listSecurityType() {
 
         logger.info("Method to load all listSecurityType---");
@@ -695,8 +689,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return assetClasses;
     }
 
-    @Transactional
-    @Override
+    
+    
     public VendorOffering getVendorOfferingById(String id) {
 
         Session currentSession = this.sessionFactory.getCurrentSession();
@@ -704,8 +698,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return vendorOffering;
     }
 
-    @Transactional
-    @Override
+    
+    
     public Region getRegionById(String id) {
         Session currentSession = this.sessionFactory.getCurrentSession();
         Region region = (Region) currentSession.get(Region.class, Integer.parseInt(id));
@@ -713,8 +707,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return region;
     }
 
-    @Transactional
-    @Override
+    
+    
     public Country getCountryById(String id) {
         Session currentSession = this.sessionFactory.getCurrentSession();
         Country country = (Country) currentSession.get(Country.class, Integer.parseInt(id));
@@ -722,16 +716,16 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return country;
     }
 
-    @Transactional
-    @Override
+    
+    
     public Cost getCostById(String id) {
         Session currentSession = this.sessionFactory.getCurrentSession();
         Cost cost = (Cost) currentSession.get(Cost.class, Integer.parseInt(id));
         return cost;
     }
 
-    @Transactional
-    @Override
+    
+    
     public Exchange getExchangeById(String exchangeId) {
         Session currentSession = this.sessionFactory.getCurrentSession();
         Exchange exchange = (Exchange) currentSession.get(Exchange.class, Integer.parseInt(exchangeId));
@@ -739,8 +733,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return exchange;
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    
+    
     public List<CompanySubType> getCompanySubTypeList() {
         logger.debug("Entering MarketDataAggregatorsDaoImpl : getCompanySubTypeList");
         List<CompanySubType> compnaySubType = null;
@@ -756,8 +750,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     }
 
     /* Market Data Aggregators Search */
-    @Transactional
-    @Override
+    
+    
     public Map<String, Object> getMultiAssetClassSearchResult(Map<Object, Object> searchData,
                                                               MarketDataAggregatorsVendorSearchForm dataForm) {
 
@@ -843,7 +837,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         }
 
         searchSql.append(" order by vendor_id, asset.description");
-        logger.info("searchSql ################## QUERY == " + searchSql.toString());
+        logger.info("searchSql ################## QUERY == {}" , searchSql.toString());
 
         SQLQuery sqlQuery = currentSession.createSQLQuery(searchSql.toString());
         @SuppressWarnings("unchecked")
@@ -1022,8 +1016,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         }
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<FinancialAnalyticsApplicationVendorSearchForm> getFAMultiAssetClassSearchResult(Map<Object, Object> searchData, FinancialAnalyticsApplicationVendorSearchForm dataForm) {
 
         Session currentSession = this.sessionFactory.getCurrentSession();
@@ -1125,8 +1119,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return mdavsfsResult;
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<ResearchReportProvidersVendorSearchForm> getRRMultiAssetClassSearchResult(Map<Object, Object> searchData, ResearchReportProvidersVendorSearchForm dataForm) {
 
         Session currentSession = this.sessionFactory.getCurrentSession();
@@ -1220,8 +1214,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
 
     }
 
-    @Transactional
-    @Override
+    
+    
     public List<TradingApplicationVendorSearchForm> getTAMultiAssetClassSearchResult(Map<Object, Object> searchData, TradingApplicationVendorSearchForm dataForm) {
 
 
@@ -1322,7 +1316,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
         return mdavsfsResult;
     }
 
-    @Override
+    
     public Object getModelObjectById(Class<?> type, Serializable id) {
         Session session = this.sessionFactory.getCurrentSession();
         Object modelObject = session.load(type, id);
@@ -1331,7 +1325,7 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
 
 
     /* Research Report Search */
-    @Override
+    
     public Map<String, Object> getResearchReportVendorSearchResult(Map<Object, Object> searchData,
                                                                    MarketDataAggregatorsVendorSearchForm dataForm) {
         Session currentSession = this.sessionFactory.getCurrentSession();
@@ -1573,8 +1567,8 @@ public class MarketDataAggregatorsDaoImpl implements MarketDataAggregatorsDao {
     }
 
     /* Trading Application Search */
-    @Transactional
-    @Override
+    
+    
     public Map<String, Object> getTradingApplicationVendorSearchResult(Map<Object, Object> searchData,
                                                                        MarketDataAggregatorsVendorSearchForm dataForm) {
 

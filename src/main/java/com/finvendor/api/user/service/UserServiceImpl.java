@@ -1,8 +1,8 @@
 package com.finvendor.api.user.service;
 
-import com.finvendor.api.consumer.dao.ConsumerDao;
-import com.finvendor.api.user.dao.UserDao;
-import com.finvendor.api.vendor.dao.VendorDao;
+import com.finvendor.api.consumer.dao.ConsumerDaoImpl;
+import com.finvendor.api.user.dao.UserDaoImpl;
+import com.finvendor.api.vendor.dao.VendorDaoImpl;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.UserRole;
@@ -12,61 +12,64 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
-public class UserServiceImpl implements UserService {
+@Service
+@Transactional
+public class UserServiceImpl {//implements UserService {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class.getName());
 
 	@Autowired
-	private UserDao userDao;
+	private UserDaoImpl userDao;
 	
 	@Autowired
-	private VendorDao vendorDao;
+	private VendorDaoImpl vendorDao;
 	
 	@Autowired
-	private ConsumerDao consumerDao;
+	private ConsumerDaoImpl consumerDao;
 
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public void saveUserInfo(FinVendorUser user) {
 		userDao.saveUserInfo(user);
 	}
 
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public void updateUserInfo(FinVendorUser user) {
 		userDao.updateUserInfo(user);
 	}
 
-	@Override
+//	@Override
 	public void saveUserRolesInfo(UserRole userRole) {
-		userDao.saveUserRolesInfo(userRole);	
+		userDao.saveUserRolesInfo(userRole);
 	}
 
-	@Override
+//	@Override
 	public UserRole getUserRoleInfobyUsername(String username) {
 		return userDao.getUserRoleInfobyUsername(username);
 	}
 	
-	@Override
+//	@Override
 	public List<FinVendorUser> getUserInfoByNamewithPassword(String username,
 			String password) {
 		return userDao.getUserInfoByNamewithPassword(username,password);
 	}
 	
-	@Override
-	@Transactional(readOnly=true)
+//	@Override
+//	@Transactional(readOnly=true)
 	public boolean validateUsername(String username) throws ApplicationException {
 		logger.debug("UserServiceImpl : validateUsername - {}", username);
 		return userDao.validateUsername(username.toLowerCase());
 	}
 	
-	@Override
-	@Transactional(readOnly=true)
+//	@Override
+//	@Transactional(readOnly=true)
 	public FinVendorUser getUserDetailsByUsername(String username) throws ApplicationException {
 		logger.debug("Entering : UserServiceImpl.getUserDetailsByUsername");
 		FinVendorUser user = userDao.getUserDetailsByUsername(username);
@@ -74,29 +77,29 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 	
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public int updateUnsuccessfulLoginAttempts(String username, boolean reset){
 		return userDao.updateUnsuccessfulLoginAttempts(username, reset);
 	}
 	
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public int updateUserAccountStatus(String username, boolean status) {
 		logger.debug("UserServiceImpl : updateUserAccountStatus to {} for {}", status, username);
 		return userDao.updateUserAccountStatus(username, status);
 	}
 	
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public String insertRegistrationVerificationRecord(String username, boolean recreate){
 		String registration_id = UUID.randomUUID().toString();
 		userDao.insertRegistrationVerificationRecord(username, registration_id, recreate);
 		return registration_id;
 	}
 	
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public boolean updateUserVerificationStatus(String userName, String registrationId){
 		int updatedRows = userDao.updateUserVerificationStatus(userName, registrationId);
 		if(updatedRows == 0) {
@@ -106,20 +109,20 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-	@Override
-	@Transactional(readOnly=true)
+//	@Override
+//	@Transactional(readOnly=true)
 	public List<FinVendorUser> getUserDetailsByEmailId(String email) throws ApplicationException {
 		return userDao.getUserDetailsByEmailId(email);
 	}
 	
-	@Override
-	@Transactional(readOnly=true)
+//	@Override
+//	@Transactional(readOnly=true)
 	public List<FinVendorUser> getUserDetails() {
 		return userDao.getUserDetails();
 	}
 	
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public String resetPassword(String username) throws ApplicationException {
 		String password = new String(RandomPasswordGenerator.generatePswd(8, 10, 3, 3, 2));
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
@@ -131,8 +134,8 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public int changePassword(String username, String password) throws ApplicationException {
 		int updatedRows = userDao.resetPassword(username, password);
 		if (updatedRows == 1) { 
@@ -142,22 +145,22 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public void updateVendorAccountSettings(String userName, String companyType, String email) 
 			throws ApplicationException {
 		userDao.updateVendorAccountSettings(userName, companyType, email);
 	}
 	
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public void updateConsumerAccountSettings(String userName, String companyType, String tags, String email) 
 			throws ApplicationException {
 		userDao.updateConsumerAccountSettings(userName, companyType, tags, email);
 	}
 	
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public void updateCompanyLogo(FileDetails ufile, String userName, boolean vendor) {
 		if(vendor) {
 			vendorDao.updateVendorLogo(ufile, userName);
@@ -166,8 +169,8 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Override
-	@Transactional
+//	@Override
+//	@Transactional
 	public boolean isValidUser(String userName) {
 		try {
 			FinVendorUser user = getUserDetailsByUsername(userName);

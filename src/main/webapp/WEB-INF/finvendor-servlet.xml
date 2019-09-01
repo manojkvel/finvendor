@@ -26,32 +26,6 @@
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     <mvc:default-servlet-handler/>
 
-
-    <!-- login configuration beans -->
-    <bean id="loginService" class="com.finvendor.api.login.service.LoginServiceImpl"/>
-    <bean id="loginDao" class="com.finvendor.api.login.dao.LoginDaoImpl"/>
-
-    <bean id="userService" class="com.finvendor.api.user.service.UserServiceImpl"/>
-    <bean id="userDao" class="com.finvendor.api.user.dao.UserDaoImpl"/>
-
-    <bean id="vendorService" class="com.finvendor.api.vendor.service.VendorServiceImpl"/>
-    <bean id="vendorDao" class="com.finvendor.api.vendor.dao.VendorDaoImpl"/>
-
-    <bean id="consumerService" class="com.finvendor.api.consumer.service.ConsumerServiceImpl"/>
-    <bean id="consumerDao" class="com.finvendor.api.consumer.dao.ConsumerDaoImpl"/>
-
-    <bean id="marketDataAggregatorsService" class="com.finvendor.api.marketdata.service.MarketDataAggregatorsServiceImpl"/>
-    <bean id="marketDataAggregatorsDao" class="com.finvendor.api.marketdata.dao.MarketDataAggregatorsDaoImpl"/>
-
-    <bean id="adminService" class="com.finvendor.api.admin.service.AdminServiceImpl"/>
-    <bean id="adminDao" class="com.finvendor.api.admin.dao.AdminDaoImpl"/>
-
-    <bean id="referenceDataService" class="com.finvendor.api.common.service.ReferenceDataServiceImpl"/>
-    <bean id="referenceDataDao" class="com.finvendor.api.common.dao.ReferenceDataDaoImpl"/>
-
-    <!--<bean id="rfpService" class="com.finvendor.serviceimpl.RfpServiceImpl"/>
-    <bean id="rfpDao" class="com.finvendor.daoimpl.RfpDaoImpl"></bean>-->
-
     <!-- Mail Service -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="mail.finvendor.com"/>
@@ -125,7 +99,5 @@
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="10485760"/>
     </bean>
-
     <util:properties id="finvendorProperties" location="/WEB-INF/finvendor.properties"/>
-
 </beans>

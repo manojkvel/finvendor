@@ -4,7 +4,7 @@ import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.dto.SubscriptionFilter;
 import com.finvendor.api.subscription.dto.UserPaymentDto;
 import com.finvendor.api.subscription.dto.UserSubscriptionDto;
-import com.finvendor.api.user.dao.UserDao;
+import com.finvendor.api.user.dao.UserDaoImpl;
 import com.finvendor.common.commondao.GenericDao;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.enums.ApiMessageEnum;
@@ -24,11 +24,11 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SubscriptionDao.class.getName());
 
     private static final String USERS = "users";
-    private final UserDao userDao;
+    private final UserDaoImpl userDao;
     private final ICommonDao commonDao;
 
     @Autowired
-    public SubscriptionDao(ICommonDao commonDao, UserDao userDao) {
+    public SubscriptionDao(ICommonDao commonDao, UserDaoImpl userDao) {
         this.commonDao = commonDao;
         this.userDao = userDao;
     }

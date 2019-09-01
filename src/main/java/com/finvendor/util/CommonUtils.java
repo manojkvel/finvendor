@@ -1,7 +1,7 @@
 package com.finvendor.util;
 
-import com.finvendor.api.consumer.service.ConsumerService;
-import com.finvendor.api.vendor.service.VendorService;
+import com.finvendor.api.consumer.service.ConsumerServiceImpl;
+import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.Consumer;
 import com.finvendor.model.UserRole;
@@ -138,7 +138,7 @@ public class CommonUtils {
 		}
 	}
 	
-	public static void populateConsumerProfileRequest(Consumer consumer, ConsumerService consumerService,
+	public static void populateConsumerProfileRequest(Consumer consumer, ConsumerServiceImpl consumerService,
 			ModelAndView modelAndView) throws ApplicationException {
 		String telephone = consumer.getTelephone();
    		if(telephone != null && !telephone.trim().equals("")) {
@@ -198,7 +198,7 @@ public class CommonUtils {
    				consumerMyProfileMyBusinessNeedsMarketData);
 	}
 	
-	public static void populateVendorProfileRequest(Vendor vendor, VendorService vendorService,
+	public static void populateVendorProfileRequest(Vendor vendor, VendorServiceImpl vendorService,
 			ModelAndView modelAndView) {
 		String vendorCompanyTypes = vendor.getCompanyType();
 		logger.debug("Company type for Vendor {} are {}", vendor.getUser().getUserName(), vendorCompanyTypes);

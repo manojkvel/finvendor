@@ -10,12 +10,14 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author rayulu vemula
  */
-public class LoginDaoImpl implements LoginDao {
+@Repository
+public class LoginDaoImpl {//implements LoginDao {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginDaoImpl.class.getName());
 
@@ -26,7 +28,6 @@ public class LoginDaoImpl implements LoginDao {
     /**
      * (non-Javadoc)
      *
-     * @see com.finvendor.dao.LoginDaoImpl#getUserInfoByEmail(FinVendorUser)
      */
     @Transactional
     public FinVendorUser getUserInfoByEmail(String email) {

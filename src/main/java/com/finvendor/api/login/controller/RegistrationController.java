@@ -1,9 +1,9 @@
 package com.finvendor.api.login.controller;
 
-import com.finvendor.api.consumer.service.ConsumerService;
+import com.finvendor.api.consumer.service.ConsumerServiceImpl;
 import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
-import com.finvendor.api.user.service.UserService;
-import com.finvendor.api.vendor.service.VendorService;
+import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.*;
 import com.finvendor.util.CommonUtils;
@@ -11,6 +11,7 @@ import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.*;
@@ -38,14 +38,14 @@ public class RegistrationController {
     List<String> vendorTypesList = Arrays.asList(vendorTypes);
     List<String> consumerTypesList = Arrays.asList(consumerTypes);
 
-    @Resource(name = "userService")
-    private UserService userService;
+    @Autowired
+    private UserServiceImpl userService;
 
-    @Resource(name = "vendorService")
-    private VendorService vendorService;
+    @Autowired
+    private VendorServiceImpl vendorService;
 
-    @Resource(name = "consumerService")
-    private ConsumerService consumerService;
+    @Autowired
+    private ConsumerServiceImpl consumerService;
 
     /**
      * method for register navigation

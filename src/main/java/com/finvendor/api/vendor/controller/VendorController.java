@@ -1,10 +1,10 @@
 package com.finvendor.api.vendor.controller;
 
-import com.finvendor.api.common.service.ReferenceDataService;
+import com.finvendor.api.common.service.ReferenceDataServiceImpl;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.marketdata.service.MarketDataAggregatorsService;
-import com.finvendor.api.user.service.UserService;
-import com.finvendor.api.vendor.service.VendorService;
+import com.finvendor.api.marketdata.service.MarketDataAggregatorsServiceImpl;
+import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.constant.AppConstant;
 import com.finvendor.common.util.DateUtils;
@@ -36,17 +36,17 @@ public class VendorController {
 
     private static final Logger logger = LoggerFactory.getLogger(VendorController.class.getName());
 
-    @Resource(name = "userService")
-    private UserService userService;
-
-    @Resource(name = "vendorService")
-    private VendorService vendorService;
-
-    @Resource(name = "referenceDataService")
-    private ReferenceDataService referenceDataService;
+    @Autowired
+    private UserServiceImpl userService;
 
     @Autowired
-    private MarketDataAggregatorsService marketDataAggregatorsService;
+    private VendorServiceImpl vendorService;
+
+    @Autowired
+    private ReferenceDataServiceImpl referenceDataService;
+
+    @Autowired
+    private MarketDataAggregatorsServiceImpl marketDataAggregatorsService;
 //
 //    @Resource(name = "rfpService")
 //    private RfpService rfpService;

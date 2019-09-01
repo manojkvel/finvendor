@@ -9,19 +9,21 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public class ReferenceDataDaoImpl implements ReferenceDataDao {
+@Repository
+public class ReferenceDataDaoImpl {//implements ReferenceDataDao {
 
     private static final Logger logger = LoggerFactory.getLogger(ReferenceDataDaoImpl.class.getName());
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Override
+    
     public Object getModelObjectById(Class<?> type, Serializable id) {
         Session session = this.sessionFactory.getCurrentSession();
         Object modelObject = session.get(type, id);
@@ -30,7 +32,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 
     /* Asset Class */
 
-    @Override
+    
     public List<AssetClass> getAllAssetClasses()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllAssetClasses");
@@ -48,7 +50,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return assetClassList;
     }
 
-    @Override
+    
     public AssetClass getAssetClassByDescription(String assetClassDescription)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAssetClassByDescription for : {}",
@@ -73,7 +75,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 
     /* Security Types */
 
-    @Override
+    
     public List<SecurityType> getAllSecurityTypes()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllSecurityTypes");
@@ -91,7 +93,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return securityTypeList;
     }
 
-    @Override
+    
     public SecurityType getSecurityTypeByName(String securityName)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getSecurityTypeByName for : {}",
@@ -114,7 +116,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return securityType;
     }
 
-    @Override
+    
     public List<SecurityType> getSecurityTypesForAssetClassId(int assetClassId)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getSecurityTypesForAssetClassId for : {}",
@@ -136,7 +138,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 
     /* Region */
 
-    @Override
+    
     public List<Region> getAllRegions() throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllRegions");
         List<Region> regions = null;
@@ -153,7 +155,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
     }
 
 
-    @Override
+    
     public Region getRegionByName(String regionName)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getRegionByName for : {}",
@@ -178,7 +180,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 
     /* Country */
 
-    @Override
+    
     public List<Country> getAllCountries()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllCountries");
@@ -195,7 +197,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return countries;
     }
 
-    @Override
+    
     public Country getCountryByName(String countryName)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getCountryByName for : {}",
@@ -216,7 +218,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return country;
     }
 
-    @Override
+    
     public List<Country> getCountriesByRegionId(String regionId)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getCountriesByRegionId for : {}",
@@ -239,7 +241,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 
     /* Exchange */
 
-    @Override
+    
     public List<Exchange> getAllExchanges()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllExchanges");
@@ -256,7 +258,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return exchanges;
     }
 
-    @Override
+    
     public Exchange getExchangeByName(String exchangeName)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getExchangesByName for : {}",
@@ -279,7 +281,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return exchange;
     }
 
-    @Override
+    
     public List<Exchange> getExchangesByCountryId(String countryId)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getCountriesByRegionId for : {}",
@@ -302,7 +304,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 
     /* ResearchArea (Research Report Vendor Offering) */
 
-    @Override
+    
     public List<ResearchArea> getAllResearchAreaForResearchReportVendorOffering()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchAreaForResearchReportVendorOffering");
@@ -320,7 +322,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
     }
 
 
-    @Override
+    
     public List<ResearchSubArea> getAllResearchSubAreaForResearchReportVendorOffering()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchSubAreaForResearchReportVendorOffering");
@@ -338,7 +340,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
     }
 
 
-    @Override
+    
     public List<ResearchSubArea> getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId(String researchAreaId)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getResearchSubAreaForResearchReportVendorOfferingByResearchAreaId for : {}",
@@ -359,7 +361,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return researchSubAreas;
     }
 
-    @Override
+    
     public List<ResearchAreaStockClassification> getAllResearchAreaStockClassificationForResearchReportVendorOffering()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchAreaStockClassificationForResearchReportVendorOffering");
@@ -376,7 +378,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return researchAreaStockClassifications;
     }
 
-    @Override
+    
     public List<ResearchSubAreaCompanyDetails> getAllResearchAreaCompanyDetailsForResearchReportVendorOffering()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllResearchAreaCompanyDetailsForResearchReportVendorOffering");
@@ -393,7 +395,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return researchAreaCompanyDetails;
     }
 
-    @Override
+    
     public List<ResearchSubAreaCompanyDetails> getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId(String researchAreaId)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getResearchAreaCompanyDetailsResearchReportVendorOfferingByResearchAreaId for : {}",
@@ -418,7 +420,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
 
     /* AnalyticalSolutionType (Analytical Application Vendor Offering) */
 
-    @Override
+    
     public List<AnalyticalSolutionType> getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering");
@@ -435,7 +437,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return analyticalSolutionTypes;
     }
 
-    @Override
+    
     public List<AnalyticalSolutionSubType> getAllAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOffering()
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAllAnalyticalSolutionTypeForAnalyticsApplicationVendorOffering");
@@ -452,7 +454,7 @@ public class ReferenceDataDaoImpl implements ReferenceDataDao {
         return analyticalSolutionSubType;
     }
 
-    @Override
+    
     public List<AnalyticalSolutionSubType> getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId(String analyticalSolutionTypeId)
             throws ApplicationException {
         logger.debug("Entering : ReferenceDataDaoImpl - getAnalyticalSolutionSubTypeForAnalyticsApplicationVendorOfferingByAnalyticalSolutionTypeId for : {}",

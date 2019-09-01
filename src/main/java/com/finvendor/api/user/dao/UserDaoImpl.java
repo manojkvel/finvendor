@@ -12,12 +12,13 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoImpl implements UserDao {
+@Repository
+public class UserDaoImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class.getName());
     private static final String UPDATE_LOGIN_UNSUCCESSFUL_ATTEMPTS = "UPDATE users SET login_attempts = login_attempts + 1, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
@@ -35,7 +36,7 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Override
+
     public void saveUserInfo(FinVendorUser user) {
         logger.debug("Entering UserDaoImpl : saveUserInfo");
         try {
@@ -48,7 +49,7 @@ public class UserDaoImpl implements UserDao {
         logger.debug("Leaving UserDaoImpl : saveUserInfo");
     }
 
-    @Override
+
     public void updateUserInfo(FinVendorUser user) {
         try {
             this.sessionFactory.getCurrentSession().update(user);
@@ -59,8 +60,8 @@ public class UserDaoImpl implements UserDao {
     }
 
 
-    @Transactional
-    @Override
+
+
     public void saveUserRolesInfo(UserRole userRole) {
         logger.info("saveUserRolesInfo method---");
         try {
@@ -72,14 +73,14 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    @Override
+
     public boolean validateUsername(String username) throws ApplicationException {
         logger.debug("Entering UserDaoImpl:validateUsername");
         FinVendorUser user = this.getUserDetailsByUsername(username);
         return (user != null) ? true : false;
     }
 
-    @Override
+
     public FinVendorUser getUserDetailsByUsername(String username) throws ApplicationException {
         logger.debug("Entering UserDaoImpl:getUserDetailsByUsername");
         try {
@@ -92,9 +93,9 @@ public class UserDaoImpl implements UserDao {
         }
 
     }
+//
 
-    @Transactional
-    @Override
+
     public UserRole getUserRoleInfobyUsername(String username) {
         logger.info("getUserRoleInfobyUsername method---");
         SQLQuery sqlQuery = null;
@@ -109,8 +110,8 @@ public class UserDaoImpl implements UserDao {
         return (UserRole) sqlQuery.uniqueResult();
     }
 
-    @Transactional
-    @Override
+
+
     public List<FinVendorUser> getUserInfoByNamewithPassword(String username,
                                                              String password) {
         logger.info("getUsersInfoByNamewithPassword method---");
@@ -140,7 +141,7 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
-    @Override
+
     public int updateUnsuccessfulLoginAttempts(String username, boolean reset) {
         logger.debug("Entering UserDaoImpl:updateUnsucessfulLoginAttempts for {} ", username);
         int updatedRows = 0;
@@ -156,7 +157,7 @@ public class UserDaoImpl implements UserDao {
         return updatedRows;
     }
 
-    @Override
+
     public int updateUserAccountStatus(String username, boolean status) {
         logger.debug("Entering UserDaoImpl:updateUserAccountStatus for {} to update status as {}", username, status);
         int updatedRows = 0;
@@ -168,7 +169,7 @@ public class UserDaoImpl implements UserDao {
         return updatedRows;
     }
 
-    @Override
+
     public void insertRegistrationVerificationRecord(String username, String registration_id, boolean recreate) {
         logger.debug("Entering UserDaoImpl:insertRegistrationVerificationRecord {}, Recreate : ", username, recreate);
         SQLQuery sqlQuery = null;
@@ -184,7 +185,7 @@ public class UserDaoImpl implements UserDao {
         logger.debug("Leaving UserDaoImpl:insertRegistrationVerificationRecord {}", username);
     }
 
-    @Override
+
     public int updateUserVerificationStatus(String username, String registration_id) {
         logger.debug("Entering UserDaoImpl:updateUserVerificationStatus {}, {}", username, registration_id);
         int updatedRows = 0;
@@ -203,7 +204,7 @@ public class UserDaoImpl implements UserDao {
         return updatedRows;
     }
 
-    @Override
+
     public List<FinVendorUser> getUserDetailsByEmailId(String email) throws ApplicationException {
         logger.debug("Entering UserDaoImpl:getUserDetailsByEmailId {}", email);
         try {
@@ -218,7 +219,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    @Override
+
     public List<FinVendorUser> getUserDetails() {
         logger.debug("Entering UserDaoImpl:getUserDetails");
         Query query = this.sessionFactory.getCurrentSession().createQuery("from FinVendorUser");
@@ -228,7 +229,7 @@ public class UserDaoImpl implements UserDao {
         return userList;
     }
 
-    @Override
+
     public int resetPassword(String username, String password) {
         logger.debug("Entering UserDaoImpl:resetPassword for {}", username);
         int updatedRows = 0;
@@ -240,7 +241,7 @@ public class UserDaoImpl implements UserDao {
         return updatedRows;
     }
 
-    @Override
+
     public void updateVendorAccountSettings(String userName, String companyType, String email)
             throws ApplicationException {
         logger.info("Entering UserDaoImpl:updateVendorAccountSettings for {}", userName);
@@ -260,7 +261,7 @@ public class UserDaoImpl implements UserDao {
         logger.info("Leaving UserDaoImpl:updateVendorAccountSettings");
     }
 
-    @Override
+
     public void updateConsumerAccountSettings(String userName, String companyType, String tags, String email)
             throws ApplicationException {
         logger.info("Entering UserDaoImpl:updateConsumerAccountSettings for {}", userName);

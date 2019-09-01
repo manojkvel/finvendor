@@ -1,9 +1,9 @@
 package com.finvendor.api.admin.controller;
 
-import com.finvendor.api.admin.service.AdminService;
-import com.finvendor.api.common.service.ReferenceDataService;
-import com.finvendor.api.user.service.UserService;
-import com.finvendor.api.vendor.service.VendorService;
+import com.finvendor.api.admin.service.AdminServiceImpl;
+import com.finvendor.api.common.service.ReferenceDataServiceImpl;
+import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.Country;
 import com.finvendor.model.FinVendorUser;
@@ -14,6 +14,7 @@ import com.finvendor.util.EmailUtil;
 import com.finvendor.util.RequestConstans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -35,20 +36,18 @@ import java.util.*;
 public class AdminController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class.getName());
 
-	@Resource(name="userService")
-	private UserService userService;
-
-	@Resource(name="adminService")
-	private AdminService adminService;
-
-	@Resource(name="vendorService")
-	private VendorService vendorService;
+	@Autowired
+	private UserServiceImpl userService;
+	@Autowired
+	private AdminServiceImpl adminService;
+	@Autowired
+	private VendorServiceImpl vendorService;
 
 //	@Resource(name="consumerService")
 //	private ConsumerService consumerService;
 
-	@Resource(name="referenceDataService")
-	private ReferenceDataService referenceDataService;
+	@Autowired
+	private ReferenceDataServiceImpl referenceDataService;
 
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;

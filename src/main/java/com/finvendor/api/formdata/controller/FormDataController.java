@@ -1,13 +1,14 @@
 package com.finvendor.api.formdata.controller;
 
-import com.finvendor.api.common.service.ReferenceDataService;
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.common.service.ReferenceDataServiceImpl;
+import com.finvendor.api.user.service.UserServiceImpl;
 import com.finvendor.modelpojo.staticpojo.FileDetails;
 import com.finvendor.modelpojo.staticpojo.ReferenceDataJson;
 import com.finvendor.util.RequestConstans;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,11 +33,11 @@ public class FormDataController {
 
     private static final Logger logger = LoggerFactory.getLogger(FormDataController.class.getName());
 
-    @Resource(name = "referenceDataService")
-    private ReferenceDataService referenceDataService;
+    @Autowired
+    private ReferenceDataServiceImpl referenceDataService;
 
-    @Resource(name = "userService")
-    private UserService userService;
+    @Autowired
+    private UserServiceImpl userService;
 
 //    @RequestMapping(value = "loadFormReferenceDataForSelect", method = RequestMethod.POST)
 //    public String loadFormReferenceDataForSelect(

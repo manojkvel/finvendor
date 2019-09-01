@@ -1,14 +1,14 @@
 package com.finvendor.api.common.controller;
 
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.user.service.UserServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,8 +18,8 @@ public class ValidationController {
 
     private static final Logger logger = LoggerFactory.getLogger(ValidationController.class.getName());
 
-    @Resource(name = "userService")
-    private UserService userService;
+    @Autowired
+    private UserServiceImpl userService;
 
     @RequestMapping(value = "checkExistingEmail", method = RequestMethod.POST)
     public String checkExistingEmail(HttpServletRequest request, HttpServletResponse response) {

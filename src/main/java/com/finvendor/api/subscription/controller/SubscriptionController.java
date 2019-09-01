@@ -2,7 +2,7 @@ package com.finvendor.api.subscription.controller;
 
 import com.finvendor.api.subscription.dto.*;
 import com.finvendor.api.subscription.service.SubscriptionService;
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.user.service.UserServiceImpl;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
 import org.slf4j.Logger;
@@ -31,12 +31,12 @@ import static com.finvendor.common.enums.ApiMessageEnum.*;
 public class SubscriptionController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionController.class.getName());
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     private final SubscriptionService subscriptionService;
 
     @Autowired
-    public SubscriptionController(UserService userService, SubscriptionService subscriptionService) {
+    public SubscriptionController(UserServiceImpl userService, SubscriptionService subscriptionService) {
         this.userService = userService;
         this.subscriptionService = subscriptionService;
     }
