@@ -3,7 +3,7 @@ package com.finvendor.api.companyprofile.pricealert.controller;
 import com.finvendor.api.companyprofile.pricealert.dto.ConsumerPriceAlertDetails;
 import com.finvendor.api.companyprofile.pricealert.service.ConsumerPriceAlertMailService;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
@@ -32,7 +32,7 @@ public class ConsumerPriceAlertMailController {//implements IWebConsumerPriceAle
     private static final Logger logger = LoggerFactory.getLogger(ConsumerPriceAlertMailController.class.getName());
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private ConsumerPriceAlertMailService consumerPriceAlertMailService;

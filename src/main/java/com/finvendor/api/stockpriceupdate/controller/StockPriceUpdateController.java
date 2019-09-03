@@ -2,7 +2,7 @@ package com.finvendor.api.stockpriceupdate.controller;
 
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.stockpriceupdate.service.StockPriceUpdateService;
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.LogUtil;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
@@ -32,7 +32,7 @@ public class StockPriceUpdateController {
     private Format fvDateFormat = new SimpleDateFormat("MM/dd/yy");
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Resource(name = "finvendorProperties")
     private Properties fvProperties;

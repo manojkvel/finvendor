@@ -2,7 +2,7 @@ package com.finvendor.api.subscription.controller;
 
 import com.finvendor.api.subscription.dto.*;
 import com.finvendor.api.subscription.service.SubscriptionService;
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
 import org.slf4j.Logger;
@@ -31,12 +31,12 @@ import static com.finvendor.common.enums.ApiMessageEnum.*;
 public class SubscriptionController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionController.class.getName());
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     private final SubscriptionService subscriptionService;
 
     @Autowired
-    public SubscriptionController(UserServiceImpl userService, SubscriptionService subscriptionService) {
+    public SubscriptionController(UserService userService, SubscriptionService subscriptionService) {
         this.userService = userService;
         this.subscriptionService = subscriptionService;
     }
@@ -76,6 +76,8 @@ public class SubscriptionController {
         ApiResponse<String, String> apiResponse;
         SubscriptionDto dto = new SubscriptionDto();
         String subscriptionState = subscriptionStateDto.getSubscriptionState();
+        List<SubscriptionDetails> dataList = subscriptionStateDto.getData();
+
         boolean paymentVerified;
         if ("ACTIVE".equalsIgnoreCase(subscriptionState)) {
             paymentVerified = true;
@@ -93,8 +95,9 @@ public class SubscriptionController {
             apiResponse = buildResponse(INVALID_USER_NAME, null, HttpStatus.NOT_FOUND);
         }
         else {
-            List<String> subscriptionIds = subscriptionStateDto.getSubscriptionIds();
-            apiMessageEnum = subscriptionService.updatePayment(userName, dto,subscriptionIds);
+            LOGGER.info("### Before update subscription state update");
+
+            apiMessageEnum = subscriptionService.updatePayment(dto, dataList);
             apiResponse = buildResponse(apiMessageEnum, null, HttpStatus.OK);
         }
         return getResponseEntity(apiResponse);
@@ -144,7 +147,6 @@ public class SubscriptionController {
         if (!("asc".equalsIgnoreCase(orderBy) || "desc".equalsIgnoreCase(orderBy))) {
             throw new IllegalArgumentException("Validation failed");
         }
-
         if ((userPayments = subscriptionService.findSubscriptions(pageNumber, perPageMaxRecords, sortBy, orderBy, filter)) == null) {
             apiResponse = buildResponse(FAILED_TO_FIND_SUBSCRIPTION, null, HttpStatus.NO_CONTENT);
         }

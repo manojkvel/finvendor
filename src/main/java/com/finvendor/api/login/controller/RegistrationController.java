@@ -1,8 +1,8 @@
 package com.finvendor.api.login.controller;
 
-import com.finvendor.api.consumer.service.ConsumerServiceImpl;
+import com.finvendor.api.consumer.service.ConsumerService;
 import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.*;
@@ -39,13 +39,13 @@ public class RegistrationController {
     List<String> consumerTypesList = Arrays.asList(consumerTypes);
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private VendorServiceImpl vendorService;
 
     @Autowired
-    private ConsumerServiceImpl consumerService;
+    private ConsumerService consumerService;
 
     /**
      * method for register navigation

@@ -1,7 +1,7 @@
 package com.finvendor.api.formdata.controller;
 
-import com.finvendor.api.common.service.ReferenceDataServiceImpl;
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.common.service.ReferenceDataService;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.modelpojo.staticpojo.FileDetails;
 import com.finvendor.modelpojo.staticpojo.ReferenceDataJson;
 import com.finvendor.util.RequestConstans;
@@ -34,10 +34,10 @@ public class FormDataController {
     private static final Logger logger = LoggerFactory.getLogger(FormDataController.class.getName());
 
     @Autowired
-    private ReferenceDataServiceImpl referenceDataService;
+    private ReferenceDataService referenceDataService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
 //    @RequestMapping(value = "loadFormReferenceDataForSelect", method = RequestMethod.POST)
 //    public String loadFormReferenceDataForSelect(
