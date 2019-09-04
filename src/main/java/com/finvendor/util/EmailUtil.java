@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.activation.DataHandler;
-import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -68,7 +67,7 @@ public class EmailUtil {
     }
 
     public static void sendNotificationEmail(String notificationType, String notificationMessage, FinVendorUser user,
-                                             String userRoleName) throws MessagingException {
+            String userRoleName) throws MessagingException {
         logger.debug("Entering EmailUtil:sendNotificationEmail for {}", notificationType);
         Session session = getMailSession();
         Message message = new MimeMessage(session);
@@ -146,7 +145,8 @@ public class EmailUtil {
         }
     }
 
-    public static void sendMailWithAttachment(String from, String to, String subject, String content, String[] attachmentFiles) throws UnsupportedEncodingException {
+    public static void sendMailWithAttachment(String from, String to, String subject, String content, String[] attachmentFiles)
+            throws UnsupportedEncodingException {
         SALES_EMAIL = from == null ? SALES_EMAIL : from;
         sendMailWithAttachment(to, subject, content, attachmentFiles);
     }
@@ -175,35 +175,32 @@ public class EmailUtil {
                 attachmentFile.setFileName(attachmentFileName.substring(attachmentFileName.lastIndexOf(File.separator) + 1));
                 multipart.addBodyPart(attachmentFile);
             }
-//            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
-//            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
-//            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
-//
-//            MimeBodyPart messageBodyPart3 = new MimeBodyPart();
-//            messageBodyPart3.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[1])));
-//            messageBodyPart3.setFileName(attachmentFiles[1].substring(attachmentFiles[1].lastIndexOf(File.separator)+1));
-//
-//
-//            MimeBodyPart messageBodyPart4 = new MimeBodyPart();
-//            messageBodyPart4.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[2])));
-//            messageBodyPart4.setFileName(attachmentFiles[2].substring(attachmentFiles[2].lastIndexOf(File.separator)+1));
+            //            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+            //            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
+            //            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
+            //
+            //            MimeBodyPart messageBodyPart3 = new MimeBodyPart();
+            //            messageBodyPart3.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[1])));
+            //            messageBodyPart3.setFileName(attachmentFiles[1].substring(attachmentFiles[1].lastIndexOf(File.separator)+1));
+            //
+            //
+            //            MimeBodyPart messageBodyPart4 = new MimeBodyPart();
+            //            messageBodyPart4.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[2])));
+            //            messageBodyPart4.setFileName(attachmentFiles[2].substring(attachmentFiles[2].lastIndexOf(File.separator)+1));
 
-
-//            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
-//            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
-//            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
-//
-//            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
-//            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
-//            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
-
+            //            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+            //            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
+            //            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
+            //
+            //            MimeBodyPart messageBodyPart2 = new MimeBodyPart();
+            //            messageBodyPart2.setDataHandler(new DataHandler(new FileDataSource(attachmentFiles[0])));
+            //            messageBodyPart2.setFileName(attachmentFiles[0].substring(attachmentFiles[0].lastIndexOf(File.separator)+1));
 
             //5) create Multipart object and add MimeBodyPart objects to this object
 
-//            multipart.addBodyPart(messageBodyPart2);
-//            multipart.addBodyPart(messageBodyPart3);
-//            multipart.addBodyPart(messageBodyPart4);
-
+            //            multipart.addBodyPart(messageBodyPart2);
+            //            multipart.addBodyPart(messageBodyPart3);
+            //            multipart.addBodyPart(messageBodyPart4);
 
             //6) set the multipart object to the message object
             message.setContent(multipart);
@@ -238,7 +235,7 @@ public class EmailUtil {
     }
 
     public static void sendRfpNotification(Consumer consumer, RfpBean rfpBean, List<String> vendorEmailList,
-                                           boolean closed) throws MessagingException {
+            boolean closed) throws MessagingException {
         logger.debug("Entering EmailUtil:sendRfpNotification for {}", consumer.getUser().getUserName());
         Session session = getMailSession();
         Message message = new MimeMessage(session);
@@ -252,7 +249,8 @@ public class EmailUtil {
                 InternetAddress.parse(vendorEmails.substring(0, vendorEmails.length() - 1)));
         if (closed) {
             message.setSubject("RFP Closed Notification");
-        } else {
+        }
+        else {
             message.setSubject("New RFP Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -260,7 +258,8 @@ public class EmailUtil {
         if (closed) {
             content.append("Please note that RFP " + rfpBean.getRfpTitle() + " has been closed by "
                     + consumer.getCompanyUrl() + "\n");
-        } else {
+        }
+        else {
             content.append("Please note that a new RFP " + rfpBean.getRfpTitle() + " has been created by "
                     + consumer.getCompanyUrl() + "\n");
         }
@@ -280,7 +279,8 @@ public class EmailUtil {
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(consumer.getUser().getEmail()));
         if (revoke) {
             message.setSubject("Vendor RFP Interest Notification");
-        } else {
+        }
+        else {
             message.setSubject("Vendor RFP Interest Revoke Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -288,7 +288,8 @@ public class EmailUtil {
         if (revoke) {
             content.append("Please note that Vendor " + vendor.getCompany() + " has revoked interest from RFP "
                     + rfpBean.getRfpTitle() + "\n");
-        } else {
+        }
+        else {
             content.append("Please note that Vendor " + vendor.getCompany() + " has expressed interest in "
                     + rfpBean.getRfpTitle() + "\n");
         }
@@ -300,7 +301,7 @@ public class EmailUtil {
     }
 
     public static void sendRfpVendorSelectionNotification(Consumer consumer, RfpBean rfpBean, List<Vendor> vendorList,
-                                                          boolean finalized) throws MessagingException {
+            boolean finalized) throws MessagingException {
         logger.debug("Entering EmailUtil:sendRfpVendorSelectionNotification for {}", consumer.getUser().getUserName());
         Session session = getMailSession();
         Message message = new MimeMessage(session);
@@ -317,7 +318,8 @@ public class EmailUtil {
                 InternetAddress.parse(vendorEmails.substring(0, vendorEmails.length() - 1)));
         if (!finalized) {
             message.setSubject("RFP Vendor Shortlisting Notification");
-        } else {
+        }
+        else {
             message.setSubject("RFP Vendor Finalize Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -325,7 +327,8 @@ public class EmailUtil {
         if (!finalized) {
             content.append("Please note that " + consumer.getCompanyUrl() + " has shortlisted you for RFP "
                     + rfpBean.getRfpTitle() + "\n");
-        } else {
+        }
+        else {
             content.append("Please note that " + consumer.getCompanyUrl() + " has finalized you for RFP "
                     + rfpBean.getRfpTitle() + "\n");
         }
@@ -337,7 +340,7 @@ public class EmailUtil {
     }
 
     public static void sendRfpMoreInfoNotification(RfpBean rfpBean, Vendor vendor, Consumer consumer, String moreInfo,
-                                                   boolean request) throws MessagingException {
+            boolean request) throws MessagingException {
         logger.debug("Entering EmailUtil:sendRfpMoreInfoNotification for {}, Consumer : {}", rfpBean.getRfpTitle(),
                 consumer.getCompany());
         Session session = getMailSession();
@@ -345,12 +348,14 @@ public class EmailUtil {
         message.setFrom(new InternetAddress(FROM_EMAIL));
         if (request) {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(consumer.getUser().getEmail()));
-        } else {
+        }
+        else {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(vendor.getUser().getEmail()));
         }
         if (request) {
             message.setSubject("Vendor RFP More Information Request Notification");
-        } else {
+        }
+        else {
             message.setSubject("Consumer RFP More Information Update Notification");
         }
         StringBuilder content = new StringBuilder();
@@ -359,7 +364,8 @@ public class EmailUtil {
             content.append("Please note that Vendor " + vendor.getCompany() + " has requested more information for RFP "
                     + rfpBean.getRfpTitle() + "\n");
             content.append("Information requested : " + moreInfo);
-        } else {
+        }
+        else {
             content.append("Please note that Consumer " + consumer.getCompany()
                     + " has provided more infromation for RFP " + rfpBean.getRfpTitle() + "\n");
             content.append("Information Provided : " + moreInfo);

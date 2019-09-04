@@ -118,9 +118,8 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
             String from = String.valueOf(filter.getFrom());
             String to = String.valueOf(filter.getTo());
             finalSql =
-                    "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and (cast(subscription_date as DECIMAL)>="+
-                            filter.getFrom() +" and cast(subscription_date as DECIMAL)<= "+filter.getTo()+")";
-
+                    "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and (cast(subscription_date as UNSIGNED INTEGER)>="+
+                            filter.getFrom() +" and cast(subscription_date as UNSIGNED INTEGER)<= "+filter.getTo()+")";
         }
         else {
             finalSql = "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username ";
