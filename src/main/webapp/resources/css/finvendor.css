@@ -742,6 +742,7 @@ table .normal_font p {
     border: 0;
     margin: 0 10px;
     font-size: 13px;
+    width: 100px;
 }
 
 #watchlist_table input[type='checkbox'], 
@@ -3023,6 +3024,10 @@ button {
 	#manage_user_subscriptions .subscriptions_header ul.action_btns {
 		margin: 0;
 		width: 100%;
+	}
+
+	#approveUserSubscription .modal-body ul li, #rejectUserSubscription .modal-body ul li {
+		margin: 0 10px;
 	}
 
 }

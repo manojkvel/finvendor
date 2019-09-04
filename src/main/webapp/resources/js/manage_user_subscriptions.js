@@ -21,10 +21,8 @@ jQuery(document).ready(function() {
             this.subscriptionStateTerminate = "TERMINATE";
             this.userId = $("input[name='loggedInUser']").val();
             this.subscriptionRefIds = [];
-            this.filterJsonObj = {
-                "from" : new Date().getTime(),
-                "to" : new Date().getTime()
-            };
+            this.filterJsonObj = null;
+            this.isFirstPage = false;
             this.getAllSubscriptionsDetails();
         },
 
@@ -158,6 +156,7 @@ jQuery(document).ready(function() {
 
         getFilterData: function(event) {
             var classRef = event.data.this;
+            classRef.isFirstPage = true;
             var transactionDateFrom = new Date($("#transactionDateFrom").val()).getTime();
             var transactionDateTo = new Date($("#transactionDateTo").val()).getTime();
 
@@ -343,7 +342,12 @@ jQuery(document).ready(function() {
                         }
                     };
 
-                    httpRequest.send(JSON.stringify(classRef.filterJsonObj));
+                    if(classRef.isFirstPage) {
+                        httpRequest.send(JSON.stringify(classRef.filterJsonObj));
+
+                    } else {
+                        httpRequest.send();
+                    }
                 } else {
                     reject(false)
                 }
