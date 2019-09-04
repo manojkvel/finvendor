@@ -1,6 +1,6 @@
 package com.finvendor.api.common.controller;
 
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.exception.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class ValidationController {
     private static final Logger logger = LoggerFactory.getLogger(ValidationController.class.getName());
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @RequestMapping(value = "checkExistingEmail", method = RequestMethod.POST)
     public String checkExistingEmail(HttpServletRequest request, HttpServletResponse response) {

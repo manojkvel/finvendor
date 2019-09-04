@@ -4,7 +4,7 @@ import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.dto.SubscriptionFilter;
 import com.finvendor.api.subscription.dto.UserPaymentDto;
 import com.finvendor.api.subscription.dto.UserSubscriptionDto;
-import com.finvendor.api.user.dao.UserDaoImpl;
+import com.finvendor.api.user.dao.UserDao;
 import com.finvendor.common.commondao.GenericDao;
 import com.finvendor.common.commondao.ICommonDao;
 import com.finvendor.common.enums.ApiMessageEnum;
@@ -24,11 +24,10 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SubscriptionDao.class.getName());
 
     private static final String USERS = "users";
-    private final UserDaoImpl userDao;
+    private final UserDao userDao;
     private final ICommonDao commonDao;
-
     @Autowired
-    public SubscriptionDao(ICommonDao commonDao, UserDaoImpl userDao) {
+    public SubscriptionDao(ICommonDao commonDao, UserDao userDao) {
         this.commonDao = commonDao;
         this.userDao = userDao;
     }
@@ -119,8 +118,8 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
             String from = String.valueOf(filter.getFrom());
             String to = String.valueOf(filter.getTo());
             finalSql =
-                    "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and (cast(subscription_date as DECIMAL)>="
-                            + "cast("+filter.getFrom()+" as DECIMAL)  and cast(subscription_date as DECIMAL)<= cast("+ filter.getTo() + " as decimal)) ";
+                    "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and (cast(subscription_date as DECIMAL)>="+
+                            filter.getFrom() +" and cast(subscription_date as DECIMAL)<= "+filter.getTo()+")";
 
         }
         else {

@@ -1,13 +1,13 @@
 package com.finvendor.api.login.controller;
 
-import com.finvendor.api.common.service.ReferenceDataServiceImpl;
-import com.finvendor.api.consumer.service.ConsumerServiceImpl;
+import com.finvendor.api.common.service.ReferenceDataService;
+import com.finvendor.api.consumer.service.ConsumerService;
 import com.finvendor.api.formdata.controller.FormDataController;
 import com.finvendor.api.login.dto.LoginResponse;
 import com.finvendor.api.login.dto.SubscriptionDto;
-import com.finvendor.api.login.service.LoginServiceImpl;
+import com.finvendor.api.login.service.LoginService;
 import com.finvendor.api.marketdata.service.MarketDataAggregatorsServiceImpl;
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.exception.ErrorMessage;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.model.*;
@@ -43,19 +43,19 @@ public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(FormDataController.class.getName());
 
     @Autowired
-    private LoginServiceImpl loginService;
+    private LoginService loginService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private MarketDataAggregatorsServiceImpl marketDataAggregatorsService;
 
     @Autowired
-    private ReferenceDataServiceImpl referenceDataService;
+    private ReferenceDataService referenceDataService;
 
     @Autowired
-    private ConsumerServiceImpl consumerService;
+    private ConsumerService consumerService;
 
     //    @Resource(name = "vendorService")
     //    private VendorService vendorService;

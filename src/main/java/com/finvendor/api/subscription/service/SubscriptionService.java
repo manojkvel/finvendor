@@ -3,11 +3,8 @@ package com.finvendor.api.subscription.service;
 import com.finvendor.api.notification.dto.EmailBuilder;
 import com.finvendor.api.notification.service.NotificationService;
 import com.finvendor.api.subscription.dao.SubscriptionDao;
-import com.finvendor.api.subscription.dto.SubscriptionDto;
-import com.finvendor.api.subscription.dto.SubscriptionFilter;
-import com.finvendor.api.subscription.dto.UserPaymentDto;
-import com.finvendor.api.subscription.dto.UserSubscriptionDto;
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.subscription.dto.*;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.common.util.Pair;
@@ -31,10 +28,10 @@ public class SubscriptionService {
 
     private final SubscriptionDao dao;
     private final NotificationService notificationService;
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @Autowired
-    public SubscriptionService(SubscriptionDao dao, NotificationService notificationService, UserServiceImpl userService) {
+    public SubscriptionService(SubscriptionDao dao, NotificationService notificationService, UserService userService) {
         this.dao = dao;
         this.notificationService = notificationService;
         this.userService = userService;
@@ -95,14 +92,14 @@ public class SubscriptionService {
         return "";
     }
 
-    public ApiMessageEnum updatePayment(String userName, SubscriptionDto dto, List<String> subscriptionIds) throws Exception {
+    public ApiMessageEnum updatePayment(SubscriptionDto dto, List<SubscriptionDetails> dataList) throws Exception {
         try {
-            ApiMessageEnum apiMessageEnum=ApiMessageEnum.FAILED_TO_UPDATE_SUBSCRIPTION;
-            for (String subscriptionId : subscriptionIds) {
-                apiMessageEnum = dao.updatePayment(dto, subscriptionId);
+            ApiMessageEnum apiMessageEnum = ApiMessageEnum.FAILED_TO_UPDATE_SUBSCRIPTION;
+            for (SubscriptionDetails subscriptionDetail : dataList) {
+                apiMessageEnum = dao.updatePayment(dto, subscriptionDetail.getSubscriptionId());
 
                 if (apiMessageEnum.equals(ApiMessageEnum.UPDATE_SUBSCRIPTION_SUCCESS)) {
-                    FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
+                    FinVendorUser existingUser = userService.getUserDetailsByUsername(subscriptionDetail.getUserId());
 
                     Pair<Long, Long> subscriptionStartAndEndDateInMillis = getSubscriptionStartAndEndDateInMillis(30);
                     String subscriptionStartTimeInMillis = String.valueOf(subscriptionStartAndEndDateInMillis.getElement1());
@@ -122,7 +119,7 @@ public class SubscriptionService {
                     else {
                         existingUser.setSubscriptionState("TERMINATE");
                     }
-                    userService.saveUserInfo(existingUser);
+                    userService.updateUserInfo(existingUser);
                 }
             }
             return apiMessageEnum;

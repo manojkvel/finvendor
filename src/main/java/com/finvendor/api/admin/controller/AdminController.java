@@ -1,8 +1,8 @@
 package com.finvendor.api.admin.controller;
 
-import com.finvendor.api.admin.service.AdminServiceImpl;
-import com.finvendor.api.common.service.ReferenceDataServiceImpl;
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.admin.service.AdminService;
+import com.finvendor.api.common.service.ReferenceDataService;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.model.Country;
@@ -37,9 +37,9 @@ public class AdminController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class.getName());
 
 	@Autowired
-	private UserServiceImpl userService;
+	private UserService userService;
 	@Autowired
-	private AdminServiceImpl adminService;
+	private AdminService adminService;
 	@Autowired
 	private VendorServiceImpl vendorService;
 
@@ -47,7 +47,7 @@ public class AdminController {
 //	private ConsumerService consumerService;
 
 	@Autowired
-	private ReferenceDataServiceImpl referenceDataService;
+	private ReferenceDataService referenceDataService;
 
 	@Resource(name = "finvendorProperties")
 	private Properties finvendorProperties;

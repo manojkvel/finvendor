@@ -5,7 +5,8 @@ import java.util.List;
 
 public class SubscriptionStateDto implements Serializable {
     private String subscriptionState;
-    private List<String> subscriptionIds;
+
+    private List<SubscriptionDetails> data;
 
     public String getSubscriptionState() {
         return subscriptionState;
@@ -15,11 +16,11 @@ public class SubscriptionStateDto implements Serializable {
         this.subscriptionState = subscriptionState;
     }
 
-    public List<String> getSubscriptionIds() {
-        return subscriptionIds;
+    public List<SubscriptionDetails> getData() {
+        return data;
     }
 
-    public void setSubscriptionIds(List<String> subscriptionIds) {
-        this.subscriptionIds = subscriptionIds;
+    public void setData(List<SubscriptionDetails> data) {
+        this.data = data;
     }
 }

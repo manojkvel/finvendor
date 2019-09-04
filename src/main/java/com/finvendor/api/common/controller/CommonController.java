@@ -2,7 +2,7 @@ package com.finvendor.api.common.controller;
 
 import com.finvendor.api.common.service.CommonService;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.user.service.UserServiceImpl;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.api.webutil.WebUtils.SqlData;
 import com.finvendor.common.commondao.ICommonDao;
@@ -43,7 +43,7 @@ public class CommonController {
     private CommonService commonService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     private static Map<String, String> filterDataMap = new HashMap<>();
 
