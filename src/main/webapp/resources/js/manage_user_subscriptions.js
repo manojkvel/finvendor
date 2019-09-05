@@ -145,8 +145,8 @@ jQuery(document).ready(function() {
 
             classRef.setRecordStats();
 
-            $("#transactionDateFrom").val(classRef.getFormattedDate());
-            $("#transactionDateTo").val(classRef.getFormattedDate());
+            //$("#transactionDateFrom").val(classRef.getFormattedDate());
+            //$("#transactionDateTo").val(classRef.getFormattedDate());
 
 
             $('#manage_user_subscriptions .manage_user_subscriptions_content .applyBtn').off().on('click', {this: classRef}, classRef.getFilterData);
@@ -156,6 +156,10 @@ jQuery(document).ready(function() {
 
         getFilterData: function(event) {
             var classRef = event.data.this;
+            if($("#transactionDateFrom").val() == "" || $("#transactionDateTo").val() == "") {
+                return false;
+            }
+
             classRef.isFirstPage = true;
             var transactionDateFrom = new Date($("#transactionDateFrom").val() + " 00:00:00").getTime();
             var transactionDateTo = new Date($("#transactionDateTo").val() + " 11:59:59").getTime();
@@ -177,6 +181,7 @@ jQuery(document).ready(function() {
             var userId = rowId.attr('data-userid');
             var status = rowId.attr('data-subscripitonstatus');
             var element = event.target;
+            
 
             var selectedUserJson = {
                 "userId" : userId,
@@ -184,6 +189,18 @@ jQuery(document).ready(function() {
             };
             
             classRef.addRemoveItemFromArrayJsonObject(classRef.selectedUserList, selectedUserJson);
+            console.log(classRef.selectedUserList);
+
+
+
+
+            var arr = $('#manage_user_subscriptions #user_subscriptions_table tbody input:visible');
+            if(classRef.selectedUserList.length < arr.length) {
+                $('#manage_user_subscriptions #user_subscriptions_table input[name=selectAll]').prop('checked', false);
+            } else {
+                $('#manage_user_subscriptions #user_subscriptions_table input[name=selectAll]').prop('checked', true);
+            }
+
 
             if(classRef.selectedUserList.length == 0) {
                 $("#manage_user_subscriptions .approveBtn").attr("disabled", "disabled");
@@ -198,6 +215,54 @@ jQuery(document).ready(function() {
 
         },
 
+        checkForAllData : function(event) {
+            var classRef = event.data.this;
+            var element = $('#manage_user_subscriptions #user_subscriptions_table tbody input:visible');
+            var arr = $(element);
+
+            if($('#manage_user_subscriptions #user_subscriptions_table input[name=selectAll]').prop('checked')) {
+                classRef.selectedUserList = [];
+
+                for(var key = 0; key < arr.length; key++) {
+                    if (!isNaN(key)) {
+                        var rowId = $(event.target).parents("table").find("tbody input:visible").eq(key).parents('tr');
+                        var subscriptionRefId = rowId.attr('data-id');
+                        var userId = rowId.attr('data-userid');
+                        var status = rowId.attr('data-subscriptionstatus');
+
+                        var selectedUserJson = {
+                            "userId" : userId,
+                            "subscriptionId" : subscriptionRefId
+                        };
+
+                        classRef.addRemoveItemFromArrayJsonObject(classRef.selectedUserList, selectedUserJson);
+                    }
+                }
+                $('#manage_user_subscriptions #user_subscriptions_table input[name=selectAll]').prop('checked', true);
+                $('#manage_user_subscriptions #user_subscriptions_table tbody input:visible').prop('checked', true);
+            } else {
+
+                classRef.selectedUserList = [];
+                $('#manage_user_subscriptions #user_subscriptions_table input[name=selectAll]').prop('checked', false);
+                $('#manage_user_subscriptions #user_subscriptions_table tbody input:visible').prop('checked', false);
+            }
+
+            if(classRef.selectedUserList.length == 0) {
+                $("#manage_user_subscriptions .approveBtn").attr("disabled", "disabled");
+                $("#manage_user_subscriptions .rejectBtn").attr("disabled", "disabled");
+            } else {
+                $("#manage_user_subscriptions .approveBtn").removeAttr("disabled");
+                $("#manage_user_subscriptions .rejectBtn").removeAttr("disabled");
+                $("#approveUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateActive}, classRef.updateUserSubscription);
+                $("#rejectUserSubscription .submitBtn").on('click', {this: classRef, subscriptionState: classRef.subscriptionStateTerminate}, classRef.updateUserSubscription);
+            }
+
+        
+            console.log(classRef.selectedUserList);
+
+            //classRef.enableButtons(event);
+        },
+
         updateUserSubscription: function(event) {
             var classRef = event.data.this;
             var state = event.data.subscriptionState;
@@ -210,11 +275,11 @@ jQuery(document).ready(function() {
 
                 for(key in arr) {
                     if (!isNaN(key)) {
-                        var rowId = $("table tbody input:visible").eq(key).parents('tr');
+                        var rowId = $("table tbody input:visible").eq(0).parents('tr');
                         var subscriptionId = rowId.attr('data-id');
                         var userId = rowId.attr('data-userid');
                         var status = rowId.attr('data-subscriptionstatus');
-                        debugger
+                        
                         if(subscriptionId == classRef.selectedUserList[0].subscriptionId) {
                             classRef.selectedUserList.splice(classRef.selectedUserList[0], 1);
                             rowId.find(".subscriptionState").text(state);
@@ -230,7 +295,7 @@ jQuery(document).ready(function() {
                     }
                 }
 
-
+                $('#manage_user_subscriptions #user_subscriptions_table input[name=selectAll]').prop('checked', false);
                 $("#manage_user_subscriptions .approveBtn").attr("disabled", "disabled");
                 $("#manage_user_subscriptions .rejectBtn").attr("disabled", "disabled");
                 
@@ -535,22 +600,6 @@ jQuery(document).ready(function() {
                 return ts;
             } else {
                 return 'NA';
-            }
-        },
-
-        checkForAllData : function(event) {
-            var classRef = event.data.this;
-            var arr = $(event.target).parents("table").find("tbody input:visible");
-            
-
-            for(key in arr) {
-                if (!isNaN(key)) {
-                    var rowId = $("tbody input:visible").eq(key).parents('tr');
-                    var subscriptionRefId = rowId.attr('data-id');
-                    var userId = rowId.attr('data-userid');
-                    var status = rowId.attr('data-subscriptionstatus');
-                    classRef.addRemoveItemFromArray(classRef.subscriptionRefIds, subscriptionRefId);
-                }
             }
         },
 
