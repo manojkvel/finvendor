@@ -16,23 +16,20 @@ public class DateUtils {
 
     //for Mar_18
     private static final SimpleDateFormat simpleDateFormat_MMM_yy = new SimpleDateFormat("MMM_yy");
-    public static final DateFormat  dd_MMM_yyyy_hh_mmformatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
-    public static final DateFormat  dd_MMM_yyyy_hh_mm_subscription_formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
-    public static final DateFormat  dd_MMM_yyyy_formatter = new SimpleDateFormat("dd-MMM-yyyy");
-    public static final DateFormat  dd_MMM_yyyy_formatter1 = new SimpleDateFormat("dd/MMM/yy HH:mm:ss");
+    public static final DateFormat dd_MMM_yyyy_hh_mmformatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
+    public static final DateFormat dd_MMM_yyyy_hh_mm_subscription_formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
+    public static final DateFormat dd_MMM_yyyy_formatter = new SimpleDateFormat("dd-MMM-yyyy");
+    public static final DateFormat dd_MMM_yyyy_formatter1 = new SimpleDateFormat("dd/MMM/yy HH:mm:ss");
     public static final SimpleDateFormat FV_DATE_FORMATTER = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
-
 
     public static String getCurrentYear() {
         return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.YEAR));
     }
 
-
     public static String get2DigitCurrentYear() {
         DateFormat df = new SimpleDateFormat("yy"); // Just the year, with 2 digits
         return df.format(Calendar.getInstance().getTime());
     }
-
 
     public static String getCurrentMonth() {
         return new SimpleDateFormat("MMM").format(new java.util.Date(Calendar.getInstance().getTimeInMillis()))
@@ -68,7 +65,7 @@ public class DateUtils {
         return dayOfMonth;
     }
 
-    public static String convertStringToTimestamp(DateFormat formatter,String str_date) throws ParseException {
+    public static String convertStringToTimestamp(DateFormat formatter, String str_date) throws ParseException {
         Date date = (Date) formatter.parse(str_date);
         return String.valueOf(date.getTime());
     }
@@ -112,7 +109,8 @@ public class DateUtils {
         String dayString = "";
         if (String.valueOf(day).length() == 1) {
             dayString = "0" + day;
-        } else {
+        }
+        else {
             dayString = String.valueOf(day);
         }
         return dayString;
@@ -153,17 +151,22 @@ public class DateUtils {
         return timestamp;
     }
 
-    public static String getCurrentDate(){
+    public static String getCurrentDate() {
         String currentDate = FV_DATE_FORMATTER.format(Calendar.getInstance().getTime());
         return currentDate;
     }
 
-    public static String getCurrentDateHaveMonthDigit(){
+    public static String getCurrentDate(String timeStamp) {
+        String currentDate = dd_MMM_yyyy_hh_mmformatter.format(new Date(Long.parseLong(timeStamp)));
+        return currentDate;
+    }
+
+    public static String getCurrentDateHaveMonthDigit() {
         String currentDate = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_ONLY_FORMAT).format(Calendar.getInstance().getTime());
         return currentDate;
     }
 
-    public static Pair<Long,Long> getSubscriptionStartAndEndDateInMillis(int numberOfDays){
+    public static Pair<Long, Long> getSubscriptionStartAndEndDateInMillis(int numberOfDays) {
         long startTimeInMillis = Calendar.getInstance().getTimeInMillis();
         Date currentDate = new Date();
         Calendar c = Calendar.getInstance();
@@ -173,7 +176,7 @@ public class DateUtils {
         return new Pair<>(startTimeInMillis, endTimeInMillis);
     }
 
-    public static Pair<String,String> getSubscriptionStartAndEndDateInHumanDate(int numberOfDays){
+    public static Pair<String, String> getSubscriptionStartAndEndDateInHumanDate(int numberOfDays) {
 
         long startTimeInMillis = Calendar.getInstance().getTimeInMillis();
         String startDateTimeInHumanDate = dd_MMM_yyyy_hh_mm_subscription_formatter.format(startTimeInMillis);
@@ -188,50 +191,48 @@ public class DateUtils {
         // convert calendar to date
         String endDateTimeInHumanDate = dd_MMM_yyyy_hh_mm_subscription_formatter.format(c.getTime());
 
-
         return new Pair<>(startDateTimeInHumanDate, endDateTimeInHumanDate);
     }
 
     public static void main(String args[]) throws ParseException {
-//		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
-//		System.out.println(thisDateValid);
-//
-//		thisDateValid = isDateValid("12/23/2011", "dd/MM/yyyy");
-//		System.out.println(thisDateValid);
+        //		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
+        //		System.out.println(thisDateValid);
+        //
+        //		thisDateValid = isDateValid("12/23/2011", "dd/MM/yyyy");
+        //		System.out.println(thisDateValid);
 
-//		String americaTime="14/Aug/18 08:16:47";
-//		DateFormat formatter;
-//		formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
-//		formatter.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
-//		Date date = formatter.parse(americaTime);
-//
-//		Calendar reserchDateCalendar = Calendar.getInstance();
-//		reserchDateCalendar.setTime(date);
-//		reserchDateCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
-//		System.out.println(reserchDateCalendar.getTime());
+        //		String americaTime="14/Aug/18 08:16:47";
+        //		DateFormat formatter;
+        //		formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+        //		formatter.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+        //		Date date = formatter.parse(americaTime);
+        //
+        //		Calendar reserchDateCalendar = Calendar.getInstance();
+        //		reserchDateCalendar.setTime(date);
+        //		reserchDateCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+        //		System.out.println(reserchDateCalendar.getTime());
 
-//		String bhavUrl="https://www.nseindia.com/content/historical/EQUITIES/$YEAR/$MON/cm$DAY$MON$YEARbhav.csv.zip";
-//		String dayNumber = getDayNumber();
-//		String threeLetterMonthName = getThreeLetterMonthName();
-//		String year = getYear();
-//		bhavUrl=StringUtils.replace(bhavUrl, "$DAY", dayNumber);
-//		bhavUrl=StringUtils.replace(bhavUrl, "$MON", threeLetterMonthName);
-//		bhavUrl=StringUtils.replace(bhavUrl, "$YEAR", year);
-//		System.out.println(bhavUrl);
-//
-//		System.out.println(StringUtils.replace(StringUtils.substring(bhavUrl,bhavUrl.lastIndexOf("/")+1),".zip",""));
+        //		String bhavUrl="https://www.nseindia.com/content/historical/EQUITIES/$YEAR/$MON/cm$DAY$MON$YEARbhav.csv.zip";
+        //		String dayNumber = getDayNumber();
+        //		String threeLetterMonthName = getThreeLetterMonthName();
+        //		String year = getYear();
+        //		bhavUrl=StringUtils.replace(bhavUrl, "$DAY", dayNumber);
+        //		bhavUrl=StringUtils.replace(bhavUrl, "$MON", threeLetterMonthName);
+        //		bhavUrl=StringUtils.replace(bhavUrl, "$YEAR", year);
+        //		System.out.println(bhavUrl);
+        //
+        //		System.out.println(StringUtils.replace(StringUtils.substring(bhavUrl,bhavUrl.lastIndexOf("/")+1),".zip",""));
 
+        //		String currentDay = getCurrentDay();
+        //		String currentMonth = getCurrentMonthDigit();
+        //		String currentYear = getCurrentYear();
+        //		System.out.println(currentDay+currentMonth+currentYear);
 
-//		String currentDay = getCurrentDay();
-//		String currentMonth = getCurrentMonthDigit();
-//		String currentYear = getCurrentYear();
-//		System.out.println(currentDay+currentMonth+currentYear);
-
-//        System.out.println(getCurrentDateHaveMonthDigit());
-//        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
+        //        System.out.println(getCurrentDateHaveMonthDigit());
+        //        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
         Pair<Long, Long> ms = getSubscriptionStartAndEndDateInMillis(30);
-        System.out.println("Start time: "+ ms.getElement1());
-        System.out.println("End time: "+ ms.getElement2());
+        System.out.println("Start time: " + ms.getElement1());
+        System.out.println("End time: " + ms.getElement2());
         //        getSubscriptionStartAndEndDateInHumanDate(30);
     }
 

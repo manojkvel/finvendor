@@ -70,7 +70,7 @@ public enum ExceptionEnum {
 	EXAMPLE("fv-0054", "Internal error - Example operation failed, Please contact Finvendor admin for support!!"),
 	SUBSCRIPTION_VALIDATION_FAILED("fv-0055", "Validation failed"),
 	GENERAL_ERROR("fv-9999", "General error - Something went wrong, please contact admin for support"),
-
+	SUBSCRIPTIONS_DOWNLOAD("fv-0056", "Internal error - Unable to download subscriptions, Please contact Finvendor admin for support!!"),
 
 
 	;

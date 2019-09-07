@@ -1,26 +1,35 @@
 package com.finvendor.api.subscription.controller;
 
+import com.finvendor.api.exception.ApiBadRequestException;
+import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.subscription.dto.*;
 import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
+import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.common.util.Pair;
+import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+import java.io.InputStream;
 import java.util.List;
 
 import static com.finvendor.api.webutil.WebUtils.buildResponse;
 import static com.finvendor.api.webutil.WebUtils.buildResponseEntity;
 import static com.finvendor.common.enums.ApiMessageEnum.*;
+import static com.finvendor.common.exception.ExceptionEnum.SUBSCRIPTIONS_DOWNLOAD;
 
 /**
  * @author ayush, Jul 2019
@@ -123,10 +132,10 @@ public class SubscriptionController {
     }
 
     @PostMapping(value = "/subscriptions/recordstat", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllSubscriptionsRecordStats(@RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
-            @RequestBody(required = false) SubscriptionFilter filter)
+    public ResponseEntity<?> findAllSubscriptionsRecordStats(@RequestParam(value = "state") String state,
+            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords, @RequestBody(required = false) SubscriptionFilter filter)
             throws Exception {
-        String subscriptionsRecordStat = subscriptionService.getSubscriptionsRecordStat(perPageMaxRecords, filter);
+        String subscriptionsRecordStat = subscriptionService.getSubscriptionsRecordStat(state, perPageMaxRecords, filter);
         return new ResponseEntity<>(subscriptionsRecordStat, HttpStatus.OK);
     }
 
@@ -135,27 +144,50 @@ public class SubscriptionController {
      * user payment
      */
     @PostMapping(value = "/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAllSubscriptions(@RequestParam(value = "pageNumber") String pageNumber,
-            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords, @RequestParam("sortBy") String sortBy,
-            @RequestParam("orderBy") String orderBy, @RequestBody(required = false) SubscriptionFilter filter) throws Exception {
+    public ResponseEntity<?> findAllSubscriptions(@RequestParam(value = "state") String state,
+            @RequestParam(value = "pageNumber") String pageNumber, @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
+            @RequestParam("sortBy") String sortBy, @RequestParam("orderBy") String orderBy,
+            @RequestBody(required = false) SubscriptionFilter filter) throws Exception {
         ApiResponse<String, List<UserPaymentDto>> apiResponse;
         List<UserPaymentDto> userPayments;
         if (!("userName".equalsIgnoreCase(sortBy) || "subscriptionState".equalsIgnoreCase(sortBy))) {
-            throw new IllegalArgumentException("Validation failed");
+            throw new ApiBadRequestException("Validation failed");
         }
 
         if (!("asc".equalsIgnoreCase(orderBy) || "desc".equalsIgnoreCase(orderBy))) {
-            throw new IllegalArgumentException("Validation failed");
+            throw new ApiBadRequestException("Validation failed");
         }
-        if ((userPayments = subscriptionService.findSubscriptions(pageNumber, perPageMaxRecords, sortBy, orderBy, filter)) == null) {
+
+        if (!("ACTIVE".equals(state) || "PENDING".equals(state) || "TERMINATE".equals(state))) {
+            throw new ApiBadRequestException("Validation failed");
+        }
+
+        if ((userPayments = subscriptionService.findSubscriptions(state, pageNumber, perPageMaxRecords, sortBy, orderBy, filter)) == null) {
             apiResponse = buildResponse(FAILED_TO_FIND_SUBSCRIPTION, null, HttpStatus.NO_CONTENT);
         }
         else {
-            apiResponse = buildResponse(GET_SUBSCRIPTION, userPayments, HttpStatus.OK);
+            apiResponse = buildResponse(SUCCESS, userPayments, HttpStatus.OK);
         }
         return buildResponseEntity(apiResponse);
     }
 
+    @RequestMapping(value = "/subscriptions/download", method = RequestMethod.GET)
+    public ResponseEntity<?> downloadSubscriptions(HttpServletResponse response) throws WebApiException {
+        try {
+            final Pair<Long, InputStream> download = subscriptionService.downloadSubscriptions();
+            if (download == null || download.getElement2() == null) {
+                throw new Exception("Unable to download subscriptions");
+            }
+            response.setHeader("Content-Disposition", "attachment; filename=" + "subscriptions.csv");
+            response.setHeader("Content-Length", String.valueOf(download.getElement1()));
+            FileCopyUtils.copy(download.getElement2(), response.getOutputStream());
+            final StatusPojo statusPojo = new StatusPojo("true", "Subscriptions downloaded successfully.");
+            return new ResponseEntity<>(statusPojo, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("SubscriptionController -> downloadSubscriptions(...) method", e);
+            return ErrorUtil.getError(SUBSCRIPTIONS_DOWNLOAD.getCode(), SUBSCRIPTIONS_DOWNLOAD.getUserMessage(), e);
+        }
+    }
     /**
      * Watch subscription before expire date
      */

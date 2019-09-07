@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
 
@@ -128,18 +129,18 @@ public class SubscriptionService {
         }
     }
 
-    public String getSubscriptionsRecordStat(String perPageMaxRecords, SubscriptionFilter filter) throws Exception {
+    public String getSubscriptionsRecordStat(String state, String perPageMaxRecords, SubscriptionFilter filter) throws Exception {
         try {
-            return dao.getSubscriptionsRecordStats(perPageMaxRecords, filter);
+            return dao.getSubscriptionsRecordStats(state, perPageMaxRecords, filter);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
     }
 
-    public List<UserPaymentDto> findSubscriptions(String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
+    public List<UserPaymentDto> findSubscriptions(String state, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
             SubscriptionFilter filter) throws Exception {
         try {
-            return dao.findAllPayments(pageNumber, perPageMaxRecords, sortBy, orderBy, filter);
+            return dao.findAllPayments(state, pageNumber, perPageMaxRecords, sortBy, orderBy, filter);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
@@ -148,6 +149,15 @@ public class SubscriptionService {
     public UserSubscriptionDto findUserSubscriptions(String userName) throws Exception {
         try {
             return dao.findUserSubscription(userName);
+        } catch (RuntimeException e) {
+            throw new Exception(e);
+        }
+    }
+
+    public Pair<Long, InputStream> downloadSubscriptions() throws Exception {
+        try {
+            Pair<Long, InputStream> customerAnalyticsDownloadData = dao.downloadSubscriptions();
+            return customerAnalyticsDownloadData;
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
