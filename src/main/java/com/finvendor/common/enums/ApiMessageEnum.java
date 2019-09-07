@@ -1,6 +1,7 @@
 package com.finvendor.common.enums;
 
 public enum ApiMessageEnum {
+    SUCCESS("fv-200","Success"),
     INVALID_USER_NAME("usr-001","Invalid user name"),
     CREATE_SUBSCRIPTION("subs-0001","User subscription created successfully"),
     UPDATE_SUBSCRIPTION_SUCCESS("subs-0002","User subscription updated successfully"),
@@ -18,6 +19,7 @@ public enum ApiMessageEnum {
     DUP_SUBSCRIPTION("subs-0014","User subscription already exist."),
     USER_PROFILE_SUBSCRIPTION("subs-0015","User profile subscription details retrieved successfully."),
     VERIFICATION_TYPE("subs-0016","Subscription type should be ACTIVE or TERMINATE."),
+    RESOURCE_NOT_FOUND("fv-7777","Resource not found"),
 
 
 

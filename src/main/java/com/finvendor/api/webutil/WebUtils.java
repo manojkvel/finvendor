@@ -1,9 +1,14 @@
 package com.finvendor.api.webutil;
 
+import com.finvendor.api.exception.ApiBadRequestException;
+import com.finvendor.api.exception.ApiResourceNotFoundException;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
+import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
@@ -19,8 +24,6 @@ import javax.validation.ConstraintViolationException;
 import java.io.InputStream;
 import java.util.*;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-
 /**
  * Web Utility class
  *
@@ -28,6 +31,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
  * @since 07-Jan-2018
  */
 public final class WebUtils {
+    private static final Logger logger = LoggerFactory.getLogger(WebUtils.class.getName());
 
     private static final String LOGGED_IN_USER = "loggedInUser";
 
@@ -69,6 +73,9 @@ public final class WebUtils {
      */
     @SuppressWarnings("serial")
     public static final Map<String, SqlData> filterTypeMap = new LinkedHashMap<>();
+    public static final String VALIDATION_FAILED_ERR_MSG = "Validation failed";
+    public static final String INTERNAL_SERVER_ERR_MSG = "Internal server error";
+    public static final String RESOURCE_NOT_FOUND_ERR_MSG = "Resource not found";
 
     static {
         final Object[] conitionValueAsNull = null;
@@ -90,20 +97,21 @@ public final class WebUtils {
                             add(new ColumnNameAndNewValue("countryId", null));
                             add(new ColumnNameAndNewValue("name", null));
                         }},
-                        new Object[]{"India","Singapore"},
+                        new Object[] { "India", "Singapore" },
                         firstDefaultParamsMapAsNull,
                         lastDefaultParamsMapAsNull,
                         columnIndex_0));
 
         //marketcapital
         filterTypeMap.put("marketcapital",
-                new SqlData("select comp_mkt_cap_type.company_id,market_cap_def.market_cap_name from comp_mkt_cap_type,market_cap_def where comp_mkt_cap_type.market_cap_id=market_cap_def.market_cap_id group by market_cap_def.market_cap_name order by comp_mkt_cap_type.company_id",
+                new SqlData(
+                        "select comp_mkt_cap_type.company_id,market_cap_def.market_cap_name from comp_mkt_cap_type,market_cap_def where comp_mkt_cap_type.market_cap_id=market_cap_def.market_cap_id group by market_cap_def.market_cap_name order by comp_mkt_cap_type.company_id",
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("mcap_name",
-                                    new String[][]{{"Large Cap", "Large Cap: > $5Bn"},
-                                            {"Mid Cap", "Mid Cap: $1Bn < & < $5Bn"},
-                                            {"Small Cap", "Small Cap: $300M < & < $1Bn"},
-                                            {"Micro Cap", "Micro Cap: $50M < & < $300M"}}));
+                                    new String[][] { { "Large Cap", "Large Cap: > $5Bn" },
+                                            { "Mid Cap", "Mid Cap: $1Bn < & < $5Bn" },
+                                            { "Small Cap", "Small Cap: $300M < & < $1Bn" },
+                                            { "Micro Cap", "Micro Cap: $50M < & < $300M" } }));
                         }},
                         conitionValueAsNull,
                         firstDefaultParamsMapAsNull,
@@ -138,7 +146,8 @@ public final class WebUtils {
 
         //recommType
         filterTypeMap.put("recommType",
-                new SqlData("select a.product_id,a.rsrch_recomm_type from vendor_report_data a group by a.rsrch_recomm_type order by a.rsrch_recomm_type",
+                new SqlData(
+                        "select a.product_id,a.rsrch_recomm_type from vendor_report_data a group by a.rsrch_recomm_type order by a.rsrch_recomm_type",
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("rsrchRecommType", null));
                         }},
@@ -149,7 +158,8 @@ public final class WebUtils {
 
         //Research Sub Area (Sub Sector or Sub-Industry)
         filterTypeMap.put("industry",
-                new SqlData("select research_area_id, description from  research_sub_area where research_area_id='7' and description not like 'All Sectors' order by description",
+                new SqlData(
+                        "select research_area_id, description from  research_sub_area where research_area_id='7' and description not like 'All Sectors' order by description",
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("description", null));
                         }},
@@ -218,11 +228,11 @@ public final class WebUtils {
         private LinkedHashMap<String, Object> lastDefaultParamsMap;
 
         public SqlData(String sql,
-                       ArrayList<ColumnNameAndNewValue> replaceColumnValueWithNewValue,
-                       Object[] conitionValue,
-                       LinkedHashMap<String, Object> firstDefaultParamsMap,
-                       LinkedHashMap<String, Object> lastDefaultParamsMap,
-                       int colIndex) {
+                ArrayList<ColumnNameAndNewValue> replaceColumnValueWithNewValue,
+                Object[] conitionValue,
+                LinkedHashMap<String, Object> firstDefaultParamsMap,
+                LinkedHashMap<String, Object> lastDefaultParamsMap,
+                int colIndex) {
             super();
             this.sql = sql;
             this.conitionValue = conitionValue;
@@ -240,7 +250,8 @@ public final class WebUtils {
                         replaceColumnValueWithNewValueMap.put(newValuesStrArr[0], newValuesStrArr[1]);
                     }
                     columnNameAndNewValueMap.put(colName, replaceColumnValueWithNewValueMap);
-                } else {
+                }
+                else {
                     columnNameAndNewValueMap.put(colName, null);
                 }
 
@@ -287,7 +298,7 @@ public final class WebUtils {
     }
 
     public static String buildReportPath(String productId, CommonsMultipartFile multiPartFile, String userName,
-                                         String basePath) {
+            String basePath) {
         // Upload filename suffix with productId
         // Reason: loggedIn user can upload multiple file while upload
         final Pair<String, String> fileNameAndExtention = StringUtil
@@ -299,14 +310,14 @@ public final class WebUtils {
         return reportResearchOfferingFilePath;
     }
 
-
     public static void processDownload(HttpServletResponse response, String productId,
-                                       String fileName, Pair<Long, InputStream> download) throws Exception {
+            String fileName, Pair<Long, InputStream> download) throws Exception {
         InputStream fileInputStream = download.getElement2();
         Long fileLength = download.getElement1();
         if (fileInputStream == null) {
             throw new Exception("File does not exist for id=" + productId);
-        } else {
+        }
+        else {
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
             response.setHeader("Content-Length", String.valueOf(fileLength));
             FileCopyUtils.copy(fileInputStream, response.getOutputStream());
@@ -332,18 +343,44 @@ public final class WebUtils {
             errMessages.add(defaultMessage);
         }
         String[] errStrArr = errMessages.toArray(new String[1]);
-        Object baseResponseDto = new ApiResponse<>("in-001", errStrArr, null,BAD_REQUEST);
-        ApiResponse baseResponseDto1 = (ApiResponse) baseResponseDto;
-        HttpStatus httpStatus = baseResponseDto1.getHttpStatus();
-        baseResponseDto1.setHttpStatus(null);
-        return new ResponseEntity<>(baseResponseDto, httpStatus);
+        logger.error("### Validation failed error details: {}", Arrays.toString(errStrArr));
+        ApiResponse apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED_ERR_MSG, null, HttpStatus.BAD_REQUEST);
+        HttpStatus httpStatus = apiResponse.getHttpStatus();
+        apiResponse.setHttpStatus(null);
+        return new ResponseEntity<>(apiResponse, httpStatus);
     }
 
     public static ResponseEntity<ApiResponse> getConstraintViolationResponseEntity(ConstraintViolationException e) {
         String message = e.getMessage().substring(e.getMessage().indexOf(":") + 2);
-        ApiResponse<String, String> apiResponse = new ApiResponse<>("in-002", message, null, BAD_REQUEST);
+        logger.error("### Validation failed error details: {}", message);
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED_ERR_MSG, null, HttpStatus.BAD_REQUEST);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
-        return new ResponseEntity<ApiResponse>(apiResponse,httpStatus);
+        return new ResponseEntity<>(apiResponse, httpStatus);
+    }
+
+    public static ResponseEntity<ApiResponse> getBadRequestErrorResponse(ApiBadRequestException e) {
+        logger.error("### Validation failed error details: {}", e.getMessage());
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED_ERR_MSG, null, HttpStatus.BAD_REQUEST);
+        HttpStatus httpStatus = apiResponse.getHttpStatus();
+        apiResponse.setHttpStatus(null);
+        return new ResponseEntity<>(apiResponse, httpStatus);
+    }
+
+    public static ResponseEntity<ApiResponse> getResourceNotFoundErrorResponse(ApiResourceNotFoundException e) {
+        logger.error("### Validation failed error details: {}", e.getMessage());
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-404", RESOURCE_NOT_FOUND_ERR_MSG, null, HttpStatus.NOT_FOUND);
+        HttpStatus httpStatus = apiResponse.getHttpStatus();
+        apiResponse.setHttpStatus(null);
+        return new ResponseEntity<>(apiResponse, httpStatus);
+    }
+
+    public static ResponseEntity<ApiResponse> getInternalServerErrorResponse(Exception e) {
+        ErrorUtil.logError("Api Internal server error :", e);
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-500", INTERNAL_SERVER_ERR_MSG, null,
+                HttpStatus.INTERNAL_SERVER_ERROR);
+        HttpStatus httpStatus = apiResponse.getHttpStatus();
+        apiResponse.setHttpStatus(null);
+        return new ResponseEntity<>(apiResponse, httpStatus);
     }
 }

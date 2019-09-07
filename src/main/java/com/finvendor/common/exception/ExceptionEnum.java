@@ -69,6 +69,7 @@ public enum ExceptionEnum {
 	SUBSCRIPTION("fv-0053", "Internal error - Subscription failed, Please contact Finvendor admin for support!!"),
 	EXAMPLE("fv-0054", "Internal error - Example operation failed, Please contact Finvendor admin for support!!"),
 	SUBSCRIPTION_VALIDATION_FAILED("fv-0055", "Validation failed"),
+	GENERAL_ERROR("fv-9999", "General error - Something went wrong, please contact admin for support"),
 
 
 
