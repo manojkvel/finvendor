@@ -1,7 +1,6 @@
 package com.finvendor.serverwebapi.resources.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finvendor.model.Example;
 import com.finvendor.api.example.controller.ExampleController;
 import com.finvendor.api.example.dto.ExampleRequestDto;
 import com.finvendor.api.example.service.ExampleService;
@@ -67,16 +66,15 @@ public class ExampleControllerTest {
 
     @Test
     public void test_save_example() throws Exception {
-        Example example = new Example();
-        example.setId(1);
-        example.setName("Danny");
-        doNothing().when(exampleService).saveOrUpdateExample1(example);
+        ExampleRequestDto exampleRequestDto = new ExampleRequestDto();
+        exampleRequestDto.setId(1);
+        exampleRequestDto.setName("Danny");
+        doNothing().when(exampleService).saveOrUpdateExample(exampleRequestDto);
 
         mockMvc.perform(
-                post("/system/api/saveexample")
+                post("/api/examples")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(example)))
-                .andExpect(status().isOk());
+                        .content(asJsonString(exampleRequestDto))).andExpect(status().isOk());
     }
 
     /*

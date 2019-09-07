@@ -19,22 +19,33 @@ public class ExampleService {
     @Autowired
     private ExampleDao exampleDao;
 
-    public void saveOrUpdateExample1(Example class1) {
-        exampleDao.saveOrUpdate(class1);
-        exampleDao.flush();
+    public void saveOrUpdateExample(ExampleRequestDto exampleRequestDto) throws Exception {
+        try {
+            final Example exampleEntity = new Example();
+            exampleEntity.setId(exampleRequestDto.getId());
+            exampleEntity.setName(exampleRequestDto.getName());
+            exampleEntity.setPhone(exampleRequestDto.getPhone());
+            exampleDao.saveOrUpdate(exampleEntity);
+            exampleDao.flush();
+        } catch (RuntimeException e) {
+            throw new Exception("Error has occurred while saving Example", e);
+        }
     }
 
     public List<ExampleRequestDto> findAllExample() {
         List<Example> allEntity = exampleDao.findAll();
-        List<ExampleRequestDto> exmaple1PojoList = new ArrayList<>();
-        for (Example e : allEntity) {
-            ExampleRequestDto example1Pojo = new ExampleRequestDto();
-            example1Pojo.setId(e.getId());
-            example1Pojo.setName(e.getName());
-            example1Pojo.setPhone(e.getPhone());
-            exmaple1PojoList.add(example1Pojo);
+        List<ExampleRequestDto> exampleRequestDtoList = null;
+        if (allEntity != null) {
+            exampleRequestDtoList = new ArrayList<>();
+            for (Example e : allEntity) {
+                ExampleRequestDto exampleRequestDto = new ExampleRequestDto();
+                exampleRequestDto.setId(e.getId());
+                exampleRequestDto.setName(e.getName());
+                exampleRequestDto.setPhone(e.getPhone());
+                exampleRequestDtoList.add(exampleRequestDto);
+            }
         }
-        return exmaple1PojoList;
+        return exampleRequestDtoList;
     }
 
     public ExampleDto findExampleById(Serializable id) {

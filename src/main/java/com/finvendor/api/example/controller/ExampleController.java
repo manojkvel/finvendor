@@ -8,7 +8,6 @@ import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
-import com.finvendor.model.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,21 +43,26 @@ public class ExampleController {
      * SAVE Example
      */
     @PostMapping(value = "/examples", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveExample(@Valid @RequestBody ExampleRequestDto exampleRequestDto) throws WebApiException {
-        final Example example1Entity = new Example();
-        example1Entity.setId(exampleRequestDto.getId());
-        example1Entity.setName(exampleRequestDto.getName());
-        example1Entity.setPhone(exampleRequestDto.getPhone());
-        exampleService.saveOrUpdateExample1(example1Entity);
+    public ResponseEntity<ApiResponse<String, Void>> saveExample(@Valid @RequestBody ExampleRequestDto exampleRequestDto) throws Exception {
+        exampleService.saveOrUpdateExample(exampleRequestDto);
+        ApiResponse<String, Void> apiResponse = WebUtils.buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
+        return WebUtils.buildResponseEntity(apiResponse);
     }
 
     /**
      * Find All Examples
      */
     @GetMapping(value = "/examples", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ExampleRequestDto>> findAllExample() throws WebApiException {
+    public ResponseEntity<ApiResponse<String, List<ExampleRequestDto>>> findAllExample() throws Exception {
         List<ExampleRequestDto> allExample = exampleService.findAllExample();
-        return new ResponseEntity<>(allExample, HttpStatus.OK);
+        ApiResponse<String, List<ExampleRequestDto>> apiResponse;
+        if (allExample != null) {
+            apiResponse = WebUtils.buildResponse(ApiMessageEnum.SUCCESS, allExample, HttpStatus.OK);
+        }
+        else {
+            throw new ApiResourceNotFoundException(WebUtils.RESOURCE_NOT_FOUND_ERR_MSG);
+        }
+        return WebUtils.buildResponseEntity(apiResponse);
     }
 
     /**
@@ -75,7 +79,7 @@ public class ExampleController {
         else {
             throw new ApiResourceNotFoundException(WebUtils.RESOURCE_NOT_FOUND_ERR_MSG);
         }
-        return WebUtils.getResponseEntity(apiResponse);
+        return WebUtils.buildResponseEntity(apiResponse);
     }
 
     /**

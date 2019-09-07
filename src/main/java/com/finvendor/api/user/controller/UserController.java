@@ -23,7 +23,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static com.finvendor.api.webutil.WebUtils.buildResponse;
-import static com.finvendor.api.webutil.WebUtils.getResponseEntity;
+import static com.finvendor.api.webutil.WebUtils.buildResponseEntity;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -53,7 +53,7 @@ public class UserController {
         } catch (ApplicationException e) {
             e.printStackTrace();
         }
-        return getResponseEntity(apiResponse);
+        return buildResponseEntity(apiResponse);
     }
 
 

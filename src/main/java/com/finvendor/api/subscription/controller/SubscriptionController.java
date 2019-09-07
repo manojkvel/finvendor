@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 import static com.finvendor.api.webutil.WebUtils.buildResponse;
-import static com.finvendor.api.webutil.WebUtils.getResponseEntity;
+import static com.finvendor.api.webutil.WebUtils.buildResponseEntity;
 import static com.finvendor.common.enums.ApiMessageEnum.*;
 
 /**
@@ -63,7 +63,7 @@ public class SubscriptionController {
         else {
             apiResponse = buildResponse(FAILED_TO_SAVE_SUBSCRIPTION, null, HttpStatus.BAD_REQUEST);
         }
-        return getResponseEntity(apiResponse);
+        return buildResponseEntity(apiResponse);
     }
 
     /**
@@ -87,7 +87,7 @@ public class SubscriptionController {
         }
         else {
             apiResponse = buildResponse(VERIFICATION_TYPE, null, HttpStatus.INTERNAL_SERVER_ERROR);
-            return getResponseEntity(apiResponse);
+            return buildResponseEntity(apiResponse);
         }
         dto.setPaymentVerified(paymentVerified);
         ApiMessageEnum apiMessageEnum;
@@ -100,7 +100,7 @@ public class SubscriptionController {
             apiMessageEnum = subscriptionService.updatePayment(dto, dataList);
             apiResponse = buildResponse(apiMessageEnum, null, HttpStatus.OK);
         }
-        return getResponseEntity(apiResponse);
+        return buildResponseEntity(apiResponse);
     }
 
     /**
@@ -119,7 +119,7 @@ public class SubscriptionController {
         else {
             apiResponse = buildResponse(GET_SUBSCRIPTION_TYPE, userSubscriptionDto, HttpStatus.OK);
         }
-        return getResponseEntity(apiResponse);
+        return buildResponseEntity(apiResponse);
     }
 
     @PostMapping(value = "/subscriptions/recordstat", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -153,7 +153,7 @@ public class SubscriptionController {
         else {
             apiResponse = buildResponse(GET_SUBSCRIPTION, userPayments, HttpStatus.OK);
         }
-        return getResponseEntity(apiResponse);
+        return buildResponseEntity(apiResponse);
     }
 
     /**

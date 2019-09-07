@@ -324,11 +324,11 @@ public final class WebUtils {
         }
     }
 
-    public static <D> ApiResponse<String, D> buildResponse(ApiMessageEnum createSubscription, D data, HttpStatus httpStatus) {
-        return new ApiResponse<>(createSubscription.getCode(), createSubscription.getMsg(), data, httpStatus);
+    public static <D> ApiResponse<String, D> buildResponse(ApiMessageEnum apiMessageEnum, D data, HttpStatus httpStatus) {
+        return new ApiResponse<>(apiMessageEnum.getCode(), apiMessageEnum.getMsg(), data, httpStatus);
     }
 
-    public static <D> ResponseEntity<ApiResponse<String, D>> getResponseEntity(ApiResponse<String, D> apiResponse) {
+    public static <D> ResponseEntity<ApiResponse<String, D>> buildResponseEntity(ApiResponse<String, D> apiResponse) {
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
         return new ResponseEntity<>(apiResponse, httpStatus);

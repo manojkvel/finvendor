@@ -47,6 +47,6 @@ public class SubscriptionControllerAdvice extends ResponseEntityExceptionHandler
     public ResponseEntity<?> handleBadRequest(Exception e) {
         ApiResponse<String,Object> apiResponse = new ApiResponse<>(SUBSCRIPTION_VALIDATION_FAILED.getCode(), SUBSCRIPTION_VALIDATION_FAILED.getUserMessage(),
                 null, HttpStatus.BAD_REQUEST);
-        return WebUtils.getResponseEntity(apiResponse);
+        return WebUtils.buildResponseEntity(apiResponse);
     }
 }
