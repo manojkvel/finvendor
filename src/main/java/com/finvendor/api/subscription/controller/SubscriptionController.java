@@ -62,15 +62,15 @@ public class SubscriptionController {
             String subscriptionRefId = subscriptionService.savePayment(userName, subscriptionDto);
             if (subscriptionRefId != null) {
                 LOGGER.info("User Subscription created successfully, subscriptionId: {}", subscriptionRefId);
-                apiResponse = buildResponse(CREATE_SUBSCRIPTION, null, HttpStatus.CREATED);
+                apiResponse = buildResponse(SUCCESS, null, HttpStatus.CREATED);
             }
             else {
                 LOGGER.info("User Subscription already exist, userName: {}", userName);
-                apiResponse = buildResponse(DUP_SUBSCRIPTION, null, HttpStatus.CONFLICT);
+                apiResponse = buildResponse(CONFLICT, null, HttpStatus.CONFLICT);
             }
         }
         else {
-            apiResponse = buildResponse(FAILED_TO_SAVE_SUBSCRIPTION, null, HttpStatus.BAD_REQUEST);
+            apiResponse = buildResponse(INTERNAL_SERVER_ERROR, null, HttpStatus.BAD_REQUEST);
         }
         return buildResponseEntity(apiResponse);
     }
@@ -105,7 +105,6 @@ public class SubscriptionController {
         }
         else {
             LOGGER.info("### Before update subscription state update");
-
             apiMessageEnum = subscriptionService.updatePayment(dto, dataList);
             apiResponse = buildResponse(apiMessageEnum, null, HttpStatus.OK);
         }
@@ -123,10 +122,10 @@ public class SubscriptionController {
         ApiResponse<String, UserSubscriptionDto> apiResponse;
         UserSubscriptionDto userSubscriptionDto;
         if ((userSubscriptionDto = subscriptionService.findUserSubscriptions(userName)) == null) {
-            apiResponse = buildResponse(FAILED_TO_FIND_USER_SUBSCRIPTIONS, null, HttpStatus.NOT_FOUND);
+            apiResponse = buildResponse(RESOURCE_NOT_FOUND, null, HttpStatus.NOT_FOUND);
         }
         else {
-            apiResponse = buildResponse(GET_SUBSCRIPTION_TYPE, userSubscriptionDto, HttpStatus.OK);
+            apiResponse = buildResponse(SUCCESS, userSubscriptionDto, HttpStatus.OK);
         }
         return buildResponseEntity(apiResponse);
     }
@@ -162,15 +161,20 @@ public class SubscriptionController {
             throw new ApiBadRequestException("Validation failed");
         }
 
-        if ((userPayments = subscriptionService.findSubscriptions(state, pageNumber, perPageMaxRecords, sortBy, orderBy, filter)) == null) {
-            apiResponse = buildResponse(FAILED_TO_FIND_SUBSCRIPTION, null, HttpStatus.NO_CONTENT);
+        List<UserPaymentDto> subscriptions = subscriptionService
+                .findSubscriptions(state, pageNumber, perPageMaxRecords, sortBy, orderBy, filter);
+        if (subscriptions == null) {
+            apiResponse = buildResponse(RESOURCE_NOT_FOUND, null, HttpStatus.NOT_FOUND);
         }
         else {
-            apiResponse = buildResponse(SUCCESS, userPayments, HttpStatus.OK);
+            apiResponse = buildResponse(SUCCESS, subscriptions, HttpStatus.OK);
         }
         return buildResponseEntity(apiResponse);
     }
 
+    /**
+     * Download subscriptions into CSV
+     */
     @RequestMapping(value = "/subscriptions/download", method = RequestMethod.GET)
     public ResponseEntity<?> downloadSubscriptions(HttpServletResponse response) throws WebApiException {
         try {
@@ -188,6 +192,7 @@ public class SubscriptionController {
             return ErrorUtil.getError(SUBSCRIPTIONS_DOWNLOAD.getCode(), SUBSCRIPTIONS_DOWNLOAD.getUserMessage(), e);
         }
     }
+
     /**
      * Watch subscription before expire date
      */
