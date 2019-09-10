@@ -385,7 +385,7 @@ jQuery(document).ready(function() {
             return new Promise(function(resolve, reject) {
 
                 if(userId != '') {
-                    var url = classRef.baseApiUrl + "?pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
+                    var url = classRef.baseApiUrl + "?state='PENDING'&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
                     var httpRequest = new XMLHttpRequest({
                         mozSystem: true
                     });
@@ -423,7 +423,7 @@ jQuery(document).ready(function() {
         getRecordStats: function() {
             var classRef = this;
 
-            var url = classRef.baseApiUrl + "/recordstat?perPageMaxRecords=" + classRef.perPageMaxRecords;
+            var url = classRef.baseApiUrl + "/recordstat?state=''&perPageMaxRecords=" + classRef.perPageMaxRecords;
             return new Promise(function(resolve, reject) {
                 var httpRequest = new XMLHttpRequest({
                     mozSystem: true
