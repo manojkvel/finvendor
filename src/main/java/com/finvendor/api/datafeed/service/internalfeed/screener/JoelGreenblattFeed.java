@@ -2,12 +2,12 @@ package com.finvendor.api.datafeed.service.internalfeed.screener;
 
 import com.finvendor.api.datafeed.service.internalfeed.screener.dto.JoelEbitAndEnterpriseDto;
 import com.finvendor.api.datafeed.service.internalfeed.screener.dto.JoelRotcDto;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,7 +28,7 @@ public class JoelGreenblattFeed extends AbstractScreenerFeed {
         Map<Integer, JoelEbitAndEnterpriseDto> top_50_ebit = findTop50Ebit();
         Set<Integer> top_50_rotc_stock_id = top_50_rotc.keySet();
         Set<Integer> top_50_ebit_stock_id = top_50_ebit.keySet();
-        Set<Integer> intersection = new HashSet<>(); //Sets.intersection(top_50_rotc_stock_id, top_50_ebit_stock_id);
+        Set<Integer> intersection = Sets.intersection(top_50_rotc_stock_id, top_50_ebit_stock_id);
 
         for (Integer stockId : intersection) {
             JoelRotcDto joelRotcDto = top_50_rotc.get(stockId);

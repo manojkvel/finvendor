@@ -59,12 +59,12 @@ public class MartinZweigFeed extends AbstractScreenerFeed {
         float allYearEpsGrowth = findAllYearEpsGrowth(stockId);
         float deFloat = latestEarningPreview.getDeFloat();
 
-        boolean everyEpsGrowthGreaterThanPrevioudEpsGrowth = isEveryEpsGrowthGreaterThanPrevioudEpsGrowth(stockId);
+        boolean everyEpsGrowthGreaterThanPreviousEpsGrowth = isEveryEpsGrowthGreaterThanPrevioudEpsGrowth(stockId);
         boolean finalCondition;
         boolean peCondition1 = peFloat >= 5 && peFloat <= 43;
         boolean peCondition2 = peFloat <= 3 * nifty50PeFloat;
         boolean latestRevenueGrowthCondition = latestRevenueGrowth >= 85 || latestRevenueGrowth >= 30;
-        boolean epsGrowthCondition = everyEpsGrowthGreaterThanPrevioudEpsGrowth;
+        boolean epsGrowthCondition = everyEpsGrowthGreaterThanPreviousEpsGrowth;
         boolean allYearEpsGrowthCondition = allYearEpsGrowth > 15;
 
         // Strategy exceptional condition
@@ -82,7 +82,7 @@ public class MartinZweigFeed extends AbstractScreenerFeed {
         sb.append("\nlatestRevenueGrowth:------------------------------------ (").append(latestRevenueGrowth);
         sb.append("\nallYearEpsGrowth: -------------------------------------- (").append(allYearEpsGrowth);
         sb.append("\ndeFloat: ----------------------------------------------- (").append(deFloat);
-        sb.append("\neveryEpsGrowthGreaterThanPrevioudEpsGrowth: ------------ (").append(everyEpsGrowthGreaterThanPrevioudEpsGrowth);
+        sb.append("\neveryEpsGrowthGreaterThanPreviousEpsGrowth: ------------ (").append(everyEpsGrowthGreaterThanPreviousEpsGrowth);
 
         sb.append("\n\n");
         sb.append("\nCondition-1: [P/E between 5-43 ] ---------------------------------------------------------------------- ").append(peCondition1 ? "TRUE" : "FALSE");
