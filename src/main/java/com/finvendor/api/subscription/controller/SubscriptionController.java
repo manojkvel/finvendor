@@ -54,7 +54,7 @@ public class SubscriptionController {
      * Save user subscription details
      */
     @PostMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> saveSubscription(
+    public ResponseEntity<ApiResponse<String, String>> saveSubscription(
             @PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
             @Valid @RequestBody SubscriptionDto subscriptionDto) throws Exception {
         ApiResponse<String, String> apiResponse;
@@ -134,6 +134,10 @@ public class SubscriptionController {
     public ResponseEntity<?> findAllSubscriptionsRecordStats(@RequestParam(value = "state") String state,
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords, @RequestBody(required = false) SubscriptionFilter filter)
             throws Exception {
+        if (!("all".equals(state) || ("ACTIVE".equals(state) || "PENDING".equals(state) || "TERMINATE".equals(state)))) {
+            throw new ApiBadRequestException("Validation failed");
+        }
+
         String subscriptionsRecordStat = subscriptionService.getSubscriptionsRecordStat(state, perPageMaxRecords, filter);
         return new ResponseEntity<>(subscriptionsRecordStat, HttpStatus.OK);
     }
@@ -157,7 +161,7 @@ public class SubscriptionController {
             throw new ApiBadRequestException("Validation failed");
         }
 
-        if (!("ACTIVE".equals(state) || "PENDING".equals(state) || "TERMINATE".equals(state))) {
+        if (!("all".equals(state) || ("ACTIVE".equals(state) || "PENDING".equals(state) || "TERMINATE".equals(state)))) {
             throw new ApiBadRequestException("Validation failed");
         }
 

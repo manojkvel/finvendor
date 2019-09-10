@@ -123,17 +123,28 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
     private String getFindAllSubscriptionSql(String state, SubscriptionFilter filter) {
         String finalSql;
         if (filter != null) {
-            String from = String.valueOf(filter.getFrom());
-            String to = String.valueOf(filter.getTo());
-            finalSql =
-                    "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='"
-                            + state + "' and (cast(subscription_date as UNSIGNED INTEGER)>=" + filter.getFrom()
-                            + " and cast(subscription_date as UNSIGNED INTEGER)<= " + filter.getTo() + ")";
+            if ("all".equals(state)) {
+                finalSql =
+                        "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username "
+                                + " and (cast(subscription_date as UNSIGNED INTEGER)>=" + filter.getFrom()
+                                + " and cast(subscription_date as UNSIGNED INTEGER)<= " + filter.getTo() + ")";
+            }
+            else {
+                finalSql =
+                        "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='"
+                                + state + "' and (cast(subscription_date as UNSIGNED INTEGER)>=" + filter.getFrom()
+                                + " and cast(subscription_date as UNSIGNED INTEGER)<= " + filter.getTo() + ")";
+            }
         }
         else {
-            finalSql =
-                    "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='"
-                            + state + "'";
+            if ("all".equals(state)) {
+                finalSql = "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username ";
+            }
+            else {
+                finalSql =
+                        "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='"
+                                + state + "'";
+            }
         }
         return finalSql;
     }
@@ -240,6 +251,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
     @Resource(name = "finvendorProperties")
     private Properties finvendorProperties;
     public static final String NA = "NA";
+
     public Pair<Long, InputStream> downloadSubscriptions() throws RuntimeException {
         String mainQuery = "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username";
         SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);

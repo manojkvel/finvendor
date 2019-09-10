@@ -16,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
 
 import static com.finvendor.common.util.DateUtils.getSubscriptionStartAndEndDateInMillis;
 
@@ -29,7 +31,11 @@ public class SubscriptionService {
 
     private final SubscriptionDao dao;
     private final NotificationService notificationService;
+
     private final UserService userService;
+
+    @Resource(name = "finvendorProperties")
+    private Properties finvendorProperties;
 
     @Autowired
     public SubscriptionService(SubscriptionDao dao, NotificationService notificationService, UserService userService) {
@@ -42,13 +48,21 @@ public class SubscriptionService {
         try {
             //Save Payment details
             String refId = dao.savePayment(userName, dto);
-
             if (refId != null) {
                 //Update subscription type in user table
                 FinVendorUser userDetails = updateUserSubscription(userName, dto.getSubscriptionType());
 
                 //Send Email to user
-                //sentEmail(refId, userDetails);
+                boolean emailFlag = Boolean.parseBoolean(finvendorProperties.getProperty("email"));
+                LOGGER.info("### Save subscription - emailFlag: {}", emailFlag);
+                if (emailFlag) {
+                    String subject = finvendorProperties.getProperty("subscription_submission_subject");
+                    String content = finvendorProperties.getProperty("subscription_submission_content");
+                    String email = userDetails.getEmail();
+                    String from = EmailUtil.SALES_EMAIL;
+                    String[] to = new String[] { email };
+                    notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).from(from).build());
+                }
             }
             else {
                 refId = null;
@@ -57,15 +71,6 @@ public class SubscriptionService {
         } catch (Exception e) {
             throw new Exception(e);
         }
-    }
-
-    private void sentEmail(String refId, FinVendorUser userDetails) throws Exception {
-        String email = userDetails.getEmail();
-        String from = EmailUtil.SALES_EMAIL;
-        String[] to = new String[] { email };
-        String subject = prepareSubject(refId);
-        String content = prepareContent(refId);
-        notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).from(from).build());
     }
 
     private FinVendorUser updateUserSubscription(String userName, String subscriptionType) throws ApplicationException {
@@ -85,11 +90,11 @@ public class SubscriptionService {
         return existingUser;
     }
 
-    private String prepareContent(String refId) {
-        return "dd";
+    private String prepareSubject(String refId) {
+        return "";
     }
 
-    private String prepareSubject(String refId) {
+    private String prepareContent(String refId) {
         return "";
     }
 
@@ -121,6 +126,16 @@ public class SubscriptionService {
                         existingUser.setSubscriptionState("TERMINATE");
                     }
                     userService.updateUserInfo(existingUser);
+                    boolean email = Boolean.parseBoolean(finvendorProperties.getProperty("email"));
+                    LOGGER.info("### Send email flag: {}", email);
+                    if (email) {
+                        String subject = finvendorProperties.getProperty("activate_or_terminate_subject");
+                        String content = finvendorProperties.getProperty("activate_or_terminate_content");
+                        String oldEmail = existingUser.getEmail();
+                        String from = EmailUtil.SALES_EMAIL;
+                        String[] to = new String[] { oldEmail };
+                        notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).from(from).build());
+                    }
                 }
             }
             return apiMessageEnum;

@@ -230,10 +230,17 @@ public class DateUtils {
 
         //        System.out.println(getCurrentDateHaveMonthDigit());
         //        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
-        Pair<Long, Long> ms = getSubscriptionStartAndEndDateInMillis(30);
-        System.out.println("Start time: " + ms.getElement1());
-        System.out.println("End time: " + ms.getElement2());
+//        Pair<Long, Long> ms = getSubscriptionStartAndEndDateInMillis(30);
+//        System.out.println("Start time: " + ms.getElement1());
+//        System.out.println("End time: " + ms.getElement2());
         //        getSubscriptionStartAndEndDateInHumanDate(30);
+
+        long difference = getDateDifferenceInDays(1569421242000L, 1570717617263L);
+        System.out.println(difference);
+    }
+
+    public static long getDateDifferenceInDays(long start, long end) {
+        return (end - start)/86400000;
     }
 
 }
