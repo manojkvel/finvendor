@@ -857,9 +857,9 @@ table .normal_font p {
 	color: #000;
 }
 
-tfoot {
+/*tfoot {
 	display: none;
-}
+}*/
 
 #watchlist_table > thead > tr > th,
 #pricealert_table > thead > tr > th,
