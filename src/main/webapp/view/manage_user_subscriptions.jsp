@@ -26,7 +26,7 @@
 			<div class="col-xs-12 col-sm-12">
 				<div class="manage_user_subscriptions_content">
 					<div class="subscriptions_header">
-						<div class="col-xs-12 col-sm-6">
+						<div class="col-xs-12 col-sm-4 nopadding">
 							<ul class="action_btns">
 								<li>
 									<button type="button" class="btn approveBtn" title="Approve" disabled  data-toggle="modal" data-target="#approveUserSubscription">Approve</button>
@@ -43,7 +43,7 @@
 								</li>
 							</ul>
 						</div>
-						<div class="col-xs-12 col-sm-6">
+						<div class="col-xs-12 col-sm-8 nopadding">
 							<ul class="filter_btns">
 
 								<li>
@@ -57,7 +57,7 @@
 											<option value='100'>100</option>
 										</select>
 
-										<span id='total_records_count' style="padding-left: 30px;font-weight:bold;font-size: 13px;"></span>
+										<span id='total_records_count' style="padding-left: 10px;font-weight:bold;font-size: 13px;"></span>
 									</div>
 								</li>
 
@@ -67,6 +67,24 @@
 									<label>To</label>
 									<input type="text" placeholder="DD/MM/YYYY" id="transactionDateTo" name="transactionDateTo" />
 									<button type="button" class="fa fa-check btn applyBtn" title="Apply Filters"></button>
+								</li>
+
+								<li>
+									<div class="filter_by_state">
+										<label>State</label>
+										<select>
+											<option value='all' selected>Filter by All</option>
+											<option value='PENDING'>Filter by Pending</option>
+											<option value='ACTIVE'>Filter by Active</option>
+											<option value='TERMINATE'>Filter by Terminate</option>
+										</select>
+									</div>
+
+									<div class="download_report" style="margin-left: 5px; padding: 5px; float: right; cursor: pointer;" title="Download User Report">
+										<a target="_blank" href="/api/subscriptions/download">
+											<span class="fa fa-arrow-circle-down" style="font-size: 30px;"></span>
+										</a>
+									</div>
 								</li>
 							</ul>
 						</div>
@@ -118,7 +136,7 @@
 									</th>
 									<th style="width:15%;">
 										<p class="normal_font">
-											STATUS
+											State
 										</p>
 									</th>
 									<th style="width:15%;">

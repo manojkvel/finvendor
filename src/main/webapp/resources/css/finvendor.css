@@ -8,6 +8,11 @@ body#home {
 	margin-top: 55px !important;
 }
 
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
 .errorMessage {
 	font-size: 12px;
 	font-weight: bold;
@@ -741,8 +746,22 @@ table .normal_font p {
     padding: 7px 12px 6px;
     border: 0;
     margin: 0 10px;
-    font-size: 13px;
-    width: 100px;
+    font-size: 10px;
+    width: 80px;
+}
+
+.filter_by_state {
+	margin: 0 10px;
+	float: left;
+}
+
+.filter_by_state select {
+	height: 34px;
+    margin-top: 3px;
+    margin-left: 5px;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
 }
 
 #watchlist_table input[type='checkbox'], 
@@ -2665,12 +2684,10 @@ button {
 
 #manage_user_subscriptions .subscriptions_header ul.action_btns {
 	float: left;
-	margin: 0 -15px 10px;
 }
 
 #manage_user_subscriptions .subscriptions_header ul.filter_btns {
 	float: right;
-	margin: 0 -15px 10px;
 }
 
 #manage_user_subscriptions .subscriptions_header ul.filter_btns .applyBtn {
@@ -3022,7 +3039,6 @@ button {
 	}
 
 	#manage_user_subscriptions .subscriptions_header ul.action_btns {
-		margin: 0;
 		width: 100%;
 	}
 

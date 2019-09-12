@@ -13,6 +13,7 @@ jQuery(document).ready(function() {
             this.totalRecords = 1;
             this.currentIndex = 1;
             this.perPageMaxRecords = 10;
+            this.state = 'all';
             this.sortByValue = 'userName';
             this.orderBy = 'desc';
             this.userList = [];
@@ -150,8 +151,16 @@ jQuery(document).ready(function() {
 
 
             $('#manage_user_subscriptions .manage_user_subscriptions_content .applyBtn').off().on('click', {this: classRef}, classRef.getFilterData);
+            $('#manage_user_subscriptions .manage_user_subscriptions_content .filter_by_state select').off().on('change', {this: classRef}, classRef.getFilterByState);
             $('#manage_user_subscriptions .manage_user_subscriptions_content .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
             $("#manage_user_subscriptions input[name='selectAll']").off().on('change', {this: classRef}, classRef.checkForAllData);
+        },
+
+        getFilterByState: function(event) {
+            var classRef = event.data.this;
+            var selectedState = $(this).val();
+            classRef.state = selectedState;
+            classRef.getAllSubscriptionsDetails();
         },
 
         getFilterData: function(event) {
@@ -385,7 +394,7 @@ jQuery(document).ready(function() {
             return new Promise(function(resolve, reject) {
 
                 if(userId != '') {
-                    var url = classRef.baseApiUrl + "?state='PENDING'&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
+                    var url = classRef.baseApiUrl + "?state=" + classRef.state + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
                     var httpRequest = new XMLHttpRequest({
                         mozSystem: true
                     });
@@ -423,7 +432,7 @@ jQuery(document).ready(function() {
         getRecordStats: function() {
             var classRef = this;
 
-            var url = classRef.baseApiUrl + "/recordstat?state=''&perPageMaxRecords=" + classRef.perPageMaxRecords;
+            var url = classRef.baseApiUrl + "/recordstat?state=" + classRef.state + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
             return new Promise(function(resolve, reject) {
                 var httpRequest = new XMLHttpRequest({
                     mozSystem: true
