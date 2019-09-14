@@ -6,6 +6,6 @@ package com.finvendor.common.infra.datafeed;
  * @author Ayush
  * @since 7-April-2019
  */
-public interface DffProcesFeed {
+public interface DffProcessFeed {
     boolean processAndFeed() throws Exception;
 }

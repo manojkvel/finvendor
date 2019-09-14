@@ -1,7 +1,7 @@
 package com.finvendor.api.datafeed.service.internalfeed.screener;
 
 import com.finvendor.api.datafeed.enums.FeedTypeEnum;
-import com.finvendor.common.infra.datafeed.DffProcesFeed;
+import com.finvendor.common.infra.datafeed.DffProcessFeed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -11,27 +11,27 @@ public class ScreenerFeedFacade {
 
     @Autowired
     @Qualifier(value = "kennethFisherFeed")
-    private DffProcesFeed kennethFisherFeed;
+    private DffProcessFeed kennethFisherFeed;
 
     @Autowired
     @Qualifier(value = "benjaminGrahamFeed")
-    private DffProcesFeed benjaminGrahamFeed;
+    private DffProcessFeed benjaminGrahamFeed;
 
     @Autowired
     @Qualifier(value = "jamesShaughnessyFeed")
-    private DffProcesFeed jamesShaughnessyFeed;
+    private DffProcessFeed jamesShaughnessyFeed;
 
     @Autowired
     @Qualifier(value = "joelGreenblattFeed")
-    private DffProcesFeed joelGreenblattFeed;
+    private DffProcessFeed joelGreenblattFeed;
 
     @Autowired
     @Qualifier(value = "martinZweigFeed")
-    private DffProcesFeed martinZweigFeed;
+    private DffProcessFeed martinZweigFeed;
 
     @Autowired
     @Qualifier(value = "finvendorPickFeed")
-    private DffProcesFeed finvendorPickFeed;
+    private DffProcessFeed finvendorPickFeed;
 
     public void processAndFeed(FeedTypeEnum feedTypeEnum) throws Exception {
         switch (feedTypeEnum) {

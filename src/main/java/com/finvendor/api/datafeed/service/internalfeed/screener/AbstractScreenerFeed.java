@@ -6,7 +6,7 @@ import com.finvendor.api.datafeed.service.internalfeed.screener.dto.JoelEbitAndE
 import com.finvendor.api.datafeed.service.internalfeed.screener.dto.JoelRotcDto;
 import com.finvendor.api.markets.service.MarketsService;
 import com.finvendor.common.commondao.ICommonDao;
-import com.finvendor.common.infra.datafeed.DffProcesFeed;
+import com.finvendor.common.infra.datafeed.DffProcessFeed;
 import com.finvendor.common.util.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
-public abstract class AbstractScreenerFeed implements DffProcesFeed {
+public abstract class AbstractScreenerFeed implements DffProcessFeed {
     protected static final Logger logger = LoggerFactory.getLogger(AbstractScreenerFeed.class.getName());
     static final String FINANCIALS = "Financials";
 

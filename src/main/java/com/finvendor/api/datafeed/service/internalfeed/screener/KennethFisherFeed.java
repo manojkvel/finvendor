@@ -26,7 +26,7 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         deleteAllRecordsFromStrategyTable("KENNITH STRATEGY", DELETE_QUERY);
         int totalMatch = 0;
         int totalMisMatch = 0;
-        inflationRate = findInflationRate();
+        inflationRate = findInflationRate();//TODO make it configurable and get it from service
         List<CompanyDetails> companyDetailsList = findCompanyDetails();
         for (CompanyDetails companyDetails : companyDetailsList) {
             String companyId = companyDetails.getCompanyId();
@@ -38,7 +38,8 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
             }
 
             float _3YrAvgNetProfitMarginFloat = find3YearAverageNetProfitMargin(companyDetails.getCompanyId());
-            if (evalKennethCondition(companyDetails, latestEarningPreview, _3YrAvgNetProfitMarginFloat)) {
+            boolean kennethConditionMatched = evalKennethCondition(companyDetails, latestEarningPreview, _3YrAvgNetProfitMarginFloat);
+            if (kennethConditionMatched) {
                 insertFeed(companyDetails, latestEarningPreview, _3YrAvgNetProfitMarginFloat);
                 totalMatch++;
             }
@@ -89,7 +90,7 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         StringBuilder sb = new StringBuilder();
         sb.append("\n--------------------------------------------------------------------------");
         sb.append("\nStock: [").append(companyDetails.getCompanyId()).append("::").append(companyDetails.getTicker())
-                .append("] - ").append("Condition Matched: ").append(finalCondition);
+                .append("] - ").append("Condition Matched status: ").append(finalCondition);
         sb.append("\n--------------------------------------------------------------------------");
         sb.append("\nShareOutStanding: ------------------------------------- (").append(shareOutStandingFloat);
         sb.append("\nCmp:--------------------------------------------------- (").append(cmpFloat);
@@ -107,7 +108,7 @@ public class KennethFisherFeed extends AbstractScreenerFeed {
         sb.append("\nCondition-4: [(3-Y Average net profit margin)>=5%] -------------------------------------- ").append(netProfitMarginCondition?"TRUE":"FALSE");
         sb.append("\nCondition-5: [(mcap/R&D expenditures) <10] ---------------------------------------------- ").append(mcapRndExpenseCondition?"TRUE":"FALSE");
 
-        logger.info(" Condition Attibutes{}", sb.toString());
+        logger.info(" Condition Attributes: {}", sb.toString());
         sb.setLength(0);
         return finalCondition;
     }
