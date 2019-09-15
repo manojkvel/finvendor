@@ -233,16 +233,19 @@
 								<strong>Payee Name: </strong>MTAR Vendor Consulting Private Limited
 							</li>
 							<li>
-								<strong>Account no: </strong><>
+								<strong>Account no: </strong>100976901356
 							</li>
 							<li>
-								<strong>IFSC code: </strong><>
+								<strong>IFSC code: </strong>DBSS0IN0811
+							</li>
+							<li>
+								<strong>SWIFT Code: </strong>DBSSINBB
 							</li>
 							<li>
 								<strong>Account type: </strong>Current (Resident)
 							</li>
 							<li>
-								<strong>Bank Address: </strong><>
+								<strong>MICR code: </strong>400641002
 							</li>
 							<li>
 								<strong>Amount to transfer: <span id='selected_plan_amount'></span></strong>

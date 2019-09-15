@@ -857,9 +857,9 @@ table .normal_font p {
 	color: #000;
 }
 
-/*tfoot {
+#user_subscriptions_container tfoot {
 	display: none;
-}*/
+}
 
 #watchlist_table > thead > tr > th,
 #pricealert_table > thead > tr > th,

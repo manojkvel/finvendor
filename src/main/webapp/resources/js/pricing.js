@@ -310,17 +310,14 @@ jQuery(document).ready(function() {
                 var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
                 if(userDetails != undefined) {
 
-                    if((userDetails.data.subscriptionStatus != "PENDING" && userDetails.data.subscriptionStatus != "N/A") && userDetails.data.subscriptionType != undefined) {
+                    if((userDetails.data.subscriptionStatus == "PENDING" && userDetails.data.subscriptionStatus == "N/A") && userDetails.data.subscriptionType == undefined) {
                         
                     } else {
                         if(userDetails.data.subscriptionType == "SAGE") {
-                            // $("#pricing #sage_investors .btnSubscribe").hide(); 
-                            // $("#pricing #smart_investors .btnSubscribe").hide();
                             $("#pricing button#smart_investors").prop("disabled", "disabled");
                             $("#pricing button#sage_investors").prop("disabled", "disabled");
 
                         } else if(userDetails.data.subscriptionType == "SMART") { 
-                            // $("#pricing #smart_investors .btnSubscribe").hide();
                             $("#pricing #sage_investors .btnSubscribe").show();
                             $("#pricing button#smart_investors").prop("disabled", "disabled");
 

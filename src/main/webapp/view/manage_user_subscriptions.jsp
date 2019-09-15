@@ -251,8 +251,10 @@
 
 		    if(!jQuery("#user_subscriptions_table tbody tr").is(':visible')) {
 		    	$("tfoot").show();
+		    	$(".paging_container").hide();
 		    } else {
 		    	$("tfoot").hide();
+		    	$(".paging_container").show();
 		    }
     	}
     </script>

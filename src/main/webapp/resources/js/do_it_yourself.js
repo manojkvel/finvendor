@@ -12,8 +12,8 @@ jQuery(document).ready(function() {
             this.orderBy = 'desc';
             this.industryFilterData = [];
             this.selectedFilterBody = {};
+            this.defaultFilterBody = {};
             this.setFilterData(); //Function to start async call to filter data API and set response.
-            this.getCustomScreenerData();
         },
 
         clearSelection : function() {
@@ -453,109 +453,177 @@ jQuery(document).ready(function() {
             var classRef = this;
 
             classRef.getFilterData().then(function(response) {
+
+                response = JSON.parse(response);
                 /*var response = {
-                    'listData':[
+                    'industryData':[
                         {
-                            'label': 'Industry',
-                            'value':['a','b']
+                            'label': response.industryData[0].label,
+                            'value':response.industryData[0].value
                         }
                     ],
                     'sliderData':[
                         {
                             'id': 'mcap',
-                            'label': 'Market Capitalisation',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[0].label,
+                            'min': response.sliderData[0].min,
+                            'max': response.sliderData[0].max
                         },
                         {
                             'id': 'pe',
-                            'label': 'P/E(Trailing)',
-                            'min': '1',
-                            'max': '20'
+                            'label': response.sliderData[1].label,
+                            'min': response.sliderData[1].min,
+                            'max': response.sliderData[1].max
                         },
                         {
                             'id': 'pb',
-                            'label': 'Price to Book value',
-                            'min': '0.1',
-                            'max': '1.5'
+                            'label': response.sliderData[2].label,
+                            'min': response.sliderData[2].min,
+                            'max': response.sliderData[2].max
                         },
                         {
                             'id': 'de',
-                            'label': 'Debt to Equity Ratio',
-                            'min': '100',
-                            'max': '400'
+                            'label': response.sliderData[3].label,
+                            'min': response.sliderData[3].min,
+                            'max': response.sliderData[3].max
                         },
                         {
                             'id': 'cr',
-                            'label': 'Current Ratio',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[4].label,
+                            'min': response.sliderData[4].min,
+                            'max': response.sliderData[4].max
                         },
                         {
                             'id': 'npcf',
-                            'label': 'Net Operating Cash Flow',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[5].label,
+                            'min': response.sliderData[5].min,
+                            'max': response.sliderData[5].max
                         },
                         {
                             'id': 'roe',
-                            'label': 'ROE (AVERAGE 3 YR)',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[6].label,
+                            'min': response.sliderData[6].min,
+                            'max': response.sliderData[6].max
                         },
                         {
                             'id': 'opm',
-                            'label': 'Operating profit margin',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[7].label,
+                            'min': response.sliderData[7].min,
+                            'max': response.sliderData[7].max
                         },
                         {
                             'id': 'pat',
-                            'label': 'PAT Growth (avr 3 yrs)',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[8].label,
+                            'min': response.sliderData[8].min,
+                            'max': response.sliderData[8].max
                         },
                         {
                             'id': 'eps',
-                            'label': 'EPS growth (avr 3 yrs)',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[9].label,
+                            'min': response.sliderData[9].min,
+                            'max': response.sliderData[9].max
                         },
                         {
                             'id': 'revenue',
-                            'label': 'Revenue growth (avr 3 yrs)',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[10].label,
+                            'min': response.sliderData[10].min,
+                            'max': response.sliderData[10].max
                         },
                         {
                             'id': 'tfcf',
-                            'label': 'Total Free Cash Flow',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[11].label,
+                            'min': response.sliderData[11].min,
+                            'max': response.sliderData[11].max
                         },
                         {
                             'id': 'ra',
-                            'label': 'Return on assets',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[12].label,
+                            'min': response.sliderData[12].min,
+                            'max': response.sliderData[12].max
                         },
                         {
                             'id': 'dy',
-                            'label': 'Dividend Yield',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[13].label,
+                            'min': response.sliderData[13].min,
+                            'max': response.sliderData[13].max
                         },
                         {
                             'id': 'rotc',
-                            'label': 'Return on Total Capital',
-                            'min': '1',
-                            'max': '2'
+                            'label': response.sliderData[14].label,
+                            'min': response.sliderData[14].min,
+                            'max': response.sliderData[14].max
                         }
                     ]
                 };*/
 
-                response = JSON.parse(response);
+                classRef.defaultFilterBody = {
+                    "mcap" : {
+                        'min': response.sliderData[0].min,
+                        'max': response.sliderData[0].max
+                    },
+
+                    "pe" : {
+                        'min': response.sliderData[1].min,
+                        'max': response.sliderData[1].max
+                    },
+                    
+                    "pb" : {
+                        'min': response.sliderData[2].min,
+                        'max': response.sliderData[2].max
+                    },
+                    "debtToEquityRatio" : {
+                        'min': response.sliderData[3].min,
+                        'max': response.sliderData[3].max
+                    },
+                    "currentRatio" :
+                    {
+                        'min': response.sliderData[4].min,
+                        'max': response.sliderData[4].max
+                    },
+                    "netOperatingCashFlow" :
+                    {
+                        'min': response.sliderData[5].min,
+                        'max': response.sliderData[5].max
+                    },
+                    "roeInPercentage" : {
+                        'min': response.sliderData[6].min,
+                        'max': response.sliderData[6].max
+                    },
+                    "operatingProfitMargin" : {
+                        'min': response.sliderData[7].min,
+                        'max': response.sliderData[7].max
+                    },
+                    "patGrowthInPercentage" : {
+                        'min': response.sliderData[8].min,
+                        'max': response.sliderData[8].max
+                    },
+                    "epsGrowthInPercentage" : {
+                        'min': response.sliderData[9].min,
+                        'max': response.sliderData[9].max
+                    },
+                    "revenueGrowthInPercentage" : {
+                        'min': response.sliderData[10].min,
+                        'max': response.sliderData[10].max
+                    },
+                    "totalFreeCashFlow" : {
+                        'min': response.sliderData[11].min,
+                        'max': response.sliderData[11].max
+                    },
+                    "returnOnAssetInPercentage" : {
+                        'min': response.sliderData[12].min,
+                        'max': response.sliderData[12].max
+                    },
+                    "divYield" : {
+                        'min': response.sliderData[13].min,
+                        'max': response.sliderData[13].max
+                    },
+                    "rotcInPercentage" : {
+                        'min': response.sliderData[14].min,
+                        'max': response.sliderData[14].max
+                    }
+                };
                 classRef.setFilterHtml(response);
+                classRef.getCustomScreenerData();
             }, function(error) {
 
             });
@@ -738,10 +806,15 @@ jQuery(document).ready(function() {
                     'min' : min,
                     'max': max
                 };
-                classRef.selectedFilterBody[sliderName] = filterData;
 
-                if(classRef.isEmpty(filterData)) {
+                if(parseFloat(classRef.defaultFilterBody[sliderName].min).toFixed(2) == min && parseFloat(classRef.defaultFilterBody[sliderName].max).toFixed(2) == max) {
                     delete classRef.selectedFilterBody[sliderName];
+                } else {
+                    classRef.selectedFilterBody[sliderName] = filterData;
+
+                    if(classRef.isEmpty(filterData)) {
+                        delete classRef.selectedFilterBody[sliderName];
+                    }
                 }
             } 
 
