@@ -37,6 +37,66 @@ public class SubscriptionService {
     @Resource(name = "finvendorProperties")
     private Properties finvendorProperties;
 
+    private static final String SUBMIT_SUBJECT = "Finvendor - Subscription Details Successfully Submitted";
+
+    private static final String SUBMIT_CONTENT = "Dear %s,\r\n"
+            + "Your Subscription details have been successfully submitted. \r\n"
+            + "\r\n"
+            + "Please be informed that your subscription will get activated within next 48 hours. If you don't get any confirmation on activation of your Subscription within next 48 hours, do reach out to us at enquiry@finvendor.com .\r\n"
+            + "\r\n"
+            + "Regards\r\n"
+            + "Finvendor Team";
+
+    private static final String ACTIVATION_SMART_SUBJECT = "Finvendor - Subscription \"SMART\" has been Successfully Activated";
+    private static final String ACTIVATION_SAGE_SUBJECT = "Finvendor - Subscription \"SAGE\" has been Successfully Activated";
+    private static final String ACTIVATION_SMART_CONTENT = "Dear %s,\r\n"
+            + "Your Subscription \"SMART\" details have been successfully Activated today. \r\n"
+            + "\r\n"
+            + "Your subscription gives you  access to below items:\r\n"
+            + "\r\n"
+            + "1. Access to Unlimited Company profile search\r\n"
+            + "2. Access to Today's Market Summary Page\r\n"
+            + "3. Access to Today's performance of All indices & its constituents.m\r\n"
+            + "4. Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)\r\n"
+            + "5. Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)\r\n"
+            + "6. Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.\r\n"
+            + "7. Set alerts on any companies if any new research analyst's report is available.\r\n"
+            + "8. Track your shortlisted companies in your watchlist.\r\n"
+            + "9.Get Daily market summary report through email.\r\n"
+            + "10.Get Daily Sectoral Performance Summary Report through email.\r\n"
+            + "11.Financial Results Calendar for coming week for NSE listed stocks everyday through email. \r\n"
+            + "12.Corporate Actions for company under the watchlist everyday through email. "
+            + "\r\n"
+            + "Thank you for choosing us. \r\n"
+            + "\r\n"
+            + "Regards\r\n"
+            + "Finvendor Team";
+
+    private static final String ACTIVATION_SAGE_CONTENT = "Dear %s,\r\n"
+            + "Your Subscription \"SAGE\" details have been successfully Activated today. \r\n"
+            + "\r\n"
+            + "Your subscription gives you  access to below items:\r\n"
+            + "\r\n"
+            + "1  Access to Stock Screener \"Celebrity Investors' Strategies\" & \"Do It Yourself\" (CUSTOM Stock Screener). \r\n"
+            + "2. Access to Unlimited Company profile search\r\n"
+            + "3. Access to Today's Market Summary Page\r\n"
+            + "4. Access to Today's performance of All indices & its constituents.\r\n"
+            + "5. Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)\r\n"
+            + "6. Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)\r\n"
+            + "7. Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.\r\n"
+            + "8. Set alerts on any companies if any new research analyst's report is available.\r\n"
+            + "9. Track your shortlisted companies in your watchlist.\r\n"
+            + "10.Get Daily market summary report through email.\r\n"
+            + "11.Get Daily Sectoral Performance Summary Report through email.\r\n"
+            + "12.Financial Results Calendar for coming week for NSE listed stocks everyday through email. \r\n"
+            + "13.Corporate Actions for company under the watchlist everyday through email. \r\n"
+            + "14.Financial results summary for company under the watchlist.\r\n"
+            + "\r\n"
+            + "Thank you for choosing us. \r\n"
+            + "\r\n"
+            + "Regards\r\n"
+            + "Finvendor Team";
+
     @Autowired
     public SubscriptionService(SubscriptionDao dao, NotificationService notificationService, UserService userService) {
         this.dao = dao;
@@ -46,30 +106,32 @@ public class SubscriptionService {
 
     public String savePayment(String userName, SubscriptionDto dto) throws Exception {
         try {
-            //Save Payment details
             String refId = dao.savePayment(userName, dto);
             if (refId != null) {
-                //Update subscription type in user table
                 FinVendorUser userDetails = updateUserSubscription(userName, dto.getSubscriptionType());
-
-                //Send Email to user
-                boolean emailFlag = Boolean.parseBoolean(finvendorProperties.getProperty("email"));
-                LOGGER.info("### Save subscription - emailFlag: {}", emailFlag);
-                if (emailFlag) {
-                    String subject = finvendorProperties.getProperty("subscription_submission_subject");
-                    String content = finvendorProperties.getProperty("subscription_submission_content");
-                    String email = userDetails.getEmail();
-                    String from = EmailUtil.SALES_EMAIL;
-                    String[] to = new String[] { email };
-                    notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).from(from).build());
-                }
-            }
-            else {
-                refId = null;
+                sentSubscriptionSubmissionEmail(userName, userDetails);
             }
             return refId;
         } catch (Exception e) {
             throw new Exception(e);
+        }
+    }
+
+    private void sentSubscriptionSubmissionEmail(String userName, FinVendorUser userDetails) throws Exception {
+        boolean emailFlag = Boolean.parseBoolean(finvendorProperties.getProperty("email"));
+        LOGGER.info("### Save subscription - emailFlag: {}", emailFlag);
+        if (emailFlag) {
+            String email = userDetails.getEmail();
+            String from = EmailUtil.SALES_EMAIL;
+            String[] to = new String[] { email };
+            String content = "Dear" + " " + userName + "<br>"
+                    + "Your Subscription details have been successfully submitted" + "<br><br>"
+                    + "Please be informed that your subscription will get activated within next 48 hours."
+                    + "<br>"
+                    + "If you don't get any confirmation on activation of your Subscription within next 48 hours, do reach out to us at enquiry@finvendor.com ."
+                    + "<br><br>"
+                    + "Regards" + "<br>" + "Finvendor Team";
+            notificationService.sendMail(new EmailBuilder.Builder(to, SUBMIT_SUBJECT, content).from(from).build());
         }
     }
 
@@ -90,34 +152,21 @@ public class SubscriptionService {
         return existingUser;
     }
 
-    private String prepareSubject(String refId) {
-        return "";
-    }
-
-    private String prepareContent(String refId) {
-        return "";
-    }
-
     public ApiMessageEnum updatePayment(SubscriptionDto dto, List<SubscriptionDetails> dataList) throws Exception {
         try {
             ApiMessageEnum apiMessageEnum = ApiMessageEnum.FAILED_TO_UPDATE_SUBSCRIPTION;
             for (SubscriptionDetails subscriptionDetail : dataList) {
                 apiMessageEnum = dao.updatePayment(dto, subscriptionDetail.getSubscriptionId());
-
                 if (apiMessageEnum.equals(ApiMessageEnum.UPDATE_SUBSCRIPTION_SUCCESS)) {
                     FinVendorUser existingUser = userService.getUserDetailsByUsername(subscriptionDetail.getUserId());
-
                     Pair<Long, Long> subscriptionStartAndEndDateInMillis = getSubscriptionStartAndEndDateInMillis(30);
                     String subscriptionStartTimeInMillis = String.valueOf(subscriptionStartAndEndDateInMillis.getElement1());
                     String subscriptionEndTimeInMillis = String.valueOf(subscriptionStartAndEndDateInMillis.getElement2());
-
                     LOGGER.info("Subscription start time in ms: {}", subscriptionStartTimeInMillis);
                     LOGGER.info("Subscription end time in ms: {}", subscriptionStartTimeInMillis);
-
                     //set subscription time period
                     existingUser.setSubscriptionStartTimeInMillis(subscriptionStartTimeInMillis);
                     existingUser.setSubscriptionEndTimeInMillis(subscriptionEndTimeInMillis);
-
                     //Set subscription STATE
                     if (dto.getPaymentVerified()) {
                         existingUser.setSubscriptionState("ACTIVE");
@@ -126,21 +175,88 @@ public class SubscriptionService {
                         existingUser.setSubscriptionState("TERMINATE");
                     }
                     userService.updateUserInfo(existingUser);
-                    boolean email = Boolean.parseBoolean(finvendorProperties.getProperty("email"));
-                    LOGGER.info("### Send email flag: {}", email);
-                    if (email) {
-                        String subject = finvendorProperties.getProperty("activate_or_terminate_subject");
-                        String content = finvendorProperties.getProperty("activate_or_terminate_content");
-                        String oldEmail = existingUser.getEmail();
-                        String from = EmailUtil.SALES_EMAIL;
-                        String[] to = new String[] { oldEmail };
-                        notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).from(from).build());
-                    }
+                    sendActivationOrTerminationMail(existingUser);
                 }
             }
             return apiMessageEnum;
         } catch (RuntimeException e) {
             throw new Exception(e);
+        }
+    }
+
+    private void sendActivationOrTerminationMail(FinVendorUser existingUser) throws Exception {
+        boolean email = Boolean.parseBoolean(finvendorProperties.getProperty("email"));
+        LOGGER.info("### Send email flag: {}", email);
+        if (email) {
+            String from = EmailUtil.SALES_EMAIL;
+            String[] to = new String[] { existingUser.getEmail() };
+            String subscriptionType = existingUser.getSubscriptionType();
+            String subscriptionState = existingUser.getSubscriptionState();
+            if ("ACTIVE".equals(subscriptionState)) {
+                if ("SMART".equals(subscriptionType)) {
+                    String emailContentSb = "Dear " + existingUser.getUserName() + "<br>"
+                            + "Your Subscription " + existingUser.getSubscriptionType()
+                            + " details have been successfully Activated today." + "<br><br>"
+                            + "Your subscription gives you  access to below items:" + "<br>" + "<br>"
+                            + "1. Access to Unlimited Company profile search" + "<br>"
+                            + "2. Access to Today's Market Summary Page" + "<br>"
+                            + "3. Access to Today's performance of All indices & its constituents." + "<br>"
+                            + "4. Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)"
+                            + "<br>"
+                            + "5. Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)"
+                            + "<br>"
+                            + "6. Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks."
+                            + "<br>"
+                            + "7. Set alerts on any companies if any new research analyst's report is available." + "<br>"
+                            + "8. Track your shortlisted companies in your watchlist." + "<br>"
+                            + "9.Get Daily market summary report through email." + "<br>"
+                            + "10.Get Daily Sectoral Performance Summary Report through email." + "<br>"
+                            + "11.Financial Results Calendar for coming week for NSE listed stocks everyday through email. "
+                            + "<br>"
+                            + "12.Corporate Actions for company under the watchlist everyday through email. " + "<br><br>"
+                            + "Thank you for choosing us. " + "<br><br>"
+                            + "Regards" + "<br>"
+                            + "Finvendor Team";
+                    notificationService.sendMail(
+                            new EmailBuilder.Builder(to, ACTIVATION_SMART_SUBJECT, emailContentSb).from(from).build());
+                }
+                else if ("SAGE".equals(subscriptionType)) {
+                    String emailContentSb = "Dear " + existingUser.getUserName() + "<br>"
+                            + "Your Subscription " + existingUser.getSubscriptionType()
+                            + " details have been successfully Activated today." + "<br><br>"
+                            + "Your subscription gives you  access to below items:" + "<br>" + "<br>"
+                            + "1  Access to Stock Screener \"Celebrity Investors' Strategies\" & \"Do It Yourself\" (CUSTOM Stock Screener). "
+                            + "<br>"
+                            + "2. Access to Unlimited Company profile search" + "<br>"
+                            + "3. Access to Today's Market Summary Page" + "<br>"
+                            + "4. Access to Today's performance of All indices & its constituents." + "<br>"
+                            + "5. Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)"
+                            + "<br>"
+                            + "6. Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)"
+                            + "<br>"
+                            + "7. Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks."
+                            + "<br>"
+                            + "8. Set alerts on any companies if any new research analyst's report is available." + "<br>"
+                            + "9. Track your shortlisted companies in your watchlist." + "<br>"
+                            + "10.Get Daily market summary report through email." + "<br>"
+                            + "11.Get Daily Sectoral Performance Summary Report through email." + "<br>"
+                            + "12.Financial Results Calendar for coming week for NSE listed stocks everyday through email. "
+                            + "<br>"
+                            + "13.Corporate Actions for company under the watchlist everyday through email. " + "<br>"
+                            + "14.Financial results summary for company under the watchlist." + "<br><br>"
+                            + "Thank you for choosing us. " + "<br><br>"
+                            + "Regards" + "<br>"
+                            + "Finvendor Team";
+                    notificationService.sendMail(
+                            new EmailBuilder.Builder(to, ACTIVATION_SAGE_SUBJECT, emailContentSb).from(from).build());
+                }
+                else {
+                    LOGGER.warn("Unable to send an email due to Invalid subscriptionType: {}", subscriptionType);
+                }
+            }
+            else if ("TERMINATE".equals(subscriptionState)) {
+                LOGGER.info("TBD");
+            }
         }
     }
 

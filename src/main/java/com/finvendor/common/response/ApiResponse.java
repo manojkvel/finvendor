@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
-import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "code", "message", "data"})
@@ -14,7 +13,12 @@ public class ApiResponse<M,D> implements Serializable {
     //E could be String or Array Of String
     protected M message;
     protected D data;
-    protected HttpStatus httpStatus;
+    private HttpStatus httpStatus;
+
+    public ApiResponse() {
+
+    }
+
     public ApiResponse(String code, M message, D data, HttpStatus httpStatus) {
         this.code = code;
         this.message = message;

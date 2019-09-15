@@ -59,7 +59,7 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
         //This cmp is today's CMP
         float cmpFloat = companyDetails.getCmpFloat();
 
-        //Make Sure you get BV Sharen from earningPreview_as_of_date table
+        //Make Sure you get BV Share from earningPreview_as_of_date table
         float bvShareFloat = earningPreview.getBvShareFloat();
         float pbFloat = bvShareFloat != 0.0F ? (cmpFloat / bvShareFloat) : 0.0F;
 
@@ -98,7 +98,7 @@ public class BenjaminGrahamFeed extends AbstractScreenerFeed {
         benjaminSB.append("\nCondition-5: [P/B ((cmpFloat / bvShareFloat)) <= 1.2] ----------------------------- ").append("(").append(cmpFloat).append("/").append(bvShareFloat).append(") = ").append((cmpFloat / bvShareFloat)).append(" | ").append((cmpFloat / bvShareFloat)).append(" < 1.2").append(" => ").append(con5?"TRUE":"FALSE");
         benjaminSB.append("\nCondition-6: [Dividend yield > 0] ------------------------------------------------- ").append(divYeildFloat).append(" > 0 ").append(" => ").append(con6? "TRUE": "FALSE");
         benjaminSB.append("\n\n");
-        logger.info(" Condition Attibutes{}", benjaminSB.toString());
+        logger.info(" Condition Attributes: {}", benjaminSB.toString());
         benjaminSB.setLength(0);
         return finalCondition;
     }
