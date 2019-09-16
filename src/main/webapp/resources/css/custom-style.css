@@ -1742,7 +1742,7 @@ a#sidemenu:focus {
 .sf-menu ul {
 	position: absolute;
 	padding-left: 0;
-	width: auto;
+	width: 160px;
 }
 
 .sf-menu ul ul {
@@ -1752,7 +1752,20 @@ a#sidemenu:focus {
 
 .header .sf-menu ul li {
 	float: none;
+	width: 100%;
 }
+
+.sf-arrows ul .sf-with-ul:after {
+    border-top-color: transparent;
+    border-left-color: #a0a0a0;
+}
+
+sf-menu ul li:hover .sf-with-ul,
+.sf-menu ul ul li:hover .sf-with-ul {
+    border-top-color: transparent;
+    border-left-color: #ffffff;
+}
+
 /*------End of Make Header Menu Vertical------*/
 
 @media only screen and (max-width: 992px) {
