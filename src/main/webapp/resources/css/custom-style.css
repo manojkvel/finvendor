@@ -1738,6 +1738,23 @@ a#sidemenu:focus {
 	width: 100%;		
 }
 
+/*------Start of Make Header Menu Vertical------*/
+.sf-menu ul {
+	position: absolute;
+	padding-left: 0;
+	width: auto;
+}
+
+.sf-menu ul ul {
+	left: 100%;
+	top: 0;
+}
+
+.header .sf-menu ul li {
+	float: none;
+}
+/*------End of Make Header Menu Vertical------*/
+
 @media only screen and (max-width: 992px) {
 	.inner-left-wrap {
 		float: none;
