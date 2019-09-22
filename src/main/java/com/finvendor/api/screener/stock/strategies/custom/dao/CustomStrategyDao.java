@@ -536,28 +536,28 @@ public class CustomStrategyDao {
         List<String> industryList = customFilter.getIndustry();
         boolean flag = false;
         if (mcap != null) {
-            partQuery.append("(cast(mcap as decimal(15,10)) >=").append(mcap.getMin()).append(" and cast(mcap as decimal(15,10)) <=")
+            partQuery.append("(cast(mcap as decimal) >=").append(mcap.getMin()).append(" and cast(mcap as decimal) <=")
                     .append(mcap.getMax()).append(")");
             flag = true;
         }
         if (pe != null) {
             if (flag) {
-                partQuery.append(" and (cast(pe as decimal(15,10))>=").append(pe.getMin()).append(" and cast(pe as decimal(15,10))<=").append(pe.getMax())
+                partQuery.append(" and (cast(pe as decimal)>=").append(pe.getMin()).append(" and cast(pe as decimal)<=").append(pe.getMax())
                         .append(")");
             }
             else {
-                partQuery.append(" (cast(pe as decimal(15,10))>=").append(pe.getMin()).append(" and cast(pe as decimal(15,10))<=").append(pe.getMax())
+                partQuery.append(" (cast(pe as decimal)>=").append(pe.getMin()).append(" and cast(pe as decimal)<=").append(pe.getMax())
                         .append(")");
             }
             flag = true;
         }
         if (pb != null) {
             if (flag) {
-                partQuery.append(" and (cast(pb as decimal(15,10))>=").append(pb.getMin()).append(" and cast(pb as decimal(15,10))<=").append(pb.getMax())
+                partQuery.append(" and (cast(pb as decimal)>=").append(pb.getMin()).append(" and cast(pb as decimal)<=").append(pb.getMax())
                         .append(")");
             }
             else {
-                partQuery.append(" (cast(pb as decimal(15,10))>=").append(pb.getMin()).append(" and cast(pb as decimal(15,10))<=").append(pb.getMax())
+                partQuery.append(" (cast(pb as decimal)>=").append(pb.getMin()).append(" and cast(pb as decimal)<=").append(pb.getMax())
                         .append(")");
             }
             flag = true;
