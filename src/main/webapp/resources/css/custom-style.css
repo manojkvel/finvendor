@@ -324,7 +324,7 @@ body {
 }
 .sf-menu ul li,
 .sf-menu ul ul li {
-    background: #fff;
+    background: #414b4f;
 }
 .sf-menu ul li:hover,
 .sf-menu ul ul li:hover {
@@ -1074,14 +1074,14 @@ th{
 }
 
 .header .sf-menu .sfHover ul li a:hover {
-	background: #414b4f;
+	background: #34bf98;
 }
 
 .header .sf-menu ul li a {
 	line-height: normal;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	color: #000;
+	color: #fff;
 }
 
 .header .sf-menu a.cd-signin {

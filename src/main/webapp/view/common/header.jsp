@@ -104,7 +104,7 @@
                                                                     <li>
                                                                         <a href="${pageContext.request.contextPath}/view/markets.jsp">Markets</a>
                                                                     </li>
-                                                                    <li><a href="javascript:void(0);">More</a>
+                                                                    <!--<li><a href="javascript:void(0);">More</a>
                                                                         <ul>
                                                                             <li><a href="${pageContext.request.contextPath}/view/brochures.jsp">Brochures</a>
                                                                             </li>
@@ -120,7 +120,7 @@
                                                                             <li><a href="${pageContext.request.contextPath}/view/spotlights.jsp">Spotlights</a>
                                                                             </li>
                                                                         </ul>
-                                                                    </li>
+                                                                    </li>-->
 
                                                                     <li>
                                                                         <a href="${pageContext.request.contextPath}/view/pricing.jsp">
@@ -347,7 +347,7 @@
                             <li>
                                 <a href="${pageContext.request.contextPath}/view/markets.jsp">Markets</a>
                             </li>
-                            <li>
+                            <!--<li>
                                 <a href="javascript:void(0);">More <i class="fa fa-chevron-down"></i></a>
                                 <ul class="child-main-menu">
                                     <li><a href="${pageContext.request.contextPath}/view/brochures.jsp">Brochures</a>
@@ -364,7 +364,7 @@
                                     <li><a href="${pageContext.request.contextPath}/view/spotlights.jsp">Spotlights</a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>-->
 
                             <li>
                                 <a href="${pageContext.request.contextPath}/view/pricing.jsp">

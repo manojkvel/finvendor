@@ -52,12 +52,12 @@
                     </li>
                 </ul>
                 
-                <dt>
+                <!--<dt>
                     <a href="#">
                         More
                         <span class="fa fa-angle-right"></span>
                     </a>
-                </dt>
+                </dt>-->
                 <dd>
                     <ul class="accordion">
                         <li><a href="${pageContext.request.contextPath}/view/brochures.jsp">Brochures</a>

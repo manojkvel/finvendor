@@ -30,10 +30,15 @@
 					<div class="content">
 						<p>FinVendor strives for democratizing the inventor's community. FinVendor endeavours to help retail and institutional investors make a well-informed investment decisions.</p> 
 
+						<p>Finvendor provides a unique platform to perform stock screening.</p> 
+
 						<p>FinVendor provides a unique platform of most up to date equity research reports for public listed companies at indian stock exchanges. Finvendor sources the equity research reports from the registered Brokers and other sell-side independent research Analysts.</p>
 
-						<p><strong>In our current state, we provide 6 main functionalities:</strong></p>
+						<p><strong>In our current state, we provide 7 main functionalities:</strong></p>
 						<ol>
+							<li>
+								<strong>Stock Screener:</strong> Screen the stocks based on three different ways i.e Research Analyst's Recommendations, Celebrity's Strategies and Custom Screener(Do it yourself). 
+							</li>
 							<li>
 								<strong>Search company:</strong> Search any company by name or NSE stock tickers. 
 							</li>

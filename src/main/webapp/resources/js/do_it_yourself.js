@@ -103,7 +103,7 @@ jQuery(document).ready(function() {
                 var mcap = (response[i].mcap) ? Number(parseFloat(response[i].mcap/1).toFixed(2)).toLocaleString('en-IN') : '-';
 
 
-                var pe = (response[i].pe) ? parseFloat(response[i].pe).toFixed(2) : '-';
+                var pe = (response[i].pe && response[i].pe != '-' && response[i].pe != 'Infinity') ? parseFloat(response[i].pe).toFixed(2) : '-';
                 var pb = (response[i].pb) ? parseFloat(response[i].pb).toFixed(2) : '-';
                 var divYield = (response[i].divYield) ? parseFloat(response[i].divYield).toFixed(2) + "%" : '-';
 
@@ -158,7 +158,7 @@ jQuery(document).ready(function() {
             $("#broker_table tbody").html(htmlCode);
 
             if($(window).width() > 768) {
-                $(".broker_content #broker_table tbody").height($(window).height() - $(".header").height() - $("#fv_custom_screener_search .title").height() - $("#broker_table thead").height() - 115);
+                $(".broker_content #broker_table tbody").height($(window).height() - $(".header").height() - $("#fv_custom_screener_search .page_header").height() - $("#broker_table thead").height() - 75);
                 $("#sidebar-panel .widget-group").height($(window).height() - $(".header").height() - 80);
             } else {
                 $(".broker_content").height('100%');

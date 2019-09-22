@@ -8,7 +8,8 @@
 						<div class="section_one">
 							<h3>About Us</h3>
 							<p>
-								Finvendor strives for democratizing the investor's community. Finvendor endeavours to help retail and institutional investors make a well-informed investment decisions. <br />Finvendor sources the equity, sector, macroeconomic and debt research reports for Indian markets from the registered Brokers, economists and other sell-side independent research Analysts.
+								Finvendor strives for democratizing the investor's community. Finvendor endeavours to help retail and institutional investors make a well-informed investment decisions. <br />
+								Finvendor provides a platform to perform stock screening. Finvendor sources the equity and sector for Indian markets from the registered Brokers, economists and other sell-side independent research Analysts.
 							</p>
 							<ul class="social">
 								<li><a href="https://www.facebook.com/finvendor"

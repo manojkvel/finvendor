@@ -220,7 +220,7 @@ jQuery(document).ready(function() {
                 //$("#steps_update span").text("Step 4 of 4");
                 //$("#pricing_bank_form_result").show();
                 //$("#steps_update a").hide();
-                $("#user_message_modal .modal-content p").html("<span>" + response.message + "</span>");
+                $("#user_message_modal .modal-content p").html("<span>Thank you for subscribing, we will revert back to you soon!!</span>");
             }, function(error) {
                 console.log("Error in bank form");
                 classRef.isFormSuccess = false;
@@ -312,6 +312,14 @@ jQuery(document).ready(function() {
 
                     if((userDetails.data.subscriptionStatus == "PENDING" && userDetails.data.subscriptionStatus == "N/A") && userDetails.data.subscriptionType == undefined) {
                         
+                    } else if(userDetails.data.subscriptionStatus == "ACTIVE") {
+                        if(userDetails.data.subscriptionType == "SAGE") {
+                            $("#pricing #sage_investors .btnSubscribe").hide();
+                            $("#pricing #smart_investors .btnSubscribe").hide();
+                        } else if(userDetails.data.subscriptionType == "SMART") { 
+                            $("#pricing #smart_investors .btnSubscribe").hide();
+                        }
+                        $("#pricing #general_investors .btnSubscribe").hide();
                     } else {
                         if(userDetails.data.subscriptionType == "SAGE") {
                             $("#pricing button#smart_investors").prop("disabled", "disabled");

@@ -118,7 +118,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                     <li>
                                                                         <a href="${pageContext.request.contextPath}/view/markets.jsp">Markets</a>
                                                                     </li>
-                                                                    <li><a href="javascript:void(0);">More</a>
+                                                                    <!--<li><a href="javascript:void(0);">More</a>
                                                                         <ul>
                                                                             <li><a href="${pageContext.request.contextPath}/view/brochures.jsp">Brochures</a>
                                                                             </li>
@@ -134,7 +134,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                                                             <li><a href="${pageContext.request.contextPath}/view/spotlights.jsp">Spotlights</a>
                                                                             </li>
                                                                         </ul>
-                                                                    </li>
+                                                                    </li>-->
 
                                                                     <li>
                                                                         <a href="${pageContext.request.contextPath}/view/pricing.jsp">
@@ -308,7 +308,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                             <li>
                                 <a href="${pageContext.request.contextPath}/view/markets.jsp">Markets</a>
                             </li>
-                            <li><a href="javascript:void(0);">More</a>
+                            <!--<li><a href="javascript:void(0);">More</a>
                             <ul class="child-main-menu">
                                     <li><a href="${pageContext.request.contextPath}/view/brochures.jsp">Brochures</a>
                                     </li>
@@ -324,7 +324,7 @@ if(SecurityContextHolder.getContext().getAuthentication() != null){
                                     <li><a href="${pageContext.request.contextPath}/view/spotlights.jsp">Spotlights</a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>-->
 
                             <li>
                                 <a href="${pageContext.request.contextPath}/view/pricing.jsp">

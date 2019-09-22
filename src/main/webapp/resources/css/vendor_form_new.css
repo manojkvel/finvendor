@@ -2128,9 +2128,18 @@ h2 {
 }
 
 #do_it_yourself #fv_custom_screener_search {
+	background-color: transparent;
+	overflow: hidden;
+}
+
+#do_it_yourself tr {
+    background-color: #fff;
+    margin-bottom: 5px;
+}
+
+#do_it_yourself .page_header {
 	background-color: #fff;
 	overflow: hidden;
-	padding-top: 15px;
 }
 
 #do_it_yourself #fv_custom_screener_search .title h5 {
@@ -2189,12 +2198,8 @@ h2 {
     display: block;
 }
 
-#do_it_yourself #sidebar-panel {
-	margin-bottom: 0;
-}
-
 #do_it_yourself .pager {
-	margin: 10px 0 10px;
+	margin: 0;
 }
 
 /*.slider.slider-horizontal .slider-handle.min-slider-handle {

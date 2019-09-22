@@ -79,11 +79,11 @@
 						<div class="splash-title">Track Stocks, Sectors &amp;
 							Macroeconomy</div>
 						<div class="splash-subtitle">Access the quality Research
-							Reports of India, UK &amp; US Markets with Just few clicks</div>
+							Reports of Indian Market with Just few clicks</div>
 						<div class="splash-search-bar">
 							<div class="row m0">
-								<div class="col-md-2 col-sm-2 hiddenn-sm-down col-lg-2"></div>
-								<div class="col-md-8 col-sm-8 hiddenn-sm-down col-lg-8">
+								<div class="col-md-3 col-sm-3 hiddenn-sm-down col-lg-3"></div>
+								<div class="col-md-6 col-sm-6 hiddenn-sm-down col-lg-6">
 									<form id="home_page_main_search" class="navbar-form navbar-input-group input-group p0" data-bind="enterkey: submit" action="/view/company-profile.jsp" method="GET">
 										<!--<div class="input-group-btn ">
 											<button type="button"
@@ -118,7 +118,7 @@
 										</div>
 									</form>
 								</div>
-								<div class="col-md-2 col-sm-2 hiddenn-sm-down col-lg-2"></div>
+								<div class="col-md-3 col-sm-3 hiddenn-sm-down col-lg-3"></div>
 							</div>
 						</div>
 						<div class="card-group splash-card-group">
@@ -158,6 +158,37 @@
 				</div>
 			</div>
 		</div>
+
+		<section>
+			<div class="container">
+				<h2>Screen the Stocks</h2>
+				<div class="row">
+					<div class="col-md-12 col-md-6">
+						<div class="index-icon fa fa-search"></div>
+						<div class="index-list-wrapper">
+							<strong>Based on Research Analyst's Recommendations</strong> <br />Screen the stocks based on reputed brokers recommendations.
+						</div>
+					</div>
+					<div class="col-md-12 col-md-6">
+						<div class="index-icon fa fa-bolt"></div>
+						<div class="index-list-wrapper">
+							<strong>Based on Celebrity's Strategies</strong> <br />Screen the stocks based on world renowned stock investor's strategies.
+						</div>
+					</div>
+					<div class="col-md-12 col-md-6">
+						<div class="index-icon fa fa-bank"></div>
+						<div class="index-list-wrapper">
+							<strong>Based on Custom Screener</strong> <br />Create your own stock screening criteria and apply(Do it yourself).
+						</div>
+					</div>
+				</div>
+				<p>
+					<span class="know-more"><a
+						href="${pageContext.request.contextPath}/view/equity_research_report_vendor.jsp">Get Started</a></span>
+				</p>
+			</div>
+		</section>
+
 		<section>
 			<div class="container">
 				<h2>Search Free and Quality Equity Research Reports</h2>
@@ -232,42 +263,6 @@
 				</p>
 			</div>
 		</section>
-		<section>
-			<div class="container">
-				<h2>Search Free and All-encompassing Macroeconomic Research Reports</h2>
-				<div class="row">
-					<div class="col-md-12 col-md-6">
-						<div class="index-icon fa fa-search"></div>
-						<div class="index-list-wrapper">
-							<strong>Search the Macroeconomic Indicator</strong> <br />Find how each particular Macroeconomic Indicator will perform and choose the Indicator and read the report. This will help you to do the top-bottom equity stock picking.
-						</div>
-					</div>
-					<div class="col-md-12 col-md-6">
-						<div class="index-icon fa fa-bolt"></div>
-						<div class="index-list-wrapper">
-							<strong>Free Access</strong> <br />Get a free access to 50+ high quality macroeconomic research reports.
-						</div>
-					</div>
-					<div class="col-md-12 col-md-6">
-						<div class="index-icon fa fa-bank"></div>
-						<div class="index-list-wrapper">
-							<strong>Premium access</strong> <br />Subscribe to a premium macroeconomic research reports provided by some well-acclaimed analysts /economists.
-						</div>
-					</div>
-					<div class="col-md-12 col-md-6">
-						<div class="index-icon fa fa-handshake-o"></div>
-						<div class="index-list-wrapper">
-							<strong>Aimed at sophisticated investors</strong> <br />Report is aimed at sophisticated investors but any ordinary investors can also get benefitted by the report.
-
-						</div>
-					</div>
-				</div>
-				<p>
-					<span class="know-more"><a
-						href="${pageContext.request.contextPath}/view/macro-research.jsp">Get Started</a></span>
-				</p>
-			</div>
-		</section>
 
 		<section id="faq_list">
 			<div class="container">
@@ -303,7 +298,7 @@
 			</div>
 		</section>
 
-		<section id="user_interest_info">
+		<!--<section id="user_interest_info">
 			<div class="container">
 				<div class="col-xs-12 col-sm-12 slider-home" id="slider-home">
 					<h2>Interactive and Collaborative Services</h2>
@@ -333,7 +328,7 @@
 					</div>
 				</div>
 			</div>
-		</section>
+		</section>-->
 	<jsp:include page="login.jsp"></jsp:include>
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	</div>
