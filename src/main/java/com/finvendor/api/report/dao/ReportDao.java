@@ -16,7 +16,7 @@ import java.util.List;
 
 @Repository
 public class ReportDao {
-    public static final String ENABLED_USERS = "select a.username,a.email, a.subscription_type, a.subscription_status from users a where a.enabled=1";
+    public static final String ENABLED_USERS = "select a.username,a.email, a.subscription_type, a.subscription_state from users a where a.enabled=1";
     private static final String RESULT_CALENDAR_QUERY = "select a.board_meeting_date,b.company_name from company_calendar_history a,rsch_sub_area_company_dtls b where a.ticker=b.ticker and a.purpose like '%Financial Results%' and STR_TO_DATE(a.board_meeting_date, '%d-%M-%Y')>=NOW()";
     private static final String CORP_ACTION_QUERY = "select b.company_name,a.* from corp_action_history a,rsch_sub_area_company_dtls b where a.ticker=b.ticker  and STR_TO_DATE(a.ex_date, '%d-%M-%Y')>NOW()";
     private static final String FINANCIALS_QUARTERLY_QUERY = "select b.company_name,a.period,a.revenue,a.operating_profit_margin,a.profit_after_tax,a.eps from earning_preview_quarterly a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id and b.company_name IN ";
