@@ -3130,3 +3130,28 @@ button {
 .paging_container #records_stats {
 	margin: 0 10px;
 }
+
+#market_data_see_all {
+	background-color: transparent;
+	padding: 0;
+}
+
+#market_data_see_all .back_btn {
+	background: #fff;
+}
+
+#market_data_see_all .hd {
+	background: #fff;
+	margin-top: 0;
+}
+
+#market_see_all_data tbody tr,
+#market_index_data tbody tr {
+	background: transparent;
+}
+
+#market_see_all_data tbody td,
+#market_index_data tbody td {
+	background: #fff;
+	border-bottom: 5px solid #e9e9e9;
+}

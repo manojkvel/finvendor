@@ -558,8 +558,8 @@ jQuery(document).ready(function() {
 
                 classRef.defaultFilterBody = {
                     "mcap" : {
-                        'min': response.sliderData[0].min,
-                        'max': response.sliderData[0].max
+                        'min': parseFloat(Math.floor(response.sliderData[0].min / 1000) * 1000).toFixed(2),
+                        'max': parseFloat(Math.ceil(response.sliderData[0].max / 1000) * 1000).toFixed(2)
                     },
 
                     "pe" : {
