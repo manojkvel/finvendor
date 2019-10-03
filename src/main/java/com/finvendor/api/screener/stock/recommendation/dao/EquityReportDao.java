@@ -71,14 +71,13 @@ public class EquityReportDao {
         EquityResearchFilter equityFilter = (EquityResearchFilter) filter;
         Map<String, EquityResearchResult> resultMap = new LinkedHashMap<>();
         try {
-
-            String finalMainQuery = buildEuityResearchQuery(mainQuery, pageNumber, perPageMaxRecords, sortBy, orderBy, equityFilter);
-
-            logger.info("Equity Research Report Quert: {}", finalMainQuery);
+            String finalMainQuery = buildEquityResearchQuery(mainQuery, pageNumber, perPageMaxRecords, sortBy, orderBy, equityFilter);
+            logger.info("Equity Research Report Query: {}", finalMainQuery);
 
             // Execute Query
             SQLQuery query = commonDao.getNativeQuery(finalMainQuery, null);
             List<Object[]> rows = query.list();
+
             // Prepare brokerRank data from db
             List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil
                     .getBrokerRankData(commonDao, ResearchReportUtil.BROKER_RANK_SELECT_QUERY, orderBy);
@@ -133,7 +132,7 @@ public class EquityReportDao {
                 }
                 equityResult.setAwarded(awarded);
 
-                String researchedByCfa = "";
+                String researchedByCfa;
                 if (row[22] != null) {
                     if (row[22].toString().isEmpty()) {
                         researchedByCfa = "N";
@@ -171,9 +170,9 @@ public class EquityReportDao {
                     newPeStr = String.valueOf(newPe);
                 }
                 equityResult.setPe(newPeStr);
+
                 // Broker Rank
-                Map<String, String> brokerRanks = ResearchReportUtil.getBrokerRank(brokerRankData, vendorId,
-                        equityFilter);
+                Map<String, String> brokerRanks = ResearchReportUtil.getBrokerRank(brokerRankData, vendorId, equityFilter);
                 equityResult.setBrokerRank(brokerRanks);
 
                 // Set Current Page number
@@ -200,8 +199,8 @@ public class EquityReportDao {
         Map<String, EquityResearchResult> resultMap = new LinkedHashMap<>();
         List<Integer> brokerRanks = new ArrayList<>();
         try {
-            String finalMainQuery = buildEuityResearchQuery(mainQuery, pageNumber, perPageMaxRecords, sortBy, orderBy, equityFilter);
-            logger.info("Equity Research Report Quert: {}", finalMainQuery);
+            String finalMainQuery = buildEquityResearchQuery(mainQuery, pageNumber, perPageMaxRecords, sortBy, orderBy, equityFilter);
+            logger.info("### Equity Research Report Query: {}", finalMainQuery);
 
             // Execute Query
             SQLQuery query = commonDao.getNativeQuery(finalMainQuery, null);
@@ -238,7 +237,7 @@ public class EquityReportDao {
         return brokerRanks;
     }
 
-    private String buildEuityResearchQuery(String mainQuery, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
+    private String buildEquityResearchQuery(String mainQuery, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
             EquityResearchFilter equityFilter) {
         // Apply filter in main query
         String queryWithAppliedFilter = ResearchReportUtil.applyFilter(mainQuery,
@@ -258,8 +257,7 @@ public class EquityReportDao {
         Map<Object, Object> paramMap = new HashMap<>();
         paramMap.put("productId", productId);
         try {
-            Pair<Long, InputStream> longInputStreamPair = commonDao.fetchBlobFromTable(REPORT_FILE_NAMED_QUERY, paramMap);
-            return longInputStreamPair;
+            return commonDao.fetchBlobFromTable(REPORT_FILE_NAMED_QUERY, paramMap);
         } catch (Exception e) {
             throw new RuntimeException("Error has occurred while fetching blob from table", e);
         }

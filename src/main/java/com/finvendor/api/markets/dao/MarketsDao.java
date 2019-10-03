@@ -32,7 +32,7 @@ public class MarketsDao {
     private static final String INDEX_SUMMARY_QUERY = "select b.closing, b.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
     private static final String INDEX_MARQUEE_QUERY = "select a.name,b.closing,b.point_change,b.percent_change from indice a,indice_details b where a.index_details_id=b.indice_details_id order by a.name";
     private static final String STOCK_MARQUEE_QUERY_FOR_INDEX = "select a.company_id,a.company_name,a.close,a.price_change,a.price_percent_change,a.isin from markets a,index_comp_details b where a.company_id=b.company_id and b.index_id=? order by a.company_name";
-    static Map<String, String> BSEIndexPrice = new LinkedHashMap<>();
+
     @Autowired
     private ICommonDao commonDao;
 
@@ -68,6 +68,7 @@ public class MarketsDao {
     }
 
     public String getIndexSummary(String indexFilter) throws RuntimeException {
+        logger.info("getIndexSummary - START indexFilter: {}", indexFilter);
         String indexNamesJson = "{}";
         Map<String, Object> indexSummaryMap = new LinkedHashMap<>();
         Map<String, Object> dataMap = new LinkedHashMap<>();
@@ -76,11 +77,15 @@ public class MarketsDao {
                 indexSummaryMap.put("title", "Today's Market Snapshot");
                 String date_in_millis = getDateFromDB("select a.company_id, a.date from markets a where a.company_id=1");
                 indexSummaryMap.put("date", date_in_millis);
-            } else {
-                String date_in_millis = getDateFromDB("select a.indice_details_id,a.date from indice_details a where a.indice_details_id=1");
+            }
+            else {
+                String date_in_millis = getDateFromDB(
+                        "select a.indice_details_id,a.date from indice_details a where a.indice_details_id=1");
                 Pair<String, String> indexIdFamilyPair = getIndexId(indexFilter);
                 String indexId = indexIdFamilyPair.getElement1();
                 String family = indexIdFamilyPair.getElement2();
+                logger.info("indexId: {}", indexId);
+                logger.info("family: {}", family);
                 if ("BSE".equals(family)) {
                     String indexName = bseIndexNameCodeMap.get(indexFilter);
                     String result = getPriceFromBSE(indexName);
@@ -120,9 +125,10 @@ public class MarketsDao {
                     indexSummaryMap.put("pb", pb);
                     indexSummaryMap.put("divYield", divYield);
                     indexSummaryMap.put("date", date_in_millis);
-                } else {
+                }
+                else {
                     logger.info("INDEX_SUMMARY_QUERY:{}", INDEX_SUMMARY_QUERY);
-                    SQLQuery query1 = commonDao.getNativeQuery(INDEX_SUMMARY_QUERY, new String[]{indexId});
+                    SQLQuery query1 = commonDao.getNativeQuery(INDEX_SUMMARY_QUERY, new String[] { indexId });
                     List<Object[]> rows = query1.list();
                     for (Object[] row : rows) {
                         String closing = row[0] != null ? row[0].toString().trim() : "";
@@ -160,6 +166,7 @@ public class MarketsDao {
      * BSE URL : "https://api.bseindia.com/BseIndiaAPI/api/IndexArchDaily/w?index=SENSEX&period=D&fmdt=09%2F11%2F2018&todt=09%2F11%2F2018";
      */
     private String getPriceFromBSE(String indexName) throws IOException {
+        logger.info("getPriceFromBSE - START indexName: {}", indexName);
         int attempt = 1;
         String result = "";
 
@@ -191,19 +198,23 @@ public class MarketsDao {
 
                 /*Add 0 before day number when day <10 i.e. convert 9 to 09*/
                 currentDay = currentDay.length() == 1 ? "0" + currentDay : currentDay;
-            } else {
+            }
+            else {
                 logger.info("*** Before Vacation - BSE price Found on date:{} in attempt: {}", currDate.replace("%2F", "/"), attempt);
                 break;
             }
         }
+        logger.info("getPriceFromBSE - END result: {}", result);
         return result;
     }
 
     private String getBseIndiaUri(String indexName, String currDate) {
+        logger.info("getBseIndiaUri - START indexName: {}, currDate: {}", indexName, currDate);
         String uri = "https://api.bseindia.com/BseIndiaAPI/api/IndexArchDaily/w?index=INDEX_NAME&period=D&fmdt=FROM_DATE&todt=TO_DATE";
         uri = StringUtils.replace(uri, "INDEX_NAME", indexName);
         uri = StringUtils.replace(uri, "FROM_DATE", currDate);
         uri = StringUtils.replace(uri, "TO_DATE", currDate);
+        logger.info("getBseIndiaUri - END uri: {}", uri);
         return uri;
     }
 
@@ -244,12 +255,13 @@ public class MarketsDao {
                     looser = defaultAnalytics[1];
                     unchanged = defaultAnalytics[2];
                 }
-            } else {
+            }
+            else {
                 String indexId = getIndexId(indexFilter).getElement1();
                 logger.info("indexId:{} for indexFilter:{}", indexId, indexFilter);
                 mainQuery = "select count(a.price_percent_change) from markets a, index_comp_details b where a.company_id=b.company_id and b.index_id=? and a.price_percent_change>0.0";
                 logger.info("*** Gainer Query:\n{}\n", mainQuery);
-                query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexId});
+                query1 = commonDao.getNativeQuery(mainQuery, new String[] { indexId });
                 Object object = query1.list().get(0);
                 if (object instanceof BigInteger) {
                     BigInteger i = (BigInteger) object;
@@ -258,7 +270,7 @@ public class MarketsDao {
 
                 mainQuery = "select count(a.price_percent_change) from markets a, index_comp_details b where a.company_id=b.company_id and b.index_id=? and a.price_percent_change<0.0";
                 logger.info("*** Looser Query:\n{}\n", mainQuery);
-                query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexId});
+                query1 = commonDao.getNativeQuery(mainQuery, new String[] { indexId });
                 object = query1.list().get(0);
                 if (object instanceof BigInteger) {
                     BigInteger i = (BigInteger) object;
@@ -267,7 +279,7 @@ public class MarketsDao {
 
                 mainQuery = "select count(a.price_percent_change) from markets a, index_comp_details b where a.company_id=b.company_id and b.index_id=? and a.price_percent_change=0.0";
                 logger.info("*** Unchanged Query:\n{}\n", mainQuery);
-                query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexId});
+                query1 = commonDao.getNativeQuery(mainQuery, new String[] { indexId });
                 object = query1.list().get(0);
                 if (object instanceof BigInteger) {
                     BigInteger i = (BigInteger) object;
@@ -302,7 +314,6 @@ public class MarketsDao {
             gainer = i.longValue();
         }
 
-
         mainQuery = "select count(a.price_percent_change) from markets a where a.price_percent_change<0.0";
         logger.info("getDefaultAnalytics - looserQuery:{}", mainQuery);
         query1 = commonDao.getNativeQuery(mainQuery, null);
@@ -320,7 +331,7 @@ public class MarketsDao {
             BigInteger i = (BigInteger) object;
             unchanged = i.longValue();
         }
-        return new long[]{gainer, looser, unchanged};
+        return new long[] { gainer, looser, unchanged };
     }
 
     public String getMarketsRecordStats(String indexFilter, String type, String perPageMaxRecords) throws RuntimeException {
@@ -340,7 +351,8 @@ public class MarketsDao {
             if (totalRecords != 0L) {
                 long lastPageNumber = CommonCodeUtils.calculatePaginationLastPage(perPageMaxRecords, totalRecords);
                 recordStatsJson = CommonCodeUtils.getRecordStatsJson(totalRecords, lastPageNumber);
-            } else {
+            }
+            else {
                 long lastPageNumber = 1L;
                 recordStatsJson = CommonCodeUtils.getRecordStatsJson(totalRecords, lastPageNumber);
                 ;
@@ -355,20 +367,24 @@ public class MarketsDao {
         String mainQuery = "";
         if ("all".equals(indexFilter)) {
             mainQuery = "select a.company_id, a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty,a.isin from markets a ";
-        } else {
+        }
+        else {
             String indexId = getIndexId(indexFilter).getElement1();
-            mainQuery = "select a.company_id,a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty,b.index_id,a.isin from markets a,index_comp_details b where a.company_id=b.company_id and b.index_id='" + indexId + "'";
+            mainQuery =
+                    "select a.company_id,a.company_name,a.open,a.high,a.low,a.close,a.prev_close,a.price_change,a.price_percent_change,a.52w_low,a.52w_high,a.tot_trd_qty,b.index_id,a.isin from markets a,index_comp_details b where a.company_id=b.company_id and b.index_id='"
+                            + indexId + "'";
         }
         return mainQuery;
     }
 
     private Pair<String, String> getIndexId(String indexFilter) {
+        logger.info("getIndexId - START ");
         String indexId = "";
         String family = "";
         try {
             String mainQuery = INDEX_NAME_QUERY + " where indice.name=?";
             logger.info("getIndexId-> mainQuery:{}", mainQuery);
-            SQLQuery query1 = commonDao.getNativeQuery(mainQuery, new String[]{indexFilter});
+            SQLQuery query1 = commonDao.getNativeQuery(mainQuery, new String[] { indexFilter });
             List<Object[]> rows = query1.list();
             for (Object[] row : rows) {
                 indexId = row[0] != null ? row[0].toString().trim() : "";
@@ -383,7 +399,7 @@ public class MarketsDao {
     }
 
     public String getMarkets(String indexFilter, String type, String pageNumber,
-                             String perPageMaxRecords, final String sortBy, final String orderBy) throws RuntimeException {
+            String perPageMaxRecords, final String sortBy, final String orderBy) throws RuntimeException {
         logger.info("MarketsDao-> getMarkets() - START");
         logger.info("indexFilter: {}", indexFilter);
         logger.info("type: {}", type);
@@ -430,7 +446,8 @@ public class MarketsDao {
                 String isinCode = "";
                 if ("all".equals(indexFilter)) {
                     isinCode = row[12] != null ? row[12].toString().trim() : "";
-                } else {
+                }
+                else {
                     String indexId = row[12] != null ? row[12].toString().trim() : "";
                     isinCode = row[13] != null ? row[13].toString().trim() : "";
                 }
@@ -474,7 +491,7 @@ public class MarketsDao {
             List<StockData> stockDataList = new ArrayList<>();
             for (String indexName : indexNames) {
                 String indexId = getIndexId(indexName).getElement1();
-                SQLQuery query = commonDao.getNativeQuery(STOCK_MARQUEE_QUERY_FOR_INDEX, new String[]{indexId});
+                SQLQuery query = commonDao.getNativeQuery(STOCK_MARQUEE_QUERY_FOR_INDEX, new String[] { indexId });
                 logger.info("*** Stock Marquee Query:\n{}\n", query);
                 List<Object[]> rows = query.list();
 
@@ -506,7 +523,6 @@ public class MarketsDao {
         return resultString;
     }
 
-
     public String getIndexMarqueeData() throws RuntimeException {
         SQLQuery query = commonDao.getNativeQuery(INDEX_MARQUEE_QUERY, null);
         logger.info("*** Index Marquee Query:\n{}\n", query);
@@ -530,7 +546,8 @@ public class MarketsDao {
                     String result = getPriceFromBSE(indexNameCode);
                     String i_close = JsonUtil.getValue(result, "I_close");
                     dto.setClosing(i_close);
-                } else {
+                }
+                else {
                     dto.setClosing(level);
                 }
                 dto.setIndexName(indexName);
@@ -552,50 +569,65 @@ public class MarketsDao {
         String result;
         if ("companyName".equals(sortBy)) {
             sortBy = " a.company_name";
-        } else if ("percentChange".equals(sortBy)) {
+        }
+        else if ("percentChange".equals(sortBy)) {
             sortBy = " a.price_percent_change ";
-        } else if ("volume".equals(sortBy)) {
+        }
+        else if ("volume".equals(sortBy)) {
             sortBy = " a.tot_trd_qty ";
-        } else if ("52wHigh".equals(sortBy)) {
+        }
+        else if ("52wHigh".equals(sortBy)) {
             sortBy = " a.52w_high ";
-        } else if ("52wLow".equals(sortBy)) {
+        }
+        else if ("52wLow".equals(sortBy)) {
             sortBy = " a.52w_low ";
-        } else {
+        }
+        else {
             sortBy = " a.price_percent_change ";
             orderBy = " desc ";
         }
         if ("winners".equals(indexFilter) || "winner".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
                 result = " where a.price_percent_change > 0.0 order by a.price_percent_change desc";
-            } else {
+            }
+            else {
                 result = " where a.price_percent_change > 0.0 order by " + sortBy + " " + orderBy;
             }
-        } else if ("loosers".equals(indexFilter) || "looser".equals(indexFilter)) {
+        }
+        else if ("loosers".equals(indexFilter) || "looser".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
                 result = " where a.price_percent_change < 0.0 order by a.price_percent_change asc";
-            } else {
+            }
+            else {
                 result = " where a.price_percent_change < 0.0 order by " + sortBy + " " + orderBy;
 
             }
-        } else if ("active".equals(indexFilter)) {
+        }
+        else if ("active".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
                 result = " order by a.tot_trd_qty desc";
-            } else {
+            }
+            else {
                 result = " order by " + sortBy + " " + orderBy;
             }
-        } else if ("52wHigh".equals(indexFilter)) {
+        }
+        else if ("52wHigh".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
                 result = " where a.`52w_high_change`='Y' order by cast(a.close as DECIMAL) desc";
-            } else {
+            }
+            else {
                 result = " where a.`52w_high_change`='Y' order by " + sortBy + " " + orderBy;
             }
-        } else if ("52wLow".equals(indexFilter)) {
+        }
+        else if ("52wLow".equals(indexFilter)) {
             if (sortBy.isEmpty()) {
                 result = " where a.`52w_low_change`='Y' order by cast(a.close as DECIMAL) desc";
-            } else {
+            }
+            else {
                 result = " where a.`52w_low_change`='Y' order by " + sortBy + " " + orderBy;
             }
-        } else {
+        }
+        else {
             result = " order by " + sortBy + " " + orderBy;
         }
         return result;

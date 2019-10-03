@@ -20,8 +20,12 @@ import java.util.Map;
 @Transactional
 public class EquityReportService {
 
+    private final EquityReportDao equityReportDao;
+
     @Autowired
-    private EquityReportDao equityReportDao;
+    public EquityReportService(EquityReportDao equityReportDao) {
+        this.equityReportDao = equityReportDao;
+    }
 
     public <T extends ResearchReportFilter> Map<String, ? extends AbsResearchReportResult>
     getResearchReportTableData(T rrfilter, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws Exception {
