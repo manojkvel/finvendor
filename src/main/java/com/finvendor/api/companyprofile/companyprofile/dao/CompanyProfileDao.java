@@ -40,6 +40,15 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     @Autowired
     private MarketsDao marketsDao;
 
+    @Autowired
+    private ICommonDao commonDao;
+
+    @Autowired
+    protected SessionFactory sessionFactory;
+
+    @Autowired
+    private EquityReportDao equityReportDao;
+
     /**
      * Company Profile Query
      */
@@ -55,7 +64,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
      */
     // Complex Query - Do not refactor it
     public static final String mainQuery = "SELECT rsch_sub_area_company_dtls.company_id comapanyId, rsch_sub_area_company_dtls.company_name companyName, rsch_sub_area_company_dtls.isin_code isinCode, rsch_area_stock_class.stock_class_name style, market_cap_def.market_cap_name mcap, research_sub_area.description sector, stock_current_prices.close_price cmp, stock_current_prices.price_date prcDt, stock_current_info.pe pe, stock_current_info.3_yr_pat_growth patGrth, stock_current_info.3_yr_eps_growth epsGrth, stock_current_info.eps_ttm epsttm, vendor_report_data.research_report_for_id companyId, vendor_report_data.product_id prdId, vendor_report_data.vendor_company broker, vendor_report_data.rsrch_recomm_type recommType, vendor_report_data.target_price tgtPrice, vendor_report_data.price_at_recomm prcAtRecomm, ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100 upside, vendor_report_data.report_name rptName, vendor_report_data.report_date rsrchDt, vendor_report_data.analyst_awards award, vendor_report_data.anayst_cfa_charter cfa, vendor_report_data.analyst_name analystName, vendor_report_data.vendor_analyst_type analystType, vendor_report_data.vendor_id vendorId, vendor_report_data.launched_year ly, vendor_report_data.vendor_name userName, vendor_report_data.rsrch_report_desc rptDesc, vendor_report_data.product_name productNameAsReportName FROM rsch_sub_area_company_dtls,      rsch_area_stock_class,      market_cap_def,      comp_mkt_cap_type,      research_sub_area,      stock_current_prices,      stock_current_info,      vendor_report_data WHERE   rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = COUNTRYID   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
-    public static final String mainQueryForRecommType = "SELECT vendor_report_data.product_id prdId, vendor_report_data.rsrch_recomm_type recommType FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type,      research_sub_area,      stock_current_prices,      stock_current_info,      vendor_report_data WHERE   rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = COUNTRYID   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
+    private static final String mainQueryForRecommType = "SELECT vendor_report_data.product_id prdId, vendor_report_data.rsrch_recomm_type recommType FROM rsch_sub_area_company_dtls, rsch_area_stock_class, market_cap_def, comp_mkt_cap_type,      research_sub_area,      stock_current_prices,      stock_current_info,      vendor_report_data WHERE   rsch_sub_area_company_dtls.stock_class_type_id = rsch_area_stock_class.stock_class_type_id   AND rsch_sub_area_company_dtls.company_id = comp_mkt_cap_type.company_id   AND comp_mkt_cap_type.market_cap_id = market_cap_def.market_cap_id   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND rsch_sub_area_company_dtls.company_id = stock_current_prices.stock_id   AND rsch_sub_area_company_dtls.company_id = stock_current_info.stock_id   AND rsch_sub_area_company_dtls.country_id = COUNTRYID   AND rsch_sub_area_company_dtls.rsch_sub_area_id = research_sub_area.research_sub_area_id   AND research_sub_area.research_area_id = 7 AND vendor_report_data.research_report_for_id=rsch_sub_area_company_dtls.company_id and rsch_sub_area_company_dtls.isin_code=?";
 
     /**
      * Earning Preview Query
@@ -86,19 +95,10 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     private static final String FIND_TICKER_QUERY = "select a.company_id,a.ticker from rsch_sub_area_company_dtls a where a.isin_code=?";
     private static final String FIND_EPS_TTM_FROM_EARNING_PREVIEW_QTRYLY_TABLE_QUERY = "select a.stock_id, b.company_name,b.isin_code,round(avg(a.eps),2) eps_ttm from earning_preview_quarterly a, rsch_sub_area_company_dtls b where a.stock_id=b.company_id and b.isin_code=? group by cast(a.stock_id as DECIMAL) order by a.stock_id, str_to_date(a.period,'%b_%y') desc";
 
-    @Autowired
-    private ICommonDao commonDao;
-
-    @Autowired
-    protected SessionFactory sessionFactory;
-
-    @Autowired
-    private EquityReportDao equityReportDao;
-
-    private float findEpsFromEarningPreviewQuarterlyTable(String isinCode){
-        SQLQuery query1 = commonDao.getNativeQuery(FIND_EPS_TTM_FROM_EARNING_PREVIEW_QTRYLY_TABLE_QUERY, new Object[]{isinCode});
+    private float findEpsFromEarningPreviewQuarterlyTable(String isinCode) {
+        SQLQuery query1 = commonDao.getNativeQuery(FIND_EPS_TTM_FROM_EARNING_PREVIEW_QTRYLY_TABLE_QUERY, new Object[] { isinCode });
         List<Object[]> rows = query1.list();
-        float epsTtm=0.0F;
+        float epsTtm = 0.0F;
         for (Object[] row : rows) {
             String stockId = row[0] != null ? row[0].toString().trim() : "";
             epsTtm = row[3] != null && !StringUtils.isEmpty(row[3].toString()) && !"-".equals(row[3].toString()) ?
@@ -106,6 +106,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         }
         return epsTtm;
     }
+
     /**
      * upside = ((vendor_report_data.target_price - stock_current_prices.close_price) / stock_current_prices.close_price) * 100
      */
@@ -143,12 +144,15 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
 
                 // cmp/bv_share if bv_share is 0 then na
                 Pair<Float, Float> pbBvPair = findPb(companyId, cmpAsFloat);
-                String pb = pbBvPair.getElement1() == 0.0F ? "-" : String.valueOf(pbBvPair.getElement1());//row[7] != null ? row[7].toString().trim() : "";
+                String pb = pbBvPair.getElement1() == 0.0F ?
+                        "-" :
+                        String.valueOf(pbBvPair.getElement1());//row[7] != null ? row[7].toString().trim() : "";
 
                 String dividen_yield = row[8] != null ? row[8].toString().trim() : "";
 
                 // static and it will updated quaterly
-                String eps_ttm = String.valueOf(findEpsFromEarningPreviewQuarterlyTable(isinCode));//row[9] != null ? row[9].toString().trim() : "";
+                String eps_ttm = String
+                        .valueOf(findEpsFromEarningPreviewQuarterlyTable(isinCode));//row[9] != null ? row[9].toString().trim() : "";
                 float eps_ttm_as_float = Float.parseFloat(eps_ttm);
 
                 // temp and we will get from vendor feed
@@ -177,7 +181,8 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
 
                 // static and it will updated quaterly
                 //String bv_share = row[18] != null ? row[18].toString().trim() : "";
-                String bvShare = pbBvPair.getElement2() == 0.0F ? "-" : String.valueOf(pbBvPair.getElement2());//cmpAsFloat / Float.parseFloat(pb);
+                String bvShare =
+                        pbBvPair.getElement2() == 0.0F ? "-" : String.valueOf(pbBvPair.getElement2());//cmpAsFloat / Float.parseFloat(pb);
 
                 // static and it will updated quaterly
                 String roe = row[19] != null ? row[19].toString().trim() : "";
@@ -209,18 +214,18 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                 }
 
                 // PB Calculation PB=cmp/bv_share
-//                String newPBStr = "";
-//                float newPB = 0.0f;
-//                if (bv_share_as_float == 0.0f) {
-//                    newPBStr = "N/A";
-//                }
-//                else {
-//                    newPB = cmpAsFloat / bv_share_as_float;
-//                    newPBStr = String.valueOf(newPB);
-//                }
+                //                String newPBStr = "";
+                //                float newPB = 0.0f;
+                //                if (bv_share_as_float == 0.0f) {
+                //                    newPBStr = "N/A";
+                //                }
+                //                else {
+                //                    newPB = cmpAsFloat / bv_share_as_float;
+                //                    newPBStr = String.valueOf(newPB);
+                //                }
 
                 //Calculate Valuation Score
-                valuationScoreStr = calculateAndGetValucationScore(_3yrEpsGrowthAsFloat, newPe);
+                valuationScoreStr = calculateAndGetValuationScore(_3yrEpsGrowthAsFloat, newPe);
 
                 //find ticker
                 String ticker = findTicker(isinCode);
@@ -228,20 +233,21 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                         absoluteLastChangedCmp,
                         lastChangedCmpInPercentage, newPeStr, pb, dividen_yield, eps_ttm, _52w_high,
                         _52w_low, beta, share_outstanding, mkt_cap, revenue.trim(), face_value, bvShare, roe, pat,
-                        recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr, currency,ticker);
+                        recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr, currency, ticker);
 
                 //Stock Historical price calculation
-                Map<String, String> stockHistoricalPrices = findStockHistoricalPrices(cmpAsFloat, isinCode);
+                Map<String, String> stockHistoricalPricesMap = commonDao.findStockHistoricalPrices(cmpAsFloat, isinCode, true, true);
 
                 //Nifty50 Historical price calculation
                 String indexSummary = marketsDao.getIndexSummary("Nifty 50");
                 float closing = Float.parseFloat(JsonUtil.getValue(indexSummary, "closing").trim());
-                Map<String, String> nifty50HistoricalPrices = findNifty50HistoricalPrices(closing);
+
+                Map<String, String> nifty50HistoricalPrices = commonDao.findNifty50HistoricalPrices(closing);
 
                 //Nifty50 Handling
                 PriceHistoryDto priceHistoryDto = new PriceHistoryDto();
                 priceHistoryDto.setNifty50(nifty50HistoricalPrices);
-                priceHistoryDto.setStock(stockHistoricalPrices);
+                priceHistoryDto.setStock(stockHistoricalPricesMap);
 
                 //Company Profile
                 paramsMap.put("companyProfileData", companyProfileDataDto);
@@ -273,11 +279,13 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     private Pair<Float, Float> findPb(String companyId, float cmpFloat) {
         Pair<Float, Float> pbAndBv;
         String sql = "select earning_preview_as_of_date.stock_id, earning_preview_as_of_date.book_value_per_share from stock_current_info,earning_preview_as_of_date where stock_current_info.stock_id=earning_preview_as_of_date.stock_id and stock_current_info.stock_id=?";
-        SQLQuery query = commonDao.getNativeQuery(sql, new Object[]{companyId});
+        SQLQuery query = commonDao.getNativeQuery(sql, new Object[] { companyId });
         List<Object[]> rows = query.list();
-        float bvShareFloat=0.0F;
+        float bvShareFloat = 0.0F;
         for (Object[] row : rows) {
-            bvShareFloat = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ? Float.parseFloat(row[1].toString().trim()) : 0.0F;
+            bvShareFloat = row[1] != null && !StringUtils.isEmpty(row[1].toString()) && !"-".equals(row[1].toString()) ?
+                    Float.parseFloat(row[1].toString().trim()) :
+                    0.0F;
         }
         float pb = bvShareFloat != 0.0F ? cmpFloat / bvShareFloat : 0.0F;
         pbAndBv = new Pair<>(pb, bvShareFloat);
@@ -291,7 +299,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         return equityReportDao.findBrokerRank(mainQuery, new EquityResearchFilter());
     }
 
-    private String calculateAndGetValucationScore(float _3yrEpsGrowthAsFloat, float newPe) {
+    private String calculateAndGetValuationScore(float _3yrEpsGrowthAsFloat, float newPe) {
         /*
          * Valuation score
          *           Logic should be implemented in below order (if logic-1 meets the condition , no need to go to
@@ -336,199 +344,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
         return valuationScoreStr;
     }
 
-    private Map<String, String> findStockHistoricalPrices(float todaysCmp, String isinCode) throws Exception {
-        float stock_WeekPrice;
-        float stock_1M_Price;
-        float stock_3M_Price;
-        float stock_6M_Price;
-        float stock_1Y_Price;
-        String stockId = getCompanyId("select a.company_id,a.isin_code from rsch_sub_area_company_dtls a where a.isin_code=?", isinCode);
-        String stockTodaysDateFromDB = getStockTodaysDateFromDB(stockId);
-        if (stockTodaysDateFromDB.isEmpty()) {
-            throw new Exception("Unble to find today's stock date");
-        }
-        Map<String, String> stockHistoricalPriceMap = new LinkedHashMap<>();
-        //Week Price
-        String query =
-                "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 7 DAY),\"%d/%b/%y\")) and stock_id="
-                        + stockId;
-        String nextQuery =
-                "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 7 DAY), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id="
-                        + stockId;
-        stock_WeekPrice = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
-
-        //1M Price
-        query = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 MONTH),\"%d/%b/%y\")) and stock_id="
-                + stockId;
-        nextQuery =
-                "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 MONTH), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id="
-                        + stockId;
-        stock_1M_Price = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
-
-        //3M Price
-        query = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 3 MONTH),\"%d/%b/%y\")) and stock_id="
-                + stockId;
-        nextQuery =
-                "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 3 MONTH), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id="
-                        + stockId;
-        stock_3M_Price = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
-
-        //6M Price
-        query = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 6 MONTH),\"%d/%b/%y\")) and stock_id="
-                + stockId;
-        nextQuery =
-                "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 6 MONTH), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id="
-                        + stockId;
-        stock_6M_Price = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
-
-        //1Y Price
-        query = "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 YEAR),\"%d/%b/%y\")) and stock_id="
-                + stockId;
-        nextQuery =
-                "SELECT price_date, close_price from stock_historical_prices where trim(SUBSTRING(price_date,1,10))=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 YEAR), INTERVAL COUNT DAY),\"%d/%b/%y\")) and stock_id="
-                        + stockId;
-        stock_1Y_Price = getHistoricalPrice(stockTodaysDateFromDB, query, nextQuery);
-
-        stockHistoricalPriceMap
-                .put("1W", stock_WeekPrice == 0.0F ? "-" : String.valueOf((todaysCmp - stock_WeekPrice) * 100 / stock_WeekPrice));
-        stockHistoricalPriceMap
-                .put("1M", stock_1M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_1M_Price) * 100 / stock_1M_Price));
-        stockHistoricalPriceMap
-                .put("3M", stock_3M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_3M_Price) * 100 / stock_3M_Price));
-        stockHistoricalPriceMap
-                .put("6M", stock_6M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_6M_Price) * 100 / stock_6M_Price));
-        stockHistoricalPriceMap
-                .put("1Y", stock_1Y_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_1Y_Price) * 100 / stock_1Y_Price));
-        stockHistoricalPriceMap.put("2Y", "-");
-        stockHistoricalPriceMap.put("5Y", "-");
-        return stockHistoricalPriceMap;
-    }
-
-    private Map<String, String> findNifty50HistoricalPrices(float nifty50Closing) throws Exception {
-        float nifty50_WeekPrice;
-        float nifty50_1M_Price;
-        float nifty50_3M_Price;
-        float nifty50_6M_Price;
-        float nifty50_1Y_Price;
-        String nifty50TodaysDateFromDB = getNifty50TodaysDateFromDB();
-        if (nifty50TodaysDateFromDB.isEmpty()) {
-            throw new Exception("Unble to find today's date from nifty50History table, cause: Batch processAndFeed would have failed!!");
-        }
-
-        Map<String, String> nifty50HistoricalPriceMap = new LinkedHashMap<>();
-        //Week Price
-        String query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 7 DAY),\"%e-%b-%y\"))";
-        String nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 7 DAY), INTERVAL COUNT DAY),\"%d-%b-%y\"))";
-        nifty50_WeekPrice = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
-
-        //1M Price
-        query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 MONTH),\"%e-%b-%y\"))";
-        nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 MONTH), INTERVAL COUNT DAY),\"%e-%b-%y\"))";
-        nifty50_1M_Price = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
-
-        //3M Price
-        query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 3 MONTH),\"%e-%b-%y\"))";
-        nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 3 MONTH), INTERVAL COUNT DAY),\"%e-%b-%y\"))";
-        nifty50_3M_Price = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
-
-        //6M Price
-        query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 6 MONTH),\"%e-%b-%y\"))";
-        nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 6 MONTH), INTERVAL COUNT DAY),\"%e-%b-%y\"))";
-        nifty50_6M_Price = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
-
-        //1Y Price
-        query = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 YEAR),\"%e-%b-%y\"))";
-        nextQuery = "SELECT date, close from nifty50_price_history where date=(SELECT DATE_FORMAT(DATE_ADD(DATE_SUB(STR_TO_DATE('CURR_DATE',  \"%Y-%c-%d\"), INTERVAL 1 YEAR), INTERVAL COUNT DAY),\"%e-%b-%y\"))";
-        nifty50_1Y_Price = getHistoricalPrice(nifty50TodaysDateFromDB, query, nextQuery);
-
-        nifty50HistoricalPriceMap.put("1W",
-                nifty50_WeekPrice == 0.0F ? "-" : String.valueOf((nifty50Closing - nifty50_WeekPrice) * 100 / nifty50_WeekPrice));
-        nifty50HistoricalPriceMap
-                .put("1M", nifty50_1M_Price == 0.0F ? "-" : String.valueOf((nifty50Closing - nifty50_1M_Price) * 100 / nifty50_1M_Price));
-        nifty50HistoricalPriceMap
-                .put("3M", nifty50_3M_Price == 0.0F ? "-" : String.valueOf((nifty50Closing - nifty50_3M_Price) * 100 / nifty50_3M_Price));
-        nifty50HistoricalPriceMap
-                .put("6M", nifty50_6M_Price == 0.0F ? "-" : String.valueOf((nifty50Closing - nifty50_6M_Price) * 100 / nifty50_6M_Price));
-        nifty50HistoricalPriceMap
-                .put("1Y", nifty50_1Y_Price == 0.0F ? "-" : String.valueOf((nifty50Closing - nifty50_1Y_Price) * 100 / nifty50_1Y_Price));
-        nifty50HistoricalPriceMap.put("2Y", "-");
-        nifty50HistoricalPriceMap.put("5Y", "-");
-        return nifty50HistoricalPriceMap;
-    }
-
-    private float getHistoricalPrice(String nifty50TodayPrice, String query, String nextQuery) throws Exception {
-        query = StringUtils.replace(query, "CURR_DATE", nifty50TodayPrice);
-        nextQuery = StringUtils.replace(nextQuery, "CURR_DATE", nifty50TodayPrice);
-        logger.info("***query: {}", query);
-
-        float historicalPrice;
-        SQLQuery query1 = commonDao.getNativeQuery(query, null);
-        List<Object[]> rows = query1.list();
-        String date = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
-        String price = !rows.isEmpty() ? (rows.get(0)[1] != null ? rows.get(0)[1].toString().trim() : "") : "";
-        String count = "1";
-        if (date.isEmpty()) {
-            String nextPrice;
-            while (true) {
-                String nextQuery1 = StringUtils.replace(nextQuery, "COUNT", count);
-                logger.info("***count: {} nextQuery: {}", count, nextQuery1);
-                query1 = commonDao.getNativeQuery(nextQuery1, null);
-                rows = query1.list();
-                String nextDate = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
-                nextPrice = !rows.isEmpty() ? (rows.get(0)[1] != null ? rows.get(0)[1].toString().trim() : "") : "";
-                int countAsInt = Integer.parseInt(count);
-                if (nextDate.isEmpty()) {
-                    countAsInt++;
-                }
-                else {
-                    break;
-                }
-                if (countAsInt == 6) {
-                    break;
-                }
-                count = String.valueOf(countAsInt);
-            }
-            if (nextPrice.isEmpty()) {
-                nextPrice = "0.0";
-            }
-            historicalPrice = Float.parseFloat(nextPrice);
-        }
-        else {
-            historicalPrice = Float.parseFloat(price);
-        }
-        return historicalPrice;
-    }
-
-    private String getStockTodaysDateFromDB(String stockId) {
-        SQLQuery query1;
-        List<Object[]> rows;
-        String currentDateQuery = "SELECT DATE_FORMAT(STR_TO_DATE(b.price_date,  \"%d/%b/%y\" ),\"%Y-%c-%d\") date,close_price FROM  stock_current_prices b WHERE  b.stock_id=? ORDER BY STR_TO_DATE(b.price_date,  \"%d/%b/%y\" ) DESC limit 1 offset 0";
-        query1 = commonDao.getNativeQuery(currentDateQuery, new Object[] { stockId });
-        rows = query1.list();
-        String stockTodaysDate = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
-        return stockTodaysDate;
-    }
-
-    private String getNifty50TodaysDateFromDB() {
-        SQLQuery query1;
-        List<Object[]> rows;
-        String currentDateQuery = "SELECT DATE_FORMAT(STR_TO_DATE(date,  \"%d-%b-%y\" ),\"%Y-%c-%d\"), close FROM  nifty50_price_history ORDER BY STR_TO_DATE(date,  \"%d-%b-%y\" ) DESC limit 1 offset 0;";
-        query1 = commonDao.getNativeQuery(currentDateQuery, null);
-        rows = query1.list();
-        String nifty50TodaysDate = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
-        return nifty50TodaysDate;
-    }
-
-    private String getCompanyId(String query, String isinCode) {
-        SQLQuery query1;
-        List<Object[]> rows;
-        query1 = commonDao.getNativeQuery(query, isinCode != null ? new String[] { isinCode } : null);
-        rows = query1.list();
-        String companyId = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
-        return companyId;
-    }
-
-    public String getCompanyProfileReasearchReport(String mainQuery, String isinCode, ResearchReportFilter filter,
+    public String getCompanyProfileResearchReport(String mainQuery, String isinCode, ResearchReportFilter filter,
             String pageNumber, String perPageMaxRecords, String sortBy, String orderBy) throws RuntimeException {
         Map<String, Object> paramsMap = new LinkedHashMap<>();
         String companyProfile;
@@ -559,7 +375,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
             paramsMap.put("equity", equityList);
             companyProfile = JsonUtil.createJsonFromParamsMap(paramsMap);
         } catch (Exception e) {
-            throw new RuntimeException("Error has occured getReasearchReportData(), DAO Error::", e);
+            throw new RuntimeException("Error has occurred getResearchReportData(), DAO Error::", e);
         }
         return companyProfile;
     }

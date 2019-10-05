@@ -27,4 +27,7 @@ public interface ICommonDao {
 	String getRecordStats(String query, String perPageMaxRecords) throws RuntimeException;
 	String applyPagination(String pageNumber, String perPageMaxRecords);
 	Pair<Long,InputStream> fetchBlobFromTable(String namedQuery,Map<Object, Object> paramMap) throws RuntimeException;
+
+    Map<String, String> findStockHistoricalPrices(float todaysCmp, String isinCode, boolean _1W, boolean _1M) throws Exception;
+	Map<String, String> findNifty50HistoricalPrices(float nifty50Closing) throws Exception;
 }

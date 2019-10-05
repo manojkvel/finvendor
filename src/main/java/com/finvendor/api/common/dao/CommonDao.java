@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public class CommonDao {
-
     @Autowired
     private ICommonDao commonDao;
 
