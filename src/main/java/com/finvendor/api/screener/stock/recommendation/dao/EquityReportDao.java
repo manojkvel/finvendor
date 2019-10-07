@@ -78,10 +78,6 @@ public class EquityReportDao {
             SQLQuery query = commonDao.getNativeQuery(finalMainQuery, null);
             List<Object[]> rows = query.list();
 
-            // Prepare brokerRank data from db
-            List<ResearchReportUtil.BrokerRankInfo> brokerRankData = ResearchReportUtil
-                    .getBrokerRankData(commonDao, ResearchReportUtil.BROKER_RANK_SELECT_QUERY, orderBy);
-
             // Process Result
             for (Object[] row : rows) {
                 EquityResearchResult equityResult = new EquityResearchResult();
@@ -171,9 +167,6 @@ public class EquityReportDao {
                 }
                 equityResult.setPe(newPeStr);
 
-                // Broker Rank
-                Map<String, String> brokerRanks = ResearchReportUtil.getBrokerRank(brokerRankData, vendorId, equityFilter);
-                equityResult.setBrokerRank(brokerRanks);
 
                 // Set Current Page number
                 equityResult.setPageNumber(pageNumber);

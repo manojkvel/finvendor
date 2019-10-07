@@ -236,7 +236,8 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
                         recent_qtr, price_date_in_millis, price_src_code, valuationScoreStr, currency, ticker);
 
                 //Stock Historical price calculation
-                Map<String, String> stockHistoricalPricesMap = commonDao.findStockHistoricalPrices(cmpAsFloat, isinCode, true, true);
+                Map<String, String> stockHistoricalPricesMap = commonDao
+                        .findStockHistoricalPrices(cmpAsFloat, isinCode, true, true, true, true);
 
                 //Nifty50 Historical price calculation
                 String indexSummary = marketsDao.getIndexSummary("Nifty 50");

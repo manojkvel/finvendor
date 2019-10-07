@@ -1,8 +1,8 @@
 package com.finvendor.api.screener.mf.controller;
 
+import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.screener.mf.dto.MfFilter;
 import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.api.exception.WebApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import springfox.documentation.annotations.ApiIgnore;
 
 import static com.finvendor.common.exception.ExceptionEnum.SECTOR_RESEARCH_FILTER;
 
@@ -18,6 +19,7 @@ import static com.finvendor.common.exception.ExceptionEnum.SECTOR_RESEARCH_FILTE
 /**
  * @Author Ayush on 4-Oct-2018
  */
+@ApiIgnore
 @Controller
 @RequestMapping(value = "/system/api")
 public class MfReportController {

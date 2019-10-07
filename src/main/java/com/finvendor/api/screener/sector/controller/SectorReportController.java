@@ -1,22 +1,18 @@
 package com.finvendor.api.screener.sector.controller;
 
+import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.screener.sector.dto.SectorReportFilter;
 import com.finvendor.api.screener.sector.service.SectorReportService;
+import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
-import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.webutil.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,13 +22,17 @@ import java.util.List;
 
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
-@Controller
-@RequestMapping(value = "/system/api")
+@RestController
+@RequestMapping(value = "/api")
 public class SectorReportController {
     private static final Logger logger = LoggerFactory.getLogger(SectorReportController.class.getName());
 
+    private final SectorReportService service;
+
     @Autowired
-    private SectorReportService service;
+    public SectorReportController(SectorReportService service) {
+        this.service = service;
+    }
 
     @RequestMapping(value = "/industrysubtypes", method = RequestMethod.GET)
     public ResponseEntity<?> getIndustrySubTypes(@RequestParam("researchArea") String researchArea) throws WebApiException {

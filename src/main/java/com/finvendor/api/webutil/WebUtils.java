@@ -2,11 +2,17 @@ package com.finvendor.api.webutil;
 
 import com.finvendor.api.exception.ApiBadRequestException;
 import com.finvendor.api.exception.ApiResourceNotFoundException;
+import com.finvendor.api.metrics.dto.FeatureAllowedDto;
+import com.finvendor.api.metrics.enums.FeatureAccessEnum;
+import com.finvendor.api.metrics.enums.FvFeature;
+import com.finvendor.api.metrics.service.LimitedSearchService;
+import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.util.StringUtil;
+import com.finvendor.util.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -41,9 +47,9 @@ public final class WebUtils {
     public static final String EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON = "[{\"researchDate\":\"< 3 months\"},{\"researchDate\":\"3 - 6 months\"},{\"researchDate\":\"6 - 12 months\"},{\"researchDate\":\"> 12 months\"}]";
 
     /**
-     * Equity Research upside json contants
+     * Equity Research stock return constant
      */
-    public static final String EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON = "[{\"broker_rank\":\"5 star (Success rate > 80%)\"},{\"broker_rank\":\"4 star (Success rate >= 65% & < 80%)\"},{\"broker_rank\":\"3 star (Success rate >= 50% & < 65%)\"},{\"broker_rank\":\"2 star (Success rate >= 40% & < 50%)\"},{\"broker_rank\":\"1 star (Success rate < 40%)\"}]";
+    public static final String EQUITY_RESEARCH_FILTER_VALUE_STOCK_RETURN_JSON = "[{\"broker_rank\":\"3M\"},{\"broker_rank\":\"6M\"},{\"broker_rank\":\"1Y\"}]";
 
     /**
      * Equity Research others json contants
@@ -292,7 +298,7 @@ public final class WebUtils {
     public static String getLoggedInUser(HttpServletRequest request) throws Exception {
         final User loggedInUser = (User) request.getSession().getAttribute(LOGGED_IN_USER);
         if (loggedInUser == null) {
-            throw new Exception("Unable to find logged In user!!");
+            throw new RuntimeException("Unable to find logged In user!!");
         }
         return loggedInUser.getUsername();
     }
@@ -382,5 +388,25 @@ public final class WebUtils {
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
         return new ResponseEntity<>(apiResponse, httpStatus);
+    }
+
+    public static FeatureAllowedDto isUserAllowedToAccessFeature(String loggedInUser, FvFeature featureName) throws Exception {
+        UserService userService = BeanUtils.getBean(UserService.class);
+        LimitedSearchService limitedSearchService = BeanUtils.getBean(LimitedSearchService.class);
+        String subscriptionType = userService.getUserDetailsByUsername(loggedInUser).getSubscriptionType();
+        FeatureAllowedDto featureAllowedDto = isFeatureAllowedToAccess(subscriptionType, limitedSearchService, featureName);
+        if (featureAllowedDto != null && FeatureAccessEnum.NOT_ALLOWED.name().equals(featureAllowedDto.getFeatureAccess().name())) {
+            return featureAllowedDto;
+        }
+        return null;
+    }
+
+    private static FeatureAllowedDto isFeatureAllowedToAccess(String subscriptionType,
+            LimitedSearchService limitedSearchService, FvFeature fvFeature) throws Exception {
+        if ("FREE".equals(subscriptionType)) {
+            return limitedSearchService
+                    .isAllowedForSearch(fvFeature, limitedSearchService.findDayNumOfWeek(null));
+        }
+        return null;
     }
 }

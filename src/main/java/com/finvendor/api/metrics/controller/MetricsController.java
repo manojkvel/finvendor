@@ -1,10 +1,10 @@
 package com.finvendor.api.metrics.controller;
 
+import com.finvendor.api.exception.WebApiException;
+import com.finvendor.api.metrics.service.MetricService;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
-import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.metrics.service.MetricService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
+@ApiIgnore
 @Controller
 @RequestMapping(value = "/system/api")
 public class MetricsController {

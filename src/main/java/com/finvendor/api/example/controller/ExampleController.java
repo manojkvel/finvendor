@@ -8,6 +8,8 @@ import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +24,7 @@ import java.util.List;
 /**
  * @author ayush on April 30, 2018
  */
+@Api(tags={"REST APIs related to Example!!!!"})
 @RestController
 @RequestMapping(value = "/api")
 @Validated
@@ -42,6 +45,7 @@ public class ExampleController {
     /**
      * SAVE Example
      */
+    @ApiOperation(value = "Saving Example Resource")
     @PostMapping(value = "/examples", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<String, Void>> saveExample(@Valid @RequestBody ExampleRequestDto exampleRequestDto) throws Exception {
         exampleService.saveOrUpdateExample(exampleRequestDto);

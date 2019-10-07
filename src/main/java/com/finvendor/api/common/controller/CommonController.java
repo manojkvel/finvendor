@@ -2,11 +2,15 @@ package com.finvendor.api.common.controller;
 
 import com.finvendor.api.common.service.CommonService;
 import com.finvendor.api.exception.WebApiException;
+import com.finvendor.api.screener.stock.recommendation.dto.StockReturnDto;
+import com.finvendor.api.screener.stock.recommendation.service.StockReturnService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.api.webutil.WebUtils.SqlData;
 import com.finvendor.common.commondao.ICommonDao;
+import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.enums.SqlEnum;
+import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.FinVendorUser;
@@ -31,21 +35,29 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  * @author ayush on Feb 17, 2018
  */
 @Controller
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class CommonController {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonController.class.getName());
 
-    @Autowired
-    private ICommonDao commonDao;
+    private final ICommonDao commonDao;
 
-    @Autowired
-    private CommonService commonService;
+    private final CommonService commonService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final StockReturnService stockReturnService;
 
     private static Map<String, String> filterDataMap = new HashMap<>();
+
+    @Autowired
+    public CommonController(ICommonDao commonDao,
+            CommonService commonService, UserService userService, StockReturnService stockReturnService) {
+        this.commonDao = commonDao;
+        this.commonService = commonService;
+        this.userService = userService;
+        this.stockReturnService = stockReturnService;
+    }
 
     @Transactional(readOnly = true)
     @GetMapping(value = "/researchreportfor")
@@ -54,7 +66,8 @@ public class CommonController {
             List<ResearchReportFor> researchReportFor = new ArrayList<>();
             if ("7".equals(researchAreaId)) {
                 researchReportFor = commonDao.getCompanyDetails(SqlEnum.VO_COMPANY_DETAILS.valueOf(), researchAreaId);
-            } else if ("2".equals(researchAreaId)) {
+            }
+            else if ("2".equals(researchAreaId)) {
                 String INDUSTRY_SUB_TYPE_NAMES = "select a.id,trim(a.industry_sub_type_name) name from industry_sub_type a where a.rsch_area_id=2 order by trim(a.industry_sub_type_name)";
                 researchReportFor = commonDao.getIndustrySubTypes(INDUSTRY_SUB_TYPE_NAMES, null);
             }
@@ -65,24 +78,23 @@ public class CommonController {
         }
     }
 
-
     @Transactional(readOnly = true)
     @GetMapping(value = "/filterdata")
     public ResponseEntity<?> getResearchFilterData(@RequestParam("type") String type) {
         try {
             switch (type) {
-                case "researchDate":
-                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON, HttpStatus.OK);
-                case "brokerRank":
-                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_BROKER_RANK_JSON, HttpStatus.OK);
-                case "others":
-                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON, HttpStatus.OK);
-                case "upside":
-                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON, HttpStatus.OK);
-                case "analystType":
-                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON, HttpStatus.OK);
-                case "marketcapital":
-                    return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_MCAP_JSON, HttpStatus.OK);
+            case "researchDate":
+                return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_RESEARCH_DATE_JSON, HttpStatus.OK);
+            case "stockReturn":
+                return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_STOCK_RETURN_JSON, HttpStatus.OK);
+            case "others":
+                return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_OTHERS_JSON, HttpStatus.OK);
+            case "upside":
+                return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_UPSIDE_JSON, HttpStatus.OK);
+            case "analystType":
+                return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_ANALYST_TYPE_JSON, HttpStatus.OK);
+            case "marketcapital":
+                return new ResponseEntity<>(WebUtils.EQUITY_RESEARCH_FILTER_VALUE_MCAP_JSON, HttpStatus.OK);
             }
             String jsonResult = filterDataMap.get(type);
             if (jsonResult == null) {
@@ -103,7 +115,8 @@ public class CommonController {
     @GetMapping(value = "/analystTypes")
     public ResponseEntity<?> getAnalystType() {
         try {
-            final SQLQuery nativeQuery = commonDao.getNativeQuery("SELECT distinct analystType FROM vendor where analystType is not null", null);
+            final SQLQuery nativeQuery = commonDao
+                    .getNativeQuery("SELECT distinct analystType FROM vendor where analystType is not null", null);
             final List<Object> rows = (List<Object>) nativeQuery.list();
             final Map<String, Object> paramsMap = new LinkedHashMap<>();
             final List<String> analystTypePojos = new ArrayList<>();
@@ -120,7 +133,8 @@ public class CommonController {
             if (analystTypePojos.size() == 1) {
                 if ("Independent Research Analyst".equals(analystTypePojos.get(0))) {
                     analystTypePojos.add("Research Broker");
-                } else {
+                }
+                else {
                     analystTypePojos.add("Independent Research Analyst");
                 }
             }
@@ -134,10 +148,10 @@ public class CommonController {
         }
     }
 
-
     @Transactional(readOnly = false)
     @PutMapping(value = "/analystTypes/{analystType}")
-    public ResponseEntity<?> updateAnalystyType(HttpServletRequest request, @PathVariable("analystType") String analystType) throws WebApiException {
+    public ResponseEntity<?> updateAnalystType(HttpServletRequest request, @PathVariable("analystType") String analystType)
+            throws WebApiException {
         try {
             final User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
             if (loggedInUser == null) {
@@ -146,12 +160,14 @@ public class CommonController {
             final String userName = loggedInUser.getUsername();
             final FinVendorUser userDetailsByName = userService.getUserDetailsByUsername(userName);
             final String vendorId = userDetailsByName.getVendor().getId();
-            final SQLQuery nativeQuery = commonDao.getNativeQuery("update vendor set analystType=? where vendor_id=?", new String[]{analystType, vendorId});
+            final SQLQuery nativeQuery = commonDao
+                    .getNativeQuery("update vendor set analystType=? where vendor_id=?", new String[] { analystType, vendorId });
             final int update = nativeQuery.executeUpdate();
 
             if (update == 1) {
                 return new ResponseEntity<>("{\"staus\":\"AnalystType updated successfully\"}", HttpStatus.OK);
-            } else {
+            }
+            else {
                 return new ResponseEntity<>("{\"staus\":\"Unable to updated AnalystType\"}", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
@@ -169,6 +185,16 @@ public class CommonController {
             ErrorUtil.logError("WebApiCommon -> insertVo(...) method", e);
             return ErrorUtil.getError(REQUEST_UPDATE_ANALYST_TYPE.getCode(), REQUEST_UPDATE_ANALYST_TYPE.getUserMessage(), e);
         }
+    }
+
+    @PostMapping(value = "/stockReturns")
+    public ResponseEntity<ApiResponse<String, Map<String, String>>> findStockReturn(
+            @RequestBody StockReturnDto stockReturnDto) throws Exception {
+        logger.info("### CONTROLLER findStockReturn - START stockReturnDto: {}", stockReturnDto);
+        Map<String, String> stockReturns = stockReturnService.findStockReturns(stockReturnDto);
+        ApiResponse<String, Map<String, String>> apiResponse = WebUtils.buildResponse(ApiMessageEnum.SUCCESS, stockReturns, HttpStatus.OK);
+        logger.info("### CONTROLLER findStockReturn - END");
+        return WebUtils.buildResponseEntity(apiResponse);
     }
 
     public static void main(String[] args) {

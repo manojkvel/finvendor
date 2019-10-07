@@ -143,7 +143,7 @@ public class CommonDaoImpl extends AbstractCommonDao {
     }
 
     @Override
-    public synchronized Map<String, String> findStockHistoricalPrices(float todaysCmp, String isinCode, boolean _1W, boolean _1M)
+    public synchronized Map<String, String> findStockHistoricalPrices(float todaysCmp, String isinCode, boolean _1W, boolean _1M, boolean _3M,boolean _6M)
             throws Exception {
         String stockId = getCompanyId(isinCode);
         String stockTodaysDateFromDB = getStockTodaysDateFromDB(stockId);
@@ -151,8 +151,8 @@ public class CommonDaoImpl extends AbstractCommonDao {
             throw new Exception("Unable to find today's stock date");
         }
 
-        float stock_3M_Price = getStock_3M_price(stockId, stockTodaysDateFromDB);
-        float stock_6M_Price = getStock_6M_price(stockId, stockTodaysDateFromDB);
+
+
         float stock_1Y_Price = getStock_1Y_price(stockId, stockTodaysDateFromDB);
 
         Map<String, String> stockHistoricalPriceMap = new LinkedHashMap<>();
@@ -166,10 +166,18 @@ public class CommonDaoImpl extends AbstractCommonDao {
             stockHistoricalPriceMap
                     .put("1M", stock_1M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_1M_Price) * 100 / stock_1M_Price));
         }
-        stockHistoricalPriceMap
-                .put("3M", stock_3M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_3M_Price) * 100 / stock_3M_Price));
-        stockHistoricalPriceMap
-                .put("6M", stock_6M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_6M_Price) * 100 / stock_6M_Price));
+        if (_3M) {
+            float stock_3M_Price = getStock_3M_price(stockId, stockTodaysDateFromDB);
+            stockHistoricalPriceMap
+                    .put("3M", stock_3M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_3M_Price) * 100 / stock_3M_Price));
+
+        }
+        if (_6M) {
+            float stock_6M_Price = getStock_6M_price(stockId, stockTodaysDateFromDB);
+            stockHistoricalPriceMap
+                    .put("6M", stock_6M_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_6M_Price) * 100 / stock_6M_Price));
+        }
+
         stockHistoricalPriceMap
                 .put("1Y", stock_1Y_Price == 0.0F ? "-" : String.valueOf((todaysCmp - stock_1Y_Price) * 100 / stock_1Y_Price));
         //        stockHistoricalPriceMap.put("2Y", "-");

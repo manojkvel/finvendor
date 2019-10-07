@@ -1,8 +1,8 @@
 package com.finvendor.api.screener.mf.controller;
 
-import com.finvendor.common.util.ErrorUtil;
-import com.finvendor.common.infra.persist.IFilePersist;
 import com.finvendor.api.exception.WebApiException;
+import com.finvendor.common.infra.persist.IFilePersist;
+import com.finvendor.common.util.ErrorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.File;
 
@@ -21,6 +22,7 @@ import static com.finvendor.common.exception.ExceptionEnum.SECTOR_RESEARCH_FILTE
 /**
  * @Author Ayush on 4-Oct-2018
  */
+@ApiIgnore
 @Controller
 @RequestMapping(value = "/system/api")
 public class MfPersistController {

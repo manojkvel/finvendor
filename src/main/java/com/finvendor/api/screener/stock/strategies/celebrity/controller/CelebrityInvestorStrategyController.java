@@ -17,7 +17,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  * CelebrityInvestorStrategy - CIS
  */
 @RestController
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class CelebrityInvestorStrategyController {
 
     @Autowired

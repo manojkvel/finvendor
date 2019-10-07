@@ -3,8 +3,6 @@ package com.finvendor.api.screener.stock.recommendation.dto.result.impl;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.finvendor.api.screener.stock.recommendation.dto.result.AbsEquitySectorResearchResult;
 
-import java.util.Map;
-
 /**
  * 
  * @author ayush
@@ -20,8 +18,6 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 	private String isinCode;
 	private String style;
 	private String mcap;
-
-	private Map<String, String> brokerRank;
 
 	private String cmp;
 	private String priceDate;
@@ -155,14 +151,6 @@ public class EquityResearchResult extends AbsEquitySectorResearchResult {
 
 	public void setYrOfInCorp(String yrOfInCorp) {
 		this.yrOfInCorp = yrOfInCorp;
-	}
-
-	public Map<String, String> getBrokerRank() {
-		return brokerRank;
-	}
-
-	public void setBrokerRank(Map<String, String> brokerRank) {
-		this.brokerRank = brokerRank;
 	}
 
 	public String getIsinCode() {

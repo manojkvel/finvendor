@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,6 +61,7 @@ public class UserController {
     /**
      * Update subscription type to FREE if subscription expires
      */
+    @ApiIgnore
     @PutMapping(value = "v1/user/{userName}/subscription-types")
     public ResponseEntity<ApiResponse> updateUserSubscriptions(@PathVariable String userName) throws Exception {
         if (userService.isValidUser(userName)) {

@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -34,6 +35,7 @@ import static com.finvendor.common.exception.ExceptionEnum.SUBSCRIPTIONS_DOWNLOA
 /**
  * @author ayush, Jul 2019
  */
+@ApiIgnore
 @RestController
 @RequestMapping(value = "/api")
 @Validated
