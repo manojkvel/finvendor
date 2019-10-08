@@ -76,7 +76,7 @@ public class CompanyProfileService {
             String mainQuery1 = StringUtils.replace(CompanyProfileDao.mainQuery, "COUNTRYID", "" + countryId);
             String mainQuery = StringUtils.replace(mainQuery1, "?", "'" + isinCode + "'");
             logger.info("## getCompanyProfileResearchReport: {} ", mainQuery);
-            return companyProfileDao.getCompanyProfileReasearchReport(mainQuery, isinCode, filter, pageNumber, perPageMaxRecords,
+            return companyProfileDao.getCompanyProfileResearchReport(mainQuery, isinCode, filter, pageNumber, perPageMaxRecords,
                     sortBy, orderBy);
         } catch (RuntimeException e) {
             throw new Exception(e);

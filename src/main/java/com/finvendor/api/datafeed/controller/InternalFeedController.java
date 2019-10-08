@@ -1,8 +1,8 @@
 package com.finvendor.api.datafeed.controller;
 
+import com.finvendor.api.datafeed.enums.FeedTypeEnum;
 import com.finvendor.api.datafeed.service.internalfeed.screener.ScreenerFeedFacade;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.datafeed.enums.FeedTypeEnum;
 import com.finvendor.common.util.ErrorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import static com.finvendor.common.exception.ExceptionEnum.DATA_FEED;
 
+@ApiIgnore
 @RestController
 @RequestMapping(value = "/system/api")
 public class InternalFeedController {

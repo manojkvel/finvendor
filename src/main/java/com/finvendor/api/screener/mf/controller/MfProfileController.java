@@ -12,12 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import springfox.documentation.annotations.ApiIgnore;
 
 import static com.finvendor.common.exception.ExceptionEnum.MF_PROFILE;
 
 /**
  * @Author Ayush on 4-Oct-2018
  */
+@ApiIgnore
 @Controller
 @RequestMapping(value = "/system/api")
 public class MfProfileController {

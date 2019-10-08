@@ -1,20 +1,24 @@
 package com.finvendor.api.screener.stock.recommendation.controller;
 
+import com.finvendor.api.exception.WebApiException;
+import com.finvendor.api.metrics.dto.FeatureAllowedDto;
+import com.finvendor.api.metrics.enums.FvFeature;
+import com.finvendor.api.metrics.service.LimitedSearchService;
 import com.finvendor.api.screener.stock.recommendation.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.api.screener.stock.recommendation.dto.result.AbsResearchReportResult;
 import com.finvendor.api.screener.stock.recommendation.dto.result.impl.EquityResearchResult;
 import com.finvendor.api.screener.stock.recommendation.service.EquityReportService;
+import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.webutil.WebUtils;
+import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
-import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.webutil.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,32 +26,50 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.*;
 
+import static com.finvendor.api.webutil.WebUtils.getLoggedInUser;
+import static com.finvendor.api.webutil.WebUtils.isUserAllowedToAccessFeature;
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
 /**
  * @author ayush on Feb 21, 2018
  */
-@Controller
-@RequestMapping(value = "/system/api")
+@RestController
+@RequestMapping(value = "/api")
 public class EquityReportController {
-    private static final Logger logger = LoggerFactory.getLogger(EquityReportController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(EquityReportController.class.getName());
+
+    private final EquityReportService equityReportService;
+    private final LimitedSearchService limitedSearchService;
+    private final UserService userService;
 
     @Autowired
-    private EquityReportService equityReportService;
+    public EquityReportController(EquityReportService equityReportService,
+            LimitedSearchService limitedSearchService, UserService userService) {
+        this.equityReportService = equityReportService;
+        this.limitedSearchService = limitedSearchService;
+        this.userService = userService;
+    }
 
     @SuppressWarnings("unchecked")
     @PostMapping(value = "/researchReports")
-    public ResponseEntity<?> getResearchResultTableData(@RequestBody EquityResearchFilter equityResearchFilter,
+    public ResponseEntity<?> getResearchResultTableData(HttpServletRequest request, @RequestBody EquityResearchFilter equityResearchFilter,
             @RequestParam(value = "type") String type,
             @RequestParam(value = "pageNumber") String pageNumber,
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
             @RequestParam(value = "sortBy") String sortBy,
             @RequestParam(value = "orderBy") String orderBy) throws WebApiException {
         try {
+            LOGGER.info("## Controller getResearchResultTableData START");
+            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request),
+                    FvFeature.EQUITY_RESEARCH_REPORT);
+            if (featureAllowedDto != null) {
+                return WebUtils.buildResponseEntity(
+                        WebUtils.buildResponse(ApiMessageEnum.RESOURCE_NOT_FOUND, featureAllowedDto, HttpStatus.NOT_FOUND));
+
+            }
             if (equityResearchFilter.getGeo() == null) {
                 throw new Exception("Equity Research filter Error - Geo must not be null !!");
             }
-
             final Map<String, EquityResearchResult> researchReport = (Map<String, EquityResearchResult>) equityReportService
                     .getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
             final Map<String, Collection<EquityResearchResult>> searchResult = new HashMap<>();
@@ -60,7 +82,8 @@ public class EquityReportController {
     }
 
     @PostMapping(value = "/dashboardResearchReports")
-    public ResponseEntity<?> getResearchResultDashboardData(@RequestBody EquityResearchFilter equityResearchFilter,
+    public ResponseEntity<?> getResearchResultDashboardData(HttpServletRequest request,
+            @RequestBody EquityResearchFilter equityResearchFilter,
             @RequestParam(value = "type") String type,
             @RequestParam(value = "pageNumber") String pageNumber,
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords,
@@ -68,6 +91,12 @@ public class EquityReportController {
             @RequestParam(value = "orderBy") String orderBy,
             @RequestParam(value = "productId") String productId) throws WebApiException {
         try {
+            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request),
+                    FvFeature.EQUITY_RESEARCH_REPORT);
+            if (featureAllowedDto != null) {
+                return WebUtils.buildResponseEntity(
+                        WebUtils.buildResponse(ApiMessageEnum.RESOURCE_NOT_FOUND, featureAllowedDto, HttpStatus.NOT_FOUND));
+            }
             if (equityResearchFilter == null) {
                 equityResearchFilter = new EquityResearchFilter();
                 equityResearchFilter.setGeo("1");
@@ -76,7 +105,7 @@ public class EquityReportController {
             List<String> productList = new ArrayList<>();
             productList.add(productId);
             equityResearchFilter.setProductId(productList);
-
+            pageNumber = "1";
             final Map<String, ? extends AbsResearchReportResult> researchReportTableData = equityReportService
                     .getResearchReportTableData(equityResearchFilter, pageNumber, perPageMaxRecords, sortBy, orderBy);
             final EquityResearchResult absResearchReportResult = (EquityResearchResult) researchReportTableData
@@ -97,6 +126,12 @@ public class EquityReportController {
             @RequestParam("productId") String productId,
             @RequestParam("reportName") String reportName) throws WebApiException {
         try {
+            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request),
+                    FvFeature.EQUITY_RESEARCH_REPORT);
+            if (featureAllowedDto != null) {
+                return WebUtils.buildResponseEntity(
+                        WebUtils.buildResponse(ApiMessageEnum.RESOURCE_NOT_FOUND, featureAllowedDto, HttpStatus.NOT_FOUND));
+            }
             final Pair<Long, InputStream> download = equityReportService.download(productId);
             WebUtils.processDownload(response, productId, reportName, download);
             return new ResponseEntity<>(new StatusPojo("true",
@@ -109,11 +144,16 @@ public class EquityReportController {
     }
 
     @PostMapping(value = "/researchReports/recordStats")
-    public ResponseEntity<?> getRecordStatistics(@RequestBody EquityResearchFilter equityResearchFilter,
+    public ResponseEntity<?> getRecordStatistics(HttpServletRequest request, @RequestBody EquityResearchFilter equityResearchFilter,
             @RequestParam(value = "type") String type,
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords)
             throws WebApiException {
         try {
+            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request), FvFeature.EQUITY_RESEARCH_REPORT);
+            if (featureAllowedDto != null) {
+                return WebUtils.buildResponseEntity(
+                        WebUtils.buildResponse(ApiMessageEnum.RESOURCE_NOT_FOUND, featureAllowedDto, HttpStatus.NOT_FOUND));
+            }
             if (!"equity".equals(type)) {
                 throw new Exception("Research Report type must be equity !!");
             }
