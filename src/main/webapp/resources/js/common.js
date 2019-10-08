@@ -533,30 +533,33 @@ jQuery(document).ready(function($) {
 				}
 
 				if(data.companyName == undefined) {
-					this.val(data.sectorSubType + " (" + data.sectorType + ")");
+					if(data.sectorType != undefined) {
 
-					if(e.target.name == 'homepagesearch') {
+						this.val(data.sectorSubType + " (" + data.sectorType + ")");
 
-						sendGAevents('HomePageSearch', 'Search Sectors onKeyDown', 'Search Sectors & its Quotes');
+						if(e.target.name == 'homepagesearch') {
 
-					} else if(e.target.name == 'searchKeyword') {
+							sendGAevents('HomePageSearch', 'Search Sectors onKeyDown', 'Search Sectors & its Quotes');
 
-						sendGAevents('TopHeaderSearch', 'Search Sectors onKeyDown', 'Search Sectors & its Quotes');
+						} else if(e.target.name == 'searchKeyword') {
+
+							sendGAevents('TopHeaderSearch', 'Search Sectors onKeyDown', 'Search Sectors & its Quotes');
+						}
+
+						var localEquitySearchJson = {
+							"geo" : "1",
+							"sectorType" : data.sectorType,
+							"sectorSubType" : data.sectorSubType
+						};
+
+						window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
+
+						if(window.location.pathname == "/view/sector-research.jsp") {
+							window.localStorage.setItem("searchsector", true);
+						}
+
+						window.location.href = "/view/sector-research.jsp";
 					}
-
-					var localEquitySearchJson = {
-						"geo" : "1",
-						"sectorType" : data.sectorType,
-						"sectorSubType" : data.sectorSubType
-					};
-
-					window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
-
-					if(window.location.pathname == "/view/sector-research.jsp") {
-						window.localStorage.setItem("searchsector", true);
-					}
-
-					window.location.href = "/view/sector-research.jsp";
 				}
 			},
 			required: true
@@ -738,3 +741,7 @@ function getMarqueeApi(jsonBody) {
 				httpRequest.send();
         });
 };
+
+$(window).on('click', function() {
+	$(".mp_list").empty();
+});

@@ -428,6 +428,8 @@ $.Widget.prototype = {
 
       // Create an empty list for displaying future results. Insert it directly
       // after the input element.
+
+      // self.$list = $('<div class="mine_marji"></div>');
       self.$list = $('<ol class="mp_list" />')
                      .attr({
                        'aria-atomic': 'true',
@@ -1089,13 +1091,17 @@ $.Widget.prototype = {
 
     // Hide and empty the results list.
     _hideAndEmptyList: function () {
-      this.$list
-        .hide()
-        .empty();
+      // debugger
+      if(this.$list.find('li').hasClass('mp_no_results') || this.$list.find('li').hasClass('mp_min_chars')) {
 
-      this.$input
-        .removeAttr('aria-activedescendant')
-        .removeAttr('aria-expanded');
+        this.$list
+          .hide()
+          .empty();
+
+        this.$input
+          .removeAttr('aria-activedescendant')
+          .removeAttr('aria-expanded');
+      }
 
       return this;
     },
@@ -1126,6 +1132,7 @@ $.Widget.prototype = {
         self._showList();
       }
       else {
+        debugger
         self._hideList();
       }
 
