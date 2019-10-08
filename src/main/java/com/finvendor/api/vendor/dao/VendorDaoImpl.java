@@ -19,16 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.*;
 @Repository
-public class VendorDaoImpl {//implements VendorDao {
-
+public class VendorDaoImpl {
 	private static final Logger logger = LoggerFactory.getLogger(VendorDaoImpl.class.getName());
 	private static final String RECORD_ALREADY_EXISTS = "Record Already Exist";
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
-//	@Transactional
-//	@Override
 	public void saveVendorInfo(Vendor vendor) {
 		logger.debug("Entering - VendorDaoImpl : saveVendorInfo");
 		try {
@@ -39,8 +36,6 @@ public class VendorDaoImpl {//implements VendorDao {
 		logger.debug("Leaving - VendorDaoImpl : saveVendorInfo");
 	}
 
-//	@Transactional
-//	@Override
 	public Vendor getVendorInfoByEmail(String email) {
 		logger.info("getVendorInfoByEmail method---");
 		Vendor vendor = null;
@@ -56,8 +51,6 @@ public class VendorDaoImpl {//implements VendorDao {
 		return vendor;
 	}
 
-//	@Transactional
-//	@Override
 	public Vendor getVendorInfoByUserName(String userName) {
 		logger.info("getVendorInfoByEmail method---");
 		String sqlQuery = "select vendor_id from vendor where username='" + userName + "'";
@@ -67,8 +60,6 @@ public class VendorDaoImpl {//implements VendorDao {
 		return (Vendor) object;
 	}
 
-//	@Transactional
-//	@Override
 	public void updateVendorPersonalInfoTab(Vendor vendor, String username) {
 		logger.info("updateVendorPersonalInfoTab method---");
 		String sqlQuery = null;
@@ -117,44 +108,7 @@ public class VendorDaoImpl {//implements VendorDao {
 		}
 	}
 
-	/*-------------------------------------------------------------------
-	@Transactional
-	@Override
-	public AssetClass getAssetClassDetails(String asset_class) {
-		logger.info("getAssetClassDetails method---");
-		AssetClass assetClass=null; Criteria criteria=null;
-		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(AssetClass.class);
-			criteria.add(Restrictions.sqlRestriction("lower(description) like '" + asset_class.toLowerCase() + "'"));
-			assetClass = (AssetClass) criteria.uniqueResult();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			logger.error("Error in getAssetClassDetails---- " + ex);
-		}
-		return assetClass;
-	}
-	*/
 
-	/*---------------------------------------------------------------------------
-	@Transactional
-	@Override
-	public SecurityType getSecurityTypes(String securities) {
-		logger.info("getSecurityTypes method---");
-		SecurityType securityType=null; Criteria criteria=null;
-		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(SecurityType.class);
-			criteria.add(Restrictions.sqlRestriction("lower(name) like '" + securities.toLowerCase() + "'"));
-			securityType = (SecurityType) criteria.uniqueResult();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			logger.error("Error in getSecurityTypes---- " + ex);
-		}
-		return securityType;
-	}
-	*/
-
-//	@Transactional
-//	@Override
 	public void updateVendorOfferingDetails(VendorOffering vendorOffering) {
 		logger.info("updateVendorOfferingDetails method---");
 		try {
@@ -165,62 +119,7 @@ public class VendorDaoImpl {//implements VendorDao {
 		}
 	}
 
-	/*------------------------------------------------------------
-	@Transactional
-	@Override
-	public Region getRegionsByName(String regionsName) {
-		logger.info("getRegionsByName method---");
-		Region region=null; Criteria criteria=null;
-		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(Region.class);
-			criteria.add(Restrictions.sqlRestriction("lower(name) like '" + regionsName.toLowerCase() + "'"));
-			region = (Region) criteria.uniqueResult();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			logger.error("Error in getRegionsByName---- " + ex);
-		}
-		return region;
-	}
-	*/
 
-	/*--------------------------------------------------------------
-	@Transactional
-	@Override
-	public Country getCountryByName(String countryName) {
-		logger.info("getCountryByName method---");
-		Country country=null; Criteria criteria=null;
-		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(Country.class);
-			criteria.add(Restrictions.sqlRestriction("lower(name) like '" + countryName.toLowerCase() + "'"));
-			country = (Country) criteria.uniqueResult();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			logger.error("Error in getCountryByName---- " + ex);
-		}
-		return country;
-	}
-	*/
-
-	/*-------------------------------------------------------------
-	@Transactional
-	@Override
-	public Exchange getExchangesByName(String exchangeName) {
-		logger.info("getExchangesByName method---");
-		Exchange exchange=null; Criteria criteria=null;
-		try{
-			criteria = this.sessionFactory.getCurrentSession().createCriteria(Exchange.class);
-			criteria.add(Restrictions.sqlRestriction("lower(name) like '" + exchangeName.toLowerCase() + "'"));
-			exchange = (Exchange) criteria.uniqueResult();
-		}catch (Exception ex) {
-			ex.printStackTrace();
-			logger.error("Error in getExchangesByName---- " + ex);
-		}
-		return exchange;
-	}
-	*/
-
-//	@Transactional
-//	@Override
 	public void updateVendorRegionCountryExchangeInfos(VendorRegionCountryExchangeMap vendorRegionCountryExchangeMap) {
 		logger.info("updateVendorRegionCountryExchangeInfos method---");
 		try {
@@ -232,8 +131,6 @@ public class VendorDaoImpl {//implements VendorDao {
 	}
 
 	@SuppressWarnings("deprecation")
-//	@Transactional
-//	@Override
 	public Awards saveAwardDetails(Awards awards) {
 		logger.info("saveAwardDetails method---");
 		Awards awardsDetails = null;
@@ -247,8 +144,6 @@ public class VendorDaoImpl {//implements VendorDao {
 		return awardsDetails;
 	}
 
-//	@Transactional
-//	@Override
 	public void updateVendorAwardDetails(VendorAwardsMap vendorAwardsMap) {
 		logger.info("updateVendorAwardDetails method---");
 		try {
@@ -259,8 +154,6 @@ public class VendorDaoImpl {//implements VendorDao {
 		}
 	}
 
-//	@Transactional
-//	@Override
 	public Cost getCostInfo(String costNames) {
 		logger.info("getCostInfo method---");
 		Cost cost = null;
@@ -276,8 +169,6 @@ public class VendorDaoImpl {//implements VendorDao {
 		return cost;
 	}
 
-//	@Transactional
-//	@Override
 	public Solutions getSolutionsInfo(String solutionId) {
 		logger.info("getSolutionsInfo method---");
 		Solutions solutions = null;
@@ -293,8 +184,6 @@ public class VendorDaoImpl {//implements VendorDao {
 	}
 
 	@SuppressWarnings("deprecation")
-//	@Transactional
-//	@Override
 	public VendorSolution updateVendorSolutionDetails(VendorSolution vendorSolution) {
 		logger.info("updateVendorSolutionDetails method---");
 		VendorSolution vendorSolutionDetails = null;
@@ -307,8 +196,6 @@ public class VendorDaoImpl {//implements VendorDao {
 		return vendorSolutionDetails;
 	}
 
-//	@Transactional
-//	@Override
 	public Support getSupportInfo(String supportname) {
 		logger.info("getSupportInfo method---");
 		Support support = null;
@@ -324,8 +211,6 @@ public class VendorDaoImpl {//implements VendorDao {
 		return support;
 	}
 
-//	@Transactional
-//	@Override
 	public void updateVendorSupportInfo(VendorSupport vendorSupport) {
 		logger.info("updateVendorSupportInfo method---");
 		try {
@@ -336,8 +221,6 @@ public class VendorDaoImpl {//implements VendorDao {
 		}
 	}
 
-//	@Transactional
-//	@Override
 	public List<VendorOffering> getVendorOfferingDetails(String id) {
 		logger.info("getVendorOfferingDetails method---");
 		Session currentSession = this.sessionFactory.getCurrentSession();
@@ -376,8 +259,7 @@ public class VendorDaoImpl {//implements VendorDao {
 		return null;
 	}
 
-//	@Transactional
-//	@Override
+	@Transactional
 	public SolutionTypes getSolutionTypes(String name) {
 
 		Session currentSession = sessionFactory.getCurrentSession();

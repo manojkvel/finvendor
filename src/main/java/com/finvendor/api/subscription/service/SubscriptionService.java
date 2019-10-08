@@ -38,64 +38,9 @@ public class SubscriptionService {
     private Properties finvendorProperties;
 
     private static final String SUBMIT_SUBJECT = "Finvendor - Subscription Details Successfully Submitted";
-
-    private static final String SUBMIT_CONTENT = "Dear %s,\r\n"
-            + "Your Subscription details have been successfully submitted. \r\n"
-            + "\r\n"
-            + "Please be informed that your subscription will get activated within next 48 hours. If you don't get any confirmation on activation of your Subscription within next 48 hours, do reach out to us at enquiry@finvendor.com .\r\n"
-            + "\r\n"
-            + "Regards\r\n"
-            + "Finvendor Team";
-
     private static final String ACTIVATION_SMART_SUBJECT = "Finvendor - Subscription \"SMART\" has been Successfully Activated";
     private static final String ACTIVATION_SAGE_SUBJECT = "Finvendor - Subscription \"SAGE\" has been Successfully Activated";
-    private static final String ACTIVATION_SMART_CONTENT = "Dear %s,\r\n"
-            + "Your Subscription \"SMART\" details have been successfully Activated today. \r\n"
-            + "\r\n"
-            + "Your subscription gives you  access to below items:\r\n"
-            + "\r\n"
-            + "1. Access to Unlimited Company profile search\r\n"
-            + "2. Access to Today's Market Summary Page\r\n"
-            + "3. Access to Today's performance of All indices & its constituents.m\r\n"
-            + "4. Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)\r\n"
-            + "5. Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)\r\n"
-            + "6. Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.\r\n"
-            + "7. Set alerts on any companies if any new research analyst's report is available.\r\n"
-            + "8. Track your shortlisted companies in your watchlist.\r\n"
-            + "9.Get Daily market summary report through email.\r\n"
-            + "10.Get Daily Sectoral Performance Summary Report through email.\r\n"
-            + "11.Financial Results Calendar for coming week for NSE listed stocks everyday through email. \r\n"
-            + "12.Corporate Actions for company under the watchlist everyday through email. "
-            + "\r\n"
-            + "Thank you for choosing us. \r\n"
-            + "\r\n"
-            + "Regards\r\n"
-            + "Finvendor Team";
 
-    private static final String ACTIVATION_SAGE_CONTENT = "Dear %s,\r\n"
-            + "Your Subscription \"SAGE\" details have been successfully Activated today. \r\n"
-            + "\r\n"
-            + "Your subscription gives you  access to below items:\r\n"
-            + "\r\n"
-            + "1  Access to Stock Screener \"Celebrity Investors' Strategies\" & \"Do It Yourself\" (CUSTOM Stock Screener). \r\n"
-            + "2. Access to Unlimited Company profile search\r\n"
-            + "3. Access to Today's Market Summary Page\r\n"
-            + "4. Access to Today's performance of All indices & its constituents.\r\n"
-            + "5. Access to Stock Screener - based on Research Analyst's Recommendations (unlimited search results per months)\r\n"
-            + "6. Access to Sector Screener - based on Research Analyst's Recommendations (unlimited search results per months)\r\n"
-            + "7. Set Price alerts(daily, weekly, monthly, within any time frame price movement) on unlimited no. of stocks.\r\n"
-            + "8. Set alerts on any companies if any new research analyst's report is available.\r\n"
-            + "9. Track your shortlisted companies in your watchlist.\r\n"
-            + "10.Get Daily market summary report through email.\r\n"
-            + "11.Get Daily Sectoral Performance Summary Report through email.\r\n"
-            + "12.Financial Results Calendar for coming week for NSE listed stocks everyday through email. \r\n"
-            + "13.Corporate Actions for company under the watchlist everyday through email. \r\n"
-            + "14.Financial results summary for company under the watchlist.\r\n"
-            + "\r\n"
-            + "Thank you for choosing us. \r\n"
-            + "\r\n"
-            + "Regards\r\n"
-            + "Finvendor Team";
 
     @Autowired
     public SubscriptionService(SubscriptionDao dao, NotificationService notificationService, UserService userService) {
@@ -106,7 +51,7 @@ public class SubscriptionService {
 
     public String savePayment(String userName, SubscriptionDto dto) throws Exception {
         try {
-            String refId = dao.savePayment(userName, dto);
+            String refId = dao.savePaymentDetails(userName, dto);
             if (refId != null) {
                 FinVendorUser userDetails = updateUserSubscription(userName, dto.getSubscriptionType());
                 sentSubscriptionSubmissionEmail(userName, userDetails);
