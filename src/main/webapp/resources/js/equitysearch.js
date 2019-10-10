@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
 				upsideClass = "danger";
 			}
 
-			var brokerRankGenericStarClass = "<i class='fa fa-star default'></i>";
+			/*var brokerRankGenericStarClass = "<i class='fa fa-star default'></i>";
 			var brokerRankLargeCapStarClass = "<i class='fa fa-star'></i>";
 
 			var brokerRankLargeCapStarHtml = '';
@@ -142,14 +142,14 @@ jQuery(document).ready(function() {
 				brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
 			} else {
 				brokerRankSmallCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-			}
+			}*/
 
 			var currency = (response.equity[i].currency) ? response.equity[i].currency : "INR";
 
 			var targetPrice = (response.equity[i].targetPrice == '' || response.equity[i].targetPrice == 'null') ? "-" : currency + " " + parseFloat(response.equity[i].targetPrice).toFixed(2);
 			var priceAtRecomm = (response.equity[i].priceAtRecomm == '' || response.equity[i].priceAtRecomm == 'null') ? "-" : currency + " " + parseFloat(response.equity[i].priceAtRecomm).toFixed(2);
 
-			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "' data-code='" + response.equity[i].isinCode + "'>" +
+			htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "' data-code='" + response.equity[i].isinCode + "' data-cmp='" + response.equity[i].cmp + "'>" +
 			"<td>" + 
 			"<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'><a href='/view/company-profile.jsp?isinCode=" + response.equity[i].isinCode + "'>" + response.equity[i].company + "</a></div>" + 
 			"<div class='style'>" + response.equity[i].style + "</div>" + 
@@ -163,10 +163,13 @@ jQuery(document).ready(function() {
 			"<div class='researchedByCfa'>" + response.equity[i].researchedByCfa + "</div>" +
 			"</td>" +
 			"<td>" + 
+			"<button class='stockReturn' data-toggle='tooltip' title='View Stock Return'>View</button>" +
+			"</td>" +
+			/*"<td>" + 
 			"<div class='brokerRankLargeCap warning' data-toggle='tooltip' title='Large Cap'>" + brokerRankLargeCapStarHtml + "</div>" + 
 			"<div class='brokerRankMidCap warning' data-toggle='tooltip' title='Mid Cap'>" + brokerRankMidCapStarHtml + "</div>" + 
 			"<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
-			"</td>" +
+			"</td>" +*/
 			"<td>" +
 			"<div class='cmp'>" + currency + " " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" + 
 			"<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
@@ -205,6 +208,7 @@ jQuery(document).ready(function() {
 		//$('#broker_table tbody tr td .company').on('click', getCompanyProfile);
 		$('#broker_table tbody tr td .report a').on('click', getReport);
 		$('#fv_equity_research_report_vendor_search .pager a').on('click', getPaginationIndex);
+		$('#fv_equity_research_report_vendor_search .stockReturn').on('click', {this: event}, equityResearchReportObj.getStockReturnData);
 
 
 		setRecordStats(currentIndex, lastPageNumber);
@@ -444,7 +448,7 @@ jQuery(document).ready(function() {
 
 	function getResearchReport(jsonData, researchType, pageNumber) {
 
-		var url = "/system/api/researchReports?type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
+		var url = "/api/researchReports?type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -476,7 +480,7 @@ jQuery(document).ready(function() {
      * Function to start async call to get record stats
      */
 	function getRecordStats(researchType, jsonData, perPageMaxRecords) {
-		var url = "/system/api/researchReports/recordStats?type=" + researchType + "&perPageMaxRecords=" + perPageMaxRecords;
+		var url = "/api/researchReports/recordStats?type=" + researchType + "&perPageMaxRecords=" + perPageMaxRecords;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
@@ -511,7 +515,7 @@ jQuery(document).ready(function() {
      * @param {filterType} filterType - filter type value.
      */
 	var getFilterData = function(filterType) {
-		var url = "/system/api/filterdata?type=" + filterType;
+		var url = "/api/filterdata?type=" + filterType;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
@@ -1062,6 +1066,84 @@ jQuery(document).ready(function() {
 	};
 
 	/**
+     * Function to set Stock Return from filter data API.
+     */
+	var setStockReturnFilterData = function() {
+		getFilterData('stockReturn').then(function(response) {
+			response = JSON.parse(response);
+			//console.log(response);
+			var html = "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>All</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='all' data-section='' data-value='all' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>";
+
+			var len = response.length;
+			for(var i = 0; i < len; i++) {
+				html = html + "<li>"
+								+ "<div class='row'>"
+									+ "<div class='col-xs-9'>"
+									+ "<span>" + response[i].broker_rank + "</span>"
+									+ "</div>"
+									+ "<div class='col-xs-3'>"
+										+ "<input type='checkbox' data-name='" + response[i].broker_rank + "' data-section='' data-value='" + response[i].broker_rank + "' />"
+									+ "</div>"
+								+ "</div>"
+							+ "</li>"
+			}
+			$("#search_by_stock_return ul").html(html);
+			$("#search_by_stock_return ul input").on('change', getStockReturnFilterData);
+			// $("#search_by_stock_return ul input").eq(0).prop('checked', true);
+		}, function(error) {
+			//console.log(error);
+		});
+	};
+
+	var stockReturnFilterData = [];
+
+    /**
+     * Function to get Broker Analyst Yr Of Incorp from localstorage and get equity list
+     */
+	var getStockReturnFilterData = function() {
+		if(!isLoggedInUser()) {
+
+			sendGAevents('Equity Research', 'Filter by StockReturn onClick', 'Filter by StockReturn');
+
+			addRemoveItemFromArray(stockReturnFilterData, $(this).attr('data-value'));
+
+
+			if($(this).attr('data-value') == 'all') {
+				stockReturnFilterData = ['all'];
+				if(checkForAllData(stockReturnFilterData, "#search_by_stock_return ul input")) {
+					stockReturnFilterData = [];
+				} 
+			} else {
+				$("#search_by_stock_return ul input").eq(0).prop('checked', false);
+			}
+
+			
+			localEquitySearchJson.brokerRank = stockReturnFilterData;
+
+			if(stockReturnFilterData.length === 0) {
+				delete localEquitySearchJson.brokerRank;
+			}
+			
+			resetPaginationCount();
+			window.localStorage.setItem("equitysearchjson", JSON.stringify(localEquitySearchJson));
+			loadDefaultEquityList(JSON.parse(window.localStorage.getItem("equitysearchjson")), perPageMaxRecords);
+		} else {
+			inner_login('view/equity_research_report_vendor.jsp');
+			$("#search_by_stock_return ul input").prop('checked', false);
+			// $("#search_by_stock_return ul input").eq(0).prop('checked', true);
+		}
+	};
+
+	/**
      * Function to set Broker Rank from filter data API.
      */
 	var setBrokerRankFilterData = function() {
@@ -1457,6 +1539,105 @@ jQuery(document).ready(function() {
 		}
 	};
 
+	var equityResearchReportObj = {
+		init: function() {
+		},
+
+		getStockReturnApi: function(parentNode) {
+
+			var isinCode = $(parentNode).parents("tr").attr("data-code");
+			var cmp = $(parentNode).parents("tr").attr("data-cmp");
+
+			var jsonData = {
+				"cmp": cmp,
+				"isinCode": isinCode
+			};
+
+			var url = "/api/stockReturns";
+			return new Promise(function(resolve, reject) {
+				var httpRequest = new XMLHttpRequest({
+					mozSystem: true
+				});
+
+	            httpRequest.open('POST', url, true);
+	            httpRequest.setRequestHeader('Content-Type',
+	            	'application/json; charset=UTF-8');
+	            httpRequest.ontimeout = function () {
+	            	reject("" + httpRequest.responseText);
+	            };
+	            httpRequest.onreadystatechange = function () {
+	            	if (httpRequest.readyState === XMLHttpRequest.DONE) {
+	            		if (httpRequest.status === 200) {
+	            			resolve(httpRequest.response);
+	            		} else {
+	                        reject(httpRequest.responseText);
+	                    }
+	                } else {
+	                }
+	            };
+
+	            httpRequest.send(JSON.stringify(jsonData));
+	        });
+		},
+
+		getStockReturnData: function(event) {
+			var parentNode = $(event.currentTarget).parent();
+			
+			parentNode.html("<img src='../resources/images/bx_loader.gif' />");
+
+
+			equityResearchReportObj.getStockReturnApi(parentNode).then(function(response) {
+				var response = JSON.parse(response);
+				equityResearchReportObj.setStockReturnHtml(parentNode, response);
+			}, function(error) {
+				console.log("Unable to get stock Return");
+			});
+		},
+
+		setStockReturnHtml: function(parentNode, response) {
+			var stockData = response.data;
+			var m3StockReturn = (stockData["3M"] != '-') ? parseFloat(stockData["3M"]).toFixed(2) + "%" : stockData["3M"];
+			var m6StockReturn = (stockData["6M"] != '-') ? parseFloat(stockData["6M"]).toFixed(2) + "%" : stockData["6M"];
+			var y1StockReturn = (stockData["1Y"] != '-') ? parseFloat(stockData["1Y"]).toFixed(2) + "%" : stockData["1Y"];
+
+			var m3StockReturnClass = "success";
+			if(response.data["3M"] > 0) {
+				m3StockReturnClass = "success";
+			} else if(response.data["3M"] < 0) {
+				m3StockReturnClass = "danger";
+			} else {
+				m3StockReturnClass = "";
+			}
+
+			var m6StockReturnClass = "success";
+			if(response.data["6M"] > 0) {
+				m6StockReturnClass = "success";
+			} else if(response.data["6M"] < 0) {
+				m6StockReturnClass = "danger";
+			} else {
+				m6StockReturnClass = "";
+			}
+
+			var y1StockReturnClass = "success";
+			if(response.data["1Y"] > 0) {
+				y1StockReturnClass = "success";
+			} else if(response.data["1Y"] < 0) {
+				y1StockReturnClass = "danger";
+			} else {
+				y1StockReturnClass = "";
+			}
+
+			var html = "<ul>" +
+						"<li class='" + m3StockReturnClass + "'><strong>" + m3StockReturn + "</strong></li>" +
+						"<li class='" + m6StockReturnClass + "'><strong>" + m6StockReturn + "</strong></li>" +
+						"<li class='" + y1StockReturnClass + "'><strong>" + y1StockReturn + "</strong></li>" +
+						"</ul>";
+			$(parentNode).empty();
+			$(parentNode).html(html);
+		}
+	};
+
+
 
     /**
      * Function to start async call to filter data API and set response.
@@ -1470,7 +1651,8 @@ jQuery(document).ready(function() {
 		setResearchBrokerData();
 		// setBrokerAnalystYrOfIncorpFilterData();
 		setResearchDateFilterData();
-		setBrokerRankFilterData();
+		//setBrokerRankFilterData();
+		setStockReturnFilterData();
 		setRecommendationTypeData();
 		setUpsideFilterData();
 		setOthersFilterData();

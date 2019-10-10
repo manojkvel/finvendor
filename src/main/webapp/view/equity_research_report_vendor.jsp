@@ -128,7 +128,21 @@
 						    </div>
 						    <div class='widget widget-panel-default'>
 						    	<div class='widget-panel-heading'>
-						    		<h3>Stock Return <!--<a href="javascript:void(0);" data-toggle='tooltip' title='This filter option works with "M-Cap". e.g. If you selected M-Cap as "Large Cap" and further if you select broker rank filter as "5 star", then you will get results for those Brokers having "5 star" rank in "Large Cap" equity research category.'>(?)</a>--></h3>
+						    		<h3>Stock Return</h3>
+						    		<span class="fa fa-chevron-down"></span>
+						    	</div>
+						    	<div class='widget-panel-body'>
+						    		<div id="search_by_stock_return">
+										<ul>
+											
+										</ul>
+									</div>
+						    	</div>
+						    </div>
+
+						    <!--<div class='widget widget-panel-default'>
+						    	<div class='widget-panel-heading'>
+						    		<h3>Broker Rank <a href="javascript:void(0);" data-toggle='tooltip' title='This filter option works with "M-Cap". e.g. If you selected M-Cap as "Large Cap" and further if you select broker rank filter as "5 star", then you will get results for those Brokers having "5 star" rank in "Large Cap" equity research category.'>(?)</a></h3>
 						    		<span class="fa fa-chevron-down"></span>
 						    	</div>
 						    	<div class='widget-panel-body'>
@@ -138,7 +152,7 @@
 										</ul>
 									</div>
 						    	</div>
-						    </div>
+						    </div>-->
 
 							<div class='widget widget-panel-default'>
 								<div class='widget-panel-heading'>
@@ -241,7 +255,7 @@
 													Researched by CFA
 												</p>
 											</th>
-											<th style="width:15%;">
+											<!--<th style="width:15%;">
 												<p class="large_font" style="font-size: 16px;">
 													Broker Rank
 												</p>
@@ -253,6 +267,20 @@
 												</p>
 												<p class="small_font">
 													Small Cap
+												</p>
+											</th>-->
+											<th style="width:15%;">
+												<p class="large_font" style="font-size: 16px;">
+													Stock Return
+												</p>
+												<p class="small_font">
+													3 Month
+												</p>
+												<p class="small_font">
+													6 Month
+												</p>
+												<p class="small_font">
+													1 Year
 												</p>
 											</th>
 											<th style="width:15%;">
