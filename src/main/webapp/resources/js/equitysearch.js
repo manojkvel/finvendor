@@ -1581,17 +1581,21 @@ jQuery(document).ready(function() {
 		},
 
 		getStockReturnData: function(event) {
-			var parentNode = $(event.currentTarget).parent();
-			
-			parentNode.html("<img src='../resources/images/bx_loader.gif' />");
+			if(!isLoggedInUser()) {
+				var parentNode = $(event.currentTarget).parent();
+				
+				parentNode.html("<img src='../resources/images/bx_loader.gif' />");
 
 
-			equityResearchReportObj.getStockReturnApi(parentNode).then(function(response) {
-				var response = JSON.parse(response);
-				equityResearchReportObj.setStockReturnHtml(parentNode, response);
-			}, function(error) {
-				console.log("Unable to get stock Return");
-			});
+				equityResearchReportObj.getStockReturnApi(parentNode).then(function(response) {
+					var response = JSON.parse(response);
+					equityResearchReportObj.setStockReturnHtml(parentNode, response);
+				}, function(error) {
+					console.log("Unable to get stock Return");
+				});
+			} else {
+				inner_login('view/equity_research_report_vendor.jsp');
+			}
 		},
 
 		setStockReturnHtml: function(parentNode, response) {

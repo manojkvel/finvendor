@@ -158,7 +158,7 @@ jQuery(document).ready(function() {
             $("#broker_table tbody").html(htmlCode);
 
             if($(window).width() > 768) {
-                $(".broker_content #broker_table tbody").height($(window).height() - $(".header").height() - $("#fv_custom_screener_search .page_header").height() - $("#broker_table thead").height() - 75);
+                $(".broker_content #broker_table tbody").height($(window).height() - $(".header").height() - $("#fv_custom_screener_search .page_header").height() - $("#broker_table thead").height() - 70);
                 $("#sidebar-panel .widget-group").height($(window).height() - $(".header").height() - 80);
             } else {
                 $(".broker_content").height('100%');
@@ -357,7 +357,7 @@ jQuery(document).ready(function() {
         getCustomScreenerApi : function() {
             var classRef = this;
 
-            var url = "/system/api/customscreeners?pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
+            var url = "/api/customscreeners?pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
             return new Promise(function(resolve, reject) {
                 var httpRequest = new XMLHttpRequest({
                     mozSystem: true
@@ -391,7 +391,7 @@ jQuery(document).ready(function() {
         getRecordStatsApi : function() {
             var classRef = this;
 
-            var url = "/system/api/customscreeners/recordstats?perPageMaxRecords=" + classRef.perPageMaxRecords;
+            var url = "/api/customscreeners/recordstats?perPageMaxRecords=" + classRef.perPageMaxRecords;
             return new Promise(function(resolve, reject) {
                 var httpRequest = new XMLHttpRequest({
                     mozSystem: true
@@ -423,7 +423,7 @@ jQuery(document).ready(function() {
          * Function to start async call to get filter data.
          */
         getFilterData : function() {
-            var url = "/system/api/customscreeners/filters";
+            var url = "/api/customscreeners/filters";
             return new Promise(function(resolve, reject) {
                 var httpRequest = new XMLHttpRequest({
                     mozSystem: true
