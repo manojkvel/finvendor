@@ -298,7 +298,7 @@ public final class WebUtils {
     public static String getLoggedInUser(HttpServletRequest request) throws Exception {
         final User loggedInUser = (User) request.getSession().getAttribute(LOGGED_IN_USER);
         if (loggedInUser == null) {
-            throw new RuntimeException("Unable to find logged In user!!");
+            return null;
         }
         return loggedInUser.getUsername();
     }
@@ -391,12 +391,17 @@ public final class WebUtils {
     }
 
     public static FeatureAllowedDto isUserAllowedToAccessFeature(String loggedInUser, FvFeature featureName) throws Exception {
-        UserService userService = BeanUtils.getBean(UserService.class);
-        LimitedSearchService limitedSearchService = BeanUtils.getBean(LimitedSearchService.class);
-        String subscriptionType = userService.getUserDetailsByUsername(loggedInUser).getSubscriptionType();
-        FeatureAllowedDto featureAllowedDto = isFeatureAllowedToAccess(subscriptionType, limitedSearchService, featureName);
-        if (featureAllowedDto != null && FeatureAccessEnum.NOT_ALLOWED.name().equals(featureAllowedDto.getFeatureAccess().name())) {
-            return featureAllowedDto;
+        if (loggedInUser == null) {
+            return null;
+        }
+        else {
+            UserService userService = BeanUtils.getBean(UserService.class);
+            LimitedSearchService limitedSearchService = BeanUtils.getBean(LimitedSearchService.class);
+            String subscriptionType = userService.getUserDetailsByUsername(loggedInUser).getSubscriptionType();
+            FeatureAllowedDto featureAllowedDto = isFeatureAllowedToAccess(subscriptionType, limitedSearchService, featureName);
+            if (featureAllowedDto != null && FeatureAccessEnum.NOT_ALLOWED.name().equals(featureAllowedDto.getFeatureAccess().name())) {
+                return featureAllowedDto;
+            }
         }
         return null;
     }

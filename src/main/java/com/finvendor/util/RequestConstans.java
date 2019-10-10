@@ -226,10 +226,10 @@ public class RequestConstans {
 		public static final String MYRFP = "myrfp";
 		
 		// Vendor tags info
-		public static final String DATA_AGGREGATOR = "Data Aggregator";
-		public static final String TRADING_APPLICATION = "Trading Application";
-		public static final String ANALYTICS_APPLICATION = "Analytics Application";
-		public static final String RESEARCH_REPORT = "Research Report";
+		public static final String DATA_AGGREGATOR = "Data Aggregator vendor";
+		public static final String TRADING_APPLICATION = "Trading Application vendor";
+		public static final String ANALYTICS_APPLICATION = "Analytics Application vendor";
+		public static final String RESEARCH_REPORT = "Research Reporting vendor";
 		public static final String TRADING_CAPABILITIES_SUPPORTED_OFFERING = "tradingCapabilitiesSupportedOffering";
 		public static final String RESEARCH_REPORTING_VENDOR_OFFERING = "researchReportingVendorOffering";
 		//My Offerings

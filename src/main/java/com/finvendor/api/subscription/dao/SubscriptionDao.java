@@ -172,7 +172,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         return apiMessageEnum;
     }
 
-    public String savePayment(String userName, SubscriptionDto dto) {
+    public String savePaymentDetails(String userName, SubscriptionDto dto) {
         String subscriptionRefId = null;
         UserPayment userPaymentEntity = new UserPayment();
         try {

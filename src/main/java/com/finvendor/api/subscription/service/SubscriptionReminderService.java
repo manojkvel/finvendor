@@ -18,37 +18,54 @@ import java.util.Properties;
 @Service
 public class SubscriptionReminderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionReminderService.class.getName());
-    @Autowired
-    private SubscriptionReminderDao dao;
+    private final SubscriptionReminderDao dao;
 
-    @Autowired
-    private NotificationService notificationService;
+    private final NotificationService notificationService;
 
     @Resource(name = "finvendorProperties")
     private Properties finvendorProperties;
 
-    public void sendReminderForSubscriptionReNew() throws Exception {
+    @Autowired
+    public SubscriptionReminderService(SubscriptionReminderDao dao,
+            NotificationService notificationService) {
+        this.dao = dao;
+        this.notificationService = notificationService;
+    }
+
+    public void sendReminderForSubscriptionReNew() {
         List<FinVendorUser> finVendorUsers = dao.findAll();
         for (FinVendorUser fvUser : finVendorUsers) {
             long subscriptionStartTimeMs = Long.parseLong(fvUser.getSubscriptionStartTimeInMillis().trim());
             long subscriptionEndTimeMs = Long.parseLong(fvUser.getSubscriptionStartTimeInMillis());
-            LOGGER.info("### UserName: {}", fvUser.getUserName());
-            LOGGER.info("### subscriptionStartTimeMs: {}", subscriptionStartTimeMs);
-            LOGGER.info("### subscriptionEndTimeMs: {}", subscriptionEndTimeMs);
+            String userName = fvUser.getUserName();
+            LOGGER.info("## sendReminderForSubscriptionReNew - UserName: {}", userName);
+            LOGGER.info("## sendReminderForSubscriptionReNew - subscriptionStartTimeMs: {}", subscriptionStartTimeMs);
+            LOGGER.info("## sendReminderForSubscriptionReNew - subscriptionEndTimeMs: {}", subscriptionEndTimeMs);
             long diffInDays = DateUtils.getDateDifferenceInDays(subscriptionStartTimeMs, subscriptionEndTimeMs);
-            LOGGER.info("### diffInDays: {}", diffInDays);
+            LOGGER.info("## sendReminderForSubscriptionReNew - diffInDays: {}", diffInDays);
             if (diffInDays == 15L || diffInDays == 10L || diffInDays == 5L || diffInDays == 4L
-                    || diffInDays == 3L || diffInDays == 2L
-                    || diffInDays == 1L) {
+                    || diffInDays == 3L || diffInDays == 2L || diffInDays == 1L) {
                 boolean emailFlag = Boolean.parseBoolean(finvendorProperties.getProperty("email"));
-                LOGGER.info("### Save subscription - emailFlag: {}", emailFlag);
+                LOGGER.info("## sendReminderForSubscriptionReNew - emailFlag: {}", emailFlag);
                 if (emailFlag) {
-                    String subject = "xxx";
-                    String content = "xxx";
+                    String subscriptionType = fvUser.getSubscriptionType();
+                    String endDateOfSubscription = DateUtils.getCurrentDate(fvUser.getSubscriptionStartTimeInMillis());
+                    String subject = "Finvendor - Subscription ";
+                    String content = "Dear" + " " + userName + "<br>"
+                            + "Your Subscription " + subscriptionType + " is approaching towards end and will expire on "
+                            + endDateOfSubscription + "<br><br>"
+                            + "Kindly renew your subscription before expire." + "<br><br>"
+                            + "Thank you for choosing us. " + "<br><br>"
+                            + "Regards" + "<br>"
+                            + "Finvendor Team";
                     String email = fvUser.getEmail();
                     String from = EmailUtil.SALES_EMAIL;
                     String[] to = new String[] { email };
-                    notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).from(from).build());
+                    try {
+                        notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).from(from).build());
+                    } catch (Exception e) {
+                        LOGGER.error("## Error has occurred while sending subscription re-new mail to user: {}, error:", userName, e);
+                    }
                 }
             }
         }
