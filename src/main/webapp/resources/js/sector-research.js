@@ -412,7 +412,7 @@ jQuery(document).ready(function() {
 
 	function getResearchReport(jsonData, researchType, pageNumber) {
 
-		var url = "/system/api/sectorreports?pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
+		var url = "/api/sectorreports?pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -444,7 +444,7 @@ jQuery(document).ready(function() {
      * Function to start async call to get record stats
      */
 	function getRecordStats(researchType, jsonData, perPageMaxRecords) {
-		var url = "/system/api/sectorreports/recordstats?perPageMaxRecords=" + perPageMaxRecords;
+		var url = "/api/sectorreports/recordstats?perPageMaxRecords=" + perPageMaxRecords;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
@@ -479,7 +479,7 @@ jQuery(document).ready(function() {
      * @param {filterType} filterType - filter type value.
      */
 	var getFilterData = function(filterType) {
-		var url = "/system/api/sectorreports/filtervalue?type=" + filterType;
+		var url = "/api/sectorreports/filtervalue?type=" + filterType;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
