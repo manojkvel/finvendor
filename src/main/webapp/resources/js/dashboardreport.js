@@ -6,8 +6,8 @@ var API_TIMEOUT_LARGE = 3*60*1000;
             ts = new Date(ts).toString();
             ts = ts.split(' ').slice(0, 5);
             ts = /* ts[0] + " " + */ ts[1] + " " + ts[2] + ", " + ts[3]; // + " "
-																		// +
-																		// ts[4];
+                                                                        // +
+                                                                        // ts[4];
             // console.log(ts);
             return ts;
         } else {
@@ -50,7 +50,7 @@ function getDashboardResearchReportLoad() {
                                         + "<div class='upside'>Upside: " + upside + "</div>"
 
                                         + "<div class='dwnldReport'>"
-                                            + "<a target='blank' href='/system/api/downloadResearchReports?productId=" + response.equity.productId + "&reportName=" + response.equity.report + "'>Download Full Report</a>"
+                                            + "<a target='blank' href='/api/downloadResearchReports?productId=" + response.equity.productId + "&reportName=" + response.equity.report + "'>Download Full Report</a>"
                                         + "</div>"
                                     + "</div>"
                                     + "<span class='brokerName'>" + response.equity.broker + "</span>"
@@ -86,7 +86,7 @@ function getDashboardResearchReportLoad() {
                                         + "</div>"
 
                                         + "<div class='dwnldReport'>"
-                                            + "<a target='blank' href='/system/api/sectorreports/download?productId=" + response.data[0].productId + "&reportName=" + response.data[0].report + "'>Download Full Report</a>"
+                                            + "<a target='blank' href='/api/sectorreports/download?productId=" + response.data[0].productId + "&reportName=" + response.data[0].report + "'>Download Full Report</a>"
                                         + "</div>"
                                     + "</div>"
                                     + "<span class='brokerName'>" + response.data[0].researchedBy + "</span>"
@@ -127,11 +127,11 @@ function getDashboardResearchReport() {
 
     var url = "";
     if(dasboardReportJson.type == "sector") {
-        url = "/system/api/sectorreports/dashboard?pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
+        url = "/api/sectorreports/dashboard?pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
     } else {
-        url = "/system/api/dashboardResearchReports?type=equity" + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
+        url = "/api/dashboardResearchReports?type=equity" + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
     }
-    // var url = "/system/api/dashboardResearchReports?type=equity" + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
+    // var url = "/api/dashboardResearchReports?type=equity" + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy + "&productId="+ id;
     
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({

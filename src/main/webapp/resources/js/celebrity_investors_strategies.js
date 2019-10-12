@@ -32,7 +32,7 @@ var timeStampToDateLatest = function (ts) {
     }
 };
 
-var baseApiUrl = "/system/api/cis";
+var baseApiUrl = "/api/cis";
 
 
 /*
