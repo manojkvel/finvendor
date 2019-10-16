@@ -1,18 +1,9 @@
-package com.finvendor.api.screener.stock.recommendation.dto;
+package com.finvendor.api.common.dto;
 
 import java.io.Serializable;
 
 public class StockReturnDto implements Serializable {
-    private String cmp;
     private String isinCode;
-
-    public String getCmp() {
-        return cmp;
-    }
-
-    public void setCmp(String cmp) {
-        this.cmp = cmp;
-    }
 
     public String getIsinCode() {
         return isinCode;

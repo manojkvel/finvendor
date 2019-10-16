@@ -143,15 +143,14 @@ public class CommonDaoImpl extends AbstractCommonDao {
     }
 
     @Override
-    public synchronized Map<String, String> findStockHistoricalPrices(float todaysCmp, String isinCode, boolean _1W, boolean _1M, boolean _3M,boolean _6M)
+    public synchronized Map<String, String> findStockHistoricalPrices(float todaysCmp, String isinCode, boolean _1W, boolean _1M,
+            boolean _3M, boolean _6M)
             throws Exception {
         String stockId = getCompanyId(isinCode);
         String stockTodaysDateFromDB = getStockTodaysDateFromDB(stockId);
         if (stockTodaysDateFromDB.isEmpty()) {
             throw new Exception("Unable to find today's stock date");
         }
-
-
 
         float stock_1Y_Price = getStock_1Y_price(stockId, stockTodaysDateFromDB);
 
@@ -278,6 +277,15 @@ public class CommonDaoImpl extends AbstractCommonDao {
         nifty50HistoricalPriceMap.put("2Y", "-");
         nifty50HistoricalPriceMap.put("5Y", "-");
         return nifty50HistoricalPriceMap;
+    }
+
+    @Override public Pair<String, Float> findCmp(String isin) throws Exception {
+        String query = "select b.stock_id, b.close_price from rsch_sub_area_company_dtls a, stock_current_prices b where a.company_id=b.stock_id and a.isin_code=?";
+        SQLQuery nativeQuery = getNativeQuery(query, new Object[] { isin });
+        List<Object[]> rows = nativeQuery.list();
+        String stockId = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
+        String cmp = !rows.isEmpty() ? (rows.get(0)[1] != null ? rows.get(0)[1].toString().trim() : "") : "";
+        return new Pair<>(stockId, Float.parseFloat(!cmp.equals("-") ? "0.0" : cmp));
     }
 
     private float getNifty50_1Y_price(String nifty50TodaysDateFromDB) throws Exception {
