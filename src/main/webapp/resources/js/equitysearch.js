@@ -371,6 +371,12 @@ jQuery(document).ready(function() {
 		}, function(error) {
 			isProgressLoader(false);
 			$("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
+			if(JSON.parse(error).data.featureAccess == "NOT_ALLOWED") {
+				$("#permissionModal .modal-header h3").html(JSON.parse(error).data.message);
+				 $("#permissionModal").modal('show');
+			} else {
+				 $("#permissionModal").modal('hide');
+			}
 		});
 	};
 
@@ -1110,6 +1116,7 @@ jQuery(document).ready(function() {
      * Function to get Broker Analyst Yr Of Incorp from localstorage and get equity list
      */
 	var getStockReturnFilterData = function() {
+		debugger
 		if(!isLoggedInUser()) {
 
 			sendGAevents('Equity Research', 'Filter by StockReturn onClick', 'Filter by StockReturn');
@@ -1546,10 +1553,8 @@ jQuery(document).ready(function() {
 		getStockReturnApi: function(parentNode) {
 
 			var isinCode = $(parentNode).parents("tr").attr("data-code");
-			var cmp = $(parentNode).parents("tr").attr("data-cmp");
 
 			var jsonData = {
-				"cmp": cmp,
 				"isinCode": isinCode
 			};
 
@@ -1671,5 +1676,9 @@ jQuery(document).ready(function() {
 			$("#progressLoader").hide();
 		}
 	}
+
+	$("#permissionModal .pricingBtn").on('click', function() {
+		window.location.href = "/view/pricing.jsp";
+	});
 
 });

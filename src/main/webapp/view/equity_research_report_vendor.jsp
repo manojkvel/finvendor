@@ -126,7 +126,7 @@
 									</div>
 						    	</div>
 						    </div>
-						    <div class='widget widget-panel-default'>
+						    <!--<div class='widget widget-panel-default'>
 						    	<div class='widget-panel-heading'>
 						    		<h3>Stock Return</h3>
 						    		<span class="fa fa-chevron-down"></span>
@@ -138,7 +138,7 @@
 										</ul>
 									</div>
 						    	</div>
-						    </div>
+						    </div>-->
 
 						    <!--<div class='widget widget-panel-default'>
 						    	<div class='widget-panel-heading'>
@@ -338,8 +338,14 @@
 			</div>
 		</div>
 	</section>
+
 	<jsp:include page="login.jsp"></jsp:include>
 	<jsp:include page="common/footer.jsp"></jsp:include>
+
+
+   <!-- Modal -->
+	<jsp:include page="common/permission_modal.jsp"></jsp:include>
+
 	   <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
 

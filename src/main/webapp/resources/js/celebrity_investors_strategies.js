@@ -1699,6 +1699,7 @@ var joelGreenblattStrategyObj = {
                             "<tr>" +
                                 "<th data-id='companyName'>Company Name <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='cashAndCashEquiv'>Cash and Cash Equiv. (cr) <i class='fa fa-sort'></i></th>" +
+                                "<th data-id='stockReturn'>Stock Return</th>" +
                                 "<th data-id='mcap'>M Cap (cr) <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='ofm'>Operating Profit Margin <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='pat'>PAT <i class='fa fa-sort'></i></th>" +
@@ -1841,6 +1842,9 @@ var joelGreenblattStrategyObj = {
             "<div class='cashAndCashEquiv'>" + cashAndCashEquiv + "</div>" + 
             "</td>" +
             "<td>" + 
+            "<div class='stockReturn'><button class='stockReturn' data-toggle='tooltip' title='View Stock Return'>View</button></div>" + 
+            "</td>" +
+            "<td>" + 
             "<div class='mcap'>" + mcap + "</div>" + 
             "</td>" +
             "<td>" + 
@@ -1883,6 +1887,7 @@ var joelGreenblattStrategyObj = {
         classRef.setRecordStats();
 
         $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
+        $('#strategyModal .stockReturn').off().on('click', {this: classRef}, classRef.getStockReturnData);
     },
 
     setFullScreen : function(event) {
@@ -1994,6 +1999,102 @@ var joelGreenblattStrategyObj = {
             classRef.currentIndex = classRef.currentIndex - classRef.perPageMaxRecords;
             classRef.getCurrentStrategyData();
         }
+    },
+
+    getStockReturnApi: function(parentNode) {
+
+        var isinCode = $(parentNode).parents("tr").attr("data-code");
+
+        var jsonData = {
+            "isinCode": isinCode
+        };
+
+        var url = "/api/stockReturns";
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            httpRequest.open('POST', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send(JSON.stringify(jsonData));
+        });
+    },
+
+    getStockReturnData: function(event) {
+        var classRef = event.data.this;;
+
+        if(!isLoggedInUser()) {
+            var parentNode = $(event.currentTarget).parent();
+
+            parentNode.html("<img src='../resources/images/bx_loader.gif' />");
+            
+            classRef.getStockReturnApi(parentNode).then(function(response) {
+                var response = JSON.parse(response);
+                classRef.setStockReturnHtml(parentNode, response);
+            }, function(error) {
+                console.log("Unable to get stock Return");
+            });
+        } else {
+            inner_login('view/celebrity-investors-strategies.jsp');
+        }
+    },
+
+    setStockReturnHtml: function(parentNode, response) {
+        var stockData = response.data;
+        var m3StockReturn = (stockData["3M"] != '-') ? parseFloat(stockData["3M"]).toFixed(2) + "%" : stockData["3M"];
+        var m6StockReturn = (stockData["6M"] != '-') ? parseFloat(stockData["6M"]).toFixed(2) + "%" : stockData["6M"];
+        var y1StockReturn = (stockData["1Y"] != '-') ? parseFloat(stockData["1Y"]).toFixed(2) + "%" : stockData["1Y"];
+
+        var m3StockReturnClass = "success";
+        if(response.data["3M"] > 0) {
+            m3StockReturnClass = "success";
+        } else if(response.data["3M"] < 0) {
+            m3StockReturnClass = "danger";
+        } else {
+            m3StockReturnClass = "";
+        }
+
+        var m6StockReturnClass = "success";
+        if(response.data["6M"] > 0) {
+            m6StockReturnClass = "success";
+        } else if(response.data["6M"] < 0) {
+            m6StockReturnClass = "danger";
+        } else {
+            m6StockReturnClass = "";
+        }
+
+        var y1StockReturnClass = "success";
+        if(response.data["1Y"] > 0) {
+            y1StockReturnClass = "success";
+        } else if(response.data["1Y"] < 0) {
+            y1StockReturnClass = "danger";
+        } else {
+            y1StockReturnClass = "";
+        }
+
+        var html = "<ul>" +
+        "<li class='" + m3StockReturnClass + "'><strong>" + m3StockReturn + "</strong></li>" +
+        "<li class='" + m6StockReturnClass + "'><strong>" + m6StockReturn + "</strong></li>" +
+        "<li class='" + y1StockReturnClass + "'><strong>" + y1StockReturn + "</strong></li>" +
+        "</ul>";
+        $(parentNode).empty();
+        $(parentNode).html(html);
     }
 
 };

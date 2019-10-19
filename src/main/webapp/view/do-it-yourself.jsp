@@ -191,15 +191,21 @@
 			</div>
 		</div>
 	</section>
+
 	<jsp:include page="login.jsp"></jsp:include>
 	<jsp:include page="common/footer.jsp"></jsp:include>
+
+
+   <!-- Modal -->
+	<jsp:include page="common/permission_modal.jsp"></jsp:include>
+
+
+
 	   <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
-    <script type='text/javascript'>
-    </script>
 
 	<script
 	src=" http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>

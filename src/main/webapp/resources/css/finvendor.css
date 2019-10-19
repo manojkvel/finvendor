@@ -3155,3 +3155,39 @@ button {
 	background: #fff;
 	border-bottom: 5px solid #e9e9e9;
 }
+
+#permissionModal .modal-header {
+	background: transparent;
+	border-bottom: 0;
+	color: #000;
+}
+
+#permissionModal h3 {
+    font-size: 16px;
+    line-height: 22px;
+}
+
+#permissionModal .modal-body {
+    overflow: hidden;
+    padding: 0;
+    margin-top: 40px;
+    margin-bottom: 0;
+}
+
+#permissionModal .modal-body .btns {
+    text-align: center;
+}
+
+#permissionModal .modal-body ul li {
+    display: inline;
+    margin: 0 20px;
+}
+
+#permissionModal .btn {
+    background: #337ab7;
+    border-radius: 6px;
+}
+
+#permissionModal .btn:hover {
+    opacity: 0.8;
+}
