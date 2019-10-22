@@ -1742,7 +1742,7 @@ jQuery(document).ready(function() {
 			rcResearchAreaId = $("select[name=rcResearchArea]").selectpicker('val');
 		}
         
-		var url = "/system/api/researchreportfor?researchAreaId=" + rcResearchAreaId;
+		var url = "/api/researchreportfor?researchAreaId=" + rcResearchAreaId;
 		
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
