@@ -21,7 +21,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  * @author ayush on April 30, 2018
  */
 @Controller
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class CompanyProfileController {
     private static final Logger logger = LoggerFactory.getLogger(CompanyProfileController.class.getName());
 

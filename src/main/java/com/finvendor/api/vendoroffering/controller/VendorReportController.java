@@ -27,7 +27,7 @@ import java.util.Map;
 import static com.finvendor.common.exception.ExceptionEnum.VO_OP;
 
 @RestController
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class VendorReportController {
 
     @Autowired

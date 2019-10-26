@@ -27,8 +27,8 @@ import static com.finvendor.common.exception.ExceptionEnum.RESEARCH_REPORT_MAIL;
 import static com.finvendor.common.exception.ExceptionEnum.UPDATE_PRICE;
 
 @Controller
-@RequestMapping(value = "/system/api")
-public class ConsumerPriceAlertMailController {//implements IWebConsumerPriceAlertMail {
+@RequestMapping(value = "/api")
+public class ConsumerPriceAlertMailController {
     private static final Logger logger = LoggerFactory.getLogger(ConsumerPriceAlertMailController.class.getName());
 
     @Autowired

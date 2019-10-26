@@ -20,7 +20,7 @@ import static com.finvendor.common.exception.ExceptionEnum.DATA_FEED;
 
 @ApiIgnore
 @RestController
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class InternalFeedController {
     private static final Logger logger = LoggerFactory.getLogger(InternalFeedController.class.getName());
 

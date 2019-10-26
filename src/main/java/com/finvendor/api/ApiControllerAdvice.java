@@ -22,7 +22,7 @@ import static com.finvendor.api.webutil.WebUtils.*;
  * @author  ayush
  */
 @ControllerAdvice
-public class FvControllerAdvice extends ResponseEntityExceptionHandler {
+public class ApiControllerAdvice extends ResponseEntityExceptionHandler {
 
     /**
      * This exception will occurred when any validation is failed for object under @RequestBody

@@ -21,7 +21,7 @@ import static com.finvendor.common.exception.ExceptionEnum.SECTOR_RESEARCH_FILTE
  */
 @ApiIgnore
 @Controller
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class MfReportController {
 
     private static final Logger logger = LoggerFactory.getLogger(MfReportController.class.getName());

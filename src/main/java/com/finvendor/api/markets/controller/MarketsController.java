@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
 @Controller
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class MarketsController {
     private static final Logger logger = LoggerFactory.getLogger(MarketsController.class.getName());
 
