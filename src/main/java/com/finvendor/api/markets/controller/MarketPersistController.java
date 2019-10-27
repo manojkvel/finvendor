@@ -27,7 +27,7 @@ import static com.finvendor.common.exception.ExceptionEnum.MARKETS_PERSIST;
 import static com.finvendor.common.exception.ExceptionEnum.NIFTY_INDICES_PERSIST;
 
 @RestController
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class MarketPersistController {
     private static final Logger logger = LoggerFactory.getLogger(MarketPersistController.class.getName());
 
@@ -111,7 +111,7 @@ public class MarketPersistController {
 
     /**
      * This method is to insert data from indice file,
-     * E.g. usage: curl https://finvendor.com/system/api/persist/nifty-file?path=/home/finvendo/tmp/ind_close_all_26072019.csv
+     * E.g. usage: curl https://finvendor.com/api/persist/nifty-file?path=/home/finvendo/tmp/ind_close_all_26072019.csv
      * <p>
      * Just download ind_close_all_26072019.csv file from url: http://www.niftyindices.com/Daily_Snapshot/ind_close_all_26072019.csv
      * and put in /home/finvendo/tmp path and hit this api using above curl

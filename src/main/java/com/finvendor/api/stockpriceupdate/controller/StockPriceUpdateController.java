@@ -24,7 +24,7 @@ import java.util.Properties;
 
 @ApiIgnore
 @Controller
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class StockPriceUpdateController {
 
     @Autowired

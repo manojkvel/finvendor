@@ -24,7 +24,7 @@ import static com.finvendor.common.exception.ExceptionEnum.SECTOR_RESEARCH_FILTE
  */
 @ApiIgnore
 @Controller
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class MfPersistController {
 
     private static final Logger logger = LoggerFactory.getLogger(MfPersistController.class.getName());

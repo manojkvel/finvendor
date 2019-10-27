@@ -21,7 +21,7 @@ import static com.finvendor.common.exception.ExceptionEnum.MF_PROFILE;
  */
 @ApiIgnore
 @Controller
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class MfProfileController {
     private static final Logger logger = LoggerFactory.getLogger(MfProfileController.class.getName());
 

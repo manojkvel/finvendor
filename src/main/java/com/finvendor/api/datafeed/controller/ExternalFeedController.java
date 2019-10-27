@@ -23,7 +23,7 @@ import static com.finvendor.common.exception.ExceptionEnum.DATA_FEED;
 
 @ApiIgnore
 @RestController
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class ExternalFeedController {
     private static final Logger logger = LoggerFactory.getLogger(ExternalFeedController.class.getName());
     private static final String EARNING_PREVIEW_DATA__FOLDER_PATH = "";

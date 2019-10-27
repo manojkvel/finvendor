@@ -25,7 +25,7 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
 
 @ApiIgnore
 @Controller
-@RequestMapping(value = "/system/api")
+@RequestMapping(value = "/api")
 public class MetricsController {
     private static final Logger logger = LoggerFactory.getLogger(MetricsController.class.getName());
     @Autowired

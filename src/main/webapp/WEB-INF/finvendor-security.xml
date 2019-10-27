@@ -18,19 +18,19 @@
         <intercept-url pattern="/consumer*" access="ROLE_ADMIN,ROLE_CONSUMER"/>
 
         <!-- Screener Filter -->
-        <intercept-url pattern="/system/api/cis/strategies*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
-        <intercept-url pattern="/system/api/cis/recordstats*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
+        <intercept-url pattern="/api/cis/strategies*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
+        <intercept-url pattern="/api/cis/recordstats*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
 
         <!-- Custom Screener Filter -->
-       <!-- <intercept-url pattern="/system/api/customscreeners/recordstats*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
-        <intercept-url pattern="/system/api/customscreeners*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
-        <intercept-url pattern="/system/api/customscreeners/filters*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>-->
+       <!-- <intercept-url pattern="/api/customscreeners/recordstats*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
+        <intercept-url pattern="/api/customscreeners*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
+        <intercept-url pattern="/api/customscreeners/filters*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>-->
 
         <!-- Equity Research Report Filter -->
-        <!--<intercept-url pattern="/system/api/researchReports/recordStats*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
-        <intercept-url pattern="/system/api/researchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
-        <intercept-url pattern="/system/api/dashboardResearchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
-        <intercept-url pattern="/system/downloadResearchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/> -->
+        <!--<intercept-url pattern="/api/researchReports/recordStats*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
+        <intercept-url pattern="/api/researchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
+        <intercept-url pattern="/api/dashboardResearchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/>
+        <intercept-url pattern="/downloadResearchReports*" access="ROLE_CONSUMER,ROLE_VENDOR,ROLE_ADMIN"/> -->
 
 
         <form-login login-page="/welcometodashboards" default-target-url="/welcometodashboards"

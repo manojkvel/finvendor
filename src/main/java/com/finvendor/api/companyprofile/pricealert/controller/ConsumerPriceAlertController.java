@@ -25,8 +25,8 @@ import static com.finvendor.common.exception.ExceptionEnum.*;
  * @author ayush on May 12, 2018
  */
 @Controller
-@RequestMapping(value = "/system/api")
-public class ConsumerPriceAlertController {//implements IWebConsumerPriceAlert {
+@RequestMapping(value = "/api")
+public class ConsumerPriceAlertController {
 
     @Autowired
     private ConsumerPriceAlertService consumerPriceAlertService;
