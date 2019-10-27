@@ -1,5 +1,6 @@
 jQuery(document).ready(function() {
 	var API_TIMEOUT_SMALL = 30*1000;
+	var baseApiUrl = "/api/";
 
 	var timeStampToDate = function (ts) {
         if (ts) {
@@ -69,7 +70,7 @@ jQuery(document).ready(function() {
 		}
 
 		$("#consumer_analytics .tab-content #" + id + " #equity_analytics_table tbody").html(htmlCode);
-		$("#consumer_analytics .tab-content #" + id + " .download_report a").attr('href', '/system/api/consumeranalytics/download?type=' + type + '&subType=' + breachType);
+		$("#consumer_analytics .tab-content #" + id + " .download_report a").attr('href', baseApiUrl + "consumeranalytics/download?type=' + type + '&subType=' + breachType);
 
 
 		var paginationHtml = 	"<div class='paging_container'>"
@@ -227,7 +228,7 @@ jQuery(document).ready(function() {
 
 	function getConsumerAnalyticsReport(researchType, subType, breachLevel, pageNumber) {
 
-		var url = "/system/api/consumeranalytics?type=" + researchType + "&subType=" + subType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&breachFlag=" + breachLevel;
+		var url = baseApiUrl + "consumeranalytics?type=" + researchType + "&subType=" + subType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&breachFlag=" + breachLevel;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -259,7 +260,7 @@ jQuery(document).ready(function() {
      * Function to start async call to get record stats
      */
 	function getRecordStats(researchType, subType, breachLevel, perPageMaxRecords) {
-		var url = "/system/api/consumeranalytics/recordstats?type=" + researchType + "&subType=" + subType + "&breachFlag=" + breachLevel + "&perPageMaxRecords=" + perPageMaxRecords;
+		var url = baseApiUrl + "consumeranalytics/recordstats?type=" + researchType + "&subType=" + subType + "&breachFlag=" + breachLevel + "&perPageMaxRecords=" + perPageMaxRecords;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
@@ -292,7 +293,7 @@ jQuery(document).ready(function() {
      * Function to start async call to get Analytics Report
      */
 	function getAnalyticsReport(researchType, subType) {
-		var url = "/system/api/consumeranalytics/download?type=" + researchType + "&subType=" + subType;
+		var url = baseApiUrl + "consumeranalytics/download?type=" + researchType + "&subType=" + subType;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true

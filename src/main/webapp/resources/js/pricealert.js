@@ -2,10 +2,11 @@ var API_TIMEOUT_SMALL = 30*1000;
 var API_TIMEOUT_LARGE = 3*60*1000;
 var priceAlertListArray = [];
 var companyProfileObj = {};
+var baseApiUrl = "/api/";
 
 function getCompanyPriceAlertsApi() {
 
-	var url = "/system/api/companypricealert/all";
+	var url = baseApiUrl + "companypricealert/all";
 	return new Promise(function(resolve, reject) {
 		var httpRequest = new XMLHttpRequest({
 			mozSystem: true
@@ -207,7 +208,7 @@ function getCompanyPriceAlerts() {
 
 	function deletePriceAlertApi(jsonObj) {
 
-		var url = "/system/api/companypricealert/delete";
+		var url = baseApiUrl + "companypricealert/delete";
 		
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
@@ -286,7 +287,7 @@ function getCompanyPriceAlerts() {
 	    
 	    isProgressLoader(true);
 
-	    var url = "/system/api/companypricealert/update";
+	    var url = baseApiUrl + "companypricealert/update";
 	    var method = 'PUT';
 	    
 	    return new Promise(function(resolve, reject) {
@@ -355,7 +356,7 @@ function getCompanyPriceAlerts() {
 
 		isProgressLoader(true);
 
-		var url = "/system/api/companypricealert?companyId=" + companyId;
+		var url = baseApiUrl + "companypricealert?companyId=" + companyId;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true

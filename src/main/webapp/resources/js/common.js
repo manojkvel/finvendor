@@ -1,3 +1,4 @@
+var baseApiUrl = "/api/";
 
 function getCompanyTypeList(companyTypeListSelector, awardVendorTypeSelector) {
 	var companyTypeList = $("#" + companyTypeListSelector).val().split(',');
@@ -439,7 +440,7 @@ var timeStampToDate = function (ts) {
 
 function getGenericSearchCompanyList(hintVal) {
 
-	var url = "/system/api/companyhomepagesearch?searchKeyword=" + hintVal;
+	var url = baseApiUrl + "companyhomepagesearch?searchKeyword=" + hintVal;
 	return new Promise(function(resolve, reject) {
 		var httpRequest = new XMLHttpRequest({
 			mozSystem: true
@@ -487,7 +488,7 @@ jQuery(document).ready(function($) {
 		}
 
 		$(this).marcoPolo({
-			url: '/system/api/homepage',
+			url: baseApiUrl + 'homepage',
 			param: 'searchKey',
 			minChars: 2,
 			formatData: function (data) {
@@ -711,7 +712,7 @@ function getMarketIndexData() {
 
 function getMarqueeApi(jsonBody) {
 
-	var url = "/system/api/markets/marquee/index";
+	var url = baseApiUrl + "markets/marquee/index";
 	return new Promise(function(resolve, reject) {
 		var httpRequest = new XMLHttpRequest({
 			mozSystem: true

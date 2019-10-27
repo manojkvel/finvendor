@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-    var baseApiUrl = "/system/api/cis";
+    var baseApiUrl = "/api/cis";
 
     /*
     ** My Subscription for the products

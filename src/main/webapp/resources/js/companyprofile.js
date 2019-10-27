@@ -3,6 +3,7 @@ var API_TIMEOUT_LARGE = 3*60*1000;
 
 var companyProfileObj = {};
 var priceAlertStatus = 'N';
+var baseApiUrl = "/api/";
 
     var timeStampToDate = function (ts) {
         if (ts) {
@@ -379,7 +380,7 @@ var priceAlertStatus = 'N';
 
         var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
 
-        var url = "/system/api/companyprofile/recordstat?isinCode=" + companyProfileJson.isinCode + "&perPageMaxRecords=" + perPageMaxRecords;
+        var url = baseApiUrl + "companyprofile/recordstat?isinCode=" + companyProfileJson.isinCode + "&perPageMaxRecords=" + perPageMaxRecords;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -850,7 +851,7 @@ function getCompanyProfile() {
     companyProfileJson = JSON.parse(companyProfileJson);
     var isinCode = companyProfileJson.isinCode;
 
-    var url = "/system/api/companyprofile?isinCode=" + isinCode;
+    var url = baseApiUrl + "companyprofile?isinCode=" + isinCode;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
@@ -883,7 +884,7 @@ function getCompanyResearchReport(researchType, pageNumber) {
 
     var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
 
-    var url = "/system/api/companyprofile/researchreport?isinCode=" + companyProfileJson.isinCode + "&type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
+    var url = baseApiUrl + "companyprofile/researchreport?isinCode=" + companyProfileJson.isinCode + "&type=" + researchType + "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortByValue + "&orderBy=" + orderBy;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
@@ -932,7 +933,7 @@ function addToMarketWatchlistAPI() {
 
     var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
 
-    var url = "/system/api/companywatchlist/create";
+    var url = baseApiUrl + "companywatchlist/create";
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
@@ -1007,11 +1008,11 @@ function setPriceAlertAPI(alertJsonObj) {
     
     isProgressLoader(true);
 
-    var url = "/system/api/companypricealert/create";
+    var url = baseApiUrl + "companypricealert/create";
     var method = 'POST';
 
     if(priceAlertStatus == "U") {
-        url = "/system/api/companypricealert/update";
+        url = baseApiUrl + "companypricealert/update";
         method = 'PUT';
     }
     return new Promise(function(resolve, reject) {
@@ -1077,7 +1078,7 @@ function getPriceAlertAPI(companyId) {
     
     isProgressLoader(true);
 
-    var url = "/system/api/companypricealert?companyId=" + companyId;
+    var url = baseApiUrl + "companypricealert?companyId=" + companyId;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
@@ -1108,7 +1109,7 @@ function getCompanyEarningsPreviewAPI(periodType, isinCode) {
     
     isProgressLoader(true);
 
-    var url = "/system/api/companyprofile/earningpreview?type=" + periodType + "&isin=" + isinCode;
+    var url = baseApiUrl + "companyprofile/earningpreview?type=" + periodType + "&isin=" + isinCode;
     return new Promise(function(resolve, reject) {
         var httpRequest = new XMLHttpRequest({
             mozSystem: true
@@ -1543,7 +1544,7 @@ var companyNewsObj = {
         var classRef = this;
         var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
 
-        var url = "/system/api/companyprofile/companynews/recordstat?ticker=" + classRef.ticker + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
+        var url = baseApiUrl + "companyprofile/companynews/recordstat?ticker=" + classRef.ticker + "&perPageMaxRecords=" + classRef.perPageMaxRecords;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -1577,7 +1578,7 @@ var companyNewsObj = {
 
         isProgressLoader(true);
 
-        var url = "/system/api/companyprofile/companynews?ticker=" + classRef.ticker + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
+        var url = baseApiUrl + "companyprofile/companynews?ticker=" + classRef.ticker + "&pageNumber=" + classRef.pageNumber + "&perPageMaxRecords=" + classRef.perPageMaxRecords + "&sortBy=" + classRef.sortByValue + "&orderBy=" + classRef.orderBy;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -1733,7 +1734,7 @@ var companyCalendarObj = {
         this.sortByValue = 'boardMeetinDate';
         this.orderBy = 'desc';
         this.ticker = companyProfileObj.ticker;
-        this.baseApiUrl = "/system/api/companyprofile";
+        this.baseApiUrl = baseApiUrl + "companyprofile";
 
         this.getCompanyCalendarData();
     },
@@ -1958,7 +1959,7 @@ var companyCorpActionObj = {
         this.sortByValue = 'recordDate';
         this.orderBy = 'desc';
         this.ticker = companyProfileObj.ticker;
-        this.baseApiUrl = "/system/api/companyprofile";
+        this.baseApiUrl = baseApiUrl + "companyprofile";
 
         this.getCompanyCorpActionData();
     },
@@ -2186,7 +2187,7 @@ var companyPriceHistoryObj = {
         this.orderBy = 'desc';
         var companyProfileJson = JSON.parse(window.localStorage.getItem("companyProfileJson"));
         this.isinCode = companyProfileJson.isinCode;
-        this.baseApiUrl = "/system/api/companyprofile";
+        this.baseApiUrl = baseApiUrl + "companyprofile";
 
         this.getCompanyPriceHistoryData();
     },

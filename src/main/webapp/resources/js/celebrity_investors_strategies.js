@@ -1699,7 +1699,7 @@ var joelGreenblattStrategyObj = {
                             "<tr>" +
                                 "<th data-id='companyName'>Company Name <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='cashAndCashEquiv'>Cash and Cash Equiv. (cr) <i class='fa fa-sort'></i></th>" +
-                                "<th data-id='stockReturn'>Stock Return</th>" +
+                                /*"<th data-id='stockReturn'>Stock Return</th>" +*/
                                 "<th data-id='mcap'>M Cap (cr) <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='ofm'>Operating Profit Margin <i class='fa fa-sort'></i></th>" +
                                 "<th data-id='pat'>PAT <i class='fa fa-sort'></i></th>" +
@@ -1841,9 +1841,9 @@ var joelGreenblattStrategyObj = {
             "<td>" + 
             "<div class='cashAndCashEquiv'>" + cashAndCashEquiv + "</div>" + 
             "</td>" +
-            "<td>" + 
+            /*"<td>" + 
             "<div class='stockReturn'><button class='stockReturn' data-toggle='tooltip' title='View Stock Return'>View</button></div>" + 
-            "</td>" +
+            "</td>" +*/
             "<td>" + 
             "<div class='mcap'>" + mcap + "</div>" + 
             "</td>" +
@@ -1887,7 +1887,7 @@ var joelGreenblattStrategyObj = {
         classRef.setRecordStats();
 
         $('#strategyModal .max_per_page select').off().on('change', {this: classRef}, classRef.getPerPageMaxRecords);
-        $('#strategyModal .stockReturn').off().on('click', {this: classRef}, classRef.getStockReturnData);
+        // $('#strategyModal .stockReturn').off().on('click', {this: classRef}, classRef.getStockReturnData);
     },
 
     setFullScreen : function(event) {

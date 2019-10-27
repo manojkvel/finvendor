@@ -2,10 +2,11 @@ var API_TIMEOUT_SMALL = 30*1000;
 var API_TIMEOUT_LARGE = 3*60*1000;
 var marketListArray = [];
 var companyProfileObj = {};
+var baseApiUrl = "/api/";
 
 function getCompanyWatchListApi() {
 
-	var url = "/system/api/companywatchlist/all";
+	var url = baseApiUrl + "companywatchlist/all";
 	return new Promise(function(resolve, reject) {
 		var httpRequest = new XMLHttpRequest({
 			mozSystem: true
@@ -221,7 +222,7 @@ function getCompanyWatchList() {
 
 	function deleteWatchListApi(jsonObj) {
 
-		var url = "/system/api/companywatchlist/delete";
+		var url = baseApiUrl + "companywatchlist/delete";
 		
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
@@ -262,7 +263,7 @@ function getCompanyWatchList() {
 
 
 		$(this).marcoPolo({
-			url: '/system/api/homepage',
+			url: baseApiUrl + 'homepage',
 			param: 'searchKey',
 			minChars: 2,
 			formatData: function (data) {
@@ -345,7 +346,7 @@ function addToMarketWatchlist() {
         companyProfileObj['companyName'] = companyProfileJson.companyName;
         companyProfileObj['cmp'] = companyProfileJson.cmp;
 
-	    var url = "/system/api/companywatchlist/create";
+	    var url = baseApiUrl + "companywatchlist/create";
 	    return new Promise(function(resolve, reject) {
 	        var httpRequest = new XMLHttpRequest({
 	            mozSystem: true

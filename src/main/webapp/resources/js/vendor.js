@@ -1,5 +1,7 @@
 jQuery(document).ready(function() {
 
+	var baseApiUrl = "/api/";
+
 	awardCategoryList = function(){
 		var vendorType = $("#awardVendorType").selectpicker("val");
 		if(vendorType == "Data Aggregator") {
@@ -1578,7 +1580,7 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'GET',
-			url:  "/system/api/vendorreports/find",
+			url:  baseApiUrl + "vendorreports/find",
 			data: data,
 			cache:false,
 			success : function(response){
@@ -1670,7 +1672,7 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'DELETE',
-			url:  "/system/api/vendorreports/delete?productId=" + productId,
+			url:  baseApiUrl + "vendorreports/delete?productId=" + productId,
 			data: '',
 			cache:false,
 			success : function(output){
@@ -1692,7 +1694,7 @@ jQuery(document).ready(function() {
 
 		$.ajax({
 			type: 'GET',
-			url:  "/system/api/vendorreports/findall",
+			url:  baseApiUrl + "vendorreports/findall",
 			cache:false,
 			success : function(response) {
 				var response = JSON.parse(response);
@@ -2010,7 +2012,7 @@ jQuery(document).ready(function() {
 
 			$.ajax({
 				type: 'POST',
-				url:  "/system/api/vendorreports/create",
+				url:  baseApiUrl + "vendorreports/create",
 				data: rsrch_report_offeringfile,
 			    processData: false,
 			    contentType: false,
@@ -4888,7 +4890,7 @@ function isValidEmailAddress(emailAddress) {
 }
 
 function getAnalystTypeList() {
-	var url = "/system/api/analystTypes";
+	var url = baseApiUrl + "analystTypes";
 	return new Promise(function(resolve, reject) {
 		var httpRequest = new XMLHttpRequest({
 			mozSystem: true

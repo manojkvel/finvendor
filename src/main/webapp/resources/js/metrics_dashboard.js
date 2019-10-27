@@ -3,11 +3,12 @@ var metricsDashboard = {
         this.API_TIMEOUT_SMALL = 30*1000;
         this.type = 'all';
         this.perPageCount = [];
+        this.baseApiUrl = "/api/";
     },
 
     getMetricsApi: function(type, year, month, username, ipaddress) {
         var classRef = this;
-        var url = "/system/api/metrics?type=" + type + "&year=" + year + "&month=" + month + "&username=" + username + "&ipaddress=" + ipaddress;
+        var url = baseApiUrl + "metrics?type=" + type + "&year=" + year + "&month=" + month + "&username=" + username + "&ipaddress=" + ipaddress;
         return new Promise(function(resolve, reject) {
             var httpRequest = new XMLHttpRequest({
                 mozSystem: true

@@ -1,5 +1,6 @@
 jQuery(document).ready(function() {
 	var API_TIMEOUT_SMALL = 30*1000;
+	var baseApiUrl = "/api/";
 
 
 	var timeStampToDate = function (ts) {
@@ -277,7 +278,7 @@ jQuery(document).ready(function() {
 
 	function getMarketsApi(indexFilter, type, pageNumber, sortBy, orderBy) {
 
-		var url = "/system/api/markets?indexFilter=" + indexFilter + "&type=" + type +  "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortBy + "&orderBy=" + orderBy;
+		var url = baseApiUrl + "markets?indexFilter=" + indexFilter + "&type=" + type +  "&pageNumber=" + pageNumber + "&perPageMaxRecords=" + perPageMaxRecords + "&sortBy=" + sortBy + "&orderBy=" + orderBy;
         return new Promise(function(resolve, reject) {
         	var httpRequest = new XMLHttpRequest({
                 mozSystem: true
@@ -309,7 +310,7 @@ jQuery(document).ready(function() {
      * Function to start async call to get record stats
      */
 	function getRecordStats(indexFilter, type, perPageMaxRecords) {
-		var url = "/system/api/markets/recordstats?indexFilter=" + indexFilter + "&type=" + type + "&perPageMaxRecords=" + perPageMaxRecords;
+		var url = baseApiUrl + "markets/recordstats?indexFilter=" + indexFilter + "&type=" + type + "&perPageMaxRecords=" + perPageMaxRecords;
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
@@ -339,7 +340,7 @@ jQuery(document).ready(function() {
 	}
 
 	function getMarketIndexSummaryAPI() {
-		var url = "/system/api/markets/index/summary?indexFilter=" + indexFilter + "&type=''";
+		var url = baseApiUrl + "markets/index/summary?indexFilter=" + indexFilter + "&type=''";
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
@@ -421,7 +422,7 @@ jQuery(document).ready(function() {
 
 
 	function getMarketIndexAnalyticsAPI() {
-		var url = "/system/api/markets/analytics?indexFilter=" + indexFilter + "&type=''";
+		var url = baseApiUrl + "markets/analytics?indexFilter=" + indexFilter + "&type=''";
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true
@@ -460,7 +461,7 @@ jQuery(document).ready(function() {
 	}
 
 	function getSidePanelListAPI() {
-		var url = "/system/api/markets/index/names";
+		var url = baseApiUrl + "markets/index/names";
 		return new Promise(function(resolve, reject) {
 			var httpRequest = new XMLHttpRequest({
 				mozSystem: true

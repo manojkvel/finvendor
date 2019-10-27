@@ -367,6 +367,12 @@ jQuery(document).ready(function() {
 			}, function(error) {
 				isProgressLoader(false);
 				$("#broker_table tbody").html("<tr><td colspan='6'>We are not able to get the info, please try again later.</td></tr>");
+				if(JSON.parse(error).data.featureAccess == "NOT_ALLOWED") {
+					$("#permissionModal .modal-header h3").html(JSON.parse(error).data.message);
+					$("#permissionModal").modal('show');
+				} else {
+					$("#permissionModal").modal('hide');
+				}
 			});
 		}, function(error) {
 			isProgressLoader(false);
