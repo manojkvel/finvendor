@@ -5,6 +5,7 @@ import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.model.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.*;
@@ -33,10 +35,13 @@ public class RegistrationController {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class.getName());
 
-    String[] vendorTypes = {RequestConstans.INDEPENDENT_RESEARCH_ANALYST, RequestConstans.RESEARCH_BROKER};
-    String[] consumerTypes = {RequestConstans.INDIVIDUAL_INVESTOR, RequestConstans.UNIVERSITY_OR_PHD_STUDENT};
+    String[] vendorTypes = { RequestConstans.INDEPENDENT_RESEARCH_ANALYST, RequestConstans.RESEARCH_BROKER };
+    String[] consumerTypes = { RequestConstans.INDIVIDUAL_INVESTOR, RequestConstans.UNIVERSITY_OR_PHD_STUDENT };
     List<String> vendorTypesList = Arrays.asList(vendorTypes);
     List<String> consumerTypesList = Arrays.asList(consumerTypes);
+
+    @Resource(name = "finvendorProperties")
+    private Properties finvendorProperties;
 
     @Autowired
     private UserService userService;
@@ -55,7 +60,6 @@ public class RegistrationController {
      */
     @RequestMapping(value = RequestConstans.Register.REGISTER, method = RequestMethod.GET)
     public ModelAndView registerNavigation(HttpServletRequest request, @ModelAttribute("users") FinVendorUser users) {
-        logger.info("Mehtod for toregisterNavigation--:");
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.REGISTER);
         modelAndView.addObject("users", new FinVendorUser());
         return modelAndView;
@@ -70,7 +74,7 @@ public class RegistrationController {
 
     @RequestMapping(value = RequestConstans.Register.PHONE_NUMBER_VALIDATION, method = RequestMethod.POST)
     public ModelAndView phoneNumberValidation(HttpServletRequest request,
-                                              @RequestParam(value = "RaYuLu", required = false) String phoneNum) {
+            @RequestParam(value = "RaYuLu", required = false) String phoneNum) {
         logger.info("Mehtod for check phone number validation--:");
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
         String status = "failed";
@@ -84,7 +88,8 @@ public class RegistrationController {
             Matcher matcher = pattern.matcher(inputStr);
             if (!matcher.matches()) {
                 status = "success";
-            } else {
+            }
+            else {
                 status = "failed";
             }
             modelAndView.addObject("status", status);
@@ -95,7 +100,6 @@ public class RegistrationController {
         return modelAndView;
     }
 
-
     /**
      * method for to check designation
      *
@@ -105,7 +109,7 @@ public class RegistrationController {
 
     @RequestMapping(value = RequestConstans.Register.COMPANY_DESIGNATION, method = RequestMethod.POST)
     public ModelAndView designationValidation(HttpServletRequest request,
-                                              @RequestParam(value = "ChEnGaLrAy", required = false) String designation) {
+            @RequestParam(value = "ChEnGaLrAy", required = false) String designation) {
         logger.info("Mehtod for check designation validation--:");
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
         String status = "failed";
@@ -113,7 +117,8 @@ public class RegistrationController {
             designation = CommonUtils.decrypt(designation.getBytes());
             if (!designation.matches("[a-zA-Z]+")) {
                 status = "success";
-            } else {
+            }
+            else {
                 status = "failed";
             }
             modelAndView.addObject("status", status);
@@ -133,7 +138,7 @@ public class RegistrationController {
 
     @RequestMapping(value = RequestConstans.Register.COMPANY_URL_VALIDATION, method = RequestMethod.POST)
     public ModelAndView companyURLValidation(HttpServletRequest request,
-                                             @RequestParam(value = "RaYvEmU", required = false) String websiteUrl) {
+            @RequestParam(value = "RaYvEmU", required = false) String websiteUrl) {
         logger.info("Mehtod for check company URL validation--:");
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
         String status = "failed";
@@ -143,7 +148,8 @@ public class RegistrationController {
             websiteUrl = CommonUtils.decrypt(websiteUrl.getBytes());
             if (IsMatch(websiteUrl, regex)) {
                 status = "failed";
-            } else {
+            }
+            else {
                 status = "success";
             }
             modelAndView.addObject("status", status);
@@ -165,7 +171,6 @@ public class RegistrationController {
         }
     }
 
-
     /**
      * method for check user name in database validation
      *
@@ -175,9 +180,9 @@ public class RegistrationController {
     /* CHECK FOR REMOVAL #################################################### */
     @RequestMapping(value = RequestConstans.Register.CHECKEMAILEXIST, method = RequestMethod.POST)
     public ModelAndView checkEmailValidationExist(HttpServletRequest request,
-                                                  @RequestParam(value = "RAyVE", required = false) String email,
-                                                  @ModelAttribute("vendor") Vendor vendor,
-                                                  @ModelAttribute("consumer") Consumer consumer) {
+            @RequestParam(value = "RAyVE", required = false) String email,
+            @ModelAttribute("vendor") Vendor vendor,
+            @ModelAttribute("consumer") Consumer consumer) {
         logger.info("Mehtod for check email validation in database --:");
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
         boolean isExist = false;
@@ -187,7 +192,8 @@ public class RegistrationController {
             consumer = consumerService.getConsumerInfoByEmail(email);
             if (vendor != null || consumer != null) {
                 isExist = true;
-            } else {
+            }
+            else {
                 isExist = false;
             }
             modelAndView.addObject("status", isExist);
@@ -206,7 +212,7 @@ public class RegistrationController {
      */
     @RequestMapping(value = RequestConstans.Register.EMAILVALIDATION, method = RequestMethod.POST)
     public ModelAndView emailValidationCheck(HttpServletRequest request,
-                                             @RequestParam(value = "VeM", required = false) String emailId) {
+            @RequestParam(value = "VeM", required = false) String emailId) {
         logger.info("Mehtod to check email validation--:");
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
         String extension = "";
@@ -219,17 +225,20 @@ public class RegistrationController {
                 if (emailId.split("@").length > 1) {
                     if (emailId.split("@")[1].split("\\.").length > 1) {
                         extension = emailId.split("@")[1].split("\\.")[0];
-                    } else {
+                    }
+                    else {
                         status = "success";
                     }
-                } else {
+                }
+                else {
                     status = "success";
                 }
             }
             emailList = Arrays.asList(checkValues.split(","));
             for (String checkNames : emailList) {
                 if (checkNames.equalsIgnoreCase(extension) ||
-                        (emailId.contains("@") && emailId.split("@").length >= 1 && emailId.split("@")[1].toLowerCase().contains(checkNames.toLowerCase() + "."))) {
+                        (emailId.contains("@") && emailId.split("@").length >= 1 && emailId.split("@")[1].toLowerCase()
+                                .contains(checkNames.toLowerCase() + "."))) {
                     status = "success";
                     break;
                 }
@@ -242,25 +251,22 @@ public class RegistrationController {
         return modelAndView;
     }
 
-
     @RequestMapping(value = RequestConstans.Register.REGISTERATION, method = RequestMethod.POST)
     public ResponseEntity<?> saveUserInfo(HttpServletRequest request,
-                                          @ModelAttribute("users") FinVendorUser user,
-                                          @ModelAttribute("userRole") UserRole userRole,
-                                          @ModelAttribute("roles") Roles role,
-                                          @ModelAttribute("vendor") Vendor vendor,
-                                          @ModelAttribute("consumer") Consumer consumer,
-                                          @RequestParam(value = "VEuMlA", required = false) String uname,
-                                          @RequestParam(value = "RaYulU", required = false) String password,
-                                          @RequestParam(value = "ChEnGA", required = false) String email,
-                                          @RequestParam(value = "LaKS", required = false) String company,
-                                          @RequestParam(value = "ZaB", required = false) String companyType,
-                                          @RequestParam(value = "NoR", required = false) String tags) {
-
+            @ModelAttribute("users") FinVendorUser user,
+            @ModelAttribute("userRole") UserRole userRole,
+            @ModelAttribute("roles") Roles role,
+            @ModelAttribute("vendor") Vendor vendor,
+            @ModelAttribute("consumer") Consumer consumer,
+            @RequestParam(value = "VEuMlA", required = false) String uname,
+            @RequestParam(value = "RaYulU", required = false) String password,
+            @RequestParam(value = "ChEnGA", required = false) String email,
+            @RequestParam(value = "LaKS", required = false) String company,
+            @RequestParam(value = "ZaB", required = false) String companyType,
+            @RequestParam(value = "NoR", required = false) String tags) {
         logger.debug("Entering RegistrationController : saveUserInfo");
         Set<UserRole> userRoles;
         String userRoleName;
-
         String json;
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
         user.setUserName(uname.toLowerCase());
@@ -280,13 +286,17 @@ public class RegistrationController {
         try {
             FinVendorUser userDetailsByUsername = userService.getUserDetailsByUsername(uname);
             if (userDetailsByUsername != null) {
-                return new ResponseEntity<>("{\"message\":\"User name already exist, Please provide other user name.\"}", HttpStatus.CONFLICT);
-            } else {
+                return new ResponseEntity<>("{\"message\":\"User name already exist, Please provide other user name.\"}",
+                        HttpStatus.CONFLICT);
+            }
+            else {
                 //new UserName here now check for existing email
                 List<FinVendorUser> emailsFromDb = userService.getUserDetailsByEmailId(email);
                 if (!emailsFromDb.isEmpty()) {
-                    return new ResponseEntity<>("{\"message\":\"Email already exist, Please provide other email address.\"}", HttpStatus.CONFLICT);
-                } else {
+                    return new ResponseEntity<>("{\"message\":\"Email already exist, Please provide other email address.\"}",
+                            HttpStatus.CONFLICT);
+                }
+                else {
                     if (isVendor) {
                         role.setId(new Integer(RequestConstans.Roles.ROLE_VENDOR_VALUE));
                         userRoleName = "VENDOR";
@@ -304,7 +314,8 @@ public class RegistrationController {
                         vendor.setCompanyAddress("");
                         vendor.setUser(user);
                         user.setVendor(vendor);
-                    } else {
+                    }
+                    else {
                         role.setId(new Integer(RequestConstans.Roles.ROLE_CONSUMER_VALUE));
                         userRoleName = "CONSUMER";
                         consumer.setId(UUID.randomUUID().toString());
@@ -322,6 +333,22 @@ public class RegistrationController {
                     userRoles = new HashSet<>();
                     userRoles.add(userRole);
                     user.setUserRoles(userRoles);
+
+                    String trial_period_in_days = finvendorProperties.getProperty("trial_period_in_days");
+                    int trial_period_in_daysAsInt = Integer.parseInt(trial_period_in_days);
+                    logger.info("## Trial Period In Days: {}", trial_period_in_daysAsInt);
+
+                    Date userTrailPeriodStartDate = DateUtils.getCurrentDateInDate();
+                    Date userTrailPeriodEndDate = DateUtils.addDaysInCurrentDate(userTrailPeriodStartDate, trial_period_in_daysAsInt);
+
+                    logger.info("userTrailPeriodStartDate: {}", userTrailPeriodStartDate);
+                    logger.info("userTrailPeriodEndDate: {}", userTrailPeriodEndDate);
+
+                    String trialStartDateInMsStr = String.valueOf(userTrailPeriodStartDate.getTime());
+                    String trialEndDateInMsStr = String.valueOf(userTrailPeriodEndDate.getTime());
+
+                    user.setTrialPeriodStartInMs(trialStartDateInMsStr);
+                    user.setTrialPeriodEndInMs(trialEndDateInMsStr);
                     userService.saveUserInfo(user);
                     String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
                     EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
@@ -338,11 +365,11 @@ public class RegistrationController {
 
     @RequestMapping(value = "adminAddAcount", method = RequestMethod.POST)
     public ModelAndView adminAddAcount(HttpServletRequest request,
-                                       @RequestParam(value = "userName", required = false) String uname,
-                                       @RequestParam(value = "password", required = false) String password,
-                                       @RequestParam(value = "email", required = false) String email,
-                                       @RequestParam(value = "company", required = false) String company,
-                                       @RequestParam(value = "companyType", required = false) String companyType) {
+            @RequestParam(value = "userName", required = false) String uname,
+            @RequestParam(value = "password", required = false) String password,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "company", required = false) String company,
+            @RequestParam(value = "companyType", required = false) String companyType) {
 
         logger.debug("Entering RegistrationController : adminAddAcount");
         ModelAndView modelAndView = null;
@@ -402,7 +429,7 @@ public class RegistrationController {
 
     @RequestMapping(value = "validateRegistrationEmail", method = RequestMethod.GET)
     public ModelAndView validateRegistrationEmail(HttpServletRequest request,
-                                                  @RequestParam(value = "param", required = true) String regId) {
+            @RequestParam(value = "param", required = true) String regId) {
 
         logger.debug("Entering RegistrationController:validateRegistrationEmail for {}", regId);
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.USER_VERIFICATION_PAGE);
@@ -424,11 +451,15 @@ public class RegistrationController {
                     String email = user.getEmail();
                     logger.debug("RegistrationController:validateRegistrationEmail : email = {}", email);
                     modelAndView.addObject("registrationEmail", email);
-                } else {
-                    modelAndView.addObject("errorMessage", "Error validating registration Id.<br>User Id " + username + " is not available.");
                 }
-            } else {
-                EmailUtil.sendNotificationEmail("FinVendor Registration Verification", "has verified registration on FinVendor.", user, null);
+                else {
+                    modelAndView
+                            .addObject("errorMessage", "Error validating registration Id.<br>User Id " + username + " is not available.");
+                }
+            }
+            else {
+                EmailUtil.sendNotificationEmail("FinVendor Registration Verification", "has verified registration on FinVendor.", user,
+                        null);
             }
 
         } catch (Exception exp) {
@@ -442,8 +473,8 @@ public class RegistrationController {
 
     @RequestMapping(value = "resendRegistrationLink", method = RequestMethod.GET)
     public ModelAndView resendRegistrationLink(HttpServletRequest request,
-                                               @RequestParam(value = "username", required = true) String username,
-                                               @RequestParam(value = "email", required = true) String email) {
+            @RequestParam(value = "username", required = true) String username,
+            @RequestParam(value = "email", required = true) String email) {
 
         logger.debug("Entering RegistrationController:resendRegistrationLink for {}", username);
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.USER_VERIFICATION_PAGE);
@@ -463,14 +494,15 @@ public class RegistrationController {
 
     @RequestMapping(value = "displayAccountSettings", method = RequestMethod.GET)
     public ModelAndView displayAccountSettings(HttpServletRequest request,
-                                               @RequestParam(value = "userName", required = true) String userName) {
+            @RequestParam(value = "userName", required = true) String userName) {
         logger.debug("Entering RegistrationController : displayAccountSettings");
         ModelAndView modelAndView = new ModelAndView("accountSettings");
         try {
             FinVendorUser user = userService.getUserDetailsByUsername(userName);
             if (user.getVendor() != null) {
                 CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
-            } else if (user.getConsumer() != null) {
+            }
+            else if (user.getConsumer() != null) {
                 CommonUtils.populateConsumerProfileRequest(user.getConsumer(), consumerService,
                         modelAndView);
             }
@@ -485,11 +517,11 @@ public class RegistrationController {
 
     @RequestMapping(value = "updateAccountSettings", method = RequestMethod.POST)
     public ModelAndView updateAccountSettings(HttpServletRequest request,
-                                              @ModelAttribute("users") FinVendorUser user,
-                                              @RequestParam(value = "userName", required = true) String userName,
-                                              @RequestParam(value = "companyType", required = true) String companyType,
-                                              @RequestParam(value = "tags", required = true) String tags,
-                                              @RequestParam(value = "email", required = true) String email) {
+            @ModelAttribute("users") FinVendorUser user,
+            @RequestParam(value = "userName", required = true) String userName,
+            @RequestParam(value = "companyType", required = true) String companyType,
+            @RequestParam(value = "tags", required = true) String tags,
+            @RequestParam(value = "email", required = true) String email) {
         logger.info("Entering RegistrationController : updateAccountSettings");
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Register.EMPTY);
         try {
@@ -497,7 +529,8 @@ public class RegistrationController {
             if (user.getVendor() != null) {
                 userService.updateVendorAccountSettings(userName, companyType, email);
                 CommonUtils.populateVendorProfileRequest(user.getVendor(), vendorService, modelAndView);
-            } else if (user.getConsumer() != null) {
+            }
+            else if (user.getConsumer() != null) {
                 userService.updateConsumerAccountSettings(userName, companyType, tags, email);
                 CommonUtils.populateConsumerProfileRequest(user.getConsumer(), consumerService,
                         modelAndView);

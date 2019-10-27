@@ -1,9 +1,11 @@
 package com.finvendor.api.user.service;
 
 import com.finvendor.api.consumer.dao.ConsumerDao;
+import com.finvendor.api.login.dto.SubscriptionDto;
 import com.finvendor.api.user.dao.UserDao;
 import com.finvendor.api.vendor.dao.VendorDaoImpl;
 import com.finvendor.common.exception.ApplicationException;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.UserRole;
 import com.finvendor.modelpojo.staticpojo.FileDetails;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -147,5 +150,24 @@ public class UserService {
         } catch (ApplicationException e) {
             return false;
         }
+    }
+
+    public boolean isUserInTrialPeriod(FinVendorUser user) {
+        boolean trialPeriod;
+        long trialPeriodEndInMs;
+        String trialPeriodEndInMsStr = user.getTrialPeriodEndInMs();
+        String timeStamp = DateUtils.convertRegistrationDateFormatToTimestamp(trialPeriodEndInMsStr);
+        if (!timeStamp.isEmpty()) {
+            trialPeriodEndInMs = Long.parseLong(timeStamp);
+        }
+        else {
+            throw new RuntimeException("User trial end period is not set in db!");
+        }
+        trialPeriod = Calendar.getInstance().getTimeInMillis() <= trialPeriodEndInMs;
+        return trialPeriod;
+    }
+
+    public SubscriptionDto findUserSubscriptionDetails(FinVendorUser user) {
+        return new SubscriptionDto(user.getSubscriptionType(), user.getSubscriptionState());
     }
 }

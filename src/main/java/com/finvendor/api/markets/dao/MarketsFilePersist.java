@@ -1,6 +1,6 @@
 package com.finvendor.api.markets.dao;
 
-import com.finvendor.common.constant.AppConstant;
+import com.finvendor.common.constant.AppConstants;
 import com.finvendor.model.Markets;
 import com.finvendor.common.commondao.ICommonDao;
 import org.apache.commons.lang.StringUtils;
@@ -39,7 +39,7 @@ public class MarketsFilePersist extends AbstractMarketsFilePersist<Markets> {
         try {
             SQLQuery deleteQuery = commonDao.getNativeQuery("delete from markets", null);
             int count = deleteQuery.executeUpdate();
-            SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+            SimpleDateFormat formatter = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_FORMAT);
             String bhavPriceDateAsPerFvFormat = formatter.format(Calendar.getInstance().getTime());
             br = new BufferedReader(new FileReader(fromFilePath));
             br.readLine();

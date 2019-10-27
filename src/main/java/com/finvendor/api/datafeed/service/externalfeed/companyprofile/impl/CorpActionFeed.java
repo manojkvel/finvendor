@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.finvendor.common.constant.AppConstant.COMMA;
+import static com.finvendor.common.constant.AppConstants.COMMA;
 import static com.finvendor.common.util.FileUtil.downloadFile;
 
 /**

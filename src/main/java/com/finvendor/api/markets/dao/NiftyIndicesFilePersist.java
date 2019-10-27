@@ -1,6 +1,6 @@
 package com.finvendor.api.markets.dao;
 
-import com.finvendor.common.constant.AppConstant;
+import com.finvendor.common.constant.AppConstants;
 import com.finvendor.common.util.DateUtils;
 import com.finvendor.model.Indice;
 import com.finvendor.model.IndiceDetails;
@@ -12,12 +12,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Objects;
 
 @Repository
 public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
@@ -33,7 +31,7 @@ public class NiftyIndicesFilePersist extends AbstractNiftyFilePersist<Indice> {
         int idCounter = 1;
         long totalBsePriceInserted = 0L;
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+            SimpleDateFormat formatter = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_FORMAT);
             String indexDateAsPerFvFormat = formatter.format(Calendar.getInstance().getTime());
             br = new BufferedReader(new FileReader(niftyIndiceFilePath));
             br.readLine();

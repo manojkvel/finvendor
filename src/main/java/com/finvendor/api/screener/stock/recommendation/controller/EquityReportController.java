@@ -60,13 +60,12 @@ public class EquityReportController {
             @RequestParam(value = "orderBy") String orderBy) throws WebApiException {
         try {
             LOGGER.info("## Controller getResearchResultTableData START");
-            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request),
-                    FvFeature.EQUITY_RESEARCH_REPORT);
-            if (featureAllowedDto != null) {
-                return WebUtils.buildResponseEntity(
-                        WebUtils.buildResponse(ApiMessageEnum.RESOURCE_NOT_FOUND, featureAllowedDto, HttpStatus.NOT_FOUND));
-
-            }
+//            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request),
+            ////                    FvFeature.EQUITY_RESEARCH_REPORT);
+            ////            if (featureAllowedDto != null) {
+            ////                return WebUtils.buildResponseEntity(
+            ////                        WebUtils.buildResponse(ApiMessageEnum.RESOURCE_NOT_FOUND, featureAllowedDto, HttpStatus.NOT_FOUND));
+            ////            }
             if (equityResearchFilter.getGeo() == null) {
                 throw new Exception("Equity Research filter Error - Geo must not be null !!");
             }

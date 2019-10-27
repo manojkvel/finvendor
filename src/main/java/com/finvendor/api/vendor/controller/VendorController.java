@@ -6,7 +6,7 @@ import com.finvendor.api.marketdata.service.MarketDataAggregatorsServiceImpl;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.api.webutil.WebUtils;
-import com.finvendor.common.constant.AppConstant;
+import com.finvendor.common.constant.AppConstants;
 import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.model.*;
@@ -2991,8 +2991,8 @@ public class VendorController {
         ModelAndView modelAndView = new ModelAndView("empty");
 
         //Date Format Validation - It should be in "dd/MM/yyyy" format
-        if (!DateUtils.isDateValid(researchReportDate, AppConstant.FV_PRICE_DATE_ONLY_FORMAT)) {
-            modelAndView.addObject("status", "Error Updating Offering details, cause: Invalid Research Report Date format found, send date in format : " + AppConstant.FV_PRICE_DATE_ONLY_FORMAT);
+        if (!DateUtils.isDateValid(researchReportDate, AppConstants.FV_PRICE_DATE_ONLY_FORMAT)) {
+            modelAndView.addObject("status", "Error Updating Offering details, cause: Invalid Research Report Date format found, send date in format : " + AppConstants.FV_PRICE_DATE_ONLY_FORMAT);
             return modelAndView;
         }
 
