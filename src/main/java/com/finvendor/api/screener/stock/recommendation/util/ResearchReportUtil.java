@@ -2,7 +2,7 @@ package com.finvendor.api.screener.stock.recommendation.util;
 
 import com.finvendor.api.screener.stock.recommendation.dto.filter.impl.EquityResearchFilter;
 import com.finvendor.common.commondao.ICommonDao;
-import com.finvendor.common.constant.AppConstant;
+import com.finvendor.common.constant.AppConstants;
 import com.finvendor.common.util.Pair;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
@@ -54,7 +54,7 @@ public class ResearchReportUtil {
 
     public static long convertStringToTimestamp(String dateAsString) throws ParseException {
         DateFormat formatter;
-        formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_ONLY_FORMAT);
+        formatter = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_ONLY_FORMAT);
         Date date = formatter.parse(dateAsString);
         return date.getTime();
     }

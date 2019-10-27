@@ -181,7 +181,7 @@ public class SubscriptionController {
     /**
      * Download subscriptions into CSV
      */
-    @RequestMapping(value = "/subscriptions/download", method = RequestMethod.GET)
+    @GetMapping(value = "/subscriptions/download")
     public ResponseEntity<?> downloadSubscriptions(HttpServletResponse response) throws WebApiException {
         try {
             final Pair<Long, InputStream> download = subscriptionService.downloadSubscriptions();

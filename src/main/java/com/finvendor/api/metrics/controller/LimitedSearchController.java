@@ -34,7 +34,7 @@ public class LimitedSearchController {
             @RequestParam(value = "featureName") FvFeature fvFeature) throws Exception {
         LOGGER.info("## CONTROLLER isSearchAllowed - START currentDate: {}", currentDate);
         int dayNumOfWeek = limitedSearchService.findDayNumOfWeek(currentDate);
-        FeatureAllowedDto featureAllowedDto = limitedSearchService.isAllowedForSearch(fvFeature, dayNumOfWeek);
+        FeatureAllowedDto featureAllowedDto = limitedSearchService.isAllowedForSearch(fvFeature);
         FeatureAccessEnum featureAccess = featureAllowedDto.getFeatureAccess();
         String name = featureAccess.name();
         return WebUtils.buildResponseEntity(WebUtils.buildResponse(ApiMessageEnum.SUCCESS, featureAllowedDto, HttpStatus.OK));

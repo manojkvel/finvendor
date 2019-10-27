@@ -1,6 +1,6 @@
 package com.finvendor.common.util;
 
-import com.finvendor.common.constant.AppConstant;
+import com.finvendor.common.constant.AppConstants;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,11 +16,13 @@ public class DateUtils {
 
     //for Mar_18
     private static final SimpleDateFormat simpleDateFormat_MMM_yy = new SimpleDateFormat("MMM_yy");
+    //User Registration date format 2017-10-09 11:23:33
+    private static final SimpleDateFormat registrationDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final DateFormat dd_MMM_yyyy_hh_mmformatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
     public static final DateFormat dd_MMM_yyyy_hh_mm_subscription_formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
     public static final DateFormat dd_MMM_yyyy_formatter = new SimpleDateFormat("dd-MMM-yyyy");
     public static final DateFormat dd_MMM_yyyy_formatter1 = new SimpleDateFormat("dd/MMM/yy HH:mm:ss");
-    public static final SimpleDateFormat FV_DATE_FORMATTER = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+    public static final SimpleDateFormat FV_DATE_FORMATTER = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_FORMAT);
 
     public static String getCurrentYear() {
         return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.YEAR));
@@ -72,7 +74,7 @@ public class DateUtils {
 
     public static long convertFvPriceDateToTimestamp(String str_date) throws ParseException {
         DateFormat formatter;
-        formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+        formatter = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_FORMAT);
         formatter.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
         Date date = formatter.parse(str_date);
 
@@ -162,7 +164,7 @@ public class DateUtils {
     }
 
     public static String getCurrentDateHaveMonthDigit() {
-        String currentDate = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_ONLY_FORMAT).format(Calendar.getInstance().getTime());
+        String currentDate = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_ONLY_FORMAT).format(Calendar.getInstance().getTime());
         return currentDate;
     }
 
@@ -194,6 +196,31 @@ public class DateUtils {
         return new Pair<>(startDateTimeInHumanDate, endDateTimeInHumanDate);
     }
 
+    public static Date getCurrentDateInDate() {
+        return Calendar.getInstance().getTime();
+    }
+
+    public static Date addDaysInCurrentDate(Date currentDate, int days) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        c.add(Calendar.DATE, days);
+        Date extendedDate = c.getTime();
+        return extendedDate;
+    }
+
+    public static String convertRegistrationDateFormatToTimestamp(String registrationDate){
+        //2017-10-09 11:23:33
+        String timestamp;
+        Date date = null;
+        try {
+            date = registrationDateFormat.parse(registrationDate);
+        } catch (ParseException e) {
+            timestamp = "0";
+        }
+        timestamp = String.valueOf(date.getTime());
+        return timestamp;
+
+    }
     public static void main(String args[]) throws ParseException {
         //		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
         //		System.out.println(thisDateValid);
@@ -230,17 +257,33 @@ public class DateUtils {
 
         //        System.out.println(getCurrentDateHaveMonthDigit());
         //        System.out.println(DateUtils.convertStringToTimestamp(DateUtils.dd_MMM_yyyy_formatter1, "20/Mar/19 08:00:04"));
-//        Pair<Long, Long> ms = getSubscriptionStartAndEndDateInMillis(30);
-//        System.out.println("Start time: " + ms.getElement1());
-//        System.out.println("End time: " + ms.getElement2());
+        //        Pair<Long, Long> ms = getSubscriptionStartAndEndDateInMillis(30);
+        //        System.out.println("Start time: " + ms.getElement1());
+        //        System.out.println("End time: " + ms.getElement2());
         //        getSubscriptionStartAndEndDateInHumanDate(30);
 
-        long difference = getDateDifferenceInDays(1569421242000L, 1570717617263L);
-        System.out.println(difference);
+//        long difference = getDateDifferenceInDays(1569421242000L, 1570717617263L);
+//        System.out.println(difference);
+
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//        Date currentDate = getCurrentDateInDate();
+//        System.out.println(dateFormat.format(currentDate));
+//
+//        // convert date to calendar
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(currentDate);
+//
+//        c.add(Calendar.DATE, 1); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+//        // convert calendar to date
+//        Date currentDatePlusOne = c.getTime();
+//
+//        System.out.println(dateFormat.format(currentDatePlusOne));
+
+        System.out.println(convertRegistrationDateFormatToTimestamp("2017-10-09 11:23:33"));
     }
 
     public static long getDateDifferenceInDays(long start, long end) {
-        return (end - start)/86400000;
+        return (end - start) / 86400000;
     }
 
 }

@@ -57,9 +57,6 @@ public class LoginController {
     @Autowired
     private ConsumerService consumerService;
 
-    //    @Resource(name = "vendorService")
-    //    private VendorService vendorService;
-
     @RequestMapping(value = RequestConstans.Home.HOME_PAGE, method = RequestMethod.GET)
     public ModelAndView homePageLand(ModelMap modelMap, HttpServletRequest request) {
         logger.debug("Entering LoginController : homePageLand");
@@ -86,6 +83,7 @@ public class LoginController {
 
         logger.debug("Entering LoginController : loginValidation");
         String status;
+        LoginResponse loginResponseDto = null;
         try {
             String userId;
             String credentials;
@@ -99,7 +97,6 @@ public class LoginController {
                 userId = username;
                 credentials = password;
             }
-
             FinVendorUser user = userService.getUserDetailsByUsername(userId);
             if (user == null) {
                 logger.error("No User record available for : {}", userId);
@@ -138,23 +135,28 @@ public class LoginController {
                         status = RequestConstans.INVALID_PASSWORD;
                     }
                 }
+                //User Trial Period handling
+                boolean trialPeriod = userService.isUserInTrialPeriod(user);
+                //User Subscription handling
+                SubscriptionDto subscriptionDto = userService.findUserSubscriptionDetails(user);
+                subscriptionDto.setTrialPeriod(trialPeriod);
+                List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
+                subscriptionDtoList.add(subscriptionDto);
+                loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
+
             }
-            List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
-            subscriptionDtoList.add(new SubscriptionDto(user != null ? user.getSubscriptionType() : "N/A",
-                    user != null ? user.getSubscriptionState() : "N/A"));
-            LoginResponse loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
-            return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
         } catch (Exception exp) {
             ErrorUtil.logError("Login Controller -> loginValidation(...) method", exp);
             return ErrorUtil.getError(USER_LOGIN.getCode(), USER_LOGIN.getUserMessage(), exp);
         }
+        return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
     }
 
-    @RequestMapping(value = RequestConstans.Login.WELCOME, method = RequestMethod.GET)
-    public ModelAndView welcomeInfo(HttpServletRequest request,
-            @ModelAttribute("users") FinVendorUser users,
-            @ModelAttribute("userRole") UserRole userRole) {
 
+
+    @RequestMapping(value = RequestConstans.Login.WELCOME, method = RequestMethod.GET)
+    public ModelAndView welcomeInfo(HttpServletRequest request, @ModelAttribute("users") FinVendorUser users,
+            @ModelAttribute("userRole") UserRole userRole) {
         logger.debug("Entering LoginController : welcomeInfo");
         List<AssetClass> assetClasses = null;
         List<Region> regions = null;

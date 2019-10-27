@@ -7,11 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author ayush
@@ -19,53 +21,66 @@ import java.util.Map;
 @Service
 public class LimitedSearchService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LimitedSearchService.class.getName());
-    private static Map<Integer, Integer> equityResearchReportWeeklyLimitMap;
-    private static Map<Integer, Integer> doItYourSelfWeeklyLimitMap;
+    @Resource(name = "finvendorProperties")
+    private Properties finvendorProperties;
 
-    static {
-        equityResearchReportWeeklyLimitMap = new LinkedHashMap<>();
-        equityResearchReportWeeklyLimitMap.put(1, 3);
-        equityResearchReportWeeklyLimitMap.put(2, 3);
-        equityResearchReportWeeklyLimitMap.put(3, 3);
-        equityResearchReportWeeklyLimitMap.put(4, 3);
-        equityResearchReportWeeklyLimitMap.put(5, 3);
-        equityResearchReportWeeklyLimitMap.put(6, 3);
-        equityResearchReportWeeklyLimitMap.put(7, 3);
+    private Map<Integer, Integer> equityResearchReportWeeklyLimitMap;
+    private Map<Integer, Integer> doItYourSelfWeeklyLimitMap;
 
-        doItYourSelfWeeklyLimitMap = new LinkedHashMap<>();
-        doItYourSelfWeeklyLimitMap.put(1, 3);
-        doItYourSelfWeeklyLimitMap.put(2, 3);
-        doItYourSelfWeeklyLimitMap.put(3, 3);
-        doItYourSelfWeeklyLimitMap.put(4, 3);
-        doItYourSelfWeeklyLimitMap.put(5, 3);
-        doItYourSelfWeeklyLimitMap.put(6, 3);
-        doItYourSelfWeeklyLimitMap.put(7, 3);
-    }
+    public FeatureAllowedDto isAllowedForSearch(FvFeature fvFeature) throws Exception {
+        LOGGER.info("Service isAllowedForSearch - START fvFeature: {}", fvFeature.name());
+        int featureAccessDailyLimitInt = Integer.parseInt(finvendorProperties.getProperty("feature_access_daily_limit"));
+        int featureAccessWeeklyLimitInt = Integer.parseInt(finvendorProperties.getProperty("feature_access_weekly_limit"));
+        int remainingLimit = featureAccessWeeklyLimitInt - (3 * featureAccessDailyLimitInt);
+        if (equityResearchReportWeeklyLimitMap == null) {
+            equityResearchReportWeeklyLimitMap = new LinkedHashMap<>();
+            equityResearchReportWeeklyLimitMap.put(1, featureAccessDailyLimitInt);
+            equityResearchReportWeeklyLimitMap.put(2, featureAccessDailyLimitInt);
+            equityResearchReportWeeklyLimitMap.put(3, featureAccessDailyLimitInt);
+            equityResearchReportWeeklyLimitMap.put(4, remainingLimit);
+            //equityResearchReportWeeklyLimitMap.put(5, remainingLimit);
+            //equityResearchReportWeeklyLimitMap.put(6, remainingLimit);
+            //equityResearchReportWeeklyLimitMap.put(7, remainingLimit);
+        }
 
-    public FeatureAllowedDto isAllowedForSearch(FvFeature fvFeature, int dayNumOfWeek) {
-        LOGGER.info("Service isAllowedForSearch - START weekDayNum: {}", dayNumOfWeek);
+        if (doItYourSelfWeeklyLimitMap == null) {
+            doItYourSelfWeeklyLimitMap = new LinkedHashMap<>();
+            doItYourSelfWeeklyLimitMap.put(1, featureAccessDailyLimitInt);
+            doItYourSelfWeeklyLimitMap.put(2, featureAccessDailyLimitInt);
+            doItYourSelfWeeklyLimitMap.put(3, featureAccessDailyLimitInt);
+            doItYourSelfWeeklyLimitMap.put(4, remainingLimit);
+            //doItYourSelfWeeklyLimitMap.put(5, featureAccessDailyLimitInt);
+            //doItYourSelfWeeklyLimitMap.put(6, featureAccessDailyLimitInt);
+            //doItYourSelfWeeklyLimitMap.put(7, featureAccessDailyLimitInt);
+        }
+
         FeatureAllowedDto featureAllowedDto = new FeatureAllowedDto();
+        int dayNumOfWeek = findDayNumOfWeek(null);
+        LOGGER.info("## dayNumOfWeek: {}", dayNumOfWeek);
         if (dayNumOfWeek == 5 || dayNumOfWeek == 6 || dayNumOfWeek % 7 == 0) {
-            equityResearchReportWeeklyLimitMap.put(1, 3);
-            equityResearchReportWeeklyLimitMap.put(2, 3);
-            equityResearchReportWeeklyLimitMap.put(3, 3);
-            equityResearchReportWeeklyLimitMap.put(4, 3);
-            equityResearchReportWeeklyLimitMap.put(5, 3);
-            equityResearchReportWeeklyLimitMap.put(6, 3);
-            equityResearchReportWeeklyLimitMap.put(7, 3);
+            equityResearchReportWeeklyLimitMap.put(1, featureAccessDailyLimitInt);
+            equityResearchReportWeeklyLimitMap.put(2, featureAccessDailyLimitInt);
+            equityResearchReportWeeklyLimitMap.put(3, featureAccessDailyLimitInt);
+            equityResearchReportWeeklyLimitMap.put(4, remainingLimit);
+            //equityResearchReportWeeklyLimitMap.put(5, featureAccessDailyLimitInt);
+            //equityResearchReportWeeklyLimitMap.put(6, featureAccessDailyLimitInt);
+            //equityResearchReportWeeklyLimitMap.put(7, featureAccessDailyLimitInt);
             featureAllowedDto.setFeatureAccess(FeatureAccessEnum.NOT_ALLOWED);
-            featureAllowedDto.setMessage("Weekly limit is over, please go for monthly subscriptions.");
+            featureAllowedDto.setMessage(
+                    "Weekly limit [" + featureAccessWeeklyLimitInt + " times search] is over, please go for monthly subscriptions.");
         }
         else {
             Map<Integer, Integer> featureWeeklyLimitMap = getFeatureWeeklyLimitMap(fvFeature);
             int creditLimit = featureWeeklyLimitMap.get(dayNumOfWeek);
             if (creditLimit == 0) {
                 featureAllowedDto.setFeatureAccess(FeatureAccessEnum.NOT_ALLOWED);
-                featureAllowedDto.setMessage("Daily limit is over, please go for monthly subscriptions.");
+                featureAllowedDto.setMessage(
+                        "Daily limit [" + featureAccessDailyLimitInt + " times search] is over, please go for monthly subscriptions.");
             }
             else {
                 featureAllowedDto.setFeatureAccess(FeatureAccessEnum.ALLOWED);
-                featureAllowedDto.setMessage("You are allowed to access Stock|Sector Screener upto 3 times in a day!");
+                featureAllowedDto.setMessage(
+                        "You are allowed to access Stock | Sector Screener max upto " + featureAccessDailyLimitInt + " times in a day.");
                 featureWeeklyLimitMap.put(dayNumOfWeek, --creditLimit);
             }
         }

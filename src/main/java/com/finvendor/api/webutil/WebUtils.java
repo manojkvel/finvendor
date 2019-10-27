@@ -12,6 +12,7 @@ import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.util.StringUtil;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.util.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -391,14 +392,17 @@ public final class WebUtils {
     }
 
     public static FeatureAllowedDto isUserAllowedToAccessFeature(String loggedInUser, FvFeature featureName) throws Exception {
+        UserService userService = BeanUtils.getBean(UserService.class);
         if (loggedInUser == null) {
             return null;
         }
         else {
-            UserService userService = BeanUtils.getBean(UserService.class);
-            LimitedSearchService limitedSearchService = BeanUtils.getBean(LimitedSearchService.class);
-            String subscriptionType = userService.getUserDetailsByUsername(loggedInUser).getSubscriptionType();
-            FeatureAllowedDto featureAllowedDto = isFeatureAllowedToAccess(subscriptionType, limitedSearchService, featureName);
+            FinVendorUser finVendorUser = userService.getUserDetailsByUsername(loggedInUser);
+            if (userService.isUserInTrialPeriod(finVendorUser)) {
+                return null;
+            }
+            String subscriptionType = finVendorUser.getSubscriptionType();
+            FeatureAllowedDto featureAllowedDto = isFeatureAllowedToAccess(subscriptionType, featureName);
             if (featureAllowedDto != null && FeatureAccessEnum.NOT_ALLOWED.name().equals(featureAllowedDto.getFeatureAccess().name())) {
                 return featureAllowedDto;
             }
@@ -406,11 +410,10 @@ public final class WebUtils {
         return null;
     }
 
-    private static FeatureAllowedDto isFeatureAllowedToAccess(String subscriptionType,
-            LimitedSearchService limitedSearchService, FvFeature fvFeature) throws Exception {
+    private static FeatureAllowedDto isFeatureAllowedToAccess(String subscriptionType, FvFeature fvFeature) throws Exception {
+        LimitedSearchService limitedSearchService = BeanUtils.getBean(LimitedSearchService.class);
         if ("FREE".equals(subscriptionType)) {
-            return limitedSearchService
-                    .isAllowedForSearch(fvFeature, limitedSearchService.findDayNumOfWeek(null));
+            return limitedSearchService.isAllowedForSearch(fvFeature);
         }
         return null;
     }

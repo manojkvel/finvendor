@@ -1,7 +1,7 @@
 package com.finvendor.api.stockpriceupdate.service;
 
 import com.finvendor.api.stockpriceupdate.dao.StockPriceUpdateDao;
-import com.finvendor.common.constant.AppConstant;
+import com.finvendor.common.constant.AppConstants;
 import com.finvendor.common.util.Pair;
 import com.finvendor.modelpojo.staticpojo.stockprice.StockCurrentPriceDTO;
 import com.finvendor.modelpojo.staticpojo.wathlist.company.ConsumerPriceAlertDTO;
@@ -115,7 +115,7 @@ public class StockPriceUpdateService {
             } else {
                 dayString = String.valueOf(day);
             }
-            SimpleDateFormat formatter = new SimpleDateFormat(AppConstant.FV_PRICE_DATE_FORMAT);
+            SimpleDateFormat formatter = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_FORMAT);
             String priceDate = formatter.format(Calendar.getInstance().getTime());
 
             cal.set(year, month, day);

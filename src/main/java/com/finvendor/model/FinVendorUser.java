@@ -46,6 +46,12 @@ public class FinVendorUser implements Serializable {
 	@Column(name="subscription_type")
 	private String subscriptionType;
 
+	@Column(name="trial_period_start_ms")
+	private String trialPeriodStartInMs;
+
+	@Column(name="trial_period_end_ms")
+	private String trialPeriodEndInMs;
+
 	@Column(name="subscription_start_time_ms")
 	private String subscriptionStartTimeInMillis;
 
@@ -199,5 +205,21 @@ public class FinVendorUser implements Serializable {
 
 	public void setSubscriptionDate(String subscriptionDate) {
 		this.subscriptionDate = subscriptionDate;
+	}
+
+	public String getTrialPeriodStartInMs() {
+		return trialPeriodStartInMs;
+	}
+
+	public void setTrialPeriodStartInMs(String trialPeriodStartInMs) {
+		this.trialPeriodStartInMs = trialPeriodStartInMs;
+	}
+
+	public String getTrialPeriodEndInMs() {
+		return trialPeriodEndInMs;
+	}
+
+	public void setTrialPeriodEndInMs(String trialPeriodEndInMs) {
+		this.trialPeriodEndInMs = trialPeriodEndInMs;
 	}
 }
