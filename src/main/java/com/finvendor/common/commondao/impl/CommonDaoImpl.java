@@ -285,7 +285,7 @@ public class CommonDaoImpl extends AbstractCommonDao {
         List<Object[]> rows = nativeQuery.list();
         String stockId = !rows.isEmpty() ? (rows.get(0)[0] != null ? rows.get(0)[0].toString().trim() : "") : "";
         String cmp = !rows.isEmpty() ? (rows.get(0)[1] != null ? rows.get(0)[1].toString().trim() : "") : "";
-        return new Pair<>(stockId, Float.parseFloat(!cmp.equals("-") ? "0.0" : cmp));
+        return new Pair<>(stockId, Float.parseFloat(cmp.equals("-") ? "0.0" : cmp));
     }
 
     private float getNifty50_1Y_price(String nifty50TodaysDateFromDB) throws Exception {
