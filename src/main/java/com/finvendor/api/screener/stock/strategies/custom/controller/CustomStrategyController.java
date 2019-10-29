@@ -74,12 +74,12 @@ public class CustomStrategyController {
             @RequestParam(value = "orderBy") String orderBy, @RequestBody CustomFilter customFilter
     ) {
         try {
-            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request),
-                    FvFeature.DO_IT_YOUR_SELF);
-            if (featureAllowedDto != null) {
-                return WebUtils.buildResponseEntity(
-                        WebUtils.buildResponse(ApiMessageEnum.RESOURCE_NOT_FOUND, featureAllowedDto, HttpStatus.NOT_FOUND));
-            }
+//            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request),
+            ////                    FvFeature.DO_IT_YOUR_SELF);
+            ////            if (featureAllowedDto != null) {
+            ////                return WebUtils.buildResponseEntity(
+            ////                        WebUtils.buildResponse(ApiMessageEnum.RESOURCE_NOT_FOUND, featureAllowedDto, HttpStatus.NOT_FOUND));
+            ////            }
             List<CustomStrategyDto> customScreeners = service
                     .findCustomScreeners(pageNumber, perPageMaxRecords, sortBy, orderBy, customFilter);
 
