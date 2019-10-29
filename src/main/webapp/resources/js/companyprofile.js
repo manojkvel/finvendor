@@ -82,7 +82,7 @@ var baseApiUrl = "/api/";
                 upsideClass = "danger";
             }
 
-            var brokerRankGenericStarClass = "<i class='fa fa-star default'></i>";
+            /*var brokerRankGenericStarClass = "<i class='fa fa-star default'></i>";
             var brokerRankLargeCapStarClass = "<i class='fa fa-star'></i>";
 
             var brokerRankLargeCapStarHtml = '';
@@ -132,11 +132,11 @@ var baseApiUrl = "/api/";
                 brokerRankSmallCapStarHtml = brokerRankSmallCapStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
             } else {
                 brokerRankSmallCapStarHtml = brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass + brokerRankGenericStarClass;
-            }
+            }*/
 
             var currency = (response.equity[i].currency) ? response.equity[i].currency : "INR";
 
-            htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "'>" +
+            htmlCode = htmlCode + "<tr data-id='" + response.equity[i].productId + "' data-code='" + response.equity[i].isinCode + "' >" +
             "<td>" + 
             "<div class='company' data-toggle='tooltip' title='See all reports for " + response.equity[i].company + "'><a href='/view/company-profile.jsp?isinCode=" + response.equity[i].isinCode + "'>" + response.equity[i].company + "</a></div>" + 
             "<div class='style'>" + response.equity[i].style + "</div>" + 
@@ -150,10 +150,13 @@ var baseApiUrl = "/api/";
             "<div class='researchedByCfa'>" + response.equity[i].researchedByCfa + "</div>" +
             "</td>" +
             "<td>" + 
+            "<button class='stockReturn' data-toggle='tooltip' title='View Stock Return'>View</button>" +
+            "</td>" +
+            /*"<td>" + 
             "<div class='brokerRankLargeCap warning' data-toggle='tooltip' title='Large Cap'>" + brokerRankLargeCapStarHtml + "</div>" + 
             "<div class='brokerRankMidCap warning' data-toggle='tooltip' title='Mid Cap'>" + brokerRankMidCapStarHtml + "</div>" + 
             "<div class='brokerRankSmallCap warning' data-toggle='tooltip' title='Small Cap'>" + brokerRankSmallCapStarHtml + "</div>" +
-            "</td>" +
+            "</td>" +*/
             "<td>" + 
             "<div class='cmp'>" + currency + " " + parseFloat(response.equity[i].cmp).toFixed(2) + "</div>" +
             "<div class='priceDate'>" + timeStampToDate(Number(response.equity[i].priceDate)) + "</div>" + 
@@ -210,6 +213,7 @@ var baseApiUrl = "/api/";
         $("#total_neutral_recomm span").text(parseFloat((response.totalNeutralRecomm/response.noOfAnalystReport)*100).toFixed(2) + "%");
 
         $("#total_sell_recomm span").text(parseFloat((response.totalSellRecomm/response.noOfAnalystReport)*100).toFixed(2) + "%");
+        $('#research_report_content .stockReturn').on('click', {this: event}, stockReturnObj.getStockReturnData);
 
 
         setRecordStats(currentIndex, lastPageNumber);
@@ -2408,6 +2412,106 @@ var companyPriceHistoryObj = {
         }
     }
 
+};
+
+var stockReturnObj = {
+    init: function() {
+    },
+
+    getStockReturnApi: function(parentNode) {
+
+        var isinCode = $(parentNode).parents("tr").attr("data-code");
+
+        var jsonData = {
+            "isinCode": isinCode
+        };
+
+        var url = "/api/stockReturns";
+        return new Promise(function(resolve, reject) {
+            var httpRequest = new XMLHttpRequest({
+                mozSystem: true
+            });
+
+            httpRequest.open('POST', url, true);
+            httpRequest.setRequestHeader('Content-Type',
+                'application/json; charset=UTF-8');
+            httpRequest.ontimeout = function () {
+                reject("" + httpRequest.responseText);
+            };
+            httpRequest.onreadystatechange = function () {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        resolve(httpRequest.response);
+                    } else {
+                        reject(httpRequest.responseText);
+                    }
+                } else {
+                }
+            };
+
+            httpRequest.send(JSON.stringify(jsonData));
+        });
+    },
+
+    getStockReturnData: function(event) {
+        if(!isLoggedInUser()) {
+            var parentNode = $(event.currentTarget).parent();
+
+            parentNode.html("<img src='../resources/images/bx_loader.gif' />");
+
+
+            stockReturnObj.getStockReturnApi(parentNode).then(function(response) {
+                var response = JSON.parse(response);
+                stockReturnObj.setStockReturnHtml(parentNode, response);
+            }, function(error) {
+                console.log("Unable to get stock Return");
+            });
+        } else {
+            inner_login('view/equity_research_report_vendor.jsp');
+        }
+    },
+
+    setStockReturnHtml: function(parentNode, response) {
+        var stockData = response.data;
+        var m3StockReturn = (stockData["3M"] != '-') ? parseFloat(stockData["3M"]).toFixed(2) + "%" : stockData["3M"];
+        var m6StockReturn = (stockData["6M"] != '-') ? parseFloat(stockData["6M"]).toFixed(2) + "%" : stockData["6M"];
+        var y1StockReturn = (stockData["1Y"] != '-') ? parseFloat(stockData["1Y"]).toFixed(2) + "%" : stockData["1Y"];
+
+        var m3StockReturnClass = "success";
+        if(response.data["3M"] > 0) {
+            m3StockReturnClass = "success";
+        } else if(response.data["3M"] < 0) {
+            m3StockReturnClass = "danger";
+        } else {
+            m3StockReturnClass = "";
+        }
+
+        var m6StockReturnClass = "success";
+        if(response.data["6M"] > 0) {
+            m6StockReturnClass = "success";
+        } else if(response.data["6M"] < 0) {
+            m6StockReturnClass = "danger";
+        } else {
+            m6StockReturnClass = "";
+        }
+
+        var y1StockReturnClass = "success";
+        if(response.data["1Y"] > 0) {
+            y1StockReturnClass = "success";
+        } else if(response.data["1Y"] < 0) {
+            y1StockReturnClass = "danger";
+        } else {
+            y1StockReturnClass = "";
+        }
+
+        var html = "<ul>" +
+        "<li class='" + m3StockReturnClass + "'><strong>" + m3StockReturn + "</strong></li>" +
+        "<li class='" + m6StockReturnClass + "'><strong>" + m6StockReturn + "</strong></li>" +
+        "<li class='" + y1StockReturnClass + "'><strong>" + y1StockReturn + "</strong></li>" +
+        "</ul>";
+        $(parentNode).empty();
+        $(parentNode).html(html);
+    }
 };
 
 

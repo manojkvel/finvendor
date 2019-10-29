@@ -337,7 +337,7 @@
 																Researched by CFA
 															</p>
 														</th>
-														<th style="width:15%;">
+														<!--<th style="width:15%;">
 															<p class="large_font" style="font-size: 16px;">
 																Broker Rank
 															</p>
@@ -349,6 +349,20 @@
 															</p>
 															<p class="small_font">
 																Small Cap
+															</p>
+														</th>-->
+														<th style="width:15%;">
+															<p class="large_font" style="font-size: 16px;">
+																Stock Return
+															</p>
+															<p class="small_font">
+																3 Month
+															</p>
+															<p class="small_font">
+																6 Month
+															</p>
+															<p class="small_font">
+																1 Year
 															</p>
 														</th>
 														<th style="width:15%;">
