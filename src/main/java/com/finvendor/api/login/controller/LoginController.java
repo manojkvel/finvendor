@@ -136,7 +136,10 @@ public class LoginController {
                     }
                 }
                 //User Trial Period handling
-                boolean trialPeriod = userService.isUserInTrialPeriod(user);
+                boolean trialPeriod = false;
+                if (user.getTrialPeriodEndInMs() != null) {
+                    trialPeriod = userService.isUserInTrialPeriod(user);
+                }
                 //User Subscription handling
                 SubscriptionDto subscriptionDto = userService.findUserSubscriptionDetails(user);
                 subscriptionDto.setTrialPeriod(trialPeriod);
@@ -151,8 +154,6 @@ public class LoginController {
         }
         return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
     }
-
-
 
     @RequestMapping(value = RequestConstans.Login.WELCOME, method = RequestMethod.GET)
     public ModelAndView welcomeInfo(HttpServletRequest request, @ModelAttribute("users") FinVendorUser users,
