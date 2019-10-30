@@ -35,10 +35,9 @@ public class NotificationController {
 
     @GetMapping(value = "/users/sendMail")
     public ResponseEntity<ApiResponse<String, String>> sendMailToUser(@RequestParam(value = "type") EmailCondition emailCondition) {
-        switch (emailCondition) {
-        case TRIAL_PERIOD_OVER:
+        LOGGER.info("## sendMailToUser - START emailCondition: {}", emailCondition.name());
+        if (emailCondition.name().equals(EmailCondition.TRIAL_PERIOD_OVER.name())) {
             notificationService.sendEMailToAllUserWhoseTrialPeriodOver();
-            break;
         }
         return buildResponseEntity(buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK));
     }
