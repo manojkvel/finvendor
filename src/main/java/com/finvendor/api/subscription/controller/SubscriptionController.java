@@ -7,8 +7,10 @@ import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
+import com.finvendor.model.FinVendorUser;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +23,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import static com.finvendor.api.webutil.WebUtils.buildResponse;
 import static com.finvendor.api.webutil.WebUtils.buildResponseEntity;
@@ -41,7 +46,8 @@ import static com.finvendor.common.exception.ExceptionEnum.SUBSCRIPTIONS_DOWNLOA
 @Validated
 public class SubscriptionController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionController.class.getName());
-
+    @Resource(name = "finvendorProperties")
+    private Properties finvendorProperties;
     private final UserService userService;
 
     private final SubscriptionService subscriptionService;
@@ -58,17 +64,38 @@ public class SubscriptionController {
     @PostMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<String, String>> saveSubscription(
             @PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
-            @Valid @RequestBody SubscriptionDto subscriptionDto) throws Exception {
+            @Valid @RequestBody SubscriptionDto subscriptionDto, @RequestParam(value = "type") String type) throws Exception {
         ApiResponse<String, String> apiResponse;
         if (userService.isValidUser(userName)) {
-            String subscriptionRefId = subscriptionService.savePayment(userName, subscriptionDto);
-            if (subscriptionRefId != null) {
-                LOGGER.info("User Subscription created successfully, subscriptionId: {}", subscriptionRefId);
-                apiResponse = buildResponse(SUCCESS, null, HttpStatus.CREATED);
+            if (type.equals("trial")) {
+                String trial_period_in_days = finvendorProperties.getProperty("trial_period_in_days");
+                int trial_period_in_daysAsInt = Integer.parseInt(trial_period_in_days);
+                LOGGER.info("## Trial Period In Days: {}", trial_period_in_daysAsInt);
+
+                Date userTrailPeriodStartDate = DateUtils.getCurrentDateInDate();
+                Date userTrailPeriodEndDate = DateUtils.addDaysInCurrentDate(userTrailPeriodStartDate, trial_period_in_daysAsInt);
+
+                LOGGER.info("userTrailPeriodStartDate: {}", userTrailPeriodStartDate);
+                LOGGER.info("userTrailPeriodEndDate: {}", userTrailPeriodEndDate);
+
+                String trialStartDateInMsStr = String.valueOf(userTrailPeriodStartDate.getTime());
+                String trialEndDateInMsStr = String.valueOf(userTrailPeriodEndDate.getTime());
+                FinVendorUser user=new FinVendorUser();
+                user.setTrialPeriodStartInMs(trialStartDateInMsStr);
+                user.setTrialPeriodEndInMs(trialEndDateInMsStr);
+                userService.saveUserInfo(user);
+                apiResponse = buildResponse(SUCCESS, null, HttpStatus.OK);
             }
             else {
-                LOGGER.info("User Subscription already exist, userName: {}", userName);
-                apiResponse = buildResponse(CONFLICT, null, HttpStatus.CONFLICT);
+                String subscriptionRefId = subscriptionService.savePayment(userName, subscriptionDto);
+                if (subscriptionRefId != null) {
+                    LOGGER.info("User Subscription created successfully, subscriptionId: {}", subscriptionRefId);
+                    apiResponse = buildResponse(SUCCESS, null, HttpStatus.CREATED);
+                }
+                else {
+                    LOGGER.info("User Subscription already exist, userName: {}", userName);
+                    apiResponse = buildResponse(CONFLICT, null, HttpStatus.CONFLICT);
+                }
             }
         }
         else {

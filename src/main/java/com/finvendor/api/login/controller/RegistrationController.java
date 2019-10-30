@@ -5,7 +5,6 @@ import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
-import com.finvendor.common.util.DateUtils;
 import com.finvendor.model.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.*;
@@ -39,9 +37,6 @@ public class RegistrationController {
     String[] consumerTypes = { RequestConstans.INDIVIDUAL_INVESTOR, RequestConstans.UNIVERSITY_OR_PHD_STUDENT };
     List<String> vendorTypesList = Arrays.asList(vendorTypes);
     List<String> consumerTypesList = Arrays.asList(consumerTypes);
-
-    @Resource(name = "finvendorProperties")
-    private Properties finvendorProperties;
 
     @Autowired
     private UserService userService;
@@ -333,23 +328,6 @@ public class RegistrationController {
                     userRoles = new HashSet<>();
                     userRoles.add(userRole);
                     user.setUserRoles(userRoles);
-
-                    String trial_period_in_days = finvendorProperties.getProperty("trial_period_in_days");
-                    int trial_period_in_daysAsInt = Integer.parseInt(trial_period_in_days);
-                    logger.info("## Trial Period In Days: {}", trial_period_in_daysAsInt);
-
-                    Date userTrailPeriodStartDate = DateUtils.getCurrentDateInDate();
-                    Date userTrailPeriodEndDate = DateUtils.addDaysInCurrentDate(userTrailPeriodStartDate, trial_period_in_daysAsInt);
-
-                    logger.info("userTrailPeriodStartDate: {}", userTrailPeriodStartDate);
-                    logger.info("userTrailPeriodEndDate: {}", userTrailPeriodEndDate);
-
-                    String trialStartDateInMsStr = String.valueOf(userTrailPeriodStartDate.getTime());
-                    String trialEndDateInMsStr = String.valueOf(userTrailPeriodEndDate.getTime());
-
-                    user.setTrialPeriodStartInMs(trialStartDateInMsStr);
-                    user.setTrialPeriodEndInMs(trialEndDateInMsStr);
-                    userService.saveUserInfo(user);
                     String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
                     EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
                     EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName);
