@@ -31,17 +31,19 @@ public class NotificationService {
     public void sendEMailToAllUserWhoseTrialPeriodOver() {
         List<FinVendorUser> userDetails = userService.getUserDetails();
         for (FinVendorUser user : userDetails) {
-            boolean userInTrialPeriod = userService.isUserInTrialPeriod(user);
-            if (!userInTrialPeriod) {
-                boolean emailEnabled = Boolean.parseBoolean(fvProperties.getProperty("email"));
-                if (emailEnabled) {
-                    String to = user.getEmail();
-                    try {
-                        EmailUtil.sendMail(to, TRIAL_PERIOD_OVER_EMAIL_SUBJECT, TRIAL_PERIOD_OVER_EMAIL_MESSAGE);
-                    } catch (Exception e) {
-                        LOGGER.error("## Unable to sent trial period over Email to user: {}", user.getEmail());
+            if (user.getTrialPeriodEndInMs() != null) {
+                boolean userInTrialPeriod = userService.isUserInTrialPeriod(user);
+                if (!userInTrialPeriod) {
+                    boolean emailEnabled = Boolean.parseBoolean(fvProperties.getProperty("email"));
+                    if (emailEnabled) {
+                        String to = user.getEmail();
+                        try {
+                            EmailUtil.sendMail(to, TRIAL_PERIOD_OVER_EMAIL_SUBJECT, TRIAL_PERIOD_OVER_EMAIL_MESSAGE);
+                        } catch (Exception e) {
+                            LOGGER.error("## Unable to sent trial period over Email to user: {}", user.getEmail());
+                        }
+                        LOGGER.info("Email sent to user: {} successfully", to);
                     }
-                    LOGGER.info("Email sent to user: {} successfully", to);
                 }
             }
         }
