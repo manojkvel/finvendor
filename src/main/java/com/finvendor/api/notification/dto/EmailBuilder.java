@@ -1,5 +1,7 @@
 package com.finvendor.api.notification.dto;
 
+import java.util.Arrays;
+
 public class EmailBuilder {
     private String from;
     private String[] to;
@@ -82,5 +84,15 @@ public class EmailBuilder {
 
     public void setAttachment(String[] attachment) {
         this.attachment = attachment;
+    }
+
+    @Override public String toString() {
+        return "EmailBuilder{" +
+                "from='" + from + '\'' +
+                ", to=" + Arrays.toString(to) +
+                ", subject='" + subject + '\'' +
+                ", content='" + content + '\'' +
+                ", attachment=" + Arrays.toString(attachment) +
+                '}';
     }
 }

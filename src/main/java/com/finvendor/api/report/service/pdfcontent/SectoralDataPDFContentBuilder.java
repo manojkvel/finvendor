@@ -49,7 +49,7 @@ public class SectoralDataPDFContentBuilder implements IPDFContentBuilder<String,
     }
 
     private MarketIndexData getMarketIndexData(String userName, String indexType) throws IOException {
-        String currentDate = DateUtils.getCurrentDate();
+        String currentDate = DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format();
         String indexSummary = dao.getIndexSummary(indexType);
         String nifty50IndexValue = getNifty50Value(indexSummary);
 

@@ -46,17 +46,17 @@ public class FinVendorUser implements Serializable {
 	@Column(name="subscription_type")
 	private String subscriptionType;
 
-	@Column(name="trial_period_start_ms")
-	private String trialPeriodStartInMs;
+	@Column(name="trial_period_start_time")
+	private String trialPeriodStartTime;
 
-	@Column(name="trial_period_end_ms")
-	private String trialPeriodEndInMs;
+	@Column(name="trial_period_end_time")
+	private String trialPeriodEndTime;
 
-	@Column(name="subscription_start_time_ms")
-	private String subscriptionStartTimeInMillis;
+	@Column(name="subscription_start_time")
+	private String subscriptionStartTime;
 
-	@Column(name="subscription_end_time_ms")
-	private String subscriptionEndTimeInMillis;
+	@Column(name="subscription_end_time")
+	private String subscriptionEndTime;
 
 	@Column(name="subscription_state")
 	private String subscriptionState;
@@ -175,20 +175,20 @@ public class FinVendorUser implements Serializable {
 		this.subscriptionType = subscriptionType;
 	}
 
-	public String getSubscriptionStartTimeInMillis() {
-		return subscriptionStartTimeInMillis;
+	public String getSubscriptionStartTime() {
+		return subscriptionStartTime;
 	}
 
-	public void setSubscriptionStartTimeInMillis(String subscriptionStartTimeInMillis) {
-		this.subscriptionStartTimeInMillis = subscriptionStartTimeInMillis;
+	public void setSubscriptionStartTime(String subscriptionStartTime) {
+		this.subscriptionStartTime = subscriptionStartTime;
 	}
 
-	public String getSubscriptionEndTimeInMillis() {
-		return subscriptionEndTimeInMillis;
+	public String getSubscriptionEndTime() {
+		return subscriptionEndTime;
 	}
 
-	public void setSubscriptionEndTimeInMillis(String subscriptionEndTimeInMillis) {
-		this.subscriptionEndTimeInMillis = subscriptionEndTimeInMillis;
+	public void setSubscriptionEndTime(String subscriptionEndTime) {
+		this.subscriptionEndTime = subscriptionEndTime;
 	}
 
 	public String getSubscriptionState() {
@@ -207,19 +207,19 @@ public class FinVendorUser implements Serializable {
 		this.subscriptionDate = subscriptionDate;
 	}
 
-	public String getTrialPeriodStartInMs() {
-		return trialPeriodStartInMs;
+	public String getTrialPeriodStartTime() {
+		return trialPeriodStartTime;
 	}
 
-	public void setTrialPeriodStartInMs(String trialPeriodStartInMs) {
-		this.trialPeriodStartInMs = trialPeriodStartInMs;
+	public void setTrialPeriodStartTime(String trialPeriodStartTime) {
+		this.trialPeriodStartTime = trialPeriodStartTime;
 	}
 
-	public String getTrialPeriodEndInMs() {
-		return trialPeriodEndInMs;
+	public String getTrialPeriodEndTime() {
+		return trialPeriodEndTime;
 	}
 
-	public void setTrialPeriodEndInMs(String trialPeriodEndInMs) {
-		this.trialPeriodEndInMs = trialPeriodEndInMs;
+	public void setTrialPeriodEndTime(String trialPeriodEndTime) {
+		this.trialPeriodEndTime = trialPeriodEndTime;
 	}
 }

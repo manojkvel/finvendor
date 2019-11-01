@@ -103,7 +103,7 @@ public class LoginController {
                 status = RequestConstans.INVALID_USER;
             }
             else {
-                logger.info("User {} enbabled : {}", userId, user.getEnabled());
+                logger.info("User {} enabled : {}", userId, user.getEnabled());
                 if (!user.getEnabled()) {
                     logger.error("User record is disabled for : {}", userId);
                     status = RequestConstans.ACCOUNT_DISABLED;
@@ -136,17 +136,21 @@ public class LoginController {
                     }
                 }
                 //User Trial Period handling
-                boolean trialPeriod = false;
-                if (user.getTrialPeriodEndInMs() != null) {
+                boolean trialPeriod;
+                if (user.getTrialPeriodEndTime() != null) {
                     trialPeriod = userService.isUserInTrialPeriod(user);
                 }
+                else {
+                    trialPeriod = false;
+                }
+                logger.info("## user trialPeriod: {}", trialPeriod);
                 //User Subscription handling
                 SubscriptionDto subscriptionDto = userService.findUserSubscriptionDetails(user);
+                logger.info("## subscriptionDto: {}", subscriptionDto);
                 subscriptionDto.setTrialPeriod(trialPeriod);
                 List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
                 subscriptionDtoList.add(subscriptionDto);
                 loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
-
             }
         } catch (Exception exp) {
             ErrorUtil.logError("Login Controller -> loginValidation(...) method", exp);

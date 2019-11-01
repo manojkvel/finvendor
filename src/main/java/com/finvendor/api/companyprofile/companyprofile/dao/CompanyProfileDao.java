@@ -391,7 +391,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
             if ("quarterly".equalsIgnoreCase(type)) {
                 sqlQuery = commonDao.getNativeQuery(EARNING_PREVIEW_QUARTERLY, new String[] { isin });
                 List<Object[]> rows = sqlQuery.list();
-                earningPreviewDto = constructEarningPreviewResultQuartlery(rows);
+                earningPreviewDto = constructEarningPreviewResultQuarterly(rows);
             }
             else {
                 sqlQuery = commonDao.getNativeQuery(EARNING_PREVIEW_YEARLY, new String[] { isin });
@@ -407,7 +407,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     /**
      * Quarterly Earning Preview
      */
-    private EarningPreviewDto constructEarningPreviewResultQuartlery(List<Object[]> rows) {
+    private EarningPreviewDto constructEarningPreviewResultQuarterly(List<Object[]> rows) throws Exception {
         EarningPreviewDto earningPreviewDto = new EarningPreviewDto();
         List<EarningPreviewQuarterlyDto> earningPreviewResultList = new ArrayList<>();
         for (Object[] row : rows) {
@@ -427,7 +427,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
     /**
      * Yearly Earning Preview
      */
-    private EarningPreviewDto constructEarningPreviewResultYearly(List<Object[]> rows) {
+    private EarningPreviewDto constructEarningPreviewResultYearly(List<Object[]> rows) throws Exception {
         EarningPreviewDto earningPreviewDto = new EarningPreviewDto();
         List<EarningPreviewYearlyDto> earningPreviewResultList = new ArrayList<>();
         for (Object[] row : rows) {

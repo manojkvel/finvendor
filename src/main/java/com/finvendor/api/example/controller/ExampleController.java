@@ -5,7 +5,6 @@ import com.finvendor.api.example.dto.ExampleRequestDto;
 import com.finvendor.api.example.service.ExampleService;
 import com.finvendor.api.exception.ApiResourceNotFoundException;
 import com.finvendor.api.exception.WebApiException;
-import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
 import io.swagger.annotations.Api;
@@ -20,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.List;
+
+import static com.finvendor.api.webutil.WebUtils.*;
 
 /**
  * @author ayush on April 30, 2018
@@ -49,8 +50,8 @@ public class ExampleController {
     @PostMapping(value = "/examples", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<String, Void>> saveExample(@Valid @RequestBody ExampleRequestDto exampleRequestDto) throws Exception {
         exampleService.saveOrUpdateExample(exampleRequestDto);
-        ApiResponse<String, Void> apiResponse = WebUtils.buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
-        return WebUtils.buildResponseEntity(apiResponse);
+        ApiResponse<String, Void> apiResponse = buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
+        return buildResponseEntity(apiResponse);
     }
 
     /**
@@ -61,12 +62,12 @@ public class ExampleController {
         List<ExampleRequestDto> allExample = exampleService.findAllExample();
         ApiResponse<String, List<ExampleRequestDto>> apiResponse;
         if (allExample != null) {
-            apiResponse = WebUtils.buildResponse(ApiMessageEnum.SUCCESS, allExample, HttpStatus.OK);
+            apiResponse = buildResponse(ApiMessageEnum.SUCCESS, allExample, HttpStatus.OK);
         }
         else {
-            throw new ApiResourceNotFoundException(WebUtils.RESOURCE_NOT_FOUND_ERR_MSG);
+            throw new ApiResourceNotFoundException(RESOURCE_NOT_FOUND);
         }
-        return WebUtils.buildResponseEntity(apiResponse);
+        return buildResponseEntity(apiResponse);
     }
 
     /**
@@ -78,12 +79,12 @@ public class ExampleController {
         ApiResponse<String, ExampleDto> apiResponse;
         ExampleDto exampleDto = exampleService.findExampleById(Integer.parseInt(exampleId));
         if (exampleDto != null) {
-            apiResponse = WebUtils.buildResponse(ApiMessageEnum.SUCCESS, exampleDto, HttpStatus.OK);
+            apiResponse = buildResponse(ApiMessageEnum.SUCCESS, exampleDto, HttpStatus.OK);
         }
         else {
-            throw new ApiResourceNotFoundException(WebUtils.RESOURCE_NOT_FOUND_ERR_MSG);
+            throw new ApiResourceNotFoundException(RESOURCE_NOT_FOUND);
         }
-        return WebUtils.buildResponseEntity(apiResponse);
+        return buildResponseEntity(apiResponse);
     }
 
     /**

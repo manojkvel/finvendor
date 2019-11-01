@@ -7,6 +7,7 @@ import com.finvendor.api.subscription.dto.*;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.exception.ApplicationException;
+import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.util.EmailUtil;
@@ -21,8 +22,6 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
-
-import static com.finvendor.common.util.DateUtils.getSubscriptionStartAndEndDateInMillis;
 
 @Service
 @Transactional
@@ -41,7 +40,6 @@ public class SubscriptionService {
     private static final String ACTIVATION_SMART_SUBJECT = "Finvendor - Subscription \"SMART\" has been Successfully Activated";
     private static final String ACTIVATION_SAGE_SUBJECT = "Finvendor - Subscription \"SAGE\" has been Successfully Activated";
 
-
     @Autowired
     public SubscriptionService(SubscriptionDao dao, NotificationService notificationService, UserService userService) {
         this.dao = dao;
@@ -49,17 +47,20 @@ public class SubscriptionService {
         this.userService = userService;
     }
 
-    public String savePayment(String userName, SubscriptionDto dto) throws Exception {
-        try {
-            String refId = dao.savePaymentDetails(userName, dto);
-            if (refId != null) {
-                FinVendorUser userDetails = updateUserSubscription(userName, dto.getSubscriptionType());
-                sentSubscriptionSubmissionEmail(userName, userDetails);
-            }
-            return refId;
-        } catch (Exception e) {
-            throw new Exception(e);
+    /**
+     * Save subscription details into system
+     */
+    public String saveUserSubscriptionPaymentDetails(String userName, SubscriptionDto dto) throws Exception {
+        String subscriptionId = dao.saveSubscriptionPaymentDetails(userName, dto);
+        if (subscriptionId != null) {
+            LOGGER.info("## Subscription details for user: {} saves successfully, now proceeding to user user details like "
+                    + "subscription state, start and end time in users table", userName);
+            FinVendorUser userDetails = updateUserSubscriptionDetails(userName, dto.getSubscriptionType());
+            LOGGER.info("## User's subscription details saves successfully");
+            sentSubscriptionSubmissionEmail(userName, userDetails);
+            LOGGER.info("## Email sent to User successfully");
         }
+        return subscriptionId;
     }
 
     private void sentSubscriptionSubmissionEmail(String userName, FinVendorUser userDetails) throws Exception {
@@ -80,7 +81,7 @@ public class SubscriptionService {
         }
     }
 
-    private FinVendorUser updateUserSubscription(String userName, String subscriptionType) throws ApplicationException {
+    private FinVendorUser updateUserSubscriptionDetails(String userName, String subscriptionType) throws ApplicationException {
         FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
         //Set subscription type
         if (existingUser.getSubscriptionDate() == null) {
@@ -88,30 +89,31 @@ public class SubscriptionService {
         }
         existingUser.setSubscriptionType(subscriptionType);
         existingUser.setSubscriptionState("PENDING");
-
-        //set subscription time period
-        existingUser.setSubscriptionStartTimeInMillis("N/A");
-        existingUser.setSubscriptionEndTimeInMillis("N/A");
-
+        //set subscription time period as N/A and start and end time will be set when Admin Activate it after payment received
+        existingUser.setSubscriptionStartTime("N/A");
+        existingUser.setSubscriptionEndTime("N/A");
         userService.updateUserInfo(existingUser);
         return existingUser;
     }
 
-    public ApiMessageEnum updatePayment(SubscriptionDto dto, List<SubscriptionDetails> dataList) throws Exception {
+    public ApiMessageEnum updateUserSubscriptionPaymentDetails(SubscriptionDto dto, List<SubscriptionDetails> dataList) throws Exception {
         try {
             ApiMessageEnum apiMessageEnum = ApiMessageEnum.FAILED_TO_UPDATE_SUBSCRIPTION;
             for (SubscriptionDetails subscriptionDetail : dataList) {
-                apiMessageEnum = dao.updatePayment(dto, subscriptionDetail.getSubscriptionId());
+                String subscriptionId = subscriptionDetail.getSubscriptionId();
+                String userId = subscriptionDetail.getUserId();
+                apiMessageEnum = dao.updateUserSubscriptionPaymentDetails(dto, subscriptionId);
+                LOGGER.info("## User: {}, subscription payment verification flag saved successfully", userId);
                 if (apiMessageEnum.equals(ApiMessageEnum.UPDATE_SUBSCRIPTION_SUCCESS)) {
-                    FinVendorUser existingUser = userService.getUserDetailsByUsername(subscriptionDetail.getUserId());
-                    Pair<Long, Long> subscriptionStartAndEndDateInMillis = getSubscriptionStartAndEndDateInMillis(30);
-                    String subscriptionStartTimeInMillis = String.valueOf(subscriptionStartAndEndDateInMillis.getElement1());
-                    String subscriptionEndTimeInMillis = String.valueOf(subscriptionStartAndEndDateInMillis.getElement2());
-                    LOGGER.info("Subscription start time in ms: {}", subscriptionStartTimeInMillis);
-                    LOGGER.info("Subscription end time in ms: {}", subscriptionStartTimeInMillis);
+                    FinVendorUser existingUser = userService.getUserDetailsByUsername(userId);
+                    Pair<String, String> subscriptionStartAndEndDate = DateUtils.getSubscriptionStartAndEndDateInHumanDate(30);
+                    String subscriptionStartTime = subscriptionStartAndEndDate.getElement1();
+                    String subscriptionEndTime = subscriptionStartAndEndDate.getElement2();
+                    LOGGER.info("## Subscription start time: {}", subscriptionStartTime);
+                    LOGGER.info("## Subscription end time: {}", subscriptionStartTime);
                     //set subscription time period
-                    existingUser.setSubscriptionStartTimeInMillis(subscriptionStartTimeInMillis);
-                    existingUser.setSubscriptionEndTimeInMillis(subscriptionEndTimeInMillis);
+                    existingUser.setSubscriptionStartTime(subscriptionStartTime);
+                    existingUser.setSubscriptionEndTime(subscriptionEndTime);
                     //Set subscription STATE
                     if (dto.getPaymentVerified()) {
                         existingUser.setSubscriptionState("ACTIVE");
@@ -120,7 +122,9 @@ public class SubscriptionService {
                         existingUser.setSubscriptionState("TERMINATE");
                     }
                     userService.updateUserInfo(existingUser);
+                    LOGGER.info("## User: {}, subscription start and end time set in user table successfully.", userId);
                     sendActivationOrTerminationMail(existingUser);
+                    LOGGER.info("## After payment verification by Finvendor ADMIN, Email sent to user: {} successfully.", userId);
                 }
             }
             return apiMessageEnum;
@@ -205,7 +209,7 @@ public class SubscriptionService {
         }
     }
 
-    public String getSubscriptionsRecordStat(String state, String perPageMaxRecords, SubscriptionFilter filter) throws Exception {
+    public Pair<String, Integer> getSubscriptionsRecordStat(String state, String perPageMaxRecords, SubscriptionFilter filter) throws Exception {
         try {
             return dao.getSubscriptionsRecordStats(state, perPageMaxRecords, filter);
         } catch (RuntimeException e) {
@@ -222,18 +226,9 @@ public class SubscriptionService {
         }
     }
 
-    public UserSubscriptionDto findUserSubscriptions(String userName) throws Exception {
-        try {
-            return dao.findUserSubscription(userName);
-        } catch (RuntimeException e) {
-            throw new Exception(e);
-        }
-    }
-
     public Pair<Long, InputStream> downloadSubscriptions() throws Exception {
         try {
-            Pair<Long, InputStream> customerAnalyticsDownloadData = dao.downloadSubscriptions();
-            return customerAnalyticsDownloadData;
+            return dao.downloadSubscriptions();
         } catch (RuntimeException e) {
             throw new Exception(e);
         }

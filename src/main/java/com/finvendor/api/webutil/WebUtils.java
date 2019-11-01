@@ -9,7 +9,6 @@ import com.finvendor.api.metrics.service.LimitedSearchService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
-import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.util.StringUtil;
 import com.finvendor.model.FinVendorUser;
@@ -80,12 +79,13 @@ public final class WebUtils {
      */
     @SuppressWarnings("serial")
     public static final Map<String, SqlData> filterTypeMap = new LinkedHashMap<>();
-    public static final String VALIDATION_FAILED_ERR_MSG = "Validation failed";
-    public static final String INTERNAL_SERVER_ERR_MSG = "Internal server error";
-    public static final String RESOURCE_NOT_FOUND_ERR_MSG = "Resource not found";
+    public static final String VALIDATION_FAILED = "Validation failed";
+    private static final String INTERNAL_SERVER_ERROR = "Internal server error";
+    public static final String RESOURCE_NOT_FOUND = "Resource not found";
+    public static final String CONFLICT = "Conflict";
 
     static {
-        final Object[] conitionValueAsNull = null;
+        final Object[] conditionValueAsNull = null;
         final LinkedHashMap<String, Object> firstDefaultParamsMapAsNull = null;
         final LinkedHashMap<String, Object> lastDefaultParamsMapAsNull = null;
         final int columnIndex_0 = 0;
@@ -120,7 +120,7 @@ public final class WebUtils {
                                             { "Small Cap", "Small Cap: $300M < & < $1Bn" },
                                             { "Micro Cap", "Micro Cap: $50M < & < $300M" } }));
                         }},
-                        conitionValueAsNull,
+                        conditionValueAsNull,
                         firstDefaultParamsMapAsNull,
                         lastDefaultParamsMapAsNull,
                         columnIndex_1));
@@ -131,7 +131,7 @@ public final class WebUtils {
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("stockClassificationName", null));
                         }},
-                        conitionValueAsNull,
+                        conditionValueAsNull,
                         firstDefaultParamsMapAsNull,
                         lastDefaultParamsMapAsNull,
                         columnIndex_1));
@@ -142,7 +142,7 @@ public final class WebUtils {
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("companyName", null));
                         }},
-                        conitionValueAsNull,
+                        conditionValueAsNull,
                         firstDefaultParamsMapAsNull,
                         lastDefaultParamsMapAsNull,
                         columnIndex_1));
@@ -158,7 +158,7 @@ public final class WebUtils {
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("rsrchRecommType", null));
                         }},
-                        conitionValueAsNull,
+                        conditionValueAsNull,
                         firstDefaultParamsMapAsNull,
                         lastDefaultParamsMapAsNull,
                         columnIndex_1));
@@ -170,7 +170,7 @@ public final class WebUtils {
                         new ArrayList<ColumnNameAndNewValue>() {{
                             add(new ColumnNameAndNewValue("description", null));
                         }},
-                        conitionValueAsNull,
+                        conditionValueAsNull,
                         firstDefaultParamsMapAsNull,
                         lastDefaultParamsMapAsNull,
                         columnIndex_1));
@@ -350,8 +350,8 @@ public final class WebUtils {
             errMessages.add(defaultMessage);
         }
         String[] errStrArr = errMessages.toArray(new String[1]);
-        logger.error("### Validation failed error details: {}", Arrays.toString(errStrArr));
-        ApiResponse apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED_ERR_MSG, null, HttpStatus.BAD_REQUEST);
+        logger.error("##Error Msg: {}", Arrays.toString(errStrArr));
+        ApiResponse apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED, null, HttpStatus.BAD_REQUEST);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
         return new ResponseEntity<>(apiResponse, httpStatus);
@@ -359,32 +359,32 @@ public final class WebUtils {
 
     public static ResponseEntity<ApiResponse> getConstraintViolationResponseEntity(ConstraintViolationException e) {
         String message = e.getMessage().substring(e.getMessage().indexOf(":") + 2);
-        logger.error("### Validation failed error details: {}", message);
-        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED_ERR_MSG, null, HttpStatus.BAD_REQUEST);
+        logger.error("## Error Msg: {}", message);
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED, null, HttpStatus.BAD_REQUEST);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
         return new ResponseEntity<>(apiResponse, httpStatus);
     }
 
     public static ResponseEntity<ApiResponse> getBadRequestErrorResponse(ApiBadRequestException e) {
-        logger.error("### Validation failed error details: {}", e.getMessage());
-        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED_ERR_MSG, null, HttpStatus.BAD_REQUEST);
+        logger.error("## Error Msg: {}, Error trace: ", e.getMessage(), e);
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED, null, HttpStatus.BAD_REQUEST);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
         return new ResponseEntity<>(apiResponse, httpStatus);
     }
 
     public static ResponseEntity<ApiResponse> getResourceNotFoundErrorResponse(ApiResourceNotFoundException e) {
-        logger.error("### Validation failed error details: {}", e.getMessage());
-        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-404", RESOURCE_NOT_FOUND_ERR_MSG, null, HttpStatus.NOT_FOUND);
+        logger.error("## Error Msg: {}, Error trace: ", e.getMessage(), e);
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-404", RESOURCE_NOT_FOUND, null, HttpStatus.NOT_FOUND);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
         return new ResponseEntity<>(apiResponse, httpStatus);
     }
 
     public static ResponseEntity<ApiResponse> getInternalServerErrorResponse(Exception e) {
-        ErrorUtil.logError("Api Internal server error :", e);
-        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-500", INTERNAL_SERVER_ERR_MSG, null,
+        logger.error("## Error Msg: {}, Error trace: ", e.getMessage(), e);
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-500", INTERNAL_SERVER_ERROR, null,
                 HttpStatus.INTERNAL_SERVER_ERROR);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);

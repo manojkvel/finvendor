@@ -1,73 +1,50 @@
 package com.finvendor.api.notification.service;
 
 import com.finvendor.api.notification.dto.EmailBuilder;
-import com.finvendor.api.user.service.UserService;
-import com.finvendor.model.FinVendorUser;
 import com.finvendor.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
-import java.util.Properties;
 
 @Service
 public class NotificationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(NotificationService.class.getName());
-
-    private static final String TRIAL_PERIOD_OVER_EMAIL_SUBJECT = "Subscription trial period over!";
-    private static final String TRIAL_PERIOD_OVER_EMAIL_MESSAGE =
-            "Dear User <br>Your Trial subscription trial period is over. <br> Please go for "
-                    + "for monthly subscription.<br><br>Regards,<br>FinvendorTeam";
-
-    @Resource(name = "finvendorProperties")
-    private Properties fvProperties;
-
-    @Autowired
-    private UserService userService;
-
-    public void sendEMailToAllUserWhoseTrialPeriodOver() {
-        List<FinVendorUser> userDetails = userService.getUserDetails();
-        for (FinVendorUser user : userDetails) {
-            if (user.getTrialPeriodEndInMs() != null) {
-                boolean userInTrialPeriod = userService.isUserInTrialPeriod(user);
-                if (!userInTrialPeriod) {
-                    boolean emailEnabled = Boolean.parseBoolean(fvProperties.getProperty("email"));
-                    if (emailEnabled) {
-                        String to = user.getEmail();
-                        try {
-                            EmailUtil.sendMail(to, TRIAL_PERIOD_OVER_EMAIL_SUBJECT, TRIAL_PERIOD_OVER_EMAIL_MESSAGE);
-                        } catch (Exception e) {
-                            LOGGER.error("## Unable to sent trial period over Email to user: {}", user.getEmail());
-                        }
-                        LOGGER.info("Email sent to user: {} successfully", to);
-                    }
-                }
-            }
-        }
-    }
+    private static final String FAILED_TO_SENT_EMAIL_SUBJECT = "Failed to sent email to user";
+    private static final String FAILED_TO_SENT_EMAIL_CONTENT = "Hello Admin, <br> System failed to send email to user: ";
+    private static final String FV_SALES_EMAIL = "sales@finvendor.com";
 
     public void sendMail(EmailBuilder emailBuilder) throws Exception {
+        LOGGER.info("NotificationService - sendMail - START emailBuilder: {}", emailBuilder);
         String from = emailBuilder.getFrom();
         String subject = emailBuilder.getSubject();
         String content = emailBuilder.getContent();
         String[] attachments = emailBuilder.getAttachment();
-
-        try {
-            if (attachments == null || attachments.length == 0) {
-                for (String to : emailBuilder.getTo()) {
+        if (attachments == null || attachments.length == 0) {
+            for (String to : emailBuilder.getTo()) {
+                try {
                     EmailUtil.sendMail(from, to, subject, content);
+                } catch (Exception e) {
+                    sendMailToSalesWhenEmailFailed(to);
                 }
             }
-            else {
-                for (String to : emailBuilder.getTo()) {
+        }
+        else {
+            for (String to : emailBuilder.getTo()) {
+                try {
                     EmailUtil.sendMailWithAttachment(from, to, subject, content, attachments);
+                } catch (Exception e) {
+                    sendMailToSalesWhenEmailFailed(to);
                 }
             }
+
+        }
+    }
+
+    private void sendMailToSalesWhenEmailFailed(String to) {
+        try {
+            EmailUtil.sendMail(FV_SALES_EMAIL, FV_SALES_EMAIL, FAILED_TO_SENT_EMAIL_SUBJECT, FAILED_TO_SENT_EMAIL_CONTENT + to);
         } catch (Exception e) {
-            throw new Exception("Error has occurred while sending Email with attachments ", e);
+            LOGGER.error("## Finvendor EMAIL server is down, please contact admin");
         }
     }
 }

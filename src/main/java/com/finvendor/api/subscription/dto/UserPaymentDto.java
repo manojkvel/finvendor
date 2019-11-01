@@ -6,20 +6,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"userName","subscriptionDate", "subscriptionType","subscriptionState",
-       "subscriptionStartTimeMs","subscriptionEndTimeMs", "subscriptionRefId",
-        "transactionRefNumber", "transactionDate", "transactionFor",
-        "paymentMode", "amountTransferred",
-        "bankName", "bankHolderName", "paymentVerified"})
+@JsonPropertyOrder({"userName","subscriptionDate", "subscriptionType","subscriptionState", "subscriptionStartTime","subscriptionEndTime",
+        "subscriptionId", "transactionRefNumber", "transactionDate", "transactionFor", "paymentMode", "amountTransferred", "bankName",
+        "bankHolderName", "paymentVerified"})
 public class UserPaymentDto implements Serializable {
-
     private final String userName;
     private final long subscriptionDate;
     private final String subscriptionType;
     private final String subscriptionState;
-    private final long subscriptionStartTimeMs;
-    private final long subscriptionEndTimeMs;
-    private final String subscriptionRefId;
+    private final long subscriptionStartTime;
+    private final long subscriptionEndTime;
+    private final String subscriptionId;
     private final String transactionRefNumber;
     private final long transactionDate;
     private final String transactionFor;
@@ -30,7 +27,7 @@ public class UserPaymentDto implements Serializable {
     private final String paymentVerified;
 
     public UserPaymentDto(String userName, long subscriptionDate, String subscriptionType, String subscriptionState,
-            long subscriptionStartTimeMs, long subscriptionEndTimeMs, String subscriptionRefId, String transactionRefNumber,
+            long subscriptionStartTime, long subscriptionEndTime, String subscriptionId, String transactionRefNumber,
             long transactionDate, String transactionFor, String paymentMode, double amtTransferred,
             String bankName, String bankHolderName, String paymentVerified) {
 
@@ -38,9 +35,9 @@ public class UserPaymentDto implements Serializable {
         this.subscriptionDate = subscriptionDate;
         this.subscriptionType = subscriptionType;
         this.subscriptionState = subscriptionState;
-        this.subscriptionStartTimeMs = subscriptionStartTimeMs;
-        this.subscriptionEndTimeMs = subscriptionEndTimeMs;
-        this.subscriptionRefId = subscriptionRefId;
+        this.subscriptionStartTime = subscriptionStartTime;
+        this.subscriptionEndTime = subscriptionEndTime;
+        this.subscriptionId = subscriptionId;
         this.transactionRefNumber = transactionRefNumber;
         this.transactionDate = transactionDate;
         this.transactionFor = transactionFor;
@@ -67,16 +64,16 @@ public class UserPaymentDto implements Serializable {
         return subscriptionState;
     }
 
-    public long getSubscriptionStartTimeMs() {
-        return subscriptionStartTimeMs;
+    public long getSubscriptionStartTime() {
+        return subscriptionStartTime;
     }
 
-    public long getSubscriptionEndTimeMs() {
-        return subscriptionEndTimeMs;
+    public long getSubscriptionEndTime() {
+        return subscriptionEndTime;
     }
 
-    public String getSubscriptionRefId() {
-        return subscriptionRefId;
+    public String getSubscriptionId() {
+        return subscriptionId;
     }
 
     public String getTransactionRefNumber() {

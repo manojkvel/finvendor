@@ -2,6 +2,9 @@ package com.finvendor.model.subscription;
 
 import javax.persistence.*;
 
+/**
+ * User Subscription Payment Entity
+ */
 @Entity
 @Table(name = "user_payment")
 public class UserPayment {
@@ -29,7 +32,7 @@ public class UserPayment {
     private String paymentMode;
 
     @Column(name = "amt_transferred")
-    private String amoutTransferred;
+    private String amountTransferred;
 
     @Column(name = "bank_name")
     private String bankName;
@@ -80,12 +83,12 @@ public class UserPayment {
         this.paymentMode = paymentMode;
     }
 
-    public String getAmoutTransferred() {
-        return amoutTransferred;
+    public String getAmountTransferred() {
+        return amountTransferred;
     }
 
-    public void setAmoutTransferred(String amoutTransferred) {
-        this.amoutTransferred = amoutTransferred;
+    public void setAmountTransferred(String amountTransferred) {
+        this.amountTransferred = amountTransferred;
     }
 
     public String getBankName() {

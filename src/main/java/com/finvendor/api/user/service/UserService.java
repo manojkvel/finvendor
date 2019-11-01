@@ -2,6 +2,8 @@ package com.finvendor.api.user.service;
 
 import com.finvendor.api.consumer.dao.ConsumerDao;
 import com.finvendor.api.login.dto.SubscriptionDto;
+import com.finvendor.api.notification.dto.EmailBuilder;
+import com.finvendor.api.notification.service.NotificationService;
 import com.finvendor.api.user.dao.UserDao;
 import com.finvendor.api.vendor.dao.VendorDaoImpl;
 import com.finvendor.common.exception.ApplicationException;
@@ -17,15 +19,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
+
+import static com.finvendor.common.constant.AppConstants.*;
+import static com.finvendor.common.util.DateUtils.convertSubscriptionDateToMillis;
+import static com.finvendor.util.EmailUtil.SALES_EMAIL;
 
 @Service
 @Transactional
 public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class.getName());
+
+    @Resource(name = "finvendorProperties")
+    private Properties fvProperties;
 
     @Autowired
     private UserDao userDao;
@@ -35,6 +46,16 @@ public class UserService {
 
     @Autowired
     private ConsumerDao consumerDao;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    private static final String TRIAL_PERIOD_OVER_EMAIL_SUBJECT = "Subscription trial period over!";
+    private static final String TRIAL_PERIOD_OVER_EMAIL_MESSAGE =
+            "Dear User <br>Your Trial subscription trial period is over. <br> Please go for "
+                    + "for monthly subscription.<br><br>Regards,<br>FinvendorTeam";
+
+    private static final String SUBSCRIPTION_EXPIRED_SUBJECT = "Finvendor - Subscription expired";
 
     public void saveUserInfo(FinVendorUser user) {
         userDao.saveUserInfo(user);
@@ -152,22 +173,113 @@ public class UserService {
         }
     }
 
-    public boolean isUserInTrialPeriod(FinVendorUser user) {
+    /**
+     * Check user is in trial period
+     */
+    public boolean isUserInTrialPeriod(FinVendorUser user) throws Exception {
         boolean trialPeriod;
-        long trialPeriodEndInMs;
-        String trialPeriodEndInMsStr = user.getTrialPeriodEndInMs();
-        String timeStamp = DateUtils.convertRegistrationDateFormatToTimestamp(trialPeriodEndInMsStr);
-        if (!timeStamp.isEmpty()) {
-            trialPeriodEndInMs = Long.parseLong(timeStamp);
+        String trialPeriodEndTime = user.getTrialPeriodEndTime();
+        if (trialPeriodEndTime != null) {
+            trialPeriod =
+                    Calendar.getInstance().getTimeInMillis() <= DateUtils.get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodEndTime);
         }
         else {
-            throw new RuntimeException("User trial end period is not set in db!");
+            trialPeriod = false;
         }
-        trialPeriod = Calendar.getInstance().getTimeInMillis() <= trialPeriodEndInMs;
         return trialPeriod;
     }
 
     public SubscriptionDto findUserSubscriptionDetails(FinVendorUser user) {
         return new SubscriptionDto(user.getSubscriptionType(), user.getSubscriptionState());
+    }
+
+    /**
+     * Send email to user whose free trial period is over
+     */
+    public void sendEMail_OnTrialPeriodOver() throws Exception {
+        List<FinVendorUser> userDetails = getUserDetails();
+        boolean emailEnabled = Boolean.parseBoolean(fvProperties.getProperty(EMAIL));
+        for (FinVendorUser user : userDetails) {
+            if (user.getTrialPeriodEndTime() != null && !isUserInTrialPeriod(user) && emailEnabled) {
+                notificationService.sendMail(new EmailBuilder.Builder(new String[] { user.getEmail() },
+                        TRIAL_PERIOD_OVER_EMAIL_SUBJECT, TRIAL_PERIOD_OVER_EMAIL_MESSAGE)
+                        .from(SALES_EMAIL).build());
+            }
+        }
+    }
+
+    /**
+     * Send email to user whose subscription period is expired
+     */
+    public void sendMail_OnSubscriptionExpired() throws Exception {
+        List<FinVendorUser> existingUsers = getUserDetails();
+        boolean emailEnabled = Boolean.parseBoolean(fvProperties.getProperty(EMAIL));
+        for (FinVendorUser user : existingUsers) {
+            String subsEndTime = user.getSubscriptionEndTime();
+            if (!N_A.equals(subsEndTime) && Calendar.getInstance().getTimeInMillis() > convertSubscriptionDateToMillis(subsEndTime)) {
+                user.setSubscriptionType(FREE);
+                user.setSubscriptionStartTime(N_A);
+                user.setSubscriptionEndTime(N_A);
+                updateUserInfo(user);
+                if (emailEnabled) {
+                    String subscriptionType = user.getSubscriptionType();
+                    String content = "Dear" + " " + user.getUserName() + "<br>"
+                            + "Your Subscription " + subscriptionType + " is expired."
+                            + "<br><br>"
+                            + "Kindly renew your subscription." + "<br><br>"
+                            + "Thank you for choosing us. " + "<br><br>"
+                            + "Regards" + "<br>"
+                            + "Finvendor Team";
+                    notificationService.sendMail(
+                            new EmailBuilder.Builder(new String[] { user.getEmail() }, SUBSCRIPTION_EXPIRED_SUBJECT, content)
+                                    .from(SALES_EMAIL).build());
+                }
+            }
+        }
+    }
+
+    /**
+     * Send email to user whose subscription period approaching to expire
+     */
+    public void sendMail_OnSubscriptionNearToExpire() throws Exception {
+        boolean emailEnabled = Boolean.parseBoolean(fvProperties.getProperty("email"));
+        for (FinVendorUser fvUser : getUserDetails()) {
+            String subscriptionStartTimeInHumanDate = fvUser.getSubscriptionStartTime();
+            String subscriptionEndTimeInHumanDate = fvUser.getSubscriptionEndTime();
+            String userName = fvUser.getUserName();
+            logger.info("## sendReminderForSubscriptionReNewal - UserName: {}", userName);
+            logger.info("## sendReminderForSubscriptionReNewal - subscriptionStartTimeInHumanDate: {}", subscriptionStartTimeInHumanDate);
+            logger.info("## sendReminderForSubscriptionReNewal - subscriptionEndTimeInHumanDate: {}", subscriptionEndTimeInHumanDate);
+            long subscriptionStartTime = convertSubscriptionDateToMillis(subscriptionStartTimeInHumanDate);
+            long subscriptionEndTime = convertSubscriptionDateToMillis(subscriptionEndTimeInHumanDate);
+            logger.info("## subscriptionStartTime in Long: {}", subscriptionStartTime);
+            logger.info("## subscriptionEndTime in Long: {}", subscriptionEndTime);
+
+            long diffInDays = DateUtils.getDateDifferenceInDays(subscriptionStartTime, subscriptionEndTime);
+            logger.info("## sendReminderForSubscriptionReNew - diffInDays: {}", diffInDays);
+            if ((diffInDays == 15L || diffInDays == 10L || diffInDays == 5L || diffInDays == 4L
+                    || diffInDays == 3L || diffInDays == 2L || diffInDays == 1L) && emailEnabled) {
+
+                String subject = "Finvendor - Subscription ";
+                String content = "Dear" + " " + userName + "<br>"
+                        + "Your Subscription " + fvUser.getSubscriptionType() + " is approaching towards end and will expire on "
+                        + fvUser.getSubscriptionStartTime() + "<br><br>"
+                        + "Kindly renew your subscription before expire." + "<br><br>"
+                        + "Thank you for choosing us. " + "<br><br>"
+                        + "Regards" + "<br>"
+                        + "Finvendor Team";
+                String email = fvUser.getEmail();
+                String from = SALES_EMAIL;
+                String[] to = new String[] { email };
+                notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).from(from).build());
+            }
+        }
+    }
+
+    public void resetSubscription(String userName) throws Exception {
+        FinVendorUser existingUser = getUserDetailsByUsername(userName);
+        if (existingUser != null && existingUser.getUserName() != null) {
+            userDao.deleteSubscription(existingUser.getUserName());
+        }
     }
 }

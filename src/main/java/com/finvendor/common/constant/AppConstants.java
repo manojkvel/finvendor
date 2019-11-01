@@ -11,4 +11,7 @@ public class AppConstants {
     public static final String COMMA = ",";
     public static final String FV_SUPPORT_EMAIL = "support@finvendor.com";
 
+    public static final String FREE = "FREE";
+    public static final String N_A = "N/A";
+    public static final String EMAIL = "email";
 }

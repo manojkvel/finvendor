@@ -271,13 +271,12 @@ public class RegistrationController {
         user.setVerified("N");
         user.setRegistrationDate(new Timestamp(System.currentTimeMillis()));
 
+        //Set Subscription details
         user.setSubscriptionType(SubscriptionTypeEnum.FREE.toString());
-        user.setSubscriptionStartTimeInMillis("NA");
-        user.setSubscriptionEndTimeInMillis("NA");
+        user.setSubscriptionStartTime("N/A");
+        user.setSubscriptionEndTime("N/A");
         user.setSubscriptionState("N/A");
-
         boolean isVendor = checkUserTypeFromCompany(companyType);
-
         try {
             FinVendorUser userDetailsByUsername = userService.getUserDetailsByUsername(uname);
             if (userDetailsByUsername != null) {

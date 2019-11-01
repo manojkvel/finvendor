@@ -60,7 +60,7 @@ public class EquityReportController {
             @RequestParam(value = "orderBy") String orderBy) throws WebApiException {
         try {
             LOGGER.info("## Controller getResearchResultTableData START");
-//            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request),
+            //            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request),
             ////                    FvFeature.EQUITY_RESEARCH_REPORT);
             ////            if (featureAllowedDto != null) {
             ////                return WebUtils.buildResponseEntity(
@@ -144,11 +144,18 @@ public class EquityReportController {
 
     @PostMapping(value = "/researchReports/recordStats")
     public ResponseEntity<?> getRecordStatistics(HttpServletRequest request, @RequestBody EquityResearchFilter equityResearchFilter,
-            @RequestParam(value = "type") String type,
-            @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords)
+            @RequestParam(value = "type") String type, @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords)
             throws WebApiException {
+        LOGGER.info("## getRecordStatistics - START");
         try {
-            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(getLoggedInUser(request), FvFeature.EQUITY_RESEARCH_REPORT);
+            String loggedInUser = getLoggedInUser(request);
+            String userNameFromHeader = request.getHeader("user-name");
+            if (loggedInUser == null) {
+                loggedInUser = userNameFromHeader;
+            }
+            LOGGER.info("## loggedInUser: {}", loggedInUser);
+            FeatureAllowedDto featureAllowedDto = isUserAllowedToAccessFeature(loggedInUser, FvFeature.EQUITY_RESEARCH_REPORT);
+            LOGGER.info("## featureAllowedDto: {}", featureAllowedDto);
             if (featureAllowedDto != null) {
                 return WebUtils.buildResponseEntity(
                         WebUtils.buildResponse(ApiMessageEnum.RESOURCE_NOT_FOUND, featureAllowedDto, HttpStatus.NOT_FOUND));

@@ -40,7 +40,8 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         this.userDao = userDao;
     }
 
-    public String getSubscriptionsRecordStats(String state, String perPageMaxRecords, SubscriptionFilter filter) throws IOException {
+    public Pair<String, Integer> getSubscriptionsRecordStats(String state, String perPageMaxRecords, SubscriptionFilter filter)
+            throws IOException {
         String findAllSubscriptionSql = getFindAllSubscriptionSql(state, filter);
         SQLQuery sqlQuery = commonDao.getNativeQuery(findAllSubscriptionSql, null);
         List<Object[]> rows = sqlQuery.list();
@@ -56,7 +57,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         paramsMap.put("lastPageNumber", lastPageNumber);
         paramsMap.put("totalRecords", totalRecords);
 
-        return JsonUtil.createJsonFromObject(paramsMap);
+        return new Pair<>(JsonUtil.createJsonFromObject(paramsMap), totalRecords);
     }
 
     public List<UserPaymentDto> findAllPayments(String state, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
@@ -64,7 +65,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         try {
             String finalSql;
             finalSql = getFindAllSubscriptionSql(state, filter) + getSortBySql(sortBy, orderBy);
-            LOGGER.info("findAllSubscription - finalSql: {}", finalSql);
+            LOGGER.info("## findAllSubscription - finalSql: {}", finalSql);
             List<UserPaymentDto> paymentDtoList = new ArrayList<>();
             String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
             String findAllSubscriptionQuery = finalSql + applyPagination;
@@ -79,17 +80,17 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
 
                 String subscriptionType = row[2] != null ? row[2].toString().trim() : "";
                 String subscriptionState = row[3] != null ? row[3].toString().trim() : "";
-                String subscriptionStartTimeMsStr = row[4] != null ? row[4].toString().trim() : "";
-                long subscriptionStartTimeMs = (!"N/A".equalsIgnoreCase(subscriptionStartTimeMsStr)) ?
-                        Long.parseLong(subscriptionStartTimeMsStr) :
+                String subscriptionStartTime = row[4] != null ? row[4].toString().trim() : "";
+                long subscriptionStartTimeMs = (!"N/A".equalsIgnoreCase(subscriptionStartTime) && !"".equals(subscriptionStartTime)) ?
+                        DateUtils.get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionStartTime) :
                         0L;
 
-                String subscriptionEndTimeMsStr = row[5] != null ? row[5].toString().trim() : "";
-                long subscriptionEndTimeMs = (!"N/A".equalsIgnoreCase(subscriptionEndTimeMsStr)) ?
-                        Long.parseLong(subscriptionEndTimeMsStr) :
+                String subscriptionEndTime = row[5] != null ? row[5].toString().trim() : "";
+                long subscriptionEndTimeMs = (!"N/A".equalsIgnoreCase(subscriptionEndTime) && !"".equals(subscriptionEndTime)) ?
+                        DateUtils.get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionEndTime) :
                         0L;
 
-                String subscriptionRefId = row[6] != null ? row[6].toString().trim() : "";
+                String subscriptionId = row[6] != null ? row[6].toString().trim() : "";
                 String transactionRefNumber = row[7] != null ? row[7].toString().trim() : "";
 
                 String transactionDateStr = row[8] != null ? row[8].toString().trim() : "";
@@ -106,13 +107,13 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
                 String paymentVerified = row[14] != null ? row[14].toString().trim() : "FALSE";
 
                 UserPaymentDto dto = new UserPaymentDto(userName, subscriptionDate, subscriptionType, subscriptionState,
-                        subscriptionStartTimeMs, subscriptionEndTimeMs, subscriptionRefId, transactionRefNumber,
+                        subscriptionStartTimeMs, subscriptionEndTimeMs, subscriptionId, transactionRefNumber,
                         transactionDate, transactionFor, paymentMode, amtTransferred, bankName, bankHolderName, paymentVerified);
                 paymentDtoList.add(dto);
             }
             return paymentDtoList;
         } catch (Exception e) {
-            throw new RuntimeException("Error has occurred while finding user subscription details.", e);
+            throw new RuntimeException("## Error has occurred while finding user subscription details.", e);
         }
     }
 
@@ -125,34 +126,34 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         if (filter != null) {
             if ("all".equals(state)) {
                 finalSql =
-                        "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username "
+                        "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time,b.subscription_end_time,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username "
                                 + " and (cast(subscription_date as UNSIGNED INTEGER)>=" + filter.getFrom()
                                 + " and cast(subscription_date as UNSIGNED INTEGER)<= " + filter.getTo() + ")";
             }
             else {
                 finalSql =
-                        "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='"
+                        "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time,b.subscription_end_time,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='"
                                 + state + "' and (cast(subscription_date as UNSIGNED INTEGER)>=" + filter.getFrom()
                                 + " and cast(subscription_date as UNSIGNED INTEGER)<= " + filter.getTo() + ")";
             }
         }
         else {
             if ("all".equals(state)) {
-                finalSql = "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username ";
+                finalSql = "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time,b.subscription_end_time, a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username ";
             }
             else {
                 finalSql =
-                        "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='"
+                        "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time,b.subscription_end_time, a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username and b.subscription_state='"
                                 + state + "'";
             }
         }
         return finalSql;
     }
 
-    public ApiMessageEnum updatePayment(SubscriptionDto dto, String subscriptionRefId) {
+    public ApiMessageEnum updateUserSubscriptionPaymentDetails(SubscriptionDto dto, String subscriptionId) {
         ApiMessageEnum apiMessageEnum;
         try {
-            UserPayment userPaymentEntity = findById(subscriptionRefId);
+            UserPayment userPaymentEntity = findById(subscriptionId);
             if (userPaymentEntity != null) {
                 if ("TRUE".equals(userPaymentEntity.getPaymentVerified())) {
                     apiMessageEnum = ApiMessageEnum.PAYMENT_ALREADY_VERIFIED;
@@ -172,8 +173,8 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
         return apiMessageEnum;
     }
 
-    public String savePaymentDetails(String userName, SubscriptionDto dto) {
-        String subscriptionRefId = null;
+    public String saveSubscriptionPaymentDetails(String userName, SubscriptionDto dto) {
+        String subscriptionId = null;
         UserPayment userPaymentEntity = new UserPayment();
         try {
             SQLQuery query1 = commonDao
@@ -182,23 +183,23 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
             List<Object[]> rows = query1.list();
             if (rows.size() != 0) {
                 for (Object[] row : rows) {
-                    subscriptionRefId = row[0] != null ? row[0].toString().trim() : "";
-                    userPaymentEntity = findById(subscriptionRefId);
+                    subscriptionId = row[0] != null ? row[0].toString().trim() : "";
+                    userPaymentEntity = findById(subscriptionId);
                     setPaymentDetails(dto, userPaymentEntity);
                 }
             }
             else {
-                subscriptionRefId = String.valueOf(UUID.randomUUID());
+                subscriptionId = String.valueOf(UUID.randomUUID());
                 userPaymentEntity.setUserName(userName);
-                userPaymentEntity.setSubscriptionRefId(subscriptionRefId);
+                userPaymentEntity.setSubscriptionRefId(subscriptionId);
                 setPaymentDetails(dto, userPaymentEntity);
 
             }
             saveOrUpdate(userPaymentEntity);
         } catch (Exception e) {
-            throw new RuntimeException("Error has occurred while saving user subscription details.", e);
+            throw new RuntimeException("## Error has occurred while saving user subscription details.", e);
         }
-        return subscriptionRefId;
+        return subscriptionId;
     }
 
     private void setPaymentDetails(SubscriptionDto dto, UserPayment userPaymentEntity) {
@@ -218,7 +219,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
             userPaymentEntity.setPaymentMode(dto.getPaymentMode());
         }
         if (dto.getAmountTransferred() != null) {
-            userPaymentEntity.setAmoutTransferred(String.valueOf(dto.getAmountTransferred()));
+            userPaymentEntity.setAmountTransferred(String.valueOf(dto.getAmountTransferred()));
         }
         if (dto.getBankName() != null) {
             userPaymentEntity.setBankName(dto.getBankName());
@@ -239,10 +240,10 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
             Map<String, Object> condition = new LinkedHashMap<>();
             condition.put("username", userName);
             String[] cols = { "username", "subscription_type", "subscription_state" };
-            List<Object[]> user_payment = findByColumnAndCondition(USERS, cols, condition);
-            Object existingSubscriptionType = user_payment.get(0)[1];
-            Object existingSubscriptionState = user_payment.get(0)[2];
-            return new UserSubscriptionDto(existingSubscriptionType.toString(), existingSubscriptionState.toString());
+            List<Object[]> userSubscriptionDetails = findByColumnAndCondition(USERS, cols, condition);
+            Object subscriptionType = userSubscriptionDetails.get(0)[1];
+            Object subscriptionState = userSubscriptionDetails.get(0)[2];
+            return new UserSubscriptionDto(subscriptionType.toString(), subscriptionState.toString());
         } catch (Exception e) {
             return null;
         }
@@ -253,7 +254,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
     public static final String NA = "NA";
 
     public Pair<Long, InputStream> downloadSubscriptions() throws RuntimeException {
-        String mainQuery = "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time_ms,b.subscription_end_time_ms,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username";
+        String mainQuery = "select b.username,b.subscription_date,b.subscription_type,b.subscription_state, b.subscription_start_time,b.subscription_end_time,a.subscription_ref_id,a.transaction_ref_number,a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from user_payment a, users b  where b.username=a.username";
         SQLQuery query1 = commonDao.getNativeQuery(mainQuery, null);
         List<Object[]> rows = query1.list();
         String fileName = finvendorProperties.getProperty("finvendo_tmp_path") + File.separator + "subscriptions.csv";
@@ -270,9 +271,9 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
             fw1.append(',');
             fw1.append("SubscriptionState");
             fw1.append(',');
-            fw1.append("SubscriptionStartTimeMs");
+            fw1.append("SubscriptionStartTime");
             fw1.append(',');
-            fw1.append("SubscriptionEndTimeMs");
+            fw1.append("SubscriptionEndTime");
             fw1.append(',');
             fw1.append("SubscriptionRefId");
             fw1.append(',');
@@ -312,7 +313,7 @@ public class SubscriptionDao extends GenericDao<UserPayment> {
                 String paymentVerified = row[14] != null ? row[14].toString().trim() : NA;
                 fw1.append(userName);
                 fw1.append(',');
-                fw1.append(DateUtils.getCurrentDate(subscriptionDate));
+                fw1.append(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(subscriptionDate));
                 fw1.append(',');
                 fw1.append(subscriptionType);
                 fw1.append(',');

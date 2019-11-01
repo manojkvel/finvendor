@@ -26,16 +26,19 @@ public class UserDao {
     private static final String UPDATE_USER_STATUS = "UPDATE users SET enabled = :enabled, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
     private static final String INSERT_USER_VERIFICATION_RECORD = "INSERT into user_verification (username, registration_id, created_date) values (:username, :registration_id, CURRENT_TIMESTAMP())";
     private static final String DELETE_USER_VERIFICATION_RECORD = "DELETE from user_verification where username = :username";
-    private static final String UPDATE_USER_VERIFICATION_DATE = "UPDATE user_verification set verified_date = CURRENT_TIMESTAMP() where registration_id = :registrationId and username = :username and TIMESTAMPDIFF(HOUR, created_date, CURRENT_TIMESTAMP()) < " + RequestConstans.REGISTRATION_LINK_EXPIRY;
+    private static final String UPDATE_USER_VERIFICATION_DATE =
+            "UPDATE user_verification set verified_date = CURRENT_TIMESTAMP() where registration_id = :registrationId and username = :username and TIMESTAMPDIFF(HOUR, created_date, CURRENT_TIMESTAMP()) < "
+                    + RequestConstans.REGISTRATION_LINK_EXPIRY;
     private static final String UPDATE_USER_REGISTER_ENABLE_STATUS = "UPDATE users set enabled = :enabled, verified = 'Y' where username = :username";
     private static final String RESET_USER_PASSWORD = "UPDATE users SET password = :password, enabled = true, login_attempts = -100, last_modified = CURRENT_TIMESTAMP() WHERE username = :username";
     private static final String UPDATE_VENDOR_REGISTRATION_DETAILS = "UPDATE vendor set companytype=:companytype  where username = :username";
     private static final String UPDATE_CONSUMER_REGISTRATION_DETAILS = "UPDATE consumer set companytype=:companytype, tags=:tags where username = :username";
     private static final String UPDATE_REGISTRATION_EMAIL = "UPDATE users set email = :email where username = :username";
+    private static final String DELETE_USER_SUBSCRIPTION_RECORD = "DELETE from user_payment where username = :username";
+    private static final String RESET_USER_SUBSCRIPTION = "UPDATE users SET subscription_date = :subscription_date, subscription_type = :subscription_type, trial_period_start_time = :trial_period_start_time, trial_period_end_time = :trial_period_end_time, subscription_start_time = :subscription_start_time, subscription_end_time = :subscription_end_time, subscription_state = :subscription_state WHERE username = :username";
 
     @Autowired
     private SessionFactory sessionFactory;
-
 
     public void saveUserInfo(FinVendorUser user) {
         logger.debug("Entering UserDaoImpl : saveUserInfo");
@@ -44,23 +47,19 @@ public class UserDao {
             this.sessionFactory.getCurrentSession().flush();
         } catch (Exception exp) {
             logger.error("Error UserDaoImpl : saveUserInfo ", exp);
-            throw new RuntimeException("User already exist",exp);
+            throw new RuntimeException("User already exist", exp);
         }
         logger.debug("Leaving UserDaoImpl : saveUserInfo");
     }
-
 
     public void updateUserInfo(FinVendorUser user) {
         try {
             this.sessionFactory.getCurrentSession().update(user);
         } catch (Exception exp) {
-            throw new RuntimeException("Failed to update user",exp);
+            throw new RuntimeException("Failed to update user", exp);
         }
         logger.debug("Leaving UserDaoImpl : updateUserInfo");
     }
-
-
-
 
     public void saveUserRolesInfo(UserRole userRole) {
         logger.info("saveUserRolesInfo method---");
@@ -73,13 +72,11 @@ public class UserDao {
         }
     }
 
-
     public boolean validateUsername(String username) throws ApplicationException {
         logger.debug("Entering UserDaoImpl:validateUsername");
         FinVendorUser user = this.getUserDetailsByUsername(username);
         return (user != null) ? true : false;
     }
-
 
     public FinVendorUser getUserDetailsByUsername(String username) throws ApplicationException {
         logger.debug("Entering UserDaoImpl:getUserDetailsByUsername");
@@ -93,8 +90,7 @@ public class UserDao {
         }
 
     }
-//
-
+    //
 
     public UserRole getUserRoleInfobyUsername(String username) {
         logger.info("getUserRoleInfobyUsername method---");
@@ -110,10 +106,8 @@ public class UserDao {
         return (UserRole) sqlQuery.uniqueResult();
     }
 
-
-
     public List<FinVendorUser> getUserInfoByNamewithPassword(String username,
-                                                             String password) {
+            String password) {
         logger.info("getUsersInfoByNamewithPassword method---");
         SQLQuery sqlQuery = null;
         String hsql = null;
@@ -141,14 +135,14 @@ public class UserDao {
         return users;
     }
 
-
     public int updateUnsuccessfulLoginAttempts(String username, boolean reset) {
         logger.debug("Entering UserDaoImpl:updateUnsucessfulLoginAttempts for {} ", username);
         int updatedRows = 0;
         SQLQuery sqlQuery = null;
         if (reset) {
             sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(RESET_LOGIN_UNSUCCESSFUL_ATTEMPTS);
-        } else {
+        }
+        else {
             sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_LOGIN_UNSUCCESSFUL_ATTEMPTS);
         }
         sqlQuery.setParameter("username", username);
@@ -156,7 +150,6 @@ public class UserDao {
         logger.debug("Leaving UserDaoImpl:updateUnsucessfulLoginAttempts");
         return updatedRows;
     }
-
 
     public int updateUserAccountStatus(String username, boolean status) {
         logger.debug("Entering UserDaoImpl:updateUserAccountStatus for {} to update status as {}", username, status);
@@ -168,7 +161,6 @@ public class UserDao {
         logger.debug("Leaving UserDaoImpl:updateUserAccountStatus");
         return updatedRows;
     }
-
 
     public void insertRegistrationVerificationRecord(String username, String registration_id, boolean recreate) {
         logger.debug("Entering UserDaoImpl:insertRegistrationVerificationRecord {}, Recreate : ", username, recreate);
@@ -184,7 +176,6 @@ public class UserDao {
         sqlQuery.executeUpdate();
         logger.debug("Leaving UserDaoImpl:insertRegistrationVerificationRecord {}", username);
     }
-
 
     public int updateUserVerificationStatus(String username, String registration_id) {
         logger.debug("Entering UserDaoImpl:updateUserVerificationStatus {}, {}", username, registration_id);
@@ -204,7 +195,6 @@ public class UserDao {
         return updatedRows;
     }
 
-
     public List<FinVendorUser> getUserDetailsByEmailId(String email) throws ApplicationException {
         logger.debug("Entering UserDaoImpl:getUserDetailsByEmailId {}", email);
         try {
@@ -219,7 +209,6 @@ public class UserDao {
         }
     }
 
-
     public List<FinVendorUser> getUserDetails() {
         logger.debug("Entering UserDaoImpl:getUserDetails");
         Query query = this.sessionFactory.getCurrentSession().createQuery("from FinVendorUser");
@@ -228,7 +217,6 @@ public class UserDao {
         logger.debug("Leaving UserDaoImpl:getUserDetails");
         return userList;
     }
-
 
     public int resetPassword(String username, String password) {
         logger.debug("Entering UserDaoImpl:resetPassword for {}", username);
@@ -240,7 +228,6 @@ public class UserDao {
         logger.debug("Leaving UserDaoImpl:resetPassword");
         return updatedRows;
     }
-
 
     public void updateVendorAccountSettings(String userName, String companyType, String email)
             throws ApplicationException {
@@ -260,7 +247,6 @@ public class UserDao {
         }
         logger.info("Leaving UserDaoImpl:updateVendorAccountSettings");
     }
-
 
     public void updateConsumerAccountSettings(String userName, String companyType, String tags, String email)
             throws ApplicationException {
@@ -282,4 +268,22 @@ public class UserDao {
         logger.info("Leaving UserDaoImpl:updateConsumerAccountSettings");
     }
 
+    public void deleteSubscription(String username) {
+        SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(DELETE_USER_SUBSCRIPTION_RECORD);
+        sqlQuery.setParameter("username", username);
+        int count = sqlQuery.executeUpdate();
+
+        logger.info("## delete Subscription - count: {}", count);
+        sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(RESET_USER_SUBSCRIPTION);
+        sqlQuery.setParameter("subscription_date", null);
+        sqlQuery.setParameter("subscription_type", "FREE");
+        sqlQuery.setParameter("trial_period_start_time", null);
+        sqlQuery.setParameter("trial_period_end_time", null);
+        sqlQuery.setParameter("subscription_start_time", null);
+        sqlQuery.setParameter("subscription_end_time", null);
+        sqlQuery.setParameter("subscription_state", null);
+        sqlQuery.setParameter("username", username);
+        count = sqlQuery.executeUpdate();
+        logger.info("## update user Subscription - count: {}", count);
+    }
 }

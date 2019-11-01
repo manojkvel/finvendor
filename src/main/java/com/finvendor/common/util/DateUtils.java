@@ -19,10 +19,10 @@ public class DateUtils {
     //User Registration date format 2017-10-09 11:23:33
     private static final SimpleDateFormat registrationDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final DateFormat dd_MMM_yyyy_hh_mmformatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
-    public static final DateFormat dd_MMM_yyyy_hh_mm_subscription_formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
+    private static final DateFormat dd_MMM_yyyy_hh_mm_subscription_formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss");
     public static final DateFormat dd_MMM_yyyy_formatter = new SimpleDateFormat("dd-MMM-yyyy");
     public static final DateFormat dd_MMM_yyyy_formatter1 = new SimpleDateFormat("dd/MMM/yy HH:mm:ss");
-    public static final SimpleDateFormat FV_DATE_FORMATTER = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_FORMAT);
+    private static final SimpleDateFormat FV_DATE_FORMATTER = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_FORMAT);
 
     public static String getCurrentYear() {
         return String.valueOf(Calendar.getInstance(TimeZone.getDefault()).get(Calendar.YEAR));
@@ -63,8 +63,7 @@ public class DateUtils {
     public static int getPreviousDayOfMonthAsInteger(Date prevWorkingDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(prevWorkingDate);
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        return dayOfMonth;
+        return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     public static String convertStringToTimestamp(DateFormat formatter, String str_date) throws ParseException {
@@ -125,9 +124,7 @@ public class DateUtils {
         int day = cal.get(Calendar.DAY_OF_MONTH);
         cal.set(year, month, day);
         java.util.Date d = new java.util.Date(cal.getTimeInMillis());
-        String mmm = new SimpleDateFormat("MMM").format(d).toUpperCase();
-
-        return mmm;
+        return new SimpleDateFormat("MMM").format(d).toUpperCase();
     }
 
     public static String getYear() {
@@ -139,33 +136,33 @@ public class DateUtils {
 
     /**
      * @param dateStr format must be like  Mar_19
-     * @return
      */
-    public static String getTimeStamp_MMM_yy(String dateStr) {
+    public static String getTimeStamp_MMM_yy(String dateStr) throws ParseException {
         String timestamp;
         Date date = null;
-        try {
-            date = simpleDateFormat_MMM_yy.parse(dateStr);
-        } catch (ParseException e) {
-            timestamp = "0";
-        }
+        date = simpleDateFormat_MMM_yy.parse(dateStr);
         timestamp = String.valueOf(date.getTime());
         return timestamp;
     }
 
-    public static String getCurrentDate() {
-        String currentDate = FV_DATE_FORMATTER.format(Calendar.getInstance().getTime());
-        return currentDate;
+    public static String get_Date_To_DD_MMM_YYYY_hh_Format() {
+        return FV_DATE_FORMATTER.format(Calendar.getInstance().getTime());
     }
 
-    public static String getCurrentDate(String timeStamp) {
-        String currentDate = dd_MMM_yyyy_hh_mmformatter.format(new Date(Long.parseLong(timeStamp)));
-        return currentDate;
+    public static String get_Date_To_DD_MMM_YYYY_hh_Format(String timeStamp) {
+        return dd_MMM_yyyy_hh_mmformatter.format(new Date(Long.parseLong(timeStamp)));
+    }
+
+    public static String get_Date_To_DD_MMM_YYYY_hh_Format(Long timeStamp) {
+        return dd_MMM_yyyy_hh_mmformatter.format(new Date(timeStamp));
+    }
+
+    public static long get_Timestamp_From_DD_MMM_YYYY_hh_Format(String date) throws ParseException {
+        return dd_MMM_yyyy_hh_mmformatter.parse(date).getTime();
     }
 
     public static String getCurrentDateHaveMonthDigit() {
-        String currentDate = new SimpleDateFormat(AppConstants.FV_PRICE_DATE_ONLY_FORMAT).format(Calendar.getInstance().getTime());
-        return currentDate;
+        return new SimpleDateFormat(AppConstants.FV_PRICE_DATE_ONLY_FORMAT).format(Calendar.getInstance().getTime());
     }
 
     public static Pair<Long, Long> getSubscriptionStartAndEndDateInMillis(int numberOfDays) {
@@ -179,9 +176,8 @@ public class DateUtils {
     }
 
     public static Pair<String, String> getSubscriptionStartAndEndDateInHumanDate(int numberOfDays) {
-
         long startTimeInMillis = Calendar.getInstance().getTimeInMillis();
-        String startDateTimeInHumanDate = dd_MMM_yyyy_hh_mm_subscription_formatter.format(startTimeInMillis);
+        String startDateTimeInHumanDate = dd_MMM_yyyy_hh_mmformatter.format(startTimeInMillis);
         Date currentDate = new Date();
 
         // convert date to calendar
@@ -191,7 +187,7 @@ public class DateUtils {
         c.add(Calendar.DATE, numberOfDays);
 
         // convert calendar to date
-        String endDateTimeInHumanDate = dd_MMM_yyyy_hh_mm_subscription_formatter.format(c.getTime());
+        String endDateTimeInHumanDate = dd_MMM_yyyy_hh_mmformatter.format(c.getTime());
 
         return new Pair<>(startDateTimeInHumanDate, endDateTimeInHumanDate);
     }
@@ -204,24 +200,31 @@ public class DateUtils {
         Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
         c.add(Calendar.DATE, days);
-        Date extendedDate = c.getTime();
-        return extendedDate;
+        return c.getTime();
     }
 
-    public static String convertRegistrationDateFormatToTimestamp(String registrationDate){
-        //2017-10-09 11:23:33
-        String timestamp;
-        Date date = null;
+    /**
+     * ConvertRegistration Date into Timestamp
+     *
+     * @param registrationDate Registration date format in db: 2017-10-09 11:23:33
+     */
+    public static long convertRegistrationDateFormatToTimestamp(String registrationDate) {
         try {
-            date = registrationDateFormat.parse(registrationDate);
-        } catch (ParseException e) {
-            timestamp = "0";
+            return registrationDateFormat.parse(registrationDate).getTime();
+        } catch (Exception e) {
+            return 0L;
         }
-        timestamp = String.valueOf(date.getTime());
-        return timestamp;
-
     }
-    public static void main(String args[]) throws ParseException {
+
+    public static long convertSubscriptionDateToMillis(String subscriptionDate) {
+        try {
+            return dd_MMM_yyyy_hh_mm_subscription_formatter.parse(subscriptionDate).getTime();
+        } catch (Exception e) {
+            return 0L;
+        }
+    }
+
+    public static void main(String[] args) {
         //		boolean thisDateValid = isDateValid("04/11/2018", "dd/MM/yyyy");
         //		System.out.println(thisDateValid);
         //
@@ -262,22 +265,22 @@ public class DateUtils {
         //        System.out.println("End time: " + ms.getElement2());
         //        getSubscriptionStartAndEndDateInHumanDate(30);
 
-//        long difference = getDateDifferenceInDays(1569421242000L, 1570717617263L);
-//        System.out.println(difference);
+        //        long difference = getDateDifferenceInDays(1569421242000L, 1570717617263L);
+        //        System.out.println(difference);
 
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//        Date currentDate = getCurrentDateInDate();
-//        System.out.println(dateFormat.format(currentDate));
-//
-//        // convert date to calendar
-//        Calendar c = Calendar.getInstance();
-//        c.setTime(currentDate);
-//
-//        c.add(Calendar.DATE, 1); //same with c.add(Calendar.DAY_OF_MONTH, 1);
-//        // convert calendar to date
-//        Date currentDatePlusOne = c.getTime();
-//
-//        System.out.println(dateFormat.format(currentDatePlusOne));
+        //        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        //        Date currentDate = getCurrentDateInDate();
+        //        System.out.println(dateFormat.format(currentDate));
+        //
+        //        // convert date to calendar
+        //        Calendar c = Calendar.getInstance();
+        //        c.setTime(currentDate);
+        //
+        //        c.add(Calendar.DATE, 1); //same with c.add(Calendar.DAY_OF_MONTH, 1);
+        //        // convert calendar to date
+        //        Date currentDatePlusOne = c.getTime();
+        //
+        //        System.out.println(dateFormat.format(currentDatePlusOne));
 
         System.out.println(convertRegistrationDateFormatToTimestamp("2017-10-09 11:23:33"));
     }

@@ -1,14 +1,15 @@
 package com.finvendor.api.subscription.controller;
 
 import com.finvendor.api.exception.ApiBadRequestException;
-import com.finvendor.api.exception.WebApiException;
+import com.finvendor.api.exception.ApiConflictException;
+import com.finvendor.api.exception.ApiResourceNotFoundException;
 import com.finvendor.api.subscription.dto.*;
 import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.DateUtils;
-import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
@@ -21,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -32,20 +32,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import static com.finvendor.api.webutil.WebUtils.buildResponse;
-import static com.finvendor.api.webutil.WebUtils.buildResponseEntity;
-import static com.finvendor.common.enums.ApiMessageEnum.*;
-import static com.finvendor.common.exception.ExceptionEnum.SUBSCRIPTIONS_DOWNLOAD;
+import static com.finvendor.api.webutil.WebUtils.*;
+import static com.finvendor.common.enums.ApiMessageEnum.SUCCESS;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 /**
  * @author ayush, Jul 2019
  */
-@ApiIgnore
+
 @RestController
 @RequestMapping(value = "/api")
 @Validated
 public class SubscriptionController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionController.class.getName());
+    private static final String USER_LEN = "Length of user name must be between 1 to 45 characters";
+
     @Resource(name = "finvendorProperties")
     private Properties finvendorProperties;
     private final UserService userService;
@@ -63,43 +65,58 @@ public class SubscriptionController {
      */
     @PostMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<String, String>> saveSubscription(
-            @PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
-            @Valid @RequestBody SubscriptionDto subscriptionDto, @RequestParam(value = "type") String type) throws Exception {
+            @PathVariable @Size(min = 1, max = 45, message = USER_LEN) String userName,
+            @Valid @RequestBody SubscriptionDto subscriptionDto,
+            @RequestParam(value = "type", required = false) String type) throws Exception {
+        LOGGER.info("## saveSubscription - START userName: {}, type: {}", userName, type);
         ApiResponse<String, String> apiResponse;
         if (userService.isValidUser(userName)) {
-            if (type.equals("trial")) {
-                String trial_period_in_days = finvendorProperties.getProperty("trial_period_in_days");
-                int trial_period_in_daysAsInt = Integer.parseInt(trial_period_in_days);
-                LOGGER.info("## Trial Period In Days: {}", trial_period_in_daysAsInt);
+            FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
+            if ("trial".equals(type)) {
+                if (existingUser.getTrialPeriodStartTime() == null
+                        && ("FREE".equals(existingUser.getSubscriptionType()) || "SMART".equals(existingUser.getSubscriptionType()))
+                ) {
+                    String trialPeriod = finvendorProperties.getProperty("trial_period_in_days");
+                    LOGGER.info("## Trial Period In Days from Property file: {}", trialPeriod);
+                    Date userTrailPeriodStartDate = DateUtils.getCurrentDateInDate();
+                    Date userTrailPeriodEndDate = DateUtils.addDaysInCurrentDate(userTrailPeriodStartDate, Integer.parseInt(trialPeriod));
+                    LOGGER.info("## userTrailPeriodStartDate: {}", userTrailPeriodStartDate);
+                    LOGGER.info("## userTrailPeriodEndDate: {}", userTrailPeriodEndDate);
+                    existingUser.setTrialPeriodStartTime(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(userTrailPeriodStartDate.getTime()));
+                    existingUser.setTrialPeriodEndTime(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(userTrailPeriodEndDate.getTime()));
+                    existingUser.setSubscriptionType(subscriptionDto.getSubscriptionType());
+                    existingUser.setSubscriptionState("TRIAL");
+                    existingUser.setSubscriptionStartTime(null);
+                    existingUser.setSubscriptionEndTime(null);
+                    userService.updateUserInfo(existingUser);
 
-                Date userTrailPeriodStartDate = DateUtils.getCurrentDateInDate();
-                Date userTrailPeriodEndDate = DateUtils.addDaysInCurrentDate(userTrailPeriodStartDate, trial_period_in_daysAsInt);
-
-                LOGGER.info("userTrailPeriodStartDate: {}", userTrailPeriodStartDate);
-                LOGGER.info("userTrailPeriodEndDate: {}", userTrailPeriodEndDate);
-
-                String trialStartDateInMsStr = String.valueOf(userTrailPeriodStartDate.getTime());
-                String trialEndDateInMsStr = String.valueOf(userTrailPeriodEndDate.getTime());
-                FinVendorUser user=new FinVendorUser();
-                user.setTrialPeriodStartInMs(trialStartDateInMsStr);
-                user.setTrialPeriodEndInMs(trialEndDateInMsStr);
-                userService.saveUserInfo(user);
-                apiResponse = buildResponse(SUCCESS, null, HttpStatus.OK);
+                    apiResponse = buildResponse(ApiMessageEnum.CREATED, null, CREATED);
+                }
+                else{
+                    LOGGER.error("## User: {} already in trial period", userName);
+                    throw new ApiConflictException(WebUtils.CONFLICT);
+                }
             }
             else {
-                String subscriptionRefId = subscriptionService.savePayment(userName, subscriptionDto);
-                if (subscriptionRefId != null) {
-                    LOGGER.info("User Subscription created successfully, subscriptionId: {}", subscriptionRefId);
-                    apiResponse = buildResponse(SUCCESS, null, HttpStatus.CREATED);
+                LOGGER.info("## User: {} not in trial period, saving subscription details", userName);
+                existingUser.setTrialPeriodStartTime(null);
+                existingUser.setTrialPeriodEndTime(null);
+                userService.updateUserInfo(existingUser);
+
+                String subscriptionId = subscriptionService.saveUserSubscriptionPaymentDetails(userName, subscriptionDto);
+                if (subscriptionId != null) {
+                    LOGGER.info("## User Subscription created successfully, subscriptionId: {}", subscriptionId);
+                    apiResponse = buildResponse(ApiMessageEnum.CREATED, null, HttpStatus.CREATED);
                 }
                 else {
-                    LOGGER.info("User Subscription already exist, userName: {}", userName);
-                    apiResponse = buildResponse(CONFLICT, null, HttpStatus.CONFLICT);
+                    LOGGER.error("## User Subscription already exist, userName: {}", userName);
+                    throw new ApiConflictException(WebUtils.CONFLICT);
                 }
             }
         }
         else {
-            apiResponse = buildResponse(INTERNAL_SERVER_ERROR, null, HttpStatus.BAD_REQUEST);
+            LOGGER.error("## User: {} does not exist, pls provide valid user name in endpoint", userName);
+            throw new ApiBadRequestException(VALIDATION_FAILED);
         }
         return buildResponseEntity(apiResponse);
     }
@@ -107,16 +124,15 @@ public class SubscriptionController {
     /**
      * This api is used to update payment verification from admin dashboard
      */
-    @PutMapping(value = "/users/{userName}/subscriptions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateSubscription(
+    @PutMapping(value = "/users/{userName}/subscriptions")
+    public ResponseEntity<?> updateSubscriptionOnPaymentReceived(
             @PathVariable @Size(min = 1, max = 45, message = "Length of user name must be between 1 to 45 characters") String userName,
             @RequestBody SubscriptionStateDto subscriptionStateDto) throws Exception {
+        LOGGER.info("## updateSubscription - START, userName: {}, subscriptionStateDto: {}", userName, subscriptionStateDto);
         ApiResponse<String, String> apiResponse;
-        SubscriptionDto dto = new SubscriptionDto();
         String subscriptionState = subscriptionStateDto.getSubscriptionState();
-        List<SubscriptionDetails> dataList = subscriptionStateDto.getData();
-
         boolean paymentVerified;
+        LOGGER.info("## subscriptionState: {}", subscriptionState);
         if ("ACTIVE".equalsIgnoreCase(subscriptionState)) {
             paymentVerified = true;
         }
@@ -124,41 +140,28 @@ public class SubscriptionController {
             paymentVerified = false;
         }
         else {
-            apiResponse = buildResponse(VERIFICATION_TYPE, null, HttpStatus.INTERNAL_SERVER_ERROR);
-            return buildResponseEntity(apiResponse);
+            LOGGER.error("## Subscription state should be either ACTIVE or TERMINATE");
+            throw new ApiBadRequestException(VALIDATION_FAILED);
         }
+        SubscriptionDto dto = new SubscriptionDto();
         dto.setPaymentVerified(paymentVerified);
         ApiMessageEnum apiMessageEnum;
         if (!userService.isValidUser(userName)) {
-            apiResponse = buildResponse(INVALID_USER_NAME, null, HttpStatus.NOT_FOUND);
+            LOGGER.error("## UserName: {} does not exist", userName);
+            throw new ApiBadRequestException(VALIDATION_FAILED);
         }
         else {
             LOGGER.info("### Before update subscription state update");
-            apiMessageEnum = subscriptionService.updatePayment(dto, dataList);
-            apiResponse = buildResponse(apiMessageEnum, null, HttpStatus.OK);
+            List<SubscriptionDetails> dataList = subscriptionStateDto.getData();
+            apiMessageEnum = subscriptionService.updateUserSubscriptionPaymentDetails(dto, dataList);
+            apiResponse = buildResponse(apiMessageEnum, null, OK);
         }
         return buildResponseEntity(apiResponse);
     }
 
     /**
-     * This api is used by pricing
-     *
-     * @param userName logged in username
-     * @return subscription type for given user
+     * Find all Subscription state used by Admin
      */
-    @GetMapping(value = "/users/{userName}/subscriptions", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findUserSubscriptions(@PathVariable(value = "userName", required = false) String userName) throws Exception {
-        ApiResponse<String, UserSubscriptionDto> apiResponse;
-        UserSubscriptionDto userSubscriptionDto;
-        if ((userSubscriptionDto = subscriptionService.findUserSubscriptions(userName)) == null) {
-            apiResponse = buildResponse(RESOURCE_NOT_FOUND, null, HttpStatus.NOT_FOUND);
-        }
-        else {
-            apiResponse = buildResponse(SUCCESS, userSubscriptionDto, HttpStatus.OK);
-        }
-        return buildResponseEntity(apiResponse);
-    }
-
     @PostMapping(value = "/subscriptions/recordstat", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findAllSubscriptionsRecordStats(@RequestParam(value = "state") String state,
             @RequestParam(value = "perPageMaxRecords") String perPageMaxRecords, @RequestBody(required = false) SubscriptionFilter filter)
@@ -166,9 +169,16 @@ public class SubscriptionController {
         if (!("all".equals(state) || ("ACTIVE".equals(state) || "PENDING".equals(state) || "TERMINATE".equals(state)))) {
             throw new ApiBadRequestException("Validation failed");
         }
-
-        String subscriptionsRecordStat = subscriptionService.getSubscriptionsRecordStat(state, perPageMaxRecords, filter);
-        return new ResponseEntity<>(subscriptionsRecordStat, HttpStatus.OK);
+        else {
+            Pair<String, Integer> pair = subscriptionService.getSubscriptionsRecordStat(state, perPageMaxRecords, filter);
+            if (pair.getElement2() == 0) {
+                LOGGER.error("## Subscription does not exist");
+                throw new ApiResourceNotFoundException(RESOURCE_NOT_FOUND);
+            }
+            else {
+                return buildResponseEntity(buildResponse(SUCCESS, pair.getElement1(), OK));
+            }
+        }
     }
 
     /**
@@ -181,26 +191,22 @@ public class SubscriptionController {
             @RequestParam("sortBy") String sortBy, @RequestParam("orderBy") String orderBy,
             @RequestBody(required = false) SubscriptionFilter filter) throws Exception {
         ApiResponse<String, List<UserPaymentDto>> apiResponse;
-        List<UserPaymentDto> userPayments;
-        if (!("userName".equalsIgnoreCase(sortBy) || "subscriptionState".equalsIgnoreCase(sortBy))) {
-            throw new ApiBadRequestException("Validation failed");
-        }
-
-        if (!("asc".equalsIgnoreCase(orderBy) || "desc".equalsIgnoreCase(orderBy))) {
-            throw new ApiBadRequestException("Validation failed");
-        }
-
-        if (!("all".equals(state) || ("ACTIVE".equals(state) || "PENDING".equals(state) || "TERMINATE".equals(state)))) {
-            throw new ApiBadRequestException("Validation failed");
-        }
-
-        List<UserPaymentDto> subscriptions = subscriptionService
-                .findSubscriptions(state, pageNumber, perPageMaxRecords, sortBy, orderBy, filter);
-        if (subscriptions == null) {
-            apiResponse = buildResponse(RESOURCE_NOT_FOUND, null, HttpStatus.NOT_FOUND);
+        boolean failedCondition_1 = !("userName".equalsIgnoreCase(sortBy) || "subscriptionState".equalsIgnoreCase(sortBy));
+        boolean failedCondition_2 = !("asc".equalsIgnoreCase(orderBy) || "desc".equalsIgnoreCase(orderBy));
+        boolean failedCondition_3 = !("all".equals(state) || ("ACTIVE".equals(state) || "PENDING".equals(state) || "TERMINATE"
+                .equals(state)));
+        if (failedCondition_1 || failedCondition_2 || failedCondition_3) {
+            throw new ApiBadRequestException(VALIDATION_FAILED);
         }
         else {
-            apiResponse = buildResponse(SUCCESS, subscriptions, HttpStatus.OK);
+            List<UserPaymentDto> subscriptions = subscriptionService
+                    .findSubscriptions(state, pageNumber, perPageMaxRecords, sortBy, orderBy, filter);
+            if (subscriptions == null || subscriptions.size() == 0) {
+                throw new ApiResourceNotFoundException(RESOURCE_NOT_FOUND);
+            }
+            else {
+                apiResponse = buildResponse(SUCCESS, subscriptions, OK);
+            }
         }
         return buildResponseEntity(apiResponse);
     }
@@ -209,41 +215,15 @@ public class SubscriptionController {
      * Download subscriptions into CSV
      */
     @GetMapping(value = "/subscriptions/download")
-    public ResponseEntity<?> downloadSubscriptions(HttpServletResponse response) throws WebApiException {
-        try {
-            final Pair<Long, InputStream> download = subscriptionService.downloadSubscriptions();
-            if (download == null || download.getElement2() == null) {
-                throw new Exception("Unable to download subscriptions");
-            }
-            response.setHeader("Content-Disposition", "attachment; filename=" + "subscriptions.csv");
-            response.setHeader("Content-Length", String.valueOf(download.getElement1()));
-            FileCopyUtils.copy(download.getElement2(), response.getOutputStream());
-            final StatusPojo statusPojo = new StatusPojo("true", "Subscriptions downloaded successfully.");
-            return new ResponseEntity<>(statusPojo, HttpStatus.OK);
-        } catch (Exception e) {
-            LOGGER.error("SubscriptionController -> downloadSubscriptions(...) method", e);
-            return ErrorUtil.getError(SUBSCRIPTIONS_DOWNLOAD.getCode(), SUBSCRIPTIONS_DOWNLOAD.getUserMessage(), e);
+    public ResponseEntity<ApiResponse<String, StatusPojo>> downloadSubscriptions(HttpServletResponse response) throws Exception {
+        final Pair<Long, InputStream> download = subscriptionService.downloadSubscriptions();
+        if (download == null || download.getElement2() == null) {
+            throw new ApiResourceNotFoundException(RESOURCE_NOT_FOUND);
         }
-    }
-
-    /**
-     * Watch subscription before expire date
-     */
-    public ResponseEntity<?> watchSubscriptionStateBeforeExpire() {
-        /*
-        age=find how old subscription is
-        and if age=15 or 20 or 25 or 28 or 29 or 30 then send mail
-         */
-        return null;
-    }
-
-    /**
-     * Update subscription state to SUSPEND when subscription is over
-     */
-    public ResponseEntity<?> updateSubscriptionStateOnExpire() {
-        /*
-        if current date is subscription end date then look for time it time is 12.05 AM then SUSPEND it
-         */
-        return null;
+        response.setHeader("Content-Disposition", "attachment; filename=" + "subscriptions.csv");
+        response.setHeader("Content-Length", String.valueOf(download.getElement1()));
+        FileCopyUtils.copy(download.getElement2(), response.getOutputStream());
+        final StatusPojo statusPojo = new StatusPojo("true", "Subscriptions downloaded successfully.");
+        return buildResponseEntity(buildResponse(SUCCESS, statusPojo, OK));
     }
 }
