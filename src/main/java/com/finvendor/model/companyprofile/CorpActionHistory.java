@@ -3,7 +3,7 @@ package com.finvendor.model.companyprofile;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "company_news_history")
+@Table(name = "corp_action_history")
 public class CorpActionHistory {
 
     @Id

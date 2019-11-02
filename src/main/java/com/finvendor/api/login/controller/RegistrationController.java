@@ -1,7 +1,9 @@
 package com.finvendor.api.login.controller;
 
 import com.finvendor.api.consumer.service.ConsumerService;
+import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
+import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.*;
@@ -46,6 +49,12 @@ public class RegistrationController {
 
     @Autowired
     private ConsumerService consumerService;
+
+    @Autowired
+    private SubscriptionService subscriptionService;
+
+    @Resource(name = "finvendorProperties")
+    private Properties finvendorProperties;
 
     /**
      * method for register navigation
@@ -273,9 +282,9 @@ public class RegistrationController {
 
         //Set Subscription details
         user.setSubscriptionType(SubscriptionTypeEnum.FREE.toString());
-        user.setSubscriptionStartTime("N/A");
-        user.setSubscriptionEndTime("N/A");
-        user.setSubscriptionState("N/A");
+        user.setSubscriptionStartTime(null);
+        user.setSubscriptionEndTime(null);
+        user.setSubscriptionState(null);
         boolean isVendor = checkUserTypeFromCompany(companyType);
         try {
             FinVendorUser userDetailsByUsername = userService.getUserDetailsByUsername(uname);
@@ -328,8 +337,13 @@ public class RegistrationController {
                     userRoles.add(userRole);
                     user.setUserRoles(userRoles);
                     String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
-                    EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
-                    EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName);
+                    if (finvendorProperties.getProperty("email").equals("true")) {
+                        EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
+                        EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName);
+                    }
+                    SubscriptionDto subscriptionDto = new SubscriptionDto();
+                    subscriptionDto.setSubscriptionType("FREE");
+                    subscriptionService.saveUserSubscription(user.getUserName(), String.valueOf(UUID.randomUUID()), subscriptionDto);
                     json = "{\"message\":\"Registration done successfully\"}";
                 }
             }

@@ -1,6 +1,7 @@
 package com.finvendor.api;
 
 import com.finvendor.api.exception.ApiBadRequestException;
+import com.finvendor.api.exception.ApiConflictException;
 import com.finvendor.api.exception.ApiInternalServerException;
 import com.finvendor.api.exception.ApiResourceNotFoundException;
 import com.finvendor.api.webutil.WebUtils;
@@ -63,6 +64,14 @@ public class ApiControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ ApiBadRequestException.class})
     public ResponseEntity<?> handleBadRequestError(ApiBadRequestException e) {
         return getBadRequestErrorResponse(e);
+    }
+
+    /**
+     * Handle Conflict
+     */
+    @ExceptionHandler({ ApiConflictException.class})
+    public ResponseEntity<?> handleConflictRequestError(ApiConflictException e) {
+        return getConflictErrorResponse(e);
     }
 
     /**

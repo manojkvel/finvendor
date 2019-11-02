@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 import static com.finvendor.api.webutil.WebUtils.*;
 import static com.finvendor.common.enums.ApiMessageEnum.SUCCESS;
@@ -73,9 +74,8 @@ public class SubscriptionController {
         if (userService.isValidUser(userName)) {
             FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
             if ("trial".equals(type)) {
-                if (existingUser.getTrialPeriodStartTime() == null
-                        && ("FREE".equals(existingUser.getSubscriptionType()) || "SMART".equals(existingUser.getSubscriptionType()))
-                ) {
+                if (existingUser.getTrialPeriodStartTime() == null && ("FREE".equals(existingUser.getSubscriptionType()) || "SMART"
+                        .equals(existingUser.getSubscriptionType()))) {
                     String trialPeriod = finvendorProperties.getProperty("trial_period_in_days");
                     LOGGER.info("## Trial Period In Days from Property file: {}", trialPeriod);
                     Date userTrailPeriodStartDate = DateUtils.getCurrentDateInDate();
@@ -86,13 +86,10 @@ public class SubscriptionController {
                     existingUser.setTrialPeriodEndTime(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(userTrailPeriodEndDate.getTime()));
                     existingUser.setSubscriptionType(subscriptionDto.getSubscriptionType());
                     existingUser.setSubscriptionState("TRIAL");
-                    existingUser.setSubscriptionStartTime(null);
-                    existingUser.setSubscriptionEndTime(null);
                     userService.updateUserInfo(existingUser);
-
                     apiResponse = buildResponse(ApiMessageEnum.CREATED, null, CREATED);
                 }
-                else{
+                else {
                     LOGGER.error("## User: {} already in trial period", userName);
                     throw new ApiConflictException(WebUtils.CONFLICT);
                 }
@@ -102,9 +99,16 @@ public class SubscriptionController {
                 existingUser.setTrialPeriodStartTime(null);
                 existingUser.setTrialPeriodEndTime(null);
                 userService.updateUserInfo(existingUser);
+                String subscriptionId = String.valueOf(UUID.randomUUID());
+                boolean saveStatus = subscriptionService.saveUserSubscription(userName, subscriptionId, subscriptionDto);
+                if (saveStatus) {
+                    LOGGER.info("## Subscription details for user: {} saves successfully, now proceeding to user user details like "
+                            + "subscription state, start and end time in users table", userName);
+                    FinVendorUser userDetails =subscriptionService.updateUserWithSubscription(userName, subscriptionDto.getSubscriptionType());
+                    LOGGER.info("## User's subscription details saves successfully");
+                    subscriptionService.sentSubscriptionSubmissionEmail(userName, userDetails);
+                    LOGGER.info("## Email sent to User successfully");
 
-                String subscriptionId = subscriptionService.saveUserSubscriptionPaymentDetails(userName, subscriptionDto);
-                if (subscriptionId != null) {
                     LOGGER.info("## User Subscription created successfully, subscriptionId: {}", subscriptionId);
                     apiResponse = buildResponse(ApiMessageEnum.CREATED, null, HttpStatus.CREATED);
                 }

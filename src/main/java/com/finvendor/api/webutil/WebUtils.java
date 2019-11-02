@@ -1,6 +1,7 @@
 package com.finvendor.api.webutil;
 
 import com.finvendor.api.exception.ApiBadRequestException;
+import com.finvendor.api.exception.ApiConflictException;
 import com.finvendor.api.exception.ApiResourceNotFoundException;
 import com.finvendor.api.metrics.dto.FeatureAllowedDto;
 import com.finvendor.api.metrics.enums.FeatureAccessEnum;
@@ -377,6 +378,14 @@ public final class WebUtils {
     public static ResponseEntity<ApiResponse> getResourceNotFoundErrorResponse(ApiResourceNotFoundException e) {
         logger.error("## Error Msg: {}, Error trace: ", e.getMessage(), e);
         ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-404", RESOURCE_NOT_FOUND, null, HttpStatus.NOT_FOUND);
+        HttpStatus httpStatus = apiResponse.getHttpStatus();
+        apiResponse.setHttpStatus(null);
+        return new ResponseEntity<>(apiResponse, httpStatus);
+    }
+
+    public static ResponseEntity<ApiResponse> getConflictErrorResponse(ApiConflictException e) {
+        logger.error("## Error Msg: {}, Error trace: ", e.getMessage(), e);
+        ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-409", CONFLICT, null, HttpStatus.CONFLICT);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
         return new ResponseEntity<>(apiResponse, httpStatus);

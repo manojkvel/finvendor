@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "company_news")
+@Table(name = "corp_action")
 public class CorpAction {
 
     @Id

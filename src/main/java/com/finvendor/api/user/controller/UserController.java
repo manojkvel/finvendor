@@ -54,13 +54,13 @@ public class UserController {
             String subscriptionStartTimeInMs;
             String subscriptionEndTimeInMs;
 
-            if (subscriptionStartTime != null && !"N/A".equals(subscriptionStartTime) && !"".equals(subscriptionStartTime)) {
+            if (subscriptionStartTime != null && !"".equals(subscriptionStartTime)) {
                 subscriptionStartTimeInMs = String.valueOf(DateUtils.get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionStartTime));
             }
             else {
                 subscriptionStartTimeInMs = null;
             }
-            if (subscriptionEndTime != null && !"N/A".equals(subscriptionEndTime) && !"".equals(subscriptionEndTime)) {
+            if (subscriptionEndTime != null && !"".equals(subscriptionEndTime)) {
                 subscriptionEndTimeInMs = String.valueOf(DateUtils.get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionEndTime));
             }
             else {

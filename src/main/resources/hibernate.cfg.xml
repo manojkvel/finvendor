@@ -98,7 +98,9 @@
         <mapping class="com.finvendor.model.companyprofile.CompanyCalendar"></mapping>
         <mapping class="com.finvendor.model.companyprofile.CompanyCalendarHistory"></mapping>
 
-        <mapping class="com.finvendor.model.subscription.UserPayment"></mapping>
+        <mapping class="com.finvendor.model.subscription.UsersSubscription"></mapping>
+        <mapping class="com.finvendor.model.subscription.UsersSubscriptionHistory"></mapping>
+
     </session-factory>
 
 </hibernate-configuration>

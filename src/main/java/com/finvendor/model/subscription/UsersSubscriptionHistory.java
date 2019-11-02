@@ -1,17 +1,19 @@
 package com.finvendor.model.subscription;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
- * User Subscription Payment Entity
+ * User Subscription History Entity
  */
 @Entity
-@Table(name = "user_payment")
-public class UserPayment {
+@Table(name = "users_subscription_history")
+public class UsersSubscriptionHistory implements Serializable {
 
     @Id
-    @Column(name = "subscription_ref_id")
-    private String subscriptionRefId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "row_id")
+    private Integer rowId;
 
     @Column(name = "username")
     private String userName;
@@ -43,12 +45,35 @@ public class UserPayment {
     @Column(name = "payment_verified")
     private String paymentVerified;
 
+    @ManyToOne
+    @JoinColumn(name = "subscription_id")
+    private UsersSubscription usersSubscription;
+
+    @Column(name = "inventory_date")
+    private String inventoryDate;
+
+    public Integer getRowId() {
+        return rowId;
+    }
+
+    public void setRowId(Integer rowId) {
+        this.rowId = rowId;
+    }
+
     public String getUserName() {
         return userName;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getSubscriptionType() {
+        return subscriptionType;
+    }
+
+    public void setSubscriptionType(String subscriptionType) {
+        this.subscriptionType = subscriptionType;
     }
 
     public String getTransactionRefNumber() {
@@ -115,19 +140,19 @@ public class UserPayment {
         this.paymentVerified = paymentVerified;
     }
 
-    public String getSubscriptionRefId() {
-        return subscriptionRefId;
+    public UsersSubscription getUsersSubscription() {
+        return usersSubscription;
     }
 
-    public void setSubscriptionRefId(String subscriptionRefId) {
-        this.subscriptionRefId = subscriptionRefId;
+    public void setUsersSubscription(UsersSubscription usersSubscription) {
+        this.usersSubscription = usersSubscription;
     }
 
-    public String getSubscriptionType() {
-        return subscriptionType;
+    public String getInventoryDate() {
+        return inventoryDate;
     }
 
-    public void setSubscriptionType(String subscriptionType) {
-        this.subscriptionType = subscriptionType;
+    public void setInventoryDate(String inventoryDate) {
+        this.inventoryDate = inventoryDate;
     }
 }

@@ -3,7 +3,11 @@ package com.finvendor.api.subscription.service;
 import com.finvendor.api.notification.dto.EmailBuilder;
 import com.finvendor.api.notification.service.NotificationService;
 import com.finvendor.api.subscription.dao.SubscriptionDao;
-import com.finvendor.api.subscription.dto.*;
+import com.finvendor.api.subscription.dao.SubscriptionHistoryDao;
+import com.finvendor.api.subscription.dto.SubscriptionDetails;
+import com.finvendor.api.subscription.dto.SubscriptionDto;
+import com.finvendor.api.subscription.dto.SubscriptionFilter;
+import com.finvendor.api.subscription.dto.UserPaymentDto;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.exception.ApplicationException;
@@ -28,7 +32,8 @@ import java.util.Properties;
 public class SubscriptionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionService.class.getName());
 
-    private final SubscriptionDao dao;
+    private final SubscriptionDao subscriptionDao;
+    private final SubscriptionHistoryDao subscriptionHistoryDao;
     private final NotificationService notificationService;
 
     private final UserService userService;
@@ -41,8 +46,10 @@ public class SubscriptionService {
     private static final String ACTIVATION_SAGE_SUBJECT = "Finvendor - Subscription \"SAGE\" has been Successfully Activated";
 
     @Autowired
-    public SubscriptionService(SubscriptionDao dao, NotificationService notificationService, UserService userService) {
-        this.dao = dao;
+    public SubscriptionService(SubscriptionDao subscriptionDao, SubscriptionHistoryDao subscriptionHistoryDao,
+            NotificationService notificationService, UserService userService) {
+        this.subscriptionDao = subscriptionDao;
+        this.subscriptionHistoryDao = subscriptionHistoryDao;
         this.notificationService = notificationService;
         this.userService = userService;
     }
@@ -50,20 +57,11 @@ public class SubscriptionService {
     /**
      * Save subscription details into system
      */
-    public String saveUserSubscriptionPaymentDetails(String userName, SubscriptionDto dto) throws Exception {
-        String subscriptionId = dao.saveSubscriptionPaymentDetails(userName, dto);
-        if (subscriptionId != null) {
-            LOGGER.info("## Subscription details for user: {} saves successfully, now proceeding to user user details like "
-                    + "subscription state, start and end time in users table", userName);
-            FinVendorUser userDetails = updateUserSubscriptionDetails(userName, dto.getSubscriptionType());
-            LOGGER.info("## User's subscription details saves successfully");
-            sentSubscriptionSubmissionEmail(userName, userDetails);
-            LOGGER.info("## Email sent to User successfully");
-        }
-        return subscriptionId;
+    public boolean saveUserSubscription(String userName, String subscriptionId, SubscriptionDto subscriptionDto) {
+        return subscriptionDao.saveUserSubscription(userName, subscriptionId, subscriptionDto);
     }
 
-    private void sentSubscriptionSubmissionEmail(String userName, FinVendorUser userDetails) throws Exception {
+    public void sentSubscriptionSubmissionEmail(String userName, FinVendorUser userDetails) throws Exception {
         boolean emailFlag = Boolean.parseBoolean(finvendorProperties.getProperty("email"));
         LOGGER.info("### Save subscription - emailFlag: {}", emailFlag);
         if (emailFlag) {
@@ -81,7 +79,7 @@ public class SubscriptionService {
         }
     }
 
-    private FinVendorUser updateUserSubscriptionDetails(String userName, String subscriptionType) throws ApplicationException {
+    public FinVendorUser updateUserWithSubscription(String userName, String subscriptionType) throws ApplicationException {
         FinVendorUser existingUser = userService.getUserDetailsByUsername(userName);
         //Set subscription type
         if (existingUser.getSubscriptionDate() == null) {
@@ -90,8 +88,8 @@ public class SubscriptionService {
         existingUser.setSubscriptionType(subscriptionType);
         existingUser.setSubscriptionState("PENDING");
         //set subscription time period as N/A and start and end time will be set when Admin Activate it after payment received
-        existingUser.setSubscriptionStartTime("N/A");
-        existingUser.setSubscriptionEndTime("N/A");
+        existingUser.setSubscriptionStartTime(null);
+        existingUser.setSubscriptionEndTime(null);
         userService.updateUserInfo(existingUser);
         return existingUser;
     }
@@ -102,7 +100,7 @@ public class SubscriptionService {
             for (SubscriptionDetails subscriptionDetail : dataList) {
                 String subscriptionId = subscriptionDetail.getSubscriptionId();
                 String userId = subscriptionDetail.getUserId();
-                apiMessageEnum = dao.updateUserSubscriptionPaymentDetails(dto, subscriptionId);
+                apiMessageEnum = subscriptionDao.updateUserSubscriptionPaymentDetails(dto, subscriptionId);
                 LOGGER.info("## User: {}, subscription payment verification flag saved successfully", userId);
                 if (apiMessageEnum.equals(ApiMessageEnum.UPDATE_SUBSCRIPTION_SUCCESS)) {
                     FinVendorUser existingUser = userService.getUserDetailsByUsername(userId);
@@ -209,9 +207,10 @@ public class SubscriptionService {
         }
     }
 
-    public Pair<String, Integer> getSubscriptionsRecordStat(String state, String perPageMaxRecords, SubscriptionFilter filter) throws Exception {
+    public Pair<String, Integer> getSubscriptionsRecordStat(String state, String perPageMaxRecords, SubscriptionFilter filter)
+            throws Exception {
         try {
-            return dao.getSubscriptionsRecordStats(state, perPageMaxRecords, filter);
+            return subscriptionDao.getSubscriptionsRecordStats(state, perPageMaxRecords, filter);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
@@ -220,7 +219,7 @@ public class SubscriptionService {
     public List<UserPaymentDto> findSubscriptions(String state, String pageNumber, String perPageMaxRecords, String sortBy, String orderBy,
             SubscriptionFilter filter) throws Exception {
         try {
-            return dao.findAllPayments(state, pageNumber, perPageMaxRecords, sortBy, orderBy, filter);
+            return subscriptionDao.findAllPayments(state, pageNumber, perPageMaxRecords, sortBy, orderBy, filter);
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
@@ -228,7 +227,7 @@ public class SubscriptionService {
 
     public Pair<Long, InputStream> downloadSubscriptions() throws Exception {
         try {
-            return dao.downloadSubscriptions();
+            return subscriptionDao.downloadSubscriptions();
         } catch (RuntimeException e) {
             throw new Exception(e);
         }
