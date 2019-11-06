@@ -441,7 +441,7 @@ public class CustomStrategyDao {
         String applyOrderBy = " order by cast(" + sortBy + " as decimal) " + orderBy;
         String applyPagination = CommonCodeUtils.applyPagination(pageNumber, perPageMaxRecords);
         String sql = CUSTOM_STRATEGY_QUERY + applyFilter + applyOrderBy + applyPagination;
-        logger.info("### Custom Strategy SQL: {}", sql);
+        logger.info("## Custom Strategy SQL: {}", sql);
         SQLQuery query = commonDao.getNativeQuery(sql, null);
         List<Object[]> rows = query.list();
         List<CustomStrategyDto> customStrategyDtoList = new ArrayList<>();

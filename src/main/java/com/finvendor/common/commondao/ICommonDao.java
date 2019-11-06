@@ -4,6 +4,7 @@ import com.finvendor.common.util.Pair;
 import com.finvendor.model.Roles;
 import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
 import org.hibernate.SQLQuery;
+import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ public interface ICommonDao {
 	List<ResearchReportFor> getCompanyDetails(String sql, String rsrchAreaId) throws RuntimeException;
 	List<ResearchReportFor>  getIndustrySubTypes(String query, String[] values) throws IOException;
 	SQLQuery getNativeQuery(String sql, Object[] conditionValue);
-
+	SessionFactory getSessionFactory();
 	String runSql(String sql, Map<String, Map<String, String>> columnNameMap, Object[] conditionValue,
 			Map<String, Object> firstDefaultParamsMap, Map<String, Object> lastDefaultParamsMap, int colIndex)
 			throws RuntimeException;

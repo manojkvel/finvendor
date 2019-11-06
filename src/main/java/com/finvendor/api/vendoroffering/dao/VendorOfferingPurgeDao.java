@@ -82,7 +82,7 @@ public class VendorOfferingPurgeDao {
         for (Object[] row : rows) {
             String reportDate;
             if (row[1] == null) {
-                throw new Exception("### reportDate must not be null");
+                throw new Exception("## reportDate must not be null");
             }
             else {
                 reportDate = row[1].toString().trim();

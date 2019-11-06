@@ -1,9 +1,10 @@
 package com.finvendor.model.subscription;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * User Subscription Payment Entity
@@ -19,8 +20,26 @@ public class UsersSubscription implements Serializable {
     @Column(name = "username")
     private String userName;
 
-    @Column(name = "subscription_type")
+    @Column(name="subscription_date")
+    private String subscriptionDate;
+
+    @Column(name="subscription_type")
     private String subscriptionType;
+
+    @Column(name="trial_period_start_time")
+    private String trialPeriodStartTime;
+
+    @Column(name="trial_period_end_time")
+    private String trialPeriodEndTime;
+
+    @Column(name="subscription_start_time")
+    private String subscriptionStartTime;
+
+    @Column(name="subscription_end_time")
+    private String subscriptionEndTime;
+
+    @Column(name="subscription_state")
+    private String subscriptionState;
 
     @Column(name = "transaction_ref_number")
     private String transactionRefNumber;
@@ -46,8 +65,13 @@ public class UsersSubscription implements Serializable {
     @Column(name = "payment_verified")
     private String paymentVerified;
 
-    @OneToMany(mappedBy = "usersSubscription", cascade = CascadeType.ALL)
-    private Collection<UsersSubscriptionHistory> usersSubscriptionHistoryList = new ArrayList<>();
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
+    }
 
     public String getUserName() {
         return userName;
@@ -55,6 +79,62 @@ public class UsersSubscription implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getSubscriptionDate() {
+        return subscriptionDate;
+    }
+
+    public void setSubscriptionDate(String subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
+    }
+
+    public String getSubscriptionType() {
+        return subscriptionType;
+    }
+
+    public void setSubscriptionType(String subscriptionType) {
+        this.subscriptionType = subscriptionType;
+    }
+
+    public String getTrialPeriodStartTime() {
+        return trialPeriodStartTime;
+    }
+
+    public void setTrialPeriodStartTime(String trialPeriodStartTime) {
+        this.trialPeriodStartTime = trialPeriodStartTime;
+    }
+
+    public String getTrialPeriodEndTime() {
+        return trialPeriodEndTime;
+    }
+
+    public void setTrialPeriodEndTime(String trialPeriodEndTime) {
+        this.trialPeriodEndTime = trialPeriodEndTime;
+    }
+
+    public String getSubscriptionStartTime() {
+        return subscriptionStartTime;
+    }
+
+    public void setSubscriptionStartTime(String subscriptionStartTime) {
+        this.subscriptionStartTime = subscriptionStartTime;
+    }
+
+    public String getSubscriptionEndTime() {
+        return subscriptionEndTime;
+    }
+
+    public void setSubscriptionEndTime(String subscriptionEndTime) {
+        this.subscriptionEndTime = subscriptionEndTime;
+    }
+
+    public String getSubscriptionState() {
+        return subscriptionState;
+    }
+
+    public void setSubscriptionState(String subscriptionState) {
+        this.subscriptionState = subscriptionState;
     }
 
     public String getTransactionRefNumber() {
@@ -121,28 +201,4 @@ public class UsersSubscription implements Serializable {
         this.paymentVerified = paymentVerified;
     }
 
-    public String getSubscriptionId() {
-        return subscriptionId;
-    }
-
-    public void setSubscriptionId(String subscriptionId) {
-        this.subscriptionId = subscriptionId;
-    }
-
-    public String getSubscriptionType() {
-        return subscriptionType;
-    }
-
-    public void setSubscriptionType(String subscriptionType) {
-        this.subscriptionType = subscriptionType;
-    }
-
-    public Collection<UsersSubscriptionHistory> getUsersSubscriptionHistoryList() {
-        return usersSubscriptionHistoryList;
-    }
-
-    public void setUsersSubscriptionHistoryList(
-            Collection<UsersSubscriptionHistory> usersSubscriptionHistoryList) {
-        this.usersSubscriptionHistoryList = usersSubscriptionHistoryList;
-    }
 }

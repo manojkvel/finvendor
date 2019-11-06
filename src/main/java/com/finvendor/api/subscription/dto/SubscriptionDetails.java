@@ -19,4 +19,11 @@ public class SubscriptionDetails {
     public void setSubscriptionId(String subscriptionId) {
         this.subscriptionId = subscriptionId;
     }
+
+    @Override public String toString() {
+        return "SubscriptionDetails{" +
+                "userId='" + userId + '\'' +
+                ", subscriptionId='" + subscriptionId + '\'' +
+                '}';
+    }
 }

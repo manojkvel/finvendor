@@ -3,13 +3,14 @@ package com.finvendor.api.login.controller;
 import com.finvendor.api.common.service.ReferenceDataService;
 import com.finvendor.api.consumer.service.ConsumerService;
 import com.finvendor.api.formdata.controller.FormDataController;
-import com.finvendor.api.login.dto.LoginResponse;
-import com.finvendor.api.login.dto.SubscriptionDto;
 import com.finvendor.api.login.service.LoginService;
 import com.finvendor.api.marketdata.service.MarketDataAggregatorsServiceImpl;
+import com.finvendor.api.subscription.service.SubscriptionService;
+import com.finvendor.api.user.dto.UserSubscriptionDto;
 import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.exception.ErrorMessage;
-import com.finvendor.common.util.ErrorUtil;
+import com.finvendor.common.response.ApiResponse;
 import com.finvendor.model.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
@@ -35,7 +36,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.finvendor.common.exception.ExceptionEnum.USER_LOGIN;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 
 @Controller
 public class LoginController {
@@ -44,6 +46,9 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private SubscriptionService subscriptionService;
 
     @Autowired
     private UserService userService;
@@ -71,92 +76,6 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView(RequestConstans.Login.LOGIN);
         logger.debug("Leaving LoginController : loginInfo");
         return modelAndView;
-    }
-
-    @RequestMapping(value = RequestConstans.Login.LOGINVALIDATION, method = RequestMethod.POST)
-    public ResponseEntity<?> loginValidation(@RequestParam(value = "VEuMlA", required = false) String username,
-            @RequestParam(value = "RaYulU", required = false) String password,
-            @RequestParam(value = "chgUsername", required = false) String chgUsername,
-            @RequestParam(value = "oldPassword", required = false) String oldPassword,
-            @RequestParam(value = "newPassword", required = false) String newPassword,
-            @RequestParam(value = "passChange") String passChange) {
-
-        logger.debug("Entering LoginController : loginValidation");
-        String status;
-        LoginResponse loginResponseDto = null;
-        try {
-            String userId;
-            String credentials;
-            boolean changePassword = Boolean.valueOf(passChange);
-
-            if (changePassword) {
-                userId = chgUsername;
-                credentials = oldPassword;
-            }
-            else {
-                userId = username;
-                credentials = password;
-            }
-            FinVendorUser user = userService.getUserDetailsByUsername(userId);
-            if (user == null) {
-                logger.error("No User record available for : {}", userId);
-                status = RequestConstans.INVALID_USER;
-            }
-            else {
-                logger.info("User {} enabled : {}", userId, user.getEnabled());
-                if (!user.getEnabled()) {
-                    logger.error("User record is disabled for : {}", userId);
-                    status = RequestConstans.ACCOUNT_DISABLED;
-                }
-                else {
-                    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-                    if (encoder.matches(credentials, user.getPassword())) {
-                        if (changePassword) {
-                            userService.changePassword(userId, encoder.encode(newPassword));
-                            userService.updateUnsuccessfulLoginAttempts(userId, true);
-                            status = RequestConstans.LOGIN_AFTER_CHANGE_PASSWORD;
-                        }
-                        else if (user.getLoginAttempts() < 0) {
-                            status = RequestConstans.CHANGE_PASSWORD;
-                        }
-                        else {
-                            userService.updateUnsuccessfulLoginAttempts(userId, true);
-                            status = "User logged-in successfully";
-                        }
-                    }
-                    else {
-                        logger.error("Incorrect password entered for : {}", userId);
-                        if (user.getLoginAttempts() >= RequestConstans.MAX_UNSUCCESSFUL_ATTEMPTS) {
-                            userService.updateUserAccountStatus(userId, false);
-                        }
-                        else {
-                            userService.updateUnsuccessfulLoginAttempts(userId, false);
-                        }
-                        status = RequestConstans.INVALID_PASSWORD;
-                    }
-                }
-                //User Trial Period handling
-                boolean trialPeriod;
-                if (user.getTrialPeriodEndTime() != null) {
-                    trialPeriod = userService.isUserInTrialPeriod(user);
-                }
-                else {
-                    trialPeriod = false;
-                }
-                logger.info("## user trialPeriod: {}", trialPeriod);
-                //User Subscription handling
-                SubscriptionDto subscriptionDto = userService.findUserSubscriptionDetails(user);
-                logger.info("## subscriptionDto: {}", subscriptionDto);
-                subscriptionDto.setTrialPeriod(trialPeriod);
-                List<SubscriptionDto> subscriptionDtoList = new ArrayList<>();
-                subscriptionDtoList.add(subscriptionDto);
-                loginResponseDto = new LoginResponse("lgn-001", status, subscriptionDtoList);
-            }
-        } catch (Exception exp) {
-            ErrorUtil.logError("Login Controller -> loginValidation(...) method", exp);
-            return ErrorUtil.getError(USER_LOGIN.getCode(), USER_LOGIN.getUserMessage(), exp);
-        }
-        return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
     }
 
     @RequestMapping(value = RequestConstans.Login.WELCOME, method = RequestMethod.GET)
@@ -520,5 +439,76 @@ public class LoginController {
         } catch (Exception e) {
 
         }
+    }
+
+    /**
+     * Login
+     */
+    @RequestMapping(value = RequestConstans.Login.LOGINVALIDATION, method = RequestMethod.POST)
+    public ResponseEntity<?> loginValidation(@RequestParam(value = "VEuMlA", required = false) String username,
+            @RequestParam(value = "RaYulU", required = false) String password,
+            @RequestParam(value = "chgUsername", required = false) String chgUsername,
+            @RequestParam(value = "oldPassword", required = false) String oldPassword,
+            @RequestParam(value = "newPassword", required = false) String newPassword,
+            @RequestParam(value = "passChange") String passChange) throws Exception {
+        logger.debug("Entering LoginController : loginValidation");
+        String status;
+        String userId;
+        String credentials;
+        if (Boolean.parseBoolean(passChange)) {
+            userId = chgUsername;
+            credentials = oldPassword;
+        }
+        else {
+            userId = username;
+            credentials = password;
+        }
+        FinVendorUser user = userService.getUserDetailsByUsername(userId);
+        List<UserSubscriptionDto> subscriptionDtoList = null;
+        ApiResponse<String, List<UserSubscriptionDto>> apiResponse;
+        if (user == null) {
+            logger.error("## No User record available for : {}", userId);
+            status = RequestConstans.INVALID_USER;
+            apiResponse = WebUtils.buildResponse("fv-404", status, null, NOT_FOUND);
+        }
+        else {
+            logger.info("## User {} enabled : {}", userId, user.getEnabled());
+            if (!user.getEnabled()) {
+                logger.error("## User record is disabled for : {}", userId);
+                status = RequestConstans.ACCOUNT_DISABLED;
+            }
+            else {
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+                if (encoder.matches(credentials, user.getPassword())) {
+                    if (Boolean.parseBoolean(passChange)) {
+                        userService.changePassword(userId, encoder.encode(newPassword));
+                        userService.updateUnsuccessfulLoginAttempts(userId, true);
+                        status = RequestConstans.LOGIN_AFTER_CHANGE_PASSWORD;
+                    }
+                    else if (user.getLoginAttempts() < 0) {
+                        status = RequestConstans.CHANGE_PASSWORD;
+                    }
+                    else {
+                        userService.updateUnsuccessfulLoginAttempts(userId, true);
+                        status = "User logged-in successfully";
+                    }
+                }
+                else {
+                    logger.error("Incorrect password entered for : {}", userId);
+                    if (user.getLoginAttempts() >= RequestConstans.MAX_UNSUCCESSFUL_ATTEMPTS) {
+                        userService.updateUserAccountStatus(userId, false);
+                    }
+                    else {
+                        userService.updateUnsuccessfulLoginAttempts(userId, false);
+                    }
+                    status = RequestConstans.INVALID_PASSWORD;
+                }
+                UserSubscriptionDto userSubscriptionDetails = subscriptionService.find_UsersSubscription(user.getUserName());
+                subscriptionDtoList = new ArrayList<>();
+                subscriptionDtoList.add(userSubscriptionDetails);
+            }
+            apiResponse = WebUtils.buildResponse("fv-200", status, subscriptionDtoList, OK);
+        }
+        return WebUtils.buildResponseEntity(apiResponse);
     }
 }

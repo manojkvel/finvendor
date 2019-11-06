@@ -186,10 +186,10 @@ public class CommonController {
     @PostMapping(value = "/stockReturns")
     public ResponseEntity<ApiResponse<String, Map<String, String>>> findStockReturn(
             @RequestBody StockReturnDto stockReturnDto) throws Exception {
-        logger.info("### CONTROLLER findStockReturn - START stockReturnDto: {}", stockReturnDto);
+        logger.info("## CONTROLLER findStockReturn - START stockReturnDto: {}", stockReturnDto);
         Map<String, String> stockReturns = commonService.findStockReturns(stockReturnDto);
         ApiResponse<String, Map<String, String>> apiResponse = WebUtils.buildResponse(ApiMessageEnum.SUCCESS, stockReturns, HttpStatus.OK);
-        logger.info("### CONTROLLER findStockReturn - END");
+        logger.info("## CONTROLLER findStockReturn - END");
         return WebUtils.buildResponseEntity(apiResponse);
     }
 

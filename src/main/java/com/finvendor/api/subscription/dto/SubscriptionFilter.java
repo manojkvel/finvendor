@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class SubscriptionFilter implements Serializable {
 
-    Long from;
-    Long to;
+    private Long from;
+    private Long to;
 
     public Long getFrom() {
         return from;
@@ -21,5 +21,12 @@ public class SubscriptionFilter implements Serializable {
 
     public void setTo(Long to) {
         this.to = to;
+    }
+
+    @Override public String toString() {
+        return "SubscriptionFilter{" +
+                "from=" + from +
+                ", to=" + to +
+                '}';
     }
 }

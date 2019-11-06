@@ -34,9 +34,17 @@ public class UserDao {
     private static final String UPDATE_VENDOR_REGISTRATION_DETAILS = "UPDATE vendor set companytype=:companytype  where username = :username";
     private static final String UPDATE_CONSUMER_REGISTRATION_DETAILS = "UPDATE consumer set companytype=:companytype, tags=:tags where username = :username";
     private static final String UPDATE_REGISTRATION_EMAIL = "UPDATE users set email = :email where username = :username";
+
     private static final String DELETE_USER_SUBSCRIPTION_HISTORY_RECORD = "DELETE from users_subscription_history where username = :username";
     private static final String DELETE_USER_SUBSCRIPTION_RECORD = "DELETE from users_subscription where username = :username";
-    private static final String RESET_USER_SUBSCRIPTION = "UPDATE users SET subscription_date = :subscription_date, subscription_type = :subscription_type, trial_period_start_time = :trial_period_start_time, trial_period_end_time = :trial_period_end_time, subscription_start_time = :subscription_start_time, subscription_end_time = :subscription_end_time, subscription_state = :subscription_state WHERE username = :username";
+    private static final String RESET_USER_SUBSCRIPTION = "UPDATE users_subscription SET subscription_date = :subscription_date, subscription_type = :subscription_type, trial_period_start_time = :trial_period_start_time, trial_period_end_time = :trial_period_end_time, subscription_start_time = :subscription_start_time, subscription_end_time = :subscription_end_time, subscription_state = :subscription_state WHERE username = :username";
+
+    private static final String DELETE_USER_VERIFICATION = "DELETE from user_verification where username = :username";
+    private static final String DELETE_USER_ROLE = "DELETE from user_roles where username = :username";
+    private static final String DELETE_USER = "DELETE from users where username = :username";
+
+    private static final String UPDATE_USER_VERIFICATION = "UPDATE user_verification SET verified_date = CURRENT_TIMESTAMP WHERE username = :username";
+    private static final String UPDATE_USER = "UPDATE users set enabled = :enabled, verified = 'Y' WHERE username = :username";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -275,12 +283,12 @@ public class UserDao {
         sqlQuery.setParameter("username", username);
         sqlQuery.executeUpdate();
 
-
         sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(DELETE_USER_SUBSCRIPTION_RECORD);
         sqlQuery.setParameter("username", username);
         int count = sqlQuery.executeUpdate();
 
         logger.info("## delete Subscription - count: {}", count);
+
         sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(RESET_USER_SUBSCRIPTION);
         sqlQuery.setParameter("subscription_date", null);
         sqlQuery.setParameter("subscription_type", "FREE");
@@ -293,4 +301,46 @@ public class UserDao {
         count = sqlQuery.executeUpdate();
         logger.info("## update user Subscription - count: {}", count);
     }
+
+    public void deleteUser(String username) {
+        deleteSubscription(username);
+        SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(DELETE_USER_VERIFICATION);
+        sqlQuery.setParameter("username", username);
+        sqlQuery.executeUpdate();
+
+        sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(DELETE_USER_ROLE);
+        sqlQuery.setParameter("username", username);
+        sqlQuery.executeUpdate();
+
+        sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(DELETE_USER);
+        sqlQuery.setParameter("username", username);
+        sqlQuery.executeUpdate();
+    }
+
+    public void verifyUser(String username) {
+        SQLQuery sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_USER_VERIFICATION);
+        sqlQuery.setParameter("username", username);
+        sqlQuery.executeUpdate();
+
+        sqlQuery = this.sessionFactory.getCurrentSession().createSQLQuery(UPDATE_USER);
+        sqlQuery.setParameter("enabled", 1);
+        sqlQuery.setParameter("username", username);
+        sqlQuery.executeUpdate();
+    }
+
+//    public void updateUserSubscriptionToFree(FinVendorUser user) {
+//        try {
+//            user.setSubscriptionDate(null);
+//            user.setSubscriptionStartTime(null);
+//            user.setSubscriptionEndTime(null);
+//            user.setTrialPeriodStartTime(null);
+//            user.setTrialPeriodEndTime(null);
+//            user.setSubscriptionType(SubscriptionTypeEnum.FREE.name());
+//            user.setSubscriptionState(null);
+//            this.sessionFactory.getCurrentSession().update(user);
+//        } catch (Exception exp) {
+//            throw new RuntimeException("Failed to update user", exp);
+//        }
+//        logger.debug("Leaving UserDaoImpl : updateUserSubscriptionToFree");
+//    }
 }

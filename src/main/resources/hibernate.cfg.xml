@@ -100,6 +100,7 @@
 
         <mapping class="com.finvendor.model.subscription.UsersSubscription"></mapping>
         <mapping class="com.finvendor.model.subscription.UsersSubscriptionHistory"></mapping>
+        <mapping class="com.finvendor.model.Configuration"></mapping>
 
     </session-factory>
 
