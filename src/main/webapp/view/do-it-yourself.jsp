@@ -95,7 +95,7 @@
 													</a>
 												</p>
 											</th>
-											<th style="width:20%;">
+											<th style="width:15%;">
 												<p class="large_font">
 													<a href="javascript:void(0)" data-id="pe">
 														P/E <i class="fa fa-sort"></i>
@@ -112,8 +112,22 @@
 													</a>
 												</p>
 											</th>
-											<th style="width:15%;">
-												<p class="large_font" style="font-size: 16px;">
+											<th style="width:10%;">
+												<p class="large_font">
+													Stock Return
+												</p>
+												<p class="small_font">
+													3 Month
+												</p>
+												<p class="small_font">
+													6 Month
+												</p>
+												<p class="small_font">
+													1 Year
+												</p>
+											</th>
+											<th style="width:10%;">
+												<p class="large_font">
 													<a href="javascript:void(0)" data-id="operatingProfitMargin">
 														Operating Profit Margin <i class="fa fa-sort"></i>
 													</a>

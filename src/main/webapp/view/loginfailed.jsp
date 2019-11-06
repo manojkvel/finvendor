@@ -19,7 +19,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-9">
 				<div class="default_template">
-					<form id="login-submit" method="post" action="<c:url value='j_spring_security_check' />" id="login-submit">
+					<form id="login-submit" method="post" action="<c:url value='j_spring_security_check' />">
 		<div class="container">
 			 <div>
 				<div>
@@ -39,28 +39,18 @@
 							</c:if>
 						</div>
 						<div class="clearfix"><br/></div>
-						<h4>Existing User Login</h4>
-						<div class="clearfix"><br/></div>
 						<div class="login-form-content">
-							<div class="login-form">
-								<div class="label">UserName</div>
-								<input name="username" type="text" class="input">
-								<div class="clearfix"></div>
+							<h4>Existing User Login</h4>
+							<div class="form-group">
+								<input class="form-control" id="signin-username" data-mandatory="Y" type="text" placeholder="UserName" name="username" />
 							</div>
-							<div class="login-form">
-								<div class="label">Password</div>
-								<input name="password" type="password" class="input">
-								<div class="clearfix"></div>
+							<div class="form-group">
+								<input class="form-control" id="signin-password" data-mandatory="Y" type="password"  placeholder="Password" name="password" />
 							</div>
 						</div>
 						<div class="login-ft">
-							<p>
-								<input type="button" value="login" class="login"
-									onclick="loginSubmit();" />
-							</p>
-							<p>
-								<input type="reset" value="Reset" class="login" />
-							</p>
+							<input type="button" value="Login" name="Submit" id="call" class="btn primary" onclick="loginSubmit();" style="margin-right: 30px;" />
+							<input type="reset" value="Reset" name="Submit" class="btn primary" />
 							<div class="clearfix"></div>
 						</div>
 						<%-- <div class="login-ft">

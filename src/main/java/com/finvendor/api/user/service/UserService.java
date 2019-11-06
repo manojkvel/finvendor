@@ -178,16 +178,10 @@ public class UserService {
      */
     public boolean isUserInTrialPeriod(FinVendorUser user) throws Exception {
         boolean trialPeriod;
-        String trialPeriodEndTime = user.getTrialPeriodEndTime();
-        if (trialPeriodEndTime != null) {
-            trialPeriod =
-                    Calendar.getInstance().getTimeInMillis() <= DateUtils.get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodEndTime);
-        }
-        else {
-            trialPeriod = false;
-        }
+        trialPeriod = false;
         return trialPeriod;
     }
+    
 
     public SubscriptionDto findUserSubscriptionDetails(FinVendorUser user) {
         return new SubscriptionDto(user.getSubscriptionType(), user.getSubscriptionState());

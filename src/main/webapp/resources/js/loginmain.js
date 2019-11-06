@@ -33,7 +33,7 @@ $('.hd-right a').on('click', function(event){
 		$main_nav.children('ul').removeClass('is-visible');
 		//show modal layer
 		$form_modal.addClass('is-visible');	
-		document.getElementsByClassName('nav-srch')[0].style.display="none";
+		//document.getElementsByClassName('nav-srch')[0].style.display="none";
 		//show the selected form
 		( $(event.target).is('.cd-signup') ) ? signup_selected() : login_selected();
 	}
@@ -291,6 +291,12 @@ function loginSubmit(changePassword) {
 				$('#generic-error-message').html("");
 				$('.cd-user-modal').removeClass('is-visible');					
 				$('form#login-submit').submit();
+			} else {
+				$('#loadinglg').hide();
+				$('#loadingcp').hide();
+				$('#generic-error-message').html("");
+				$('.cd-user-modal').removeClass('is-visible');					
+				$('form#login-submit').submit();
 			}
 		}
 	});
@@ -342,7 +348,7 @@ jQuery.fn.putCursorAtEnd = function() {
 
 function inner_login(redirectLink){
 	$main_nav.children('ul').removeClass('is-visible');
-	document.getElementsByClassName('nav-srch')[0].style.display="none";
+	// document.getElementsByClassName('nav-srch')[0].style.display="none";
 	$form_modal.addClass('is-visible');	
 	if(redirectLink=='LIY') {signup_selected();} else 	{login_selected();}
 	//window.alert(redirectlink);

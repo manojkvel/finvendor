@@ -103,7 +103,7 @@ $(document).ready(function(){
 		selector = '#' + spanName + ' input[data-mandatory="Y"]';
 		$(selector).each(function(index){
 			if($(this).val() == null || $(this).val() == '' || $.trim($(this).val()) == '') {
-				$('#generic-error-message').html('Please remove all mandatory fields');
+				$('#generic-error-message').html('Please enter all mandatory fields');
 				$(this).focus();
 				return returnValue = false;
 			}
@@ -114,7 +114,7 @@ $(document).ready(function(){
 		selector = '#' + spanName + ' textarea[data-mandatory="Y"]';
 		$(selector).each(function(index) {
 			if($(this).val() == null || $(this).val() == '' || $.trim($(this).val()) == '') {
-				$('#generic-error-message').html('Please remove all mandatory fields');
+				$('#generic-error-message').html('Please enter all mandatory fields');
 				$(this).focus();
 				return returnValue = false;
 			}
@@ -125,7 +125,7 @@ $(document).ready(function(){
 		selector = '#' + spanName + ' select[data-mandatory="Y"]';
 		$(selector).each(function(index){
 			if($(this).val() == '-SELECT-' || $(this).val() == 'SELECT') {
-				$('#generic-error-message').html('Please remove all mandatory fields');
+				$('#generic-error-message').html('Please enter all mandatory fields');
 				$(this).focus();
 				return returnValue = false;
 			}
@@ -138,7 +138,7 @@ $(document).ready(function(){
 			value = $(selectedElement).val();
 			value = value + "";
 			if(value.substr(0, 8) == '-SELECT-' || value.substr(0, 6) == 'SELECT') {
-				$('#generic-error-message').html('Please remove all mandatory fields');
+				$('#generic-error-message').html('Please enter all mandatory fields');
 				$(this).focus();
 				return returnValue = false;
 			}

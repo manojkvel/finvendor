@@ -3127,6 +3127,12 @@ button {
 	margin-bottom: -1px;
 } 
 
+#fv_equity_research_report_vendor_search #broker_table tbody tr button {
+	border: 1px solid grey;
+    padding: 5px 10px;
+    background: transparent;
+}
+
 .paging_container #records_stats {
 	margin: 0 10px;
 }

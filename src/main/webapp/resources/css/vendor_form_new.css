@@ -352,6 +352,11 @@ input[type="file"] {
 	margin-top: 5px;
 }
 
+
+input:read-only {
+	background: rgba(201,201,201,0.25);
+}
+
 .custom_form #user_last_name {
 	float: none;
 }
@@ -2183,6 +2188,12 @@ h2 {
     table-layout: fixed;
     width: 100%;
     display: table;
+}
+
+#do_it_yourself #broker_table tbody tr button {
+	border: 1px solid grey;
+    padding: 5px 10px;
+    background: transparent;
 }
 
 #do_it_yourself #broker_table {

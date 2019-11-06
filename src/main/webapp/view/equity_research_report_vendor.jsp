@@ -270,7 +270,7 @@
 												</p>
 											</th>-->
 											<th style="width:15%;">
-												<p class="large_font" style="font-size: 16px;">
+												<p class="large_font">
 													Stock Return
 												</p>
 												<p class="small_font">
