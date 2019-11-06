@@ -187,6 +187,10 @@ public class SubscriptionService {
         return usersSubscription;
     }
 
+    public UsersSubscriptionHistory findPreviousSubscription(String subscriptionType) {
+        return subscriptionHistoryDao.find_PreviousSubscription(subscriptionType);
+    }
+
     public boolean isTopHistoricalSubscriptionIsInRenewalState() throws ApplicationException {
         LOG.info("## get_second_Last_UsersSubscription_fromHistory - START");
         Pair<UsersSubscriptionHistory, UsersSubscriptionHistory> top2Subscription = subscriptionHistoryDao.find_top2Subscription();
@@ -203,28 +207,25 @@ public class SubscriptionService {
         String subscriptionStartTime = existingUsersSubscription.getSubscriptionStartTime();
         String subscriptionEndTime = existingUsersSubscription.getSubscriptionEndTime();
 
-        String subscriptionStartTimeInMs = StringUtils.isNotEmpty(subscriptionStartTime) ?
-                String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionStartTime)) :
-                null;
-        String subscriptionEndTimeInMs = StringUtils.isNotEmpty(subscriptionEndTime) ?
-                String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionEndTime)) :
-                null;
+        String subscriptionStartTimeInMs = StringUtils.isNotEmpty(subscriptionStartTime) ? String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionStartTime)) : null;
+        String subscriptionEndTimeInMs = StringUtils.isNotEmpty(subscriptionEndTime) ? String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionEndTime)) : null;
 
         String trialPeriodStartTime = existingUsersSubscription.getTrialPeriodStartTime();
         String trialPeriodEndTime = existingUsersSubscription.getTrialPeriodEndTime();
 
-        String trialPeriodStartTimeInMs = StringUtils.isNotEmpty(trialPeriodStartTime) ?
-                String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodStartTime)) :
-                null;
-        String trialPeriodEndTimeInMs = StringUtils.isNotEmpty(trialPeriodEndTime) ?
-                String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodEndTime)) :
-                null;
+        String trialPeriodStartTimeInMs = StringUtils.isNotEmpty(trialPeriodStartTime) ? String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodStartTime)) : null;
+        String trialPeriodEndTimeInMs = StringUtils.isNotEmpty(trialPeriodEndTime) ? String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodEndTime)) : null;
         boolean userInTrialPeriod = isUserInTrialPeriod(existingUsersSubscription);
         String generalMsg = getGeneralMsg(userInTrialPeriod, existingUsersSubscription);
+
+        //Previous subscription
+        UsersSubscriptionHistory prevSubscription = findPreviousSubscription(existingUsersSubscription.getSubscriptionType());
+        String previousSubscriptionType = prevSubscription != null ? prevSubscription.getSubscriptionType() : "";
+        String previousSubscriptionState = prevSubscription != null ? prevSubscription.getSubscriptionState() : "";
         return new UserSubscriptionDto(existingUsersSubscription.getSubscriptionId(), userName,
-                existingUsersSubscription.getSubscriptionType(), existingUsersSubscription.getSubscriptionState(),
-                subscriptionStartTimeInMs,
-                subscriptionEndTimeInMs, subscriptionStartTime, subscriptionEndTime, trialPeriodStartTimeInMs, trialPeriodEndTimeInMs,
+                previousSubscriptionType, previousSubscriptionState, existingUsersSubscription.getSubscriptionType(),
+                existingUsersSubscription.getSubscriptionState(),
+                subscriptionStartTimeInMs, subscriptionEndTimeInMs, subscriptionStartTime, subscriptionEndTime, trialPeriodStartTimeInMs, trialPeriodEndTimeInMs,
                 trialPeriodStartTime, trialPeriodEndTime, userInTrialPeriod, generalMsg);
     }
 

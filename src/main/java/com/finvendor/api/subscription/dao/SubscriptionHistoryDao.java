@@ -62,10 +62,23 @@ public class SubscriptionHistoryDao extends GenericDao<UsersSubscriptionHistory>
         return list.size() > 0;
     }
 
+    public UsersSubscriptionHistory find_PreviousSubscription(String subscriptionType) {
+        List<UsersSubscriptionHistory> all = findAll();
+        all.sort((o1, o2) -> o2.getRowId().compareTo(o1.getRowId()));
+        for (UsersSubscriptionHistory ush : all) {
+            if (!subscriptionType.equals(ush.getSubscriptionType())) {
+                return ush;
+            }
+        }
+        return null;
+    }
+
     public Pair<UsersSubscriptionHistory, UsersSubscriptionHistory> find_top2Subscription() {
         List<UsersSubscriptionHistory> all = findAll();
         all.sort((o1, o2) -> o2.getRowId().compareTo(o1.getRowId()));
+
         return all.size() >= 2 ? new Pair<>(all.get(0), all.get(1)) : null;
 
     }
+
 }

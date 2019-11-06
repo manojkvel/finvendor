@@ -39,8 +39,8 @@ public class ExampleController {
     }
 
     @GetMapping(value = "/hello")
-    public ResponseEntity<String> sayHello() {
-        return new ResponseEntity<>("Hello Friends...How r u ", HttpStatus.OK);
+    public ResponseEntity<ApiResponse<String, Object>> sayHello() {
+        return buildResponseEntity(buildResponse(ApiMessageEnum.SUCCESS,null ,HttpStatus.OK));
     }
 
     /**

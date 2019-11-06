@@ -8,6 +8,8 @@ import java.io.Serializable;
 public class UserSubscriptionDto implements Serializable {
     private String subscriptionId;
     private String userName;
+    private String previousSubscriptionType;
+    private String previousSubscriptionState;
     private String subscriptionType;
     private String subscriptionState;
     private String subscriptionStartTimeInMs;
@@ -21,7 +23,9 @@ public class UserSubscriptionDto implements Serializable {
     private boolean userInTrialPeriod;
     private String generalMsg;
 
-    public UserSubscriptionDto(String subscriptionId, String userName, String subscriptionType, String subscriptionStatus,
+    public UserSubscriptionDto(String subscriptionId, String userName, String previousSubscriptionType,
+            String previousSubscriptionState, String subscriptionType,
+            String subscriptionStatus,
             String subscriptionStartTime,
             String subscriptionEndTimeInMs, String subscriptionStartTime1, String subscriptionEndTime,
             String trialPeriodStartTimeInMs,
@@ -29,6 +33,8 @@ public class UserSubscriptionDto implements Serializable {
             String generalMsg) {
         this.subscriptionId = subscriptionId;
         this.userName = userName;
+        this.previousSubscriptionType = previousSubscriptionType;
+        this.previousSubscriptionState = previousSubscriptionState;
         this.subscriptionType = subscriptionType;
         this.subscriptionState = subscriptionStatus;
         this.subscriptionStartTimeInMs = subscriptionStartTime;
@@ -41,6 +47,22 @@ public class UserSubscriptionDto implements Serializable {
         this.trialPeriodEndTime = trialPeriodEndTime;
         this.userInTrialPeriod = userInTrialPeriod;
         this.generalMsg = generalMsg;
+    }
+
+    public String getPreviousSubscriptionType() {
+        return previousSubscriptionType;
+    }
+
+    public void setPreviousSubscriptionType(String previousSubscriptionType) {
+        this.previousSubscriptionType = previousSubscriptionType;
+    }
+
+    public String getPreviousSubscriptionState() {
+        return previousSubscriptionState;
+    }
+
+    public void setPreviousSubscriptionState(String previousSubscriptionState) {
+        this.previousSubscriptionState = previousSubscriptionState;
     }
 
     public String getSubscriptionId() {

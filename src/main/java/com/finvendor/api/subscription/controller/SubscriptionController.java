@@ -17,6 +17,7 @@ import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.Pair;
 import com.finvendor.model.subscription.UsersSubscription;
+import com.finvendor.model.subscription.UsersSubscriptionHistory;
 import com.finvendor.modelpojo.staticpojo.StatusPojo;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -154,6 +155,7 @@ public class SubscriptionController {
         else {
             UsersSubscription existingUsersSubscription = subscriptionService.getUsersSubscription(userName);
             String subscriptionType = existingUsersSubscription.getSubscriptionType();
+            //Handle of Renewal
             boolean isTopHistoricalSubscriptionIsInRenewalState = subscriptionService.isTopHistoricalSubscriptionIsInRenewalState();
             if (isTopHistoricalSubscriptionIsInRenewalState) {
                 existingUsersSubscription = subscriptionService.get_second_Last_UsersSubscription_fromHistory();
@@ -162,27 +164,26 @@ public class SubscriptionController {
             String subscriptionStartTime = existingUsersSubscription.getSubscriptionStartTime();
             String subscriptionEndTime = existingUsersSubscription.getSubscriptionEndTime();
 
-            String subscriptionStartTimeInMs = StringUtils.isNotEmpty(subscriptionStartTime) ?
-                    String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionStartTime)) :
-                    null;
-            String subscriptionEndTimeInMs = StringUtils.isNotEmpty(subscriptionEndTime) ?
-                    String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionEndTime)) :
-                    null;
+            String subscriptionStartTimeInMs = StringUtils.isNotEmpty(subscriptionStartTime) ? String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionStartTime)) : null;
+            String subscriptionEndTimeInMs = StringUtils.isNotEmpty(subscriptionEndTime) ? String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionEndTime)) : null;
 
             String trialPeriodStartTime = existingUsersSubscription.getTrialPeriodStartTime();
             String trialPeriodEndTime = existingUsersSubscription.getTrialPeriodEndTime();
 
-            String trialPeriodStartTimeInMs = StringUtils.isNotEmpty(trialPeriodStartTime) ?
-                    String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodStartTime)) : null;
-            String trialPeriodEndTimeInMs = StringUtils.isNotEmpty(trialPeriodEndTime) ?
-                    String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodEndTime)) : null;
+            String trialPeriodStartTimeInMs = StringUtils.isNotEmpty(trialPeriodStartTime) ? String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodStartTime)) : null;
+            String trialPeriodEndTimeInMs = StringUtils.isNotEmpty(trialPeriodEndTime) ? String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodEndTime)) : null;
+
             boolean isUserInTrialPeriod = subscriptionService.isUserInTrialPeriod(existingUsersSubscription);
-            String trialPeriodMsg = isUserInTrialPeriod ?
-                    UserMsgEnums.USER_IN_TRIAL_PERIOD.getMsg(new Object[] { trialPeriodStartTime, trialPeriodEndTime }) :
-                    null;
+            String trialPeriodMsg = isUserInTrialPeriod ? UserMsgEnums.USER_IN_TRIAL_PERIOD.getMsg(new Object[] { trialPeriodStartTime, trialPeriodEndTime }) : null;
             String subscriptionId = existingUsersSubscription.getSubscriptionId();
+
+            //find previous subscription from history
+            UsersSubscriptionHistory prevSubscription = subscriptionService.findPreviousSubscription(subscriptionType);
+            String previousSubscriptionType = prevSubscription != null ? prevSubscription.getSubscriptionType() : "";
+            String previousSubscriptionState = prevSubscription != null ? prevSubscription.getSubscriptionState() : "";
+
             UserSubscriptionDto dto = new UserSubscriptionDto(subscriptionId, existingUsersSubscription.getUserName(),
-                    subscriptionType, existingUsersSubscription.getSubscriptionState(),
+                    previousSubscriptionType, previousSubscriptionState, subscriptionType, existingUsersSubscription.getSubscriptionState(),
                     subscriptionStartTimeInMs,
                     subscriptionEndTimeInMs, subscriptionStartTime, subscriptionEndTime, trialPeriodStartTimeInMs, trialPeriodEndTimeInMs,
                     trialPeriodStartTime, trialPeriodEndTime, isUserInTrialPeriod, trialPeriodMsg);
@@ -218,14 +219,6 @@ public class SubscriptionController {
 
     @PostMapping(value = "/users/{userName}/expireForcely")
     public ResponseEntity<ApiResponse<String, String>> expire(@PathVariable String userName) throws Exception {
-        subscriptionService.setFree(userName);
-        return buildResponseEntity(buildResponse(ApiMessageEnum.SUCCESS, null, OK));
-    }
-
-    @PostMapping(value = "/users/{userName}/subscriptions/{subscriptionId}/renew")
-    public ResponseEntity<ApiResponse<String, String>> renew(@PathVariable String userName,
-            @PathVariable(value = "subscriptionId") String subscriptionId) throws Exception {
-        LOG.info("renew - START: {}", subscriptionId);
         subscriptionService.setFree(userName);
         return buildResponseEntity(buildResponse(ApiMessageEnum.SUCCESS, null, OK));
     }
