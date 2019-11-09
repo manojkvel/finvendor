@@ -9,7 +9,7 @@ import java.io.Serializable;
 @JsonPropertyOrder({"userName","subscriptionDate", "subscriptionType","subscriptionState", "subscriptionStartTime","subscriptionEndTime",
         "subscriptionId", "transactionRefNumber", "transactionDate", "transactionFor", "paymentMode", "amountTransferred", "bankName",
         "bankHolderName", "paymentVerified"})
-public class UserPaymentDto implements Serializable {
+public class UsersSubscriptionDto implements Serializable {
     private final String userName;
     private final long subscriptionDate;
     private final String subscriptionType;
@@ -26,7 +26,7 @@ public class UserPaymentDto implements Serializable {
     private final String bankHolderName;
     private final String paymentVerified;
 
-    public UserPaymentDto(String userName, long subscriptionDate, String subscriptionType, String subscriptionState,
+    public UsersSubscriptionDto(String userName, long subscriptionDate, String subscriptionType, String subscriptionState,
             long subscriptionStartTime, long subscriptionEndTime, String subscriptionId, String transactionRefNumber,
             long transactionDate, String transactionFor, String paymentMode, double amtTransferred,
             String bankName, String bankHolderName, String paymentVerified) {

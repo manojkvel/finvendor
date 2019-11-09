@@ -40,26 +40,26 @@ public class FinVendorUser implements Serializable {
 	@Column(name="VERIFIED")
 	private String verified;
 
-	@Column(name="subscription_date")
-	private String subscriptionDate;
-
-	@Column(name="subscription_type")
-	private String subscriptionType;
-
-	@Column(name="trial_period_start_time")
-	private String trialPeriodStartTime;
-
-	@Column(name="trial_period_end_time")
-	private String trialPeriodEndTime;
-
-	@Column(name="subscription_start_time")
-	private String subscriptionStartTime;
-
-	@Column(name="subscription_end_time")
-	private String subscriptionEndTime;
-
-	@Column(name="subscription_state")
-	private String subscriptionState;
+//	@Column(name="subscription_date")
+//	private String subscriptionDate;
+//
+//	@Column(name="subscription_type")
+//	private String subscriptionType;
+//
+//	@Column(name="trial_period_start_time")
+//	private String trialPeriodStartTime;
+//
+//	@Column(name="trial_period_end_time")
+//	private String trialPeriodEndTime;
+//
+//	@Column(name="subscription_start_time")
+//	private String subscriptionStartTime;
+//
+//	@Column(name="subscription_end_time")
+//	private String subscriptionEndTime;
+//
+//	@Column(name="subscription_state")
+//	private String subscriptionState;
 
 	@OneToMany(mappedBy="user", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	private Set<UserRole> userRoles = new HashSet<UserRole>();
@@ -167,59 +167,59 @@ public class FinVendorUser implements Serializable {
 		this.consumer = consumer;
 	}
 
-	public String getSubscriptionType() {
-		return subscriptionType;
-	}
-
-	public void setSubscriptionType(String subscriptionType) {
-		this.subscriptionType = subscriptionType;
-	}
-
-	public String getSubscriptionStartTime() {
-		return subscriptionStartTime;
-	}
-
-	public void setSubscriptionStartTime(String subscriptionStartTime) {
-		this.subscriptionStartTime = subscriptionStartTime;
-	}
-
-	public String getSubscriptionEndTime() {
-		return subscriptionEndTime;
-	}
-
-	public void setSubscriptionEndTime(String subscriptionEndTime) {
-		this.subscriptionEndTime = subscriptionEndTime;
-	}
-
-	public String getSubscriptionState() {
-		return subscriptionState;
-	}
-
-	public void setSubscriptionState(String subscriptionState) {
-		this.subscriptionState = subscriptionState;
-	}
-
-	public String getSubscriptionDate() {
-		return subscriptionDate;
-	}
-
-	public void setSubscriptionDate(String subscriptionDate) {
-		this.subscriptionDate = subscriptionDate;
-	}
-
-	public String getTrialPeriodStartTime() {
-		return trialPeriodStartTime;
-	}
-
-	public void setTrialPeriodStartTime(String trialPeriodStartTime) {
-		this.trialPeriodStartTime = trialPeriodStartTime;
-	}
-
-	public String getTrialPeriodEndTime() {
-		return trialPeriodEndTime;
-	}
-
-	public void setTrialPeriodEndTime(String trialPeriodEndTime) {
-		this.trialPeriodEndTime = trialPeriodEndTime;
-	}
+//	public String getSubscriptionType() {
+//		return subscriptionType;
+//	}
+//
+//	public void setSubscriptionType(String subscriptionType) {
+//		this.subscriptionType = subscriptionType;
+//	}
+//
+//	public String getSubscriptionStartTime() {
+//		return subscriptionStartTime;
+//	}
+//
+//	public void setSubscriptionStartTime(String subscriptionStartTime) {
+//		this.subscriptionStartTime = subscriptionStartTime;
+//	}
+//
+//	public String getSubscriptionEndTime() {
+//		return subscriptionEndTime;
+//	}
+//
+//	public void setSubscriptionEndTime(String subscriptionEndTime) {
+//		this.subscriptionEndTime = subscriptionEndTime;
+//	}
+//
+//	public String getSubscriptionState() {
+//		return subscriptionState;
+//	}
+//
+//	public void setSubscriptionState(String subscriptionState) {
+//		this.subscriptionState = subscriptionState;
+//	}
+//
+//	public String getSubscriptionDate() {
+//		return subscriptionDate;
+//	}
+//
+//	public void setSubscriptionDate(String subscriptionDate) {
+//		this.subscriptionDate = subscriptionDate;
+//	}
+//
+//	public String getTrialPeriodStartTime() {
+//		return trialPeriodStartTime;
+//	}
+//
+//	public void setTrialPeriodStartTime(String trialPeriodStartTime) {
+//		this.trialPeriodStartTime = trialPeriodStartTime;
+//	}
+//
+//	public String getTrialPeriodEndTime() {
+//		return trialPeriodEndTime;
+//	}
+//
+//	public void setTrialPeriodEndTime(String trialPeriodEndTime) {
+//		this.trialPeriodEndTime = trialPeriodEndTime;
+//	}
 }

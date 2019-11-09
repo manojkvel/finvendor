@@ -7,12 +7,12 @@ import com.finvendor.api.metrics.dto.FeatureAllowedDto;
 import com.finvendor.api.metrics.enums.FeatureAccessEnum;
 import com.finvendor.api.metrics.enums.FvFeature;
 import com.finvendor.api.metrics.service.LimitedSearchService;
-import com.finvendor.api.user.service.UserService;
+import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.Pair;
 import com.finvendor.common.util.StringUtil;
-import com.finvendor.model.FinVendorUser;
+import com.finvendor.model.subscription.UsersSubscription;
 import com.finvendor.util.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -336,6 +336,10 @@ public final class WebUtils {
         return new ApiResponse<>(apiMessageEnum.getCode(), apiMessageEnum.getMsg(), data, httpStatus);
     }
 
+    public static <D> ApiResponse<String, D> buildResponse(String code, String msg, D data, HttpStatus httpStatus) {
+        return new ApiResponse<>(code, msg, data, httpStatus);
+    }
+
     public static <D> ResponseEntity<ApiResponse<String, D>> buildResponseEntity(ApiResponse<String, D> apiResponse) {
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
@@ -351,7 +355,7 @@ public final class WebUtils {
             errMessages.add(defaultMessage);
         }
         String[] errStrArr = errMessages.toArray(new String[1]);
-        logger.error("##Error Msg: {}", Arrays.toString(errStrArr));
+        logger.error("##Error Msg: {}, Err trace:", Arrays.toString(errStrArr), exception);
         ApiResponse apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED, null, HttpStatus.BAD_REQUEST);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
@@ -360,7 +364,7 @@ public final class WebUtils {
 
     public static ResponseEntity<ApiResponse> getConstraintViolationResponseEntity(ConstraintViolationException e) {
         String message = e.getMessage().substring(e.getMessage().indexOf(":") + 2);
-        logger.error("## Error Msg: {}", message);
+        logger.error("## Error Msg: {}, Err trace: ", message, e);
         ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED, null, HttpStatus.BAD_REQUEST);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
@@ -368,7 +372,7 @@ public final class WebUtils {
     }
 
     public static ResponseEntity<ApiResponse> getBadRequestErrorResponse(ApiBadRequestException e) {
-        logger.error("## Error Msg: {}, Error trace: ", e.getMessage(), e);
+        logger.error("## {}", e.getMessage());
         ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-400", VALIDATION_FAILED, null, HttpStatus.BAD_REQUEST);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
@@ -376,7 +380,7 @@ public final class WebUtils {
     }
 
     public static ResponseEntity<ApiResponse> getResourceNotFoundErrorResponse(ApiResourceNotFoundException e) {
-        logger.error("## Error Msg: {}, Error trace: ", e.getMessage(), e);
+        logger.error("## {}", e.getMessage());
         ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-404", RESOURCE_NOT_FOUND, null, HttpStatus.NOT_FOUND);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
@@ -384,7 +388,7 @@ public final class WebUtils {
     }
 
     public static ResponseEntity<ApiResponse> getConflictErrorResponse(ApiConflictException e) {
-        logger.error("## Error Msg: {}, Error trace: ", e.getMessage(), e);
+        logger.error("## {}", e.getMessage());
         ApiResponse<String, String> apiResponse = new ApiResponse<>("fv-409", CONFLICT, null, HttpStatus.CONFLICT);
         HttpStatus httpStatus = apiResponse.getHttpStatus();
         apiResponse.setHttpStatus(null);
@@ -401,16 +405,16 @@ public final class WebUtils {
     }
 
     public static FeatureAllowedDto isUserAllowedToAccessFeature(String loggedInUser, FvFeature featureName) throws Exception {
-        UserService userService = BeanUtils.getBean(UserService.class);
+        SubscriptionService subscriptionService = BeanUtils.getBean(SubscriptionService.class);
         if (loggedInUser == null) {
             return null;
         }
         else {
-            FinVendorUser finVendorUser = userService.getUserDetailsByUsername(loggedInUser);
-            if (userService.isUserInTrialPeriod(finVendorUser)) {
+            UsersSubscription usersSubscription = subscriptionService.getUsersSubscription(loggedInUser);
+            if (subscriptionService.isUserInTrialPeriod(usersSubscription)) {
                 return null;
             }
-            String subscriptionType = finVendorUser.getSubscriptionType();
+            String subscriptionType = usersSubscription.getSubscriptionType();
             FeatureAllowedDto featureAllowedDto = isFeatureAllowedToAccess(subscriptionType, featureName);
             if (featureAllowedDto != null && FeatureAccessEnum.NOT_ALLOWED.name().equals(featureAllowedDto.getFeatureAccess().name())) {
                 return featureAllowedDto;

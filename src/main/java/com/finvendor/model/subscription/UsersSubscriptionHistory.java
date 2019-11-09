@@ -18,8 +18,26 @@ public class UsersSubscriptionHistory implements Serializable {
     @Column(name = "username")
     private String userName;
 
-    @Column(name = "subscription_type")
+    @Column(name="subscription_date")
+    private String subscriptionDate;
+
+    @Column(name="subscription_type")
     private String subscriptionType;
+
+    @Column(name="trial_period_start_time")
+    private String trialPeriodStartTime;
+
+    @Column(name="trial_period_end_time")
+    private String trialPeriodEndTime;
+
+    @Column(name="subscription_start_time")
+    private String subscriptionStartTime;
+
+    @Column(name="subscription_end_time")
+    private String subscriptionEndTime;
+
+    @Column(name="subscription_state")
+    private String subscriptionState;
 
     @Column(name = "transaction_ref_number")
     private String transactionRefNumber;
@@ -45,12 +63,11 @@ public class UsersSubscriptionHistory implements Serializable {
     @Column(name = "payment_verified")
     private String paymentVerified;
 
-    @ManyToOne
-    @JoinColumn(name = "subscription_id")
-    private UsersSubscription usersSubscription;
-
     @Column(name = "inventory_date")
     private String inventoryDate;
+
+    @Column(name = "subscription_id")
+    private String subscriptionId;
 
     public Integer getRowId() {
         return rowId;
@@ -68,12 +85,60 @@ public class UsersSubscriptionHistory implements Serializable {
         this.userName = userName;
     }
 
+    public String getSubscriptionDate() {
+        return subscriptionDate;
+    }
+
+    public void setSubscriptionDate(String subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
+    }
+
     public String getSubscriptionType() {
         return subscriptionType;
     }
 
     public void setSubscriptionType(String subscriptionType) {
         this.subscriptionType = subscriptionType;
+    }
+
+    public String getTrialPeriodStartTime() {
+        return trialPeriodStartTime;
+    }
+
+    public void setTrialPeriodStartTime(String trialPeriodStartTime) {
+        this.trialPeriodStartTime = trialPeriodStartTime;
+    }
+
+    public String getTrialPeriodEndTime() {
+        return trialPeriodEndTime;
+    }
+
+    public void setTrialPeriodEndTime(String trialPeriodEndTime) {
+        this.trialPeriodEndTime = trialPeriodEndTime;
+    }
+
+    public String getSubscriptionStartTime() {
+        return subscriptionStartTime;
+    }
+
+    public void setSubscriptionStartTime(String subscriptionStartTime) {
+        this.subscriptionStartTime = subscriptionStartTime;
+    }
+
+    public String getSubscriptionEndTime() {
+        return subscriptionEndTime;
+    }
+
+    public void setSubscriptionEndTime(String subscriptionEndTime) {
+        this.subscriptionEndTime = subscriptionEndTime;
+    }
+
+    public String getSubscriptionState() {
+        return subscriptionState;
+    }
+
+    public void setSubscriptionState(String subscriptionState) {
+        this.subscriptionState = subscriptionState;
     }
 
     public String getTransactionRefNumber() {
@@ -140,19 +205,19 @@ public class UsersSubscriptionHistory implements Serializable {
         this.paymentVerified = paymentVerified;
     }
 
-    public UsersSubscription getUsersSubscription() {
-        return usersSubscription;
-    }
-
-    public void setUsersSubscription(UsersSubscription usersSubscription) {
-        this.usersSubscription = usersSubscription;
-    }
-
     public String getInventoryDate() {
         return inventoryDate;
     }
 
     public void setInventoryDate(String inventoryDate) {
         this.inventoryDate = inventoryDate;
+    }
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
     }
 }

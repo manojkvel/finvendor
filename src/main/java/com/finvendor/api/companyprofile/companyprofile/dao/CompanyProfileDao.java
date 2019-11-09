@@ -112,7 +112,7 @@ public class CompanyProfileDao extends GenericDao<EarningPreview> {
      */
     @SuppressWarnings("unchecked")
     public String findCompanyProfile(String query, String isinCode) throws RuntimeException {
-        logger.info("### Company Profile Query: {}", query);
+        logger.info("## Company Profile Query: {}", query);
         SQLQuery query1 = commonDao.getNativeQuery(query, null);
         List<Object[]> rows = query1.list();
         Map<String, Object> paramsMap = new LinkedHashMap<>();

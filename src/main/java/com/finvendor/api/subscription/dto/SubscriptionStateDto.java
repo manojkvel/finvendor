@@ -23,4 +23,11 @@ public class SubscriptionStateDto implements Serializable {
     public void setData(List<SubscriptionDetails> data) {
         this.data = data;
     }
+
+    @Override public String toString() {
+        return "SubscriptionStateDto{" +
+                "subscriptionState='" + subscriptionState + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

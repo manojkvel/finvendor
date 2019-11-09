@@ -193,7 +193,7 @@ public class EquityReportDao {
         List<Integer> brokerRanks = new ArrayList<>();
         try {
             String finalMainQuery = buildEquityResearchQuery(mainQuery, pageNumber, perPageMaxRecords, sortBy, orderBy, equityFilter);
-            logger.info("### Equity Research Report Query: {}", finalMainQuery);
+            logger.info("## Equity Research Report Query: {}", finalMainQuery);
 
             // Execute Query
             SQLQuery query = commonDao.getNativeQuery(finalMainQuery, null);

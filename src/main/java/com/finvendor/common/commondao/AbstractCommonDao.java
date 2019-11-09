@@ -97,4 +97,8 @@ public abstract class AbstractCommonDao implements ICommonDao {
         }
         return columnList;
     }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 }
