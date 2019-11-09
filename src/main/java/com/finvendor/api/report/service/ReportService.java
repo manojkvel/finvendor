@@ -82,7 +82,7 @@ public class ReportService {
             String userEmail = ru.getUserEmail();
             String subscriptionType = ru.getSubscriptionType();
             String subject = "FV Report Mail";
-            String content = "Hello There,\n Please find all reports as an attachment\n\n\n\nFrom:\nFinvendor Team";
+            String content = "Howdy,<br><br>Based on your subscription we generated report. \n\n Please find all reports as an attachment\n\n\n\nFrom:\nFinvendor Team";
             switch (subscriptionType) {
             case "FREE":
                 generateMarketReport(userName, MKT_PDF_FILE_NAME);
