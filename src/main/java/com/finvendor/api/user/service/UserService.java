@@ -153,36 +153,6 @@ public class UserService {
         }
     }
 
-<<<<<<< HEAD
-    /**
-     * Check user is in trial period
-     */
-    public boolean isUserInTrialPeriod(FinVendorUser user) throws Exception {
-        boolean trialPeriod;
-        trialPeriod = false;
-        return trialPeriod;
-    }
-    
-
-    public SubscriptionDto findUserSubscriptionDetails(FinVendorUser user) {
-        return new SubscriptionDto(user.getSubscriptionType(), user.getSubscriptionState());
-    }
-
-    /**
-     * Send email to user whose free trial period is over
-     */
-    public void sendEMail_OnTrialPeriodOver() throws Exception {
-        List<FinVendorUser> userDetails = getUserDetails();
-        boolean emailEnabled = Boolean.parseBoolean(fvProperties.getProperty(EMAIL));
-        for (FinVendorUser user : userDetails) {
-            if (user.getTrialPeriodEndTime() != null && !isUserInTrialPeriod(user) && emailEnabled) {
-                notificationService.sendMail(new EmailBuilder.Builder(new String[] { user.getEmail() },
-                        TRIAL_PERIOD_OVER_EMAIL_SUBJECT, TRIAL_PERIOD_OVER_EMAIL_MESSAGE)
-                        .from(SALES_EMAIL).build());
-            }
-        }
-    }
-=======
 //    /**
 //     * Check user is in trial period
 //     */
@@ -512,7 +482,6 @@ public class UserService {
     //        }
     //        return apiResponse;
     //    }
->>>>>>> ec5e6e3dfed16562ffdb8cb2acc02cd7cc18f417
 
     public void resetSubscription(String userName) throws Exception {
         FinVendorUser existingUser = getUserDetailsByUsername(userName);

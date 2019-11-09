@@ -39,16 +39,16 @@ function updateConsumerProfileCompanyDetails() {
 	var lastName = $("#consumerProfileLastName").val().trim();
 	var designation = $("#consumerProfileDesignation").val().trim();
 	var company = $("#consumerProfileCompany").val().trim();
-	var companyUrl = $("#consumerProfileCompanyUrl").val().trim();
-	var companyInfo = $("#consumerProfileCompanyInfo").val().trim();
+	/*var companyUrl = $("#consumerProfileCompanyUrl").val().trim();
+	var companyInfo = $("#consumerProfileCompanyInfo").val().trim();*/
 	var primaryEmail = $("#consumerProfilePrimaryEmail").val().trim();
 	var secondaryEmail = $("#consumerProfileSecondaryEmail").val().trim();
 	var telephoneCode = $("#consumerProfilePhoneNumberCode").val();
 	var telephoneNumber = $("#consumerProfilePhoneNumber").val();
 	var city = $("#consumerProfileCity").val();
-	var countryOfIncorporation = $("#consumerProfileCountryOfIncorporation").selectpicker('val');
+	/*var countryOfIncorporation = $("#consumerProfileCountryOfIncorporation").selectpicker('val');
 	var yearOfIncorporation = $("#consumerProfileYearOfIncorporation").val();
-	var companySubType = $("#consumerProfileCompanySubType").selectpicker('val');
+	var companySubType = $("#consumerProfileCompanySubType").selectpicker('val');*/
 	var companyLogo = $("#personalvencompanylogo").val();
 
 	if(firstName != '') {
@@ -69,7 +69,7 @@ function updateConsumerProfileCompanyDetails() {
 		$("#personal_details #consumerProfileCompany").addClass("error_field");
 	}
 
-	if(companyUrl != '') {
+	/*if(companyUrl != '') {
 		$("#personal_details #consumerProfileCompanyUrl").removeClass("error_field");
 	} else {
 		$("#personal_details #consumerProfileCompanyUrl").addClass("error_field");
@@ -85,7 +85,7 @@ function updateConsumerProfileCompanyDetails() {
 		$("#personal_details #consumerProfileCompanySubType").parent().find("button").removeClass("error_field");
 	} else {
 		$("#personal_details #consumerProfileCompanySubType").parent().find("button").addClass("error_field");
-	}
+	}*/
 
 	if(telephoneCode != '') {
 		$("#personal_details #consumerProfilePhoneNumberCode").removeClass("error_field");
@@ -99,7 +99,7 @@ function updateConsumerProfileCompanyDetails() {
 		$("#personal_details #consumerProfilePhoneNumber").addClass("error_field");
 	}
 
-	if(countryOfIncorporation != '') {
+	/*if(countryOfIncorporation != '') {
 		//countryOfIncorporation = countryOfIncorporation.split(',');
 		$("#personal_details #countryOfIncorporation").removeClass("error_field");
 	} else {
@@ -110,7 +110,7 @@ function updateConsumerProfileCompanyDetails() {
 		$("#personal_details #yearOfIncorporation").removeClass("error_field");
 	} else {
 		$("#personal_details #yearOfIncorporation").addClass("error_field");
-	}
+	}*/
 
 	if(secondaryEmail != '') {
 		if(isValidEmailAddress(secondaryEmail)) {
@@ -122,9 +122,9 @@ function updateConsumerProfileCompanyDetails() {
 		}
 	}
 
-	if(companySubType != null) {
+	/*if(companySubType != null) {
 		companySubType = companySubType.join();
-	}
+	}*/
 
 	if(telephoneCode == '+91' || telephoneCode == '91') {
 		if(telephoneNumber.length == 10) {
@@ -143,15 +143,15 @@ function updateConsumerProfileCompanyDetails() {
 		var data = {
 				"consumerProfileLastName":lastName,
 				"consumerProfileDesignation":designation,
-				"consumerProfileCompanyUrl":companyUrl,
-				"consumerProfileCompanyInfo":companyInfo,
+				/*"consumerProfileCompanyUrl":companyUrl,
+				"consumerProfileCompanyInfo":companyInfo,*/
 				"consumerProfileSecondaryEmail":secondaryEmail,
 				"consumerProfilePhoneNumberCode":telephoneCode,
 				"consumerProfilePhoneNumber":telephoneNumber,
 				"consumerProfileCity":city,
-				"consumerProfileCountryOfIncorporation":countryOfIncorporation,
+				/*"consumerProfileCountryOfIncorporation":countryOfIncorporation,
 				"consumerProfileYearOfIncorporation":yearOfIncorporation,
-				"consumerProfileCompanySubType":companySubType,
+				"consumerProfileCompanySubType":companySubType,*/
 				"companyLogo":companyLogo			
 			};
 			
@@ -172,8 +172,8 @@ function updateConsumerProfileCompanyDetails() {
 						$(".profile-card .full-name").html(firstName + " " + lastName);
 						$(".profile-card .headline").html(designation + " at " + company);
 						$(".profile-card .contacts").html(primaryEmail + " | " + phoneNumber);
-						$(".profile-card .company-details .url").html(companyUrl);
-						$(".profile-card .company-details .info").html(companyInfo);
+						/*$(".profile-card .company-details .url").html(companyUrl);
+						$(".profile-card .company-details .info").html(companyInfo);*/
 
 						//$(".profile-card .profile-picture img").attr('src', $("#displayLogo img").attr("src"));
 					}, 10);

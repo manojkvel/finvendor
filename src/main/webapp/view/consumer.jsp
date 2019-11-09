@@ -93,7 +93,7 @@
 									<li id="name">
 										<div class="single_row">
 											<input type="text" name="firstname" class="single_line" id="consumerProfileFirstName" value="${consumer.firstName}" readonly />
-											<label class="default_select">First Name</label>
+											<label class="default_select">First Name<sup>*</sup></label>
 										</div>
 										<div class="single_row">
 											<input type="text" name="lastname" id="consumerProfileLastName" class="single_line" value="${consumer.lastName}" required />
@@ -102,20 +102,20 @@
 									</li>
 									<li>
 										<input type="text" name="designation" id="consumerProfileDesignation" value="${consumer.designation}" required />
-										<label>Designation</label>
+										<label>Designation<sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" name="company" id="consumerProfileCompany" value="${consumer.company}" required />
-										<label>Company</label>
+										<label>Company<sup>*</sup></label>
 									</li>
-									<li>
+									<!--<li>
 										<input type="text" name="companyurl" placeholder="" id="consumerProfileCompanyUrl" class="personal_detail" value="${consumer.companyUrl}" required />
-										<label>Company URL</label>
+										<label>Company URL<sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" name="companyinfo" id="consumerProfileCompanyInfo" value="${consumer.companyInfo}" required />
 										<label>Company Information</label>
-									</li>
+									</li>-->
 									<li>
 										<input type="text" name="consumerProfileCity" id="consumerProfileCity" value="${consumer.city}" required />
 										<label>City</label>
@@ -124,7 +124,7 @@
 										<input type="text" name="consumerProfileCompanyType" id="consumerProfileCompanyType" value="${consumer.companyType}" readonly="readonly" />
 										<label class="default_select">Company Type</label>
 									</li>
-									<li>
+									<!--<li>
 										<select class="selectpicker show-tick" name="consumerProfileCompanySubType" id="consumerProfileCompanySubType" multiple="multiple">
 											<c:forEach var="subType" items="${companySubType}">
 											<c:choose>
@@ -138,12 +138,12 @@
 											</c:forEach>
 										</select>
 										<label class="default_select">Company SubType</label>
-									</li>
+									</li>-->
 								</ul>
 								<ul>
 									<li>
 										<input type="text" name="primaryemail" placeholder="" class="personal_detail" id="consumerProfilePrimaryEmail" value="${consumer.user.email}" readonly="readonly" />
-										<label class="default_select">Primary Email</label>
+										<label class="default_select">Primary Email<sup>*</sup></label>
 									</li>
 									<li>
 										<input type="text" name="secondaryemail" id="consumerProfileSecondaryEmail" value="${consumer.secondaryEmail}" required />
@@ -152,38 +152,38 @@
 									<li id="phone">
 										<div class="single_row">
 											<input type="text" name="phonenumber" placeholder="" class="personal_detail  single_line" id="consumerProfilePhoneNumberCode" value="${telephoneCode}" required />
-											<label>Country Code</label>
+											<label>Country Code<sup>*</sup></label>
 										</div>
 										<div class="single_row">
 											<input type="text" name="phonenumber" id="consumerProfilePhoneNumber" class="single_line" value="${telephoneNumber}" required />
-											<label>Phone Number</label>
+											<label>Phone Number<sup>*</sup></label>
 										</div>
 									</li>
-									<li>
+									<!--<li>
 										<select class="selectpicker show-tick" name="consumerProfileCountryOfIncorporation" id="consumerProfileCountryOfIncorporation">
 											<c:forEach var="countries" items="${countries}">
 											<c:choose>
-											<c:when test="${consumer.countryOfIncorporation eq countries.country_id}">
-											<option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
-										</c:when>    
-										<c:otherwise>
-										<option value="${countries.country_id}">${countries.name}</option>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</select>
-						<label class="default_select">Country of Incorporation</label>
-					</li>
+												<c:when test="${consumer.countryOfIncorporation eq countries.country_id}">
+												<option value="${countries.country_id}"  selected="${countries.country_id}">${countries.name}</option>
+											</c:when>    
+											<c:otherwise>
+												<option value="${countries.country_id}">${countries.name}</option>
+											</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</select>
+									<label class="default_select">Country</label>
+									</li>
 					<li>
 						<input type="text" name="consumerProfileYearOfIncorporation" id="consumerProfileYearOfIncorporation" value="${consumer.yearOfIncorporation}" required />
 						<label class="default_select">Year of Incorporation</label>
-					</li>
+					</li>-->
 					<li>
 						<input type="file" id="personalvencompanylogo"
 						placeholder="Company Logo" name="personalvencompanylogo"
 						class="largefileuploadcons"
 						onblur="imageValidation();"  required/>
-						<label class="default_select">Company Logo</label>
+						<label class="default_select">Profile Pic</label>
 						<font id="invalidfileformat"
 						style="bottom: 1px; font-family: 'Open Sans', sans-serif; font-weight: bold; font-size: 12px; position: absolute; color: #B94A48;"></font>
 						<div class="selectOptions">e.g. .jpeg, .jpg,
