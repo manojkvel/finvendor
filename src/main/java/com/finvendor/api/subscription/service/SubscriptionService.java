@@ -1,7 +1,7 @@
 package com.finvendor.api.subscription.service;
 
 import com.finvendor.api.common.dto.RecordStats;
-import com.finvendor.api.configurer.service.ConfigurerService;
+import com.finvendor.api.configuration.service.SysConfig;
 import com.finvendor.api.exception.ApiConflictException;
 import com.finvendor.api.notification.dto.EmailBuilder;
 import com.finvendor.api.notification.service.NotificationService;
@@ -22,7 +22,6 @@ import com.finvendor.common.exception.ApplicationException;
 import com.finvendor.common.response.ApiResponse;
 import com.finvendor.common.util.DateUtils;
 import com.finvendor.common.util.Pair;
-import com.finvendor.model.Configuration;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.model.subscription.UsersSubscription;
 import com.finvendor.model.subscription.UsersSubscriptionHistory;
@@ -64,16 +63,15 @@ public class SubscriptionService {
     private final SubscriptionHistoryDao subscriptionHistoryDao;
     private final NotificationService notificationService;
     private final UserService userService;
-    private ConfigurerService configurerService;
+
 
     @Autowired
     public SubscriptionService(SubscriptionDao subscriptionDao, SubscriptionHistoryDao subscriptionHistoryDao, UserService userService,
-            NotificationService notificationService, ConfigurerService configurerService) {
+            NotificationService notificationService) {
         this.subscriptionDao = subscriptionDao;
         this.subscriptionHistoryDao = subscriptionHistoryDao;
         this.userService = userService;
         this.notificationService = notificationService;
-        this.configurerService = configurerService;
     }
 
     /**
@@ -96,7 +94,7 @@ public class SubscriptionService {
         String type = existingSubscription.getSubscriptionType();
         if ((SubscriptionTypeEnum.FREE.name().equals(type) || SubscriptionTypeEnum.SMART.name().equals(type))) {
             //String trialPeriod = fvProperties.getProperty("trial_period_in_days");
-            int trialPeriodInDays = getConfiguration().getTrialPeriodInDays();
+            int trialPeriodInDays = SysConfig.config().getTrialPeriodInDays();
             LOG.info("## Trial Period In Days from Property file: {}", trialPeriodInDays);
             Date userTrailPeriodStartDate = DateUtils.getCurrentDateInDate();
             Date userTrailPeriodEndDate = DateUtils.addDaysInCurrentDate(userTrailPeriodStartDate, trialPeriodInDays);
@@ -135,10 +133,6 @@ public class SubscriptionService {
             throw new ApiConflictException(WebUtils.CONFLICT);
         }
         return apiResponse;
-    }
-
-    private Configuration getConfiguration() {
-        return configurerService.findAll().get(0);
     }
 
     public ApiMessageEnum updateUserSubscription(SubscriptionDto subscriptionDto, List<SubscriptionDetails> dataList) throws Exception {
@@ -300,7 +294,7 @@ public class SubscriptionService {
     //### Email Service Start
     public void sendEmail_OnSubscriptionSubmission(String userName) throws Exception {
         LOG.info("## sendEmail_OnSubscriptionSubmission: {}", userName);
-        boolean emailFlag = getConfiguration().isEmailEnabled();
+        boolean emailFlag = Objects.requireNonNull(SysConfig.config()).isEmailEnabled();
         LOG.info("## emailFlag: {}", emailFlag);
         if (emailFlag) {
             String email = userService.getUserDetailsByUsername(userName).getEmail();
@@ -324,7 +318,7 @@ public class SubscriptionService {
     public void sendEMail_OnTrialPeriodOver() throws Exception {
         LOG.info("## sendEMail_OnTrialPeriodOver");
         List<FinVendorUser> userDetails = userService.getUserDetails();
-        boolean emailEnabled = getConfiguration().isEmailEnabled();
+        boolean emailEnabled = Objects.requireNonNull(SysConfig.config()).isEmailEnabled();
         LOG.info("## emailEnabled: {}", emailEnabled);
         for (FinVendorUser user : userDetails) {
             String userName = user.getUserName();
@@ -340,7 +334,7 @@ public class SubscriptionService {
 
     public void sendMail_OnActivationOrTermination(UsersSubscription usersSubscription) throws Exception {
         LOG.info("## sendMail_OnActivationOrTermination");
-        boolean emailEnabled = getConfiguration().isEmailEnabled();
+        boolean emailEnabled = Objects.requireNonNull(SysConfig.config()).isEmailEnabled();
         LOG.info("## emailEnabled: {}", emailEnabled);
         if (emailEnabled) {
             LOG.info("Email flag: true");
@@ -427,7 +421,7 @@ public class SubscriptionService {
     public void sendMail_OnSubscriptionExpired() throws Exception {
         LOG.info("## sendMail_OnSubscriptionExpired");
         List<FinVendorUser> existingUsers = userService.getUserDetails();
-        boolean emailEnabled = getConfiguration().isEmailEnabled();
+        boolean emailEnabled = Objects.requireNonNull(SysConfig.config()).isEmailEnabled();
         LOG.info("## emailEnabled: {}", emailEnabled);
 
         for (FinVendorUser user : existingUsers) {
@@ -462,9 +456,9 @@ public class SubscriptionService {
      */
     public void sendMail_OnSubscriptionNearToExpire() throws Exception {
         LOG.info("## sendMail_OnSubscriptionNearToExpire");
-        boolean emailEnabled = getConfiguration().isEmailEnabled();
+        boolean emailEnabled = Objects.requireNonNull(SysConfig.config()).isEmailEnabled();
         if (emailEnabled) {
-            String[] split = getConfiguration().getReminderDays().trim().split(",");
+            String[] split = Objects.requireNonNull(SysConfig.config()).getReminderDays().trim().split(",");
 
             List<Long> reminderDaysList = new ArrayList<>();
             for (String day : split) {

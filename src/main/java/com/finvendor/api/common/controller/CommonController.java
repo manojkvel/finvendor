@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+import static com.finvendor.api.webutil.WebUtils.buildResponse;
+import static com.finvendor.api.webutil.WebUtils.buildResponseEntity;
 import static com.finvendor.common.exception.ExceptionEnum.*;
 
 /**
@@ -188,9 +190,9 @@ public class CommonController {
             @RequestBody StockReturnDto stockReturnDto) throws Exception {
         logger.info("## CONTROLLER findStockReturn - START stockReturnDto: {}", stockReturnDto);
         Map<String, String> stockReturns = commonService.findStockReturns(stockReturnDto);
-        ApiResponse<String, Map<String, String>> apiResponse = WebUtils.buildResponse(ApiMessageEnum.SUCCESS, stockReturns, HttpStatus.OK);
+        ApiResponse<String, Map<String, String>> apiResponse = buildResponse(ApiMessageEnum.SUCCESS, stockReturns, HttpStatus.OK);
         logger.info("## CONTROLLER findStockReturn - END");
-        return WebUtils.buildResponseEntity(apiResponse);
+        return buildResponseEntity(apiResponse);
     }
 
     public static void main(String[] args) {

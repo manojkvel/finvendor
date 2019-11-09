@@ -16,7 +16,7 @@ public enum UserMsgEnums {
     ;
     private String msg;
 
-    private UserMsgEnums(String msg) {
+    UserMsgEnums(String msg) {
         this.msg = msg;
     }
 

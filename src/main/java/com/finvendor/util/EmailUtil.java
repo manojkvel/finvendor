@@ -102,7 +102,7 @@ public class EmailUtil {
         content.append("\n");
         content.append("Password - " + password);
         content.append("\n\n");
-        content.append("Please login to FinVendor(http://www.finvendor.com) and change your password");
+        content.append("Please login to FinVendor(https://www.finvendor.com) and change your password");
         message.setText(content.toString());
         Transport.send(message);
         logger.debug("Leaving EmailUtil:sendResetPasswordEmail for {}", user.getUserName());

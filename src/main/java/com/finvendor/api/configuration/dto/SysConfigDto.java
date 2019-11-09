@@ -1,11 +1,11 @@
-package com.finvendor.api.configurer.dto;
+package com.finvendor.api.configuration.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class ConfigurationDto implements Serializable {
+public class SysConfigDto implements Serializable {
     private Boolean emailEnabled;
     private Integer trialPeriodInDays;
     private String reminderDays;

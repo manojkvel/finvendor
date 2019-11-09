@@ -1,7 +1,7 @@
-package com.finvendor.api.configurer.controller;
+package com.finvendor.api.configuration.controller;
 
-import com.finvendor.api.configurer.dto.ConfigurationDto;
-import com.finvendor.api.configurer.service.ConfigurerService;
+import com.finvendor.api.configuration.dto.SysConfigDto;
+import com.finvendor.api.configuration.service.SysConfig;
 import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.common.enums.ApiMessageEnum;
 import com.finvendor.common.response.ApiResponse;
@@ -15,23 +15,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api")
-public class ConfigurerController {
+public class SysConfigController {
 
-    private final ConfigurerService configurerService;
+    private final SysConfig sysConfig;
 
     @Autowired
-    public ConfigurerController(ConfigurerService configurerService) {
-        this.configurerService = configurerService;
+    public SysConfigController(SysConfig sysConfig) {
+        this.sysConfig = sysConfig;
     }
 
     @PutMapping(value = "/configurations/{id}/configuration")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody ConfigurationDto configurationDto) throws Exception {
-        configurerService.update(id, configurationDto);
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody SysConfigDto sysConfigDto) throws Exception {
+        sysConfig.update(id, sysConfigDto);
         return WebUtils.buildResponseEntity(WebUtils.buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK));
     }
 
     @GetMapping(value = "/configurations")
     public ResponseEntity<ApiResponse<String, List<Configuration>>> findAll() {
-        return WebUtils.buildResponseEntity(WebUtils.buildResponse(ApiMessageEnum.SUCCESS, configurerService.findAll(), HttpStatus.OK));
+        return WebUtils.buildResponseEntity(WebUtils.buildResponse(ApiMessageEnum.SUCCESS, sysConfig.findAll(), HttpStatus.OK));
     }
 }

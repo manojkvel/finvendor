@@ -1,6 +1,7 @@
 package com.finvendor.api.login.controller;
 
 import com.finvendor.api.common.service.ReferenceDataService;
+import com.finvendor.api.configuration.service.SysConfig;
 import com.finvendor.api.consumer.service.ConsumerService;
 import com.finvendor.api.formdata.controller.FormDataController;
 import com.finvendor.api.login.service.LoginService;
@@ -35,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -279,15 +281,18 @@ public class LoginController {
         String status = "false";
         try {
             List<FinVendorUser> users = userService.getUserDetailsByEmailId(email);
-            FinVendorUser user = users.get(0);
-            if (user == null) {
+            FinVendorUser user;
+            if (users == null || users.size() == 0) {
                 logger.error("No User record available for : {}", email);
                 status = status + ":Invalid Email Id";
             }
             else {
+                user = users.get(0);
                 logger.info("LoginController : forgotPassword - Resetting password for : {}", user.getUserName());
                 String password = userService.resetPassword(user.getUserName());
-                EmailUtil.sendResetPasswordEmail(user, password);
+                if (Objects.requireNonNull(SysConfig.config()).isEmailEnabled()) {
+                    EmailUtil.sendResetPasswordEmail(user, password);
+                }
                 status = "true";
             }
         } catch (Exception exp) {
