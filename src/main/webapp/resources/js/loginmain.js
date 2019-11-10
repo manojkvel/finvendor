@@ -219,8 +219,16 @@ $form_signup.find('input[type="submit"]').on('click', function(event){
 //});
 
 function loginSubmit(changePassword) {
-	var username= $("#signin-username").val();
-	var password= $("#signin-password").val();
+	var username= '';
+	var password= '';
+	if($(".cd-user-modal").hasClass("is-visible")) {
+		username= $(".cd-user-modal #signin-username").val();
+		password= $(".cd-user-modal #signin-password").val();
+	} else {
+		username= $("#signin-username").val();
+		password= $("#signin-password").val();
+	}
+
 	var chgUsername = $("#changePasswordSpan #username").val();
 	var oldPassword = $("#changePasswordSpan #old-password").val();
 	var newPassword = $("#changePasswordSpan #new-password").val();
@@ -277,26 +285,46 @@ function loginSubmit(changePassword) {
 				$('form#login-submit').submit();
 			}*/
 
-			if(response.code == 'lgn-001') {
-				var userDetails = {
-					"data" : {
-	                    "subscriptionStatus": response.data[0].subscriptionStatus,
-	                    "subscriptionType": response.data[0].subscriptionType
-	                }
-				}
-				window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
+			if(response.code == 'fv-200') {
+				if(response.data != undefined) {
 
-				$('#loadinglg').hide();
-				$('#loadingcp').hide();
-				$('#generic-error-message').html("");
-				$('.cd-user-modal').removeClass('is-visible');					
-				$('form#login-submit').submit();
+					var userDetails = {
+						"data" : {
+		                    "subscriptionStatus": response.data[0].subscriptionStatus,
+		                    "subscriptionType": response.data[0].subscriptionType,
+		                    "userInTrialPeriod": response.data[0].userInTrialPeriod,
+		                    "previousSubscriptionState": response.data[0].previousSubscriptionState,
+		                    "previousSubscriptionType": response.data[0].previousSubscriptionType,
+		                    "generalMsg" : response.data[0].generalMsg
+		                }
+					}
+					window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+					$('#loadinglg').hide();
+					$('#loadingcp').hide();
+					$('#generic-error-message').html("");
+					$('.cd-user-modal').removeClass('is-visible');					
+					$('form#login-submit').submit();
+				} else {
+					$('#loadinglg').hide();
+					$('#loadingcp').hide();
+					$('#generic-error-message').html(response.message);
+					document.getElementById('signin-password').value = ''
+				}
 			} else {
 				$('#loadinglg').hide();
 				$('#loadingcp').hide();
 				$('#generic-error-message').html("");
 				$('.cd-user-modal').removeClass('is-visible');					
 				$('form#login-submit').submit();
+			}
+		},
+		error: function(error) {
+			$('#loadinglg').hide();
+			$('#loadingcp').hide();
+			document.getElementById('signin-password').value = ''
+			if(error.responseJSON != undefined) {
+				$('#generic-error-message').html(error.responseJSON.message);
 			}
 		}
 	});

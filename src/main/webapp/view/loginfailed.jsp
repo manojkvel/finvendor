@@ -1,9 +1,13 @@
+
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@taglib uri="/WEB-INF/finvendor.tld" prefix="finVen"%>
+
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@page import="com.finvendor.util.RequestConstans"%>
 <!DOCTYPE html>
 <head>
-	<title>Manage User Subscriptions - Finvendor</title>
+	<title>Login Failed - Finvendor</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1" />
 	<meta name="description" content="" />
@@ -19,7 +23,9 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-9">
 				<div class="default_template">
-					<form id="login-submit" method="post" action="<c:url value='j_spring_security_check' />">
+
+					<form class="cd-form" action="j_spring_security_check" method="post" id="login-submit">
+						<input type="hidden" id="redirectLink" name="redirectLink"/>
 		<div class="container">
 			 <div>
 				<div>
