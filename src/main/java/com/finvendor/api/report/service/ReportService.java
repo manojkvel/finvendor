@@ -1,5 +1,7 @@
 package com.finvendor.api.report.service;
 
+import com.finvendor.api.notification.dto.EmailBuilder;
+import com.finvendor.api.notification.service.NotificationService;
 import com.finvendor.api.report.dao.ReportDao;
 import com.finvendor.api.report.dto.ReportUser;
 import com.finvendor.api.report.dto.corpaction.CorpActionPDFContent;
@@ -43,6 +45,7 @@ public class ReportService {
     private final IPDFGenerator financialsPDFGenerator;
     private final IPDFGenerator sectoralDataPDFGenerator;
     private final ReportDao reportDao;
+    private final NotificationService notificationService;
 
     @Autowired
     public ReportService(
@@ -55,7 +58,8 @@ public class ReportService {
             @Qualifier(value = "resultCalendarPDFGenerator") IPDFGenerator resultCalendarPDFGenerator,
             @Qualifier(value = "corpActionPDFGenerator") IPDFGenerator corpActionPDFGenerator,
             @Qualifier(value = "financialsPDFGenerator") IPDFGenerator financialsPDFGenerator,
-            @Qualifier(value = "sectoralDataPDFGenerator") IPDFGenerator sectoralDataPDFGenerator, ReportDao reportDao) {
+            @Qualifier(value = "sectoralDataPDFGenerator") IPDFGenerator sectoralDataPDFGenerator, ReportDao reportDao,
+            NotificationService notificationService) {
         this.sectoralDataPDFContentBuilder = sectoralDataPDFContentBuilder;
         this.marketDataPDFContentBuilder = marketDataPDFContentBuilder;
         this.corpActionPDFContentBuilder = corpActionPDFContentBuilder;
@@ -67,6 +71,7 @@ public class ReportService {
         this.financialsPDFGenerator = financialsPDFGenerator;
         this.sectoralDataPDFGenerator = sectoralDataPDFGenerator;
         this.reportDao = reportDao;
+        this.notificationService = notificationService;
     }
 
     public void sendReports() throws Exception {
@@ -79,18 +84,14 @@ public class ReportService {
         List<ReportUser> enabledUsers = findAllUsers();
         for (ReportUser ru : enabledUsers) {
             String userName = ru.getUserName();
-            String userEmail = ru.getUserEmail();
-            String subscriptionType = ru.getSubscriptionType();
+            String[] to = new String[] { ru.getUserEmail() };
             String subject = "FV Report Mail";
             String content = "Howdy,<br><br>Based on your subscription we generated report. \n\n Please find all reports as an attachment\n\n\n\nFrom:\nFinvendor Team";
-            switch (subscriptionType) {
+            switch (ru.getSubscriptionType()) {
             case "FREE":
                 generateMarketReport(userName, MKT_PDF_FILE_NAME);
-                try {
-                    EmailUtil.sendMailWithAttachment(userEmail, subject, content, new String[] { MKT_PDF_FILE_NAME });
-                } catch (Exception e) {
-                    sendMailToSupportTeamOnEmailFailed(userName, userEmail);
-                }
+                String[] mktAttachments = { MKT_PDF_FILE_NAME };
+                notificationService.sendMail(new EmailBuilder.Builder(to, subject, content).attachment(mktAttachments).build());
                 break;
             case "SMART":
             case "SAGE":
@@ -98,13 +99,10 @@ public class ReportService {
                 generateSectoralReport(userName, SECTORAL_PDF_FILE_NAME);
                 generateResultCalendarReport(userName, RESULT_CALENDAR_PDF_FILE_NAME);
                 generateCorporateActionReport(userName, CORP_ACTION_PDF_FILE_NAME);
-                try {
-                    EmailUtil.sendMailWithAttachment(userEmail, subject, content,
-                            new String[] { MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME,
-                                    CORP_ACTION_PDF_FILE_NAME });
-                } catch (Exception e) {
-                    sendMailToSupportTeamOnEmailFailed(userName, userEmail);
-                }
+                String[] attachments = { MKT_PDF_FILE_NAME, SECTORAL_PDF_FILE_NAME, RESULT_CALENDAR_PDF_FILE_NAME,
+                        CORP_ACTION_PDF_FILE_NAME };
+                notificationService.sendMail(
+                        new EmailBuilder.Builder(to, subject, content).attachment(attachments).build());
                 break;
             //                    case "SAGE":
             //                        generateMarketReport(userName, MKT_PDF_FILE_NAME);

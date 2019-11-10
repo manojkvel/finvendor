@@ -27,7 +27,7 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    @PutMapping(value = "/v1/users/{userId}/stock-reports", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/users/{userId}/stock-reports", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> sendDailyReport(@PathVariable String userId) {
         logger.info("sendDailyReport - Controller START, userId: {}", userId);
         try {

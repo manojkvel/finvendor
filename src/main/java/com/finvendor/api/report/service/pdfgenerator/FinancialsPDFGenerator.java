@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.finvendor.common.infra.pdf.PDFContentHelper.BLACK_BOLD;
-import static com.finvendor.common.infra.pdf.PDFContentHelper.BLUE_BOLD;
+import static com.finvendor.common.infra.pdf.PDFContentHelper.BLUE;
 
 @Transactional
 @Service
@@ -76,7 +76,7 @@ public class FinancialsPDFGenerator extends AbstractPDFGenerator {
                 Paragraph from = new Paragraph();
                 from.add(new Chunk("From", BLACK_BOLD));
 
-                Anchor finvendorTeamAnchor = new Anchor("Finvendor Team", BLUE_BOLD);
+                Anchor finvendorTeamAnchor = new Anchor("Finvendor Team", BLUE);
                 finvendorTeamAnchor.setReference("https://finvendor.com");
                 Paragraph finvendorTeam = new Paragraph();
                 finvendorTeam.add(finvendorTeamAnchor);
@@ -94,12 +94,12 @@ public class FinancialsPDFGenerator extends AbstractPDFGenerator {
     }
 
     private Paragraph annualResult() {
-        Chunk c1 = new Chunk("Annual Result",BLUE_BOLD);
+        Chunk c1 = new Chunk("Annual Result",BLUE);
         return PDFContentHelper.getParagraph(new Chunk[] { c1 }, 10);
     }
 
     private Paragraph quarterlyResult() {
-        Chunk c1 = new Chunk("Quarterly Result",BLUE_BOLD);
+        Chunk c1 = new Chunk("Quarterly Result",BLUE);
         return PDFContentHelper.getParagraph(new Chunk[] { c1 }, 10);
     }
 

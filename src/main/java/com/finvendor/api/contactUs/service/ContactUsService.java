@@ -1,6 +1,5 @@
 package com.finvendor.api.contactUs.service;
 
-import com.finvendor.api.configuration.service.SysConfig;
 import com.finvendor.api.contactUs.dao.ContactUsDao;
 import com.finvendor.api.contactUs.dto.ContactUsDto;
 import com.finvendor.api.exception.ApiResourceNotFoundException;
@@ -12,7 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
+
+import static com.finvendor.util.EmailUtil.SALES_EMAIL;
 
 @Service
 @Transactional
@@ -65,10 +65,8 @@ public class ContactUsService {
         }
     }
 
-    public void sendEmail(ContactUsDto contactUsDto) throws Exception {
-        if (Objects.requireNonNull(SysConfig.config()).isEmailEnabled()) {
-            notificationService.sendMail(new EmailBuilder.Builder(new String[] { "sales@finvendor.com", contactUsDto.getEmail() },
-                    subject, content).from("sales@finvendor.com").build());
-        }
+    public void sendEmail(ContactUsDto contactUsDto) {
+        notificationService.sendMail(new EmailBuilder.Builder(new String[] { SALES_EMAIL, contactUsDto.getEmail() },
+                subject, content).build());
     }
 }

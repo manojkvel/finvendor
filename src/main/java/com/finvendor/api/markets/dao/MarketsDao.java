@@ -32,6 +32,7 @@ public class MarketsDao {
     private static final String INDEX_SUMMARY_QUERY = "select b.closing, b.point_change, b.percent_change, b.open, b.high, b.low, b.pe, b.pb, b.div_yield from indice a, indice_details b where a.index_details_id=b.indice_details_id and a.index_id=?";
     private static final String INDEX_MARQUEE_QUERY = "select a.name,b.closing,b.point_change,b.percent_change from indice a,indice_details b where a.index_details_id=b.indice_details_id order by a.name";
     private static final String STOCK_MARQUEE_QUERY_FOR_INDEX = "select a.company_id,a.company_name,a.close,a.price_change,a.price_percent_change,a.isin from markets a,index_comp_details b where a.company_id=b.company_id and b.index_id=? order by a.company_name";
+    public static final String FIND_NIFTY_50_DATE_PRICE_OF_LAST_3_DATE = "select a.date,a.close from nifty50_price_history a order by str_to_date(a.date,'%d-%b-%y') desc limit 3 OFFSET 0";
 
     @Autowired
     private ICommonDao commonDao;
@@ -652,5 +653,20 @@ public class MarketsDao {
         }
 
         return title;
+    }
+
+    /**
+     * Find last 3 days Nifty50 close price including todays' price from nifty50 history table.
+     */
+    public List<Float> findLast3DaysNifty50Prices() {
+        SQLQuery query = commonDao.getNativeQuery(FIND_NIFTY_50_DATE_PRICE_OF_LAST_3_DATE, null);
+        List<Object[]> rows = query.list();
+        List<Float> nifty50ClosePrice = new ArrayList<>();
+        for (Object[] row : rows) {
+            String closePrice = row[1] != null ? row[1].toString().trim() : "";
+            Float closePriceFloat = Float.parseFloat(closePrice);
+            nifty50ClosePrice.add(closePriceFloat);
+        }
+        return nifty50ClosePrice;
     }
 }

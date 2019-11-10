@@ -1,5 +1,7 @@
 package com.finvendor.api.notification.dto;
 
+import com.finvendor.util.EmailUtil;
+
 import java.util.Arrays;
 
 public class EmailBuilder {
@@ -21,6 +23,7 @@ public class EmailBuilder {
             this.to = to;
             this.subject = subject;
             this.content= content;
+            this.from = EmailUtil.SALES_EMAIL;
         }
 
         public Builder from(String from){

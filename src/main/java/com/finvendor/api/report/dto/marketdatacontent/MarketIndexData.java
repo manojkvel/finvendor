@@ -7,11 +7,12 @@ import java.util.List;
 public abstract class MarketIndexData extends PDFContent {
     protected String userName;
     protected String currentDate;
-    protected String niftyIndex;
-    protected String consecutiveNumber;
+    protected String nifty50MappingKeyword;
+    protected String consecutiveMsg;
     protected String upDown;
     protected String closeBy;
     protected String closeAt;
+    protected String percentChangeStr;
     protected String indexOpen;
     protected String dayHigh;
     protected String dayLow;
@@ -20,24 +21,29 @@ public abstract class MarketIndexData extends PDFContent {
     protected String unchanged;
     protected List<TopGainers> topGainers;
     protected List<TopLoosers> topLoosers;
+    private String peStr;
 
-    public MarketIndexData(String userName, String currentDate, String niftyIndex, String consecutiveNumber, String upDown, String closeBy, String closeAt, String indexOpen, String dayHigh, String dayLow, String gainer, String looser,
-            String unchanged, List<TopGainers> topGainers, List<TopLoosers> topLoosers) {
-      this.userName=userName;
-      this.currentDate=currentDate;
-      this.niftyIndex = niftyIndex;
-      this.consecutiveNumber=consecutiveNumber;
-      this.upDown=upDown;
-      this.closeBy=closeBy;
-      this.closeAt=closeAt;
-      this.indexOpen=indexOpen;
-      this.dayHigh=dayHigh;
-      this.dayLow=dayLow;
-      this.gainer=gainer;
-      this.looser=looser;
-      this.unchanged=unchanged;
-      this.topGainers=topGainers;
-      this.topLoosers=topLoosers;
+    public MarketIndexData(String userName, String currentDate, String nifty50MappingKeyword, String consecutiveMsg, String upDown,
+            String closeBy, String closeAt,
+            String percentChangeStr, String indexOpen, String dayHigh, String dayLow, String gainer, String looser,
+            String unchanged, List<TopGainers> topGainers, List<TopLoosers> topLosers, String peStr) {
+        this.userName = userName;
+        this.currentDate = currentDate;
+        this.nifty50MappingKeyword = nifty50MappingKeyword;
+        this.consecutiveMsg = consecutiveMsg;
+        this.upDown = upDown;
+        this.closeBy = closeBy;
+        this.closeAt = closeAt;
+        this.percentChangeStr = percentChangeStr;
+        this.indexOpen = indexOpen;
+        this.dayHigh = dayHigh;
+        this.dayLow = dayLow;
+        this.gainer = gainer;
+        this.looser = looser;
+        this.unchanged = unchanged;
+        this.topGainers = topGainers;
+        this.topLoosers = topLosers;
+        this.peStr = peStr;
     }
 
     public String getUserName() {
@@ -56,20 +62,20 @@ public abstract class MarketIndexData extends PDFContent {
         this.currentDate = currentDate;
     }
 
-    public String getNiftyIndex() {
-        return niftyIndex;
+    public String getNifty50MappingKeyword() {
+        return nifty50MappingKeyword;
     }
 
-    public void setNiftyIndex(String niftyIndex) {
-        this.niftyIndex = niftyIndex;
+    public void setNifty50MappingKeyword(String nifty50MappingKeyword) {
+        this.nifty50MappingKeyword = nifty50MappingKeyword;
     }
 
-    public String getConsecutiveNumber() {
-        return consecutiveNumber;
+    public String getConsecutiveMsg() {
+        return consecutiveMsg;
     }
 
-    public void setConsecutiveNumber(String consecutiveNumber) {
-        this.consecutiveNumber = consecutiveNumber;
+    public void setConsecutiveMsg(String consecutiveMsg) {
+        this.consecutiveMsg = consecutiveMsg;
     }
 
     public String getUpDown() {
@@ -158,5 +164,21 @@ public abstract class MarketIndexData extends PDFContent {
 
     public void setTopLoosers(List<TopLoosers> topLoosers) {
         this.topLoosers = topLoosers;
+    }
+
+    public String getPercentChangeStr() {
+        return percentChangeStr;
+    }
+
+    public void setPercentChangeStr(String percentChangeStr) {
+        this.percentChangeStr = percentChangeStr;
+    }
+
+    public String getPeStr() {
+        return peStr;
+    }
+
+    public void setPeStr(String peStr) {
+        this.peStr = peStr;
     }
 }

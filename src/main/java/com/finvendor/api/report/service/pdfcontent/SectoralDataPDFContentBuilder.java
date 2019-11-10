@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.finvendor.api.common.CommonAlgorithm.getNifty50MappingKeyword;
+
 @Service
 @Transactional
 public class SectoralDataPDFContentBuilder implements IPDFContentBuilder<String, SectoralDataPDFContent> {
@@ -50,14 +52,15 @@ public class SectoralDataPDFContentBuilder implements IPDFContentBuilder<String,
 
     private MarketIndexData getMarketIndexData(String userName, String indexType) throws IOException {
         String currentDate = DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format();
-        String indexSummary = dao.getIndexSummary(indexType);
-        String nifty50IndexValue = getNifty50Value(indexSummary);
-
-        Pair<String, String> indexClosedByUpOrDownValuePair = getIndexClosedByUpOrDownValue(indexSummary);
-        String closing = JsonUtil.getValue(indexSummary, "closing");
-        String open = JsonUtil.getValue(indexSummary, "open");
-        String high = JsonUtil.getValue(indexSummary, "high");
-        String low = JsonUtil.getValue(indexSummary, "low");
+        String indexSummaryJson = dao.getIndexSummary(indexType);
+        String nifty50MappingKeyword = getNifty50MappingKeyword(indexSummaryJson);
+        String percentChangeStr = JsonUtil.getValue(indexSummaryJson, "percentChange");
+        String peStr = JsonUtil.getValue(indexSummaryJson, "pe");
+        Pair<String, String> indexClosedByUpOrDownValuePair = getIndexClosedByUpOrDownValue(indexSummaryJson);
+        String closing = JsonUtil.getValue(indexSummaryJson, "closing");
+        String open = JsonUtil.getValue(indexSummaryJson, "open");
+        String high = JsonUtil.getValue(indexSummaryJson, "high");
+        String low = JsonUtil.getValue(indexSummaryJson, "low");
 
         String marketsAnalytics = dao.getMarketsAnalytics(indexType, "");
         String gainer = JsonUtil.getValue(marketsAnalytics, "gainer");
@@ -82,34 +85,35 @@ public class SectoralDataPDFContentBuilder implements IPDFContentBuilder<String,
             topLoosers.add(new TopLoosers(companyName, percentChange));
         }
         String consecutiveNumber="";
-        return new AllMarketIndexData(userName, currentDate, nifty50IndexValue, consecutiveNumber, indexClosedByUpOrDownValuePair.getElement1(),
-                indexClosedByUpOrDownValuePair.getElement2(),
-                closing, open, high, low, gainer, looser, unchanged, topGainers, topLoosers);
+        String closedBy = indexClosedByUpOrDownValuePair.getElement1();
+        String closedAt = indexClosedByUpOrDownValuePair.getElement2();
+        return new AllMarketIndexData(userName, currentDate, nifty50MappingKeyword, consecutiveNumber,
+                closedBy, closedAt,percentChangeStr, closing, open, high, low, gainer, looser, unchanged, topGainers, topLoosers,peStr);
     }
 
-    private String getNifty50Value(String indexSummary) throws IOException {
-        String nifty50IndexStr = JsonUtil.getValue(indexSummary, "percentChange");
-        String nifty50IndexValue = "NA";
-        if (StringUtils.isNotEmpty(nifty50IndexStr)) {
-            float percentChangeFloat = Float.parseFloat(nifty50IndexStr);
-            if (percentChangeFloat > 0.25F && percentChangeFloat < 1.5F) {
-                nifty50IndexValue = "CLOSED HIGHER";
-            }
-            else if (percentChangeFloat > -1.5F && percentChangeFloat < -0.25F) {
-                nifty50IndexValue = "REMAINED SUBDUED";
-            }
-            else if (percentChangeFloat > -1.5F && percentChangeFloat < 0.25) {
-                nifty50IndexValue = "CLOSED FLAT";
-            }
-            else if (percentChangeFloat > 1.5) {
-                nifty50IndexValue = "ENDED SHARPLY HIGHER";
-            }
-            else if (percentChangeFloat < 1.5) {
-                nifty50IndexValue = "PLUNGED SHARPLY";
-            }
-        }
-        return nifty50IndexValue;
-    }
+//    private String getNifty50Value(String indexSummary) throws IOException {
+//        String nifty50IndexStr = JsonUtil.getValue(indexSummary, "percentChange");
+//        String nifty50IndexValue = "NA";
+//        if (StringUtils.isNotEmpty(nifty50IndexStr)) {
+//            float percentChangeFloat = Float.parseFloat(nifty50IndexStr);
+//            if (percentChangeFloat > 0.25F && percentChangeFloat < 1.5F) {
+//                nifty50IndexValue = "CLOSED HIGHER";
+//            }
+//            else if (percentChangeFloat > -1.5F && percentChangeFloat < -0.25F) {
+//                nifty50IndexValue = "REMAINED SUBDUED";
+//            }
+//            else if (percentChangeFloat > -1.5F && percentChangeFloat < 0.25) {
+//                nifty50IndexValue = "CLOSED FLAT";
+//            }
+//            else if (percentChangeFloat > 1.5) {
+//                nifty50IndexValue = "ENDED SHARPLY HIGHER";
+//            }
+//            else if (percentChangeFloat < 1.5) {
+//                nifty50IndexValue = "PLUNGED SHARPLY";
+//            }
+//        }
+//        return nifty50IndexValue;
+//    }
 
     private Pair<String, String> getIndexClosedByUpOrDownValue(String indexSummary) throws IOException {
         String pointChangeStr = JsonUtil.getValue(indexSummary, "pointChange");
