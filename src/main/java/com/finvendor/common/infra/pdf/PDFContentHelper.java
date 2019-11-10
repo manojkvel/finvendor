@@ -8,7 +8,8 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
  * @author Ayush Agrahari
  */
 public class PDFContentHelper {
-    public static final Font BLUE_BOLD = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLUE);
+//    public static final Font BLUE_BOLD = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLUE);
+    public static final Font BLUE = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLUE);
     public static final Font RED = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.RED);
     public static final Font GREEN = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.GREEN);
     public static final Font GREEN_ITALIC = new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.GREEN);

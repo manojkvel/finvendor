@@ -1,5 +1,6 @@
 package com.finvendor.api.login.controller;
 
+import com.finvendor.api.configuration.service.SysConfig;
 import com.finvendor.api.consumer.service.ConsumerService;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
 import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
@@ -371,7 +372,7 @@ public class RegistrationController {
         try {
             FinVendorUser user = userService.getUserDetailsByUsername(username);
             String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), true);
-            EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
+            EmailUtil.sendRegistrationEmail(user, email.toLowerCase(), registrationId);
             modelAndView.addObject("resendRegistrationLink", "success");
         } catch (Exception exp) {
             logger.error("## Error Resending User Registration link", exp);
@@ -531,8 +532,8 @@ public class RegistrationController {
                     user.setUserRoles(userRoles);
                     userService.saveUserInfo(user);
                     String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
-                    if ("true".equals(finvendorProperties.getProperty("email"))) {
-                        EmailUtil.sendRegistartionEmail(user, email.toLowerCase(), registrationId);
+                    if (Objects.requireNonNull(SysConfig.config()).isEmailEnabled()) {
+                        EmailUtil.sendRegistrationEmail(user, email.toLowerCase(), registrationId);
                         EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName);
                     }
                     SubscriptionDto subscriptionDto = new SubscriptionDto();

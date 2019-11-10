@@ -41,9 +41,9 @@ public class EmailUtil {
     public static String FROM_EMAIL = "support@finvendor.com";
     public static String SALES_EMAIL = "sales@finvendor.com";
 
-    public static void sendRegistartionEmail(FinVendorUser user, String emailId, String registrationId)
+    public static void sendRegistrationEmail(FinVendorUser user, String emailId, String registrationId)
             throws MessagingException {
-        logger.debug("Entering EmailUtil:sendRegistartionEmail for {}", emailId);
+        logger.info("## Entering EmailUtil:sendRegistrationEmail for {}", emailId);
         Session session = getMailSession();
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(FROM_EMAIL));

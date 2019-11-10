@@ -18,6 +18,7 @@ import java.io.IOException;
 @Service
 public class MarketDataPDFGenerator extends AbstractPDFGenerator {
     private static final Logger logger = LoggerFactory.getLogger(MarketDataPDFGenerator.class.getName());
+
     @Override
     public boolean generate(PDFContent pdfContent, String file) throws Exception {
         Document document = new Document();
