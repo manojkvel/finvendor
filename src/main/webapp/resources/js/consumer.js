@@ -137,8 +137,7 @@ function updateConsumerProfileCompanyDetails() {
 	//return;
 	var phoneNumber = telephoneCode + " " + telephoneNumber;
 
-	if(designation != "" && designation != null && company != null && companyUrl != null &&
-		companyInfo != "" && companySubType != null && telephoneNumber.length >= 10 && countryOfIncorporation != null && yearOfIncorporation != null) {
+	if(designation != "" && designation != null && company != null && telephoneNumber.length >= 10) {
 
 		var data = {
 				"consumerProfileLastName":lastName,
