@@ -52,7 +52,8 @@ public class SysConfig {
         return dao.findAll();
     }
 
-    public static Configuration config() {
+
+    public Configuration config() {
         List<Configuration> allConfig = BeanUtils.getBean(SysConfigDao.class).findAll();
         if (allConfig != null && allConfig.size() > 0) {
             return allConfig.get(0);

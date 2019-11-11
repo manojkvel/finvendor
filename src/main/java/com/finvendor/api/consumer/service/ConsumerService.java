@@ -12,12 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional
 public class ConsumerService {
     private static final Logger logger = LoggerFactory.getLogger(ConsumerService.class.getName());
 

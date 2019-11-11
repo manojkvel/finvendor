@@ -61,14 +61,15 @@ public class SubscriptionService {
     private final SubscriptionHistoryDao subscriptionHistoryDao;
     private final NotificationService notificationService;
     private final UserService userService;
-
+    private SysConfig sysConfig;
     @Autowired
     public SubscriptionService(SubscriptionDao subscriptionDao, SubscriptionHistoryDao subscriptionHistoryDao, UserService userService,
-            NotificationService notificationService) {
+            NotificationService notificationService, SysConfig sysConfig) {
         this.subscriptionDao = subscriptionDao;
         this.subscriptionHistoryDao = subscriptionHistoryDao;
         this.userService = userService;
         this.notificationService = notificationService;
+        this.sysConfig = sysConfig;
     }
 
     /**
@@ -91,7 +92,7 @@ public class SubscriptionService {
         String type = existingSubscription.getSubscriptionType();
         if ((SubscriptionTypeEnum.FREE.name().equals(type) || SubscriptionTypeEnum.SMART.name().equals(type))) {
             //String trialPeriod = fvProperties.getProperty("trial_period_in_days");
-            int trialPeriodInDays = SysConfig.config().getTrialPeriodInDays();
+            int trialPeriodInDays = sysConfig.config().getTrialPeriodInDays();
             LOG.info("## Trial Period In Days from Property file: {}", trialPeriodInDays);
             Date userTrailPeriodStartDate = DateUtils.getCurrentDateInDate();
             Date userTrailPeriodEndDate = DateUtils.addDaysInCurrentDate(userTrailPeriodStartDate, trialPeriodInDays);
@@ -195,38 +196,44 @@ public class SubscriptionService {
     public UserSubscriptionDto find_UsersSubscription(String userName) throws Exception {
         LOG.info("## find_UsersSubscription - START userName: {}", userName);
         UsersSubscription existingUsersSubscription = subscriptionDao.findUsersSubscription(userName);
-        String subscriptionStartTime = existingUsersSubscription.getSubscriptionStartTime();
-        String subscriptionEndTime = existingUsersSubscription.getSubscriptionEndTime();
+        if (existingUsersSubscription != null) {
+            String subscriptionStartTime = existingUsersSubscription.getSubscriptionStartTime();
+            String subscriptionEndTime = existingUsersSubscription.getSubscriptionEndTime();
 
-        String subscriptionStartTimeInMs = StringUtils.isNotEmpty(subscriptionStartTime) ?
-                String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionStartTime)) :
-                null;
-        String subscriptionEndTimeInMs = StringUtils.isNotEmpty(subscriptionEndTime) ?
-                String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionEndTime)) :
-                null;
+            String subscriptionStartTimeInMs = StringUtils.isNotEmpty(subscriptionStartTime) ?
+                    String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionStartTime)) :
+                    null;
+            String subscriptionEndTimeInMs = StringUtils.isNotEmpty(subscriptionEndTime) ?
+                    String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(subscriptionEndTime)) :
+                    null;
 
-        String trialPeriodStartTime = existingUsersSubscription.getTrialPeriodStartTime();
-        String trialPeriodEndTime = existingUsersSubscription.getTrialPeriodEndTime();
+            String trialPeriodStartTime = existingUsersSubscription.getTrialPeriodStartTime();
+            String trialPeriodEndTime = existingUsersSubscription.getTrialPeriodEndTime();
 
-        String trialPeriodStartTimeInMs = StringUtils.isNotEmpty(trialPeriodStartTime) ?
-                String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodStartTime)) :
-                null;
-        String trialPeriodEndTimeInMs = StringUtils.isNotEmpty(trialPeriodEndTime) ?
-                String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodEndTime)) :
-                null;
-        boolean userInTrialPeriod = isUserInTrialPeriod(existingUsersSubscription);
-        String generalMsg = getGeneralMsg(userInTrialPeriod, existingUsersSubscription);
+            String trialPeriodStartTimeInMs = StringUtils.isNotEmpty(trialPeriodStartTime) ?
+                    String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodStartTime)) :
+                    null;
+            String trialPeriodEndTimeInMs = StringUtils.isNotEmpty(trialPeriodEndTime) ?
+                    String.valueOf(get_Timestamp_From_DD_MMM_YYYY_hh_Format(trialPeriodEndTime)) :
+                    null;
+            boolean userInTrialPeriod = isUserInTrialPeriod(existingUsersSubscription);
+            String generalMsg = getGeneralMsg(userInTrialPeriod, existingUsersSubscription);
 
-        //Previous subscription
-        UsersSubscriptionHistory prevSubscription = findPreviousSubscription(existingUsersSubscription.getSubscriptionType());
-        String previousSubscriptionType = prevSubscription != null ? prevSubscription.getSubscriptionType() : "";
-        String previousSubscriptionState = prevSubscription != null ? prevSubscription.getSubscriptionState() : "";
-        return new UserSubscriptionDto(existingUsersSubscription.getSubscriptionId(), userName,
-                previousSubscriptionType, previousSubscriptionState, existingUsersSubscription.getSubscriptionType(),
-                existingUsersSubscription.getSubscriptionState(),
-                subscriptionStartTimeInMs, subscriptionEndTimeInMs, subscriptionStartTime, subscriptionEndTime, trialPeriodStartTimeInMs,
-                trialPeriodEndTimeInMs,
-                trialPeriodStartTime, trialPeriodEndTime, userInTrialPeriod, generalMsg);
+            //Previous subscription
+            UsersSubscriptionHistory prevSubscription = findPreviousSubscription(existingUsersSubscription.getSubscriptionType());
+            String previousSubscriptionType = prevSubscription != null ? prevSubscription.getSubscriptionType() : "";
+            String previousSubscriptionState = prevSubscription != null ? prevSubscription.getSubscriptionState() : "";
+            return new UserSubscriptionDto(existingUsersSubscription.getSubscriptionId(), userName,
+                    previousSubscriptionType, previousSubscriptionState, existingUsersSubscription.getSubscriptionType(),
+                    existingUsersSubscription.getSubscriptionState(),
+                    subscriptionStartTimeInMs, subscriptionEndTimeInMs, subscriptionStartTime, subscriptionEndTime,
+                    trialPeriodStartTimeInMs,
+                    trialPeriodEndTimeInMs,
+                    trialPeriodStartTime, trialPeriodEndTime, userInTrialPeriod, generalMsg);
+        }
+        else {
+            return null;
+        }
     }
 
     private String getGeneralMsg(boolean userInTrialPeriod, UsersSubscription usersSubscription) {
@@ -332,7 +339,7 @@ public class SubscriptionService {
 
     public void sendMail_OnActivationOrTermination(UsersSubscription usersSubscription) throws Exception {
         LOG.info("## sendMail_OnActivationOrTermination");
-        boolean emailEnabled = Objects.requireNonNull(SysConfig.config()).isEmailEnabled();
+        boolean emailEnabled = Objects.requireNonNull(sysConfig.config()).isEmailEnabled();
         LOG.info("## emailEnabled: {}", emailEnabled);
         if (emailEnabled) {
             LOG.info("Email flag: true");
@@ -447,7 +454,7 @@ public class SubscriptionService {
      */
     public void sendMail_OnSubscriptionNearToExpire() throws Exception {
         LOG.info("## sendMail_OnSubscriptionNearToExpire");
-        String[] split = Objects.requireNonNull(SysConfig.config()).getReminderDays().trim().split(",");
+        String[] split = Objects.requireNonNull(sysConfig.config()).getReminderDays().trim().split(",");
         List<Long> reminderDaysList = new ArrayList<>();
         for (String day : split) {
             reminderDaysList.add(Long.parseLong(day));

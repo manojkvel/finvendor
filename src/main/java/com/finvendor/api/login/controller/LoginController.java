@@ -64,6 +64,9 @@ public class LoginController {
     @Autowired
     private ConsumerService consumerService;
 
+    @Autowired
+    private SysConfig sysConfig;
+
     @RequestMapping(value = RequestConstans.Home.HOME_PAGE, method = RequestMethod.GET)
     public ModelAndView homePageLand(ModelMap modelMap, HttpServletRequest request) {
         logger.debug("Entering LoginController : homePageLand");
@@ -290,7 +293,7 @@ public class LoginController {
                 user = users.get(0);
                 logger.info("LoginController : forgotPassword - Resetting password for : {}", user.getUserName());
                 String password = userService.resetPassword(user.getUserName());
-                if (Objects.requireNonNull(SysConfig.config()).isEmailEnabled()) {
+                if (Objects.requireNonNull(sysConfig.config()).isEmailEnabled()) {
                     EmailUtil.sendResetPasswordEmail(user, password);
                 }
                 status = "true";

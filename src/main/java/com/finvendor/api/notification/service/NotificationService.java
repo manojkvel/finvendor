@@ -5,6 +5,7 @@ import com.finvendor.api.notification.dto.EmailBuilder;
 import com.finvendor.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -17,11 +18,12 @@ public class NotificationService {
     private static final String FAILED_TO_SENT_EMAIL_SUBJECT = "Failed to sent email to user";
     private static final String FAILED_TO_SENT_EMAIL_CONTENT = "Hello Admin, <br> System failed to send email to user: ";
 
-
+@Autowired
+private SysConfig sysConfig;
     public boolean sendMail(EmailBuilder emailBuilder) {
         LOGGER.info("## NotificationService - sendMail - START emailBuilder: {}", emailBuilder);
         boolean emailSentStatus = false;
-        if (Objects.requireNonNull(SysConfig.config()).isEmailEnabled()) {
+        if (Objects.requireNonNull(sysConfig.config()).isEmailEnabled()) {
             String from = emailBuilder.getFrom();
             String subject = emailBuilder.getSubject();
             String content = emailBuilder.getContent();

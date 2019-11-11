@@ -57,6 +57,8 @@ public class RegistrationController {
     @Resource(name = "finvendorProperties")
     private Properties finvendorProperties;
 
+    @Autowired
+    private SysConfig sysConfig;
     /**
      * method for register navigation
      *
@@ -532,7 +534,7 @@ public class RegistrationController {
                     user.setUserRoles(userRoles);
                     userService.saveUserInfo(user);
                     String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
-                    if (Objects.requireNonNull(SysConfig.config()).isEmailEnabled()) {
+                    if (Objects.requireNonNull(sysConfig.config()).isEmailEnabled()) {
                         EmailUtil.sendRegistrationEmail(user, email.toLowerCase(), registrationId);
                         EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName);
                     }
