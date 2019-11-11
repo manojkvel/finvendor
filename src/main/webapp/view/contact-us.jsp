@@ -32,7 +32,7 @@
 					<div id='progressLoader' style="left: 0;">
 						<jsp:include page="common/progressLoader.jsp"></jsp:include>
 					</div>
-					<form action="<%=request.getContextPath()%>/<%=RequestConstans.MAIL.MAIL_SEND%>" method="post" id="contact_us_form" name="contact_us_form">
+					<form method="post" id="contact_us_form" name="contact_us_form">
 						<div class="form-group">
 							<input type="text" name="contact_us_name" class="form-control" id="contact_us_name" placeholder="Name" size="30" /> 
 							<span id="contactNameError" style="display: none;">Please
