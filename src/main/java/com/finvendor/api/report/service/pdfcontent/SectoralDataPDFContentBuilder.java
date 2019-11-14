@@ -53,8 +53,8 @@ public class SectoralDataPDFContentBuilder implements IPDFContentBuilder<String,
     private MarketIndexData getMarketIndexData(String userName, String indexType) throws IOException {
         String currentDate = DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format();
         String indexSummaryJson = dao.getIndexSummary(indexType);
-        String nifty50MappingKeyword = getNifty50MappingKeyword(indexSummaryJson);
         String percentChangeStr = JsonUtil.getValue(indexSummaryJson, "percentChange");
+        String nifty50MappingKeyword = getNifty50MappingKeyword(percentChangeStr);
         String peStr = JsonUtil.getValue(indexSummaryJson, "pe");
         Pair<String, String> indexClosedByUpOrDownValuePair = getIndexClosedByUpOrDownValue(indexSummaryJson);
         String closing = JsonUtil.getValue(indexSummaryJson, "closing");
