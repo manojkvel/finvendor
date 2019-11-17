@@ -2736,6 +2736,7 @@ button {
 #manage_user_subscriptions .subscriptions_header .max_per_page {
 	position: relative;
 	top: 2px;
+	margin-top: 0;
 }
 
 #approveUserSubscription .modal-body ul li, 
