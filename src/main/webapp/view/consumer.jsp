@@ -61,7 +61,7 @@
 											<h4 class="contacts">
 												${consumer.user.email} | ${telephoneCode} ${telephoneNumber}
 											</h4>
-											<table class="company-details">
+											<!--<table class="company-details">
 												<tr>
 													<th>Company Url</th>
 													<td class="url">
@@ -74,7 +74,7 @@
 														${consumer.companyInfo}
 													</td>
 												</tr>
-											</table>
+											</table>-->
 										</div>
 									</div>
 								</div>

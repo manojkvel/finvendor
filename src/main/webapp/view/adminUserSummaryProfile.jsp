@@ -43,7 +43,7 @@
 									<img src="${pageContext.request.contextPath}/resources/images/default_profile.png" />
 									<img src="<%=request.getContextPath() %>/displayCompanyLogo/${user.userName}" alt="${user.vendor.company}" title="${user.consumer.company}"/>	
 								</div>
-								<h1><a href="${finven:rectifyCompanyUrl(user.consumer.companyUrl)}" target="_blank">${user.consumer.company}</a></h1>								
+								<h1>${user.consumer.company}</h1>								
 							</div>
 							<div class="user_info">
 								<h4>About Me</h4>
@@ -103,7 +103,7 @@
 											</td>
 										</c:if>
 									</tr>
-									<tr>
+									<!--<tr>
 										<c:if test="${consumer.companyUrl != null}">
 											<th>Company Url</th>
 											<td class="url">
@@ -118,7 +118,7 @@
 												${user.consumer.companyInfo}
 											</td>
 										</c:if>
-									</tr>
+									</tr>-->
 								</table>
 							</div>
 						</c:when>

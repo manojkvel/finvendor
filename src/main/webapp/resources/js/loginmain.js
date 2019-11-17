@@ -286,7 +286,7 @@ function loginSubmit(changePassword) {
 			}*/
 
 			if(response.code == 'fv-200') {
-				if(response.data != undefined) {
+				if(response.data != undefined && response.data[0] != null) {
 
 					var userDetails = {
 						"data" : {
@@ -299,6 +299,7 @@ function loginSubmit(changePassword) {
 		                }
 					}
 					window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
+					window.localStorage.setItem("userTrialMessage", JSON.stringify(response.data[0].generalMsg));
 
 					$('#loadinglg').hide();
 					$('#loadingcp').hide();
