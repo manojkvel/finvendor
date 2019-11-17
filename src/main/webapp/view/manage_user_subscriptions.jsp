@@ -159,9 +159,6 @@
 					</div>
 				</div>
 			</div>
-			<!--<div class="col-xs-12 col-sm-3">
-				<jsp:include page="common/inner_sidebar.jsp"></jsp:include>
-			</div>-->
 		</div>
 	</div>
 

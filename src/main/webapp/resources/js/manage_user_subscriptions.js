@@ -31,7 +31,7 @@ jQuery(document).ready(function() {
             var classRef = this;
             isProgressLoader(true);
 
-            classRef.getRecordStats().then(function(stats) {
+            /*classRef.getRecordStats().then(function(stats) {
                 stats = JSON.parse(stats);
                 classRef.firstPageNumber = stats.firstPageNumber;
                 classRef.lastPageNumber = stats.lastPageNumber;
@@ -52,6 +52,16 @@ jQuery(document).ready(function() {
             }, function(error) {
                 isProgressLoader(false);
                 $("tbody").html("<tr><td colspan='10'>We are not able to get the info, please try again later.</td></tr>");
+            });*/
+
+            classRef.getAllSubscriptionApi(classRef.userId).then(function(serverResponse){
+                $("#manage_user_subscriptions .paging_container").remove();
+                classRef.populateSubscriptionsHtml(serverResponse);
+                isProgressLoader(false);
+            }, function(error) {
+                var error = JSON.parse(error);
+                isProgressLoader(false);
+                $("tbody").html("<tr><td colspan='10'>No Records Found</td></tr>");
             });
         },
 
@@ -60,9 +70,18 @@ jQuery(document).ready(function() {
 
             var response = JSON.parse(response);
             response = response.data;
-            var len = response.length;
+            var subscriptionsList = response.subscriptions;
+            var len = subscriptionsList.length;
             var htmlCode = '';
             var rowHtml =   "";
+
+
+            var stats = response.recordStats;
+            classRef.firstPageNumber = stats.firstPageNumber;
+            classRef.lastPageNumber = stats.lastPageNumber;
+            classRef.totalRecords = stats.totalRecords;
+
+            $("#manage_user_subscriptions #total_records_count").html(classRef.totalRecords + " Results");
 
             if(len === 0) {
                 $("tbody").html("<tr><td colspan='10'>No Records Found</td></tr>");
@@ -75,10 +94,10 @@ jQuery(document).ready(function() {
 
                 var statusClass = "label-warning";
                 var styleClass = "visible";
-                if(response[i].subscriptionState == "ACTIVE") {
+                if(subscriptionsList[i].subscriptionState == "ACTIVE") {
                     styleClass = "hidden";
                     statusClass = "label-success";
-                } else if(response[i].subscriptionState == "TERMINATE") {
+                } else if(subscriptionsList[i].subscriptionState == "TERMINATE") {
                     styleClass = "hidden";
                     statusClass = "label-danger";
                 } else {
@@ -86,34 +105,59 @@ jQuery(document).ready(function() {
                     statusClass = "label-warning";
                 }
 
+                var paymentMode = subscriptionsList[i].paymentMode;
+                if(paymentMode == '' || paymentMode == '-') {
+                    paymentMode = '-';
+                }
 
-                htmlCode = htmlCode + "<tr data-id='" + response[i].subscriptionRefId + "' data-userid='" + response[i].userName + "' data-subscriptionstatus='" + response[i].subscriptionState + "'>" +
+                var transactionRefNumber = subscriptionsList[i].transactionRefNumber;
+                if(transactionRefNumber == '' || transactionRefNumber == '-') {
+                    transactionRefNumber = '-';
+                }
+
+                var bankName = subscriptionsList[i].bankName;
+                if(bankName == '' || bankName == '-') {
+                    bankName = '-';
+                }
+
+                var bankHolderName = subscriptionsList[i].bankHolderName;
+                if(bankHolderName == '' || bankHolderName == '-') {
+                    bankHolderName = '-';
+                }
+
+                var amtTransferred = subscriptionsList[i].amtTransferred;
+                if(amtTransferred == 0 || bankHolderName == '-') {
+                    amtTransferred = '-';
+                }
+
+
+                htmlCode = htmlCode + "<tr data-id='" + subscriptionsList[i].subscriptionId + "' data-userid='" + subscriptionsList[i].userName + "' data-subscriptionstatus='" + subscriptionsList[i].subscriptionState + "'>" +
                 "<td>" + 
-                "<div class='userName'>" + response[i].userName + "</div>" +
+                "<div class='userName'>" + subscriptionsList[i].userName + "</div>" +
                 "</td>" + 
                 "<td>" + 
-                "<div class='subscriptionType'>" + response[i].subscriptionType + "</div>" + 
+                "<div class='subscriptionType'>" + subscriptionsList[i].subscriptionType + "</div>" + 
                 "</td>" + 
                 "<td>" + 
-                "<div class='paymentMode'>" + response[i].paymentMode + "</div>" + 
+                "<div class='paymentMode'>" + paymentMode + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                "<div class='transactionDate'>" + classRef.timeStampToDate(Number(response[i].transactionDate)) + "</div>" + 
+                "<div class='transactionDate'>" + classRef.timeStampToDate(Number(subscriptionsList[i].transactionDate)) + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                "<div class='transactionRefNumber'>" + response[i].transactionRefNumber + "</div>" + 
+                "<div class='transactionRefNumber'>" + transactionRefNumber + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                "<div class='bankName'>" + response[i].bankName + "</div>" + 
+                "<div class='bankName'>" + bankName + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                "<div class='bankHolderName'>" + response[i].bankHolderName + "</div>" + 
+                "<div class='bankHolderName'>" + bankHolderName + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                "<div class='amtTransferred'>" + response[i].amtTransferred + "</div>" + 
+                "<div class='amtTransferred'>" + amtTransferred + "</div>" + 
                 "</td>" +
                 "<td>" + 
-                "<div class='subscriptionState " + statusClass + "'>" + response[i].subscriptionState + "</div>" + 
+                "<div class='subscriptionState " + statusClass + "'>" + subscriptionsList[i].subscriptionState + "</div>" + 
                 "</td>" +
                 "<td>" + 
                     "<input name='subscriptions" + i + "' class='submit-button " + styleClass + "' type='checkbox' />" + 
