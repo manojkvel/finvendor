@@ -138,14 +138,14 @@ public class SubscriptionDao extends GenericDao<UsersSubscription> {
             if ("all".equals(state)) {
                 finalSql =
                         "select a.username,a.subscription_date,a.subscription_type,a.subscription_state, a.subscription_start_time,a.subscription_end_time, a.subscription_id,a.transaction_ref_number, a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from users_subscription a where a.username=a.username and a.subscription_type not in('FREE') "
-                                + " and (cast(subscription_date as UNSIGNED INTEGER)>=" + filter.getFrom()
-                                + " and cast(subscription_date as UNSIGNED INTEGER)<= " + filter.getTo() + ")";
+                                + " and (cast(a.subscription_date as UNSIGNED INTEGER)>=" + filter.getFrom()
+                                + " and cast(a.subscription_date as UNSIGNED INTEGER)<= " + filter.getTo() + ")";
             }
             else {
                 finalSql =
                         "select a.username,a.subscription_date,a.subscription_type,a.subscription_state, a.subscription_start_time,a.subscription_end_time, a.subscription_id,a.transaction_ref_number, a.transaction_date,a.transaction_for,a.payment_mode,a.amt_transferred,a.bank_name,a.bank_holder_name,a.payment_verified from users_subscription a where a.username=a.username and a.subscription_type not in('FREE') and a.subscription_state='"
-                                + state + "' and (cast(subscription_date as UNSIGNED INTEGER)>=" + filter.getFrom()
-                                + " and cast(subscription_date as UNSIGNED INTEGER)<= " + filter.getTo() + ")";
+                                + state + "' and (cast(a.subscription_date as UNSIGNED INTEGER)>=" + filter.getFrom()
+                                + " and cast(a.subscription_date as UNSIGNED INTEGER)<= " + filter.getTo() + ")";
             }
         }
         else {
