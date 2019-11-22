@@ -72,6 +72,10 @@
 	<div id="fin_vendor_index" class="section">
 		
 		<jsp:include page="common/header.jsp?hideTabsAfterLogIn=true"></jsp:include>
+
+		<div id="fv_app_notification">
+
+		</div>
 		<div id="splash_jumbotron">
 			<div class="container-fluid">
 				<div class="row">
@@ -334,6 +338,17 @@
 	</div>
 </body>
 <script type="text/javascript">
+if(!isLoggedInUser()) {
+	var userTrialMessage = window.localStorage.getItem('userTrialMessage');
+
+	if(userTrialMessage != undefined && userTrialMessage != "undefined" && userTrialMessage != '') {
+
+		$("#fv_app_notification").html("<p>" + userTrialMessage + "</p>");
+	}
+} else {
+	window.localStorage.removeItem("userDetails");
+	window.localStorage.removeItem("userTrialMessage");
+}
 	getStockMarquee();
 	getIndexMarquee();
 </script>

@@ -3,6 +3,9 @@ jQuery(document).ready(function() {
     var freeTrialBtnTitle = "Free trial 2 days";
     var freeTrialBtnActivatedTitle = "Free trial 2 days - Activated";
     var subscribeBtnTitle = "Subscribe";
+    var subscribeTooltipTitle = "Approval of your Subscription is pending with us, we will confirm shortly.";
+    var activatedTooltipTitle = "Your Plan is activated";
+    var renewTooltipTitle = "Your plan is expired, kindly renew again!!";
 
     /*
     ** Pricing for the products
@@ -27,11 +30,18 @@ jQuery(document).ready(function() {
             classRef.getUserSubscriptionApi(classRef.userId).then(function(response){
                 classRef.setUserSubscriptionDetails(response);
                 classRef.showDefaultPricingScreen();
+
                 $("#pricing button").off().on('click', {this: classRef}, classRef.checkForPlan);
+
+     
             }, function(error) {
                 classRef.showDefaultPricingScreen();
                 $("#pricing button").off().on('click', {this: classRef}, classRef.checkForPlan);
             });
+        },
+
+        checkTooltip: function(event) {
+            var classRef = event.data.this;
         },
 
         checkForPlan : function(event) {
@@ -364,70 +374,89 @@ jQuery(document).ready(function() {
                 var userDetails = JSON.parse(window.localStorage.getItem("userDetails"));
                 if(userDetails != undefined) {
 
-                    if((userDetails.data.subscriptionStatus == "PENDING" && userDetails.data.subscriptionStatus == "N/A") && userDetails.data.subscriptionType == undefined) {
+                    if(userDetails.data.subscriptionStatus == "PENDING" && userDetails.data.subscriptionType == undefined) {
                         
                     } else if(userDetails.data.subscriptionStatus == "ACTIVE") {
                         if(userDetails.data.subscriptionType == "SAGE") {
                             $("#pricing #sage_investors .btnSubscribe").hide();
                             $("#pricing #smart_investors .btnSubscribe").hide();
+
+                                $("#pricing button").removeClass('trial');
+                                $("#pricing button > .ft").text(activatedTooltipTitle);
+                                $("#pricing button").addClass('subscribe');
+
                         } else if(userDetails.data.subscriptionType == "SMART") { 
                             $("#pricing #smart_investors .btnSubscribe").hide();
+                            $("#pricing button#smart_investors").removeClass('trial');
+                            $("#pricing button#smart_investors").removeClass('subscribe');
+
+
+                            $("#pricing button#smart_investors").removeClass('trial');
+                            $("#pricing button#smart_investors > .ft").text(activatedTooltipTitle);
+                            $("#pricing button#smart_investors").addClass('subscribe');
                         }
+                        
+                        $("#pricing .btnSubscribe a").text(subscribeBtnTitle);
                         $("#pricing #general_investors .btnSubscribe").hide();
+                    } else if(userDetails.data.subscriptionStatus == "TERMINATE") {
+                        $("#pricing button").removeClass('trial');
+                        $("#pricing button > .ft").text(renewTooltipTitle);
+                        $("#pricing button").addClass('subscribe');
+                        $("#pricing button .btnSubscribe a").text(subscribeBtnTitle);
                     } else {
-                        if(userDetails.data.userInTrialPeriod == true && userDetails.data.subscriptionType == "SAGE") {
-                            $("#pricing button#smart_investors").prop("disabled", "disabled");
-                            $("#pricing button#sage_investors").prop("disabled", "disabled");
-                            $("#pricing .btnSubscribe a").text(freeTrialBtnActivatedTitle);
-                            
+                        if(userDetails.data.userInTrialPeriod == true) {
                             var userTrialMessage = localStorage.getItem('userTrialMessage');
-                            if(userTrialMessage == null) {
+                            if(userTrialMessage == null || userTrialMessage == "undefined") {
                                 userTrialMessage = "TRAIL PERIOD - Activated";
                             }
-                            $("#pricing button[disabled] > .ft").text(userTrialMessage);
-                            $("#pricing button[disabled]").css({
-                                'opacity' : 1
-                            });
-                        } else if(userDetails.data.userInTrialPeriod == true && userDetails.data.subscriptionType == "SMART") {
-                            $("#pricing #sage_investors .btnSubscribe").show();
-                            $("#pricing #smart_investors .btnSubscribe a").text(freeTrialBtnActivatedTitle);
-                            $("#pricing button#smart_investors").prop("disabled", "disabled");
                             
-                            var userTrialMessage = localStorage.getItem('userTrialMessage');
-                            if(userTrialMessage == null) {
-                                userTrialMessage = "TRAIL PERIOD - Activated";
+                            if(userDetails.data.subscriptionType == "SAGE") {
+                                $("#pricing button > .ft").text(userTrialMessage);
+                                $("#pricing button").addClass('trial');
+
+                            } else if(userDetails.data.subscriptionType == "SMART") {
+                                 $("#pricing button#smart_investors > .ft").text(userTrialMessage);
+                                 $("#pricing button#smart_investors").addClass('trial');
                             }
-                            $("#pricing button[disabled] > .ft").text(userTrialMessage);
-
-
-                            $("#pricing button#smart_investors[disabled]").css({
-                                'opacity' : 1
-                            });
-                        } else if(userDetails.data.subscriptionType == "SAGE") {
-                            $("#pricing button#smart_investors").prop("disabled", "disabled");
-                            $("#pricing button#sage_investors").prop("disabled", "disabled");
-
-                        } else if(userDetails.data.subscriptionType == "SMART") { 
-                            $("#pricing #sage_investors .btnSubscribe").show();
-                            $("#pricing button#smart_investors").prop("disabled", "disabled");
-                        } else if(userDetails.data.subscriptionType == "FREE") {
-                            $("#pricing #smart_investors .btnSubscribe").show();
-                            $("#pricing #sage_investors .btnSubscribe").show();
-                            $("#pricing button#smart_investors").prop("disabled", "");
-                            $("#pricing button#sage_investors").prop("disabled", "");
-                        } else {
-                            $("#pricing #general_investors .btnSubscribe").hide();
-                        }
-
-                        if((userDetails.data.previousSubscriptionState == "TRIAL" || userDetails.data.subscriptionStatus == "PENDING" ) && userDetails.data.userInTrialPeriod == false) {
                             $("#pricing .btnSubscribe a").text(subscribeBtnTitle);
-                        }
 
-                        $("#pricing #general_investors .btnSubscribe").hide();
+                        } else {
+
+                            if(userDetails.data.previousSubscriptionState == "ACTIVE") {
+                                $("#pricing button").removeClass('trial');
+                                $("#pricing button > .ft").text(renewTooltipTitle);
+                                $("#pricing button").addClass('subscribe');
+                                $("#pricing button .btnSubscribe a").text(subscribeBtnTitle);
+
+                            } else if(userDetails.data.subscriptionStatus == "PENDING" && userDetails.data.subscriptionType == "SAGE") {
+                                $("#pricing button#smart_investors").prop("disabled", "disabled");
+                                $("#pricing button#sage_investors").prop("disabled", "disabled");
+
+                                $("#pricing button").removeClass('trial');
+                                $("#pricing button > .ft").text(subscribeTooltipTitle);
+                                $("#pricing button").addClass('subscribe');
+                                $("#pricing button .btnSubscribe a").text(subscribeBtnTitle);
+
+                            } else if(userDetails.data.subscriptionStatus == "PENDING" && userDetails.data.subscriptionType == "SMART") { 
+                                $("#pricing #sage_investors .btnSubscribe").show();
+                                $("#pricing button#smart_investors").prop("disabled", "disabled");
+
+                                $("#pricing button#smart_investors").removeClass('trial');
+                                $("#pricing button#smart_investors > .ft").text(subscribeTooltipTitle);
+                                $("#pricing button#smart_investors").addClass('subscribe');
+                                $("#pricing button .btnSubscribe a").text(subscribeBtnTitle);
+
+                            } else {
+                                $("#pricing button .btnSubscribe a").text(freeTrialBtnTitle);
+                            }
+                        }
                     }
+
+                    $("#pricing #general_investors .btnSubscribe").hide();
                 }
             } else {
                 window.localStorage.removeItem("userDetails");
+                window.localStorage.removeItem("userTrialMessage");
             }
 
             isProgressLoader(false);
@@ -445,10 +474,12 @@ jQuery(document).ready(function() {
                     "subscriptionType": response.data.subscriptionType,
                     "userInTrialPeriod": response.data.userInTrialPeriod,
                     "previousSubscriptionState": response.data.previousSubscriptionState,
-                    "previousSubscriptionType": response.data.previousSubscriptionType
+                    "previousSubscriptionType": response.data.previousSubscriptionType,
+                    "generalMsg": response.data.generalMsg
                 }
             }
             window.localStorage.setItem("userDetails", JSON.stringify(userDetails));
+            window.localStorage.setItem("userTrialMessage", JSON.stringify(userDetails.data.generalMsg));
 
         }
 

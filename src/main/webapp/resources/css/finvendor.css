@@ -2327,7 +2327,11 @@ button {
     margin: 30px;
 }
 
-#pricing button[disabled]:hover > .ft {
+#pricing button.trial:hover > .ft {
+	display: block;
+}
+
+#pricing button.subscribe:hover > .ft {
 	display: block;
 }
 
@@ -3197,4 +3201,18 @@ button {
 
 #permissionModal .btn:hover {
     opacity: 0.8;
+}
+
+#fv_app_notification {
+	width: 100%;
+}
+
+#fv_app_notification p {
+	background: yellow;
+	padding: 5px 10px;
+	text-align: center;
+	color: #000;
+	font-weight: bold;
+	font-size: 13px;
+	margin: 0;
 }
