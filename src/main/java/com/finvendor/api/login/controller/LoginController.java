@@ -216,15 +216,14 @@ public class LoginController {
      */
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ModelAndView logout(HttpServletRequest request) {
-        logger.info("Method for logout 7---:");
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        logger.info("## logout - START, request :{}", request);
         SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (request.getSession() != null) {
             request.getSession().invalidate();
         }
-        ModelAndView modelAndView = new ModelAndView(RequestConstans.Login.HOME);
-        return modelAndView;
-
+        logger.info("## logout - END");
+        return WebUtils.buildResponseEntity(WebUtils.buildResponse("fv-200", "Success", null, OK));
     }
 
     /**

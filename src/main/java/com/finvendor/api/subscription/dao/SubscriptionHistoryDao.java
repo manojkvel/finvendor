@@ -53,10 +53,9 @@ public class SubscriptionHistoryDao extends GenericDao<UsersSubscriptionHistory>
         saveOrUpdate(usersSubscriptionHistory);
     }
 
-    public boolean isFreeTrialAlreadyChosen(String userName, String subscriptionType) {
+    public boolean isFreeTrialAlreadyChosen(String userName) {
         Criteria criteria = this.commonDao.getSessionFactory().getCurrentSession().createCriteria(UsersSubscriptionHistory.class);
         criteria.add(Restrictions.eq("userName", userName));
-        criteria.add(Restrictions.eq("subscriptionType", subscriptionType));
         criteria.add(Restrictions.eq("subscriptionState", "TRIAL"));
         List list = criteria.list();
         return list.size() > 0;

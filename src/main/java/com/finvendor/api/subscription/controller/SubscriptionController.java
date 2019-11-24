@@ -70,9 +70,10 @@ public class SubscriptionController {
             @RequestParam(value = "type", required = false) SubscriptionTypeEnum type) throws Exception {
         LOG.info("## saveSubscription - START userName: {}, type: {}", userName, type);
         ApiResponse<String, String> apiResponse;
+
         if (userService.isValidUser(userName)) {
             if (SubscriptionTypeEnum.TRIAL.equals(type)) {
-                if (!subscriptionService.isTrialOpted(userName, subscriptionDto.getSubscriptionType())) {
+                if (!subscriptionService.isTrialOpted(userName)) {
                     apiResponse = subscriptionService.handleTrialPeriod(userName, subscriptionDto.getSubscriptionType());
                 }
                 else {

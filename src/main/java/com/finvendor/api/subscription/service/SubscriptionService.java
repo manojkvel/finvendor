@@ -80,9 +80,9 @@ public class SubscriptionService {
         return subscriptionDao.saveUserSubscription(userName, subscriptionDto);
     }
 
-    public boolean isTrialOpted(String userName, String subscriptionType) {
-        LOG.info("## isTrialOpted - START userName: {}, subscriptionType: {}", userName, subscriptionType);
-        return subscriptionHistoryDao.isFreeTrialAlreadyChosen(userName, subscriptionType);
+    public boolean isTrialOpted(String userName) {
+        LOG.info("## isTrialOpted - START userName: {}", userName);
+        return subscriptionHistoryDao.isFreeTrialAlreadyChosen(userName);
     }
 
     public ApiResponse<String, String> handleTrialPeriod(String userName, String trialSubscriptionType) throws Exception {
