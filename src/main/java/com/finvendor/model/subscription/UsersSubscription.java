@@ -65,6 +65,12 @@ public class UsersSubscription implements Serializable {
     @Column(name = "payment_verified")
     private String paymentVerified;
 
+    @Column(name = "created_on")
+    private String createdOn;
+
+    @Column(name = "updated_on")
+    private String updatedOn;
+
     public String getSubscriptionId() {
         return subscriptionId;
     }
@@ -201,4 +207,19 @@ public class UsersSubscription implements Serializable {
         this.paymentVerified = paymentVerified;
     }
 
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(String updatedOn) {
+        this.updatedOn = updatedOn;
+    }
 }

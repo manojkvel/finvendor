@@ -3,6 +3,9 @@ package com.finvendor.api.common.controller;
 import com.finvendor.api.common.dto.StockReturnDto;
 import com.finvendor.api.common.service.CommonService;
 import com.finvendor.api.exception.WebApiException;
+import com.finvendor.api.subscription.dto.SubscriptionDto;
+import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
+import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.api.webutil.WebUtils.SqlData;
@@ -46,15 +49,16 @@ public class CommonController {
     private final CommonService commonService;
 
     private final UserService userService;
-
+    private final SubscriptionService subscriptionService;
     private static Map<String, String> filterDataMap = new HashMap<>();
 
     @Autowired
     public CommonController(ICommonDao commonDao,
-            CommonService commonService, UserService userService) {
+            CommonService commonService, UserService userService, SubscriptionService subscriptionService) {
         this.commonDao = commonDao;
         this.commonService = commonService;
         this.userService = userService;
+        this.subscriptionService = subscriptionService;
     }
 
     @Transactional(readOnly = true)
@@ -186,12 +190,26 @@ public class CommonController {
     }
 
     @PostMapping(value = "/stockReturns")
-    public ResponseEntity<ApiResponse<String, Map<String, String>>> findStockReturn(
-            @RequestBody StockReturnDto stockReturnDto) throws Exception {
+    public ResponseEntity<ApiResponse<String, Map<String, String>>> findStockReturn(@RequestBody StockReturnDto stockReturnDto)
+            throws Exception {
         logger.info("## CONTROLLER findStockReturn - START stockReturnDto: {}", stockReturnDto);
         Map<String, String> stockReturns = commonService.findStockReturns(stockReturnDto);
         ApiResponse<String, Map<String, String>> apiResponse = buildResponse(ApiMessageEnum.SUCCESS, stockReturns, HttpStatus.OK);
         logger.info("## CONTROLLER findStockReturn - END");
+        return buildResponseEntity(apiResponse);
+    }
+
+    @PostMapping(value = "/users/defaultSubscriptionUpdate")
+    public ResponseEntity<ApiResponse<String, String>> addFreeSubscriptionToExistingUsers() throws Exception {
+        List<FinVendorUser> userDetails = userService.getUserDetails();
+        for (FinVendorUser user : userDetails) {
+            String userName = user.getUserName();
+            SubscriptionDto subscriptionDto = new SubscriptionDto();
+            subscriptionDto.setSubscriptionType(SubscriptionTypeEnum.FREE.name());
+            subscriptionService.saveUserSubscription(userName, subscriptionDto);
+        }
+
+        ApiResponse<String, String> apiResponse = buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
         return buildResponseEntity(apiResponse);
     }
 

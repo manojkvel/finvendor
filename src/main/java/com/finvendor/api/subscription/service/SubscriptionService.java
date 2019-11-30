@@ -62,6 +62,7 @@ public class SubscriptionService {
     private final NotificationService notificationService;
     private final UserService userService;
     private SysConfig sysConfig;
+
     @Autowired
     public SubscriptionService(SubscriptionDao subscriptionDao, SubscriptionHistoryDao subscriptionHistoryDao, UserService userService,
             NotificationService notificationService, SysConfig sysConfig) {
@@ -122,6 +123,8 @@ public class SubscriptionService {
                 existingSubscription.setBankName(null);
                 existingSubscription.setBankHolderName(null);
                 existingSubscription.setPaymentVerified(null);
+                existingSubscription.setCreatedOn(null);
+                existingSubscription.setUpdatedOn(null);
             }
             subscriptionHistoryDao.saveSubscriptionHistory(existingSubscription);
             apiResponse = buildResponse(ApiMessageEnum.CREATED, null, CREATED);

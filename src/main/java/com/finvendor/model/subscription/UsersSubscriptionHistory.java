@@ -63,8 +63,8 @@ public class UsersSubscriptionHistory implements Serializable {
     @Column(name = "payment_verified")
     private String paymentVerified;
 
-    @Column(name = "inventory_date")
-    private String inventoryDate;
+    @Column(name = "updated_on")
+    private String updatedOn;
 
     @Column(name = "subscription_id")
     private String subscriptionId;
@@ -205,12 +205,12 @@ public class UsersSubscriptionHistory implements Serializable {
         this.paymentVerified = paymentVerified;
     }
 
-    public String getInventoryDate() {
-        return inventoryDate;
+    public String getUpdatedOn() {
+        return updatedOn;
     }
 
-    public void setInventoryDate(String inventoryDate) {
-        this.inventoryDate = inventoryDate;
+    public void setUpdatedOn(String inventoryDate) {
+        this.updatedOn = inventoryDate;
     }
 
     public String getSubscriptionId() {
