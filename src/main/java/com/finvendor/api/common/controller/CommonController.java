@@ -1,6 +1,7 @@
 package com.finvendor.api.common.controller;
 
 import com.finvendor.api.common.dto.StockReturnDto;
+import com.finvendor.api.common.dto.UserDto;
 import com.finvendor.api.common.service.CommonService;
 import com.finvendor.api.exception.WebApiException;
 import com.finvendor.api.subscription.dto.SubscriptionDto;
@@ -220,30 +221,33 @@ public class CommonController {
         return buildResponseEntity(apiResponse);
     }
 
-    @GetMapping(value = "/users/{userName}/reset")
-    public ResponseEntity<ApiResponse<String, String>> addFreeSubscriptionToExistingUsers(@PathVariable(value = "userName") String userName)
+    @PostMapping(value = "/users/reset")
+    public ResponseEntity<ApiResponse<String, String>> addFreeSubscriptionToExistingUsers(@RequestBody UserDto userDto)
             throws Exception {
+        String userName = userDto.getUserName();
         userService.deleteUser(userName);
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost("http://localhost:9999/registration");
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("VEuMlA", "ays_student"));
-        params.add(new BasicNameValuePair("RaYulU", "ays_student"));
-        params.add(new BasicNameValuePair("ChEnGA", "jbytrain@gmail.com"));
-        params.add(new BasicNameValuePair("LaKS", "AysCorp"));
-        params.add(new BasicNameValuePair("ZaB", "University/Phd%20Student"));
+        params.add(new BasicNameValuePair("VEuMlA", userName));
+        params.add(new BasicNameValuePair("RaYulU", userDto.getPassword()));
+        params.add(new BasicNameValuePair("ChEnGA", userDto.getUserEmail()));
+        params.add(new BasicNameValuePair("LaKS", userDto.getCompany()));
+        params.add(new BasicNameValuePair("ZaB", userDto.getCompanyType()));
         httpPost.setEntity(new UrlEncodedFormEntity(params));
 
         CloseableHttpResponse response = client.execute(httpPost);
         int statusCode = response.getStatusLine().getStatusCode();
+        ApiResponse<String, String> apiResponse;
         if (statusCode == 200) {
             userService.verifyUser(userName);
+            apiResponse = buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
         }
         else {
             logger.error("## Unable to perform user registration for user: {}", userName);
+            apiResponse = buildResponse(ApiMessageEnum.INTERNAL_SERVER_ERROR, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        ApiResponse<String, String> apiResponse = buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
         return buildResponseEntity(apiResponse);
     }
 
