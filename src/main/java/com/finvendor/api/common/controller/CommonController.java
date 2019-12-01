@@ -227,7 +227,7 @@ public class CommonController {
         String userName = userDto.getUserName();
         userService.deleteUser(userName);
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("http://localhost:9999/registration");
+        HttpPost httpPost = new HttpPost("https://finvendor.com/registration");
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("VEuMlA", userName));
