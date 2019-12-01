@@ -1,8 +1,12 @@
 package com.finvendor.api.common.controller;
 
 import com.finvendor.api.common.dto.StockReturnDto;
+import com.finvendor.api.common.dto.UserDto;
 import com.finvendor.api.common.service.CommonService;
 import com.finvendor.api.exception.WebApiException;
+import com.finvendor.api.subscription.dto.SubscriptionDto;
+import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
+import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.webutil.WebUtils;
 import com.finvendor.api.webutil.WebUtils.SqlData;
@@ -14,6 +18,13 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,15 +57,16 @@ public class CommonController {
     private final CommonService commonService;
 
     private final UserService userService;
-
+    private final SubscriptionService subscriptionService;
     private static Map<String, String> filterDataMap = new HashMap<>();
 
     @Autowired
     public CommonController(ICommonDao commonDao,
-            CommonService commonService, UserService userService) {
+            CommonService commonService, UserService userService, SubscriptionService subscriptionService) {
         this.commonDao = commonDao;
         this.commonService = commonService;
         this.userService = userService;
+        this.subscriptionService = subscriptionService;
     }
 
     @Transactional(readOnly = true)
@@ -186,12 +198,56 @@ public class CommonController {
     }
 
     @PostMapping(value = "/stockReturns")
-    public ResponseEntity<ApiResponse<String, Map<String, String>>> findStockReturn(
-            @RequestBody StockReturnDto stockReturnDto) throws Exception {
+    public ResponseEntity<ApiResponse<String, Map<String, String>>> findStockReturn(@RequestBody StockReturnDto stockReturnDto)
+            throws Exception {
         logger.info("## CONTROLLER findStockReturn - START stockReturnDto: {}", stockReturnDto);
         Map<String, String> stockReturns = commonService.findStockReturns(stockReturnDto);
         ApiResponse<String, Map<String, String>> apiResponse = buildResponse(ApiMessageEnum.SUCCESS, stockReturns, HttpStatus.OK);
         logger.info("## CONTROLLER findStockReturn - END");
+        return buildResponseEntity(apiResponse);
+    }
+
+    @PostMapping(value = "/users/defaultSubscriptionUpdate")
+    public ResponseEntity<ApiResponse<String, String>> addFreeSubscriptionToExistingUsers() throws Exception {
+        List<FinVendorUser> userDetails = userService.getUserDetails();
+        for (FinVendorUser user : userDetails) {
+            String userName = user.getUserName();
+            SubscriptionDto subscriptionDto = new SubscriptionDto();
+            subscriptionDto.setSubscriptionType(SubscriptionTypeEnum.FREE.name());
+            subscriptionService.saveUserSubscription(userName, subscriptionDto);
+        }
+
+        ApiResponse<String, String> apiResponse = buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
+        return buildResponseEntity(apiResponse);
+    }
+
+    @PostMapping(value = "/users/reset")
+    public ResponseEntity<ApiResponse<String, String>> addFreeSubscriptionToExistingUsers(@RequestBody UserDto userDto)
+            throws Exception {
+        String userName = userDto.getUserName();
+        userService.deleteUser(userName);
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("https://finvendor.com/registration");
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("VEuMlA", userName));
+        params.add(new BasicNameValuePair("RaYulU", userDto.getPassword()));
+        params.add(new BasicNameValuePair("ChEnGA", userDto.getUserEmail()));
+        params.add(new BasicNameValuePair("LaKS", userDto.getCompany()));
+        params.add(new BasicNameValuePair("ZaB", userDto.getCompanyType()));
+        httpPost.setEntity(new UrlEncodedFormEntity(params));
+
+        CloseableHttpResponse response = client.execute(httpPost);
+        int statusCode = response.getStatusLine().getStatusCode();
+        ApiResponse<String, String> apiResponse;
+        if (statusCode == 200) {
+            userService.verifyUser(userName);
+            apiResponse = buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
+        }
+        else {
+            logger.error("## Unable to perform user registration for user: {}", userName);
+            apiResponse = buildResponse(ApiMessageEnum.INTERNAL_SERVER_ERROR, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return buildResponseEntity(apiResponse);
     }
 

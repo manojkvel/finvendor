@@ -48,7 +48,7 @@ public class SubscriptionHistoryDao extends GenericDao<UsersSubscriptionHistory>
         usersSubscriptionHistory.setBankName(usersSubscription.getBankName());
         usersSubscriptionHistory.setBankHolderName(usersSubscription.getBankHolderName());
         usersSubscriptionHistory.setPaymentVerified(usersSubscription.getPaymentVerified());
-        usersSubscriptionHistory.setInventoryDate(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(Calendar.getInstance().getTimeInMillis()));
+        usersSubscriptionHistory.setUpdatedOn(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(Calendar.getInstance().getTimeInMillis()));
         usersSubscriptionHistory.setSubscriptionId(usersSubscription.getSubscriptionId());
         saveOrUpdate(usersSubscriptionHistory);
     }

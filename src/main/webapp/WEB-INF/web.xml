@@ -85,4 +85,10 @@
         <exception-type>java.lang.Exception</exception-type>
         <location>/view/errorPage.jsp</location>
     </error-page>
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>local</param-value>
+        <!-- <param-value>mani</param-value> -->
+        <!-- <param-value>prod</param-value> -->
+    </context-param>
 </web-app>

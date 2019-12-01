@@ -277,6 +277,8 @@ public class SubscriptionDao extends GenericDao<UsersSubscription> {
                 usersSubscriptionEntity.setBankName(null);
                 usersSubscriptionEntity.setBankHolderName(null);
                 usersSubscriptionEntity.setPaymentVerified(null);
+                usersSubscriptionEntity.setCreatedOn(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(Calendar.getInstance().getTimeInMillis()));
+                usersSubscriptionEntity.setUpdatedOn(null);
             }
             saveOrUpdate(usersSubscriptionEntity);
             subscriptionHistoryDao.saveSubscriptionHistory(usersSubscriptionEntity);
@@ -336,7 +338,7 @@ public class SubscriptionDao extends GenericDao<UsersSubscription> {
         else {
             usersSubscriptionHistory.setPaymentVerified(UsersSubscriptionEntity.getPaymentVerified());
         }
-        usersSubscriptionHistory.setInventoryDate(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(Calendar.getInstance().getTimeInMillis()));
+        usersSubscriptionHistory.setUpdatedOn(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(Calendar.getInstance().getTimeInMillis()));
     }
 
     private void setUsersSubscriptionEntity(SubscriptionDto dto, UsersSubscription usersSubscriptionEntity) {
@@ -370,6 +372,7 @@ public class SubscriptionDao extends GenericDao<UsersSubscription> {
         else {
             usersSubscriptionEntity.setPaymentVerified("FALSE");
         }
+        usersSubscriptionEntity.setUpdatedOn(DateUtils.get_Date_To_DD_MMM_YYYY_hh_Format(Calendar.getInstance().getTimeInMillis()));
     }
 
     public void saveUsersSubscription(UsersSubscription usersSubscription) {
