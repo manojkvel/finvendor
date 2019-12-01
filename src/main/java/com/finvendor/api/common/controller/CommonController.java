@@ -17,6 +17,13 @@ import com.finvendor.common.util.ErrorUtil;
 import com.finvendor.common.util.JsonUtil;
 import com.finvendor.model.FinVendorUser;
 import com.finvendor.modelpojo.staticpojo.admindashboard.ResearchReportFor;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.hibernate.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -209,6 +216,33 @@ public class CommonController {
             subscriptionService.saveUserSubscription(userName, subscriptionDto);
         }
 
+        ApiResponse<String, String> apiResponse = buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
+        return buildResponseEntity(apiResponse);
+    }
+
+    @GetMapping(value = "/users/{userName}/reset")
+    public ResponseEntity<ApiResponse<String, String>> addFreeSubscriptionToExistingUsers(@PathVariable(value = "userName") String userName)
+            throws Exception {
+        userService.deleteUser(userName);
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("http://localhost:9999/registration");
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("VEuMlA", "ays_student"));
+        params.add(new BasicNameValuePair("RaYulU", "ays_student"));
+        params.add(new BasicNameValuePair("ChEnGA", "jbytrain@gmail.com"));
+        params.add(new BasicNameValuePair("LaKS", "AysCorp"));
+        params.add(new BasicNameValuePair("ZaB", "University/Phd%20Student"));
+        httpPost.setEntity(new UrlEncodedFormEntity(params));
+
+        CloseableHttpResponse response = client.execute(httpPost);
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode == 200) {
+            userService.verifyUser(userName);
+        }
+        else {
+            logger.error("## Unable to perform user registration for user: {}", userName);
+        }
         ApiResponse<String, String> apiResponse = buildResponse(ApiMessageEnum.SUCCESS, null, HttpStatus.OK);
         return buildResponseEntity(apiResponse);
     }
