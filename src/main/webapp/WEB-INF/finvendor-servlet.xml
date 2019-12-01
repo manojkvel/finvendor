@@ -9,13 +9,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd
- 		http://www.springframework.org/schema/util 
+ 		http://www.springframework.org/schema/util
  		http://www.springframework.org/schema/util/spring-util.xsd
       	http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
     <context:annotation-config/>
     <context:component-scan
@@ -25,19 +25,7 @@
     <mvc:annotation-driven/>
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     <mvc:default-servlet-handler/>
-
-    <!-- Mail Service -->
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="mail.finvendor.com"/>
-        <property name="username" value="sales@finvendor.com"/>
-        <property name="password" value="XXXX"/>
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.auth">true</prop>
-            </props>
-        </property>
-    </bean>
-
+    <tx:annotation-driven/>
     <bean id="jspViewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass"
@@ -46,58 +34,121 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean id="messageSource"
-          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages"/>
-        <property name="defaultEncoding" value="UTF-8"/>
-    </bean>
+    <beans>
+        <!-- Mail Service -->
+        <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+            <property name="host" value="mail.finvendor.com"/>
+            <property name="username" value="sales@finvendor.com"/>
+            <property name="password" value="XXXX"/>
+            <property name="javaMailProperties">
+                <props>
+                    <prop key="mail.smtp.auth">true</prop>
+                </props>
+            </property>
+        </bean>
+    </beans>
 
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:location="/WEB-INF/jdbc.properties"/>
+    <beans profile="local">
+        <bean id="dataSource"
+              class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+              p:driverClassName="com.mysql.jdbc.Driver"
+              p:url="jdbc:mysql://localhost:3306/finvendo_dev?zeroDateTimeBehavior=convertToNull" p:username="root"
+              p:password="root">
+            <property name="validationQuery" value="SELECT 1"/>
+            <property name="testOnBorrow" value="true"/>
+            <property name="maxActive" value="1000"/>
+            <property name="maxIdle" value="300"/>
+            <property name="maxWait" value="10000"/>
+            <property name="defaultAutoCommit" value="true"/>
+            <property name="removeAbandoned" value="true"/>
+            <property name="removeAbandonedTimeout" value="60"/>
+        </bean>
+    </beans>
+    <beans profile="mani">
+        <bean id="dataSource"
+              class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+              p:driverClassName="com.mysql.jdbc.Driver"
+              p:url="jdbc:mysql://localhost:3306/finvendo_dev?zeroDateTimeBehavior=convertToNull" p:username="root"
+              p:password="admin">
+            <property name="validationQuery" value="SELECT 1"/>
+            <property name="testOnBorrow" value="true"/>
+            <property name="maxActive" value="1000"/>
+            <property name="maxIdle" value="300"/>
+            <property name="maxWait" value="10000"/>
+            <property name="defaultAutoCommit" value="true"/>
+            <property name="removeAbandoned" value="true"/>
+            <property name="removeAbandonedTimeout" value="60"/>
+        </bean>
+    </beans>
+    <beans profile="prod">
+        <bean id="dataSource"
+              class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+              p:driverClassName="com.mysql.jdbc.Driver"
+              p:url="jdbc:mysql://localhost:3306/finvendo_prod?zeroDateTimeBehavior=convertToNull" p:username="finvendo_prod"
+              p:password="finvendo_prod">
+            <property name="validationQuery" value="SELECT 1"/>
+            <property name="testOnBorrow" value="true"/>
+            <property name="maxActive" value="1000"/>
+            <property name="maxIdle" value="300"/>
+            <property name="maxWait" value="10000"/>
+            <property name="defaultAutoCommit" value="true"/>
+            <property name="removeAbandoned" value="true"/>
+            <property name="removeAbandonedTimeout" value="60"/>
+        </bean>
+    </beans>
 
-    <bean id="dataSource"
-          class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-          p:driverClassName="${jdbc.driverClassName}"
-          p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
-          p:password="${jdbc.password}">
-        <property name="validationQuery" value="SELECT 1"/>
-        <property name="testOnBorrow" value="true"/>
-        <property name="maxActive" value="1000"/>
-        <property name="maxIdle" value="300"/>
-        <property name="maxWait" value="10000"/>
-        <property name="defaultAutoCommit" value="true"/>
-        <property name="removeAbandoned" value="true"/>
-        <property name="removeAbandonedTimeout" value="60"/>
-    </bean>
 
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation">
-            <value>classpath:hibernate.cfg.xml</value>
-        </property>
-        <property name="configurationClass">
-            <value>org.hibernate.cfg.AnnotationConfiguration</value>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
-                <prop key="hibernate.show_sql">false</prop>
-                <!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
-            </props>
-        </property>
-    </bean>
+    <!--    <bean id="propertyConfigurer"-->
+    <!--          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"-->
+    <!--          p:location="/WEB-INF/jdbc.properties"/>-->
 
-    <tx:annotation-driven/>
+    <!--    <bean id="dataSource"-->
+    <!--          class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"-->
+    <!--          p:driverClassName="${jdbc.driverClassName}"-->
+    <!--          p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"-->
+    <!--          p:password="${jdbc.password}">-->
+    <!--        <property name="validationQuery" value="SELECT 1"/>-->
+    <!--        <property name="testOnBorrow" value="true"/>-->
+    <!--        <property name="maxActive" value="1000"/>-->
+    <!--        <property name="maxIdle" value="300"/>-->
+    <!--        <property name="maxWait" value="10000"/>-->
+    <!--        <property name="defaultAutoCommit" value="true"/>-->
+    <!--        <property name="removeAbandoned" value="true"/>-->
+    <!--        <property name="removeAbandonedTimeout" value="60"/>-->
+    <!--    </bean>-->
 
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    <beans>
+        <bean id="sessionFactory"
+              class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+            <property name="dataSource" ref="dataSource"/>
+            <property name="configLocation">
+                <value>classpath:hibernate.cfg.xml</value>
+            </property>
+            <property name="configurationClass">
+                <value>org.hibernate.cfg.AnnotationConfiguration</value>
+            </property>
+            <property name="hibernateProperties">
+                <props>
+                    <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+                    <prop key="hibernate.show_sql">false</prop>
+                    <!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+                </props>
+            </property>
+        </bean>
+    </beans>
 
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="10485760"/>
-    </bean>
-    <util:properties id="finvendorProperties" location="/WEB-INF/finvendor.properties"/>
+    <beans>
+        <bean id="transactionManager"
+              class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+            <property name="sessionFactory" ref="sessionFactory"/>
+        </bean>
+    </beans>
+    <beans>
+        <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+            <property name="maxUploadSize" value="10485760"/>
+        </bean>
+    </beans>
+    <beans>
+        <util:properties id="finvendorProperties" location="/WEB-INF/finvendor.properties"/>
+    </beans>
 </beans>
