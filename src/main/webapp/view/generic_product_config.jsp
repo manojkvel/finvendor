@@ -28,7 +28,7 @@
 				<div class="content">
 					<div class="tab">
 						<button class="tablinks" onclick="openCity(event, 'general_config')" id="defaultOpen">General Configurations</button>
-						<button class="tablinks" onclick="openCity(event, 'finven_feature_config')">Feature Configurations</button>
+						<button class="tablinks" onclick="openCity(event, 'finven_reset_user_config')">Reset User</button>
 						<button class="tablinks" onclick="openCity(event, 'finven_others_config')">Others</button>
 					</div>
 
@@ -52,7 +52,7 @@
 									<label class="default_select">Trial Period In Days</label>
 								</li>
 
-								<li>
+								<li id='emailEnabled_data_container'>
 									<input type="text" name="emailEnabled" id="emailEnabled_data"  readonly="readonly" />
 									<label class="default_select">Email Enabled</label>
 								</li>
@@ -83,7 +83,7 @@
 									<label>Trial Period In Days</label>
 								</li>
 
-								<li>
+								<li id='emailEnabled_container'>
 									<select class="selectpicker" name="emailEnabled" id="emailEnabled">
 										<option value="false"> False </option>
 										<option value="true"> True </option>
@@ -97,9 +97,46 @@
 						</form>
 					</div>
 
-					<div id="finven_feature_config" class="tabcontent">
-						<h3>Feature Configuration</h3>
-						<p>We will be updating shortly</p> 
+					<div id="finven_reset_user_config" class="tabcontent">
+						<h3>Reset User</h3>
+						<form method="post" id="reset_user_config_form" name="reset_user_config_form">
+							<div class="generic_message">
+								<div class="alert"></div>
+							</div>
+							<ul>
+								<li>
+									<input type="text" name="userId" id="userId" required />
+									<label>User Name</label>
+								</li>
+
+								<li>
+									<input type="password" name="userPassword" id="userPassword" required />
+									<label>Password</label>
+								</li>
+
+								<li>
+									<input type="text" name="userEmail" id="userEmail" required />
+									<label>User Email</label>
+								</li>
+
+								<li>
+									<input type="text" name="userCompany" id="userCompany" required />
+									<label>Company</label>
+								</li>
+
+								
+								<li>
+									<select class="selectpicker" name="userCompanyType" id="userCompanyType">
+										<option value="Individual Investor" id="1" title='Individual Investor' selected="selected">Individual Investor</option>
+										<option value="University/Phd Student" id="4" title='University/Phd Student'>University/Phd Student</option>
+									</select>
+									<label class="default_select">Company Type</label>
+								</li>
+							</ul>
+							<p class="action_btn" style="clear:both;">
+								<a class="submit_btn save" data-toggle="tab">Save</a>
+							</p>
+						</form> 
 					</div>
 
 					<div id="finven_others_config" class="tabcontent">

@@ -3093,6 +3093,11 @@ button {
 	display: none;
 }
 
+#emailEnabled_container,
+#emailEnabled_data_container {
+	display: none;
+}
+
 @media only screen and (max-width: 479px) {
 	.dashboard_report .bd .reportDetails {
 		float: none;

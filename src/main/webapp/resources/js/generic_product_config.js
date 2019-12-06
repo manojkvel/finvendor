@@ -54,6 +54,14 @@ jQuery(document).ready(function() {
             $("#general_config #general_config_form").hide();
             $("#general_config .default_config_data").show();
 
+            if (/localhost/.test(window.location.hostname)) {
+                $("#emailEnabled_container").show();
+                $("#emailEnabled_data_container").show();
+            } else {
+                $("#emailEnabled_container").hide();
+                $("#emailEnabled_data_container").hide();
+            }
+
         },
 
         editGeneralConfig: function(event) {
@@ -155,9 +163,74 @@ jQuery(document).ready(function() {
                     reject(false)
                 }
             });
+        },
+
+        resetUser: function(event) {
+            var classRef = event.data.this;
+            debugger
+
+            var userJsonObj = {
+                "userId": $("#finven_reset_user_config #reset_user_config_form #userId").val(),
+                "userPassword": $("#finven_reset_user_config #reset_user_config_form #userPassword").val(),
+                "userEmail": $("#finven_reset_user_config #reset_user_config_form #userEmail").val(),
+                "userCompany": $("#finven_reset_user_config #reset_user_config_form #userCompany").val(),
+                "userCompanyType": $("#finven_reset_user_config #reset_user_config_form select[name=userCompanyType]").val()
+            }
+
+            classRef.resetUserApi(userJsonObj).then(function(response) {
+                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").text("User is successfully reset");
+                $("#finven_reset_user_config #reset_user_config_form").reset();
+            }, function(error) {
+                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").text("Error, please retry");
+            });
+        },
+
+        /**
+        * Function to start async call to reset user.
+        */
+        resetUserApi : function(userJsonObj) {
+            var classRef = this;
+
+            var formData = {
+                "userName": userJsonObj.userId,
+                "password": userJsonObj.userPassword,
+                "userEmail": userJsonObj.userEmail,
+                "company": userJsonObj.userCompany,
+                "companyType": userJsonObj.userCompanyType
+            }
+
+            var url = '/api/user/reset';
+            return new Promise(function(resolve, reject) {
+                var httpRequest = new XMLHttpRequest({
+                    mozSystem: true
+                });
+                //httpRequest.timeout = API_TIMEOUT_SMALL;
+                httpRequest.open('POST', url, true);
+                httpRequest.setRequestHeader('Content-Type',
+                    'application/json; charset=UTF-8');
+                httpRequest.ontimeout = function () {
+                    reject("" + httpRequest.responseText);
+                };
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                        if (httpRequest.status === 200) {
+                            resolve(httpRequest.response);
+                        } else {
+                            //console.log(httpRequest.status + httpRequest.responseText);
+                            reject(httpRequest.responseText);
+                        }
+                    } else {
+                    }
+                };
+
+                httpRequest.send(JSON.stringify(formData));
+            });
         }
     };
 
     productConfigObj.init();
+
+
+    $("#finven_reset_user_config #reset_user_config_form .action_btn .save").unbind().bind('click', {this: productConfigObj}, productConfigObj.resetUser);
 
 });

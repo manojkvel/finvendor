@@ -117,6 +117,7 @@
 					<li data-div-id="Manage_Account"><a href="/adminViewUserDetails?nav=Manage Account">Manage Account</a></li>
 
 					<li data-div-id="manage_user_subscription"><a href="/view/manage_user_subscriptions.jsp">Manage Subscription</a></li>
+					<li data-div-id="generic_product_config"><a href="/view/generic_product_config.jsp">Manage Generic Product Configuration</a></li>
 					<!--<li data-div-id="Review_Vendor"><a href="#">Review Vendor</a></li>
 					<li data-div-id="Review_Consumer"><a href="#">Review Consumer</a></li>-->
    				</ul>
