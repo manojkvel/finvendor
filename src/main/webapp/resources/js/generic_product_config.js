@@ -199,7 +199,7 @@ jQuery(document).ready(function() {
                 "companyType": userJsonObj.userCompanyType
             }
 
-            var url = '/api/user/reset';
+            var url = '/api/users/reset';
             return new Promise(function(resolve, reject) {
                 var httpRequest = new XMLHttpRequest({
                     mozSystem: true
