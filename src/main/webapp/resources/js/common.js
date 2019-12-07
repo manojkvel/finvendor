@@ -580,6 +580,55 @@ jQuery(document).ready(function($) {
 
 	$("#home_page_main_search .ddselect a").on('click', selectResearchType);
 
+
+	$("#logout-confirm").on('click', logoutDetails);
+	$("#logout-mobile-confirm").on('click', logoutDetails);
+
+	function logoutDetails() {
+		logoutApi().then(function(response) {
+			isProgressLoader(false);
+			window.location.href ="/";
+		}, function(error) {
+			isProgressLoader(false);
+		});
+	}
+
+	/**
+      * Function to start async call to logout user.
+    */
+    function logoutApi() {
+    	var classRef = this;
+
+    	isProgressLoader(true);
+
+    	var url = '/logout';
+    	return new Promise(function(resolve, reject) {
+    		var httpRequest = new XMLHttpRequest({
+    			mozSystem: true
+    		});
+                //httpRequest.timeout = API_TIMEOUT_SMALL;
+                httpRequest.open('GET', url, true);
+                httpRequest.setRequestHeader('Content-Type',
+                	'application/json; charset=UTF-8');
+                httpRequest.ontimeout = function () {
+                	reject("" + httpRequest.responseText);
+                };
+                httpRequest.onreadystatechange = function () {
+                	if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                		if (httpRequest.status === 200) {
+                			resolve(httpRequest.response);
+                		} else {
+                            //console.log(httpRequest.status + httpRequest.responseText);
+                            reject(httpRequest.responseText);
+                        }
+                    } else {
+                    }
+                };
+
+                httpRequest.send();
+            });
+    }
+
 });
 
 function validateDate(date) {

@@ -168,7 +168,7 @@
                                                                             <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
+                                                                            <a href="javascript:void(0);" id="logout-mobile-confirm">Logout</a>
                                                                         </li>
                                                                         </ul>
                                                                     </c:when>
@@ -295,7 +295,7 @@
                                                                             <a class="settings" href="${pageContext.request.contextPath}/displayAccountSettings?userName=${sessionScope.loggedInUser.username}">Settings</a>
                                                                         </li>
                                                                         <li>
-                                                                            <a href="${pageContext.request.contextPath}/logout" id="logout-confirm">Logout</a>
+                                                                            <a href="javascript:void(0);" id="logout-confirm">Logout</a>
                                                                         </li>
                                             </li>
                                         </ul>

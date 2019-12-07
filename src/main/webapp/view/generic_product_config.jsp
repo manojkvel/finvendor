@@ -26,6 +26,9 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12">
 				<div class="content">
+				<div id='progressLoader'>
+						<jsp:include page="common/progressLoader.jsp"></jsp:include>
+					</div>
 					<div class="tab">
 						<button class="tablinks" onclick="openCity(event, 'general_config')" id="defaultOpen">General Configurations</button>
 						<button class="tablinks" onclick="openCity(event, 'finven_reset_user_config')">Reset User</button>
@@ -33,6 +36,7 @@
 					</div>
 
 					<div id="general_config" class="tabcontent">
+						<h3>General Configurations</h3>
 						<div class="default_config_data">
 							<ul>
 								<li>
@@ -63,7 +67,7 @@
 						</div>
 						<form method="post" id="general_config_form" name="general_config_form">
 							<div class="generic_message">
-								<div class="alert"></div>
+								<div class="alert alert-success"></div>
 							</div>
 							<ul>
 								<li>
@@ -101,7 +105,7 @@
 						<h3>Reset User</h3>
 						<form method="post" id="reset_user_config_form" name="reset_user_config_form">
 							<div class="generic_message">
-								<div class="alert"></div>
+								<div class="alert alert-success"></div>
 							</div>
 							<ul>
 								<li>

@@ -73,7 +73,7 @@ jQuery(document).ready(function() {
         updateGeneralConfig: function(event) {
             var classRef = event.data.this;
 
-            var formData = {
+            var generalDataJsonObj = {
                 "emailEnabled": $("#general_config #general_config_form select[name=emailEnabled]").val(),
                 "featureAccessDailyLimit": $("#general_config #general_config_form #featureAccessDailyLimit").val(),
                 "featureAccessWeeklyLimit": $("#general_config #general_config_form #featureAccessWeeklyLimit").val(),
@@ -81,12 +81,30 @@ jQuery(document).ready(function() {
                 "trialPeriodInDays": $("#general_config #general_config_form #trialPeriodInDays").val()
             }
 
-            classRef.updateGeneralConfigApi(formData).then(function(response) {
+            if(generalDataJsonObj.emailEnabled == "" || generalDataJsonObj.featureAccessDailyLimit == "" || generalDataJsonObj.featureAccessWeeklyLimit == "" 
+                || generalDataJsonObj.reminderDays == "" || generalDataJsonObj.trialPeriodInDays == "") {
+                $("#general_config #general_config_form .generic_message .alert").text("Please enter all the fields.");
+                $("#general_config #general_config_form .generic_message .alert").addClass("alert-danger");
+                $("#general_config #general_config_form .generic_message").show();
+                return;
+            }
+            
+            $("#general_config #general_config_form .generic_message .alert").removeClass("alert-danger");
+            $("#general_config #general_config_form .generic_message").hide();
+
+            classRef.updateGeneralConfigApi(generalDataJsonObj).then(function(response) {
                 
                 classRef.getGeneralConfigDetails();
-
+                $("#general_config #general_config_form .generic_message .alert").text("Success!! User reset is done");
+                $("#general_config #general_config_form .generic_message .alert").removeClass("alert-danger");
+                $("#general_config #general_config_form .generic_message").show();
+                $("#general_config #general_config_form").trigger("reset");
+                isProgressLoader(false);
             }, function(error) {
-                debugger
+                $("#general_config #general_config_form .generic_message .alert").text("Error!! Please retry after sometime");
+                $("#general_config #general_config_form .generic_message .alert").addClass("alert-danger");
+                $("#general_config #general_config_form .generic_message").show();
+                isProgressLoader(false);
             });
         },
 
@@ -95,6 +113,7 @@ jQuery(document).ready(function() {
         */
         updateGeneralConfigApi : function(formData) {
             var classRef = this;
+            isProgressLoader(true);
 
             var url = classRef.baseApiUrl + "/1/configuration";
             return new Promise(function(resolve, reject) {
@@ -129,6 +148,7 @@ jQuery(document).ready(function() {
         */
         getGeneralSystemConfigApi : function(userId) {
             var classRef = this;
+            isProgressLoader(true);
 
             return new Promise(function(resolve, reject) {
 
@@ -167,7 +187,6 @@ jQuery(document).ready(function() {
 
         resetUser: function(event) {
             var classRef = event.data.this;
-            debugger
 
             var userJsonObj = {
                 "userId": $("#finven_reset_user_config #reset_user_config_form #userId").val(),
@@ -177,11 +196,27 @@ jQuery(document).ready(function() {
                 "userCompanyType": $("#finven_reset_user_config #reset_user_config_form select[name=userCompanyType]").val()
             }
 
+            if(userJsonObj.userId == "" || userJsonObj.userPassword == "" || userJsonObj.userEmail == "" ||userJsonObj.userCompany == "") {
+                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").text("Please enter all the fields.");
+                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").addClass("alert-danger");
+                $("#finven_reset_user_config #reset_user_config_form .generic_message").show();
+                return;
+            }
+
+            $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").removeClass("alert-danger");
+            $("#finven_reset_user_config #reset_user_config_form .generic_message").hide();
+
             classRef.resetUserApi(userJsonObj).then(function(response) {
-                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").text("User is successfully reset");
-                $("#finven_reset_user_config #reset_user_config_form").reset();
+                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").text("Success!! User reset is done");
+                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").removeClass("alert-danger");
+                $("#finven_reset_user_config #reset_user_config_form .generic_message").show();
+                $("#finven_reset_user_config #reset_user_config_form").trigger("reset");
+                isProgressLoader(false);
             }, function(error) {
-                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").text("Error, please retry");
+                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").text("Error!! Please retry after sometime");
+                $("#finven_reset_user_config #reset_user_config_form .generic_message .alert").addClass("alert-danger");
+                $("#finven_reset_user_config #reset_user_config_form .generic_message").show();
+                isProgressLoader(false);
             });
         },
 
@@ -190,6 +225,8 @@ jQuery(document).ready(function() {
         */
         resetUserApi : function(userJsonObj) {
             var classRef = this;
+            
+            isProgressLoader(true);
 
             var formData = {
                 "userName": userJsonObj.userId,
