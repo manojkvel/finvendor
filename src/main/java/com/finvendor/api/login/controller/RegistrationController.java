@@ -2,12 +2,12 @@ package com.finvendor.api.login.controller;
 
 import com.finvendor.api.configuration.service.SysConfig;
 import com.finvendor.api.consumer.service.ConsumerService;
-import com.finvendor.api.subscription.dto.SubscriptionDto;
-import com.finvendor.api.subscription.enums.SubscriptionTypeEnum;
+import com.finvendor.api.login.service.RegistrationService;
 import com.finvendor.api.subscription.service.SubscriptionService;
 import com.finvendor.api.user.service.UserService;
 import com.finvendor.api.vendor.service.VendorServiceImpl;
 import com.finvendor.common.exception.ApplicationException;
+import com.finvendor.common.util.Pair;
 import com.finvendor.model.*;
 import com.finvendor.util.CommonUtils;
 import com.finvendor.util.EmailUtil;
@@ -41,7 +41,6 @@ public class RegistrationController {
     private String[] consumerTypes = { RequestConstans.INDIVIDUAL_INVESTOR, RequestConstans.UNIVERSITY_OR_PHD_STUDENT };
     private List<String> vendorTypesList = Arrays.asList(vendorTypes);
 
-
     @Autowired
     private UserService userService;
 
@@ -54,11 +53,15 @@ public class RegistrationController {
     @Autowired
     private SubscriptionService subscriptionService;
 
+    @Autowired
+    private RegistrationService registrationService;
+
     @Resource(name = "finvendorProperties")
     private Properties finvendorProperties;
 
     @Autowired
     private SysConfig sysConfig;
+
     /**
      * method for register navigation
      *
@@ -73,6 +76,7 @@ public class RegistrationController {
 
     /**
      * method for to check phone number validation
+     *
      * @return modelAndView
      */
 
@@ -253,8 +257,6 @@ public class RegistrationController {
         }
         return modelAndView;
     }
-
-
 
     @RequestMapping(value = "adminAddAcount", method = RequestMethod.POST)
     public ModelAndView adminAddAccount(HttpServletRequest request,
@@ -452,7 +454,7 @@ public class RegistrationController {
      * New User Registration
      */
     @RequestMapping(value = RequestConstans.Register.REGISTERATION, method = RequestMethod.POST)
-    public ResponseEntity<?> saveUserInfo(HttpServletRequest request,
+    public ResponseEntity<?> registerUser(HttpServletRequest request,
             @ModelAttribute("users") FinVendorUser user,
             @ModelAttribute("userRole") UserRole userRole,
             @ModelAttribute("roles") Roles role,
@@ -464,91 +466,20 @@ public class RegistrationController {
             @RequestParam(value = "LaKS", required = false) String company,
             @RequestParam(value = "ZaB", required = false) String companyType,
             @RequestParam(value = "NoR", required = false) String tags) {
-        logger.debug("Entering RegistrationController : saveUserInfo");
-        Set<UserRole> userRoles;
-        String userRoleName;
-        String json;
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-        user.setUserName(uname.toLowerCase());
-        user.setPassword(encoder.encode(password));
-        user.setEnabled(false);
-        user.setEmail(email.toLowerCase());
-        user.setVerified("N");
-        user.setRegistrationDate(new Timestamp(System.currentTimeMillis()));
-
-        //Set Subscription details
-        //user.setSubscriptionType(SubscriptionTypeEnum.FREE.toString());
-        //user.setSubscriptionStartTime(null);
-        //user.setSubscriptionEndTime(null);
-        //user.setSubscriptionState(null);
-        boolean isVendor = checkUserTypeFromCompany(companyType);
-        try {
-            FinVendorUser userDetailsByUsername = userService.getUserDetailsByUsername(uname);
-            if (userDetailsByUsername != null) {
-                return new ResponseEntity<>("{\"message\":\"User name already exist, Please provide other user name.\"}",
-                        HttpStatus.CONFLICT);
-            }
-            else {
-                //new UserName here now check for existing email
-                List<FinVendorUser> emailsFromDb = userService.getUserDetailsByEmailId(email);
-                if (!emailsFromDb.isEmpty()) {
-                    return new ResponseEntity<>("{\"message\":\"Email already exist, Please provide other email address.\"}",
-                            HttpStatus.CONFLICT);
-                }
-                else {
-                    if (isVendor) {
-                        role.setId(new Integer(RequestConstans.Roles.ROLE_VENDOR_VALUE));
-                        userRoleName = "VENDOR";
-                        vendor.setId(UUID.randomUUID().toString());
-                        vendor.setFirstName(uname);
-                        vendor.setLastName("");
-                        vendor.setDesignation("");
-                        vendor.setSecondaryEmail("");
-                        vendor.setTelephone("");
-                        vendor.setCompany(company);
-                        vendor.setCompanyInfo("");
-                        vendor.setCompanyUrl("");
-                        vendor.setCompanyType(companyType);
-                        vendor.setTags(tags);
-                        vendor.setCompanyAddress("");
-                        vendor.setUser(user);
-                        user.setVendor(vendor);
-                    }
-                    else {
-                        role.setId(new Integer(RequestConstans.Roles.ROLE_CONSUMER_VALUE));
-                        userRoleName = "CONSUMER";
-                        consumer.setId(UUID.randomUUID().toString());
-                        consumer.setFirstName(uname);
-                        consumer.setLastName("");
-                        consumer.setTelephone("");
-                        consumer.setCompany(company);
-                        consumer.setCompanyType(companyType);
-                        consumer.setTags(tags);
-                        consumer.setUser(user);
-                        user.setConsumer(consumer);
-                    }
-                    userRole.setRoles(role);
-                    userRole.setUser(user);
-                    userRoles = new HashSet<>();
-                    userRoles.add(userRole);
-                    user.setUserRoles(userRoles);
-                    userService.saveUserInfo(user);
-                    String registrationId = userService.insertRegistrationVerificationRecord(user.getUserName(), false);
-                    if (Objects.requireNonNull(sysConfig.config()).isEmailEnabled()) {
-                        EmailUtil.sendRegistrationEmail(user, email.toLowerCase(), registrationId);
-                        EmailUtil.sendNotificationEmail("FinVendor Registration", "has registered on FinVendor.", user, userRoleName);
-                    }
-                    SubscriptionDto subscriptionDto = new SubscriptionDto();
-                    subscriptionDto.setSubscriptionType(SubscriptionTypeEnum.FREE.name());
-                    subscriptionService.saveUserSubscription(user.getUserName(), subscriptionDto);
-                    logger.info("## FREE Subscription added successfully");
-                    json = "{\"message\":\"Registration done successfully\"}";
-                }
-            }
-        } catch (Exception e) {
-            json = "{\"message\":\"Error registering user. Please contact Fin Vendor for support.\"}";
-            return new ResponseEntity<>(json, HttpStatus.INTERNAL_SERVER_ERROR);
+        logger.info("## registerUser - START");
+        Pair<Boolean, String> registrationPair = registrationService
+                .registerUser(user, role, userRole, vendor, consumer, uname, password, email, company, companyType, tags);
+        Boolean registrationStatus = registrationPair.getElement1();
+        String jsonString = registrationPair.getElement2();
+        HttpStatus httpStatus;
+        if (registrationStatus) {
+            logger.info("## User registration done successfully");
+            httpStatus = HttpStatus.OK;
         }
-        return new ResponseEntity<>(json, HttpStatus.OK);
+        else {
+            logger.error("## User registration failed");
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(jsonString, httpStatus);
     }
 }

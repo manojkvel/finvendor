@@ -196,7 +196,7 @@ public class SubscriptionController {
      * Send mail to users when subscription expired or about to expired or renewal of subscription
      */
     @PostMapping(value = "/users/sendMail")
-    public ResponseEntity<ApiResponse<String, String>> sendMailToUser(@RequestParam(value = "type") EmailCondition emailCondition) {
+    public ResponseEntity<ApiResponse<String, String>> sendSubscriptionMailToUser(@RequestParam(value = "type") EmailCondition emailCondition) {
         LOG.info("## sendMailToUser - START emailCondition: {}", emailCondition.name());
         ApiResponse<String, String> apiResponse;
         try {
